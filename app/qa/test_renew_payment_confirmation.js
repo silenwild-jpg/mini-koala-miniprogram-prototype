@@ -1,0 +1,28 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');
+const root=path.resolve(__dirname,'../prototype');
+const storage=new Map();
+const localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)};
+const today=new Date();today.setHours(0,0,0,0);
+const end=new Date(today);end.setMonth(end.getMonth()+3);
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+localStorage.setItem('mini_storage_order_current',JSON.stringify({order_no:'O-RENEW-TEST',store_id:'jianguo',unit_id:'C008',volume:4.8,start_date:iso(today),end_date:iso(end),status:'PAID',payment_status:'PAID',inventory_status:'LOCKED_TO_ORDER',lifecycle_state:'active',detail_state:'active',identity_verification_status:'VERIFIED'}));
+const nodes=new Map();
+function node(selector){if(nodes.has(selector))return nodes.get(selector);const classes=new Set();const el={textContent:'',innerHTML:'',value:selector==='#months'?'6':selector==='#reviewMonthly'?'687':'',style:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x),contains:x=>classes.has(x),toggle:(x,force)=>force===undefined?(classes.has(x)?(classes.delete(x),false):(classes.add(x),true)):(force?(classes.add(x),true):(classes.delete(x),false))},click(){this.onclick?.()}};nodes.set(selector,el);return el}
+const document={querySelector:node,querySelectorAll:()=>[]};const location={search:'?orderNo=O-RENEW-TEST&review=1',href:''};
+const context={window:null,document,location,localStorage,history:{length:1},URLSearchParams,Date,Math,JSON,String,Number,Array,Object,Boolean,Error,setTimeout:()=>0,clearTimeout:()=>{},console};context.window=context;vm.createContext(context);
+vm.runInContext(fs.readFileSync(path.join(root,'mini_storage_business_ssot_v274.js'),'utf8'),context);
+const html=fs.readFileSync(path.join(root,'mini_storage_renew_rn01_v2_7_4.html'),'utf8');const script=[...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)][0][1];vm.runInContext(script,context);
+const repo=context.MINI_STORAGE_REPO_V242;
+assert.equal(typeof node('#submitRenew').onclick,'function');node('#submitRenew').click();
+assert.equal(repo.findRenewal('O-RENEW-TEST').status,'QUOTE_PENDING');
+node('#makeQuote').click();assert.equal(repo.findRenewal('O-RENEW-TEST').status,'QUOTE_READY');
+const paymentsBefore=repo.getPayments().filter(p=>p.order_no==='O-RENEW-TEST').length;
+node('#confirmRenew').click();assert(node('#renewPaySheet').classList.contains('show'));
+assert.equal(repo.getPayments().filter(p=>p.order_no==='O-RENEW-TEST').length,paymentsBefore);
+node('#renewPayCancel').click();assert(!node('#renewPaySheet').classList.contains('show'));
+assert.equal(repo.getPayments().filter(p=>p.order_no==='O-RENEW-TEST').length,paymentsBefore);
+node('#confirmRenew').click();node('#renewPayConfirm').click();
+assert.equal(repo.findRenewal('O-RENEW-TEST').status,'COMPLETED');
+assert.equal(repo.getPayments().filter(p=>p.order_no==='O-RENEW-TEST').length,paymentsBefore+1);
+assert.equal(repo.getPayments().filter(p=>p.order_no==='O-RENEW-TEST').at(-1).amount,4122);
+console.log('PASS RN01 opens review without charging, cancel preserves quote, explicit pay records exact amount');

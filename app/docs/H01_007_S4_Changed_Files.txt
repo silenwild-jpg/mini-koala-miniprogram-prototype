@@ -1,0 +1,8 @@
+# H01-007-S4 changed files (relative to the S3 checkpoint work tree = S3 checkpoint sha256 b124973a9fe85c2cb8f7eb37387f241f6f840e1dc331ebffc0fb75c08b4cd39c; sha256 before = S3 tree, after = S4)
+MODIFIED  prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html  managed=True  last_changed_in=S3  before=00f8eec255ba20dcccd61331c92926384dab658c39e2ef133627910fb0ab7e13  after=62d1dce4eade43f8db50602f877940491e8d2c3a2944072cfb9e5e8245908583
+MODIFIED  prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html  managed=True  last_changed_in=S1  before=c918171c4c1c76c741c5cd1d48ef7dac6633a891f4d086a944340cf9574babfc  after=8bef96961028b676ffe8ced3605045f3543c16bad9b1c86736c9637e169c69ab
+MODIFIED  prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html  managed=True  last_changed_in=S1  before=e67ac645d313dcfa33eb0eb9da34c5b3e11a7908fce99c0a71fc73ce2f290586  after=d377ed1da229c6ca9d3488b35b8e420714fd46849014ecd4a2a03eec30318275
+ADDED     qa/test_h01_007_s4_http_flows.py  managed=False  after=253127ecaf84258678db3e3c42a4eeb7a6fcd24c72b9b55f611401c624646c67
+ADDED     qa/test_h01_007_s4_entry_contracts.cjs  managed=False  after=ba7a4f53a8a8b541a5ee4ecf365d7c4d49e829c2fb8b5f729397f217418b843b
+RELEASE_MANIFEST.json unchanged (sha256 b1d934576e4b2a33f04ecd0959415da0c705e30fb6659de2b25dd58150746d3d, Release Gate HOLD) — 3 managed files now differ from the manifest hashes in S4; two of them (S01, S02) already differed since S1 and one (H01) since S3, so the cumulative set of changed managed files since H01-004B stays 16 (S1 8 + S2 2 + S3 6; S4 adds no new file to that set), to be recomputed in S5.
+DELETED   (none)

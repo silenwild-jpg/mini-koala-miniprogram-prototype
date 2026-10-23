@@ -1,0 +1,20 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const root=path.resolve(__dirname,'..');
+const file=path.join(root,'prototype','mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html');
+const html=fs.readFileSync(file,'utf8');
+const body=html.slice(html.indexOf('<body>'));
+const sha=crypto.createHash('sha256').update(body).digest('hex');
+const expected='8847a8235daca613f1ebda55cae164b42142b7ce8b03f49a8c5be0733271abec';
+function ok(cond,msg){if(!cond){console.error('FAIL',msg);process.exit(1)}console.log('PASS',msg)}
+const approved=require('./phase3b_batch_c_approved_delta.json').runtime[path.basename(file)];
+ok(sha===approved.body_with_tag_sha && sha!==expected,'U01 body changes only under Phase 3B Batch C authorized version');
+ok(html.includes('id="sprint1f-u01-high-fidelity-visual-closure-v1"'),'Sprint 1F visual-only style layer exists');
+ok(html.includes('--bg:#FDFBF7!important')&&html.includes('--primary:#2F6B4F!important')&&html.includes('--v274-orange:#D56A1C!important'),'U01 maps to frozen Visual Design System colors');
+ok(html.includes('#hero.hero{height:142px!important;margin:10px 16px 0!important')&&html.includes('border-radius:16px!important'),'unit hero is a contained high-fidelity surface');
+ok(html.includes('.card{margin:10px 16px 0!important')&&html.includes('.size{font-size:31px!important'),'unit identity hierarchy is strengthened');
+ok(html.includes('.unified-price .total-rent{margin-top:3px!important;font-size:34px!important')&&html.includes('color:#D56A1C!important'),'contract rent is the primary warm-orange price');
+ok(html.includes('.monthly-secondary{margin-top:6px!important;font-size:14px!important')&&html.includes('.term-price-hint{display:inline-flex!important'),'monthly rent and discount are secondary price information');
+ok(html.includes('.totalbox .initial{margin-top:3px!important')&&html.includes('.totalbox .initial b{font-size:20px!important'),'initial payable is clearly separated from rent/deposit/management fee details');
+ok(html.includes('.term-quick small{right:3px!important')&&html.includes('white-space:nowrap!important'),'term discount badges remain single-line');
+ok(html.includes('.transport-promo{margin:0!important;padding:14px!important')&&html.includes('background:#FFF9F1!important'),'transport support is visually supportive, not primary');
+ok(html.includes('.bottombar{height:80px!important')&&html.includes('grid-template-columns:1fr 1.45fr!important'),'bottom decision bar preserves one primary CTA hierarchy');

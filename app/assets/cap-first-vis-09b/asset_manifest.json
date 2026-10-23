@@ -1,0 +1,46 @@
+{
+  "task": "CAP-FIRST-VIS-09B",
+  "source_image": "source_reference_2026-10-19.png",
+  "source_sha256": "de402b22956786140404f668c35f17e2f613448f63930d1146c82a3834e8c2e5",
+  "asset_source": "cropped from original user-uploaded screenshot, without generative edits",
+  "tiers": [
+    {
+      "code": "mini",
+      "nominal_m3": 0.75,
+      "scene": "assets/scenes/mini.jpg",
+      "items": "assets/items/mini.jpg"
+    },
+    {
+      "code": "cube",
+      "nominal_m3": 2,
+      "scene": "assets/scenes/cube.jpg",
+      "items": "assets/items/cube.jpg"
+    },
+    {
+      "code": "small",
+      "nominal_m3": 4.5,
+      "scene": "assets/scenes/small.jpg",
+      "items": "assets/items/small.jpg"
+    },
+    {
+      "code": "medium",
+      "nominal_m3": 8,
+      "scene": "assets/scenes/medium.jpg",
+      "items": "assets/items/medium.jpg"
+    },
+    {
+      "code": "large",
+      "nominal_m3": 15,
+      "scene": "assets/scenes/large.jpg",
+      "items": "assets/items/large.jpg"
+    },
+    {
+      "code": "super",
+      "nominal_m3": 35,
+      "scene": "assets/scenes/super.jpg",
+      "items": "assets/items/super.jpg"
+    }
+  ],
+  "business": "5m³ threshold removed; all valid volumes show unified recommendation; 12-month demo preference only",
+  "integration": "independent preview only; latest formal master not verified"
+}

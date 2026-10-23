@@ -1,0 +1,209 @@
+/* Mini Koala — MiniProgram-Compatible UI System V1 | 2026-10-12
+   CSS for HTML presentation; maps to WXSS design values but is not WXSS.
+   Scope all styles under .koala-ui-v1; never change business data or JS logic.
+   Design width: 375 CSS px; subsequent WXML/WXSS migration uses 750rpx basis. */
+body.koala-ui-v1 {
+  --koala-bg: #F8FAF9;
+  --koala-surface: #FFFFFF;
+  --koala-text: #202C26;
+  --koala-muted: #66746B;
+  --koala-divider: #E4EBE6;
+  --koala-brand: #2F6B4F;
+  --koala-brand-soft: #EDF6EF;
+  --koala-price: #CE6826;
+  --koala-radius: 14px;
+  --koala-shadow: 0 4px 18px rgba(23, 51, 34, .045);
+  --bg: var(--koala-bg);
+  --ms-bg: var(--koala-bg);
+  --s01-bg: var(--koala-bg);
+  --vb-bg: var(--koala-bg);
+  --ve2-paper: var(--koala-bg);
+  --card: var(--koala-surface);
+  --ms-surface: var(--koala-surface);
+  --vb-surface: var(--koala-surface);
+  background: var(--koala-bg) !important;
+  color: var(--koala-text);
+  -webkit-tap-highlight-color: transparent;
+}
+body.koala-ui-v1, body.koala-ui-v1 * { box-sizing: border-box; }
+body.koala-ui-v1 button,
+body.koala-ui-v1 input,
+body.koala-ui-v1 select { font: inherit; }
+body.koala-ui-v1 button:not(:disabled),
+body.koala-ui-v1 [role="button"],
+body.koala-ui-v1 [role="link"] { touch-action: manipulation; }
+body.koala-ui-v1 button:disabled { opacity: .50; cursor: not-allowed; box-shadow: none !important; }
+body.koala-ui-v1 button:active:not(:disabled),
+body.koala-ui-v1 [role="button"]:active,
+body.koala-ui-v1 [role="link"]:active { transform: scale(.992); opacity: .96; }
+body.koala-ui-v1 button:focus-visible,
+body.koala-ui-v1 input:focus-visible,
+body.koala-ui-v1 select:focus-visible,
+body.koala-ui-v1 [role="button"]:focus-visible,
+body.koala-ui-v1 [role="link"]:focus-visible {
+  outline: 2px solid var(--koala-brand) !important;
+  outline-offset: 2px;
+}
+body.koala-ui-v1 .wx-capsule-space { pointer-events: none; }
+body.koala-ui-v1 .sheet,
+body.koala-ui-v1 .inline-filter-sheet .sheet { background: #FFF !important; }
+@media (prefers-reduced-motion: no-preference) {
+  body.koala-ui-v1 button,
+  body.koala-ui-v1 [role="button"],
+  body.koala-ui-v1 [role="link"] {
+    transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .14s ease, opacity .16s ease;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.koala-ui-v1 *, body.koala-ui-v1 *::before, body.koala-ui-v1 *::after {
+    animation-duration: .01ms !important; transition-duration: .01ms !important;
+  }
+}
+
+/* H01 — retain the already-frozen content architecture and brand hero. */
+body.koala-ui-v1.koala-h01 .phone,
+body.koala-ui-v1.koala-h01 .page { background: var(--koala-bg) !important; }
+body.koala-ui-v1.koala-h01 .topbar,
+body.koala-ui-v1.koala-h01 .bottomnav {
+  background: rgba(255,255,255,.98) !important;
+  border-color: var(--koala-divider) !important;
+}
+body.koala-ui-v1.koala-h01 .task-card {
+  border-radius: 16px !important; min-width: 0; min-height: 112px;
+  box-shadow: var(--koala-shadow) !important;
+}
+body.koala-ui-v1.koala-h01 .featured-store,
+body.koala-ui-v1.koala-h01 .store-alt,
+body.koala-ui-v1.koala-h01 .home-proof-card {
+  border-radius: var(--koala-radius) !important;
+  box-shadow: var(--koala-shadow) !important;
+}
+body.koala-ui-v1.koala-h01 .store-tags { min-width: 0; overflow: hidden; }
+body.koala-ui-v1.koala-h01 .bottomnav { padding-bottom: max(6px, env(safe-area-inset-bottom)) !important; }
+
+/* S01 — compact native-style search + immediate inline filters. */
+body.koala-ui-v1.koala-s01 .shell,
+body.koala-ui-v1.koala-s01 .page { background: var(--koala-bg) !important; }
+body.koala-ui-v1.koala-s01 .location-unified-box {
+  border-color: #DDE8DF !important; background: #FFF !important;
+  box-shadow: 0 2px 10px rgba(27,57,39,.035) !important;
+  border-radius: 13px !important;
+}
+body.koala-ui-v1.koala-s01 .location-search-combined .location-search-entry,
+body.koala-ui-v1.koala-s01 .location-search-combined .current-location { background: #FFF !important; }
+body.koala-ui-v1.koala-s01 .location-search-combined .location-search-entry .placeholder {
+  color: #7D8B81 !important; font-size: 11px !important;
+}
+body.koala-ui-v1.koala-s01 .location-inline-row .travel-pill {
+  border: 1px solid #DDE8DF !important; background: #FFF !important;
+  color: #365A43 !important;
+}
+body.koala-ui-v1.koala-s01 .controls.compact-filters .compact-filter-btn {
+  border: 1px solid var(--koala-divider) !important;
+  background: #FFF !important; border-radius: 10px !important;
+  color: #4C6253 !important; box-shadow: none !important;
+  font-weight: 650 !important;
+}
+body.koala-ui-v1.koala-s01 .controls.compact-filters .compact-filter-btn.active,
+body.koala-ui-v1.koala-s01 .controls.compact-filters .compact-filter-btn[aria-expanded="true"] {
+  border-color: #94C3A5 !important; background: #EFF8F2 !important;
+  color: #275C3C !important; box-shadow: 0 2px 8px rgba(35,96,55,.045) !important;
+}
+body.koala-ui-v1.koala-s01 .toolbar .inline-filter-sheet,
+body.koala-ui-v1.koala-s01 .location-context .inline-filter-sheet {
+  border-radius: 14px !important;
+  box-shadow: 0 12px 28px rgba(22,48,32,.13) !important;
+  border: 1px solid #E1EAE3 !important;
+}
+body.koala-ui-v1.koala-s01 .store,
+body.koala-ui-v1.koala-s01 .v274-demand-state .store.demand-store {
+  border: 1px solid #E0E9E2 !important; background: #FFF !important;
+  border-radius: 16px !important;
+  box-shadow: var(--koala-shadow) !important;
+}
+body.koala-ui-v1.koala-s01 .store .name,
+body.koala-ui-v1.koala-s01 .demand-name { color: var(--koala-text) !important; }
+body.koala-ui-v1.koala-s01 .store .area,
+body.koala-ui-v1.koala-s01 .demand-address { color: var(--koala-muted) !important; }
+body.koala-ui-v1.koala-s01 .store-demo-tags { flex-wrap: nowrap !important; }
+body.koala-ui-v1.koala-s01 .store-demo-tags .tag {
+  border-radius: 5px !important; background: #F0F6F1 !important;
+  color: #406E52 !important; flex-shrink: 0;
+}
+body.koala-ui-v1.koala-s01 .browse-unit-price .price-number,
+body.koala-ui-v1.koala-s01 .contract-price .price-number,
+body.koala-ui-v1.koala-s01 .demand-total { color: var(--koala-price) !important; }
+body.koala-ui-v1.koala-s01 .estore-list-card {
+  border-radius: 16px !important; background: #F2F8F4 !important;
+  border-color: #CFE2D4 !important;
+}
+body.koala-ui-v1.koala-s01 .tabbar {
+  background: rgba(255,255,255,.98) !important;
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+/* S5 — recommendation step only. Other estimator steps do not change. */
+body.koala-ui-v1.koala-s5 #s5,
+body.koala-ui-v1.koala-s5 .phone { background: var(--koala-bg) !important; }
+body.koala-ui-v1.koala-s5 #s5 .usage-summary,
+body.koala-ui-v1.koala-s5 #s5 .rplan,
+body.koala-ui-v1.koala-s5 #s5 .usage-price-range {
+  background: #FFF !important; border-color: var(--koala-divider) !important;
+  border-radius: var(--koala-radius) !important;
+  box-shadow: var(--koala-shadow) !important;
+}
+body.koala-ui-v1.koala-s5 #s5 .rplan.active {
+  border-color: #83B697 !important; background: #FCFFFC !important;
+  box-shadow: 0 0 0 1px rgba(47,107,79,.08), var(--koala-shadow) !important;
+}
+body.koala-ui-v1.koala-s5 #s5 .term-choice.active {
+  border-color: #91C6A2 !important; background: #EEF7F0 !important;
+  color: #235B3C !important;
+}
+body.koala-ui-v1.koala-s5 #s5 .rplan-price,
+body.koala-ui-v1.koala-s5 #s5 .estore-price b { color: var(--koala-price) !important; }
+body.koala-ui-v1.koala-s5 #s5 .capacity-stepper button,
+body.koala-ui-v1.koala-s5 #s5 .term-choice { min-height: 40px; }
+body.koala-ui-v1.koala-s5 #s5 .usage-store-list-link { text-underline-offset: 3px; }
+
+/* O01 — one payment visual hierarchy, accessible bottom bar. */
+body.koala-ui-v1.koala-o01 .shell,
+body.koala-ui-v1.koala-o01 .page { background: var(--koala-bg) !important; }
+body.koala-ui-v1.koala-o01 .order-card,
+body.koala-ui-v1.koala-o01 .payment-section,
+body.koala-ui-v1.koala-o01 .section {
+  border-radius: var(--koala-radius) !important;
+  background: #FFF !important; border-color: var(--koala-divider) !important;
+  box-shadow: var(--koala-shadow) !important;
+}
+body.koala-ui-v1.koala-o01 .payable-hero {
+  border-radius: 12px !important;
+  background: #F5FAF6 !important;
+  border-color: #DDE9DF !important;
+}
+body.koala-ui-v1.koala-o01 .bottombar {
+  display: flex !important; gap: 10px !important;
+  width: 100% !important; max-width: 100% !important;
+  padding: 12px 16px max(12px, env(safe-area-inset-bottom)) !important;
+  background: rgba(255,255,255,.985) !important;
+  border-top: 1px solid var(--koala-divider) !important;
+  box-shadow: 0 -4px 18px rgba(27,49,35,.055) !important;
+}
+body.koala-ui-v1.koala-o01 .bottombar button {
+  min-width: 0 !important; min-height: 48px !important;
+  white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis;
+  border-radius: 12px !important;
+  font-size: 14px !important;
+}
+body.koala-ui-v1.koala-o01 .bottombar .secondary {
+  flex: 0 1 40% !important; background: #FFF !important;
+  color: var(--koala-brand) !important; border: 1px solid #CFE1D3 !important;
+}
+body.koala-ui-v1.koala-o01 .bottombar .primary {
+  flex: 1 1 60% !important; background: var(--koala-brand) !important;
+  color: #FFF !important; border: 1px solid var(--koala-brand) !important;
+}
+@media (max-width: 380px) {
+  body.koala-ui-v1.koala-o01 .bottombar { gap: 8px !important; padding-left: 14px !important; padding-right: 14px !important; }
+  body.koala-ui-v1.koala-o01 .bottombar button { font-size: 13px !important; }
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#176949" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="找仓 - 选中">
+  <title>找仓 - 选中</title>
+  <path d="M2.7 6.5 8.6 3.25l6.25 3.25-6.25 3.2Z" fill="#E3F3E9"/>
+  <path d="M2.7 6.5v9.15l5.9 3.2V9.7Z" fill="#176949" stroke="none"/>
+  <path d="M8.6 9.7 14.85 6.5v7.95l-3.05 2.7-3.2 1.7Z" fill="#B7DEC6" stroke="none"/>
+  <path d="M2.7 6.5 8.6 3.25l6.25 3.25v7.95M2.7 6.5l5.9 3.2 6.25-3.2M8.6 9.7v9.15M2.7 6.5v9.15l5.9 3.2 3.2-1.7"/>
+  <circle cx="16.55" cy="16.45" r="3.8" fill="#FFFFFF" stroke-width="2"/>
+  <path d="m19.35 19.35 2.9 2.9" stroke-width="2.25"/>
+</svg>

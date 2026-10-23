@@ -1,0 +1,37 @@
+/* VIS-03C · 2026-10-13 · 首页品牌 Banner 与生活感首屏融合（试装候选，HOLD）
+ * 范围：仅 #newHero.home-banner-vis03c（新用户态首屏卡）。Banner 图自带三层文案，HTML 标题与说明改为仅供读屏，
+ * 避免两组同级主标题；服务特点条、双任务卡、推荐门店与其余结构不动。帮助浮窗（VIS-03B）不受影响。
+ * 挂载顺序：mk-v3-home-lifestyle-02.css 之后，同层同特异性后声明覆盖。
+ */
+@layer mk-v3 {
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero.home-banner-vis03c .hero-intro {
+    min-height: 0 !important;
+    padding: 0 !important;
+    aspect-ratio: 1672 / 941; /* 原图比例，整图无裁切 */
+    background: var(--koala-brand-100) !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero.home-banner-vis03c[data-banner-fit="crop-4-3"] .hero-intro {
+    aspect-ratio: 4 / 3; /* 对照：放大裁切，左侧文案区优先 */
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero.home-banner-vis03c[data-banner-fit="crop-4-3"] .hero-photo img {
+    object-position: 0% 50% !important;
+  }
+  /* 标题与说明仅供读屏（文案以 Banner 图内为准，HTML 保留同一文案供无障碍与检索） */
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero.home-banner-vis03c .hero-copy {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    max-width: none !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero.home-banner-vis03c .hero-photo img {
+    object-fit: cover !important;
+    object-position: 50% 50% !important;
+  }
+}

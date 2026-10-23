@@ -1,0 +1,38 @@
+/* UX-PATCH A4 | U01 only. No global styles or pricing changes. */
+body.koala-site-shell.koala-u01 .u01-space-meta{
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;
+  font-size:12px!important;line-height:19px;color:#66746B!important;
+}
+body.koala-site-shell.koala-u01 .u01-space-meta #unitDimensions{
+  color:#79847D;font-size:11px;line-height:18px;font-weight:400;
+}
+body.koala-site-shell.koala-u01 .u01-store-summary{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 12px;
+  margin-top:12px;padding-top:10px;border-top:1px solid #EEF1EF;
+}
+body.koala-site-shell.koala-u01 .u01-store-summary #unitStoreName{
+  min-width:0;flex:1;color:#59645E;font-size:12px;line-height:20px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+body.koala-site-shell.koala-u01 .u01-store-summary button{
+  border:0;background:transparent;color:#2F6B4F;font-size:12px;font-weight:650;
+  min-height:44px;padding:8px 2px;cursor:pointer;white-space:nowrap;
+}
+body.koala-site-shell.koala-u01 .u01-related-actions{margin-top:4px}
+body.koala-site-shell.koala-u01 .u01-related-actions button{
+  width:100%;min-height:44px;border:1px solid #E4EBE6;border-radius:12px;
+  background:#F8FAF9;color:#2F6B4F;font-size:13px;font-weight:650;
+  text-align:center;cursor:pointer;padding:11px 12px;
+}
+body.koala-site-shell.koala-u01 .u01-related-actions button:focus-visible,
+body.koala-site-shell.koala-u01 .u01-store-summary button:focus-visible{
+  outline:2px solid #2F6B4F;outline-offset:2px;
+}
+body.koala-site-shell.koala-u01 #capacityFit.u01-inventory-status[hidden]{display:none!important}
+body.koala-site-shell.koala-u01 #capacityFit.u01-inventory-status{
+  margin-top:9px;padding:9px 11px;border:1px solid #F1D6B5;
+  border-radius:10px;background:#FFF6E9;color:#8A4D1D;
+  font-size:12px;line-height:19px;
+}
+body.koala-site-shell.koala-u01 #capacityFit.u01-inventory-status b{display:block;font-size:13px}
+body.koala-site-shell.koala-u01 #capacityFit.u01-inventory-status span{display:block;margin-top:3px}

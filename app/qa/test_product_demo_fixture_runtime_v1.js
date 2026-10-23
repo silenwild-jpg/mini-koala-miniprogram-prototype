@@ -1,0 +1,16 @@
+const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
+const src=fs.readFileSync(path.resolve(__dirname,'..','prototype','mini_storage_demo_fixture_v2.js'),'utf8');
+const memory=new Map();
+const localStorage={setItem:(k,v)=>memory.set(k,String(v)),getItem:k=>memory.has(k)?memory.get(k):null,removeItem:k=>memory.delete(k)};
+const location={href:''};
+const ctx={window:{},localStorage,location,Date,URLSearchParams,encodeURIComponent,JSON,Math,Number,String,Object,Array,Set,console};
+vm.createContext(ctx);vm.runInContext(src,ctx);
+const D=ctx.window.MINI_KOALA_DEMO_V2;assert(D);
+const read=k=>JSON.parse(localStorage.getItem(k)||'{}');
+D.home('estimated');let r=read('mini_storage_requirement_current');assert.strictEqual(r.target_volume,4.8);assert.strictEqual(r.term_months,6);assert(location.href.includes('state=estimated'));
+D.home('pending_use');let o=read('mini_storage_order_current');assert.strictEqual(o.store_id,'MK_BJ_2CDB7BEE');assert.strictEqual(o.unit_id,'BJ0112S01A009');assert.strictEqual(o.payable_total,4063);assert(o.start_date);assert(location.href.includes('state=active'));
+D.mine('active');o=read('mini_storage_order_current');assert.strictEqual(o.store_name,'惠新西街店');assert(location.href.startsWith('mini_storage_mine_m01'));
+D.s01('nomatch');r=read('mini_storage_requirement_current');assert.strictEqual(r.target_volume,60);assert(location.href.includes('state=nomatch'));assert(location.href.includes('target=60'));
+D.q01();let p=read('mini_storage_price_snapshot_current');assert.strictEqual(p.total_rent,3440);assert.strictEqual(p.monthly_average,573);assert.strictEqual(p.upfront_payable,4063);assert(location.href.includes('MK_BJ_2CDB7BEE'));assert(location.href.includes('BJ0112S01A009'));
+D.orderDetail('ending');o=read('mini_storage_order_current');assert.strictEqual(o.lifecycle_state,'ending');assert(location.href.includes('mini_storage_order_o03'));
+console.log('PASS Demo Fixture V2 runtime: estimated, pending-use, active mine, no-match, price snapshot, ending order');

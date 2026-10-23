@@ -1,0 +1,102 @@
+{
+  "estimator_375": {
+    "ui": {
+      "navTitle": "租期与推荐 · 5/5",
+      "listText": "查看符合需求的门店 ›",
+      "chooseText": "查看匹配仓位",
+      "advisorText": "邀请协助",
+      "listDisplay": "block",
+      "listFont": "12px",
+      "chooseFont": "15px",
+      "overflow": false
+    },
+    "nav": "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html?state=estimated&entry=estimate_complete&source=estimator_usage_store_list&target=4.8&term=6&travel=bike&searchOriginKey=sanyuanqiao&access=high&sort=recommended&scroll=0&services=24h%2Celevator&customer=personal",
+    "snapshot": {
+      "requirement_id": "R50048387",
+      "target_volume": 4.8,
+      "min_volume": 4.416,
+      "max_volume": 5.184,
+      "term_months": 6,
+      "customer_type": "personal",
+      "scene": "",
+      "travel_mode": "bike",
+      "source": "ESTIMATOR_USAGE_TO_S01",
+      "size_mode": "about",
+      "item_summary": "",
+      "has_oversize": false,
+      "moving_support": "unknown",
+      "pricing_model_version": "unit_master_v221",
+      "pricing_preview": {
+        "pricing_model_version": "unit_master_v221",
+        "unit_id": "BJ0498S01B001",
+        "unit_volume": 6.24,
+        "term_months": 6,
+        "monthly_price": 637,
+        "rent_total": 3820
+      },
+      "updated_at": "2026-09-30T06:34:08.388Z"
+    }
+  },
+  "s01_375": {
+    "state": "estimated",
+    "sortMode": "recommended",
+    "visibleStoreCount": 8,
+    "scroll": 0,
+    "demand": "需求：4.3–5.6m³ · 6个月",
+    "services": [
+      "24h",
+      "elevator"
+    ],
+    "overflow": false
+  },
+  "estimator_390": {
+    "ui": {
+      "navTitle": "租期与推荐 · 5/5",
+      "listText": "查看符合需求的门店 ›",
+      "chooseText": "查看匹配仓位",
+      "advisorText": "邀请协助",
+      "listDisplay": "block",
+      "listFont": "12px",
+      "chooseFont": "15px",
+      "overflow": false
+    },
+    "nav": "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html?state=estimated&entry=estimate_complete&source=estimator_usage_store_list&target=4.8&term=6&travel=bike&searchOriginKey=sanyuanqiao&access=high&sort=recommended&scroll=0&services=24h%2Celevator&customer=personal",
+    "snapshot": {
+      "requirement_id": "R50049720",
+      "target_volume": 4.8,
+      "min_volume": 4.416,
+      "max_volume": 5.184,
+      "term_months": 6,
+      "customer_type": "personal",
+      "scene": "",
+      "travel_mode": "bike",
+      "source": "ESTIMATOR_USAGE_TO_S01",
+      "size_mode": "about",
+      "item_summary": "",
+      "has_oversize": false,
+      "moving_support": "unknown",
+      "pricing_model_version": "unit_master_v221",
+      "pricing_preview": {
+        "pricing_model_version": "unit_master_v221",
+        "unit_id": "BJ0498S01B001",
+        "unit_volume": 6.24,
+        "term_months": 6,
+        "monthly_price": 637,
+        "rent_total": 3820
+      },
+      "updated_at": "2026-09-30T06:34:09.720Z"
+    }
+  },
+  "s01_390": {
+    "state": "estimated",
+    "sortMode": "recommended",
+    "visibleStoreCount": 8,
+    "scroll": 0,
+    "demand": "需求：4.3–5.6m³ · 6个月",
+    "services": [
+      "24h",
+      "elevator"
+    ],
+    "overflow": false
+  }
+}

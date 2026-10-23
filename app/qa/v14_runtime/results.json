@@ -1,0 +1,58 @@
+{
+  "S01_375": {
+    "errors": [],
+    "initial_cards": 8,
+    "after_load_cards": 16,
+    "load_more": "继续加载更多门店（还有 9 家） ›",
+    "zero_match_cards": []
+  },
+  "Q01_375": {
+    "errors": [],
+    "has_canonical_store": true,
+    "wrong_legacy_store": false,
+    "has_unit": true
+  },
+  "O01_375": {
+    "errors": [],
+    "has_canonical_store": true,
+    "wrong_legacy_store": false,
+    "has_unit": true
+  },
+  "V01_375": {
+    "errors": [],
+    "has_canonical_store": true,
+    "wrong_legacy_store": false,
+    "has_unit": true
+  },
+  "S01_390": {
+    "errors": [],
+    "initial_cards": 8,
+    "after_load_cards": 16,
+    "load_more": "继续加载更多门店（还有 9 家） ›",
+    "zero_match_cards": []
+  },
+  "Q01_390": {
+    "errors": [],
+    "has_canonical_store": true,
+    "wrong_legacy_store": false,
+    "has_unit": true
+  },
+  "O01_390": {
+    "errors": [],
+    "has_canonical_store": true,
+    "wrong_legacy_store": false,
+    "has_unit": true
+  },
+  "V01_390": {
+    "errors": [],
+    "has_canonical_store": true,
+    "wrong_legacy_store": false,
+    "has_unit": true
+  },
+  "O03_390": {
+    "errors": [],
+    "has_canonical_store": true,
+    "wrong_legacy_store": false,
+    "has_unit": true
+  }
+}

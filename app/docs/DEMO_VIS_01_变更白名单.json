@@ -1,0 +1,38 @@
+[
+  {
+    "path": "docs/DEMO_PRICE_01_全站金额展示一致性评估与修复需求.md",
+    "type": "ADDED",
+    "before_sha256": null,
+    "after_sha256": "3ab1e02c5e761abc6fb3bb1019c56855ff986d7f035c6516335b8cddf2b570e4"
+  },
+  {
+    "path": "docs/DEMO_PRICE_01_页面金额语义源码索引.json",
+    "type": "ADDED",
+    "before_sha256": null,
+    "after_sha256": "3a3b839f0b3fa15874a28161e495d71c30e62ec91bef8fd41090d25e42b2e9b6"
+  },
+  {
+    "path": "docs/DEMO_VIS_01_D4_Visual_Continuity_Scope_and_Gate.md",
+    "type": "ADDED",
+    "before_sha256": null,
+    "after_sha256": "51d08361eca17a25ac42573bcca221d33971488ced891babe8f6c53810ff08b7"
+  },
+  {
+    "path": "prototype/demo_vis01_s5_price_fidelity.css",
+    "type": "ADDED",
+    "before_sha256": null,
+    "after_sha256": "dd36ab2f6c65cef381d93924d9c6d1812ef60338e16678a76a7ebb0c0993121f"
+  },
+  {
+    "path": "prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+    "type": "MODIFIED",
+    "before_sha256": "315fac5eea58c856d4e84c6a0d9d2fbdb77d8db69c6710e93ba2e165b8074a6e",
+    "after_sha256": "316fd84a0793a0512b8a8b5aa2071c63a7ac16152005f7e9dd5219f390e180db"
+  },
+  {
+    "path": "qa/test_demo_vis01_fidelity_source.py",
+    "type": "ADDED",
+    "before_sha256": null,
+    "after_sha256": "8d0655099f1ed736762436d2af2a84495a53b9210ebb5fede17d95c7e8269344"
+  }
+]

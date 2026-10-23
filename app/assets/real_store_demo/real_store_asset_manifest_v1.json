@@ -1,0 +1,74 @@
+{
+  "version": "real_store_demo_mapping_v1",
+  "purpose": "Prototype demo asset mapping only. Photos are real Mini Koala environment assets; exact source-store identity is not yet verified for each demo store.",
+  "mapping_scope": "Five prominent Beijing demo stores used across H01 / S01 / S02 and recommendation flows.",
+  "rule": "Every mapped demo store must keep one warehouse-body color family across all surfaces.",
+  "formal_release_gate": "Before production, bind each photo to its verified physical store or label it as generic brand environment imagery.",
+  "stores": {
+    "MK_BJ_E56D0702": {
+      "demo_store_name": "三元桥店",
+      "color_family": "green_gloss",
+      "status": "DEMO_VISUAL_MAPPING_NOT_STORE_VERIFIED",
+      "home_featured_source": "_K080778.jpg",
+      "home_featured_asset": "assets/real_store_demo/v1/MK_BJ_E56D0702/home_featured.webp",
+      "list_thumb_source": "_K080783.jpg",
+      "list_thumb_asset": "assets/real_store_demo/v1/MK_BJ_E56D0702/list_thumb.webp",
+      "detail_hero_source": "_K080785.jpg",
+      "detail_hero_asset": "assets/real_store_demo/v1/MK_BJ_E56D0702/detail_hero.webp",
+      "gallery_1_source": "_K081180.jpg",
+      "gallery_1_asset": "assets/real_store_demo/v1/MK_BJ_E56D0702/gallery_1.webp"
+    },
+    "MK_BJ_E68EC5FF": {
+      "demo_store_name": "大山子店",
+      "color_family": "black_yellow",
+      "status": "DEMO_VISUAL_MAPPING_NOT_STORE_VERIFIED",
+      "list_thumb_source": "IMG_20250409_170328.jpg",
+      "list_thumb_asset": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/list_thumb.webp",
+      "detail_hero_source": "IMG_20250409_170409.jpg",
+      "detail_hero_asset": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/detail_hero.webp",
+      "gallery_1_source": "IMG_20250409_170842.jpg",
+      "gallery_1_asset": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/gallery_1.webp",
+      "gallery_2_source": "IMG_20250409_170910.jpg",
+      "gallery_2_asset": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/gallery_2.webp"
+    },
+    "MK_BJ_04547515": {
+      "demo_store_name": "安贞店",
+      "color_family": "white",
+      "status": "DEMO_VISUAL_MAPPING_NOT_STORE_VERIFIED",
+      "list_thumb_source": "#U9f99#U6e56#U4ed3#U51851_1.jpg",
+      "list_thumb_asset": "assets/real_store_demo/v1/MK_BJ_04547515/list_thumb.webp",
+      "detail_hero_source": "#U9f99#U6e56#U4ed3#U51851_2.jpg",
+      "detail_hero_asset": "assets/real_store_demo/v1/MK_BJ_04547515/detail_hero.webp",
+      "gallery_1_source": "393066396410663925.jpg",
+      "gallery_1_asset": "assets/real_store_demo/v1/MK_BJ_04547515/gallery_1.webp",
+      "gallery_2_source": "DINGTALK_IM_434862004.JPG.JPG",
+      "gallery_2_asset": "assets/real_store_demo/v1/MK_BJ_04547515/gallery_2.webp"
+    },
+    "MK_BJ_2CDB7BEE": {
+      "demo_store_name": "惠新西街店",
+      "color_family": "charcoal",
+      "status": "DEMO_VISUAL_MAPPING_NOT_STORE_VERIFIED",
+      "list_thumb_source": "IMG_20250312_152827.jpg",
+      "list_thumb_asset": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/list_thumb.webp",
+      "detail_hero_source": "IMG_20250312_152846.jpg",
+      "detail_hero_asset": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/detail_hero.webp",
+      "gallery_1_source": "IMG_20250312_152829.jpg",
+      "gallery_1_asset": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/gallery_1.webp",
+      "gallery_2_source": "IMG_20250424_154615.jpg",
+      "gallery_2_asset": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/gallery_2.webp"
+    },
+    "MK_BJ_9A80090D": {
+      "demo_store_name": "广渠门店",
+      "color_family": "green_teal",
+      "status": "DEMO_VISUAL_MAPPING_NOT_STORE_VERIFIED",
+      "list_thumb_source": "_K080879.jpg",
+      "list_thumb_asset": "assets/real_store_demo/v1/MK_BJ_9A80090D/list_thumb.webp",
+      "detail_hero_source": "_K081172.jpg",
+      "detail_hero_asset": "assets/real_store_demo/v1/MK_BJ_9A80090D/detail_hero.webp",
+      "gallery_1_source": "#U5fae#U4fe1#U56fe#U7247_20250821112853_158.jpg",
+      "gallery_1_asset": "assets/real_store_demo/v1/MK_BJ_9A80090D/gallery_1.webp",
+      "gallery_2_source": "#U5fae#U4fe1#U56fe#U7247_20250821112958_165.jpg",
+      "gallery_2_asset": "assets/real_store_demo/v1/MK_BJ_9A80090D/gallery_2.webp"
+    }
+  }
+}

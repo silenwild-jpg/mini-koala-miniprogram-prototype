@@ -1,0 +1,30 @@
+{
+  "source_workbook": "迷你考拉仓_门店仓位预填数据_V2_清洗版.xlsx",
+  "source_sheets": [
+    "小程序门店汇总",
+    "仓型预填"
+  ],
+  "source_store_count": 145,
+  "store_count": 126,
+  "source_size_option_count": 1037,
+  "size_option_count": 766,
+  "source_available_unit_count": 1579,
+  "available_unit_count_from_store_master": 1297,
+  "available_unit_count_from_size_options": 1297,
+  "size_unit_is_m3": true,
+  "area_simulation_assumed_height_m": 2.5,
+  "area_simulation_pass": true,
+  "dimension_simulation_pass": true,
+  "zero_price_option_hidden_count": 271,
+  "zero_price_unit_hidden_count": 282,
+  "zero_price_rule_pass": true,
+  "unresolved_store_count": 0,
+  "legacy_alias_count": 5,
+  "source_monthly_price_basis": "pre_discount_base_price",
+  "source_monthly_price_basis_confirmed": true,
+  "home_default_display_discount_factor": 0.65,
+  "community_source_workbook": "迷你考拉门店地址.xlsx",
+  "community_source_field": "所属小区/园区",
+  "stores_with_community": 126,
+  "stores_missing_community": []
+}

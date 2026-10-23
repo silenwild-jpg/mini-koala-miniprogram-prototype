@@ -1,0 +1,147 @@
+/*
+ Mini Koala Visual Elevation V2.1 — Secondary Density Polish
+ Scope: Recommendation S5 / O02 Order Result / M01 Mine
+ VISUAL PATCH only. No copy/data/route/business-state changes.
+*/
+
+/* ========================================================================== 
+   1) Recommendation — shorten the pre-result control stack.
+   One strong surface belongs to the recommendation result, not every control.
+   ========================================================================== */
+#s5 .usage-summary.capacity-summary{
+  min-height:0!important;
+  margin:0 0 15px!important;
+  padding:9px 0 15px!important;
+  grid-template-columns:minmax(0,1fr) 114px!important;
+  gap:10px!important;
+  border:0!important;
+  border-bottom:1px solid #E3E1DA!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#s5 .capacity-copy .label{font-size:10.5px!important;letter-spacing:.035em!important}
+#s5 .capacity-copy .range{font-size:25px!important;line-height:31px!important}
+#s5 .capacity-copy .meta{max-width:195px!important;margin-top:2px!important;font-size:11px!important;line-height:16px!important}
+#s5 .capacity-stepper{
+  width:114px!important;max-width:114px!important;min-width:114px!important;
+  grid-template-columns:32px 1fr 32px!important;gap:5px!important;
+}
+#s5 .capacity-stepper button{width:32px!important;height:32px!important;min-width:32px!important;font-size:18px!important;background:transparent!important}
+#s5 .capacity-stepper>div{height:36px!important;border:0!important;border-radius:10px!important;background:#F1EEE7!important}
+
+#s5 .usage-top-title{margin:12px 0 5px!important;font-size:19px!important;line-height:27px!important}
+#s5 .term-scroll-wrap{overflow:visible!important}
+#s5 .term-scroll{gap:5px!important;padding:8px 1px 3px!important}
+#s5 .term-choice{
+  flex-basis:70px!important;min-width:70px!important;width:70px!important;height:43px!important;
+  padding:13px 6px 6px!important;border-color:transparent!important;border-radius:11px!important;
+  background:transparent!important;color:#49534E!important;font-size:13px!important;box-shadow:none!important;
+}
+#s5 .term-choice.active{
+  border-color:#214F3A!important;background:#214F3A!important;color:#FFF!important;
+  box-shadow:0 5px 14px rgba(33,79,58,.12)!important;
+}
+#s5 .term-choice.active .term-discount{border-color:#EAC79F!important;background:#FFF7EC!important;color:#A95718!important}
+#s5 .term-discount{right:3px!important;top:-6px!important;font-size:8.5px!important;line-height:14px!important;padding:0 4px!important}
+#s5 .term-swipe-hint{margin:0 1px 3px!important;font-size:9px!important}
+#s5 .other-term{
+  margin-top:2px!important;padding:9px 0 10px!important;border:0!important;border-bottom:1px solid #E3E1DA!important;
+  border-radius:0!important;background:transparent!important;
+}
+#s5 .other-term-label{font-size:11px!important;color:#6D7671!important}
+#s5 .other-term-btn{width:28px!important;height:28px!important;min-width:28px!important;border:0!important;background:#F1EEE7!important}
+#s5 .other-term-input{height:32px!important;min-width:66px!important;border:0!important;background:#FFF!important;box-shadow:inset 0 0 0 1px #E3E1DA!important}
+#s5 .other-term-unit{font-size:11px!important}
+
+#s5 .transport-possible,
+#s5 .moving-note,
+#s5 .moving-note.promo{
+  margin:7px 0 17px!important;padding:8px 0 10px 12px!important;
+  border:0!important;border-left:2px solid #CFE1D6!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;color:#59645E!important;
+}
+#s5 .transport-possible b,#s5 .moving-note b{font-size:11.5px!important;line-height:17px!important;color:#214F3A!important}
+#s5 .transport-possible span,#s5 .moving-note span{font-size:10.5px!important;line-height:16px!important;color:#6D7671!important}
+
+#s5 .recommend-head .section-title{margin-bottom:4px!important;font-size:21px!important;line-height:29px!important}
+#s5 .recommend-location{
+  height:35px!important;padding:0!important;border:0!important;border-bottom:1px solid #E3E1DA!important;
+  border-radius:0!important;background:transparent!important;color:#6D7671!important;font-size:11px!important;
+}
+#s5 .recommend-location:after{font-size:10.5px!important}
+#s5 #r113PlanCards{margin-top:9px!important}
+
+/* ========================================================================== 
+   2) O02 — status is the hero. Paid amount becomes a supporting fact.
+   ========================================================================== */
+body:has(#statusIcon) #hero{
+  margin-top:8px!important;margin-bottom:8px!important;padding:20px 18px 17px!important;border-radius:20px!important;
+}
+body:has(#statusIcon) #statusIcon{width:50px!important;height:50px!important;margin-bottom:10px!important;font-size:23px!important;box-shadow:none!important}
+body:has(#statusIcon) #statusTitle{font-size:21px!important;line-height:28px!important}
+body:has(#statusIcon) #statusDesc{max-width:286px!important;margin-top:4px!important;line-height:17px!important}
+body:has(#statusIcon) #orderSection,
+body:has(#statusIcon) #nextSection,
+body:has(#statusIcon) .page>section.section:not(#inventoryAlt){
+  margin-top:0!important;padding-top:16px!important;padding-bottom:16px!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;border-top:1px solid #E3E1DA!important;
+}
+body:has(#statusIcon) #orderSection{border-top:0!important;padding-top:12px!important}
+body:has(#statusIcon) .order-title{font-size:17px!important;line-height:24px!important}
+body:has(#statusIcon) .order-meta{margin-top:2px!important;font-size:12px!important}
+body:has(#statusIcon) #paidPrice{
+  margin:9px 0 4px!important;font-size:20px!important;line-height:26px!important;letter-spacing:-.018em!important;
+  color:#B85A16!important;font-weight:700!important;
+}
+body:has(#statusIcon) .order .rows{margin-top:5px!important;padding-top:2px!important}
+body:has(#statusIcon) .row{min-height:38px!important;padding:8px 0!important}
+body:has(#statusIcon) .next{padding:12px 0!important;background:transparent!important;border-radius:0!important;border:0!important}
+body:has(#statusIcon) .next b{font-size:14px!important;line-height:20px!important}
+body:has(#statusIcon) .next p{margin-top:3px!important;line-height:17px!important}
+body:has(#statusIcon) #nextSection h3{margin-bottom:5px!important;font-size:18px!important}
+body:has(#statusIcon) .password-card{margin-top:9px!important}
+
+/* ========================================================================== 
+   3) M01 — replace dashboard tiles with editorial service rows.
+   Keep profile as brand hero; current service remains the one action surface.
+   ========================================================================== */
+body:has(#primaryAssets) .profile{margin-bottom:0!important}
+body:has(#primaryAssets) .section{
+  margin-top:0!important;margin-bottom:0!important;padding-top:18px!important;padding-bottom:18px!important;
+}
+body:has(#primaryAssets) #primarySection{padding-top:17px!important}
+body:has(#primaryAssets) #primarySection .asset{
+  padding:14px 13px!important;border-radius:15px!important;background:linear-gradient(145deg,#EAF2EC 0%,#F6F2EA 100%)!important;
+}
+body:has(#primaryAssets) #referralSection{padding-top:16px!important;padding-bottom:16px!important}
+body:has(#primaryAssets) .referral-card{
+  padding:10px 0 12px!important;border-radius:0!important;background:transparent!important;border:0!important;border-bottom:1px solid #E3E1DA!important;
+}
+body:has(#primaryAssets) .referral-card .ey{font-size:9.5px!important;letter-spacing:.03em!important}
+body:has(#primaryAssets) .referral-card b{font-size:13px!important;line-height:20px!important;color:#1F2923!important}
+body:has(#primaryAssets) .referral-card p{font-size:10.5px!important;line-height:16px!important;color:#6D7671!important}
+body:has(#primaryAssets) .referral-card .go{font-size:10.5px!important}
+
+body:has(#primaryAssets) .menu{display:block!important;margin:0!important}
+body:has(#primaryAssets) .menu button{
+  width:100%!important;min-height:56px!important;margin:0!important;padding:10px 20px 10px 0!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(105px,46%)!important;align-items:center!important;gap:12px!important;
+  position:relative!important;border:0!important;border-bottom:1px solid #E3E1DA!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;color:#1F2923!important;font-size:13px!important;font-weight:650!important;
+}
+body:has(#primaryAssets) .menu button:after{content:'›';position:absolute;right:1px;top:50%;transform:translateY(-52%);font-size:18px;color:#A0A7A2;font-weight:400}
+body:has(#primaryAssets) .menu button:last-child{border-bottom:0!important}
+body:has(#primaryAssets) .menu button span{
+  display:block!important;margin:0!important;text-align:right!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  color:#7A827D!important;font-size:10.5px!important;line-height:16px!important;font-weight:450!important;
+}
+body:has(#primaryAssets) .more-services{background:transparent!important;border:0!important;border-radius:0!important}
+body:has(#primaryAssets) .more-services summary{min-height:42px!important;padding:0!important}
+body:has(#primaryAssets) .more-services summary span{font-size:10.5px!important}
+body:has(#primaryAssets) .more-services[open] .menu{margin-top:5px!important}
+
+@media(max-width:380px){
+  #s5 .term-choice{flex-basis:67px!important;min-width:67px!important;width:67px!important}
+  body:has(#primaryAssets) .menu button{grid-template-columns:minmax(0,1fr) minmax(96px,44%)!important}
+}

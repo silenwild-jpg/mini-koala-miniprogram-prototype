@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN" class="vis-bg01" data-vis-page="CONTRACT">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>C01 租赁协议确认｜V1</title>
+<style>
+:root{--bg:#eef2f4;--text:#1f2a33;--muted:#75828c;--line:#dbe2e7;--primary:#24748a;--soft:#edf6f8;--warn:#fff8e8;--shadow:0 10px 28px rgba(32,50,61,.10)}
+*{box-sizing:border-box}body{margin:0;background:#dde3e7;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+button,input{font:inherit}.shell{width:390px;max-width:100%;height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.page{height:100%;overflow:auto;padding-bottom:90px}.header{height:48px;background:#fff;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.back,.more{text-align:center;font-size:20px;color:#43535d;cursor:pointer}.header h1{text-align:center;font-size:15px;margin:0}
+.section{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 12px;margin-top:9px}.section:first-of-type{margin-top:0}.section h2{font-size:15px;margin:0 0 9px}
+.summary{background:#f7fbfc;border:1px solid #d9e7eb;border-radius:13px;padding:11px}.summary-title{font-size:16px;font-weight:900}.meta{font-size:9px;color:var(--muted);line-height:1.5;margin-top:3px}
+.rows{display:flex;flex-direction:column}.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #eef2f4;font-size:10px}.row:last-child{border-bottom:0}.row span{color:var(--muted)}.row b{text-align:right}
+.agreement-box{border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px;max-height:260px;overflow:auto;font-size:9px;line-height:1.7;color:#46545d}
+.agreement-box h3{font-size:11px;margin:0 0 7px;color:var(--text)}.agreement-box p{margin:0 0 8px}
+.check{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:11px;padding:10px;background:#fafcfd;cursor:pointer}.check input{margin-top:2px}.check b{font-size:10px}.check span{display:block;font-size:8px;color:var(--muted);line-height:1.5;margin-top:3px}
+.notice{background:var(--warn);border-radius:10px;padding:9px 10px;font-size:8px;color:#6f603c;line-height:1.55;margin-top:8px}
+.signed{border:1px solid #cfe3d8;background:#f4faf6;border-radius:11px;padding:10px;font-size:9px;line-height:1.55}.signed b{display:block;font-size:11px;margin-bottom:3px}
+.bottombar{position:absolute;left:0;right:0;bottom:0;height:76px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:112px 1fr;gap:8px;padding:10px 12px;z-index:25}.bottombar button{border-radius:11px;font-size:11px;font-weight:900;cursor:pointer}.secondary{border:1px solid var(--line);background:#fff}.primary{border:0;background:var(--primary);color:#fff}.primary:disabled{opacity:.45}
+.hidden{display:none!important}.toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);background:#24323a;color:#fff;font-size:10px;padding:8px 12px;border-radius:9px;display:none;z-index:70;white-space:nowrap}
+</style>
+
+<style id="h01-visual-system-v21-migration">
+
+:root{--ms-bg:#FBF8F2;--ms-surface:#FFFDFC;--ms-text:#282F2B;--ms-muted:#6F7671;--ms-line:#E7E0D7;--ms-green:#2D7154;--ms-green-soft:#EEF5F0;--ms-green-deep:#294638;--ms-orange:#E77A3A;--ms-sand:#F6EFE5;--ms-shadow:0 8px 24px rgba(56,48,38,.065);--ms-shadow-soft:0 4px 14px rgba(56,48,38,.045)}
+html,body{background:#EEE9E1!important;color:var(--ms-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+.shell,.app{background:var(--ms-bg)!important;box-shadow:0 22px 52px rgba(48,43,35,.14)!important}
+.header,.nav,.tabbar,.bottombar,.bottom{background:rgba(255,253,249,.96)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.header,.nav{border-bottom:1px solid rgba(231,224,215,.78)!important}.header h1,.nav b{color:var(--ms-text)!important;font-weight:850!important}.back,.more{color:#4B5B52!important}
+h1,h2,h3{color:var(--ms-text)}.meta,.sub,.hint,.label,.eyebrow{color:var(--ms-muted)}
+.primary,.solid,.apply{background:var(--ms-green)!important;border-color:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.14)!important}
+.secondary,.outline{background:var(--ms-surface)!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}
+.price,.total{color:var(--ms-orange)!important}
+input,select,textarea{background:#FFF!important;border-color:var(--ms-line)!important;color:var(--ms-text)!important}
+@media(max-width:650px){html,body{background:var(--ms-bg)!important}.shell,.app{box-shadow:none!important}}
+
+.page{background:var(--ms-bg)!important}.section{margin:10px!important;background:var(--ms-surface)!important;border:1px solid var(--ms-line)!important;border-radius:18px!important;box-shadow:var(--ms-shadow-soft)!important;padding:14px 12px!important}.summary{background:#FFF!important;border-radius:14px!important}.summary-title{color:#29332E!important;font-weight:880!important}.rows{border-color:#ECE6DE!important;border-radius:12px!important;overflow:hidden}.row{border-color:#EFE9E2!important}.agreement-box{background:#FBF9F5!important;border-color:#EAE3DA!important;border-radius:14px!important;color:#555E59!important}.notice{background:#F7F1E8!important;border-color:#ECE1D4!important;border-radius:12px!important}.check{background:var(--ms-green-soft)!important;border-color:#D7E4DA!important;border-radius:14px!important}.signed{background:var(--ms-green-soft)!important;border-color:#D7E4DA!important;border-radius:14px!important}.bottombar{border-top:1px solid var(--ms-line)!important;box-shadow:0 -5px 18px rgba(62,54,42,.04)!important}
+
+</style>
+
+<style id="visual-v22-qa-closeout">
+/* Visual V2.2 QA closeout — CSS only. No DOM/copy/order/JS changes. */
+:root{--v22-touch:44px}
+@media(max-width:650px){
+  html,body{background:var(--ms-bg,var(--bg,#FBF8F2))!important}
+  .shell{width:100%!important;max-width:none!important;height:100dvh!important;margin:0!important;box-shadow:none!important}
+  .tabbar,.bottomnav{padding-bottom:env(safe-area-inset-bottom)}
+  .bottombar,.bottom{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
+/* Bottom actions remain visually separate from scroll content. */
+.bottombar,.bottomnav,.tabbar,.bottom{box-shadow:0 -5px 18px rgba(62,54,42,.055)!important}
+/* Price typography: consistent numeric rhythm. */
+.price,.unit-price,.price-num,.value,[id*=Price],[id=monthly]{font-variant-numeric:tabular-nums}
+</style>
+
+
+<style id="v274-wx-capsule-global">
+/* V2.7.3 — reserve the right side for the native WeChat Mini Program capsule. */
+.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;gap:11px;color:#1F2933;font-size:15px;box-shadow:0 1px 3px rgba(20,32,51,.04);justify-self:center;flex:0 0 86px}
+.wx-capsule-space .divider{width:1px;height:16px;background:#E4E7E9}.wx-capsule-space .dot{letter-spacing:1px;font-size:13px}.wx-capsule-space .circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%;display:block}
+.header,.nav{grid-template-columns:48px minmax(0,1fr) 94px!important}
+.header{display:grid!important}.header h1,.nav>h1,.nav>b,#navTitle{text-align:center!important;min-width:0}
+.header>.back,.nav>.back{justify-self:center}.header>.wx-capsule-space,.nav>.wx-capsule-space{justify-self:center}
+.top{display:grid!important;grid-template-columns:48px minmax(0,1fr) 94px!important;align-items:center!important;gap:0!important;padding-left:8px!important;padding-right:4px!important}.top h1{text-align:center!important;min-width:0}.top>.back{justify-self:center}.top>.wx-capsule-space{justify-self:center}
+@media(max-width:380px){.wx-capsule-space{width:82px;flex-basis:82px}.header,.nav,.top{grid-template-columns:44px minmax(0,1fr) 88px!important}}
+</style>
+<style id="preflight-token-hygiene">
+/* V2.7.4.3 preflight hygiene: retire legacy blue/gray root tokens in user-facing states. */
+:root{--primary:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0;--warn:#FFF8E8}
+</style>
+<link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell"><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-site-shell" data-ux-patch-d2="v1">
+<div class="shell">
+<div class="page">
+  <div class="header"><div class="back" id="back">‹</div><h1 id="pageTitle">确认租赁协议</h1><div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div></div>
+
+  <section class="section">
+    <div class="summary">
+      <div class="summary-title" id="unitTitle">建国门店 · 仓位 A038</div>
+      <div class="meta" id="unitMeta">0.8m³ · 2个月</div>
+      <div class="rows" style="margin-top:7px">
+        <div class="row"><span>租赁开始</span><b id="startText"></b></div>
+        <div class="row"><span>月租</span><b id="monthlyText"></b></div>
+        <div class="row"><span>本租期租金</span><b id="totalText"></b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>租赁服务协议</h2>
+    <div class="agreement-box">
+      <h3>《迷你仓租赁服务协议》原型摘要</h3>
+      <p><b>1. 租赁对象</b><br/>本协议对应具体门店及具体仓位。仓位编号、大小、租期、价格以本订单页面和最终订单记录为准。</p>
+      <p><b>2. 租赁期限</b><br/>租赁期限按月计算，以用户确认的开始日期和 term_months 为准。到期续租、退租和物品取出规则应在正式协议中明确。</p>
+      <p><b>3. 费用</b><br/>仓位租金、押金、保险、搬运及其他服务费用应分别列示。未明确展示的费用不应默认并入月租。</p>
+      <p><b>4. 存放规则</b><br/>不得存放法律法规或门店规则禁止的危险、违法、易燃易爆等物品。正式版应提供完整禁止存储清单。</p>
+      <p><b>5. 存取与安全</b><br/>存取时间、门禁、监控、门锁及保险范围以具体门店实际配置和订单说明为准。</p>
+      <p><b>6. 违约、退租与续租</b><br/>提前退租、逾期未取、续租价格和费用处理方式需要在正式合同中按真实业务规则写明。</p>
+      <p><b>7. 其他</b><br/>本页仅用于交互原型，不能作为真实法律文本。正式上线需由业务和法务共同确认完整合同。</p>
+    </div>
+    <div class="notice">这里采用“先确认协议，再支付”的交易顺序。支付成功后订单详情中继续保留已签协议入口。</div>
+  </section>
+
+  <section class="section" id="confirmSection">
+    <div class="check" id="checkRow">
+      <input type="checkbox" id="agreeCheck"/>
+      <div><b>我已阅读并同意《迷你仓租赁服务协议》</b><span>确认后再进入支付。订单支付成功后，协议状态记录为已确认。</span></div>
+    </div>
+  </section>
+
+  <section class="section hidden" id="signedSection">
+    <div class="signed"><b>协议已确认</b><span id="signedMeta">当前订单已在支付前完成协议确认。</span></div>
+  </section>
+</div>
+
+<div class="bottombar">
+  <button class="secondary" id="secondaryBtn">返回订单</button>
+  <button class="primary" id="primaryBtn" disabled>同意协议并支付</button>
+</div>
+<div class="toast" id="toast"></div>
+</div>
+
+<script>
+const o01File='mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html';
+const o02File='mini_storage_order_o02_v1_17_self_service_Visual_V2_7_4.html';
+const p=new URLSearchParams(location.search);
+const mode=p.get('mode')||'sign';
+const unit=p.get('unit')||'A038';
+const volume=Number(p.get('volume')||0.8);
+const target=Number(p.get('target')||volume);
+const term=Math.max(1,Math.min(60,Math.round(Number(p.get('term')||2))));
+const monthly=Math.max(1,Math.round(Number(p.get('monthly')||230)));
+const route=p.get('route')||'DIRECT_ORDER';
+const lead=p.get('lead')||'none';
+const customer=p.get('customer')||'';
+const startDate=p.get('start')||'2026-09-12';
+const orderNo=p.get('orderNo')||'O202609100001';
+const total=monthly*term;
+function human(m){if(m<12)return `${m}个月`;const y=Math.floor(m/12),mo=m%12;return mo?`${m}个月（${y}年${mo}个月）`:`${m}个月（${y}年）`}
+function toast(msg){const t=document.querySelector('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1600)}
+document.querySelector('#unitTitle').textContent=`建国门店 · 仓位 ${unit}`;
+document.querySelector('#unitMeta').textContent=`${volume.toFixed(1)}m³ · ${human(term)}`;
+document.querySelector('#startText').textContent=startDate.replaceAll('-','/');
+document.querySelector('#monthlyText').textContent=`¥${monthly.toLocaleString()}/月`;
+document.querySelector('#totalText').textContent=`¥${total.toLocaleString()}`;
+
+function backParams(){
+  return new URLSearchParams({unit,volume:String(volume),target:String(target),term:String(term),monthly:String(monthly),route,lead,customer,start:startDate});
+}
+if(mode==='view'){
+  document.querySelector('#pageTitle').textContent='租赁协议';
+  document.querySelector('#confirmSection').classList.add('hidden');
+  document.querySelector('#signedSection').classList.remove('hidden');
+  document.querySelector('#primaryBtn').disabled=false;
+  document.querySelector('#primaryBtn').textContent='返回订单详情';
+  document.querySelector('#secondaryBtn').textContent='关闭';
+}else{
+  document.querySelector('#agreeCheck').onchange=e=>document.querySelector('#primaryBtn').disabled=!e.target.checked;
+}
+function contractBack(){const fallback=mode==='view'?`mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html?orderNo=${encodeURIComponent(orderNo)}`:o01File+`?${backParams().toString()}`;window.MINI_KOALA_NAV.safeBack(fallback)}
+document.querySelector('#back').onclick=document.querySelector('#secondaryBtn').onclick=contractBack;
+document.querySelector('#primaryBtn').onclick=()=>{
+  if(mode==='view'){contractBack();return}
+  if(!document.querySelector('#agreeCheck').checked){toast('请先阅读并同意协议');return}
+  const q=new URLSearchParams({state:'paid',unit,volume:String(volume),term:String(term),monthly:String(monthly),orderNo,lead,customer,start:startDate,contract:'signed'});
+  location.href=o02File+`?${q.toString()}`
+};
+</script>
+<script src="mini_storage_global_support_v274.js"></script>
+</body>
+</html>

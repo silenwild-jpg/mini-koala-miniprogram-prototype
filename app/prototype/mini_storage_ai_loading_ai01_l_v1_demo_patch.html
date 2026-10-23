@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN" class="vis-bg01" data-vis-page="AI01_L">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AI01-L 正在识别</title>
+<style>
+:root{--bg:#FDFBF7;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--green:#2D7154;--soft:#EEF5F0}*{box-sizing:border-box}body{margin:0;background:#E9E6DF;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.wrap{display:flex;justify-content:center;padding:18px}.phone{width:390px;min-height:844px;background:var(--bg);border:10px solid #151B18;border-radius:36px;overflow:hidden;box-shadow:0 16px 44px rgba(38,48,43,.15)}.status{height:28px;background:#fff;padding:8px 14px 0;display:flex;justify-content:space-between;font-size:12px}.nav{height:54px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;font-weight:800}.capsule{position:absolute;right:12px;width:72px;height:27px;border:1px solid #D7D8D6;border-radius:16px}.main{min-height:742px;padding:88px 28px 30px;text-align:center}.scan{width:210px;height:210px;margin:0 auto 28px;border-radius:24px;background:linear-gradient(145deg,#E7EFEA,#F8FAF8);border:1px solid #D7E3DA;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.scan:before{content:"办公室物品照片";font-size:13px;color:#66736B}.line{position:absolute;left:18px;right:18px;height:2px;background:var(--green);box-shadow:0 0 14px rgba(45,113,84,.38);animation:scan 1.55s ease-in-out infinite}.corners{position:absolute;inset:15px;border:2px solid rgba(45,113,84,.45);border-radius:16px}@keyframes scan{0%,100%{top:28px}50%{top:180px}}h1{font-size:22px;margin:0 0 8px}.sub{font-size:13px;color:var(--muted);line-height:1.6}.steps{margin:24px auto 0;max-width:260px;text-align:left}.step{font-size:12px;color:#536058;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.step:after{content:"处理中";color:var(--green);font-weight:800}.step:first-child:after{content:"已完成"}.skip{margin-top:30px;border:0;background:transparent;color:var(--green);font-size:13px;font-weight:800;cursor:pointer}.skip:active{transform:scale(.98)}@media(prefers-reduced-motion:reduce){.line{animation:none;top:104px}}@media(max-width:480px){.wrap{padding:0}.phone{width:100%;min-height:100dvh;border:0;border-radius:0;box-shadow:none}.main{min-height:calc(100dvh - 82px)}}
+</style>
+<link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell"><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-site-shell" data-ux-patch-d2="v1"><div class="wrap"><main class="phone"><div class="status"><span>9:41</span><span>● ●●</span></div><div class="nav"><span>正在估算</span><span class="capsule" aria-hidden="true"></span></div><section class="main"><div class="scan"><span class="corners"></span><span class="line"></span></div><h1>正在识别照片中的物品</h1><div class="sub">正在估算物品体积与摆放余量，请稍候。</div><div class="steps"><div class="step">识别物品类型</div><div class="step">估算大致尺寸</div><div class="step">计算空间需求</div></div><button class="skip" id="skip">立即查看演示结果 ›</button></section></main></div>
+<script>
+const resultFile='mini_storage_ai_result_ai02_v1_demo_patch.html';
+const next=()=>{const q=new URLSearchParams(location.search);q.set('case','office');location.href=resultFile+'?'+q.toString()};
+document.querySelector('#skip').onclick=next;
+if(new URLSearchParams(location.search).get('stay')!=='1')setTimeout(next,1800);
+</script><script src="mini_storage_global_support_v274.js"></script>
+</body></html>

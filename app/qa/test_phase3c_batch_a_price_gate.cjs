@@ -1,0 +1,34 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('fs'),path=require('path');
+const base=path.resolve(__dirname,'..'),proto=path.join(base,'prototype');
+const gate=require(path.join(proto,'mini_storage_price_gate_v1.js'));
+let count=0;function test(label,fn){fn();count++;console.log(`PASS 3C-A${String(count).padStart(2,'0')} ${label}`)}
+const ctx={storeId:'jianguo',sizeOptionId:'SIZE-008',representativeUnitNo:'C008',actualUnitId:'',termRaw:'6',pricingModelVersion:'unit_master_v221',managementFee:50};
+function sample(){return {store_id:'jianguo',size_option_id:'SIZE-008',representative_unit_no:'C008',unit_id:'C008',actual_unit_id:null,unit_identity_type:'SIZE_OPTION',term_months:6,pricing_model_version:'unit_master_v221',pricing_timestamp:new Date().toISOString(),total_rent:4120,monthly_average:687,deposit:687,management_fee:50,upfront_payable:4857}}
+const result=(data,changes={})=>gate.validate(data,{...ctx,...changes});
+const deny=(data,changes,reason)=>assert.equal(result(data,changes).reason,reason);
+test('valid uncouponed snapshot',()=>{const r=result(sample());assert.equal(r.valid,true);assert.equal(r.values.payable,4857)});
+test('explicit lease term mandatory; no 6-month fallback',()=>{for(const t of [null,'','0','61','6.3','NaN','-1',' 6','06'])assert.equal(gate.parseTerm(t),null);assert.equal(gate.parseTerm('60'),60);deny(sample(),{termRaw:null},'TERM_INVALID')});
+test('snapshot must exist',()=>deny(null,{},'SNAPSHOT_MISSING'));
+test('store must match',()=>deny({...sample(),store_id:'hangzhou'}, {},'IDENTITY_MISMATCH'));
+test('size option required even with representative unit',()=>deny(sample(),{sizeOptionId:''},'IDENTITY_MISSING'));
+test('wrong size option rejected',()=>deny({...sample(),size_option_id:'OTHER'}, {},'IDENTITY_MISMATCH'));
+test('wrong representative number rejected',()=>deny({...sample(),representative_unit_no:'C009'}, {},'IDENTITY_MISMATCH'));
+test('actual assigned unit identity cannot be silently swapped',()=>deny(sample(),{actualUnitId:'PHYS-23'},'IDENTITY_MISMATCH'));
+test('term change invalidates price snapshot',()=>deny(sample(),{termRaw:'12'},'TERM_MISMATCH'));
+test('pricing model version mismatch',()=>deny({...sample(),pricing_model_version:'old'}, {},'PRICING_VERSION_MISMATCH'));
+test('timestamp is mandatory and not future-dated',()=>{deny({...sample(),pricing_timestamp:''},{},'TIMESTAMP_INVALID');deny({...sample(),pricing_timestamp:'2035-01-01T00:00:00Z'},{},'TIMESTAMP_INVALID')});
+test('invalid or negative amount is rejected',()=>{deny({...sample(),total_rent:-1},{},'AMOUNT_INVALID');deny({...sample(),upfront_payable:1.7},{},'AMOUNT_INVALID')});
+test('monthly and deposit components must reconcile',()=>{deny({...sample(),monthly_average:688},{},'COMPONENT_MISMATCH');deny({...sample(),deposit:999},{},'COMPONENT_MISMATCH')});
+test('management fee must use business master',()=>deny({...sample(),management_fee:0},{},'COMPONENT_MISMATCH'));
+test('wrong payable amount is rejected, not trusted from URL',()=>deny({...sample(),upfront_payable:4858},{},'PAYABLE_MISMATCH'));
+test('coupon discounts require ID and amount',()=>{deny({...sample(),coupon_applied:true,coupon_discount_amount:200},{},'COUPON_SNAPSHOT_INVALID');deny({...sample(),coupon_discount_amount:200},{},'COUPON_SNAPSHOT_INVALID')});
+test('coupon price components must reconcile',()=>{const s={...sample(),coupon_applied:true,coupon_id:'CPN-1',user_coupon_id:'USER-1',coupon_discount_amount:200,rent_before_coupon:4120,rent_after_coupon:3900,upfront_payable:4657};deny(s,{},'COUPON_COMPONENT_MISMATCH')});
+test('valid coupon snapshot uses only reconciled payable',()=>{const s={...sample(),coupon_applied:true,coupon_id:'CPN-1',user_coupon_id:'USER-1',coupon_discount_amount:200,rent_before_coupon:4120,rent_after_coupon:3920,upfront_payable:4657};assert.equal(result(s).values.payable,4657)});
+const pages=['mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html','mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html'];
+test('both transaction pages load price gate and expose invalid state',()=>{for(const f of pages){const s=fs.readFileSync(path.join(proto,f),'utf8');for(const phrase of ['mini_storage_price_gate_v1.js','pricingGate.validate(carriedPriceSnapshot','MINI_KOALA_PRICE_GATE_STATUS','priceRecheckNotice','gateResult.valid','price_snapshot_current'])assert(s.includes(phrase),f+' missing '+phrase)}});
+test('Q01 blocks invalid save and continuation',()=>{const s=fs.readFileSync(path.join(proto,pages[0]),'utf8');assert(s.includes('if(!gateResult.valid)return null;'));assert(s.includes("document.getElementById('save').disabled=true"));assert(s.includes('if(!gateResult.valid){goBack();return}'))});
+test('O01 blocks invalid payment and clears display',()=>{const s=fs.readFileSync(path.join(proto,pages[1]),'utf8');assert(s.includes("document.getElementById('pay').disabled=true"));assert(s.includes('if(!gateResult.valid)return;'));assert(!s.includes("Number(p.get('term')||6)"));});
+test('coupon injector cannot reinstate invalid amount',()=>{const s=fs.readFileSync(path.join(proto,'mini_storage_coupon_benefit_v1.js'),'utf8');for(const method of ['function injectQuote(){','function injectOrder(){']){const i=s.indexOf(method);assert(i>0);assert(s.slice(i,i+130).includes('MINI_KOALA_PRICE_GATE_STATUS?.valid!==true'))}});
+console.log(`Phase 3C Batch A: ${count}/${count} isolated source and price-gate tests passed; no browser E2E`);

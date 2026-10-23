@@ -1,0 +1,110 @@
+/* VIS-05 Batch 1 M01 shell trial. Scope: M01 only; business/price/content logic untouched. */
+body.koala-ui-v1.koala-m01 {
+  --koala-bg: #F8FAF9;
+  --koala-surface: #FFFFFF;
+  --koala-text: #1F2923;
+  --koala-text-2: #59645E;
+  --koala-text-3: #6D7671;
+  --koala-brand: #2F6B4F;
+  --koala-line: #E4EBE6;
+  --koala-tabbar-h: 56px;
+  --koala-icon-home: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z'/%3E%3C/svg%3E");
+  --koala-icon-find: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m16.5 16.5 4 4'/%3E%3C/svg%3E");
+  --koala-icon-store: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l1.5-5h15L21 9'/%3E%3Cpath d='M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0'/%3E%3Cpath d='M5 11.5V20h14v-8.5'/%3E%3Cpath d='M10 20v-5h4v5'/%3E%3C/svg%3E");
+  --koala-icon-mine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E");
+  background: var(--koala-bg) !important;
+  color: var(--koala-text) !important;
+}
+body.koala-ui-v1.koala-m01 .shell,
+body.koala-ui-v1.koala-m01 .page {
+  background: var(--koala-bg) !important;
+}
+body.koala-ui-v1.koala-m01 .shell { box-shadow: none !important; }
+body.koala-ui-v1.koala-m01 .page {
+  padding-bottom: calc(var(--koala-tabbar-h) + env(safe-area-inset-bottom) + 12px) !important;
+}
+body.koala-ui-v1.koala-m01 .header {
+  height: 48px !important;
+  background: var(--koala-surface) !important;
+  border-bottom: 1px solid var(--koala-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body.koala-ui-v1.koala-m01 .header h1 {
+  color: var(--koala-text) !important;
+  font-size: 17px !important;
+  line-height: 24px !important;
+  font-weight: 700 !important;
+}
+body.koala-ui-v1.koala-m01 .tabbar {
+  height: calc(var(--koala-tabbar-h) + env(safe-area-inset-bottom)) !important;
+  padding-bottom: env(safe-area-inset-bottom) !important;
+  background: var(--koala-surface) !important;
+  border-top: 1px solid var(--koala-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body.koala-ui-v1.koala-m01 .tab {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  min-height: var(--koala-tabbar-h) !important;
+  min-width: 0 !important;
+  touch-action: manipulation;
+  color: var(--koala-text-3) !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+  font-weight: 500 !important;
+}
+body.koala-ui-v1.koala-m01 .tab.active {
+  color: var(--koala-brand) !important;
+  font-weight: 600 !important;
+}
+body.koala-ui-v1.koala-m01 .tab .ico {
+  display: block !important;
+  width: 22px !important;
+  height: 22px !important;
+  flex: 0 0 22px;
+  margin: 0 !important;
+  font-size: 0 !important;
+  background: currentColor !important;
+  -webkit-mask: var(--koala-icon-home) center / contain no-repeat;
+  mask: var(--koala-icon-home) center / contain no-repeat;
+}
+body.koala-ui-v1.koala-m01 .tab:nth-child(2) .ico {
+  -webkit-mask-image: var(--koala-icon-find);
+  mask-image: var(--koala-icon-find);
+}
+body.koala-ui-v1.koala-m01 .tab:nth-child(3) .ico {
+  -webkit-mask-image: var(--koala-icon-store);
+  mask-image: var(--koala-icon-store);
+}
+body.koala-ui-v1.koala-m01 .tab:nth-child(4) .ico {
+  -webkit-mask-image: var(--koala-icon-mine);
+  mask-image: var(--koala-icon-mine);
+}
+/* Sheet height and bottom inset apply to M01 only; preserve the original show/close JS. */
+body.koala-ui-v1.koala-m01 .mine-sheet {
+  box-sizing: border-box;
+  max-height: calc(100% - 68px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 16px 16px 0 0 !important;
+  background: var(--koala-surface) !important;
+  padding: 16px 16px calc(20px + env(safe-area-inset-bottom)) !important;
+}
+body.koala-ui-v1.koala-m01 .mine-sheet button {
+  min-height: 48px !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  background: var(--koala-brand) !important;
+}
+body.koala-ui-v1.koala-m01 .toast {
+  bottom: calc(70px + env(safe-area-inset-bottom)) !important;
+}
+body.koala-ui-v1.koala-m01 .menu button { min-height: 48px; }

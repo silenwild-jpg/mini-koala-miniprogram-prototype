@@ -1,0 +1,63 @@
+/* UX-PATCH A3 | S5 only. Visual shell and business modules remain untouched. */
+body:has(#s5.active) .estvis05-steps{display:none!important}
+.estvis05-steps[hidden]{display:none!important}
+#s5{padding-top:9px!important;padding-bottom:112px!important}
+#s5 .usage-summary.capacity-summary{min-height:0!important;margin:0 0 7px!important;padding:9px 11px!important;gap:7px!important;border-radius:13px!important}
+#s5 .capacity-copy .label{font-size:12px!important;line-height:15px!important}
+#s5 .capacity-copy .range{font-size:20px!important;line-height:25px!important;margin:1px 0!important}
+#s5 .capacity-copy .meta{font-size:11px!important;line-height:15px!important}
+#s5 .phase3a-review-link{margin-top:1px!important;padding:1px 0!important;font-size:12px!important}
+#s5 .usage-top-title{font-size:16px!important;line-height:21px!important;margin:7px 0 5px!important}
+#s5 #termChips .term-scroll{padding:5px 2px 3px!important;gap:6px!important}
+#s5 #termChips .term-choice{padding:9px 8px 6px!important;min-height:41px!important;height:auto!important;line-height:19px!important;font-size:12px!important}
+#s5 #termChips .term-discount{font-size:9px!important;line-height:13px!important}
+#s5 .term-swipe-hint{display:none!important}
+#s5 .other-term-toggle{margin:1px 0 4px!important;min-height:26px!important;font-size:12px!important;padding:3px 0!important}
+#s5 #movingSupportNote{position:relative;margin:3px 0 7px!important}
+#s5 .ux-a3-transport{position:relative;display:flex;align-items:center;gap:8px;border:1px solid #EADDC8;background:#FFF9F0;border-radius:11px;padding:8px 9px;min-height:42px;color:#7D531F}
+#s5 .ux-a3-transport .ux-a3-truck{display:grid;place-items:center;width:25px;height:25px;flex:0 0 25px;border-radius:7px;background:#FFEDD9;color:#B46B22}
+#s5 .ux-a3-truck svg{width:18px;height:18px}
+#s5 .ux-a3-transport strong{flex:1;min-width:0;color:#684C2A;font-weight:650;font-size:12px;line-height:17px}
+#s5 .ux-a3-transport-help{flex:0 0 28px;display:grid;place-items:center;width:28px;height:28px;border:1px solid #D8BD95;border-radius:50%;background:#FFF;font-size:14px;line-height:1;font-weight:800;color:#946026;cursor:pointer}
+#s5 .ux-a3-transport-popover{position:absolute;right:0;top:calc(100% + 5px);width:min(100%,320px);z-index:55;box-shadow:0 7px 22px rgba(31,41,35,.16);background:#FFF;border:1px solid #E4EBE6;padding:12px 13px;border-radius:12px;color:#59645E}
+#s5 .ux-a3-transport-popover[hidden]{display:none!important}
+#s5 .ux-a3-transport-popover p{margin:0 0 10px;font-size:13px;line-height:1.65}
+#s5 .ux-a3-transport-popover button{width:100%;min-height:36px;border:0;background:#EAF3ED;color:#214F3A;border-radius:8px;font-size:13px;font-weight:700}
+#s5 .recommend-head{margin:6px 0 0!important}
+#s5 .recommend-heading-row .section-title{font-size:17px!important;line-height:24px!important;margin:0!important}
+#s5 .recommend-heading-row .usage-store-list-link{min-height:32px!important;max-width:60%!important;padding:3px 0!important;font-size:11px!important}
+#s5 .recommend-location{min-height:33px!important;margin-top:3px!important;padding:7px 9px!important;border-radius:9px!important;font-size:11px!important;line-height:16px!important}
+#s5 .recommend-location::after{font-size:11px!important}
+#s5 .rplan.ux-a3-unit{
+  display:block!important;position:relative!important;min-height:0!important;margin:8px 0 0!important;
+  width:100%!important;padding:11px 12px 10px!important;border-radius:14px!important;
+  background:#FFF!important;border:1px solid #E4EBE6!important;box-shadow:0 2px 8px rgba(31,41,35,.04)!important;
+  color:#1F2923!important;cursor:pointer;text-align:left;overflow:visible;
+}
+#s5 .rplan.ux-a3-unit.active{border-color:#A3C8B0!important}
+#s5 .rplan.ux-a3-unit:focus-visible,#s5 .ux-a3-route-btn:focus-visible,#s5 .ux-a3-transport-help:focus-visible{outline:2px solid #2F6B4F!important;outline-offset:2px}
+#s5 .ux-a3-cardhead{display:flex;align-items:flex-start;justify-content:space-between;gap:7px;min-width:0}
+#s5 .ux-a3-store-main{flex:1;min-width:0}
+#s5 .ux-a3-cardtag{font-size:10px;line-height:13px;color:#2F6B4F;font-weight:700}
+#s5 .ux-a3-store-name{font-size:16px;line-height:22px;font-weight:750;color:#1F2923;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+#s5 .ux-a3-store-address{font-size:11px;line-height:16px;color:#59645E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+#s5 .ux-a3-route-btn{border:1px solid #D4E3D9;background:#FFF;color:#2F6B4F;font-size:12px;font-weight:650;padding:5px 8px;border-radius:8px;flex:0 0 auto;min-height:33px;cursor:pointer}
+#s5 .ux-a3-unit-spec{display:flex;gap:7px;justify-content:space-between;flex-wrap:wrap;font-size:12px;line-height:18px;color:#3F6150;margin-top:7px;font-weight:600}
+#s5 .ux-a3-unit-spec span{min-width:0}
+#s5 .ux-a3-drive{font-size:11px;line-height:16px;color:#59645E;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s5 .ux-a3-cardprice{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;padding-top:8px;margin-top:8px;border-top:1px solid #EEF1EF}
+#s5 .ux-a3-price-left{display:flex;flex-direction:column;min-width:0;gap:2px}
+#s5 .ux-a3-price-left>span{color:#59645E;font-size:11px;line-height:16px}
+#s5 .ux-a3-price-left b{font-size:23px;line-height:26px;color:#D56A1C;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+#s5 .ux-a3-price-left b em{font-size:11px;font-style:normal;font-weight:500;color:#6D7671;margin-left:2px}
+#s5 .ux-a3-price-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:0;text-align:right}
+#s5 .ux-a3-price-right>span{font-size:12px;font-weight:700;color:#2F6B4F;white-space:nowrap}
+#s5 .ux-a3-price-right small{font-size:11px;line-height:16px;color:#59645E;white-space:nowrap}
+#s5 #r113EstoreCard .estore-feature{margin-top:12px!important}
+@media(max-width:380px){
+  #s5 .rplan.ux-a3-unit{padding:10px!important}
+  #s5 .ux-a3-store-name{font-size:15px}
+  #s5 .ux-a3-unit-spec{font-size:11px}
+  #s5 .ux-a3-price-left b{font-size:21px}
+  #s5 .ux-a3-price-right small{font-size:10.5px}
+}

@@ -1,0 +1,412 @@
+{
+  "trial": "ITEM-VIS-06 Full45",
+  "release_gate": "HOLD",
+  "items": 40,
+  "variants": 51,
+  "asset_keys": 45,
+  "mapping": {
+    "sofa3": {
+      "std": "sofa-three-seat",
+      "double": "sofa-two-seat",
+      "single": "sofa-one-seat"
+    },
+    "bed180": {
+      "std": "double-bed",
+      "bed150": "double-bed",
+      "mattress": "mattress"
+    },
+    "wardrobe": {
+      "std": "wardrobe-two-door",
+      "large": "wardrobe-three-door",
+      "small": "small-cabinet"
+    },
+    "fridge": {
+      "std": "fridge-standard",
+      "double": "fridge-multi-door"
+    },
+    "washer": {
+      "std": "washing-machine"
+    },
+    "box": {
+      "std": "cardboard-box"
+    },
+    "dining": {
+      "std": "dining-table",
+      "office": "office-desk",
+      "small": "small-table"
+    },
+    "chair": {
+      "dining": "dining-chair",
+      "office": "office-chair"
+    },
+    "coffee": {
+      "std": "coffee-table",
+      "small": "small-table"
+    },
+    "tvcab": {
+      "std": "tv-cabinet"
+    },
+    "luggage28": {
+      "std": "suitcase"
+    },
+    "luggage24": {
+      "std": "suitcase"
+    },
+    "luggage20": {
+      "std": "suitcase"
+    },
+    "bag": {
+      "std": "travel-bag"
+    },
+    "bin": {
+      "std": "storage-bin"
+    },
+    "clothingBox": {
+      "std": "clothes-box"
+    },
+    "quilt": {
+      "std": "folded-duvet"
+    },
+    "coat": {
+      "std": "garment-bag"
+    },
+    "stroller": {
+      "std": "folded-stroller"
+    },
+    "bicycle": {
+      "std": "bicycle"
+    },
+    "bookcase": {
+      "std": "bookcase"
+    },
+    "appliance": {
+      "std": "small-appliance"
+    },
+    "crib": {
+      "std": "crib"
+    },
+    "toybox": {
+      "std": "toy-box"
+    },
+    "shoebox": {
+      "std": "shoe-box"
+    },
+    "figurebox": {
+      "std": "collectibles-box"
+    },
+    "winebox": {
+      "std": "wine-box"
+    },
+    "guitar": {
+      "std": "guitar-case"
+    },
+    "goodsbox": {
+      "std": "cardboard-box"
+    },
+    "turnover": {
+      "std": "turnover-crate"
+    },
+    "clothingPack": {
+      "std": "clothes-bale"
+    },
+    "pallet": {
+      "std": "loaded-pallet"
+    },
+    "displayRack": {
+      "std": "display-rack"
+    },
+    "shelf": {
+      "std": "storage-rack"
+    },
+    "archiveBox": {
+      "std": "archive-box"
+    },
+    "fileCab": {
+      "std": "filing-cabinet"
+    },
+    "officeChair": {
+      "std": "office-chair"
+    },
+    "officeDesk": {
+      "std": "office-desk"
+    },
+    "printer": {
+      "std": "printer"
+    },
+    "officeBox": {
+      "std": "office-supplies-box"
+    }
+  },
+  "images": {
+    "archive-box": {
+      "source": "archive-box.png",
+      "source_sha256": "7476c8b5e3839889afcc105ec23725b936a9bec0c7709fb0092d19dae8080e81",
+      "webp_bytes": 13104,
+      "webp_sha256": "d52788d7edc527fb5207a7038445fd9220c31ab3fbb1ad007102ace21d0e3a15"
+    },
+    "bicycle": {
+      "source": "bicycle.png",
+      "source_sha256": "2550b348c15c6989ecf79688505ee07fe17ca87f40610f8b4373948cae472ed9",
+      "webp_bytes": 38794,
+      "webp_sha256": "e3c68973d5ac9bcd3e4733f253b1098d81c441e3cb97d7e2e483be738157f1aa"
+    },
+    "bookcase": {
+      "source": "bookcase.png",
+      "source_sha256": "de28f5fd7dfaf86d19905aeed3dd7242766a960144147e30d4ad0261f28916a4",
+      "webp_bytes": 9840,
+      "webp_sha256": "2f9cb351237adf05770d5e126238d62da0b8433956aeb8a11d09fe470e338289"
+    },
+    "cardboard-box": {
+      "source": "cardboard-box.png",
+      "source_sha256": "6ae0207bbadd52285e8fac8e9b1c29e687a95fcca5f6daa80719a9f92c59859b",
+      "webp_bytes": 14630,
+      "webp_sha256": "3407e251ad6872dbe635ad033c3d77c6ac0e563d30cc0171d3fb2da82a6cb097"
+    },
+    "clothes-bale": {
+      "source": "clothes-bale.png",
+      "source_sha256": "37489e4409bb9bf2d118ca8a05130a0de3a6b53a9a7ada2c8cd3484a4752c6dd",
+      "webp_bytes": 22920,
+      "webp_sha256": "8534b035237f1f22304937fbd727e8595a0069597b6c735190c873e8bda01543"
+    },
+    "clothes-box": {
+      "source": "clothes-box.png",
+      "source_sha256": "0cc8ff1034a7506f578643cc06e9ac106a6fa07b2e447e9edc6fb4cf06bd6298",
+      "webp_bytes": 13178,
+      "webp_sha256": "b2a0235a4a7b01a82214f4f5167e1b438cd378ba2a543f777e02caf5b59c1a45"
+    },
+    "coffee-table": {
+      "source": "coffee-table.png",
+      "source_sha256": "6ef70b28c04b4de90de5b74371b2b4b51988c676e6f1bccdabb5350c6e75cbd2",
+      "webp_bytes": 10892,
+      "webp_sha256": "e99c517dbc4445f0d806b61c6cad08a0c0af5e4de0540599381f6e8e58fca4b1"
+    },
+    "collectibles-box": {
+      "source": "collectibles-box.png",
+      "source_sha256": "2e44f6683313ed14b8c01bb03bcd3ef466a5deb2071fce8907c24c70733f5b3b",
+      "webp_bytes": 14534,
+      "webp_sha256": "f9957f0e77943fda415baa89368490386ae3a23d76fcf8fe94a2b9f287e57821"
+    },
+    "crib": {
+      "source": "crib.png",
+      "source_sha256": "07dd6e87b1d48279b166af2c1e48c741dff938f095682bc6a8394ae3f10c9579",
+      "webp_bytes": 22542,
+      "webp_sha256": "16a49a933a7ac6f792f7e3f9d1ae11fe4761f00d0c9bf8f50047156842fe560b"
+    },
+    "custom-item": {
+      "source": "custom-item.png",
+      "source_sha256": "51cefcb763e7dd4ee5b62bd48ec7469c2b49c72e4d550419660517748161a75b",
+      "webp_bytes": 13222,
+      "webp_sha256": "743cd0150b53ca0f0b2b7369b46ce808a4abae1a16c29f1c0ace362acf6173a8"
+    },
+    "dining-chair": {
+      "source": "dining-chair.png",
+      "source_sha256": "993a2d5bfd4e11c84dd33f8b08755ec3fbc88c28a7205afc842d92e328927e35",
+      "webp_bytes": 11240,
+      "webp_sha256": "34bf8f8ec41c03206dee6f98dd5344e6d24bb1325d94a34353ccb9300dc88d19"
+    },
+    "dining-table": {
+      "source": "dining-table.png",
+      "source_sha256": "b56691736b0d4cf5039bd3709bd3426c932c302f6a9edb6182860240d18dadd5",
+      "webp_bytes": 12894,
+      "webp_sha256": "e35a0b199ca0aa499484448009b116059a450bc8adf3f712413abd331b093fcd"
+    },
+    "display-rack": {
+      "source": "display-rack.png",
+      "source_sha256": "9c1e26452ae1a405cb70cfae5d9b9ce9b09318ce640cde8bdba1ba3946d34359",
+      "webp_bytes": 19470,
+      "webp_sha256": "9d2458ce0ecf8b3e9458c20b59c8249999be520b9018f4d3c2add9d9dee463f6"
+    },
+    "double-bed": {
+      "source": "double-bed.png",
+      "source_sha256": "ce6fb2e4508899ecf6c61bcd7995cb3cf7add0b5f06c0c0f0d269d0064da7550",
+      "webp_bytes": 8942,
+      "webp_sha256": "4a1774046766ad7ae195f0dccd9c2fe8df073baa57838c085ce121ce9cc51c6d"
+    },
+    "filing-cabinet": {
+      "source": "filing-cabinet.png",
+      "source_sha256": "f460c2c7d4219480abf0e314a9809f4c464b407997fa52d6f72854abc6f06378",
+      "webp_bytes": 9356,
+      "webp_sha256": "7150b8f45c797f94ced9f968740bbea3f760e0b32801466cc61880ffaedd5290"
+    },
+    "folded-duvet": {
+      "source": "folded-duvet.png",
+      "source_sha256": "4a42bc3519572e0958dc26ef257f7de772995f0afcbc541f3474aa2909914fb3",
+      "webp_bytes": 14798,
+      "webp_sha256": "f3ae3f705dde8287c86d5f59a6abc10f0074a46b75ec1848c3d7fdbaa5af9295"
+    },
+    "folded-stroller": {
+      "source": "folded-stroller.png",
+      "source_sha256": "0aa1e949a45cdb1f7c3b1cd7fc6449803b02de988bb7145fff45ad5b6694af52",
+      "webp_bytes": 15956,
+      "webp_sha256": "3b7847ca0940660c97b45b7e70f355e230a233fe54efeb36fac1811a75d51cbe"
+    },
+    "fridge-multi-door": {
+      "source": "fridge-multi-door.png",
+      "source_sha256": "13f86d88d781e4719819a2a05ad87c52ba4d6184d5356666d7ffa5904d8a85f6",
+      "webp_bytes": 5184,
+      "webp_sha256": "1b0a27bd7f2af58cf1847ceafc8c3dbac7bd23ecf620655175e32c44a2ec516d"
+    },
+    "fridge-standard": {
+      "source": "fridge-standard.png",
+      "source_sha256": "9dfdc7b613032d9f45141966bf668bc9872c0afd4e47110fe5f4adf1282ccd06",
+      "webp_bytes": 7454,
+      "webp_sha256": "a72f3eefcf1787e8027b5a864c51892530b227bbc5c1fd6562bfbd1ba8903a7c"
+    },
+    "garment-bag": {
+      "source": "garment-bag.png",
+      "source_sha256": "de9ab4c9e7c2b48cf670cf4d282cf9fb7c0affa9b3c1aa67f9591d529c20a525",
+      "webp_bytes": 9942,
+      "webp_sha256": "e6b5d5a635f669590f9997633a83e09adbf4a2164eae39227052f8b02b29e840"
+    },
+    "guitar-case": {
+      "source": "guitar-case.png",
+      "source_sha256": "356fd6b17fe664b074548342fd401eaf12fba10edc2b0fb7c4166ab8f235853f",
+      "webp_bytes": 9826,
+      "webp_sha256": "46bff49b53d4f3edff268198c6eacf7c11245c1db46ba2ef35006a7dece030e0"
+    },
+    "loaded-pallet": {
+      "source": "loaded-pallet.png",
+      "source_sha256": "e2bf7bfbb5459695e0e187893c90d57cb7e9e706ea6b128058fd9a613f14067d",
+      "webp_bytes": 22212,
+      "webp_sha256": "19c8aa069a5b89bf1edf5dbdd2e9bebde741e578376fa2b6d8e622e25e414b83"
+    },
+    "mattress": {
+      "source": "mattress.png",
+      "source_sha256": "a54b4801415d7a29dba630283d8e20af550fbf11a90c52f07e152afb2c4cdc9b",
+      "webp_bytes": 8408,
+      "webp_sha256": "1db3f70850a29d5acd5386eea02520be6ecbe81e35033324d9dff18595986369"
+    },
+    "office-chair": {
+      "source": "office-chair.png",
+      "source_sha256": "05219a7ae310ddce135a5ec534a8c76fd425e46fcd464f075bbd03f9ffad2236",
+      "webp_bytes": 14608,
+      "webp_sha256": "999651804cc74046d92d69686562e723ef696cac1dd0d5baef2f14796e009f15"
+    },
+    "office-desk": {
+      "source": "office-desk.png",
+      "source_sha256": "2bb9e9cf89311068d29921f21fe87b8464a07688d26a32a3cce2df3bcc90d227",
+      "webp_bytes": 12398,
+      "webp_sha256": "bfc91dc26ac651f3f5a805ac90a79ca99846b1cbf105f967e6a92b4599c1d49f"
+    },
+    "office-supplies-box": {
+      "source": "office-supplies-box.png",
+      "source_sha256": "1b340b069b800896207a8b65676100aa8966a3d8f681a87228b69abb716ecc60",
+      "webp_bytes": 0,
+      "webp_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "printer": {
+      "source": "printer.png",
+      "source_sha256": "ee398b4e0943598223c99f63771de260bdb05cfbfcc5f37ec34e141eef935fa0",
+      "webp_bytes": 14440,
+      "webp_sha256": "1c6f943409d18cb881535f5b1f248eb8467a815e572592bc70852658cc691132"
+    },
+    "shoe-box": {
+      "source": "shoe-box.png",
+      "source_sha256": "96c62abb41da9815553484923958afdd45898f436e462550bcfde1ad15ff28a4",
+      "webp_bytes": 15480,
+      "webp_sha256": "1cb522122968c082f4beb44580565f2c77d31d20ef13e7d0ce9d98c804432cf0"
+    },
+    "small-appliance": {
+      "source": "small-appliance.png",
+      "source_sha256": "a4ba18e009bc4cea19d3d7c5c9ce648816d5d49152a70a1257919c18f87001d9",
+      "webp_bytes": 18290,
+      "webp_sha256": "3040788c25eae5ce4928fe6dbf8d54a64f66973625d8f5508ff36ccea437daa1"
+    },
+    "small-cabinet": {
+      "source": "small-cabinet.png",
+      "source_sha256": "ce348b71ade9f93872e3a046f657e9901afb8af8f81bcf6909853696a26802d2",
+      "webp_bytes": 18978,
+      "webp_sha256": "cd6da4ebfdebd498118ffb011f85382e9242386b26d24a2302391811662c5b38"
+    },
+    "small-table": {
+      "source": "small-table.png",
+      "source_sha256": "00354da9a7b631c45a05cc8531e7f010887d851c8261b790a7991e95460d702c",
+      "webp_bytes": 18546,
+      "webp_sha256": "d786cd648a01900149fc48dc709f5bcb8b9ad213dd8f59502c4f4a01993730a4"
+    },
+    "sofa-one-seat": {
+      "source": "sofa-one-seat.png",
+      "source_sha256": "c1ab4e511d99da47575dff68147443c77a435edb3892e6ab148fa762c9845c51",
+      "webp_bytes": 13382,
+      "webp_sha256": "b711b9fa293fed2ffd284210d52b571a28da52ea38cd5923025ff171e4f2c50e"
+    },
+    "sofa-three-seat": {
+      "source": "sofa-three-seat.png",
+      "source_sha256": "81cf2e7d76b8e097e2d38e351730404b2d05aee5f13fc085539821700165473b",
+      "webp_bytes": 12180,
+      "webp_sha256": "725bebb429f9235fc6e36ddb467d5a23e48ffb3dc6a6c82f526b35edf76a60ea"
+    },
+    "sofa-two-seat": {
+      "source": "sofa-two-seat.png",
+      "source_sha256": "5b5e413ad0033945fa697e7a16c89d87afe682d420115db0489ab86cbabccf8b",
+      "webp_bytes": 10426,
+      "webp_sha256": "f8ecc907694694c8aac3d9a4a13dcd4aac5f36ded1ac23360db6027bf3210ec5"
+    },
+    "storage-bin": {
+      "source": "storage-bin.png",
+      "source_sha256": "403d004885282740cff791437361372db8080dc3b007f41dae3801c072c38425",
+      "webp_bytes": 8540,
+      "webp_sha256": "ea2a259238994ccc74361e1cc5909c8c0e48b836401039ce2c7a393dbc4ae7bd"
+    },
+    "storage-rack": {
+      "source": "storage-rack.png",
+      "source_sha256": "5c50e30b6d68a8e269b6a3566a4bf0ef68213eba687fb4607252d21e931d27f9",
+      "webp_bytes": 22830,
+      "webp_sha256": "31b79cd23675a0298e8f91975694391d6854f2a9fea87dcb6549747f3444ad7e"
+    },
+    "suitcase": {
+      "source": "suitcase.png",
+      "source_sha256": "8c24e99847418d10f70722709abd20a85f667cbd48e4bcb3649f103bb51bd601",
+      "webp_bytes": 12738,
+      "webp_sha256": "df31144a3cd142033e17cdf3f532eadbda0ae507e12a5476a785b26e8ca956dd"
+    },
+    "toy-box": {
+      "source": "toy-box.png",
+      "source_sha256": "cc6f1617de132ab66d1b429a7166141c2b6716eff0450332b2d5d72a147ac5ed",
+      "webp_bytes": 16078,
+      "webp_sha256": "8b8d80e9b79b89add37cdfccc96a0ba3e6867e1eb379b893a8a240ecfaafa7b8"
+    },
+    "travel-bag": {
+      "source": "travel-bag.png",
+      "source_sha256": "213b1f64bcc92b8c2df9cc35acb79f8974b0106bde025383e51411fdb0a89c50",
+      "webp_bytes": 15204,
+      "webp_sha256": "b757a87bf1855ed7ebfbb75b0a5f273c7b69d7916373f08919c672ae09aaa05a"
+    },
+    "turnover-crate": {
+      "source": "turnover-crate.png",
+      "source_sha256": "fe9464d4cf0ccece4c39e03758f6c9e4c03dedb6cf4412f44e4184aec3e3da1b",
+      "webp_bytes": 13610,
+      "webp_sha256": "50ea0c4acf62c3f1ca094f60054210f374988bdb3320bf431f731bcabf4e3635"
+    },
+    "tv-cabinet": {
+      "source": "tv-cabinet.png",
+      "source_sha256": "4adc739b232cd83313dd3183374d36bfb6facb2c6b71dd6454068df6feb11583",
+      "webp_bytes": 10360,
+      "webp_sha256": "5e0e6a4e3a4f1a93b7a7ad5642593df0af362ccaf65c4335d9991e6d784ec599"
+    },
+    "wardrobe-three-door": {
+      "source": "wardrobe-three-door.png",
+      "source_sha256": "23355a3c2414a2f0421c1d826aaeb84a1ed3974648b7aedb0acb67fd93db8d3a",
+      "webp_bytes": 10764,
+      "webp_sha256": "394f732e685d770fdf4b83c9204d3ed649b2fe54780680511b383c5c3172c2f5"
+    },
+    "wardrobe-two-door": {
+      "source": "wardrobe-two-door.png",
+      "source_sha256": "80762efaff825405cd3dbd27927c8dc1852c5137cda73d109e25348ef784dede",
+      "webp_bytes": 6516,
+      "webp_sha256": "7fd13f70a4f3dcddb9a00f40682d342bc6aab6e801dd46322e361e67d32a3280"
+    },
+    "washing-machine": {
+      "source": "washing-machine.png",
+      "source_sha256": "d833cd4ae2ce47297848130682af294561562767c3d098cf692996efa6c7d82b",
+      "webp_bytes": 9484,
+      "webp_sha256": "a22d24c17a7a5f8f6e4b13fa10b3c92eae8eeeb8c94697ef4a3ecef89a5ee921"
+    },
+    "wine-box": {
+      "source": "wine-box.png",
+      "source_sha256": "4aa29a3c504fbaff7b9b80bd7308f94104fe6312e6fa3a58d71713a662586bf0",
+      "webp_bytes": 16562,
+      "webp_sha256": "bfcb028afb1dc6e0e8163b17955fa53c665f5c25fac3e599806f698cda2a527d"
+    }
+  }
+}

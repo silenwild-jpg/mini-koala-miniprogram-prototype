@@ -1,0 +1,305 @@
+/* H01 LIFE-02: stores, six scenes, enterprise. V1.1.1 + lifestyle supplement.
+ * H01 new-user sections only; no business selectors/JS/data changes.
+ * Layered important overrides remain locally registered, no old rule deletion.
+ */
+@layer mk-v3 {
+  /* Reuse the existing harmonization line icons; no new image assets. */
+  body.koala-ui-v1.koala-h01 #nearNew .route-icon:is(.mk-icon-drive,.mk-icon-bike,.mk-icon-walk) {
+    display: inline-flex !important;
+    width: 16px !important;
+    height: 16px !important;
+    flex: 0 0 16px !important;
+    background-color: transparent !important;
+    background-size: 16px 16px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .route-icon.mk-icon-drive { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232F6B4F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 16h14l-1.2-6.1A2.4 2.4 0 0 0 15.4 8H8.6a2.4 2.4 0 0 0-2.4 1.9L5 16Z'/%3E%3Cpath d='M4 13h16v5H4z'/%3E%3Ccircle cx='7.5' cy='18' r='1.4'/%3E%3Ccircle cx='16.5' cy='18' r='1.4'/%3E%3C/svg%3E")!important; }
+  body.koala-ui-v1.koala-h01 #nearNew .route-icon.mk-icon-bike { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232F6B4F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5.5' cy='17' r='3.2'/%3E%3Ccircle cx='18.5' cy='17' r='3.2'/%3E%3Cpath d='M8 17l3.2-6h3.2l4.1 6M10.5 11 8 8h3M11.2 11l3.2 6H8'/%3E%3C/svg%3E")!important; }
+  body.koala-ui-v1.koala-h01 #nearNew .route-icon.mk-icon-walk { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232F6B4F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='13' cy='5' r='2'/%3E%3Cpath d='m11 9-2 5 3 2 1.5 5M11 10l4 3 3-1M9 14l-3 6'/%3E%3C/svg%3E")!important; }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-store {
+    box-shadow: none !important;
+    overflow: hidden !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-cover {
+    height: 116px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-body {
+    padding: 12px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-summary {
+    border-top: 0 !important;
+    margin-top: 10px !important;
+    padding-top: 0 !important;
+    grid-template-columns: minmax(0,1fr) auto !important;
+    grid-template-areas: "facts price" "tags price" !important;
+    align-items: end !important;
+    gap: 10px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-inventory b {
+    font-size: 13px !important;
+    line-height: 20px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-price-action {
+    border-left: 1px solid var(--koala-divider) !important;
+    border-top: 0 !important;
+    padding-left: 10px !important;
+    padding-top: 0 !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    align-items: center !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-price {
+    padding-top: 0 !important;
+    text-align: left !important;
+    min-width: 70px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-price::before {
+    position: static !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-price b {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline !important;
+    gap: 3px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .featured-price .price-unit {
+    margin: 0 !important;
+    white-space: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .store-alts {
+    display: grid !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .store-alt {
+    grid-template-columns: minmax(0,1fr) auto !important;
+    grid-template-areas: "title title" "route price" "tags price" !important;
+    padding: 12px !important;
+    border: 1px solid var(--koala-line) !important;
+    border-radius: var(--koala-radius) !important;
+    background: var(--koala-surface) !important;
+    gap: 4px 8px !important;
+    align-items: center !important;
+    box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .store-alt .alt-price {
+    min-width: 70px !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    padding-left: 0 !important;
+    border-left: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .store-alt .alt-price::before {
+    position: static !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .store-tags span {
+    background: var(--koala-surface) !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="stores"] .store-tags span:first-child {
+    background: var(--koala-brand-100) !important;
+  }
+  /* H01-CARD-01: left facts / right price, full-width title and tags.
+     Existing content, whole-card links and price semantics are unchanged. */
+  body.koala-ui-v1.koala-h01 #nearNew .featured-meta {
+    display: contents !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .featured-inventory {
+    grid-area: facts !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .featured-price-action {
+    grid-area: price !important;
+    align-self: end !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-tags {
+    grid-area: tags !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .featured-inventory b {
+    white-space: pre-line !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-name-line {
+    flex-wrap: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-name-line .store-place {
+    display: inline !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 400 !important;
+    color: var(--koala-text-3) !important;
+    margin: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-name-line .store-place::before {
+    content: "·";
+    margin-right: 4px;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .featured-store .store-name-line .card-corner-badge {
+    position: static !important;
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+    font-size: 12px !important;
+    line-height: 18px !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-alt > .left {
+    display: contents !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-alt .store-place {
+    grid-area: place !important;
+    margin-top: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-alt .route-info {
+    grid-area: route !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    align-self: center !important;
+    margin-top: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .route-icon {
+    display: none !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew :is(.featured-go,.store-alt .arrow) {
+    display: none !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-alt .top {
+    grid-area: title !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    padding-top: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-alt .top .card-corner-badge {
+    position: static !important;
+    flex: 0 0 auto !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-alt > .left + div {
+    grid-area: price !important;
+    align-self: end !important;
+    width: auto !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    border-top: 0 !important;
+    border-left: 1px solid var(--koala-divider) !important;
+    padding-left: 10px !important;
+    padding-top: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew :is(.featured-price,.alt-price) {
+    display: grid !important;
+    grid-template-columns: auto auto !important;
+    align-items: baseline !important;
+    justify-content: flex-start !important;
+    gap: 0 3px !important;
+    padding-top: 0 !important;
+    min-width: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew :is(.featured-price,.alt-price)::before {
+    grid-column: 1 / -1 !important;
+    position: static !important;
+    flex: 0 0 auto !important;
+    font-size: 12px !important;
+    line-height: 18px !important;
+    margin-right: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .featured-price b {
+    grid-column: 1 / -1 !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .price-num {
+    font-size: 24px !important;
+    line-height: 28px !important;
+    white-space: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .price-unit {
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-tags {
+    width: 100% !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    margin-top: 6px !important;
+  }
+  body.koala-ui-v1.koala-h01 #nearNew .store-tags > span:nth-child(n+3) {
+    display: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .scenegrid {
+    padding: 0 !important;
+    gap: 16px 8px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .scene {
+    padding: 0 2px !important;
+    min-height: 116px !important;
+    gap: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .scene > svg {
+    display: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .home-scene-art {
+    display: block !important;
+    width: 100px !important;
+    max-width: 100% !important;
+    height: 68px !important;
+    margin: 0 auto 4px !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .scene b {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .scene small {
+    font-size: 12px !important;
+    line-height: 16px !important;
+    color: var(--koala-text-2) !important;
+    margin-top: 2px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .home-other-scene {
+    margin-top: 14px !important;
+    min-height: 44px !important;
+    padding: 0 10px !important;
+    background: var(--koala-surface) !important;
+    border-radius: var(--koala-radius-sm) !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .enterprise-scene {
+    min-height: 72px !important;
+    padding: 12px !important;
+    border: 1px solid var(--koala-line) !important;
+    background: var(--koala-surface-2) !important;
+    box-shadow: none !important;
+    gap: 12px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .enterprise-scene b {
+    color: var(--koala-text) !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .enterprise-scene span {
+    color: var(--koala-text-2) !important;
+    font-size: 13px !important;
+    line-height: 18px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new[data-home-lifestyle="scenes"] .enterprise-scene em {
+    padding: 0 !important;
+    background: transparent !important;
+    color: var(--koala-brand) !important;
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+  }
+}

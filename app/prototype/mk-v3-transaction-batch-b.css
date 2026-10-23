@@ -1,0 +1,270 @@
+/* VIS-06C Batch B — Q01 / C02 / O01 / O02 / O03 visual-only transaction consolidation.
+   Opt-in from five route HTMLs. DO NOT redefine coupon logic, statuses, fixed-bar transforms,
+   global help, visibility, disabled states, prices or any navigation behavior.
+   Older inline styles use !important; every override is confined to the owning route.
+*/
+
+/* Quote: retain the main total-rent hierarchy and make the payment composition legible. */
+body.koala-site-shell.koala-q01 .header h1 {
+  font-size: 17px !important;
+  line-height: 24px !important;
+}
+body.koala-site-shell.koala-q01 .hero,
+body.koala-site-shell.koala-q01 .section {
+  border-color: var(--koala-line) !important;
+  border-radius: 14px !important;
+}
+body.koala-site-shell.koala-q01 .summary #total {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.4px;
+}
+body.koala-site-shell.koala-q01 .section h2,
+body.koala-site-shell.koala-q01 .quote-secondary summary b {
+  color: var(--koala-text) !important;
+  font-size: 17px !important;
+  line-height: 24px !important;
+}
+body.koala-site-shell.koala-q01 .section .rows .row {
+  font-size: 14px !important;
+  line-height: 20px !important;
+  border-color: var(--koala-divider) !important;
+}
+body.koala-site-shell.koala-q01 .section .rows .row > :first-child {
+  color: var(--koala-text-2) !important;
+  min-width: 0;
+}
+body.koala-site-shell.koala-q01 .section .rows .row > b {
+  color: var(--koala-text) !important;
+  font-weight: 650 !important;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+body.koala-site-shell.koala-q01 #initialPayableRow {
+  /* Keep Q01 line geometry near baseline while P2-3 FAB collision is deferred. */
+  color: #B85A16 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  font-weight: 700 !important;
+}
+body.koala-site-shell.koala-q01 .quote-trust,
+body.koala-site-shell.koala-q01 .quote-trust span,
+body.koala-site-shell.koala-q01 .quote-save-note,
+body.koala-site-shell.koala-q01 .quote-secondary-body,
+body.koala-site-shell.koala-q01 .hint {
+  font-size: 12px !important;
+  line-height: 19px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-q01 .quote-trust b,
+body.koala-site-shell.koala-q01 .quote-save-note b {
+  color: var(--koala-text) !important;
+  font-weight: 650 !important;
+}
+body.koala-site-shell.koala-q01 .bottombar button {
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* C02: the P1 bottom bar transform/position rules are intentionally untouched.
+   Visual refinements affect legibility of real coupon values and tappable selection buttons only. */
+body.koala-site-shell.koala-c02 .coupon-top h1 {
+  font-size: 17px !important;
+  line-height: 24px !important;
+  color: var(--koala-text) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-main {
+  /* Voucher list should remain scrollable past the existing two-button footer. */
+  padding-bottom: calc(126px + env(safe-area-inset-bottom)) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-summary {
+  background: var(--koala-brand-100) !important;
+  border: 1px solid var(--koala-line) !important;
+  border-radius: 14px !important;
+  padding: 14px !important;
+}
+body.koala-site-shell.koala-c02 .coupon-summary b {
+  font-size: 16px !important;
+  line-height: 23px !important;
+  color: var(--koala-brand-700) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-summary span {
+  font-size: 13px !important;
+  line-height: 19px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-section-title {
+  font-size: 14px !important;
+  line-height: 20px !important;
+  color: var(--koala-text-2) !important;
+  font-weight: 650;
+}
+body.koala-site-shell.koala-c02 .coupon-card {
+  border-color: var(--koala-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 8px rgba(31, 41, 35, .05) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-card-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--koala-price) !important;
+  font-size: 26px !important;
+  font-weight: 750 !important;
+}
+body.koala-site-shell.koala-c02 .coupon-card-name {
+  font-size: 15px !important;
+  line-height: 22px !important;
+  color: var(--koala-text) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-card-desc,
+body.koala-site-shell.koala-c02 .coupon-card-foot span {
+  font-size: 12px !important;
+  line-height: 18px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-card-foot { border-color: var(--koala-divider) !important; }
+body.koala-site-shell.koala-c02 .coupon-action {
+  min-height: 40px !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  padding: 0 14px !important;
+  border-color: var(--koala-brand) !important;
+  color: var(--koala-brand-700) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-action.primary {
+  color: white !important;
+  background-color: var(--koala-brand) !important;
+}
+body.koala-site-shell.koala-c02 .coupon-bottom button {
+  font-size: 14px !important;
+  font-weight: 650 !important;
+}
+body.koala-site-shell.koala-c02 .coupon-bottom .coupon-none {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* O02: completed/pending/failed/inventory_changed remain state-controlled. */
+body.koala-site-shell.koala-o02 .header h1,
+body.koala-site-shell.koala-o03 .header h1 {
+  font-size: 17px !important;
+  line-height: 24px !important;
+}
+body.koala-site-shell.koala-o02 .hero,
+body.koala-site-shell.koala-o03 .status {
+  border-radius: 14px !important;
+  border-color: var(--koala-line) !important;
+}
+body.koala-site-shell.koala-o02 .hero p,
+body.koala-site-shell.koala-o03 .status p {
+  font-size: 13px !important;
+  line-height: 20px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-o02 .section h3,
+body.koala-site-shell.koala-o03 .section h3 {
+  font-size: 17px !important;
+  line-height: 24px !important;
+  color: var(--koala-text) !important;
+}
+body.koala-site-shell.koala-o02 .order .price {
+  font-size: 30px !important;
+  line-height: 36px !important;
+  color: var(--koala-price) !important;
+  font-variant-numeric: tabular-nums;
+}
+body.koala-site-shell.koala-o02 .row,
+body.koala-site-shell.koala-o03 .row {
+  border-color: var(--koala-divider) !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+body.koala-site-shell.koala-o02 .row > span,
+body.koala-site-shell.koala-o03 .row > span {
+  min-width: 0;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-o02 .row > b,
+body.koala-site-shell.koala-o03 .row > b {
+  color: var(--koala-text) !important;
+  font-weight: 650 !important;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+body.koala-site-shell.koala-o02 .next p,
+body.koala-site-shell.koala-o02 .lock-note {
+  font-size: 13px !important;
+  line-height: 20px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-o02 :is(.password-card .label,.alt-card span) {
+  font-size: 12px !important;
+  line-height: 18px !important;
+}
+body.koala-site-shell.koala-o02 .bottombar button,
+body.koala-site-shell.koala-o03 .bottombar button {
+  font-size: 14px !important;
+  font-weight: 650 !important;
+}
+
+/* O03: order details, operation rows and service cards. Keep every status/class and DOM route. */
+body.koala-site-shell.koala-o03 .status-tag {
+  font-size: 12px !important;
+  line-height: 18px !important;
+}
+body.koala-site-shell.koala-o03 .unit-card .unit {
+  font-size: 18px !important;
+  line-height: 26px !important;
+  color: var(--koala-text) !important;
+}
+body.koala-site-shell.koala-o03 .quick button {
+  min-height: 44px !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  border-color: var(--koala-line) !important;
+}
+body.koala-site-shell.koala-o03 .action-card b {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+body.koala-site-shell.koala-o03 .action-card span,
+body.koala-site-shell.koala-o03 .action-card em,
+body.koala-site-shell.koala-o03 .transport-entitlement p,
+body.koala-site-shell.koala-o03 .referral-card p {
+  font-size: 12px !important;
+  line-height: 19px !important;
+}
+body.koala-site-shell.koala-o03 #paidTotalText {
+  color: #B85A16 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+}
+body.koala-site-shell.koala-o03 .sheet-actions button {
+  min-height: 48px !important;
+  font-size: 14px !important;
+  border-radius: 12px !important;
+}
+
+/* O01 already has a complete V3 component implementation: only close identified detail gaps.
+   Place within its existing mk-v3 layer so its layered !important rules win over
+   older unlayered legacy styles without changing payable/coupon/checkout behavior. */
+@layer mk-v3 {
+  body.koala-ui-v1.koala-o01 .payable-hero #payableTotal {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.4px;
+  }
+  body.koala-ui-v1.koala-o01 .payment-rows .row > span {
+    min-width: 0 !important;
+    overflow-wrap: break-word;
+  }
+  body.koala-ui-v1.koala-o01 :is(.sheet-desc,.sheet-tip) {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    color: var(--koala-text-2) !important;
+  }
+  body.koala-ui-v1.koala-o01 .sheet .sheet-confirm {
+    min-height: 48px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+  }
+}

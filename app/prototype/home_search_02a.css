@@ -1,0 +1,12 @@
+/* HOME-SEARCH-02A · Banner edge search with independent city and search actions. */
+.mk-home-search-a-wrap{position:relative;z-index:3;box-sizing:border-box;display:flex;align-items:center;min-width:0;height:54px;margin:-18px 28px 14px;border:1px solid #edf0ed;border-radius:28px;background:#fff;box-shadow:0 8px 24px rgba(18,56,42,.12)}
+.mk-home-search-city,.mk-home-search-a{appearance:none;-webkit-appearance:none;display:flex;align-items:center;height:100%;min-width:0;border:0;background:transparent;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mk-home-search-city{flex:0 0 auto;gap:5px;padding:0 14px 0 18px;color:#1f3027;font-size:14px;font-weight:700;white-space:nowrap}
+.mk-home-search-city span:last-child{font-size:17px;line-height:1}
+.mk-home-search-divider{width:1px;height:24px;flex:0 0 1px;background:#dbe2dd}
+.mk-home-search-a{flex:1;gap:9px;padding:0 10px 0 13px;color:#829087;text-align:left}
+.mk-home-search-city:active,.mk-home-search-a:active{background:#f5faf7}
+.mk-home-search-city:focus-visible,.mk-home-search-a:focus-visible{outline:3px solid #2f9977;outline-offset:-3px;border-radius:28px}
+.mk-home-search-a svg{width:19px;height:19px;flex:0 0 19px;color:#8b9790;stroke-width:2}
+.mk-home-search-a-label{font-size:13px;line-height:20px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:500}
+@media(max-width:360px){.mk-home-search-a-wrap{margin-left:22px;margin-right:22px}.mk-home-search-city{padding-left:14px;padding-right:10px;font-size:13px}.mk-home-search-a{padding-left:10px}.mk-home-search-a-label{font-size:12px}}

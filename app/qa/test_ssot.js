@@ -1,0 +1,14 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const data=new Map();global.localStorage={getItem:k=>data.has(k)?data.get(k):null,setItem:(k,v)=>data.set(k,String(v)),removeItem:k=>data.delete(k)};global.window={};
+vm.runInThisContext(fs.readFileSync(process.argv[2],'utf8'),{filename:'mini_storage_business_ssot_v274.js'});
+const R=window.MINI_STORAGE_REPO_V242,L=window.MINI_STORAGE_LIFECYCLE_V242;
+const ended={order_no:'OLD',status:'PAID',payment_status:'PAID',store_id:'jianguo',unit_id:'C008',start_date:'2025-01-01',term_months:1,lease_status:'ENDED',access_status:'CLOSED',payable_total:100,lock_code:'1111'};
+R.saveCurrent(ended);
+const pending={order_no:'NEW',status:'PENDING_PAYMENT',payment_status:'PAYING',store_id:'jianguo',unit_id:'A038',start_date:'2026-10-01',term_months:6,payable_total:520};
+R.saveCurrent(pending);
+assert.equal(R.getCurrent().order_no,'NEW');assert(R.findOrder('OLD'));assert.equal(R.findOrder('OLD').lease_status,'ENDED');
+assert.equal(L.derive(pending,new Date('2026-09-20T00:00:00Z')).state,'not_paid');
+const paid={...pending,status:'PAID',payment_status:'PAID',paid_at:'2026-09-20T00:00:00Z'};R.saveCurrent(paid);R.ensureInitialPayment(paid);R.ensureInitialPayment(paid);
+const payments=R.getPayments().filter(x=>x.order_no==='NEW');assert.equal(payments.length,1);assert.equal(payments[0].amount,520);
+assert.equal(L.derive(paid,new Date('2026-09-20T00:00:00Z')).state,'upcoming');
+console.log('PASS repository history isolation');console.log('PASS initial payment idempotency');console.log('PASS lifecycle state derivation');

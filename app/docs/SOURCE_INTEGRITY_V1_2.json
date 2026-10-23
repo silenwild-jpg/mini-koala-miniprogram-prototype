@@ -1,0 +1,19 @@
+{
+  "source_archive": "Mini_Koala_Confirmed_UX_Merge_PATCH_V1_1.zip",
+  "original_file_count": 497,
+  "file_count_before_manifest": 504,
+  "changed_original_files": [
+    "qa/test_store_card_unification_v1.cjs"
+  ],
+  "missing_original_files": [],
+  "new_files": [
+    "README_CROSS_BRANCH_CONTINUE.md",
+    "RUN_FOUR_PAGE_QA.cmd",
+    "assets/reference/mini_koala_components_ABCD_reference.png",
+    "docs/CROSS_BRANCH_UI_PHASE1_MERGE_V1_2.md",
+    "docs/INDEPENDENT_DEMO_ACCEPTANCE_PROMPT_V1_2.md",
+    "outputs/four_page_http_acceptance/results.json",
+    "qa/run_four_page_http_visual_acceptance.py"
+  ],
+  "source_code_business_files_changed": []
+}

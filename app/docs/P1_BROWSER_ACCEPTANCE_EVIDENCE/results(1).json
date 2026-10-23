@@ -1,0 +1,374 @@
+{
+  "checks": [
+    {
+      "check": "375x812 A C02 #auto/#none inside viewport and hit-testable",
+      "pass": true,
+      "detail": "[{'s': '#auto', 'x': 16, 'right': 359, 'y': 716, 'bottom': 764, 'inside': True, 'hit': True}, {'s': '#none', 'x': 16, 'right': 359, 'y': 770, 'bottom': 802, 'inside': True, 'hit': True}]"
+    },
+    {
+      "check": "375x812 A C02 #auto click navigates back to U01 and sets auto mode",
+      "pass": true,
+      "detail": "('http://127.0.0.1:4300/prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html?unit=BJ0498S01B001&store=jianguo&target=5.0&term=12&fromS01State=estimated', {'mode': 'auto', 'coupon_id': None, 'updated_at': '2026-10-13T14:35:32.393Z'})"
+    },
+    {
+      "check": "375x812 A C02 #none click navigates back to U01 and sets none mode",
+      "pass": true,
+      "detail": "('http://127.0.0.1:4300/prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html?unit=BJ0498S01B001&store=jianguo&target=5.0&term=12&fromS01State=estimated', {'mode': 'none', 'coupon_id': None, 'updated_at': '2026-10-13T14:35:33.403Z'})"
+    },
+    {
+      "check": "375x812 A pay enabled",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "375x812 A order PAID without coupon",
+      "pass": true,
+      "detail": "{'status': 'PAID', 'user_coupon_id': None, 'payable_total': 7742}"
+    },
+    {
+      "check": "375x812 A other-order LOCKED row byte-identical",
+      "pass": true,
+      "detail": "({'user_coupon_id': 'UC-CPN-003-T', 'coupon_id': 'CPN-003', 'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'applied_quote_id': 'Q-OTHER', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST'}, {'user_coupon_id': 'UC-CPN-003-T', 'coupon_id': 'CPN-003', 'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'applied_quote_id': 'Q-OTHER', 'claim_"
+    },
+    {
+      "check": "375x812 A unspent NEW coupons invalidated and unlocked",
+      "pass": true,
+      "detail": "[{'user_coupon_id': 'UC-CPN-001-T', 'coupon_id': 'CPN-001', 'status': 'INVALID', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST', 'invalid_reason': 'NEW_CUSTOMER_COMPLETED'}, {'user_coupon_id': 'UC-CPN-002-T', 'coupon_id': 'CPN-002', 'status': 'INVALID', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'sourc"
+    },
+    {
+      "check": "375x812 A O02 paid amount == order payable_total == O01 payable",
+      "pass": true,
+      "detail": "('已支付 ¥7,742', '¥7,742', 7742)"
+    },
+    {
+      "check": "375x812 A repeat O02 keeps wallet identical and payment rows count stable",
+      "pass": true,
+      "detail": "(1, 1)"
+    },
+    {
+      "check": "375x812 B pending order locks CPN-001 to it",
+      "pass": true,
+      "detail": "('PENDING_PAYMENT', {'CPN-001': {'status': 'LOCKED', 'locked_order_id': 'O2610132141794', 'redeemed_order_id': None, 'user_coupon_id': 'UC-CPN-001-T'}, 'CPN-002': {'status': 'CLAIMED', 'locked_order_id': None, 'redeemed_order_id': None, 'user_coupon_id': 'UC-CPN-002-T'}, 'CPN-003': {'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'redeemed_order_id': None, 'user_coupon_id': 'UC-CPN-003-T'}})"
+    },
+    {
+      "check": "375x812 B same order_no reused and PAID with CPN-002",
+      "pass": true,
+      "detail": "('O2610132141794', 'O2610132141794', 'CPN-002')"
+    },
+    {
+      "check": "375x812 B CPN-002 REDEEMED to this order, lock cleared",
+      "pass": true,
+      "detail": "{'user_coupon_id': 'UC-CPN-002-T', 'coupon_id': 'CPN-002', 'status': 'REDEEMED', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST', 'locked_order_id': None, 'applied_quote_id': None, 'redeemed_order_id': 'O2610132141794', 'redeemed_time': '2026-10-13T14:35:46.810Z'}"
+    },
+    {
+      "check": "375x812 B old CPN-001 no longer LOCKED (INVALID, no lock)",
+      "pass": true,
+      "detail": "{'user_coupon_id': 'UC-CPN-001-T', 'coupon_id': 'CPN-001', 'status': 'INVALID', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST', 'locked_order_id': None, 'applied_quote_id': None, 'invalid_reason': 'NEW_CUSTOMER_COMPLETED'}"
+    },
+    {
+      "check": "375x812 B other-order CPN-003 LOCKED preserved",
+      "pass": true,
+      "detail": "{'user_coupon_id': 'UC-CPN-003-T', 'coupon_id': 'CPN-003', 'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'applied_quote_id': 'Q-OTHER', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST'}"
+    },
+    {
+      "check": "375x812 B O02 amount == payable_total == O01 payable",
+      "pass": true,
+      "detail": "('已支付 ¥7,442', '¥7,442', 7442)"
+    },
+    {
+      "check": "375x812 B repeat O02 (reload x2 + M01 + direct URL) idempotent: wallet identical, redeemed_time unchanged, payment rows stable",
+      "pass": true,
+      "detail": "('2026-10-13T14:35:46.810Z', '2026-10-13T14:35:46.810Z', 1, 1)"
+    },
+    {
+      "check": "390x844 A C02 #auto/#none inside viewport and hit-testable",
+      "pass": true,
+      "detail": "[{'s': '#auto', 'x': 16, 'right': 374, 'y': 748, 'bottom': 796, 'inside': True, 'hit': True}, {'s': '#none', 'x': 16, 'right': 374, 'y': 802, 'bottom': 834, 'inside': True, 'hit': True}]"
+    },
+    {
+      "check": "390x844 A C02 #auto click navigates back to U01 and sets auto mode",
+      "pass": true,
+      "detail": "('http://127.0.0.1:4300/prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html?unit=BJ0498S01B001&store=jianguo&target=5.0&term=12&fromS01State=estimated', {'mode': 'auto', 'coupon_id': None, 'updated_at': '2026-10-13T14:35:56.968Z'})"
+    },
+    {
+      "check": "390x844 A C02 #none click navigates back to U01 and sets none mode",
+      "pass": true,
+      "detail": "('http://127.0.0.1:4300/prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html?unit=BJ0498S01B001&store=jianguo&target=5.0&term=12&fromS01State=estimated', {'mode': 'none', 'coupon_id': None, 'updated_at': '2026-10-13T14:35:57.955Z'})"
+    },
+    {
+      "check": "390x844 A pay enabled",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "390x844 A order PAID without coupon",
+      "pass": true,
+      "detail": "{'status': 'PAID', 'user_coupon_id': None, 'payable_total': 7742}"
+    },
+    {
+      "check": "390x844 A other-order LOCKED row byte-identical",
+      "pass": true,
+      "detail": "({'user_coupon_id': 'UC-CPN-003-T', 'coupon_id': 'CPN-003', 'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'applied_quote_id': 'Q-OTHER', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST'}, {'user_coupon_id': 'UC-CPN-003-T', 'coupon_id': 'CPN-003', 'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'applied_quote_id': 'Q-OTHER', 'claim_"
+    },
+    {
+      "check": "390x844 A unspent NEW coupons invalidated and unlocked",
+      "pass": true,
+      "detail": "[{'user_coupon_id': 'UC-CPN-001-T', 'coupon_id': 'CPN-001', 'status': 'INVALID', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST', 'invalid_reason': 'NEW_CUSTOMER_COMPLETED'}, {'user_coupon_id': 'UC-CPN-002-T', 'coupon_id': 'CPN-002', 'status': 'INVALID', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'sourc"
+    },
+    {
+      "check": "390x844 A O02 paid amount == order payable_total == O01 payable",
+      "pass": true,
+      "detail": "('已支付 ¥7,742', '¥7,742', 7742)"
+    },
+    {
+      "check": "390x844 A repeat O02 keeps wallet identical and payment rows count stable",
+      "pass": true,
+      "detail": "(1, 1)"
+    },
+    {
+      "check": "390x844 B pending order locks CPN-001 to it",
+      "pass": true,
+      "detail": "('PENDING_PAYMENT', {'CPN-001': {'status': 'LOCKED', 'locked_order_id': 'O2610132166410', 'redeemed_order_id': None, 'user_coupon_id': 'UC-CPN-001-T'}, 'CPN-002': {'status': 'CLAIMED', 'locked_order_id': None, 'redeemed_order_id': None, 'user_coupon_id': 'UC-CPN-002-T'}, 'CPN-003': {'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'redeemed_order_id': None, 'user_coupon_id': 'UC-CPN-003-T'}})"
+    },
+    {
+      "check": "390x844 B same order_no reused and PAID with CPN-002",
+      "pass": true,
+      "detail": "('O2610132166410', 'O2610132166410', 'CPN-002')"
+    },
+    {
+      "check": "390x844 B CPN-002 REDEEMED to this order, lock cleared",
+      "pass": true,
+      "detail": "{'user_coupon_id': 'UC-CPN-002-T', 'coupon_id': 'CPN-002', 'status': 'REDEEMED', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST', 'locked_order_id': None, 'applied_quote_id': None, 'redeemed_order_id': 'O2610132166410', 'redeemed_time': '2026-10-13T14:36:11.186Z'}"
+    },
+    {
+      "check": "390x844 B old CPN-001 no longer LOCKED (INVALID, no lock)",
+      "pass": true,
+      "detail": "{'user_coupon_id': 'UC-CPN-001-T', 'coupon_id': 'CPN-001', 'status': 'INVALID', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST', 'locked_order_id': None, 'applied_quote_id': None, 'invalid_reason': 'NEW_CUSTOMER_COMPLETED'}"
+    },
+    {
+      "check": "390x844 B other-order CPN-003 LOCKED preserved",
+      "pass": true,
+      "detail": "{'user_coupon_id': 'UC-CPN-003-T', 'coupon_id': 'CPN-003', 'status': 'LOCKED', 'locked_order_id': 'O-OTHER-999', 'applied_quote_id': 'Q-OTHER', 'claim_time': '2026-10-13T00:00:00.000Z', 'expire_time': '2026-10-20T00:00:00.000Z', 'source': 'TEST'}"
+    },
+    {
+      "check": "390x844 B O02 amount == payable_total == O01 payable",
+      "pass": true,
+      "detail": "('已支付 ¥7,442', '¥7,442', 7442)"
+    },
+    {
+      "check": "390x844 B repeat O02 (reload x2 + M01 + direct URL) idempotent: wallet identical, redeemed_time unchanged, payment rows stable",
+      "pass": true,
+      "detail": "('2026-10-13T14:36:11.186Z', '2026-10-13T14:36:11.186Z', 1, 1)"
+    },
+    {
+      "check": "no page/console errors across all runs",
+      "pass": true,
+      "detail": "[]"
+    }
+  ],
+  "A": {
+    "375x812": {
+      "order_no": "O2610132136128",
+      "payable_total": 7742,
+      "o01_payable": "¥7,742",
+      "o02_amount": "已支付 ¥7,742",
+      "payments_for_order": 1,
+      "wallet": [
+        {
+          "user_coupon_id": "UC-CPN-001-T",
+          "coupon_id": "CPN-001",
+          "status": "INVALID",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "invalid_reason": "NEW_CUSTOMER_COMPLETED"
+        },
+        {
+          "user_coupon_id": "UC-CPN-002-T",
+          "coupon_id": "CPN-002",
+          "status": "INVALID",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "invalid_reason": "NEW_CUSTOMER_COMPLETED"
+        },
+        {
+          "user_coupon_id": "UC-CPN-003-T",
+          "coupon_id": "CPN-003",
+          "status": "LOCKED",
+          "locked_order_id": "O-OTHER-999",
+          "applied_quote_id": "Q-OTHER",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST"
+        }
+      ]
+    },
+    "390x844": {
+      "order_no": "O2610132160710",
+      "payable_total": 7742,
+      "o01_payable": "¥7,742",
+      "o02_amount": "已支付 ¥7,742",
+      "payments_for_order": 1,
+      "wallet": [
+        {
+          "user_coupon_id": "UC-CPN-001-T",
+          "coupon_id": "CPN-001",
+          "status": "INVALID",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "invalid_reason": "NEW_CUSTOMER_COMPLETED"
+        },
+        {
+          "user_coupon_id": "UC-CPN-002-T",
+          "coupon_id": "CPN-002",
+          "status": "INVALID",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "invalid_reason": "NEW_CUSTOMER_COMPLETED"
+        },
+        {
+          "user_coupon_id": "UC-CPN-003-T",
+          "coupon_id": "CPN-003",
+          "status": "LOCKED",
+          "locked_order_id": "O-OTHER-999",
+          "applied_quote_id": "Q-OTHER",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST"
+        }
+      ]
+    }
+  },
+  "B": {
+    "375x812": {
+      "order_no": "O2610132141794",
+      "payable_total": 7442,
+      "o01_payable": "¥7,442",
+      "o02_amount": "已支付 ¥7,442",
+      "payments_for_order": 1,
+      "wallet": [
+        {
+          "user_coupon_id": "UC-CPN-001-T",
+          "coupon_id": "CPN-001",
+          "status": "INVALID",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "locked_order_id": null,
+          "applied_quote_id": null,
+          "invalid_reason": "NEW_CUSTOMER_COMPLETED"
+        },
+        {
+          "user_coupon_id": "UC-CPN-002-T",
+          "coupon_id": "CPN-002",
+          "status": "REDEEMED",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "locked_order_id": null,
+          "applied_quote_id": null,
+          "redeemed_order_id": "O2610132141794",
+          "redeemed_time": "2026-10-13T14:35:46.810Z"
+        },
+        {
+          "user_coupon_id": "UC-CPN-003-T",
+          "coupon_id": "CPN-003",
+          "status": "LOCKED",
+          "locked_order_id": "O-OTHER-999",
+          "applied_quote_id": "Q-OTHER",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST"
+        }
+      ]
+    },
+    "390x844": {
+      "order_no": "O2610132166410",
+      "payable_total": 7442,
+      "o01_payable": "¥7,442",
+      "o02_amount": "已支付 ¥7,442",
+      "payments_for_order": 1,
+      "wallet": [
+        {
+          "user_coupon_id": "UC-CPN-001-T",
+          "coupon_id": "CPN-001",
+          "status": "INVALID",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "locked_order_id": null,
+          "applied_quote_id": null,
+          "invalid_reason": "NEW_CUSTOMER_COMPLETED"
+        },
+        {
+          "user_coupon_id": "UC-CPN-002-T",
+          "coupon_id": "CPN-002",
+          "status": "REDEEMED",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST",
+          "locked_order_id": null,
+          "applied_quote_id": null,
+          "redeemed_order_id": "O2610132166410",
+          "redeemed_time": "2026-10-13T14:36:11.186Z"
+        },
+        {
+          "user_coupon_id": "UC-CPN-003-T",
+          "coupon_id": "CPN-003",
+          "status": "LOCKED",
+          "locked_order_id": "O-OTHER-999",
+          "applied_quote_id": "Q-OTHER",
+          "claim_time": "2026-10-13T00:00:00.000Z",
+          "expire_time": "2026-10-20T00:00:00.000Z",
+          "source": "TEST"
+        }
+      ]
+    }
+  },
+  "C_before": {
+    "375x812": [
+      {
+        "s": ".coupon-bottom",
+        "x": -187.5,
+        "right": 187.5,
+        "tf": "matrix(1, 0, 0, 1, -187.5, 0)"
+      },
+      {
+        "s": "#auto",
+        "x": -171.5,
+        "right": 171.5,
+        "tf": "none"
+      },
+      {
+        "s": "#none",
+        "x": -171.5,
+        "right": 171.5,
+        "tf": "none"
+      }
+    ],
+    "390x844": [
+      {
+        "s": ".coupon-bottom",
+        "x": -195,
+        "right": 195,
+        "tf": "matrix(1, 0, 0, 1, -195, 0)"
+      },
+      {
+        "s": "#auto",
+        "x": -179,
+        "right": 179,
+        "tf": "none"
+      },
+      {
+        "s": "#none",
+        "x": -179,
+        "right": 179,
+        "tf": "none"
+      }
+    ]
+  },
+  "console_errors": []
+}

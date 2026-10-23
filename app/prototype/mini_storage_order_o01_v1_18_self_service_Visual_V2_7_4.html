@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" class="vis-bg01" data-vis-page="O01">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>O01 订单确认｜直接租用</title>
+<style>
+:root{--bg:#eef2f4;--text:#1f2a33;--muted:#75828c;--line:#dbe2e7;--primary:#24748a;--soft:#edf6f8;--warn:#fff8e8;--shadow:0 10px 28px rgba(32,50,61,.10)}
+*{box-sizing:border-box}body{margin:0;background:#dde3e7;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+button,input{font:inherit}.shell{width:390px;max-width:100%;height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.page{height:100%;overflow:auto;padding-bottom:92px}.header{height:48px;background:#fff;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.back,.more{text-align:center;font-size:20px;color:#43535d;cursor:pointer}.header h1{text-align:center;font-size:15px;margin:0}
+.section{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 12px;margin-top:9px}.section:first-of-type{margin-top:0}
+.section h2{font-size:15px;margin:0 0 10px}.order-card{background:#f7fbfc;border:1px solid #d8e7eb;border-radius:13px;padding:12px}.unit{font-size:18px;font-weight:900}.meta{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5}
+.rows{display:flex;flex-direction:column}.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #eef2f4;font-size:10px}.row:last-child{border:0}.row span{color:var(--muted)}.row b{text-align:right}
+.price{font-size:23px;font-weight:900;color:var(--primary)}.total{font-size:15px;font-weight:900}.hint{font-size:9px;color:var(--muted);line-height:1.55;margin-top:8px}
+.contact{border:1px solid #d6e4e8;background:#f7fbfc;border-radius:11px;padding:10px}.contact b{display:block;font-size:11px}.contact span{font-size:9px;color:var(--muted);margin-top:3px;display:block}
+.input{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;padding:0 11px;font-size:11px}.wx{width:100%;margin-top:8px;border:1px solid var(--primary);background:#fff;color:var(--primary);border-radius:10px;padding:9px;font-size:9px;font-weight:900;cursor:pointer}
+.agreement{font-size:9px;color:#596871;line-height:1.6}.snapshot{background:#fafcfd;border:1px dashed #d5dfe4;border-radius:11px;padding:9px 10px}.snapshot .row{font-family:ui-monospace,Menlo,monospace;font-size:8px}
+.bottombar{position:absolute;left:0;right:0;bottom:0;height:76px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:112px 1fr;gap:8px;padding:10px 12px;z-index:25}.bottombar button{border-radius:11px;font-size:11px;font-weight:900;cursor:pointer}.secondary{border:1px solid var(--line);background:#fff}.primary{border:0;background:var(--primary);color:#fff}
+.hidden{display:none!important}.toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);background:#24323a;color:#fff;font-size:10px;padding:8px 12px;border-radius:9px;display:none;z-index:70;white-space:nowrap}
+
+
+
+.checkout-trust{font-size:8px;color:var(--muted);line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px solid #eef2f4}
+
+
+/* UX polish */
+
+.review-only{display:none!important}.meta{font-size:11px!important}.row{font-size:12px!important}.hint{font-size:11px!important}.contact b{font-size:13px!important}.contact span{font-size:11px!important}.input{font-size:13px!important}.wx{font-size:12px!important}.agreement{font-size:11px!important}.checkout-trust{font-size:10px!important}.bottombar button{font-size:13px!important}
+
+
+/* User clarity iteration */
+
+.date-input{border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff;color:var(--text);font-weight:800;font-size:12px;max-width:145px}.start-date-row{align-items:center}
+.storage-notice{border:1px solid #e6dfc9;background:#fffaf0;border-radius:12px;padding:10px;display:flex;gap:9px;justify-content:space-between;align-items:center}.storage-notice b{display:block;font-size:13px}.storage-notice span{display:block;font-size:11px;color:#6d6248;line-height:1.5;margin-top:3px}.storage-notice button{border:0;background:transparent;color:var(--primary);font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer}
+.pay-after{border:1px solid #cfe2e7;background:#f4fafb;border-radius:12px;padding:11px}.pay-after b{display:block;font-size:14px;margin-bottom:6px}.pay-after .item{font-size:12px;line-height:1.6;color:#3f5661}.pay-after .item strong{color:var(--primary)}
+.order-rules{margin-top:9px;border-top:1px solid #e7edef;padding-top:9px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;color:var(--muted)}.order-rules button{border:0;background:transparent;color:var(--primary);font-size:11px;font-weight:900;cursor:pointer}.potential-benefit{border:1px solid #efdfbd;background:#fff8e8;border-radius:11px;padding:10px;margin-top:9px}.potential-benefit b{font-size:13px}.potential-benefit span{display:block;font-size:11px;color:#6f6042;line-height:1.5;margin-top:3px}.pay-amount{font-variant-numeric:tabular-nums}
+.sheet-mask{position:absolute;inset:0;background:rgba(20,30,36,.34);z-index:90;display:none}.sheet-mask.show{display:block}.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:14px 14px 20px;max-height:82%;overflow:auto}.handle{width:36px;height:4px;border-radius:999px;background:#d4dade;margin:0 auto 11px}.sheet h3{font-size:17px;margin:0 0 6px}.sheet-desc,.sheet-tip{font-size:11px;color:var(--muted);line-height:1.55}.prohibited-list{margin-top:10px}.prohibited-list>div{padding:9px 0;border-bottom:1px solid #eef2f4}.prohibited-list b{display:block;font-size:12px}.prohibited-list span{display:block;font-size:11px;color:var(--muted);line-height:1.45;margin-top:2px}.sheet-tip{margin-top:10px}.sheet-confirm{width:100%;height:44px;border:0;border-radius:11px;background:var(--primary);color:#fff;font-weight:900;margin-top:12px;cursor:pointer}
+
+
+/* Referral benefit */
+.referral-benefit{border:1px solid #cfe2e7;background:#f4fafb;border-radius:11px;padding:10px;margin-top:9px}.referral-benefit .ey{font-size:10px;color:var(--primary);font-weight:900}.referral-benefit b{display:block;font-size:13px;margin-top:3px}.referral-benefit span{display:block;font-size:11px;color:var(--muted);line-height:1.5;margin-top:3px}
+</style>
+<style id="h01-visual-system-v21-migration">
+
+:root{--ms-bg:#FBF8F2;--ms-surface:#FFFDFC;--ms-text:#282F2B;--ms-muted:#6F7671;--ms-line:#E7E0D7;--ms-green:#2D7154;--ms-green-soft:#EEF5F0;--ms-green-deep:#294638;--ms-orange:#E77A3A;--ms-sand:#F6EFE5;--ms-shadow:0 8px 24px rgba(56,48,38,.065);--ms-shadow-soft:0 4px 14px rgba(56,48,38,.045)}
+html,body{background:#EEE9E1!important;color:var(--ms-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+.shell,.app{background:var(--ms-bg)!important;box-shadow:0 22px 52px rgba(48,43,35,.14)!important}
+.header,.nav,.tabbar,.bottombar,.bottom{background:rgba(255,253,249,.96)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.header,.nav{border-bottom:1px solid rgba(231,224,215,.78)!important}.header h1,.nav b{color:var(--ms-text)!important;font-weight:850!important}.back,.more{color:#4B5B52!important}
+h1,h2,h3{color:var(--ms-text)}.meta,.sub,.hint,.label,.eyebrow{color:var(--ms-muted)}
+.primary,.solid,.apply{background:var(--ms-green)!important;border-color:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.14)!important}
+.secondary,.outline{background:var(--ms-surface)!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}
+.price,.total{color:var(--ms-orange)!important}
+input,select,textarea{background:#FFF!important;border-color:var(--ms-line)!important;color:var(--ms-text)!important}
+@media(max-width:650px){html,body{background:var(--ms-bg)!important}.shell,.app{box-shadow:none!important}}
+
+.page{background:var(--ms-bg)!important}.section{margin:10px!important;background:var(--ms-surface)!important;border:1px solid var(--ms-line)!important;border-radius:18px!important;box-shadow:var(--ms-shadow-soft)!important;padding:14px 12px!important}
+.order-card{background:#FFF!important;border:0!important;border-radius:15px!important}.order-card .unit{color:#29332E!important;font-weight:880!important}.rows{border-color:#ECE6DE!important;border-radius:13px!important;overflow:hidden}.row{background:#FFF!important;border-color:#EFE9E2!important}.row .price,.row .total{font-weight:900!important}
+.contact,.promo-box,.policy-box,.hint{border-radius:12px!important}.contact{background:var(--ms-green-soft)!important;border-color:#D9E5DD!important}.wx{background:#FFF!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}.date-input,.input{border-radius:11px!important}.bottombar{border-top:1px solid var(--ms-line)!important;box-shadow:0 -5px 18px rgba(62,54,42,.04)!important}
+.sheet{background:var(--ms-surface)!important}.sheet-confirm{background:var(--ms-green)!important;color:#fff!important;border-color:var(--ms-green)!important}
+
+</style>
+<style id="visual-v22-qa-closeout">
+/* Visual V2.2 QA closeout — CSS only. No DOM/copy/order/JS changes. */
+:root{--v22-touch:44px}
+@media(max-width:650px){
+  html,body{background:var(--ms-bg,var(--bg,#FBF8F2))!important}
+  .shell{width:100%!important;max-width:none!important;height:100dvh!important;margin:0!important;box-shadow:none!important}
+  .tabbar,.bottomnav{padding-bottom:env(safe-area-inset-bottom)}
+  .bottombar,.bottom{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
+/* Bottom actions remain visually separate from scroll content. */
+.bottombar,.bottomnav,.tabbar,.bottom{box-shadow:0 -5px 18px rgba(62,54,42,.055)!important}
+/* Price typography: consistent numeric rhythm. */
+.price,.unit-price,.price-num,.value,[id*=Price],[id=monthly]{font-variant-numeric:tabular-nums}
+</style>
+
+<style id="v274-wx-capsule-global">
+/* V2.7.3 — reserve the right side for the native WeChat Mini Program capsule. */
+.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;gap:11px;color:#1F2933;font-size:15px;box-shadow:0 1px 3px rgba(20,32,51,.04);justify-self:center;flex:0 0 86px}
+.wx-capsule-space .divider{width:1px;height:16px;background:#E4E7E9}.wx-capsule-space .dot{letter-spacing:1px;font-size:13px}.wx-capsule-space .circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%;display:block}
+.header,.nav{grid-template-columns:48px minmax(0,1fr) 94px!important}
+.header{display:grid!important}.header h1,.nav>h1,.nav>b,#navTitle{text-align:center!important;min-width:0}
+.header>.back,.nav>.back{justify-self:center}.header>.wx-capsule-space,.nav>.wx-capsule-space{justify-self:center}
+.top{display:grid!important;grid-template-columns:48px minmax(0,1fr) 94px!important;align-items:center!important;gap:0!important;padding-left:8px!important;padding-right:4px!important}.top h1{text-align:center!important;min-width:0}.top>.back{justify-self:center}.top>.wx-capsule-space{justify-self:center}
+@media(max-width:380px){.wx-capsule-space{width:82px;flex-basis:82px}.header,.nav,.top{grid-template-columns:44px minmax(0,1fr) 88px!important}}
+</style>
+
+<style id="v274-o01-cleanup">
+/* One price truth on checkout: current payable is the visual primary. */
+.payable-hero{border:1px solid #E4DDD3;border-radius:14px;background:#FFF;padding:13px 14px;margin-bottom:8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}.payable-hero span{font-size:13px;color:var(--ms-muted);font-weight:800}.payable-hero b{font-size:30px;line-height:1;color:var(--ms-orange);font-weight:900;letter-spacing:-.5px;font-variant-numeric:tabular-nums}.payment-rows .row{font-size:13px!important}.monthly-muted{color:var(--ms-muted)!important;font-weight:700!important}.order-card .meta,.hint,.agreement,.checkout-trust{font-size:12px!important}.agreement{border:1px solid transparent;border-radius:13px;padding:10px;transition:border-color .2s,box-shadow .2s,background .2s}.agreement-attention{animation:agreementPulse 1.35s ease-out}@keyframes agreementPulse{0%{border-color:#2D7154;box-shadow:0 0 0 0 rgba(45,113,84,.28);background:#F2F8F4}45%{border-color:#2D7154;box-shadow:0 0 0 7px rgba(45,113,84,.08);background:#F7FBF8}100%{border-color:#DCE6DF;box-shadow:0 0 0 0 rgba(45,113,84,0);background:#FFF}}.agreement>div{font-size:12px!important}.bottombar button{min-height:48px!important;font-size:14px!important}.header h1{font-size:16px!important}.deposit-info{width:20px;height:20px;border:1px solid #AFC7B8;border-radius:50%;background:#fff;color:var(--primary);font-size:12px;font-weight:900;line-height:18px;padding:0;vertical-align:middle;cursor:pointer}
+</style>
+
+<style id="v274-core-visual-tokens">
+/* Core-demo visual token closeout */
+:root{--v274-bg:#FDFBF7;--v274-surface:#FFFDFC;--v274-text:#282F2B;--v274-muted:#6F7671;--v274-line:#E7E0D7;--v274-green:#2D7154;--v274-green-soft:#EEF5F0;--v274-orange:#E77A3A}
+body{color:var(--v274-text)}button,input,select,textarea{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}
+.header h1,#navTitle{font-size:16px!important;font-weight:800!important}.section h2,.section-title{font-weight:800!important}.primary,.cta,.apply,.sheet-confirm{background:var(--v274-green)!important;border-color:var(--v274-green)!important}.secondary,.outline{color:var(--v274-green)!important}.price,.total,[id="payableTotal"],[id="contractTotal"]{font-variant-numeric:tabular-nums}.sub,.meta,.hint,.desc{line-height:1.55}.toast{font-size:12px!important}
+</style>
+<style id="preflight-token-hygiene">
+/* V2.7.4.3 preflight hygiene: retire legacy blue/gray root tokens in user-facing states. */
+:root{--primary:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0;--warn:#FFF8E8}
+</style>
+
+<style id="sprint2-transaction-visual-foundation">
+/* Sprint 2 transaction hi-fi closure — CSS only. Body/logic/copy remain frozen. */
+:root{--vb-bg:#FDFBF7;--vb-surface:#FFFDFC;--vb-text:#1F2923;--vb-secondary:#59645E;--vb-tertiary:#6D7671;--vb-line:#E6E7E3;--vb-green:#2F6B4F;--vb-green-deep:#214F3A;--vb-green-soft:#EAF3ED;--vb-orange:#D56A1C;--vb-orange-deep:#B85A16;--vb-orange-soft:#FFF0E2;--vb-sand:#F7F5F0;--vb-shadow:0 4px 16px rgba(31,41,35,.06)}
+html,body{background:var(--vb-bg)!important;color:var(--vb-text)!important}
+.page{background:var(--vb-bg)!important}
+.header{height:52px!important;background:rgba(253,251,247,.96)!important;border-bottom:1px solid rgba(230,231,227,.9)!important;box-shadow:none!important}
+.header h1{font-size:16px!important;font-weight:700!important;color:var(--vb-text)!important}
+.back{color:var(--vb-green-deep)!important;font-weight:500!important}
+.section{margin:12px 16px 0!important;padding:16px!important;background:var(--vb-surface)!important;border:1px solid var(--vb-line)!important;border-radius:16px!important;box-shadow:var(--vb-shadow)!important}
+.section h2,.section h3{margin:0 0 12px!important;color:var(--vb-text)!important;font-size:18px!important;line-height:26px!important;font-weight:700!important}
+.meta,.hint,.desc,.label,.eyebrow,.row span,.order-meta,.status p,.next p,.lock-note,.action-card span{color:var(--vb-tertiary)!important}
+.rows{border:0!important;border-radius:0!important;overflow:visible!important}
+.row{min-height:42px!important;padding:10px 0!important;background:transparent!important;border-bottom:1px solid #ECEDE9!important;font-size:13px!important;line-height:20px!important;align-items:center!important}
+.row:last-child{border-bottom:0!important}.row b{color:var(--vb-text)!important;font-weight:650!important;max-width:58%;overflow-wrap:anywhere}
+.primary,.solid,.sheet-confirm,.close{background:var(--vb-green)!important;border-color:var(--vb-green)!important;color:#fff!important;box-shadow:none!important}
+.secondary,.outline{background:#fff!important;border:1px solid #CFE1D6!important;color:var(--vb-green-deep)!important}
+.bottombar{height:auto!important;min-height:72px!important;padding:10px 16px max(10px,env(safe-area-inset-bottom))!important;background:rgba(255,253,249,.98)!important;border-top:1px solid var(--vb-line)!important;box-shadow:0 -8px 24px rgba(31,41,35,.05)!important;gap:10px!important}
+.bottombar button{min-height:48px!important;border-radius:12px!important;font-size:14px!important;font-weight:700!important}
+.toast{font-size:12px!important;border-radius:10px!important}
+.sheet,.info-sheet{background:var(--vb-surface)!important;border-radius:20px 20px 0 0!important;padding:16px 16px max(20px,env(safe-area-inset-bottom))!important}
+.handle{background:#D7DBD7!important}
+@media(max-width:650px){.page{padding-bottom:96px!important}.shell{width:100%!important;height:100dvh!important;max-width:none!important;box-shadow:none!important}}
+</style>
+
+<style id="sprint2-o01-hifi">
+.section:first-of-type{margin-top:12px!important}
+.order-card{padding:0!important;background:transparent!important;border:0!important;border-radius:0!important}
+.order-card .unit{font-size:20px!important;line-height:28px!important;font-weight:700!important;color:var(--vb-text)!important}.order-card .meta{font-size:13px!important;line-height:20px!important;color:var(--vb-tertiary)!important;margin-top:4px!important}
+.order-card>.rows{margin-top:12px!important;padding-top:4px!important;border-top:1px solid var(--vb-line)!important}
+.payment-section{background:linear-gradient(180deg,#FFFDFC 0%,#FFFBF5 100%)!important}
+.payable-hero{margin:0 0 8px!important;padding:14px 0 16px!important;border:0!important;border-radius:0!important;background:transparent!important;border-bottom:1px solid var(--vb-line)!important;align-items:flex-end!important}.payable-hero span{font-size:13px!important;color:var(--vb-tertiary)!important;font-weight:600!important}.payable-hero b{font-size:34px!important;line-height:38px!important;color:var(--vb-orange)!important;font-weight:700!important;letter-spacing:-.6px!important}
+.payment-rows .row{font-size:13px!important}.monthly-muted{color:var(--vb-tertiary)!important;font-weight:500!important}.deposit-info{border-color:#CFE1D6!important;color:var(--vb-green-deep)!important}
+.pay-after{padding:12px!important;border:0!important;background:var(--vb-green-soft)!important;border-radius:12px!important}.pay-after b{font-size:15px!important;color:var(--vb-green-deep)!important}.pay-after .item{font-size:12px!important;line-height:1.65!important;color:var(--vb-secondary)!important}.pay-after .item strong{color:var(--vb-green-deep)!important}
+.storage-notice{padding:12px!important;border:0!important;background:#FFF8EB!important;border-radius:12px!important}.storage-notice span{color:#75664E!important}.storage-notice button,.order-rules button{color:var(--vb-green-deep)!important}
+.agreement{padding:12px!important;border:1px solid var(--vb-line)!important;border-radius:12px!important;background:#fff!important;color:var(--vb-secondary)!important;font-size:12px!important}.date-input{min-height:40px!important;border-radius:10px!important;border-color:var(--vb-line)!important}
+.potential-benefit{background:var(--vb-orange-soft)!important;border-color:#F3D8BE!important}.referral-benefit{background:var(--vb-green-soft)!important;border-color:#D7E6DC!important}
+</style>
+<link rel="stylesheet" href="mini_koala_visual_elevation_v2_controlled_rollout.css"/><link rel="stylesheet" href="mini_koala_visual_elevation_v2_refinement_patch.css"/>
+<link rel="stylesheet" href="mini_storage_coupon_benefit_v1.css">
+<script src="mini_storage_coupon_benefit_v1.js"></script>
+<link rel="stylesheet" href="mini_koala_miniprogram_ui_system_v1.css" data-ui-system="v1"/>
+<link rel="stylesheet" href="mk-v3-tokens.css" data-ui-system="v3"/>
+<link rel="stylesheet" href="mk-v3-components.css" data-ui-system="v3"/>
+<link rel="stylesheet" href="mk-v3-page-o01.css" data-ui-system="v3"/>
+<link rel="stylesheet" href="mk-v3-help-entry.css" data-ui-system="v3"/>
+<script src="mk-v3-help-entry.js" defer></script>
+<link rel="stylesheet" href="mk-v3-transaction-batch-b.css" data-ui-system="vis06c-batch-b"><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="demo_price01_b2_prepay.css" data-price-patch="demo-price-01-b2"><script src="demo_price01_b2_display.js" defer></script>
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-ui-v1 koala-o01" data-ux-patch-d2="v1">
+<div class="shell">
+<div class="page">
+<div class="header"><div class="back" id="back">‹</div><h1>确认订单</h1><div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div></div>
+<section class="section">
+<div class="order-card">
+<div class="unit" id="unitTitle">仓位 C008</div>
+<div class="meta"><span id="storeMeta">—</span><br/><span id="unitMeta">4.8m³ · 当前演示已选定仓位</span></div>
+<div class="rows" style="margin-top:8px">
+<div class="row"><span>租期</span><b id="termText"></b></div><div class="row start-date-row"><span>用仓时间</span><b><input class="date-input" id="startDateInput" type="date"/></b></div><div class="row"><span>到期时间</span><b id="endDateText">—</b></div>
+</div>
+</div>
+</section>
+<section class="section payment-section">
+<h2>费用与支付</h2>
+<div class="payable-hero"><span>本次应付</span><b id="payableTotal">—</b></div>
+<div class="rows payment-rows">
+<div class="row"><span id="rentLabel">整期租金（用券前）</span><b id="rentFee"></b></div>
+<div class="row"><span>月均约</span><b class="monthly-muted" id="monthlyText"></b></div>
+<div class="row"><span>押金 <button aria-label="押金说明" class="deposit-info" id="depositInfo" type="button">i</button>（折后月均租金）</span><b id="depositFee"></b></div>
+<div class="row"><span>管理费</span><b id="managementFee"></b></div>
+<div class="row hidden" id="otherServiceRow"><span>其他服务</span><b>¥0</b></div>
+<div class="row" id="transportRow"><span>首单基础运输</span><b id="transportFee">活动赠送 ¥0</b></div>
+</div>
+<div class="hint" id="transportHint">如有额外搬运或其他服务费用，会在确认前单独列明。</div>
+<div class="potential-benefit hidden" id="transportPotential"><b>可能享首单运输支持</b><span>补充搬出地址后，就能确认是否可以免费使用1次基础运输；不会改变本次仓位租金。</span></div>
+<div class="referral-benefit hidden" id="referralBenefit">
+<div class="ey">好友邀请权益</div>
+<b>首单到期后再免费使用 10 天</b>
+<span>这10天会接在当前付费租期之后，不抵扣仓位月租，也不会增加本次应付金额。</span>
+</div>
+</section>
+<section class="section">
+<h2>支付后</h2>
+<div class="pay-after">
+<b>当前仓位与用仓安排</b>
+<div class="item">✓ 已选定上方仓位，支付成功后记入订单。</div>
+<div class="item" id="afterStart">✓ 用仓时间待确认</div>
+<div class="item">✓ 首次入仓前需完成身份核验；具备用仓条件后开放入仓信息。</div>
+<div class="order-rules"><span>取消、退款、提前退租和到期处理</span><button id="rulesOpen">查看重要说明 ›</button></div>
+</div>
+</section>
+<section class="section">
+<h2>存放须知</h2>
+<div class="storage-notice"><div><b>请遵守存放规定</b><span>危险品、易腐物品等不得存放。</span></div><button id="prohibitedOpen">查看完整禁存清单 ›</button></div>
+</section>
+<section class="section">
+<h2>支付确认</h2>
+<div class="agreement" id="agreementBox">
+<label style="display:flex;gap:8px;align-items:flex-start;cursor:pointer">
+<input id="agreeContract" style="margin-top:2px" type="checkbox"/>
+<span>我已阅读并同意<span id="contractOpen" style="color:var(--primary);font-weight:800;cursor:pointer">《迷你仓租赁服务协议》</span>，并确认当前仓位、租期、用仓时间和费用信息。</span>
+</label>
+<div style="font-size:8px;color:var(--muted);margin:6px 0 0 22px;line-height:1.5">
+        点击协议名称可查看主要条款。
+      </div>
+</div>
+</section>
+<section class="section review-only">
+<h2>结算价格快照（评审字段）</h2>
+<div class="snapshot rows">
+<div class="row"><span>checkout_route</span><b id="routeField"></b></div>
+<div class="row"><span>unit_id</span><b id="unitField"></b></div>
+<div class="row"><span>term_months</span><b id="termField"></b></div>
+<div class="row"><span>monthly_price</span><b id="monthlyField"></b></div>
+<div class="row"><span>rent_total</span><b id="totalField"></b></div>
+<div class="row"><span>pricing_rule_version</span><b>prototype_term_v1</b></div><div class="row"><span>transport_promo_status</span><b id="promoField"></b></div><div class="row"><span>pickup_to_store_drive_km</span><b id="pickupKmField"></b></div>
+</div>
+</section>
+</div>
+<div class="bottombar"><button class="secondary" id="edit">返回查看仓位</button><button class="primary pay-amount" id="pay">确认并支付</button></div>
+<div class="sheet-mask" id="contractSheet"><div class="sheet"><div class="handle"></div><h3>迷你仓租赁服务协议</h3><p class="sheet-desc">以下为本次订单中最重要的条款摘要：</p><div class="prohibited-list"><div><b>仓位与租期</b><span>本次已选定具体演示仓位；支付成功后将记录于订单。租期从选择的用仓时间起计算。</span></div><div><b>存放物品</b><span>不得存放易燃易爆、危险化学品、违禁品、易腐和强烈异味物品等。</span></div><div><b>使用与安全</b><span>完成身份证要素验证且到用仓时间后可自助存取，请妥善保管仓位密码。</span></div><div><b>取消、退款与提前退租</b><span>按订单约定执行；有疑问可以在支付前联系门店确认。</span></div><div><b>到期与续租</b><span>到期前可查看续租价格或按指引完成取物和退租。</span></div></div><button class="sheet-confirm" id="contractClose">我知道了</button></div></div><div class="sheet-mask" id="prohibitedSheet"><div class="sheet"><div class="handle"></div><h3>不可存放的物品</h3><p class="sheet-desc">为保障仓库安全和其他用户物品，请不要存放以下类型物品：</p><div class="prohibited-list"><div><b>易燃易爆</b><span>汽油、烟花爆竹、气罐等</span></div><div><b>危险及有害物质</b><span>腐蚀性、毒性、放射性或危险化学品等</span></div><div><b>违禁或非法物品</b><span>法律法规禁止储存、持有或流通的物品</span></div><div><b>易腐和有强烈异味的物品</b><span>生鲜食品、容易变质或影响仓储环境的物品</span></div><div><b>活体及其他不适宜物品</b><span>活体动物、可能危害人员或仓储设施的物品</span></div></div><div class="sheet-tip">如不确定某件物品能否存放，可在支付前联系门店确认。</div><button class="sheet-confirm" id="prohibitedClose">我知道了</button></div></div>
+<div class="sheet-mask" id="rulesSheet"><div class="sheet"><div class="handle"></div><h3>下单前请确认</h3><p class="sheet-desc">这些内容会直接影响您的使用：</p><div class="prohibited-list"><div><b>仓位分配</b><span>本次演示已选定上方仓位，正式使用时仍须由门店库存系统核验并完成真实锁定。</span></div><div><b>用仓时间</b><span>租期从您选择的用仓日期起计算；用仓日前仓位仍会为当前订单保留。</span></div><div><b>取消 / 退款</b><span>具体适用条件以本订单《迷你仓租赁服务协议》约定为准；支付前如有疑问可先咨询。</span></div><div><b>提前退租</b><span>按本订单协议约定执行，提交订单前可查看完整条款。</span></div><div><b>到期 / 续租</b><span>到期前可查看续租价格或按指引完成取物和退租。</span></div></div><button class="sheet-confirm" id="rulesClose">我知道了</button></div></div>
+<div class="sheet-mask" id="depositSheet"><div class="sheet"><div class="handle"></div><h3>押金说明</h3><p class="sheet-desc">押金用于租赁期间的履约保障；退仓后按租赁协议及仓位核验结果办理退还。具体条件请查看本订单协议。</p><button class="sheet-confirm" id="depositClose">我知道了</button></div></div>
+<div class="sheet-mask" id="phoneAuthSheet"><div class="sheet"><div class="handle"></div><h3>绑定微信手机号</h3><p class="sheet-desc">确认支付前，需要通过微信手机号授权完成订单联系信息绑定。</p><button class="sheet-confirm" id="phoneAuthAllow">授权并绑定手机号</button><button class="sheet-confirm" id="phoneAuthCancel" style="background:#fff;color:var(--primary);border:1px solid #AFC7B8">暂不授权</button></div></div>
+<div class="toast" id="toast"></div>
+</div>
+<script src="mini_storage_business_ssot_v274.js"></script>
+<script src="mini_storage_price_gate_v1.js"></script>
+<script src="../data/mini_koala_data.js"></script>
+<script src="mini_storage_prepay_qa_facts.js"></script>
+<script>
+const REPO=window.MINI_STORAGE_REPO_V242;
+const u01File='mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html';
+const o02File='mini_storage_order_o02_v1_17_self_service_Visual_V2_7_4.html';
+const p=new URLSearchParams(location.search);
+const PRICE_SNAPSHOT_KEY='mini_storage_price_snapshot_current';
+function readPriceSnapshot(){try{return JSON.parse(localStorage.getItem(PRICE_SNAPSHOT_KEY)||'{}')}catch(e){return {}}}
+let carriedPriceSnapshot=readPriceSnapshot();
+const STORE_PROFILES=window.MINI_STORAGE_MASTER_V222.stores;
+const storeId=STORE_PROFILES[p.get('store')]?p.get('store'):'jianguo';
+const storeProfile=STORE_PROFILES[storeId];
+const simulateChange=p.get('simulateChange')||'';
+const demoAutoAgree=p.get('demoAutoAgree')==='1';
+const unit=p.get('unit')||'C008';
+const sizeOptionId=p.get('sizeOption')||'';
+const representativeUnitNo=p.get('representativeUnit')||unit;
+const actualUnitId=p.get('actualUnit')||'';
+const unitIdentityType=actualUnitId?'ACTUAL_UNIT':'SIZE_OPTION';
+const target=Number(p.get('target')||5);
+const pricingGate=window.MINI_KOALA_PRICE_GATE_V1;
+const requestedTerm=pricingGate.parseTerm(p.get('term'));
+const term=requestedTerm===null?0:requestedTerm;
+// H01-007-S3 D-12: when an unpaid order is re-entered (orderNo=), it keeps its own price snapshot even if the shared snapshot
+// slot was overwritten by browsing another unit in between. Nothing is re-priced here; the price gate below still decides.
+const RECHECK=window.MINI_STORAGE_TRADE_RECHECK_V1;
+const resumeOrderNo=p.get('orderNo')||'';
+const resumeOrder=(()=>{if(!resumeOrderNo||!RECHECK)return null;let o={};try{o=JSON.parse(localStorage.getItem('mini_storage_order_current')||'{}')}catch(e){o={}}return RECHECK.resumableOrder(o)&&o.order_no===resumeOrderNo?o:null})();
+if(resumeOrder&&resumeOrder.price_snapshot&&typeof resumeOrder.price_snapshot==='object'){
+  const own=resumeOrder.price_snapshot,sameIdentity=s=>!!s&&s.store_id===storeId&&String(s.size_option_id||'')===String(sizeOptionId)&&String(s.actual_unit_id||'')===String(actualUnitId||'');
+  if(!sameIdentity(carriedPriceSnapshot)&&sameIdentity(own)){carriedPriceSnapshot=own;try{localStorage.setItem(PRICE_SNAPSHOT_KEY,JSON.stringify(own))}catch(e){}}
+}
+const gateResult=pricingGate.validate(carriedPriceSnapshot,{
+  storeId,sizeOptionId,representativeUnitNo,actualUnitId,termRaw:p.get('term'),
+  pricingModelVersion:window.MINI_STORAGE_MASTER_V222.pricing.model_version,
+  managementFee:window.MINI_STORAGE_MASTER_V222.fees.management_fee,
+  firstPurchase:p.get('firstPurchase')!=='0',
+  requireCouponVerification:true,
+  couponVerifier:window.MINI_KOALA_COUPON_V1?.validateSnapshotCoupon
+});
+const snapshotMatches=gateResult.valid&&carriedPriceSnapshot.store_id===storeId&&Number(carriedPriceSnapshot.term_months)===term&&carriedPriceSnapshot.size_option_id===sizeOptionId;
+window.MINI_KOALA_PRICE_GATE_STATUS={valid:gateResult.valid,reason:gateResult.reason};
+const values=gateResult.values;
+const monthly=values?.monthly||0;
+const rentTotalParam=values?.total||0;
+const depositAmount=values?.deposit||0;
+const managementFee=values?.managementFee||0;
+const initialPayableParam=values?.payable||0;
+const route=p.get('route')||'DIRECT_ORDER';
+const entrySource=p.get('source')||'s02';
+const fromS01State=p.get('fromS01State')||'estimated',s02State=p.get('s02State')||'matched',searchOriginKey=p.get('searchOriginKey')||'guomao';
+const searchMin=p.get('searchMin')||'',searchKm=p.get('searchKm')||'',accessFrequency=p.get('access')||'unknown';
+const lead=p.get('lead')||'none';
+const customer=p.get('customer')||'';
+function dateISO(offset=0){const d=new Date();d.setDate(d.getDate()+offset);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+let startDate=p.get('start')||dateISO(0);
+const volume=Number(p.get('volume')||target);
+const pickup=p.get('pickup')||'';
+const pickupKm=Number(p.get('pickupKm')||0);
+let promo=p.get('promo')||'NOT_CHECKED';
+const discountRatio=Number(p.get('discountRatio')||0);
+const firstPurchase=p.get('firstPurchase')!=='0';
+const total=rentTotalParam;
+const payableTotal=initialPayableParam;
+const PHONE_KEY='mini_storage_lead_phone';
+const ORDER_KEY='mini_storage_order_current';
+const PAYMENT_RESULT_KEY='mini_storage_payment_result_current';
+const reviewMode=p.get('review')==='1';
+const REFERRAL_CONTEXT_KEY='mini_storage_referral_context';
+function getStore(k){try{return localStorage.getItem(k)||''}catch(e){return window['__'+k]||''}}
+function setStore(k,v){try{localStorage.setItem(k,v)}catch(e){window['__'+k]=v}}
+function getObj(k){try{return JSON.parse(getStore(k)||'{}')}catch(e){return {}}}
+function removeStore(k){try{localStorage.removeItem(k)}catch(e){delete window['__'+k]}}
+const existingOrder=getObj(ORDER_KEY);
+function makeOrderNo(){const d=new Date();const y=String(d.getFullYear()).slice(-2),mo=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0'),t=String(Date.now()).slice(-7);return `O${y}${mo}${da}${t}`}
+const referralContext=getObj(REFERRAL_CONTEXT_KEY);
+const referralEligible=!!(referralContext.referral_token && firstPurchase && referralContext.status==='ACTIVATED');
+function maskPhone(v){return v&&v.length>=7?`${v.slice(0,3)}****${v.slice(-4)}`:v}
+function human(m){if(m<12)return `${m}个月`;const y=Math.floor(m/12),mo=m%12;return mo?`${m}个月（${y}年${mo}个月）`:`${m}个月（${y}年）`}
+function toast(msg){const t=document.querySelector('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1600)}
+function savePhone(v){
+  const d=String(v||'').replace(/\D/g,'');
+  if(d.length<7)return false;
+  setStore(PHONE_KEY,d);return true
+}
+function renderContact(){}
+document.querySelector('#unitTitle').textContent=actualUnitId?`仓位 ${actualUnitId}`:'仓位待确认';document.querySelector('#storeMeta').textContent=`${storeProfile.name} · ${storeProfile.area}`;
+document.querySelector('#unitMeta').textContent=`${volume.toFixed(1)}m³ · ${actualUnitId?'当前演示已选定仓位':'暂无可用具体仓位'}`;
+document.querySelector('#termText').textContent=human(term);
+document.querySelector('#rentLabel').textContent=`${human(term)}整期租金（用券前）`;
+function leaseEndDate(start,months){if(!months)return "";const [y,m,d]=start.split('-').map(Number);const base=new Date(y,m-1,1);base.setMonth(base.getMonth()+months);const lastDay=new Date(base.getFullYear(),base.getMonth()+1,0).getDate();base.setDate(Math.min(d,lastDay));base.setDate(base.getDate()-1);return `${base.getFullYear()}-${String(base.getMonth()+1).padStart(2,'0')}-${String(base.getDate()).padStart(2,'0')}`}
+function renderStartDate(){const formatted=startDate.replaceAll('-','/'),end=leaseEndDate(startDate,term);document.querySelector('#endDateText').textContent=end.replaceAll('-','/');document.querySelector('#afterStart').textContent=`✓ 用仓时间 ${formatted} 至 ${end.replaceAll('-','/')}`}
+document.querySelector('#startDateInput').min=dateISO(0);document.querySelector('#startDateInput').value=startDate;document.querySelector('#startDateInput').onchange=e=>{if(e.target.value){startDate=e.target.value;renderStartDate()}};
+document.querySelector('#monthlyText').textContent=`¥${monthly.toLocaleString()}/月`;renderStartDate();
+document.querySelector('#rentFee').textContent=`¥${total.toLocaleString()}`;document.querySelector('#depositFee').textContent=`¥${depositAmount.toLocaleString()}`;document.querySelector('#managementFee').textContent=`¥${managementFee.toLocaleString()}`;document.querySelector('#payableTotal').textContent=`¥${payableTotal.toLocaleString()}`;document.querySelector('#pay').textContent=`确认并支付 ¥${payableTotal.toLocaleString()}`;document.querySelector('#afterStart').textContent=`✓ 租期从 ${startDate.replaceAll('-','/')} 起计算`;
+document.querySelector('#routeField').textContent=route;
+document.querySelector('#unitField').textContent=sizeOptionId||representativeUnitNo;
+document.querySelector('#termField').textContent=term;
+document.querySelector('#monthlyField').textContent=monthly;
+document.querySelector('#totalField').textContent=total;
+document.querySelector('#promoField').textContent=promo;
+document.querySelector('#pickupKmField').textContent=pickupKm?`${pickupKm.toFixed(1)}km`:'—';
+if(promo==='ELIGIBLE'&&term>=6&&firstPurchase&&pickupKm>=5&&discountRatio>=.6&&p.get('transportServiceable')!=='0'){document.querySelector('#transportFee').textContent='预计符合赠送条件 · 待确认';document.querySelector('#transportHint').textContent=`搬出地至门店约${pickupKm.toFixed(1)}km · 预计可享首单单程基础运输，服务范围和最终资格需确认；不抵扣租金。`;} 
+else if(promo==='POTENTIAL'||promo==='ELIGIBLE'){document.querySelector('#transportRow').classList.add('hidden');document.querySelector('#transportPotential').classList.remove('hidden');document.querySelector('#transportHint').textContent='费用只展示当前已经确定的金额。';}
+else{document.querySelector('#transportRow').classList.add('hidden');document.querySelector('#transportHint').textContent='费用只展示当前已经确定的金额。';}
+document.querySelector('#referralBenefit').classList.toggle('hidden',!referralEligible);
+let pendingPaymentAfterPhone=false;
+function openPhoneAuth(){document.querySelector('#phoneAuthSheet').classList.add('show')}
+function closePhoneAuth(){document.querySelector('#phoneAuthSheet').classList.remove('show')}
+document.querySelector('#phoneAuthAllow').onclick=()=>{savePhone('13800138000');closePhoneAuth();toast('已通过微信授权绑定手机号');if(pendingPaymentAfterPhone){pendingPaymentAfterPhone=false;setTimeout(()=>document.querySelector('#pay').click(),0)}};
+document.querySelector('#phoneAuthCancel').onclick=()=>{pendingPaymentAfterPhone=false;closePhoneAuth()};
+document.querySelector('#phoneAuthSheet').onclick=e=>{if(e.target.id==='phoneAuthSheet'){pendingPaymentAfterPhone=false;closePhoneAuth()}};
+function carryPrepayNavigationContext(params){
+  // Navigation-only context; never change quote, coupon, stock or payment fields.
+  if(typeof p==='undefined')return;
+  for(const key of ['travel','otherStoresSource','excludeStore'])if(p.has(key))params.set(key,p.get(key));
+}
+document.querySelector('#back').onclick=document.querySelector('#edit').onclick=()=>{
+  const q=new URLSearchParams({unit:representativeUnitNo,sizeOption:sizeOptionId,representativeUnit:representativeUnitNo,actualUnit:actualUnitId,inventoryIdentity:unitIdentityType,store:storeId,target:target.toFixed(1),term:String(term),monthly:String(monthly),rentTotal:String(total),deposit:String(depositAmount),managementFee:String(managementFee),initialPayable:String(payableTotal),lead,customer,start:startDate,pickup,pickupKm:String(pickupKm||''),promo,discountRatio:String(discountRatio||''),firstPurchase:firstPurchase?'1':'0',source:entrySource,fromS01State,s02State,searchOriginKey,searchMin,searchKm,access:accessFrequency});
+  carryPrepayNavigationContext(q);
+  if(!gateResult.valid){for(const key of ['term','monthly','rentTotal','deposit','managementFee','initialPayable'])q.delete(key)}location.href=u01File+`?${q.toString()}`
+};
+
+document.querySelector('#contractOpen').onclick=e=>{e.preventDefault();document.querySelector('#contractSheet').classList.add('show')};document.querySelector('#contractClose').onclick=()=>document.querySelector('#contractSheet').classList.remove('show');document.querySelector('#contractSheet').onclick=e=>{if(e.target.id==='contractSheet')e.currentTarget.classList.remove('show')};
+document.querySelector('#prohibitedOpen').onclick=()=>document.querySelector('#prohibitedSheet').classList.add('show');
+document.querySelector('#prohibitedClose').onclick=()=>document.querySelector('#prohibitedSheet').classList.remove('show');
+document.querySelector('#prohibitedSheet').onclick=e=>{if(e.target.id==='prohibitedSheet')document.querySelector('#prohibitedSheet').classList.remove('show')};
+document.querySelector('#rulesOpen').onclick=()=>document.querySelector('#rulesSheet').classList.add('show');
+document.querySelector('#rulesClose').onclick=()=>document.querySelector('#rulesSheet').classList.remove('show');
+document.querySelector('#rulesSheet').onclick=e=>{if(e.target.id==='rulesSheet')document.querySelector('#rulesSheet').classList.remove('show')};
+document.querySelector('#depositInfo').onclick=()=>document.querySelector('#depositSheet').classList.add('show');
+document.querySelector('#depositClose').onclick=()=>document.querySelector('#depositSheet').classList.remove('show');
+document.querySelector('#depositSheet').onclick=e=>{if(e.target.id==='depositSheet')document.querySelector('#depositSheet').classList.remove('show')};
+
+document.querySelector('#pay').onclick=()=>{
+  if(!gateResult.valid)return;
+  const liveCheck=pricingGate.validate(readPriceSnapshot(),{storeId,sizeOptionId,representativeUnitNo,actualUnitId,termRaw:p.get('term'),pricingModelVersion:window.MINI_STORAGE_MASTER_V222.pricing.model_version,managementFee:window.MINI_STORAGE_MASTER_V222.fees.management_fee,firstPurchase:p.get('firstPurchase')!=='0',requireCouponVerification:true,couponVerifier:window.MINI_KOALA_COUPON_V1?.validateSnapshotCoupon});
+  if(!liveCheck.valid||liveCheck.values.payable!==payableTotal){toast('当前优惠或报价已变化，请返回仓位方案重新确认');return}
+  const inputDate=document.querySelector('#startDateInput');
+  if(!startDate || startDate<dateISO(0) || inputDate.value!==startDate){inputDate.focus();toast('请确认有效的用仓时间');return}
+  if(!document.querySelector('#agreeContract').checked){const box=document.querySelector('#agreementBox');box.scrollIntoView({behavior:'smooth',block:'center'});box.classList.remove('agreement-attention');void box.offsetWidth;box.classList.add('agreement-attention');setTimeout(()=>box.classList.remove('agreement-attention'),1500);toast('请先阅读并勾选租赁服务协议');return}
+  if(!getStore(PHONE_KEY)){
+    pendingPaymentAfterPhone=true;openPhoneAuth();return
+  }
+  const orderNo=(existingOrder.order_no && existingOrder.store_id===storeId && (!actualUnitId||existingOrder.actual_unit_id===actualUnitId) && ((sizeOptionId&&existingOrder.size_option_id===sizeOptionId)||(!sizeOptionId&&existingOrder.unit_id===unit)) && ['PENDING_PAYMENT','PAYMENT_FAILED'].includes(existingOrder.status))?existingOrder.order_no:makeOrderNo();
+  const acceptedAt=new Date().toISOString();
+  const retrySameOrder=existingOrder.order_no===orderNo && existingOrder.store_id===storeId && (!actualUnitId||existingOrder.actual_unit_id===actualUnitId) && ((sizeOptionId&&existingOrder.size_option_id===sizeOptionId)||(!sizeOptionId&&existingOrder.unit_id===unit)) && ['PENDING_PAYMENT','PAYMENT_FAILED'].includes(existingOrder.status);
+  // H01-007-S1 D-04: the order's requirement snapshot is the confirmed trade (store / unit / capacity / term),
+  // with the original estimate preserved inside it. A retried order keeps its own snapshot as the base.
+  const requirementSnapshot=(()=>{
+    let base={};try{base=JSON.parse(localStorage.getItem('mini_storage_requirement_current')||'{}')}catch(e){base={}}
+    if(retrySameOrder&&existingOrder.requirement_snapshot&&typeof existingOrder.requirement_snapshot==='object')base=existingOrder.requirement_snapshot;
+    const T=window.MINI_STORAGE_TRADE_SNAPSHOT_V1;if(!T)return base;
+    return T.confirm(base,{store_id:storeId,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:unitIdentityType,term_months:term,volume,target_volume:target,confirmed_by:'O01'});
+  })();
+  const order={
+    requirement_snapshot:requirementSnapshot,
+    order_no:orderNo,status:'PENDING_PAYMENT',payment_status:'PAYING',detail_state:'upcoming',lifecycle_state:'upcoming',inventory_status:'AWAITING_PAYMENT',access_status:'NOT_AVAILABLE',lease_status:'UPCOMING',store_id:storeId,unit_id:actualUnitId||representativeUnitNo,unit_id_semantics:actualUnitId?'ACTUAL_UNIT':'LEGACY_REPRESENTATIVE_DISPLAY',size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:unitIdentityType,actual_unit_assignment_source:actualUnitId?'DEMO_PRESELECTED_U01':null,
+    price_snapshot:readPriceSnapshot(),volume,term_months:term,monthly_price:monthly,total_price:total,deposit_amount:depositAmount,management_fee:managementFee,payable_total:payableTotal,start_date:startDate,identity_verification_status:'NOT_STARTED',
+    customer_type:customer,transaction_route:route,origin_page:entrySource,origin_from_s01_state:fromS01State,lead,pickup_address:pickup,pickup_to_store_drive_km:pickupKm,deal_discount_ratio:discountRatio,transport_promo_status:promo,transport_promo_rule_version:'first_order_transport_v1',transport_right_status:'NONE',
+    agreement_status:'accepted',agreement_version:window.MINI_STORAGE_MASTER_V242.transaction.agreement_version,agreement_accepted_at:acceptedAt,
+    referral_campaign_id:referralEligible?(referralContext.campaign_id||'old_friend_referral_2026'):null,referral_token:referralEligible?referralContext.referral_token:null,referral_friend_bonus_days:referralEligible?10:0,referral_relation_status:referralEligible?'ACTIVATED':'NONE',
+    created_at:retrySameOrder?(existingOrder.created_at||acceptedAt):acceptedAt,updated_at:acceptedAt
+  };
+  REPO.saveCurrent(order);
+  let resultStatus='PAID';
+  if(reviewMode){
+    const sim=String(p.get('simulatePayment')||'PAID').toUpperCase();
+    if(['PAID','PENDING','PAYMENT_FAILED','INVENTORY_CHANGED'].includes(sim))resultStatus=sim;
+    if(simulateChange)resultStatus='INVENTORY_CHANGED';
+  }
+  setStore(PAYMENT_RESULT_KEY,JSON.stringify({order_no:orderNo,status:resultStatus,paid_amount:resultStatus==='PAID'?payableTotal:0,processed_at:new Date().toISOString()}));
+  const q=new URLSearchParams({orderNo});if(reviewMode)q.set('review','1');
+  location.href=o02File+`?${q.toString()}`;
+};
+renderContact();
+if(!gateResult.valid){
+  const warn=document.createElement('div');warn.id='priceRecheckNotice';warn.setAttribute('role','alert');
+  warn.style.cssText='margin:12px 16px;padding:14px;border:1px solid #E8C7A1;border-radius:12px;background:#FFF5E9;color:#71451D;font-size:13px;line-height:1.6';
+  warn.textContent=gateResult.reason==='TERM_INVALID'?'请先选择有效租期，再重新确认方案价格。':'当前方案价格需要重新确认，请返回仓位方案查看最新费用。';
+  document.querySelector('.payment-section').insertAdjacentElement('afterbegin',warn);
+  for(const id of ['monthlyText','rentFee','depositFee','managementFee','payableTotal'])document.getElementById(id).textContent='—';
+  document.getElementById('rentLabel').textContent='整期租金待确认';
+  document.getElementById('pay').disabled=true;
+  document.getElementById('pay').textContent='报价待确认';
+  document.getElementById('termText').textContent=term?human(term):'租期待确认';
+}
+// H01-007-S3 D-12: re-check an unpaid order on re-entry — order status, current price, demo inventory and coupon eligibility —
+// using the same authoritative helpers U01 uses. A changed result blocks payment and offers re-pricing; the order_no is kept.
+(function(){
+  if(!resumeOrderNo||!RECHECK)return;
+  const section=document.querySelector('.payment-section');if(!section)return;
+  const box=document.createElement('div');box.id='orderResumeNotice';box.setAttribute('role','status');
+  box.style.cssText='margin:12px 16px;padding:12px 13px;border:1px solid #CFE0D6;border-radius:12px;background:#F2F8F4;color:#2D5A45;font-size:13px;line-height:1.6';
+  const existingNotice=document.getElementById('priceRecheckNotice');
+  if(existingNotice)existingNotice.insertAdjacentElement('afterend',box);else section.insertAdjacentElement('afterbegin',box);
+  const payBtn=document.getElementById('pay');
+  function block(result,html,withReprice){
+    const amountLabel=document.querySelector('.payable-hero > span');if(amountLabel)amountLabel.textContent='原订单参考应付';
+    box.dataset.resumeResult=result;box.style.borderColor='#E8C7A1';box.style.background='#FFF5E9';box.style.color='#71451D';
+    box.innerHTML=html+(withReprice?'<button type="button" id="orderResumeReprice" style="display:block;margin-top:8px;padding:8px 12px;border-radius:10px;border:1px solid #C98A4B;background:#fff;color:#71451D;font-size:13px">按当前价格重新核价 ›</button>':'');
+    payBtn.disabled=true;payBtn.textContent=result==='sold_out'?'当前方案已售出':'重新核价后支付';
+    if(existingNotice)existingNotice.remove();
+    const btn=document.getElementById('orderResumeReprice');
+    if(btn)btn.onclick=()=>{const q=new URLSearchParams({unit:representativeUnitNo,sizeOption:sizeOptionId,representativeUnit:representativeUnitNo,actualUnit:actualUnitId,inventoryIdentity:unitIdentityType,store:storeId,target:target.toFixed(1),term:String(term),lead,customer,start:startDate,pickup,pickupKm:String(pickupKm||''),promo,discountRatio:String(discountRatio||''),source:entrySource,fromS01State,s02State,searchOriginKey,searchMin,searchKm,access:accessFrequency,resumeOrder:resumeOrderNo});removeStore(PRICE_SNAPSHOT_KEY);location.href=u01File+`?${q.toString()}`};
+  }
+  if(!resumeOrder){block('not_found',`<b>没有找到可继续处理的订单 ${resumeOrderNo}</b><div>该订单可能已支付、已取消或已被新的订单替换，这里不会代为生成新订单。请从「我的」查看当前订单。</div>`,false);return}
+  const statusText=resumeOrder.status==='PAYMENT_FAILED'?'上次支付未完成':'尚未完成支付';
+  const units=(window.MINI_KOALA_DATA&&typeof window.MINI_KOALA_DATA.getLegacyUnits==='function')?window.MINI_KOALA_DATA.getLegacyUnits(storeId):[];
+  const unitRow=units.find(x=>String(x.size_option_id||'')===String(sizeOptionId))||units.find(x=>String(x.id)===String(representativeUnitNo))||null;
+  const stock=unitRow?Number(unitRow.available_count):NaN;
+  if(!unitRow||(Number.isFinite(stock)&&stock<=0)){block('sold_out',`<b>订单 ${resumeOrderNo} ${statusText}，但当前容量方案已售出</b><div>无法按原订单继续支付；可返回门店查看其他可租仓位，订单信息会保留。</div>`,false);return}
+  const H=window.MINI_STORAGE_BUSINESS_HELPERS_V274,C=window.MINI_KOALA_COUPON_V1,FEE=window.MINI_STORAGE_MASTER_V222.fees.management_fee;
+  const basePrice=Number(window.MINI_KOALA_DATA.positivePrice(unitRow)||0);
+  let fresh=null;
+  if(H&&basePrice>0&&term){const totalRent=H.contractRent(basePrice,term,storeId),monthlyAvg=H.monthlyReference(basePrice,term,storeId);
+    fresh={store_id:storeId,unit_id:representativeUnitNo,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:unitIdentityType,term_months:term,total_rent:totalRent,monthly_average:monthlyAvg,monthly_price:monthlyAvg,deposit:monthlyAvg,management_fee:FEE,upfront_payable:totalRent+monthlyAvg+FEE,coupon_applied:false,coupon_discount_amount:0};
+    if(C&&typeof C.applyToSnapshot==='function')fresh=C.applyToSnapshot(fresh);}
+  const changes=fresh?RECHECK.amountDiff(RECHECK.orderAmounts(resumeOrder),fresh):[];
+  const couponReasons=['CUSTOMER_NOT_ELIGIBLE','COUPON_LOCKED_BY_OTHER_ORDER','COUPON_EXPIRED_OR_USED','COUPON_RULE_MISMATCH','COUPON_SELECTION_CHANGED','COUPON_AMOUNT_MISMATCH','COUPON_NOT_FOUND','COUPON_SNAPSHOT_INVALID','COUPON_COMPONENT_MISMATCH','COUPON_INVALID','COUPON_VERIFIER_MISSING'];
+  if(changes.length||!gateResult.valid){
+    const why=gateResult.reason==='CUSTOMER_NOT_ELIGIBLE'?'您已有成交订单，原订单中的新客优惠不再适用。':(couponReasons.includes(gateResult.reason)?'原订单使用的优惠券已不可用。':(changes.length?'当前价格或优惠与原订单不同。':'原订单的价格快照需要重新确认。'));
+    block('changed',`<b>订单 ${resumeOrderNo} ${statusText}，继续前需要重新核价</b><div>${why}</div>`+(changes.length?`<div>${RECHECK.describeChanges(changes)}</div>`:'')+`<div>重新核价后仍沿用本订单号，不会生成新订单。</div>`,true);return}
+  box.dataset.resumeResult='ok';
+  box.innerHTML=`<b>订单 ${resumeOrderNo} ${statusText}，已重新核对</b><div>订单状态、当前价格、可租情况和优惠资格与原订单一致，首次应付 ${RECHECK.money(fresh?fresh.upfront_payable:payableTotal)}，可以继续支付；支付成功前不会显示成功状态。</div>`;
+})();
+if(demoAutoAgree)document.querySelector('#agreeContract').checked=true;
+</script>
+<script src="mini_storage_global_support_v274.js"></script>
+</body>
+</html>

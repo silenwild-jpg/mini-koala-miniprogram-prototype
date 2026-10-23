@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN" class="vis-bg01" data-vis-page="TRANSPORT"><head>
+<style data-vis-bg01-order>@layer vis-bg01;</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>首单运输权益</title>
+<style>*{box-sizing:border-box}body{margin:0;color:#253D30;background:#FDFBF7;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}.phone{max-width:390px;margin:auto;min-height:100dvh;padding:0 16px 110px}.top{display:flex;align-items:center;gap:12px;height:58px;border-bottom:1px solid #E6E7E3}.top button{width:44px;height:44px;border:0;background:transparent;font-size:26px;color:#2D7154}.top h1{font-size:17px;margin:0}.capsule{margin-left:auto;border:1px solid #DAE0D9;border-radius:20px;padding:5px 12px;font-size:13px}.card{margin-top:18px;padding:18px;border:1px solid #DCE4DA;border-radius:16px;background:#fff}.card h2{font-size:20px;margin:4px 0 10px}.badge{font-size:13px;color:#2D7154}.muted{color:#647267;font-size:13px;line-height:1.7}.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #E8ECE7;padding:12px 0;font-size:14px}.row b{text-align:right}.actions{display:grid;gap:10px;margin-top:18px}.actions button{min-height:48px;border:1px solid #2D7154;border-radius:12px;background:#fff;color:#2D7154;font-size:14px;font-weight:700}.actions .primary{background:#2D7154;color:#fff}</style><link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell">
+<link rel="stylesheet" href="mk-v3-life-service-batch-c.css" data-ui-system="vis06c-batch-c-life">
+<link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-site-shell koala-vis06c-life koala-life-service" data-ux-patch-d2="v1"><main class="phone"><header class="top"><button id="back" aria-label="返回我的">‹</button><h1>首单运输权益</h1><div class="capsule" aria-label="小程序系统操作区占位">•••　◉</div></header><section class="card"><span class="badge" id="status"></span><h2 id="title"></h2><p class="muted" id="description"></p><div class="row"><span>关联订单</span><b id="orderNo"></b></div><div class="row"><span>门店</span><b id="store"></b></div><p class="muted">基础服务范围、搬运条件和预约时间需由门店确认。当前原型展示权益状态，可联系客服继续确认安排。</p></section><div class="actions"><button class="primary" id="contact">联系客服确认安排</button><button id="order">查看关联订单</button></div></main>
+<script src="mini_storage_business_ssot_v274.js"></script><script src="../data/mini_koala_data.js"></script><script>
+const params=new URLSearchParams(location.search),repo=window.MINI_STORAGE_REPO_V242;
+const current=repo.getCurrent(),requested=params.get('orderNo')||current.order_no;
+const order=repo.findOrder(requested)||{},valid=!!order.order_no;
+const eligible=valid&&order.transport_promo_status==='ELIGIBLE';
+const state=order.transport_right_status||'NONE';
+document.querySelector('#status').textContent=eligible?(state==='REDEEMED'?'已使用':state==='BOOKED'?'已记录预约':'待确认运输安排'):'暂无可用运输权益';
+document.querySelector('#title').textContent=eligible?'1次单程基础运输':'可咨询上门取送服务';
+document.querySelector('#description').textContent=eligible?'您的订单已关联运输权益，具体搬运与时间安排请联系门店确认。':'当前订单未确认赠送运输权益。如需上门取送，可向门店了解服务条件与费用。';
+document.querySelector('#orderNo').textContent=order.order_no||'暂无关联订单';
+document.querySelector('#store').textContent=window.MINI_STORAGE_MASTER_V242.stores[order.store_id]?.name||'待确认';
+document.querySelector('#back').onclick=()=>location.href='mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html';
+document.querySelector('#order').disabled=!valid;
+document.querySelector('#order').onclick=()=>location.href='mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html?orderNo='+encodeURIComponent(order.order_no);
+document.querySelector('#contact').onclick=()=>document.querySelector('#miniSupportChat')?.click();
+</script><script src="mini_storage_global_support_v274.js"></script></body></html>

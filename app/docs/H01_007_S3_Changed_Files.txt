@@ -1,0 +1,11 @@
+# H01-007-S3 changed files (relative to the S2 work tree = S2 checkpoint sha256 f89a89380aee6ca926d8621b962873c411e7190f2205aee36b561caf7288006e; sha256 before = S2, after = S3)
+
+MODIFIED  prototype/mini_koala_acceptance_v11_state_patch.js  managed=True  before=7d272e28aa734d178ccc3c232fc337cab631fc35ea41516a6c7c6529259f7db1  after=6b305f96b7b3d2fe9be11db3074139ce793fe88e3886893eedc999366c5f4e36
+MODIFIED  prototype/mini_storage_business_ssot_v274.js  managed=True  before=96902e246ef6cb0094627b8eb03d70912a21279b3e2e68d4877d29bb1c1b2e95  after=6ddbca9e12714c2883cfd2c5a370ee7a4216f2fd1834d7421fc752a919f59374
+MODIFIED  prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html  managed=True  before=f4f8c19bdb93a06379adcc4787be646f2da5d1b94c67109ac753259fbda1ef66  after=00f8eec255ba20dcccd61331c92926384dab658c39e2ef133627910fb0ab7e13
+MODIFIED  prototype/mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html  managed=True  before=90d0e140fe7df09ebbf4f95748311d52b781cf2a169579b12f047a879bf02c7b  after=913ed2237b379bffc03a7daa2b3fde2ffd745f67fec954828d8f3ca71ad4a238
+MODIFIED  prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html  managed=True  before=836002193b38521aeddbebe5651e0481410cae486621975b6c9e1bb1aa63f8fc  after=8fd5dc757754dda5abe09cdb72c5ad1b727de519e01d6e53fc28015443daf8a6
+MODIFIED  prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html  managed=True  before=33ee6bb1e118eca6825aa43d227f533078ffadc73f1b0bb11add6a1f274843cb  after=7520871a84379e35c7e2f6c9aa4fd4adc6a9c1457283a9280d81c819270fca55
+ADDED     qa/test_h01_007_s3_http_flows.py  managed=False  after=5d2b2136f00df2b2c7f817ba0cfd7aa57d96b190a8b5f033279e9e61ed1163dd
+ADDED     qa/test_h01_007_s3_trade_recheck.cjs  managed=False  after=1fa344c0661b41675809a8c9a884c70d95c3c8421e285fd23623b2d3abafc7f1
+RELEASE_MANIFEST.json unchanged (sha256 b1d934576e4b2a33f04ecd0959415da0c705e30fb6659de2b25dd58150746d3d, Release Gate HOLD) — 6 managed files now differ from the manifest hashes in S3; cumulative since H01-004B: 8 (S1) + 2 (S2) + 6 (S3) = 16, to be recomputed in S5.

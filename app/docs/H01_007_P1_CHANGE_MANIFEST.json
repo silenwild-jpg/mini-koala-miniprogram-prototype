@@ -1,0 +1,126 @@
+{
+  "input_zip_sha256": "34cca316bbd353b8e573f058f3b127e82915569bcc1635a8fb8f47bee17bf5a1",
+  "summary": {
+    "modified": 11,
+    "added": 7,
+    "deleted": 0
+  },
+  "runtime_modified": [
+    "prototype/mini_storage_coupon_benefit_v1.js",
+    "prototype/mini_storage_coupon_select_c02_v1.html"
+  ],
+  "exclusions": [
+    "RELEASE_MANIFEST.json",
+    "docs/H01_007_P1_CHANGE_MANIFEST.json"
+  ],
+  "files": [
+    {
+      "path": "README_CURRENT.md",
+      "status": "modified",
+      "sha256_before": "806adf5c8a6f26f023149b8003520f82083f92e88eb492d06927566a3d3d72e3",
+      "sha256_after": "4df08fcf47011d06ee3868e2d262d71e49d7e01965a16f1c60365c779e5acea7"
+    },
+    {
+      "path": "docs/CHANGELOG.md",
+      "status": "modified",
+      "sha256_before": "38ee3570ef5fd675e6477528c5cbc9522a537ba9513fe2dd31b1dbabed36e887",
+      "sha256_after": "824f3acbae8b2f796317ce98c1c689a66544d33f5c020034ae89162fe6e39579"
+    },
+    {
+      "path": "docs/CURRENT_STATUS.md",
+      "status": "modified",
+      "sha256_before": "09f18ec52ceabbb8e4981bbac0affd4e77057aa13be8137d141d15a576dc5e6f",
+      "sha256_after": "2de1447ecc7c9a39d89d9ab379bbac8a142aded5496621cf7d2f1aef383ccdbc"
+    },
+    {
+      "path": "docs/H01_007_CHANGE_MANIFEST.md",
+      "status": "modified",
+      "sha256_before": "8a00fe281b9bad6d86376590c809036b288ff7253c35d6adc6062ac128bd98d6",
+      "sha256_after": "2814601d12ed826ef137b02b186c665dc3bd28335b0d6301ff1f9d08f4dd67ee"
+    },
+    {
+      "path": "docs/H01_007_OPEN_ISSUES.md",
+      "status": "modified",
+      "sha256_before": "37eda88fb80a53f507a17b2a9362f49eb1176fe131fb589f16b162c5d093d607",
+      "sha256_after": "ee8534c8dbb51f89f65899d35623c009a124a84897751d10cb63fa087fb9e5b6"
+    },
+    {
+      "path": "docs/H01_007_P1_BASELINE_TEST.log",
+      "status": "added",
+      "sha256_before": null,
+      "sha256_after": "57cba39104cc6179afbd4eac106022ddf6d46245dcd00489e9660bfcff6cb66e"
+    },
+    {
+      "path": "docs/H01_007_P1_IMPLEMENTATION_REPORT.md",
+      "status": "added",
+      "sha256_before": null,
+      "sha256_after": "0d344bf9efcd5c326db7c52fdf45d538549cba25a6aca9e43821fd8fa4002f65"
+    },
+    {
+      "path": "docs/H01_007_P1_PATCHES/mini_storage_coupon_benefit_v1.js.diff",
+      "status": "added",
+      "sha256_before": null,
+      "sha256_after": "56dae4db0d1e8dd6f5831d67d745e4fba27fd1f3020d3a9a9f65da653eeb4575"
+    },
+    {
+      "path": "docs/H01_007_P1_PATCHES/mini_storage_coupon_select_c02_v1.html.diff",
+      "status": "added",
+      "sha256_before": null,
+      "sha256_after": "ea6ad93ba2d1a889968e1ab00fc61b7a4fa0bab1a727e175a68d883cabd17b05"
+    },
+    {
+      "path": "docs/H01_007_P1_VALIDATION.json",
+      "status": "added",
+      "sha256_before": null,
+      "sha256_after": "6f42f406877eabd757fc4e4a68ed94c2a22d8bd691454b6d762d966ac7cc8d36"
+    },
+    {
+      "path": "docs/H01_007_S5_FINAL_ACCEPTANCE_REPORT.md",
+      "status": "modified",
+      "sha256_before": "154e94329ba0662a1de0ba0354d164dfa770f48789d3d3858f03097a376cfeab",
+      "sha256_after": "7c3fe5f8173ea7f84918a2687b66cccfcebc4bbf9a9cad1e9ac29e96419ee058"
+    },
+    {
+      "path": "prototype/mini_storage_coupon_benefit_v1.js",
+      "status": "modified",
+      "sha256_before": "5ab8c4e51e1dd51c319980a80cc2d5d937fe21141dd3afd8c24cc0237d914c50",
+      "sha256_after": "3f095b51667bb64b542d5b4f4a6e50cd40e921ccc4460b124aa7d39251a1eba7"
+    },
+    {
+      "path": "prototype/mini_storage_coupon_select_c02_v1.html",
+      "status": "modified",
+      "sha256_before": "8c60c47bfe3bcc5121ebc931e7d6873016265d79d3611eab980baf00772d87a8",
+      "sha256_after": "f9ed2b7abc820523df5c8f605c25280d49bf4a42dda8e0e8f4c236cc11817887"
+    },
+    {
+      "path": "qa/test_h01_007_p1_coupon_settlement.cjs",
+      "status": "added",
+      "sha256_before": null,
+      "sha256_after": "abb7baf28b11e3ae16b90f6f8ed2f79d1006cec456278c230aa2caf72f0158e8"
+    },
+    {
+      "path": "qa/test_h01_007_p1_http_flows.py",
+      "status": "added",
+      "sha256_before": null,
+      "sha256_after": "1c2e987dc845ab6fc6b1b2bc56f0e2969b114d68674eb2007e3ed4cd0be1e0bb"
+    },
+    {
+      "path": "qa/test_h01_007_s3_trade_recheck.cjs",
+      "status": "modified",
+      "sha256_before": "1fa344c0661b41675809a8c9a884c70d95c3c8421e285fd23623b2d3abafc7f1",
+      "sha256_after": "836be1a66c0b0c3371dcb25bcd7b1ba30cbf393d1a322d93357a0c0785e8d867"
+    },
+    {
+      "path": "tools/check_package.py",
+      "status": "modified",
+      "sha256_before": "ed65dfe6b305956e651d732d9b81191a67f987d200a76fa2976d0c112496cdfc",
+      "sha256_after": "cf3e476069f4a31caac737241a089ac866d1203a6e29cb5d65e2ff913d979871"
+    },
+    {
+      "path": "tools/run_regression.py",
+      "status": "modified",
+      "sha256_before": "b89b6b0cc4d11cb82c55479942be10974b32602a22f5de08097850a7fbe6d2ec",
+      "sha256_after": "4d950ff95de1191436acef898ea42e115b4f1f97e9fb57f85e556b39f11c24f5"
+    }
+  ]
+}

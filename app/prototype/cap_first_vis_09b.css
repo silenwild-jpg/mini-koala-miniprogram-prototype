@@ -1,0 +1,10 @@
+/* CAP-FIRST-VIS-09B: temporary cropped reference art on the known-size step. */
+#cap09bPreview{margin:14px 0;border:1px solid #DCE7DF;border-radius:16px;padding:12px;background:#F9FCF9;color:#244334}
+#cap09bPreview .cap09b-title{font-size:15px;font-weight:800;line-height:1.4}
+#cap09bPreview .cap09b-subtitle,#cap09bPreview .cap09b-note{font-size:11px;line-height:1.5;color:#65796B;margin:5px 0 0}
+#cap09bPreview .cap09b-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:11px 0}
+#cap09bPreview .cap09b-quick button{min-width:0;min-height:44px;border:1px solid #D8E4DA;border-radius:10px;background:#FFF;color:#2F6B4F;font-size:12px;font-weight:700;cursor:pointer}
+#cap09bPreview .cap09b-quick button[aria-pressed="true"]{border-color:#79B69A;background:#EAF5ED}
+#cap09bPreview .cap09b-scene{display:block;width:100%;max-width:360px;height:auto;max-height:250px;object-fit:contain;margin:8px auto;border-radius:12px;background:#EAF3ED}
+#cap09bPreview .cap09b-items{display:block;width:100%;max-width:360px;height:auto;max-height:112px;object-fit:contain;margin:8px auto 0;border-radius:10px;background:#FFF}
+#cap09bPreview img[hidden]{display:none!important}

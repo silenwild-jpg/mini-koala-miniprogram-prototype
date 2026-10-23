@@ -1,0 +1,242 @@
+/* VIS-06C Batch A | S01/S02/U01 content-layer controlled closeout | 2026-10-14.
+   Scope strictly limited to the three opt-in page classes. No scripts, DOM, totals,
+   inventory, coupon or navigation behavior is changed. The existing V3 shell stays in force.
+   P2-3 global-help positioning is intentionally NOT touched. */
+body.koala-ui-v1.koala-s01,
+body.koala-site-shell:is(.koala-s02,.koala-u01) {
+  --koala-price-strong: #B85A16;
+  --koala-price-soft: #FFF0E2;
+  --koala-text-3: #6D7671;
+  --koala-content-divider: #EEF1EF;
+}
+
+/* S01 already has V3 StoreCard, tag wrapping and filter behavior. Only bridge
+   component-type scales; do not replace browse/demand semantics or card layout. */
+body.koala-ui-v1.koala-s01 .compact-filter-btn .filter-current {
+  font-size: 12px !important;
+  line-height: 17px !important;
+  font-weight: 600 !important;
+}
+body.koala-ui-v1.koala-s01 .store .price-unit,
+body.koala-ui-v1.koala-s01 .store .price-start {
+  font-size: 12px !important;
+  line-height: 17px !important;
+  font-weight: 500 !important;
+  color: var(--koala-text-3) !important;
+}
+body.koala-ui-v1.koala-s01 .store .contract-price .price-number,
+body.koala-ui-v1.koala-s01 .store .browse-unit-price .price-number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* S02: use near-white canvas and white information cards like S01, retaining
+   all unit ordering, sold-out, fallback, match and price generation in JS. */
+body.koala-site-shell.koala-s02 .header h1,
+body.koala-site-shell.koala-u01 .header h1 {
+  font-size: 17px !important;
+  line-height: 24px !important;
+  font-weight: 700 !important;
+}
+body.koala-site-shell.koala-s02 .store-overview {
+  margin: 12px 16px 0 !important;
+  padding: 14px !important;
+  background: var(--koala-surface) !important;
+  border: 1px solid var(--koala-line) !important;
+  border-radius: 14px !important;
+  min-width: 0;
+}
+body.koala-site-shell.koala-s02 .store-title-row > div:first-child { min-width: 0; }
+body.koala-site-shell.koala-s02 .store-title {
+  color: var(--koala-text) !important;
+  font-size: 20px !important;
+  line-height: 28px !important;
+  font-weight: 700 !important;
+}
+body.koala-site-shell.koala-s02 :is(.store-detail-address,.district,.route,.service-line) {
+  font-size: 12px !important;
+  line-height: 18px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-s02 .route b { font-size: 13px !important; color: var(--koala-text) !important; }
+body.koala-site-shell.koala-s02 .navbtn {
+  min-height: 36px !important;
+  padding: 7px 10px !important;
+  font-size: 13px !important;
+  border-color: #CFE1D6 !important;
+  color: var(--koala-brand) !important;
+  border-radius: 10px !important;
+}
+body.koala-site-shell.koala-s02 :is(.section,.browse-helper,.demand,.hv-intro) {
+  border-color: var(--koala-line) !important;
+  border-radius: 14px !important;
+}
+body.koala-site-shell.koala-s02 .section {
+  margin: 12px 16px 0 !important;
+  padding: 16px 14px !important;
+  background: var(--koala-surface) !important;
+  border: 1px solid var(--koala-line) !important;
+}
+body.koala-site-shell.koala-s02 .section h2 {
+  font-size: 17px !important;
+  line-height: 24px !important;
+  font-weight: 700 !important;
+}
+body.koala-site-shell.koala-s02 .section-head span,
+body.koala-site-shell.koala-s02 .store .unit-dims,
+body.koala-site-shell.koala-s02 .unit-dims,
+body.koala-site-shell.koala-s02 .unit-reason,
+body.koala-site-shell.koala-s02 .unit-price small,
+body.koala-site-shell.koala-s02 .price-logic,
+body.koala-site-shell.koala-s02 .combo-total-label {
+  font-size: 12px !important;
+  line-height: 18px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-s02 .unit-card {
+  padding: 13px !important;
+  border-color: var(--koala-line) !important;
+  border-radius: 14px !important;
+  min-width: 0 !important;
+}
+body.koala-site-shell.koala-s02 .unit-top,
+body.koala-site-shell.koala-s02 .unit-bottom { min-width: 0; }
+body.koala-site-shell.koala-s02 .unit-price { min-width: 0; flex: 1 1 auto; }
+body.koala-site-shell.koala-s02 .unit-bottom {
+  border-top: 1px solid var(--koala-content-divider) !important;
+  gap: 10px !important;
+  align-items: center !important;
+}
+body.koala-site-shell.koala-s02 .role,
+body.koala-site-shell.koala-s02 .unit-id,
+body.koala-site-shell.koala-s02 .unit-price-label {
+  font-size: 12px !important;
+  line-height: 17px !important;
+}
+body.koala-site-shell.koala-s02 .unit-price-main {
+  font-size: 22px !important;
+  line-height: 28px !important;
+  color: var(--koala-price) !important;
+  font-weight: 750 !important;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+body.koala-site-shell.koala-s02 .unit-size { font-size: 21px !important; line-height: 28px !important; }
+body.koala-site-shell.koala-s02 .unit-cta {
+  flex: 0 0 auto;
+  min-width: 110px;
+  min-height: 44px !important;
+  padding: 9px 10px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  border-color: var(--koala-brand) !important;
+  color: var(--koala-brand) !important;
+}
+body.koala-site-shell.koala-s02 .unit-cta:disabled { opacity: .6; }
+body.koala-site-shell.koala-s02 :is(.summarybox span,.infoitem span,.iconbox span) {
+  font-size: 12px !important;
+  line-height: 17px !important;
+}
+body.koala-site-shell.koala-s02 .phase3b-more-units {
+  width: 100% !important;
+  min-height: 44px !important;
+  margin: 8px auto 0 !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  text-align: center !important;
+}
+body.koala-site-shell.koala-s02 :is(.browse-helper,.demand,.hv-intro) {
+  margin-left: 16px !important;
+  margin-right: 16px !important;
+  padding: 12px !important;
+}
+body.koala-site-shell.koala-s02 .unit-card .unit-price small,
+body.koala-site-shell.koala-s02 .combo-total-label { font-weight: 500 !important; }
+body.koala-site-shell.koala-s02 .combo-total {
+  font-size: 22px !important;
+  color: var(--koala-price) !important;
+}
+body.koala-site-shell.koala-s02 .combo-action {
+  min-height: 48px !important;
+  font-size: 14px !important;
+  border-radius: 12px !important;
+  background: var(--koala-brand) !important;
+}
+
+/* U01: refine legibility and decision controls, preserving the carefully
+   reconciled total-rent/initial-payment contract and fixed amount alignment. */
+body.koala-site-shell.koala-u01 .page > :is(.card,.section) { border-color: var(--koala-line) !important; }
+body.koala-site-shell.koala-u01 .kicker,
+body.koala-site-shell.koala-u01 .unitid,
+body.koala-site-shell.koala-u01 .sub,
+body.koala-site-shell.koala-u01 .dim span,
+body.koala-site-shell.koala-u01 .term-details summary span,
+body.koala-site-shell.koala-u01 .term-custom-label,
+body.koala-site-shell.koala-u01 .term-human,
+body.koala-site-shell.koala-u01 .term-price-hint {
+  font-size: 12px !important;
+  line-height: 18px !important;
+  color: var(--koala-text-2) !important;
+}
+body.koala-site-shell.koala-u01 .term-details,
+body.koala-site-shell.koala-u01 .dim { border-color: var(--koala-line) !important; }
+body.koala-site-shell.koala-u01 .term-quick button {
+  min-height: 44px !important;
+  font-size: 12px !important;
+  line-height: 17px !important;
+  border-color: var(--koala-line) !important;
+}
+body.koala-site-shell.koala-u01 .term-quick button small {
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+body.koala-site-shell.koala-u01 .term-stepper button,
+body.koala-site-shell.koala-u01 .term-stepper input { min-height: 44px !important; }
+body.koala-site-shell.koala-u01 #termSection .totalbox {
+  font-size: 12px !important;
+  line-height: 18px !important;
+}
+body.koala-site-shell.koala-u01 #termSection .totalbox > div { gap: 8px !important; }
+body.koala-site-shell.koala-u01 .save-quote-link {
+  min-height: 44px !important;
+  font-size: 13px !important;
+}
+body.koala-site-shell.koala-u01 .dim b,
+body.koala-site-shell.koala-u01 .row b { font-size: 14px !important; }
+
+/* S02 / U01 bottom action bars: visual sizing only, no event or state changes.
+   The help FAB is separate and explicitly excluded from this batch. */
+body.koala-site-shell:is(.koala-s02,.koala-u01) .bottombar {
+  height: auto !important;
+  min-height: 68px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0,38%) minmax(0,1fr) !important;
+  gap: 10px !important;
+  padding: 10px 16px max(10px, env(safe-area-inset-bottom)) !important;
+  background: var(--koala-surface) !important;
+  border-top: 1px solid var(--koala-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+body.koala-site-shell:is(.koala-s02,.koala-u01) .bottombar button {
+  min-width: 0 !important;
+  min-height: 48px !important;
+  border-radius: 12px !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+body.koala-site-shell:is(.koala-s02,.koala-u01) .bottombar .secondary,
+body.koala-site-shell.koala-u01 .bottombar #advisorBtn {
+  background: #FFF !important;
+  color: var(--koala-brand) !important;
+  border: 1px solid #CFE1D6 !important;
+}
+body.koala-site-shell:is(.koala-s02,.koala-u01) .page {
+  padding-bottom: calc(106px + env(safe-area-inset-bottom)) !important;
+}
+@media(max-width: 380px) {
+  body.koala-site-shell.koala-s02 .unit-cta { min-width: 102px; padding-inline: 8px !important; }
+  body.koala-site-shell:is(.koala-s02,.koala-u01) .bottombar button { font-size: 13px !important; }
+}

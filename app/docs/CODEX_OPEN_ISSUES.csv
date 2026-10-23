@@ -1,0 +1,13 @@
+﻿issue_id,summary,status,basis
+D3-P1-01,S5首卡/步骤条,PREPAY_BROWSER_PASS,P05/P07
+D3-P1-02,合法报价/演示种子,PREPAY_BROWSER_PASS,P12
+D3-P1-03,支付失败恢复,OPEN/DEFERRED,07_DEFERRED_FULL_D4.md
+D3-P1-04,距离/当前店排除/返回,PREPAY_BROWSER_PASS,P10
+D3-P1-05,退租确认与防重,OPEN/DEFERRED,07_DEFERRED_FULL_D4.md
+QA-P13-LOCK,其他订单锁券合法UI样本,NOT TESTED,c4_final/P13
+QA-P15-PRICE-STOCK,真实变价与交易库存不可用UI样本,NOT TESTED,c4_target_final/P15
+VIS-A-IMAGE,已发券原图；异常状态仅VM,PARTIAL_BROWSER/VM_PASS,c3_final + qa/test_demo_price01_b2_states.cjs
+PRICE-B2,四页金额层级与核心金额浮窗,BROWSER_PASS,c3_final
+D3-P2,11项D3 P2及历史P2,CARRYFORWARD,history
+QA-HISTORIC,原有90个顶层测试非零,OPEN,source_comparison_final
+WECHAT,微信真机与真实API,NOT TESTED,outside scope

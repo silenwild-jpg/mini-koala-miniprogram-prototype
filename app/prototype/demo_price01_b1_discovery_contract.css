@@ -1,0 +1,68 @@
+/* DEMO-PRICE-01 B1 | price hierarchy only; no calculations/data/flow edits.
+   H01/S01/S02 follow L0 reference vs L1 contracted rent, and S5 inherits DEMO-VIS-01.
+   Only mobile demo CSS. Do not infer business values from these styles. */
+@layer mk-v3 {
+/* H01: browse/reference label stays secondary; term-associated totals gain emphasis.
+   Do not touch the featured/alternative layout grid or recommendation behavior. */
+body.koala-ui-v1.koala-h01 #nearNew .featured-price.is-term-price::before,
+body.koala-ui-v1.koala-h01 #nearNew .home-store-alts .alt-price.is-term-price::before {
+  color:var(--koala-text-2,#59645E)!important;font-size:12px!important;
+  line-height:18px!important;font-weight:500!important;
+}
+body.koala-ui-v1.koala-h01 #nearNew .featured-price.is-term-price .price-num {
+  font-size:26px!important;line-height:30px!important;font-weight:750!important;
+  color:var(--koala-price,#D56A1C)!important;font-variant-numeric:tabular-nums!important;
+}
+body.koala-ui-v1.koala-h01 #nearNew .home-store-alts .alt-price.is-term-price .price-num {
+  font-size:21px!important;line-height:26px!important;font-weight:750!important;
+  color:var(--koala-price,#D56A1C)!important;font-variant-numeric:tabular-nums!important;
+}
+body.koala-ui-v1.koala-h01 #nearNew .featured-price.is-term-price .price-unit,
+body.koala-ui-v1.koala-h01 #nearNew .home-store-alts .alt-price.is-term-price .price-unit {
+  color:var(--koala-text-2,#59645E)!important;font-size:12px!important;
+  line-height:16px!important;font-weight:500!important;
+}
+/* S01: contract amount larger than the browse reference price, while the
+   available/matched inventory remains black secondary factual content. */
+body.koala-ui-v1.koala-s01 .store .fact.pricefact {min-width:0!important}
+body.koala-ui-v1.koala-s01 .store .pricefact .label {
+  color:var(--koala-text-2,#59645E)!important;font-size:12px!important;
+  line-height:18px!important;font-weight:500!important;
+}
+body.koala-ui-v1.koala-s01 .store .browse-unit-price .price-number {
+  color:var(--koala-price,#D56A1C)!important;font-size:21px!important;
+  line-height:26px!important;font-weight:700!important;font-variant-numeric:tabular-nums!important;
+}
+body.koala-ui-v1.koala-s01 .store.demand-card .contract-price .price-number {
+  color:var(--koala-price,#D56A1C)!important;font-size:clamp(21px,5.85vw,24px)!important;
+  line-height:28px!important;font-weight:750!important;font-variant-numeric:tabular-nums!important;
+  overflow-wrap:anywhere!important;
+}
+body.koala-ui-v1.koala-s01 .store .pricefact .price-unit,
+body.koala-ui-v1.koala-s01 .store .pricefact .price-start {
+  font-size:12px!important;line-height:17px!important;font-weight:400!important;
+  color:var(--koala-text-2,#59645E)!important;
+}
+/* S02: one emphasized number per unit; units, hints and discounts stay secondary.
+   Preserve exact per-unit rent / reference semantics already produced by JS. */
+body.koala-site-shell.koala-s02 .unit-card .unit-price-label {
+  font-size:12px!important;line-height:18px!important;font-weight:500!important;
+  color:var(--koala-text-2,#59645E)!important;
+}
+body.koala-site-shell.koala-s02 .unit-card .unit-price-main {
+  font-size:25px!important;line-height:31px!important;font-weight:750!important;
+  color:var(--koala-price,#D56A1C)!important;font-variant-numeric:tabular-nums!important;
+  overflow-wrap:anywhere!important;
+}
+body.koala-site-shell.koala-s02 .unit-card .unit-price small {
+  display:block!important;color:var(--koala-text-2,#59645E)!important;
+  font-size:12px!important;line-height:18px!important;font-weight:400!important;
+}
+body.koala-site-shell.koala-s02 .unit-bottom{min-width:0!important}
+body.koala-site-shell.koala-s02 .unit-price{min-width:0!important}
+@media(max-width:380px){
+ body.koala-ui-v1.koala-h01 #nearNew .featured-price.is-term-price .price-num{font-size:24px!important;line-height:28px!important}
+ body.koala-ui-v1.koala-h01 #nearNew .home-store-alts .alt-price.is-term-price .price-num{font-size:20px!important;line-height:24px!important}
+ body.koala-site-shell.koala-s02 .unit-card .unit-price-main{font-size:23px!important;line-height:29px!important}
+}
+}

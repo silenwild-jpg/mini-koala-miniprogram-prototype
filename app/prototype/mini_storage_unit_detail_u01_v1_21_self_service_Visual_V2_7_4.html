@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" class="vis-bg01" data-vis-page="U01">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>U01 仓位详情｜1–60个月租期</title>
+<style>
+:root{--bg:#eef2f4;--card:#fff;--text:#1f2a33;--muted:#75828c;--line:#dbe2e7;--primary:#24748a;--soft:#edf6f8;--warn:#fff8e8;--shadow:0 10px 28px rgba(32,50,61,.10)}
+*{box-sizing:border-box}body{margin:0;background:#dde3e7;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+button,input{font:inherit}.shell{width:390px;max-width:100%;height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.page{height:100%;overflow:auto;padding-bottom:86px}.header{height:48px;background:#fff;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.back,.more{text-align:center;font-size:20px;color:#43535d;cursor:pointer}.header h1{text-align:center;font-size:15px;margin:0}
+.hero{height:205px;background:#dfe5e9;display:flex;align-items:center;justify-content:center;text-align:center;color:#7f8b93;position:relative}
+.counter{position:absolute;right:10px;bottom:10px;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 8px;font-size:9px}.hero-note{font-size:11px;line-height:1.55}
+.card,.section{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 12px;margin-top:9px}.card{margin-top:0}
+.kicker{font-size:9px;color:var(--primary);font-weight:900}.title-row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-top:4px}
+.size{font-size:28px;font-weight:900}.unitid{font-size:9px;color:var(--muted);padding-top:5px}.sub{font-size:10px;color:var(--muted);margin-top:3px}
+.pricebox{margin-top:12px;background:#f7fbfc;border:1px solid #d9e9ed;border-radius:12px;padding:11px}.pricebox .label{font-size:8px;color:var(--muted)}
+.pricebox .price{font-size:22px;font-weight:900;color:var(--primary);margin-top:2px}.pricebox .meta{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.45}
+.fit{margin-top:10px;padding:10px;border-radius:11px;background:var(--soft);font-size:10px;line-height:1.5}.fit.warn{background:var(--warn);color:#6c5d3e}
+.section h2{font-size:15px;margin:0 0 10px}.dimgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.dim{border:1px solid #edf1f3;border-radius:10px;padding:9px;text-align:center;background:#fafcfd}
+.dim span{display:block;font-size:8px;color:var(--muted)}.dim b{display:block;font-size:13px;margin-top:3px}.rows{display:flex;flex-direction:column}
+.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #eef2f4;font-size:10px}.rows .row[hidden]{display:none!important}.row:last-child{border-bottom:0}.row span{color:var(--muted)}.row b{text-align:right}
+.photo-mini{height:120px;border:1px solid var(--line);border-radius:11px;background:#e4e9ec;display:flex;align-items:center;justify-content:center;color:#839098;font-size:10px;text-align:center}
+.term-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:8px}.term-quick button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 3px;font-size:9px;cursor:pointer}
+.term-quick button.active{border-color:var(--primary);background:var(--soft);color:var(--primary);font-weight:900}
+.term-custom{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fafcfd}.term-custom-label{font-size:9px;color:var(--muted);margin-bottom:7px}
+.term-custom.custom-active{border-color:#9ccbd5;background:var(--soft)}
+.term-stepper{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:7px;align-items:center}.term-stepper button{height:38px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:17px;cursor:pointer}
+.term-stepper input{width:100%;height:38px;border:1px solid var(--line);background:#fff;border-radius:9px;text-align:center;font-weight:900;color:var(--text)}
+.term-human{text-align:center;font-size:9px;color:var(--muted);margin-top:6px}.term-note{font-size:8px;color:var(--muted);margin-top:6px;line-height:1.5}
+.totalbox{margin-top:8px;display:flex;flex-direction:column;font-size:9px;color:var(--muted)}.totalbox>div{display:flex;justify-content:space-between;gap:8px;padding:5px 0}.totalbox>div+div{border-top:1px solid #e8eef0}.totalbox b{color:var(--text);font-size:11px}.totalbox .initial b{color:var(--primary);font-size:13px}
+.breakpoint-list{display:flex;flex-direction:column;gap:7px;margin-top:9px}.breakpoint{border:1px solid #edf1f3;border-radius:10px;padding:9px 10px;background:#fafcfd;display:flex;justify-content:space-between;gap:8px;cursor:pointer}
+.breakpoint.focus{border-color:#e7d5a8;background:#fffaf0}.breakpoint b{font-size:10px}.breakpoint span{font-size:8px;color:var(--muted)}.bpprice{font-size:12px;font-weight:900;color:var(--primary);white-space:nowrap}
+.bottombar{position:absolute;left:0;right:0;bottom:0;height:72px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:105px 1fr;gap:8px;padding:10px 12px;z-index:25}
+.bottombar button{border-radius:11px;font-size:11px;font-weight:900;cursor:pointer}.secondary{border:1px solid var(--line);background:#fff;color:#4e5c65}.primary{border:0;background:var(--primary);color:#fff}
+.toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);background:#24323a;color:#fff;font-size:10px;padding:8px 12px;border-radius:9px;display:none;z-index:70;white-space:nowrap}
+
+.lead-card{
+  margin:10px 0 0;border:1px solid #d5e3e8;background:#f7fbfc;border-radius:13px;padding:11px 12px;
+}
+.lead-card.strong{border-color:#b7d6df;background:#eef7f9}
+.lead-card.soft{background:#fafcfd}
+.lead-card .lead-eyebrow{font-size:8px;color:var(--primary);font-weight:900;margin-bottom:4px}
+.lead-card .lead-title{font-size:12px;font-weight:900;line-height:1.45}
+.lead-card .lead-desc{font-size:9px;color:var(--muted);line-height:1.55;margin-top:4px}
+.lead-card .lead-actions{display:flex;gap:7px;margin-top:9px}
+.lead-card button{border-radius:9px;padding:8px 10px;font-size:9px;font-weight:900;cursor:pointer}
+.lead-primary{border:0;background:var(--primary);color:#fff}
+.lead-secondary{border:1px solid var(--line);background:#fff;color:#56646d}
+.lead-done{font-size:9px;color:#4f6a74;margin-top:7px;font-weight:800}
+.lead-mask{position:absolute;inset:0;background:rgba(20,30,36,.34);z-index:90;display:none}
+.lead-mask.show{display:block}
+.lead-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:15px 14px 20px}
+.lead-handle{width:36px;height:4px;border-radius:999px;background:#d4dade;margin:0 auto 11px}
+.lead-sheet h3{font-size:15px;margin:0 0 6px}
+.lead-sheet .lead-sheet-desc{font-size:9px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.lead-wx{width:100%;border:0;background:var(--primary);color:#fff;border-radius:11px;padding:11px;font-size:11px;font-weight:900;cursor:pointer}
+.lead-or{text-align:center;font-size:8px;color:var(--muted);margin:9px 0}
+.lead-phone-row{display:grid;grid-template-columns:1fr 90px;gap:7px}
+.lead-phone-row input{min-width:0;height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px;font-size:10px}
+.lead-phone-row button{border:1px solid var(--primary);background:#fff;color:var(--primary);border-radius:9px;font-size:9px;font-weight:900;cursor:pointer}
+.lead-skip{width:100%;border:0;background:transparent;color:#697780;padding:10px 0 0;font-size:9px;cursor:pointer}
+.lead-note{font-size:8px;color:var(--muted);line-height:1.45;margin-top:9px}
+
+
+.route-card{margin-top:10px;border:1px solid #d8e6ea;background:#f8fbfc;border-radius:12px;padding:10px 11px}
+.route-card .rt{font-size:10px;font-weight:900}.route-card .rd{font-size:9px;color:var(--muted);line-height:1.5;margin-top:3px}
+.save-link{font-size:9px;color:var(--primary);font-weight:900;margin-top:9px;cursor:pointer}
+
+
+.viewing-card{border:1px solid #cfe2e7;background:#f5fafb;border-radius:13px;padding:11px 12px}
+.viewing-card .ve{font-size:8px;color:var(--primary);font-weight:900}.viewing-card b{display:block;font-size:12px;margin-top:4px}.viewing-card p{font-size:9px;color:var(--muted);line-height:1.55;margin:4px 0 9px}
+.viewing-card button{width:100%;border:1px solid var(--primary);background:#fff;color:var(--primary);border-radius:10px;padding:9px;font-size:9px;font-weight:900;cursor:pointer}
+
+
+.unit-trust{border:1px solid #d7e6ea;background:#f7fbfc;border-radius:12px;padding:10px 11px}
+.unit-trust .top{display:flex;justify-content:space-between;gap:8px;align-items:center}.unit-trust b{font-size:11px}.unit-trust em{font-style:normal;font-size:9px;color:var(--primary);font-weight:900;cursor:pointer}.unit-trust p{font-size:8px;color:var(--muted);line-height:1.55;margin:5px 0 0}
+.unit-trust .mini{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.unit-trust .mini span{font-size:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 6px}
+
+
+.transport-promo{border:1px solid #efdfbd;background:#fff8e8;border-radius:13px;padding:11px 12px;margin-top:10px}.transport-promo .ey{font-size:8px;color:#8b6a20;font-weight:900}.transport-promo b{display:block;font-size:12px;margin-top:4px}.transport-promo p{font-size:9px;color:#6f6042;line-height:1.55;margin:4px 0 8px}.promo-checks{display:flex;flex-direction:column;gap:5px;font-size:9px}.promo-checks span{display:flex;justify-content:space-between;gap:8px}.pickup-row{display:flex;gap:6px;margin-top:9px}.pickup-row input{min-width:0;flex:1;border:1px solid var(--line);border-radius:9px;padding:8px;font-size:9px}.pickup-row button{border:1px solid var(--primary);background:#fff;color:var(--primary);border-radius:9px;padding:8px;font-size:9px;font-weight:900}.promo-ok{margin-top:8px;font-size:9px;color:#176b87;font-weight:900}
+
+/* UX polish */
+
+.kicker{font-size:11px!important}.sub{font-size:12px!important}.pricebox .label{font-size:10px!important}.pricebox .meta{font-size:11px!important}.fit{font-size:12px!important}.section h2{font-size:16px!important}.dim span{font-size:10px!important}.dim b{font-size:14px!important}.row{font-size:12px!important}
+.term-quick button{font-size:11px!important;padding:10px 4px}.term-custom-label,.term-human,.term-note{font-size:11px!important}.totalbox{font-size:11px!important}.totalbox b{font-size:13px!important}.breakpoint b{font-size:12px!important}.breakpoint span{font-size:10px!important}
+.route-card .rt{font-size:13px!important}.route-card .rd,.save-link{font-size:11px!important}.viewing-card .ve{font-size:10px!important}.viewing-card b{font-size:14px!important}.viewing-card p{font-size:11px!important}.viewing-card button{font-size:12px!important}
+.unit-trust b{font-size:13px!important}.unit-trust em{font-size:11px!important}.unit-trust p,.unit-trust .mini span{font-size:10px!important}.transport-promo .ey{font-size:10px!important}.transport-promo b{font-size:14px!important}.transport-promo p,.promo-checks,.promo-ok{font-size:11px!important}.pickup-row input,.pickup-row button{font-size:11px!important}
+.lead-card .lead-eyebrow{font-size:10px!important}.lead-card .lead-title{font-size:14px!important}.lead-card .lead-desc,.lead-note{font-size:11px!important}.lead-card button{font-size:12px!important}
+
+
+/* User clarity iteration */
+
+.unit-plain{font-size:11px;color:#586a75;line-height:1.5;margin-top:5px;max-width:235px}
+.start-date-box{margin-top:9px;border:1px solid #e1e8eb;border-radius:12px;padding:10px;background:#fafcfd}.start-date-head b{font-size:13px}.start-date-head span{display:block;font-size:10px;color:var(--muted);margin-top:2px}.start-date-actions{display:grid;grid-template-columns:64px 64px 1fr;gap:7px;margin-top:9px}.start-date-actions button,.start-date-actions input{height:38px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:11px;padding:0 7px}.start-date-actions button.active{border-color:var(--primary);background:var(--soft);color:var(--primary);font-weight:900}.start-date-actions input{min-width:0;color:var(--text)}
+
+
+.price-ref{margin-top:10px;border-top:1px solid #eef2f4;padding-top:9px}.price-ref summary{list-style:none;color:var(--primary);font-size:12px;font-weight:900;cursor:pointer}.price-ref summary::-webkit-details-marker{display:none}.price-ref summary:after{content:' ▾'} .price-ref[open] summary:after{content:' ▴'}
+.urgency-r113{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:10px 0 12px}.urgency-r113 span{background:#fff0df;color:#a95500;padding:4px 7px;border-radius:999px;font-size:11px;font-weight:900}.urgency-r113 b{font-size:12px}.urgency-r113 em{font-style:normal;font-size:11px;color:#d44b2a;font-weight:800}</style>
+<style id="h01-visual-system-v21-migration">
+
+:root{
+  --ms-bg:#FBF8F2;
+  --ms-surface:#FFFDFC;
+  --ms-surface-strong:#FFFFFF;
+  --ms-text:#282F2B;
+  --ms-muted:#6F7671;
+  --ms-line:#E7E0D7;
+  --ms-green:#2D7154;
+  --ms-green-soft:#EEF5F0;
+  --ms-green-deep:#294638;
+  --ms-orange:#E77A3A;
+  --ms-sand:#F6EFE5;
+  --ms-shadow:0 8px 24px rgba(56,48,38,.065);
+  --ms-shadow-soft:0 4px 14px rgba(56,48,38,.045);
+  --ms-r-lg:18px;
+  --ms-r-md:14px;
+  --ms-r-sm:10px;
+}
+html,body{background:#EEE9E1!important;color:var(--ms-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+button,input,select,textarea{font:inherit}
+
+.shell,.phone{background:var(--ms-bg)!important;box-shadow:0 22px 52px rgba(48,43,35,.14)!important}
+.header,.nav,.status,.tabbar,.bottombar,.bottom{background:rgba(255,253,249,.96)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.header,.nav{border-bottom:1px solid rgba(231,224,215,.78)!important}
+.header h1,.nav span,#navTitle{color:var(--ms-text)!important;font-weight:850!important;letter-spacing:-.01em}
+.more,.back{color:#4B5B52!important}
+.section h2,.section-title,h1,h2,h3{color:var(--ms-text)}
+.sub,.desc,.meta,.hint,.label{color:var(--ms-muted)}
+.primary,.cta,.apply{background:var(--ms-green)!important;border-color:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.14)!important}
+.secondary{background:var(--ms-surface)!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}
+.price,.unit-price,.pricefact .value,[class*="price"] strong{color:var(--ms-orange)}
+input,select,textarea{background:#FFF!important;border-color:var(--ms-line)!important;color:var(--ms-text)!important}
+@media(max-width:650px){html,body{background:var(--ms-bg)!important}.shell,.phone{box-shadow:none!important}}
+
+/* U01 — unit detail */
+.page{background:var(--ms-bg)!important}
+.hero{border-radius:0 0 20px 20px!important;box-shadow:0 8px 22px rgba(58,49,39,.07)!important}
+.card{margin:10px!important;background:#FFF!important;border:0!important;border-radius:18px!important;box-shadow:var(--ms-shadow)!important}
+.kicker{background:var(--ms-green-soft)!important;color:var(--ms-green)!important;border-color:#DCE8DF!important}
+.size{color:#29342E!important;font-weight:900!important}.unitid{color:#7A807C!important}
+.pricebox{background:#FBF9F5!important;border:1px solid #ECE6DE!important;border-radius:14px!important}
+.pricebox .price{color:var(--ms-orange)!important;font-weight:900!important}
+.section{margin:10px!important;background:var(--ms-surface)!important;border:1px solid var(--ms-line)!important;border-radius:18px!important;box-shadow:var(--ms-shadow-soft)!important}
+.row{border-color:#EFE9E2!important}.row b{color:#343C37!important}
+.term-quick button,.term-stepper button,.start-date-actions button{background:#FFF!important;border-color:var(--ms-line)!important;color:#58635D!important}
+.term-quick button.active,.start-date-actions button.active{background:var(--ms-green-soft)!important;border-color:#BFD5C7!important;color:var(--ms-green)!important}
+.term-custom,.start-date-box,.transport-promo{background:#FBF9F5!important;border-color:#ECE6DE!important;border-radius:14px!important}
+.urgency-r113{background:#FFF1E5!important;border-color:#F1D7C3!important;color:#8A552E!important}
+.totalbox .initial b{color:var(--ms-orange)!important}
+.bottombar{border-top:1px solid var(--ms-line)!important;box-shadow:0 -5px 18px rgba(62,54,42,.04)!important}
+
+</style>
+<style id="visual-v22-qa-closeout">
+/* Visual V2.2 QA closeout — CSS only. No DOM/copy/order/JS changes. */
+:root{--v22-touch:44px}
+@media(max-width:650px){
+  html,body{background:var(--ms-bg,var(--bg,#FBF8F2))!important}
+  .shell{width:100%!important;max-width:none!important;height:100dvh!important;margin:0!important;box-shadow:none!important}
+  .tabbar,.bottomnav{padding-bottom:env(safe-area-inset-bottom)}
+  .bottombar,.bottom{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
+/* Bottom actions remain visually separate from scroll content. */
+.bottombar,.bottomnav,.tabbar,.bottom{box-shadow:0 -5px 18px rgba(62,54,42,.055)!important}
+/* Price typography: consistent numeric rhythm. */
+.price,.unit-price,.price-num,.value,[id*=Price],[id=monthly]{font-variant-numeric:tabular-nums}
+</style>
+<style id="visual-v22-u01-qa">
+.counter,.unitid{font-size:10px!important}
+.pricebox .label,.lead-card .lead-eyebrow{font-size:10px!important}
+.photo-mini,.viewing-card p,.fit{font-size:11px!important;line-height:1.5!important}
+@media(max-width:650px){.page{padding-bottom:92px!important}}
+</style>
+<style>
+/* V2.7.3 Structure Fix */
+
+#hero.hero{height:135px!important}
+#termSection{margin-top:10px!important}
+#termSection h2{margin-bottom:10px!important}
+#termSection .term-custom{margin-top:8px!important}
+#termSection .start-date-box{margin-top:10px!important}
+.decision-support{padding-top:10px!important;padding-bottom:10px!important}
+.decision-support:has(#transportPromo.hidden) #transportPromo{display:none!important}
+.decision-support .price-ref{margin-top:0!important}
+.page>.section:has(>h2:first-child:nth-last-child(n+1)){ }
+/* Matching explanation is supportive, not the primary transaction decision. */
+.page>.section:has(>h2:first-child){ }
+
+</style><style>
+/* V2.7.3 Structure Fix */
+
+.match-section{padding:12px 13px!important}
+.match-section h2{font-size:15px!important;margin-bottom:7px!important}
+.match-section .row{padding:8px 0!important}
+.route-card{padding:10px 11px!important;margin-top:9px!important}
+.route-card .rd{line-height:1.45!important}
+
+</style>
+<style id="v274-wx-capsule-global">
+/* V2.7.3 — reserve the right side for the native WeChat Mini Program capsule. */
+.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;gap:11px;color:#1F2933;font-size:15px;box-shadow:0 1px 3px rgba(20,32,51,.04);justify-self:center;flex:0 0 86px}
+.wx-capsule-space .divider{width:1px;height:16px;background:#E4E7E9}.wx-capsule-space .dot{letter-spacing:1px;font-size:13px}.wx-capsule-space .circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%;display:block}
+.header,.nav{grid-template-columns:48px minmax(0,1fr) 94px!important}
+.header{display:grid!important}.header h1,.nav>h1,.nav>b,#navTitle{text-align:center!important;min-width:0}
+.header>.back,.nav>.back{justify-self:center}.header>.wx-capsule-space,.nav>.wx-capsule-space{justify-self:center}
+.top{display:grid!important;grid-template-columns:48px minmax(0,1fr) 94px!important;align-items:center!important;gap:0!important;padding-left:8px!important;padding-right:4px!important}.top h1{text-align:center!important;min-width:0}.top>.back{justify-self:center}.top>.wx-capsule-space{justify-self:center}
+@media(max-width:380px){.wx-capsule-space{width:82px;flex-basis:82px}.header,.nav,.top{grid-template-columns:44px minmax(0,1fr) 88px!important}}
+</style>
+
+<style id="v274-u01-cleanup">
+/* U01 becomes a concise unit decision page. */
+.card{padding-bottom:13px!important}.match-section .fit{margin:0 0 6px!important;padding:8px 10px!important;font-size:12px!important}
+.term-details{border:1px solid var(--ms-line);border-radius:13px;background:#FFF;margin-bottom:10px;overflow:hidden}.term-details summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 12px;cursor:pointer}.term-details summary::-webkit-details-marker{display:none}.term-details summary span{display:block;font-size:11px;color:var(--ms-muted);margin-bottom:2px}.term-details summary b{font-size:14px;color:var(--ms-text)}.term-details summary em{font-style:normal;font-size:12px;color:var(--ms-green);font-weight:800}.term-editor-body{border-top:1px solid var(--ms-line);padding:11px 12px}.term-custom{margin-top:9px!important}.term-note{font-size:12px!important}.term-stepper button{width:36px!important;height:36px!important;border-radius:50%!important;padding:0!important;color:var(--ms-green)!important;border-color:#BFCFC5!important}.term-stepper input{height:38px!important}
+.term-quick button{min-height:44px}.term-stepper button{width:44px!important;height:44px!important;min-width:44px!important}.term-stepper input{height:44px!important}.term-quick small{display:block;margin-top:2px;font-size:10px;line-height:1.2;color:#A85E25}.term-comparison{margin:10px 0;padding:12px;border:1px solid #D5E4D9;border-radius:13px;background:#F5FAF5}.term-comparison[hidden]{display:none}.term-comparison b{font-size:13px}.term-comparison p{font-size:12px;line-height:1.55;margin:7px 0}.term-comparison .compare-actions{display:flex;gap:8px}.term-comparison button{min-height:44px;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:800;flex:1}.term-comparison .apply-compare{border:1px solid var(--ms-green);background:var(--ms-green);color:#fff}.term-comparison .keep-compare{border:1px solid #BFD5C7;background:#fff;color:var(--ms-green)}.term-price-hint{font-size:12px;line-height:1.5;color:#63716B;margin:7px 0 0}
+.unified-price{margin-top:0!important;background:#FFF!important;border:1px solid #E5DED4!important}.unified-price .label{font-size:12px!important;font-weight:800!important;color:#5F6963!important}.unified-price .total-rent{font-size:30px!important;line-height:1.12!important;color:var(--ms-orange)!important;font-weight:900!important;letter-spacing:-.5px}.monthly-secondary{font-size:13px;color:var(--ms-muted);font-weight:700;margin-top:4px}.unified-price .totalbox{margin-top:11px!important}.unified-price .initial b{color:var(--ms-orange)!important;font-size:18px!important}
+.decision-support:has(.transport-promo.hidden){display:none!important}.help-sheet h3{margin-bottom:10px!important}.help-choice{border:1px solid var(--ms-line);border-radius:13px;background:#FFF;padding:12px;margin-top:9px;cursor:pointer}.help-choice b{display:block;font-size:14px;color:var(--ms-text)}.help-choice span{display:block;font-size:12px;line-height:1.5;color:var(--ms-muted);margin-top:3px}.help-choice:active{background:var(--ms-green-soft)}
+.unit-plain,.fit,.route-card .rd,.totalbox,.row{font-size:12px!important}.save-quote-link{display:block;width:100%;margin-top:10px;border:0;background:transparent;color:var(--ms-green);font-size:12px;font-weight:800;text-align:center;cursor:pointer}.bottombar button{min-height:48px!important;font-size:14px!important}.header h1{font-size:16px!important}
+
+/* Make the term editor an unmistakable user action without competing with the price. */
+#termSection .term-details{border:2px solid #AFCDBA!important;background:#F5FAF6!important;box-shadow:0 5px 16px rgba(47,107,79,.08)!important}
+#termSection .term-details summary{min-height:58px!important;padding:12px 13px!important;background:linear-gradient(135deg,#F1F7F3 0%,#FFFFFF 100%)!important}
+#termSection .term-details summary span{color:#557063!important;font-weight:650!important}
+#termSection .term-details summary b{font-size:16px!important;color:#214F3A!important;font-weight:750!important}
+#termSection .term-details summary em{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:34px!important;padding:7px 11px!important;border-radius:999px!important;background:#2F6B4F!important;color:#FFF!important;font-size:12px!important;font-weight:750!important;white-space:nowrap!important;box-shadow:0 3px 9px rgba(47,107,79,.16)!important}
+#termSection .term-editor-body{background:#FFF!important}
+</style>
+
+<style id="v274-core-visual-tokens">
+/* Core-demo visual token closeout */
+:root{--v274-bg:#FDFBF7;--v274-surface:#FFFDFC;--v274-text:#282F2B;--v274-muted:#6F7671;--v274-line:#E7E0D7;--v274-green:#2D7154;--v274-green-soft:#EEF5F0;--v274-orange:#E77A3A}
+body{color:var(--v274-text)}button,input,select,textarea{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}
+.header h1,#navTitle{font-size:16px!important;font-weight:800!important}.section h2,.section-title{font-weight:800!important}.primary,.cta,.apply,.sheet-confirm{background:var(--v274-green)!important;border-color:var(--v274-green)!important}.secondary,.cta.secondary,.outline{background:var(--v274-surface)!important;border-color:#AFC7B8!important;color:var(--v274-green)!important;box-shadow:none!important}.price,.total,[id="payableTotal"],[id="contractTotal"]{font-variant-numeric:tabular-nums}.sub,.meta,.hint,.desc{line-height:1.55}.toast{font-size:12px!important}
+</style>
+<style id="v274-u01-microtype">.counter,.unitid,.dim span{font-size:11px!important}.route-card{margin-top:10px!important}.route-card .rt{font-size:13px!important}.route-card .rd,.save-link{font-size:12px!important}</style><style id="preflight-token-hygiene">
+/* V2.7.4.3 preflight hygiene: retire legacy blue/gray root tokens in user-facing states. */
+:root{--primary:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0;--warn:#FFF8E8}
+</style>
+<style id="u01-action-and-term-patch">
+#termSection{background:#FAFBFA!important;border-color:#ECEFEB!important;box-shadow:none!important}
+#termSection h2{font-size:14px!important;color:#56615B!important}
+#termSection .term-details{background:#FFF!important;border-color:#E7EBE8!important}
+#termSection .term-details summary{padding:10px 11px!important}
+#termSection .term-details summary span{color:#858D88!important}
+#termSection .term-details summary b{font-size:13px!important}
+#termSection .term-details summary em{font-size:11px!important;font-weight:700!important}
+#termSection .urgency-r113{display:none!important}#termSection #inventoryUrgency{display:flex!important}#inventoryUrgency{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:8px!important;align-items:start!important;padding:9px 10px!important;border:1px solid #F0D6BF!important;border-radius:10px!important;background:#FFF7EF!important;color:#7F4C27!important}#inventoryUrgency>span{margin-top:1px!important;background:#FFF0DF!important;color:#A95500!important}#inventoryUrgency .inventory-urgency-copy{min-width:0!important;display:grid!important;gap:2px!important}#inventoryUrgency .inventory-urgency-copy>b{font-size:12px!important;line-height:17px!important;color:#7C481F!important}#inventoryUrgency .inventory-urgency-copy>small{display:flex!important;gap:5px!important;align-items:center!important;flex-wrap:wrap!important;font-size:10px!important;line-height:15px!important;color:#9A6A49!important}#inventoryUrgency .inventory-urgency-copy em{font-style:normal!important;color:#9A6A49!important;font-weight:700!important}#inventoryUrgency .inventory-urgency-copy i{font-style:normal!important;color:#C7A68F!important}
+.match-section .rows{display:none!important}
+.bottombar{grid-template-columns:1fr 1.35fr!important;height:78px!important;gap:8px!important}
+.bottombar button{min-width:0!important;padding:0 6px!important;font-size:12px!important;white-space:nowrap}
+#advisorBtn{border:1px solid #AFC7B8!important;background:#fff!important;color:var(--primary)!important}
+#confirm{background:var(--primary)!important;color:#fff!important}
+</style>
+<style id="u01-price-copy-patch">
+/* Keep the price block factual and scannable; details are carried by the labels above. */
+.term-price-hint{display:none!important}
+#selectedTermPrice::before{content:'月均约 ';color:#68756E;font-weight:700}
+
+#helpMask .help-choice{border:1px solid #E2E7E3;border-radius:14px;padding:13px 14px;margin-top:9px;background:#FFF;cursor:pointer}
+#helpMask .help-choice b{display:block;font-size:14px;color:var(--text)}
+#helpMask .help-choice span{display:block;margin-top:4px;font-size:12px;line-height:1.5;color:var(--muted)}
+</style>
+
+<style id="v27417-7-u01-term-badges">.term-quick button{position:relative!important;overflow:visible!important}.term-quick small{position:absolute!important;right:-4px!important;top:-8px!important;margin:0!important;padding:2px 5px!important;border-radius:999px!important;background:#FFF3DF!important;border:1px solid #FFD9A1!important;color:#A85A00!important;font-size:9px!important;line-height:1.1!important;white-space:nowrap!important}.term-price-hint{display:block!important;color:#8B7769!important;font-size:11px!important}</style>
+
+<style id="sprint1f-u01-high-fidelity-visual-closure-v1">
+/* Sprint 1F — U01 High-Fidelity Visual Closure. Visual-only layer. */
+:root{
+  --bg:#FDFBF7!important;--card:#FFFFFF!important;--text:#1F2923!important;--muted:#6D7671!important;
+  --line:#E6E7E3!important;--primary:#2F6B4F!important;--soft:#F1F7F3!important;--warn:#FFF4E8!important;
+  --ms-green:#2F6B4F!important;--ms-green-soft:#EAF3ED!important;--ms-text:#1F2923!important;--ms-muted:#6D7671!important;--ms-line:#E6E7E3!important;
+  --v274-bg:#FDFBF7!important;--v274-surface:#FFFFFF!important;--v274-text:#1F2923!important;--v274-muted:#6D7671!important;
+  --v274-line:#E6E7E3!important;--v274-green:#2F6B4F!important;--v274-green-soft:#EAF3ED!important;--v274-orange:#D56A1C!important;
+}
+body{background:#FDFBF7!important;color:#1F2923!important}
+.shell{background:#FDFBF7!important;box-shadow:none!important}
+.page{padding-bottom:92px!important}
+.header{height:52px!important;background:rgba(253,251,247,.96)!important;border-bottom:1px solid #ECEDE9!important;backdrop-filter:blur(10px)}
+.header h1{font-size:16px!important;font-weight:700!important;color:#1F2923!important}.back{font-size:23px!important;color:#2F6B4F!important}
+.wx-capsule-space{background:rgba(255,255,255,.96)!important;border-color:#E1E4E1!important;box-shadow:0 2px 8px rgba(31,41,35,.04)!important}
+
+/* Unit visual and identity */
+#hero.hero{height:142px!important;margin:10px 16px 0!important;border-radius:16px!important;overflow:hidden!important;border:1px solid #E1E5E1!important;
+  background:linear-gradient(145deg,#F3F6F3 0%,#E9EFEA 52%,#F8F4ED 100%)!important;color:#68756E!important;box-shadow:0 4px 16px rgba(31,41,35,.05)!important}
+.hero-note{max-width:190px!important;font-size:12px!important;line-height:1.55!important;color:#748078!important}
+.counter{right:10px!important;bottom:10px!important;background:rgba(255,255,255,.94)!important;border:1px solid #E1E5E1!important;color:#59645E!important;padding:4px 8px!important;font-size:11px!important}
+.card{margin:10px 16px 0!important;padding:16px!important;border:1px solid #E6E7E3!important;border-radius:16px!important;background:#FFF!important;box-shadow:0 4px 16px rgba(31,41,35,.05)!important}
+.kicker{display:inline-flex!important;align-items:center!important;min-height:24px!important;padding:0 9px!important;border-radius:999px!important;background:#EAF3ED!important;color:#214F3A!important;font-size:11px!important;font-weight:700!important;white-space:nowrap!important}
+#roleLabel:where(:not(:empty)){margin-bottom:8px!important}
+#roleLabel{width:max-content!important}.title-row{margin-top:0!important;align-items:flex-start!important;gap:14px!important}
+.size{font-size:31px!important;line-height:1.1!important;letter-spacing:-.5px!important;font-weight:750!important;color:#1F2923!important}.sub{font-size:13px!important;color:#59645E!important;margin-top:5px!important}.unit-plain{font-size:12px!important;color:#6D7671!important;line-height:1.5!important;margin-top:6px!important}
+.unitid{flex:0 0 auto!important;max-width:132px!important;padding:6px 9px!important;border-radius:999px!important;background:#F7F5F0!important;border:1px solid #E6E7E3!important;color:#59645E!important;font-size:11px!important;line-height:1.2!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+
+/* Standard high-fidelity surfaces */
+.section{margin:10px 16px 0!important;padding:16px!important;border:1px solid #E6E7E3!important;border-radius:16px!important;background:#FFF!important;box-shadow:none!important}
+.section h2{font-size:18px!important;line-height:26px!important;color:#1F2923!important;font-weight:700!important;margin:0 0 12px!important}
+#termSection{background:#FFF!important;border-color:#E6E7E3!important;box-shadow:0 4px 16px rgba(31,41,35,.04)!important}
+
+/* Term selector */
+.term-details{border:1px solid #E6E7E3!important;border-radius:14px!important;background:#FFF!important;overflow:visible!important;margin-bottom:12px!important}
+.term-details summary{padding:12px 13px!important;border-radius:14px!important}.term-details summary span{font-size:12px!important;color:#6D7671!important;margin-bottom:3px!important}.term-details summary b{font-size:15px!important;line-height:22px!important;color:#1F2923!important;font-weight:650!important}.term-details summary em{font-size:12px!important;color:#2F6B4F!important;font-weight:700!important}
+.term-editor-body{border-top:1px solid #ECEDE9!important;padding:14px 12px 12px!important}
+.term-quick{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:9px!important;margin-bottom:10px!important}.term-quick button{min-width:0!important;min-height:52px!important;padding-top:18px!important;border:1px solid #E1E5E1!important;border-radius:12px!important;background:#FFF!important;color:#59645E!important;font-size:12px!important;font-weight:600!important;padding:9px 4px!important;box-shadow:none!important}.term-quick button.active{border-color:#B8D2C1!important;background:#EAF3ED!important;color:#214F3A!important;font-weight:700!important}
+.term-quick small{right:3px!important;top:3px!important;padding:2px 5px!important;background:#EAF3ED!important;border:1px solid #CFE1D6!important;color:#2F6B4F!important;font-size:9px!important;font-weight:700!important;white-space:nowrap!important}
+.term-custom{border:1px solid #E6E7E3!important;border-radius:14px!important;background:#F9FAF8!important;padding:12px!important}.term-custom-label{font-size:12px!important;color:#59645E!important;margin-bottom:9px!important}.term-custom.custom-active{border-color:#B8D2C1!important;background:#F1F7F3!important}.term-stepper{grid-template-columns:44px minmax(0,1fr) 44px!important;gap:9px!important}.term-stepper button{height:44px!important;width:44px!important;border:1px solid #D7DBD7!important;background:#FFF!important;border-radius:12px!important;color:#2F6B4F!important;font-size:18px!important}.term-stepper input{height:44px!important;border:1px solid #D7DBD7!important;border-radius:12px!important;background:#FFF!important;color:#1F2923!important;font-size:14px!important;font-weight:700!important}.term-human{font-size:12px!important;color:#6D7671!important;margin-top:8px!important}
+
+/* China-native task clarity: selected term visibly distinct without extra labels or steps. */
+.term-quick button.active{border-color:#2F6B4F!important;background:#E7F2E9!important;box-shadow:inset 0 0 0 1px #2F6B4F!important}
+.term-quick button:focus-visible,.term-stepper button:focus-visible,.term-stepper input:focus-visible{outline:2px solid #2F6B4F!important;outline-offset:2px!important}
+
+/* Price decision block */
+.unified-price{position:relative!important;margin-top:0!important;padding:15px!important;border:1px solid #EADFD3!important;border-radius:16px!important;background:linear-gradient(180deg,#FFFDFC 0%,#FFF9F3 100%)!important;box-shadow:none!important}
+.unified-price .label{font-size:12px!important;line-height:18px!important;color:#59645E!important;font-weight:600!important}
+.unified-price .total-rent{margin-top:3px!important;font-size:34px!important;line-height:1.08!important;letter-spacing:-.8px!important;color:#D56A1C!important;font-weight:750!important;font-variant-numeric:tabular-nums!important}
+.monthly-secondary{margin-top:6px!important;font-size:14px!important;line-height:20px!important;color:#59645E!important;font-weight:600!important}.term-price-hint{display:inline-flex!important;margin:7px 0 0!important;padding:3px 7px!important;border-radius:999px!important;background:#EAF3ED!important;color:#2F6B4F!important;font-size:11px!important;line-height:17px!important;font-weight:650!important}
+.totalbox{margin-top:13px!important;padding-top:10px!important;border-top:1px solid #EFE5DA!important;gap:0!important}.totalbox>div{padding:7px 0!important;font-size:12px!important;color:#59645E!important;border-color:#F0EBE5!important}.totalbox b{font-size:13px!important;color:#1F2923!important;font-weight:650!important;font-variant-numeric:tabular-nums!important}.totalbox .initial{margin-top:3px!important;padding:10px 11px!important;border:0!important;border-radius:12px!important;background:#FFF0E2!important;align-items:center!important}.totalbox .initial span{color:#8A5B36!important;font-weight:650!important}.totalbox .initial b{font-size:20px!important;line-height:1.2!important;color:#B85A16!important;font-weight:750!important}
+.save-quote-link{margin:11px 0 0!important;padding:7px 0!important;font-size:12px!important;color:#2F6B4F!important;font-weight:650!important}
+
+/* Dimensions and facts */
+.dimgrid{gap:9px!important}.dim{padding:11px 8px!important;border:1px solid #E6E7E3!important;border-radius:12px!important;background:#F9FAF8!important}.dim span{font-size:11px!important;color:#6D7671!important}.dim b{font-size:15px!important;color:#1F2923!important;font-weight:650!important;margin-top:4px!important}.rows{margin-top:7px!important}.row{padding:10px 0!important;border-bottom:1px solid #ECEDE9!important;font-size:12px!important}.row span{color:#6D7671!important}.row b{color:#1F2923!important;font-weight:600!important;max-width:62%!important}
+.simulated-spec-note{margin:8px 0 0!important;font-size:11px!important;line-height:1.55!important;color:#7A827D!important}
+
+/* Transport support stays supportive */
+.decision-support{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}.decision-support:has(.transport-promo:not(.hidden)){margin:10px 16px 0!important}
+.transport-promo{margin:0!important;padding:14px!important;border:1px solid #F0DCC1!important;border-radius:16px!important;background:#FFF9F1!important}.transport-promo .ey{font-size:11px!important;color:#9A672E!important;font-weight:700!important}.transport-promo b{font-size:15px!important;line-height:22px!important;color:#3C372F!important;margin-top:4px!important}.transport-promo p{font-size:12px!important;line-height:1.55!important;color:#786A58!important;margin:5px 0 10px!important}.promo-checks{gap:7px!important;font-size:11px!important}.promo-checks span{align-items:flex-start!important}.promo-checks i{font-style:normal!important;color:#8A7965!important}.promo-checks strong{color:#5D554A!important;text-align:right!important;font-weight:650!important}.pickup-row{gap:8px!important;margin-top:11px!important}.pickup-row input{height:44px!important;padding:0 11px!important;border:1px solid #E4D7C6!important;border-radius:12px!important;background:#FFF!important;font-size:12px!important}.pickup-row button{height:44px!important;border:1px solid #C9B092!important;border-radius:12px!important;background:#FFF!important;color:#8B5B25!important;padding:0 12px!important;font-size:12px!important;font-weight:650!important}
+
+/* Overlays */
+.lead-mask{background:rgba(31,41,35,.38)!important}.lead-sheet{border-radius:20px 20px 0 0!important;padding:16px 16px calc(22px + env(safe-area-inset-bottom))!important;box-shadow:0 -12px 32px rgba(31,41,35,.12)!important}.lead-handle{background:#D7DBD7!important}.lead-sheet h3{font-size:18px!important;line-height:26px!important;color:#1F2923!important}.help-choice{border-color:#E6E7E3!important;border-radius:14px!important;padding:13px!important}.help-choice b{font-size:14px!important;color:#1F2923!important}.help-choice span{font-size:12px!important;color:#6D7671!important}.lead-wx{min-height:48px!important;border-radius:12px!important;background:#2F6B4F!important;font-size:14px!important}.lead-phone-row input,.lead-phone-row button{height:44px!important;border-radius:12px!important}
+
+/* Bottom decision bar */
+.bottombar{height:80px!important;grid-template-columns:1fr 1.45fr!important;gap:9px!important;padding:10px 16px calc(10px + env(safe-area-inset-bottom))!important;background:rgba(255,255,255,.97)!important;border-top:1px solid #E6E7E3!important;box-shadow:0 -8px 24px rgba(31,41,35,.06)!important;backdrop-filter:blur(10px)!important}.bottombar button{min-height:48px!important;border-radius:12px!important;font-size:14px!important;font-weight:700!important}.bottombar #advisorBtn{border:1px solid #CFE1D6!important;background:#FFF!important;color:#2F6B4F!important}.bottombar .primary{border:1px solid #2F6B4F!important;background:#2F6B4F!important;color:#FFF!important;box-shadow:none!important}
+.mini-global-support{bottom:calc(94px + env(safe-area-inset-bottom))!important}.toast{bottom:96px!important;border-radius:12px!important;background:#1F2923!important;font-size:12px!important}
+
+@media(max-width:380px){
+  #hero.hero,.card,.section{margin-left:16px!important;margin-right:16px!important}
+  .size{font-size:29px!important}.unified-price .total-rent{font-size:32px!important}.term-quick{gap:7px!important}.term-quick button{font-size:11px!important}.unitid{max-width:118px!important}
+}
+</style>
+
+
+<link rel="stylesheet" href="mini_storage_visual_harmonization_v1.css"/>
+<script defer src="mini_storage_visual_harmonization_v1.js"></script>
+<link rel="stylesheet" href="mini_koala_visual_elevation_v2_controlled_rollout.css"/><link rel="stylesheet" href="mini_koala_visual_elevation_v2_1_density.css"/>
+<link rel="stylesheet" href="../assets/real_store_demo/v2/real_store_gallery_v2.css"/>
+<script src="../assets/real_store_demo/v2/real_store_gallery_v2.js"></script>
+<style id="price-semantics-display-v1-u01">
+.totalbox .payable-formula{display:block!important;margin-top:6px!important;padding:0!important;border:0!important;background:transparent!important;color:#6D7671!important;font-size:10px!important;line-height:16px!important;text-align:left!important}
+</style>
+
+<link rel="stylesheet" href="mini_storage_coupon_benefit_v1.css">
+<script src="mini_storage_coupon_benefit_v1.js"></script>
+<style id="phase3b-batch-c-u01">
+/* Phase 3B Batch C: narrow U01 information hierarchy change only */
+.identity-note{font-size:11px;line-height:1.55;color:#6D7671;margin-top:8px}
+.u01-capacity-fit{display:flex;flex-direction:column;gap:3px;margin-top:12px;padding:12px 13px;border:1px solid #E2E8E2;border-radius:12px;background:#F7FAF7;color:#41594A}
+.u01-capacity-fit b{font-size:13px;line-height:19px}
+.u01-capacity-fit span{font-size:12px;line-height:18px}
+.u01-capacity-fit.matching{background:#F1F7F3;border-color:#CFE1D6;color:#24523B}
+.u01-capacity-fit.warning{background:#FFF4E8;border-color:#EDCFAE;color:#85511D}
+.u01-estimate-link{margin-top:10px;width:100%;padding:10px 12px;border:1px solid #CFE1D6;border-radius:10px;background:#F7FBF8;color:#24523B;font-size:13px;font-weight:700;text-align:left;cursor:pointer}
+#inventoryUrgency.urgency-r113{margin:12px 0 0!important;padding:8px 10px!important;border:1px solid #EBE7DF!important;border-radius:10px!important;background:#F9F9F6!important;box-shadow:none!important;gap:7px!important}
+#inventoryUrgency #inventoryUrgencyBadge{background:#ECEFEA!important;color:#59675B!important;font-size:10px!important}
+#inventoryUrgency #inventoryUrgencyText{font-size:11px!important;font-weight:500!important;color:#69736B!important}
+#inventoryUrgency .inventory-urgency-copy small{display:none!important}
+#unitId{max-width:160px!important;white-space:normal!important;text-overflow:clip!important;overflow-wrap:anywhere!important}
+#confirm:disabled,#saveQuote:disabled{opacity:.55!important;cursor:not-allowed!important;box-shadow:none!important}
+</style>
+<style id="ux-simplification-v1-unit">
+.decision-support:has(#transportPromo.hidden){display:none!important}
+.ux-transport-details{border:1px solid #E6E7E3;border-radius:12px;background:#fff;overflow:hidden}
+.ux-transport-details>summary{padding:12px;color:#2F6B4F;font-weight:650;font-size:13px;display:flex;justify-content:space-between;gap:8px;cursor:pointer;list-style:none}
+.ux-transport-details>summary::-webkit-details-marker{display:none}
+.ux-transport-details[open]>summary{border-bottom:1px solid #E6E7E3}
+.ux-transport-details .transport-promo{margin:8px!important}
+</style>
+<style id="u01-compact-term-fee-v1">
+#termSection .term-price-combined{border:1px solid #E5DED4;border-radius:14px;background:#FFFDFC;overflow:hidden}
+#termSection .term-price-combined .term-details{margin:0!important;border:0!important;border-bottom:1px solid #EEE8DF!important;border-radius:0!important;box-shadow:none!important;background:#FFFDFC!important}
+#termSection .term-price-combined .term-details summary{min-height:42px!important;padding:7px 12px!important;border-radius:0!important;background:#FFFDFC!important}
+#termSection .term-price-combined .term-details summary em{min-height:28px!important;padding:4px 9px!important;box-shadow:none!important}
+#termSection .term-price-combined .unified-price{margin:0!important;padding:11px 12px!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#FFFDFC!important}
+#termSection .term-price-combined .unified-price .total-rent{font-size:30px!important}
+#termSection .term-price-combined .unified-price .totalbox{margin-top:8px!important;padding-top:7px!important}
+#termSection .term-price-combined .unified-price .payable-formula{display:none!important}
+</style>
+<style id="u01-compact-price-layout-fix-v2">
+#termSection .term-price-combined{width:100%!important;min-width:0!important;overflow:hidden!important}
+#termSection .term-price-combined .unified-price{min-width:0!important;width:100%!important;padding:12px!important;box-sizing:border-box!important}
+#termSection .term-price-combined .unified-price .total-rent{font-size:clamp(26px,7.4vw,30px)!important;line-height:1.18!important;letter-spacing:-.3px!important;overflow-wrap:anywhere!important}
+#termSection .term-price-combined .unified-price .totalbox>div{min-width:0!important;align-items:center!important;gap:10px!important}
+#termSection .term-price-combined .unified-price .totalbox>div span{min-width:0!important;flex:1 1 auto!important}
+#termSection .term-price-combined .unified-price .totalbox>div b{flex:0 0 auto!important;text-align:right!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important}
+#termSection .term-price-combined .unified-price .totalbox .payable-formula{display:none!important}
+</style>
+<style id="u01-price-visual-demo-closure-v3">
+/* Price card visual closure: local override of global body:has(#contractTotal) premium/density themes.
+   Keep U01 cost hierarchy warm, high contrast and aligned with the combined term card. */
+body:has(#contractTotal) #termSection .term-price-combined .unified-price{
+  background:#FFFCF8!important;color:#253229!important;border:0!important;
+  border-radius:0!important;box-shadow:none!important;padding:14px 14px 12px!important;
+  margin:0!important;width:100%!important;min-width:0!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price #rentHeading{
+  color:#657067!important;font-size:12px!important;font-weight:650!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price #contractTotal{
+  color:#CE6826!important;font-size:clamp(27px,7.8vw,32px)!important;
+  line-height:1.18!important;letter-spacing:-.025em!important;font-weight:800!important;
+  white-space:normal!important;overflow-wrap:anywhere!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price #selectedTermPrice{
+  color:#5F6A62!important;font-size:13px!important;font-weight:550!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price #termPriceHint{
+  color:#2B6B4D!important;background:#EAF3ED!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox{
+  border-top:1px solid #EEE7DF!important;margin-top:12px!important;padding-top:7px!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox>div:not(.initial){
+  background:transparent!important;border-color:#F0EAE2!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox span{
+  color:#58655B!important;font-size:12px!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox b{
+  color:#29352C!important;font-size:13px!important;font-weight:700!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox .initial{
+  margin-top:5px!important;padding:10px 11px!important;
+  background:#FFF0E2!important;border:0!important;border-radius:11px!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox .initial span{
+  color:#885331!important;font-weight:700!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox .initial #initialPayable{
+  color:#B9571B!important;font-size:19px!important;line-height:1.25!important;font-weight:800!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price .totalbox .payable-formula{
+  display:none!important;
+}
+body:has(#contractTotal) #termSection .term-price-combined .unified-price #inventoryUrgency{
+  background:#F8F8F5!important;color:#59675B!important;
+}
+</style>
+
+<link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell"><link rel="stylesheet" href="mk-v3-core-pages-rollout.css" data-ui-system="v3-core-pages"><link rel="stylesheet" href="mk-v3-find-unit-content-batch-a.css" data-ui-system="vis06c-batch-a"><link rel="stylesheet" href="ux_patch_a4_unit_detail.css" data-ui-system="ux-patch-a4"><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="demo_price01_b2_prepay.css" data-price-patch="demo-price-01-b2"><script src="demo_price01_b2_display.js" defer></script>
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+<link rel="stylesheet" href="mini_koala_unit_choice_r5a_patch.css" data-patch="UNIT-COMPARE-R5A"/>
+</head>
+<body class="koala-uxd2-layout koala-site-shell koala-u01" data-ux-patch-d2="v1">
+<div class="shell">
+<div class="page">
+<div class="header"><div class="u01-r5a-nav"><div class="back" id="back" role="button" tabindex="0" aria-label="返回上一页">‹</div><button type="button" id="r5aHome" class="r5a-home" aria-label="返回首页" title="返回首页">⌂</button></div><h1 id="headerTitle">仓位详情</h1><div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div></div>
+<div class="hero" id="hero"><div class="hero-note" id="heroText">仓位入口示意</div><div class="counter" id="counter">1 / 2</div></div>
+<div class="card">
+<div class="kicker" id="roleLabel">推荐</div>
+<div class="title-row"><div class="u01-unit-basics"><div class="size" id="unitSize">4.8m³</div><div class="sub u01-space-meta"><span id="unitArea">约2.1㎡</span><span id="unitDimensions" hidden></span></div></div><div class="unitid" id="unitId">仓位 C008</div></div>
+<div class="identity-note" id="identityNote" hidden></div>
+<div class="u01-store-summary"><span id="unitStoreName">当前门店</span><button id="viewStoreDetail" type="button">查看门店详情 <span aria-hidden="true">›</span></button></div>
+<div class="u01-inventory-status" id="capacityFit" role="status" aria-live="polite" hidden><b id="capacityFitTitle">已售出</b><span id="capacityFitText">当前仓位不可租，请查看其他仓位。</span></div>
+<button class="u01-estimate-link" id="estimateCapacity" type="button">估算所需空间 <span aria-hidden="true">›</span></button>
+
+
+</div>
+<section class="section" id="termSection">
+<h2>租期与费用</h2>
+<div class="term-price-combined">
+<details class="term-details" id="termDetails">
+<summary><div><span>当前租期</span><b id="termSummaryText">请选择租期</b></div><em>修改租期</em></summary>
+<div class="term-editor-body">
+<div class="term-quick"><button data-quick="1">1个月<small>7.5折</small></button><button data-quick="3">3个月<small>7.5折</small></button><button data-quick="6">6个月<small>7折</small></button><button data-quick="12">12个月<small>6.5折</small></button><button data-quick="24">2年<small>6折</small></button><button data-quick="36">3年<small>6折</small></button><button data-quick="60">5年<small>5.5折</small></button></div>
+<div class="term-custom" id="termCustom"><div class="term-custom-label">其他租期（1–60个月任意整数月）</div><div class="term-stepper"><button aria-label="减少一个月" id="termMinus">−</button><input aria-label="直接输入租期月份" id="termInput" inputmode="numeric" max="60" min="1" placeholder="直接填写月份" step="1" type="number"/><button aria-label="增加一个月" id="termPlus">＋</button></div><div class="term-human" id="termHuman">还没有选择租期</div></div>
+</div>
+</details>
+<div class="term-comparison" id="termComparison" hidden><b>对比同一仓位的租期</b><p id="termComparisonCopy"></p><div class="compare-actions"><button class="keep-compare" id="keepTerm" type="button">保留当前租期</button><button class="apply-compare" id="applyTerm" type="button">使用对比租期</button></div></div>
+<div class="pricebox unified-price">
+
+<div class="label" id="rentHeading">租金</div><div class="price total-rent" id="contractTotal">—</div>
+<div class="monthly-secondary" id="selectedTermPrice">选择租期后显示</div>
+<p class="term-price-hint" id="termPriceHint"></p>
+<div class="totalbox"><div><span>押金（折后月均租金）</span><b id="depositAmount">—</b></div><div><span>管理费</span><b id="managementFee">¥50</b></div><div class="initial"><span>预计下单一次支付</span><b id="initialPayable">—</b></div><div class="payable-formula" id="payableFormula">选择租期后显示费用组成</div></div><div class="urgency-r113" id="inventoryUrgency"><span id="inventoryUrgencyBadge">库存紧张</span><div class="inventory-urgency-copy"><b id="inventoryUrgencyText">同容量库存较少</b><small><em id="viewerSignal"></em><i>·</i><em id="promoCountdown"></em></small></div></div>
+</div>
+ </div>
+<button class="save-quote-link" id="saveQuote" type="button" hidden aria-hidden="true" tabindex="-1">保存方案，稍后再看</button>
+<div class="u01-related-actions"><button id="viewOtherUnits" type="button">查看同门店其他仓位 <span aria-hidden="true">›</span></button></div>
+</section>
+
+<section class="section decision-support"><details class="ux-transport-details" id="transportDetails"><summary>需要搬运？查看首单运输支持 <span>展开 ▾</span></summary><div class="transport-promo hidden" id="transportPromo">
+<div class="ey">首单运输支持</div><b id="transportPromoTitle">如需搬运，可确认首单运输支持</b><p id="transportPromoDesc">搬运支持不影响仓位选择，符合活动条件时可在下单前确认。</p>
+<div class="promo-checks"><span><i>首次租仓订单</i><strong id="promoFirst">✓ 首次租仓订单</strong></span><span><i>租期 ≥ 6个月</i><strong id="promoTerm">—</strong></span><span><i>当前订单价格</i><strong id="promoDiscount">✓ 符合活动价格条件</strong></span><span><i>搬出地驾车距离 ≥ 5km</i><strong id="promoDistance">待确认搬出地址</strong></span></div>
+<div class="pickup-row" id="pickupRow"><input id="pickupAddress" placeholder="物品从哪里搬出？填写小区/地址"/><button id="checkPickup">确认距离</button></div><div class="promo-ok hidden" id="promoResult"></div>
+</div></details></section>
+</div>
+<div class="lead-mask" id="holdMask"><div class="lead-sheet"><div class="lead-handle"></div><h3>内部演示：保留当前仓位</h3><p id="holdSummary">—</p><div class="lead-summary"><div><span>演示订金</span><b id="holdDeposit">—</b></div><div><span>保留时间</span><b>72小时</b></div><div><span>后续使用</span><b>可抵扣首期租金</b></div></div><p style="font-size:11px;color:var(--muted);line-height:1.55">订金、退款、延期及到期处理机制仍待业务确认，此处仅供内部演示。</p><div class="lead-actions"><button class="secondary" id="holdCancel">暂不保留</button><button class="primary" id="holdConfirm">演示支付并保留仓位</button></div></div></div>
+<div class="bottombar"><button id="r5aFavorite" class="r5a-icon-action" type="button" aria-label="收藏仓位" aria-pressed="false"><span aria-hidden="true">♡</span><small>收藏</small></button><button id="r5aCompare" class="r5a-icon-action" type="button" aria-label="加入轻量对比" aria-pressed="false"><span aria-hidden="true">⇄</span><small>对比</small></button><button id="advisorBtn" type="button">顾问协助</button><button class="primary" id="confirm">继续租用</button></div>
+<button id="bookUnitViewing" type="button" style="display:none">预约看这个仓位</button><button id="holdUnitBtn" type="button" style="display:none">内部演示：保留方案72小时</button>
+<div class="lead-mask" id="helpMask"><div class="lead-sheet"><div class="lead-handle"></div><h3>需要哪种帮助？</h3><div class="help-choice" id="helpViewing"><b>预约到店看仓</b><span>可到店看看实际空间</span></div><div class="help-choice" id="helpAdvisor"><b>顾问协助选仓</b><span>帮您比较仓位大小、价格和门店</span></div><div class="r5a-contact-actions"><button id="r5aPhone" type="button">☎ 电话客服</button><button id="r5aWechat" type="button">◉ 微信客服</button></div><button class="lead-skip" id="helpClose">暂不需要</button></div></div>
+<div class="lead-mask" id="leadMask">
+<div class="lead-sheet">
+<div class="lead-handle"></div>
+<h3 id="leadModalTitle">顾问协助</h3>
+<div class="lead-sheet-desc" id="leadModalDesc">会带上当前仓位、租期和价格，您不需要重新描述。</div>
+<button class="lead-wx" id="leadWxBtn">使用微信手机号提交</button>
+<div class="lead-or">或手动填写</div>
+<div class="lead-phone-row">
+<input id="leadPhoneInput" inputmode="tel" placeholder="手机号"/>
+<button id="leadPhoneSubmit">提交</button>
+</div>
+<button class="lead-skip" id="leadSkipBtn">暂不需要，继续自己看</button>
+<div class="lead-note">仅用于本次确认和后续服务联系；回复方式与时效待业务确认。</div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+</div>
+<script src="mini_storage_business_ssot_v274.js"></script>
+<script src="../data/mini_koala_data.js"></script>
+<script src="mini_storage_prepay_qa_facts.js"></script>
+<script src="mini_storage_unit_master_v1.js"></script>
+<script src="mini_storage_inventory_urgency_v1.js"></script>
+<script src="mini_storage_sales_share_v1.js"></script>
+<script src="mini_storage_requirement_recommendation_v274.js"></script><script src="mini_storage_requirement_continuity_v1.js"></script>
+<script>
+
+const LEAD_PHONE_KEY='mini_storage_lead_phone';
+const LEAD_CONTEXT_KEY='mini_storage_lead_context';
+const TRANSPORT_KEY='mini_storage_transport_promo_current';
+let leadPending=null;
+function leadStorageGet(k){try{return localStorage.getItem(k)||''}catch(e){return window['__'+k]||''}}
+function leadStorageSet(k,v){try{localStorage.setItem(k,v)}catch(e){window['__'+k]=v}}
+function leadPhone(){return leadStorageGet(LEAD_PHONE_KEY)}
+function leadContext(){try{return JSON.parse(leadStorageGet(LEAD_CONTEXT_KEY)||'{}')}catch(e){return {}}}
+function maskPhone(v){return v&&v.length>=7?`${v.slice(0,3)}****${v.slice(-4)}`:v}
+function leadSave(phone,node,context={}){
+  leadStorageSet(LEAD_PHONE_KEY,phone);
+  leadStorageSet(LEAD_CONTEXT_KEY,JSON.stringify({phone_capture_node:node,status:'PENDING',submitted_at:new Date().toISOString(),...context}));
+}
+function leadClose(){const m=document.querySelector('#leadMask');if(m)m.classList.remove('show')}
+function openLeadCapture(cfg={}){
+  leadPending=cfg;
+  const savedPhone=leadPhone();
+  document.querySelector('#leadWxBtn').textContent=savedPhone?`使用已确认手机号提交 ${maskPhone(savedPhone)}`:'使用微信手机号提交';
+  document.querySelector('#leadModalTitle').textContent=cfg.title||'顾问协助';
+  document.querySelector('#leadModalDesc').textContent=cfg.desc||'会带上当前仓位、租期和价格，您不需要重新描述。';
+  document.querySelector('#leadSkipBtn').style.display=cfg.allowSkip===false?'none':'block';
+  document.querySelector('#leadPhoneInput').value='';
+  document.querySelector('#leadMask').classList.add('show');
+}
+function finishLeadCapture(phone){
+  const digits=String(phone||'').replace(/\D/g,'');
+  if(digits.length<7){if(typeof toast==='function')toast('请检查手机号');return}
+  const cfg=leadPending||{};
+  leadSave(digits,cfg.node||'UNKNOWN',cfg.context||{});
+  leadClose();
+  if(typeof toast==='function')toast('已提交顾问协助需求');
+  const cb=cfg.onSuccess;leadPending=null;
+  if(cb)cb(digits);
+}
+document.querySelector('#leadWxBtn')?.addEventListener('click',()=>finishLeadCapture(leadPhone()||'13800138000'));
+document.querySelector('#leadPhoneSubmit')?.addEventListener('click',()=>finishLeadCapture(document.querySelector('#leadPhoneInput').value));
+document.querySelector('#leadSkipBtn')?.addEventListener('click',()=>{const cfg=leadPending||{};leadClose();leadPending=null;if(cfg.onSkip)cfg.onSkip()});
+document.querySelector('#leadMask')?.addEventListener('click',e=>{if(e.target.id==='leadMask' && (!leadPending || leadPending.allowSkip!==false))leadClose()});
+
+const BUSINESS_HELPERS=window.MINI_STORAGE_BUSINESS_HELPERS_V274;
+const TERM_RULES=window.MINI_STORAGE_MASTER_V222.pricing.term_rules;
+function clampTerm(v){return BUSINESS_HELPERS.clampTerm(v)}
+function termFactor(m){return BUSINESS_HELPERS.termFactor(m)}
+function termDiscountLabel(m){return `${Math.round(termFactor(m)*100)/10}折`}
+function termHuman(m){m=clampTerm(m);if(m<12)return `${m}个月`;const y=Math.floor(m/12),mo=m%12;return mo?`${m}个月（${y}年${mo}个月）`:`${m}个月（${y}年）`}
+const PRICING_MODEL_VERSION=window.MINI_STORAGE_MASTER_V222.pricing.model_version;
+const STORE_PRICE_MULTIPLIER=window.MINI_STORAGE_MASTER_V222.pricing.store_multipliers;
+function storeAdjustedBase(base,store='jianguo'){return BUSINESS_HELPERS.storeAdjustedBase(base,store)}
+const $=s=>document.querySelector(s);
+const s02File='mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html';
+const s01File='mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html';
+const estimatorFile='space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html';
+const q01File='mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html';
+const o01File='mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html';
+const v01File='mini_storage_viewing_v01_v1_14_self_service_synced.html';
+const b01File='mini_storage_brand_b01_v1_10_self_service_synced_Visual_V2_7_4.html';
+const p=new URLSearchParams(location.search);
+const specialPriceDemo=p.get('special')==='1';
+const entrySource=p.get('source')||'s02';
+const returnToUsage=p.get('returnTo')==='S5'||entrySource==='estimator_recommendation';
+const STORE_PROFILES=window.MINI_STORAGE_MASTER_V222.stores;
+const storeId=STORE_PROFILES[p.get('store')]?p.get('store'):'jianguo';
+const storeProfile=STORE_PROFILES[storeId];
+const requestedUnitId=p.get('unit')||'';
+const requestedSizeOptionId=p.get('sizeOption')||'';
+const requestedRepresentativeUnit=p.get('representativeUnit')||requestedUnitId;
+let term=BUSINESS_HELPERS.validTerm(p.get('term')); // H01-007-S1 D-03: invalid / missing term stays unselected, never clamps to 1
+const target=p.get('target')?Number(p.get('target')):5;
+let focusTerm=p.get('focusTerm')?clampTerm(p.get('focusTerm')):null;
+const tradeoff=p.get('tradeoff')||'';
+const reselected=p.get('reselected')==='1'||['estimate_size_option','estimate_actual_unit'].includes(p.get('selectionContext'));
+function dateISO(offset=0){const d=new Date();d.setDate(d.getDate()+offset);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+let startDate=p.get('start')||dateISO(0);
+const leadRoute=p.get('lead')||'none';
+const leadReason=p.get('leadReason')||'';
+const leadTcv=Math.max(0,Number(p.get('leadTcv')||0));
+const customerType=p.get('customer')||'';
+const accessFrequency=p.get('access')||'unknown';
+const searchOriginKey=p.get('searchOriginKey')||'guomao';
+const travelMode=['drive','bike','walk'].includes(p.get('travel'))?p.get('travel'):'drive';
+const searchRoute=window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.routeFor(storeId,searchOriginKey,travelMode);
+const searchKm=searchRoute.km;
+const searchMin=searchRoute.m;
+const s02State=p.get('s02State')||'matched';
+const fromS01State=p.get('fromS01State')||'estimated';
+let pickupAddress=p.get('pickup')||'';
+let pickupKm=Number(p.get('pickupKm')||0);
+const isFirstPurchase=p.get('firstPurchase')==='0'?false:p.get('returning')!=='1';
+let photo=0;
+let requirementContext={};try{requirementContext=JSON.parse(localStorage.getItem('mini_storage_requirement_current')||'{}')}catch(e){}
+const contextMatches=fromS01State!=='browse' && Number(requirementContext.target_volume)>0 && Math.abs(Number(requirementContext.target_volume)-target)<.05;
+const hasRequirement=fromS01State!=='browse' && (p.has('target')||contextMatches);
+if(!term&&contextMatches&&BUSINESS_HELPERS.validTerm(requirementContext.term_months))term=BUSINESS_HELPERS.validTerm(requirementContext.term_months); // H01-007-S1 D-03
+const transportIntent=p.get('transportIntent')==='1'||(contextMatches&&requirementContext.moving_support==='need')||Boolean(pickupAddress)||pickupKm>0;
+
+const availableUnits=window.MINI_KOALA_DATA.getLegacyUnits(storeId);
+const units=Object.fromEntries(availableUnits.map(unit=>[unit.id,unit]));
+const unitsBySizeOption=Object.fromEntries(availableUnits.filter(unit=>unit.size_option_id).map(unit=>[unit.size_option_id,unit]));
+const u=unitsBySizeOption[requestedSizeOptionId]||units[requestedUnitId]||availableUnits[0]||{id:requestedUnitId,v:0,base:null,size:null,display_price_min:null,dims:null,door:null,shape:'尺寸信息待确认'};
+const unitId=u.id||requestedRepresentativeUnit||requestedUnitId||'';
+const sizeOptionId=u.size_option_id||requestedSizeOptionId||'';
+const representativeUnitNo=u.representative_unit_no||requestedRepresentativeUnit||unitId;
+// The current demo inventory exposes capacity options and representative physical numbers.
+// Choose one available representative for this walkthrough; production reservation needs an inventory API.
+const actualUnitId=p.get('actualUnit')||(Number(u.available_count||0)>0?String(representativeUnitNo).split(/[、,，]/)[0].trim():'');
+const inventoryIdentity=actualUnitId?'ACTUAL_UNIT':'SIZE_OPTION';
+const transportServiceable=p.get('transportServiceable')!=='0';
+const MANAGEMENT_FEE=window.MINI_STORAGE_MASTER_V222.fees.management_fee;
+const discountBasisPrice=Math.max(1,Number(p.get('discountBasisPrice')||window.MINI_KOALA_DATA.positivePrice(u)||1));
+function contractRent(m){return BUSINESS_HELPERS.contractRent(Number(window.MINI_KOALA_DATA.positivePrice(u)||0),m,storeId)}
+function priceAt(m){return BUSINESS_HELPERS.monthlyReference(Number(window.MINI_KOALA_DATA.positivePrice(u)||0),m,storeId)}
+function priceText(v){return window.MINI_KOALA_DATA.priceText(v)}
+function dealDiscountRatio(m){m=clampTerm(m);return contractRent(m)/(discountBasisPrice*m)}
+function promoStatus(){
+  if(!transportServiceable)return 'INELIGIBLE_SERVICE_AREA';
+  if(!term||term<6)return 'INELIGIBLE_TERM';
+  if(!isFirstPurchase)return 'INELIGIBLE_CUSTOMER';
+  if(dealDiscountRatio(term)<0.60)return 'INELIGIBLE_PRICE_RULE';
+  if(!pickupKm)return 'POTENTIAL';
+  if(pickupKm<5)return 'INELIGIBLE_DISTANCE';
+  return 'ELIGIBLE';
+}
+
+function advisorState(){
+  const hasActual=Boolean(term);
+  return BUSINESS_HELPERS.advisorDecision({
+    customer_type:customerType,
+    has_oversize:Boolean(requirementContext.has_oversize)||leadReason==='oversize',
+    needs_multiple:leadReason==='multiple_units',
+    expected_contract_rent:hasActual?contractRent(term):leadTcv,
+    carried_level:hasActual?'none':leadRoute,
+    carried_reason:leadReason
+  });
+}
+function advisorReasonCopy(decision=advisorState()){
+  if(decision.reason==='oversize')return '大件用户可直接选仓，顾问将协助后续用仓安排。';
+  if(decision.reason==='multiple_units')return '当前需求涉及多个仓位，顾问可协助比较组合方式；不影响您继续自行租用。';
+  if(decision.reason==='enterprise')return '当前为企业需求，顾问可协助确认仓位与使用安排；不影响您继续自行租用。';
+  if(decision.reason==='high_contract_rent')return `当前仓位按${termHuman(term)}的整期租金为 ¥${decision.expected_contract_rent.toLocaleString()}，可优先请顾问复核；不影响您继续自行租用。`;
+  return '估算阶段已建议顾问协助确认当前需求；不影响您继续自行租用。';
+}
+
+const PRICE_SNAPSHOT_KEY='mini_storage_price_snapshot_current';
+function currentPriceSnapshot(){
+  if(!term)return null;
+  const monthlyAverage=priceAt(term),totalRent=contractRent(term),deposit=monthlyAverage;
+  return {store_id:storeId,unit_id:representativeUnitNo,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:inventoryIdentity,term_months:term,discount_rate:BUSINESS_HELPERS.termFactor(term),base_monthly_price:Number(window.MINI_KOALA_DATA.positivePrice(u)||0),total_rent:totalRent,monthly_average:monthlyAverage,monthly_price:monthlyAverage,deposit,management_fee:MANAGEMENT_FEE,upfront_payable:totalRent+deposit+MANAGEMENT_FEE,is_starting_price:false,pricing_model_version:PRICING_MODEL_VERSION,pricing_timestamp:new Date().toISOString()};
+}
+function persistPriceSnapshot(){const snapshot=currentPriceSnapshot();if(snapshot)leadStorageSet(PRICE_SNAPSHOT_KEY,JSON.stringify(snapshot));return snapshot}
+
+function transactionRoute(){
+  if(!term)return 'UNSET';
+  const tcv=contractRent(term);
+  if(advisorState().level==='strong')return 'SALES_ASSISTED';
+  if(u.v<2 && tcv<=1500)return 'DIRECT_ORDER';
+  return 'QUOTE_OPTIONAL';
+}
+// H01-007-S1 D-04: at the two commit points (direct order / save quote) the confirmed store, unit, capacity and term
+// become the trade requirement. The original estimate is kept under original_estimate; nothing else in the record changes.
+function commitTradeRequirement(){
+  const T=window.MINI_STORAGE_TRADE_SNAPSHOT_V1;
+  if(!term||!T||!contextMatches)return null;
+  const next=T.confirm(requirementContext,{store_id:storeId,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:inventoryIdentity,term_months:term,volume:u.v,target_volume:target,confirmed_by:'U01'});
+  leadStorageSet('mini_storage_requirement_current',JSON.stringify(next));requirementContext=next;return next;
+}
+function carryPrepayNavigationContext(params){
+  // Navigation-only context; never change quote, coupon, stock or payment fields.
+  if(typeof p==='undefined')return;
+  for(const key of ['travel','otherStoresSource','excludeStore'])if(p.has(key))params.set(key,p.get(key));
+}
+function goOrder(){
+  persistPriceSnapshot();
+  commitTradeRequirement();
+  const route=transactionRoute();
+  const advisor=advisorState();
+  const q=new URLSearchParams({unit:representativeUnitNo,sizeOption:sizeOptionId,representativeUnit:representativeUnitNo,actualUnit:actualUnitId,inventoryIdentity,store:storeId,target:target.toFixed(1),volume:String(u.v),term:String(term),monthly:String(priceAt(term)),rentTotal:String(contractRent(term)),deposit:String(priceAt(term)),managementFee:String(MANAGEMENT_FEE),initialPayable:String(contractRent(term)+priceAt(term)+MANAGEMENT_FEE),route,lead:advisor.level,leadReason:advisor.reason,leadTcv:String(advisor.expected_contract_rent),start:startDate,access:accessFrequency,searchKm:String(searchKm),pickup:pickupAddress,pickupKm:String(pickupKm||''),promo:promoStatus(),discountRatio:dealDiscountRatio(term).toFixed(2),firstPurchase:isFirstPurchase?'1':'0',transportServiceable:transportServiceable?'1':'0',discountBasisPrice:String(discountBasisPrice),source:entrySource,fromS01State,s02State,searchOriginKey,searchMin:String(searchMin)});
+  if(customerType)q.set('customer',customerType);
+  carryPrepayNavigationContext(q);
+  q.set('travel',typeof travelMode==='string'?travelMode:'drive');
+  location.href=o01File+`?${q.toString()}`;
+}
+
+function goQuote(){
+  persistPriceSnapshot();
+  commitTradeRequirement();
+  const route=transactionRoute();
+  const advisor=advisorState();
+  const quoteStatus='draft';
+  const q=new URLSearchParams({unit:representativeUnitNo,sizeOption:sizeOptionId,representativeUnit:representativeUnitNo,actualUnit:actualUnitId,inventoryIdentity,store:storeId,target:target.toFixed(1),volume:String(u.v),term:String(term),monthly:String(priceAt(term)),rentTotal:String(contractRent(term)),deposit:String(priceAt(term)),managementFee:String(MANAGEMENT_FEE),initialPayable:String(contractRent(term)+priceAt(term)+MANAGEMENT_FEE),pricingModel:PRICING_MODEL_VERSION,quoteStatus,lead:advisor.level,leadReason:advisor.reason,leadTcv:String(advisor.expected_contract_rent),route,start:startDate,access:accessFrequency,searchKm:String(searchKm),pickup:pickupAddress,pickupKm:String(pickupKm||''),promo:promoStatus(),discountRatio:dealDiscountRatio(term).toFixed(2),firstPurchase:isFirstPurchase?'1':'0',transportServiceable:transportServiceable?'1':'0',discountBasisPrice:String(discountBasisPrice),source:entrySource,fromS01State,s02State,searchOriginKey,searchMin:String(searchMin)});
+  if(customerType)q.set('customer',customerType);
+  carryPrepayNavigationContext(q);
+  q.set('travel',typeof travelMode==='string'?travelMode:'drive');
+  location.href=q01File+`?${q.toString()}`;
+}
+
+function toast(msg){const t=$('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1600)}
+function render(){
+  $('#headerTitle').textContent='仓位详情';
+  $('#unitId').textContent=actualUnitId?`仓位 ${actualUnitId}`:'暂不可租';
+  $('#unitId').title=actualUnitId?'当前演示选定的具体仓位':'当前没有可选仓位';
+  $('#identityNote').style.display='none';
+  $('#unitStoreName').textContent=storeProfile.community?`${storeProfile.name} · ${storeProfile.community}`:storeProfile.name;
+  $('#unitSize').textContent=window.MINI_KOALA_DATA.sizeText(u.v);
+  $('#unitArea').textContent=window.MINI_KOALA_DATA.areaText(u.v);
+  const dimensions=[u.length_m?`长约${u.length_m}m`:'',u.width_m?`宽约${u.width_m}m`:'',u.height_m?`高约${u.height_m}m`:''].filter(Boolean);
+  $('#unitDimensions').textContent=dimensions.join(' × ');
+  $('#unitDimensions').hidden=!dimensions.length;
+  $('#roleLabel').textContent=specialPriceDemo?'特价':hasRequirement?'推荐仓位':'当前可租';
+  const fitPanel=$('#capacityFit');
+  const urgencyMaster=window.MINI_STORAGE_UNIT_MASTER_V1,urgency=window.MINI_STORAGE_INVENTORY_URGENCY_V1;
+  const capacityRows=urgencyMaster?.getCapacitySummary(storeId)||[];
+  const capacityRow=capacityRows.find(row=>String(row.size_option_id)===String(sizeOptionId))||capacityRows.find(row=>Math.abs(Number(row.size)-Number(u.v))<.051);
+  const stockCount=capacityRow?Number(capacityRow.available_count):NaN;
+  const sameCapacityAvailable=Number.isFinite(stockCount)&&stockCount>=0?stockCount:null;
+  const isSoldOut=sameCapacityAvailable===0||!actualUnitId;
+  fitPanel.hidden=!isSoldOut;
+  if(isSoldOut){$('#roleLabel').textContent='已售出';$('#capacityFitTitle').textContent='当前仓位已售出';$('#capacityFitText').textContent='无法继续租用，可查看本店或附近其他可租仓位。';}
+  syncOtherUnitEntry();
+  $('#inventoryUrgencyBadge').textContent=isSoldOut?'已售出':sameCapacityAvailable===null?'库存待确认':sameCapacityAvailable<=2?'库存较少':'当前可租';
+  $('#inventoryUrgencyText').textContent=sameCapacityAvailable===null?'具体库存以门店确认为准':sameCapacityAvailable===0?'当前没有可租的同容量仓位':`同容量仓位剩余${sameCapacityAvailable}个 · 下单时请再次确认库存`;
+  $('#viewerSignal').textContent='';
+  $('#promoCountdown').textContent='';
+  document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',term===Number(x.dataset.quick)));
+  $('#termCustom').classList.toggle('custom-active',Boolean(term)&&![1,3,6,12,24,36,60].includes(term));
+  $('#termInput').value=term||'';$('#termHuman').textContent=term?`${termHuman(term)} · ${termDiscountLabel(term)}`:'还没有选择租期';
+  $('#termSummaryText').textContent=term?termHuman(term):'请选择租期';
+  const comparison=$('#termComparison');
+  comparison.hidden=!focusTerm||focusTerm===term;
+  if(!comparison.hidden){
+    const compared=`${termHuman(focusTerm)}：月均约 ${priceText(priceAt(focusTerm))}/月 · 整期总租金 ¥${contractRent(focusTerm).toLocaleString()}`;
+    $('#termComparisonCopy').textContent=term
+      ? `当前${termHuman(term)}：月均约 ${priceText(priceAt(term))}/月 · 整期总租金 ¥${contractRent(term).toLocaleString()}。${compared}。多租 ${focusTerm-term} 个月，选择后才会更新价格。`
+      : `您还没有选租期。${compared}。选择后才会更新价格。`;
+    $('#keepTerm').textContent=term?'保留当前租期':'继续自己选择';
+    $('#applyTerm').textContent=`改用${termHuman(focusTerm)}`;
+  }
+  if(term){
+    const pm=priceAt(term),total=contractRent(term);
+    $('#rentHeading').textContent=`${termHuman(term)}整期总租金`;
+    const deposit=pm,initial=total+deposit+MANAGEMENT_FEE;
+    $('#contractTotal').textContent=total>0?`¥${total.toLocaleString()}`:'待确认';$('#selectedTermPrice').textContent=`${priceText(pm)}/月`;$('#termPriceHint').textContent=`当前租期折扣 ${termDiscountLabel(term)}`;$('#depositAmount').textContent=pm>0?`¥${deposit.toLocaleString()}`:'待确认';$('#managementFee').textContent=`¥${MANAGEMENT_FEE}`;$('#initialPayable').textContent=initial>MANAGEMENT_FEE?`¥${initial.toLocaleString()}`:'待确认';$('#payableFormula').textContent=`整期租金 ¥${total.toLocaleString()} + 押金 ¥${deposit.toLocaleString()} + 管理费 ¥${MANAGEMENT_FEE}`;
+    $('#confirm').textContent='继续租用';
+  }else{
+    $('#confirm').textContent='选择租期';
+    $('#rentHeading').textContent='租金';$('#selectedTermPrice').textContent='选择租期后显示';$('#termPriceHint').textContent='';$('#contractTotal').textContent='—';$('#depositAmount').textContent='—';$('#managementFee').textContent=`¥${MANAGEMENT_FEE}`;$('#initialPayable').textContent='—';$('#payableFormula').textContent='选择租期后显示费用组成';
+  }
+  $('#confirm').disabled=isSoldOut;
+  $('#confirm').setAttribute('aria-disabled',String(isSoldOut));
+  $('#saveQuote').disabled=isSoldOut;
+  if(isSoldOut)$('#confirm').textContent='已售出';
+  const advisor=advisorState();
+  const advisorCopy=advisorReasonCopy(advisor);
+  $('#advisorBtn').title='预约看仓或获取顾问协助';
+  $('#advisorBtn').setAttribute('aria-label','需要帮助：预约看仓或顾问协助');
+  const promo=$('#transportPromo');
+  const farContext=searchKm>=5||searchMin>=20||accessFrequency==='low';
+  const showTransport=transportIntent && Boolean(term);
+  promo.classList.toggle('hidden',!showTransport);
+  if(showTransport){
+    const checks=promo.querySelector('.promo-checks');
+    const pickupRow=$('#pickupRow');
+    const eligibleWindow=term>=6;
+    checks?.classList.toggle('hidden',!eligibleWindow);
+    pickupRow?.classList.toggle('hidden',!eligibleWindow);
+    if(!eligibleWindow){
+      $('#transportPromoTitle').textContent='需要搬运支持';
+      $('#transportPromoDesc').textContent='选定当前仓位后，可以继续确认可用的搬运方式和费用。租满6个月后，部分首次租仓订单可以免费使用1次单程基础运输；是否可享还要结合搬出地址等情况确认。';
+      $('#promoResult').classList.add('hidden');
+      leadStorageSet(TRANSPORT_KEY,JSON.stringify({moving_support:'need',promo_status:'INELIGIBLE_TERM',term_months:term||0,unit_id:actualUnitId||representativeUnitNo,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:inventoryIdentity,updated_at:new Date().toISOString()}));
+    }else{
+      const st=promoStatus();
+      $('#promoFirst').textContent=isFirstPurchase?'✓ 首次租仓订单':'× 非首次租仓';
+      $('#promoTerm').textContent=`✓ ${termHuman(term)}`;
+      $('#promoDiscount').textContent=dealDiscountRatio(term)>=.6?'✓ 符合活动价格条件':'待价格确认';
+      $('#promoDistance').textContent=pickupKm?`${pickupKm.toFixed(1)}km ${pickupKm>=5?'✓':'· 未达5km'}`:'待确认搬出地址';
+      $('#transportPromoTitle').textContent=st==='ELIGIBLE'?'预计可享1次单程基础运输':'需要搬运？继续确认首单运输活动';
+      $('#transportPromoDesc').textContent=st==='ELIGIBLE'?'当前信息预计符合活动条件，提交订单时会再确认。':'首次租仓订单租期达到6个月后，还需要根据搬出地址、驾车距离和当前订单条件确认。';
+      $('#promoResult').classList.toggle('hidden',st!=='ELIGIBLE');
+      if(st==='ELIGIBLE')$('#promoResult').textContent='预计可享1次单程基础运输，提交订单时会再确认。';
+      leadStorageSet(TRANSPORT_KEY,JSON.stringify({moving_support:'need',distance_recovery:farContext,promo_status:st,term_months:term||0,pickup_address:pickupAddress,pickup_to_store_drive_km:pickupKm,deal_discount_ratio:dealDiscountRatio(term),discount_basis_price:discountBasisPrice,transport_serviceable:transportServiceable,first_purchase:isFirstPurchase,access_frequency:accessFrequency,unit_id:actualUnitId||representativeUnitNo,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:inventoryIdentity,updated_at:new Date().toISOString()}));
+    }
+  }
+}
+function rememberDemandTerm(){if(contextMatches&&!p.has('assetContext')&&!p.has('quoteStatus'))requirementContext=window.MINI_KOALA_REQUIREMENT_CONTINUITY_V1.write({term_months:term},'U01_TERM_EDIT');}
+document.querySelectorAll('[data-quick]').forEach(x=>x.onclick=()=>{focusTerm=null;term=Number(x.dataset.quick);rememberDemandTerm();render()});
+$('#termMinus').onclick=()=>{focusTerm=null;term=clampTerm((term||1)-1);rememberDemandTerm();render()};$('#termPlus').onclick=()=>{focusTerm=null;term=clampTerm((term||1)+1);rememberDemandTerm();render()};$('#termInput').oninput=e=>{const raw=e.target.value.trim(),n=Number(raw);if(raw&&Number.isInteger(n)&&n>=1&&n<=60){focusTerm=null;term=n;rememberDemandTerm();document.querySelectorAll('[data-quick]').forEach(x=>x.classList.toggle('active',term===Number(x.dataset.quick)));$('#termCustom').classList.toggle('custom-active',![1,3,6,12,24,36,60].includes(term));$('#termHuman').textContent=termHuman(term)}};$('#termInput').onchange=e=>{focusTerm=null;term=clampTerm(e.target.value);rememberDemandTerm();render()};$('#termInput').onkeydown=e=>{if(e.key==='Enter')e.currentTarget.blur()};
+$('#keepTerm').onclick=()=>{focusTerm=null;render()};
+$('#applyTerm').onclick=()=>{if(!focusTerm)return;term=focusTerm;focusTerm=null;rememberDemandTerm();render()};
+$('#hero').onclick=()=>{photo=1-photo;$('#heroText').textContent=photo?'仓位环境示意':'仓位入口示意';$('#counter').textContent=`${photo+1} / 2`};
+$('#checkPickup').onclick=()=>{
+  const v=$('#pickupAddress').value.trim();
+  if(!v){toast('请填写物品搬出地址');return}
+  pickupAddress=v;
+  pickupKm=0;
+  render();
+  toast('已记录搬出地址；正式版由地图API计算驾车距离');
+};
+
+// UX-PATCH A4: use physical available counts, not the number of capacity cards.
+function otherAvailableUnitCount(options,selectedSizeOption,selectedActualId){
+  const total=options.reduce((sum,option)=>sum+Math.max(0,Math.floor(Number(option.available_count)||0)),0);
+  const selected=options.find(option=>String(option.size_option_id||option.id)===String(selectedSizeOption));
+  const currentIncluded=Boolean(selectedActualId&&selected&&Number(selected.available_count)>0);
+  return Math.max(0,total-(currentIncluded?1:0));
+}
+function preserveUnitContext(){
+  const q=new URLSearchParams({target:target.toFixed(1),fromS01State,searchOriginKey,searchMin:String(searchMin),searchKm:String(searchKm),access:accessFrequency});
+  q.set('travel',typeof travelMode==='string'?travelMode:'drive');
+  if(typeof p!=='undefined')for(const key of ['otherStoresSource','excludeStore','sort','distance','services','loaded','scroll'])if(p.has(key))q.set(key,p.get(key));
+  if(term)q.set('term',String(term));
+  if(customerType)q.set('customer',customerType);
+  if(window.MINI_STORAGE_SALES_SHARE?.enabled)window.MINI_STORAGE_SALES_SHARE.append(q);
+  return q;
+}
+function storeDetailRoute(showOtherUnits=false){
+  const q=preserveUnitContext();
+  q.set('store',storeId);
+  // Browse all available size options rather than hiding alternatives below the requested range.
+  q.set('state',showOtherUnits?'browse':(hasRequirement?'matched':'browse'));
+  q.set('source',showOtherUnits?'u01_other_units':'u01_store_detail');
+  if(typeof returnToUsage!=='undefined'&&returnToUsage)q.set('returnTo','S5');
+  if(showOtherUnits)q.set('focusOtherUnits','1');
+  return s02File+'?'+q.toString()+(showOtherUnits?'#inventorySection':'');
+}
+function nearbyOtherUnitsRoute(){
+  const q=preserveUnitContext();
+  q.set('source','u01_other_stores');
+  q.set('entry','u01_other_stores');
+  q.set('excludeStore',storeId);
+  q.delete('otherStoresSource');
+  // Carry a real capacity demand even when U01 was opened from ordinary store browsing.
+  // S01 redirects to term selection when a valid duration is unavailable; never invent one.
+  q.set('state','estimated');
+  q.set('fromS01State','estimated');
+  q.set('target',(hasRequirement?target:(Number(u.v)>0?Number(u.v):target)).toFixed(1));
+  return s01File+'?'+q.toString();
+}
+function syncOtherUnitEntry(){
+  const count=otherAvailableUnitCount(availableUnits,sizeOptionId,actualUnitId);
+  const action=$('#viewOtherUnits');
+  const hasOther=count>0;
+  action.dataset.mode=hasOther?'same-store':'nearby';
+  action.textContent=hasOther?'查看同门店其他仓位 ›':'查看附近其他门店仓位 ›';
+  action.setAttribute('aria-label',hasOther?'查看同门店其他可租仓位':'查看附近其他门店可租仓位');
+  return hasOther;
+}
+$('#viewStoreDetail').onclick=()=>{location.href=storeDetailRoute(false)};
+$('#viewOtherUnits').onclick=()=>{location.href=syncOtherUnitEntry()?storeDetailRoute(true):nearbyOtherUnitsRoute()};
+$('#estimateCapacity').onclick=()=>{
+  const q=new URLSearchParams({entry:'capacity',source:'unit_detail',returnTo:'U01',returnUnit:location.search.replace(/^\?/,'')});
+  location.href=estimatorFile+'?'+q.toString();
+};
+
+$('#back').onclick=()=>{
+  if(returnToUsage){
+    const q=new URLSearchParams({entry:'resume_usage'});if(term)q.set('term',String(term));
+    location.href=estimatorFile+'?'+q.toString();return;
+  }
+  if(entrySource==='estimator_unit_list'){
+    const q=new URLSearchParams({entry:'resume_unit_list',target:target.toFixed(1)});if(term)q.set('term',String(term));
+    location.href=estimatorFile+`?${q.toString()}`;
+    return;
+  }
+  const advisor=advisorState();
+  const q=new URLSearchParams({state:s02State,target:target.toFixed(1),store:storeId,lead:advisor.level,leadReason:advisor.reason,leadTcv:String(advisor.expected_contract_rent),fromS01State,searchOriginKey,access:accessFrequency,searchMin:String(searchMin),searchKm:String(searchKm),travel:travelMode});for(const key of ['otherStoresSource','excludeStore','sort','distance','services','loaded','scroll'])if(p.has(key))q.set(key,p.get(key));if(term)q.set('term',String(term));if(customerType)q.set('customer',customerType);if(window.MINI_STORAGE_SALES_SHARE?.enabled){window.MINI_STORAGE_SALES_SHARE.append(q);q.set('shareType','store')}location.href=s02File+`?${q.toString()}`
+};
+
+const termDetails=$('#termDetails');if(termDetails && (!term||focusTerm))termDetails.open=true;
+// U01 does not display simulated viewers or countdown as a live inventory promise.
+const reviewMode=p.get('review')==='1';
+$('#holdUnitBtn').style.display=reviewMode?'':'none';
+$('#holdUnitBtn').onclick=()=>{if($('#confirm').disabled){toast('当前仓位已售出，请选择其他仓位');return}if(!term){$('#termSection').scrollIntoView({behavior:'smooth'});toast('先选择租期，再计算演示订金');return}const total=contractRent(term),dep=Math.max(50,Math.round(total*.10));$('#holdDeposit').textContent=`¥${dep.toLocaleString()}`;$('#holdSummary').textContent=`${STORE_PROFILES[storeId].name} · 仓位 ${actualUnitId} · ${termHuman(term)} · 整期租金 ¥${total.toLocaleString()}`;$('#holdMask').classList.add('show')};
+$('#holdCancel').onclick=()=>$('#holdMask').classList.remove('show');
+$('#holdMask').onclick=e=>{if(e.target.id==='holdMask')e.currentTarget.classList.remove('show')};
+$('#holdConfirm').onclick=()=>{const total=contractRent(term),dep=Math.max(50,Math.round(total*.10)),expires=new Date(Date.now()+72*3600*1000);leadStorageSet('mini_storage_unit_hold_current',JSON.stringify({status:'ACTUAL_UNIT_HELD_DEMO_ONLY',store_id:storeId,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId,unit_id:actualUnitId,unit_id_semantics:'ACTUAL_UNIT',unit_identity_type:inventoryIdentity,term_months:term,rent_total:total,hold_deposit:dep,hold_hours:72,deposit_credit_to_first_rent:true,created_at:new Date().toISOString(),expires_at:expires.toISOString(),expiry_policy:'BUSINESS_TBD'}));$('#holdMask').classList.remove('show');toast(`已演示保留仓位72小时 · 订金¥${dep}`)};
+$('#bookUnitViewing').onclick=()=>{
+  const q=new URLSearchParams({source:'U01',scope:inventoryIdentity,store:storeId,unit:actualUnitId||representativeUnitNo,actualUnit:actualUnitId,sizeOption:sizeOptionId,representativeUnit:representativeUnitNo,inventoryIdentity,target:target.toFixed(1),volume:String(u.v),lead:leadRoute,start:startDate});
+  if(term)q.set('term',String(term));
+  if(term)q.set('monthly',String(priceAt(term)));
+  if(customerType)q.set('customer',customerType);
+  location.href=v01File+`?${q.toString()}`
+};
+$('#advisorBtn').onclick=()=>$('#helpMask').classList.add('show');
+$('#helpClose').onclick=()=>$('#helpMask').classList.remove('show');
+$('#helpMask').onclick=e=>{if(e.target.id==='helpMask')e.currentTarget.classList.remove('show')};
+$('#helpViewing').onclick=()=>{$('#helpMask').classList.remove('show');$('#bookUnitViewing').click()};
+$('#helpAdvisor').onclick=()=>{
+  $('#helpMask').classList.remove('show');
+  const advisor=advisorState();
+  openLeadCapture({node:'U01_ADVISOR',title:'顾问协助选仓',desc:`会带上当前仓位${term?'、'+termHuman(term):''}和价格信息，您不需要重新描述需求。`,allowSkip:true,context:{unit_id:actualUnitId||representativeUnitNo,size_option_id:sizeOptionId,representative_unit_no:representativeUnitNo,actual_unit_id:actualUnitId||null,unit_identity_type:inventoryIdentity,target_volume:target,term_months:term||null,monthly_price:term?priceAt(term):null,expected_tcv:advisor.expected_contract_rent,advisor_reason:advisor.reason,transaction_route:term?transactionRoute():null}})
+};
+$('#saveQuote').onclick=()=>{if($('#confirm').disabled){toast('当前方案已售出，请选择其他仓位');return}if(!term){$('#termSection').scrollIntoView({behavior:'smooth'});toast('先选择实际租期');return}goQuote()};
+$('#confirm').onclick=()=>{
+  if($('#confirm').disabled){toast('当前方案已售出，请选择其他仓位');return}
+  if(!term){$('#termSection').scrollIntoView({behavior:'smooth'});toast('先选择实际租期');return}
+  goOrder()
+};
+render();
+// H01-007-S3 D-07 / D-12: when U01 is entered to re-check an expired quote (requote=1&quoteId=) or an unpaid order (resumeOrder=),
+// compare the freshly computed price / coupon / availability with the saved record, show the result, and require an explicit
+// confirmation before 立即下单 / 保存方案 when anything changed. Pricing itself is unchanged (currentPriceSnapshot + coupon module).
+(function(){
+  const RC=window.MINI_STORAGE_TRADE_RECHECK_V1,COUPON=window.MINI_KOALA_COUPON_V1;
+  const mode=p.get('requote')==='1'?'quote':(p.get('resumeOrder')?'order':'');
+  if(!RC||!mode)return;
+  let saved=null,label='';
+  if(mode==='quote'){let q={};try{q=JSON.parse(localStorage.getItem('mini_storage_quote_current')||'{}')}catch(e){}
+    if(q.quote_id&&(!p.get('quoteId')||q.quote_id===p.get('quoteId'))){saved=RC.quoteAmounts(q);label=`原方案 ${q.quote_id}`}}
+  else{let o={};try{o=JSON.parse(localStorage.getItem('mini_storage_order_current')||'{}')}catch(e){}
+    if(RC.resumableOrder(o)&&o.order_no===p.get('resumeOrder')){saved=RC.orderAmounts(o);label=`原订单 ${o.order_no}`}}
+  const holder=document.querySelector('.unified-price');
+  if(!saved||!holder)return;
+  const box=document.createElement('div');box.id='requoteNotice';box.setAttribute('role','alert');
+  box.style.cssText='margin:0 0 12px;padding:12px 13px;border:1px solid #E8C7A1;border-radius:12px;background:#FFF5E9;color:#71451D;font-size:13px;line-height:1.6';
+  holder.insertAdjacentElement('beforebegin',box);
+  let acked=false,needsAck=false,lastKey='';
+  function fresh(){const base=currentPriceSnapshot();if(!base)return null;return COUPON&&typeof COUPON.applyToSnapshot==='function'?COUPON.applyToSnapshot(base):base}
+  function sync(){
+    const soldOut=document.getElementById('confirm')?.disabled===true;
+    if(soldOut){box.dataset.requoteResult='sold_out';needsAck=false;box.innerHTML=`<b>${label}对应的容量方案已售出</b><div>无法按原方案继续；请返回门店查看其他可租仓位。</div>`;return}
+    const f=fresh();
+    if(!f){box.dataset.requoteResult='term';needsAck=false;box.innerHTML=`<b>${label}需要重新核对</b><div>请先选择租期，系统会按当前价格、优惠和可租情况重新核对。</div>`;return}
+    const changes=RC.amountDiff(saved,f);const key=JSON.stringify(changes);
+    needsAck=changes.length>0;if(key!==lastKey){acked=false;lastKey=key}
+    if(!needsAck){box.dataset.requoteResult='same';box.innerHTML=`<b>已重新核对，与${label}一致</b><div>当前价格、优惠和可租情况与原来相同，首次应付 ${RC.money(f.upfront_payable)}，可以继续。</div>`;return}
+    box.dataset.requoteResult='changed';
+    box.innerHTML=`<b>价格或优惠已变化，请确认后再继续</b><div>${RC.describeChanges(changes)}</div><div>${label}首次应付 ${RC.money(saved.upfront_payable)} → 现在 ${RC.money(f.upfront_payable)}。</div>`+(acked?'<div style="margin-top:6px">✓ 已确认按当前价格继续</div>':'<button type="button" id="requoteAck" style="margin-top:8px;padding:8px 12px;border-radius:10px;border:1px solid #C98A4B;background:#fff;color:#71451D;font-size:13px">我已了解，按当前价格继续</button>');
+    const ack=document.getElementById('requoteAck');if(ack)ack.onclick=()=>{acked=true;sync();toast('已确认按当前价格继续')};
+  }
+  const guard=fn=>function(){if(needsAck&&!acked){box.scrollIntoView({behavior:'smooth',block:'center'});toast('价格或优惠已变化，请先确认');return}return fn.apply(this,arguments)};
+  goOrder=guard(goOrder);goQuote=guard(goQuote);
+  sync();
+  new MutationObserver(()=>setTimeout(sync,0)).observe(document.getElementById('initialPayable')||holder,{subtree:true,childList:true,characterData:true});
+})();
+</script>
+<script src="mini_storage_global_support_v274.js"></script>
+<style id="china-native-u01-payable-visibility-v1">
+/* Keep the globally approved floating help entry, but never cover payable numbers. */
+#miniGlobalSupport.cn-u01-amount-overlap{visibility:hidden!important;pointer-events:none!important}
+</style>
+<script id="china-native-u01-payable-visibility-v1-script">
+(function(){
+  const float=document.getElementById('miniGlobalSupport');
+  const amount=document.getElementById('initialPayable');
+  const scroller=document.querySelector('.page');
+  if(!float||!amount||!scroller)return;
+  let pending=false;
+  function refresh(){
+    pending=false;
+    // Inspect the launcher even if currently hidden; visibility does not change geometry.
+    const launcher=document.getElementById('miniSupportLauncher')||float;
+    const a=amount.getBoundingClientRect(),b=launcher.getBoundingClientRect();
+    const intersects=a.width>0&&a.height>0&&b.width>0&&b.height>0 &&
+      a.left-5<b.right&&a.right+5>b.left&&a.top-5<b.bottom&&a.bottom+5>b.top;
+    float.classList.toggle('cn-u01-amount-overlap',intersects);
+    if(intersects)float.classList.remove('expanded');
+  }
+  function schedule(){if(!pending){pending=true;requestAnimationFrame(refresh)}}
+  scroller.addEventListener('scroll',schedule,{passive:true});
+  window.addEventListener('resize',schedule);
+  document.querySelectorAll('.term-quick button,.term-stepper button,#termInput').forEach(el=>el.addEventListener('click',schedule));
+  schedule();
+})();
+</script>
+<script src="mini_koala_unit_choice_r5a_patch.js" data-patch="UNIT-COMPARE-R5A"></script>
+</body>
+</html>

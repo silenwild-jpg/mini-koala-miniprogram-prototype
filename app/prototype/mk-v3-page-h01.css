@@ -1,0 +1,408 @@
+/* Mini Koala — Visual V3 · H01 home page · TOP HALF ONLY (new-user default state) | Task 02C-1A-1 | 2026-10-12
+   Scope  : body.koala-ui-v1.koala-h01 only, inside the single named layer "mk-v3" (same mechanism as the O01/S01 pilot;
+            mk-v3-components.css is NOT mounted on H01 — its selectors are O01/S01-scoped).
+   Covers : status/top bar, location strip, hero (title, benefits, existing photo), the two task cards, the four-step card.
+   State  : hero / task-card rules are bound to .state-new; .status/.topbar/.location are state-independent elements
+            (shared chrome). Only the new-user default state was validated this round.
+   Not covered this round (unchanged on purpose): section titles, the three recommendation cards, scenes, enterprise banner,
+            brand trust, service evidence, honours, bottom nav, every non-new state. (02C-1A-2 added the lower half; 02C-1A-3 added the help-entry block at the end of this file.)
+   Four-step card targeting: #homeServiceFlow is the only .home-proof-stack that directly follows a .section (#scenesNew);
+            the lower stack (#homeBottomProofs) follows .brand-trust. `.section + .home-proof-stack` therefore selects the
+            four-step card without an ID and without touching the lower proof cards (verified in the DOM, new state).
+   Audit before mounting (live page): no other @layer in the page; no style="" attribute carries !important; the runtime
+            inline styles (closeout patch / acceptance_fix) touch only #miniGlobalSupport and .page padding — not this scope.
+   Rules  : no :has(), no ID selectors, no :root, no new variable prefix, colours via var(--koala-*) (rgba literal only for the
+            V3 card shadow 0 2px 8px rgba(31,41,35,.05) — --koala-shadow is deliberately not redefined on H01, see tokens).
+            !important only where a registered legacy !important declaration must be replaced (see ledger).
+   Kept   : all Chinese copy, module order, DOM, click targets (#estimateBtn / #storeLink / #homeLocation), min-height of the
+            task cards (content still drives height), the existing hero photo asset. No JS.
+   HTML-prototype transition mechanism: @layer is not WXSS. */
+@layer mk-v3 {
+  /* ===== status bar + top bar: white, 1px line, no blur / tint ===== */
+  body.koala-ui-v1.koala-h01 .status { background: var(--koala-surface) !important; }
+  body.koala-ui-v1.koala-h01 .topbar {
+    height: 56px !important; padding: 0 16px !important;
+    background: var(--koala-surface) !important; border-bottom: 1px solid var(--koala-line) !important;
+    border-top-color: var(--koala-line) !important; /* 02C-1A-2: --koala-divider is now redefined on H01 and ui_system feeds it to .topbar border-color; the (0px) top border keeps its previous computed colour */
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important; box-shadow: none !important;
+  }
+
+  /* ===== location strip: 13 -> 14px / 600 ===== */
+  body.koala-ui-v1.koala-h01 .location-strip { padding: 10px 0 4px !important; }
+  body.koala-ui-v1.koala-h01 .location {
+    min-height: 36px !important; font-size: 14px !important; line-height: 20px !important; font-weight: 600 !important;
+    color: var(--koala-text) !important; letter-spacing: 0 !important;
+  }
+
+  /* ===== hero: title 29/720/-1.2px -> 27/34/700, brand-700; benefits 11 -> 13px; photo arch -> card radius ===== */
+  body.koala-ui-v1.koala-h01 .hero.state-new { margin: 0 16px 10px !important; }
+  /* decorative arch outline (.hero::before, 1px brand ring offset behind the arched photo) — hidden: with the photo on the
+     card radius it would peek out above / right of the image (seen in the first after-shot) */
+  body.koala-ui-v1.koala-h01 .hero.state-new::before { content: none !important; display: none !important; }
+  body.koala-ui-v1.koala-h01 .hero-intro { padding: 12px 0 12px !important; gap: 14px !important; }
+  /* 27 not 28: the title column is 194px at 375; 4 glyphs x 28 = 112 fits, but 28/36 pushes the two-line block to 72px and
+     crowds the benefits grid; 27/34 keeps the hero block at the baseline height. Two lines as in the baseline (no DOM). */
+  body.koala-ui-v1.koala-h01 .hero-intro h1 {
+    font-size: 27px !important; line-height: 34px !important; font-weight: 700 !important; letter-spacing: 0 !important;
+    color: var(--koala-brand-700) !important; margin: 2px 0 12px !important;
+  }
+  body.koala-ui-v1.koala-h01 .hero-benefits { gap: 8px 12px !important; }
+  body.koala-ui-v1.koala-h01 .hero-benefits span {
+    font-size: 13px !important; line-height: 18px !important; font-weight: 500 !important; letter-spacing: 0 !important;
+    color: var(--koala-text-2) !important; gap: 6px !important;
+  }
+  body.koala-ui-v1.koala-h01 .hero-benefits i {
+    width: 20px !important; height: 20px !important; border-radius: 999px !important;
+    background: var(--koala-brand-100) !important; color: var(--koala-brand) !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .hero-benefits i svg { width: 13px !important; height: 13px !important; }
+  body.koala-ui-v1.koala-h01 .hero-photo {
+    height: 140px !important; border-radius: var(--koala-radius) !important;
+    border: 1px solid var(--koala-line) !important; box-shadow: none !important;
+  }
+
+  /* ===== dual task cards (new-state grid only; task cards mounted by other states are not touched) :
+     primary = flat brand green (was #183E30 gradient), secondary = white card ===== */
+  body.koala-ui-v1.koala-h01 .dual-task-grid { gap: 10px !important; margin-top: 4px !important; }
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card {
+    border-radius: var(--koala-radius) !important; padding: 14px 12px !important; min-height: 112px !important;
+    box-shadow: 0 2px 8px rgba(31, 41, 35, .05) !important; /* = V3 --koala-shadow */
+  }
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card.match-task {
+    background: var(--koala-brand) !important; border: 1px solid var(--koala-brand) !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card.store-task {
+    background: var(--koala-surface) !important; border: 1px solid var(--koala-line) !important;
+  }
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card .task-title {
+    font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; letter-spacing: 0 !important;
+    color: var(--koala-text) !important; padding-right: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card .task-desc {
+    font-size: 13px !important; line-height: 18px !important; margin-top: 4px !important; color: var(--koala-text-2) !important;
+  }
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card .task-action {
+    font-size: 13px !important; line-height: 18px !important; font-weight: 600 !important; letter-spacing: 0 !important;
+    padding-top: 10px !important; color: var(--koala-brand) !important;
+  }
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card.match-task .task-title,
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card.match-task .task-action { color: var(--koala-surface) !important; }      /* 6.29:1 */
+  body.koala-ui-v1.koala-h01 .dual-task-grid.state-new .task-card.match-task .task-desc { color: var(--koala-brand-100) !important; }       /* 5.56:1 */
+
+  /* ===== four-step card (#homeServiceFlow only, see header) ===== */
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack { margin-top: 20px !important; } /* 02C-1A-3: 16 -> 20, same module gap as .section.state-new (20); in-stack card gap stays 14 */
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .home-proof-card {
+    padding: 16px 0 !important; background: transparent !important; border: 0 !important;
+    border-top: 1px solid var(--koala-line) !important; border-radius: 0 !important; box-shadow: none !important; /* LIFE-03 open proof groups */
+  }
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .proof-head { margin-bottom: 14px !important; }
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .proof-head h3 {
+    font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important;
+  }
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .service-flow { gap: 8px !important; }
+  /* LIFE-03: compact step icons; connector aligned to their centres. */
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .service-flow::before { top: 16px !important; background: var(--koala-line) !important; }
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .service-flow-icon {
+    width: 32px !important; height: 32px !important; margin: 0 auto 6px !important; border-radius: 50% !important;
+    background: var(--koala-brand-100) !important; color: var(--koala-brand) !important; border: 0 !important; box-shadow: none !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+  }
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .service-flow-icon svg { width: 22px !important; height: 22px !important; }
+  body.koala-ui-v1.koala-h01 .section + .home-proof-stack .service-flow-item b {
+    font-size: 13px !important; line-height: 18px !important; font-weight: 600 !important; color: var(--koala-text) !important;
+  }
+  /* ---- end of Task 02C-1A-1 top-half rules; the lower-half rules below share this single layer block ---- */
+
+/* ======================================================================================================================
+   Task 02C-1A-2 | 2026-10-12 — H01 home page · LOWER HALF (new-user default state)
+   Covers : section titles, the three recommendation store cards (featured + two alts), price blocks, store tags,
+            common storage scenes grid + "other use" row + merchant/enterprise banner, brand trust block, service evidence
+            card, brand honours card, bottom navigation.
+   State  : every rule is bound to .state-new containers (#nearNew / #scenesNew / #brandTrust / the proof stacks all carry
+            .state-new) except the bottom navigation, which is shared chrome. Only the new-user default state was validated.
+   Content: the three recommendation cards keep their own information structure (featured = inventory + capacity + tags,
+            alts = name + route + tags, no inventory). No copy, order, data source or price semantics is touched.
+   Tags   : first tag of each card = unit-type fact (社区仓 / 混合仓) -> pill (999px, brand-100 / brand-700);
+            the remaining service tags -> 6px rounded rectangle (surface-2, line, text-2); the runtime promotion badge
+            (.card-corner-badge.mk-promo-tag, 限时特价) -> 6px, --koala-price-soft / --koala-promo-text (5.24:1).
+            .store-tags may wrap (ui_system clips it with overflow:hidden; on 375 the third tag of the second alt card
+            would otherwise be cut) — the card grows with its content.
+   Prices : featured 24px/700, alts 20px/700, both --koala-price (large-text 3:1 rule); unit text 12px --koala-text-2.
+   Help   : #miniGlobalSupport — see the 02C-1A-3 block at the end of this file (CSS only, master position kept).
+   Rules  : same constraints as the top half (no :has(), no ID, no :root, colours via var(--koala-*), rgba literal only
+            for the V3 card shadow); !important only against registered legacy !important / :has() rules (see ledger). */
+  /* ===== shared: section spacing + section titles ===== */
+  body.koala-ui-v1.koala-h01 .section.state-new { margin-top: 20px !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new > h2,
+  body.koala-ui-v1.koala-h01 .section.state-new .section-title-row h2 {
+    font-size: 18px !important; line-height: 26px !important; font-weight: 700 !important; letter-spacing: 0 !important;
+    color: var(--koala-text) !important; margin: 0 0 10px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .section-title-row { align-items: center !important; min-height: 36px !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .section-title-row h2 { margin-bottom: 0 !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .home-all-stores {
+    font-size: 13px !important; line-height: 18px !important; font-weight: 600 !important; color: var(--koala-brand) !important;
+    min-height: 36px !important; padding: 0 0 0 12px !important;
+  }
+
+  /* ===== recommendation card 1 — featured store (keeps inventory + capacity + tags) ===== */
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-store {
+    margin: 12px 0 10px !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius) !important;
+    background: var(--koala-surface) !important; box-shadow: 0 2px 8px rgba(31, 41, 35, .05) !important; /* = V3 --koala-shadow */
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-cover { height: 108px !important; border-radius: 0 !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-body { padding: 12px 12px 14px !important; }
+  /* the title column is auto-sized to its content (172px at 375); let it take the row so the 12px district tag never
+     pushes the place name into a second line */
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-title-row > div { flex: 1 1 auto !important; min-width: 0 !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-store .store-name-line {
+    font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important; gap: 6px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-summary {
+    margin-top: 10px !important; padding-top: 10px !important; border-top: 1px solid var(--koala-divider) !important; gap: 8px 8px !important; align-items: end !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-inventory b {
+    font-size: 12px !important; line-height: 18px !important; font-weight: 500 !important; color: var(--koala-text-2) !important;
+  }
+  /* "参考单价" is a ::before label (legacy 10px, absolutely positioned at top:0 -> the block keeps a top padding for it):
+     12px floor applies to pseudo text too; featured = label above, number + unit inline */
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-price { padding-top: 18px !important; position: relative !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-price::before,
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .alt-price::before {
+    font-size: 12px !important; line-height: 16px !important; font-weight: 400 !important; color: var(--koala-text-2) !important;
+    width: auto !important; left: auto !important; right: 0 !important; top: 0 !important; letter-spacing: 0 !important; white-space: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-price b {
+    font-size: 24px !important; line-height: 28px !important; font-weight: 700 !important; color: var(--koala-price) !important; gap: 2px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-price .price-num {
+    font-size: 24px !important; line-height: 28px !important; font-weight: 700 !important; color: var(--koala-price) !important;
+    letter-spacing: 0 !important; margin: 0 !important; font-variant-numeric: tabular-nums;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-price .price-unit {
+    font-size: 12px !important; line-height: 16px !important; font-weight: 400 !important; color: var(--koala-text-2) !important; margin: 0 0 0 2px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .featured-go,
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .arrow {
+    width: 28px !important; height: 28px !important; font-size: 16px !important; line-height: 28px !important; font-weight: 700 !important;
+    color: var(--koala-brand) !important; background: var(--koala-brand-100) !important; box-shadow: none !important; border-radius: 999px !important;
+  }
+
+  /* ===== shared card text: district tag, place, route (featured + alts) ===== */
+  body.koala-ui-v1.koala-h01 .section.state-new .store-name-line .district-tag {
+    font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; color: var(--koala-text-2) !important;
+    min-height: 20px !important; padding: 0 6px !important; border-radius: 999px !important; background: var(--koala-surface-2) !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-name-line .store-place {
+    font-size: 12px !important; line-height: 16px !important; font-weight: 400 !important; color: var(--koala-text-2) !important; margin-left: 2px !important;
+  }
+  /* route row: each part stays unbroken; if the column is ever too narrow the distance drops as a whole unit */
+  body.koala-ui-v1.koala-h01 .section.state-new .route-info { margin-top: 6px !important; font-size: 13px !important; line-height: 18px !important; color: var(--koala-text-2) !important; gap: 2px 5px !important; flex-wrap: wrap !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .route-time { font-size: 13px !important; line-height: 18px !important; font-weight: 600 !important; color: var(--koala-text-2) !important; white-space: nowrap !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .route-km { font-size: 13px !important; line-height: 18px !important; font-weight: 400 !important; color: var(--koala-text-2) !important; white-space: nowrap !important; }
+
+  /* ===== Tag: unit-type fact = pill, service = 6px rectangle; row may wrap ===== */
+  body.koala-ui-v1.koala-h01 .section.state-new .store-tags {
+    overflow: visible !important; flex-wrap: wrap !important; gap: 6px !important; margin-top: 0 !important; font-size: 12px !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .store-tags { margin-top: 8px !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-tags span {
+    display: inline-flex !important; align-items: center !important; min-height: 22px !important; padding: 2px 7px !important;
+    border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-tag) !important;
+    background: var(--koala-surface-2) !important; color: var(--koala-text-2) !important;
+    font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; letter-spacing: 0 !important; white-space: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-tags span:first-child {
+    border-color: var(--koala-brand-100) !important; border-radius: 999px !important; padding: 2px 8px !important;
+    background: var(--koala-brand-100) !important; color: var(--koala-brand-700) !important; font-weight: 500 !important;
+  }
+
+  /* ===== recommendation cards 2 + 3 — alternates (name + route + tags, no inventory by design) ===== */
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alts {
+    margin-top: 10px !important; padding: 0 12px !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius) !important;
+    background: var(--koala-surface) !important; box-shadow: 0 2px 8px rgba(31, 41, 35, .05) !important; /* = V3 --koala-shadow */
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt {
+    margin: 0 !important; padding: 12px 0 !important; border-radius: 0 !important; box-shadow: none !important; gap: 8px !important; align-items: end !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt + .store-alt { border-top: 1px solid var(--koala-divider) !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .alt-name {
+    font-size: 15px !important; line-height: 22px !important; font-weight: 700 !important; color: var(--koala-text) !important; gap: 6px !important;
+  }
+  /* compact PriceBlock variant for the two alternates: label / number / unit stacked and right-aligned. Inline number+unit
+     at 20px made the price column 146px at 375 and squeezed the name + route column to 163px (place name and route text
+     broke mid-string, third tag wrapped); stacked, the price column is ~92px and the text column keeps ~217px */
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .alt-price {
+    position: relative !important; padding-top: 18px !important; flex-direction: column !important; align-items: flex-end !important; justify-content: flex-end !important;
+    font-size: 20px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-price) !important; gap: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .alt-price .price-num {
+    font-size: 20px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-price) !important;
+    letter-spacing: 0 !important; margin: 0 !important; font-variant-numeric: tabular-nums;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .alt-price .price-unit {
+    font-size: 12px !important; line-height: 16px !important; font-weight: 400 !important; color: var(--koala-text-2) !important; margin: 0 !important; white-space: nowrap !important;
+  }
+  /* runtime promotion badge (限时特价): 6px tag, verified promo colour pair; stays at the card's top-right */
+  body.koala-ui-v1.koala-h01 .section.state-new .store-alt .card-corner-badge.mk-promo-tag {
+    min-height: 20px !important; padding: 0 6px !important; border-radius: var(--koala-radius-tag) !important;
+    background: var(--koala-price-soft) !important; color: var(--koala-promo-text) !important;
+    font-size: 12px !important; line-height: 16px !important; font-weight: 600 !important; letter-spacing: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .price-context {
+    margin: 8px 2px 0 !important; font-size: 12px !important; line-height: 17px !important; color: var(--koala-text-2) !important;
+  }
+
+  /* ===== common storage scenes ===== */
+  body.koala-ui-v1.koala-h01 .section.state-new .scenegrid {
+    border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius) !important; background: var(--koala-surface) !important;
+    box-shadow: 0 2px 8px rgba(31, 41, 35, .05) !important; /* = V3 --koala-shadow */
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .scene {
+    padding: 14px 4px 12px !important; gap: 2px !important; min-height: 0 !important;
+    border-right: 1px solid var(--koala-divider) !important; border-bottom: 1px solid var(--koala-divider) !important; background: var(--koala-surface) !important;
+  }
+  /* existing lucide svg (rendered by the page script) on a 40px brand-100 disc; box-sizing pinned so 40 = outer size */
+  body.koala-ui-v1.koala-h01 .section.state-new .scene > svg {
+    box-sizing: border-box !important; width: 40px !important; height: 40px !important; padding: 9px !important; margin: 0 0 6px !important;
+    border-radius: 999px !important; background: var(--koala-brand-100) !important; color: var(--koala-brand) !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .scene b { font-size: 14px !important; line-height: 20px !important; font-weight: 600 !important; color: var(--koala-text) !important; letter-spacing: 0 !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .scene small { margin-top: 2px !important; font-size: 12px !important; line-height: 16px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-h01 .section.state-new .home-other-scene {
+    min-height: 44px !important; padding: 0 4px !important; font-size: 14px !important; line-height: 20px !important; font-weight: 500 !important; color: var(--koala-text-2) !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .home-other-scene span { font-size: 14px !important; line-height: 20px !important; font-weight: 600 !important; color: var(--koala-brand) !important; }
+  /* merchant / enterprise banner: solid deep green block -> brand tint card with a solid brand CTA */
+  body.koala-ui-v1.koala-h01 .section.state-new .enterprise-scene {
+    margin-top: 10px !important; padding: 14px !important; gap: 10px !important;
+    background: var(--koala-brand-tint) !important; border: 1px solid var(--koala-brand-200) !important; border-radius: var(--koala-radius) !important; box-shadow: none !important;
+    color: var(--koala-text) !important;
+  }
+  body.koala-ui-v1.koala-h01 .section.state-new .enterprise-scene b { font-size: 16px !important; line-height: 22px !important; font-weight: 700 !important; color: var(--koala-brand-700) !important; }   /* 8.62:1 */
+  body.koala-ui-v1.koala-h01 .section.state-new .enterprise-scene span { margin-top: 4px !important; font-size: 13px !important; line-height: 18px !important; color: var(--koala-text-2) !important; } /* 5.67:1 */
+  body.koala-ui-v1.koala-h01 .section.state-new .enterprise-scene em {
+    padding: 0 12px !important; min-height: 32px !important; display: inline-flex !important; align-items: center !important; white-space: nowrap !important;
+    font-size: 13px !important; line-height: 18px !important; font-weight: 600 !important; font-style: normal !important;
+    color: var(--koala-surface) !important; background: var(--koala-brand) !important; border-radius: var(--koala-radius-chip) !important;  /* 6.29:1 */
+  }
+
+  /* ===== proof cards (four-step card from the top half + service evidence + honours): one card spec ===== */
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new { gap: 14px !important; }
+  body.koala-ui-v1.koala-h01 .brand-trust + .home-proof-stack.state-new { margin-top: 14px !important; }
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .home-proof-card {
+    padding: 16px 0 !important; background: transparent !important; border: 0 !important;
+    border-top: 1px solid var(--koala-line) !important; border-radius: 0 !important; box-shadow: none !important; /* LIFE-03 open proof groups */
+  }
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .proof-head { margin-bottom: 14px !important; }
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .proof-head h3 {
+    font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important;
+  }
+  /* letter-spacing reset only for the lower stack titles (品牌荣誉); the four-step title keeps its top-half computed value */
+  body.koala-ui-v1.koala-h01 .brand-trust + .home-proof-stack.state-new .proof-head h3 { letter-spacing: 0 !important; }
+
+  /* ===== brand trust: borderless strip -> white card, metrics on surface-2 ===== */
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new {
+    margin: 14px 16px 0 !important; padding: 16px 0 !important; border: 0 !important; border-top: 1px solid var(--koala-line) !important; border-radius: 0 !important;
+    background: transparent !important; box-shadow: none !important; /* LIFE-03 open brand group */
+  }
+  /* legacy 36x3 brand accent bar (.brand-trust::before, top-left) read as a tab once the block became a card — hidden */
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new::before { display: none !important; content: none !important; }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-proof-head { min-height: 0 !important; align-items: center !important; }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-proof-head h3 {
+    font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important; letter-spacing: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-link {
+    min-height: 44px !important; font-size: 13px !important; line-height: 18px !important; font-weight: 600 !important; color: var(--koala-brand) !important;
+  }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-proof-note { margin-top: 8px !important; font-size: 13px !important; line-height: 20px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-proof-metrics { margin-top: 14px !important; gap: 8px !important; }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-proof-metric {
+    padding: 8px 4px !important; border-radius: 0 !important; background: transparent !important; border: 0 !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-proof-metric b {
+    font-size: 22px !important; line-height: 28px !important; font-weight: 700 !important; color: var(--koala-text) !important; letter-spacing: 0 !important; font-variant-numeric: tabular-nums;
+  }
+  body.koala-ui-v1.koala-h01 .brand-trust.state-new .brand-proof-metric span {
+    margin-top: 4px !important; font-size: 12px !important; line-height: 16px !important; color: var(--koala-text-2) !important;  /* 5.66:1 on surface-2 */
+  }
+
+  /* ===== service evidence card ===== */
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .service-evidence-grid { gap: 8px !important; }
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .service-evidence-item {
+    padding: 8px 0 !important; gap: 4px 8px !important; border: 0 !important; border-radius: 0 !important; background: transparent !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .service-evidence-icon { color: var(--koala-brand) !important; }
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .service-evidence-item b {
+    font-size: 14px !important; line-height: 20px !important; font-weight: 600 !important; color: var(--koala-text) !important; letter-spacing: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .service-evidence-item span {
+    font-size: 12px !important; line-height: 18px !important; color: var(--koala-text-2) !important;  /* 5.66:1 on surface-2 */
+  }
+
+  /* ===== LIFE-03 brand materials: native expandable row; all pending facts retained ===== */
+  body.koala-ui-v1.koala-h01 .home-proof-stack.state-new .home-brand-materials {
+    padding: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-brand-materials summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    min-height: 52px; list-style: none; cursor: pointer; color: var(--koala-text);
+    font-size: 16px; line-height: 24px; font-weight: 600;
+  }
+  body.koala-ui-v1.koala-h01 .home-brand-materials summary::-webkit-details-marker { display: none; }
+  body.koala-ui-v1.koala-h01 .home-brand-materials .materials-action {
+    font-size: 13px; line-height: 20px; font-weight: 500; color: var(--koala-brand);
+  }
+  body.koala-ui-v1.koala-h01 .home-brand-materials[open] .materials-action > span {
+    display: inline-block; transform: rotate(180deg);
+  }
+  body.koala-ui-v1.koala-h01 .brand-materials-content {
+    color: var(--koala-text-2); font-size: 13px; line-height: 22px; padding: 0 0 12px;
+  }
+  body.koala-ui-v1.koala-h01 .brand-materials-content p { margin: 0 0 8px; }
+  body.koala-ui-v1.koala-h01 .brand-materials-content ul { margin: 0; padding-left: 20px; }
+  body.koala-ui-v1.koala-h01 .brand-materials-content li + li { margin-top: 6px; }
+  body.koala-ui-v1.koala-h01 .home-brand-materials summary:focus-visible {
+    outline: 2px solid var(--koala-brand); outline-offset: 2px; border-radius: 4px;
+  }
+
+  /* ===== bottom navigation (shared chrome): white, 1px line, no shadow; inactive text-2 (6.16:1), active brand ===== */
+  body.koala-ui-v1.koala-h01 .bottomnav {
+    background: var(--koala-surface) !important; border-top: 1px solid var(--koala-line) !important; box-shadow: none !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .navitem { font-size: 12px !important; font-weight: 500 !important; color: var(--koala-text-2) !important; gap: 3px !important; }
+  body.koala-ui-v1.koala-h01 .navitem.active { color: var(--koala-brand) !important; font-weight: 600 !important; }
+  body.koala-ui-v1.koala-h01 .navitem .ico { width: 24px !important; height: 24px !important; min-height: 24px !important; color: inherit !important; } /* the glyph is already replaced by the page script's inline svg */
+  body.koala-ui-v1.koala-h01 .navitem .ico svg { width: 22px !important; height: 22px !important; }
+  body.koala-ui-v1.koala-h01 .navitem span { font-size: 12px !important; line-height: 16px !important; font-weight: inherit !important; color: inherit !important; letter-spacing: 0 !important; }
+
+  /* ===== H01-004B: persistent help is a true bottom-right float, not a full-width bar. ===== */
+  body.koala-ui-v1.koala-h01 .mini-global-support.home-support-float {
+    left: auto !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: calc(var(--home-support-nav-offset, 80px) + var(--home-support-nudge, 0px) + env(safe-area-inset-bottom)) !important;
+    width: auto !important; height: auto !important; padding: 0 !important;
+    box-sizing: border-box !important;
+    visibility: visible !important; pointer-events: none !important;
+    flex-direction: column !important; justify-content: flex-end !important; align-items: flex-end !important; gap: 8px !important;
+    background: transparent !important; border: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .mini-global-support.home-support-float > * { pointer-events: auto !important; }
+  body.koala-ui-v1.koala-h01 .mini-support-actions { flex-direction: column !important; gap: 8px !important; }
+  body.koala-ui-v1.koala-h01 [data-home-price],
+  body.koala-ui-v1.koala-h01 .home-brand-materials .materials-action {
+    margin-right: 56px !important;
+  }
+  body.koala-ui-v1.koala-h01 .mini-global-support button {
+    width: 44px !important; height: 44px !important; border-radius: 50% !important; font-size: 12px !important; font-weight: 500 !important;
+    gap: 0 !important; box-shadow: none !important; border: 1px solid var(--koala-brand-200) !important; background: var(--koala-surface) !important; color: var(--koala-brand) !important;
+  }
+  body.koala-ui-v1.koala-h01 .mini-global-support button span { font-size: 12px !important; line-height: 14px !important; }
+  body.koala-ui-v1.koala-h01 .mini-global-support button i { font-size: 15px !important; line-height: 1 !important; }
+  body.koala-ui-v1.koala-h01 .mini-global-support i svg { width: 16px !important; height: 16px !important; }
+  body.koala-ui-v1.koala-h01 .mini-support-launcher,
+  body.koala-ui-v1.koala-h01 .mini-global-support.expanded .mini-support-launcher {
+    border-radius: 50% !important; background: var(--koala-brand) !important; border-color: var(--koala-brand) !important; color: var(--koala-surface) !important; transform: none !important;
+  }
+}

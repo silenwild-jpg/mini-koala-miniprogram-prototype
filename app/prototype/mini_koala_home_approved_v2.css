@@ -1,0 +1,114 @@
+/* Homepage candidate V1; only the homepage imports this sheet. */
+:root{--hc-green:#24664d;--hc-deep:#183e30;--hc-paper:#fdfbf7;--hc-muted:#59675e;--hc-line:#e2e8e1;--hc-orange:#bc591d}
+body:has(#newHero),body:has(#newHero) .phone{background:var(--hc-paper)!important}
+.page{scrollbar-width:none!important}.page::-webkit-scrollbar{display:none}
+.topbar{height:56px!important;padding:0 16px!important;background:var(--hc-paper)!important}
+.brand-logo-top{height:43px!important;max-width:126px!important}
+.location-strip{padding:0!important;margin:0 16px!important}.location{min-height:36px!important;font-size:13px!important}
+.dual-task-grid{margin:0 16px!important;gap:10px!important;align-items:stretch!important}
+.estimate-task-stack{display:flex!important}.known-shortcut{display:none!important}
+body:has(#newHero) .task-card{min-height:114px!important;width:100%!important;padding:13px 12px!important;box-shadow:none!important;border-radius:14px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;text-align:left!important}
+body:has(#newHero) .task-card.match-task{background:var(--hc-green)!important;border:1px solid var(--hc-green)!important}
+body:has(#newHero) .task-card.store-task{background:#fff!important;border:1px solid var(--hc-line)!important}
+.task-card::before{display:none!important}
+body:has(#newHero) .task-title{font-size:17px!important;padding-right:0!important;letter-spacing:0!important;line-height:25px!important}
+.task-desc{font-size:12px!important;line-height:18px!important;margin-top:4px!important}
+body:has(#newHero) .task-card.match-task .task-desc{color:#e0eee6!important}
+body:has(#newHero) .task-action{font-size:12px!important;padding-top:8px!important;margin-top:auto!important}
+.home-assurance{margin:12px 16px 0;display:flex;align-items:center;justify-content:center;gap:18px;font-size:12px;line-height:24px;color:var(--hc-muted)}
+.home-assurance span{display:flex;align-items:center;gap:4px}.home-assurance svg{width:14px;height:14px;color:var(--hc-green)}
+body:has(#newHero) .section{margin-top:24px!important}
+body:has(#newHero) .section h2{font-size:19px!important;line-height:27px!important;letter-spacing:0!important}
+.location-note{font-size:12px!important;line-height:18px!important;margin-top:3px!important}
+.section-title-row{align-items:flex-start!important}.home-all-stores{border:0;background:none;color:var(--hc-green);font-size:12px;min-height:44px;padding:0 0 0 12px;white-space:nowrap;font-weight:600;cursor:pointer}
+#nearNew .featured-store{border:1px solid var(--hc-line)!important;border-radius:14px!important;box-shadow:none!important}
+#nearNew .featured-cover{height:88px!important}
+#nearNew .featured-body{padding:12px!important}
+#nearNew .name{font-size:17px!important;line-height:24px!important;letter-spacing:0!important}
+.district-tag{font-size:12px!important}.store-name-line .store-place{font-size:12px!important}
+#nearNew .featured-inventory b{font-size:12px!important;color:var(--hc-muted)!important}
+#nearNew .store-tags span,.home-store-alts .store-tags span{font-size:12px!important;line-height:20px!important}
+.route-info{font-size:12px!important}.route-icon{background:none!important;box-shadow:none!important}
+#nearNew .featured-summary{gap:8px!important;margin-top:9px!important;padding-top:9px!important}
+#nearNew .card-corner-badge,.home-store-alts .card-corner-badge{font-size:12px!important;letter-spacing:0!important;line-height:18px!important}
+.home-store-alts{padding:0 12px!important;margin-top:10px!important;border-radius:14px!important;border-color:var(--hc-line)!important}
+.home-store-alts .store-alt{padding:12px 0!important}.home-store-alts .top{gap:6px!important;flex-wrap:wrap!important}
+.home-store-alts .alt-name{font-size:15px!important}.home-store-alts .left{min-width:0!important;flex:1!important}.home-store-alts .store-place{display:block!important;margin-left:0!important}
+#scenesNew .scenegrid{border-radius:14px!important}.scene::before{display:none!important}
+#scenesNew .scene{padding:12px 4px!important;min-height:92px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important}
+.hc-scene-icon{width:23px;height:23px;stroke-width:1.7;color:var(--hc-green);margin-bottom:2px}
+#scenesNew .scene small{font-size:12px!important;line-height:18px!important}
+.home-other-scene{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:none;color:var(--hc-green);font-size:13px;padding:0 4px;min-height:44px;cursor:pointer}
+.home-scene-note{margin:0 0 8px;font-size:12px;line-height:18px;color:var(--hc-muted)}
+#scenesNew .enterprise-scene{min-height:82px!important;padding:13px!important;border-radius:14px!important;box-shadow:none!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}
+#scenesNew .enterprise-scene span{font-size:12px!important;color:#e0eee6!important}
+#scenesNew .enterprise-scene em{font-size:12px!important;white-space:nowrap!important}
+.home-proof-stack{margin:20px 16px 0!important;gap:14px!important}
+.home-proof-card{border:1px solid var(--hc-line)!important;border-radius:14px!important;padding:14px!important;box-shadow:none!important}
+.proof-head h3,#brandTrust.brand-proof h3{font-size:18px!important;line-height:26px!important}
+.service-flow-icon{width:32px!important;height:32px!important;border:0!important;background:none!important;box-shadow:none!important;border-radius:0!important;color:var(--hc-green)!important}
+.service-flow-icon svg{width:23px;height:23px}.service-flow-item b{font-size:12px!important;line-height:18px!important}
+#brandTrust.brand-proof{margin:20px 16px 0!important;padding:16px 0 0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+.brand-proof-note{font-size:13px!important;line-height:21px!important}
+.brand-proof-metric b{font-size:22px!important}.brand-proof-metric span{font-size:12px!important}
+.brand-link{font-size:12px!important;min-height:44px;display:flex;align-items:center}
+.service-evidence-icon{background:none!important;box-shadow:none!important;border:0!important;color:var(--hc-green)!important}
+.service-evidence-icon svg{width:21px;height:21px}.service-evidence-item b{font-size:13px!important}.service-evidence-item span{font-size:12px!important;line-height:18px!important}
+.brand-honor-placeholder{display:none!important}.brand-honor-grid{gap:8px!important}.brand-honor-item{padding:12px 4px!important;background:#f4f7f2!important;border-radius:10px!important;min-height:74px;display:flex;align-items:center;justify-content:center}
+.brand-honor-item b{font-size:12px!important;line-height:19px!important}.home-honor-note{font-size:12px;color:var(--hc-muted);line-height:19px;margin:10px 0 0}
+.bottomnav{height:68px!important}.navitem .ico{display:flex!important;align-items:center;justify-content:center;min-height:24px!important}.navitem svg{width:21px;height:21px;stroke-width:1.8}.navitem span{font-size:12px!important}
+.mini-support-launcher{width:40px!important;border-radius:20px 0 0 20px!important}.mini-global-support button{font-weight:600!important}.mini-global-support i svg{width:17px;height:17px}
+.hidden{display:none!important}
+/* Full-page export preserves the same content width and removes only scroll chrome. */
+body.home-export{margin:0!important;padding:0!important;background:#fff!important}
+body.home-export .wrap{padding:0!important;justify-content:flex-start!important}
+body.home-export .phone{width:var(--export-width)!important;min-height:0!important;height:auto!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important}
+body.home-export .page{height:auto!important;overflow:visible!important;padding-bottom:20px!important}
+body.home-export .topbar{position:static!important}.home-export .bottomnav{position:static!important;width:100%!important;border-radius:0!important}
+.home-export .mini-global-support{display:none!important}.home-export .phone>.status{display:none!important}
+/* Approved V2: all store service tags stay on one line. */
+#nearNew .featured-summary{display:block!important}
+#nearNew .featured-meta{width:100%!important}
+#nearNew .featured-price-action{display:flex!important;justify-content:flex-end!important;margin-top:6px!important}
+#nearNew .store-tags,.home-store-alts .store-tags{display:flex!important;flex-wrap:nowrap!important;white-space:nowrap!important;gap:5px!important;max-width:100%!important}
+#nearNew .store-tags span,.home-store-alts .store-tags span{flex:0 0 auto!important;white-space:nowrap!important;padding:0!important;margin-right:0!important;font-size:11px!important}
+#nearNew .store-tags span:not(:last-child):after,.home-store-alts .store-tags span:not(:last-child):after{content:none!important}
+.home-store-alts .store-alt{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:6px!important}
+.home-store-alts .store-tags{gap:4px!important;font-size:11px!important}
+
+/* Scoped V3: repair enterprise CTA and compact store summary. */
+#scenesNew .enterprise-scene{min-height:76px!important}
+#scenesNew .enterprise-scene::after{display:none!important}
+#scenesNew .enterprise-scene>div{min-width:0!important}
+#scenesNew .enterprise-scene em{position:static!important;inset:auto!important;flex:0 0 auto!important;padding:7px 9px!important;box-shadow:none!important;line-height:20px!important}
+#nearNew .featured-summary{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:5px 8px!important;align-items:center!important}
+#nearNew .featured-meta{display:contents!important}
+#nearNew .featured-inventory{grid-column:1!important;grid-row:1!important;margin:0!important;align-self:center!important}
+#nearNew .featured-price-action{grid-column:2!important;grid-row:1!important;margin:0!important;align-self:center!important}
+#nearNew .featured-summary .store-tags{grid-column:1/-1!important;grid-row:2!important;margin-top:0!important}
+.service-evidence-item{grid-template-columns:22px minmax(0,1fr)!important;gap:5px 6px!important;padding:9px!important;align-items:center!important}
+.service-evidence-icon{width:22px!important;height:22px!important;grid-column:1!important;grid-row:1!important}
+.service-evidence-item>div:last-child{display:contents!important}
+.service-evidence-item b{grid-column:2!important;grid-row:1!important;line-height:22px!important}
+.service-evidence-item span{grid-column:1/-1!important;grid-row:2!important;white-space:nowrap!important;font-size:11px!important;line-height:18px!important;margin:0!important}
+.brand-honor-item{flex-direction:column!important;justify-content:flex-start!important;gap:7px!important;padding:6px 4px 9px!important;min-width:0!important}
+.honor-image{height:76px;width:100%;position:relative;background:#fff;overflow:hidden;border-radius:6px}
+.honor-image img{width:100%;height:100%;object-fit:contain;display:block}
+.brand-honor-item:nth-child(2) .honor-image img{object-fit:cover;object-position:center 40%}
+.honor-image span{position:absolute;right:2px;bottom:2px;padding:1px 3px;background:rgba(24,62,48,.8);color:#fff;font-size:9px;line-height:14px;border-radius:3px;white-space:nowrap}
+#nearNew .featured-inventory b{display:block!important;white-space:normal!important;line-height:18px!important;overflow-wrap:anywhere!important}
+#scenesNew .enterprise-scene>div{flex:1 1 auto!important}
+#scenesNew .enterprise-scene::before{display:none!important}
+
+#nearNew .featured-inventory b{white-space:pre-line!important;overflow-wrap:normal!important}
+
+/* V3.1: readable details, unclipped support target and consistent honor captions. */
+#brandTrust.brand-proof .brand-proof-head .brand-link{font-size:12px!important;color:var(--hc-green)!important;opacity:1!important;border:0!important;margin:0!important;padding:0 0 0 8px!important;min-height:44px!important;min-width:72px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;text-decoration:none!important}
+#nearNew .store-tags,.home-store-alts .store-tags{gap:8px!important}
+#nearNew .store-tags span,.home-store-alts .store-tags span{font-size:12px!important;line-height:20px!important}
+.service-evidence-item span{font-size:12px!important}
+.brand-honor-item b{min-height:38px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#miniGlobalSupport{right:0!important}
+#miniGlobalSupport button{width:44px!important;height:44px!important;font-size:11px!important}
+#miniGlobalSupport #miniSupportLauncher{width:44px!important;height:44px!important;transform:none!important;border-radius:22px 0 0 22px!important}
+#miniGlobalSupport.expanded #miniSupportLauncher{transform:none!important}

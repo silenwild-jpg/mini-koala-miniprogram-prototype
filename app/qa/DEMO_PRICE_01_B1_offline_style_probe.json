@@ -1,0 +1,93 @@
+{
+  "method": "Chromium set_content; synthetic nodes; not real page; no HTTP E2E",
+  "results": [
+    {
+      "viewport": "375x812",
+      "type": "h01",
+      "size": 24,
+      "color": "rgb(213, 106, 28)",
+      "weight": "750",
+      "right": 74,
+      "scroll": 66,
+      "client": 66,
+      "fixture": "synthetic/offline"
+    },
+    {
+      "viewport": "375x812",
+      "type": "s01_demand",
+      "size": 21.9375,
+      "color": "rgb(213, 106, 28)",
+      "weight": "750",
+      "right": 79.25,
+      "scroll": 71,
+      "client": 71,
+      "fixture": "synthetic/offline"
+    },
+    {
+      "viewport": "375x812",
+      "type": "s01_browse",
+      "size": 21,
+      "color": "rgb(213, 106, 28)",
+      "weight": "700",
+      "right": 50,
+      "scroll": 42,
+      "client": 42,
+      "fixture": "synthetic/offline"
+    },
+    {
+      "viewport": "375x812",
+      "type": "s02",
+      "size": 23,
+      "color": "rgb(213, 106, 28)",
+      "weight": "750",
+      "right": 131.25,
+      "scroll": 63,
+      "client": 63,
+      "fixture": "synthetic/offline"
+    },
+    {
+      "viewport": "390x844",
+      "type": "h01",
+      "size": 26,
+      "color": "rgb(213, 106, 28)",
+      "weight": "750",
+      "right": 79.5,
+      "scroll": 72,
+      "client": 72,
+      "fixture": "synthetic/offline"
+    },
+    {
+      "viewport": "390x844",
+      "type": "s01_demand",
+      "size": 22.815,
+      "color": "rgb(213, 106, 28)",
+      "weight": "750",
+      "right": 82.09375,
+      "scroll": 74,
+      "client": 74,
+      "fixture": "synthetic/offline"
+    },
+    {
+      "viewport": "390x844",
+      "type": "s01_browse",
+      "size": 21,
+      "color": "rgb(213, 106, 28)",
+      "weight": "700",
+      "right": 50,
+      "scroll": 42,
+      "client": 42,
+      "fixture": "synthetic/offline"
+    },
+    {
+      "viewport": "390x844",
+      "type": "s02",
+      "size": 25,
+      "color": "rgb(213, 106, 28)",
+      "weight": "750",
+      "right": 136.75,
+      "scroll": 69,
+      "client": 69,
+      "fixture": "synthetic/offline"
+    }
+  ]
+}

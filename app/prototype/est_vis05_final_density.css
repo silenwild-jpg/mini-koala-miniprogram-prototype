@@ -1,0 +1,40 @@
+/* EST-VIS-05: final A(s2)+B(s3) user-approved visual fusion. Scope: estimator screens 2/3 only. */
+#s2,#s3{background:#F8FAF9!important;}
+#s2,#s3{padding-top:10px!important;}
+#s2>h1,#s3>h1{font-size:21px!important;line-height:28px!important;margin:4px 0 5px!important;letter-spacing:0!important;}
+#s2 .phaseux-switch-method{font-size:12px!important;line-height:17px!important;padding:2px 0 5px!important;color:#46775C!important;min-height:30px!important;}
+#s2 .section-title{font-size:13px!important;line-height:18px!important;font-weight:700!important;color:#66746A!important;margin:8px 0 6px!important;}
+#s2 .grid2{gap:8px!important;}
+#s2 .scene,body:has(#cScenes) #s2 .scene{min-height:137px!important;height:auto!important;padding:6px 7px 8px!important;border-radius:14px!important;border:1px solid #E2E9E4!important;background:#fff!important;box-shadow:0 2px 9px rgba(38,60,46,.055)!important;}
+#s2 .scene.selected,body:has(#cScenes) #s2 .scene.selected{padding:5px 6px 7px!important;border:2px solid #138357!important;background:#FCFFFC!important;}
+#s2 .scene .estvis03-photo{height:75px!important;flex:0 0 75px!important;border-radius:9px!important;margin-bottom:5px!important;}
+#s2 .scene .estvis03-photo img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center center!important;image-rendering:auto!important;}
+#s2 .scene b{font-size:14px!important;line-height:19px!important;margin:0 0 2px!important;font-weight:700!important;}
+#s2 .scene p{font-size:11.5px!important;line-height:16px!important;color:#607168!important;max-height:32px!important;overflow:hidden!important;-webkit-line-clamp:2!important;}
+#s2 .scene.selected::after{width:19px!important;height:19px!important;right:6px!important;top:6px!important;}
+/* Compact non-functional stage marker matches the approved mock without replacing routing. */
+.estvis05-steps{display:none;align-items:center;justify-content:space-between;gap:3px;background:#fff;padding:7px 12px 6px;border-bottom:1px solid #EFF3EF;}
+body:has(#s2.active) .estvis05-steps,body:has(#s3.active) .estvis05-steps{display:flex;}
+.estvis05-steps .stage{flex:1;min-width:0;text-align:center;font-size:10px;line-height:14px;color:#8B968F;white-space:nowrap;}
+.estvis05-steps .stage::before{content:attr(data-step);display:grid;place-items:center;width:17px;height:17px;margin:0 auto 3px;border:1px solid #B8C9BD;border-radius:50%;font-size:10px;color:#829489;background:#fff;}
+body:has(#s2.active) .estvis05-steps .stage:nth-child(1),body:has(#s3.active) .estvis05-steps .stage:nth-child(2){color:#26704D;font-weight:700;}
+body:has(#s2.active) .estvis05-steps .stage:nth-child(1)::before,body:has(#s3.active) .estvis05-steps .stage:nth-child(2)::before{background:#158257;color:#fff;border-color:#158257;}
+#s3>.hero{background:#F0F7F2 var(--estvis04-hero-photo) 10px center / 61px 48px no-repeat!important;min-height:58px!important;padding:9px 9px 9px 82px!important;margin:0 0 9px!important;border:1px solid #E0ECE3!important;border-radius:13px!important;}
+#s3>.hero b{font-size:13px!important;line-height:18px!important;color:#294C39!important;}
+#s3 #amountQuestionSub{display:block!important;font-size:12px!important;line-height:18px!important;letter-spacing:0!important;color:#67756A!important;margin:0 0 10px!important;}
+#s3 #amountList{margin-top:0!important;}
+#s3 .amount-card{grid-template-columns:minmax(0,1fr) 137px 17px!important;grid-template-rows:auto auto auto!important;column-gap:5px!important;min-height:138px!important;height:auto!important;padding:11px 9px!important;margin-bottom:9px!important;border-radius:15px!important;border:1px solid #E3E9E4!important;box-shadow:0 3px 11px rgba(38,50,40,.045)!important;}
+#s3 .amount-card.selected{border:2px solid #168153!important;background:#F5FBF6!important;padding:10px 8px!important;}
+#s3 .amount-card .estvis03-amount-media{grid-area:1/2/4/3!important;align-self:center!important;width:137px!important;height:100px!important;overflow:hidden!important;border-radius:9px!important;background:#FCFDFB!important;}
+#s3 .amount-card .estvis03-amount-media img.estvis04-ref-amount{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;}
+#s3 .amount-card b{font-size:14.5px!important;line-height:20px!important;grid-row:1!important;grid-column:1!important;align-self:end!important;}
+#s3 .amount-card .desc{font-size:12px!important;line-height:17px!important;color:#606C63!important;grid-column:1!important;grid-row:2!important;align-self:center!important;}
+#s3 .amount-card .range{display:inline-flex!important;justify-self:start!important;border-radius:99px!important;background:#E3F5E9!important;color:#195738!important;font-size:12.5px!important;line-height:19px!important;padding:1px 7px!important;font-weight:750!important;white-space:nowrap!important;grid-column:1!important;grid-row:3!important;align-self:start!important;margin-top:5px!important;}
+#s3 .amount-card::after{align-self:start!important;grid-column:3!important;grid-row:1/4!important;margin-top:2px!important;}
+#s3 #startBlank{margin-top:4px!important;padding:8px 10px!important;min-height:52px!important;border-radius:12px!important;background:#FCFEFC!important;}
+#s3 #startBlank .top{align-items:center!important;}
+#s3 #startBlank b{font-size:12.5px!important;line-height:18px!important;}
+#s3 #startBlank .desc{font-size:11.5px!important;line-height:17px!important;}
+#s3 .phase3a-amount-info{font-size:12px!important;line-height:18px!important;margin:8px 0!important;}
+#s3 .phase3a-amount-actions .cta{min-height:48px!important;font-size:14px!important;}
+@media(max-width:360px){#s3 .amount-card{grid-template-columns:minmax(0,1fr) 112px 17px!important;column-gap:5px!important;}#s3 .amount-card .estvis03-amount-media{width:112px!important;height:100px!important;}}

@@ -1,0 +1,37 @@
+story_id,story_name,step,screen,goal
+new_rental,第一次租仓,1,H01,新用户理解双任务入口
+new_rental,第一次租仓,2,Estimator,约4.8m³/6个月并获得新客券
+new_rental,第一次租仓,3,S01 Estimated,携需求比较匹配门店
+new_rental,第一次租仓,4,S02 Matched,查看门店仓位和已售出容量
+new_rental,第一次租仓,5,U01,库存紧迫感与自动¥200券
+new_rental,第一次租仓,6,O01,确认优惠后一次支付¥3863
+new_rental,第一次租仓,7,O02,支付成功并进入待使用
+stores_first,先找附近门店,1,S01 Browse,先按位置服务浏览
+stores_first,先找附近门店,2,S02 Browse,查看门店事实
+stores_first,先找附近门店,3,Estimator,从门店补充估算
+stores_first,先找附近门店,4,S01 Estimated,携需求返回比较
+stores_first,先找附近门店,5,U01,进入匹配仓位方案
+urgency,库存紧迫感,1,S01 Estimated,匹配仓位仅剩
+urgency,库存紧迫感,2,S02 Matched,同容量剩余和浏览人数
+urgency,库存紧迫感,3,U01,库存紧张与复核倒计时
+urgency,库存紧迫感,4,S02 Matched,其他容量已售出
+urgency,库存紧迫感,5,S02 Soldout,整店已售罄恢复
+coupon,优惠券与权益,1,Estimator,完成估算自动获券
+coupon,优惠券与权益,2,U01,自动使用最优优惠
+coupon,优惠券与权益,3,C02,查看不可用原因与更换优惠券
+coupon,优惠券与权益,4,Q01,Quote保持优惠
+coupon,优惠券与权益,5,O01,订单保持优惠结果
+coupon,优惠券与权益,6,O02,支付成功核销
+coupon,优惠券与权益,7,C01,查看券包生命周期
+lifecycle,支付后生命周期,1,H01 Pending Use,待使用主任务
+lifecycle,支付后生命周期,2,O03 Pending Use,当前订单
+lifecycle,支付后生命周期,3,M01 Active,用仓资产
+lifecycle,支付后生命周期,4,H01 Ending,即将到期主任务
+lifecycle,支付后生命周期,5,RN01,续租与¥150续租券
+lifecycle,支付后生命周期,6,EX01,退租申请
+lifecycle,支付后生命周期,7,DP01,押金处理
+exception,异常与恢复,1,S01 No Match,需求无完全匹配
+exception,异常与恢复,2,S02 Soldout,门店已售罄
+exception,异常与恢复,3,O02 Failed,支付失败恢复
+exception,异常与恢复,4,O02 Inventory Changed,库存变化恢复
+exception,异常与恢复,5,C02,优惠条件限制

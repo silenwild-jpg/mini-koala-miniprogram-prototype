@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" class="vis-bg01" data-vis-page="S01">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<style>@layer component-merge01;</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>S01 附近门店｜V1.5 真实体验收口版</title>
+<style>
+:root{
+  --bg:#eef2f4;--card:#fff;--text:#1f2a33;--muted:#75828c;--line:#dbe2e7;
+  --primary:#24748a;--soft:#edf6f8;--warn:#fff8e8;--shadow:0 10px 28px rgba(32,50,61,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;background:#dde3e7;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+button,input{font:inherit}
+.review{
+  position:sticky;top:0;z-index:30;background:#f8fafb;border-bottom:1px solid #ccd6dc;
+  padding:10px 14px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap
+}
+.review .label{font-size:11px;color:#6e7b84;font-weight:700}
+.stagechip{
+  border:1px solid #cbd6dc;background:#fff;border-radius:999px;padding:6px 10px;
+  font-size:11px;color:#53616b;cursor:pointer
+}
+.stagechip.active{background:#25333c;color:#fff;border-color:#25333c}
+.shell{width:390px;max-width:100%;height:calc(100vh - 54px);margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.page{height:100%;overflow:auto;padding-bottom:78px}
+.header{
+  height:48px;background:#fff;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;
+  border-bottom:1px solid var(--line);position:sticky;top:0;z-index:15
+}
+.header .ghost{width:48px}.header .more{font-size:18px;text-align:center;color:#43535d;cursor:pointer}
+.header h1{font-size:16px;text-align:center;margin:0}
+.location-search-sticky{
+  position:sticky;top:48px;z-index:14;background:linear-gradient(var(--bg) 78%,rgba(238,242,244,0));
+  padding:8px 12px 5px;
+}
+.location-search-entry{
+  width:100%;height:40px;border:1px solid #cfdbe0;background:#fff;border-radius:12px;padding:0 11px;
+  display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer;box-shadow:0 2px 8px rgba(32,50,61,.05)
+}
+.location-search-entry .search-ico{font-size:15px;color:#60717b}
+.location-search-entry .placeholder{font-size:11px;color:#44545e;flex:1}
+.location-search-entry .support{font-size:8px;color:var(--muted);white-space:nowrap}
+.location-context{
+  margin:1px 12px 0;display:flex;gap:8px;align-items:stretch
+}
+.current-location{
+  min-width:0;flex:1;background:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 9px;
+  display:flex;align-items:center;gap:7px;cursor:pointer
+}
+.current-location .pin{font-size:12px;flex:none}.current-location .copy{min-width:0;flex:1}
+.current-location .eyebrow{font-size:8px;color:var(--muted);line-height:1.2}
+.current-location .loc{font-size:10px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.current-location .change{font-size:8px;color:var(--primary);font-weight:900;white-space:nowrap}
+.travel-pill{
+  border:1px solid #cbd8de;background:#fff;border-radius:11px;padding:0 10px;color:#4f616b;
+  font-size:9px;font-weight:800;cursor:pointer;white-space:nowrap
+}
+.location-sheet-hint{font-size:8px;color:var(--muted);line-height:1.45;margin:-3px 0 7px}
+.location-chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.location-chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 9px;font-size:9px;cursor:pointer}
+.location-chip.current{border-color:#a9d0d9;background:var(--soft);color:var(--primary);font-weight:800}
+
+.estimate-strip,.demand{
+  margin:8px 12px 0;border-radius:12px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;gap:10px
+}
+.estimate-strip{background:#fff;border:1px solid var(--line);cursor:pointer}
+.estimate-strip b{font-size:11px}.estimate-strip span{font-size:9px;color:var(--muted)}
+.estimate-strip .go,.demand .edit{font-size:10px;color:var(--primary);font-weight:900;white-space:nowrap;cursor:pointer}
+.demand{background:var(--soft);border:1px solid #d0e5ea}
+.demand b{font-size:11px}.demand span{font-size:9px;color:var(--muted)}
+.notice{
+  margin:8px 12px 0;background:var(--warn);border:1px solid #f0dfb6;border-radius:12px;padding:10px 11px;
+  font-size:10px;color:#6f6042;line-height:1.5
+}
+.notice b{display:block;color:#514730;font-size:11px;margin-bottom:3px}
+.quick-relax{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.quick-relax button{border:1px solid #dfcfaa;background:#fffdf8;border-radius:999px;padding:6px 9px;font-size:9px;color:#6a5936;cursor:pointer}
+.loc-empty{
+  margin:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 16px;text-align:center
+}
+.loc-empty .pin{font-size:28px}.loc-empty h2{font-size:15px;margin:8px 0 5px}
+.loc-empty p{font-size:11px;color:var(--muted);line-height:1.6;margin:0 auto 12px;max-width:280px}
+.loc-empty button{border:0;background:var(--primary);color:#fff;border-radius:11px;padding:10px 18px;font-size:11px;font-weight:800;cursor:pointer}
+.loc-empty .search{margin-top:10px;color:var(--primary);font-size:10px;font-weight:800;cursor:pointer}
+.toolbar{margin:10px 12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.result-count{font-size:11px;color:#596872;font-weight:700}
+.controls{display:flex;gap:5px;align-items:center}
+.controls button{
+  border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 8px;font-size:9px;color:#4c5b64;cursor:pointer;white-space:nowrap
+}
+.controls button.active{border-color:#b9d8df;color:var(--primary);background:#f6fbfc}
+.controls button.static{cursor:default}
+.list{padding:9px 12px 18px}
+.store{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px;cursor:pointer}
+.store-head{display:grid;grid-template-columns:104px 1fr;gap:11px;align-items:start}
+.store-photo{
+  width:104px;height:86px;border-radius:11px;background:#e6ebee;border:1px solid #d5dde2;
+  display:flex;align-items:center;justify-content:center;text-align:center;color:#849099;
+  font-size:9px;line-height:1.45;position:relative;overflow:hidden
+}
+.store-photo:after{
+  content:"仓储环境";position:absolute;left:6px;top:6px;background:rgba(255,255,255,.9);
+  border-radius:999px;padding:3px 5px;font-size:8px;color:#66747d;font-weight:800
+}
+.store-main{min-width:0}.store .name{font-size:15px;font-weight:900;line-height:1.35}
+.store .area{font-size:9px;color:var(--muted);margin-top:2px}
+.badge{
+  display:inline-block;margin-left:5px;font-size:8px;padding:3px 5px;border-radius:999px;background:var(--soft);color:var(--primary);vertical-align:2px
+}
+.route{font-size:10px;color:#60707a;margin-top:5px;line-height:1.4}.route b{font-size:11px;color:#36434b}
+.store .features{font-size:9px;color:#687680;margin-top:7px;line-height:1.45}
+.store-facts{
+  display:grid;grid-template-columns:1fr 1fr;margin-top:11px;border:1px solid #edf1f3;border-radius:11px;overflow:hidden
+}
+.fact{padding:9px 10px;background:#fbfcfd;min-width:0}.fact+.fact{border-left:1px solid #edf1f3}
+.fact .label{font-size:8px;color:var(--muted);margin-bottom:3px}
+.fact .value{font-size:12px;font-weight:900;line-height:1.35}.fact.pricefact .value{font-size:15px;color:var(--primary)}
+.fact .sub{font-size:8px;color:var(--muted);margin-top:3px;line-height:1.4}
+.soft-distance{
+  display:inline-block;margin-top:6px;font-size:8px;color:#7a6743;background:#fff8e8;border:1px solid #f0dfb6;border-radius:999px;padding:4px 7px
+}
+.store .cta{
+  width:100%;margin-top:10px;border:1px solid var(--primary);background:#fff;color:var(--primary);
+  border-radius:11px;padding:9px;font-size:11px;font-weight:900;cursor:pointer
+}
+.store-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.store-actions .cta,.store-actions .viewing-cta{width:100%;margin-top:0}
+.store-actions .viewing-cta{border:1px solid var(--primary);background:var(--primary);color:#fff;border-radius:11px;padding:9px;font-size:11px;font-weight:900;cursor:pointer}
+.empty-results{
+  background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;text-align:center;color:var(--muted);font-size:10px;line-height:1.55
+}
+.empty-results button{margin-top:10px;border:1px solid var(--primary);background:#fff;color:var(--primary);border-radius:10px;padding:7px 12px;font-size:10px;font-weight:800;cursor:pointer}
+.moreline{text-align:center;color:var(--primary);font-size:10px;font-weight:800;padding:3px 0 12px;cursor:pointer}
+.tabbar{
+  position:absolute;bottom:0;left:0;right:0;height:62px;background:#fff;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);z-index:12
+}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#849099;gap:3px;cursor:pointer}
+.tab .ico{font-size:17px}.tab.active{color:var(--primary);font-weight:800}
+.sheet-mask{position:absolute;inset:0;background:rgba(20,30,36,.28);z-index:40;display:none}
+.sheet-mask.show{display:block}
+.sheet{
+  position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:14px 14px 20px;
+  max-height:78%;overflow:auto
+}
+.handle{width:36px;height:4px;border-radius:999px;background:#d4dade;margin:0 auto 10px}
+.sheet h3{font-size:15px;margin:5px 0 12px}
+.searchbox{display:flex;gap:7px;margin:2px 0 10px}
+.searchbox input{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:11px;outline:none;background:#fafcfd}
+.searchbox button{border:0;background:var(--primary);color:#fff;border-radius:10px;padding:0 12px;font-size:10px;font-weight:800;cursor:pointer}
+.option{padding:11px 3px;border-bottom:1px solid #eef2f4;font-size:12px;display:flex;justify-content:space-between;gap:10px;cursor:pointer}
+.option span{font-size:10px;color:var(--muted)}.option.active{color:var(--primary);font-weight:900}
+.preference-desc{font-size:9px;color:var(--muted);line-height:1.55;margin:-4px 0 8px}
+.filter-title{font-size:11px;font-weight:900;margin:13px 0 7px}
+.filter-tip{font-size:9px;color:var(--muted);line-height:1.5;margin-top:4px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 10px;font-size:10px;cursor:pointer}
+.pill.active{border-color:#9ccbd5;background:var(--soft);color:var(--primary);font-weight:800}
+.apply{width:100%;border:0;background:var(--primary);color:#fff;border-radius:11px;padding:11px;margin-top:16px;font-size:11px;font-weight:900;cursor:pointer}
+.size-stepper{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:8px}
+.size-stepper button{border:1px solid var(--line);background:#fff;border-radius:10px;height:38px;font-size:18px;cursor:pointer}
+.size-display{border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center;background:#fafcfd}
+.size-display b{display:block;font-size:16px}.size-display span{font-size:9px;color:var(--muted)}
+.term-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.term-option{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 4px 6px;font-size:12px;min-height:44px;cursor:pointer}
+.term-option small{display:block;margin-top:3px;font-size:9px;line-height:1;color:#c46235;font-weight:800}
+.term-option.active{border-color:#9ccbd5;background:var(--soft);color:var(--primary);font-weight:900}
+.term-option.active small{color:var(--primary)}
+.deep-estimate{margin-top:12px;padding-top:11px;border-top:1px solid #edf1f3;font-size:10px;color:var(--primary);font-weight:800;cursor:pointer}
+.toast{
+  position:absolute;left:50%;bottom:84px;transform:translateX(-50%);background:#24323a;color:#fff;
+  font-size:10px;padding:8px 12px;border-radius:9px;display:none;z-index:60;white-space:nowrap
+}
+.hidden{display:none!important}
+@media(max-width:430px){.review{position:relative}.shell{height:calc(100vh - 88px)}}
+
+.term-custom{
+  margin-top:8px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fafcfd
+}
+.term-custom.custom-active{border-color:#9ccbd5;background:var(--soft)}
+.term-custom-label{font-size:9px;color:var(--muted);margin-bottom:7px}
+.term-stepper{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:7px;align-items:center}
+.term-stepper button{height:44px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:17px;cursor:pointer}
+.term-stepper input{width:100%;height:44px;border:1px solid var(--line);background:#fff;border-radius:9px;text-align:center;font-weight:900;color:var(--text)}
+.term-human{text-align:center;font-size:9px;color:var(--muted);margin-top:6px}
+.term-hint{font-size:8px;color:var(--muted);margin-top:5px;line-height:1.45}
+
+
+.lead-card{
+  margin:10px 0 0;border:1px solid #d5e3e8;background:#f7fbfc;border-radius:13px;padding:11px 12px;
+}
+.lead-card.strong{border-color:#b7d6df;background:#eef7f9}
+.lead-card.soft{background:#fafcfd}
+.lead-card .lead-eyebrow{font-size:8px;color:var(--primary);font-weight:900;margin-bottom:4px}
+.lead-card .lead-title{font-size:12px;font-weight:900;line-height:1.45}
+.lead-card .lead-desc{font-size:9px;color:var(--muted);line-height:1.55;margin-top:4px}
+.lead-card .lead-actions{display:flex;gap:7px;margin-top:9px}
+.lead-card button{border-radius:9px;padding:8px 10px;font-size:9px;font-weight:900;cursor:pointer}
+.lead-primary{border:0;background:var(--primary);color:#fff}
+.lead-secondary{border:1px solid var(--line);background:#fff;color:#56646d}
+.lead-done{font-size:9px;color:#4f6a74;margin-top:7px;font-weight:800}
+.lead-mask{position:absolute;inset:0;background:rgba(20,30,36,.34);z-index:90;display:none}
+.lead-mask.show{display:block}
+.lead-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:15px 14px 20px}
+.lead-handle{width:36px;height:4px;border-radius:999px;background:#d4dade;margin:0 auto 11px}
+.lead-sheet h3{font-size:15px;margin:0 0 6px}
+.lead-sheet .lead-sheet-desc{font-size:9px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.lead-wx{width:100%;border:0;background:var(--primary);color:#fff;border-radius:11px;padding:11px;font-size:11px;font-weight:900;cursor:pointer}
+.lead-or{text-align:center;font-size:8px;color:var(--muted);margin:9px 0}
+.lead-phone-row{display:grid;grid-template-columns:1fr 90px;gap:7px}
+.lead-phone-row input{min-width:0;height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px;font-size:10px}
+.lead-phone-row button{border:1px solid var(--primary);background:#fff;color:var(--primary);border-radius:9px;font-size:9px;font-weight:900;cursor:pointer}
+.lead-skip{width:100%;border:0;background:transparent;color:#697780;padding:10px 0 0;font-size:9px;cursor:pointer}
+.lead-note{font-size:8px;color:var(--muted);line-height:1.45;margin-top:9px}
+
+
+.coverage-strip{margin:4px 12px 0;padding:8px 2px;border-bottom:1px solid #e7ecef;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.coverage-strip b{font-size:9px;font-weight:800}.coverage-strip span{display:block;font-size:8px;color:var(--muted);margin-top:2px;line-height:1.45}.coverage-strip em{font-style:normal;font-size:8px;color:var(--primary);font-weight:900;white-space:nowrap;cursor:pointer}
+
+
+.distance-recovery{
+  margin:8px 12px 0;border:1px solid #ead9ad;background:#fff9ed;border-radius:13px;padding:11px;
+}
+.distance-recovery .eyebrow{font-size:8px;color:#8a691d;font-weight:900}
+.distance-recovery h3{font-size:12px;margin:4px 0}
+.distance-recovery p{font-size:9px;color:#6d6248;line-height:1.55;margin:0}
+.distance-recovery .freq-title{font-size:9px;font-weight:900;margin-top:9px}
+.distance-recovery .freqs{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.distance-recovery .freqs button{border:1px solid #dfcfaa;background:#fff;border-radius:999px;padding:6px 8px;font-size:8px;color:#6a5936;cursor:pointer}
+.distance-recovery .freqs button.active{border-color:#9b7930;background:#fff3d8;font-weight:900}
+.recovery-value{margin-top:7px;border:1px solid #f0dfb6;background:#fffaf0;border-radius:9px;padding:7px 8px;font-size:8px;color:#6d6045;line-height:1.45}
+.transport-chip{display:inline-block;margin-top:5px;border-radius:999px;background:#edf6f8;color:var(--primary);padding:4px 6px;font-size:8px;font-weight:900}
+
+
+/* UX polish */
+
+.location-search-entry{height:44px}.location-search-entry .placeholder{font-size:13px!important}.location-search-entry .support{font-size:10px!important}
+.current-location .eyebrow{font-size:10px!important}.current-location .loc{font-size:13px!important}.current-location .change,.travel-pill{font-size:11px!important}
+.estimate-strip b,.demand b{font-size:13px!important}.estimate-strip span,.demand span{font-size:11px!important}.estimate-strip .go,.demand .edit{font-size:12px!important}
+.coverage-strip b{font-size:11px!important}.coverage-strip span,.coverage-strip em{font-size:10px!important}.notice{font-size:12px!important}.notice b{font-size:13px!important}.quick-relax button{font-size:11px!important}
+.result-count{font-size:13px!important}.controls button{font-size:11px!important;padding:7px 10px}.store .area{font-size:11px!important}.route{font-size:12px!important}.route b{font-size:13px!important}.store .features{font-size:11px!important}
+.fact .label{font-size:10px!important}.fact .value{font-size:14px!important}.fact.pricefact .value{font-size:17px!important}.fact .sub{font-size:10px!important}.soft-distance{font-size:10px!important}.store .cta{font-size:13px!important;padding:11px}
+.distance-recovery .eyebrow{font-size:10px!important}.distance-recovery h3{font-size:15px!important}.distance-recovery p{font-size:12px!important}.distance-recovery .freq-title{font-size:12px!important}.distance-recovery .freqs button{font-size:11px!important}.recovery-value,.transport-chip{font-size:10px!important}
+.lead-card .lead-eyebrow{font-size:10px!important}.lead-card .lead-title{font-size:14px!important}.lead-card .lead-desc,.lead-note{font-size:11px!important}.lead-card button{font-size:12px!important}.tab{font-size:10px!important}
+
+</style>
+<style id="h01-visual-system-v21-migration">
+
+:root{
+  --ms-bg:#FBF8F2;
+  --ms-surface:#FFFDFC;
+  --ms-surface-strong:#FFFFFF;
+  --ms-text:#282F2B;
+  --ms-muted:#6F7671;
+  --ms-line:#E7E0D7;
+  --ms-green:#2D7154;
+  --ms-green-soft:#EEF5F0;
+  --ms-green-deep:#294638;
+  --ms-orange:#E77A3A;
+  --ms-sand:#F6EFE5;
+  --ms-shadow:0 8px 24px rgba(56,48,38,.065);
+  --ms-shadow-soft:0 4px 14px rgba(56,48,38,.045);
+  --ms-r-lg:18px;
+  --ms-r-md:14px;
+  --ms-r-sm:10px;
+}
+html,body{background:#EEE9E1!important;color:var(--ms-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+button,input,select,textarea{font:inherit}
+
+.shell,.phone{background:var(--ms-bg)!important;box-shadow:0 22px 52px rgba(48,43,35,.14)!important}
+.header,.nav,.status,.tabbar,.bottombar,.bottom{background:rgba(255,253,249,.96)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.header,.nav{border-bottom:1px solid rgba(231,224,215,.78)!important}
+.header h1,.nav span,#navTitle{color:var(--ms-text)!important;font-weight:850!important;letter-spacing:-.01em}
+.more,.back{color:#4B5B52!important}
+.section h2,.section-title,h1,h2,h3{color:var(--ms-text)}
+.sub,.desc,.meta,.hint,.label{color:var(--ms-muted)}
+.primary,.cta,.apply{background:var(--ms-green)!important;border-color:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.14)!important}
+.secondary{background:var(--ms-surface)!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}
+.price,.unit-price,.pricefact .value,[class*="price"] strong{color:var(--ms-orange)}
+input,select,textarea{background:#FFF!important;border-color:var(--ms-line)!important;color:var(--ms-text)!important}
+@media(max-width:650px){html,body{background:var(--ms-bg)!important}.shell,.phone{box-shadow:none!important}}
+
+/* S01 — nearby stores */
+.page{background:var(--ms-bg)!important}
+.review{background:#F2EFE8!important;border-color:var(--ms-line)!important}
+.location-search-sticky{background:linear-gradient(180deg,var(--ms-bg) 75%,rgba(251,248,242,0))!important}
+.location-search-entry,.current-location,.coverage-strip,.estimate-strip,.demand,.notice,.distance-recovery,.lead-card{
+  border-radius:15px!important
+}
+.location-search-entry{background:#FFF!important;border:1px solid var(--ms-line)!important;box-shadow:var(--ms-shadow-soft)!important}
+.location-context{background:transparent!important}
+.current-location{background:var(--ms-surface)!important;border:1px solid var(--ms-line)!important}
+.current-location .pin{background:var(--ms-green-soft)!important;color:var(--ms-green)!important}
+.travel-pill{background:#FFF!important;border:1px solid var(--ms-line)!important;color:#4E5A53!important}
+.coverage-strip{background:#F7F1E8!important;border:1px solid #ECE1D4!important;color:#655E54!important}
+.coverage-strip em{color:var(--ms-green)!important}
+.estimate-strip,.demand{background:linear-gradient(145deg,#EEF5F0,#F8F7F3)!important;border:1px solid #D7E3DA!important;box-shadow:none!important}
+.estimate-strip .go,.demand .edit{color:var(--ms-green)!important}
+.store{
+  background:#FFF!important;border:0!important;border-radius:18px!important;box-shadow:0 9px 28px rgba(58,49,39,.08)!important;padding:12px!important
+}
+.store-photo{background:linear-gradient(145deg,#F1ECE5,#E8E4DE)!important;border-color:#E2DBD2!important;border-radius:12px!important;color:#989085!important}
+.store-photo{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:4px}.store-photo span{font-size:24px;color:#8B978F}.store-photo small{font-size:10px;color:#6F7A73}
+.store .name{color:#2E3631!important;font-weight:850!important}
+.store .route b{color:#47534C!important}
+.store .features{color:#737A75!important}
+.badge{background:var(--ms-green-soft)!important;color:var(--ms-green)!important;border-color:#DDE9E1!important}
+.store-facts{border:1px solid #EFEAE4!important;background:#FBF9F5!important;border-radius:12px!important}
+.fact{background:#FBF9F5!important}.fact+.fact{border-left-color:#EEE7DF!important}
+.fact.pricefact .value{color:var(--ms-orange)!important;font-size:16px!important}
+.store .cta{background:#FFF!important;border-color:#AFC8B8!important;color:var(--ms-green)!important;border-radius:11px!important;box-shadow:none!important}
+.store .cta:active{background:var(--ms-green-soft)!important}
+.sortbar,.filterbar{background:transparent!important}
+.pill,.tabbtn{background:#FFF!important;border-color:var(--ms-line)!important;color:#59635E!important}
+.pill.active,.tabbtn.active{background:var(--ms-green-soft)!important;border-color:#BFD5C7!important;color:var(--ms-green)!important}
+.tabbar{border-top:1px solid var(--ms-line)!important;box-shadow:0 -5px 18px rgba(62,54,42,.04)!important}
+.tab.active{color:var(--ms-green)!important}
+.sheet{background:var(--ms-surface)!important}.option.active{background:var(--ms-green-soft)!important;color:var(--ms-green)!important}
+
+</style>
+<style id="visual-v22-qa-closeout">
+/* Visual V2.2 QA closeout — CSS only. No DOM/copy/order/JS changes. */
+:root{--v22-touch:44px}
+@media(max-width:650px){
+  html,body{background:var(--ms-bg,var(--bg,#FBF8F2))!important}
+  .shell{width:100%!important;max-width:none!important;height:100dvh!important;margin:0!important;box-shadow:none!important}
+  .tabbar,.bottomnav{padding-bottom:env(safe-area-inset-bottom)}
+  .bottombar,.bottom{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
+/* Bottom actions remain visually separate from scroll content. */
+.bottombar,.bottomnav,.tabbar,.bottom{box-shadow:0 -5px 18px rgba(62,54,42,.055)!important}
+/* Price typography: consistent numeric rhythm. */
+.price,.unit-price,.price-num,.value,[id*=Price],[id=monthly]{font-variant-numeric:tabular-nums}
+</style>
+<style id="visual-v22-s01-qa">
+.review{display:none!important}
+@media(max-width:650px){.shell{height:100dvh!important}.page{padding-bottom:82px!important}}
+.tab{font-size:10px!important}
+.store-photo{font-size:10px!important;line-height:1.45!important}
+.location-search-entry .support,.location-banner .eyebrow,.coverage-line span,.coverage-line em,.fact .label,.fact .sub{font-size:10.5px!important}
+.store-facts{align-items:stretch}
+.pricefact .value{display:flex;align-items:baseline;min-height:22px;color:var(--ms-orange,#E77A3A)!important}
+</style>
+<style>
+/* V2.7.3 Structure Fix */
+
+/* Estimated users already have location + requirement: surface stores sooner. */
+.location-context{margin-top:8px!important}
+.v274-demand-state .location-search-sticky{display:none!important}
+.v274-demand-state .coverage-strip{padding:8px 12px!important;min-height:0!important;margin-top:7px!important}
+.v274-demand-state .coverage-strip span{display:none!important}
+.v274-demand-state .coverage-strip b{font-size:11px!important;line-height:1.3!important}
+.v274-demand-state .coverage-strip em{font-size:11px!important;white-space:nowrap!important}
+.v274-demand-state .demand{margin-top:8px!important;padding:10px 12px!important}
+.v274-demand-state .demand b{font-size:13px!important}
+.v274-demand-state .demand span{font-size:11px!important}
+.v274-demand-state #locatedContent .toolbar{padding-top:10px!important;margin-top:0!important}
+.v274-demand-state #locatedContent .toolbar>div:first-child{font-size:13px!important;line-height:1.3!important}
+.v274-demand-state .list{margin-top:8px!important}
+.v274-browse-state .location-search-sticky{margin-top:7px!important}
+
+
+<style id="v27418-baseline-closure-s01">
+.zero-match-recovery{border:1px solid #D9E7DE;background:linear-gradient(145deg,#F2F8F4,#FFFDFC);border-radius:16px;padding:14px;margin:10px 0 12px}.zero-match-recovery h3{font-size:16px;margin:0 0 5px;color:#284B3A}.zero-match-recovery p{margin:0;color:#69736D;font-size:12px;line-height:1.55}.zero-match-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}.zero-match-actions button{min-height:40px;border-radius:11px;border:1px solid #BFD5C7;background:#fff;color:#2D7154;font-weight:850;font-size:12px}.zero-match-actions button.primary{background:#2D7154;color:#fff;border-color:#2D7154}.zero-match-alt-role{color:#8B7769!important}.zero-match-alt-note{font-size:11px;color:#8A847C;margin-top:3px}.browse-unit-price .price-start{font-size:10px;color:#8A847C;font-weight:650}.browse-unit-price .price-unit{font-size:10px;color:#8A847C;font-weight:650}
+</style>
+</style>
+<style id="v274-wx-capsule-global">
+/* V2.7.3 — reserve the right side for the native WeChat Mini Program capsule. */
+.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;gap:11px;color:#1F2933;font-size:15px;box-shadow:0 1px 3px rgba(20,32,51,.04);justify-self:center;flex:0 0 86px}
+.wx-capsule-space .divider{width:1px;height:16px;background:#E4E7E9}.wx-capsule-space .dot{letter-spacing:1px;font-size:13px}.wx-capsule-space .circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%;display:block}
+.header,.nav{grid-template-columns:48px minmax(0,1fr) 94px!important}
+.header{display:grid!important}.header h1,.nav>h1,.nav>b,#navTitle{text-align:center!important;min-width:0}
+.header>.back,.nav>.back{justify-self:center}.header>.wx-capsule-space,.nav>.wx-capsule-space{justify-self:center}
+.phone>.top,.shell>.top,.page>.top{display:grid!important;grid-template-columns:48px minmax(0,1fr) 94px!important;align-items:center!important;gap:0!important;padding-left:8px!important;padding-right:4px!important}.phone>.top h1,.shell>.top h1,.page>.top h1{text-align:center!important;min-width:0}.phone>.top>.back,.shell>.top>.back,.page>.top>.back{justify-self:center}.phone>.top>.wx-capsule-space,.shell>.top>.wx-capsule-space,.page>.top>.wx-capsule-space{justify-self:center}
+@media(max-width:380px){.wx-capsule-space{width:82px;flex-basis:82px}.header,.nav,.phone>.top,.shell>.top,.page>.top{grid-template-columns:44px minmax(0,1fr) 88px!important}}
+</style>
+
+<style id="v274-core-visual-tokens">
+/* Core-demo visual token closeout */
+:root{--v274-bg:#FDFBF7;--v274-surface:#FFFDFC;--v274-text:#282F2B;--v274-muted:#6F7671;--v274-line:#E7E0D7;--v274-green:#2D7154;--v274-green-soft:#EEF5F0;--v274-orange:#E77A3A}
+body{color:var(--v274-text)}button,input,select,textarea{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}
+.header h1,#navTitle{font-size:16px!important;font-weight:800!important}.section h2,.section-title{font-weight:800!important}.primary,.cta,.apply,.sheet-confirm{background:var(--v274-green)!important;border-color:var(--v274-green)!important}.secondary,.outline{color:var(--v274-green)!important}.price,.total,[id="payableTotal"],[id="contractTotal"]{font-variant-numeric:tabular-nums}.sub,.meta,.hint,.desc{line-height:1.55}.toast{font-size:12px!important}
+</style>
+
+<style id="v274-core-typography-price">
+/* V2.7.4 — main-chain typography and money-color normalization. H01 trust area intentionally untouched. */
+:root{--v274-text:#282F2B;--v274-muted:#6F7671;--v274-line:#E7E0D7;--v274-green:#2D7154;--v274-orange:#E77A3A}
+body{color:var(--v274-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+.header h1,#navTitle{font-size:16px!important;font-weight:800!important}.section h2,.section-title{font-size:17px!important;font-weight:800!important}.sub,.meta,.hint,.desc,.helper,.note,.route,.address,.features{font-size:12px!important;line-height:1.55!important}.tag,.badge,.pill,.chip,.optional-tag,.status-pill,.ey,.eyebrow{font-size:11px!important}.toast{font-size:12px!important}
+.price,.pricefact .value,.unit-price,.price-num,.store-total-price,.payable-hero b,[id="payableTotal"],[id="contractTotal"],[id="rentFee"],[id="totalText"],[id="selectedTermPrice"],[id="mainPrice"]{color:var(--v274-orange)!important;font-variant-numeric:tabular-nums!important}
+.monthly-muted,.store-month-price{color:var(--v274-muted)!important}.primary,.cta,.apply,.sheet-confirm{background:var(--v274-green)!important;border-color:var(--v274-green)!important}
+</style>
+
+<style id="v274-s01-microtype">
+.current-location .change,.quick-relax button,.controls button,.badge,.store .features,.coverage-strip b,.coverage-strip span,.coverage-strip em,.distance-recovery .eyebrow,.distance-recovery p,.distance-recovery .freqs button,.recovery-value,.transport-chip,.lead-card .lead-eyebrow,.lead-done,.lead-skip,.store-photo{font-size:11px!important}
+.fact .label,.fact .sub,.eyebrow,.current-location .eyebrow{font-size:12px!important}.route{font-size:12px!important}.route b{font-size:12px!important}.moreline,.tab,.tab span{font-size:11px!important}
+</style>
+<style id="v274-s01-price-color-global">
+/* Nearby-store prices use the same orange price token as the rest of the flow. */
+.fact.pricefact .value,.browse-unit-price .price-number{color:var(--v274-orange,#E77A3A)!important}
+</style>
+<style id="preflight-token-hygiene">
+/* V2.7.4.3 preflight hygiene: retire legacy blue/gray root tokens in user-facing states. */
+:root{--primary:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0;--warn:#FFF8E8}
+</style>
+<style id="distance-strategy-softening">
+.distance-recovery{padding:9px 11px!important;background:#F4F7F5!important;border-color:#DCE6DF!important}
+.distance-recovery .eyebrow{color:#5E7567!important;font-size:10px!important}
+.distance-recovery h3{font-size:13px!important;margin:3px 0!important}
+.distance-recovery p{color:#6F7671!important;font-size:11px!important;line-height:1.45!important}
+</style>
+<style id="s01-complete-page-patch">
+:root{--s01-green:#2D7154;--s01-green-deep:#245C45;--s01-soft:#EEF5F0;--s01-paper:#FFFDFC;--s01-bg:#FBF8F2;--s01-line:#E7E0D7;--s01-muted:#6F7671}
+.shell,.page{background:var(--s01-bg)}
+.header{height:54px;border-bottom-color:var(--s01-line)}
+.location-context{margin-top:10px}
+.current-location,.travel-pill,.location-search-entry{border-color:var(--s01-line);box-shadow:none}
+.demand{margin-top:10px;padding:12px 13px;background:var(--s01-soft);border-color:#D5E6DC;border-radius:14px}
+.demand .edit{border:1px solid #BFD7C8;background:#fff;border-radius:9px;padding:7px 9px}
+.recommendation-summary{margin:8px 12px 0;padding:11px 13px;background:var(--s01-paper);border:1px solid var(--s01-line);border-radius:14px}
+.recommendation-summary .rs-title{font-size:12px;font-weight:900;color:#34453C}
+.recommendation-summary .rs-copy{font-size:11px;color:var(--s01-muted);line-height:1.5;margin-top:4px}
+.recommendation-summary .rs-points{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.recommendation-summary .rs-points span{font-size:10px;color:#496356;background:var(--s01-soft);border-radius:7px;padding:5px 7px}
+.coverage-strip{margin-top:7px;padding:8px 1px 9px}
+.toolbar{margin-top:12px;align-items:flex-end}
+.result-count{color:#34453C!important}
+.controls button{border-radius:9px!important}
+.store{border-color:var(--s01-line);border-radius:16px;box-shadow:0 4px 14px rgba(45,71,58,.045);padding:13px}
+.store-rank{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.store-rank b{font-size:11px;color:var(--s01-green)}
+.store-rank span{font-size:10px;color:var(--s01-muted)}
+.store .badge{border-radius:7px;background:var(--s01-soft);color:var(--s01-green)}
+.store-facts{border-color:#E8EDE9;background:#FAFCFA}
+.fact{background:#FAFCFA}.fact+.fact{border-left-color:#E8EDE9}
+.fact.pricefact .value{color:var(--s01-green)!important}
+.browse-stock-line{display:flex;align-items:baseline;gap:6px;white-space:nowrap;min-width:0}
+.browse-stock-line span{font-size:11px;color:var(--s01-muted)}
+.browse-stock-line strong{font-size:15px;color:#34453C;font-variant-numeric:tabular-nums}
+.browse-unit-price{white-space:nowrap;display:flex!important;align-items:baseline!important;gap:0!important}
+.browse-unit-price .price-number{font-size:18px;font-weight:900;color:var(--s01-green)}
+.browse-unit-price .price-unit{font-size:11px;font-weight:700;color:var(--s01-muted)}
+.browse-unit-price .price-start{font-size:11px;font-weight:700;color:var(--s01-muted);margin-left:2px}
+.store{position:relative}
+.store-recommend-badge{position:absolute;right:12px;top:12px;padding:4px 7px;border:1px solid #BFD7C8;border-radius:999px;background:#EEF5F0;color:var(--s01-green);font-size:10px;font-weight:900;line-height:1}
+.store-actions{gap:8px;margin-top:11px}
+.store-actions .cta,.store-actions .viewing-cta{min-height:42px;border-radius:11px!important;font-size:12px!important;padding:10px 8px!important}
+.store-actions .cta{background:var(--s01-green)!important;color:#fff!important;border-color:var(--s01-green)!important}
+.store-actions .viewing-cta{background:#fff!important;color:var(--s01-green)!important;border-color:#AAC9B8!important}
+.store-actions button:active,.apply:active{transform:translateY(1px)}
+.sheet{padding:14px 16px calc(20px + env(safe-area-inset-bottom));border-radius:20px 20px 0 0}
+.sheet h3{font-size:17px;margin-bottom:5px}
+.sheet-intro{font-size:11px;line-height:1.55;color:var(--s01-muted);margin:0 0 14px}
+.filter-title{font-size:12px;margin-top:15px}
+.term-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.term-option{min-height:52px;border-radius:11px}
+.term-custom{border-radius:13px;background:#FAFCFA}
+.apply{min-height:45px;background:var(--s01-green);border-radius:12px;font-size:13px}
+.requirement-preview{margin-top:10px;padding:10px 11px;border-radius:11px;background:var(--s01-soft);font-size:11px;color:#496356;line-height:1.5}
+@media(max-width:360px){.store-head{grid-template-columns:92px 1fr}.store-photo{width:92px}.store-actions{grid-template-columns:1fr}.term-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+<style id="s01-card-action-cleanup">
+.store-actions{display:none!important}.store-rank span,.store-main .features{display:none!important}
+/* Compact the top controls into one location/travel module and defer coverage context. */
+.location-context{margin:8px 12px 0!important;padding:0!important;border:1px solid var(--line)!important;border-radius:13px!important;background:#fff!important;gap:0!important;overflow:hidden!important}
+.current-location{border:0!important;border-radius:0!important;background:transparent!important;padding-right:7px!important}
+.travel-pill{border:0!important;border-left:1px solid var(--line)!important;border-radius:0!important;background:transparent!important;padding:0 10px!important}
+.coverage-strip{display:none!important}.location-search-entry .support{display:none!important}
+.recommendation-summary{display:none!important}
+</style>
+
+<style id="v27417-4-s01-demand-alignment">
+.v274-demand-state .store.demand-store{display:grid;grid-template-columns:minmax(0,1fr) 118px;grid-template-rows:auto auto;column-gap:12px;row-gap:5px;padding:14px!important}
+.v274-demand-state .demand-store .demand-main{grid-column:1;grid-row:1/3;min-width:0}
+.v274-demand-state .demand-store .demand-price{grid-column:2;grid-row:1/3;text-align:right;align-self:start;min-width:0}
+.demand-role{font-size:12px;color:var(--s01-green);font-weight:900}.demand-name-line{display:flex;align-items:center;gap:7px;min-width:0}.demand-name{font-size:17px;font-weight:900;min-width:0}.demand-district{padding:3px 6px;border-radius:6px;background:#f2f5f3;color:#6f7c75;font-size:10px;font-weight:800;white-space:nowrap}.demand-address{margin-top:4px;color:var(--s01-muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.demand-match{margin-top:7px;color:var(--s01-green);font-size:13px;font-weight:900}.demand-route{margin-top:5px;color:var(--s01-muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.demand-term{font-size:10px;color:#7a8885;font-weight:700}.demand-monthly{margin-top:6px;color:var(--v274-orange)!important;font-size:20px;font-weight:950;white-space:nowrap}.demand-total{margin-top:5px;color:#899592;font-size:10px;line-height:1.35}.demand-saving{margin-top:5px;color:#899592;font-size:10px}.demand-store .store-recommend-badge{display:none!important}
+@media(max-width:380px){.v274-demand-state .store.demand-store{grid-template-columns:minmax(0,1fr) 108px;column-gap:9px}.demand-monthly{font-size:18px}}
+</style>
+
+<style id="v27417-5-s01-location-sort-filter">
+.location-search-combined{display:block!important;padding:0!important;overflow:hidden!important}.location-top-row{display:flex;align-items:stretch}.location-search-combined .current-location{flex:1;min-width:0}.location-search-combined .location-search-entry{width:calc(100% - 18px);margin:0 9px 9px;height:40px;border:1px solid var(--s01-line,#E7E0D7)!important;border-radius:10px!important;background:#FBFAF7!important;box-shadow:none!important}.location-search-sticky{display:none!important}.v274-browse-state #distancePrefBtn{display:inline-flex!important}.v274-demand-state #distancePrefBtn{display:none!important}
+</style>
+<style id="v27417-6-s01-estore-placement">
+.estore-list-card{position:relative;margin-bottom:10px;padding:14px;border:1.5px solid #9ED8C8;border-radius:16px;background:linear-gradient(135deg,#F3FBF8,#FFF);box-shadow:0 4px 14px rgba(45,113,84,.055);cursor:pointer}
+.estore-list-card.fallback-first{border-color:#74C5AD;background:linear-gradient(135deg,#EDF9F5,#FFF)}
+.estore-list-card .estore-list-kicker{font-size:11px;color:#16745D;font-weight:900}
+.estore-list-card .estore-list-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:3px}
+.estore-list-card .estore-list-title{font-size:18px;font-weight:950;color:#2E3631}
+.estore-list-card .estore-list-badge{flex:0 0 auto;padding:4px 7px;border-radius:999px;background:#E6F6F0;color:#16745D;font-size:10px;font-weight:900}
+.estore-list-card .estore-list-desc{margin-top:5px;font-size:12px;font-weight:800;color:#44554D}
+.estore-list-card .estore-list-points{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.estore-list-card .estore-list-points span{padding:4px 6px;border:1px solid #DCEBE6;border-radius:999px;background:#FFF;font-size:10px;color:#61736B;white-space:nowrap}
+.estore-list-card .estore-list-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:11px;padding-top:10px;border-top:1px solid #DCEBE6}
+.estore-list-card .estore-list-note{font-size:10px;color:#718078;line-height:1.4}
+.estore-list-card .estore-list-link{flex:0 0 auto;color:#16745D;font-size:11px;font-weight:900;white-space:nowrap}
+@media(max-width:380px){.estore-list-card{padding:13px}.estore-list-card .estore-list-title{font-size:17px}.estore-list-card .estore-list-points span{font-size:9.5px}}
+</style>
+
+<style id="v27417-7-demand-card-price-hierarchy">
+.v274-demand-state .demand-name-line{flex-wrap:nowrap!important}.v274-demand-state .demand-district{order:0;flex:0 0 auto}.v274-demand-state .demand-name{order:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.v274-demand-state .demand-total{margin-top:6px!important;color:var(--v274-orange,#E77A3A)!important;font-size:20px!important;font-weight:950!important;line-height:1.15!important;white-space:nowrap}.v274-demand-state .demand-monthly{margin-top:5px!important;color:#899592!important;font-size:10px!important;font-weight:650!important;line-height:1.35!important}.demand-start{font-size:10px;font-weight:700;color:#8A958F;margin-left:2px}.demand-discount{font-size:9px;color:#9A7A66;font-weight:700}.v274-demand-state .demand-match{white-space:nowrap}
+</style>
+
+<style id="v27417-7-s01-term-badges">.term-option{position:relative!important;overflow:visible!important}.term-option small{position:absolute!important;right:-4px!important;top:-8px!important;margin:0!important;padding:2px 5px!important;border-radius:999px!important;background:#FFF3DF!important;border:1px solid #FFD9A1!important;color:#A85A00!important;font-size:9px!important;line-height:1.1!important;white-space:nowrap!important}</style>
+
+<style id="sprint1d-s01-high-fidelity-visual-closure-v1">
+/* Sprint 1D — S01 High-Fidelity Visual Closure. CSS only; business/copy/state/JS remain frozen. */
+:root{
+  --bg:#FDFBF7!important;
+  --card:#FFFFFF!important;
+  --text:#1F2923!important;
+  --muted:#59645E!important;
+  --line:#E6E7E3!important;
+  --primary:#2F6B4F!important;
+  --soft:#F1F7F3!important;
+  --warn:#FFF8EE!important;
+  --shadow:0 4px 16px rgba(31,41,35,.06)!important;
+  --s01-green:#2F6B4F!important;
+  --s01-green-deep:#214F3A!important;
+  --s01-soft:#F1F7F3!important;
+  --s01-paper:#FFFFFF!important;
+  --s01-bg:#FDFBF7!important;
+  --s01-line:#E6E7E3!important;
+  --s01-muted:#6D7671!important;
+  --v274-bg:#FDFBF7!important;
+  --v274-surface:#FFFFFF!important;
+  --v274-text:#1F2923!important;
+  --v274-muted:#59645E!important;
+  --v274-line:#E6E7E3!important;
+  --v274-green:#2F6B4F!important;
+  --v274-green-soft:#F1F7F3!important;
+  --v274-orange:#D56A1C!important;
+}
+html,body{background:#FDFBF7!important;color:#1F2923!important;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif!important}
+.shell{background:#FDFBF7!important;box-shadow:0 18px 48px rgba(31,41,35,.14)!important}
+.page{background:#FDFBF7!important;padding-bottom:76px!important}
+.header{height:48px!important;background:rgba(255,255,255,.97)!important;border-bottom:1px solid #ECEDE9!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.header h1{font-size:16px!important;line-height:24px!important;font-weight:700!important;letter-spacing:-.01em!important;color:#1F2923!important}
+.wx-capsule-space{border-color:#E6E7E3!important;background:#FFF!important;box-shadow:0 2px 8px rgba(31,41,35,.05)!important}
+
+/* Location + search become one calm discovery surface. */
+.location-context.location-search-combined{margin:10px 16px 0!important;border:1px solid #E6E7E3!important;border-radius:16px!important;background:#FFF!important;box-shadow:0 4px 16px rgba(31,41,35,.045)!important;overflow:hidden!important}
+.location-top-row{min-height:54px!important;align-items:stretch!important;border-bottom:1px solid #ECEDE9!important}
+.location-search-combined .current-location{min-height:54px!important;padding:9px 10px 9px 12px!important;border:0!important;background:#FFF!important}
+.current-location .copy{padding-left:1px!important}
+.current-location .eyebrow{font-size:11px!important;line-height:16px!important;font-weight:500!important;color:#6D7671!important}
+.current-location .loc{margin-top:1px!important;font-size:14px!important;line-height:20px!important;font-weight:700!important;color:#1F2923!important}
+.current-location .change{font-size:11px!important;line-height:18px!important;font-weight:650!important;color:#2F6B4F!important}
+.current-location .pin{position:relative!important;width:28px!important;height:28px!important;flex:0 0 28px!important;border-radius:9px!important;background:#F1F7F3!important;box-shadow:inset 0 0 0 1px #DCE9E0!important;color:transparent!important;font-size:0!important}
+.current-location .pin:before{content:""!important;position:absolute!important;left:9px!important;top:7px!important;width:8px!important;height:8px!important;border:1.6px solid #2F6B4F!important;border-radius:50% 50% 50% 0!important;transform:rotate(-45deg)!important}
+.current-location .pin:after{content:""!important;position:absolute!important;left:12px!important;top:10px!important;width:2px!important;height:2px!important;border-radius:50%!important;background:#2F6B4F!important}
+.travel-pill{min-width:76px!important;padding:0 10px!important;border:0!important;border-left:1px solid #ECEDE9!important;border-radius:0!important;background:#FFF!important;color:#59645E!important;font-size:11px!important;font-weight:600!important}
+.location-search-combined .location-search-entry{width:100%!important;height:44px!important;margin:0!important;padding:0 12px!important;border:0!important;border-radius:0!important;background:#FFF!important;box-shadow:none!important;gap:8px!important}
+.location-search-entry .search-ico{width:20px!important;height:20px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:7px!important;background:#F7F5F0!important;color:#59645E!important;font-size:12px!important}
+.location-search-entry .placeholder{font-size:12px!important;line-height:18px!important;font-weight:400!important;color:#6D7671!important}
+
+/* Browse / demand strip: informational, never compete with result cards. */
+.estimate-strip,.demand{margin:10px 16px 0!important;min-height:48px!important;padding:10px 12px!important;border-radius:14px!important;box-shadow:none!important}
+.estimate-strip{border:1px solid #DCE9E0!important;background:#F7FBF8!important}
+.demand{border:1px solid #D5E5DA!important;background:#F1F7F3!important}
+.estimate-strip b,.demand b{font-size:13px!important;line-height:20px!important;font-weight:650!important;color:#1F2923!important}
+.estimate-strip span,.demand span{font-size:11px!important;line-height:17px!important;color:#6D7671!important}
+.estimate-strip .go,.demand .edit{font-size:11px!important;line-height:18px!important;font-weight:650!important;color:#2F6B4F!important}
+.notice{margin:9px 16px 0!important;padding:12px!important;border:1px solid #F0DEC6!important;border-radius:14px!important;background:#FFF8EE!important;color:#735F49!important;font-size:11px!important;line-height:18px!important;box-shadow:none!important}
+.notice b{margin-bottom:3px!important;font-size:13px!important;line-height:20px!important;font-weight:650!important;color:#493F35!important}
+.distance-recovery{margin:9px 16px 0!important;padding:12px!important;border:1px solid #E7DEC9!important;border-radius:14px!important;background:#FFFBF4!important;box-shadow:none!important}
+.distance-recovery .eyebrow{font-size:10px!important;color:#8A6E42!important;font-weight:650!important}.distance-recovery h3{margin:3px 0!important;font-size:14px!important;line-height:21px!important;font-weight:650!important}.distance-recovery p{font-size:11px!important;line-height:18px!important;color:#756A59!important}
+
+/* Filter controls are utility chips, visually subordinate to results. */
+.toolbar{margin:11px 16px 0!important;display:block!important}
+.controls{width:100%!important;gap:7px!important;justify-content:flex-start!important;overflow:visible!important}
+.controls button{min-height:34px!important;padding:7px 11px!important;border:1px solid #E6E7E3!important;border-radius:999px!important;background:#FFF!important;color:#59645E!important;font-size:11px!important;line-height:18px!important;font-weight:550!important;box-shadow:none!important;white-space:nowrap!important}
+.controls button.active,.v274-browse-state #distancePrefBtn:not(.hidden){border-color:#CFE1D6!important;background:#F1F7F3!important;color:#214F3A!important}
+.list{padding:10px 16px 20px!important}
+.moreline{padding:3px 0 16px!important;color:#2F6B4F!important;font-size:12px!important;font-weight:600!important}
+
+/* Browse store card: one clean surface, fact row separated by a quiet divider. */
+.store{margin-bottom:10px!important;padding:13px!important;border:1px solid #ECEDE9!important;border-radius:16px!important;background:#FFF!important;box-shadow:0 4px 16px rgba(31,41,35,.045)!important}
+.store-head{grid-template-columns:96px minmax(0,1fr)!important;gap:12px!important;align-items:start!important}
+.store-photo{width:96px!important;height:84px!important;border:1px solid #E5E1DB!important;border-radius:13px!important;background:linear-gradient(145deg,#F7F5F0,#EFEBE5)!important;color:#6D7671!important}
+.store-photo span{font-size:22px!important;color:#6D7671!important}.store-photo small{font-size:10px!important;color:#6D7671!important}
+.store-photo:after{left:7px!important;top:7px!important;padding:2px 6px!important;border:1px solid rgba(230,231,227,.92)!important;background:rgba(255,255,255,.92)!important;color:#6D7671!important;font-size:9px!important;font-weight:500!important}
+.store .name{display:flex!important;align-items:center!important;gap:6px!important;min-width:0!important;font-size:16px!important;line-height:23px!important;font-weight:700!important;color:#1F2923!important;letter-spacing:-.01em!important}
+.store .badge{margin:0!important;flex:0 0 auto!important;min-height:21px!important;padding:2px 7px!important;border:0!important;border-radius:999px!important;background:#EAF3ED!important;color:#214F3A!important;font-size:10px!important;line-height:17px!important;font-weight:600!important;white-space:nowrap!important}
+.store .area{margin-top:2px!important;font-size:11px!important;line-height:17px!important;color:#6D7671!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.route{margin-top:5px!important;font-size:11px!important;line-height:18px!important;color:#59645E!important}.route b{font-size:12px!important;font-weight:650!important;color:#1F2923!important}
+.soft-distance{margin-top:5px!important;padding:2px 7px!important;border:1px solid #F1DEC6!important;border-radius:999px!important;background:#FFF8EE!important;color:#80684C!important;font-size:9px!important;line-height:16px!important}
+.store-facts{margin-top:11px!important;display:grid!important;grid-template-columns:1fr 1fr!important;border:0!important;border-top:1px solid #ECEDE9!important;border-radius:0!important;overflow:visible!important;background:transparent!important}
+.fact{min-height:55px!important;padding:10px 8px 1px 0!important;background:transparent!important}.fact+.fact{padding-left:12px!important;border-left:1px solid #ECEDE9!important}.fact .label{font-size:10px!important;line-height:16px!important;color:#6D7671!important}.fact .sub{margin-top:2px!important;font-size:10px!important;line-height:15px!important;color:#6D7671!important}
+.browse-stock-line{gap:6px!important}.browse-stock-line span{font-size:11px!important;color:#6D7671!important}.browse-stock-line strong{font-size:18px!important;line-height:24px!important;font-weight:700!important;color:#1F2923!important}
+.browse-unit-price{min-height:29px!important;align-items:baseline!important}.browse-unit-price .price-number{font-size:20px!important;line-height:26px!important;font-weight:700!important;color:#D56A1C!important}.browse-unit-price .price-unit,.browse-unit-price .price-start{font-size:10px!important;line-height:16px!important;font-weight:400!important;color:#6D7671!important}
+
+/* Demand-state cards align with Sprint 1C Recommendation: facts first, contract total in a separate footer. */
+.v274-demand-state .store.demand-store{display:block!important;padding:14px!important;border:1px solid #E6E7E3!important;border-radius:16px!important;background:#FFF!important;box-shadow:0 4px 16px rgba(31,41,35,.045)!important}
+.v274-demand-state .store.demand-store:first-of-type{border-color:#A9CBB5!important;background:#FCFEFC!important;box-shadow:0 0 0 1px rgba(47,107,79,.055),0 5px 18px rgba(31,41,35,.05)!important}
+.v274-demand-state .demand-store .demand-main,.v274-demand-state .demand-store .demand-price{display:block!important;width:100%!important;min-width:0!important;text-align:left!important}
+.demand-role{display:inline-flex!important;align-items:center!important;min-height:22px!important;padding:2px 8px!important;border-radius:999px!important;background:#EAF3ED!important;color:#214F3A!important;font-size:10px!important;line-height:16px!important;font-weight:650!important;white-space:nowrap!important}
+.zero-match-alt-role{background:#EFF7F1!important;color:#376D52!important}
+.v274-demand-state .demand-name-line{margin-top:8px!important;gap:7px!important;min-width:0!important}
+.v274-demand-state .demand-district{padding:3px 6px!important;border-radius:6px!important;background:#F5F6F3!important;color:#59645E!important;font-size:10px!important;line-height:14px!important;font-weight:600!important}
+.v274-demand-state .demand-name{font-size:17px!important;line-height:24px!important;font-weight:700!important;color:#1F2923!important}
+.demand-address{margin-top:3px!important;font-size:11px!important;line-height:17px!important;color:#6D7671!important}
+.v274-demand-state .demand-match{margin-top:7px!important;font-size:12px!important;line-height:18px!important;font-weight:650!important;color:#2F6B4F!important;white-space:nowrap!important}.v274-demand-state .demand-match.is-urgent{color:#B85A16!important;font-weight:850!important}
+.demand-route{margin-top:4px!important;font-size:11px!important;line-height:18px!important;color:#59645E!important}
+.zero-match-alt-note{margin-top:3px!important;font-size:10px!important;line-height:16px!important;color:#6D7671!important}
+.v274-demand-state .demand-price{position:relative!important;margin-top:12px!important;padding-top:11px!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-areas:"term term" "label total" "monthly total" "saving saving"!important;column-gap:12px!important;row-gap:2px!important;align-items:end!important;border-top:1px solid #ECEDE9!important}
+.v274-demand-state .demand-term{grid-area:term!important;font-size:10px!important;line-height:16px!important;font-weight:400!important;color:#6D7671!important}.v274-demand-state .demand-total-label{grid-area:label!important;font-size:10px!important;line-height:16px!important;font-weight:500!important;color:#59645E!important}
+.v274-demand-state .demand-total{grid-area:total!important;margin:0!important;align-self:end!important;text-align:right!important;font-size:28px!important;line-height:32px!important;font-weight:700!important;letter-spacing:-.02em!important;color:#D56A1C!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important}
+.v274-demand-state .demand-monthly{grid-area:monthly!important;margin:0!important;font-size:11px!important;line-height:17px!important;font-weight:400!important;color:#59645E!important;white-space:nowrap!important}
+.demand-discount{font-size:10px!important;font-weight:500!important;color:#2F6B4F!important}.demand-start{font-size:11px!important;line-height:16px!important;font-weight:400!important;color:#6D7671!important}
+.v274-demand-state .demand-saving{grid-area:saving!important;justify-self:start!important;margin:2px 0 0!important;padding:2px 7px!important;border-radius:999px!important;background:#FFF4E8!important;color:#B85A16!important;font-size:9px!important;line-height:16px!important;font-weight:600!important}
+
+/* EStore is a secondary service option, not a competing hero card. */
+.estore-list-card{margin-bottom:10px!important;padding:14px!important;border:1px solid #DCE9E0!important;border-radius:16px!important;background:#F7FBF8!important;box-shadow:none!important}
+.estore-list-card.fallback-first{border-color:#B8D7C4!important;background:#F1F7F3!important;box-shadow:0 4px 16px rgba(31,41,35,.04)!important}
+.estore-list-card .estore-list-kicker{font-size:10px!important;line-height:16px!important;font-weight:650!important;color:#2F6B4F!important}
+.estore-list-card .estore-list-title-row{margin-top:4px!important;gap:8px!important}.estore-list-card .estore-list-title{font-size:17px!important;line-height:24px!important;font-weight:700!important;color:#1F2923!important}
+.estore-list-card .estore-list-badge{min-height:22px!important;padding:2px 8px!important;border:0!important;border-radius:999px!important;background:#EAF3ED!important;color:#214F3A!important;font-size:10px!important;line-height:18px!important;font-weight:600!important;white-space:nowrap!important}
+.estore-list-card .estore-list-desc{margin-top:3px!important;font-size:12px!important;line-height:18px!important;font-weight:600!important;color:#59645E!important}
+.estore-list-card .estore-list-points{gap:5px!important;margin-top:8px!important}.estore-list-card .estore-list-points span{min-height:22px!important;padding:2px 7px!important;border:1px solid #E3EAE5!important;border-radius:999px!important;background:#FFF!important;color:#59645E!important;font-size:9px!important;line-height:18px!important;font-weight:400!important;white-space:nowrap!important}
+.estore-list-card .estore-list-foot{margin-top:10px!important;padding-top:9px!important;border-top:1px solid #E2EBE5!important}.estore-list-card .estore-list-note{font-size:10px!important;line-height:16px!important;color:#6D7671!important}.estore-list-card .estore-list-link{font-size:11px!important;line-height:18px!important;font-weight:650!important;color:#2F6B4F!important;white-space:nowrap!important}
+
+/* No-match recovery uses a recoverable decision surface, not error styling. */
+.zero-match-recovery{margin:0 0 10px!important;padding:14px!important;border:1px solid #DCE9E0!important;border-radius:16px!important;background:#F7FBF8!important;box-shadow:none!important}
+.zero-match-recovery h3{margin:0 0 4px!important;font-size:17px!important;line-height:24px!important;font-weight:700!important;color:#214F3A!important}
+.zero-match-recovery p{margin:0!important;font-size:11px!important;line-height:18px!important;color:#59645E!important}.zero-match-actions{gap:8px!important;margin-top:11px!important}.zero-match-actions button{min-height:42px!important;border:1px solid #CFE1D6!important;border-radius:12px!important;background:#FFF!important;color:#2F6B4F!important;font-size:12px!important;font-weight:650!important}.zero-match-actions button.primary{background:#2F6B4F!important;border-color:#2F6B4F!important;color:#FFF!important;box-shadow:0 4px 12px rgba(47,107,79,.12)!important}
+
+/* Sheets + term tools map to the frozen component system. */
+.sheet{padding:14px 16px calc(20px + env(safe-area-inset-bottom))!important;border-radius:20px 20px 0 0!important;background:#FFF!important}
+.sheet h3{font-size:18px!important;line-height:26px!important;font-weight:700!important;color:#1F2923!important}.sheet-intro,.preference-desc,.filter-tip,.location-sheet-hint{font-size:11px!important;line-height:17px!important;color:#6D7671!important}
+.option{min-height:45px!important;padding:11px 3px!important;border-bottom-color:#ECEDE9!important;font-size:13px!important;line-height:20px!important;color:#1F2923!important}.option span{font-size:11px!important;color:#6D7671!important}.option.active{background:#F1F7F3!important;color:#214F3A!important}
+.pill,.location-chip{min-height:34px!important;padding:7px 11px!important;border:1px solid #E6E7E3!important;border-radius:999px!important;background:#FFF!important;color:#59645E!important;font-size:11px!important}.pill.active,.location-chip.current{border-color:#CFE1D6!important;background:#F1F7F3!important;color:#214F3A!important}
+.term-option{min-height:52px!important;border:1px solid #E6E7E3!important;border-radius:12px!important;background:#FFF!important;color:#1F2923!important;font-size:12px!important;font-weight:650!important;box-shadow:none!important}.term-option.active{border-color:#B8D2C1!important;background:#F1F7F3!important;color:#214F3A!important}.term-option small{border-color:#F2C99C!important;background:#FFF4E8!important;color:#B85A16!important;font-weight:600!important}
+.apply{min-height:48px!important;border:0!important;border-radius:12px!important;background:#2F6B4F!important;color:#FFF!important;font-size:15px!important;font-weight:650!important;box-shadow:0 5px 14px rgba(47,107,79,.14)!important}
+
+/* Bottom navigation matches the visual foundation. */
+.tabbar{height:62px!important;background:rgba(255,255,255,.97)!important;border-top:1px solid #ECEDE9!important;box-shadow:0 -5px 18px rgba(31,41,35,.04)!important;backdrop-filter:blur(12px)}
+.tab{gap:3px!important;color:#6D7671!important;font-size:10px!important;font-weight:400!important}.tab .ico{font-size:16px!important}.tab.active{color:#2F6B4F!important;font-weight:650!important}
+
+@media(max-width:650px){html,body{background:#FDFBF7!important}.shell{box-shadow:none!important}}
+@media(max-width:380px){
+  .location-context.location-search-combined,.estimate-strip,.demand,.notice,.distance-recovery{margin-left:14px!important;margin-right:14px!important}
+  .toolbar{margin-left:14px!important;margin-right:14px!important}.list{padding-left:14px!important;padding-right:14px!important}
+  .store-head{grid-template-columns:92px minmax(0,1fr)!important;gap:10px!important}.store-photo{width:92px!important;height:82px!important}
+  .v274-demand-state .demand-total{font-size:26px!important;line-height:30px!important}.estore-list-card{padding:13px!important}
+  .controls{gap:5px!important}.controls button{padding:7px 9px!important;font-size:10.5px!important}
+}
+</style>
+
+
+<link rel="stylesheet" href="mini_storage_visual_harmonization_v1.css"/>
+<script defer src="mini_storage_visual_harmonization_v1.js"></script>
+<link rel="stylesheet" href="mini_koala_visual_elevation_v2_controlled_rollout.css"/><link rel="stylesheet" href="mini_koala_visual_elevation_v2_refinement_patch.css"/>
+<style id="real-store-asset-mapping-v1-s01">
+/* Same demo store keeps one warehouse-body color family across all mapped surfaces. */
+.store[data-id] .store-photo{background-size:cover!important;background-repeat:no-repeat!important;background-position:center!important;color:transparent!important;overflow:hidden!important}
+.store[data-id] .store-photo span,.store[data-id] .store-photo small{opacity:0!important}
+.store[data-id="MK_BJ_E56D0702"] .store-photo{background-image:linear-gradient(180deg,rgba(20,35,28,.02),rgba(20,35,28,.08)),url('../assets/real_store_demo/v1/MK_BJ_E56D0702/list_thumb.webp')!important;background-position:center 48%!important}
+.store[data-id="MK_BJ_E68EC5FF"] .store-photo{background-image:linear-gradient(180deg,rgba(10,12,12,.03),rgba(10,12,12,.10)),url('../assets/real_store_demo/v1/MK_BJ_E68EC5FF/list_thumb.webp')!important}
+.store[data-id="MK_BJ_04547515"] .store-photo{background-image:linear-gradient(180deg,rgba(20,35,28,.01),rgba(20,35,28,.05)),url('../assets/real_store_demo/v1/MK_BJ_04547515/list_thumb.webp')!important}
+.store[data-id="MK_BJ_2CDB7BEE"] .store-photo{background-image:linear-gradient(180deg,rgba(10,12,12,.02),rgba(10,12,12,.10)),url('../assets/real_store_demo/v1/MK_BJ_2CDB7BEE/list_thumb.webp')!important}
+.store[data-id="MK_BJ_9A80090D"] .store-photo{background-image:linear-gradient(180deg,rgba(18,38,29,.02),rgba(18,38,29,.08)),url('../assets/real_store_demo/v1/MK_BJ_9A80090D/list_thumb.webp')!important}
+</style>
+<style id="s01-core-dropdown-filters">
+.controls{display:flex!important;align-items:center!important;gap:8px!important;overflow:visible!important}
+.filter-select{position:relative;display:block;min-width:0;flex:0 1 auto}
+.filter-select select{height:36px;min-width:112px;padding:0 30px 0 12px;border:1px solid #E6E7E3;border-radius:999px;background:#FFF;color:#59645E;font-size:11px;font-weight:600;line-height:36px;appearance:none;-webkit-appearance:none;outline:0;cursor:pointer}
+.filter-select:after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-52%);color:#59645E;font-size:10px;pointer-events:none}
+.filter-select.distance-filter select{min-width:104px}
+.v274-demand-state .filter-select.distance-filter{display:block}
+@media(max-width:380px){.controls{gap:6px!important}.filter-select select{min-width:108px;padding-left:10px;padding-right:27px}.filter-select.distance-filter select{min-width:98px}}
+/* Inventory Visibility & Sold-out Semantics V1 */
+.inventory-secondary{margin:14px 0 4px;padding-top:4px}
+.inventory-secondary.hidden{display:none!important}
+.inventory-secondary-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:6px 2px 10px}
+.inventory-secondary-head h3{margin:0;font-size:15px;line-height:22px;color:#33463d;font-weight:800}
+.inventory-secondary-head p{margin:2px 0 0;font-size:10px;line-height:16px;color:#7a847f}
+.inventory-status-list{display:grid;gap:8px}
+.inventory-status-card{border:1px solid #e4e8e5;border-radius:14px;background:#fafbf9;padding:12px 13px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;cursor:pointer}
+.inventory-status-main{min-width:0}.inventory-status-name{font-size:14px;line-height:20px;font-weight:800;color:#3e4c45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.inventory-status-meta{margin-top:3px;font-size:10px;line-height:16px;color:#7b8580}.inventory-status-label{font-size:11px;line-height:18px;font-weight:800;color:#7a6659;background:#f4efeb;border-radius:999px;padding:4px 8px;white-space:nowrap}.inventory-status-label.no-match{color:#587064;background:#eef4f0}.inventory-status-note{grid-column:1/-1;font-size:10px;line-height:16px;color:#7b8580}.inventory-status-card[data-status="SOLD_OUT"]{background:#f8f7f5}.inventory-status-card[data-status="SOLD_OUT"] .inventory-status-name{color:#59615d}.inventory-status-card[data-status="SOLD_OUT"] .inventory-status-note{color:#8a817a}
+.inventory-demo-note{display:none;margin:0 0 10px;border:1px dashed #dac9bd;background:#fffaf5;border-radius:12px;padding:9px 11px;font-size:10px;line-height:16px;color:#7b6658}.inventory-demo-note.show{display:block}
+</style>
+<link rel="stylesheet" href="mini_koala_store_top_patch_v1.css"/>
+<link rel="stylesheet" href="mini_koala_phase2_ux.css">
+<script src="mini_koala_phase2_ux.js"></script>
+<style id="phase3b-batch-a-s01">
+/* Phase 3B-A: active requirements are the only demand summary and each card exposes its next action. */
+.v274-demand-state #activeDemandCard{display:flex!important;align-items:center!important;gap:10px!important;padding:11px 13px!important;border-color:#D0E3D5!important;background:#F1F7F3!important}
+#activeDemandCard>div{min-width:0;flex:1}
+#activeDemandCard #demandSummary{font-size:14px!important;line-height:1.45!important;font-weight:750!important}
+#activeDemandCard #demandHint{display:block;margin-top:3px;font-size:11px!important;line-height:1.4!important}
+#activeDemandCard .edit{min-height:36px;display:flex;align-items:center;padding:5px 2px;white-space:nowrap}
+.v274-demand-state .location-search-entry{color:#68746C!important}
+.store-card-next{display:flex;justify-content:flex-end;gap:5px;align-items:center;grid-column:1/-1;margin-top:9px;padding-top:9px;border-top:1px solid #EBEEE9;color:#2F6B4F;font-size:12px;font-weight:750;line-height:19px}
+.store-card-next span{font-size:17px;line-height:17px}
+.store[role="link"]:focus-visible{outline:2px solid #2F6B4F;outline-offset:2px}
+.v274-demand-state .demand-store .store-card-next{margin-top:6px;border-color:#E9EDE7}
+.v274-demand-state .zero-match-store .store-card-next{color:#376D52}
+.v274-demand-state .zero-match-store .demand-total-label{color:#54765F!important}
+.v274-browse-state .browse-next{font-size:12px!important;align-items:center;justify-content:space-between}
+.browse-next .viewing-cta{min-height:32px;padding:5px 9px;background:#FFF;border:1px solid #E5EAE5;border-radius:9px;color:#65756C;font-size:11px;cursor:pointer}
+.browse-next-main{display:flex;align-items:center;gap:4px;color:#2F6B4F;font-weight:750}
+@media(max-width:380px){.store-card-next{font-size:11px!important}.v274-demand-state .demand-store .demand-total{font-size:25px!important}}
+</style>
+<style id="s01-unified-store-card-v1">
+/* One visual card structure for browse and estimated demand. Only facts and price unit vary. */
+.store-title-line{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.store-title-line .name{min-width:0}
+.card-open-chevron{flex:none;font-size:21px;line-height:22px;color:#688573;font-weight:500}
+.v274-demand-state .store.demand-card{padding:12px!important}
+.store .contract-price{display:flex;align-items:baseline;gap:2px;white-space:nowrap;min-height:29px}
+.store .contract-price .price-number{color:#D56A1C;font-size:20px;font-weight:700;line-height:26px}
+.store .contract-price .price-start{font-size:10px;color:#6D7671;font-weight:400}
+.browse-stock-line strong.stock-alert{color:#B85A16!important}
+.store[data-id]:focus-visible{outline:2px solid #2D7154;outline-offset:2px}
+</style>
+<style id="s01-beike-inspired-filter-sort-v1">
+/* Unified compact filter toolbar: CSS-only presentation; native select models remain in DOM. */
+.toolbar{margin-top:9px!important}
+.controls.compact-filters{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;width:100%!important;min-width:0!important}
+.controls .compact-filter-btn{display:flex!important;align-items:center!important;justify-content:center!important;gap:5px!important;min-width:0!important;max-width:100%!important;width:100%!important;height:40px!important;min-height:40px!important;padding:7px 8px!important;border:1px solid #E4E8E2!important;border-radius:11px!important;background:#FFF!important;color:#33453A!important;font-size:12px!important;font-weight:600!important;box-shadow:none!important;cursor:pointer!important}
+.compact-filter-btn .filter-current{display:block;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.compact-filter-btn .filter-chevron{flex:0 0 auto;line-height:1;color:#7D8981;font-size:13px}
+.controls .compact-filter-btn.active,.controls .compact-filter-btn[aria-expanded="true"]{background:#F1F7F3!important;color:#24563D!important;border-color:#B7D5C3!important}
+.legacy-filter-inputs{display:none!important}
+.compact-sheet{padding:16px 16px max(24px,env(safe-area-inset-bottom))!important;max-height:76%!important}
+.compact-sheet h3{margin:6px 0 15px!important;font-size:17px!important;line-height:24px!important}
+.quick-distance-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 5px}
+.quick-distance-option{min-height:46px;padding:10px 8px;border:1px solid #E6E7E3;border-radius:10px;background:#F8F9F7;color:#475A4E;font-size:13px;cursor:pointer}
+.quick-distance-option[aria-pressed="true"]{border:1.5px solid #2F6B4F;background:#F1F7F3;color:#214F3A;font-weight:750}
+.quick-sort-list{display:flex;flex-direction:column;margin-bottom:5px}
+.quick-sort-option{display:flex;align-items:center;justify-content:space-between;min-height:49px;padding:12px 3px;border:0;border-bottom:1px solid #EDF0EC;background:#FFF;color:#46574D;font-size:14px;text-align:left;cursor:pointer}
+.quick-sort-option:last-child{border-bottom:0}
+.quick-sort-option[aria-checked="true"]{font-weight:750;color:#214F3A}
+.quick-sort-option .selected-mark{visibility:hidden;color:#2F6B4F;font-size:17px}
+.quick-sort-option[aria-checked="true"] .selected-mark{visibility:visible}
+.compact-sheet [data-group="service"]{gap:9px!important;margin-bottom:14px!important}
+.compact-sheet [data-group="service"] .pill{font-size:12px!important;min-height:38px!important}
+.supplemental-scope{margin:11px 16px 0;padding:0 0 2px;display:flex;flex-direction:column;gap:2px;line-height:1.45}
+.supplemental-scope[hidden]{display:none!important}
+.supplemental-scope b{font-size:14px;font-weight:700;color:#1F2923}
+.supplemental-scope span{font-size:11px;color:#6D7671}
+/* Keep task summary light and avoid duplicate explanations before first store card. */
+#activeDemandCard #demandHint{display:none!important}
+#distanceRecoveryCard{display:none!important}
+.v274-demand-state #activeDemandCard{padding-top:8px!important;padding-bottom:8px!important;min-height:40px!important}
+@media(max-width:380px){.controls.compact-filters{gap:6px!important}.controls .compact-filter-btn{padding:7px 6px!important;font-size:11px!important}.supplemental-scope{margin-left:14px;margin-right:14px}}
+</style>
+<style id="s01-inline-filter-compact-location-v2">
+/* Compact location + search into one row, without merging their actions. */
+.location-context.location-search-combined{display:block!important;margin-top:7px!important;margin-bottom:1px!important;border:0!important;background:transparent!important;overflow:visible!important}
+.location-inline-row{display:flex;align-items:stretch;gap:7px;min-width:0;min-height:44px;max-height:44px}
+.location-unified-box{display:flex;align-items:center;flex:1;min-width:0;height:44px;border:1px solid #E1E5DF;border-radius:12px;background:#FFF;overflow:hidden;box-shadow:0 2px 9px rgba(26,59,36,.035)}
+.location-search-combined .current-location{flex:0 1 43%;max-width:43%;height:44px!important;min-height:0!important;max-height:44px!important;min-width:0!important;padding:0 5px 0 9px!important;border:0!important;box-shadow:none!important;background:transparent!important;border-radius:0!important;gap:3px!important;display:flex!important;align-items:center!important}
+.location-search-combined .current-location .pin{position:relative!important;width:19px!important;height:19px!important;flex:0 0 19px!important;min-width:19px!important;border-radius:6px!important;background:#F1F7F3!important;box-shadow:none!important} .location-search-combined .current-location .pin:before{left:6px!important;top:4px!important;width:7px!important;height:7px!important}.location-search-combined .current-location .pin:after{left:9px!important;top:7px!important}
+.location-search-combined .current-location .loc{font-size:12px!important;line-height:17px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:650!important;color:#273E32}
+.location-search-combined .current-location .change{font-size:11px!important;color:#6C8372!important;flex-shrink:0}
+.location-unified-divider{flex:0 0 1px;height:19px;background:#E5E9E4}
+.location-search-combined .location-search-entry{flex:1;min-width:0;width:auto!important;margin:0!important;padding:0 5px 0 8px!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;height:100%!important;gap:4px!important}
+.location-search-combined .location-search-entry .search-ico{font-size:17px;color:#78857D}
+.location-search-combined .location-search-entry .placeholder{font-size:10.5px!important;color:#9AA39D;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.location-inline-row .travel-pill{flex:0 0 auto;max-width:73px!important;height:44px!important;padding:0 7px!important;font-size:10px!important;font-weight:650!important;border-radius:12px!important}
+/* Filter sequence: sorting / radius / amenities; every panel opens directly under the bar. */
+.toolbar{position:relative!important;display:block!important;z-index:13;margin-top:6px!important;margin-bottom:0!important}
+.controls.compact-filters{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.controls .compact-filter-btn{height:38px!important;min-height:38px!important}
+.toolbar .inline-filter-sheet{display:none!important;position:absolute!important;top:calc(100% + 5px)!important;left:0!important;right:0!important;width:100%!important;height:auto!important;max-height:min(64vh,490px)!important;overflow-y:auto!important;margin:0!important;padding:0!important;border:1px solid #E2E8E1!important;border-radius:14px!important;background:#FFF!important;box-shadow:0 16px 32px rgba(30,49,35,.16)!important;z-index:31!important;inset-block-end:auto!important;align-items:stretch!important;transform:none!important}
+.toolbar .inline-filter-sheet.show{display:block!important}
+.toolbar .inline-filter-sheet .sheet.compact-sheet{position:static!important;transform:none!important;display:block!important;max-height:none!important;min-height:0!important;height:auto!important;overflow:visible!important;padding:12px 14px 14px!important;margin:0!important;background:#FFF!important;border:0!important;border-radius:14px!important;box-shadow:none!important}
+.toolbar .inline-filter-sheet .handle{display:none!important}
+.toolbar .inline-filter-sheet h3{font-size:13px!important;line-height:19px!important;margin:0 0 9px!important}
+.toolbar .inline-filter-sheet .quick-distance-option{min-height:40px!important}
+.toolbar .inline-filter-sheet .quick-sort-option{min-height:44px!important;padding:10px 3px!important}
+.toolbar #filterSheet .filter-title{margin:2px 0 10px!important}
+.toolbar #filterSheet .apply{margin-top:5px!important;min-height:42px!important}
+.location-context.location-search-combined{position:relative!important;z-index:14!important}
+.location-context #locationSheet,.location-context #travelSheet{display:none!important;position:absolute!important;top:calc(100% + 5px)!important;left:0!important;right:0!important;width:100%!important;height:auto!important;max-height:min(64vh,490px)!important;overflow-y:auto!important;margin:0!important;padding:0!important;border:1px solid #E2E8E1!important;border-radius:14px!important;background:#FFF!important;box-shadow:0 16px 32px rgba(30,49,35,.16)!important;z-index:31!important;inset-block-end:auto!important;align-items:stretch!important;transform:none!important}
+.location-context #locationSheet.show,.location-context #travelSheet.show{display:block!important}
+.location-context #locationSheet .sheet.compact-sheet,.location-context #travelSheet .sheet.compact-sheet{position:static!important;transform:none!important;display:block!important;max-height:none!important;min-height:0!important;height:auto!important;overflow:visible!important;padding:12px 14px 14px!important;margin:0!important;background:#FFF!important;border:0!important;border-radius:14px!important;box-shadow:none!important}
+.location-context #locationSheet h3,.location-context #travelSheet h3{font-size:13px!important;line-height:19px!important;margin:0 0 9px!important}
+.location-context #locationSheet .option,.location-context #travelSheet .option{padding:10px 4px!important;min-height:40px!important}
+.store-demo-tags{display:flex;align-items:center;gap:5px;min-width:0;width:100%;white-space:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;margin-top:5px}
+.store-demo-tags::-webkit-scrollbar{display:none}
+.store-demo-tags .tag{flex:0 0 auto;white-space:nowrap;border-radius:5px;background:#EEF5F0;color:#37694E;padding:2px 5px;font-size:10px;line-height:15px}
+
+@media(max-width:380px){.location-context.location-search-combined{margin-left:12px!important;margin-right:12px!important}.location-inline-row{gap:6px}.location-inline-row .travel-pill{max-width:63px!important;padding:0 5px!important;font-size:9px!important}.location-search-combined .current-location{flex-basis:43%;max-width:43%;padding-left:6px!important}.location-search-combined .current-location .loc{font-size:11px!important}.location-search-combined .location-search-entry{padding-left:5px!important}.location-search-combined .location-search-entry .placeholder{font-size:10px!important}.controls .compact-filter-btn{padding:7px 5px!important}}
+</style>
+<style id="china-native-store-photos-v1">
+/* Native image nodes improve fallback/accessibility. Existing background mapping remains as a fallback. */
+.store-photo.cn-store-photo{position:relative}
+.store-photo.cn-store-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;border-radius:inherit}
+.store-photo.cn-store-photo:after{content:"仓储环境";letter-spacing:0}
+.store-photo.cn-store-photo img:not([src]){display:none}
+</style>
+<link rel="stylesheet" href="mini_koala_miniprogram_ui_system_v1.css" data-ui-system="v1"/>
+<link rel="stylesheet" href="mk-v3-tokens.css" data-ui-system="v3"/>
+<link rel="stylesheet" href="mk-v3-components.css" data-ui-system="v3"/>
+<link rel="stylesheet" href="mk-v3-page-s01.css" data-ui-system="v3"/><link rel="stylesheet" href="mk-uxb-store-filter-and-card.css" data-ui-system="ux-patch-b"/>
+<script src="mk-v3-s01-tags.js" defer></script>
+<link rel="stylesheet" href="mk-v3-help-entry.css" data-ui-system="v3"/>
+<script src="mk-v3-help-entry.js" defer></script>
+<link rel="stylesheet" href="mini_koala_confirmed_ux_v1.css"><link rel="stylesheet" href="mk-v3-find-unit-content-batch-a.css" data-ui-system="vis06c-batch-a">
+<script src="mini_koala_location_permission_demo_v1.js"></script>
+<script src="mini_koala_store_activity_demo_v1.js"></script><script src="mk-uxb-common-store-tags.js"></script>
+<link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+<link rel="stylesheet" href="mk-uxc-main-tabbar.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="demo_price01_b1_discovery_contract.css" data-price-patch="demo-price-01-b1">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-uxc-nav koala-ui-v1 koala-s01" data-ux-patch-d2="v1">
+<div class="review">
+<span class="label">评审状态（非用户端）</span>
+<button class="stagechip" data-state="unlocated">未定位</button>
+<button class="stagechip active" data-state="browse">普通浏览</button>
+<button class="stagechip" data-state="estimated">已估算需求</button>
+<button class="stagechip" data-state="nomatch">无完全匹配</button>
+<button class="stagechip" data-state="extended">扩大范围</button>
+<button class="stagechip" data-state="far">远距离挽回</button>
+</div>
+<div class="shell">
+<div class="page" id="page">
+<div class="header">
+<div class="ghost"></div>
+<h1>附近门店</h1>
+<div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div>
+</div>
+<div class="location-context location-search-combined">
+  <div class="location-inline-row">
+    <div class="location-unified-box" role="group" aria-label="找仓位置及搜索">
+      <button type="button" class="current-location" id="locationBar" aria-label="修改找仓位置" aria-controls="locationSheet" aria-expanded="false">
+        <span class="pin" aria-hidden="true">📍</span>
+        <span class="loc" id="locationText">北京 · 国贸附近</span>
+        <span class="change" aria-hidden="true">⌄</span>
+      </button>
+      <span class="location-unified-divider" aria-hidden="true"></span>
+      <button type="button" class="location-search-entry" id="locationSearchEntry" aria-label="搜索小区、商圈或门店" aria-controls="locationSheet" aria-expanded="false">
+        <span class="search-ico" aria-hidden="true">⌕</span>
+        <span class="placeholder">搜索小区、商圈或门店</span>
+      </button>
+    </div>
+    <button type="button" class="travel-pill" id="travelBtn" aria-controls="travelSheet" aria-expanded="false">🚗 驾车 ▾</button>
+  </div>
+  <div class="sheet-mask inline-filter-sheet" id="locationSheet">
+    <div class="sheet compact-sheet" role="group" aria-label="找仓位置与门店搜索">
+      <h3>搜索门店或选择位置</h3>
+      <div class="searchbox"><input id="locationSearchInput" placeholder="输入门店名称或热门位置"/><button id="locationSearchBtn">搜索</button></div>
+      <div class="location-sheet-hint">门店名称可直接打开；位置用于重新计算到店时间。</div>
+      <div class="option" data-location="guomao">📍 使用我的当前位置 <span>北京 · 国贸附近</span></div>
+      <div class="filter-title">最近搜索</div>
+      <div class="location-chip-row" id="recentLocations"><button class="location-chip" data-location="wangjing">望京SOHO</button><button class="location-chip" data-location="shuangjing">双井</button></div>
+      <div class="filter-title">热门位置</div>
+      <div class="location-chip-row"><button class="location-chip" data-location="guomao">国贸</button><button class="location-chip" data-location="wangjing">望京</button><button class="location-chip" data-location="shuangjing">双井</button><button class="location-chip" data-location="sanyuanqiao">三元桥</button><button class="location-chip" data-location="zhongguancun">中关村</button></div>
+    </div>
+  </div>
+  <div class="sheet-mask inline-filter-sheet" id="travelSheet">
+    <div class="sheet compact-sheet" role="group" aria-label="到店方式"><h3>到店方式</h3>
+      <div class="option active" data-travel="drive">🚗 驾车 <span>更适合携带物品到店</span></div>
+      <div class="option" data-travel="bike">🚲 骑行 <span>查看骑行时间</span></div>
+      <div class="option" data-travel="walk">🚶 步行 <span>查看步行时间</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="demand state-demand hidden" id="activeDemandCard" aria-label="当前找仓需求">
+<div>
+<b id="demandSummary">用仓需求：4.5–5.5m³ · 6个月</b><br/>
+<span id="demandHint">当前选择将用于筛选门店与仓位</span>
+</div>
+<button type="button" class="edit" id="editDemand">修改需求</button>
+</div>
+<div class="recommendation-summary state-demand hidden" id="recommendationSummary" style="display:none">
+<div class="rs-title">已按当前需求综合推荐</div>
+<div class="rs-copy" id="recommendationWhy">优先考虑空间匹配，再综合比较到店时间与当前租期价格。</div>
+<div class="rs-points"><span>空间匹配优先</span><span>附近门店优先</span><span>价格按租期计算</span></div>
+</div><div class="coverage-strip">
+<div>
+<b id="localCoverageTitle">北京共 201 家门店 · 支持跨区域选择</b>
+<span id="localCoverageDesc">不按行政区限制，按当前到店方式比较更合适的门店</span>
+</div>
+<em id="coverageLink">全市分布 ›</em>
+</div>
+<div class="estimate-strip state-browse" id="estimateStrip" role="button" tabindex="0" aria-label="估算空间或立即匹配当前用仓需求">
+<div><b id="browseStripTitle">不确定需要多大空间？</b><span id="browseStripDesc"></span></div>
+<div class="go" id="browseStripAction">立即估算 ›</div>
+</div>
+
+<div class="notice state-nomatch hidden">
+<b id="nomatchTitle">更多可考虑的存储方案</b>
+<span id="nomatchBody">已为您展示当前更合适的可租方案。</span>
+</div>
+<div class="distance-recovery hidden" id="distanceRecoveryCard">
+<div class="eyebrow">推荐范围已更新</div>
+<h3 id="distanceRecoveryTitle">已为您展示当前更合适的可租方案</h3>
+<p id="distanceRecoveryDesc">以下结果按空间匹配和距离综合排序。</p>
+</div>
+<div class="loc-empty state-unlocated hidden">
+<div class="pin">📍</div>
+<h2>选择找仓位置后，更容易找到合适门店</h2>
+<p>可以使用当前位置，也可以搜索小区、商圈或地址。选好位置后，会按不同到店方式的时间帮您排序。</p>
+<button id="useLocation">使用当前位置</button>
+<div class="search" id="searchLocation">搜索门店或热门位置 ›</div>
+</div>
+<div id="locatedContent">
+<div class="toolbar" aria-label="门店筛选和排序">
+<div class="controls compact-filters">
+<button type="button" class="compact-filter-btn" id="sortFilterBtn" aria-controls="sortFilterSheet" aria-expanded="false"><span class="filter-current" id="sortFilterValue">推荐排序</span><span class="filter-chevron" aria-hidden="true">⌄</span></button>
+<button type="button" class="compact-filter-btn" id="distanceFilterBtn" aria-controls="distanceFilterSheet" aria-expanded="false"><span class="filter-current" id="distanceFilterValue">不限距离</span><span class="filter-chevron" aria-hidden="true">⌄</span></button>
+<button type="button" class="compact-filter-btn" id="filterBtn" aria-controls="filterSheet" aria-expanded="false"><span class="filter-current" id="serviceFilterValue">服务筛选</span><span class="filter-chevron" aria-hidden="true">⌄</span></button>
+<div class="legacy-filter-inputs" aria-hidden="true">
+<label class="filter-select" aria-label="排序方式"><select id="sortSelect" tabindex="-1"><option value="distance">距离最近</option><option value="price">价格较低</option></select></label>
+<label class="filter-select distance-filter" aria-label="距离筛选"><select id="distanceSelect" tabindex="-1"><option value="any" data-distance-km="any">不限距离</option><option value="3" data-distance-km="3">3公里内</option><option value="5" data-distance-km="5">5公里内</option><option value="10" data-distance-km="10">10公里内</option></select></label>
+</div>
+</div>
+<div class="quick-store-filters" role="group" aria-label="快捷筛选"><button type="button" data-quick="special" aria-pressed="false">特价仓</button><button type="button" data-quick="moving" aria-pressed="false">送搬运</button><button type="button" data-quick="single" aria-pressed="false">只看单仓</button></div>
+<div class="sheet-mask inline-filter-sheet" id="distanceFilterSheet">
+<div class="sheet compact-sheet" role="group" aria-label="距离范围">
+<div class="handle"></div>
+<h3>距离范围</h3>
+<div class="quick-distance-grid" role="group" aria-label="选择找仓距离">
+<button type="button" class="quick-distance-option" data-distance-choice="any">不限距离</button>
+<button type="button" class="quick-distance-option" data-distance-choice="3">3公里内</button>
+<button type="button" class="quick-distance-option" data-distance-choice="5">5公里内</button>
+<button type="button" class="quick-distance-option" data-distance-choice="10">10公里内</button>
+</div>
+</div>
+</div>
+<div class="sheet-mask inline-filter-sheet" id="sortFilterSheet">
+<div class="sheet compact-sheet" role="group" aria-label="排序方式">
+<div class="handle"></div>
+<h3>排序方式</h3>
+<div class="quick-sort-list" role="radiogroup" aria-label="选择排序方式">
+<button type="button" class="quick-sort-option sort-recommended hidden" role="radio" data-sort-choice="recommended">推荐排序 <span class="selected-mark" aria-hidden="true">✓</span></button>
+<button type="button" class="quick-sort-option" role="radio" data-sort-choice="distance">距离最近 <span class="selected-mark" aria-hidden="true">✓</span></button>
+<button type="button" class="quick-sort-option" role="radio" data-sort-choice="price">价格从低到高 <span class="selected-mark" aria-hidden="true">✓</span></button>
+</div>
+</div>
+</div>
+<div class="sheet-mask inline-filter-sheet" id="filterSheet">
+<div class="sheet compact-sheet" role="group" aria-label="服务筛选">
+<div class="handle"></div>
+<h3>服务筛选</h3>
+<div class="filter-title">服务条件</div>
+<div class="pills multi" data-group="service">
+<button class="pill" data-value="24h">24小时存取</button>
+<button class="pill" data-value="freight">大件进出</button>
+<button class="pill" data-value="elevator">电梯直达</button>
+<button class="pill" data-value="parking">停车便利</button>
+</div>
+<button class="apply" id="applyFilter">查看门店</button>
+</div>
+</div>
+</div>
+<div id="fallbackScopeLabel" hidden class="supplemental-scope" role="status"><b>附近其他可选门店</b><span>以下为当前筛选条件外的补充选择，原筛选未改变</span></div>
+<div class="list" id="storeList"></div>
+<div class="moreline" id="loadMore">继续加载更多门店 ›</div>
+<div class="inventory-secondary hidden" id="inventorySecondary">
+    <div class="inventory-secondary-head"><div><h3 id="inventorySecondaryTitle">附近其他门店</h3><p id="inventorySecondaryDesc">不可用库存与正常推荐结果分开显示</p></div></div>
+  <div class="inventory-status-list" id="inventoryStatusList"></div>
+</div>
+</div>
+</div>
+<div class="tabbar">
+<div class="tab" id="tabHome"><div class="ico">⌂</div><div>首页</div></div>
+<div class="tab" id="tabFind"><div class="ico">⌕</div><div>找仓</div></div>
+<div class="tab active" id="tabStores"><div class="ico">▦</div><div>门店</div></div>
+<div class="tab" id="tabMine"><div class="ico">◉</div><div>我的</div></div>
+</div>
+<div class="sheet-mask" id="requirementSheet">
+<div class="sheet">
+<div class="handle"></div>
+<h3>修改找仓需求</h3>
+<p class="sheet-intro">直接调整空间和租期，确认后在本页重新匹配门店与仓位。</p>
+<div class="filter-title">空间大小</div>
+<div class="filter-tip">物品发生变化时，可重新估算。</div>
+<div class="size-stepper">
+<button id="sizeMinus">−</button>
+<div class="size-display">
+<b id="sizeValue">5.0m³</b>
+<span id="sizeRange">推荐范围 4.5–5.5m³</span>
+</div>
+<button id="sizePlus">＋</button>
+</div>
+<div class="filter-title">租期</div>
+<div class="term-grid">
+<button class="term-option" data-term="1">1个月<small>7.5折</small></button>
+<button class="term-option" data-term="3">3个月<small>7.5折</small></button>
+<button class="term-option" data-term="6">6个月<small>7折</small></button>
+<button class="term-option" data-term="12">12个月<small>6.5折</small></button>
+<button class="term-option" data-term="24">2年<small>6折</small></button>
+<button class="term-option" data-term="36">3年<small>6折</small></button>
+<button class="term-option" data-term="60">5年<small>5.5折</small></button>
+</div>
+<div class="term-custom" id="termCustom">
+<div class="term-custom-label">其他租期（1–60个月任意整数月）</div>
+<div class="term-stepper">
+<button aria-label="减少一个月" id="termMinus" type="button">−</button>
+<input aria-label="直接输入租期月份" id="termInput" inputmode="numeric" max="60" min="1" placeholder="直接填写月份" step="1" type="number" value="6"/>
+<button aria-label="增加一个月" id="termPlus" type="button">＋</button>
+</div>
+<div class="term-human" id="termHuman">6个月</div>
+</div>
+<div class="requirement-preview" id="requirementPreview">确认后将按 5.0m³、6个月重新推荐附近门店。</div>
+<button class="apply" id="applyRequirement">重新查看门店</button>
+<div class="deep-estimate" id="deepEstimate">存的东西变了？重新估算需要多大 ›</div>
+</div>
+</div>
+<div class="lead-mask" id="leadMask">
+<div class="lead-sheet">
+<div class="lead-handle"></div>
+<h3 id="leadModalTitle">顾问协助</h3>
+<div class="lead-sheet-desc" id="leadModalDesc">会带上您已经填写的需求，不需要重新描述。</div>
+<button class="lead-wx" id="leadWxBtn">使用微信手机号快捷获取</button>
+<div class="lead-or">或手动填写</div>
+<div class="lead-phone-row">
+<input id="leadPhoneInput" inputmode="tel" placeholder="手机号"/>
+<button id="leadPhoneSubmit">确认</button>
+</div>
+<button class="lead-skip" id="leadSkipBtn">暂不需要，继续自己看</button>
+<div class="lead-note">授权后仅用于本次咨询和后续服务联系，已确认的手机号不会重复索取。</div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+</div>
+<script src="mini_storage_business_ssot_v274.js"></script>
+<script src="../data/mini_koala_data.js"></script><script src="mini_storage_prepay_qa_facts.js"></script><script src="mini_koala_recommendation_policy_v2.js"></script>
+<script src="mini_storage_unit_master_v1.js"></script>
+<script src="mini_koala_physical_fit_v1.js"></script>
+<script src="mini_koala_combo_match_v1.js"></script>
+<script src="mini_storage_requirement_recommendation_v274.js"></script><script src="mini_storage_requirement_continuity_v1.js"></script>
+<script src="mini_storage_sales_share_v1.js"></script>
+<script>
+
+const LEAD_PHONE_KEY='mini_storage_lead_phone';
+const LEAD_CONTEXT_KEY='mini_storage_lead_context';
+let leadPending=null;
+function leadStorageGet(k){try{return localStorage.getItem(k)||''}catch(e){return window['__'+k]||''}}
+function leadStorageSet(k,v){try{localStorage.setItem(k,v)}catch(e){window['__'+k]=v}}
+function leadPhone(){return leadStorageGet(LEAD_PHONE_KEY)}
+function maskPhone(v){return v&&v.length>=7?`${v.slice(0,3)}****${v.slice(-4)}`:v}
+function leadSave(phone,node,context={}){
+  leadStorageSet(LEAD_PHONE_KEY,phone);
+  leadStorageSet(LEAD_CONTEXT_KEY,JSON.stringify({phone_capture_node:node,captured_at:new Date().toISOString(),...context}));
+}
+function leadClose(){const m=document.querySelector('#leadMask');if(m)m.classList.remove('show')}
+function openLeadCapture(cfg={}){
+  if(leadPhone()){if(cfg.onSuccess)cfg.onSuccess(leadPhone());return}
+  leadPending=cfg;
+  document.querySelector('#leadModalTitle').textContent=cfg.title||'顾问协助';
+  document.querySelector('#leadModalDesc').textContent=cfg.desc||'会带上您已经填写的需求，不需要重新描述。';
+  document.querySelector('#leadSkipBtn').style.display=cfg.allowSkip===false?'none':'block';
+  document.querySelector('#leadPhoneInput').value='';
+  document.querySelector('#leadMask').classList.add('show');
+}
+function finishLeadCapture(phone){
+  const digits=String(phone||'').replace(/\D/g,'');
+  if(digits.length<7){if(typeof toast==='function')toast('请检查手机号');return}
+  const cfg=leadPending||{};
+  leadSave(digits,cfg.node||'UNKNOWN',cfg.context||{});
+  leadClose();
+  if(typeof toast==='function')toast('已保存手机号，后续无需重复填写');
+  const cb=cfg.onSuccess;leadPending=null;
+  if(cb)cb(digits);
+}
+document.querySelector('#leadWxBtn')?.addEventListener('click',()=>finishLeadCapture('13800138000'));
+document.querySelector('#leadPhoneSubmit')?.addEventListener('click',()=>finishLeadCapture(document.querySelector('#leadPhoneInput').value));
+document.querySelector('#leadSkipBtn')?.addEventListener('click',()=>{const cfg=leadPending||{};leadClose();leadPending=null;if(cfg.onSkip)cfg.onSkip()});
+document.querySelector('#leadMask')?.addEventListener('click',e=>{if(e.target.id==='leadMask' && (!leadPending || leadPending.allowSkip!==false))leadClose()});
+
+
+const BUSINESS_HELPERS=window.MINI_STORAGE_BUSINESS_HELPERS_V274;
+const TERM_RULES=window.MINI_STORAGE_MASTER_V222.pricing.term_rules;
+function clampTerm(v){return BUSINESS_HELPERS.clampTerm(v)}
+function termFactor60(m){
+  return BUSINESS_HELPERS.termFactor(m);
+}
+function termDiscountLabel(m){return `${Math.round(termFactor60(m)*100)/10}折`}
+function termHuman(m){
+  m=clampTerm(m);
+  if(m<12)return `${m}个月`;
+  const y=Math.floor(m/12),mo=m%12;
+  return mo?`${m}个月（${y}年${mo}个月）`:`${m}个月（${y}年）`;
+}
+function nextPriceBreakpoint(m){
+  m=clampTerm(m);
+  return [3,6,12,24,36,60].find(x=>x>m)||null;
+}
+const PRICING_MODEL_VERSION=window.MINI_STORAGE_MASTER_V222.pricing.model_version;
+const UNIT_PRICE_MASTER=window.MINI_KOALA_DATA.getLegacyUnits('jianguo');
+const STORE_PRICE_MULTIPLIER=window.MINI_STORAGE_MASTER_V222.pricing.store_multipliers;
+function closestPriceUnit(volume){const v=Math.max(.5,Number(volume)||.5);return [...UNIT_PRICE_MASTER].sort((a,b)=>Math.abs(a.v-v)-Math.abs(b.v-v)||a.base-b.base)[0]}
+function storeAdjustedBase(base,store='jianguo'){return Number(base||0)}
+function pricingContractFromBase(base,months,store='jianguo'){return BUSINESS_HELPERS.contractRent(Number(base||0),months,store)}
+function pricingMonthlyFromBase(base,months,store='jianguo'){return BUSINESS_HELPERS.monthlyReference(Number(base||0),months,store)}
+function pricingPreviewForVolume(volume,months,store='jianguo'){const u=closestPriceUnit(volume);return {pricing_model_version:PRICING_MODEL_VERSION,unit_id:u.id,unit_volume:u.v,term_months:clampTerm(months),monthly_price:pricingMonthlyFromBase(u.base,months,store),rent_total:pricingContractFromBase(u.base,months,store)}}
+
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let state='browse';
+let travelMode='drive';
+let sortMode='recommended';
+let distancePreference='any';
+let browseDistanceKm='any';
+let targetVolume=5.0;
+let termMonths=6;
+let searchLocation='guomao';
+let leadRoute='none';
+let leadReason='';
+let leadTcv=0;
+let customerType='';
+let accessFrequency='unknown';
+let aiEstimate=false;
+let aiMin=0;
+let aiMax=0;
+let inventoryScenario='';
+let demoSoldoutStoreId=''; // scoped page-to-page demo override; never mutates inventory SSOT
+const INVENTORY_DEMO_SOLDOUT_STORE_ID='MK_BJ_F2215896';
+const STORE_PAGE_SIZE=8;
+let visibleStoreCount=STORE_PAGE_SIZE;
+const TRANSPORT_KEY='mini_storage_transport_promo_current';
+
+const homeFile='mini_storage_home_H01_Visual_V2_7_4_SSOT.html';
+const estimatorFile='space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html';
+const s02File='mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html';
+const viewingFile='mini_storage_viewing_v01_v1_14_self_service_synced.html';
+
+const m01File='mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html';
+const b01File='mini_storage_brand_b01_v1_10_self_service_synced_Visual_V2_7_4.html';
+const REQUIREMENT_KEY='mini_storage_requirement_current';
+function navGet(k){try{return localStorage.getItem(k)||''}catch(e){return window['__'+k]||''}}
+function navSet(k,v){try{localStorage.setItem(k,v)}catch(e){window['__'+k]=v}}
+function currentRequirement(){
+  try{const r=JSON.parse(navGet(REQUIREMENT_KEY)||'{}');return r&&r.target_volume?r:null}catch(e){return null}
+}
+function markRequirementSelection(storeId,unitId,source){
+  const r=currentRequirement();
+  if(!r)return;
+  const unit=unitId?window.MINI_KOALA_DATA.getLegacyUnits(storeId).find(item=>item.id===unitId):null;
+  navSet(REQUIREMENT_KEY,JSON.stringify({...r,selected_store_id:storeId||'',selected_size_option_id:unit?.size_option_id||'',selected_representative_unit_no:unit?.representative_unit_no||unitId||'',selected_actual_unit_id:null,selected_unit_id:null,selection_source:source||'S01',inventory_identity_type:unit?'SIZE_OPTION':'STORE_ONLY',updated_at:new Date().toISOString()}));
+}
+function needsMovingSupport(){return currentRequirement()?.moving_support==='need'}
+function s01ValidTerm(v){const H=window.MINI_STORAGE_BUSINESS_HELPERS_V274;return H&&H.validTerm?H.validTerm(v):(/^(?:[1-9]|[1-5][0-9]|60)$/.test(String(v??'').trim())?Number(v):null)}
+function termRequiredEstimatorUrl(r,source){
+  const q=new URLSearchParams({entry:'known',knownSize:Number(r.target_volume).toFixed(1),requireTerm:'1',source});
+  if(r.customer_type)q.set('customer',r.customer_type);if(r.size_mode)q.set('knownMode',r.size_mode);
+  return estimatorFile+'?'+q.toString();
+}
+function goFindTab(){
+  const r=currentRequirement();
+  if(!r){location.href=estimatorFile;return}
+  // H01-007-S1 D-03: never substitute a 1-month term for a saved requirement that has none.
+  if(!s01ValidTerm(r.term_months)){location.href=termRequiredEstimatorUrl(r,'bottom_find_term_required');return}
+  const q=new URLSearchParams({knownSize:Number(r.target_volume).toFixed(1),term:String(s01ValidTerm(r.term_months)),knownMode:r.size_mode||'about',entry:'resume_requirement',source:'bottom_find'});
+  if(r.customer_type)q.set('customer',r.customer_type);
+  location.href=estimatorFile+`?${q.toString()}`
+}
+function goBrowseStores(source='bottom_store'){
+  const r=currentRequirement();const q=new URLSearchParams({state:r?'estimated':'browse',entry:r?'resume_requirement':'browse_nearby',source,travel:travelMode||'drive'});
+  window.MINI_KOALA_REQUIREMENT_CONTINUITY_V1.append(q,r);
+  location.href=location.pathname.split('/').pop()+`?${q.toString()}`
+}
+function saveCurrentRequirement(){
+  let prev={};try{prev=JSON.parse(navGet(REQUIREMENT_KEY)||'{}')}catch(e){}
+  const sameTarget=Math.abs(Number(prev.target_volume)-targetVolume)<.05;
+  navSet(REQUIREMENT_KEY,JSON.stringify({
+    ...prev,requirement_id:prev.requirement_id||('R'+Date.now().toString().slice(-8)),
+    target_volume:targetVolume,min_volume:requirementRange().min,max_volume:requirementRange().max,size_mode:sameTarget?(prev.size_mode||'about'):'about',
+    term_months:termMonths,pricing_model_version:PRICING_MODEL_VERSION,pricing_preview:pricingPreviewForVolume(targetVolume,termMonths,'jianguo'),customer_type:customerType||prev.customer_type||'',scene:prev.scene||'',
+    travel_mode:travelMode||'drive',access_frequency:accessFrequency||prev.access_frequency||'unknown',
+    item_summary:prev.item_summary||'',has_oversize:Boolean(prev.has_oversize),moving_support:prev.moving_support||'unknown',
+    search_origin_key:searchLocation,search_origin_label:locationNames[searchLocation]||prev.search_origin_label||'',
+    source:aiEstimate?'AI_PHOTO_ESTIMATOR':'S01',updated_at:new Date().toISOString()
+  }))
+}
+
+
+const locationNames=window.MINI_STORAGE_MASTER_V222.location_names;
+// The location picker in this demo currently supports Beijing places only.
+// Always limit entity stores to that city before applying sorting or filters.
+const ACTIVE_STORE_CITY='北京市';
+
+function demoServicesFor(profile,index){
+  const services=['24h','freight'];
+  if(profile.storage_type!=='社区仓'||index%2===0)services.push('elevator');
+  if(profile.storage_type==='超级仓'||index%3!==1)services.push('parking');
+  return services
+}
+const stores=Object.fromEntries(window.MINI_KOALA_DATA.stores.map((profile,index)=>[profile.store_id,{
+  id:profile.store_id,name:profile.store_name,area:`${profile.district} · ${profile.community||profile.city}`,community:profile.community||'',
+  city:profile.city,district:profile.district,address:profile.address,
+  range:window.MINI_KOALA_DATA.sizeRangeText(profile.size_min,profile.size_max),
+  availableCount:profile.available_unit_count,storageType:profile.storage_type,
+  typeTag:profile.storage_type==='社区仓'?'社区仓':'超级仓',
+  features:`${profile.storage_type} · ${profile.available_unit_count}个可租仓位`,photo:'仓内环境',services:demoServicesFor(profile,index)
+}]));
+
+// 异常状态使用独立的演示库存与路线快照，不复用正常列表来“假装无匹配”。
+const EXCEPTION_STATE_DATA={
+  nomatch:{location:'demo_nomatch',ids:['chaoyang','wangjing','sanyuanqiao'],sizes:{chaoyang:[4.1,6.2],wangjing:[4.0,6.4],sanyuanqiao:[3.8,6.6]}},
+  extended:{location:'demo_extended',ids:['sanyuanqiao','wangjing','chaoyang'],sizes:{sanyuanqiao:[4.8,5.6],wangjing:[4.7,5.5],chaoyang:[5.0,5.7]}},
+  far:{location:'demo_far',ids:['chaoyang','wangjing','sanyuanqiao'],sizes:{chaoyang:[4.9,5.7],wangjing:[4.8,5.6],sanyuanqiao:[5.1,5.8]}}
+};
+
+function inventoryStatusForStore(id){
+  const st=stores[id];
+  if(!st)return 'UNKNOWN';
+  // A sold-out store carried from S02 must remain sold out on re-entry.
+  if(demoSoldoutStoreId===id)return 'SOLD_OUT';
+  const scenario=(inventoryScenario==='soldout' && id===INVENTORY_DEMO_SOLDOUT_STORE_ID)?'soldout':'';
+  const fullMaster=window.MINI_STORAGE_UNIT_MASTER_V1?.getStoreSummary(id,scenario);
+  if(fullMaster)return fullMaster.status;
+  return Number(st.availableCount||0)>0?'AVAILABLE':'SOLD_OUT';
+}
+function isStoreAvailable(id){return inventoryStatusForStore(id)==='AVAILABLE'}
+function passesServiceFilters(id){
+  const services=$$('#filterSheet [data-group="service"] .pill.active').map(x=>x.dataset.value);
+  return !services.length||services.every(service=>stores[id]?.services?.includes(service));
+}
+function passesBrowseDistance(id){return window.MINI_KOALA_PHASE2.withinDistance(routeFor(id).km,browseDistanceKm)}
+function unavailableStoreCard(id,status){
+  const st=stores[id],r=routeFor(id),tm=travelMeta();
+  const sold=status==='SOLD_OUT';
+  const label=sold?'已售罄':'查看其他空间';
+  const note=sold?'可查看其他可租门店。':'本店有其他容量可供比较。';
+  return `<div class="inventory-status-card" data-id="${id}" data-status="${status}"><div class="inventory-status-main"><div class="inventory-status-name">${st.name} · ${st.community||st.district||''}</div><div class="inventory-status-meta">${tm.label}约 ${r.m} 分钟 · ${r.km.toFixed(1)}km</div></div><span class="inventory-status-label${sold?'':' no-match'}">${label}</span><div class="inventory-status-note">${note}</div></div>`;
+}
+function renderInventorySecondary(){
+  const wrap=$('#inventorySecondary'),list=$('#inventoryStatusList');
+  if(!wrap||!list)return;
+  const all=Object.keys(stores).filter(id=>stores[id]?.city==='北京市'&&passesOtherStoreContext(id)&&passesServiceFilters(id)&&passesBrowseDistance(id));
+  const sold=all.filter(id=>inventoryStatusForStore(id)==='SOLD_OUT').sort((a,b)=>routeFor(a).m-routeFor(b).m);
+  let rows=[];
+  if(state==='browse'){
+    $('#inventorySecondaryTitle').textContent='附近其他门店';
+    $('#inventorySecondaryDesc').textContent='这些门店当前已售罄';
+    rows=sold.slice(0,3).map(id=>unavailableStoreCard(id,'SOLD_OUT'));
+  }else if(['estimated','extended','far'].includes(state) && !window.__s01ZeroMatch){
+    const noMatch=all.filter(id=>isStoreAvailable(id)&&!matchedDataFor(id).hasMatch).sort((a,b)=>routeFor(a).m-routeFor(b).m);
+    $('#inventorySecondaryTitle').textContent='附近其他可比较门店';
+    $('#inventorySecondaryDesc').textContent='其他门店及容量方案';
+    rows=[...noMatch.slice(0,3).map(id=>unavailableStoreCard(id,'NO_MATCH')),...sold.slice(0,2).map(id=>unavailableStoreCard(id,'SOLD_OUT'))];
+  }
+  // Keep the original sold-out store visible even in a zero-match recovery.
+  if(demoSoldoutStoreId && sold.includes(demoSoldoutStoreId) &&
+      !rows.some(row=>row.includes(`data-id="${demoSoldoutStoreId}"`))) {
+    rows.unshift(unavailableStoreCard(demoSoldoutStoreId,'SOLD_OUT'));
+  }
+  list.innerHTML=rows.join('');
+  // A carried sold-out store stays visible as an explicitly unavailable card.
+  wrap.classList.toggle('hidden',!(((inventoryScenario==='soldout'&&state==='browse')||demoSoldoutStoreId)&&rows.length>0));
+  $$('#inventoryStatusList .inventory-status-card').forEach(card=>card.onclick=()=>{
+    const id=card.dataset.id,status=card.dataset.status,r=routeFor(id);
+    const p=new URLSearchParams({store:id,travel:travelMode,searchMin:String(r.m),searchKm:String(r.km),searchOriginKey:searchLocation,fromS01State:state,source:'s01_inventory_status'});
+    carryOtherStoreContext(p);
+    if(status==='SOLD_OUT'){
+      const withDemand=['estimated','extended','far','nomatch'].includes(state)&&termMonths>0;
+      p.set('state',withDemand?'nomatch':'browse');p.set('inventoryStatus','soldout');
+      if(withDemand){p.set('target',targetVolume.toFixed(1));p.set('term',String(termMonths));p.set('selectionContext','estimate_recommendation')}
+      if(inventoryScenario==='soldout')p.set('inventoryScenario','soldout');
+    }
+    else {p.set('state','nomatch');p.set('target',targetVolume.toFixed(1));p.set('term',String(termMonths));}
+    p.set('sort',sortMode);p.set('distance',String(browseDistanceKm));p.set('services',$$('#filterSheet [data-group="service"] .pill.active').map(x=>x.dataset.value).filter(Boolean).join(','));
+    if(demoSoldoutStoreId)p.set('soldoutStore',demoSoldoutStoreId);
+    if(inventoryStatusForStore(id)==='SOLD_OUT')p.set('inventoryStatus','soldout');
+    location.href=s02File+`?${p.toString()}`;
+  });
+}
+
+const routeBase=window.MINI_STORAGE_MASTER_V222.route_base;
+
+function routeFor(id){return window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.routeFor(id,searchLocation,travelMode)}
+
+// Only the explicit U01 "other stores" list excludes the originating store.
+// Compare canonical IDs, never display names; invalid IDs must not resolve to a fallback store.
+function passesOtherStoreContext(id,params=qp){
+  if(params.get('source')!=='u01_other_stores')return true;
+  const D=window.MINI_KOALA_DATA;
+  const excluded=D.legacyAliases[params.get('excludeStore')]||params.get('excludeStore');
+  if(!excluded||!D.stores.some(store=>store.store_id===excluded))return true;
+  return (D.legacyAliases[id]||id)!==excluded;
+}
+function carryOtherStoreContext(params){
+  if(entrySource==='u01_other_stores'&&qp.get('excludeStore')){
+    params.set('otherStoresSource','u01_other_stores');
+    params.set('excludeStore',qp.get('excludeStore'));
+  }
+}
+
+function travelMeta(){
+  return travelMode==='drive'?{icon:'🚗',label:'驾车'}:travelMode==='bike'?{icon:'🚲',label:'骑行'}:{icon:'🚶',label:'步行'}
+}
+function toast(msg){
+  const t=$('#toast');t.textContent=msg;t.style.display='block';
+  clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1700)
+}
+let requirementDraftOrigin=null;
+let serviceDraftOrigin=null;
+function openSheet(id){
+  const sheet=$(id);
+  const isInline=sheet.classList.contains('inline-filter-sheet');
+  const wasOpen=sheet.classList.contains('show');
+  $$('.inline-filter-sheet.show').forEach(open=>closeSheet(open));
+  if(isInline&&wasOpen)return;
+  if(!isInline)$$('.inline-filter-sheet.show').forEach(open=>closeSheet(open));
+  if(id==='#filterSheet')serviceDraftOrigin=$$('#filterSheet [data-group="service"] .pill.active').map(x=>x.dataset.value);
+  if(id==='#requirementSheet')requirementDraftOrigin={targetVolume,termMonths};
+  $$('.compact-filter-btn').forEach(btn=>btn.setAttribute('aria-expanded',String(btn.getAttribute('aria-controls')===id.slice(1))));
+  $$('#locationBar,#locationSearchEntry').forEach(btn=>btn.setAttribute('aria-expanded',String(id==='#locationSheet')));
+  $('#travelBtn').setAttribute('aria-expanded',String(id==='#travelSheet'));
+  sheet.classList.add('show');
+}
+function closeSheet(el,commit=false){
+  if(el.id==='filterSheet'&&serviceDraftOrigin){
+    if(!commit)$$('#filterSheet [data-group="service"] .pill').forEach(x=>x.classList.toggle('active',serviceDraftOrigin.includes(x.dataset.value)));
+    serviceDraftOrigin=null;
+  }
+  $$('.compact-filter-btn').forEach(btn=>btn.setAttribute('aria-expanded','false'));
+  if(el.id==='locationSheet')$$('#locationBar,#locationSearchEntry').forEach(btn=>btn.setAttribute('aria-expanded','false'));
+  if(el.id==='travelSheet')$('#travelBtn').setAttribute('aria-expanded','false');
+  if(el.id==='requirementSheet'&&requirementDraftOrigin){
+    if(!commit){targetVolume=requirementDraftOrigin.targetVolume;termMonths=requirementDraftOrigin.termMonths;renderRequirement();}
+    requirementDraftOrigin=null;
+  }
+  el.classList.remove('show');
+}
+$$('.sheet-mask').forEach(mask=>mask.onclick=e=>{if(e.target===mask)closeSheet(mask)});
+document.addEventListener('pointerdown',e=>{
+  if(!e.target.closest('.toolbar,.location-context'))$$('.inline-filter-sheet.show').forEach(mask=>closeSheet(mask));
+});
+
+function requirementRange(){
+  if(aiEstimate&&aiMin>0&&aiMax>=aiMin)return {min:aiMin,max:aiMax};
+  const r=currentRequirement();
+  const current=r && Number(r.target_volume)>0 && Math.abs(Number(r.target_volume)-targetVolume)<.05;
+  if(current && r.size_mode==='atleast' && Number(r.min_volume)>0)return {min:Number(Number(r.min_volume).toFixed(1)),max:Infinity};
+  if(current && r.size_mode==='within' && Number(r.max_volume)>0)return {min:0,max:Number(Number(r.max_volume).toFixed(1))};
+  if(current && Number(r.min_volume)>0 && Number(r.max_volume)>0){
+    return {min:Number(Number(r.min_volume).toFixed(1)),max:Number(Number(r.max_volume).toFixed(1))};
+  }
+  return {min:Number(Math.max(.5,targetVolume*.90).toFixed(1)),max:Number((targetVolume*1.16).toFixed(1))};
+}
+function userVolumeText(v){return Number.isFinite(v)?String(Number(v.toFixed(1))):''}
+
+function renderRequirement(){
+  document.querySelector('.demand').classList.toggle('has-ai-source',aiEstimate);
+  const rg=requirementRange();
+  const saved=currentRequirement();
+  const mode=saved&&Math.abs(Number(saved.target_volume)-targetVolume)<.05?saved.size_mode||'about':'about';
+  $('#demandSummary').textContent=aiEstimate?`AI已估算：约 ${rg.min.toFixed(0)}–${rg.max.toFixed(0)}m³`:mode==='atleast'?`用仓需求：至少 ${rg.min.toFixed(1)}m³ · ${termHuman(termMonths)}`:mode==='within'?`用仓需求：不超过 ${rg.max.toFixed(1)}m³ · ${termHuman(termMonths)}`:`用仓需求：${userVolumeText(rg.min)}–${userVolumeText(rg.max)}m³ · ${termHuman(termMonths)}`;
+  $('#demandHint').textContent='';
+  $('#sizeValue').textContent=`${targetVolume.toFixed(1)}m³`;
+  $('#sizeRange').textContent=mode==='atleast'?`空间下限 ${rg.min.toFixed(1)}m³`:mode==='within'?`空间上限 ${rg.max.toFixed(1)}m³`:`推荐范围 ${userVolumeText(rg.min)}–${userVolumeText(rg.max)}m³`;
+  $$('.term-option').forEach(x=>x.classList.toggle('active',Number(x.dataset.term)===termMonths));
+  $('#termCustom')?.classList.toggle('custom-active',![1,3,6,12,24,36,60].includes(termMonths));
+  if($('#termInput')) $('#termInput').value=termMonths;
+  if($('#termHuman')) $('#termHuman').textContent=`${termHuman(termMonths)} · 当前折扣 ${Math.round(termFactor60(termMonths)*100)/10}折`;
+  if($('#requirementPreview')) $('#requirementPreview').textContent=`确认后将按 ${targetVolume.toFixed(1)}m³、${termHuman(termMonths)}重新推荐附近门店。`;
+  if($('#recommendationWhy')) $('#recommendationWhy').textContent=`优先匹配 ${rg.max===Infinity?`${rg.min.toFixed(1)}m³以上`:rg.min===0?`${rg.max.toFixed(1)}m³以内`:`${userVolumeText(rg.min)}–${userVolumeText(rg.max)}m³`} 的可租仓位，再综合比较到店时间与${termHuman(termMonths)}价格。`;
+}
+function distancePreferenceText(){
+  if(distancePreference==='15') return '15分钟左右优先';
+  if(distancePreference==='30') return '30分钟左右优先';
+  return '距离偏好';
+}
+function distancePrefGroup(id){
+  if(distancePreference==='any') return 0;
+  return routeFor(id).m<=Number(distancePreference)?0:1
+}
+function distanceOverNote(id){
+  return '';
+}
+
+const QUICK_STORE_FILTER_KEY='mini_koala_quick_store_filters_v1';
+const quickStoreFilters=new Set();
+try{JSON.parse(sessionStorage.getItem(QUICK_STORE_FILTER_KEY)||'[]').forEach(k=>{if(['special','moving','single'].includes(k))quickStoreFilters.add(k)})}catch(e){}
+// Deterministic activity fixtures, separate from stock and the production pricing source.
+function demoActivityFor(id){return window.MINI_KOALA_STORE_ACTIVITY_DEMO.forStore(id)}
+function passesQuickFilters(id){
+  const a=demoActivityFor(id),d=currentData(id);
+  if(quickStoreFilters.has('moving')&&!a.moving)return false;
+  if(quickStoreFilters.has('special')&&!(d?d.hasMatch:a.specialUnitIds.size>0))return false;
+  if(quickStoreFilters.has('single')&&d&&!d.matchedUnits.length)return false;
+  return true;
+}
+function matchedDataFor(id){
+  const r=requirementRange();
+  const req=typeof currentRequirement==='function'?(currentRequirement()||{}):{};
+  const fitItems=Math.abs(Number(req.target_volume)-targetVolume)<.05?(req.item_constraints||[]):[];
+  const row=window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.evaluateStore(id,{min:r.min,max:r.max,target:targetVolume,term:termMonths,origin:searchLocation,travel:travelMode,items:fitItems});
+  if(!row)return {badge:'暂无可租仓型',sizes:'-',price:0,total:0,unitId:'',hasMatch:false,matchedCount:0,availableMatchedCount:0,matchedUnits:[]};
+  // Count currently available physical spaces; size ranges count distinct matching capacity options.
+  const matchedUnits=(row.matchedUnits||[]).filter(u=>Number(u.available_count)>0 && Number(u.base)>0&&(!quickStoreFilters.has('special')||demoActivityFor(id).specialUnitIds.has(u.id)));
+  const matchedCapacityCount=matchedUnits.length;
+  const matchedAvailableCount=matchedUnits.reduce((sum,u)=>sum+Math.max(0,Number(u.available_count)||0),0);
+  const matchedVolumes=matchedUnits.map(u=>Number(u.v)).filter(Number.isFinite).sort((a,b)=>a-b);
+  const formatCapacity=v=>`${v.toFixed(1)}m³`;
+  const matchedSizeText=matchedVolumes.length>1 && matchedVolumes[0]!==matchedVolumes[matchedVolumes.length-1]
+    ? `${matchedVolumes[0].toFixed(1)}～${formatCapacity(matchedVolumes[matchedVolumes.length-1])}`
+    : matchedVolumes.length?formatCapacity(matchedVolumes[0]):window.MINI_KOALA_DATA.sizeText(row.unit.v);
+  const validTerm=Number.isInteger(Number(termMonths))&&Number(termMonths)>=1&&Number(termMonths)<=60;
+  const cheapestTotal=validTerm?(matchedUnits.length
+    ? Math.min(...matchedUnits.map(unit=>pricingContractFromBase(unit.base,termMonths,id)).filter(v=>Number.isFinite(v)&&v>0))
+    : Number(row.total)):null;
+  const combo=quickStoreFilters.has('single')||quickStoreFilters.has('special')?null:row.combo||null;
+  const hasMatch=matchedCapacityCount>0||Boolean(combo);
+  const alternativeEligible=!hasMatch&&!quickStoreFilters.has('single')&&!quickStoreFilters.has('special')&&Boolean(row.alternativeEligible);
+  return {badge:combo?'组合仓位':hasMatch?'容量可选':alternativeEligible?'相近容量':'当前容量暂无匹配',sizes:combo?`${combo.capacity.toFixed(1)} m³（${combo.count}间）`:alternativeEligible||hasMatch?matchedSizeText:(row.profile?.size_min!=null&&row.profile?.size_max!=null&&window.MINI_KOALA_DATA.sizeRangeText?window.MINI_KOALA_DATA.sizeRangeText(row.profile.size_min,row.profile.size_max):matchedSizeText),
+    price:hasMatch||alternativeEligible?row.monthly:null,
+    total:hasMatch||alternativeEligible?(combo?combo.total:validTerm&&Number.isFinite(cheapestTotal)?cheapestTotal:null):null,
+    unitId:matchedUnits.length?matchedUnits.slice().sort((a,b)=>a.base-b.base)[0].id:hasMatch||alternativeEligible?row.unit.id:'',hasMatch,alternativeEligible,
+    combo,fitStatus:row.fitStatus,matchType:combo?'combo':matchedUnits.length?'single':row.matchType,matchedCount:matchedCapacityCount,availableMatchedCount:matchedAvailableCount,matchedUnits,
+    hint:hasMatch?`${matchedSizeText} · 可查看匹配仓位`:alternativeEligible?`${matchedSizeText} · 可比较容量`: '本店暂无符合当前需求的容量'};
+}
+function nomatchDataFor(id){
+  const d=matchedDataFor(id);
+  const first=window.MINI_KOALA_DATA.getLegacyUnits(id).find(u=>u.id===d.unitId)||{v:targetVolume};
+  const sizeTradeoff=d.hasMatch?'落在需求范围内':d.alternativeEligible?(first.v<requirementRange().min?'容量略小':'容量略大'):'当前需求无法匹配';
+  return {...d,hint:d.alternativeEligible||d.hasMatch?`${d.sizes} · ${sizeTradeoff}`:sizeTradeoff,
+    badge:d.hasMatch?'有符合需求的仓位':d.alternativeEligible?'相近容量可比较':'当前需求无匹配'}
+}
+function currentData(id){
+  if(['estimated','extended','far'].includes(state)) return matchedDataFor(id);
+  if(state==='nomatch') return nomatchDataFor(id);
+  return null;
+}
+function cardPrice(id){
+  // With a confirmed need, rank the actual matching unit's full-term quote,
+  // never a per-month estimate or a store-wide cheapest capacity.
+  const d=currentData(id);
+  if(!['browse','unlocated'].includes(state))return Number.isFinite(Number(d?.total))&&Number(d.total)>0?Number(d.total):Infinity;
+  return browseUnitPrice(id);
+}
+
+function browseUnitPrice(id){
+  if(quickStoreFilters.has('special')){const a=demoActivityFor(id);const eligible=window.MINI_KOALA_DATA.getLegacyUnits(id).filter(u=>a.specialUnitIds.has(u.id));return eligible.length?Math.round(Math.min(...eligible.map(u=>Number(u.base)/Number(u.v)))*Number(window.MINI_KOALA_DATA.homeDefaultDisplayDiscountFactor||.65)):Infinity}
+  const raw=Number(window.MINI_KOALA_DATA.storeUnitPriceFrom(id));
+  const factor=Number(window.MINI_KOALA_DATA.homeDefaultDisplayDiscountFactor||.65);
+  return raw>0?Math.round(raw*factor):Infinity
+}
+function storeBrowsePriceRange(storeId){
+  const unit=[...window.MINI_KOALA_DATA.getLegacyUnits(storeId)].sort((a,b)=>a.v-b.v||Number(a.base||0)-Number(b.base||0))[0];
+  return {unit,low:window.MINI_KOALA_DATA.positivePrice(unit),high:window.MINI_KOALA_DATA.positivePrice(unit),minTerm:1,maxTerm:60}
+}
+
+function wideDistanceNoStoreFallback(ids){
+  const km=Number(browseDistanceKm);
+  return state==='browse' && Number.isFinite(km) && km>5 && ids.length===0;
+}
+
+function openS01Estore(){
+  const context={target_volume:state==='browse'?null:targetVolume,term_months:state==='browse'?null:termMonths,usage_location:locationNames[searchLocation]||'',search_origin_key:searchLocation,source:'S01_ESTORE'};
+  window.MINI_KOALA_PHASE2.estore({context,request:details=>{const done=()=>window.MINI_KOALA_PHASE2.estoreSaved(details);if(leadPhone()){done();return;}openLeadCapture({node:'ESTORE_DEMO',title:'咨询E存方案',desc:'仅保存咨询演示记录，当前不会发送给顾问。',allowSkip:true,context:details,onSuccess:done});}});
+}
+
+function makeEStoreListCard({fallbackFirst=false}={}){
+  return `<div class="estore-list-card${fallbackFirst?' fallback-first':''}" id="estoreListCard" data-card-kind="ESTORE">
+    <div class="estore-list-kicker">${fallbackFirst?'另一种存储方式':'另一种存储方式'}</div>
+    <div class="estore-list-title-row"><div class="estore-list-title">考拉E存</div><span class="estore-list-badge">不限门店</span></div>
+    <div class="estore-list-desc">按需存储 · 上门取送</div>
+    <div class="estore-list-points"><span>服务范围需确认</span><span>空间0浪费</span><span>全程RFID物品追踪</span></div>
+    <div class="estore-list-foot"><span class="estore-list-note">适合希望享受上门取送服务的存储需求</span><span class="estore-list-link">了解考拉E存 ›</span></div>
+  </div>`;
+}
+function browseListHtml(ids){
+  const storeCards=ids.map(makeCard);
+  if(!storeCards.length)return wideDistanceNoStoreFallback(ids)?makeEStoreListCard({fallbackFirst:true}):'';
+  if(sortMode==='recommended')storeCards.splice(window.__s01EstoreFirst?0:Math.min(2,storeCards.length),0,makeEStoreListCard({fallbackFirst:window.__s01EstoreFirst}));
+  return storeCards.join('');
+}
+
+function recoveryValue(id,d){
+  return '';
+}
+function storeDemoTags(id){
+  return window.MINI_KOALA_UXB_TAGS.forStore(id,demoActivityFor(id));
+}
+
+// Only five demo-mapped warehouse environment photos are verified as assets.
+// Their physical store identities are not independently verified; avoid a store-specific image claim.
+const CN_STORE_ENVIRONMENT_PHOTOS=Object.freeze({
+  MK_BJ_E56D0702:'../assets/real_store_demo/v1/MK_BJ_E56D0702/list_thumb.webp',
+  MK_BJ_E68EC5FF:'../assets/real_store_demo/v1/MK_BJ_E68EC5FF/list_thumb.webp',
+  MK_BJ_04547515:'../assets/real_store_demo/v1/MK_BJ_04547515/list_thumb.webp',
+  MK_BJ_2CDB7BEE:'../assets/real_store_demo/v1/MK_BJ_2CDB7BEE/list_thumb.webp',
+  MK_BJ_9A80090D:'../assets/real_store_demo/v1/MK_BJ_9A80090D/list_thumb.webp'
+});
+function cnStorePhotoHtml(id){
+  const image=CN_STORE_ENVIRONMENT_PHOTOS[id];
+  return image
+    ? `<div class="store-photo cn-store-photo"><img loading="lazy" decoding="async" src="${image}" alt="迷你考拉仓仓储环境照片"><span aria-hidden="true">▧</span><small>门店环境</small></div>`
+    : '<div class="store-photo"><span aria-hidden="true">▧</span><small>门店环境</small></div>';
+}
+function makeCard(id,index=0){
+  const st=stores[id], r=routeFor(id), d=currentData(id), tm=travelMeta();
+  const route=state==='unlocated'?'选择用仓位置后可查看距离':`${tm.icon} ${tm.label}约 <b>${r.m} 分钟</b> · ${r.km.toFixed(1)}km`;
+  const hasDemand=!['browse','unlocated'].includes(state);
+  const hasMatch=Boolean(d?.hasMatch);
+  const matchedSpaces=hasMatch?Math.max(0,Number(d.availableMatchedCount)||0):0;
+  const comboMatch=hasDemand&&d?.matchType==='combo';
+  const reasonableAlternative=Boolean(d?.alternativeEligible);
+  const highlight=typeof window==='object'?(window.__s01Highlights?.[id]||''):'';
+  // The same photo/name/route/two-fact card is used before and after estimation.
+  // Only the inventory facts and the unit of price switch with a confirmed requirement.
+  const availability=hasDemand
+    ? `<div class="fact availabilityfact">
+         <div class="browse-stock-line"><span>${comboMatch?'组合仓位':'匹配仓位'}</span><strong class="${!comboMatch&&hasMatch&&matchedSpaces<=2?'stock-alert':''}">${comboMatch?'1个':matchedSpaces+'个'}</strong></div>
+         <div class="sub">${comboMatch?'组合容量 ·':hasMatch?'仓体容量':reasonableAlternative?'相近仓体容量':'门店仓型范围'} ${d?.sizes||'—'}</div>
+       </div>`
+    : `<div class="fact availabilityfact">
+         <div class="browse-stock-line"><span>剩余仓位</span><strong>${st.availableCount}个</strong></div>
+         <div class="sub">仓体容量 ${st.range.replace('–','～')}</div>
+       </div>`;
+  const price=hasDemand
+    ? `<div class="fact pricefact">
+         <div class="label">${hasMatch||reasonableAlternative?`整期租金 · ${termMonths}个月`:'当前需求报价'}</div>
+         <div class="value contract-price"><span class="price-number">${(hasMatch||reasonableAlternative)&&Number.isFinite(d?.total)&&d.total>0?`${Number(d.total).toLocaleString('zh-CN')}元`:'暂无匹配报价'}</span>${(hasMatch||reasonableAlternative)&&Number.isFinite(d?.total)&&d.total>0?'<span class="price-start">起</span>':''}</div>
+       </div>`
+    : (()=>{const unitPrice=browseUnitPrice(id);return `<div class="fact pricefact">
+         <div class="label">参考单价</div>
+         <div class="value browse-unit-price"><span class="price-number">${Number.isFinite(unitPrice)?unitPrice:'—'}元</span><span class="price-unit">/月/m³</span><span class="price-start">起</span></div>
+       </div>`})();
+  return `<div class="store${hasDemand?' demand-card':''}${highlight?' uxb-highlighted':''}" data-id="${id}" role="link" tabindex="0" aria-label="查看${st.name}${hasDemand?(hasMatch?'匹配仓位':reasonableAlternative?'相近容量':'其他仓型'):'可租空间'}">
+    ${highlight?`<span class="uxb-card-rank" aria-label="${highlight}">${highlight}</span>`:''}
+    <div class="store-head">
+      ${cnStorePhotoHtml(id)}
+      <div class="store-main">
+        <div class="store-title-line"><div class="name">${st.name}<span class="badge">${st.typeTag}</span>${hasDemand&&index===0&&(hasMatch||reasonableAlternative)?'<span class="badge">推荐</span>':''}</div></div>
+        <div class="area">${st.area}</div>
+        <div class="route">${route}</div>
+        <div class="store-demo-tags" aria-label="门店标签">${storeDemoTags(id).map(tag=>`<span class="tag">${tag}</span>`).join('')}</div>
+        ${distanceOverNote(id)}
+        ${recoveryValue(id,d)}
+        <div class="features">${st.features}</div>
+      </div>
+    </div>
+    <div class="store-facts">${availability}${price}</div>
+  </div>`;
+}
+function baseOrder(){
+  let ids=EXCEPTION_STATE_DATA[state]?.ids?[...EXCEPTION_STATE_DATA[state].ids]:Object.keys(stores);
+  // City is an eligibility condition, not a priority in an all-city price sort.
+  // Resolve legacy aliases as well as canonical store IDs for exception demos.
+  ids=ids.filter(id=>window.MINI_KOALA_DATA.getStore(id)?.city===ACTIVE_STORE_CITY&&passesOtherStoreContext(id));
+
+  if(['browse','unlocated'].includes(state)&&sortMode==='recommended'){
+    ids=ids.sort((a,b)=>routeFor(a).km-routeFor(b).km);
+  }else if(state==='browse'&&sortMode==='distance'){
+    ids=ids.sort((a,b)=>routeFor(a).km-routeFor(b).km||routeFor(a).m-routeFor(b).m||stores[a].name.localeCompare(stores[b].name,'zh-CN'));
+  }else if(['estimated','extended','far'].includes(state) && sortMode==='recommended'){
+    const rr=requirementRange();
+    const shared=window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.recommend({min:rr.min,max:rr.max,target:targetVolume,term:termMonths,origin:searchLocation,travel:travelMode,city:'北京市',items:(Math.abs(Number(currentRequirement()?.target_volume)-targetVolume)<.05?(currentRequirement()?.item_constraints||[]):[])});
+    const rankedIds=shared.rows.map(row=>row.storeId).filter(id=>ids.includes(id));
+    const used=new Set(rankedIds);
+    ids=[...rankedIds,...ids.filter(id=>!used.has(id)).sort((a,b)=>routeFor(a).m-routeFor(b).m||cardPrice(a)-cardPrice(b))];
+  }else if(sortMode==='price'){
+    ids=ids.sort((a,b)=>(state==='browse'?browseUnitPrice(a)-browseUnitPrice(b):cardPrice(a)-cardPrice(b))||routeFor(a).m-routeFor(b).m);
+  }else if(sortMode==='distance'){
+    ids=ids.sort((a,b)=>routeFor(a).km-routeFor(b).km||routeFor(a).m-routeFor(b).m);
+  }else{
+    // Mock match-first order: closest among reasonably matched candidates, with price tie-break.
+    ids=ids.sort((a,b)=>{
+      const ga=distancePrefGroup(a), gb=distancePrefGroup(b);
+      if(ga!==gb) return ga-gb;
+      const da=currentData(a), db=currentData(b);
+      const fitA=Math.abs(parseFloat(da.sizes)-targetVolume);
+      const fitB=Math.abs(parseFloat(db.sizes)-targetVolume);
+      if(Math.abs(fitA-fitB)>0.15) return fitA-fitB;
+      return routeFor(a).m-routeFor(b).m || cardPrice(a)-cardPrice(b)
+    });
+  }
+
+  if(state!=='browse' && distancePreference!=='any' && sortMode!=='recommended'){
+    ids=ids
+      .map((id,index)=>({id,index,group:distancePrefGroup(id)}))
+      .sort((a,b)=>a.group-b.group||a.index-b.index)
+      .map(x=>x.id)
+  }
+  // Estimated recommendation states must contain actual matched inventory only.
+  // When the city has zero exact matches we keep the existing explicit recovery flow.
+  if(['estimated','extended','far'].includes(state)){
+    const rr=requirementRange();
+    const shared=window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.recommend({min:rr.min,max:rr.max,target:targetVolume,term:termMonths,origin:searchLocation,travel:travelMode,city:'北京市',items:(Math.abs(Number(currentRequirement()?.target_volume)-targetVolume)<.05?(currentRequirement()?.item_constraints||[]):[])});
+    if(shared && !shared.fallback){
+      const matchedIds=new Set(shared.matchedRows.map(row=>row.storeId));
+      ids=ids.filter(id=>matchedIds.has(id));
+    }
+  }
+  ids=ids.filter(id=>inventoryStatusForStore(id)==='AVAILABLE');
+  return ids;
+}
+function filteredOrder(){
+  let ids=baseOrder().filter(passesQuickFilters);
+  const services=$$('#filterSheet [data-group="service"] .pill.active').map(x=>x.dataset.value);
+  if(services.length)ids=ids.filter(id=>services.every(service=>stores[id].services.includes(service)));
+  if(browseDistanceKm!=='any') ids=ids.filter(id=>routeFor(id).km<=Number(browseDistanceKm));
+  if(sortMode==='recommended'){
+    const demand=!['browse','unlocated'].includes(state);
+    const ranked=window.MINI_KOALA_RECOMMENDATION_POLICY_V2.rank(ids.map(id=>({id,route:routeFor(id),price:demand?cardPrice(id):browseUnitPrice(id),count:stores[id].availableCount,matchType:demand?matchedDataFor(id).matchType:'single'})),{located:state!=='unlocated'&&!['unknown','denied','failed','locating'].includes(qp.get('loc')),demand,distanceLimit:browseDistanceKm==='any'?null:Number(browseDistanceKm)});
+    window.__s01EstoreFirst=ranked.estoreFirst;ids=ranked.rows.map(row=>row.id);
+  }else window.__s01EstoreFirst=false;
+  window.__s01Highlights=Object.create(null);
+  if(sortMode==='recommended' && state!=='unlocated' && ids.length>0){
+    const scopeKm=browseDistanceKm==='any'?null:Number(browseDistanceKm);
+    const display=window.MINI_KOALA_RECOMMENDATION_POLICY_V2.highlightRanked(ids.map(id=>({id,route:routeFor(id),price:state==='browse'?browseUnitPrice(id):cardPrice(id)})),{radius:3,maxRadius:scopeKm});
+    ids=display.rows.map(row=>row.id);
+    window.__s01Highlights=display.highlights;
+  }
+  return ids;
+}
+
+function renderSortSheet(){
+  const select=$('#sortSelect');
+  if(!select)return;
+  const needsRecommended=true;
+  select.innerHTML=(needsRecommended?'<option value="recommended">推荐排序</option>':'')+'<option value="distance">距离最近</option><option value="price">价格较低</option>';
+  if(!['recommended','distance','price'].includes(sortMode)||(sortMode==='recommended'&&!needsRecommended))sortMode='distance';
+  select.querySelector('option[value="price"]').textContent=!['browse','unlocated'].includes(state)?'整期租金较低':'每月每立方米单价较低';
+  select.value=sortMode;
+  const labels={recommended:'推荐排序',distance:'距离最近',price:'低价优先'};
+  $('#sortFilterValue').textContent=labels[sortMode];
+  $('#sortFilterBtn').classList.toggle('active',sortMode==='price');
+  $('.sort-recommended').classList.toggle('hidden',!needsRecommended);
+  $$('.quick-sort-option').forEach(btn=>btn.setAttribute('aria-checked',String(btn.dataset.sortChoice===sortMode)));
+}
+function renderTravelSheet(){
+  $$('#travelSheet .option').forEach(o=>o.classList.toggle('active',o.dataset.travel===travelMode));
+}
+function renderDistanceSheet(){
+  const select=$('#distanceSelect');if(select)select.value=String(browseDistanceKm);
+  const labels={any:'不限距离','3':'3公里内','5':'5公里内','10':'10公里内'};
+  $('#distanceFilterValue').textContent=labels[String(browseDistanceKm)]||'不限距离';
+  $('#distanceFilterBtn').classList.toggle('active',browseDistanceKm!=='any');
+  $$('.quick-distance-option').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.distanceChoice===String(browseDistanceKm))));
+}
+
+function openStoreDetail(id){
+  const r=routeFor(id);
+  const selected=['browse','unlocated'].includes(state)?{unitId:'',hasMatch:false}:matchedDataFor(id);
+  if(typeof markRequirementSelection==='function')markRequirementSelection(id,selected?.unitId||'',state==='browse'?'S01_BROWSE':'S01_ESTIMATE_RECOMMENDATION');
+  const p=new URLSearchParams({store:id,travel:travelMode,lead:leadRoute||'none',searchMin:String(r.m),searchKm:String(r.km),searchOrigin:locationNames[searchLocation]||'当前找仓位置',searchOriginKey:searchLocation,fromS01State:state,routeSource:window.MINI_STORAGE_MASTER_V222.route_source,access:accessFrequency||'unknown'});
+  carryOtherStoreContext(p);
+  if(quickStoreFilters.has('special'))p.set('activity','special');if(quickStoreFilters.has('moving'))p.set('movingActivity','1');
+  if(leadReason)p.set('leadReason',leadReason);
+  if(leadTcv>0)p.set('leadTcv',String(leadTcv));
+  if(customerType)p.set('customer',customerType);
+  if(['browse','unlocated'].includes(state)){
+    p.set('state','browse');if(state==='unlocated'){p.set('loc','unknown');p.delete('searchKm');p.delete('searchMin');p.delete('searchOriginKey');p.delete('searchOrigin')}
+  }else if(['estimated','extended','far'].includes(state)){
+    p.set('state',(window.__s01ZeroMatch||!selected.hasMatch)?'nomatch':'matched');
+    p.set('target',targetVolume.toFixed(1));
+    p.set('term',String(termMonths));
+    p.set('distanceState',state);
+    p.set('selectionContext','estimate_recommendation');
+    if(typeof aiEstimate!=='undefined'&&aiEstimate){p.set('ai','1');p.set('min',aiMin.toFixed(1));p.set('max',aiMax.toFixed(1));p.set('source','ai_estimator')}
+  }else{
+    p.set('state',state==='nomatch'&&selected.hasMatch?'matched':'nomatch');
+    if(state==='nomatch')p.set('demo','exception');
+    p.set('target',targetVolume.toFixed(1));
+    p.set('term',String(termMonths));
+    p.set('distanceState','nomatch');
+    p.set('selectionContext','nomatch_recovery');
+  }
+  p.set('sort',sortMode);p.set('distance',String(browseDistanceKm));p.set('services',$$('#filterSheet [data-group="service"] .pill.active').map(x=>x.dataset.value).filter(Boolean).join(','));
+  p.set('loaded',String(visibleStoreCount));p.set('scroll',String($('#page').scrollTop||0)); // H01-007-S4 D-02: list state S02 hands back on return
+  if(demoSoldoutStoreId)p.set('soldoutStore',demoSoldoutStoreId);
+  if(inventoryStatusForStore(id)==='SOLD_OUT')p.set('inventoryStatus','soldout');
+  if(window.MINI_STORAGE_SALES_SHARE?.enabled){window.MINI_STORAGE_SALES_SHARE.append(p);p.set('shareType','store')}
+  window.location.href=s02File+`?${p.toString()}`;
+}
+
+function openStoreViewing(id){
+  const q=new URLSearchParams({source:'S01',scope:'STORE',store:id,term:String(termMonths)});
+  if(['estimated','nomatch','extended','far'].includes(state)) q.set('target',targetVolume.toFixed(1));
+  if(customerType) q.set('customer',customerType);
+  if(window.MINI_STORAGE_SALES_SHARE?.enabled){window.MINI_STORAGE_SALES_SHARE.append(q);q.set('shareType','viewing')}
+  window.location.href=viewingFile+`?${q.toString()}`;
+}
+
+
+function renderS01Lead(){ /* V2.7.4.2: normal-list advisor card removed; exception actions remain. */ }
+
+
+function currentSharedRecommendation(){
+  if(!['estimated','extended','far','nomatch'].includes(state)) return null;
+  const rr=requirementRange();
+  return window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.recommend({min:rr.min,max:rr.max,target:targetVolume,term:termMonths,origin:searchLocation,travel:travelMode,city:'北京市',items:(Math.abs(Number(currentRequirement()?.target_volume)-targetVolume)<.05?(currentRequirement()?.item_constraints||[]):[])});
+}
+function zeroMatchRecoveryHtml(){
+  return `<div class="zero-match-recovery" id="zeroMatchRecovery">
+    <h3>为您推荐更多存储选择</h3>
+    <p>可以继续查看附近门店或考拉E存。</p>
+    <div class="zero-match-actions"><button id="zeroMatchAdjust">调整需求</button><button id="zeroMatchAdvisor">顾问协助</button></div>
+  </div>`;
+}
+const compactSearchPlaceholder=$('#locationSearchEntry .placeholder');
+if(compactSearchPlaceholder)compactSearchPlaceholder.textContent='搜索小区/门店';
+
+function render(){
+  document.querySelectorAll('[data-quick]').forEach(b=>{const active=quickStoreFilters.has(b.dataset.quick);b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
+  document.body.classList.toggle('v274-demand-state',['estimated','nomatch','extended','far'].includes(state));
+  document.body.classList.toggle('v274-browse-state',state==='browse');
+  renderRequirement();
+  renderS01Lead();
+
+  const unlocated=state==='unlocated';
+  $('#locatedContent').classList.toggle('hidden',unlocated);
+  $('#travelBtn').classList.toggle('hidden',unlocated);
+  const locationLabel=String(searchLocation).startsWith('demo_')?locationNames.guomao:(locationNames[searchLocation]||locationNames.guomao);
+  $('#locationText').textContent=unlocated?'选择位置':locationLabel.replace(/^北京\s*[·•]\s*/,'');
+  $('#locationBar').setAttribute('aria-label',`修改找仓位置：${unlocated?'尚未定位':locationLabel}`);
+
+  $$('.state-browse').forEach(el=>el.classList.toggle('hidden',state!=='browse'));
+  $$('.state-nomatch').forEach(el=>el.classList.toggle('hidden',state!=='nomatch'));
+  $$('.state-demand').forEach(el=>el.classList.toggle('hidden',!(['estimated','nomatch','extended','far'].includes(state))));
+  $$('.state-unlocated').forEach(el=>el.classList.toggle('hidden',state!=='unlocated'));
+  $$('.state-need-only').forEach(el=>el.classList.toggle('hidden',!(['estimated','nomatch','extended','far'].includes(state))));
+
+  if(unlocated){
+    $('#locatedContent').classList.remove('hidden');const ids=filteredOrder();
+    $('#storeList').innerHTML=ids.length?browseListHtml(ids.slice(0,visibleStoreCount)):'<div class="empty-results">暂无符合当前筛选的门店。<button id="clearQuickFilters">清除快捷筛选</button></div>'+makeEStoreListCard({fallbackFirst:true});
+    const clear=$('#clearQuickFilters');if(clear)clear.onclick=()=>{quickStoreFilters.clear();try{sessionStorage.removeItem(QUICK_STORE_FILTER_KEY)}catch(e){}render()};
+    $$('.store').forEach(c=>c.onclick=()=>openStoreDetail(c.dataset.id));const e=$('#estoreListCard');if(e)e.onclick=openS01Estore;renderSortSheet();renderDistanceSheet();$('#loadMore').classList.add('hidden');return;
+  }
+
+  const recoveryCard=$('#distanceRecoveryCard');
+  const recoveryOn=['extended','far'].includes(state)||searchLocation==='outside';
+  recoveryCard.classList.toggle('hidden',!recoveryOn);
+  if(recoveryOn){
+    navSet(TRANSPORT_KEY,JSON.stringify({distance_recovery:true,moving_support:needsMovingSupport()?'need':'unknown',promo_status:needsMovingSupport()&&termMonths>=6?'POTENTIAL':'NOT_CHECKED',term_months:termMonths,access_frequency:accessFrequency,search_origin:locationNames[searchLocation]||'',updated_at:new Date().toISOString()}));
+    const ids=filteredOrder();
+    recoveryCard.classList.toggle('hidden',ids.length===0);
+    const nearestMinutes=Math.min(...ids.map(id=>routeFor(id).m));
+    $('#distanceRecoveryTitle').textContent='已为您展示当前更合适的可租方案';
+    $('#distanceRecoveryDesc').textContent='已按当前容量、距离和费用整理可选门店。';
+  }
+
+  const tm=travelMeta();
+  $('#travelBtn').textContent=`${tm.icon} ${tm.label} ▾`;
+  const serviceCount=$$('#filterSheet [data-group="service"] .pill.active').length;
+  $('#serviceFilterValue').textContent=serviceCount?`服务 (${serviceCount})`:'服务筛选';
+  $('#filterBtn').classList.toggle('active',serviceCount>0);
+  const allIds=filteredOrder();
+  // Filter is unchanged; when it yields nothing, supplement with separate
+  // in-city, available stores without silently claiming they passed it.
+  const expandedIds=[]; // Explicit filters never inject out-of-range or out-of-service stores.
+  const shownIds=allIds.length?allIds:expandedIds;
+  const supplementalLabel=$('#fallbackScopeLabel');
+  const cityExpanded=Boolean(['estimated','extended','far'].includes(state)&&browseDistanceKm==='any'&&sortMode==='recommended'&&allIds.some(id=>matchedDataFor(id).hasMatch)&&allIds.every(id=>routeFor(id).km>3));
+  supplementalLabel.hidden=!cityExpanded;
+  if(cityExpanded){
+    supplementalLabel.querySelector('b').textContent='已扩大至全城查找';
+    supplementalLabel.querySelector('span').textContent='3公里内暂无匹配仓位，以下为北京演示门店中的可租选择。';
+  }
+  const nearestId=[...shownIds].sort((a,b)=>routeFor(a).km-routeFor(b).km||routeFor(a).m-routeFor(b).m)[0];
+  window.__s01NearestRecommendation=nearestId?{storeId:nearestId,total:Number(currentData(nearestId)?.total||0)}:null;
+  const ids=shownIds.slice(0,visibleStoreCount);
+  const sharedRecommendation=currentSharedRecommendation();
+  const zeroMatch=Boolean(sharedRecommendation&&sharedRecommendation.fallback);
+  window.__s01ZeroMatch=zeroMatch;
+  // Keep the notice aligned with the same range used by the cards. If the
+  // exception snapshot contains an in-range unit, this is no longer a true
+  // no-match result and the recovery notice must not contradict the card.
+  const nomatchHasMatch=state==='nomatch'&&allIds.some(id=>matchedDataFor(id).hasMatch);
+  $$('.state-nomatch').forEach(el=>el.classList.add('hidden')); // 无匹配信息不占据列表上方视线。
+  if(zeroMatch){$('#nomatchTitle').textContent='查看附近门店的其他仓型';$('#nomatchBody').textContent='当前需求暂无符合容量的仓位，可继续调整需求或咨询顾问。'}
+  if(state==='nomatch'&&!zeroMatch)$('#nomatchTitle').textContent='查看附近可选门店';
+
+  const estoreFallback=zeroMatch||wideDistanceNoStoreFallback(shownIds);
+  if(ids.length||estoreFallback){
+    window.__s01RecommendationBaseTotal=(['estimated','extended','far'].includes(state)&&ids[0])?Number(matchedDataFor(ids[0]).total||0):0;
+    let listHtml=browseListHtml(ids);
+    if(zeroMatch){
+      const alternativeCards=ids.slice(0,3).map((id,index)=>makeCard(id,index)).join('');
+      listHtml=zeroMatchRecoveryHtml()+makeEStoreListCard({fallbackFirst:true})+alternativeCards;
+    }
+    $('#storeList').innerHTML=listHtml;
+    if(zeroMatch){
+      $('#zeroMatchAdjust').onclick=e=>{e.stopPropagation();openSheet('#requirementSheet')};
+      $('#zeroMatchAdvisor').onclick=e=>{e.stopPropagation();openLeadCapture({node:'S01_ZERO_MATCH',title:'顾问协助比较',desc:`已带上约${targetVolume.toFixed(1)}m³、${termHuman(termMonths)}的用仓需求。`,allowSkip:true,context:{target_volume:targetVolume,term_months:termMonths,state:'nomatch'}})};
+    }
+    // Appointment is handled from the confirmed store detail page; keep list cards comparison-first.
+    $$('.store-actions .cta').forEach(btn=>btn.remove());
+    $$('.store').forEach(card=>{
+      card.onclick=()=>openStoreDetail(card.dataset.id);
+      card.onkeydown=e=>{if(e.target!==card)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();openStoreDetail(card.dataset.id)}};
+    });
+    $$('.cta').forEach(btn=>btn.onclick=e=>{
+      e.stopPropagation();
+      openStoreDetail(btn.closest('.store').dataset.id)
+    });
+    const estoreCard=$('#estoreListCard');
+    if(estoreCard) estoreCard.onclick=openS01Estore;
+  }else{
+    $('#storeList').innerHTML=`
+      <div class="empty-results">
+        可以查看更大范围的门店，或请顾问帮您挑选。
+        <br/><button id="expandDistance">扩大距离范围</button><button id="editServices">调整服务筛选</button><button id="emptyAdvisor">顾问协助</button><button id="emptyEstore">咨询E存方案</button>
+      </div>`;
+    $('#expandDistance').onclick=()=>openSheet('#distanceFilterSheet');
+    $('#editServices').onclick=()=>openSheet('#filterSheet');
+    $('#emptyAdvisor').onclick=()=>openLeadCapture({node:'S01_FILTER_EMPTY',title:'顾问协助查找',desc:'会保留当前容量、租期和筛选条件。',allowSkip:true,context:{target_volume:targetVolume,term_months:termMonths,distance:browseDistanceKm}});
+    $('#emptyEstore').onclick=openS01Estore;
+  }
+  const remaining=Math.max(0,allIds.length-visibleStoreCount);
+  $('#loadMore').textContent=remaining?`继续加载更多门店（还有 ${remaining} 家） ›`:'已显示全部门店';
+  $('#loadMore').classList.toggle('hidden',estoreFallback||zeroMatch||remaining===0);
+  renderInventorySecondary();
+  renderSortSheet();renderTravelSheet();renderDistanceSheet();
+}
+
+function resetVisibleStores(){visibleStoreCount=STORE_PAGE_SIZE}
+function setState(next){
+  state=next;
+  demoSoldoutStoreId=''; // changing the demo scenario clears the scoped override
+  resetVisibleStores();
+  sortMode='recommended';
+  distancePreference='any';
+  browseDistanceKm='any';
+  targetVolume=5.0;
+  termMonths=state==='far'?12:6;
+  if(EXCEPTION_STATE_DATA[state])searchLocation=EXCEPTION_STATE_DATA[state].location;
+  accessFrequency='unknown';
+  $$('.stagechip').forEach(ch=>ch.classList.toggle('active',ch.dataset.state===state));
+  $('#page').scrollTop=0;
+  render();
+}
+$$('.stagechip').forEach(ch=>ch.onclick=()=>setState(ch.dataset.state));
+$$('#distanceRecoveryCard [data-access]').forEach(btn=>btn.onclick=()=>{accessFrequency=btn.dataset.access;render()});
+
+
+$('#coverageLink').onclick=()=>{location.href=b01File+'?section=network&city=beijing'};
+$('#locationSearchEntry').onclick=()=>{
+  openSheet('#locationSheet');
+  setTimeout(()=>$('#locationSearchInput')?.focus(),80);
+};
+$('#locationBar').onclick=()=>openSheet('#locationSheet');
+$('#travelBtn').onclick=()=>openSheet('#travelSheet');
+$$('#travelSheet .option').forEach(o=>o.onclick=()=>{
+  travelMode=o.dataset.travel;if(currentRequirement())window.MINI_KOALA_REQUIREMENT_CONTINUITY_V1.write({travel_mode:travelMode},'S01_TRAVEL_EDIT');closeSheet($('#travelSheet'));resetVisibleStores();renderLocalCoverage();render()
+});
+
+$('#sortSelect').onchange=e=>{sortMode=e.target.value;resetVisibleStores();render()};
+$('#distanceSelect').onchange=e=>{browseDistanceKm=e.target.value||'any';resetVisibleStores();render()};
+$('#distanceFilterBtn').onclick=()=>openSheet('#distanceFilterSheet');
+$('#sortFilterBtn').onclick=()=>openSheet('#sortFilterSheet');
+$('#filterBtn').onclick=()=>openSheet('#filterSheet');
+$$('.quick-distance-option').forEach(btn=>btn.onclick=()=>{
+  $('#distanceSelect').value=btn.dataset.distanceChoice;
+  closeSheet($('#distanceFilterSheet'));
+  $('#distanceSelect').dispatchEvent(new Event('change',{bubbles:true}));
+});
+$$('.quick-sort-option').forEach(btn=>btn.onclick=()=>{
+  $('#sortSelect').value=btn.dataset.sortChoice;
+  closeSheet($('#sortFilterSheet'));
+  $('#sortSelect').dispatchEvent(new Event('change',{bubbles:true}));
+});
+$$('#filterSheet .pill').forEach(pill=>pill.onclick=()=>pill.classList.toggle('active'));
+$('#applyFilter').onclick=()=>{closeSheet($('#filterSheet'),true);resetVisibleStores();render()};
+document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;const sheet=$$('.sheet-mask.show').at(-1);if(sheet){closeSheet(sheet);const trigger=sheet.id==='locationSheet'?'#locationSearchEntry':sheet.id==='travelSheet'?'#travelBtn':sheet.id==='sortFilterSheet'?'#sortFilterBtn':sheet.id==='distanceFilterSheet'?'#distanceFilterBtn':sheet.id==='filterSheet'?'#filterBtn':'';if(trigger)$(trigger).focus()}});
+
+function estimatorReturnContext(){
+  const activeServices=$$('#filterSheet [data-group="service"] .pill.active').map(pill=>pill.dataset.value);
+  const q=new URLSearchParams({source:'store_list',returnTo:'S01',returnContextVersion:'1.5.1',returnListState:state,returnOriginKey:searchLocation,returnTravel:travelMode,returnSort:sortMode,returnDistance:String(browseDistanceKm),returnAccess:accessFrequency,returnScroll:String($('#page').scrollTop||0),returnLoaded:String(visibleStoreCount)});
+  if(activeServices.length)q.set('returnServices',activeServices.join(','));
+  if(state!=='browse'){q.set('returnTarget',String(targetVolume));q.set('returnTerm',String(termMonths));if(customerType)q.set('returnCustomer',customerType)}
+  return q;
+}
+$('#estimateStrip').onclick=()=>{
+  const r=currentRequirement();
+  if(entryMode==='browse_nearby' && r){
+    if(!s01ValidTerm(r.term_months)){location.href=termRequiredEstimatorUrl(r,'s01_browse_strip_term_required');return} // H01-007-S1 D-03
+    const q=new URLSearchParams({state:'estimated',target:Number(r.target_volume).toFixed(1),term:String(s01ValidTerm(r.term_months)),travel:r.travel_mode||'drive',entry:'resume_requirement',source:'s01_browse_strip'});
+    if(r.customer_type)q.set('customer',r.customer_type);
+    location.href=location.pathname.split('/').pop()+`?${q.toString()}`;return
+  }
+  window.location.href=estimatorFile+'?'+estimatorReturnContext().toString()
+};
+$('#estimateStrip').onkeydown=e=>{if(e.target===e.currentTarget&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.currentTarget.click()}};
+$('#editDemand').onclick=()=>openSheet('#requirementSheet');
+$('#sizeMinus').onclick=()=>{targetVolume=Math.max(.5,Number((targetVolume-0.5).toFixed(1)));renderRequirement()};
+$('#sizePlus').onclick=()=>{targetVolume=targetVolume>=200?targetVolume:Math.min(200,Number((targetVolume+0.5).toFixed(1)));renderRequirement()};
+$$('.term-option').forEach(btn=>btn.onclick=()=>{termMonths=clampTerm(btn.dataset.term);renderRequirement()});
+$('#termMinus').onclick=()=>{termMonths=clampTerm(termMonths-1);renderRequirement()};
+$('#termPlus').onclick=()=>{termMonths=clampTerm(termMonths+1);renderRequirement()};
+$('#termInput').oninput=e=>{const raw=e.target.value.trim(),n=Number(raw);if(raw&&Number.isInteger(n)&&n>=1&&n<=60){termMonths=n;$$('.term-option').forEach(x=>x.classList.toggle('active',Number(x.dataset.term)===termMonths));$('#termCustom').classList.toggle('custom-active',![1,3,6,12,24,36,60].includes(termMonths));$('#termHuman').textContent=`${termHuman(termMonths)} · 当前折扣 ${Math.round(termFactor60(termMonths)*100)/10}折`}};
+$('#termInput').onchange=e=>{termMonths=clampTerm(e.target.value);renderRequirement()};
+$('#termInput').onkeydown=e=>{if(e.key==='Enter')e.currentTarget.blur()};
+$('#applyRequirement').onclick=()=>{
+  closeSheet($('#requirementSheet'),true);sortMode='recommended';
+  saveCurrentRequirement();
+  toast('已更新需求并重新匹配附近门店');resetVisibleStores();render()
+};
+$('#deepEstimate').onclick=()=>{window.location.href=estimatorFile+'?'+estimatorReturnContext().toString()};
+
+$$('.quick-relax button').forEach(btn=>btn.onclick=()=>{
+  const type=btn.dataset.relax;
+  if(type==='farther'){distancePreference='30';resetVisibleStores();toast('已更新推荐顺序');render()}
+  if(type==='bigger'){targetVolume=Number((targetVolume+0.5).toFixed(1));resetVisibleStores();toast('已把空间需求放宽到稍大范围');render()}
+  if(type==='advisor')openLeadCapture({node:'S01_NO_MATCH',title:'顾问协助继续查找',desc:`已带上约${targetVolume.toFixed(1)}m³、${termHuman(termMonths)}和当前门店结果。`,allowSkip:true,context:{target_volume:targetVolume,term_months:termMonths,state:'nomatch'},onSuccess:()=>renderS01Lead()})
+});
+
+function requestListDemoLocation(){
+  window.MINI_KOALA_LOCATION_DEMO.request({onAllow:()=>{
+    closeSheet($('#locationSheet'));const previous=state;state='unlocated';qp.set('loc','locating');render();$('#locationText').textContent='正在获取位置…';
+    setTimeout(()=>{searchLocation='guomao';state=previous==='unlocated'?'browse':previous;qp.set('loc','precise');renderLocalCoverage();resetVisibleStores();render()},1000);
+  },onDeny:()=>{qp.set('loc','denied');state='unlocated';render()}});
+}
+$('#useLocation').onclick=requestListDemoLocation;
+$('#searchLocation').onclick=()=>openSheet('#locationSheet');
+function applySearchLocation(key,label=''){
+  searchLocation=key;
+  if(currentRequirement())window.MINI_KOALA_REQUIREMENT_CONTINUITY_V1.write({search_origin_key:key,usage_location:label||locationNames[key]||key},'S01_LOCATION_EDIT');
+  closeSheet($('#locationSheet'));
+  if(state==='unlocated') state='browse';
+  $$('#locationSheet [data-location]').forEach(x=>x.classList.toggle('current',x.dataset.location===key));
+  const name=label||locationNames[key]||'新位置';
+  toast(`已按“${name.replace('北京 · ','')}”重新计算到店时间`);
+  resetVisibleStores();
+  renderLocalCoverage();
+  render();
+}
+$$('#locationSheet [data-location]').forEach(o=>o.onclick=()=>o.classList.contains('option')&&o.dataset.location==='guomao'?requestListDemoLocation():applySearchLocation(o.dataset.location));
+function resolveLocationQuery(q){
+  if(/望京/.test(q))return 'wangjing';
+  if(/双井/.test(q))return 'shuangjing';
+  if(/三元桥/.test(q))return 'sanyuanqiao';
+  if(/通州|顺义|昌平|亦庄|大兴|房山|远郊/.test(q))return 'outside';
+  if(/中关村|海淀/.test(q))return 'zhongguancun';
+  if(/建国|国贸|朝阳门店|十里堡/.test(q))return 'guomao';
+  return '';
+}
+$('#locationSearchBtn').onclick=()=>{
+  const q=$('#locationSearchInput').value.trim();
+  if(!q){toast('请输入小区、商圈、地址或门店名称');return}
+  const matches=Object.values(stores).filter(store=>store.city===ACTIVE_STORE_CITY&&(store.name===q||store.name.includes(q)||store.community===q));
+  const exact=matches.find(store=>store.name===q||store.community===q);
+  if(exact||matches.length===1){closeSheet($('#locationSheet'));openStoreDetail((exact||matches[0]).id);return}
+  if(matches.length>1){toast('找到多家门店，请输入完整门店名称');return}
+  const resolved=resolveLocationQuery(q);
+  if(!resolved){toast('未找到该门店；地址搜索未接入地图，请选择热门位置');return}
+  applySearchLocation(resolved,q);
+};
+$('#locationSearchInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter')$('#locationSearchBtn').click()
+});
+
+$('#loadMore').onclick=()=>{visibleStoreCount+=STORE_PAGE_SIZE;render()};
+$('#tabHome').onclick=()=>{window.location.href=homeFile};
+$('#tabFind').onclick=goFindTab;
+$('#tabStores').onclick=()=>goBrowseStores('bottom_store');
+$('#tabMine').onclick=()=>{window.location.href=m01File};
+
+const qp=new URLSearchParams(location.search);
+const entryMode=qp.get('entry')||'';
+const entrySource=qp.get('source')||'';
+inventoryScenario=qp.get('inventoryScenario')||'';
+// Only accept the scoped overlay from S02 recovery; ignore untrusted/missing ids.
+demoSoldoutStoreId=qp.get('source')==='s02_combo_recovery' &&
+  stores[qp.get('soldoutStore')] ? qp.get('soldoutStore') : '';
+aiEstimate=qp.get('ai')==='1'||entrySource==='ai_estimator';
+if(aiEstimate){aiMin=Math.max(.5,Number(qp.get('min'))||2);aiMax=Math.max(aiMin,Number(qp.get('max'))||3)}
+const cityCoverage={beijing:{name:'北京',count:window.MINI_KOALA_DATA.stores.filter(store=>store.city==='北京市').length}};
+function renderLocalCoverage(){
+  const cfg=cityCoverage.beijing;
+  const title=document.querySelector('#localCoverageTitle');
+  const desc=document.querySelector('#localCoverageDesc');
+  const link=document.querySelector('#coverageLink');
+  if(!title||!desc||!link)return;
+  title.textContent=`${cfg.name}共 ${cfg.count} 家可展示门店 · 支持跨区域选择`;
+  const travelLabel=travelMode==='drive'?'驾车':travelMode==='bike'?'骑行':'步行';
+  desc.textContent=`可跨区域选择，当前按${travelLabel}时间比较更合适的门店`;
+  link.textContent='全市分布 ›';
+}
+leadRoute=qp.get('lead')||'none';
+leadReason=qp.get('leadReason')||'';
+leadTcv=Math.max(0,Number(qp.get('leadTcv')||0));
+customerType=qp.get('customer')||'';
+accessFrequency=qp.get('access')||'unknown';
+if(qp.get('searchOriginKey') && locationNames[qp.get('searchOriginKey')])searchLocation=qp.get('searchOriginKey');
+if(qp.get('state')==='unlocated'||['unknown','denied','failed','locating'].includes(qp.get('loc'))){state='unlocated';sortMode='recommended';distancePreference='any'}
+if(qp.get('state')==='estimated'){
+  state='estimated';sortMode='recommended';distancePreference='any';
+}
+if(qp.get('state')==='nomatch'){
+  state='nomatch';sortMode='recommended';distancePreference='any';searchLocation=EXCEPTION_STATE_DATA.nomatch.location;
+}
+if(qp.get('state')==='extended'){state='extended';sortMode='recommended';distancePreference='any';searchLocation=EXCEPTION_STATE_DATA.extended.location}
+if(qp.get('state')==='far'){state='far';sortMode='recommended';distancePreference='any';searchLocation=EXCEPTION_STATE_DATA.far.location}
+if(entryMode==='browse_nearby' && state!=='unlocated'){
+  state='browse';sortMode=['recommended','distance','price'].includes(qp.get('sort'))?qp.get('sort'):'recommended';distancePreference='any';
+  if(['any','3','5','10'].includes(qp.get('distance')))browseDistanceKm=qp.get('distance');
+}
+{const restoredLoaded=Number(qp.get('loaded')||0); // H01-007-S4 D-02: the loaded count returns for every list state, not only browse_nearby
+  if(restoredLoaded>0)visibleStoreCount=Math.max(STORE_PAGE_SIZE,Math.min(window.MINI_KOALA_DATA.stores.length,restoredLoaded));}
+if(qp.get('target'))targetVolume=Math.max(.5,Number(qp.get('target'))||5);
+{const strictTerm=s01ValidTerm(qp.get('term'));if(strictTerm)termMonths=strictTerm;} // H01-007-S1 D-03: invalid term never clamps to 1
+// H01-007-S1 D-03: an estimated entry without a valid term may only reuse the saved requirement's own valid term;
+// otherwise the user is taken to term selection instead of silently pricing a defaulted term.
+let termRequiredRedirect=false;
+if(state==='estimated' && qp.get('target') && !s01ValidTerm(qp.get('term'))){
+  const savedReq=currentRequirement();
+  const savedTerm=savedReq&&Math.abs(Number(savedReq.target_volume)-targetVolume)<.05?s01ValidTerm(savedReq.term_months):null;
+  if(savedTerm)termMonths=savedTerm;
+  else{termRequiredRedirect=true;location.replace(termRequiredEstimatorUrl({target_volume:targetVolume,customer_type:customerType,size_mode:savedReq?.size_mode||''},'s01_estimated_term_required'));}
+}
+if(qp.get('travel') && ['drive','bike','walk'].includes(qp.get('travel')))travelMode=qp.get('travel');
+if(['distance','price','recommended'].includes(qp.get('sort')) && state!=='browse')sortMode=qp.get('sort');
+if(['any','3','5','10'].includes(qp.get('distance')))browseDistanceKm=qp.get('distance');
+const restoredServices=String(qp.get('services')||'').split(',').filter(Boolean);
+$$('#filterSheet [data-group="service"] .pill').forEach(pill=>pill.classList.toggle('active',restoredServices.includes(pill.dataset.value)));
+if(state==='estimated' && qp.get('target') && !termRequiredRedirect)saveCurrentRequirement();
+$$('.stagechip').forEach(ch=>ch.classList.toggle('active',ch.dataset.state===state));
+if(entryMode==='browse_nearby'){
+  const t=$('#browseStripTitle'),d=$('#browseStripDesc'),a=$('#browseStripAction'),r=currentRequirement();
+  if(r){
+    if(t)t.textContent=`用仓需求 约${Number(r.target_volume).toFixed(1)}m³ · ${s01ValidTerm(r.term_months)?s01ValidTerm(r.term_months)+'个月':'租期待选择'}`;
+    if(d)d.textContent='';
+    if(a)a.textContent='立即匹配';
+  }else{
+    if(t)t.textContent='不确定用多大仓？';
+    if(d)d.textContent='';
+    if(a)a.textContent='立即估算 ›';
+  }
+}
+renderLocalCoverage();
+render();
+if(Number(qp.get('scroll'))>0){const restoreListScroll=()=>{$('#page').scrollTop=Number(qp.get('scroll'))};setTimeout(restoreListScroll,0);
+  window.addEventListener('load',()=>requestAnimationFrame(restoreListScroll),{once:true});} // H01-007-S4 D-02: re-apply once deferred layout helpers (mk-v3-s01-tags.js) have run, so scroll anchoring cannot shift the restored offset
+if(qp.get('openLocation')==='1')setTimeout(()=>openSheet('#locationSheet'),80);
+$$('[data-quick]').forEach(b=>b.onclick=()=>{const k=b.dataset.quick;if(quickStoreFilters.has(k))quickStoreFilters.delete(k);else quickStoreFilters.add(k);try{sessionStorage.setItem(QUICK_STORE_FILTER_KEY,JSON.stringify([...quickStoreFilters]))}catch(e){}resetVisibleStores();render()});
+if(!qp.has('state')&&!qp.has('loc')&&!qp.has('target')&&window.MINI_KOALA_LOCATION_DEMO.status()!=='allowed'){
+  state='unlocated';render();if(!window.MINI_KOALA_LOCATION_DEMO.status())setTimeout(requestListDemoLocation,150);
+}
+</script>
+<script src="mini_storage_global_support_v274.js"></script>
+<script src="mk-uxc-main-tabbar-a11y.js"></script>
+<script src="home_search_02a_s01_focus.js" data-patch="HOME-SEARCH-02A"></script>
+</body>
+</html>

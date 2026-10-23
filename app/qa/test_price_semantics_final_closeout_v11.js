@@ -1,0 +1,12 @@
+const fs=require('fs'),path=require('path'),assert=require('assert');
+const root=path.resolve(__dirname,'..'),proto=path.join(root,'prototype');
+const read=f=>fs.readFileSync(path.join(proto,f),'utf8');
+const s02=read('mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html');
+const o01=read('mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html');
+assert(s02.includes('<span class="unit-price-label">参考价格</span>'),'S02 no-term state is labeled as reference price');
+assert(s02.includes('<small>选择租期后重新计算</small>'),'S02 no-term state tells user price will recalculate after term selection');
+assert(!s02.includes('<span class="unit-price-label">当前租期参考</span>'),'S02 no-term cards do not claim a current term exists');
+assert(o01.includes('<span id="rentLabel">整期租金（用券前）</span>'),'O01 keeps total-rent semantics from U01/Q01');
+assert(o01.includes('<span>月均约</span><b class="monthly-muted" id="monthlyText"></b>'),'O01 keeps monthly-average semantics from U01/Q01');
+assert(!o01.includes('<div class="row"><span>月租</span><b class="monthly-muted" id="monthlyText"></b></div>'),'O01 no longer reverts to strict monthly-rent wording');
+console.log('PASS Price Semantics Final Closeout V1.1: S02 no-term semantics + O01 semantic continuity');

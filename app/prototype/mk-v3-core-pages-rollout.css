@@ -1,0 +1,42 @@
+/* VIS-05 page variants. Semantic amounts and state selection remain in existing JS. */
+body.koala-site-shell.koala-s02 :is(.store-overview,.unit-card,.summarybox),
+body.koala-site-shell.koala-u01 :is(.term-price-combined,.unified-price),
+body.koala-site-shell.koala-q01 :is(.summary,.snapshot),
+body.koala-site-shell.koala-o02 :is(.hero,.alt-card),
+body.koala-site-shell.koala-o03 :is(.unit-card,.info-card,.action-card) {
+  border-color: var(--koala-line) !important;
+  border-radius: var(--koala-radius) !important;
+}
+body.koala-site-shell.koala-s02 .unit-card:not(.is-alternative),
+body.koala-site-shell.koala-u01 .unified-price,
+body.koala-site-shell.koala-q01 .summary,
+body.koala-site-shell.koala-o02 .hero,
+body.koala-site-shell.koala-o03 .unit-card {
+  background-color: var(--koala-surface) !important;
+}
+body.koala-site-shell.koala-s02 .unit-price-main,
+body.koala-site-shell.koala-u01 .unified-price .total-rent,
+body.koala-site-shell.koala-q01 .summary .total b,
+body.koala-site-shell.koala-o02 .hero .price {
+  color: var(--koala-price) !important;
+  font-variant-numeric: tabular-nums;
+}
+body.koala-site-shell.koala-s02 .unit-price-label,
+body.koala-site-shell.koala-u01 .unified-price .label,
+body.koala-site-shell.koala-q01 .quote-total-label {
+  color: var(--koala-text-2) !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+}
+body.koala-site-shell.koala-u01 .monthly-secondary,
+body.koala-site-shell.koala-q01 .quote-monthly-average {
+  color: var(--koala-text-2) !important;
+  font-size: 13px !important;
+}
+/* Small price text needs the stronger orange; large primary numbers use --koala-price. */
+body.koala-site-shell :is(.coupon-card-value,.coupon-card-name) {
+  font-variant-numeric: tabular-nums;
+}
+body.koala-site-shell.koala-c02 .coupon-bottom {
+  transform: none !important;
+}

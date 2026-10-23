@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" class="vis-bg01" data-vis-page="O02">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>O02 支付结果 / 订单承接｜V1</title>
+<style>
+:root{--bg:#eef2f4;--card:#fff;--text:#1f2a33;--muted:#75828c;--line:#dbe2e7;--primary:#24748a;--soft:#edf6f8;--warn:#fff8e8;--danger:#fff1f1;--shadow:0 10px 28px rgba(32,50,61,.10)}
+*{box-sizing:border-box}body{margin:0;background:#dde3e7;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+button{font:inherit}.review{position:fixed;left:14px;top:14px;z-index:100;display:flex;flex-direction:column;gap:6px}.review button{border:1px solid #ccd6dc;background:#fff;border-radius:999px;padding:6px 9px;font-size:9px;cursor:pointer}.review button.active{border-color:var(--primary);color:var(--primary);font-weight:900}
+.shell{width:390px;max-width:100%;height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow)}.page{height:100%;overflow:auto;padding-bottom:86px}
+.header{height:48px;background:#fff;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}.back,.more{text-align:center;font-size:20px;color:#43535d;cursor:pointer}.header h1{text-align:center;font-size:15px;margin:0}
+.hero{background:#fff;padding:22px 18px 18px;text-align:center;border-bottom:1px solid var(--line)}.status-icon{width:52px;height:52px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--soft);color:var(--primary)}.hero.warn .status-icon{background:var(--warn);color:#80683c}.hero.danger .status-icon{background:var(--danger);color:#9a5050}.hero h2{font-size:20px;margin:0}.hero p{font-size:10px;color:var(--muted);line-height:1.55;margin:6px 0 0}
+.section{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 12px;margin-top:9px}.section h3{font-size:14px;margin:0 0 9px}
+.order{background:#f7fbfc;border:1px solid #d9e7eb;border-radius:13px;padding:11px}.order-title{font-size:15px;font-weight:900}.order-meta{font-size:9px;color:var(--muted);line-height:1.5;margin-top:3px}.price{font-size:22px;font-weight:900;color:var(--primary);margin-top:10px}
+.rows{display:flex;flex-direction:column}.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #eef2f4;font-size:10px}.row:last-child{border-bottom:0}.row span{color:var(--muted)}.row b{text-align:right}
+.next{border:1px solid #d8e7eb;background:#f7fbfc;border-radius:12px;padding:11px}.next b{font-size:11px}.next p{font-size:9px;color:var(--muted);line-height:1.55;margin:4px 0 0}
+.password-card{margin-top:9px;border:1px solid #cfe2e7;background:#f4fafb;border-radius:12px;padding:11px;display:flex;justify-content:space-between;align-items:center;gap:10px}.password-card .label{font-size:10px;color:var(--muted)}.password-card .code{font-size:23px;font-weight:900;letter-spacing:4px;color:var(--primary);margin-top:2px}.password-card button{border:1px solid var(--primary);background:#fff;color:var(--primary);border-radius:9px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}.lock-note{font-size:10px;color:var(--muted);line-height:1.5;margin-top:6px}
+.alt-card{border:1px solid var(--line);border-radius:11px;padding:10px;margin-top:7px;background:#fff}.alt-card b{font-size:11px}.alt-card span{font-size:9px;color:var(--muted);display:block;margin-top:3px}
+.actions-inline{display:flex;gap:7px;margin-top:9px}.actions-inline button{border-radius:9px;padding:8px 10px;font-size:9px;font-weight:900;cursor:pointer}.outline{background:#fff;border:1px solid var(--line)}.solid{background:var(--primary);border:0;color:#fff}
+.bottombar{position:absolute;left:0;right:0;bottom:0;height:72px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:112px 1fr;gap:8px;padding:10px 12px;z-index:25}.bottombar button{border-radius:11px;font-size:11px;font-weight:900;cursor:pointer}.secondary{border:1px solid var(--line);background:#fff}.primary{border:0;background:var(--primary);color:#fff}.hidden{display:none!important}
+.toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);background:#24323a;color:#fff;font-size:10px;padding:8px 12px;border-radius:9px;display:none;z-index:70;white-space:nowrap}
+@media(max-width:650px){.review{display:none}}
+
+/* UX polish */
+
+.hero p{font-size:12px!important}.order-meta{font-size:11px!important}.row{font-size:12px!important}.next b{font-size:13px!important}.next p{font-size:11px!important}.alt-card b{font-size:13px!important}.alt-card span{font-size:11px!important}.actions-inline button{font-size:11px!important}.bottombar button{font-size:13px!important}
+
+
+.referral-row{background:#f4fafb;border-radius:9px;padding:8px 9px!important;margin-top:6px;border-bottom:0!important}.referral-row span{color:var(--primary)!important;font-weight:800}.referral-row b{color:var(--primary)}
+</style>
+<style id="h01-visual-system-v21-migration">
+
+:root{--ms-bg:#FBF8F2;--ms-surface:#FFFDFC;--ms-text:#282F2B;--ms-muted:#6F7671;--ms-line:#E7E0D7;--ms-green:#2D7154;--ms-green-soft:#EEF5F0;--ms-green-deep:#294638;--ms-orange:#E77A3A;--ms-sand:#F6EFE5;--ms-shadow:0 8px 24px rgba(56,48,38,.065);--ms-shadow-soft:0 4px 14px rgba(56,48,38,.045)}
+html,body{background:#EEE9E1!important;color:var(--ms-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+.shell,.app{background:var(--ms-bg)!important;box-shadow:0 22px 52px rgba(48,43,35,.14)!important}
+.header,.nav,.tabbar,.bottombar,.bottom{background:rgba(255,253,249,.96)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.header,.nav{border-bottom:1px solid rgba(231,224,215,.78)!important}.header h1,.nav b{color:var(--ms-text)!important;font-weight:850!important}.back,.more{color:#4B5B52!important}
+h1,h2,h3{color:var(--ms-text)}.meta,.sub,.hint,.label,.eyebrow{color:var(--ms-muted)}
+.primary,.solid,.apply{background:var(--ms-green)!important;border-color:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.14)!important}
+.secondary,.outline{background:var(--ms-surface)!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}
+.price,.total{color:var(--ms-orange)!important}
+input,select,textarea{background:#FFF!important;border-color:var(--ms-line)!important;color:var(--ms-text)!important}
+@media(max-width:650px){html,body{background:var(--ms-bg)!important}.shell,.app{box-shadow:none!important}}
+
+.page{background:var(--ms-bg)!important}.review{background:#F2EFE8!important;border-color:var(--ms-line)!important}.hero{margin:10px!important;background:linear-gradient(145deg,#EFF5F1,#FBF7F0)!important;border:1px solid #DCE7DF!important;border-radius:18px!important;box-shadow:var(--ms-shadow)!important}.status-icon{background:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.16)!important}.section{margin:10px!important;background:var(--ms-surface)!important;border:1px solid var(--ms-line)!important;border-radius:18px!important;box-shadow:var(--ms-shadow-soft)!important}.order{background:#FFF!important;border-radius:14px!important}.order-title{color:#29332E!important;font-weight:880!important}.price{color:var(--ms-orange)!important}.password-card,.next,.alt-card{background:#FBF9F5!important;border-color:#EAE4DC!important;border-radius:14px!important}.password-card .code{color:var(--ms-green-deep)!important}.rows{border-color:#ECE6DE!important;border-radius:12px!important;overflow:hidden}.row{border-color:#EFE9E2!important}.bottombar{border-top:1px solid var(--ms-line)!important;box-shadow:0 -5px 18px rgba(62,54,42,.04)!important}
+
+</style>
+<style id="visual-v22-qa-closeout">
+/* Visual V2.2 QA closeout — CSS only. No DOM/copy/order/JS changes. */
+:root{--v22-touch:44px}
+@media(max-width:650px){
+  html,body{background:var(--ms-bg,var(--bg,#FBF8F2))!important}
+  .shell{width:100%!important;max-width:none!important;height:100dvh!important;margin:0!important;box-shadow:none!important}
+  .tabbar,.bottomnav{padding-bottom:env(safe-area-inset-bottom)}
+  .bottombar,.bottom{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
+/* Bottom actions remain visually separate from scroll content. */
+.bottombar,.bottomnav,.tabbar,.bottom{box-shadow:0 -5px 18px rgba(62,54,42,.055)!important}
+/* Price typography: consistent numeric rhythm. */
+.price,.unit-price,.price-num,.value,[id*=Price],[id=monthly]{font-variant-numeric:tabular-nums}
+</style>
+
+<style id="v274-wx-capsule-global">
+/* V2.7.3 — reserve the right side for the native WeChat Mini Program capsule. */
+.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;gap:11px;color:#1F2933;font-size:15px;box-shadow:0 1px 3px rgba(20,32,51,.04);justify-self:center;flex:0 0 86px}
+.wx-capsule-space .divider{width:1px;height:16px;background:#E4E7E9}.wx-capsule-space .dot{letter-spacing:1px;font-size:13px}.wx-capsule-space .circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%;display:block}
+.header,.nav{grid-template-columns:48px minmax(0,1fr) 94px!important}
+.header{display:grid!important}.header h1,.nav>h1,.nav>b,#navTitle{text-align:center!important;min-width:0}
+.header>.back,.nav>.back{justify-self:center}.header>.wx-capsule-space,.nav>.wx-capsule-space{justify-self:center}
+.top{display:grid!important;grid-template-columns:48px minmax(0,1fr) 94px!important;align-items:center!important;gap:0!important;padding-left:8px!important;padding-right:4px!important}.top h1{text-align:center!important;min-width:0}.top>.back{justify-self:center}.top>.wx-capsule-space{justify-self:center}
+@media(max-width:380px){.wx-capsule-space{width:82px;flex-basis:82px}.header,.nav,.top{grid-template-columns:44px minmax(0,1fr) 88px!important}}
+</style>
+<style id="preflight-token-hygiene">
+/* V2.7.4.3 preflight hygiene: retire legacy blue/gray root tokens in user-facing states. */
+:root{--primary:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0;--warn:#FFF8E8}
+</style>
+
+<style id="sprint2-transaction-visual-foundation">
+/* Sprint 2 transaction hi-fi closure — CSS only. Body/logic/copy remain frozen. */
+:root{--vb-bg:#FDFBF7;--vb-surface:#FFFDFC;--vb-text:#1F2923;--vb-secondary:#59645E;--vb-tertiary:#6D7671;--vb-line:#E6E7E3;--vb-green:#2F6B4F;--vb-green-deep:#214F3A;--vb-green-soft:#EAF3ED;--vb-orange:#D56A1C;--vb-orange-deep:#B85A16;--vb-orange-soft:#FFF0E2;--vb-sand:#F7F5F0;--vb-shadow:0 4px 16px rgba(31,41,35,.06)}
+html,body{background:var(--vb-bg)!important;color:var(--vb-text)!important}
+.page{background:var(--vb-bg)!important}
+.header{height:52px!important;background:rgba(253,251,247,.96)!important;border-bottom:1px solid rgba(230,231,227,.9)!important;box-shadow:none!important}
+.header h1{font-size:16px!important;font-weight:700!important;color:var(--vb-text)!important}
+.back{color:var(--vb-green-deep)!important;font-weight:500!important}
+.section{margin:12px 16px 0!important;padding:16px!important;background:var(--vb-surface)!important;border:1px solid var(--vb-line)!important;border-radius:16px!important;box-shadow:var(--vb-shadow)!important}
+.section h2,.section h3{margin:0 0 12px!important;color:var(--vb-text)!important;font-size:18px!important;line-height:26px!important;font-weight:700!important}
+.meta,.hint,.desc,.label,.eyebrow,.row span,.order-meta,.status p,.next p,.lock-note,.action-card span{color:var(--vb-tertiary)!important}
+.rows{border:0!important;border-radius:0!important;overflow:visible!important}
+.row{min-height:42px!important;padding:10px 0!important;background:transparent!important;border-bottom:1px solid #ECEDE9!important;font-size:13px!important;line-height:20px!important;align-items:center!important}
+.row:last-child{border-bottom:0!important}.row b{color:var(--vb-text)!important;font-weight:650!important;max-width:58%;overflow-wrap:anywhere}
+.primary,.solid,.sheet-confirm,.close{background:var(--vb-green)!important;border-color:var(--vb-green)!important;color:#fff!important;box-shadow:none!important}
+.secondary,.outline{background:#fff!important;border:1px solid #CFE1D6!important;color:var(--vb-green-deep)!important}
+.bottombar{height:auto!important;min-height:72px!important;padding:10px 16px max(10px,env(safe-area-inset-bottom))!important;background:rgba(255,253,249,.98)!important;border-top:1px solid var(--vb-line)!important;box-shadow:0 -8px 24px rgba(31,41,35,.05)!important;gap:10px!important}
+.bottombar button{min-height:48px!important;border-radius:12px!important;font-size:14px!important;font-weight:700!important}
+.toast{font-size:12px!important;border-radius:10px!important}
+.sheet,.info-sheet{background:var(--vb-surface)!important;border-radius:20px 20px 0 0!important;padding:16px 16px max(20px,env(safe-area-inset-bottom))!important}
+.handle{background:#D7DBD7!important}
+@media(max-width:650px){.page{padding-bottom:96px!important}.shell{width:100%!important;height:100dvh!important;max-width:none!important;box-shadow:none!important}}
+</style>
+
+<style id="sprint2-o02-hifi">
+.hero{margin:12px 16px 0!important;padding:24px 18px 20px!important;background:linear-gradient(180deg,#F1F7F3 0%,#FFFDFC 100%)!important;border:1px solid #D9E6DE!important;border-radius:16px!important;box-shadow:var(--vb-shadow)!important}.status-icon{width:56px!important;height:56px!important;margin-bottom:12px!important;background:var(--vb-green)!important;color:#fff!important;box-shadow:none!important;font-size:26px!important}.hero h2{font-size:22px!important;line-height:30px!important;font-weight:700!important}.hero p{max-width:300px!important;margin:6px auto 0!important;font-size:12px!important;line-height:18px!important;color:var(--vb-tertiary)!important}.hero.warn{background:linear-gradient(180deg,#FFF8EB 0%,#FFFDFC 100%)!important;border-color:#F0DFC2!important}.hero.warn .status-icon{background:#B26A1C!important}.hero.danger{background:linear-gradient(180deg,#FDEDEC 0%,#FFFDFC 100%)!important;border-color:#F2D3D0!important}.hero.danger .status-icon{background:#B64B46!important}
+.order{padding:0!important;background:transparent!important;border:0!important;border-radius:0!important}.order-title{font-size:18px!important;line-height:26px!important;font-weight:700!important}.order-meta{font-size:13px!important;line-height:20px!important;margin-top:4px!important}.order .price{margin:14px 0 6px!important;font-size:30px!important;line-height:34px!important;color:var(--vb-orange)!important;font-weight:700!important}.order .rows{margin-top:8px!important;padding-top:4px!important;border-top:1px solid var(--vb-line)!important}
+.password-card{padding:12px!important;border:0!important;background:var(--vb-green-soft)!important;border-radius:12px!important}.password-card .code{font-size:28px!important;color:var(--vb-green-deep)!important}.password-card button{min-height:40px!important;border-color:#CFE1D6!important;color:var(--vb-green-deep)!important;border-radius:10px!important}
+.next{padding:12px!important;border:0!important;background:var(--vb-sand)!important;border-radius:12px!important}.next b{font-size:14px!important}.next p{font-size:12px!important}.alt-card{padding:12px!important;border-color:var(--vb-line)!important;border-radius:12px!important;background:#fff!important}.actions-inline button{min-height:42px!important;border-radius:11px!important;font-size:12px!important}
+</style>
+<link rel="stylesheet" href="mini_koala_visual_elevation_v2_controlled_rollout.css"/><link rel="stylesheet" href="mini_koala_visual_elevation_v2_refinement_patch.css"/><link rel="stylesheet" href="mini_koala_visual_elevation_v2_1_secondary_density.css"/>
+<link rel="stylesheet" href="mini_storage_coupon_benefit_v1.css">
+<script src="mini_storage_coupon_benefit_v1.js"></script>
+<link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell"><link rel="stylesheet" href="mk-v3-core-pages-rollout.css" data-ui-system="v3-core-pages"><link rel="stylesheet" href="mk-v3-transaction-batch-b.css" data-ui-system="vis06c-batch-b"><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-site-shell koala-o02" data-ux-patch-d2="v1">
+<div class="review">
+<button class="active" data-state="paid">支付成功</button>
+<button data-state="pending">支付取消 / 待支付</button>
+<button data-state="failed">支付失败</button>
+<button data-state="inventory_changed">支付前库存变化</button>
+</div>
+<div class="shell">
+<div class="page">
+<div class="header"><div class="back" id="back">‹</div><h1>订单结果</h1><div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div></div>
+<div class="hero" id="hero">
+<div class="status-icon" id="statusIcon">✓</div>
+<h2 id="statusTitle">支付成功，具体仓位已分配</h2>
+<p id="statusDesc">支付后由库存分配环节确认具体仓位；当前内部原型使用演示分配。</p>
+</div>
+<section class="section" id="orderSection">
+<div class="order">
+<div class="order-title" id="orderUnit">建国门店 · 仓位 A038</div>
+<div class="order-meta" id="orderMeta">0.8m³ · 2个月</div>
+<div class="price" id="paidPrice">已支付 ¥460</div>
+<div class="rows" style="margin-top:6px">
+<div class="row"><span>订单号</span><b id="orderNo">—</b></div>
+<div class="row"><span>订单状态</span><b id="orderStatus">已支付</b></div>
+<div class="row"><span>仓位状态</span><b id="unitStatus">已为本订单确认</b></div>
+<div class="row referral-row hidden" id="referralBonusRow"><span>好友邀请权益</span><b>首单额外10天免租期</b></div>
+</div>
+</div>
+<div class="password-card hidden" id="passwordCard"><div><div class="label">仓位密码</div><div class="code" id="lockCode">—</div><div class="lock-note" id="lockNote">支付成功后可查看，用于打开当前仓位密码锁。</div></div><button id="copyCode">复制</button></div>
+<div class="password-card hidden" id="verifyCard"><div><div class="label">首次用仓前</div><div class="lock-note" id="verifyNote">请先完成身份证要素验证；仓位已锁定。</div></div></div>
+</section>
+<section class="section" id="nextSection">
+<h3>接下来</h3>
+<div class="next">
+<b id="nextTitle">确认租赁信息并查看入仓方式</b>
+<p id="nextDesc">订单已经成立，可以继续查看门店位置、入仓方式和租赁信息。</p>
+</div>
+</section>
+<section class="section hidden" id="inventoryAlt">
+<h3>原容量方案暂时无法继续</h3>
+
+<div class="alt-card"><b>查看附近门店的可租空间</b><span>可保留原需求和租期继续比较</span></div>
+<div class="actions-inline"><button class="outline" id="backStore">返回门店</button><button class="solid" id="seeAlternatives">查看替代仓位</button></div>
+</section>
+<section class="section">
+<h3>需要帮助？</h3>
+<div class="rows">
+<div class="row"><span>门店</span><b id="helpStore">—</b></div>
+<div class="row"><span>联系方式</span><b id="contactMasked">已保存</b></div>
+<div class="row"><span>需要帮助</span><b id="support">可联系门店或客服</b></div>
+</div>
+</section>
+</div>
+<div class="bottombar">
+<button class="secondary" id="secondaryBtn">返回首页</button>
+<button class="primary" id="primaryBtn">查看订单详情</button>
+</div>
+<div class="toast" id="toast"></div>
+</div>
+<script src="mini_storage_business_ssot_v274.js"></script>
+<script src="../data/mini_koala_data.js"></script>
+<script>
+const o03File='mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html';
+const a01File='mini_storage_access_a01_v2_self_service_Visual_V2_7_4.html';
+const id01File='mini_storage_identity_id01_v2_7_4_5.html';
+const o01File='mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html';
+const homeFile='mini_storage_home_H01_Visual_V2_7_4_SSOT.html';
+const s02File='mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html';
+const ORDER_KEY='mini_storage_order_current',PAYMENT_RESULT_KEY='mini_storage_payment_result_current',REFERRAL_CONTEXT_KEY='mini_storage_referral_context',QUOTE_KEY='mini_storage_quote_current';
+const p=new URLSearchParams(location.search),reviewMode=p.get('review')==='1';
+function getObj(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return {}}}
+function setObj(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){window['__'+k]=JSON.stringify(v)}}
+function delObj(k){try{localStorage.removeItem(k)}catch(e){delete window['__'+k]}}
+let existingOrder=getObj(ORDER_KEY);let paymentResult=getObj(PAYMENT_RESULT_KEY);
+const STORE_PROFILES=window.MINI_STORAGE_MASTER_V242.stores;
+const LIFECYCLE=window.MINI_STORAGE_LIFECYCLE_V242;const REPO=window.MINI_STORAGE_REPO_V242;
+const requestedOrderNo=p.get('orderNo')||'';
+const orderMatches=!!(existingOrder.order_no && (!requestedOrderNo || requestedOrderNo===existingOrder.order_no));
+const storeId=STORE_PROFILES[existingOrder.store_id]?existingOrder.store_id:'jianguo',storeProfile=STORE_PROFILES[storeId];
+const representativeUnit=existingOrder.representative_unit_no||existingOrder.unit_id||'—',volume=Number(existingOrder.volume||0),term=Math.max(1,Number(existingOrder.term_months||1)),monthly=Number(existingOrder.monthly_price||0),total=Number(existingOrder.total_price||0),depositAmount=Number(existingOrder.deposit_amount||0),managementFee=Number(existingOrder.management_fee||0),payableTotal=Number(existingOrder.payable_total||0),orderNo=existingOrder.order_no||requestedOrderNo||'—',lead=existingOrder.lead||'none',customer=existingOrder.customer_type||'',route=existingOrder.transaction_route||existingOrder.route||'DIRECT_ORDER',startDate=existingOrder.start_date||'',pickup=existingOrder.pickup_address||'',pickupKm=Number(existingOrder.pickup_to_store_drive_km||0),promo=existingOrder.transport_promo_status||'NOT_CHECKED',discountRatio=Number(existingOrder.deal_discount_ratio||0);
+function displayUnit(){return existingOrder.actual_unit_id||representativeUnit||'—'}
+function human(m){if(m<12)return `${m}个月`;const y=Math.floor(m/12),mo=m%12;return mo?`${m}个月（${y}年${mo}个月）`:`${m}个月（${y}年）`}
+function toast(msg){const t=document.querySelector('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1600)}
+function dateCN(v){const [y,m,d]=String(v||'').split('-');return y&&m&&d?`${Number(m)}月${Number(d)}日`:'开始日期'}
+function paidDetailState(){const today=new Date();today.setHours(0,0,0,0);const start=new Date(startDate+'T00:00:00');return start>today?'upcoming':'active'}
+function stateFromOrder(){if(existingOrder.status==='PAID'||existingOrder.payment_status==='PAID')return 'paid';if(existingOrder.status==='PAYMENT_FAILED'||existingOrder.payment_status==='PAYMENT_FAILED')return 'failed';if(existingOrder.status==='INVENTORY_CHANGED')return 'inventory_changed';return 'pending'}
+let state=stateFromOrder();
+if(orderMatches && paymentResult.order_no===existingOrder.order_no && ['PAID','PENDING','PAYMENT_FAILED','INVENTORY_CHANGED'].includes(paymentResult.status)){
+  state={PAID:'paid',PENDING:'pending',PAYMENT_FAILED:'failed',INVENTORY_CHANGED:'inventory_changed'}[paymentResult.status];
+  if(!reviewMode){
+    const paid=state==='paid';
+    const assignedActualUnitId=paid?(existingOrder.actual_unit_id||existingOrder.representative_unit_no||existingOrder.unit_id||null):existingOrder.actual_unit_id||null;
+    existingOrder={...existingOrder,status:paid?'PAID':(state==='failed'?'PAYMENT_FAILED':(state==='inventory_changed'?'INVENTORY_CHANGED':'PENDING_PAYMENT')),payment_status:paid?'PAID':(state==='failed'?'PAYMENT_FAILED':'PENDING'),detail_state:paid?paidDetailState():'upcoming',inventory_status:paid?'LOCKED_TO_ORDER':'AWAITING_PAYMENT',unit_locked_at:paid?new Date().toISOString():null,lock_type:paid?'PASSWORD_LOCK':null,lock_code:null,actual_unit_id:assignedActualUnitId,unit_identity_type:paid&&assignedActualUnitId?'ACTUAL_UNIT':(existingOrder.unit_identity_type||'SIZE_OPTION'),actual_unit_assignment_source:existingOrder.actual_unit_id?(existingOrder.actual_unit_assignment_source||'DEMO_PRESELECTED_U01'):paid&&assignedActualUnitId?'DEMO_POST_PAYMENT_ALLOCATION':null,identity_verification_status:'NOT_STARTED',access_status:paid?'IDENTITY_REQUIRED':'NOT_AVAILABLE',access_mode:paid?'SELF_SERVICE_OPEN_COMMON_AREA':null,first_access_allowed:false,transport_right_status:(paid&&promo==='ELIGIBLE')?'PENDING_BOOKING':'NONE',deposit_status:paid?'HELD':(existingOrder.deposit_status||'NOT_PAID'),paid_at:paid?(paymentResult.processed_at||new Date().toISOString()):null,updated_at:new Date().toISOString()};
+    if(paid){existingOrder=LIFECYCLE.normalize(existingOrder)}REPO.saveCurrent(existingOrder);if(paid){REPO.ensureInitialPayment(existingOrder);const q=getObj(QUOTE_KEY);if(q.quote_id&&q.unit_id===existingOrder.unit_id){setObj(QUOTE_KEY,{...q,status:'converted',converted_order_no:existingOrder.order_no,converted_at:new Date().toISOString()})}}delObj(PAYMENT_RESULT_KEY);
+  }
+}
+if(reviewMode && ['paid','pending','failed','inventory_changed'].includes(p.get('state')||''))state=p.get('state');
+if(reviewMode&&state==='paid'&&!existingOrder.actual_unit_id){const assigned=existingOrder.representative_unit_no||existingOrder.unit_id||null;if(assigned)existingOrder={...existingOrder,actual_unit_id:assigned,unit_identity_type:'ACTUAL_UNIT',actual_unit_assignment_source:'DEMO_POST_PAYMENT_ALLOCATION_REVIEW'};}
+function paramsFor(){const q=new URLSearchParams({orderNo});return q}
+function renderInvalid(){document.querySelector('#statusIcon').textContent='!';document.querySelector('#statusTitle').textContent='订单状态不可用';document.querySelector('#statusDesc').textContent='没有找到与当前页面匹配的订单记录，请返回首页或从订单入口重新进入。';document.querySelector('#orderSection').classList.add('hidden');document.querySelector('#inventoryAlt').classList.add('hidden');document.querySelector('#passwordCard').classList.add('hidden');document.querySelector('#nextTitle').textContent='请从有效订单继续';document.querySelector('#nextDesc').textContent='支付、锁仓和入仓状态不会通过页面参数直接生成。';document.querySelector('#secondaryBtn').textContent='返回首页';document.querySelector('#primaryBtn').textContent='返回首页'}
+function render(){
+  document.querySelectorAll('.review button').forEach(x=>x.classList.toggle('active',x.dataset.state===state));
+  document.querySelector('#hero').classList.remove('warn','danger');document.querySelector('#inventoryAlt').classList.add('hidden');document.querySelector('#passwordCard').classList.add('hidden');document.querySelector('#verifyCard').classList.add('hidden');
+  if(!orderMatches){renderInvalid();return}
+  document.querySelector('#orderUnit').textContent=existingOrder.actual_unit_id?`${storeProfile.name} · 仓位 ${displayUnit()}`:`${storeProfile.name} · 容量方案 ${volume.toFixed(1)}m³`;document.querySelector('#orderMeta').textContent=`${volume.toFixed(1)}m³ · ${human(term)}`;document.querySelector('#orderNo').textContent=orderNo;document.querySelector('#helpStore').textContent=`${storeProfile.name} · ${storeProfile.area}`;document.querySelector('#paidPrice').textContent=`¥${payableTotal.toLocaleString()}`;document.querySelector('#orderSection').classList.remove('hidden');
+  const referralDays=Number(existingOrder.referral_friend_bonus_days||0);document.querySelector('#referralBonusRow').classList.toggle('hidden',!(referralDays>0 && state==='paid'));
+  if(state==='paid'){
+    const ds=paidDetailState(),lc=LIFECYCLE.derive(existingOrder),verified=lc.identity_verification_status==='VERIFIED';
+    document.querySelector('#statusIcon').textContent='✓';document.querySelector('#statusTitle').textContent=existingOrder.actual_unit_id?'支付成功，具体仓位已分配':'支付成功，仓位安排待确认';
+    document.querySelector('#statusDesc').textContent=!existingOrder.actual_unit_id?'已收到支付结果，具体仓位安排请查看订单或联系顾问。':verified?(ds==='upcoming'?`具体仓位已分配；${dateCN(startDate)}起可自助入仓。`:'具体仓位已分配，今天起可自助入仓。'):'具体仓位已锁定；首次用仓前请完成身份证要素验证。';
+    document.querySelector('#paidPrice').textContent=`已支付 ¥${payableTotal.toLocaleString()}`;document.querySelector('#orderStatus').textContent='已支付';document.querySelector('#unitStatus').textContent=existingOrder.actual_unit_id?'已分配并锁定':'待分配具体仓位';
+    document.querySelector('#nextTitle').textContent=verified?(ds==='upcoming'?`${dateCN(startDate)}起可以入仓`:'今天起可以自助入仓'):'完成用仓前身份验证';
+    document.querySelector('#nextDesc').textContent=!existingOrder.actual_unit_id?'请先确认仓位安排，完成身份验证后按订单开始日期用仓。':verified?(ds==='upcoming'?'身份已验证；请从开始日期起使用已分配仓位。':'身份已验证，可以查看入仓指引。'):'具体仓位已锁定；核验通过且到开始日期后开放用仓权限。';
+    document.querySelector('#secondaryBtn').textContent='查看订单';document.querySelector('#primaryBtn').textContent=verified?'查看入仓指引':'完成身份验证';
+    if(lc.access_view_allowed&&existingOrder.lock_code){document.querySelector('#passwordCard').classList.remove('hidden');document.querySelector('#lockCode').textContent=existingOrder.lock_code;document.querySelector('#lockNote').textContent=ds==='upcoming'?`请从${dateCN(startDate)}起使用仓位。`:'可用于当前仓位密码锁。'}
+    else if(!verified){document.querySelector('#verifyCard').classList.remove('hidden');document.querySelector('#verifyNote').textContent=lc.identity_verification_status==='PENDING'?'验证进行中，请在结果更新后查看；仓位仍为您锁定。':lc.identity_verification_status==='FAILED'?'验证未通过，您可重新验证或联系门店；仓位仍为您锁定。':'先完成身份证要素验证；仓位已锁定，暂不可查看仓位密码。'}
+  }else if(state==='pending'){
+    document.querySelector('#hero').classList.add('warn');document.querySelector('#statusIcon').textContent='!';document.querySelector('#statusTitle').textContent='订单待支付';document.querySelector('#statusDesc').textContent='支付尚未完成，订单暂未生效。';document.querySelector('#paidPrice').textContent=`待支付 ¥${payableTotal.toLocaleString()}`;document.querySelector('#orderStatus').textContent='待支付';document.querySelector('#unitStatus').textContent='支付前需再次确认';document.querySelector('#nextTitle').textContent='继续支付前会再次检查仓位';document.querySelector('#nextDesc').textContent='继续支付前会保留当前交易路径和订单上下文。';document.querySelector('#secondaryBtn').textContent='稍后再付';document.querySelector('#primaryBtn').textContent='继续支付';
+  }else if(state==='failed'){
+    document.querySelector('#hero').classList.add('danger');document.querySelector('#statusIcon').textContent='×';document.querySelector('#statusTitle').textContent='支付未完成';document.querySelector('#statusDesc').textContent='本次支付失败，没有扣款成功。';document.querySelector('#paidPrice').textContent=`应付 ¥${payableTotal.toLocaleString()}`;document.querySelector('#orderStatus').textContent='支付失败';document.querySelector('#unitStatus').textContent='支付前需再次确认';document.querySelector('#nextTitle').textContent='可以重新发起支付';document.querySelector('#nextDesc').textContent='重新支付会沿用原订单的租期、金额和交易路径。';document.querySelector('#secondaryBtn').textContent='返回首页';document.querySelector('#primaryBtn').textContent='重新支付';
+  }else{
+    document.querySelector('#hero').classList.add('warn');document.querySelector('#statusIcon').textContent='↔';document.querySelector('#statusTitle').textContent='这个容量方案刚刚发生变化';document.querySelector('#statusDesc').textContent='支付前确认时发现原容量档位暂时不能继续，没有完成扣款。';document.querySelector('#orderSection').classList.add('hidden');document.querySelector('#inventoryAlt').classList.remove('hidden');document.querySelector('#nextTitle').textContent='保留您的空间需求和租期';document.querySelector('#nextDesc').textContent='不用重新填写需求，可以直接查看同店或附近门店的替代仓位。';document.querySelector('#secondaryBtn').textContent='调整需求';document.querySelector('#primaryBtn').textContent='查看替代仓位';
+  }
+}
+document.querySelectorAll('.review button').forEach(x=>x.onclick=()=>{if(reviewMode){state=x.dataset.state;render()}});
+document.querySelector('#back').onclick=()=>window.MINI_KOALA_NAV.safeBack(state==='paid'?o03File+`?${paramsFor().toString()}`:homeFile);
+function alternativeStoreUrl(){
+  let req=existingOrder.requirement_snapshot||{};
+  if(!Number(req.target_volume)){try{req=JSON.parse(localStorage.getItem('mini_storage_requirement_current')||'{}')}catch(e){}}
+  const q=new URLSearchParams({state:'matched',store:storeId,target:String(req.target_volume||volume),term:String(req.term_months||term),source:'inventory_recovery'});
+  if(req.min_volume)q.set('min',String(req.min_volume));if(req.max_volume)q.set('max',String(req.max_volume));
+  if(req.search_origin_key)q.set('searchOriginKey',req.search_origin_key);if(req.travel_mode)q.set('travel',req.travel_mode);
+  if(req.customer_type)q.set('customer',req.customer_type);
+  return s02File+'?'+q.toString();
+}
+document.querySelector('#secondaryBtn').onclick=()=>{if(!orderMatches){location.href=homeFile;return}if(state==='paid'){location.href=o03File+`?${paramsFor().toString()}`;return}if(state==='inventory_changed'){location.href=alternativeStoreUrl();return}location.href=homeFile};
+document.querySelector('#primaryBtn').onclick=()=>{if(!orderMatches){location.href=homeFile;return}if(state==='paid'){location.href=(LIFECYCLE.derive(existingOrder).identity_verification_status==='VERIFIED'?a01File:id01File)+`?${paramsFor().toString()}`;return}if(state==='inventory_changed'){location.href=alternativeStoreUrl();return}const q=new URLSearchParams({store:storeId,unit:representativeUnit,sizeOption:existingOrder.size_option_id||'',representativeUnit,actualUnit:existingOrder.actual_unit_id||'',inventoryIdentity:existingOrder.actual_unit_id?'ACTUAL_UNIT':'SIZE_OPTION',volume:String(volume),target:String(volume),term:String(term),monthly:String(monthly),rentTotal:String(total),deposit:String(depositAmount),managementFee:String(managementFee),initialPayable:String(payableTotal),orderNo,route,lead,customer,start:startDate,pickup,pickupKm:String(pickupKm||''),promo,discountRatio:String(discountRatio||''),source:existingOrder.origin_page||'s02',fromS01State:existingOrder.origin_from_s01_state||'estimated'});location.href=o01File+'?'+q.toString()};
+document.querySelector('#backStore')?.addEventListener('click',()=>location.href=alternativeStoreUrl());document.querySelector('#seeAlternatives')?.addEventListener('click',()=>location.href=alternativeStoreUrl());document.querySelector('#copyCode').onclick=async()=>{if(state!=='paid'||!LIFECYCLE.derive(existingOrder).access_view_allowed||!existingOrder.lock_code){toast('完成验证后才可查看仓位密码');return}try{await navigator.clipboard?.writeText(existingOrder.lock_code);toast('仓位密码已复制')}catch(e){toast(`仓位密码：${existingOrder.lock_code}`)}};
+render();
+</script>
+<script src="mini_storage_global_support_v274.js"></script>
+</body>
+</html>

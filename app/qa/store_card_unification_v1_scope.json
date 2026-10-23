@@ -1,0 +1,23 @@
+{
+  "version": "Store Card Unification V1",
+  "baseline": "Conversion Friction Reduction V1",
+  "runtime_modified": {
+    "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html": {
+      "before": "ebecdd09c40dd6226954fa9f0c1c9558c0899b8400b01bb7d055d019e2f3981b",
+      "after": "1e49d17de578eb78ebdec3c3815fe69c960f2690e7d697d0b7824c1792cf6a6a"
+    },
+    "prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html": {
+      "before": "6f42a87f81e470bebf200e8d01bbc135cfa27b029987ef0679279a4a5c698e95",
+      "after": "fa45c5da6fbd08e91cb066353fad0eab7074a844e8388bb6f54bed9b607c3812"
+    }
+  },
+  "runtime_protected": {
+    "prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html": "eb6ccca1a9052cd0ac20a4c225c94bea7951784213818fb567d600a8e2c6b695",
+    "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html": "c039cc8026e8fbdf2481ce6f071c455fe2d5c99b0076020453178f9690302588",
+    "prototype/mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html": "e4a412128adc2e47deb64a0ba55766d586d0d9e6a95bd6bb8d95edee09a01210",
+    "prototype/mini_storage_requirement_recommendation_v274.js": "d1f3ad70754dc8a0014015ac75995219d989655d27e29de82a032ee69b62ce3c",
+    "data/mini_koala_data.js": "34a95c12a00d192c13177c34e517e9833f33f756792dd42c852654ff32e45ba8"
+  },
+  "past_sha_test": "qa/test_conversion_friction_v1.cjs (archived, unchanged; stores previous baseline hashes)",
+  "note": "No price engine/data/transaction code changes; browser E2E not verified"
+}

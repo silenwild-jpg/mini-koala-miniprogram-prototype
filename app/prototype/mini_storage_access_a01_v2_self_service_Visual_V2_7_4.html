@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" class="vis-bg01" data-vis-page="A01">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>A01 自助入仓指引</title>
+<style>
+:root{--bg:#eef2f4;--text:#1f2a33;--muted:#75828c;--line:#dbe2e7;--primary:#24748a;--soft:#edf6f8;--warn:#fff8e8;--shadow:0 10px 28px rgba(32,50,61,.10)}
+*{box-sizing:border-box}body{margin:0;background:#dde3e7;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}button{font:inherit}.shell{width:390px;max-width:100%;height:100vh;margin:auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow)}.page{height:100%;overflow:auto;padding-bottom:84px}.header{height:48px;background:#fff;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}.header div{text-align:center;font-size:20px;cursor:pointer}.header h1{font-size:16px;margin:0}.hero,.section{background:#fff;border-bottom:1px solid var(--line);padding:14px 12px}.section{margin-top:9px;border-top:1px solid var(--line)}.hero .ey{font-size:11px;color:var(--primary);font-weight:900}.hero h2{font-size:21px;margin:5px 0}.hero p{font-size:12px;color:var(--muted);line-height:1.55;margin:0}.summary{margin-top:11px;border:1px solid #d8e7eb;background:#f7fbfc;border-radius:13px;padding:11px}.summary b{font-size:15px}.summary span{display:block;font-size:11px;color:var(--muted);line-height:1.5;margin-top:3px}.section h3{font-size:16px;margin:0 0 10px}.ready{border:1px solid #cfe2e7;background:#f4fafb;border-radius:13px;padding:11px}.ready b{display:block;font-size:14px}.ready span{display:block;font-size:11px;color:#4f6570;line-height:1.55;margin-top:4px}.password{border:1px solid #bad9e1;background:#f4fafb;border-radius:14px;padding:13px;text-align:center}.password .label{font-size:11px;color:var(--muted)}.password .code{font-size:32px;font-weight:900;letter-spacing:7px;color:var(--primary);margin:6px 0}.password p{font-size:11px;color:var(--muted);line-height:1.5;margin:0}.password-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}.password-actions button{height:40px;border-radius:10px;font-size:12px;font-weight:900}.outline{background:#fff;border:1px solid var(--primary);color:var(--primary)}.solid{background:var(--primary);border:0;color:#fff}.steps{display:flex;flex-direction:column;gap:10px}.step{display:grid;grid-template-columns:30px 1fr;gap:9px;align-items:flex-start}.num{width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--primary);display:grid;place-items:center;font-size:11px;font-weight:900}.step b{display:block;font-size:13px}.step span{display:block;font-size:11px;color:var(--muted);line-height:1.5;margin-top:2px}.rows{display:flex;flex-direction:column}.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #eef2f4;font-size:12px}.row:last-child{border-bottom:0}.row span{color:var(--muted)}.row b{text-align:right;max-width:62%}.tip{border:1px solid #e7dfc5;background:#fffaf0;border-radius:11px;padding:10px;font-size:11px;line-height:1.55;color:#675c43}.tip b{display:block;color:var(--text);font-size:12px;margin-bottom:3px}.transport{border:1px solid #efdfbd;background:#fff8e8;border-radius:12px;padding:11px}.transport b{font-size:13px}.transport p{font-size:11px;color:#6f6042;line-height:1.5;margin:4px 0 9px}.transport button{width:100%;height:40px;border:1px solid #9d7a2b;background:#fff;color:#76591d;border-radius:10px;font-size:12px;font-weight:900}.bottombar{position:absolute;bottom:0;left:0;right:0;height:72px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:112px 1fr;gap:8px;padding:10px 12px}.bottombar button{border-radius:11px;font-size:13px;font-weight:900;cursor:pointer}.secondary{border:1px solid var(--line);background:#fff}.primary{border:0;background:var(--primary);color:#fff}.hidden{display:none!important}.toast{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);background:#24323a;color:#fff;padding:8px 12px;border-radius:9px;font-size:10px;display:none;white-space:nowrap;z-index:80}
+
+.access-sheet-mask{position:absolute;inset:0;background:rgba(20,30,36,.34);z-index:90;display:none}.access-sheet-mask.show{display:block}.access-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:14px 14px 20px}.access-sheet h3{font-size:17px;margin:0 0 8px}.access-sheet p{font-size:12px;color:var(--muted);line-height:1.6}.access-sheet .card{border:1px solid var(--line);background:#f7fafb;border-radius:12px;padding:11px}.access-sheet .card b{font-size:14px}.access-sheet .card span{display:block;font-size:11px;color:var(--muted);margin-top:4px}.access-sheet button{width:100%;height:44px;margin-top:10px;border:0;border-radius:11px;background:var(--primary);color:#fff;font-size:13px;font-weight:900}
+.home-return{width:100%;min-height:42px;margin-top:10px;border:1px solid #AFC7B8;border-radius:11px;background:#FFF;color:#2D7154;font-size:12px;font-weight:800;cursor:pointer}
+</style>
+<style id="h01-visual-system-v21-migration">
+
+:root{--ms-bg:#FBF8F2;--ms-surface:#FFFDFC;--ms-text:#282F2B;--ms-muted:#6F7671;--ms-line:#E7E0D7;--ms-green:#2D7154;--ms-green-soft:#EEF5F0;--ms-green-deep:#294638;--ms-orange:#E77A3A;--ms-sand:#F6EFE5;--ms-shadow:0 8px 24px rgba(56,48,38,.065);--ms-shadow-soft:0 4px 14px rgba(56,48,38,.045)}
+html,body{background:#EEE9E1!important;color:var(--ms-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+.shell,.app{background:var(--ms-bg)!important;box-shadow:0 22px 52px rgba(48,43,35,.14)!important}
+.header,.nav,.tabbar,.bottombar,.bottom{background:rgba(255,253,249,.96)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.header,.nav{border-bottom:1px solid rgba(231,224,215,.78)!important}.header h1,.nav b{color:var(--ms-text)!important;font-weight:850!important}.back,.more{color:#4B5B52!important}
+h1,h2,h3{color:var(--ms-text)}.meta,.sub,.hint,.label,.eyebrow{color:var(--ms-muted)}
+.primary,.solid,.apply{background:var(--ms-green)!important;border-color:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.14)!important}
+.secondary,.outline{background:var(--ms-surface)!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}
+.price,.total{color:var(--ms-orange)!important}
+input,select,textarea{background:#FFF!important;border-color:var(--ms-line)!important;color:var(--ms-text)!important}
+@media(max-width:650px){html,body{background:var(--ms-bg)!important}.shell,.app{box-shadow:none!important}}
+
+.page{background:var(--ms-bg)!important}.hero{margin:10px!important;background:linear-gradient(145deg,#FFFDFC,#FBF4E9)!important;border:1px solid #EAE1D5!important;border-radius:18px!important;box-shadow:var(--ms-shadow)!important}.hero .ey{color:var(--ms-green)!important}.summary,.ready{background:#FFF!important;border-color:#EAE4DC!important;border-radius:13px!important}.section{margin:10px!important;background:var(--ms-surface)!important;border:1px solid var(--ms-line)!important;border-radius:18px!important;box-shadow:var(--ms-shadow-soft)!important}.password{background:#FBF9F5!important;border-color:#EAE4DC!important;border-radius:15px!important}.password .code{color:var(--ms-green-deep)!important}.step{background:#FFF!important;border-color:#EAE4DC!important;border-radius:13px!important}.step .num{background:var(--ms-green)!important;color:#fff!important;box-shadow:none!important}.rows{border-color:#ECE6DE!important;border-radius:12px!important;overflow:hidden}.row{border-color:#EFE9E2!important}.tip,.transport{background:#F7F1E8!important;border-color:#ECE1D4!important;border-radius:13px!important}.bottombar{border-top:1px solid var(--ms-line)!important;box-shadow:0 -5px 18px rgba(62,54,42,.04)!important}
+
+</style>
+<style id="visual-v22-qa-closeout">
+/* Visual V2.2 QA closeout — CSS only. No DOM/copy/order/JS changes. */
+:root{--v22-touch:44px}
+@media(max-width:650px){
+  html,body{background:var(--ms-bg,var(--bg,#FBF8F2))!important}
+  .shell{width:100%!important;max-width:none!important;height:100dvh!important;margin:0!important;box-shadow:none!important}
+  .tabbar,.bottomnav{padding-bottom:env(safe-area-inset-bottom)}
+  .bottombar,.bottom{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
+/* Bottom actions remain visually separate from scroll content. */
+.bottombar,.bottomnav,.tabbar,.bottom{box-shadow:0 -5px 18px rgba(62,54,42,.055)!important}
+/* Price typography: consistent numeric rhythm. */
+.price,.unit-price,.price-num,.value,[id*=Price],[id=monthly]{font-variant-numeric:tabular-nums}
+</style>
+
+<style id="v274-wx-capsule-global">
+/* V2.7.3 — reserve the right side for the native WeChat Mini Program capsule. */
+.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;gap:11px;color:#1F2933;font-size:15px;box-shadow:0 1px 3px rgba(20,32,51,.04);justify-self:center;flex:0 0 86px}
+.wx-capsule-space .divider{width:1px;height:16px;background:#E4E7E9}.wx-capsule-space .dot{letter-spacing:1px;font-size:13px}.wx-capsule-space .circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%;display:block}
+.header,.nav{grid-template-columns:48px minmax(0,1fr) 94px!important}
+.header{display:grid!important}.header h1,.nav>h1,.nav>b,#navTitle{text-align:center!important;min-width:0}
+.header>.back,.nav>.back{justify-self:center}.header>.wx-capsule-space,.nav>.wx-capsule-space{justify-self:center}
+.top{display:grid!important;grid-template-columns:48px minmax(0,1fr) 94px!important;align-items:center!important;gap:0!important;padding-left:8px!important;padding-right:4px!important}.top h1{text-align:center!important;min-width:0}.top>.back{justify-self:center}.top>.wx-capsule-space{justify-self:center}
+@media(max-width:380px){.wx-capsule-space{width:82px;flex-basis:82px}.header,.nav,.top{grid-template-columns:44px minmax(0,1fr) 88px!important}}
+</style>
+<style id="preflight-token-hygiene">
+/* V2.7.4.3 preflight hygiene: retire legacy blue/gray root tokens in user-facing states. */
+:root{--primary:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0;--warn:#FFF8E8}
+</style>
+<link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell">
+<link rel="stylesheet" href="mk-v3-life-service-batch-c.css" data-ui-system="vis06c-batch-c-life">
+<link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-site-shell koala-vis06c-life koala-life-service" data-ux-patch-d2="v1"><div class="shell"><div class="page">
+<div class="header"><div id="back">‹</div><h1>自助入仓</h1><div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div></div>
+<div class="hero"><div class="ey">第一次入仓</div><h2 id="heroTitle">今天起可以自助入仓</h2><p id="heroDesc">门店公共仓储区域可直接进入，无需等待工作人员；您的仓位使用独立密码锁。</p><div class="summary"><b id="summaryTitle">—</b><span id="summaryMeta">—</span></div><button class="home-return" id="homeEntry" type="button">返回首页</button></div>
+<section class="section"><div class="ready"><b id="readyTitle">仓位已为您锁定</b><span id="readyDesc">支付成功后，这个唯一仓位不会再售给其他用户。</span></div></section>
+<section class="section" id="passwordSection"><h3>您的仓位密码</h3><div class="password"><div class="label" id="passwordUnit">当前仓位</div><div class="code" id="lockCode">—</div><p id="passwordNote">用于打开当前仓位密码锁，请勿转发给无关人员。</p><div class="password-actions"><button class="outline" id="copyCode">复制密码</button><button class="solid" id="showHow">如何开锁</button></div></div></section>
+<section class="section hidden" id="accessPending"><h3>用仓准备</h3><div class="ready"><b id="pendingTitle">先完成身份验证</b><span id="pendingDesc">仓位已锁定，身份证要素验证通过且到开始日期后才开放仓位密码。</span></div><button id="verifyNow" type="button" style="width:100%;min-height:44px;margin-top:10px;border:0;border-radius:11px;background:var(--primary);color:#fff;font-weight:800">完成身份验证</button></section>
+<section class="section"><h3>到店后按 4 步</h3><div class="steps">
+<div class="step"><div class="num">1</div><div><b>导航到门店</b><span id="step1">按地址导航，到达建筑后跟随「迷你仓」现场标识进入。</span></div></div>
+<div class="step"><div class="num">2</div><div><b>直接进入仓储区域</b><span>公共仓储区域开放，可直接进入，无需等待工作人员接待。</span></div></div>
+<div class="step"><div class="num">3</div><div><b>找到您的仓位</b><span id="step3">按楼层、区域和仓位编号找到对应仓位。</span></div></div>
+<div class="step"><div class="num">4</div><div><b>输入密码并开始存放</b><span>将密码锁拨到当前4位密码后开仓；关仓后请确认锁好并打乱密码。</span></div></div>
+</div></section>
+<section class="section"><h3>到店信息</h3><div class="rows">
+<div class="row"><span>门店</span><b id="storeName">—</b></div><div class="row"><span>地址</span><b id="address">—</b></div><div class="row"><span>入口</span><b id="entry">—</b></div><div class="row"><span>停车 / 卸货</span><b id="parking">—</b></div><div class="row"><span>大件通道</span><b id="freight">—</b></div><div class="row"><span>仓位位置</span><b id="unitInfo">—</b></div><div class="row"><span>开始存放</span><b id="startDate">—</b></div><div class="row"><span>存取时间</span><b>24小时自助存取</b></div>
+</div></section>
+<section class="section hidden" id="transportSection"><h3>首单运输</h3><div class="transport"><b id="transportTitle">您有1次单程基础运输权益</b><p id="transportDesc"></p><button id="transportAction">预约运输</button></div></section>
+<section class="section"><h3>第一次存放前</h3><div class="tip"><b>入仓前用仓指导</b>如存放柜子、床垫等大件，可提前联系门店或顾问确认进仓与搬运安排。</div><div class="tip" style="margin-top:8px"><b>有些物品不能存</b>易燃易爆、危险化学品、违禁品、易腐或有强烈异味的物品等不可存放；不确定时可先联系门店。</div></section>
+</div><div class="bottombar"><button class="secondary" id="contactStore">联系门店</button><button class="primary" id="navBottom">导航到店</button></div><div class="access-sheet-mask" id="accessSheet"><div class="access-sheet"><h3 id="accessSheetTitle">到店信息</h3><div class="card" id="accessSheetBody"></div><button id="accessSheetClose">知道了</button></div></div><div class="toast" id="toast"></div></div>
+<script src="mini_storage_business_ssot_v274.js"></script>
+<script src="../data/mini_koala_data.js"></script><script>
+const ORDER_KEY='mini_storage_order_current',BOOKING_KEY='mini_storage_transport_booking_current';
+const o03File='mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html',o02File='mini_storage_order_o02_v1_17_self_service_Visual_V2_7_4.html',id01File='mini_storage_identity_id01_v2_7_4_5.html',homeFile='mini_storage_home_H01_Visual_V2_7_4_SSOT.html';
+const p=new URLSearchParams(location.search),STORES=window.MINI_STORAGE_MASTER_V242.stores,LIFECYCLE=window.MINI_STORAGE_LIFECYCLE_V242;
+function obj(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return {}}}
+function toast(m){const t=document.querySelector('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1500)}
+function dateCN(v){if(!v)return '待确认';const [y,m,d]=String(v).split('-');return `${Number(m)}月${Number(d)}日`}
+const requested=p.get('orderNo')||'',o=requested?(window.MINI_STORAGE_REPO_V242.findOrder(requested)||{}):window.MINI_STORAGE_REPO_V242.getCurrent(),booking=obj(BOOKING_KEY);
+const lifecycle=LIFECYCLE.derive(o);
+const paidValid=!!(o.order_no && o.status==='PAID' && o.payment_status==='PAID' && (!requested || requested===o.order_no) && STORES[o.store_id]);
+if(!paidValid){location.replace((o.order_no?o02File:'index_visual_v2_7_4.html')+(o.order_no?'?orderNo='+encodeURIComponent(o.order_no):''));throw new Error('PAID_ORDER_REQUIRED')}
+if(!lifecycle.is_current){location.replace(o03File+'?orderNo='+encodeURIComponent(o.order_no));throw new Error('LIFECYCLE_ACCESS_CLOSED')}
+const storeId=o.store_id,rawStore=STORES[storeId],sp={...rawStore,entry:rawStore.entry||'到达建筑后按「迷你仓」现场标识进入（演示指引）',parking:rawStore.parking||'可临停卸货，具体位置按现场指引（演示）',freight:rawStore.freight||'大件通道按现场标识进入（演示指引）',access_hours:rawStore.access_hours||'24小时自助存取（演示预填）'},unit=o.actual_unit_id||(o.unit_id_semantics!=='LEGACY_REPRESENTATIVE_DISPLAY'?o.unit_id:null),volume=Number(o.volume||0),start=o.start_date,orderNo=o.order_no,lockCode=o.lock_code;
+const upcoming=lifecycle.state==='upcoming';
+document.querySelector('#heroTitle').textContent=lifecycle.identity_verification_status!=='VERIFIED'?'仓位已锁定，请先完成身份验证':upcoming?`${dateCN(start)}起可以自助入仓`:'今天起可以自助入仓';
+document.querySelector('#heroDesc').textContent=lifecycle.identity_verification_status!=='VERIFIED'?'您可以提前查看到店方式；验证通过且到开始日期后才开放仓位密码。':upcoming?'身份已验证，仓位已锁定；请从开始日期起使用。':'当前订单已支付且完成验证，可按入仓指引使用。';
+document.querySelector('#summaryTitle').textContent=`${sp.name} · 仓位 ${unit}`;document.querySelector('#summaryMeta').textContent=`${volume?volume.toFixed(1)+'m³ · ':''}${dateCN(start)}开始存放 · ${sp.access_hours}`;
+document.querySelector('#passwordSection').classList.toggle('hidden',!lifecycle.access_view_allowed||!lockCode);
+document.querySelector('#accessPending').classList.toggle('hidden',!!(lifecycle.access_view_allowed&&lockCode));
+if(!lifecycle.access_view_allowed||!lockCode){const verified=lifecycle.identity_verification_status==='VERIFIED';document.querySelector('#pendingTitle').textContent=verified?`${dateCN(start)}起开放仓位密码`:'先完成身份证要素验证';document.querySelector('#pendingDesc').textContent=verified?'验证已完成，仓位已锁定；您可以提前查看到店信息，开始日期后再入仓。':'支付成功后仓位已锁定；验证通过且到开始日期后才开放仓位密码。';document.querySelector('#verifyNow').classList.toggle('hidden',verified)}
+document.querySelector('#passwordUnit').textContent=`${sp.name} · 仓位 ${unit}`;document.querySelector('#lockCode').textContent=lifecycle.access_view_allowed?lockCode:'—';document.querySelector('#passwordNote').textContent='用于打开当前仓位密码锁，请勿转发给无关人员。';
+document.querySelector('#storeName').textContent=sp.name;document.querySelector('#address').textContent=sp.address;document.querySelector('#entry').textContent=sp.entry;document.querySelector('#parking').textContent=sp.parking;document.querySelector('#freight').textContent=sp.freight;document.querySelector('#unitInfo').textContent=`地下1层 · 仓位 ${unit}`;document.querySelector('#startDate').textContent=dateCN(start);document.querySelector('#step1').textContent=`导航至 ${sp.address}；到达建筑后按「迷你仓」现场标识进入。`;document.querySelector('#step3').textContent=`前往地下1层，按仓位编号找到 ${unit}。`;
+const timeRow=[...document.querySelectorAll('.row')].find(r=>r.querySelector('span')?.textContent==='存取时间');if(timeRow)timeRow.querySelector('b').textContent=sp.access_hours;
+const right=o.transport_right_status||'';if(['PENDING_BOOKING','BOOKED','REDEEMED'].includes(right)){document.querySelector('#transportSection').classList.remove('hidden');if(right==='BOOKED'){document.querySelector('#transportTitle').textContent='首单运输已预约';document.querySelector('#transportDesc').textContent=booking.date?`${dateCN(booking.date)} · ${booking.time||''} · ${booking.pickup_address||'搬出地址已记录'}`:'预约信息已保存。';document.querySelector('#transportAction').textContent='查看运输预约'}else if(right==='REDEEMED'){document.querySelector('#transportTitle').textContent='首单运输已使用';document.querySelector('#transportDesc').textContent='本订单的单程基础运输权益已经完成。';document.querySelector('#transportAction').textContent='查看记录'}else{document.querySelector('#transportTitle').textContent='您有1次单程基础运输权益';document.querySelector('#transportDesc').textContent='需要协助把物品运到门店，可在正式版订单内预约。'}document.querySelector('#transportAction').onclick=()=>openAccessSheet('运输服务','<b>运输预约子页暂未纳入当前交易演示包</b><span>当前订单中的运输权益状态已经保留。</span>')}
+function orderUrl(){return o03File+'?orderNo='+encodeURIComponent(orderNo)}
+document.querySelector('#back').onclick=()=>location.href=orderUrl();document.querySelector('#homeEntry').onclick=()=>{window.MINI_STORAGE_REPO_V242.saveCurrent(o);location.href=homeFile+'?state=active&source=access_home&orderNo='+encodeURIComponent(orderNo)};document.querySelector('#verifyNow').onclick=()=>location.href=id01File+'?orderNo='+encodeURIComponent(orderNo);document.querySelector('#copyCode').onclick=async()=>{if(!lifecycle.access_view_allowed||!lockCode){toast('当前尚不可查看仓位密码');return}try{await navigator.clipboard?.writeText(lockCode);toast('仓位密码已复制')}catch(e){toast(`仓位密码：${lockCode}`)}};document.querySelector('#showHow').onclick=()=>toast('拨到4位密码 → 打开锁具 → 关仓后锁好并打乱密码');
+function openAccessSheet(title,html){document.querySelector('#accessSheetTitle').textContent=title;document.querySelector('#accessSheetBody').innerHTML=html;document.querySelector('#accessSheet').classList.add('show')}
+document.querySelector('#accessSheetClose').onclick=()=>document.querySelector('#accessSheet').classList.remove('show');document.querySelector('#accessSheet').onclick=e=>{if(e.target.id==='accessSheet')e.currentTarget.classList.remove('show')};document.querySelector('#navBottom').onclick=()=>openAccessSheet('导航到门店',`<b>${sp.name}</b><span>${sp.address}</span><span>${sp.entry}</span>`);document.querySelector('#contactStore').onclick=()=>openAccessSheet('联系门店',`<b>${sp.name}</b><span>正式版在此接入该门店真实联系方式或在线客服。</span>`);
+</script><script src="mini_storage_global_support_v274.js"></script>
+</body></html>

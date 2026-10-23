@@ -1,0 +1,82 @@
+script,D1_result,D2_result,introduced_in_D2,category_tentative,next_action_priority,error_excerpt,recommended_action
+test_acceptance_v11_followup.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:,人工定位，配合真实双尺寸流程核验
+test_acceptance_v11_patch_c.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:,人工定位，配合真实双尺寸流程核验
+test_ai_space_estimator_patch.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,"Error: AI patch QA failed: S01 AI carry-over, home estimate entries show Estimator start, S01 store cards include viewing entry",人工定位，配合真实双尺寸流程核验
+test_batch_a_shared_facts.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_c_state_d_page_cleanup.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_combo_full_journey_recovery_v21.cjs,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,ReferenceError: quickStoreFilters is not defined,人工定位，配合真实双尺寸流程核验
+test_combo_physical_fit_p0.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_combo_recommendation_v1.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_confirmed_ux_v1.cjs,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,TypeError: Cannot read properties of undefined (reading 'forStore'),人工定位，配合真实双尺寸流程核验
+test_conversion_friction_v1.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_cross_page_route_targets_v1.py,FAIL,FAIL,NO,测试命令参数/输出目录或依赖未满足,P1-QA-INFRA,FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/UX_PATCH_D_FULL_2026-10-14/qa_isolated/Mini_Koala_H01_Lifestyle_Step03/outputs/cross_page_route_targets_v1.json',修正执行命令/测试环境后复跑
+test_demo_price_combo_cleanup.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_est_vis09_full45_merge.cjs,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_estimator_item_fallback_p0_v1.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,TypeError: host.querySelectorAll is not a function,人工定位，配合真实双尺寸流程核验
+test_estimator_s01_demand_carryback_v12.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,FAIL contextual carryback copy present,人工定位，配合真实双尺寸流程核验
+test_final_p1_closeout_v15.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: U01 identifies simulated door/shape facts,人工定位，配合真实双尺寸流程核验
+test_flow_action_cleanup.js,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,FAIL store unit list has inline size and term editor | FAIL recommendation return action renamed | FAIL store detail returns to estimator unit list,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_full_unit_master_simulated_state_v1.js,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,AssertionError [ERR_ASSERTION]: S02 has other-capacity section,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_h01_007_s3_trade_recheck.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,FAIL S2 kept outside authorized P1 settlement function / C02 transform reset  -- Expected values to be strictly equal:,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_h01_007_s4_entry_contracts.cjs,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,FAIL S01 browse strip offers the explicit switch 按我的需求匹配 when a requirement is saved,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_h01_recommendation_card_fix.cjs,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,TypeError: Cannot read properties of undefined (reading 'html'),人工定位，配合真实双尺寸流程核验
+test_inventory_urgency_conversion_v1.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: S01 demand cards elevate low matched inventory,人工定位，配合真实双尺寸流程核验
+test_inventory_visibility_soldout_semantics_v1.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: sold-out card provides a customer recovery path -> 当前已售罄，可以查看附近其他门店。,人工定位，配合真实双尺寸流程核验
+test_miniprogram_ui_system_v1.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: mini_storage_home_H01_Visual_V2_7_4_SSOT.html: body class,人工定位，配合真实双尺寸流程核验
+test_mms_decision_flow.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,TypeError: document.getElementById is not a function,人工定位，配合真实双尺寸流程核验
+test_navigation_vnext.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_o01_runtime.js,FAIL,FAIL,NO,测试命令参数/输出目录或依赖未满足,P1-QA-INFRA,} |  | Node.js v22.16.0,修正执行命令/测试环境后复跑
+test_phase2_city_scope.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,TypeError: document.addEventListener is not a function,人工定位，配合真实双尺寸流程核验
+test_phase3a_controlled_patch.cjs,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,AssertionError [ERR_ASSERTION]: missing source section const PHASE3A_QUICK_PRESETS=,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_phase3b_batch_ab.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: 'e58a3f90efce1311221fc3bfcc004cab2177c5dfe90533e048840af6b65bd77d' == 'e52796c246c3307f6a5351c9561aa1055cd420ad20b69c829d164def9b747e2a',更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_phase3b_batch_c_u01.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: '828d45e3975b39991b72ecbfb6b24b4de8017c20ba9f4bf4ce1c577d814538c5' == '02ec7c67ba35ed6a8daaea2c04ab21e7835947d6f8609372e9c849e9b1c3ecfb',更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_phase3b_batch_d_cross_page.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: 'a91c735867a6d46d84ed9551e99050f4df19121573fbd8e8ef11108dea2a91f4' == '6e96928af88406a93c49d7d44f2fdee7adaf0c79d866dbc92666ba04f5baab21',更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_phase3c_unified_scope.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: Current mini_storage_coupon_benefit_v1.js,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_price_semantics_display_v1.js,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,AssertionError [ERR_ASSERTION]: estimator plan monthly value is explicitly approximate,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_real_store_asset_mapping_v1.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: mini_storage_home_H01_Visual_V2_7_4_SSOT.html body matches accepted freeze,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_real_store_gallery_v2.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html body matches approved Phase 3B or historical freeze,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_s01_filter_sort_refinement_v1.cjs,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,ReferenceError: passesQuickFilters is not defined,人工定位，配合真实双尺寸流程核验
+test_s01_ux_continuity_patch_v1.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,ReferenceError: window is not defined,人工定位，配合真实双尺寸流程核验
+test_sales_share_mode.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,FAIL S02 uses a higher default distance threshold,人工定位，配合真实双尺寸流程核验
+test_sprint1b_estimator_visual.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,FAIL Estimator body/copy/interaction markup matches the Phase 3A V1.1 authorized estimator markup,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_sprint1c_recommendation_visual.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,FAIL Estimator body/copy/state/interaction markup matches the Phase 3A V1.1 authorized estimator markup,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_sprint1d_s01_visual.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,FAIL S01 body matches the accepted service-filter interaction baseline,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_sprint1e_s02_visual.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,FAIL S02 body matches the accepted store-detail interaction baseline,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_sprint1f_u01_visual.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,FAIL U01 body changes only under Phase 3B Batch C authorized version,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_sprint1g_core_visual_harmonization.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,Error: mini_storage_home_H01_Visual_V2_7_4_SSOT.html: body changed,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_sprint2_transaction_visual.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: Q01 must match Phase 3C A authorized bytes,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_sprint3_lifecycle_visual.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,Error: mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html: body drift 9873dca24ee8175a3683b00ae98e761d5be612bb0d27d78fb8114c0e7d45cdf5,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_ssot.js,FAIL,FAIL,NO,测试命令参数/输出目录或依赖未满足,P1-QA-INFRA,} |  | Node.js v22.16.0,修正执行命令/测试环境后复跑
+test_static_package_integrity.js,FAIL,FAIL,NO,静态扫描可能误把模板占位符识别为资源路径,P2-TEST,Missing local references: | mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html -> ${image} | space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html -> ../assets/item-icons/full45-trial/${key}.webp,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_store_card_unification_v1.cjs,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,ReferenceError: window is not defined,人工定位，配合真实双尺寸流程核验
+test_store_unit_match.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,ReferenceError: quickStoreFilters is not defined,人工定位，配合真实双尺寸流程核验
+test_store_unit_review_patch.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: S02 restores the demo service promise line,人工定位，配合真实双尺寸流程核验
+test_term_handoff.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: 2 == 1,人工定位，配合真实双尺寸流程核验
+test_term_selector_consistency.js,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,FAIL Estimator: includes 24-month shortcut | FAIL Estimator: term selector shows 7.5折 | FAIL Estimator: term selector shows 7折,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_u01_context.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: 2 == 1,人工定位，配合真实双尺寸流程核验
+test_ux_copy_flow_v1.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: unauthorized change prototype/mini_storage_order_o02_v1_1_contract_linked.html,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_ux_patch_a1_usage_amount.cjs,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_ux_patch_b_store_unification.cjs,FAIL,FAIL,NO,与新版需求明显存在冲突的旧界面/文案断言,P2-TEST,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_ux_scope_v1.cjs,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: Unauthorized runtime modification: prototype/index.html,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_ux_simplification_v1.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_v14_canonical_store_and_s01_integrity.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,TypeError: document.addEventListener is not a function,人工定位，配合真实双尺寸流程核验
+test_v1_freeze_p1_closeout.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: H01 direct default must be unlocated,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_v27411_requirement_patch.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_v27412_runtime_regressions.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,AssertionError [ERR_ASSERTION]: Got unwanted exception: S02 main script must initialize | TypeError: document.getElementById is not a function,人工定位，配合真实双尺寸流程核验
+test_v27413_store_list_and_back.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,AssertionError [ERR_ASSERTION]: Got unwanted exception: S01 browse script must initialize | TypeError: document.addEventListener is not a function,人工定位，配合真实双尺寸流程核验
+test_v27415_recommendation_pricing.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: recommendation must show non-zero matched warehouse count,人工定位，配合真实双尺寸流程核验
+test_v27416_global_support_home_cards.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_v27417_2_home_pricing_tags.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,FAIL second badge uses 稍远更省,人工定位，配合真实双尺寸流程核验
+test_v27417_3_home_discount_tags_global_support.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_v27417_4_recommendation_alignment.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_v27417_5_store_discovery_community.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_v27417_6_estore_placement.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,FAIL 普通浏览插入第3位 | FAIL 只在普通浏览插入,人工定位，配合真实双尺寸流程核验
+test_v27417_7_price_term_layout.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,人工定位，配合真实双尺寸流程核验
+test_v27417_data_semantics_home_integrity.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,FAIL home evidence is fact-safe and unified,人工定位，配合真实双尺寸流程核验
+test_v27418_baseline_closure.js,FAIL,FAIL,NO,旧版冻结/文件指纹契约（需核对变更白名单）,P2-TEST,AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:,更新验收契约并复跑（不得改业务逻辑迎合旧断言）
+test_v27418_golden_scenarios.js,FAIL,FAIL,NO,VM / DOM 仿真依赖不匹配（需用浏览器复核）,P1-FLOW-RECHECK,TypeError: Cannot read properties of undefined (reading 'rank'),人工定位，配合真实双尺寸流程核验
+test_viewing_runtime.js,FAIL,FAIL,NO,测试命令参数/输出目录或依赖未满足,P1-QA-INFRA,} |  | Node.js v22.16.0,修正执行命令/测试环境后复跑
+test_vis06c_batch_b_static.cjs,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,FAIL 5 exact opt-in pages; single CSS reference at end of head q01,人工定位，配合真实双尺寸流程核验
+test_vis06e_estimate_semantic_gate.cjs,FAIL,FAIL,NO,测试命令参数/输出目录或依赖未满足,P1-QA-INFRA,} |  | Node.js v22.16.0,修正执行命令/测试环境后复跑
+test_visual_elevation_v2_1_density.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,Error: space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html body changed,人工定位，配合真实双尺寸流程核验
+test_visual_elevation_v2_1_secondary_density.js,FAIL,FAIL,NO,历史失败但业务归因未关闭（需逐项定位）,P1-TRIAGE,Error: space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html body changed,人工定位，配合真实双尺寸流程核验

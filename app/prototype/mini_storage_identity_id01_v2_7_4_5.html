@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN" class="vis-bg01" data-vis-page="ID01">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>用仓前身份验证</title>
+<style>
+:root{--green:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text)}button{font:inherit;cursor:pointer}
+.shell{width:390px;max-width:100%;height:100dvh;margin:auto;position:relative;overflow:hidden;background:var(--bg)}.page{height:100%;overflow:auto;padding-bottom:92px}
+.header{height:48px;display:grid;grid-template-columns:48px minmax(0,1fr) 94px;align-items:center;background:var(--card);border-bottom:1px solid var(--line)}.header h1{text-align:center;font-size:16px;margin:0}.back{border:0;background:transparent;font-size:22px;color:var(--green);height:44px}.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:#fff;justify-self:center;display:flex;align-items:center;justify-content:center;gap:11px;font-size:15px;color:#323B42}.divider{width:1px;height:16px;background:#E4E7E9}.circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%}
+.card{margin:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px 14px}.ey{display:inline-block;background:var(--soft);color:var(--green);padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.card h2{font-size:20px;margin:13px 0 6px}.card p{font-size:13px;line-height:1.65;color:var(--muted);margin:6px 0}.fact{margin-top:12px;padding:11px;border-radius:12px;background:var(--soft);font-size:13px;line-height:1.65}.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:11px 0;font-size:13px}.row:last-child{border:0}.row span{color:var(--muted)}.row b{text-align:right}.demo{margin-top:14px;border:1px dashed #C5D8CA;padding:12px;border-radius:12px;background:#F7FAF7}.demo strong{font-size:12px}.demo p{font-size:11px}.demo-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.demo-actions button{border:1px solid var(--green);background:#fff;color:var(--green);min-height:44px;border-radius:10px;font-size:12px;font-weight:800}
+.bottombar{position:absolute;bottom:0;left:0;right:0;display:grid;grid-template-columns:112px 1fr;gap:8px;padding:10px 12px max(10px,env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}.bottombar button{min-height:48px;border-radius:11px;font-size:14px;font-weight:800}.secondary{background:var(--card);color:var(--green);border:1px solid #AFC7B8}.primary{background:var(--green);color:white;border:0}.hidden{display:none!important}
+@media(max-width:380px){.header{grid-template-columns:44px minmax(0,1fr) 88px}.wx-capsule-space{width:82px}}
+</style>
+<link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell"><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-site-shell" data-ux-patch-d2="v1"><div class="shell"><div class="page">
+<header class="header"><button class="back" id="back" aria-label="返回订单">‹</button><h1>用仓前身份验证</h1><div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span>•••</span><span class="divider"></span><span class="circle"></span></div></header>
+<section class="card"><span class="ey">仓位已锁定</span><h2 id="statusTitle">首次用仓前完成身份验证</h2><p id="statusDesc">支付已经完成，您的仓位已锁定。身份验证通过且到开始日期后，可查看仓位密码并自助入仓。</p><div class="fact" id="statusFact">当前仅记录验证状态，不在此原型填写或保存身份证要素。</div></section>
+<section class="card"><div class="row"><span>订单</span><b id="orderNo">—</b></div><div class="row"><span>仓位</span><b id="unit">—</b></div><div class="row"><span>开始存放</span><b id="start">—</b></div><div class="demo hidden" id="demo"><strong>内部演示 · 模拟核验结果</strong><p>此处模拟外部安全核验返回的状态；不会收集身份证号码或照片。</p><div class="demo-actions"><button id="pass" type="button">模拟验证通过</button><button id="fail" type="button">模拟未通过</button></div></div></section>
+</div><div class="bottombar"><button class="secondary" id="order" type="button">返回订单</button><button class="primary" id="action" type="button">开始验证</button></div></div>
+<script src="mini_storage_business_ssot_v274.js"></script>
+<script src="../data/mini_koala_data.js"></script><script>
+const repo=window.MINI_STORAGE_REPO_V242,lc=window.MINI_STORAGE_LIFECYCLE_V242;
+const q=new URLSearchParams(location.search),orderNo=q.get('orderNo')||'',order=repo.findOrder(orderNo);
+const o03='mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html',a01='mini_storage_access_a01_v2_self_service_Visual_V2_7_4.html',home='mini_storage_home_H01_Visual_V2_7_4_SSOT.html';
+const valid=!!(order?.order_no&&order.status==='PAID'&&order.payment_status==='PAID'&&lc.derive(order).is_current);
+if(!valid){location.replace(order?.order_no?o03+'?orderNo='+encodeURIComponent(orderNo):home);throw new Error('PAID_CURRENT_ORDER_REQUIRED')}
+const orderUrl=()=>o03+'?orderNo='+encodeURIComponent(orderNo),guideUrl=()=>a01+'?orderNo='+encodeURIComponent(orderNo);
+const date=v=>String(v||'').replaceAll('-','/');
+const physicalUnitId=order.actual_unit_id||(order.unit_id_semantics!=='LEGACY_REPRESENTATIVE_DISPLAY'?order.unit_id:null);document.querySelector('#orderNo').textContent=orderNo;document.querySelector('#unit').textContent=physicalUnitId?`${window.MINI_STORAGE_MASTER_V242.stores[order.store_id]?.name||'门店'} · ${physicalUnitId}`:`${window.MINI_STORAGE_MASTER_V242.stores[order.store_id]?.name||'门店'} · 具体仓位待分配`;document.querySelector('#start').textContent=date(order.start_date);
+document.querySelector('#back').onclick=document.querySelector('#order').onclick=()=>location.href=orderUrl();
+function render(){const current=repo.findOrder(orderNo),status=lc.identityStatus(current),started=lc.derive(current).physical_access_allowed;
+  const titles={NOT_STARTED:'首次用仓前完成身份验证',PENDING:'身份验证进行中',FAILED:'身份验证未通过',VERIFIED:'身份验证已完成'};
+  const descriptions={NOT_STARTED:'支付已经完成，您的仓位已锁定。验证通过且到开始日期后，可自助入仓。',PENDING:'验证结果尚未返回，仓位已为您锁定。结果更新前暂不开放仓位密码。',FAILED:'当前验证未通过，您可以重试；如需帮助请从订单联系门店。仓位仍为您锁定。',VERIFIED:started?'验证已通过，您现在可以查看入仓指引和仓位密码。':'验证已通过。您可以先查看到店信息，到开始日期后再使用仓位。'};
+  document.querySelector('#statusTitle').textContent=titles[status];document.querySelector('#statusDesc').textContent=descriptions[status];
+  document.querySelector('#statusFact').textContent=status==='VERIFIED'?'支付与身份验证均已完成；仓位密码仅在租期开始后开放。':'原型仅记录验证结果状态，不收集身份证号码、照片或其他身份证要素。';
+  document.querySelector('#action').textContent=status==='VERIFIED'?'查看入仓指引':status==='PENDING'?'查看验证结果':status==='FAILED'?'重新演示验证':'一键演示验证';
+  document.querySelector('#demo').classList.toggle('hidden',status!=='PENDING'||q.get('simulatePending')!=='1');
+}
+function completeDemoVerification(){const current=repo.findOrder(orderNo);if(!['NOT_STARTED','FAILED','PENDING'].includes(lc.identityStatus(current)))return;const physicalUnit=current.actual_unit_id||(current.unit_id_semantics!=='LEGACY_REPRESENTATIVE_DISPLAY'?current.unit_id:null);if(!physicalUnit){document.querySelector('#statusFact').textContent='当前没有可验证的具体仓位，请从订单联系门店。';return}const updated=repo.updateOrder(orderNo,{identity_verification_status:'VERIFIED',identity_verified_at:new Date().toISOString(),lock_code:current.lock_code||lc.lockCodeFor(physicalUnit,orderNo)});repo.updateOrder(orderNo,lc.normalize(updated));render()}
+document.querySelector('#action').onclick=()=>{const current=repo.findOrder(orderNo),status=lc.identityStatus(current);if(status==='VERIFIED'){location.href=guideUrl();return}if(status==='PENDING'&&q.get('simulatePending')==='1'){render();return}if(q.get('simulatePending')==='1'){repo.updateOrder(orderNo,{identity_verification_status:'PENDING',access_status:'IDENTITY_REQUIRED',first_access_allowed:false});render();return}completeDemoVerification()};
+document.querySelector('#pass').onclick=completeDemoVerification;
+document.querySelector('#fail').onclick=()=>{const current=repo.findOrder(orderNo);if(lc.identityStatus(current)!=='PENDING')return;repo.updateOrder(orderNo,{identity_verification_status:'FAILED',lock_code:null,access_status:'IDENTITY_REQUIRED',first_access_allowed:false});render()};
+render();
+</script><script src="mini_storage_global_support_v274.js"></script>
+</body></html>

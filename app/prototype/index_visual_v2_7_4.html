@@ -1,0 +1,24 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>迷你考拉 · V2.7.4.4 Transaction & State Consistency Patch</title><style>*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;background:#FBF8F2;color:#282F2B;margin:0;padding:24px}.wrap{max-width:760px;margin:auto}h1{font-size:24px;margin-bottom:8px}h2{font-size:16px;margin:22px 0 10px}p{color:#6F7671;line-height:1.6}.grid{display:grid;gap:10px}a{display:block;padding:14px 16px;background:#FFFDFC;border:1px solid #E7E0D7;border-radius:14px;color:#2D7154;text-decoration:none}a b{display:block;font-size:14px}a small{display:block;color:#7A807B;margin-top:4px;font-weight:500}.note{margin-top:18px;padding:14px;border-radius:14px;background:#EEF5F0;color:#42564B;font-size:12px;line-height:1.7}</style><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+</head><body><div class="wrap"><h1>迷你考拉 · V2.7.4.4 Transaction & State Consistency Patch</h1><p>V2.7.4.4 交易与状态一致性补丁。H01 首屏与信任结构保持冻结；本轮修复价格快照、订单隔离、需求恢复和看仓预约闭环。</p>
+<h2>评审入口</h2><div class="grid"><a href="mini_storage_demo_d01_v5_entry_clarity_review.html"><b>D01 状态演示台</b><small>新用户、需求、预约、报价、待支付与租赁生命周期状态</small></a></div>
+<h2>管理层演示主链</h2><div class="grid">
+<a href="mini_storage_home_H01_Visual_V2_7_4_SSOT.html"><b>H01 首页</b><small>首屏文案结构按本轮要求保持不变</small></a>
+<a href="space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html"><b>Estimator 空间估算</b><small>左上返回统一；右侧胶囊安全区；快捷租期可点选；演示切换控件保留</small></a>
+<a href="mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html?target=4.8&min=4.3&max=5.6&term=6&state=estimated&location=guomao"><b>S01 附近门店</b><small>已有需求时压缩顶部工具，让匹配门店更早出现</small></a>
+<a href="mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html?store=jianguo&target=4.8&min=4.3&max=5.6&term=6&state=estimated&location=guomao"><b>S02 门店详情</b><small>推荐仓位优先；设施、搬运、地图降为可展开次级信息</small></a>
+<a href="mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html?store=jianguo&unit=C008&target=4.8&term=6"><b>U01 仓位详情</b><small>已填租期默认收缩；整期租金为主价格；看仓与顾问统一收进“需要帮助”</small></a>
+<a href="mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html?store=jianguo&unit=C008&target=4.8&term=6&monthly=687&rentTotal=4120&deposit=687&managementFee=50&initialPayable=4857&route=QUOTE_OPTIONAL&quoteStatus=active&start=2026-09-25"><b>Q01 确认报价</b><small>核心报价与下单优先；运输与联系方式降为次级展开</small></a>
+</div>
+<h2>交易与租后页面</h2><div class="grid">
+<a href="mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html?unit=C008&store=jianguo&target=4.8&term=6&monthly=687&rentTotal=4120&deposit=687&managementFee=50&initialPayable=4857&route=QUOTE_OPTIONAL&start=2026-09-25"><b>O01 下单与支付</b><small>合并价格区；本次应付为主视觉；协议未勾选时自动定位并高亮</small></a>
+<a href="mini_storage_viewing_v01_v1_14_self_service_synced.html?source=S02&scope=STORE&store=jianguo&target=4.8&term=6"><b>V01 预约看仓</b><small>保存门店、需求与到店时间</small></a>
+<a href="mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html"><b>M01 我的</b><small>当前租赁 / 生命周期入口</small></a>
+<a href="mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html"><b>O03 订单详情</b><small>续租、退租、押金、发票入口</small></a>
+<a href="mini_storage_renew_rn01_v2_7_4.html"><b>RN01 续租</b><small>生命周期能力沿用 V2.4.2</small></a>
+<a href="mini_storage_exit_ex01_v2_7_4.html"><b>EX01 退租 / 到期处理</b><small>生命周期能力沿用 V2.4.2</small></a>
+<a href="mini_storage_deposit_dp01_v2_7_4.html"><b>DP01 押金处理</b><small>生命周期能力沿用 V2.4.2</small></a>
+<a href="mini_storage_order_history_oh01_v2_7_4.html"><b>OH01 历史订单</b><small>生命周期能力沿用 V2.4.2</small></a>
+<a href="mini_storage_invoice_iv01_v2_7_4.html"><b>IV01 发票</b><small>生命周期能力沿用 V2.4.2</small></a>
+</div>
+<div class="note"><b>本轮明确保留：</b>H01 首屏“一站式自助储物仓 / 30秒快速报价”等文案结构；Estimator 演示切换控件；24小时存取作为全部门店当前演示服务承诺。<br><b>统一 Business SSOT：</b>mini_storage_business_ssot_v274.js</div></div><script src="mini_storage_global_support_v274.js"></script>
+</body></html>

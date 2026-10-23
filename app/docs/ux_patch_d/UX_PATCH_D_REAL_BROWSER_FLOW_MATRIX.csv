@@ -1,0 +1,13 @@
+﻿id,workflow,status,evidence,issue_id,reviewer
+D-FLOW-01,小于5m³档位点击→S5→默认12月→首仓U01→返回S5→保留容量/租期,PENDING_REAL_BROWSER,,,
+D-FLOW-02,恰好显示5.0m³→S4→清空→重新添加→S5,PENDING_REAL_BROWSER,,,
+D-FLOW-03,大于5m³→S4→修改数量规格→S5→切换6月→U01→S02→返回S5仍6月,PENDING_REAL_BROWSER,,,
+D-FLOW-04,S5推荐单仓售罄/无匹配/只有组合仓的兜底路径,PENDING_REAL_BROWSER,,,
+D-FLOW-05,U01同店仅一仓→附近其他门店→需求匹配结果,PENDING_REAL_BROWSER,,,
+D-FLOW-06,S01普通浏览→筛选→S02→返回筛选、加载数、滚动位置,PENDING_REAL_BROWSER,,,
+D-FLOW-07,优惠券锁定→O01→O02→O03与整期租金快照对账,PENDING_REAL_BROWSER,,,
+D-FLOW-08,订单支付失败→首页/M01恢复支付，不改订单号、不二次计费,PENDING_REAL_BROWSER,,,
+D-FLOW-09,M01→RN01/EX01/DP01/OH01/IV01订单上下文和返回,PENDING_REAL_BROWSER,,,
+D-FLOW-10,H01/S01/M01四栏导航与所有业务页底部CTA逐项文字、禁用态、安全区,PENDING_REAL_BROWSER,,,
+D-FLOW-11,S2已知容量/拍照估算/直接找门店入口跳转及返回,PENDING_REAL_BROWSER,,,
+D-FLOW-12,375宽首页首屏、S5完整卡片、运输说明弹层及键盘滚动截图,PENDING_REAL_BROWSER,,,

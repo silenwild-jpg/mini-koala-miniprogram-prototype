@@ -1,0 +1,26 @@
+/* CAP-FIRST-ITEM-02 is scoped to the capacity and item screens. */
+body:has(#s4.active) .estvis05-steps[hidden]{display:none!important}
+#s7 .cap-first-assists{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:17px 0 8px}
+#s7 .cap-confirmed-summary{margin:4px 0 13px;padding:10px 12px;border:1px solid #cfe1d6;border-radius:10px;background:#f1f7f3;color:#214f3a;font-size:11px;line-height:1.55}
+#s7 .cap-confirmed-summary[hidden]{display:none}
+#s7 .cap-first-assists button{min-height:62px;border:1px solid #d8e6dc;border-radius:13px;background:#fff;color:#214f3a;text-align:left;padding:10px 12px;font-size:13px;font-weight:700}
+#s7 .cap-first-assists span{display:block;margin-top:5px;font-size:10px;font-weight:400;color:#6d7671}
+#s7 .cap-first-actions{display:grid!important;grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr);gap:9px}
+#s7 .cap-first-actions .cta{min-width:0;padding-inline:8px}
+#s4 .cap-item-modes{display:flex;gap:7px;margin:11px 0 8px}
+#s4 .cap-item-modes button{flex:1;min-height:36px;border:1px solid #d8e6dc;border-radius:9px;background:#fff;color:#49665a;font-size:12px}
+#s4 .cap-item-modes button.active{background:#eaf3ed;border-color:#8fb9a0;color:#214f3a;font-weight:700}
+#s4 .cap-item-nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+#s4 .cap-item-nav::-webkit-scrollbar{display:none}
+#s4 .cap-item-nav button{flex:none;min-height:34px;padding:5px 10px;border:1px solid #e2e8e3;border-radius:20px;background:#fff;color:#526c5d;font-size:11px}
+#s4 .cap-item-nav button.active{background:#eaf3ed;border-color:#8fb9a0;color:#214f3a;font-weight:700}
+#s4 .cap-cart-toggle{width:100%;margin:12px 0 0;min-height:39px;border:1px solid #cfe1d6;border-radius:10px;background:#f1f7f3;color:#214f3a;font-size:12px;font-weight:700}
+#s4 .cap-cart-sheet{margin:7px 0 10px;padding:11px;border:1px solid #cfe1d6;border-radius:12px;background:#fff;box-shadow:0 8px 20px #1f392019}
+#s4 .cap-cart-sheet[hidden]{display:none}
+#s4 .cap-cart-head,.cap-cart-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#s4 .cap-cart-head{padding-bottom:8px;border-bottom:1px solid #e8eee9}
+#s4 .cap-cart-head button{border:0;background:transparent;color:#6d7671;font-size:22px}
+#s4 .cap-cart-row{padding:9px 0;border-bottom:1px solid #eef2ef;font-size:11px;line-height:1.5}
+#s4 .cap-cart-row button{width:27px;height:27px;margin-left:4px;border:1px solid #cfe1d6;border-radius:7px;background:#fff;color:#2f6b4f}
+#s4 #capCartTotal{padding-top:9px;color:#214f3a;font-size:11px;font-weight:700}
+#s4 .cap-cumulative{display:block;color:#2f6b4f;font-weight:700}

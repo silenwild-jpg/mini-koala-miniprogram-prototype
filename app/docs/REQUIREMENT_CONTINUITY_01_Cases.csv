@@ -1,0 +1,26 @@
+﻿number,case,result
+1,S5 completion immediately persists demand,PASS
+2,H01 nearby-store entry inherits demand,PASS
+3,S01 bottom Find resumes S5 without recollecting,PASS
+4,H01 estimator entry resumes the last confirmed demand,PASS
+5,a stale new-user homepage URL still retains confirmed demand,PASS
+6,"S5 resume retains item constraints, range and identity",PASS
+7,S01 to S02 to U01 inherits the same requirement,PASS
+8,U01 changing term persists and both parent pages inherit it,PASS
+9,S01 confirmed capacity edit survives S5 return,PASS
+10,S02 confirmed demand edit replaces stale S5 snapshot,PASS
+11,"list sort, filters, loaded count and scroll survive U01 return",PASS
+12,location and travel changes inherit across both tab entries,PASS
+13,brand and mine side routes do not erase demand,PASS
+14,clearing the chosen term remains unselected after navigation,PASS
+15,explicit known-size entry prefills capacity and permits deliberate replacement,PASS
+16,known-size lower-bound meaning survives bottom Find and S5,PASS
+17,explicit reset clears demand and a new visitor receives browse mode,PASS
+18,unfinished estimator draft restores without becoming confirmed demand,PASS
+19,quote keeps its frozen demand after browsing changes the current estimate,PASS
+20,quote to order to local payment retains confirmed demand and amounts,PASS
+21,enterprise form prefills confirmed capacity and duration,PASS
+22,enterprise demand survives list and recommendation browsing,PASS
+23,explicit AI demo result changes capacity but inherits duration and location,PASS
+24,viewing appointment side branch preserves the current requirement,PASS
+25,browser Back restores the latest duration on the preceding S5 page,PASS

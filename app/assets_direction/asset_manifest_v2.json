@@ -1,0 +1,13 @@
+{
+  "version":"Visual Elevation V2 Asset Direction 1.0",
+  "status":"direction_frozen_assets_pending",
+  "slots":[
+    {"id":"home_brand_hero","ratio":"4:5 source / arched crop","priority":"P0","truth_type":"brand_or_real_environment","target":"H01"},
+    {"id":"store_hero","ratio":"3:2","priority":"P0","truth_type":"real_store_preferred","target":"S02"},
+    {"id":"store_card","ratio":"16:9 source -> 16:7/16:6 crop","priority":"P0","truth_type":"real_store_preferred","target":"H01,S01"},
+    {"id":"unit_environment","ratio":"4:3 or 3:2","priority":"P1","truth_type":"real_or_clearly_labeled_demo","target":"S02,U01"},
+    {"id":"b2b_scene","ratio":"4:3","priority":"P1","truth_type":"realistic_scenario","target":"B2B"},
+    {"id":"estore_service","ratio":"4:3","priority":"P2","truth_type":"service_scenario","target":"future_estore_detail"}
+  ],
+  "production_rules":{"prefer_webp":true,"list_target_kb":220,"hero_target_kb":320,"watermark":false,"ai_as_store_fact":false}
+}

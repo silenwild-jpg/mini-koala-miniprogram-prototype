@@ -1,0 +1,152 @@
+/* V1.1.1 + homepage lifestyle supplement, 2026-10-13.
+ * New-user hero and two task cards only. Existing IDs and click handlers retained.
+ * Uses the existing mk-v3 layer: low-specificity local overrides beat legacy important rules.
+ * Generated photo and decorative IP are demo assets, not official brand/store photography.
+ */
+@layer mk-v3 {
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero.state-new {
+    margin: 0 16px 12px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: var(--koala-surface) !important;
+    border-radius: var(--koala-radius) !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-intro {
+    position: relative !important;
+    display: block !important;
+    min-height: 174px !important;
+    padding: 20px 14px 18px !important;
+    box-sizing: border-box !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-copy {
+    position: relative !important;
+    z-index: 1 !important;
+    max-width: 174px !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-copy h1 {
+    font-size: 28px !important;
+    line-height: 36px !important;
+    font-weight: 700 !important;
+    color: var(--koala-brand-700) !important;
+    margin: 0 0 10px !important;
+    letter-spacing: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-lifestyle-desc {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    color: var(--koala-text-2) !important;
+    margin: 0 !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-photo {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    z-index: 0 !important;
+    background: var(--koala-surface) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-photo img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-benefits {
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    margin: 0 !important;
+    padding: 10px 4px 2px !important;
+    background: var(--koala-bg) !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-benefits span {
+    gap: 4px !important;
+    font-size: 13px !important;
+    line-height: 20px !important;
+    white-space: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 .home-lifestyle-hero .hero-benefits i {
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new {
+    align-items: stretch !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card {
+    position: relative !important;
+    min-height: 144px !important;
+    padding: 14px 12px !important;
+    overflow: hidden !important;
+    background: var(--koala-surface) !important;
+    border: 1px solid var(--koala-line) !important;
+    box-shadow: none !important;
+    text-align: left !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card.match-task {
+    background: var(--koala-brand-tint) !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card::before,
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card::after {
+    content: none !important;
+    display: none !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card .task-title {
+    font-size: 17px !important;
+    line-height: 24px !important;
+    color: var(--koala-text) !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card .task-desc {
+    position: relative !important;
+    z-index: 1 !important;
+    font-size: 13px !important;
+    line-height: 18px !important;
+    color: var(--koala-text-2) !important;
+    min-height: 36px !important;
+    margin: 4px 0 12px !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card .task-action {
+    position: relative !important;
+    z-index: 1 !important;
+    align-self: flex-start !important;
+    display: inline-block !important;
+    padding: 8px 0 !important;
+    margin-top: auto !important;
+    color: var(--koala-brand) !important;
+    font-size: 13px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card.match-task .task-action {
+    background: var(--koala-brand) !important;
+    border-radius: var(--koala-radius-btn) !important;
+    padding: 8px 10px !important;
+    color: var(--koala-surface) !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-lifestyle-art {
+    position: absolute !important;
+    right: 6px !important;
+    bottom: 13px !important;
+    width: 51px !important;
+    height: 59px !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+  }
+  body.koala-ui-v1.koala-h01 [data-home-lifestyle="tasks"].dual-task-grid.state-new .task-card:focus-visible {
+    outline: 2px solid var(--koala-brand) !important;
+    outline-offset: 2px !important;
+  }
+}

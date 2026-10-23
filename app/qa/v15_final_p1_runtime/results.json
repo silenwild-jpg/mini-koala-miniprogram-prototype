@@ -1,0 +1,28 @@
+{
+  "S02_375": {
+    "errors": [],
+    "has_customer_copy": true,
+    "leaks_internal_copy": false
+  },
+  "U01_375": {
+    "errors": [],
+    "has_note": true,
+    "note_text": "门口尺寸与仓位形态为演示预填，实际以门店确认为准。",
+    "door": "约0.9m × 2.0m",
+    "shape": "标准矩形（模拟）",
+    "store": "惠新西街店"
+  },
+  "S02_390": {
+    "errors": [],
+    "has_customer_copy": true,
+    "leaks_internal_copy": false
+  },
+  "U01_390": {
+    "errors": [],
+    "has_note": true,
+    "note_text": "门口尺寸与仓位形态为演示预填，实际以门店确认为准。",
+    "door": "约0.9m × 2.0m",
+    "shape": "标准矩形（模拟）",
+    "store": "惠新西街店"
+  }
+}

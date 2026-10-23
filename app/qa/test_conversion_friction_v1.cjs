@@ -1,0 +1,50 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),vm=require('node:vm'),assert=require('node:assert/strict');
+const root=path.join(__dirname,'..'),pr=path.join(root,'prototype');
+const read=f=>fs.readFileSync(path.join(pr,f),'utf8');
+const sha=f=>crypto.createHash('sha256').update(fs.readFileSync(path.join(root,f))).digest('hex');
+const est=read('space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html');
+const s01=read('mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html');
+const s02=read('mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html');
+const u01=read('mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html');
+const access=read('mini_storage_access_a01_v2_self_service_Visual_V2_7_4.html');
+let count=0;function check(name,fn){fn();count++;console.log('PASS',String(count).padStart(2,'0'),name)};
+const scope=JSON.parse(fs.readFileSync(path.join(root,'qa/conversion_friction_v1_scope.json')));
+check('approved SHA chain: original vs new',()=>{for(const [f,obj] of Object.entries(scope.approved_runtime_sha256)) {assert.notEqual(obj.before,obj.after,f);assert.equal(sha(f),obj.after,f)}});
+check('non-modified runtime SHA chain',()=>{for(const [f,h] of Object.entries(scope.non_modified_runtime_sha256))assert.equal(sha(f),h,f)});
+check('preserved home 30-second claim, E-store parallel and low stock',()=>{assert(read('mini_storage_home_H01_Visual_V2_7_4_SSOT.html').includes('30秒快速报价'));assert(est.includes('id="r113EstoreCard"'));assert(u01.includes('id="inventoryUrgency"'))});
+check('ordinary estimation has no door / corridor prepay teaching',()=>{for(const x of ['门宽与搬运通道','选仓时还会继续核对实际尺寸','确认门宽和通道'])assert(!est.includes(x),x)});
+check('special item calculation and physical inputs remain',()=>{for(const x of ["hasKnownLong","has_oversize","long:true","state.quantities","canQuickEstimate"])assert(est.includes(x),x)});
+check('S02 no prepayment door/dimension warning or distance alarm',()=>{assert(!s02.includes('门宽、通道与实际长宽高需到店核对'));assert(s02.includes('const far=false;'));assert(s02.includes('查看其他可租门店'))});
+check('S02 no duplicate no-match banner',()=>assert(s02.includes("$$('.state-nomatch').forEach(x=>x.classList.add('hidden'));")));
+check('S02 sold-out still clear with alternative route',()=>{assert(s02.includes('已售罄'));assert(s02.includes("if(inventoryStatus==='SOLD_OUT')"));assert(s02.includes("$('#primaryBtn').onclick"));assert(s02.includes('s02_soldout_recovery'))});
+check('S02 alternative capacity not presented as exact match',()=>{assert(s02.includes('isBelowMin'));assert(s02.includes('isAboveMax'));assert(s02.includes("'容量小于原需求，可比较其他空间'"));assert(s02.includes('data-tradeoff='))});
+check('S02 never auto-adds missing six month term on recovery',()=>{assert(!s02.includes('term:String(termMonths||6)'));assert(s02.includes("if(termMonths)p.set('term',String(termMonths))"))});
+check('S01 positive zero-match suggestions and optional E-store',()=>{assert(s01.includes('为您推荐更多存储选择'));assert(s01.includes('makeEStoreListCard({fallbackFirst:true})'));assert(!s01.includes('附近暂无匹配门店 · 换一种存法'))});
+check('S01 filtered supplement transparently labeled',()=>{assert(s01.includes('fallbackScopeLabel'));assert(s01.includes('部分位于当前筛选范围外'));assert(s01.includes("stores[id]?.city==='北京市'&&isStoreAvailable(id)"))});
+check('S01 no extra negative inventory list in normal states, explicit sold-out demo stays',()=>assert(s01.includes("wrap.classList.toggle('hidden',!(inventoryScenario==='soldout'&&state==='browse'&&rows.length>0))")));
+check('S01 recommendation still respects selected city through baseOrder',()=>{assert(s01.includes("baseOrder().filter(id=>stores[id]?.city==='北京市'"));assert(s01.includes('const allIds=filteredOrder();'))});
+check('U01 prepay door and shape rows hidden',()=>{assert(/<div class="row" hidden><span>门口尺寸/.test(u01));assert(/<div class="row" hidden><span>仓位形态/.test(u01));assert(!u01.includes('门宽与仓位形态以门店确认为准'))});
+check('U01 capacity shortfall is disclosed but does not add a prepay size gate',()=>{assert(u01.includes("if(isUnderTarget){fitTitle='更紧凑的容量'"));assert(u01.includes('比原估算容量小'));assert(!u01.includes('含长件，请核对门宽'));assert(u01.includes("fitPanel.setAttribute('data-fit-state'"))});
+check('U01 payment and out-of-stock guards remain',()=>{for(const x of ["if(isSoldOut)","$('#confirm').disabled","id=\"depositAmount\"","id=\"initialPayable\"","具体仓号待分配"])assert(u01.includes(x),x)});
+check('A01 postpayment guidance contains optional advisor',()=>{assert(access.includes('第一次存放前'));assert(access.includes('入仓前用仓指导'));assert(access.includes('提前联系门店或顾问'))});
+check('no prepay fallback toast for door dimensions',()=>{assert(!read('mini_koala_estimator_item_fallback_p0_v1.js').includes('选仓时仍需核对实际门宽'))});
+check('store-origin estimator return remains intact',()=>{assert(est.includes('returnStoreContext?.store'));assert(est.includes('返回本店查看匹配仓位'));assert(s02.includes("qp.get('focusMatched')==='1'"))});
+check('price engine Q01 O01 untouched',()=>{for(const f of ['mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html','mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html','mini_storage_coupon_benefit_v1.js'])assert(scope.non_modified_runtime_sha256[`prototype/${f}`],f)});
+// Execute the actual displayed action model under missing-term, matched, and fallback states.
+const start=est.indexOf('function usageActionModel('),end=est.indexOf('function renderUsage(){',start);
+assert(start>0&&end>start);const ctx={};vm.runInNewContext(est.slice(start,end),ctx);
+check('actual S5 action: term missing remains required',()=>{const a=ctx.usageActionModel(0,false,'');assert.equal(a.state,'term-required');assert.equal(a.primaryAction,'select-term')});
+check('actual S5 action: matched proceeds to actual recommendation',()=>{const a=ctx.usageActionModel(6,false,'A');assert.equal(a.primaryAction,'recommended-unit');assert.equal(a.secondaryAction,'advisor')});
+check('actual S5 action: fallback shows alternatives, advisor optional',()=>{const a=ctx.usageActionModel(6,true,'A');assert.equal(a.primaryAction,'recommended-unit');assert.equal(a.secondaryAction,'advisor');assert.equal(a.primary,'查看可选方案')});
+check('actual S5 fallback click calls comparison, not forced lead',()=>{assert(est.includes("$('#usageChooseBtn').onclick=continueToRecommendedUnit;"));assert(est.includes("$('#usageAdvisorBtn').onclick=requestAdvisor;"));assert(est.includes('if(!validDirect){go(9);return;}'))});
+// Run the real S01 recommendation supplement expression for the two key branches.
+const from=s01.indexOf('  const allIds=filteredOrder();',s01.indexOf('function render(){'));
+const to=s01.indexOf('  const sharedRecommendation=currentSharedRecommendation();',from);
+assert(from>0&&to>from);
+const block=s01.slice(from,to)+'\nreturn {allIds,expandedIds,shownIds,ids,hidden:supplementalLabel.hidden};';
+function evalSupplement(ids){
+ const d={hidden:true};return new Function('filteredOrder','baseOrder','stores','isStoreAvailable','routeFor','currentData','visibleStoreCount','$','window',block)(()=>ids,()=>['beijingA','beijingB','otherCity','soldOut'],{beijingA:{city:'北京市'},beijingB:{city:'北京市'},otherCity:{city:'上海市'},soldOut:{city:'北京市'}},id=>id!=='soldOut',id=>({m:id==='beijingA'?10:12,km:2}),id=>({total:3000}),10,()=>d,{});
+}
+check('S01 real scoped recommendation: filters present, not silently replaced',()=>{const r=evalSupplement(['beijingA']);assert.deepEqual(r.ids,['beijingA']);assert(r.hidden)});
+check('S01 real scoped recommendation: no-result offers in-city available alternatives',()=>{const r=evalSupplement([]);assert.deepEqual(r.ids,['beijingA','beijingB']);assert(!r.hidden)});
+console.log(`Conversion Friction Reduction V1: ${count}/${count} checks passed; real mobile/WeChat E2E NOT VERIFIED`);

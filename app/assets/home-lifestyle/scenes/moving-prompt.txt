@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: standalone transparent cutout for a storage app lifestyle scene, displayed about 100 x 68 pixels.
+Subject: one compact group of three or four warm kraft moving cardboard boxes of different heights, a small leafy green potted plant beside the boxes. No other objects.
+Style: refined photorealistic soft 3D household object illustration, natural cardboard and ceramic texture, friendly restrained lifestyle aesthetic, warm cream and soft sage accents. Same visual family as sophisticated miniature home product render.
+Composition: landscape 3:2, group centered, front view with a gentle elevated camera, object group fills 80 percent of image width, transparent padding on all sides, all boxes and plant fully visible, no cropped parts. Recognizable even at thumbnail size.
+Lighting: soft diffused daylight from upper left, delicate contact shadow only below the objects.
+Background: genuine alpha transparency. No floor plane, backdrop, gradient, colored oval, card, UI, text, letters, numbers, logo, people, koala or watermark.

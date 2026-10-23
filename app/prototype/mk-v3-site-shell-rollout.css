@@ -1,0 +1,100 @@
+/* VIS-05 site shell rollout. Scoped to pages opted in as koala-site-shell.
+   This sheet deliberately leaves prices, inventory, status colors and navigation logic to each page. */
+body.koala-site-shell {
+  --koala-bg: #F8FAF9;
+  --koala-surface: #FFFFFF;
+  --koala-surface-2: #F3F6F4;
+  --koala-line: #E4EBE6;
+  --koala-divider: #EEF1EF;
+  --koala-text: #1F2923;
+  --koala-text-2: #59645E;
+  --koala-brand: #2F6B4F;
+  --koala-brand-700: #214F3A;
+  --koala-brand-100: #EAF3ED;
+  --koala-price: #D56A1C;
+  --koala-radius: 14px;
+  --koala-radius-btn: 12px;
+  --bg: var(--koala-bg);
+  --ms-bg: var(--koala-bg);
+  --v274-bg: var(--koala-bg);
+  --paper: var(--koala-surface);
+  --ms-surface: var(--koala-surface);
+  --v274-surface: var(--koala-surface);
+  --text: var(--koala-text);
+  --ink: var(--koala-text);
+  --ms-text: var(--koala-text);
+  --v274-text: var(--koala-text);
+  --muted: var(--koala-text-2);
+  --ms-muted: var(--koala-text-2);
+  --v274-muted: var(--koala-text-2);
+  --line: var(--koala-line);
+  --ms-line: var(--koala-line);
+  --v274-line: var(--koala-line);
+  --green: var(--koala-brand);
+  --primary: var(--koala-brand);
+  --ms-green: var(--koala-brand);
+  --v274-green: var(--koala-brand);
+  --soft: var(--koala-brand-100);
+  --ms-green-soft: var(--koala-brand-100);
+  background: var(--koala-bg) !important;
+  color: var(--koala-text) !important;
+}
+body.koala-site-shell :is(.shell,.app,.phone,.coupon-phone,.p) {
+  background-color: var(--koala-bg) !important;
+  box-shadow: none !important;
+}
+body.koala-site-shell .page { background-color: var(--koala-bg) !important; }
+
+/* The native capsule reservation is left to each page's existing grid. */
+body.koala-site-shell :is(.header,.nav,.top,.head,.coupon-top) {
+  background-color: var(--koala-surface) !important;
+  border-bottom-color: var(--koala-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body.koala-site-shell :is(.header,.nav,.top,.head,.coupon-top) h1 {
+  color: var(--koala-text) !important;
+  font-weight: 700 !important;
+}
+body.koala-site-shell :is(.tabbar,.bottomnav,.bottombar,.bottom,.coupon-bottom) {
+  background-color: var(--koala-surface) !important;
+  border-top-color: var(--koala-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body.koala-site-shell :is(.bottombar,.bottom,.coupon-bottom) {
+  padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+}
+body.koala-site-shell :is(button.primary,button.solid,button.apply,button.btn.primary,a.primary) {
+  min-height: 48px;
+  border-radius: var(--koala-radius-btn) !important;
+  background-color: var(--koala-brand) !important;
+  border-color: var(--koala-brand) !important;
+  color: #FFFFFF !important;
+}
+body.koala-site-shell :is(.sheet,.mine-sheet,.renew-pay-sheet) {
+  background-color: var(--koala-surface) !important;
+  padding-bottom: max(20px, env(safe-area-inset-bottom)) !important;
+}
+
+/* Explicit card variants: user task cards, supporting cards, and coupons. */
+body.koala-site-shell :is(.section,.card,.coupon-card) {
+  border-color: var(--koala-line) !important;
+  border-radius: var(--koala-radius) !important;
+}
+body.koala-site-shell :is(.section,.card):not(.warn,.ended,.current,.selected,.active) {
+  background-color: var(--koala-surface) !important;
+}
+body.koala-site-shell :is(.muted,.hint,.sheet-desc) { color: var(--koala-text-2) !important; }
+
+/* Compact legacy handoff pages have a single CTA instead of a bottom bar. */
+body.koala-site-shell.koala-legacy-handoff .p a {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--koala-brand) !important;
+  border-radius: var(--koala-radius-btn) !important;
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "Only estimator page and approved visual hash guards update; reference Phase 2 preserved",
+  "page": "space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+  "phase2_sha256": "4f9c56a4e4de1ec55bd73eaa10e3d9170d33588a5d57024719c6e7ef99fcb2d2",
+  "phase3a_sha256": "b9c1e9066984d740ebe6c41ccc1e789033176251525c3a30ac0d0febdceaa5a8",
+  "phase2_body_with_tag": "38e6f8e4be9d211558345cd401d1ba629725819ccf25190e9c713028b3132727",
+  "phase3a_body_with_tag": "ffbdb3a78eb83969350d988ff364735710559d39c1f22ae5dd363610e94d858d",
+  "phase2_body_content": "c0b582ad17595ed4e6931c91c95ac682bf5fd2f7ca4de9b8aa2c28887330dcb8",
+  "phase3a_body_content": "847dc216bc1518ee7084c981afa6d9335f5353e800ccefc5724943e6f9a87330",
+  "phase3a_v11_sha256": "4a012b7fa1952381aa7e83043d10f970500e97753964162715f79330cb878598",
+  "phase3a_v11_body_with_tag": "168035d316cd50388a4b8c8f78ff8c7d24eea06042d7016d95372d9997a31ede",
+  "phase3a_v11_body_content": "af97dc33fcdec812dcdf26fbd659d80de81fabff503ad5812b3bab64ce8a818a",
+  "phase3a_v11_scope": "Only estimator HTML runtime patch; original Phase 3A digest retained as recovery marker"
+}

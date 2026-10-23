@@ -1,0 +1,11 @@
+# H01-007-S2 changed files (relative to the S1 checkpoint; sha256 before = S1 checkpoint, after = S2)
+MODIFIED  prototype/mini_storage_coupon_benefit_v1.js  before=4d429b97b27770eccd7b802122b9c1cb87c0c359e29e6b171406e0e1836ef40c  after=5ab8c4e51e1dd51c319980a80cc2d5d937fe21141dd3afd8c24cc0237d914c50
+MODIFIED  prototype/mini_storage_coupon_select_c02_v1.html  before=21a7e82ecf2c08d163d86d27e99b47987d38b501a7da6fab878b67caca1bf35a  after=8c60c47bfe3bcc5121ebc931e7d6873016265d79d3611eab980baf00772d87a8
+ADDED     qa/test_h01_007_s2_coupon_eligibility.cjs  after=51f6804748a8814e1e5ef17018310f09b0899f2eeecea9ddffc52a2b62c6420c
+ADDED     qa/test_h01_007_s2_http_flows.py  after=51e33d381a0cce2738d3583dd12ea52f5b408df78b2610f330103dbbbb9dacf2
+ADDED     docs/H01_007_S2_Diff_Report.md
+ADDED     docs/H01_007_S2_State_Transitions.md
+ADDED     docs/H01_007_S2_Changed_Files.txt
+ADDED     outputs/h01_007_s2/  (evidence only)
+DELETED   (none)
+RELEASE_MANIFEST.json unchanged (sha256 b1d934576e4b2a33f04ecd0959415da0c705e30fb6659de2b25dd58150746d3d, Release Gate HOLD)

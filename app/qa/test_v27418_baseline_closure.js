@@ -1,0 +1,18 @@
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const get=f=>fs.readFileSync(path.join(root,f),'utf8');
+const s01=get('prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html');
+const est=get('prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html');
+const s02=get('prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html');
+const support=get('prototype/mini_storage_global_support_v274.js');
+const rn=get('prototype/mini_storage_renew_rn01_v2_7_4.html');
+const b2b=get('prototype/mini_storage_business_b2b01_r113_Visual_V2_7_4.html');
+assert(s01.includes('zeroMatchRecoveryHtml')&&s01.includes('查看相近方案')&&s01.includes('考拉E存'));
+assert(est.includes('r113-zero-match')&&est.includes('当前需求暂时没有完全匹配的实体仓位'));
+assert(s01.includes('storeUnitPriceFrom(id)')&&s01.includes('homeDefaultDisplayDiscountFactor'));
+assert(s02.includes("参考价格"));
+assert(!s02.includes("发现页统一65折参考"));
+assert(support.includes('miniSupportLauncher')&&support.includes('mini-support-actions')&&support.includes("float.classList.toggle('expanded')"));
+assert(!rn.includes('<small>7折</small>')&&!rn.includes('<small>6.5折</small>')&&rn.includes('续租为单独报价'));
+assert(b2b.includes("transport_eligibility_status")&&b2b.includes("PENDING_ORDER_CONTEXT")&&!b2b.includes("transport_eligible:state.move==='需要'&&state.term>6"));
+console.log('PASS V2.7.4.18 baseline closure semantics');

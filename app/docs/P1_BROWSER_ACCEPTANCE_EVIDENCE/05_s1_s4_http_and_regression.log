@@ -1,0 +1,250 @@
+=== s1 14:32:50
+PASS [375x812] NO_TERM_M01 lands on estimator with requireTerm=1 (no default term)
+PASS [375x812] NO_TERM_M01 badge says term pending, not 1个月
+PASS [375x812] NO_TERM_M01 saved requirement still has no term
+PASS [375x812] NO_TERM_S01 strip title says term pending
+PASS [375x812] NO_TERM_S01 strip click goes to term selection
+PASS [375x812] NO_TERM_S01 estimated entry without term redirects to term selection
+PASS [375x812] NO_TERM_S01 estimated entry does not persist a default term
+PASS [375x812] NO_TERM_U01 term=0 stays unselected (no 1-month price)
+PASS [375x812] HAS_TERM resume keeps 6 months in S01
+PASS [375x812] HAS_TERM U01 inherits 6 months from context
+PASS [375x812] TERM_CHANGE Q01 receives 12
+PASS [375x812] TERM_CHANGE requirement term is 12 after U01 commit
+PASS [375x812] TERM_CHANGE original 6-month estimate preserved
+PASS [375x812] TERM_CHANGE saved quote snapshot term = 12
+PASS [375x812] TERM_CHANGE order reaches O02 PAID
+PASS [375x812] TERM_CHANGE order term / price snapshot / requirement snapshot all 12
+PASS [375x812] TERM_CHANGE requirement snapshot identity = store/unit of the order
+PASS [375x812] TERM_CHANGE payable total equals authoritative price snapshot
+PASS [375x812] DIRECT_ORDER legit 6-month order not blocked (O02 reached)
+PASS [375x812] DIRECT_ORDER order / price / requirement snapshot all 6
+PASS [375x812] H01 card: no term -> 待选择, 6 months -> 6个月 (unchanged behaviour)
+PASS [390x844] NO_TERM_M01 lands on estimator with requireTerm=1 (no default term)
+PASS [390x844] NO_TERM_M01 badge says term pending, not 1个月
+PASS [390x844] NO_TERM_M01 saved requirement still has no term
+PASS [390x844] NO_TERM_S01 strip title says term pending
+PASS [390x844] NO_TERM_S01 strip click goes to term selection
+PASS [390x844] NO_TERM_S01 estimated entry without term redirects to term selection
+PASS [390x844] NO_TERM_S01 estimated entry does not persist a default term
+PASS [390x844] NO_TERM_U01 term=0 stays unselected (no 1-month price)
+PASS [390x844] HAS_TERM resume keeps 6 months in S01
+PASS [390x844] HAS_TERM U01 inherits 6 months from context
+PASS [390x844] TERM_CHANGE Q01 receives 12
+PASS [390x844] TERM_CHANGE requirement term is 12 after U01 commit
+PASS [390x844] TERM_CHANGE original 6-month estimate preserved
+PASS [390x844] TERM_CHANGE saved quote snapshot term = 12
+PASS [390x844] TERM_CHANGE order reaches O02 PAID
+PASS [390x844] TERM_CHANGE order term / price snapshot / requirement snapshot all 12
+PASS [390x844] TERM_CHANGE requirement snapshot identity = store/unit of the order
+PASS [390x844] TERM_CHANGE payable total equals authoritative price snapshot
+PASS [390x844] DIRECT_ORDER legit 6-month order not blocked (O02 reached)
+PASS [390x844] DIRECT_ORDER order / price / requirement snapshot all 6
+PASS [390x844] H01 card: no term -> 待选择, 6 months -> 6个月 (unchanged behaviour)
+MODE fixed ALL_OK
+rc=0
+=== s2 14:33:59
+PASS [375x812] FRESH U01 applies CPN-001 -200 for a true new customer
+PASS [375x812] FRESH O01 valid with coupon row, order paid with discount
+PASS [375x812] FRESH wallet: CPN-001 REDEEMED, other new-customer coupons INVALID
+PASS [375x812] REPEAT U01: paid history + pending current -> no new-customer coupon applied
+PASS [375x812] REPEAT C02 shows CPN-001 as 仅限首次租仓
+PASS [375x812] REPEAT O01 still valid and pays full rent (no discount, no new order blocked)
+PASS [375x812] REPEAT seeded coupons stay un-redeemed
+PASS [375x812] OWN_LOCK pending payment leaves order PENDING_PAYMENT and coupon LOCKED to that order
+PASS [375x812] OWN_LOCK O01 via browser back: price gate valid, coupon row shown, pay enabled
+PASS [375x812] OWN_LOCK O01 via O02 继续支付: price gate valid, coupon row shown, pay enabled
+PASS [375x812] OWN_LOCK O01 via M01 待支付订单: price gate valid, coupon row shown, pay enabled
+PASS [375x812] OWN_LOCK C02 lists the own-locked coupon as usable
+PASS [375x812] OWN_LOCK final payment keeps the same order_no and redeems the coupon
+PASS [375x812] OWN_LOCK no extra order created
+PASS [375x812] OTHER_LOCK order B (other store, rent ≥ ¥2,000) cannot use the coupon locked by A
+PASS [375x812] OTHER_LOCK C02 for B explains the coupon is in use by another order
+PASS [375x812] OTHER_LOCK O01 for B valid without discount; wallet lock untouched
+PASS [375x812] OTHER_LOCK control: A's own identity still recovers the locked coupon
+PASS [375x812] INVALID 1-month rent below ¥2,000 blocked; 12-month coupon needs 12 months
+PASS [375x812] INVALID expired CPN-001 blocked (优惠券已过期)
+PASS [390x844] FRESH U01 applies CPN-001 -200 for a true new customer
+PASS [390x844] FRESH O01 valid with coupon row, order paid with discount
+PASS [390x844] FRESH wallet: CPN-001 REDEEMED, other new-customer coupons INVALID
+PASS [390x844] REPEAT U01: paid history + pending current -> no new-customer coupon applied
+PASS [390x844] REPEAT C02 shows CPN-001 as 仅限首次租仓
+PASS [390x844] REPEAT O01 still valid and pays full rent (no discount, no new order blocked)
+PASS [390x844] REPEAT seeded coupons stay un-redeemed
+PASS [390x844] OWN_LOCK pending payment leaves order PENDING_PAYMENT and coupon LOCKED to that order
+PASS [390x844] OWN_LOCK O01 via browser back: price gate valid, coupon row shown, pay enabled
+PASS [390x844] OWN_LOCK O01 via O02 继续支付: price gate valid, coupon row shown, pay enabled
+PASS [390x844] OWN_LOCK O01 via M01 待支付订单: price gate valid, coupon row shown, pay enabled
+PASS [390x844] OWN_LOCK C02 lists the own-locked coupon as usable
+PASS [390x844] OWN_LOCK final payment keeps the same order_no and redeems the coupon
+PASS [390x844] OWN_LOCK no extra order created
+PASS [390x844] OTHER_LOCK order B (other store, rent ≥ ¥2,000) cannot use the coupon locked by A
+PASS [390x844] OTHER_LOCK C02 for B explains the coupon is in use by another order
+PASS [390x844] OTHER_LOCK O01 for B valid without discount; wallet lock untouched
+PASS [390x844] OTHER_LOCK control: A's own identity still recovers the locked coupon
+PASS [390x844] INVALID 1-month rent below ¥2,000 blocked; 12-month coupon needs 12 months
+PASS [390x844] INVALID expired CPN-001 blocked (优惠券已过期)
+MODE fixed ALL_OK
+rc=0
+=== s3 14:35:13
+== 375x812 ==
+  PASS [invariant] QUOTE_24H H01 shows the saved quote as current (not stale)
+  PASS [invariant] QUOTE_24H Q01 no expiry notice, 保存方案 enabled, 继续下单 goes straight to O01
+  PASS [invariant] QUOTE_24H O01 price gate valid and pay enabled
+  PASS [invariant] QUOTE_49H H01 marks the quote stale
+  PASS [defect] QUOTE_49H Q01 via H01: quote still viewable (amounts shown) with a 48h expiry notice
+  PASS [defect] QUOTE_49H Q01 via H01: 保存方案 disabled, 继续下单 relabelled to re-check
+  PASS [defect] QUOTE_49H via H01: 继续 routes to U01 re-check (requote=1), not directly to O01
+  PASS [defect] QUOTE_49H via H01: U01 re-check reports the price unchanged and O01 is reached with a valid gate
+  PASS [defect] QUOTE_49H Q01 via M01: quote still viewable (amounts shown) with a 48h expiry notice
+  PASS [defect] QUOTE_49H Q01 via M01: 保存方案 disabled, 继续下单 relabelled to re-check
+  PASS [defect] QUOTE_49H via M01: 继续 routes to U01 re-check (requote=1), not directly to O01
+  PASS [defect] QUOTE_49H via M01: U01 re-check reports the price unchanged and O01 is reached with a valid gate
+  PASS [defect] QUOTE_CHANGED Q01 shows the expiry notice and routes to U01
+  PASS [defect] QUOTE_CHANGED U01 reports a price change with old and new amounts and asks for confirmation
+  PASS [defect] QUOTE_CHANGED first 立即下单 is blocked until the change is acknowledged
+  PASS [defect] QUOTE_CHANGED O01 charges the current price, not the stale quote amount
+  PASS [invariant] PAY_FAIL gateway failure leaves the order PAYMENT_FAILED with the same order_no
+  PASS [invariant] NO_FALSE_SUCCESS reopening O02 / foreign PAID result / unknown order never shows success
+  PASS [defect] PAY_FAIL H01 offers a clear entry for the failed order
+  PASS [defect] PAY_FAIL H01 entry re-opens the same order in O01 with a re-check notice and pay enabled
+  PASS [defect] PAY_FAIL M01 shows the failed order as a pending task and opens O01 (not the paid-order detail page)
+  PASS [defect] PAY_FAIL after browsing another unit the order still recovers its own price snapshot
+  PASS [defect] ORDER_ID_PRESERVED retry pays the same order_no, no second order
+  PASS [defect] CROSS_S2 pending order A with a locked coupon + paid order B in history: O01 explains the lost new-customer discount and blocks paying the old amount
+  PASS [defect] CROSS_S2 re-pricing asks for confirmation (coupon lost) before continuing
+  PASS [defect] CROSS_S2 re-pricing drops the coupon, keeps order A's order_no and pays
+  PASS [invariant] CROSS_S2 S2 protection intact: order A never pays with the old coupon amount
+== 390x844 ==
+  PASS [invariant] QUOTE_24H H01 shows the saved quote as current (not stale)
+  PASS [invariant] QUOTE_24H Q01 no expiry notice, 保存方案 enabled, 继续下单 goes straight to O01
+  PASS [invariant] QUOTE_24H O01 price gate valid and pay enabled
+  PASS [invariant] QUOTE_49H H01 marks the quote stale
+  PASS [defect] QUOTE_49H Q01 via H01: quote still viewable (amounts shown) with a 48h expiry notice
+  PASS [defect] QUOTE_49H Q01 via H01: 保存方案 disabled, 继续下单 relabelled to re-check
+  PASS [defect] QUOTE_49H via H01: 继续 routes to U01 re-check (requote=1), not directly to O01
+  PASS [defect] QUOTE_49H via H01: U01 re-check reports the price unchanged and O01 is reached with a valid gate
+  PASS [defect] QUOTE_49H Q01 via M01: quote still viewable (amounts shown) with a 48h expiry notice
+  PASS [defect] QUOTE_49H Q01 via M01: 保存方案 disabled, 继续下单 relabelled to re-check
+  PASS [defect] QUOTE_49H via M01: 继续 routes to U01 re-check (requote=1), not directly to O01
+  PASS [defect] QUOTE_49H via M01: U01 re-check reports the price unchanged and O01 is reached with a valid gate
+  PASS [defect] QUOTE_CHANGED Q01 shows the expiry notice and routes to U01
+  PASS [defect] QUOTE_CHANGED U01 reports a price change with old and new amounts and asks for confirmation
+  PASS [defect] QUOTE_CHANGED first 立即下单 is blocked until the change is acknowledged
+  PASS [defect] QUOTE_CHANGED O01 charges the current price, not the stale quote amount
+  PASS [invariant] PAY_FAIL gateway failure leaves the order PAYMENT_FAILED with the same order_no
+  PASS [invariant] NO_FALSE_SUCCESS reopening O02 / foreign PAID result / unknown order never shows success
+  PASS [defect] PAY_FAIL H01 offers a clear entry for the failed order
+  PASS [defect] PAY_FAIL H01 entry re-opens the same order in O01 with a re-check notice and pay enabled
+  PASS [defect] PAY_FAIL M01 shows the failed order as a pending task and opens O01 (not the paid-order detail page)
+  PASS [defect] PAY_FAIL after browsing another unit the order still recovers its own price snapshot
+  PASS [defect] ORDER_ID_PRESERVED retry pays the same order_no, no second order
+  PASS [defect] CROSS_S2 pending order A with a locked coupon + paid order B in history: O01 explains the lost new-customer discount and blocks paying the old amount
+  PASS [defect] CROSS_S2 re-pricing asks for confirmation (coupon lost) before continuing
+  PASS [defect] CROSS_S2 re-pricing drops the coupon, keeps order A's order_no and pays
+  PASS [invariant] CROSS_S2 S2 protection intact: order A never pays with the old coupon amount
+console error lines: 0
+rc=0
+=== s4 14:37:35
+== 375x812 ==
+  PASS [invariant] FRESH_BROWSE 查看附近门店 opens the plain browse list (no target/term carried)
+  PASS [invariant] FRESH_BROWSE browse strip invites estimation (no saved requirement)
+  PASS [defect] HISTORY_BROWSE 查看附近门店 stays plain browse although a 5m3/6-month requirement is saved
+  PASS [defect] HISTORY_BROWSE browse list shows the saved requirement as an explicit switch, not as the active filter
+  PASS [defect] HISTORY_BROWSE explicit 按我的需求匹配 restores 5.0m3 / 6 months
+  PASS [defect] HISTORY_BROWSE bottom tab 门店 from home is plain browse too
+  PASS [invariant] HISTORY_BROWSE the saved requirement is never deleted by browsing
+  PASS [invariant] CONTINUE_REQUIREMENT 继续找仓 card is shown with 继续看推荐 and restores target=5.0 term=6 into the matched list
+  PASS [invariant] NO_TERM 继续找仓 without a term goes to term selection (requireTerm=1), never a default month count
+  PASS [invariant] NO_TERM 查看附近门店 is plain browse and leaves term_months empty
+  PASS [defect] NO_TERM home store card opens S02 in browse (no matched state built from a term-less requirement)
+  PASS [defect] STORE_CARD home recommendation card enters S02 with browse intent (no target/term/matched) despite the saved requirement
+  PASS [defect] STORE_CARD back from S02 returns to the browse list
+  PASS [invariant] STORE_CARD the saved requirement survives the card visit
+  PASS [invariant] FILTER_RETURN the user could build a filtered list (price sort, 10km, elevator, special, more loaded, scrolled)
+  PASS [invariant] FILTER_RETURN back from S02 lands on the browse list
+  PASS [defect] FILTER_RETURN sort is restored
+  PASS [defect] FILTER_RETURN distance filter is restored
+  PASS [defect] FILTER_RETURN service filter is restored
+  PASS [invariant] FILTER_RETURN quick tag is restored
+  PASS [defect] FILTER_RETURN loaded store count is restored
+  PASS [defect] FILTER_RETURN scroll position is restored (the tapped store card sits where the user left it)
+  PASS [invariant] PAYMENT_FAILED_HOME the failed-payment task card wins over the saved requirement
+  PASS [invariant] PAYMENT_FAILED_HOME 继续支付 reopens the same order in O01 with the S3 re-check and pay enabled
+  PASS [defect] PAYMENT_FAILED_HOME 查看附近门店 is still plain browse next to the failed order
+  PASS [invariant] QUOTE_EXPIRED_HOME the expired quote is shown as the home task (原方案已过参考期)
+  PASS [invariant] QUOTE_EXPIRED_HOME Q01 shows the expiry notice and the re-check path reaches U01 with an unchanged price
+  PASS [defect] QUOTE_EXPIRED_HOME 查看附近门店 is plain browse next to the saved quote + requirement
+== 390x844 ==
+  PASS [invariant] FRESH_BROWSE 查看附近门店 opens the plain browse list (no target/term carried)
+  PASS [invariant] FRESH_BROWSE browse strip invites estimation (no saved requirement)
+  PASS [defect] HISTORY_BROWSE 查看附近门店 stays plain browse although a 5m3/6-month requirement is saved
+  PASS [defect] HISTORY_BROWSE browse list shows the saved requirement as an explicit switch, not as the active filter
+  PASS [defect] HISTORY_BROWSE explicit 按我的需求匹配 restores 5.0m3 / 6 months
+  PASS [defect] HISTORY_BROWSE bottom tab 门店 from home is plain browse too
+  PASS [invariant] HISTORY_BROWSE the saved requirement is never deleted by browsing
+  PASS [invariant] CONTINUE_REQUIREMENT 继续找仓 card is shown with 继续看推荐 and restores target=5.0 term=6 into the matched list
+  PASS [invariant] NO_TERM 继续找仓 without a term goes to term selection (requireTerm=1), never a default month count
+  PASS [invariant] NO_TERM 查看附近门店 is plain browse and leaves term_months empty
+  PASS [defect] NO_TERM home store card opens S02 in browse (no matched state built from a term-less requirement)
+  PASS [defect] STORE_CARD home recommendation card enters S02 with browse intent (no target/term/matched) despite the saved requirement
+  PASS [defect] STORE_CARD back from S02 returns to the browse list
+  PASS [invariant] STORE_CARD the saved requirement survives the card visit
+  PASS [invariant] FILTER_RETURN the user could build a filtered list (price sort, 10km, elevator, special, more loaded, scrolled)
+  PASS [invariant] FILTER_RETURN back from S02 lands on the browse list
+  PASS [defect] FILTER_RETURN sort is restored
+  PASS [defect] FILTER_RETURN distance filter is restored
+  PASS [defect] FILTER_RETURN service filter is restored
+  PASS [invariant] FILTER_RETURN quick tag is restored
+  PASS [defect] FILTER_RETURN loaded store count is restored
+  PASS [defect] FILTER_RETURN scroll position is restored (the tapped store card sits where the user left it)
+  PASS [invariant] PAYMENT_FAILED_HOME the failed-payment task card wins over the saved requirement
+  PASS [invariant] PAYMENT_FAILED_HOME 继续支付 reopens the same order in O01 with the S3 re-check and pay enabled
+  PASS [defect] PAYMENT_FAILED_HOME 查看附近门店 is still plain browse next to the failed order
+  PASS [invariant] QUOTE_EXPIRED_HOME the expired quote is shown as the home task (原方案已过参考期)
+  PASS [invariant] QUOTE_EXPIRED_HOME Q01 shows the expiry notice and the re-check path reaches U01 with an unchanged price
+  PASS [defect] QUOTE_EXPIRED_HOME 查看附近门店 is plain browse next to the saved quote + requirement
+console error lines: 0
+rc=0
+=== run_regression 14:39:44
+PASS node qa/test_external_review_merge_v2.cjs
+FAIL node qa/test_ux_simplification_v1.cjs
+PASS node qa/test_store_card_unification_v1.cjs
+FAIL node qa/test_s01_filter_sort_refinement_v1.cjs
+PASS node qa/test_s01_inline_filter_location_v2.cjs
+PASS node qa/test_phase2_ux.cjs
+PASS node qa/test_phase3a_controlled_patch.cjs
+PASS node qa/test_phase3a_independent_fix_v11.cjs
+PASS node qa/test_phase3c_batch_a_price_gate.cjs
+PASS node qa/test_phase3c_unified_final.cjs
+PASS node qa/test_acceptance_v11_patch.cjs
+PASS node qa/test_acceptance_v11_patch_b.cjs
+PASS node qa/test_term_footer_geometry.cjs
+PASS node qa/test_p1_review_fix_behaviors.js
+PASS node qa/test_p1_s01_search_context.js
+FAIL node qa/test_s01_ux_continuity_patch_v1.js
+PASS node qa/test_navigation_vnext.cjs
+PASS node qa/test_home_state_integration_patch_v1.cjs
+PASS node qa/test_home_state_recovery_v11.cjs
+FAIL /usr/bin/python3 qa/test_home_state_recovery_browser_v11.py
+FAIL /usr/bin/python3 qa/test_home_visual_closeout_patch_v1.py
+PASS /usr/bin/python3 qa/test_cross_page_route_targets_v1.py
+FAIL /usr/bin/python3 qa/test_cross_page_runtime_smoke_v1.py
+FAIL node qa/test_combo_recommendation_v1.cjs
+PASS node qa/test_combo_physical_fit_p0.cjs
+PASS node qa/test_demo_price_combo_cleanup.cjs
+PASS node qa/test_combo_ux_regression_v2.cjs
+FAIL node qa/test_combo_full_journey_recovery_v21.cjs
+FAIL /usr/bin/python3 qa/visual_check_combo_recovery_v21.py
+PASS node qa/test_identity_flow.js
+FAIL /usr/bin/python3 qa/visual_check_demo_price_closeout.py
+FAIL /usr/bin/python3 qa/visual_check_combo_ux_v2.py
+PASS node qa/test_h01_007_s1_requirement_trade_snapshot.cjs
+PASS node qa/test_h01_007_s2_coupon_eligibility.cjs
+PASS node qa/test_h01_007_s3_trade_recheck.cjs
+PASS node qa/test_h01_007_s4_entry_contracts.cjs
+PASS node qa/test_h01_007_p1_coupon_settlement.cjs
+FAIL /usr/bin/python3 tools/check_package.py
+PASS /usr/bin/python3 tools/check_http.py
+rc=1
+=== done 14:40:29

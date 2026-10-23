@@ -1,0 +1,12 @@
+/* UX-PATCH D2 | H01 top bar + compact 12px content gutters; S2 alternative methods bottom. */
+body.koala-uxd2-layout.koala-h01 .topbar{position:sticky;display:flex;align-items:center;justify-content:space-between;gap:4px;min-height:52px;padding-inline:12px!important}
+body.koala-uxd2-layout.koala-h01 .topbar #homeLocation{position:relative;z-index:2;display:inline-flex;align-items:center;max-width:112px;min-width:70px;min-height:44px;padding:0 3px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px!important;text-align:left;border:0;background:transparent;cursor:pointer}
+body.koala-uxd2-layout.koala-h01 .topbar .ux-d2-home-brand{position:absolute;left:50%;transform:translateX(-50%);margin:0;font-size:17px;line-height:24px;font-weight:800;letter-spacing:.02em;color:#214D39;white-space:nowrap;pointer-events:none}
+body.koala-uxd2-layout.koala-h01 .topbar .wx-capsule{position:relative;z-index:2;flex:none}
+body.koala-uxd2-layout.koala-h01 .dual-task-grid{margin-left:12px!important;margin-right:12px!important}
+body.koala-uxd2-layout.koala-h01 .section{padding-left:12px!important;padding-right:12px!important}
+body.koala-uxd2-layout.koala-h01 #brandTrust.brand-proof{margin-left:12px!important;margin-right:12px!important}
+body.koala-uxd2-layout.koala-s5 #s2 .ux-a1-other-methods{margin-top:16px;margin-bottom:22px}
+body.koala-uxd2-layout.koala-s5 #s2 .ux-a1-method-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+body.koala-uxd2-layout.koala-s5 #s2 .ux-a1-method{min-width:0;min-height:48px}
+@media(max-width:360px){body.koala-uxd2-layout.koala-h01 .topbar #homeLocation{max-width:100px}body.koala-uxd2-layout.koala-h01 .topbar .ux-d2-home-brand{font-size:16px}}

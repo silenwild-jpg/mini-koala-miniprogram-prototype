@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>支付前异常场景 QA</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f4f6f3;color:#20382a;font-family:system-ui,'Microsoft YaHei',sans-serif}.wrap{max-width:760px;margin:auto;padding:24px 16px 40px}h1{font-size:24px}p{font-size:14px;line-height:1.7;color:#59645e}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}button,a{font:inherit}button{min-height:64px;padding:14px;text-align:left;background:white;border:1px solid #d4e1d7;border-radius:12px;color:#214d36;cursor:pointer}button b,button span{display:block}button span{font-size:12px;color:#59645e;margin-top:6px;line-height:1.6}a{color:#2f6b4f}.notice{padding:14px;background:#fff5e8;border-radius:12px;margin-bottom:20px}#reset{margin-top:20px;min-height:44px}</style>
+<script src="mini_storage_business_ssot_v274.js"></script><script src="../data/mini_koala_data.js"></script><script src="mini_storage_demo_fixture_v2.js"></script><script src="mini_storage_coupon_benefit_v1.js"></script><script src="mini_koala_internal_demo_v1.js"></script></head>
+<body><main class="wrap"><a href="product_demo_hub_v1.html">‹ 返回演示中心</a><h1>支付前异常场景 QA</h1><p class="notice">内部验收入口。点击会重置本地演示状态并注入明确标记的测试样本。价格与库存变化是本会话的受控数据事实变化，执行原页面重核。此处不执行支付，不代表生产API验收。</p>
+<div class="grid">
+<button data-qa="locked-other"><b>其他订单占用优惠券</b><span>当前方案不能使用由另一未支付订单锁定的200券。</span></button>
+<button data-qa="locked-own"><b>同订单占用优惠券</b><span>当前未支付订单可恢复自己的200券，保留锁归属。</span></button>
+<button data-qa="price_change"><b>基础价变化后继续订单</b><span>保留原订单快照，当前容量方案基准价增加120元，再进入O01重核。</span></button>
+<button data-qa="stock_change"><b>库存变化后继续订单</b><span>保留原订单快照，当前容量方案可租数变为0，再进入O01重核。</span></button>
+<button data-qa="art-claimed"><b>A图：已发券新客</b><span>CLAIMED合法首购，完整原图应显示。</span></button>
+<button data-qa="art-locked"><b>A图：券被其他订单锁定</b><span>隐藏已到账原图，显示当前占用状态。</span></button>
+<button data-qa="art-expired"><b>A图：券已过期</b><span>隐藏已到账原图，保留过期文本与说明。</span></button>
+<button data-qa="art-used"><b>A图：券已使用</b><span>隐藏已到账原图，保留不可用状态。</span></button>
+<button data-qa="art-old"><b>A图：已有成交历史</b><span>已有PAID租仓历史，不能重复宣称新客券到账。</span></button>
+<button data-qa="art-no-wallet"><b>A图：旧客无券钱包</b><span>无CPN-001且不符合新客资格，不能显示已到账。</span></button>
+</div><button id="reset"><b>恢复全部初始演示数据</b></button><p id="status" role="status"></p>
+</main><script src="prepay_exception_qa.js"></script></body></html>

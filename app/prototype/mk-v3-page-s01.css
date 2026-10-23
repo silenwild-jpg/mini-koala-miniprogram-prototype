@@ -1,0 +1,162 @@
+/* Mini Koala — Visual V3 · S01 nearby stores page-local rules | Task 02B pilot | 2026-10-12
+   Scope: body.koala-ui-v1.koala-s01 only. Layer: mk-v3 (after mk-v3-components.css).
+   Not changed: filter order (sort → distance → service), panel anchoring (top:calc(100% + 5px) stays in the
+   inline block), E-store insertion rules, demo tag pool and 2–4 count, six evaluation states, the WeChat-style
+   location permission sheet (.mk-location-*), card click/keyboard handlers.
+   Help entry: NOT touched in this round (02B-2 scope) — legacy floating position and styling kept; problems logged separately.
+   Runtime helper mk-v3-s01-tags.js (registered, non-business): (a) moves .store-demo-tags out of .store-main to the end of
+   .store-head so the row can span the full card width (DOM parent confirmed in render(): .store > .store-head > .store-main >
+   .store-demo-tags; a grid-column on the nested node has no effect), (b) adds .mk-promo-tag to the two promotion tags
+   (特价仓 / 送搬运) so they take the promotion colour pair (--koala-price-soft / --koala-promo-text, 5.24:1) instead of the
+   legacy #FFF0E2/#B85A16 pair (4.17:1). Tag text, order, count, aria-label and the card handlers (bound on .store) are unchanged.
+   Without the helper the row stays in the right column (legacy horizontal scroll, 12px tags) and all tags render as service tags. */
+@layer mk-v3 {
+  /* ----- page / list rhythm (help-entry clearance is left to the help-entry special) ----- */
+  body.koala-ui-v1.koala-s01 .page { padding-bottom: calc(var(--koala-tabbar-h) + 16px + env(safe-area-inset-bottom)) !important; }
+  body.koala-ui-v1.koala-s01 .list { padding: 8px 16px 0 !important; }
+  body.koala-ui-v1.koala-s01 .moreline { padding: 12px 0 16px !important; min-height: 44px !important; }
+
+  /* ----- location / search box (single frame, vertical divider) ----- */
+  body.koala-ui-v1.koala-s01 .location-context.location-search-combined { margin: 8px 16px 0 !important; padding: 0 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+  body.koala-ui-v1.koala-s01 .location-search-combined::after { content: none !important; display: none !important; }
+  body.koala-ui-v1.koala-s01 .location-inline-row { gap: 8px !important; }
+  body.koala-ui-v1.koala-s01 .location-unified-box {
+    height: 44px !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-sm) !important;
+    background: var(--koala-surface) !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-s01 .location-search-combined .current-location,
+  body.koala-ui-v1.koala-s01 .location-search-combined .location-search-entry {
+    height: 42px !important; min-height: 0 !important; max-height: 42px !important; margin: 0 !important;
+    border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; gap: 6px !important;
+  }
+  body.koala-ui-v1.koala-s01 .location-search-combined .current-location { padding: 0 6px 0 10px !important; }
+  body.koala-ui-v1.koala-s01 .location-search-combined .location-search-entry { padding: 0 10px !important; }
+  body.koala-ui-v1.koala-s01 .location-unified-divider { width: 1px !important; height: 20px !important; background: var(--koala-line) !important; flex: 0 0 1px !important; }
+  body.koala-ui-v1.koala-s01 .current-location .loc { font-size: 14px !important; line-height: 20px !important; font-weight: 600 !important; color: var(--koala-text) !important; margin: 0 !important; }
+  body.koala-ui-v1.koala-s01 .current-location .pin {
+    width: 18px !important; height: 18px !important; flex: 0 0 18px !important; min-width: 18px !important; border-radius: 0 !important;
+    background: currentColor !important; color: var(--koala-brand) !important; box-shadow: none !important; font-size: 0 !important; /* icon-zero: glyph 📍 replaced by line icon */
+    -webkit-mask: var(--koala-icon-pin) center / contain no-repeat !important; mask: var(--koala-icon-pin) center / contain no-repeat !important;
+  }
+  body.koala-ui-v1.koala-s01 .current-location .pin::before,
+  body.koala-ui-v1.koala-s01 .current-location .pin::after { content: none !important; display: none !important; }
+  body.koala-ui-v1.koala-s01 .current-location .change {
+    width: 14px !important; height: 14px !important; margin-left: 2px !important; flex: 0 0 14px !important;
+    background: currentColor !important; color: var(--koala-text-3) !important; font-size: 0 !important; /* icon-zero: glyph ⌄ replaced by line icon */
+    -webkit-mask: var(--koala-icon-chevron-down) center / contain no-repeat; mask: var(--koala-icon-chevron-down) center / contain no-repeat;
+  }
+  body.koala-ui-v1.koala-s01 .location-search-entry .search-ico {
+    width: 18px !important; height: 18px !important; border-radius: 0 !important; background: currentColor !important; color: var(--koala-text-2) !important;
+    font-size: 0 !important; /* icon-zero: glyph ⌕ replaced by line icon */
+    -webkit-mask: var(--koala-icon-search) center / contain no-repeat; mask: var(--koala-icon-search) center / contain no-repeat;
+  }
+  body.koala-ui-v1.koala-s01 .location-search-entry .placeholder { font-size: 13px !important; line-height: 18px !important; font-weight: 400 !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-s01 .travel-pill {
+    height: 44px !important; min-width: 0 !important; padding: 0 10px !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-sm) !important;
+    background: var(--koala-surface) !important; color: var(--koala-text) !important; font-size: 13px !important; font-weight: 500 !important; box-shadow: none !important;
+  }
+
+  /* ----- strips above the list ----- */
+  body.koala-ui-v1.koala-s01 .estimate-strip,
+  body.koala-ui-v1.koala-s01 .demand {
+    margin: 8px 16px 0 !important; min-height: 44px !important; padding: 8px 12px !important;
+    border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-sm) !important; background: var(--koala-surface) !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-s01 .estimate-strip b,
+  body.koala-ui-v1.koala-s01 .demand b { font-size: 14px !important; line-height: 20px !important; font-weight: 600 !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1.koala-s01 .estimate-strip span,
+  body.koala-ui-v1.koala-s01 .demand span { font-size: 12px !important; line-height: 17px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-s01 .demand .edit { min-height: 36px !important; padding: 0 2px 0 8px !important; }
+  body.koala-ui-v1.koala-s01 .distance-recovery {
+    margin: 8px 16px 0 !important; padding: 12px !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius) !important;
+    background: var(--koala-surface) !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1.koala-s01 .distance-recovery .eyebrow { font-size: 12px !important; line-height: 16px !important; font-weight: 600 !important; color: var(--koala-brand) !important; }
+  body.koala-ui-v1.koala-s01 .distance-recovery h3 { margin: 4px 0 !important; font-size: 15px !important; line-height: 22px !important; font-weight: 600 !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1.koala-s01 .distance-recovery p { font-size: 13px !important; line-height: 19px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-s01 .notice { font-size: 13px !important; line-height: 19px !important; }
+  body.koala-ui-v1.koala-s01 .supplemental-scope b { font-size: 14px !important; }
+  body.koala-ui-v1.koala-s01 .supplemental-scope span { font-size: 12px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-s01 .toolbar { margin: 8px 16px 0 !important; padding: 0 !important; }
+  body.koala-ui-v1.koala-s01 .quick-store-filters { gap: 8px !important; padding: 8px 0 0 !important; }
+
+  /* ----- unlocated empty state ----- */
+  body.koala-ui-v1.koala-s01 .loc-empty { padding: 28px 24px !important; }
+  body.koala-ui-v1.koala-s01 .loc-empty .pin { font-size: 0 !important; /* icon-zero: glyph 📍 replaced by line icon */ width: 40px; height: 40px; margin: 0 auto 12px; background: var(--koala-brand); -webkit-mask: var(--koala-icon-pin) center / contain no-repeat; mask: var(--koala-icon-pin) center / contain no-repeat; }
+  body.koala-ui-v1.koala-s01 .loc-empty h2 { font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1.koala-s01 .loc-empty p { font-size: 14px !important; line-height: 21px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-s01 .loc-empty button { width: 100% !important; margin-top: 16px !important; }
+  body.koala-ui-v1.koala-s01 .loc-empty .search { margin-top: 12px !important; font-size: 14px !important; }
+  body.koala-ui-v1.koala-s01 .empty-results { font-size: 14px !important; line-height: 21px !important; color: var(--koala-text-2) !important; padding: 20px 12px !important; }
+
+  /* ----- StoreCard ----- */
+  body.koala-ui-v1.koala-s01 .store,
+  body.koala-ui-v1.koala-s01 .v274-demand-state .store.demand-store,
+  body.koala-ui-v1.koala-s01 .v274-demand-state .store.demand-card { padding: 12px !important; margin: 0 0 12px !important; position: relative; }
+  body.koala-ui-v1.koala-s01 .store:first-child,
+  body.koala-ui-v1.koala-s01 .v274-demand-state .store.demand-store:first-of-type { box-shadow: var(--koala-shadow) !important; background: var(--koala-surface) !important; border-color: var(--koala-line) !important; }
+  body.koala-ui-v1.koala-s01 .store::after { content: none !important; display: none !important; }
+  body.koala-ui-v1.koala-s01 .store-head { grid-template-columns: 96px minmax(0, 1fr) !important; column-gap: 12px !important; row-gap: 8px !important; align-items: start !important; }
+  body.koala-ui-v1.koala-s01 .store-photo {
+    width: 96px !important; height: 84px !important; border: 0 !important; border-radius: var(--koala-radius-sm) !important;
+    color: var(--koala-text-3) !important; overflow: hidden !important;
+  }
+  body.koala-ui-v1.koala-s01 .store-photo:not(.cn-store-photo) { background: var(--koala-surface-2) !important; position: relative; }
+  body.koala-ui-v1.koala-s01 .store-photo:not(.cn-store-photo)::before {
+    content: ""; position: absolute; left: 36px; top: 24px; width: 24px; height: 24px; background: var(--koala-text-3);
+    -webkit-mask: var(--koala-icon-warehouse) center / contain no-repeat; mask: var(--koala-icon-warehouse) center / contain no-repeat;
+  }
+  body.koala-ui-v1.koala-s01 .store-photo::after {
+    left: 6px !important; top: 6px !important; padding: 1px 6px !important; border: 0 !important; border-radius: 4px !important;
+    background: rgba(255, 255, 255, .92) !important; color: var(--koala-text-2) !important;
+    font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important;
+  }
+  body.koala-ui-v1.koala-s01 .store .name { font-size: 16px !important; line-height: 23px !important; font-weight: 700 !important; color: var(--koala-text) !important; gap: 6px !important; letter-spacing: 0 !important; }
+  body.koala-ui-v1.koala-s01 .store .area { margin-top: 2px !important; font-size: 13px !important; line-height: 18px !important; color: var(--koala-text-3) !important; }
+  body.koala-ui-v1.koala-s01 .store .route { margin-top: 2px !important; font-size: 13px !important; line-height: 18px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-s01 .store .route b { color: var(--koala-text) !important; font-weight: 700 !important; }
+  body.koala-ui-v1.koala-s01 .card-open-chevron {
+    font-size: 0 !important; /* icon-zero: glyph › replaced by line icon */ width: 20px; height: 20px; flex: 0 0 20px; background: var(--koala-text-3); align-self: center;
+    -webkit-mask: var(--koala-icon-chevron-right) center / contain no-repeat; mask: var(--koala-icon-chevron-right) center / contain no-repeat;
+  }
+  /* tag row: when relocated by the runtime helper it is a direct grid child, spans both columns and WRAPS (2–4 tags always
+     fully visible, no clipping, no horizontal scroll needed). If the helper is absent the row stays nested in .store-main and
+     keeps the legacy horizontal-scroll behaviour (overflow-x:auto) so tags are still reachable. */
+  body.koala-ui-v1.koala-s01 .store-head > .store-demo-tags { grid-column: 1 / -1 !important; margin-top: 0 !important; flex-wrap: wrap !important; overflow: visible !important; }
+  body.koala-ui-v1.koala-s01 .store-demo-tags { display: flex !important; gap: 6px !important; margin-top: 6px !important; width: 100% !important; min-width: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; }
+  /* promotion tags (class added by the helper): orange pair with verified contrast; specificity (0,5,1) beats the generic service-tag rule (0,4,1) */
+  body.koala-ui-v1.koala-s01 .store-demo-tags .tag.mk-promo-tag {
+    background: var(--koala-price-soft) !important; color: var(--koala-promo-text) !important; border-color: var(--koala-price-soft) !important; font-weight: 600 !important;
+  }
+  body.koala-ui-v1.koala-s01 .store-facts { margin-top: 10px !important; padding-top: 0 !important; background: transparent !important; border-top: 1px solid var(--koala-divider) !important; }
+  body.koala-ui-v1.koala-s01 .fact { min-height: 0 !important; padding: 10px 8px 0 0 !important; background: transparent !important; }
+  body.koala-ui-v1.koala-s01 .fact + .fact { padding-left: 12px !important; border-left: 1px solid var(--koala-divider) !important; }
+  body.koala-ui-v1.koala-s01 .fact .label { font-size: 12px !important; line-height: 16px !important; color: var(--koala-text-3) !important; margin-bottom: 2px !important; }
+  body.koala-ui-v1.koala-s01 .fact .sub { margin-top: 2px !important; font-size: 12px !important; line-height: 16px !important; color: var(--koala-text-3) !important; }
+  body.koala-ui-v1.koala-s01 .browse-stock-line span { font-size: 12px !important; line-height: 16px !important; color: var(--koala-text-3) !important; }
+  body.koala-ui-v1.koala-s01 .browse-stock-line strong { font-size: 18px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1.koala-s01 .browse-stock-line strong.stock-alert { color: var(--koala-price-strong) !important; }
+  body.koala-ui-v1.koala-s01 .browse-unit-price,
+  body.koala-ui-v1.koala-s01 .store .contract-price { min-height: 26px !important; align-items: baseline !important; }
+
+  /* ----- E-store card (position & trigger rules unchanged) ----- */
+  body.koala-ui-v1.koala-s01 .estore-list-card { margin: 0 0 12px !important; padding: 12px !important; position: relative; }
+  body.koala-ui-v1.koala-s01 .estore-list-card.fallback-first { border-color: var(--koala-brand-200) !important; background: var(--koala-surface) !important; box-shadow: var(--koala-shadow) !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-card::after { content: none !important; display: none !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-kicker { font-size: 12px !important; line-height: 16px !important; font-weight: 600 !important; color: var(--koala-brand) !important; letter-spacing: 0 !important; text-transform: none !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-title-row { margin-top: 4px !important; gap: 8px !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-title { font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important; letter-spacing: 0 !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-desc { margin-top: 2px !important; font-size: 13px !important; line-height: 18px !important; font-weight: 500 !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-points { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; margin-top: 8px !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-points span { position: static !important; margin-right: 0 !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-points span:not(:last-child)::after { content: none !important; display: none !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-foot { margin-top: 10px !important; padding-top: 10px !important; border-top: 1px solid var(--koala-divider) !important; }
+  body.koala-ui-v1.koala-s01 .estore-list-note { font-size: 12px !important; line-height: 16px !important; color: var(--koala-text-3) !important; }
+
+  /* ----- 380px and below: narrower photo column only ----- */
+  @media (max-width: 380px) {
+    body.koala-ui-v1.koala-s01 .store-head { grid-template-columns: 92px minmax(0, 1fr) !important; column-gap: 10px !important; }
+    body.koala-ui-v1.koala-s01 .store-photo { width: 92px !important; height: 82px !important; }
+    body.koala-ui-v1.koala-s01 .store-photo:not(.cn-store-photo)::before { left: 34px; top: 23px; }
+  }
+}

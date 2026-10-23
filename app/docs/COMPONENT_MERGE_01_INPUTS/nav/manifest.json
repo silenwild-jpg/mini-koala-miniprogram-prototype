@@ -1,0 +1,186 @@
+{
+  "package": "Mini_Koala_NAV_ICON_01B_SchemeB_2026-10-15",
+  "file_count": 36,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 976,
+      "sha256": "dde1ee8bde6af735fcdf8a041690470396e605d79f18040bc2f300dc1b4bb299"
+    },
+    {
+      "path": "design-tokens.json",
+      "bytes": 592,
+      "sha256": "363eb0273fbf89b03ca884df873467d8dc2dee6b4361eccaf6e21fbf3125402a"
+    },
+    {
+      "path": "docs/NAV_ICON_01B_DESIGN_SPEC.md",
+      "bytes": 4769,
+      "sha256": "4a193552742fb3b4416bc67200bb9967c8936d3538cf81b7164e5b419c6231a0"
+    },
+    {
+      "path": "docs/NAV_ICON_01B_QA_REPORT.md",
+      "bytes": 1270,
+      "sha256": "8afbb978dd340555ae9cb8bb4ce1bd93a47c3741594dbfbba5c455a6e00b23d2"
+    },
+    {
+      "path": "docs/NAV_ICON_01C_CODEX_HANDOFF.md",
+      "bytes": 1462,
+      "sha256": "3bf2300596bcd85a64c1f76e2a7537b1a085f9351278e9f8228cd377b86dddb8"
+    },
+    {
+      "path": "index.html",
+      "bytes": 12172,
+      "sha256": "b295b321e3c44cffb5f670576fdcc6fbc0f87aae2b88b5f2fb390335da382002"
+    },
+    {
+      "path": "png_2x/find-active.png",
+      "bytes": 1767,
+      "sha256": "0e6d49d57c64eadca9688a82ca4232ad468cb623dd4b59f9e84fa3ed496f2787"
+    },
+    {
+      "path": "png_2x/find-inactive.png",
+      "bytes": 1837,
+      "sha256": "bb9e16a6e4eb450f012c07051f7c40b16e946d1c00ea94d7e9f79741fb94507a"
+    },
+    {
+      "path": "png_2x/home-active.png",
+      "bytes": 1406,
+      "sha256": "42bd772e1a4ee59ab7d688e11a00471e595a5864112eaf9d6ec187437cbf9967"
+    },
+    {
+      "path": "png_2x/home-inactive.png",
+      "bytes": 1333,
+      "sha256": "138bf979557936c7e949e695f92479c93a1e5c1623df8a65b6ddd65b18b823f8"
+    },
+    {
+      "path": "png_2x/me-active.png",
+      "bytes": 1527,
+      "sha256": "db9fe9431056cc238b94d3be5d4084465c3fd1c54b5dca41ec8091216dd2fe2d"
+    },
+    {
+      "path": "png_2x/me-inactive.png",
+      "bytes": 1693,
+      "sha256": "0475971fbeb939cdf0aac2d3f52acd36f46b1918ba0ab4688a6457b27ff7af08"
+    },
+    {
+      "path": "png_2x/stores-active.png",
+      "bytes": 1691,
+      "sha256": "9513e069a363f5e6b61a42883757f0c180db9b3f52418ee92d6996e8f2118046"
+    },
+    {
+      "path": "png_2x/stores-inactive.png",
+      "bytes": 1904,
+      "sha256": "76df7dd838d8c9be282db38e724cb7dd42bf1e8cfaa11157e6e1dee10039cd1e"
+    },
+    {
+      "path": "png_3x/find-active.png",
+      "bytes": 2530,
+      "sha256": "9aaaa8d9a21fc7d852b97a6e33f59ce569bcc5bfff1e1629f127513c8d954c72"
+    },
+    {
+      "path": "png_3x/find-inactive.png",
+      "bytes": 2700,
+      "sha256": "95cad84ee23bc216b711c7f2875080d3e117830ec1dd212ab62ddfb6e9b6dcc5"
+    },
+    {
+      "path": "png_3x/home-active.png",
+      "bytes": 1983,
+      "sha256": "e41ff89a265a5f1315017305d41347df926b1e1bb4b2cdef7b7be1d95c488e4b"
+    },
+    {
+      "path": "png_3x/home-inactive.png",
+      "bytes": 1759,
+      "sha256": "9825d337ade421d0319a7284fa9efa320002483b464be74658b13843b55f36ee"
+    },
+    {
+      "path": "png_3x/me-active.png",
+      "bytes": 2280,
+      "sha256": "9598f978ae31c001f56570c2ed7c1edf4b59059fe965ed68c00dc159bd00c311"
+    },
+    {
+      "path": "png_3x/me-inactive.png",
+      "bytes": 2410,
+      "sha256": "f0bb719f9e71dededce7c1a8adb73355218a536175672819128fee21f54245a9"
+    },
+    {
+      "path": "png_3x/stores-active.png",
+      "bytes": 2529,
+      "sha256": "9137ac7a4afcc47c75b3472e00a693322d1ca78949e32185616f829da7b46d63"
+    },
+    {
+      "path": "png_3x/stores-inactive.png",
+      "bytes": 2831,
+      "sha256": "da48a0e1d74844c5c8f209934fad54d87b45f29d62325cadf9774a53ba9ed67e"
+    },
+    {
+      "path": "previews/NAV_ICON_01B_SchemeB_Overview.png",
+      "bytes": 247334,
+      "sha256": "5c97ddbcd8df1961690a8e029226fde0c9911da4cf3c2c9dc86817871036548c"
+    },
+    {
+      "path": "previews/Native_26px_Legibility.png",
+      "bytes": 28043,
+      "sha256": "aaf9532cf57ac504089b524e8f4af755de2481ba6b684bc4765c23e304b92627"
+    },
+    {
+      "path": "previews/Nav_375x812_Home_Active_DPR2.png",
+      "bytes": 101850,
+      "sha256": "08d9e6b8b73ff3ddb282850b938eff40265bfca75d67fcd32f386afa8bbe10a0"
+    },
+    {
+      "path": "previews/Nav_390x844_Stores_Active_DPR2.png",
+      "bytes": 99564,
+      "sha256": "cf0b676da9a1bd758310b35aa7ee9b5b70f6c318976276f553f2f1e8541217e4"
+    },
+    {
+      "path": "previews/icon-states-contact.png",
+      "bytes": 33424,
+      "sha256": "03f35d930a4064bde24ce51e8b9ec43de023b3c2e16c81294361fe4d82536871"
+    },
+    {
+      "path": "serve_preview.cmd",
+      "bytes": 53,
+      "sha256": "9f976b6cc310340b7b0a81355350aa9efe3b18df9bb31310a0aa69c0d95de51d"
+    },
+    {
+      "path": "svg/find-active.svg",
+      "bytes": 725,
+      "sha256": "73e3c1fa4d9a745a9bcb2faae5ff524939bef0fd3e7673723b3747ef7a1857f1"
+    },
+    {
+      "path": "svg/find-inactive.svg",
+      "bytes": 486,
+      "sha256": "76753ae56c2b20cc677d005f9a0ee7dfc70447599ca2731243aba7137a5f91fb"
+    },
+    {
+      "path": "svg/home-active.svg",
+      "bytes": 660,
+      "sha256": "ac4ea4ad7403787da35f8d3089841425a3315fd7cd2439b84c7973ff497df32b"
+    },
+    {
+      "path": "svg/home-inactive.svg",
+      "bytes": 473,
+      "sha256": "d0f4d82b7d063782765f0226bb18be41e740e57cbded94814cfa826f73c5aa59"
+    },
+    {
+      "path": "svg/me-active.svg",
+      "bytes": 699,
+      "sha256": "575d4a0f81e40214d09ebc35856bacdab6448e926efc928d61f77e5fe23f9fd4"
+    },
+    {
+      "path": "svg/me-inactive.svg",
+      "bytes": 516,
+      "sha256": "611902f4ffec634d74416ea91cc0f0e536eec8ad485f2a23529e0e61721464c2"
+    },
+    {
+      "path": "svg/stores-active.svg",
+      "bytes": 896,
+      "sha256": "6e305495739cdb2c3fd83a3dba02dd2cc3d07dbe677b3fc5e4cad7e080053e29"
+    },
+    {
+      "path": "svg/stores-inactive.svg",
+      "bytes": 695,
+      "sha256": "a34f74e9b9e0aa39a9a405cc1cbfa41973b0dfa1acb01fbdaf24e2d2514ce9c9"
+    }
+  ]
+}

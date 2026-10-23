@@ -1,0 +1,11 @@
+--- qa/test_h01_007_p1_http_flows.py	2026-10-13 14:29:39.381246431 +0000
++++ qa/test_h01_007_p1_http_flows__acceptance_fixture_fix.py	2026-10-13 14:31:46.688104582 +0000
+@@ -15,7 +15,7 @@
+     f.seed({REQ_KEY: req(12), 'mini_koala_coupon_selection_v1': {'mode': 'manual', 'coupon_id': 'CPN-001'}})
+     u01(f, *UNIT_A, 12)
+     url = f.click_nav('#confirm')
+-    f.page.goto(url + '&demoAutoAgree=1&simulatePayment=PENDING', wait_until='load')
++    f.page.goto(url + '&demoAutoAgree=1&review=1&simulatePayment=PENDING', wait_until='load')  # ACCEPTANCE FIXTURE FIX: review=1 required for simulatePayment (see O01 reviewMode)
+     f.page.wait_for_timeout(500)
+     pay(f)
+     pending = f.ls(ORDER_KEY) or {}

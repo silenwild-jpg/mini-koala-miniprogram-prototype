@@ -1,0 +1,138 @@
+name,scope,result,seconds,rc,log,comment
+test_acceptance_fix_runtime.cjs,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_acceptance_v11_followup.cjs,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_acceptance_v11_followup.cjs.log,Node.js v22.16.0
+test_acceptance_v11_patch.cjs,NON_BROWSER,PASS,0.15,0,logs/full_static/test_acceptance_v11_patch.cjs.log,RESULT: 6/6 focused checks passed (not a browser screenshot acceptance)
+test_acceptance_v11_patch_b.cjs,NON_BROWSER,PASS,0.15,0,logs/full_static/test_acceptance_v11_patch_b.cjs.log,RESULT 9/9 PATCH B focused checks PASSED
+test_acceptance_v11_patch_c.cjs,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_acceptance_v11_patch_c.cjs.log,Node.js v22.16.0
+test_ai_space_estimator_patch.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_ai_space_estimator_patch.js.log,Node.js v22.16.0
+test_batch_a_shared_facts.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_batch_a_shared_facts.js.log,Node.js v22.16.0
+test_c_state_d_page_cleanup.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_c_state_d_page_cleanup.js.log,Node.js v22.16.0
+test_china_native_patch_v1.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_combo_full_journey_recovery_v21.cjs,NON_BROWSER,FAIL,0.09,1,logs/full_static/test_combo_full_journey_recovery_v21.cjs.log,Node.js v22.16.0
+test_combo_physical_fit_p0.cjs,NON_BROWSER,FAIL,0.07,1,logs/full_static/test_combo_physical_fit_p0.cjs.log,Node.js v22.16.0
+test_combo_recommendation_v1.cjs,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_combo_recommendation_v1.cjs.log,Node.js v22.16.0
+test_combo_ux_regression_v2.cjs,NON_BROWSER,PASS,0.05,0,logs/full_static/test_combo_ux_regression_v2.cjs.log,V2 targeted checks 11/11
+test_confirmed_ux_v1.cjs,NON_BROWSER,FAIL,0.15,1,logs/full_static/test_confirmed_ux_v1.cjs.log,Node.js v22.16.0
+test_conversion_friction_v1.cjs,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_conversion_friction_v1.cjs.log,Node.js v22.16.0
+test_coupon_benefit_system_v1.js,NON_BROWSER,PASS,0.06,0,logs/full_static/test_coupon_benefit_system_v1.js.log,"PASS Coupon & Benefit System V1: wallet, best-coupon selection, canonical pricing, page integration, renewal issuance"
+test_cross_page_route_targets_v1.py,NON_BROWSER,FAIL,1.16,1,logs/full_static/test_cross_page_route_targets_v1.py.log,FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/UX_PATCH_D_FULL_2026-10-14/qa_isolated/Mini_Koala_H01_Lifestyle_Step03/outputs/cross_page_route_targets_v1.json'
+test_cross_page_runtime_smoke_v1.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_demo_price_combo_cleanup.cjs,NON_BROWSER,FAIL,0.03,1,logs/full_static/test_demo_price_combo_cleanup.cjs.log,Node.js v22.16.0
+test_est_vis09_full45_merge.cjs,NON_BROWSER,FAIL,0.08,1,logs/full_static/test_est_vis09_full45_merge.cjs.log,Node.js v22.16.0
+test_estimator_item_fallback_p0_v1.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_estimator_item_fallback_p0_v1.js.log,Node.js v22.16.0
+test_estimator_s01_demand_carryback_v12.js,NON_BROWSER,FAIL,0.07,1,logs/full_static/test_estimator_s01_demand_carryback_v12.js.log,FAIL contextual carryback copy present
+test_estimator_shared_return_context_v151.js,NON_BROWSER,PASS,0.05,0,logs/full_static/test_estimator_shared_return_context_v151.js.log,PASS shared estimator return context v1.5.1: S01 and S02 use one explicit return-target protocol with backward compatibility
+test_external_review_merge_v2.cjs,NON_BROWSER,PASS,0.19,0,logs/full_static/test_external_review_merge_v2.cjs.log,20/20 behavior groups passed
+test_final_p1_closeout_v15.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_final_p1_closeout_v15.js.log,Node.js v22.16.0
+test_flow_action_cleanup.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_flow_action_cleanup.js.log,FAIL store detail returns to estimator unit list
+test_full_unit_master_simulated_state_v1.js,NON_BROWSER,FAIL,0.12,1,logs/full_static/test_full_unit_master_simulated_state_v1.js.log,Node.js v22.16.0
+test_h01_004b_help_float.cjs,NON_BROWSER,PASS,0.05,0,logs/full_static/test_h01_004b_help_float.cjs.log,"PASS H01-004B help float: compact geometry, collision guard, close behavior, phone/chat paths"
+test_h01_007_p1_coupon_settlement.cjs,NON_BROWSER,PASS,0.09,0,logs/full_static/test_h01_007_p1_coupon_settlement.cjs.log,12/12
+test_h01_007_p1_http_flows.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_h01_007_s1_http_flows.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_h01_007_s1_requirement_trade_snapshot.cjs,NON_BROWSER,PASS,0.1,0,logs/full_static/test_h01_007_s1_requirement_trade_snapshot.cjs.log,13/13
+test_h01_007_s2_coupon_eligibility.cjs,NON_BROWSER,PASS,0.11,0,logs/full_static/test_h01_007_s2_coupon_eligibility.cjs.log,14/14  source=prototype/mini_storage_coupon_benefit_v1.js
+test_h01_007_s2_http_flows.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_h01_007_s3_http_flows.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_h01_007_s3_trade_recheck.cjs,NON_BROWSER,FAIL,0.08,1,logs/full_static/test_h01_007_s3_trade_recheck.cjs.log,17/18 passed (root=/mnt/data/UX_PATCH_D_FULL_2026-10-14/qa_isolated/Mini_Koala_H01_Lifestyle_Step03)
+test_h01_007_s4_entry_contracts.cjs,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_h01_007_s4_entry_contracts.cjs.log,"29 passed, 1 failed"
+test_h01_007_s4_http_flows.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_h01_recommendation_card_fix.cjs,NON_BROWSER,FAIL,0.09,1,logs/full_static/test_h01_recommendation_card_fix.cjs.log,Node.js v22.16.0
+test_home_state_integration_patch_v1.cjs,NON_BROWSER,PASS,0.04,0,logs/full_static/test_home_state_integration_patch_v1.cjs.log,17/17
+test_home_state_recovery_browser_v11.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_home_state_recovery_v11.cjs,NON_BROWSER,PASS,0.06,0,logs/full_static/test_home_state_recovery_v11.cjs.log,18/18
+test_home_visual_closeout_patch_v1.py,BROWSER_DEFERRED,NOT_RUN,0,,,Requires browser/web server; audited separately
+test_identity_flow.js,NON_BROWSER,PASS,0.11,0,logs/full_static/test_identity_flow.js.log,PASS demonstration identity verification completes in one action
+test_internal_demo_financial_consistency_v1.js,NON_BROWSER,PASS,0.09,0,logs/full_static/test_internal_demo_financial_consistency_v1.js.log,PASS Internal Demo Financial Consistency V1: quote/order/payment agree; no phantom payment; coupon choice persists
+test_internal_demo_release_v1.js,NON_BROWSER,PASS,0.04,0,logs/full_static/test_internal_demo_release_v1.js.log,"PASS Internal Demo Release V1: 6 guided stories, state reset, cross-page ribbon, role framing, canonical coupon amounts"
+test_internal_demo_story_navigation_v1.js,NON_BROWSER,PASS,0.14,0,logs/full_static/test_internal_demo_story_navigation_v1.js.log,"PASS Internal Demo Story Navigation V1: six starts, step routing, coupon snapshot, reset"
+test_inventory_urgency_conversion_v1.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_inventory_urgency_conversion_v1.js.log,Node.js v22.16.0
+test_inventory_visibility_soldout_semantics_v1.js,NON_BROWSER,FAIL,0.07,1,logs/full_static/test_inventory_visibility_soldout_semantics_v1.js.log,Node.js v22.16.0
+test_miniprogram_ui_system_v1.cjs,NON_BROWSER,FAIL,0.07,1,logs/full_static/test_miniprogram_ui_system_v1.cjs.log,Node.js v22.16.0
+test_mms_decision_flow.js,NON_BROWSER,FAIL,0.11,1,logs/full_static/test_mms_decision_flow.js.log,Node.js v22.16.0
+test_navigation_vnext.cjs,NON_BROWSER,FAIL,0.08,1,logs/full_static/test_navigation_vnext.cjs.log,Node.js v22.16.0
+test_o01_runtime.js,NON_BROWSER,FAIL,0.07,1,logs/full_static/test_o01_runtime.js.log,Node.js v22.16.0
+test_p1_review_fix_behaviors.js,NON_BROWSER,PASS,0.11,0,logs/full_static/test_p1_review_fix_behaviors.js.log,"PASS review P1 behavior: repeat renewal, return date/type, viewing hours, AI context and term gate"
+test_p1_s01_search_context.js,NON_BROWSER,PASS,0.04,0,logs/full_static/test_p1_s01_search_context.js.log,"PASS S01 search, return context, inline dropdown modal exclusion"
+test_phase2_city_scope.js,NON_BROWSER,FAIL,0.16,1,logs/full_static/test_phase2_city_scope.js.log,Node.js v22.16.0
+test_phase2_ux.cjs,NON_BROWSER,PASS,0.1,0,logs/full_static/test_phase2_ux.cjs.log,"RESULT: 18 behavior groups passed; simulated DOM, browser/WeChat not verified."
+test_phase3a_controlled_patch.cjs,NON_BROWSER,FAIL,0.03,1,logs/full_static/test_phase3a_controlled_patch.cjs.log,Node.js v22.16.0
+test_phase3a_independent_fix_v11.cjs,NON_BROWSER,PASS,0.06,0,logs/full_static/test_phase3a_independent_fix_v11.cjs.log,Independent Fix V1.1: 11/11 passed (source/VM; not browser E2E)
+test_phase3b_batch_ab.cjs,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_phase3b_batch_ab.cjs.log,Node.js v22.16.0
+test_phase3b_batch_c_u01.cjs,NON_BROWSER,FAIL,0.03,1,logs/full_static/test_phase3b_batch_c_u01.cjs.log,Node.js v22.16.0
+test_phase3b_batch_d_cross_page.cjs,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_phase3b_batch_d_cross_page.cjs.log,Node.js v22.16.0
+test_phase3c_batch_a_price_gate.cjs,NON_BROWSER,PASS,0.03,0,logs/full_static/test_phase3c_batch_a_price_gate.cjs.log,Phase 3C Batch A: 22/22 isolated source and price-gate tests passed; no browser E2E
+test_phase3c_unified_final.cjs,NON_BROWSER,PASS,0.1,0,logs/full_static/test_phase3c_unified_final.cjs.log,Unified Phase 3C: 24/24 targeted tests passed. Browser and WeChat E2E NOT VERIFIED.
+test_phase3c_unified_scope.cjs,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_phase3c_unified_scope.cjs.log,Node.js v22.16.0
+test_price_semantics_display_v1.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_price_semantics_display_v1.js.log,Node.js v22.16.0
+test_price_semantics_final_closeout_v11.js,NON_BROWSER,PASS,0.04,0,logs/full_static/test_price_semantics_final_closeout_v11.js.log,PASS Price Semantics Final Closeout V1.1: S02 no-term semantics + O01 semantic continuity
+test_product_demo_fixture_runtime_v1.js,NON_BROWSER,PASS,0.07,0,logs/full_static/test_product_demo_fixture_runtime_v1.js.log,"PASS Demo Fixture V2 runtime: estimated, pending-use, active mine, no-match, price snapshot, ending order"
+test_product_demo_hub_v1.js,NON_BROWSER,PASS,0.06,0,logs/full_static/test_product_demo_hub_v1.js.log,"PASS Internal Demo Hub V1: six guided stories, control center, role routes, state matrix, canonical fixtures, launcher target"
+test_real_store_asset_mapping_v1.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_real_store_asset_mapping_v1.js.log,Node.js v22.16.0
+test_real_store_gallery_v2.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_real_store_gallery_v2.js.log,Node.js v22.16.0
+test_renew_payment_confirmation.js,NON_BROWSER,PASS,0.06,0,logs/full_static/test_renew_payment_confirmation.js.log,"PASS RN01 opens review without charging, cancel preserves quote, explicit pay records exact amount"
+test_s01_estimator_return.js,NON_BROWSER,PASS,0.06,0,logs/full_static/test_s01_estimator_return.js.log,PASS S01 estimator return: cancel restores browse filters + loaded count + scroll; completion returns to top in demand-recommendation state
+test_s01_filter_sort_refinement_v1.cjs,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_s01_filter_sort_refinement_v1.cjs.log,Node.js v22.16.0
+test_s01_inline_filter_location_v2.cjs,NON_BROWSER,PASS,0.06,0,logs/full_static/test_s01_inline_filter_location_v2.cjs.log,PASS 12/12 S01 inline compact controls
+test_s01_ux_continuity_patch_v1.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_s01_ux_continuity_patch_v1.js.log,Node.js v22.16.0
+test_sales_intervention_request_patch_v1.js,NON_BROWSER,PASS,0.05,0,logs/full_static/test_sales_intervention_request_patch_v1.js.log,sales intervention request patch: pass
+test_sales_share_mode.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_sales_share_mode.js.log,FAIL S02 uses a higher default distance threshold
+test_sprint1b_estimator_visual.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_sprint1b_estimator_visual.js.log,FAIL Estimator body/copy/interaction markup matches the Phase 3A V1.1 authorized estimator markup
+test_sprint1c_recommendation_visual.js,NON_BROWSER,FAIL,0.03,1,logs/full_static/test_sprint1c_recommendation_visual.js.log,FAIL Estimator body/copy/state/interaction markup matches the Phase 3A V1.1 authorized estimator markup
+test_sprint1d_s01_visual.js,NON_BROWSER,FAIL,0.08,1,logs/full_static/test_sprint1d_s01_visual.js.log,FAIL S01 body matches the accepted service-filter interaction baseline
+test_sprint1e_s02_visual.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_sprint1e_s02_visual.js.log,FAIL S02 body matches the accepted store-detail interaction baseline
+test_sprint1f_u01_visual.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_sprint1f_u01_visual.js.log,FAIL U01 body changes only under Phase 3B Batch C authorized version
+test_sprint1g_core_visual_harmonization.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_sprint1g_core_visual_harmonization.js.log,Node.js v22.16.0
+test_sprint2_transaction_visual.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_sprint2_transaction_visual.js.log,Node.js v22.16.0
+test_sprint3_lifecycle_visual.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_sprint3_lifecycle_visual.js.log,Node.js v22.16.0
+test_sprint4_full_visual_freeze.js,NON_BROWSER,PASS,0.04,0,logs/full_static/test_sprint4_full_visual_freeze.js.log,PASS sprint4 full visual freeze guard: shared help token aligned and frozen visual assets present
+test_ssot.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_ssot.js.log,Node.js v22.16.0
+test_static_package_integrity.js,NON_BROWSER,FAIL,1.52,1,logs/full_static/test_static_package_integrity.js.log,space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html -> ../assets/item-icons/full45-trial/${key}.webp
+test_store_card_unification_v1.cjs,NON_BROWSER,FAIL,0.03,1,logs/full_static/test_store_card_unification_v1.cjs.log,Node.js v22.16.0
+test_store_data_integration.js,NON_BROWSER,PASS,0.1,0,logs/full_static/test_store_data_integration.js.log,"PASS store data integration: visible counts, m³ semantics, 2.5m-derived area/dimensions, integer unit price, zero-price exclusion, page wiring, and inline syntax"
+test_store_unit_match.js,NON_BROWSER,FAIL,0.12,1,logs/full_static/test_store_unit_match.js.log,Node.js v22.16.0
+test_store_unit_review_patch.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_store_unit_review_patch.js.log,Node.js v22.16.0
+test_term_footer_geometry.cjs,NON_BROWSER,PASS,0.09,0,logs/full_static/test_term_footer_geometry.cjs.log,"PASS shared button style declarations and single-column term-required state; static geometry, not rendered CSS"
+test_term_handoff.js,NON_BROWSER,FAIL,0.1,1,logs/full_static/test_term_handoff.js.log,Node.js v22.16.0
+test_term_selector_consistency.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_term_selector_consistency.js.log,6 term-selector consistency check(s) failed.
+test_u01_context.js,NON_BROWSER,FAIL,0.09,1,logs/full_static/test_u01_context.js.log,Node.js v22.16.0
+test_ux_copy_flow_v1.cjs,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_ux_copy_flow_v1.cjs.log,Node.js v22.16.0
+test_ux_patch_a1_usage_amount.cjs,NON_BROWSER,FAIL,0.08,1,logs/full_static/test_ux_patch_a1_usage_amount.cjs.log,Node.js v22.16.0
+test_ux_patch_a1b_direct_5m3.cjs,NON_BROWSER,PASS,0.05,0,logs/full_static/test_ux_patch_a1b_direct_5m3.cjs.log,UX PATCH A1.1 7/7 PASS
+test_ux_patch_a2_item_confirmation.cjs,NON_BROWSER,PASS,0.08,0,logs/full_static/test_ux_patch_a2_item_confirmation.cjs.log,UX-PATCH A2 8/8 PASS
+test_ux_patch_a3_usage_recommendation.cjs,NON_BROWSER,PASS,0.03,0,logs/full_static/test_ux_patch_a3_usage_recommendation.cjs.log,10/10 A3 source tests PASS; real browser NOT TESTED
+test_ux_patch_a4_unit_detail.cjs,NON_BROWSER,PASS,0.05,0,logs/full_static/test_ux_patch_a4_unit_detail.cjs.log,11/11 A4 targeted checks PASS; real browser NOT TESTED
+test_ux_patch_a5_integrated_journey.cjs,NON_BROWSER,PASS,0.06,0,logs/full_static/test_ux_patch_a5_integrated_journey.cjs.log,"A5 CROSS-PAGE 12/12 PASS — source-level only, not HTTP/WeChat proof"
+test_ux_patch_b_store_unification.cjs,NON_BROWSER,FAIL,0.08,1,logs/full_static/test_ux_patch_b_store_unification.cjs.log,Node.js v22.16.0
+test_ux_patch_c_global_ui.cjs,NON_BROWSER,PASS,0.07,0,logs/full_static/test_ux_patch_c_global_ui.cjs.log,UX-PATCH C 10/10 PASS; browser not tested
+test_ux_patch_d1_recommend_return.cjs,NON_BROWSER,PASS,0.06,0,logs/full_static/test_ux_patch_d1_recommend_return.cjs.log,UX-PATCH D1 20/20 PASS (source + VM parameter tests; browser NOT TESTED)
+test_ux_patch_d2_layout_actions.py,NON_BROWSER,PASS,1.31,0,logs/full_static/test_ux_patch_d2_layout_actions.py.log,UX_PATCH_D2 23/23 PASS
+test_ux_scope_v1.cjs,NON_BROWSER,FAIL,0.08,1,logs/full_static/test_ux_scope_v1.cjs.log,Node.js v22.16.0
+test_ux_simplification_v1.cjs,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_ux_simplification_v1.cjs.log,Node.js v22.16.0
+test_v14_canonical_store_and_s01_integrity.js,NON_BROWSER,FAIL,0.12,1,logs/full_static/test_v14_canonical_store_and_s01_integrity.js.log,Node.js v22.16.0
+test_v1_freeze_p1_closeout.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_v1_freeze_p1_closeout.js.log,Node.js v22.16.0
+test_v27411_requirement_patch.js,NON_BROWSER,FAIL,0.14,1,logs/full_static/test_v27411_requirement_patch.js.log,Node.js v22.16.0
+test_v27412_runtime_regressions.js,NON_BROWSER,FAIL,0.11,1,logs/full_static/test_v27412_runtime_regressions.js.log,Node.js v22.16.0
+test_v27413_store_list_and_back.js,NON_BROWSER,FAIL,0.1,1,logs/full_static/test_v27413_store_list_and_back.js.log,Node.js v22.16.0
+test_v27415_recommendation_pricing.js,NON_BROWSER,FAIL,0.05,1,logs/full_static/test_v27415_recommendation_pricing.js.log,Node.js v22.16.0
+test_v27416_global_support_home_cards.js,NON_BROWSER,FAIL,0.1,1,logs/full_static/test_v27416_global_support_home_cards.js.log,Node.js v22.16.0
+test_v27417_1_baseline_blocking_hotfix.js,NON_BROWSER,PASS,0.1,0,logs/full_static/test_v27417_1_baseline_blocking_hotfix.js.log,V2.7.4.17.1 BASELINE BLOCKING HOTFIX QA PASS
+test_v27417_2_home_pricing_tags.js,NON_BROWSER,FAIL,0.07,1,logs/full_static/test_v27417_2_home_pricing_tags.js.log,FAIL second badge uses 稍远更省
+test_v27417_3_home_discount_tags_global_support.js,NON_BROWSER,FAIL,0.11,1,logs/full_static/test_v27417_3_home_discount_tags_global_support.js.log,Node.js v22.16.0
+test_v27417_4_recommendation_alignment.js,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_v27417_4_recommendation_alignment.js.log,Node.js v22.16.0
+test_v27417_5_store_discovery_community.js,NON_BROWSER,FAIL,0.11,1,logs/full_static/test_v27417_5_store_discovery_community.js.log,Node.js v22.16.0
+test_v27417_6_estore_placement.js,NON_BROWSER,FAIL,0.02,1,logs/full_static/test_v27417_6_estore_placement.js.log,PASS E存点击进入可取消的咨询承接
+test_v27417_7_price_term_layout.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_v27417_7_price_term_layout.js.log,Node.js v22.16.0
+test_v27417_data_semantics_home_integrity.js,NON_BROWSER,FAIL,0.09,1,logs/full_static/test_v27417_data_semantics_home_integrity.js.log,FAIL home evidence is fact-safe and unified
+test_v27418_baseline_closure.js,NON_BROWSER,FAIL,0.07,1,logs/full_static/test_v27418_baseline_closure.js.log,Node.js v22.16.0
+test_v27418_golden_scenarios.js,NON_BROWSER,FAIL,0.09,1,logs/full_static/test_v27418_golden_scenarios.js.log,Node.js v22.16.0
+test_viewing_runtime.js,NON_BROWSER,FAIL,0.1,1,logs/full_static/test_viewing_runtime.js.log,Node.js v22.16.0
+test_vis06c_batch_a_static.cjs,NON_BROWSER,PASS,0.1,0,logs/full_static/test_vis06c_batch_a_static.cjs.log,4/4 scoped static checks PASS; no browser claims.
+test_vis06c_batch_b_static.cjs,NON_BROWSER,FAIL,0.09,1,logs/full_static/test_vis06c_batch_b_static.cjs.log,FAIL 5 exact opt-in pages; single CSS reference at end of head q01
+test_vis06c_batch_c_static.py,NON_BROWSER,PASS,0.94,0,logs/full_static/test_vis06c_batch_c_static.py.log,VIS06C_BATCH_C_STATIC 13/13 pages; errors=[]; browser=NOT_TESTED
+test_vis06e_estimate_semantic_gate.cjs,NON_BROWSER,FAIL,0.06,1,logs/full_static/test_vis06e_estimate_semantic_gate.cjs.log,Node.js v22.16.0
+test_visual_elevation_v2_1_density.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_visual_elevation_v2_1_density.js.log,Node.js v22.16.0
+test_visual_elevation_v2_1_secondary_density.js,NON_BROWSER,FAIL,0.04,1,logs/full_static/test_visual_elevation_v2_1_secondary_density.js.log,Node.js v22.16.0
+test_visual_elevation_v2_controlled_rollout.js,NON_BROWSER,PASS,0.08,0,logs/full_static/test_visual_elevation_v2_controlled_rollout.js.log,VISUAL ELEVATION V2 CONTROLLED ROLLOUT GUARD PASS
+test_visual_elevation_v2_premium_pilot.js,NON_BROWSER,PASS,0.07,0,logs/full_static/test_visual_elevation_v2_premium_pilot.js.log,VISUAL ELEVATION V2 PREMIUM PILOT GUARD PASS
+test_visual_elevation_v2_refinement.js,NON_BROWSER,PASS,0.06,0,logs/full_static/test_visual_elevation_v2_refinement.js.log,VISUAL ELEVATION V2 REFINEMENT GUARD PASS

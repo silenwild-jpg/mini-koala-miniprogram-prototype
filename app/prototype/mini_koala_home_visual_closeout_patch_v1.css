@@ -1,0 +1,54 @@
+/* Homepage Visual Closeout PATCH V1 — scoped to the homepage only. */
+#miniGlobalSupport.home-support-obstructed {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+#miniGlobalSupport.home-support-obstructed * { pointer-events: none !important; }
+
+/* The supplied certificate/media files are visual reference assets, not verified Mini Koala credentials.
+   Use neutral evidence-ready placeholders until approved originals are supplied. */
+#homeBottomProofs .brand-honor-item .honor-image {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #DCE8E0;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #F7FAF7 0%, #EDF4EF 100%);
+  color: #47765D;
+}
+#homeBottomProofs .brand-honor-item .honor-image img { display: none !important; }
+#homeBottomProofs .brand-honor-item .honor-image::before {
+  content: "✓";
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #A8C9B4;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: #2F6B4F;
+  font-size: 17px;
+  font-weight: 900;
+  box-shadow: 0 2px 7px rgba(38, 88, 59, .08);
+}
+#homeBottomProofs .brand-honor-item:nth-child(2) .honor-image::before { content: "媒"; }
+#homeBottomProofs .brand-honor-item:nth-child(3) .honor-image::before { content: "标"; }
+#homeBottomProofs .brand-honor-item .honor-image span {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: #E4EEE7;
+  color: #426B52;
+  font-size: 9px;
+  line-height: 14px;
+}
+#homeBottomProofs .brand-honor-item b { font-size: 10px; line-height: 1.45; }
+@media (max-width: 360px) {
+  #homeBottomProofs .brand-honor-grid { gap: 5px; }
+  #homeBottomProofs .brand-honor-item .honor-image { height: 66px; }
+  #homeBottomProofs .brand-honor-item b { font-size: 9px; }
+}

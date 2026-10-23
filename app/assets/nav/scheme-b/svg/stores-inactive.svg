@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#78847E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="门店 - 未选中">
+  <title>门店 - 未选中</title>
+  <path d="M5 10.9v8.65c0 .75.48 1.2 1.2 1.2h6.6"/>
+  <path d="M7.85 20.65V14.8h4.15"/>
+  <path d="M3.55 8.9 5 3.9h14l1.45 5c0 2.65-3.36 3.35-4.2 1.2-.83 2.15-3.4 2.15-4.25 0-.85 2.15-3.42 2.15-4.25 0-.84 2.15-4.2 1.45-4.2-1.2Z"/>
+  <path d="M19.95 16.65c0 2.12-2.9 5.23-2.9 5.23s-2.9-3.11-2.9-5.23a2.9 2.9 0 0 1 5.8 0Z" fill="#FFFFFF" stroke-width="1.65"/>
+  <circle cx="17.05" cy="16.65" r="0.92" fill="#78847E" stroke="none"/>
+</svg>

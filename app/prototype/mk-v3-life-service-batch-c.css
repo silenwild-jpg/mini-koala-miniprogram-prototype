@@ -1,0 +1,150 @@
+/* VIS-06C Batch C | Lifecycle and services content visual closeout.
+   Opt-in only: no global selectors, no business logic, no Q01/C02 help treatment. */
+body.koala-vis06c-life {
+  --koala-life-bg: #F8FAF9;
+  --koala-life-card: #FFFFFF;
+  --koala-life-surface-2: #F3F6F4;
+  --koala-life-ink: #1F2923;
+  --koala-life-secondary: #59645E;
+  --koala-life-muted: #6D7671;
+  --koala-life-line: #E4EBE6;
+  --koala-life-brand: #2F6B4F;
+  --koala-life-price: #D56A1C;
+  color: var(--koala-life-ink);
+  background-color: var(--koala-life-bg);
+}
+/* No changes to existing header grid, back behavior or WeChat capsule clearance. */
+body.koala-vis06c-life :is(.top,.head,.header,.nav,.topbar) h1,
+body.koala-vis06c-life .topbar .title {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--koala-life-ink);
+}
+/* Existing per-page card and state variants keep their semantic backgrounds. */
+body.koala-vis06c-life.koala-life-core .card,
+body.koala-vis06c-life.koala-life-mine .section,
+body.koala-vis06c-life.koala-life-service :is(.card,.section):not(.warn,.ended,.active,.selected) {
+  border: 1px solid var(--koala-life-line);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(31,41,35,.045);
+}
+body.koala-vis06c-life.koala-life-core .card:not(.warn,.ended,.active,.selected),
+body.koala-vis06c-life.koala-life-mine .section,
+body.koala-vis06c-life.koala-life-service .card:not(.warn,.ended,.active,.selected) {
+  background-color: var(--koala-life-card);
+}
+body.koala-vis06c-life.koala-life-core :is(.card h2,.section h2),
+body.koala-vis06c-life.koala-life-mine .section h2,
+body.koala-vis06c-life.koala-life-service :is(.card h2,.section h2) {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--koala-life-ink);
+}
+body.koala-vis06c-life.koala-life-core :is(.card h3,.section h3),
+body.koala-vis06c-life.koala-life-service :is(.card h3,.section h3) {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 650;
+}
+/* Label and value alignment without touching monetary values or status strings. */
+body.koala-vis06c-life.koala-life-core .row,
+body.koala-vis06c-life.koala-life-service .row {
+  min-width: 0;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 21px;
+  border-bottom-color: var(--koala-life-line);
+}
+body.koala-vis06c-life.koala-life-core .row :is(span,b,strong),
+body.koala-vis06c-life.koala-life-service .row :is(span,b,strong) { min-width: 0; overflow-wrap: anywhere; }
+body.koala-vis06c-life.koala-life-core .row > span:first-child,
+body.koala-vis06c-life.koala-life-service .row > span:first-child { color: var(--koala-life-secondary); }
+body.koala-vis06c-life.koala-life-core :is(.muted,.notice),
+body.koala-vis06c-life.koala-life-service :is(.muted,.note,.notice) {
+  font-size: 13px;
+  line-height: 19px;
+  color: var(--koala-life-secondary);
+}
+body.koala-vis06c-life.koala-life-core .badge,
+body.koala-vis06c-life.koala-life-service .badge {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+body.koala-vis06c-life.koala-life-core .total {
+  color: var(--koala-life-price);
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+/* Large, accessible controls; do not alter selected/disabled/coupon/payment semantics. */
+body.koala-vis06c-life.koala-life-core :is(button.btn,button.primary),
+body.koala-vis06c-life.koala-life-service :is(button.primary,button.secondary,button.solid,button.outline,button.btn),
+body.koala-vis06c-life.koala-life-mine .menu button {
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  touch-action: manipulation;
+}
+body.koala-vis06c-life.koala-life-core .actions,
+body.koala-vis06c-life.koala-life-service .actions { gap: 10px; }
+body.koala-vis06c-life.koala-life-core .field label,
+body.koala-vis06c-life.koala-life-service .field label {
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 600;
+  color: var(--koala-life-ink);
+}
+body.koala-vis06c-life.koala-life-core .field :is(input,select,textarea),
+body.koala-vis06c-life.koala-life-service .field :is(input,select,textarea) {
+  min-height: 48px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  background-color: var(--koala-life-card);
+  border-color: var(--koala-life-line);
+}
+body.koala-vis06c-life.koala-life-core .field textarea,
+body.koala-vis06c-life.koala-life-service .field textarea { min-height: 84px; }
+body.koala-vis06c-life.koala-life-core .chip,
+body.koala-vis06c-life.koala-life-service .chip {
+  min-height: 36px;
+  font-size: 12px;
+  line-height: 17px;
+  font-weight: 600;
+  /* active, disabled and price-discount semantics preserved */
+}
+/* Lifecycle state and empty-page clarity; preserve original colors. */
+body.koala-vis06c-life.koala-life-core .empty,
+body.koala-vis06c-life.koala-life-service .empty {
+  font-size: 14px;
+  line-height: 21px;
+}
+body.koala-vis06c-life.koala-life-core .review {
+  border-radius: 12px;
+  line-height: 20px;
+}
+/* Service footer styles respect each page's existing fixed/sticky model. */
+body.koala-vis06c-life.koala-life-service :is(.bottom,.bottombar) {
+  border-top-color: var(--koala-life-line);
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+}
+body.koala-vis06c-life.koala-life-service :is(.bottom,.bottombar) :is(button.primary,button.secondary) {
+  min-height: 48px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+/* M01 shell/tabbar and sheet mechanics are already frozen in its dedicated stylesheet. */
+body.koala-vis06c-life.koala-life-mine .section { border-color: var(--koala-life-line); }
+body.koala-vis06c-life.koala-life-mine .menu button { max-width: 100%; }
+@media(max-width:380px) {
+  body.koala-vis06c-life.koala-life-core .row,
+  body.koala-vis06c-life.koala-life-service .row { gap: 8px; }
+  body.koala-vis06c-life.koala-life-core :is(button.btn,button.primary),
+  body.koala-vis06c-life.koala-life-service :is(button.primary,button.secondary,button.btn) { font-size: 14px; }
+}

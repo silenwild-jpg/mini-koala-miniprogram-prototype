@@ -1,0 +1,33 @@
+{
+  "task": "NAV-ICON-01B",
+  "scheme": "B",
+  "date": "2026-10-15",
+  "viewBox": "0 0 24 24",
+  "displaySizePx": 26,
+  "strokeWidth": 1.8,
+  "colors": {
+    "activePrimary": "#176949",
+    "activeMint": "#B7DEC6",
+    "activePale": "#E3F3E9",
+    "inactive": "#78847E"
+  },
+  "navOrder": [
+    {
+      "id": "home",
+      "label": "首页"
+    },
+    {
+      "id": "find",
+      "label": "找仓"
+    },
+    {
+      "id": "stores",
+      "label": "门店"
+    },
+    {
+      "id": "me",
+      "label": "我的"
+    }
+  ],
+  "note": "Design-only deliverable. No source prototype modified."
+}

@@ -1,0 +1,31 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');
+const base=path.resolve(__dirname,'../prototype');
+const nodes=new Map();
+function node(sel){
+  if(nodes.has(sel))return nodes.get(sel);
+  const classes=new Set();
+  const n={textContent:'',innerHTML:'',value:'',hidden:false,style:{},dataset:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x),toggle:(x,on)=>on?classes.add(x):classes.delete(x),contains:x=>classes.has(x)},querySelector:s=>node(sel+' '+s),querySelectorAll:()=>[],scrollIntoView(){},addEventListener(){},setAttribute(){}};
+  nodes.set(sel,n);return n;
+}
+const document={querySelector:node,querySelectorAll:()=>[]};
+const location={search:'?unit=C008&store=jianguo&target=4.8&term=6&focusTerm=12&source=s02',href:''};
+const localStorage={getItem:()=>null,setItem:()=>{}};
+const context={window:null,document,location,localStorage,URLSearchParams,Date,Math,JSON,String,Number,Array,Object,Boolean,Error,setTimeout:()=>0,clearTimeout:()=>{},console};context.window=context;vm.createContext(context);
+vm.runInContext(fs.readFileSync(path.join(base,'mini_storage_business_ssot_v274.js'),'utf8'),context);
+vm.runInContext(fs.readFileSync(path.join(base,'..','data','mini_koala_data.js'),'utf8'),context);
+const html=fs.readFileSync(path.join(base,'mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html'),'utf8');
+const js=[...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)].map(x=>x[1]);assert.equal(js.length,1);
+vm.runInContext(js[0],context);
+assert.equal(node('#termComparison').hidden,false);
+assert(node('#termComparisonCopy').textContent.includes('当前6个月：'));
+assert(node('#termComparisonCopy').textContent.includes('12个月（1年）：'));
+const initialTotal=node('#contractTotal').textContent;assert(initialTotal.startsWith('¥'));
+node('#keepTerm').onclick();assert.equal(node('#termComparison').hidden,true);assert.equal(node('#contractTotal').textContent,initialTotal);
+node('#confirm').onclick();assert.equal(new URLSearchParams(location.href.split('?')[1]).get('term'),'6');
+vm.runInContext('focusTerm=12;render()',context);
+node('#applyTerm').onclick();assert.equal(node('#termComparison').hidden,true);
+assert(node('#contractTotal').textContent.startsWith('¥'));assert.notEqual(node('#contractTotal').textContent,initialTotal);assert(node('#initialPayable').textContent.startsWith('¥'));
+node('#confirm').onclick();
+const q=new URLSearchParams(location.href.split('?')[1]);
+assert.equal(q.get('term'),'12');assert(Number(q.get('rentTotal'))>0);assert(Number(q.get('initialPayable'))>Number(q.get('rentTotal')));
+console.log('PASS S02 preview preserves original term until applied; checkout uses applied snapshot');

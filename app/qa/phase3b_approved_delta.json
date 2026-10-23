@@ -1,0 +1,28 @@
+{
+  "approved_release": "Phase 3B Controlled PATCH Batch A+B V1",
+  "baseline_zip": "Mini_Koala_Phase3A_Independent_Review_Fix_PATCH_V1_1_Candidate.zip",
+  "scope": "Exactly S01 and S02 runtime HTML; no changes to shared pricing, inventory, home, estimator or transaction pages",
+  "runtime": {
+    "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html": {
+      "full_sha": "e52796c246c3307f6a5351c9561aa1055cd420ad20b69c829d164def9b747e2a",
+      "body_inner_sha": "40830dbe9ee794a36fa06dfc9f2552acda9406f1ae3cb5d8d3bc415ea12aa8e3",
+      "body_with_tag_sha": "2610afd9b33f8858520ed6f61da8418cbe743a8bc2de95cde7ab12fe4e624df0",
+      "baseline_full_sha": "25c9bfc4979d3acd4fe05a1b1bfce561b0690483b9d1eb2580f8cd542ac829e7"
+    },
+    "mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html": {
+      "full_sha": "f1478bfcc6c59bd8f55fc3243cfdb1aa154751109a77794bdad37b2aaec5863d",
+      "body_inner_sha": "405348a318baba1792ea253e64c9e5dc4915536496e242e7f162649b7e3ce3e9",
+      "body_with_tag_sha": "2807ea1f33ce97ea839daeffb5253bbd487eae59b7607b639e879e69df501219",
+      "baseline_full_sha": "38d5ff8b52dc3bd72c9c9fc96ca431585559cb752881b7846a570725671815f8"
+    }
+  },
+  "protected_files": {
+    "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html": "5f2053f9bcba891f9ef8e2d840fe70dd0542e1bfff7417269bac8d6d7eb2e249",
+    "prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html": "4a012b7fa1952381aa7e83043d10f970500e97753964162715f79330cb878598",
+    "prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html": "9ea392369b0eb3db27db91f666287fab920be5408c504bdf2f807e596dbf851c",
+    "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html": "e95d9e2606fe28f94c893af702cfe8c10f73bf4a21b8e64563ffa6bab95e8186",
+    "prototype/mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html": "e77a18bf7465f4d8310a0daa064ff1dc0ab02cc2d262dc0a797f554289aef78c",
+    "prototype/mini_storage_business_ssot_v274.js": "92e3da4fc9ca7082a159a453b0b007fe0e7cfaa88bc8e2bde39b91110baa676c",
+    "data/mini_koala_data.js": "34a95c12a00d192c13177c34e517e9833f33f756792dd42c852654ff32e45ba8"
+  }
+}

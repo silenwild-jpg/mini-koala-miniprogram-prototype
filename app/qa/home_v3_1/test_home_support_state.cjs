@@ -1,0 +1,17 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const source = fs.readFileSync('prototype/mini_koala_home_approved_v2.js', 'utf8');
+const patch = source.slice(source.lastIndexOf('\n(()=>{'));
+const classes = () => { const values = new Set(); return {contains: c => values.has(c),remove: c => values.delete(c),add: c => values.add(c)}; };
+const launcher = {attrs:{},setAttribute(k,v){this.attrs[k]=v},focus(){this.focused=true}};
+const panel={classList:classes()}, sheet={classList:classes()}, actions={};
+const nodes={miniSupportLauncher:launcher,miniGlobalSupport:panel,miniSupportActions:actions,miniSupportMask:sheet};
+let update, onKey;
+vm.runInNewContext(patch,{document:{getElementById:id=>nodes[id],addEventListener:(event,fn)=>{if(event==='keydown')onKey=fn}},MutationObserver:class{constructor(fn){update=fn}observe(){}}});
+assert.equal(launcher.attrs['aria-expanded'],'false');
+panel.classList.add('expanded'); update(); assert.equal(launcher.attrs['aria-expanded'],'true');
+assert.equal(launcher.attrs['aria-label'],'收起电话和在线客服');
+onKey({key:'Escape'}); update(); assert.equal(panel.classList.contains('expanded'),false); assert.equal(launcher.focused,true);
+sheet.classList.add('show'); launcher.focused=false; onKey({key:'Escape'}); assert.equal(sheet.classList.contains('show'),false); assert.equal(launcher.focused,true);
+console.log('Support closed/open/Escape/modal-close behavior: passed (mock DOM, browser integration pending)');

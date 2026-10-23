@@ -1,0 +1,8 @@
+﻿issue,summary,status
+P13/P15,指定支付前异常样本,DEMO_BROWSER_PASS
+A01,合法发券与锁券/过期/已用/旧客/无券钱包,DEMO_BROWSER_PASS
+D3-P1-03,支付失败恢复,OPEN/DEFERRED
+D3-P1-05,退租确认与防重,OPEN/DEFERRED
+D3-P2,11项P2和其他历史记录,CARRYFORWARD
+QA-HISTORIC,默认21条既有非零,OPEN
+PRODUCTION,生产API/并发库存/微信真机/真实支付,NOT TESTED

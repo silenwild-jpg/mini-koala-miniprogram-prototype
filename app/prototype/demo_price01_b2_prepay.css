@@ -1,0 +1,53 @@
+/* B2: presentation only. Dynamic values, coupon rules and price gates remain in their existing providers. */
+@layer mk-v3 {
+body.koala-u01 #contractTotal {font-size:30px!important;line-height:36px!important;color:#D56A1C!important;font-weight:750!important;font-variant-numeric:tabular-nums}
+body.koala-u01 #initialPayable {font-size:16px!important;line-height:22px!important;color:#34463A!important;font-weight:650!important}
+body.koala-u01 .totalbox span,body.koala-u01 .monthly-secondary {font-size:12px!important;line-height:18px!important;color:#59645E!important}
+body.koala-q01 .hero {background:#FFF!important;color:#1F2923!important;padding:16px!important;border:1px solid #E6E7E3!important;border-radius:16px!important;box-shadow:none!important}
+body.koala-q01 .hero .summary {display:block!important;background:transparent!important;padding:0!important;margin:10px 0 0!important;border:0!important;border-radius:0!important;min-height:0!important;height:auto!important;box-shadow:none!important}
+body.koala-q01 #quoteRoleLabel {color:#2F6B4F!important;background:#EEF5F0!important;font-size:12px!important;line-height:18px!important}
+body.koala-q01 #quoteId {color:#59645E!important;font-size:12px!important;line-height:18px!important}
+body.koala-q01 .hero #unit {display:block!important;color:#1F2923!important;font-size:16px!important;line-height:24px!important;font-weight:700!important}
+body.koala-q01 .hero #storeMeta {color:#59645E!important;font-size:12px!important;line-height:18px!important}
+body.koala-q01 #termHumanText {color:#59645E!important;font-size:12px!important;line-height:18px!important;margin-top:12px!important}
+body.koala-q01 .hero .summary #total {color:#D56A1C!important;font-size:30px!important;line-height:36px!important;font-weight:750!important;margin:2px 0!important}
+body.koala-q01 .hero #monthly {color:#59645E!important;font-size:12px!important;line-height:18px!important}
+body.koala-q01 #initialPayableRow {color:#34463A!important;font-size:16px!important;line-height:22px!important;font-weight:700!important}
+body.koala-q01 .rows .row,body.koala-o01 .payment-rows .row {gap:12px!important;font-size:13px!important;line-height:20px!important}
+body.koala-q01 .rows .row b,body.koala-o01 .payment-rows .row b {text-align:right!important;font-variant-numeric:tabular-nums!important}
+body.koala-o01 .payable-hero #payableTotal {font-size:30px!important;line-height:36px!important;color:#D56A1C!important;font-weight:750!important}
+body.koala-o01 #rentFee,body.koala-o01 #depositFee,body.koala-o01 #managementFee {color:#1F2923!important;font-size:14px!important;line-height:20px!important}
+body.koala-c02 .coupon-card-value {font-size:24px!important;line-height:30px!important;color:#B85A16!important;font-weight:700!important}
+body.koala-c02 .coupon-card-name {font-size:15px!important;line-height:22px!important;color:#1F2923!important}
+body.koala-c02 .coupon-card-desc {font-size:13px!important;line-height:20px!important;color:#59645E!important}
+body.koala-c02 .coupon-card.disabled .coupon-card-value {color:#6F7671!important}
+}
+/* S5 keeps its existing fields and disclosures; compact spacing makes room for the original 861x250 asset. */
+#s5>.usage-summary {padding:10px!important;margin-bottom:8px!important}
+#s5 .term-scroll {padding-top:8px!important;padding-bottom:0!important}
+#s5 .term-choice {min-height:48px!important;padding:9px 12px!important}
+#s5 .other-term-toggle {min-height:24px!important;margin-top:4px!important;padding:2px 0!important}
+#s5 .ux-a3-transport {padding:8px 10px!important;margin-top:8px!important}
+#s5 .recommend-head {margin-top:10px!important}
+#s5 .recommend-location {padding:8px 10px!important}
+#s5 .rplan.ux-a3-unit {padding:10px!important}
+#s5 .rplan.ux-a3-unit .ux-a3-cardprice {margin-top:8px!important;padding-top:8px!important}
+#s5 #couponEstimateGrantV1.has-a-art {padding:0!important;background:transparent!important;border:0!important;margin:4px 0!important}
+#s5 #couponEstimateGrantV1.has-a-art summary {display:block!important;padding:0!important;position:relative}
+#s5 #couponEstimateGrantV1.has-a-art summary::-webkit-details-marker {display:none}
+#s5 #couponEstimateGrantV1 .coupon-a-original {display:block;width:100%;height:auto;aspect-ratio:861/250;object-fit:contain;border-radius:14px}
+#s5 #couponEstimateGrantV1.has-a-art .coupon-v1-title {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+#s5 #couponEstimateGrantV1.has-a-art .coupon-v1-disclosure-label {display:block!important;text-align:right;font-size:11px!important;line-height:16px!important;color:#59645E!important;margin-top:2px}
+#s5 #couponEstimateGrantV1.has-a-art details>p,#s5 #couponEstimateGrantV1.has-a-art .coupon-v1-ey {padding:0 10px}
+/* Higher specificity is needed because the inherited S5 density styles load later. */
+#s5#s5 .usage-summary.capacity-summary {padding:8px 10px!important;min-height:0!important;margin-bottom:4px!important}
+#s5#s5 .capacity-copy .meta {display:inline-block!important;margin-right:7px!important}
+#s5#s5 .phase3a-review-link {display:inline-flex;margin:0!important;padding:0!important;font-size:11px!important;line-height:15px!important}
+#s5#s5 #termChips {margin-top:3px!important}
+#s5#s5 #termChips .term-scroll {padding:5px 2px 0!important}
+#s5#s5 #termChips .term-choice {min-height:44px!important;padding:8px!important}
+#s5#s5 .other-term-toggle {min-height:24px!important;margin:0!important;padding:2px 0!important}
+#s5#s5 .ux-a3-transport {margin-top:0!important;padding:6px 9px!important}
+#s5#s5 .recommend-head {margin-top:4px!important}
+#s5#s5 .recommend-location {padding:6px 9px!important;min-height:30px!important}
+#s5#s5 #r113PlanCards {margin-top:4px!important}

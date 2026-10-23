@@ -1,0 +1,148 @@
+{
+  "task": "VIS-06C Batch C",
+  "input_zip": "Mini_Koala_VIS06C_BatchB_Transaction_Visual_Candidate_2026-10-14.zip",
+  "input_sha256": "9d04526cc703a5eba551c715ba96dbd5c0fbbd3727faba9eaee63aeb81756454",
+  "release_gate": "HOLD",
+  "browser": "NOT TESTED",
+  "wechat": "NOT TESTED",
+  "runtime_modified_html": 13,
+  "business_js_modified": 0,
+  "changes": [
+    {
+      "path": "docs/visual/VIS06C_BATCH_C_HANDOFF_2026-10-14.md",
+      "kind": "added",
+      "before_sha256": null,
+      "after_sha256": "a8f9adb889b72af288ff7ebd782a049fd76e63ebfd8bed465cd6fe3dedbbd8c4",
+      "before_bytes": null,
+      "after_bytes": 2396
+    },
+    {
+      "path": "docs/visual/VIS06C_BATCH_C_OPEN_ISSUES.md",
+      "kind": "added",
+      "before_sha256": null,
+      "after_sha256": "fda47f3d7477ad6b423afa474a22be732de98a08b162dc22bb065d1ff71301f1",
+      "before_bytes": null,
+      "after_bytes": 1227
+    },
+    {
+      "path": "prototype/mini_storage_access_a01_v2_self_service_Visual_V2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "8124110bbb6c7e1ff96fb02b3144eb47abbceb4c0364d056b865e3c9079f3454",
+      "after_sha256": "9de78b398065f2727f684ee4a922e84555378e0cbf6d861eb79a70ed5967af80",
+      "before_bytes": 23000,
+      "after_bytes": 23137
+    },
+    {
+      "path": "prototype/mini_storage_brand_b01_v1_10_self_service_synced_Visual_V2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "7a19029bc69fbd01ec93537e2bfa22a8828eb999aab6de30227d5a6da4fbdc7d",
+      "after_sha256": "4ff81fdac7db882e9c76db330bf44e4787700c0ead03253419a45cdb425113e3",
+      "before_bytes": 15946,
+      "after_bytes": 16083
+    },
+    {
+      "path": "prototype/mini_storage_business_b2b01_r113_Visual_V2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "cb510b5adc3688a7326022edde1fee972f7860e02dd86b2a2b6bed8e2b111dee",
+      "after_sha256": "dc0d99fee2c9dc8990e0e912e471bbaf23034e061ba30e7ccbf2194bc1b03b6c",
+      "before_bytes": 21796,
+      "after_bytes": 21933
+    },
+    {
+      "path": "prototype/mini_storage_deposit_dp01_v2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "7cf84b0d22a446811923de2baefff4aa8b9364c05374f9a81b27e540536832dd",
+      "after_sha256": "6244b74bbde620774f724f7afb21646e1a46b8645abbe6b1ce175552a289a5da",
+      "before_bytes": 7195,
+      "after_bytes": 7329
+    },
+    {
+      "path": "prototype/mini_storage_exit_ex01_v2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "656a4a40242f906e12005827d85a71c6adcfebb8a5eadc5fa809347fb1b92feb",
+      "after_sha256": "47a7b032afac04d35a83bfdc73f9d38820237f7d470230a99e49807f6c4e1f2a",
+      "before_bytes": 11697,
+      "after_bytes": 11831
+    },
+    {
+      "path": "prototype/mini_storage_invoice_iv01_v2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "44fcf8740f8ffdb0e2e1a38c9efb2b36de242cba600e6a089811e32ece315cff",
+      "after_sha256": "584af4006624597a5550c677750ed5c132b16f939736331e6153f7f9653d7d1a",
+      "before_bytes": 9423,
+      "after_bytes": 9557
+    },
+    {
+      "path": "prototype/mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "86e99168844fa9c2b4bbcb8dc9b5b68742169a9e3e2fe39ab7efe1b3a1657416",
+      "after_sha256": "02ec7a05a4814c0e7bf33e6e9ab17e8f6439391f37dafafec00060714276a13b",
+      "before_bytes": 34020,
+      "after_bytes": 34154
+    },
+    {
+      "path": "prototype/mini_storage_order_history_oh01_v2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "e70e67072e28668db4ba8984bb02ed10ab02f8855532e970a7ad4f7a1104c907",
+      "after_sha256": "e1b3c56658f4cf364f48731e0d6f613d1430fc99d0a0d57c6d93a63c398f0d51",
+      "before_bytes": 7672,
+      "after_bytes": 7806
+    },
+    {
+      "path": "prototype/mini_storage_referral_ref01_v1.html",
+      "kind": "modified",
+      "before_sha256": "183cc4f2d035a03fbf70c067f63d715b00cb208da13c6144c4307fa0c7e59a5a",
+      "after_sha256": "9560e814464d778e4b31ab9497061802a19a13c8cc28a731e677ef04e3ecae08",
+      "before_bytes": 9298,
+      "after_bytes": 9435
+    },
+    {
+      "path": "prototype/mini_storage_renew_rn01_v2_7_4.html",
+      "kind": "modified",
+      "before_sha256": "c775d93d6be80ac7c0649f606aac08a4b850f90a332ded9f97212d77668df8fa",
+      "after_sha256": "0a71b9c0d6e1fb4f48608169e27ee1915572516cd546c5fcfd98317d65db8fcf",
+      "before_bytes": 16554,
+      "after_bytes": 16688
+    },
+    {
+      "path": "prototype/mini_storage_transport_status_v1.html",
+      "kind": "modified",
+      "before_sha256": "6e430498d118ce09aacb3b8ad362b22309eb0a59e2440a34c7c772439541cfb5",
+      "after_sha256": "37f64f065997ec7b39d8891559ac157ba6de5be770e92aea84b625613be1989d",
+      "before_bytes": 3981,
+      "after_bytes": 4118
+    },
+    {
+      "path": "prototype/mini_storage_viewing_v01_v1_14_self_service_synced.html",
+      "kind": "modified",
+      "before_sha256": "4e241b4c81eef1183e18b7aeb8af13ee40a727f50b018441990227fdb4353730",
+      "after_sha256": "02d6679670757b0692636a4893da77bad03664c6d507b8685d90e33641192513",
+      "before_bytes": 9372,
+      "after_bytes": 9509
+    },
+    {
+      "path": "prototype/mini_storage_viewing_v02_v1_14_self_service_synced.html",
+      "kind": "modified",
+      "before_sha256": "89e34a28056fcca028580443c4035114f53635624e048512ad7f5f695f69968c",
+      "after_sha256": "a14d80bab16a93e13dcd58605b0fd6119217926b96a7ee9372ab85adcb25ee10",
+      "before_bytes": 8414,
+      "after_bytes": 8551
+    },
+    {
+      "path": "prototype/mk-v3-life-service-batch-c.css",
+      "kind": "added",
+      "before_sha256": null,
+      "after_sha256": "2ccd8033d50f7f2839893ba2e59798014c243c79ab02fee8fc941f211453400e",
+      "before_bytes": null,
+      "after_bytes": 5936
+    },
+    {
+      "path": "qa/test_vis06c_batch_c_static.py",
+      "kind": "added",
+      "before_sha256": null,
+      "after_sha256": "2769760ee419426cb27c15579cebaa8a192b3c8d48d839b3c91dbbd9a3e57f54",
+      "before_bytes": null,
+      "after_bytes": 2082
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "H01": {
+    "source_path": "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html",
+    "has_terms": {
+      "参考单价": 2,
+      "整期租金": 3,
+      "月均约": 1,
+      "月租": 2,
+      "押金": 3,
+      "本次应付": 1,
+      "优惠": 1,
+      "起价": 1
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "S01": {
+    "source_path": "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html",
+    "has_terms": {
+      "参考单价": 1,
+      "整期租金": 2
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "S02": {
+    "source_path": "prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html",
+    "has_terms": {
+      "参考价格": 1,
+      "整期总租金": 5,
+      "整期租金": 1,
+      "月均约": 7,
+      "优惠": 1
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "S5": {
+    "source_path": "prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+    "has_terms": {
+      "整期总租金": 1,
+      "整期租金": 1,
+      "月均约": 6,
+      "起价": 1
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "U01": {
+    "source_path": "prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html",
+    "has_terms": {
+      "整期总租金": 3,
+      "整期租金": 3,
+      "月均约": 3,
+      "月租": 1,
+      "押金": 2,
+      "管理费": 2,
+      "预计下单一次支付": 1,
+      "优惠": 4
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "Q01": {
+    "source_path": "prototype/mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html",
+    "has_terms": {
+      "整期总租金": 2,
+      "整期租金": 4,
+      "月均约": 2,
+      "押金": 3,
+      "管理费": 3,
+      "预计下单一次支付": 1,
+      "优惠": 1
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "O01": {
+    "source_path": "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html",
+    "has_terms": {
+      "整期租金": 3,
+      "月均约": 1,
+      "月租": 1,
+      "押金": 4,
+      "管理费": 1,
+      "本次应付": 2,
+      "优惠": 5
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "O02": {
+    "source_path": "prototype/mini_storage_order_o02_v1_17_self_service_Visual_V2_7_4.html",
+    "has_terms": {},
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "O03": {
+    "source_path": "prototype/mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html",
+    "has_terms": {
+      "整期总租金": 2,
+      "月均约": 1,
+      "押金": 5,
+      "管理费": 1
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "C01": {
+    "source_path": "prototype/mini_storage_coupon_wallet_c01_v1.html",
+    "has_terms": {
+      "整期租金": 1,
+      "优惠": 8
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  },
+  "C02": {
+    "source_path": "prototype/mini_storage_coupon_select_c02_v1.html",
+    "has_terms": {
+      "整期租金": 1,
+      "优惠": 8
+    },
+    "evidence_level": "SOURCE_ONLY_NOT_VISUAL"
+  }
+}

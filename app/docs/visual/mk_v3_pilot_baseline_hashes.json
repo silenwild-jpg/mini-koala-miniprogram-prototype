@@ -1,0 +1,21 @@
+{
+ "pages": {
+  "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html": {
+   "file_sha256": "af78309e922da9a99a431ed61ddfd5ff050e96b0dedd23ba8a94bf7548da9480",
+   "bytes": 45748,
+   "head_sha256": "0f13b0a3db34cf0bf4bdc377807940d5597523c21600d530c1069ec6b12f051f",
+   "body_sha256": "26361b6009589af75ba319f871f7b3953f33382a5dfb70b213340f7b556ca174",
+   "body_bytes": 25766,
+   "ui_system_v1_links": 1
+  },
+  "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html": {
+   "file_sha256": "85f054508a6b62abf506b828475ca1c9f3adcee79bca3f738a1633806629fc5b",
+   "bytes": 160219,
+   "head_sha256": "3a0595783f6d0c8ab6db8aa3b379e939839b8f4c6a1cca6c87c8fdade92ca899",
+   "body_sha256": "c0eff0b3a6d5c4de43c8fa356a7f103eb437075c5d7c2894b5cd0849f6fd22db",
+   "body_bytes": 79301,
+   "ui_system_v1_links": 1
+  }
+ },
+ "source": "master = Mini_Koala_CrossBranch_UX_UI_Phase1_QA_V1_2_Candidate.zip (sha256 e3579ac9\u2026), computed 2026-10-12 for Task 02B-2"
+}

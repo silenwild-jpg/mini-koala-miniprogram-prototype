@@ -1,0 +1,55 @@
+/* Acceptance Fix V1.1 PATCH D — additive, scoped and reversible. */
+/* Original bottom-right help launcher restored by request. */
+.mini-global-support button:focus-visible,.mkd-coupon-info:focus-visible,
+.mkd-page details>summary:focus-visible{outline:2px solid #2D7154;outline-offset:3px}
+.mkd-page .page,.mkd-page .coupon-main,.mkd-page .main{scroll-padding-bottom:95px}
+.mkd-page .page{overscroll-behavior-y:contain}
+/* One accurate affordance for both <details> states, replacing legacy pseudo-labels. */
+.mkd-page details.section-collapsible>summary,
+.mkd-page details.quote-secondary>summary{min-height:44px!important;touch-action:manipulation}
+.mkd-page details.section-collapsible>summary em,
+.mkd-page details.quote-secondary>summary em,
+.mkd-page details.section-collapsible[open]>summary em,
+.mkd-page details.quote-secondary[open]>summary em{font-size:12px!important;line-height:18px!important;color:#2D7154!important;white-space:nowrap;font-weight:700!important}
+.mkd-page details.section-collapsible>summary em::after,
+.mkd-page details.quote-secondary>summary em::after{content:none!important;display:none!important}
+/* Native/custom validation always sits next to its field, not in a floating tooltip. */
+.mkd-page input[aria-invalid="true"],.mkd-page select[aria-invalid="true"],
+.mkd-page textarea[aria-invalid="true"]{border-color:#B94D3C!important;box-shadow:0 0 0 2px rgba(185,77,60,.11)!important}
+.mkd-field-error{display:block;color:#A53E31;font-size:12px;line-height:1.5;margin:5px 0 0;padding:0 2px}
+.mkd-field-error[hidden]{display:none!important}
+/* Disable semantics: only affect buttons that are actually disabled or aria-disabled. */
+.mkd-page button:disabled,.mkd-page button[aria-disabled="true"],
+.mkd-page [role="button"][aria-disabled="true"]{opacity:.47!important;cursor:not-allowed!important;box-shadow:none!important}
+/* Mobile page spacing / B2B heading orphan prevention. */
+.mkd-m01 .profile{margin:10px 16px!important;padding:14px 16px!important;min-width:0!important}
+.mkd-m01 .profile>div:last-child{flex:1 1 0;min-width:0!important}
+.mkd-m01 .profile span{font-size:11px!important;line-height:1.55!important;text-wrap:pretty;overflow-wrap:break-word}
+.mkd-m01 .section{margin:10px 16px!important;padding:14px 16px!important;min-width:0!important}
+.mkd-m01 .menu{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.mkd-m01 .menu button{min-width:0!important;overflow-wrap:anywhere}
+.mkd-m01 .menu button span{line-height:1.5!important;overflow-wrap:break-word}
+.mkd-b2b .hero{padding:18px 16px 16px!important}
+.mkd-b2b .hero h1{font-size:clamp(21px,5.5vw,25px)!important;line-height:1.36!important;
+ letter-spacing:-.35px;overflow-wrap:normal;word-break:keep-all;text-wrap:balance;max-width:100%}
+.mkd-b2b .section{padding:16px!important;min-width:0!important}
+.mkd-b2b .chips{max-width:100%;min-width:0}
+/* Coupon face values and long names belong in separate flexible lines; no forced rental redemption. */
+.mkd-coupon .coupon-card-top{min-width:0;display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.mkd-coupon .coupon-card-top>div{min-width:0;flex:1 1 170px}
+.mkd-coupon .coupon-card-value{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;min-width:0;line-height:1.3;overflow-wrap:anywhere}
+.mkd-coupon .coupon-card-value small{font-size:11px;line-height:1.5;white-space:normal;margin-left:0}
+.mkd-coupon .coupon-card-name{font-size:14px;line-height:1.5;overflow-wrap:break-word}
+.mkd-coupon .coupon-card-foot{flex-wrap:wrap;align-items:center;row-gap:8px;min-width:0}
+.mkd-coupon .coupon-card-foot span{flex:1 1 138px;overflow-wrap:break-word}
+.mkd-coupon .coupon-action{min-height:40px!important;white-space:nowrap}
+.mkd-coupon .mkd-coupon-info{min-height:40px!important;border:1px solid #CFE1D6;border-radius:10px;
+ padding:0 11px;background:#FFF;color:#2D7154;font-weight:700;font-size:11px}
+.mkd-coupon .mkd-coupon-explain{padding:9px 11px;margin-top:10px;border-radius:10px;
+ background:#F3F7F2;border:1px solid #DEEADF;color:#58675C;font-size:11px;line-height:1.6}
+.mkd-coupon .mkd-coupon-explain[hidden]{display:none!important}
+@media(max-width:380px){
+ .mkd-m01 .section,.mkd-m01 .profile{margin-left:14px!important;margin-right:14px!important;padding:12px 13px!important}
+ .mkd-b2b .hero h1{font-size:21px!important}
+ .mkd-coupon .coupon-card-value{font-size:24px}
+}

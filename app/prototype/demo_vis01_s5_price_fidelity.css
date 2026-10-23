@@ -1,0 +1,42 @@
+/* DEMO-VIS-01: S5 A3 unit recommendation only. Visual parity; no pricing or interaction changes. */
+/* Keep D4-A S5 steps hidden and coupon disclosure collapsed; do not modify either. */
+#s5 .rplan.ux-a3-unit .ux-a3-cardprice{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(92px,auto)!important;
+  align-items:end!important;column-gap:8px!important;row-gap:4px!important;
+  border-top:1px solid #ECEDE9!important;margin-top:10px!important;padding-top:10px!important;
+}
+#s5 .rplan.ux-a3-unit .ux-a3-price-left{min-width:0!important;gap:3px!important}
+#s5 .rplan.ux-a3-unit .ux-a3-price-left>span{
+  color:#59645E!important;font-size:12px!important;line-height:18px!important;font-weight:500!important;
+}
+#s5 .rplan.ux-a3-unit .ux-a3-price-left b{
+  display:block!important;color:#D56A1C!important;font-size:28px!important;line-height:32px!important;
+  font-weight:750!important;letter-spacing:-.035em!important;font-variant-numeric:tabular-nums!important;
+  white-space:nowrap!important;
+}
+#s5 .rplan.ux-a3-unit .ux-a3-price-left b em{
+  color:#59645E!important;font-size:12px!important;font-weight:500!important;font-style:normal!important;
+  margin-left:2px!important;letter-spacing:0!important;vertical-align:2px!important;
+}
+#s5 .rplan.ux-a3-unit .ux-a3-price-right{
+  min-width:0!important;align-items:flex-end!important;text-align:right!important;gap:6px!important;
+}
+#s5 .rplan.ux-a3-unit .ux-a3-price-right>span{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  max-width:100%!important;min-height:20px!important;padding:2px 7px!important;
+  border-radius:999px!important;background:#EAF3ED!important;color:#214F3A!important;
+  font-size:11px!important;line-height:16px!important;font-weight:600!important;white-space:nowrap!important;
+}
+#s5 .rplan.ux-a3-unit .ux-a3-price-right small{
+  color:#59645E!important;font-size:11px!important;line-height:16px!important;
+  font-weight:400!important;white-space:normal!important;
+}
+/* Preserve E-storage as a different pricing product, with a quieter visual rank. */
+#s5 #r113EstoreCard .estore-total-label{color:#59645E!important;font-size:12px!important}
+#s5 #r113EstoreCard .estore-price b{color:#2F6B4F!important;font-variant-numeric:tabular-nums!important}
+#s5 #r113EstoreCard .estore-price small{color:#59645E!important;font-size:11px!important;line-height:17px!important}
+@media(max-width:380px){
+  #s5 .rplan.ux-a3-unit .ux-a3-cardprice{grid-template-columns:minmax(0,1fr) minmax(84px,auto)!important;column-gap:6px!important}
+  #s5 .rplan.ux-a3-unit .ux-a3-price-left b{font-size:26px!important;line-height:30px!important}
+  #s5 .rplan.ux-a3-unit .ux-a3-price-right small{font-size:11px!important}
+}

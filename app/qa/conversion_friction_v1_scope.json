@@ -1,0 +1,116 @@
+{
+  "baseline": "UX Copy & Store Return V1",
+  "version": "Conversion Friction Reduction V1",
+  "approved_runtime_sha256": {
+    "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html": {
+      "before": "164ba3caaa2e99a5d0b1402803a4eb7f7fabed91b241d44bc7bbf2a5e05914e9",
+      "after": "ebecdd09c40dd6226954fa9f0c1c9558c0899b8400b01bb7d055d019e2f3981b"
+    },
+    "prototype/mini_storage_access_a01_v2_self_service_Visual_V2_7_4.html": {
+      "before": "a07f651d7576264ecf3aa659b9a634c75e81083652ef4edea4d37678a18647f0",
+      "after": "b5fb8d166cd9ad3c30ce8ca8f09da753304328b472ec9303a5effc66c0c42bd5"
+    },
+    "prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html": {
+      "before": "3a3b9aad19b6b8ae941c9ed1592e32089dae78d6bb288842b6eeb778cdea08d0",
+      "after": "6f42a87f81e470bebf200e8d01bbc135cfa27b029987ef0679279a4a5c698e95"
+    },
+    "prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html": {
+      "before": "e8078bfc868ca0e75ba9bbdd5f2aaa2aa46a345e1f20e7ec29da56521fe948cf",
+      "after": "f33ff4ceee353a393fb1e9b3e3268c36a18a292715be3a78e9278f2ce1330101"
+    },
+    "prototype/mini_storage_brand_b01_v1_10_self_service_synced_Visual_V2_7_4.html": {
+      "before": "7147122532cb5cb725f2e84a392080e0be163e84f7a786fa0d23cc8f58ddfc0a",
+      "after": "9df6ef7ced9bd61461bcf7f150a0e9e3585f5a2b17befa49904db204c2efb4d0"
+    },
+    "prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html": {
+      "before": "ed268092f33bd9da0c2ad071b018e88d55b1fcaf610643082e3a180dc7f5cd5c",
+      "after": "eb6ccca1a9052cd0ac20a4c225c94bea7951784213818fb567d600a8e2c6b695"
+    },
+    "prototype/mini_koala_estimator_item_fallback_p0_v1.js": {
+      "before": "a52d70211e6bc8e819db874e0b2e86defd8d761d878aecd36c996c4613b64c9f",
+      "after": "02a0d6a009858aa1c2493a55ee7d310d7f646a58196304345b6f66245df9d6ed"
+    },
+    "prototype/mini_koala_sales_intervention_patch_v1.js": {
+      "before": "c72b806b33d9308cd5c477715795a2184ea9cce33a24ac01ba03394dd4286105",
+      "after": "5fe1dfdfb0f07d76f4dda6f95aba919ea1e47fa11c910ef9dbee4ba96761f473"
+    }
+  },
+  "non_modified_runtime_sha256": {
+    "prototype/mini_storage_unit_master_v1.js": "5972963fadb084c56304f0e4fa7313962a72d1518de986c2246ef57e3744a326",
+    "prototype/mini_storage_global_support_v274.js": "4e7dff4acfbb138af8d17eeeea73e319457967827e6621a2422ca990b99d8467",
+    "prototype/mini_storage_order_o02_v1_1_contract_linked.html": "91aca67717e66d968caf72def52c3132f7e51a996979a92e17eb04790ea9e103",
+    "prototype/mini_storage_transport_status_v1.html": "722221ed119006c672b99fc6a7a0b70d35623d5e7b4d2171cd9659e0a7ad949e",
+    "prototype/mini_storage_contract_c01_v1_agreement_confirm_Visual_V2_7_4.html": "200d3c4c604a32b78065f9232c40e259f2642b224c0ab52ae424f8f21635352f",
+    "prototype/mini_koala_phase2_ux.css": "9880761fd204c1a026cd3bf2dff9828b04c8a20ffc154cc39ca01b5706d7560b",
+    "prototype/mini_storage_inventory_urgency_v1.js": "d70c5b789558b031f2b9df76e1ca5d2241a324b3cb4f2f50f87a2c2e050aee72",
+    "prototype/mini_storage_home_h01_vi_ready_wireframe_v1.html": "8ae5f5df2993a16b30855d9f98278824a8f0baa6c8c41ea7fe6bedc23118c0ca",
+    "prototype/mini_koala_visual_elevation_v2_1_secondary_density.css": "2df75309e4175a0e0d8a12422bfaae8f92e4491471710bc596a32c5fc3c71c68",
+    "prototype/mini_koala_acceptance_v11_layout_patch.css": "ee593d96c35dc6476ffc6a980f46b4b90fd5f0488460daf463d0540872dcc5c5",
+    "prototype/mini_storage_coupon_select_c02_v1.html": "d3b4ee15f1ba6fe891d63db230db47a1ccb22123e7bfc3128f7bbf70efdf7b6f",
+    "prototype/mini_storage_deposit_dp01_v2_7_4.html": "9c54cf47dfe3c9b12d7947cb424b34a6da755b49e84de5597adb1e34db2fb8bc",
+    "prototype/mini_storage_viewing_v01_v1_14_self_service_synced.html": "63673c7af920d41e2fe67b757fa9147f0f1f8384b5338d0841fbb071243b2e8d",
+    "prototype/mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html": "24ec3a1a4aeff2ec7f37a3a652839c33749a05d11f737bdac42db6c8bc00f4cf",
+    "prototype/mini_storage_business_ssot_v274.js": "92e3da4fc9ca7082a159a453b0b007fe0e7cfaa88bc8e2bde39b91110baa676c",
+    "prototype/mini_koala_home_approved_v2.css": "a45d15732499461f60a595785a1258f6de83236f9f5cc517407ac17bed070be8",
+    "prototype/mini_storage_transport_t02_v4_self_service.html": "2fecf183de79e77d921fca95223295848fdd0c2f57315dca1b12416afd2982ec",
+    "prototype/mini_storage_sales_share_v1.js": "a988361d619f0855128b89905e53896df3bc5c9b6815e8724c7d0ffce81d7cce",
+    "prototype/mini_storage_transport_t01_v4_self_service.html": "9f334c62ed7e7ee50518513b2da7e2841efaf79554093f72ae20fbff7dc15b7c",
+    "prototype/mini_koala_visual_elevation_v2_refinement_patch.css": "290ef7bbae72a1c84e0e9db0a082724ec7177e0c9ceecc34a9267242fa741a0e",
+    "prototype/mini_storage_requirement_recommendation_v274.js": "d1f3ad70754dc8a0014015ac75995219d989655d27e29de82a032ee69b62ce3c",
+    "prototype/mini_koala_visual_elevation_v2_1_density.css": "2f7580ff12d3afeaea4f1f41cb294ca04220addfb24390c457de361c6951f147",
+    "prototype/index_visual_v2_7_4_6.html": "83b9e9b4fe05481c4dac28522d64d3ea95678a63ca65498a98dddc409ab04817",
+    "prototype/mini_koala_acceptance_v11_facts_patch.js": "b75567bcc37990768641de6a36c20c5053793294fbb9720693b540fced6108ec",
+    "prototype/mini_storage_invoice_iv01_v2_7_4.html": "93c4cc7070de59a1e9ac1d28988651fc74d5299ccb3a9ed93995cb7ca1aae864",
+    "prototype/mini_storage_ai_result_ai02_v1_demo_patch.html": "357a0e4a239f038d4122adae0ef679295cd494880c3ad347c7e652d53e7b87f0",
+    "prototype/mini_koala_phase2_ux.js": "d82cacf0c69479367a155f31a0081b2de4ec4302da13b36f2c745ef9b31bcc37",
+    "prototype/mini_storage_sales_share_demo.html": "32f0e1c27c457bb3fa4d185ce1f73876f7c7c7103efa1d3dcb9ed5bb2be8173c",
+    "prototype/mini_storage_coupon_benefit_v1.css": "115038d730b52d635e4e6a2d879c962ef7e61c59eaf861a5a4fe81e5bc2a265a",
+    "prototype/mini_storage_identity_id01_v2_7_4_5.html": "70b100f4e34a409c248ad597a40800cc3776bbc1cea9e32ea7dc9f4005f1713e",
+    "prototype/mini_storage_viewing_v02_v1_14_self_service_synced.html": "9be4fd20f9116a1fc7df2b68934519d864edb0d45a9c7f62d06f6d6ed7c8183c",
+    "prototype/mini_storage_quote_q03_v4_self_service.html": "2e4aaa5018d4ecf6350c2c497551dffa96fbadc21188a475b49686aca5ee4b49",
+    "prototype/index_visual_v2_7_4.html": "a0f5c78da43c6303b6fb59d3c0f766963f31609e789ca0dec417b34b3436e975",
+    "prototype/index_visual_v2_7_4_5.html": "4345b06a8af590b884d8073c3c66b3e3aa0d39441f70efeec950a0950f9ad1ac",
+    "prototype/mini_koala_visual_elevation_v2_premium_pilot.css": "e0e9f12f84288681ec9c0a9b62500688125edea8a4761909f8af9fb6d2e14efb",
+    "prototype/mini_storage_business_b2b01_r113_Visual_V2_7_4.html": "ce219375dd209d628212fa1776140489d004bff5b0214a99ac34c1c6887a3c90",
+    "prototype/mini_koala_acceptance_v11_state_patch.css": "3772d0fa19eee103fc3f47ed3d11494531693e016f97deecaef2352a2fa58248",
+    "prototype/mini_koala_internal_demo_v1.js": "37c5ef18899c9169a5b0666d74dfd855d4a4f038c23bc581c32ba1cb40e0cfcf",
+    "prototype/mini_storage_referral_ref01_v1.html": "d64b5950cb4c71564dbf53e4e6e6f18361fa0bf8d64f33543ae794b04775a091",
+    "prototype/index_state_machine_demo.html": "a117966866cb1327fcec39ab9d0673b7ab5a22931650d5dc0f1eef68c2438a3f",
+    "prototype/mini_koala_acceptance_v11_state_patch.js": "7d272e28aa734d178ccc3c232fc337cab631fc35ea41516a6c7c6529259f7db1",
+    "prototype/mini_koala_acceptance_fix_v1.js": "30a0e66f7bca92f27e173c9d2068ed0461e495faa3486d2105a229c25d8c5cb4",
+    "prototype/mini_koala_store_top_patch_v1.css": "e17273b3459014443b0881a4374f297b2d13a65a29919fefa403b4f9cc0b6d3e",
+    "prototype/mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html": "6a27f2ac3d4227ddc78c69db548d79d858dad629d35bcc90c28be9029a07e9e3",
+    "prototype/mini_storage_visual_harmonization_v1.js": "bdb4f896ec0bb3e829aa911111299edbcd951f9296767a1ecca15f4ce51291f5",
+    "prototype/mini_storage_ai_loading_ai01_l_v1_demo_patch.html": "c1182dbd3383e2ce44288f65c538299a24dd578e0293867edc6dbd103c80742d",
+    "prototype/mini_koala_visual_elevation_v2_controlled_rollout.css": "d6dceb603a69c780720d5e289c2f252ffccdd8d1e55132f2c34620497a0ca4de",
+    "prototype/mini_koala_acceptance_v11_language_patch.js": "d2eabef40269c986667bc6e2713893b0a609f29a900a28533bc1c3467af31963",
+    "prototype/mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html": "e4a412128adc2e47deb64a0ba55766d586d0d9e6a95bd6bb8d95edee09a01210",
+    "prototype/product_demo_hub_v1.html": "c208d0032bc8ece09aee4a39609abf2f99b73dac866b159ce201e84d71192678",
+    "prototype/index_visual_v2_7_4_8.html": "19e59554a504ab612a80f3d2eeecb55d93253bb8a8e7420e0bb3f9eb44980ec6",
+    "prototype/index_visual_v2_7_4_7.html": "3386f22e9fb40eaccb99ee95d8a42cf3935c95443bcfb7ef380a7aaab550a1f3",
+    "prototype/mini_storage_ai_photo_ai01_v1_demo_patch.html": "7667f6596056378810b777fc5a8d3c80758e98608b29ad65288d7b594b012089",
+    "prototype/mini_storage_demo_d01_v5_entry_clarity_review.html": "1e1192cfd8dbf8345499f62ddb4b929a194688f021496b1a97ef2d71278da2b0",
+    "prototype/mini_koala_home_approved_v2.js": "0083aae0627f0a0d0dc1a77cd7f18354f592a4c2026232656911fca439f71bef",
+    "prototype/mini_storage_price_gate_v1.js": "09e9d7fe95c8e0d3ac8eb96bba55d9c02652f6a400859ff640a878c31f2b199b",
+    "prototype/mini_storage_visual_harmonization_v1.css": "5e1ba69c693e1eb637d082bf1e38e4d74965e110d0504712ecd1f2338e5a30ed",
+    "prototype/mini_storage_coupon_wallet_c01_v1.html": "6187456ae9b5b562afe9eb713983f9a6456d86ff94b11c64e2630e8d6ae34432",
+    "prototype/mini_koala_acceptance_fix_v1.css": "36cff3cd3f185dde344c51b232320b9d7f7f77e27fb9bfd6c6741661ed8bf2a5",
+    "prototype/mini_storage_order_o02_v1_17_self_service_Visual_V2_7_4.html": "1de086558cbc6dbbdd313ce6519829d04c9fc81c2afc751a4ec9ee5c3b457a73",
+    "prototype/mini_storage_quote_q02_v4_self_service.html": "ec8ac7e228af7b54e7efc303e9b5234b64eab71509d8729e0d356058d1f38820",
+    "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html": "c039cc8026e8fbdf2481ce6f071c455fe2d5c99b0076020453178f9690302588",
+    "prototype/index_visual_v2_4_1.html": "00843afe306d456c365238b80ad86eac3ab36b14bfe49b275fefc2b13d9df357",
+    "prototype/mini_storage_exit_ex01_v2_7_4.html": "3e3db3b18aba45a5af4f3554d80cb1cd86e33a2639e64e893ed22cc7d7f7ac07",
+    "prototype/mini_storage_order_history_oh01_v2_7_4.html": "074b3bb1be4a69e8a78b4c38ea9a7c5e4541f66a7e5d81ed79691b146767f616",
+    "prototype/index_visual_v2_7_4_4.html": "9add18f1e8c5914add5d669582dd2acbb417169db30bf286b06b39b13754d805",
+    "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html": "7f0038af6bdbb2d6ea482872cbc4e26944218373d2c92b3593daadb9d213fe8f",
+    "prototype/index.html": "72815c4dcd6307660f372815da5625510edaa6951469b8ac90bd829bf235fc50",
+    "prototype/mini_koala_acceptance_v11_layout_patch.js": "31fda228cb7ce55e17c883acf356cc0180d630c36f55edb8ed8467450812af46",
+    "prototype/mini_storage_renew_rn01_v2_7_4.html": "bae2430e640a65abb1ba0c573e246e51af77f2acb2f51610f75f483ec0673c05",
+    "prototype/mini_koala_term_actions_patch_v1.css": "65a402804a3d7ae4032bf2ef04022fc2acc094770a6a68b29ae48fa77beb3c25",
+    "prototype/mini_storage_demo_fixture_v2.js": "094430a8835f3b7a4b7a8a0001660889186961b822d87ab0b37a95283b632558",
+    "prototype/mini_storage_order_o01_v1_2_contract_linked.html": "6ebd06c1f53e14a8477761405b530553d046688bf50dc8de925c0ace4beeddc0",
+    "prototype/home_original_reference.html": "8ae5f5df2993a16b30855d9f98278824a8f0baa6c8c41ea7fe6bedc23118c0ca",
+    "prototype/mini_storage_sprint3_lifecycle_hifi_v1.css": "2246ab1087e27cf4364cd8f01472d8c8bbdc5fda5699007ddb25114516e98eb1",
+    "prototype/mini_storage_coupon_benefit_v1.js": "7b377957a884b6248125a6df25eca92efd88cc3710e15fa331a6d8d0fdb9f556"
+  }
+}

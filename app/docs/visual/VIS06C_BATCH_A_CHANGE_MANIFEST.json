@@ -1,0 +1,66 @@
+{
+  "task": "VIS-06C Batch A",
+  "input_zip": "Mini_Koala_VIS06AB_Controlled_Shell_Merge_Candidate_2026-10-14.zip",
+  "input_sha256": "404b99fae6c4a26a0a067c34ed49beee16fe5951d9652199362ac4fb55bf9743",
+  "release_gate": "HOLD",
+  "changed_files": [
+    {
+      "path": "docs/visual/VIS06C_BATCH_A_ACCEPTANCE_AND_HANDOFF_2026-10-14.md",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "76d8ee84509cf36470f85b6076bde42d0d5ef2e926fd472019d8419dc682aebe",
+      "before_bytes": null,
+      "after_bytes": 3466
+    },
+    {
+      "path": "docs/visual/VIS06C_BATCH_A_OPEN_ISSUES.md",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "cfa40f59e619314ca84be46c4638a5219acecb908d9e95b6d75ccb551a7ed659",
+      "before_bytes": null,
+      "after_bytes": 1185
+    },
+    {
+      "path": "prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html",
+      "status": "modified",
+      "before_sha256": "8178b70d2333f52b8d321062e71c8d513adf0cf44e54497a1ef523ea6e2b96bc",
+      "after_sha256": "4537fca9b81d3c8fb111dc4442229a3f51c18262392d4fd93738609b2b25a175",
+      "before_bytes": 120146,
+      "after_bytes": 120244
+    },
+    {
+      "path": "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html",
+      "status": "modified",
+      "before_sha256": "8bef96961028b676ffe8ced3605045f3543c16bad9b1c86736c9637e169c69ab",
+      "after_sha256": "2b4605a3b3c964c647304852b668d0e87ad91072348f5be8d3b5731c4178541f",
+      "before_bytes": 162866,
+      "after_bytes": 162964
+    },
+    {
+      "path": "prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html",
+      "status": "modified",
+      "before_sha256": "c11f4d9d68eb745f367ae32484cadd0e599ec4757fc6327d2bfe911e4e71dd13",
+      "after_sha256": "4c3754463184dd5ae10e3c5d8dfdc47a6ce0689cc446c874a5177f830748085e",
+      "before_bytes": 93853,
+      "after_bytes": 93951
+    },
+    {
+      "path": "prototype/mk-v3-find-unit-content-batch-a.css",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "169dd73e729ff3efbc543c8a4dc5ccb7e8932f83031a5d392c97a13bc85b19ae",
+      "before_bytes": null,
+      "after_bytes": 9425
+    },
+    {
+      "path": "qa/test_vis06c_batch_a_static.cjs",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "9c48019cc41cb1d8ba80a67b5df93bd54c61a0f7b0da57fe543695371fa1a657",
+      "before_bytes": null,
+      "after_bytes": 3145
+    }
+  ],
+  "browser": "BLOCKED",
+  "business_js_changes": 0
+}

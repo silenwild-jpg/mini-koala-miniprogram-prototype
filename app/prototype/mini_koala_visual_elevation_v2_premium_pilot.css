@@ -1,0 +1,384 @@
+/*
+  Mini Koala Visual Elevation V2 — Premium Pilot
+  Scope: H01 + Estimator S5 Recommendation + S02 Store Detail
+  VISUAL REDESIGN-LITE only. No business/data/copy/route logic.
+*/
+:root{
+  --ve2-deep:#183E30;
+  --ve2-green:#2F6B4F;
+  --ve2-green-soft:#EAF3ED;
+  --ve2-paper:#FAF8F3;
+  --ve2-paper-2:#F3EFE7;
+  --ve2-ink:#17231D;
+  --ve2-muted:#68716C;
+  --ve2-line:#E7E2D9;
+  --ve2-copper:#C86424;
+  --ve2-copper-soft:#FFF0E2;
+  --ve2-shadow-hero:0 14px 38px rgba(24,62,48,.09);
+  --ve2-shadow-float:0 10px 30px rgba(24,62,48,.10);
+}
+
+/* =============== H01 / BRAND EDITORIAL HOME =============== */
+body:has(#newHero){background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+body:has(#newHero) .phone{background:var(--ve2-paper)!important}
+body:has(#newHero) .topbar{background:rgba(250,248,243,.92)!important;border-bottom:0!important;backdrop-filter:blur(18px)!important}
+body:has(#newHero) .location-strip{padding-top:10px!important;padding-bottom:3px!important}
+
+/* Editorial hero: remove generic card framing and create a signature arched image. */
+#newHero{
+  position:relative!important;
+  margin:4px 16px 12px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+#newHero:before{
+  content:"";
+  position:absolute;
+  right:-5px;top:6px;
+  width:122px;height:142px;
+  border:1px solid rgba(47,107,79,.12);
+  border-radius:64px 64px 24px 24px;
+  pointer-events:none;
+  transform:translate(7px,-3px);
+}
+#newHero .hero-intro{
+  grid-template-columns:minmax(0,1fr) 39%!important;
+  gap:15px!important;
+  padding:15px 0 15px!important;
+}
+#newHero h1{
+  max-width:205px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-wrap:balance!important;
+  margin:2px 0 14px!important;
+  font-size:31px!important;
+  line-height:1.12!important;
+  letter-spacing:-.042em!important;
+  font-weight:720!important;
+  color:var(--ve2-deep)!important;
+}
+#newHero .hero-photo{
+  height:148px!important;
+  border:0!important;
+  border-radius:68px 68px 20px 20px!important;
+  box-shadow:var(--ve2-shadow-hero)!important;
+  background-position:58% 55%!important;
+  overflow:hidden!important;
+}
+#newHero .hero-photo:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(24,62,48,0) 55%,rgba(24,62,48,.10));
+  pointer-events:none;
+}
+#newHero .hero-benefits{gap:8px 10px!important}
+#newHero .hero-benefits span{font-size:11px!important;color:var(--ve2-muted)!important;letter-spacing:.01em!important}
+#newHero .hero-benefits i{
+  width:18px!important;height:18px!important;border-radius:999px!important;
+  background:transparent!important;color:var(--ve2-green)!important;
+  box-shadow:inset 0 0 0 1px rgba(47,107,79,.22)!important;
+}
+
+/* Main actions: intentionally asymmetric to create hierarchy. */
+body:has(#newHero) .dual-task-grid{gap:9px!important;margin-top:2px!important}
+body:has(#newHero) .task-card{
+  min-height:116px!important;border-radius:18px!important;box-shadow:none!important;
+  transition:transform .16s ease,box-shadow .16s ease!important;
+}
+body:has(#newHero) .task-card.match-task{
+  background:linear-gradient(155deg,#183E30 0%,#245841 100%)!important;
+  border-color:#183E30!important;
+  box-shadow:0 12px 26px rgba(24,62,48,.14)!important;
+}
+body:has(#newHero) .task-card.match-task .task-title{color:#FFFDF8!important}
+body:has(#newHero) .task-card.match-task .task-desc{color:rgba(255,253,248,.68)!important}
+body:has(#newHero) .task-card.match-task .task-action{color:#F6D8BA!important}
+body:has(#newHero) .task-card.match-task:before{background-color:rgba(255,255,255,.09)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)!important;filter:brightness(0) invert(1)!important;opacity:.9!important}
+body:has(#newHero) .task-card.store-task{
+  background:#FFF!important;border-color:var(--ve2-line)!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)!important;
+}
+body:has(#newHero) .task-card.store-task .task-title{color:var(--ve2-deep)!important}
+body:has(#newHero) .task-title{font-size:17px!important;letter-spacing:-.015em!important}
+body:has(#newHero) .task-action{font-size:12px!important;letter-spacing:.005em!important}
+
+/* Section typography: more editorial, less component-like. */
+body:has(#newHero) .section{margin-top:34px!important}
+body:has(#newHero) .section h2,
+body:has(#newHero) .section-title-row h2{
+  color:var(--ve2-deep)!important;font-size:21px!important;line-height:28px!important;
+  letter-spacing:-.025em!important;font-weight:700!important;
+}
+body:has(#newHero) .section .sub,
+body:has(#newHero) .location-note{color:var(--ve2-muted)!important}
+
+/* Recommendation: one hero card, then quiet supporting rows. */
+#nearNew .featured-store{
+  border:0!important;border-radius:22px!important;background:#FFF!important;
+  box-shadow:var(--ve2-shadow-hero)!important;overflow:hidden!important;
+}
+#nearNew .featured-cover{height:136px!important;background:var(--ve2-paper-2)!important}
+#nearNew .featured-cover img{filter:saturate(.78) contrast(1.04) brightness(.99)!important;transform:scale(1.015)!important}
+#nearNew .featured-body{padding:15px 15px 16px!important}
+#nearNew .name{font-size:18px!important;line-height:25px!important;color:var(--ve2-deep)!important;letter-spacing:-.018em!important}
+#nearNew .store-place{color:var(--ve2-muted)!important}
+#nearNew .district-tag{
+  background:transparent!important;box-shadow:none!important;border:0!important;padding:0!important;
+  color:var(--ve2-muted)!important;font-size:10px!important;text-transform:uppercase!important;letter-spacing:.06em!important;
+}
+#nearNew .featured-summary{border-top-color:var(--ve2-line)!important;margin-top:12px!important;padding-top:12px!important}
+#nearNew .featured-price .price-num{font-size:23px!important;color:var(--ve2-copper)!important;font-weight:720!important;letter-spacing:-.025em!important}
+#nearNew .featured-price .price-unit{color:var(--ve2-muted)!important}
+#nearNew .card-corner-badge,
+.home-store-alts .card-corner-badge{
+  background:transparent!important;box-shadow:none!important;border:0!important;padding:0!important;
+  min-height:0!important;border-radius:0!important;color:var(--ve2-green)!important;
+  font-size:10px!important;letter-spacing:.08em!important;font-weight:700!important;
+}
+/* Promotion remains the only filled badge. */
+#nearNew .card-corner-badge[data-promo="1"],
+#nearNew .promo-tag,.home-store-alts .promo-tag{
+  background:var(--ve2-copper-soft)!important;color:#A7521F!important;border-radius:999px!important;padding:3px 8px!important;
+}
+#nearNew .store-tags{gap:0!important;margin-top:8px!important}
+#nearNew .store-tags span{
+  position:relative!important;background:transparent!important;box-shadow:none!important;border:0!important;
+  border-radius:0!important;padding:0 8px 0 0!important;margin-right:8px!important;
+  min-height:18px!important;color:var(--ve2-muted)!important;font-size:10px!important;letter-spacing:.01em!important;
+}
+#nearNew .store-tags span:not(:last-child):after{content:"·";position:absolute;right:-2px;color:#AAA49B!important}
+.home-store-alts{margin-top:12px!important;border-radius:18px!important;background:#FFF!important;padding:0 14px!important;border:1px solid #ECE7DE!important}
+.home-store-alts .store-alt{
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  padding:14px 0!important;
+}
+.home-store-alts .store-alt+ .store-alt{border-top:1px solid #EEEAE3!important}
+.home-store-alts .alt-name{font-size:15px!important;color:var(--ve2-deep)!important;letter-spacing:-.01em!important}
+.home-store-alts .alt-price .price-num{color:var(--ve2-copper)!important;font-size:18px!important;font-weight:700!important}
+
+/* Scenarios: remove repetitive white cards; keep a quiet editorial grid. */
+#scenesNew .scenegrid{
+  gap:0!important;border-top:1px solid var(--ve2-line)!important;border-left:1px solid var(--ve2-line)!important;border-radius:18px!important;overflow:hidden!important;background:#FFF!important;
+}
+#scenesNew .scene{
+  min-height:82px!important;border:0!important;border-right:1px solid var(--ve2-line)!important;border-bottom:1px solid var(--ve2-line)!important;
+  border-radius:0!important;background:#FFF!important;box-shadow:none!important;padding-top:43px!important;
+}
+#scenesNew .scene b{color:var(--ve2-deep)!important;font-size:13px!important}
+#scenesNew .scene small{color:var(--ve2-muted)!important;font-size:10.5px!important}
+#scenesNew .enterprise-scene{margin-top:10px!important;border:0!important;border-radius:18px!important;background:var(--ve2-deep)!important;color:#FFF!important;box-shadow:var(--ve2-shadow-hero)!important}
+#scenesNew .enterprise-scene b,#scenesNew .enterprise-scene em{color:#FFF!important}
+#scenesNew .enterprise-scene span{color:rgba(255,255,255,.68)!important}
+
+/* Brand proof: quieter, editorial metrics instead of a generic card. */
+body:has(#newHero) .brand-trust{
+  background:transparent!important;border:0!important;border-top:1px solid var(--ve2-line)!important;border-radius:0!important;box-shadow:none!important;
+  padding-top:18px!important;
+}
+body:has(#newHero) .brand-proof-metric{background:transparent!important;border:0!important}
+body:has(#newHero) .brand-proof-metric b{color:var(--ve2-deep)!important;font-size:20px!important}
+
+/* =============== S5 / PREMIUM DECISION PAGE =============== */
+#s5{background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+#s5 .usage-summary{
+  border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#E8F0E9 0%,#F7F4EC 100%)!important;
+  box-shadow:none!important;padding:16px!important;position:relative!important;overflow:hidden!important;
+}
+#s5 .usage-summary:after{
+  content:"";position:absolute;right:-34px;top:-56px;width:126px;height:150px;border:1px solid rgba(24,62,48,.12);border-radius:72px 72px 26px 26px;transform:rotate(8deg);pointer-events:none;
+}
+#s5 .capacity-copy .label{font-size:10px!important;letter-spacing:.09em!important;text-transform:uppercase!important;color:var(--ve2-green)!important}
+#s5 .capacity-copy .range{font-size:26px!important;line-height:32px!important;color:var(--ve2-deep)!important;letter-spacing:-.03em!important;font-weight:720!important}
+#s5 .capacity-copy .meta{color:var(--ve2-muted)!important}
+#s5 .capacity-stepper{background:rgba(255,255,255,.68)!important;border-color:rgba(47,107,79,.14)!important;backdrop-filter:blur(8px)!important}
+#s5 .usage-top-title,#s5 .recommend-head .section-title{
+  font-size:20px!important;line-height:28px!important;color:var(--ve2-deep)!important;letter-spacing:-.025em!important;font-weight:700!important;
+}
+#s5 #termChips{margin-top:8px!important}
+#s5 .term-choice{
+  border:0!important;border-radius:14px!important;background:#FFF!important;box-shadow:inset 0 0 0 1px #E8E4DC!important;
+  font-weight:600!important;color:var(--ve2-ink)!important;
+}
+#s5 .term-choice.active{background:var(--ve2-deep)!important;color:#FFF!important;box-shadow:none!important}
+#s5 .term-choice.active .term-discount{background:#F7E7D8!important;color:#9D4D1D!important;border-color:#F0CFAE!important}
+#s5 .recommend-head{margin-top:26px!important}
+#s5 .recommend-location{
+  border:0!important;border-radius:0!important;background:transparent!important;padding:8px 0 11px!important;
+  border-bottom:1px solid var(--ve2-line)!important;box-shadow:none!important;color:var(--ve2-muted)!important;font-weight:500!important;
+}
+#s5 .recommend-location:after{color:var(--ve2-green)!important;font-weight:650!important}
+
+/* Recommendation plans: premium editorial cards, no generic outline language. */
+#s5 .rplan{
+  margin-top:13px!important;padding:17px 15px 16px!important;padding-right:126px!important;
+  min-height:142px!important;border:0!important;border-radius:20px!important;background:#FFF!important;
+  box-shadow:0 10px 28px rgba(24,62,48,.065)!important;overflow:hidden!important;
+}
+#s5 .rplan:after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#D7DDD8!important}
+#s5 .rplan.active{box-shadow:0 14px 34px rgba(24,62,48,.10)!important}
+#s5 .rplan.active:after{background:var(--ve2-deep)!important}
+#s5 .rplan-role{font-size:10px!important;letter-spacing:.09em!important;color:var(--ve2-green)!important;text-transform:uppercase!important;font-weight:700!important}
+#s5 .rplan-name-line{margin-top:5px!important;gap:7px!important}
+#s5 .rplan-district{border:0!important;background:var(--ve2-paper-2)!important;color:var(--ve2-muted)!important;font-size:9.5px!important;font-weight:600!important}
+#s5 .rplan-store{font-size:18px!important;line-height:24px!important;color:var(--ve2-deep)!important;letter-spacing:-.018em!important;font-weight:700!important}
+#s5 .rplan-address{color:var(--ve2-muted)!important;font-size:11px!important;margin-top:5px!important}
+#s5 .rplan-meta{color:var(--ve2-muted)!important;font-size:11px!important;line-height:18px!important}
+#s5 .rplan-pricebox{top:17px!important;right:15px!important;width:106px!important}
+#s5 .rplan-term{font-size:10px!important;letter-spacing:.04em!important;color:var(--ve2-muted)!important;font-weight:500!important}
+#s5 .rplan-price{font-size:28px!important;line-height:1!important;color:var(--ve2-copper)!important;font-weight:720!important;letter-spacing:-.035em!important}
+#s5 .rplan-monthly{font-size:11px!important;color:var(--ve2-muted)!important;margin-top:6px!important;font-weight:450!important}
+#s5 .rplan-discount{color:var(--ve2-green)!important;font-size:10px!important}
+#s5 .rplan-saving{color:#9D4D1D!important;font-size:10px!important;margin-top:6px!important}
+
+/* EStore: distinct service card with soft sand/deep green signature. */
+#s5 .estore-feature{
+  margin-top:14px!important;border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#F3EFE7 0%,#FAF8F3 100%)!important;
+  box-shadow:none!important;padding:17px 128px 17px 16px!important;overflow:hidden!important;
+}
+#s5 .estore-feature:before{
+  content:"";position:absolute;right:-30px;bottom:-66px;width:128px;height:154px;border:1px solid rgba(24,62,48,.16);border-radius:70px 70px 26px 26px;transform:rotate(-10deg);pointer-events:none;
+}
+#s5 .estore-kicker{font-size:10px!important;letter-spacing:.08em!important;color:var(--ve2-green)!important;text-transform:uppercase!important}
+#s5 .estore-title{font-size:19px!important;color:var(--ve2-deep)!important;letter-spacing:-.018em!important}
+#s5 .estore-title span{background:transparent!important;color:var(--ve2-green)!important;border:0!important;padding:0!important;font-size:10px!important}
+#s5 .estore-desc{font-size:11px!important;color:var(--ve2-muted)!important;font-weight:500!important}
+#s5 .estore-points{gap:0!important}
+#s5 .estore-points span{background:transparent!important;border:0!important;border-radius:0!important;padding:0 8px 0 0!important;margin-right:8px!important;color:var(--ve2-muted)!important;font-size:10px!important;position:relative!important}
+#s5 .estore-points span:not(:last-child):after{content:"·";position:absolute;right:-2px;color:#A9A299!important}
+#s5 .estore-price{right:16px!important;top:18px!important}
+#s5 .estore-price b{font-size:25px!important;color:var(--ve2-copper)!important;font-weight:720!important;letter-spacing:-.03em!important}
+#s5 .estore-price small{color:var(--ve2-muted)!important}
+#s5 .estore-ship{color:var(--ve2-green)!important;font-size:10px!important;font-weight:600!important}
+#s5 .other-term{border:0!important;background:transparent!important;padding-left:0!important;padding-right:0!important}
+
+/* NOMATCH: calm recovery, not a system error card. */
+#s5 .r113-zero-match{
+  border:0!important;border-radius:22px!important;background:#F2EFE8!important;box-shadow:none!important;padding:18px!important;
+}
+#s5 .r113-zero-match h3,#s5 .r113-zero-match b{color:var(--ve2-deep)!important}
+
+/* Bottom decision bar floats like a premium action dock. */
+#s5 .bottom.usage-actions{
+  background:rgba(255,255,255,.94)!important;border-top:0!important;box-shadow:0 -12px 30px rgba(24,62,48,.075)!important;
+  backdrop-filter:blur(18px)!important;
+}
+#s5 .cta{border-radius:14px!important;background:var(--ve2-deep)!important;border-color:var(--ve2-deep)!important;box-shadow:none!important}
+#s5 .cta.secondary{background:#FFF!important;color:var(--ve2-deep)!important;border-color:#D9D6CE!important}
+
+/* =============== S02 / PREMIUM SPACE DETAIL =============== */
+body:has(#inventorySection){background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+#hero{
+  height:202px!important;margin:6px 12px 0!important;border:0!important;border-radius:58px 58px 20px 20px!important;
+  box-shadow:var(--ve2-shadow-hero)!important;overflow:hidden!important;background-color:#E9E6DF!important;
+}
+#hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(24,62,48,0) 48%,rgba(24,62,48,.16));pointer-events:none}
+#hero .photo-label{background:rgba(24,62,48,.72)!important;color:#FFF!important;border:0!important;backdrop-filter:blur(8px)!important;letter-spacing:.04em!important}
+#hero .gallery-tabs{background:rgba(255,255,255,.86)!important;border-color:rgba(255,255,255,.5)!important;backdrop-filter:blur(12px)!important}
+#hero .counter{color:#FFF!important;text-shadow:0 1px 6px rgba(0,0,0,.22)!important}
+
+/* Overlap store facts onto the hero for depth. */
+.store-overview{
+  position:relative!important;z-index:3!important;margin:-24px 20px 0!important;padding:17px 16px 15px!important;
+  border:0!important;border-radius:20px!important;background:rgba(255,255,255,.96)!important;
+  box-shadow:var(--ve2-shadow-float)!important;backdrop-filter:blur(16px)!important;
+}
+.store-title{font-size:23px!important;line-height:30px!important;color:var(--ve2-deep)!important;letter-spacing:-.028em!important;font-weight:720!important}
+.store-title .store-community{color:var(--ve2-muted)!important;font-size:13px!important;font-weight:450!important}
+.store-detail-address{color:var(--ve2-muted)!important;font-size:11px!important;margin-top:4px!important}
+.store-overview .district{background:transparent!important;color:var(--ve2-green)!important;border:0!important;padding:0!important;font-size:10px!important;letter-spacing:.06em!important;text-transform:uppercase!important}
+.store-overview .navbtn{border:1px solid #DAD7CE!important;background:#FFF!important;color:var(--ve2-deep)!important;border-radius:999px!important;padding:8px 11px!important;box-shadow:none!important}
+.store-overview .route{color:var(--ve2-muted)!important;border-top:1px solid var(--ve2-line)!important;margin-top:12px!important;padding-top:11px!important}
+.store-overview .route b{color:var(--ve2-deep)!important}
+.store-overview .service-line{color:var(--ve2-muted)!important;font-size:10.5px!important;letter-spacing:.005em!important}
+
+/* Supporting states should be flat editorial surfaces, not another stack of cards. */
+.browse-helper,.demand,.distance-context,.notice,.hv-intro{
+  margin-left:20px!important;margin-right:20px!important;border-radius:16px!important;box-shadow:none!important;
+}
+.browse-helper{background:transparent!important;border:0!important;border-bottom:1px solid var(--ve2-line)!important;border-radius:0!important;padding:13px 0!important}
+.browse-helper b{color:var(--ve2-deep)!important}
+.browse-helper .go{color:var(--ve2-green)!important}
+
+/* Inventory section: eliminate the outer generic card. */
+#inventorySection{
+  margin:25px 16px 0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+#inventorySection .section-head{margin-bottom:13px!important}
+#inventorySection h2{font-size:21px!important;line-height:28px!important;color:var(--ve2-deep)!important;letter-spacing:-.025em!important;font-weight:720!important}
+#inventorySection .section-head span{color:var(--ve2-muted)!important}
+.inventory-summary{gap:8px!important;margin-bottom:12px!important}
+.inventory-summary .summarybox{background:transparent!important;border:0!important;border-radius:0!important;padding:0!important}
+.inventory-summary .summarybox span{font-size:9.5px!important;letter-spacing:.05em!important;text-transform:uppercase!important;color:var(--ve2-muted)!important}
+.inventory-summary .summarybox b{font-size:12px!important;color:var(--ve2-deep)!important}
+
+#inventorySection .unit-list{gap:9px!important}
+#inventorySection .unit-card{
+  padding:15px!important;border:0!important;border-radius:18px!important;background:#FFF!important;
+  box-shadow:0 8px 24px rgba(24,62,48,.055)!important;
+}
+#inventorySection .unit-card:nth-child(n+3){box-shadow:none!important;border:1px solid #ECE7DE!important}
+#inventorySection .role{
+  background:transparent!important;color:var(--ve2-green)!important;border:0!important;padding:0!important;letter-spacing:.07em!important;text-transform:uppercase!important;
+}
+#inventorySection .role.special-price{
+  display:inline-flex!important;background:var(--ve2-copper-soft)!important;color:#A7521F!important;border-radius:999px!important;padding:3px 8px!important;text-transform:none!important;letter-spacing:0!important;
+}
+#inventorySection .unit-id{color:var(--ve2-muted)!important}
+#inventorySection .unit-size{font-size:24px!important;line-height:31px!important;color:var(--ve2-deep)!important;letter-spacing:-.03em!important}
+#inventorySection .unit-dims,#inventorySection .unit-reason{color:var(--ve2-muted)!important}
+#inventorySection .unit-bottom{border-top-color:var(--ve2-line)!important}
+#inventorySection .unit-price{font-size:23px!important;color:var(--ve2-copper)!important;font-weight:720!important;letter-spacing:-.028em!important}
+#inventorySection .unit-cta{border:0!important;background:var(--ve2-paper-2)!important;color:var(--ve2-deep)!important;border-radius:999px!important;padding:8px 12px!important}
+#allUnits{background:transparent!important;border:0!important;border-radius:0!important;color:var(--ve2-green)!important;font-size:12px!important;letter-spacing:.02em!important}
+
+/* Viewing / facilities: reduce nested-card feeling. */
+#viewingSection{
+  margin:30px 16px 0!important;padding:0!important;border:0!important;border-top:1px solid var(--ve2-line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+#viewingSection .viewing-card{border:0!important;border-radius:0!important;background:transparent!important;padding:18px 0 4px!important;box-shadow:none!important}
+#viewingSection .ve{color:var(--ve2-green)!important;letter-spacing:.06em!important;text-transform:uppercase!important;font-size:9.5px!important}
+#viewingSection .viewing-card b{color:var(--ve2-deep)!important;font-size:17px!important}
+#viewingSection .viewing-card p{color:var(--ve2-muted)!important}
+#viewingSection .viewing-card button{border:1px solid #D9D6CE!important;background:#FFF!important;color:var(--ve2-deep)!important;border-radius:999px!important;box-shadow:none!important}
+.section-collapsible{
+  margin-left:16px!important;margin-right:16px!important;border:0!important;border-top:1px solid var(--ve2-line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+.section-collapsible>summary{padding-left:0!important;padding-right:0!important}
+.section-collapsible .collapse-body{padding-left:0!important;padding-right:0!important}
+.section-collapsible .infoitem,.section-collapsible .iconbox{background:transparent!important;border:0!important;border-radius:0!important}
+
+/* Bottom bar continues transactional and calm. */
+body:has(#inventorySection) .bottombar{
+  background:rgba(250,248,243,.94)!important;border-top:1px solid rgba(231,226,217,.8)!important;
+  box-shadow:0 -12px 30px rgba(24,62,48,.07)!important;backdrop-filter:blur(18px)!important;
+}
+body:has(#inventorySection) .bottombar .secondary{border-color:#D9D6CE!important;color:var(--ve2-deep)!important;background:#FFF!important}
+body:has(#inventorySection) .bottombar .primary{border-color:var(--ve2-deep)!important;background:var(--ve2-deep)!important;box-shadow:none!important}
+
+/* Price / promo color elevation on pilot pages. */
+body:has(#newHero) .price-num,
+#s5 .rplan-price,
+#s5 .estore-price b,
+body:has(#inventorySection) .unit-price{color:var(--ve2-copper)!important}
+
+@media(max-width:380px){
+  #newHero h1{font-size:29px!important}
+  #newHero .hero-photo{height:140px!important;border-radius:62px 62px 18px 18px!important}
+  #s5 .rplan{padding-left:14px!important;padding-right:116px!important}
+  #s5 .rplan-pricebox{right:13px!important;width:98px!important}
+  #s5 .rplan-price{font-size:26px!important}
+  #hero{height:190px!important;border-radius:54px 54px 18px 18px!important}
+  .store-overview{margin-left:16px!important;margin-right:16px!important}
+}
+
+/* V2.1 real-asset patch — homepage first recommended store */
+#nearNew>.featured-store>.featured-cover{
+  background-image:linear-gradient(180deg,rgba(15,42,32,.02),rgba(15,42,32,.08)),url("assets/store/home_featured_store_01.jpg")!important;
+  background-size:cover!important;
+  background-position:50% 52%!important;
+  background-repeat:no-repeat!important;
+}
+#nearNew>.featured-store>.featured-cover>img{opacity:0!important}

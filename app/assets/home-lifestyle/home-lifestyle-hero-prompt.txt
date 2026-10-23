@@ -1,0 +1,9 @@
+Use case: photorealistic-natural
+Asset type: wide mobile homepage hero background, 1792x1024 landscape, without any interface.
+Primary request: a calm sunlit home storage scene matching the hero styling of the reference. This is ONLY a new background asset, no text, no logo, no buttons or other UI. The reference is inspiration for materials and mood, not an image to recreate in full.
+Scene: warm off-white room, daylight from right. A natural oak storage shelf with neat cream and muted sage-green fabric storage boxes, a beige upright suitcase and a small leafy green houseplant.
+Subject: a single little friendly gray koala with soft sculpted fur, round ears and black nose, wearing a plain forest green #2F6B4F short shirt, holding a blank kraft cardboard box; refined 3D mascot rendering naturally integrated into the photographic scene, not an official brand mascot.
+Composition: landscape about 1.75:1. Left 50% must be clean very light warm-white usable negative space, no object or distinct shadow in it, with seamless soft fade to the actual room on the RIGHT HALF. All shelf, suitcase, plant and koala fit within the right half. The koala is smaller than the suitcase, in lower-right, feet fully visible, with generous safe margins away from bottom and right edge. Intended to display cover at 343x190px; right-half subjects must survive small sizing and modest cropping.
+Lighting: soft warm sunlight, light natural shadows, cheerful easygoing reassuring household feeling.
+Palette: off-white, light oak, beige, muted sage, forest green only as accent.
+Avoid: typography, watermark, logos, letters or symbols on boxes, UI, green backdrop, extra characters, exaggerated toy scene, clutter, hard vignette.

@@ -1,0 +1,24 @@
+/* EST-VIS-04 | user supplied reference image fusion
+  Scope restricted to estimator S2/S3. No changes to other screens. */
+#s2 .scene{min-height:153px!important;border:1px solid #DEE6DF!important;box-shadow:0 2px 9px rgba(28,43,33,.065)!important;}
+body:has(#cScenes) #s2 .scene{min-height:153px!important;border:1px solid #DEE6DF!important;box-shadow:0 2px 9px rgba(28,43,33,.065)!important;}
+#s2 .scene .estvis03-photo{flex-basis:76px!important;height:76px!important;background:#FBFAF7!important;border-radius:10px!important;box-shadow:inset 0 0 0 1px rgba(224,226,218,.25)!important;}
+#s2 .scene .estvis03-photo img{max-width:none!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;mix-blend-mode:normal!important;}
+#s2 .scene b{letter-spacing:0!important;font-size:14.5px!important;}
+#s2 .scene.selected{box-shadow:0 0 0 2px rgba(47,107,79,.07)!important;}
+#s2 .scene:focus-visible{outline:2px solid #2F6B4F!important;outline-offset:2px!important;}
+#s3 .hero{display:flex!important;flex-direction:column!important;justify-content:center!important;padding:10px 12px 10px 79px!important;min-height:58px!important;background:#F0F6F1 var(--estvis04-hero-photo) 11px center / 58px 44px no-repeat!important;}
+#s3 .hero b{font-size:13px!important;line-height:19px!important;}
+#s3 .amount-card{grid-template-columns:minmax(0,1fr) 122px 19px!important;grid-template-rows:auto auto auto!important;column-gap:7px!important;min-height:120px!important;padding:10px 10px!important;row-gap:0!important;}
+#s3 .amount-card.selected{padding:9px!important;}
+#s3 .amount-card .estvis03-amount-media{grid-area:1/2/4/3!important;width:122px!important;height:82px!important;display:block!important;margin:0!important;background:#FAFBF8!important;overflow:hidden!important;border-radius:10px!important;}
+#s3 .amount-card .estvis03-amount-media img.estvis04-ref-amount{position:static!important;display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;mix-blend-mode:normal!important;filter:none!important;}
+#s3 .amount-card .estvis03-amount-media img.estvis03-diagram{inset:0!important;}
+#s3 .amount-card b{grid-column:1!important;grid-row:1!important;font-size:14.5px!important;line-height:21px!important;align-self:end!important;}
+#s3 .amount-card .desc{grid-column:1!important;grid-row:2!important;line-height:17px!important;font-size:12px!important;align-self:center!important;}
+#s3 .amount-card .range{grid-column:1!important;grid-row:3!important;color:#2F6B4F!important;font-size:13px!important;line-height:18px!important;align-self:start!important;}
+#s3 .amount-card::after{grid-column:3!important;grid-row:1/4!important;justify-self:end!important;}
+#s3 .amount-card.selected::after{grid-column:3!important;grid-row:1/4!important;}
+#s3 .amount-card:hover{border-color:#9CBCA8!important;}
+@media(max-width:360px){#s3 .amount-card{grid-template-columns:minmax(0,1fr) 96px 17px!important;column-gap:6px!important;}
+#s3 .amount-card .estvis03-amount-media{width:96px!important;height:85px!important;}}

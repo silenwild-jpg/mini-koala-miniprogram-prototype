@@ -1,0 +1,95 @@
+/* EST-VIS-06: visual-only continuation of approved S2(A) / S3(B) across estimator S4 / S5.
+   Never changes shared/global selectors, or calculation, rental, inventory, price, navigation state. */
+
+/* Small refinement: unify typography and physical affordances without rebuilding S2/S3. */
+#s2 .scene:focus-visible,#s3 .amount-card:focus-visible,
+#s4 .kv:focus-within,#s5 .term-choice:focus-visible{outline:2px solid #168257!important;outline-offset:2px!important}
+#s2 .scene p{color:#59665D!important}
+#s3 .amount-card .desc{color:#55665B!important}
+
+/* UX-PATCH D4-A: S5 hides decorative progress for every entry/return path. */
+body:has(#s4.active) .estvis05-steps{display:flex!important}
+body:has(#s5.active) .estvis05-steps{display:none!important}
+body:has(#s4.active) .estvis05-steps .stage:nth-child(3),
+body:has(#s5.active):not(.estvis06-shortcut) .estvis05-steps .stage:nth-child(4){color:#26704D!important;font-weight:700!important}
+body:has(#s4.active) .estvis05-steps .stage:nth-child(3)::before,
+body:has(#s5.active):not(.estvis06-shortcut) .estvis05-steps .stage:nth-child(4)::before{color:#fff!important;background:#158257!important;border-color:#158257!important}
+
+/* S4: scene summary, estimate readout, image-enabled object cards. */
+#s4{background:#F8FAF9!important;padding-top:11px!important;padding-bottom:164px!important}
+#s4>h1{font-size:21px!important;line-height:29px!important;letter-spacing:0!important;font-weight:700!important;color:#1E2C25!important;margin:9px 0 11px!important}
+#s4>.context-card{
+ background:#F1F8F3!important;border:1px solid #DBEAE0!important;border-radius:14px!important;
+ padding:10px 13px!important;min-height:60px!important;margin-bottom:11px!important;box-shadow:none!important;
+}
+#s4>.context-card::before{background:#168257!important;width:3px!important}
+#s4>.context-card .mini{font-size:11.5px!important;line-height:17px!important;color:#426853!important}
+#s4>.context-card .big{font-size:15px!important;line-height:21px!important;color:#1D3024!important;font-weight:700!important}
+#s4>.context-card .desc{font-size:12px!important;line-height:18px!important;color:#62766A!important}
+#s4>.live{background:#FFF!important;border:1px solid #E0E9E3!important;border-radius:15px!important;padding:11px 13px!important;margin:0 0 14px!important;box-shadow:0 2px 9px rgba(38,60,46,.035)!important}
+#s4>.live .mini{font-size:12px!important;font-weight:650!important;color:#53745F!important}
+#s4>.live .big{font-size:24px!important;line-height:31px!important;margin:3px 0!important;letter-spacing:-.025em!important;color:#19573A!important}
+#s4>.live .floor{font-size:12px!important;line-height:18px!important;color:#57695E!important;font-weight:500!important}
+#s4>.live .desc:empty{display:none!important}
+#s4>.section-title{margin:15px 0 8px!important;font-size:16px!important;line-height:22px!important;color:#24372D!important;font-weight:700!important}
+#s4 .kv,#s4 .kv.prior{border:1px solid #E2E9E4!important;border-radius:14px!important;margin-bottom:9px!important;padding:11px!important;background:#FFF!important;box-shadow:0 2px 9px rgba(38,60,46,.045)!important}
+#s4 .kv.prior{border-color:#D6E5DB!important}
+#s4 .kv .hd{display:grid!important;grid-template-columns:64px minmax(0,1fr) auto!important;column-gap:9px!important;align-items:center!important;min-width:0!important}
+#s4 .kv .estvis06-thumb{display:flex;width:64px;height:64px;align-items:center;justify-content:center;overflow:hidden;border-radius:11px;background:#F6F8F5;grid-column:1!important;box-sizing:border-box;}
+#s4 .kv .estvis06-thumb img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;pointer-events:none}
+#s4 .kv .estvis06-thumb.estvis06-placeholder{background:#F4F8F5;border:1px solid #E6EFE8}
+#s4 .kv .hd>div:not(.qty):not(.estvis06-thumb){min-width:0!important;grid-column:2!important}
+#s4 .kv .hd .name{font-size:14px!important;line-height:20px!important;font-weight:700!important;overflow-wrap:anywhere}
+#s4 .kv .hd .meta{font-size:11.5px!important;line-height:17px!important;color:#65746A!important;margin-top:3px!important}
+#s4 .kv .item-badges{margin-top:3px!important}
+#s4 .kv .qty{grid-column:3!important;gap:3px!important;align-items:center!important}
+#s4 .kv .qty button{width:40px!important;min-width:40px!important;height:44px!important;min-height:44px!important;border-radius:12px!important;border:1px solid #D3E5D8!important;background:#fff!important;color:#2F6B4F!important;font-size:18px!important;box-shadow:none!important}
+#s4 .kv .qty span{min-width:16px!important;width:16px!important;font-size:13px!important}
+#s4 .kv .variant{margin-left:73px!important;margin-top:8px!important;gap:6px!important}
+#s4 .kv .variant button{min-height:40px!important;padding:9px 10px!important;font-size:12px!important;border-radius:10px!important;border:1px solid #DCE7DF!important;background:#FFF!important;color:#42604B!important}
+#s4 .kv .variant button.active{border-color:#168257!important;background:#E9F6ED!important;color:#1B593C!important}
+#s4 #p2Chips .chip{min-height:40px!important;padding:10px 12px!important;border-radius:11px!important;background:#FFF!important;border-color:#DDE8DF!important;font-size:12px!important}
+#s4 #p2Chips .chip.active{background:#E9F6ED!important;border-color:#168257!important;color:#1B593C!important}
+#s4 #toggleMore{display:flex!important;align-items:center!important;min-height:44px!important;background:#FFF!important;color:#2F6B4F!important;border:1px dashed #B6D5C0!important;border-radius:12px!important;padding:10px 12px!important}
+#s4 .bottom{z-index:5!important;background:rgba(255,255,255,.98)!important;border-top:1px solid #E9EFEA!important}
+#s4 .bottom .cta{min-height:48px!important;border-radius:12px!important;background:#19865A!important;font-size:15px!important}
+#s4 .live-dock{font-size:12px!important;line-height:18px!important}
+#s4 .live-dock b{font-size:17px!important}
+
+/* S5: preserve existing recommendation and price hierarchy while aligning light card surfaces. */
+#s5{background:#F8FAF9!important;padding-top:11px!important}
+#s5>.usage-summary.capacity-summary{border-color:#DEE8E1!important;border-radius:15px!important;box-shadow:0 2px 10px rgba(35,68,46,.05)!important}
+#s5 .capacity-copy .label{font-size:12px!important;line-height:18px!important;color:#43765A!important}
+#s5 .capacity-copy .meta{font-size:12px!important;line-height:18px!important;color:#5F7065!important}
+#s5 .usage-top-title{margin:18px 0 10px!important;font-size:17px!important;line-height:24px!important}
+#s5 .recommend-head .section-title{font-size:17px!important;line-height:24px!important}
+#s5 .recommend-location{background:#FFF!important;border-color:#E0E9E3!important;box-shadow:0 2px 7px rgba(35,68,46,.03)!important}
+#s5 .rplan{border-color:#E0E9E3!important;box-shadow:0 3px 11px rgba(35,68,46,.045)!important}
+#s5 .rplan.active{border-color:#87B89A!important;box-shadow:0 0 0 1px #B5DAC3,0 3px 13px rgba(35,68,46,.06)!important}
+#s5 .usage-actions{background:rgba(255,255,255,.98)!important}
+#s5 .usage-actions .cta{min-height:48px!important;border-radius:12px!important;font-size:15px!important}
+
+@media(max-width:380px){
+ #s4 .kv,#s4 .kv.prior{padding:9px!important}
+ #s4 .kv .hd{grid-template-columns:56px minmax(0,1fr) auto!important;column-gap:7px!important}
+ #s4 .kv .estvis06-thumb{width:56px;height:60px}
+ #s4 .kv .qty button{width:38px!important;min-width:38px!important}
+ #s4 .kv .variant{margin-left:63px!important}
+ #s4 .kv .hd .meta{font-size:11px!important}
+}
+/* Retire a legacy premium-page ornamental outline that looks like a broken crop on the new clean card. */
+#s5>.usage-summary.capacity-summary::after{content:none!important;display:none!important}
+
+/* Estimator-only helper collision guard: float stays visible but clears 2-row/1-row action docks. */
+body:has(#s3.active):has(#amountActionBar:not([hidden])) .mini-global-support,
+body:has(#s4.active) .mini-global-support,
+body:has(#s5.active) .mini-global-support{bottom:calc(152px + env(safe-area-inset-bottom))!important}
+
+/* UX-PATCH D4-A: keep earned benefits readable without a multi-line default banner. */
+#s5 #couponEstimateGrantV1{padding:6px 10px;margin:6px 0;border-radius:10px}
+#s5 #couponEstimateGrantV1 summary{display:flex;align-items:center;justify-content:space-between;gap:6px;cursor:pointer;list-style:none;min-height:20px}
+#s5 #couponEstimateGrantV1 summary::-webkit-details-marker{display:none}
+#s5 #couponEstimateGrantV1 summary .coupon-v1-title{font-size:12px;line-height:20px;margin:0}
+#s5 #couponEstimateGrantV1 .coupon-v1-disclosure-label{font-size:11px;line-height:20px;white-space:nowrap;color:#816B57}
+#s5 #couponEstimateGrantV1 details[open] .coupon-v1-disclosure-label{color:#2D7154}
+#s5 #couponEstimateGrantV1 details .coupon-v1-desc{margin:5px 0 0}

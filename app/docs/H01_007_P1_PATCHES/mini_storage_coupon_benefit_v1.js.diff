@@ -1,0 +1,44 @@
+--- S5/prototype/mini_storage_coupon_benefit_v1.js
++++ P1/prototype/mini_storage_coupon_benefit_v1.js
+@@ -129,7 +129,40 @@
+     const status=document.getElementById('statusBody');if(status){let decorating=false;new MutationObserver(()=>{if(decorating)return;const orderNo=new URLSearchParams(location.search).get('orderNo')||'';let req=null;try{req=repo?.findRenewal?repo.findRenewal(orderNo):null}catch(e){}if(req?.coupon_id&&req.status==='QUOTE_READY'&&!status.dataset.couponDecorated){decorating=true;status.dataset.couponDecorated='1';status.innerHTML=`<b>续租报价已生成</b><br>${req.months}个月 · 优惠前 ${money(req.quote_total_before_coupon)}<br>${req.coupon_name} -${money(req.coupon_discount_amount)} · <span class="total">优惠后 ${money(req.quote_total)}</span><div class="actions" style="margin-top:10px"><button class="btn primary" id="confirmRenew">查看并确认支付 ${money(req.quote_total)}</button></div>`;const b=document.getElementById('confirmRenew');if(b&&typeof window.openRenewPayment==='function')b.onclick=window.openRenewPayment;decorating=false}}, {childList:true,subtree:true})}
+   }
+   function injectDemoHub(){const grid=document.querySelector('.professional');if(!grid||document.getElementById('couponDemoToolV1'))return;const a=document.createElement('a');a.id='couponDemoToolV1';a.className='tool';a.href='mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html?store=MK_BJ_2CDB7BEE&unit=BJ0112S01A009&sizeOption=MK_BJ_2CDB7BEE__4.72&target=4.8&term=6&source=coupon_demo';a.innerHTML='<b>优惠券与权益专项</b><span>查看估算获券、自动最优券、优惠后租金、券包、支付核销与续租券。</span>';grid.appendChild(a)}
+-  function syncPaymentResult(){const repo=window.MINI_STORAGE_REPO_V242;let o={};try{o=repo?.getCurrent?repo.getCurrent():currentOrder()}catch(e){o=currentOrder()}if(!o||!o.user_coupon_id)return;const rows=wallet(),ix=rows.findIndex(x=>x.user_coupon_id===o.user_coupon_id);if(ix<0)return;if(o.status==='PAID'){rows[ix]={...rows[ix],status:'REDEEMED',redeemed_order_id:o.order_no,redeemed_time:now()};for(let i=0;i<rows.length;i++){const t=TEMPLATES[rows[i].coupon_id];if(i!==ix&&t?.customer_scope==='NEW'&&rows[i].status==='CLAIMED')rows[i]={...rows[i],status:'INVALID',invalid_reason:'NEW_CUSTOMER_COMPLETED'}}const payment=repo?.getPayments?.().find(x=>x.order_no===o.order_no&&x.type==='INITIAL'&&x.status==='PAID');if(payment&&repo?.addPayment){repo.addPayment({...payment,amount:Number(o.payable_total||0),breakdown:{...payment.breakdown,rent:Number(o.rent_after_coupon||o.total_price||0),rent_before_coupon:Number(o.rent_before_coupon||o.total_price||0),coupon_discount_amount:Number(o.coupon_discount_amount||0),deposit:Number(o.deposit_amount||0),management_fee:Number(o.management_fee||0)}})}}else if(['PAYMENT_FAILED','INVENTORY_CHANGED'].includes(o.status)){rows[ix]={...rows[ix],status:'CLAIMED',locked_order_id:null}}saveWallet(rows)}
++  // H01-007-P1: settle only a confirmed paid order; clean unused locks owned by that order.
++  // No lock timeout, cross-order release, refund or new eligibility rule is introduced.
++  function syncPaymentResult(){
++    const repo=window.MINI_STORAGE_REPO_V242;let o={};
++    try{o=repo?.getCurrent?repo.getCurrent():currentOrder()}catch(e){o=currentOrder()}
++    if(!o)return;
++    const rows=wallet(),ix=o.user_coupon_id?rows.findIndex(x=>x.user_coupon_id===o.user_coupon_id):-1;
++    if(isPaidRental(o)){
++      const used=ix>=0?rows[ix]:null;
++      const mayRedeem=!!(used&&(used.status==='CLAIMED'||lockOwnedBy(used,o.order_no)));
++      const alreadyRedeemed=!!(used&&used.status==='REDEEMED'&&used.redeemed_order_id===o.order_no);
++      if(mayRedeem)rows[ix]={...used,status:'REDEEMED',locked_order_id:null,applied_quote_id:null,redeemed_order_id:o.order_no,redeemed_time:now()};
++      for(let i=0;i<rows.length;i++){
++        if(i===ix&&(mayRedeem||alreadyRedeemed))continue;
++        const row=rows[i],t=TEMPLATES[row.coupon_id],ownLock=lockOwnedBy(row,o.order_no);
++        // Other-order LOCKED rows and terminal states are preserved verbatim (D-13 remains deferred).
++        if(ownLock){
++          rows[i]=t?.customer_scope==='NEW'
++            ? {...row,status:'INVALID',invalid_reason:'NEW_CUSTOMER_COMPLETED',locked_order_id:null,applied_quote_id:null}
++            : {...row,status:'CLAIMED',locked_order_id:null,applied_quote_id:null};
++        }else if(t?.customer_scope==='NEW'&&row.status==='CLAIMED'){
++          rows[i]={...row,status:'INVALID',invalid_reason:'NEW_CUSTOMER_COMPLETED'};
++        }
++      }
++      // Preserve the existing selected-coupon payment breakdown; never reprice the order here.
++      if(mayRedeem||alreadyRedeemed){
++        const payment=repo?.getPayments?.().find(x=>x.order_no===o.order_no&&x.type==='INITIAL'&&x.status==='PAID');
++        if(payment&&repo?.addPayment){repo.addPayment({...payment,amount:Number(o.payable_total||0),breakdown:{...payment.breakdown,rent:Number(o.rent_after_coupon||o.total_price||0),rent_before_coupon:Number(o.rent_before_coupon||o.total_price||0),coupon_discount_amount:Number(o.coupon_discount_amount||0),deposit:Number(o.deposit_amount||0),management_fee:Number(o.management_fee||0)}})}
++      }
++      saveWallet(rows);
++    }else if(['PAYMENT_FAILED','INVENTORY_CHANGED'].includes(o.status)&&ix>=0&&lockOwnedBy(rows[ix],o.order_no)){
++      rows[ix]={...rows[ix],status:'CLAIMED',locked_order_id:null};saveWallet(rows);
++    }
++  }
+   function init(){addHeadStyle();const p=page(),has=s=>!!document.querySelector(s);if(p.includes('space_decision_assistant')||(has('#s1')&&has('#s5')&&has('#usageActions')))estimatorInit();else if(p.includes('unit_detail_u01')||(has('#contractTotal')&&has('#initialPayable')&&has('#saveQuote')))injectU01Panel();else if(p.includes('quote_q01')||(has('#quoteId')&&has('#initialPayableRow')))injectQuote();else if(p.includes('order_o01')||(has('#payableTotal')&&has('#agreeContract')))injectOrder();else if(p.includes('order_o02')||(has('#statusIcon')&&has('#orderNo')))syncPaymentResult();else if(p.includes('mine_m01')||has('#primaryAssets'))injectMine();else if(p.includes('renew_rn01')||has('#renewForm'))injectRenewal();else if(p.includes('product_demo_hub')||has('.professional'))injectDemoHub()}
+   window.MINI_KOALA_COUPON_V1={TEMPLATES,WALLET_KEY,SELECT_KEY,PRICE_SNAPSHOT_KEY,wallet,grant,ensureAcquisitionWallet,ensureRenewalWallet,entries,reason,selection,setSelection,best,selected,applyToSnapshot,readSnapshot,couponContextFromSnapshot,isNewCustomer,isPaidRental,paidRentalHistory,recoverableLockOrder,lockOwnedBy,ORDER_HISTORY_KEY,isFirstPurchaseContext,effectiveStatus,validExpiry,validateSnapshotCoupon,syncPaymentResult,money};
+   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else setTimeout(init,0);

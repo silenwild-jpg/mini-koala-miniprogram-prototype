@@ -1,0 +1,139 @@
+/*
+ Mini Koala Visual Elevation V2 — Refinement PATCH
+ Scope:
+  1) Recommendation card mobile layout stabilization
+  2) S01 EStore visual emphasis
+  3) Transaction de-card / whitespace refinement (Q01/O01/O02/O03)
+ VISUAL PATCH only. No copy/data/route/business-state changes.
+*/
+
+/* ========== 1. Recommendation — robust vertical price hierarchy ========== */
+#s5 .rplan{
+  display:block!important;
+  min-height:0!important;
+  padding:16px!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+}
+#s5 .rplan-top{display:block!important;min-width:0!important}
+#s5 .rplan-name-line{display:flex!important;align-items:center!important;min-width:0!important;gap:7px!important}
+#s5 .rplan-store{min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#s5 .rplan-address{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important}
+#s5 .rplan-match-count{margin-top:7px!important;color:var(--ve2-green)!important;font-size:11px!important;line-height:17px!important;font-weight:650!important}
+#s5 .rplan-meta{margin-top:5px!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#s5 .rplan-pricebox{
+  position:static!important;
+  width:100%!important;
+  max-width:none!important;
+  margin-top:12px!important;
+  padding-top:12px!important;
+  border-top:1px solid var(--ve2-line)!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  grid-template-areas:
+    "term term"
+    "label price"
+    "monthly price"
+    "saving saving"!important;
+  column-gap:12px!important;
+  row-gap:2px!important;
+  align-items:end!important;
+  text-align:left!important;
+}
+#s5 .rplan-pricebox .rplan-term{grid-area:term!important;margin:0 0 4px!important;text-align:left!important}
+#s5 .rplan-total-label{grid-area:label!important;color:var(--ve2-muted)!important;font-size:10px!important;line-height:16px!important;font-weight:550!important}
+#s5 .rplan-price{grid-area:price!important;align-self:center!important;text-align:right!important;white-space:nowrap!important;font-size:29px!important;line-height:32px!important}
+#s5 .rplan-monthly{grid-area:monthly!important;margin:0!important;min-width:0!important;white-space:normal!important;text-align:left!important;line-height:17px!important}
+#s5 .rplan-saving{grid-area:saving!important;margin-top:5px!important;max-width:none!important;text-align:left!important;line-height:16px!important}
+#s5 .rplan-start{font-size:10px!important;vertical-align:2px!important;color:var(--ve2-muted)!important;font-weight:650!important}
+@media(max-width:380px){
+  #s5 .rplan{padding:14px!important}
+  #s5 .rplan-pricebox{column-gap:8px!important}
+  #s5 .rplan-price{font-size:27px!important;line-height:30px!important}
+}
+
+/* ========== 2. S01 — EStore promoted to a clear secondary choice ========== */
+body:has(#storeList) .estore-list-card{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  padding:17px 15px 15px!important;
+  border:1px solid rgba(47,107,79,.18)!important;
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#E9F1EB 0%,#F8F5EE 62%,#FFF 100%)!important;
+  box-shadow:0 12px 30px rgba(24,62,48,.085)!important;
+}
+body:has(#storeList) .estore-list-card:after{
+  content:"";position:absolute;z-index:-1;right:-38px;top:-56px;width:132px;height:160px;
+  border:1px solid rgba(24,62,48,.13);border-radius:72px 72px 26px 26px;transform:rotate(10deg);
+}
+body:has(#storeList) .estore-list-card.fallback-first{
+  border-color:rgba(47,107,79,.25)!important;
+  background:linear-gradient(145deg,#DFEBE2 0%,#F4F1E9 72%)!important;
+  box-shadow:0 14px 34px rgba(24,62,48,.11)!important;
+}
+body:has(#storeList) .estore-list-card .estore-list-kicker{
+  color:var(--ve2-green)!important;font-size:10px!important;line-height:16px!important;
+  font-weight:750!important;letter-spacing:.08em!important;text-transform:uppercase!important;
+}
+body:has(#storeList) .estore-list-card .estore-list-title{font-size:19px!important;line-height:26px!important;color:var(--ve2-deep)!important;letter-spacing:-.018em!important}
+body:has(#storeList) .estore-list-card .estore-list-badge{
+  padding:3px 8px!important;background:var(--ve2-deep)!important;color:#FFF!important;border-radius:999px!important;
+  font-size:9.5px!important;line-height:17px!important;font-weight:650!important;
+}
+body:has(#storeList) .estore-list-card .estore-list-desc{margin-top:4px!important;color:var(--ve2-ink)!important;font-size:12px!important;line-height:18px!important;font-weight:650!important}
+body:has(#storeList) .estore-list-card .estore-list-points{margin-top:8px!important}
+body:has(#storeList) .estore-list-card .estore-list-points span{color:var(--ve2-muted)!important;font-size:9.5px!important}
+body:has(#storeList) .estore-list-card .estore-list-foot{margin-top:12px!important;padding-top:11px!important;border-top:1px solid rgba(47,107,79,.13)!important}
+body:has(#storeList) .estore-list-card .estore-list-note{color:var(--ve2-muted)!important}
+body:has(#storeList) .estore-list-card .estore-list-link{
+  min-height:32px!important;display:inline-flex!important;align-items:center!important;padding:0 11px!important;
+  border-radius:999px!important;background:var(--ve2-deep)!important;color:#FFF!important;font-size:10.5px!important;font-weight:700!important;
+}
+
+/* ========== 3. Transaction — reduce nested white rounded rectangles ========== */
+/* Q01: details become editorial rows instead of a white inset card. */
+body:has(#quoteId) .rows{
+  background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;
+}
+body:has(#quoteId) .section{padding-left:0!important;padding-right:0!important;margin-left:16px!important;margin-right:16px!important}
+body:has(#quoteId) .quote-trust{border-radius:12px!important;background:var(--ve2-paper-2)!important}
+
+/* O01: order identity and fee rows are flat sections; keep only payment hero highlighted. */
+body:has(#payableTotal) .order-card{
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;
+}
+body:has(#payableTotal) .order-card>.rows,
+body:has(#payableTotal) .payment-rows{
+  background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;
+}
+body:has(#payableTotal) .agreement{
+  background:transparent!important;border:0!important;border-radius:0!important;padding:10px 0!important;
+  border-top:1px solid var(--ve2-line)!important;border-bottom:1px solid var(--ve2-line)!important;
+}
+body:has(#payableTotal) .pay-after{border-radius:14px!important}
+body:has(#payableTotal) .storage-notice{border-radius:14px!important}
+
+/* O02: successful/exception result should read as one status hero + editorial facts. */
+body:has(#statusIcon) .order{
+  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;
+}
+body:has(#statusIcon) .order>.rows,
+body:has(#statusIcon) .section>.rows{
+  background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;
+}
+body:has(#statusIcon) .next{
+  background:var(--ve2-paper-2)!important;border:0!important;border-radius:14px!important;box-shadow:none!important;
+}
+body:has(#statusIcon) .password-card{border-radius:14px!important}
+body:has(#statusIcon) .alt-card{
+  margin-top:0!important;padding:11px 0!important;background:transparent!important;border:0!important;border-radius:0!important;
+  border-bottom:1px solid var(--ve2-line)!important;
+}
+
+/* O03: keep the warehouse identity card, flatten recurring data groups. */
+body:has(#statusTag) .unit-card{border-radius:16px!important;box-shadow:0 8px 24px rgba(24,62,48,.06)!important}
+body:has(#statusTag) .rows{
+  background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;
+}
+body:has(#statusTag) .section{padding-left:0!important;padding-right:0!important;margin-left:16px!important;margin-right:16px!important}

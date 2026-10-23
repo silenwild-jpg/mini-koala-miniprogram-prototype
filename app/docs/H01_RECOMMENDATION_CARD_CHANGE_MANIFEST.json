@@ -1,0 +1,82 @@
+{
+  "stage": "H01 Recommendation Card + Screenshot Review Fix 2026-10-14",
+  "baseline_zip_sha256": "a76d18da9f3d708dabdb3c1808b00385fcee717ceaba8028fab4b099c43bb9e1",
+  "release_gate": "HOLD",
+  "modified": [
+    {
+      "path": "H01_LIFESTYLE_START.html",
+      "before_sha256": "d6b0e42983275ed6e003abe05f3cb0f26cc38c738332e9bd118cf03b9d642512",
+      "after_sha256": "6804d7bc7503b1f5702f3189bf9bfa6ebde3842549ae0d06b439a03ff93454d5"
+    },
+    {
+      "path": "README_CURRENT.md",
+      "before_sha256": "f482478bfcafe9dff0110eb57d80ff6332d7a4b14ae668e67be3ee489acc8c83",
+      "after_sha256": "6bf9434d62bca9ee3854bb8ea2d1f3a3e83c4be765cd1895e280387221dc28a8"
+    },
+    {
+      "path": "docs/CHANGELOG.md",
+      "before_sha256": "e34d5ce541f9a1b6b8a6453e519f66d34b80768efaef0b47e7646b7b236f766e",
+      "after_sha256": "51ba6c07e8b4483926f4f5a864168ada572b273f167db2b09ca617773a54c27d"
+    },
+    {
+      "path": "docs/CURRENT_DOCS_INDEX.md",
+      "before_sha256": "efaa88301b46b7628119082d2a5e7575f3e37f155c30cabe44a9aff54362de4b",
+      "after_sha256": "8d1f1d6238762c5351ff45d78cf06aa1170459ce3d1e3b601b0a69f5d3bac783"
+    },
+    {
+      "path": "docs/CURRENT_STATUS.md",
+      "before_sha256": "52856fe8cf20e912f446da31728ee38eba4e31ac302862f94d6a7e34d506f394",
+      "after_sha256": "547de4ef6ae1e526fe142764754f50b23dc5ddc9a37b833f6cdde874864c9256"
+    },
+    {
+      "path": "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html",
+      "before_sha256": "08ffaf3efb825dfd6d1cbea6ec81a06516dc492160a157e93b6aa37f74dd38a6",
+      "after_sha256": "e447ca36a07533942726b26893f4127843f43f02f59d10292499e005481e8dc2"
+    },
+    {
+      "path": "qa/test_external_review_merge_v2.cjs",
+      "before_sha256": "eaf35db87c9bab7b632336ba54815f42bedc05a1fbd404925da30681546b8542",
+      "after_sha256": "b94cd8c0af10e81dcfa48c675125a2f61d73ed811d6641d42f09f0ebce8639df"
+    },
+    {
+      "path": "qa/test_price_semantics_display_v1.js",
+      "before_sha256": "2f90f10984c19f07979f0bb671a4eaed141fa6d2741c3cbd91e81bb9221c76b3",
+      "after_sha256": "77c72541013dd2bbd212ec83c0bba8dd6cf328116c006b50101cd7c8721c81b4"
+    },
+    {
+      "path": "qa/test_v27417_data_semantics_home_integrity.js",
+      "before_sha256": "82307052668d064c8de9bb35f0571fc3bf096b98dcb2b034d8228b6003297f25",
+      "after_sha256": "f9a1384c4cec5f961efdf2bc6422fe34712859b9897bf23878f1b1a84e281a49"
+    },
+    {
+      "path": "tools/check_package.py",
+      "before_sha256": "cf3e476069f4a31caac737241a089ac866d1203a6e29cb5d65e2ff913d979871",
+      "after_sha256": "d50fb8a09125826c2bb604d9e2ef46d85caa4d645c36bc6490f607d5892b37ec"
+    },
+    {
+      "path": "tools/run_regression.py",
+      "before_sha256": "4d950ff95de1191436acef898ea42e115b4f1f97e9fb57f85e556b39f11c24f5",
+      "after_sha256": "4173f4f6fd16f9a1aa56d586e5d8ac65b9679cc2b9c40a6b44a3b85c2355dbf3"
+    }
+  ],
+  "added": [
+    {
+      "path": "docs/H01_RECOMMENDATION_CARD_BROWSER_RECHECK.md",
+      "sha256": "c13afce24a07bb1a926bf651e35c94bb3ca70241a9d26866f1c3e0db4f695884"
+    },
+    {
+      "path": "docs/H01_RECOMMENDATION_CARD_SCREENSHOT_REVIEW_FIX_2026-10-14.md",
+      "sha256": "9ec3b2fa4819ce5017a0a4e69f4bc3b5282b2109c077e1e57aaebbc330108296"
+    },
+    {
+      "path": "docs/H01_RECOMMENDATION_CARD_TARGETED_FIX_2026-10-14.md",
+      "sha256": "9fc94a9690d8a2800ad7ccaef5ca9c8a25cc307425e35860025fb9144926d4ab"
+    },
+    {
+      "path": "qa/test_h01_recommendation_card_fix.cjs",
+      "sha256": "7a837b93fa37246f313a113a40e8265d6b12ee0510381d102bc90b0178372007"
+    }
+  ],
+  "deleted": [],
+  "scope_note": "RELEASE_MANIFEST.json is regenerated separately; outputs and caches excluded"
+}

@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: transparent cutout for a small homepage storage scene illustration, displayed about 100 by 68 pixels.
+Subject: one coherent luggage arrangement: a silver gray ribbed hard-shell upright travel suitcase with wheels and its handle extended, beside one small forest-green rounded fabric travel duffel bag. The suitcase dominates, duffel low on its right.
+Style: refined realistic 3D household object illustration, soft natural daylight, warm neighborly lifestyle feeling, credible subtle metal and canvas materials, clean polished detailing. Match a light neutral household illustration set.
+Composition: front view slightly from above, compact horizontal arrangement, centered subject filling the image with safe transparent margins, all objects fully visible. No environment, no floor, no scene backdrop. Only a faint contact shadow.
+Palette: silver warm gray, warm white/cream highlights, restrained muted forest green.
+Constraints: genuinely transparent background alpha; no text, logo, branding, watermark, people, animals, koala, UI, borders, card, background shapes, scenery. One asset, not a grid.

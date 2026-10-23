@@ -1,0 +1,680 @@
+{
+  "release_gate": "HOLD",
+  "baseline_initial": {
+    "release_gate": "HOLD",
+    "browser_e2e": "NOT_VERIFIED",
+    "legacy_fingerprint_checks": "CONVERSION_FRICTION_V1_SHA_ARCHIVED_NOT_REWRITTEN",
+    "results": [
+      {
+        "command": [
+          "node",
+          "qa/test_external_review_merge_v2.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS nearest and radius-local cheapest are distinct\nPASS insufficient local candidates expands price pool\nPASS zero candidates in radius puts E-storage first\nPASS explicit filter never broadens range\nPASS single matches rank ahead of combos\nPASS unlocated ranking never uses distance\nPASS canonical none snapshot identity and gate\nPASS canonical coupon snapshot identity and gate\nPASS pending order owns snapshot and restores identity\nPASS saved quote survives unrelated current snapshot\nPASS missing or mismatched identity does not fabricate quote\nPASS price gate still rejects wrong term and wrong identity\nPASS real inventory singles precede combos 4.8\nPASS real inventory singles precede combos 7.4\nPASS undersized replacement is excluded\nPASS actual openSavedQuote destination gate remains valid\nPASS actual openPendingOrder destination gate remains valid\nPASS actual homepage uses same first two as list policy true\nPASS actual homepage uses same first two as list policy false\nPASS guided paid coupon is recorded in used wallet\n20/20 behavior groups passed\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_ux_simplification_v1.cjs"
+        ],
+        "exit": 1,
+        "output": "PASS 01 hero assurance block removed without deleting lower proof\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(h.includes('<span class=\"task-action\">30秒快速报价 →</span>'))\n\n    at /workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_ux_simplification_v1.cjs:14:47\n    at check (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_ux_simplification_v1.cjs:12:25)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_ux_simplification_v1.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_store_card_unification_v1.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS 1 real matching: one capacity option and two physical spaces\nPASS 2 real matching: multiple capacity options produce min-max capacities\nPASS 3 real matching: displayed starting term price is cheapest matching unit\nPASS 4 zero-match case cannot claim physical matches\nPASS 5 invalid term does not create total\nPASS 6 browse still uses shared photo/name/route/facts layout\nPASS 7 demand uses same card skeleton, not the old separate demand layout\nPASS 8 one matched capacity shows exact capacity and actual matched physical count\nPASS 9 multiple matching capacities show range and minimum full-term price\nPASS 10 alternative shows zero matches while keeping an honest nearby-capacity offer\nPASS 11 no large view/appointment footer in either card state\nPASS 12 S01 card taps and keyboard activation still route to store detail\nPASS 13 low-stock status retained without converting count into a second CTA\nPASS 14 S02 removes the redundant standalone compact capacity offer\nPASS 15 S02 original actual unit cards and show-more action remain\nPASS 16 S02 separate sold-out capacity catalog remains, no ghost compact handler\nPASS 17 sales and price data files were not rewritten as part of card presentation\nStore card unification: 17/17 checks passed\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_s01_filter_sort_refinement_v1.cjs"
+        ],
+        "exit": 1,
+        "output": "PASS three unified chips and exactly one current value each\nPASS old select ids retained for current data/filter model\nPASS four distances available with exact semantics\nPASS three sorts with default recommendation in both modes\nPASS service selection can be cancelled without applying\nPASS one-tap distance and sort change handlers use same model\nPASS explicit filters never automatically add supplemental stores\nPASS browse versus demand store card dual-fact structure stays stable\nPASS sort by monthly browse price and exact-term demand total\nPASS missing term total is not silently ranked with monthly price\nPASS sort panel labels and selected value reflect mode\nPASS distance current selection and active state reflect actual filter\nevalmachine.<anonymous>:2\n  let ids=baseOrder().filter(passesQuickFilters);\n                             ^\n\nReferenceError: passesQuickFilters is not defined\n    at Object.filteredOrder (evalmachine.<anonymous>:2:30)\n    at /workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_filter_sort_refinement_v1.cjs:86:40\n    at check (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_filter_sort_refinement_v1.cjs:6:35)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_filter_sort_refinement_v1.cjs:81:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_s01_inline_filter_location_v2.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS sort / radius / services appear in intended left-middle-right order\nPASS location, search, travel occupy one shared row\nPASS location and search remain independent click targets\nPASS three popovers are children of the anchor toolbar, not detached bottom sheets\nPASS popovers have non-modal semantics\nPASS switching popovers closes the prior one\nPASS outside tap / escape close dropdowns\nPASS service edits commit only on apply\nPASS four radius options and three sort options preserved\nPASS live sort updates old model used by cost calculations\nPASS two store card representations remain, no rewrite\nPASS fallback still leaves user selected distance alone\nPASS 12/12 S01 inline compact controls\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase2_ux.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS Lower / equal / higher rent recommendations do not make false savings claims\nPASS Completed result parameters preserve sorting/radius and use active location\nPASS Radius filtering respects boundaries and unlimited mode\nPASS Opening capacity editor leaves demand untouched\nPASS Capacity draft changes are discarded on cancel\nPASS Same capacity confirmation preserves selected result\nPASS Smaller capacity shows warning and applies only on confirmation\nPASS Invalid capacity keeps editor open and does not apply\nPASS At least / at most semantics remain visible\nPASS Unsupported location is not committed\nPASS Supported location is committed together with its label\nPASS Canceling location editor keeps prior conditions\nPASS EStore introduction/cancel creates no consultation\nPASS Explicit consultation carries demand and clearly marks demo\nPASS Demo consultation feedback does not claim actual sending\nPASS Actual estimator reads current position without overwriting source context\nPASS Actual capacity apply retains items, term and position\nPASS Modified page scripts compile\nRESULT: 18 behavior groups passed; simulated DOM, browser/WeChat not verified.\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3a_controlled_patch.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS Conservative whitelist of quick presets\nPASS Zero-volume and special long item are never quick\nPASS Quick and confirmed item volume calculations are identical\nPASS Choosing another amount invalidates former confirmation\nPASS S3 selection does not force S4 and quick button goes straight to S5\nPASS Actual navigation skips unvisited S4 and restores S4 draft on cancel\nPASS Known size starts empty, never treats example value as confirmed\nPASS Known size validates volume, term and customer without silently defaulting\nPASS Known-size form validates sequentially and commits only after all required fields\nPASS Estimating after known-size clears previous range semantics\nPASS Requirement snapshot distinguishes shortcut and confirmed items\nPASS Existing Phase 2 location and screen routing are retained\nPASS All embedded scripts parse\nPhase 3A target tests: 13/13 passed; DOM simulation only, not browser/WeChat E2E\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3a_independent_fix_v11.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS P1-01 new known-size flow resets stale range mode and fields\nPASS P1-03 S02 valid source capacity, term and customer inherited on known selection\nPASS P1-03 source with invalid/missing capacity behaves as fresh flow\nPASS P1-03 direct entry known preserves source and explicit range when supplied\nPASS P1-03 actual S02 URL context is parsed and preserved on entry selection\nPASS P1-02 valid term/customer interactions immediately clear their respective error only\nPASS P1-02 valid manual term typing clears only term error immediately\nPASS P2-01 cancel restores recommendation choice and bound store/unit IDs\nPASS P2-02 S3 buttons use grid not ineffective grid columns on flex\nPASS No new extra pricing, inventory, or cross-city data updates\nPASS Embedded page scripts remain parsable\nIndependent Fix V1.1: 11/11 passed (source/VM; not browser E2E)\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3c_batch_a_price_gate.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS 3C-A01 valid uncouponed snapshot\nPASS 3C-A02 explicit lease term mandatory; no 6-month fallback\nPASS 3C-A03 snapshot must exist\nPASS 3C-A04 store must match\nPASS 3C-A05 size option required even with representative unit\nPASS 3C-A06 wrong size option rejected\nPASS 3C-A07 wrong representative number rejected\nPASS 3C-A08 actual assigned unit identity cannot be silently swapped\nPASS 3C-A09 term change invalidates price snapshot\nPASS 3C-A10 pricing model version mismatch\nPASS 3C-A11 timestamp is mandatory and not future-dated\nPASS 3C-A12 invalid or negative amount is rejected\nPASS 3C-A13 monthly and deposit components must reconcile\nPASS 3C-A14 management fee must use business master\nPASS 3C-A15 wrong payable amount is rejected, not trusted from URL\nPASS 3C-A16 coupon discounts require ID and amount\nPASS 3C-A17 coupon price components must reconcile\nPASS 3C-A18 valid coupon snapshot uses only reconciled payable\nPASS 3C-A19 both transaction pages load price gate and expose invalid state\nPASS 3C-A20 Q01 blocks invalid save and continuation\nPASS 3C-A21 O01 blocks invalid payment and clears display\nPASS 3C-A22 coupon injector cannot reinstate invalid amount\nPhase 3C Batch A: 22/22 isolated source and price-gate tests passed; no browser E2E\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3c_unified_final.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS U3C-01 expired coupon is ineligible\nPASS U3C-02 missing expiry fails eligibility\nPASS U3C-03 used/invalid/locked coupons are ineligible\nPASS U3C-04 new customer coupon respects first purchase\nPASS U3C-05 long lease coupon requires at least 12 months\nPASS U3C-06 minimum rent coupon rejects shortfall\nPASS U3C-07 no quote gives no eligible coupon\nPASS U3C-08 manual expired coupon does not silently switch to another\nPASS U3C-09 auto picks highest eligible rent coupon\nPASS U3C-10 service benefit never offsets rent\nPASS U3C-11 coupon component and payable reconcile\nPASS U3C-12 different plan identity invalidates old price\nPASS U3C-13 changed lease term invalidates old quote\nPASS U3C-14 expired coupon makes saved snapshot invalid\nPASS U3C-15 coupon redeemed after quotation invalidates checkout\nPASS U3C-16 coupon selection changes require re-quote\nPASS U3C-17 customer flag mismatch invalidates new customer coupon\nPASS U3C-18 noncash rights are not applied as negative fees\nPASS U3C-19 checkout and quote validate current coupon state\nPASS U3C-20 checkout revalidates before committing payment\nPASS U3C-21 coupon selection page has no invented default rent or term\nPASS U3C-22 payable breakdown keeps discount before deposit/fees\nPASS U3C-23 transport marked estimated and does not reduce payable\nPASS U3C-24 original price gate remains strict on identity and arithmetic\nUnified Phase 3C: 24/24 targeted tests passed. Browser and WeChat E2E NOT VERIFIED.\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_acceptance_v11_patch.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS P-A-01: addon connected; frozen body entrypoints intact; JavaScript parses\nPASS P-A-02: explicit expired status blocks old checkout and returns to repricing without stale sums\nPASS P-A-03: active quote checkout remains untouched\nPASS P-A-04: actual stale valid_until is also recognized\nPASS P-A-05: S01 sold-out state is explicitly visible; normal browsing is unaffected\nPASS P-A-06: recovery copy, term guidance and countdown clarity have additive guards\nRESULT: 6/6 focused checks passed (not a browser screenshot acceptance)\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_acceptance_v11_patch_b.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS canonical price invariant and exact capacity\nPASS coupon quick story seeds correct coherent quote and wallet\nPASS no-coupon quick story clears cross-fixture coupon leakage\nPASS direct O01 coupon route retains payable and unit precision\nPASS lease date add-month arithmetic matches same scenario\nPASS S01/S02 use one store+origin+travel deterministic fallback\nPASS S02 route label and all travel options are corrected after page initialization\nPASS display check uses whole-term total not rounded average × months\nPASS core page body frozen and internal hub has distinct snapshot entries\nRESULT 9/9 PATCH B focused checks PASSED\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_term_footer_geometry.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS declared geometry { viewport: 375, barWidth: 375, secondary: 104, primary: 227 }\nPASS declared geometry { viewport: 390, barWidth: 390, secondary: 104, primary: 242 }\nPASS declared geometry { viewport: 1024, barWidth: 370, secondary: 104, primary: 222 }\nPASS shared button style declarations and single-column term-required state; static geometry, not rendered CSS\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_p1_review_fix_behaviors.js"
+        ],
+        "exit": 0,
+        "output": "PASS review P1 behavior: repeat renewal, return date/type, viewing hours, AI context and term gate\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_p1_s01_search_context.js"
+        ],
+        "exit": 0,
+        "output": "PASS S01 search, return context, inline dropdown modal exclusion\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_s01_ux_continuity_patch_v1.js"
+        ],
+        "exit": 1,
+        "output": "evalmachine.<anonymous>:6\n  const a=demoActivityFor(id);if(a.specialUnitIds.size)tags.splice(1,0,'特价仓');if(a.moving)tags.splice(1,0,'送搬运');return tags.slice(0,4);\n          ^\n\nReferenceError: demoActivityFor is not defined\n    at Object.storeDemoTags (evalmachine.<anonymous>:6:11)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_ux_continuity_patch_v1.js:33:46)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_navigation_vnext.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS VNext: single/multi/no-match routes; removed S9; copy/layout/style scoped\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_home_state_integration_patch_v1.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS style loaded\nPASS task mount before original double entry\nPASS five existing state cards reused\nPASS new homepage stable across states\nPASS original acquisition modules unchanged\nPASS single visible state task decision\nPASS urgent state based on lifecycle\nPASS pending payments have first priority\nPASS estimated is prioritized above routine active\nPASS home store cards enter detail as browse unless the caller explicitly asks for matched\nPASS explicit matched mode is still honoured by goStoreDetail\nPASS secondary task shortcut backed by mine\nPASS referral entry relocated into original homepage\nPASS no hidden task cards leakage\nPASS card compact metrics\nPASS main CTA retained\nPASS small width accommodation\n17/17\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_home_state_recovery_v11.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS asset-derived state\nPASS URL not trusted as business state\nPASS demo override explicitly gated\nPASS payment asset guarded by number and status\nPASS appointment validity checked by date\nPASS past booked record excluded\nPASS quote validates required fields\nPASS quote expiry checks timestamp\nPASS quote status forwarded expired\nPASS known volume passed for absent term\nPASS no default six in restore CTA\nPASS estimated length unconfirmed phrasing\nPASS validated CTA for paid states\nPASS no second task card stacked\nPASS button and other task touch 44\nPASS known size estimator route forces lease-term selection\nPASS universal home preserved\nPASS existing order quote downstream unchanged\n18/18\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_home_state_recovery_browser_v11.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_home_state_recovery_browser_v11.py\", line 4, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_home_visual_closeout_patch_v1.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_home_visual_closeout_patch_v1.py\", line 6, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_cross_page_route_targets_v1.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_cross_page_route_targets_v1.py\", line 47, in <module>\n    out=root/'outputs/cross_page_route_targets_v1.json';out.write_text(json.dumps({'pages_checked':len(primary),'route_references_checked':len(checked),'errors':errors,'primary_targets':targets},ensure_ascii=False,indent=2),encoding='utf-8')\n                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py\", line 1047, in write_text\n    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/outputs/cross_page_route_targets_v1.json'\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_cross_page_runtime_smoke_v1.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_cross_page_runtime_smoke_v1.py\", line 4, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_recommendation_v1.cjs"
+        ],
+        "exit": 1,
+        "output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(s1.includes(\"'近地铁','新开门店','双11大促','24小时','电梯直达','热门','仓型齐全','免押金'\"))\n\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_recommendation_v1.cjs:30:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_physical_fit_p0.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS FIT-P0 un-splittable 3.5m item physically impossible in every measured unit\nPASS FIT-P0 unknown warehouse measurements cannot be verified OR hard rejected based only on simulated geometry\nPASS FIT-P0 large catalogue items are flagged; selection preserves variants and full item counts\nPASS FIT-P0 known-too-large item blocks nominal single; 2-unit combination is still evaluated\nPASS FIT-P0 no item details is always pending even for real units\nPASS FIT-P0 stock cannot be double consumed and sold-out does not enter recommendation\nPASS FIT-P0 separate measured objects without enough combined physical capacity are rejected\nPASS FIT-P0 combination does not become verified from volume allocation alone\nPASS FIT-P0 same store statuses respect single physical rejection and retain nearby fallback\nPASS FIT-P0 S5,S01,S02 load guard before combo, do not claim combo is confirmed\nPhysical FIT P0: 10/10 checks\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_demo_price_combo_cleanup.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS demo price/combination copy closure\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_ux_regression_v2.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS 1 5m³ rejects 22.45m³ combination\nPASS 2 18m³ three-part viable\nPASS 3 25m³ reasonable 2-part remains\nPASS 4 35m³ reasonable 3-part remains\nPASS 5 single still takes precedence\nPASS 6 never consume sold-out stock\nPASS 7 under-min cannot route to U01 from displayed card or click\nPASS 8 soldout entry and return carry current demand and filters\nPASS 9 bottom CTA points to combo consultation action and preserves safe scrolling\nPASS 10 saved combo state shows specific confirmation and provides working support target\nPASS 11 S5 propagates physical fit state\nV2 targeted checks 11/11\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_full_journey_recovery_v21.cjs"
+        ],
+        "exit": 1,
+        "output": "PASS 1 50m³ filters out 1.94m³ while retaining 60m³ larger alternative\nPASS 2 zero-match recommended cards contain only reasonable alternatives\nPASS 3 no near-size option yields no misleading price recommendation\nPASS 4 original five capacities keep valid single, 2-part, 3-part behavior\nevalmachine.<anonymous>:20\n  const combo=quickStoreFilters.has('single')||quickStoreFilters.has('special')?null:row.combo||null;\n              ^\n\nReferenceError: quickStoreFilters is not defined\n    at Object.matchedDataFor (evalmachine.<anonymous>:20:15)\n    at /workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_full_journey_recovery_v21.cjs:20:99\n    at test (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_full_journey_recovery_v21.cjs:9:32)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_full_journey_recovery_v21.cjs:20:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/visual_check_combo_recovery_v21.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/visual_check_combo_recovery_v21.py\", line 3, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_identity_flow.js"
+        ],
+        "exit": 0,
+        "output": "PASS paid order remains locked while ID is unverified\nPASS failed verification retries and verified access opens\nPASS future start and legacy paid orders cannot reveal credentials\nPASS demonstration identity verification completes in one action\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/visual_check_demo_price_closeout.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/visual_check_demo_price_closeout.py\", line 4, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/visual_check_combo_ux_v2.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03/qa/visual_check_combo_ux_v2.py\", line 5, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s1_requirement_trade_snapshot.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS validTerm accepts 1..60 integers only\nPASS clampTerm untouched (pricing helper still clamps as before)\nPASS M01 resume: no valid term -> estimator requireTerm=1, never term 1\nPASS S01 resume entries: bottom find + browse strip route to term selection when term missing\nPASS S01 estimated entry without valid term does not persist a default term\nPASS S02 / U01 parse the term strictly (invalid never clamps to 1)\nPASS Estimator resume never substitutes 6 months for a missing saved term\nPASS H01 restore rule unchanged and consistent (hsiValidTerm 1..60 integer)\nPASS confirm(): final term wins, original estimate preserved, identity carried\nPASS confirm(): never invents a term and never computes price fields\nPASS U01 commits the final trade requirement at both commit points only\nPASS Q01 / O01 requirement snapshot = confirmed trade; price gate untouched\nPASS Frozen rules untouched: management fee, deposit=monthly, term factors, price gate file\n13/13\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s2_coupon_eligibility.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS FRESH: no paid history -> new customer, wallet granted, CPN-001 applied to 6m canonical\nPASS FRESH: unpaid history (PAYMENT_FAILED / PENDING) does not end first-purchase status\nPASS REPEAT: paid order in history + new pending current order -> NOT first purchase\nPASS REPEAT: paid order that is the current order (pre-S2 behaviour) still blocks; ensureAcquisitionWallet grants nothing\nPASS REPEAT: paid order in history only (current pointer empty) blocks; ended lifecycle still counts as settled history (assumption, see report)\nPASS REPEAT: renewal coupon (CPN-004) unaffected by first-purchase status\nPASS OWN_LOCK (PENDING_PAYMENT): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK (PAYMENT_FAILED): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK: recovery still enforces coupon rules (term / rent / amount / selection)\nPASS OTHER_LOCK: another order (different store) cannot use the coupon locked by order A\nPASS OTHER_LOCK: same store/size but a different order_no, a paid current order, or no current order -> not recoverable\nPASS INVALID: expired / redeemed / invalid coupons and unmet thresholds stay blocked\nPASS TRANSITIONS: PAID -> REDEEMED + other NEW coupons INVALID; PAYMENT_FAILED -> back to CLAIMED (unchanged rules)\nPASS SOURCE: C02 builds its context through couponContextFromSnapshot (own lock shown as usable); no lock timeout / release delay introduced\n14/14  source=prototype/mini_storage_coupon_benefit_v1.js\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s3_trade_recheck.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS RECHECK helpers exported from the shared SSOT\nPASS quoteExpired: active quote past valid_until is expired; inside 48h is not\nPASS quoteExpired: explicit expired status, advisor-pending and converted/invalid quotes\nPASS resumableOrder: only PENDING_PAYMENT / PAYMENT_FAILED orders with an order_no and unit\nPASS amountDiff: identical amounts -> no changes\nPASS amountDiff: rent / payable change and coupon loss are reported with labels and amounts\nPASS quoteAmounts / orderAmounts: the record's own price_snapshot wins, legacy fields map when it is missing\nPASS no pricing rule is touched: contractRent / monthlyReference / termFactor unchanged and not referenced by the re-check helpers\nPASS S1 kept: validTerm + MINI_STORAGE_TRADE_SNAPSHOT_V1.confirm + U01 commitTradeRequirement + Q01/O01 confirm() calls\nPASS S2 kept: coupon module and C02 untouched by S3 (sha256 equals the S2 checkpoint)\nPASS price gate untouched (sha256 equals H01-004B / S1 / S2; no invented 48h expiry inside the gate)\nPASS D-07 Q01 expired-quote notice is named, mentions 48h, and hands requote=1 + quoteId to U01\nPASS D-07 Q01 keeps the stale amounts viewable and 保存方案 disabled; 继续 goes to U01 without the stale snapshot\nPASS D-07 U01 re-check block: compares against the saved quote / order, requires acknowledgement, guards goOrder and goQuote\nPASS D-12 H01: PAYMENT_FAILED is a pending task with distinct copy; structure untouched\nPASS D-12 M01: failed order card, badge and goOrder -> O01\nPASS D-12 O01: resume keeps the order's own snapshot, re-checks status / price / inventory / coupon, blocks + offers re-pricing on change\nPASS D-12 O02 untouched: success only from a matching PAID gateway result or an already PAID order\n\n18/18 passed (root=/workspace/scratch/dd08b547a1be/s5_review/unpacked/Mini_Koala_H01_Lifestyle_Step03)\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s4_entry_contracts.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS H01 goStores exists\nPASS H01 goStores: the nearby shortcut is decided before any carried requirement is consulted\nPASS H01 goStores: shortcut branch yields browse + entry=browse_nearby (or unlocated), never estimated\nPASS H01 goStores never deletes or rewrites the saved requirement\nPASS H01 goStoreDetail: matched only when the caller passes mode==='matched'\nPASS H01 store cards are wired with their data-mode (browse by default)\nPASS H01 markup: no store card is declared data-mode=\"matched\"\nPASS H01 #storeLink routes through goStores({nearbyShortcut:true})\nPASS H01 #navStores routes through goStores({nearbyShortcut:true})\nPASS H01 #b2bStoreLink routes through goStores({nearbyShortcut:true})\nPASS H01 #allNearbyStores routes through goStores({nearbyShortcut:true})\nPASS H01 继续找仓 (goFind) keeps the S1 validTerm guard and routes a term-less requirement to term selection\nPASS H01 #continueFind is the only home control bound to goFind (plus the matched-list link)\nPASS H01 hsiValidTerm matches SSOT validTerm range 1..60 integers\nPASS H01 S3 payment-failed task card logic untouched (hsiValidPending still accepts PAYMENT_FAILED)\nPASS S01 entry=browse_nearby forces the browse state even if state=estimated is also present\nPASS S01 browse strip offers the explicit switch 按我的需求匹配 when a requirement is saved\nPASS S01 strip switch keeps the S1 validTerm guard\nPASS S01 openStoreDetail hands sort / distance / services to S02\nPASS S01 openStoreDetail hands loaded count and scroll offset to S02\nPASS S01 restores the loaded count for every list state\nPASS S01 restores sort / distance / services from the URL\nPASS S01 re-applies the scroll offset after deferred layout helpers (load + rAF)\nPASS S02 back button exists\nPASS S02 back passes sort / distance / services / loaded / scroll straight back to S01\nPASS S02 back returns a browse visit as the browse list (entry=browse_nearby)\nPASS S02 back still returns the estimated / extended / far states by fromS01State\nPASS S02 browse entry from S01 keeps state=browse without target/term\nPASS S4 touched no price / deposit / management-fee / coupon rule (SSOT has no H01-007-S4 marker)\nPASS S4 markers only in H01 / S01 / S02\n\n30 passed, 0 failed\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/check_package.py"
+        ],
+        "exit": 0,
+        "output": "{\n  \"files_checked\": 544,\n  \"literal_links_checked\": 567,\n  \"errors\": [],\n  \"browser_e2e\": \"NOT_VERIFIED\"\n}\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/check_http.py"
+        ],
+        "exit": 0,
+        "output": "{\n  \"http_resources_checked\": 153,\n  \"errors\": [],\n  \"browser_js\": \"NOT_EXECUTED\",\n  \"e2e\": \"NOT_VERIFIED\"\n}\n"
+      }
+    ]
+  },
+  "baseline_route_recheck": {
+    "exit": 0,
+    "pages_checked": 13,
+    "route_references_checked": 88,
+    "errors": [],
+    "reason": "initial S5 checkout lacked outputs directory; runner now creates it before all checks"
+  },
+  "p1_regression": {
+    "release_gate": "HOLD",
+    "browser_e2e": "NOT_VERIFIED",
+    "legacy_fingerprint_checks": "CONVERSION_FRICTION_V1_SHA_ARCHIVED_NOT_REWRITTEN",
+    "results": [
+      {
+        "command": [
+          "node",
+          "qa/test_external_review_merge_v2.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS nearest and radius-local cheapest are distinct\nPASS insufficient local candidates expands price pool\nPASS zero candidates in radius puts E-storage first\nPASS explicit filter never broadens range\nPASS single matches rank ahead of combos\nPASS unlocated ranking never uses distance\nPASS canonical none snapshot identity and gate\nPASS canonical coupon snapshot identity and gate\nPASS pending order owns snapshot and restores identity\nPASS saved quote survives unrelated current snapshot\nPASS missing or mismatched identity does not fabricate quote\nPASS price gate still rejects wrong term and wrong identity\nPASS real inventory singles precede combos 4.8\nPASS real inventory singles precede combos 7.4\nPASS undersized replacement is excluded\nPASS actual openSavedQuote destination gate remains valid\nPASS actual openPendingOrder destination gate remains valid\nPASS actual homepage uses same first two as list policy true\nPASS actual homepage uses same first two as list policy false\nPASS guided paid coupon is recorded in used wallet\n20/20 behavior groups passed\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_ux_simplification_v1.cjs"
+        ],
+        "exit": 1,
+        "output": "PASS 01 hero assurance block removed without deleting lower proof\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(h.includes('<span class=\"task-action\">30秒快速报价 →</span>'))\n\n    at /workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_ux_simplification_v1.cjs:14:47\n    at check (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_ux_simplification_v1.cjs:12:25)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_ux_simplification_v1.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_store_card_unification_v1.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS 1 real matching: one capacity option and two physical spaces\nPASS 2 real matching: multiple capacity options produce min-max capacities\nPASS 3 real matching: displayed starting term price is cheapest matching unit\nPASS 4 zero-match case cannot claim physical matches\nPASS 5 invalid term does not create total\nPASS 6 browse still uses shared photo/name/route/facts layout\nPASS 7 demand uses same card skeleton, not the old separate demand layout\nPASS 8 one matched capacity shows exact capacity and actual matched physical count\nPASS 9 multiple matching capacities show range and minimum full-term price\nPASS 10 alternative shows zero matches while keeping an honest nearby-capacity offer\nPASS 11 no large view/appointment footer in either card state\nPASS 12 S01 card taps and keyboard activation still route to store detail\nPASS 13 low-stock status retained without converting count into a second CTA\nPASS 14 S02 removes the redundant standalone compact capacity offer\nPASS 15 S02 original actual unit cards and show-more action remain\nPASS 16 S02 separate sold-out capacity catalog remains, no ghost compact handler\nPASS 17 sales and price data files were not rewritten as part of card presentation\nStore card unification: 17/17 checks passed\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_s01_filter_sort_refinement_v1.cjs"
+        ],
+        "exit": 1,
+        "output": "PASS three unified chips and exactly one current value each\nPASS old select ids retained for current data/filter model\nPASS four distances available with exact semantics\nPASS three sorts with default recommendation in both modes\nPASS service selection can be cancelled without applying\nPASS one-tap distance and sort change handlers use same model\nPASS explicit filters never automatically add supplemental stores\nPASS browse versus demand store card dual-fact structure stays stable\nPASS sort by monthly browse price and exact-term demand total\nPASS missing term total is not silently ranked with monthly price\nPASS sort panel labels and selected value reflect mode\nPASS distance current selection and active state reflect actual filter\nevalmachine.<anonymous>:2\n  let ids=baseOrder().filter(passesQuickFilters);\n                             ^\n\nReferenceError: passesQuickFilters is not defined\n    at Object.filteredOrder (evalmachine.<anonymous>:2:30)\n    at /workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_filter_sort_refinement_v1.cjs:86:40\n    at check (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_filter_sort_refinement_v1.cjs:6:35)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_filter_sort_refinement_v1.cjs:81:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_s01_inline_filter_location_v2.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS sort / radius / services appear in intended left-middle-right order\nPASS location, search, travel occupy one shared row\nPASS location and search remain independent click targets\nPASS three popovers are children of the anchor toolbar, not detached bottom sheets\nPASS popovers have non-modal semantics\nPASS switching popovers closes the prior one\nPASS outside tap / escape close dropdowns\nPASS service edits commit only on apply\nPASS four radius options and three sort options preserved\nPASS live sort updates old model used by cost calculations\nPASS two store card representations remain, no rewrite\nPASS fallback still leaves user selected distance alone\nPASS 12/12 S01 inline compact controls\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase2_ux.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS Lower / equal / higher rent recommendations do not make false savings claims\nPASS Completed result parameters preserve sorting/radius and use active location\nPASS Radius filtering respects boundaries and unlimited mode\nPASS Opening capacity editor leaves demand untouched\nPASS Capacity draft changes are discarded on cancel\nPASS Same capacity confirmation preserves selected result\nPASS Smaller capacity shows warning and applies only on confirmation\nPASS Invalid capacity keeps editor open and does not apply\nPASS At least / at most semantics remain visible\nPASS Unsupported location is not committed\nPASS Supported location is committed together with its label\nPASS Canceling location editor keeps prior conditions\nPASS EStore introduction/cancel creates no consultation\nPASS Explicit consultation carries demand and clearly marks demo\nPASS Demo consultation feedback does not claim actual sending\nPASS Actual estimator reads current position without overwriting source context\nPASS Actual capacity apply retains items, term and position\nPASS Modified page scripts compile\nRESULT: 18 behavior groups passed; simulated DOM, browser/WeChat not verified.\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3a_controlled_patch.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS Conservative whitelist of quick presets\nPASS Zero-volume and special long item are never quick\nPASS Quick and confirmed item volume calculations are identical\nPASS Choosing another amount invalidates former confirmation\nPASS S3 selection does not force S4 and quick button goes straight to S5\nPASS Actual navigation skips unvisited S4 and restores S4 draft on cancel\nPASS Known size starts empty, never treats example value as confirmed\nPASS Known size validates volume, term and customer without silently defaulting\nPASS Known-size form validates sequentially and commits only after all required fields\nPASS Estimating after known-size clears previous range semantics\nPASS Requirement snapshot distinguishes shortcut and confirmed items\nPASS Existing Phase 2 location and screen routing are retained\nPASS All embedded scripts parse\nPhase 3A target tests: 13/13 passed; DOM simulation only, not browser/WeChat E2E\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3a_independent_fix_v11.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS P1-01 new known-size flow resets stale range mode and fields\nPASS P1-03 S02 valid source capacity, term and customer inherited on known selection\nPASS P1-03 source with invalid/missing capacity behaves as fresh flow\nPASS P1-03 direct entry known preserves source and explicit range when supplied\nPASS P1-03 actual S02 URL context is parsed and preserved on entry selection\nPASS P1-02 valid term/customer interactions immediately clear their respective error only\nPASS P1-02 valid manual term typing clears only term error immediately\nPASS P2-01 cancel restores recommendation choice and bound store/unit IDs\nPASS P2-02 S3 buttons use grid not ineffective grid columns on flex\nPASS No new extra pricing, inventory, or cross-city data updates\nPASS Embedded page scripts remain parsable\nIndependent Fix V1.1: 11/11 passed (source/VM; not browser E2E)\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3c_batch_a_price_gate.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS 3C-A01 valid uncouponed snapshot\nPASS 3C-A02 explicit lease term mandatory; no 6-month fallback\nPASS 3C-A03 snapshot must exist\nPASS 3C-A04 store must match\nPASS 3C-A05 size option required even with representative unit\nPASS 3C-A06 wrong size option rejected\nPASS 3C-A07 wrong representative number rejected\nPASS 3C-A08 actual assigned unit identity cannot be silently swapped\nPASS 3C-A09 term change invalidates price snapshot\nPASS 3C-A10 pricing model version mismatch\nPASS 3C-A11 timestamp is mandatory and not future-dated\nPASS 3C-A12 invalid or negative amount is rejected\nPASS 3C-A13 monthly and deposit components must reconcile\nPASS 3C-A14 management fee must use business master\nPASS 3C-A15 wrong payable amount is rejected, not trusted from URL\nPASS 3C-A16 coupon discounts require ID and amount\nPASS 3C-A17 coupon price components must reconcile\nPASS 3C-A18 valid coupon snapshot uses only reconciled payable\nPASS 3C-A19 both transaction pages load price gate and expose invalid state\nPASS 3C-A20 Q01 blocks invalid save and continuation\nPASS 3C-A21 O01 blocks invalid payment and clears display\nPASS 3C-A22 coupon injector cannot reinstate invalid amount\nPhase 3C Batch A: 22/22 isolated source and price-gate tests passed; no browser E2E\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_phase3c_unified_final.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS U3C-01 expired coupon is ineligible\nPASS U3C-02 missing expiry fails eligibility\nPASS U3C-03 used/invalid/locked coupons are ineligible\nPASS U3C-04 new customer coupon respects first purchase\nPASS U3C-05 long lease coupon requires at least 12 months\nPASS U3C-06 minimum rent coupon rejects shortfall\nPASS U3C-07 no quote gives no eligible coupon\nPASS U3C-08 manual expired coupon does not silently switch to another\nPASS U3C-09 auto picks highest eligible rent coupon\nPASS U3C-10 service benefit never offsets rent\nPASS U3C-11 coupon component and payable reconcile\nPASS U3C-12 different plan identity invalidates old price\nPASS U3C-13 changed lease term invalidates old quote\nPASS U3C-14 expired coupon makes saved snapshot invalid\nPASS U3C-15 coupon redeemed after quotation invalidates checkout\nPASS U3C-16 coupon selection changes require re-quote\nPASS U3C-17 customer flag mismatch invalidates new customer coupon\nPASS U3C-18 noncash rights are not applied as negative fees\nPASS U3C-19 checkout and quote validate current coupon state\nPASS U3C-20 checkout revalidates before committing payment\nPASS U3C-21 coupon selection page has no invented default rent or term\nPASS U3C-22 payable breakdown keeps discount before deposit/fees\nPASS U3C-23 transport marked estimated and does not reduce payable\nPASS U3C-24 original price gate remains strict on identity and arithmetic\nUnified Phase 3C: 24/24 targeted tests passed. Browser and WeChat E2E NOT VERIFIED.\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_acceptance_v11_patch.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS P-A-01: addon connected; frozen body entrypoints intact; JavaScript parses\nPASS P-A-02: explicit expired status blocks old checkout and returns to repricing without stale sums\nPASS P-A-03: active quote checkout remains untouched\nPASS P-A-04: actual stale valid_until is also recognized\nPASS P-A-05: S01 sold-out state is explicitly visible; normal browsing is unaffected\nPASS P-A-06: recovery copy, term guidance and countdown clarity have additive guards\nRESULT: 6/6 focused checks passed (not a browser screenshot acceptance)\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_acceptance_v11_patch_b.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS canonical price invariant and exact capacity\nPASS coupon quick story seeds correct coherent quote and wallet\nPASS no-coupon quick story clears cross-fixture coupon leakage\nPASS direct O01 coupon route retains payable and unit precision\nPASS lease date add-month arithmetic matches same scenario\nPASS S01/S02 use one store+origin+travel deterministic fallback\nPASS S02 route label and all travel options are corrected after page initialization\nPASS display check uses whole-term total not rounded average × months\nPASS core page body frozen and internal hub has distinct snapshot entries\nRESULT 9/9 PATCH B focused checks PASSED\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_term_footer_geometry.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS declared geometry { viewport: 375, barWidth: 375, secondary: 104, primary: 227 }\nPASS declared geometry { viewport: 390, barWidth: 390, secondary: 104, primary: 242 }\nPASS declared geometry { viewport: 1024, barWidth: 370, secondary: 104, primary: 222 }\nPASS shared button style declarations and single-column term-required state; static geometry, not rendered CSS\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_p1_review_fix_behaviors.js"
+        ],
+        "exit": 0,
+        "output": "PASS review P1 behavior: repeat renewal, return date/type, viewing hours, AI context and term gate\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_p1_s01_search_context.js"
+        ],
+        "exit": 0,
+        "output": "PASS S01 search, return context, inline dropdown modal exclusion\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_s01_ux_continuity_patch_v1.js"
+        ],
+        "exit": 1,
+        "output": "evalmachine.<anonymous>:6\n  const a=demoActivityFor(id);if(a.specialUnitIds.size)tags.splice(1,0,'特价仓');if(a.moving)tags.splice(1,0,'送搬运');return tags.slice(0,4);\n          ^\n\nReferenceError: demoActivityFor is not defined\n    at Object.storeDemoTags (evalmachine.<anonymous>:6:11)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_s01_ux_continuity_patch_v1.js:33:46)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_navigation_vnext.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS VNext: single/multi/no-match routes; removed S9; copy/layout/style scoped\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_home_state_integration_patch_v1.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS style loaded\nPASS task mount before original double entry\nPASS five existing state cards reused\nPASS new homepage stable across states\nPASS original acquisition modules unchanged\nPASS single visible state task decision\nPASS urgent state based on lifecycle\nPASS pending payments have first priority\nPASS estimated is prioritized above routine active\nPASS home store cards enter detail as browse unless the caller explicitly asks for matched\nPASS explicit matched mode is still honoured by goStoreDetail\nPASS secondary task shortcut backed by mine\nPASS referral entry relocated into original homepage\nPASS no hidden task cards leakage\nPASS card compact metrics\nPASS main CTA retained\nPASS small width accommodation\n17/17\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_home_state_recovery_v11.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS asset-derived state\nPASS URL not trusted as business state\nPASS demo override explicitly gated\nPASS payment asset guarded by number and status\nPASS appointment validity checked by date\nPASS past booked record excluded\nPASS quote validates required fields\nPASS quote expiry checks timestamp\nPASS quote status forwarded expired\nPASS known volume passed for absent term\nPASS no default six in restore CTA\nPASS estimated length unconfirmed phrasing\nPASS validated CTA for paid states\nPASS no second task card stacked\nPASS button and other task touch 44\nPASS known size estimator route forces lease-term selection\nPASS universal home preserved\nPASS existing order quote downstream unchanged\n18/18\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_home_state_recovery_browser_v11.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_home_state_recovery_browser_v11.py\", line 4, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_home_visual_closeout_patch_v1.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_home_visual_closeout_patch_v1.py\", line 6, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_cross_page_route_targets_v1.py"
+        ],
+        "exit": 0,
+        "output": "{\n  \"pages_checked\": 13,\n  \"route_references_checked\": 88,\n  \"errors\": []\n}\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/test_cross_page_runtime_smoke_v1.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_cross_page_runtime_smoke_v1.py\", line 4, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_recommendation_v1.cjs"
+        ],
+        "exit": 1,
+        "output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(s1.includes(\"'近地铁','新开门店','双11大促','24小时','电梯直达','热门','仓型齐全','免押金'\"))\n\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_recommendation_v1.cjs:30:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_physical_fit_p0.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS FIT-P0 un-splittable 3.5m item physically impossible in every measured unit\nPASS FIT-P0 unknown warehouse measurements cannot be verified OR hard rejected based only on simulated geometry\nPASS FIT-P0 large catalogue items are flagged; selection preserves variants and full item counts\nPASS FIT-P0 known-too-large item blocks nominal single; 2-unit combination is still evaluated\nPASS FIT-P0 no item details is always pending even for real units\nPASS FIT-P0 stock cannot be double consumed and sold-out does not enter recommendation\nPASS FIT-P0 separate measured objects without enough combined physical capacity are rejected\nPASS FIT-P0 combination does not become verified from volume allocation alone\nPASS FIT-P0 same store statuses respect single physical rejection and retain nearby fallback\nPASS FIT-P0 S5,S01,S02 load guard before combo, do not claim combo is confirmed\nPhysical FIT P0: 10/10 checks\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_demo_price_combo_cleanup.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS demo price/combination copy closure\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_ux_regression_v2.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS 1 5m³ rejects 22.45m³ combination\nPASS 2 18m³ three-part viable\nPASS 3 25m³ reasonable 2-part remains\nPASS 4 35m³ reasonable 3-part remains\nPASS 5 single still takes precedence\nPASS 6 never consume sold-out stock\nPASS 7 under-min cannot route to U01 from displayed card or click\nPASS 8 soldout entry and return carry current demand and filters\nPASS 9 bottom CTA points to combo consultation action and preserves safe scrolling\nPASS 10 saved combo state shows specific confirmation and provides working support target\nPASS 11 S5 propagates physical fit state\nV2 targeted checks 11/11\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_combo_full_journey_recovery_v21.cjs"
+        ],
+        "exit": 1,
+        "output": "PASS 1 50m³ filters out 1.94m³ while retaining 60m³ larger alternative\nPASS 2 zero-match recommended cards contain only reasonable alternatives\nPASS 3 no near-size option yields no misleading price recommendation\nPASS 4 original five capacities keep valid single, 2-part, 3-part behavior\nevalmachine.<anonymous>:20\n  const combo=quickStoreFilters.has('single')||quickStoreFilters.has('special')?null:row.combo||null;\n              ^\n\nReferenceError: quickStoreFilters is not defined\n    at Object.matchedDataFor (evalmachine.<anonymous>:20:15)\n    at /workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_full_journey_recovery_v21.cjs:20:99\n    at test (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_full_journey_recovery_v21.cjs:9:32)\n    at Object.<anonymous> (/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/test_combo_full_journey_recovery_v21.cjs:20:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.19.0\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/visual_check_combo_recovery_v21.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/visual_check_combo_recovery_v21.py\", line 3, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_identity_flow.js"
+        ],
+        "exit": 0,
+        "output": "PASS paid order remains locked while ID is unverified\nPASS failed verification retries and verified access opens\nPASS future start and legacy paid orders cannot reveal credentials\nPASS demonstration identity verification completes in one action\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/visual_check_demo_price_closeout.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/visual_check_demo_price_closeout.py\", line 4, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "qa/visual_check_combo_ux_v2.py"
+        ],
+        "exit": 1,
+        "output": "Traceback (most recent call last):\n  File \"/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03/qa/visual_check_combo_ux_v2.py\", line 5, in <module>\n    from playwright.sync_api import sync_playwright\nModuleNotFoundError: No module named 'playwright'\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s1_requirement_trade_snapshot.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS validTerm accepts 1..60 integers only\nPASS clampTerm untouched (pricing helper still clamps as before)\nPASS M01 resume: no valid term -> estimator requireTerm=1, never term 1\nPASS S01 resume entries: bottom find + browse strip route to term selection when term missing\nPASS S01 estimated entry without valid term does not persist a default term\nPASS S02 / U01 parse the term strictly (invalid never clamps to 1)\nPASS Estimator resume never substitutes 6 months for a missing saved term\nPASS H01 restore rule unchanged and consistent (hsiValidTerm 1..60 integer)\nPASS confirm(): final term wins, original estimate preserved, identity carried\nPASS confirm(): never invents a term and never computes price fields\nPASS U01 commits the final trade requirement at both commit points only\nPASS Q01 / O01 requirement snapshot = confirmed trade; price gate untouched\nPASS Frozen rules untouched: management fee, deposit=monthly, term factors, price gate file\n13/13\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s2_coupon_eligibility.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS FRESH: no paid history -> new customer, wallet granted, CPN-001 applied to 6m canonical\nPASS FRESH: unpaid history (PAYMENT_FAILED / PENDING) does not end first-purchase status\nPASS REPEAT: paid order in history + new pending current order -> NOT first purchase\nPASS REPEAT: paid order that is the current order (pre-S2 behaviour) still blocks; ensureAcquisitionWallet grants nothing\nPASS REPEAT: paid order in history only (current pointer empty) blocks; ended lifecycle still counts as settled history (assumption, see report)\nPASS REPEAT: renewal coupon (CPN-004) unaffected by first-purchase status\nPASS OWN_LOCK (PENDING_PAYMENT): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK (PAYMENT_FAILED): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK: recovery still enforces coupon rules (term / rent / amount / selection)\nPASS OTHER_LOCK: another order (different store) cannot use the coupon locked by order A\nPASS OTHER_LOCK: same store/size but a different order_no, a paid current order, or no current order -> not recoverable\nPASS INVALID: expired / redeemed / invalid coupons and unmet thresholds stay blocked\nPASS TRANSITIONS: PAID -> REDEEMED + other NEW coupons INVALID; PAYMENT_FAILED -> back to CLAIMED (unchanged rules)\nPASS SOURCE: C02 builds its context through couponContextFromSnapshot (own lock shown as usable); no lock timeout / release delay introduced\n14/14  source=prototype/mini_storage_coupon_benefit_v1.js\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s3_trade_recheck.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS RECHECK helpers exported from the shared SSOT\nPASS quoteExpired: active quote past valid_until is expired; inside 48h is not\nPASS quoteExpired: explicit expired status, advisor-pending and converted/invalid quotes\nPASS resumableOrder: only PENDING_PAYMENT / PAYMENT_FAILED orders with an order_no and unit\nPASS amountDiff: identical amounts -> no changes\nPASS amountDiff: rent / payable change and coupon loss are reported with labels and amounts\nPASS quoteAmounts / orderAmounts: the record's own price_snapshot wins, legacy fields map when it is missing\nPASS no pricing rule is touched: contractRent / monthlyReference / termFactor unchanged and not referenced by the re-check helpers\nPASS S1 kept: validTerm + MINI_STORAGE_TRADE_SNAPSHOT_V1.confirm + U01 commitTradeRequirement + Q01/O01 confirm() calls\nPASS S2 kept outside authorized P1 settlement function / C02 transform reset\nPASS price gate untouched (sha256 equals H01-004B / S1 / S2; no invented 48h expiry inside the gate)\nPASS D-07 Q01 expired-quote notice is named, mentions 48h, and hands requote=1 + quoteId to U01\nPASS D-07 Q01 keeps the stale amounts viewable and 保存方案 disabled; 继续 goes to U01 without the stale snapshot\nPASS D-07 U01 re-check block: compares against the saved quote / order, requires acknowledgement, guards goOrder and goQuote\nPASS D-12 H01: PAYMENT_FAILED is a pending task with distinct copy; structure untouched\nPASS D-12 M01: failed order card, badge and goOrder -> O01\nPASS D-12 O01: resume keeps the order's own snapshot, re-checks status / price / inventory / coupon, blocks + offers re-pricing on change\nPASS D-12 O02 untouched: success only from a matching PAID gateway result or an already PAID order\n\n18/18 passed (root=/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03)\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_s4_entry_contracts.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS H01 goStores exists\nPASS H01 goStores: the nearby shortcut is decided before any carried requirement is consulted\nPASS H01 goStores: shortcut branch yields browse + entry=browse_nearby (or unlocated), never estimated\nPASS H01 goStores never deletes or rewrites the saved requirement\nPASS H01 goStoreDetail: matched only when the caller passes mode==='matched'\nPASS H01 store cards are wired with their data-mode (browse by default)\nPASS H01 markup: no store card is declared data-mode=\"matched\"\nPASS H01 #storeLink routes through goStores({nearbyShortcut:true})\nPASS H01 #navStores routes through goStores({nearbyShortcut:true})\nPASS H01 #b2bStoreLink routes through goStores({nearbyShortcut:true})\nPASS H01 #allNearbyStores routes through goStores({nearbyShortcut:true})\nPASS H01 继续找仓 (goFind) keeps the S1 validTerm guard and routes a term-less requirement to term selection\nPASS H01 #continueFind is the only home control bound to goFind (plus the matched-list link)\nPASS H01 hsiValidTerm matches SSOT validTerm range 1..60 integers\nPASS H01 S3 payment-failed task card logic untouched (hsiValidPending still accepts PAYMENT_FAILED)\nPASS S01 entry=browse_nearby forces the browse state even if state=estimated is also present\nPASS S01 browse strip offers the explicit switch 按我的需求匹配 when a requirement is saved\nPASS S01 strip switch keeps the S1 validTerm guard\nPASS S01 openStoreDetail hands sort / distance / services to S02\nPASS S01 openStoreDetail hands loaded count and scroll offset to S02\nPASS S01 restores the loaded count for every list state\nPASS S01 restores sort / distance / services from the URL\nPASS S01 re-applies the scroll offset after deferred layout helpers (load + rAF)\nPASS S02 back button exists\nPASS S02 back passes sort / distance / services / loaded / scroll straight back to S01\nPASS S02 back returns a browse visit as the browse list (entry=browse_nearby)\nPASS S02 back still returns the estimated / extended / far states by fromS01State\nPASS S02 browse entry from S01 keeps state=browse without target/term\nPASS S4 touched no price / deposit / management-fee / coupon rule (SSOT has no H01-007-S4 marker)\nPASS S4 markers only in H01 / S01 / S02\n\n30 passed, 0 failed\n"
+      },
+      {
+        "command": [
+          "node",
+          "qa/test_h01_007_p1_coupon_settlement.cjs"
+        ],
+        "exit": 0,
+        "output": "PASS no-coupon PAID clears own NEW lock and invalidates unspent NEW coupons\nPASS switched coupon redeems actual coupon and clears old own lock\nPASS other-order LOCKED rows stay byte-identical\nPASS referenced other-order coupon is never redeemed or released\nPASS own non-NEW lock returns to CLAIMED using original expiry\nPASS terminal rows stay byte-identical\nPASS repeat O02 is idempotent, including redeemed time\nPASS PAYMENT_FAILED own selected coupon retains release behaviour\nPASS PENDING order and its locks remain unchanged\nPASS invalid paid identity or conflicting payment status never settles coupons\nPASS unknown selected coupon does not block own unused lock cleanup\nPASS valid actual coupon preserves order totals and payment breakdown\n12/12\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/check_package.py"
+        ],
+        "exit": 0,
+        "output": "{\n  \"files_checked\": 547,\n  \"literal_links_checked\": 567,\n  \"errors\": [],\n  \"browser_e2e\": \"NOT_VERIFIED\"\n}\n"
+      },
+      {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/check_http.py"
+        ],
+        "exit": 0,
+        "output": "{\n  \"http_resources_checked\": 153,\n  \"errors\": [],\n  \"browser_js\": \"NOT_EXECUTED\",\n  \"e2e\": \"NOT_VERIFIED\"\n}\n"
+      }
+    ]
+  },
+  "p1_logic": [
+    {
+      "script": "qa/test_home_state_integration_patch_v1.cjs",
+      "exit": 0,
+      "output": "PASS style loaded\nPASS task mount before original double entry\nPASS five existing state cards reused\nPASS new homepage stable across states\nPASS original acquisition modules unchanged\nPASS single visible state task decision\nPASS urgent state based on lifecycle\nPASS pending payments have first priority\nPASS estimated is prioritized above routine active\nPASS home store cards enter detail as browse unless the caller explicitly asks for matched\nPASS explicit matched mode is still honoured by goStoreDetail\nPASS secondary task shortcut backed by mine\nPASS referral entry relocated into original homepage\nPASS no hidden task cards leakage\nPASS card compact metrics\nPASS main CTA retained\nPASS small width accommodation\n17/17\n"
+    },
+    {
+      "script": "qa/test_h01_007_s1_requirement_trade_snapshot.cjs",
+      "exit": 0,
+      "output": "PASS validTerm accepts 1..60 integers only\nPASS clampTerm untouched (pricing helper still clamps as before)\nPASS M01 resume: no valid term -> estimator requireTerm=1, never term 1\nPASS S01 resume entries: bottom find + browse strip route to term selection when term missing\nPASS S01 estimated entry without valid term does not persist a default term\nPASS S02 / U01 parse the term strictly (invalid never clamps to 1)\nPASS Estimator resume never substitutes 6 months for a missing saved term\nPASS H01 restore rule unchanged and consistent (hsiValidTerm 1..60 integer)\nPASS confirm(): final term wins, original estimate preserved, identity carried\nPASS confirm(): never invents a term and never computes price fields\nPASS U01 commits the final trade requirement at both commit points only\nPASS Q01 / O01 requirement snapshot = confirmed trade; price gate untouched\nPASS Frozen rules untouched: management fee, deposit=monthly, term factors, price gate file\n13/13\n"
+    },
+    {
+      "script": "qa/test_h01_007_s2_coupon_eligibility.cjs",
+      "exit": 0,
+      "output": "PASS FRESH: no paid history -> new customer, wallet granted, CPN-001 applied to 6m canonical\nPASS FRESH: unpaid history (PAYMENT_FAILED / PENDING) does not end first-purchase status\nPASS REPEAT: paid order in history + new pending current order -> NOT first purchase\nPASS REPEAT: paid order that is the current order (pre-S2 behaviour) still blocks; ensureAcquisitionWallet grants nothing\nPASS REPEAT: paid order in history only (current pointer empty) blocks; ended lifecycle still counts as settled history (assumption, see report)\nPASS REPEAT: renewal coupon (CPN-004) unaffected by first-purchase status\nPASS OWN_LOCK (PENDING_PAYMENT): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK (PAYMENT_FAILED): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK: recovery still enforces coupon rules (term / rent / amount / selection)\nPASS OTHER_LOCK: another order (different store) cannot use the coupon locked by order A\nPASS OTHER_LOCK: same store/size but a different order_no, a paid current order, or no current order -> not recoverable\nPASS INVALID: expired / redeemed / invalid coupons and unmet thresholds stay blocked\nPASS TRANSITIONS: PAID -> REDEEMED + other NEW coupons INVALID; PAYMENT_FAILED -> back to CLAIMED (unchanged rules)\nPASS SOURCE: C02 builds its context through couponContextFromSnapshot (own lock shown as usable); no lock timeout / release delay introduced\n14/14  source=prototype/mini_storage_coupon_benefit_v1.js\n"
+    },
+    {
+      "script": "qa/test_h01_007_s3_trade_recheck.cjs",
+      "exit": 0,
+      "output": "PASS RECHECK helpers exported from the shared SSOT\nPASS quoteExpired: active quote past valid_until is expired; inside 48h is not\nPASS quoteExpired: explicit expired status, advisor-pending and converted/invalid quotes\nPASS resumableOrder: only PENDING_PAYMENT / PAYMENT_FAILED orders with an order_no and unit\nPASS amountDiff: identical amounts -> no changes\nPASS amountDiff: rent / payable change and coupon loss are reported with labels and amounts\nPASS quoteAmounts / orderAmounts: the record's own price_snapshot wins, legacy fields map when it is missing\nPASS no pricing rule is touched: contractRent / monthlyReference / termFactor unchanged and not referenced by the re-check helpers\nPASS S1 kept: validTerm + MINI_STORAGE_TRADE_SNAPSHOT_V1.confirm + U01 commitTradeRequirement + Q01/O01 confirm() calls\nPASS S2 kept outside authorized P1 settlement function / C02 transform reset\nPASS price gate untouched (sha256 equals H01-004B / S1 / S2; no invented 48h expiry inside the gate)\nPASS D-07 Q01 expired-quote notice is named, mentions 48h, and hands requote=1 + quoteId to U01\nPASS D-07 Q01 keeps the stale amounts viewable and 保存方案 disabled; 继续 goes to U01 without the stale snapshot\nPASS D-07 U01 re-check block: compares against the saved quote / order, requires acknowledgement, guards goOrder and goQuote\nPASS D-12 H01: PAYMENT_FAILED is a pending task with distinct copy; structure untouched\nPASS D-12 M01: failed order card, badge and goOrder -> O01\nPASS D-12 O01: resume keeps the order's own snapshot, re-checks status / price / inventory / coupon, blocks + offers re-pricing on change\nPASS D-12 O02 untouched: success only from a matching PAID gateway result or an already PAID order\n\n18/18 passed (root=/workspace/scratch/dd08b547a1be/p1_work/Mini_Koala_H01_Lifestyle_Step03)\n"
+    },
+    {
+      "script": "qa/test_h01_007_s4_entry_contracts.cjs",
+      "exit": 0,
+      "output": "PASS H01 goStores exists\nPASS H01 goStores: the nearby shortcut is decided before any carried requirement is consulted\nPASS H01 goStores: shortcut branch yields browse + entry=browse_nearby (or unlocated), never estimated\nPASS H01 goStores never deletes or rewrites the saved requirement\nPASS H01 goStoreDetail: matched only when the caller passes mode==='matched'\nPASS H01 store cards are wired with their data-mode (browse by default)\nPASS H01 markup: no store card is declared data-mode=\"matched\"\nPASS H01 #storeLink routes through goStores({nearbyShortcut:true})\nPASS H01 #navStores routes through goStores({nearbyShortcut:true})\nPASS H01 #b2bStoreLink routes through goStores({nearbyShortcut:true})\nPASS H01 #allNearbyStores routes through goStores({nearbyShortcut:true})\nPASS H01 继续找仓 (goFind) keeps the S1 validTerm guard and routes a term-less requirement to term selection\nPASS H01 #continueFind is the only home control bound to goFind (plus the matched-list link)\nPASS H01 hsiValidTerm matches SSOT validTerm range 1..60 integers\nPASS H01 S3 payment-failed task card logic untouched (hsiValidPending still accepts PAYMENT_FAILED)\nPASS S01 entry=browse_nearby forces the browse state even if state=estimated is also present\nPASS S01 browse strip offers the explicit switch 按我的需求匹配 when a requirement is saved\nPASS S01 strip switch keeps the S1 validTerm guard\nPASS S01 openStoreDetail hands sort / distance / services to S02\nPASS S01 openStoreDetail hands loaded count and scroll offset to S02\nPASS S01 restores the loaded count for every list state\nPASS S01 restores sort / distance / services from the URL\nPASS S01 re-applies the scroll offset after deferred layout helpers (load + rAF)\nPASS S02 back button exists\nPASS S02 back passes sort / distance / services / loaded / scroll straight back to S01\nPASS S02 back returns a browse visit as the browse list (entry=browse_nearby)\nPASS S02 back still returns the estimated / extended / far states by fromS01State\nPASS S02 browse entry from S01 keeps state=browse without target/term\nPASS S4 touched no price / deposit / management-fee / coupon rule (SSOT has no H01-007-S4 marker)\nPASS S4 markers only in H01 / S01 / S02\n\n30 passed, 0 failed\n"
+    },
+    {
+      "script": "qa/test_h01_007_p1_coupon_settlement.cjs",
+      "exit": 0,
+      "output": "PASS no-coupon PAID clears own NEW lock and invalidates unspent NEW coupons\nPASS switched coupon redeems actual coupon and clears old own lock\nPASS other-order LOCKED rows stay byte-identical\nPASS referenced other-order coupon is never redeemed or released\nPASS own non-NEW lock returns to CLAIMED using original expiry\nPASS terminal rows stay byte-identical\nPASS repeat O02 is idempotent, including redeemed time\nPASS PAYMENT_FAILED own selected coupon retains release behaviour\nPASS PENDING order and its locks remain unchanged\nPASS invalid paid identity or conflicting payment status never settles coupons\nPASS unknown selected coupon does not block own unused lock cleanup\nPASS valid actual coupon preserves order totals and payment breakdown\n12/12\n"
+    },
+    {
+      "script": "qa/test_coupon_benefit_system_v1.js",
+      "exit": 0,
+      "output": "PASS Coupon & Benefit System V1: wallet, best-coupon selection, canonical pricing, page integration, renewal issuance\n"
+    }
+  ],
+  "http_browser": "BLOCKED: Chromium unavailable; installation returned invalid ZIP bytes",
+  "http_script": "SYNTAX_PASS_NOT_EXECUTED",
+  "wechat_device": "NOT_TESTED"
+}

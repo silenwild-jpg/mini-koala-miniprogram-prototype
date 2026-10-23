@@ -1,0 +1,11 @@
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const s02=read('prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html');
+const u01=read('prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html');
+assert(s02.includes('参考价格'),'S02 browse pricing uses reference-price copy before term selection');
+assert(!s02.includes('发现页统一65折参考'),'S02 no longer exposes internal discovery-pricing wording');
+assert(u01.includes('门口尺寸与仓位形态为演示预填，实际以门店确认为准。'),'U01 identifies simulated door/shape facts');
+assert(u01.includes('door_estimate_status')||read('data/mini_koala_data.js').includes("door_estimate_status: 'simulated_from_volume'"),'door simulation semantics remain explicit in data');
+assert(read('data/mini_koala_data.js').includes("shape_estimate_status: 'simulated_from_volume'"),'shape simulation semantics remain explicit in data');
+console.log('PASS V1.5 final P1 closeout: customer-facing pricing copy + simulated spec disclosure');

@@ -1,0 +1,32 @@
+{
+  "baseline": "Phase 3C Batch A",
+  "version": "Phase 3C Unified Final PATCH V1",
+  "authorized_runtime": {
+    "mini_storage_coupon_benefit_v1.js": {
+      "before_sha256": "6598f04c25ff2b0305dcf2758960e88a6314c439f8208ea7366f7c232cf2ffec",
+      "after_sha256": "7b377957a884b6248125a6df25eca92efd88cc3710e15fa331a6d8d0fdb9f556"
+    },
+    "mini_storage_coupon_select_c02_v1.html": {
+      "before_sha256": "584e5f5e67ee2833a70a7aca6405d0eaf851bb531590d6d595da210528e9d44a",
+      "after_sha256": "d3b4ee15f1ba6fe891d63db230db47a1ccb22123e7bfc3128f7bbf70efdf7b6f"
+    },
+    "mini_storage_coupon_wallet_c01_v1.html": {
+      "before_sha256": "90151111c8d45d16abcc32429ce0a110ac94021889b25b08eb5950f742ddb45a",
+      "after_sha256": "6187456ae9b5b562afe9eb713983f9a6456d86ff94b11c64e2630e8d6ae34432"
+    },
+    "mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html": {
+      "before_sha256": "be072b1e4c87d480a13d18c3a237bae5de02bf812a51b0d7499253e3d067a1cf",
+      "after_sha256": "546f8bf06f6bf359c8ed89cacbd5637039070507c9840dc07dec5a510c6a4b39"
+    },
+    "mini_storage_price_gate_v1.js": {
+      "before_sha256": "ed98e7088dc2e961f3b872fcadb55156f9325799ee5e000092a14009d74cf689",
+      "after_sha256": "09e9d7fe95c8e0d3ac8eb96bba55d9c02652f6a400859ff640a878c31f2b199b"
+    },
+    "mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html": {
+      "before_sha256": "0a21bce00b71cfe8c034530aeaeb6083ba12d49e8876d1860134997954883324",
+      "after_sha256": "6e96928af88406a93c49d7d44f2fdee7adaf0c79d866dbc92666ba04f5baab21"
+    }
+  },
+  "unchanged_runtime_count": 78,
+  "unchanged_runtime_verified": true
+}

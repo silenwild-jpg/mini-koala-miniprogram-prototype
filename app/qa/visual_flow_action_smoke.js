@@ -1,0 +1,26 @@
+const {chromium}=require('playwright');
+const path=require('path');
+const base=process.env.PROTOTYPE_URL||'http://127.0.0.1:4173';
+const chrome=process.env.CHROME_PATH||'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const output=process.argv[2]||path.resolve(__dirname,'..','..','..','..','outputs');
+(async()=>{
+  const browser=await chromium.launch({headless:true,executablePath:chrome});
+  const page=await browser.newPage({viewport:{width:390,height:844}});
+  await page.goto(base+'/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html',{waitUntil:'networkidle'});
+  await page.evaluate(()=>eval("state.flow='estimate';state.scene='moving';state.amount='onebed';state.quantities={box:12};state.term=6;state.customer='personal';state.r113Plan='nearest';go(9)"));
+  await page.click('#editStoreNeed');
+  const store=await page.evaluate(()=>({editor:!document.querySelector('#storeNeedEditor').hidden,returnText:document.querySelector('#backToRecommend').textContent.trim(),removed:!document.body.innerText.includes('总租金不含押金')}));
+  await page.screenshot({path:path.join(output,'Store_unit_inline_edit_390x844.png'),fullPage:true});
+  await page.click('#storeNeedCancel');
+  await page.click('#storeFullDetailBtn');
+  await page.waitForLoadState('networkidle');
+  await page.click('#backBtn');
+  await page.waitForLoadState('networkidle');
+  const returned=await page.evaluate(()=>document.querySelector('#navTitle')?.textContent.trim()==='门店仓位列表');
+  await page.goto(base+'/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html?unit=B014&store=jianguo&target=2.5&term=6&source=estimator_unit_list',{waitUntil:'networkidle'});
+  const unit=await page.evaluate(()=>({buttons:[...document.querySelectorAll('.bottombar button')].map(x=>x.textContent.trim()),termOpen:document.querySelector('#termDetails').open,combinedHelp:Boolean(document.querySelector('#helpMask'))}));
+  await page.screenshot({path:path.join(output,'U01_three_actions_390x844.png'),fullPage:true});
+  console.log(JSON.stringify({store,returned,unit}));
+  await browser.close();
+  if(!store.editor||store.returnText!=='返回推荐'||!store.removed||!returned||unit.buttons.join('|')!=='帮您选仓|预约看仓|立即租用'||unit.combinedHelp)process.exit(1);
+})().catch(err=>{console.error(err);process.exit(1)});

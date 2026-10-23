@@ -1,0 +1,12 @@
+/* Acceptance Fix V1.1 · state-only additive UI; original page bodies remain frozen. */
+.mini-v11-soldout{display:flex;align-items:center;gap:10px;justify-content:space-between;margin:10px 0 12px;padding:12px 13px;border:1px solid #e9d9c9;border-radius:14px;background:#fff9f3}
+.mini-v11-soldout[hidden]{display:none!important}
+.mini-v11-soldout strong{display:block;color:#79523d;font-size:13px;line-height:19px}
+.mini-v11-soldout p{margin:3px 0 0;font-size:11px;line-height:17px;color:#786c63}
+.mini-v11-soldout button{flex:0 0 auto;min-height:44px;padding:9px 11px;border:1px solid #d8bda9;border-radius:10px;background:#fff;color:#79523d;font-size:11px;font-weight:800}
+.mini-v11-expired-banner{padding:12px 13px;margin:9px 0 11px;border:1px solid #ebd3c0;border-radius:12px;background:#fff8ee;color:#785039;font-size:12px;line-height:1.65}
+.mini-v11-expired-banner b{display:block;margin-bottom:2px;font-size:14px}
+body.mini-v11-quote-expired .hero .summary{opacity:.67}
+body.mini-v11-quote-expired .bottombar #save{display:none!important}
+body.mini-v11-quote-expired .bottombar #edit{width:100%;flex:1;background:#2f6b4f!important;color:#fff!important}
+#usageActions .term-required-action{background:#eef3f0!important;border:1px solid #cfded5!important;color:#456b57!important}

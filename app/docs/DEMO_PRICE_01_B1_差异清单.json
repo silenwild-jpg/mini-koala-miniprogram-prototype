@@ -1,0 +1,13 @@
+{
+  "baseline": "DEMO-VIS-01 candidate",
+  "modified_existing": [
+    "RELEASE_MANIFEST.json",
+    "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html",
+    "prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html",
+    "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html"
+  ],
+  "new_source": "prototype/demo_price01_b1_discovery_contract.css",
+  "runtime_JS_modified": false,
+  "coupon_a_original_present": false,
+  "browser_http_verified": false
+}

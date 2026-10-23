@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN" class="vis-bg01" data-vis-page="AI01">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AI01 拍照估空间</title>
+<style>
+:root{--bg:#FDFBF7;--surface:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--green:#2D7154;--soft:#EEF5F0;--warn:#FFF8E8}
+*{box-sizing:border-box}body{margin:0;background:#E9E6DF;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.wrap{display:flex;justify-content:center;padding:18px}.phone{width:390px;min-height:844px;background:var(--bg);border:10px solid #151B18;border-radius:36px;overflow:hidden;box-shadow:0 16px 44px rgba(38,48,43,.15)}.status{height:28px;background:#fff;padding:8px 14px 0;display:flex;justify-content:space-between;font-size:12px}.nav{height:54px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;font-weight:800}.back{position:absolute;left:14px;font-size:28px;line-height:1;cursor:pointer}.capsule{position:absolute;right:12px;width:72px;height:27px;border:1px solid #D7D8D6;border-radius:16px}.main{padding:20px 16px 18px}h1{font-size:23px;line-height:1.3;margin:4px 0 7px}.sub{font-size:13px;line-height:1.6;color:var(--muted);margin-bottom:18px}.photo-zone{height:254px;border:1.5px dashed #AFC8B8;border-radius:18px;background:linear-gradient(145deg,#F6FAF7,#EEF5F0);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}.photo-mark{width:62px;height:48px;border:2px solid var(--green);border-radius:12px;margin:0 auto 15px;position:relative}.photo-mark:before{content:"";width:18px;height:18px;border:2px solid var(--green);border-radius:50%;position:absolute;left:20px;top:13px}.photo-mark:after{content:"";width:22px;height:7px;border:2px solid var(--green);border-bottom:0;border-radius:7px 7px 0 0;position:absolute;left:18px;top:-9px}.photo-zone b{display:block;font-size:16px;margin-bottom:6px}.photo-zone span{display:block;color:var(--muted);font-size:12px;line-height:1.55}.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.tip{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:11px 8px;text-align:center;font-size:11px;line-height:1.45;color:#55605A}.privacy{background:var(--warn);border:1px solid #EEE0BD;border-radius:12px;padding:10px 11px;font-size:11px;line-height:1.55;color:#6D6044}.actions{margin-top:16px;display:grid;gap:9px}.btn{height:48px;border-radius:24px;border:1px solid var(--green);font-size:15px;font-weight:800;cursor:pointer}.btn.primary{background:var(--green);color:#fff}.btn.secondary{background:#fff;color:var(--green)}.legal{text-align:center;font-size:10px;line-height:1.5;color:#8A8F8B;margin-top:11px}.btn:active{transform:scale(.98)}
+@media(max-width:480px){.wrap{padding:0}.phone{width:100%;min-height:100dvh;border:0;border-radius:0;box-shadow:none}.main{padding-bottom:24px}}
+</style>
+<link rel="stylesheet" href="mk-v3-site-shell-rollout.css" data-ui-system="v3-site-shell"><link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-site-shell" data-ux-patch-d2="v1"><div class="wrap"><main class="phone">
+<div class="status"><span>9:41</span><span>● ●●</span></div>
+<div class="nav"><span class="back" id="back">‹</span><span>拍照估空间</span><span class="capsule" aria-hidden="true"></span></div>
+<section class="main">
+<h1>拍下准备存放的物品</h1>
+<div class="sub">我们会识别物品并预估所需空间。演示版使用固定案例，不上传真实图片。</div>
+<div class="photo-zone"><div><div class="photo-mark" aria-hidden="true"></div><b>让物品尽量完整入镜</b><span>多个区域可以分别拍摄<br>识别结果可在下一步确认</span></div></div>
+<div class="tips"><div class="tip">光线充足<br>看清物品</div><div class="tip">拍摄完整<br>减少遮挡</div><div class="tip">结果仅供<br>选仓参考</div></div>
+<div class="privacy">请避免拍摄人脸、证件和隐私文件。正式上线前还需明确图片保存周期与授权说明。</div>
+<div class="actions"><button class="btn primary" id="camera">拍照估算</button><button class="btn secondary" id="album">从相册选择</button></div>
+<div class="legal">AI 预估会受拍摄角度、遮挡和物品是否可拆装影响</div>
+</section>
+</main></div>
+<script>
+const loadingFile='mini_storage_ai_loading_ai01_l_v1_demo_patch.html';
+document.querySelector('#back').onclick=()=>location.href='space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html'+location.search;
+function begin(source){const q=new URLSearchParams(location.search);q.set('source',source);location.href=loadingFile+'?'+q.toString()}
+document.querySelector('#camera').onclick=()=>begin('camera');
+document.querySelector('#album').onclick=()=>begin('album');
+</script><script src="mini_storage_global_support_v274.js"></script>
+</body></html>

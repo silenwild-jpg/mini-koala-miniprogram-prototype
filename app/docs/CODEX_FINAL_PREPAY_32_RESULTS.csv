@@ -1,0 +1,33 @@
+﻿case_id,group,viewport,dpr,expected,status,environment,browser_version,actual,evidence_refs,issue_id
+P01,干净会话／首页,375x812,2,双任务可达、无旧需求污染、导航正常,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,4 assertions passed; 2 actual states,c4_final/results.json,
+P01,干净会话／首页,390x844,2,双任务可达、无旧需求污染、导航正常,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,4 assertions passed; 2 actual states,c4_final/results.json,
+P02,S2及替代入口,375x812,2,8场景结构；已知容量／拍照／直接门店可达及返回,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,5 assertions passed; 1 actual states,c4_final/results.json,
+P02,S2及替代入口,390x844,2,8场景结构；已知容量／拍照／直接门店可达及返回,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,5 assertions passed; 1 actual states,c4_final/results.json,
+P03,S3分流,375x812,2,档位直跳；显示上限<5／≥5；无下一步回流,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,48 assertions passed; 8 actual states,c4_final/results.json,
+P03,S3分流,390x844,2,档位直跳；显示上限<5／≥5；无下一步回流,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,48 assertions passed; 8 actual states,c4_final/results.json,
+P04,S4物品,375x812,2,数量与规格、清空后重选、空态阻断、返回保留,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,4 assertions passed; 3 actual states,c4_final/results.json,
+P04,S4物品,390x844,2,数量与规格、清空后重选、空态阻断、返回保留,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,4 assertions passed; 3 actual states,c4_final/results.json,
+P05,S5正常首屏,375x812,2,S3直达／S4进入／U01返回；无步骤条；首张有效卡完整且不与底栏重叠,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,8 assertions passed; 4 actual states,c4_final/results.json,
+P05,S5正常首屏,390x844,2,S3直达／S4进入／U01返回；无步骤条；首张有效卡完整且不与底栏重叠,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,8 assertions passed; 4 actual states,c4_final/results.json,
+P06,S5容量／租期,375x812,2,首次12月、修改1／3／6／12／36／60及合法自定义；返回保留，推荐与价同步,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,11 assertions passed; 8 actual states,c4_final/results.json,
+P06,S5容量／租期,390x844,2,首次12月、修改1／3／6／12／36／60及合法自定义；返回保留，推荐与价同步,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,11 assertions passed; 8 actual states,c4_final/results.json,
+P07,权益及说明,375x812,2,优惠与运输说明可开关、不重复、不作无依据承诺、不遮主操作,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,6 assertions passed; 2 actual states,c4_final/results.json,
+P07,权益及说明,390x844,2,优惠与运输说明可开关、不重复、不作无依据承诺、不遮主操作,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,6 assertions passed; 2 actual states,c4_final/results.json,
+P08,S01普通／需求态,375x812,2,搜索、三个下拉筛选、排序、门店价格／标签及返回恢复,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,7 assertions passed; 5 actual states,c4_final/results.json,
+P08,S01普通／需求态,390x844,2,搜索、三个下拉筛选、排序、门店价格／标签及返回恢复,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,7 assertions passed; 5 actual states,c4_final/results.json,
+P09,S02选仓,375x812,2,当前店ID、地址、可租仓位、查看更多、需求与租期,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,3 assertions passed; 2 actual states,c4_final/results.json,
+P09,S02选仓,390x844,2,当前店ID、地址、可租仓位、查看更多、需求与租期,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,3 assertions passed; 2 actual states,c4_final/results.json,
+P10,U01及其他入口,375x812,2,同店其他仓位／附近其他门店的分支，需求保留；距离三页一致、排除当前店,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,8 assertions passed; 5 actual states,c4_target_final/results.json,
+P10,U01及其他入口,390x844,2,同店其他仓位／附近其他门店的分支，需求保留；距离三页一致、排除当前店,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,8 assertions passed; 5 actual states,c4_target_final/results.json,
+P11,无匹配／售罄／组合,375x812,2,通过合法UI构造可达样本；有效出口、不错误下单，组合按原路由,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,5 assertions passed; 4 actual states,c4_final/results.json,
+P11,无匹配／售罄／组合,390x844,2,通过合法UI构造可达样本；有效出口、不错误下单，组合按原路由,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,5 assertions passed; 4 actual states,c4_final/results.json,
+P12,Q01及演示报价入口,375x812,2,Story04报价／订单入口、index报价入口与真实U01入口各自快照自洽,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,37 assertions passed; 9 actual states,c4_final/results.json,
+P12,Q01及演示报价入口,390x844,2,Story04报价／订单入口、index报价入口与真实U01入口各自快照自洽,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,37 assertions passed; 9 actual states,c4_final/results.json,
+P13,C02选券,375x812,2,合法可用券、无券、不可用原因、返回订单与金额同步；保留锁券保护,NOT TESTED,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,Coupon switching and no-coupon tested; other-order locked coupon UI sample NOT TESTED (no payment performed),c4_final/results.json,QA-P13-LOCK
+P13,C02选券,390x844,2,合法可用券、无券、不可用原因、返回订单与金额同步；保留锁券保护,NOT TESTED,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,Coupon switching and no-coupon tested; other-order locked coupon UI sample NOT TESTED (no payment performed),c4_final/results.json,QA-P13-LOCK
+P14,O01与协议,375x812,2,店／仓位／租期／租金／券／押金／管理费／应付一致；确认层可开关；按钮状态正确,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,9 assertions passed; 5 actual states,c4_target_final/results.json,
+P14,O01与协议,390x844,2,店／仓位／租期／租金／券／押金／管理费／应付一致；确认层可开关；按钮状态正确,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,9 assertions passed; 5 actual states,c4_target_final/results.json,
+P15,支付前保护,375x812,2,无租期、真实变价／过期报价／库存不可用按原规则阻断；不包含失败订单恢复,NOT TESTED,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,Missing term/snapshot and expired quote verified; true changed price and transaction inventory-block UI samples NOT TESTED; static price/identity gate retained,c4_target_final/results.json,QA-P15-PRICE-STOCK
+P15,支付前保护,390x844,2,无租期、真实变价／过期报价／库存不可用按原规则阻断；不包含失败订单恢复,NOT TESTED,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,Missing term/snapshot and expired quote verified; true changed price and transaction inventory-block UI samples NOT TESTED; static price/identity gate retained,c4_target_final/results.json,QA-P15-PRICE-STOCK
+P16,端到端与重复演示,375x812,2,两条主路径及返回修改完整走通；可重置；关键资源、报错、横滚及遮挡检查,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,17 assertions passed; 4 actual states,c4_final/results.json,
+P16,端到端与重复演示,390x844,2,两条主路径及返回修改完整走通；可重置；关键资源、报错、横滚及遮挡检查,PASS,Windows HTTP; mobile/touch; zh-CN; Asia/Shanghai,155.0.8059.79,17 assertions passed; 4 actual states,c4_final/results.json,

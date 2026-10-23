@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "name": "Mini Koala Visual Design System V1",
+    "baseline": "Mini Koala Prototype Baseline 1.0",
+    "grid": 4,
+    "designWidth": 375,
+    "safeContentWidth": 343,
+    "harmonizedBy": "Sprint 1G Core Visual Harmonization",
+    "visualBaseline": "Mini Koala Visual Baseline 1.0"
+  },
+  "colors": {
+    "bg": {
+      "page": "#FDFBF7",
+      "surface": "#FFFFFF",
+      "subtle": "#F7F5F0",
+      "mutedGreen": "#F1F7F3",
+      "mutedOrange": "#FFF4E8"
+    },
+    "brand": {
+      "700": "#214F3A",
+      "600": "#2F6B4F",
+      "500": "#3F7D5D",
+      "200": "#CFE1D6",
+      "100": "#EAF3ED"
+    },
+    "price": {
+      "700": "#B85A16",
+      "600": "#D56A1C",
+      "500": "#E17A2A",
+      "100": "#FFF0E2"
+    },
+    "text": {
+      "primary": "#1F2923",
+      "secondary": "#59645E",
+      "tertiary": "#6D7671",
+      "disabled": "#B6BCB8"
+    },
+    "border": {
+      "default": "#E6E7E3",
+      "strong": "#D7DBD7",
+      "divider": "#ECEDE9"
+    }
+  },
+  "typography": {
+    "display": {
+      "size": 28,
+      "lineHeight": 36,
+      "weight": 700
+    },
+    "h1": {
+      "size": 24,
+      "lineHeight": 32,
+      "weight": 700
+    },
+    "h2": {
+      "size": 20,
+      "lineHeight": 28,
+      "weight": 700
+    },
+    "h3": {
+      "size": 18,
+      "lineHeight": 26,
+      "weight": 650
+    },
+    "bodyL": {
+      "size": 16,
+      "lineHeight": 24,
+      "weight": 500
+    },
+    "body": {
+      "size": 15,
+      "lineHeight": 22,
+      "weight": 400
+    },
+    "secondary": {
+      "size": 13,
+      "lineHeight": 20,
+      "weight": 400
+    },
+    "caption": {
+      "size": 12,
+      "lineHeight": 18,
+      "weight": 400
+    },
+    "micro": {
+      "size": 11,
+      "lineHeight": 16,
+      "weight": 400
+    }
+  },
+  "spacing": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "8": 32,
+    "10": 40,
+    "12": 48
+  },
+  "radius": {
+    "s": 8,
+    "m": 12,
+    "l": 14,
+    "xl": 16,
+    "2xl": 20,
+    "pill": 999
+  },
+  "shadow": {
+    "card": "0 4px 16px rgba(31,41,35,0.06)",
+    "float": "0 8px 24px rgba(31,41,35,0.12)",
+    "modal": "0 16px 40px rgba(31,41,35,0.16)"
+  },
+  "components": {
+    "button": {
+      "primary": {
+        "height": 48,
+        "radius": 12
+      },
+      "secondary": {
+        "height": 44,
+        "radius": 12
+      }
+    },
+    "input": {
+      "height": 48,
+      "radius": 12
+    },
+    "chip": {
+      "minHeight": 32,
+      "maxHeight": 36,
+      "radius": 999
+    },
+    "card": {
+      "standardRadius": 14,
+      "primaryRadius": 16
+    },
+    "bottomNav": {
+      "height": 56,
+      "icon": 24,
+      "label": 12
+    }
+  },
+  "price": {
+    "home": {
+      "mainSize": 28,
+      "suffixSize": 12
+    },
+    "contract": {
+      "mainSize": 32,
+      "monthlySize": 15,
+      "discountSize": 12
+    },
+    "multiMatch": {
+      "mainSize": 26,
+      "suffixSize": 12
+    }
+  },
+  "motion": {
+    "fast": "120-160ms",
+    "standard": "180-240ms",
+    "sheet": "240-320ms"
+  },
+  "viewport": {
+    "primary": "375x812",
+    "secondary": "390x844"
+  },
+  "promotion": {
+    "background": "#FFF0E2",
+    "text": "#B85A16"
+  }
+}

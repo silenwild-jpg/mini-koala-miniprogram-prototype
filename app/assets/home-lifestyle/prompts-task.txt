@@ -1,0 +1,14 @@
+Task-card assets; built-in image_gen; generated 2026-10-13.
+Both are temporary AI-generated illustration assets, not official brand assets.
+
+CALCULATOR
+Use case: stylized-concept. Asset type: standalone transparent raster illustration for the right edge of a mobile homepage task card, displayed about 55 by 65 pixels. Generate only one small white calculator with forest-green (#2F6B4F) keys, softly rounded white plastic material, a pale blank display with absolutely no numbers or lettering, subtle three-quarter angle tilted slightly left, matching the friendly polished soft 3D object illustration seen on the supplied homepage reference. Soft daylight highlights, restrained shadow that fades into transparency, no table or scene, no extra objects or decorative marks. Calculator should fill the frame while fully visible with clear padding. Actual transparent background. No text, no numbers, no logo, no watermark. Reference is style guidance only: do not reproduce the webpage, cards, any UI or layout.
+
+Reference: generated_images/exec-829787e0-7a8d-4819-8f1e-e1e68928a78e.png (selected homepage visual reference).
+Output: task-calculator.png; generated source exec-8f3ef208-5861-40d0-ac07-723be9f50ef0.png.
+
+MAP
+Use case: stylized-concept. Asset type: standalone transparent raster illustration for the right edge of a mobile homepage task card, displayed around 55 by 65 pixels. Generate one folded paper map, with pale forest-green (#2F6B4F) land areas and a soft light-blue path, topped by one small orange locator pin. Match the polished friendly soft 3D object style of the white calculator reference: rounded tactile forms, subtle three-quarter angle, soft daylight, restrained highlights, very light shadow fading into transparency. White paper margin, green land and pale blue pathway must stay simple and readable at small size. Entire object fully visible with clear padding. No scene or table. Actual transparent background, absolutely no lettering, numbers, labels, symbols, logos or watermark. This is an individual asset, no webpage or UI.
+
+Reference: task-calculator.png (match illustration material and lighting).
+Output: task-map.png; generated source exec-f6190869-0e9c-4cfc-9b17-1b5e2720d6fd.png.

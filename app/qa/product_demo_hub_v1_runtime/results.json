@@ -1,0 +1,38 @@
+{
+  "HUB_DESKTOP": {
+    "errors": [],
+    "overflow_x": false,
+    "text_len": 2054,
+    "buttons": 29,
+    "links": 11,
+    "has_core_demo": true,
+    "has_state_quick": true,
+    "has_rule_boundary": true
+  },
+  "HUB_MOBILE": {
+    "errors": [],
+    "overflow_x": false,
+    "text_len": 2054,
+    "buttons": 29,
+    "links": 11,
+    "has_core_demo": true,
+    "has_state_quick": true,
+    "has_rule_boundary": true
+  },
+  "MATRIX_DESKTOP": {
+    "errors": [],
+    "overflow_x": false,
+    "text_len": 1949,
+    "buttons": 43,
+    "links": 4,
+    "has_matrix": true
+  },
+  "MATRIX_MOBILE": {
+    "errors": [],
+    "overflow_x": false,
+    "text_len": 1949,
+    "buttons": 43,
+    "links": 4,
+    "has_matrix": true
+  }
+}

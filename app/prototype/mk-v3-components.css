@@ -1,0 +1,268 @@
+/* Mini Koala — Visual V3 shared components | Task 02B-1/02B-2 stepwise pilot | 2026-10-12 (help entry NOT included: deferred to the help-entry special)
+   ------------------------------------------------------------------------------------------
+   Mounted ONLY on O01 and S01 (<link data-ui-system="v3">). Every selector is scoped with
+   body.koala-ui-v1:is(.koala-o01,.koala-s01) so the file is inert on any other page even if linked.
+   Mechanism: one named cascade layer "mk-v3". Important declarations inside a named layer win over the
+   page's unlayered important declarations (inline <style> blocks, visual_elevation_v2_* with
+   body:has(#id) selectors, ui_system, dynamically injected acceptance sheets) regardless of specificity
+   and source order, so new rules can stay low-specificity and use existing class names only.
+   Audited before mounting: no other @layer exists in the package; no style="" attribute in O01/S01
+   carries !important; dynamically written styles (global_support <style>, acceptance_fix_v1.css,
+   acceptance_v11_*.css, coupon-v1-runtime-style, language-patch qa-visibility) are all unlayered.
+   Inline style attributes written by scripts (acceptance_fix_v1.js sets #miniGlobalSupport
+   style.visibility) are normal declarations and are also overridden by layered importants.
+   Rules: no :has(), no ID selectors, no :root, no new variable prefix, colours only via var(--koala-*).
+   "!important" is used only on properties that replace a registered legacy declaration (see
+   docs/visual/mk_v3_override_ledger.csv); declarations on new pseudo-elements stay normal.
+   Icon replacement: Unicode glyphs are kept in the DOM; the glyph box gets font-size:0 and a
+   mask-image line icon (registered "icon-zero" exception, never applied to a text label).
+   HTML-prototype only: @layer and mask-image are not WXSS; hand-over is the token JSON + component spec.
+*/
+@layer mk-v3 {
+  /* ===== page shell ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) { background: var(--koala-bg) !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .shell,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .page { background: var(--koala-bg) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .shell { box-shadow: none !important; }
+
+  /* ===== Header (48, white, hairline) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header {
+    height: 48px !important; min-height: 48px !important;
+    background: var(--koala-surface) !important;
+    border-bottom: 1px solid var(--koala-line) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header h1 {
+    font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important;
+    color: var(--koala-text) !important; letter-spacing: 0 !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header .back {
+    color: var(--koala-text) !important; font-size: 0 !important; /* icon-zero: glyph "‹" replaced by line icon */
+    display: flex !important; align-items: center !important; justify-content: center !important; height: 48px; justify-self: stretch !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header .back::before {
+    content: ""; width: 24px; height: 24px; background: currentColor;
+    -webkit-mask: var(--koala-icon-chevron-left) center / contain no-repeat; mask: var(--koala-icon-chevron-left) center / contain no-repeat;
+  }
+
+  /* ===== Card shell (StoreCard / O01 section) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .store,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .section,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .estore-list-card {
+    background: var(--koala-surface) !important;
+    border: 1px solid var(--koala-line) !important;
+    border-radius: var(--koala-radius) !important;
+    box-shadow: var(--koala-shadow) !important;
+  }
+
+  /* ===== Tag — fact (pill) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .store .badge,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .estore-list-badge {
+    display: inline-flex !important; align-items: center !important;
+    min-height: 22px !important; padding: 2px 8px !important; margin: 0 !important;
+    border: 0 !important; border-radius: 999px !important;
+    background: var(--koala-brand-100) !important; color: var(--koala-brand-700) !important;
+    font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important;
+    white-space: nowrap !important; flex: 0 0 auto !important;
+  }
+  /* ===== Tag — service (6px rounded rectangle) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .store-demo-tags .tag,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .estore-list-points span {
+    display: inline-flex !important; align-items: center !important;
+    min-height: 24px !important; padding: 3px 8px !important; margin: 0 !important;
+    border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-tag) !important;
+    background: var(--koala-surface-2) !important; color: var(--koala-text-2) !important;
+    font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important;
+    white-space: nowrap !important; flex: 0 0 auto !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .store-demo-tags .tag:first-child { color: var(--koala-text-2) !important; font-weight: 500 !important; }
+  /* ===== Tag — promotion (semantic hook; S01 demo tags carry no promo class in this pilot) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mk-promo-tag {
+    background: var(--koala-price-soft) !important; color: var(--koala-promo-text) !important;
+    border: 1px solid var(--koala-price-soft) !important; border-radius: var(--koala-radius-tag) !important;
+    font-size: 12px !important; line-height: 16px !important; font-weight: 600 !important;
+  }
+
+  /* ===== Chip — inline (32) : quick store filters, location chips ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-store-filters button,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .location-chip {
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    min-height: 32px !important; height: 32px !important; padding: 0 12px !important;
+    border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-chip) !important;
+    background: var(--koala-surface) !important; color: var(--koala-text-2) !important;
+    font-size: 13px !important; line-height: 18px !important; font-weight: 500 !important;
+    box-shadow: none !important; white-space: nowrap !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-store-filters button[aria-pressed="true"],
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-store-filters button.active,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .location-chip.current {
+    background: var(--koala-brand-tint) !important; border-color: var(--koala-brand-200) !important;
+    color: var(--koala-brand-700) !important; font-weight: 600 !important;
+  }
+  /* ===== Chip — sheet (36) : service pills inside the filter sheet ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .inline-filter-sheet .pill {
+    display: inline-flex !important; align-items: center !important;
+    min-height: 36px !important; padding: 0 12px !important;
+    border: 1px solid var(--koala-line) !important; border-radius: 999px !important;
+    background: var(--koala-surface) !important; color: var(--koala-text-2) !important;
+    font-size: 13px !important; line-height: 18px !important; font-weight: 500 !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .inline-filter-sheet .pill.active {
+    background: var(--koala-brand-tint) !important; border-color: var(--koala-brand-200) !important; color: var(--koala-brand-700) !important; font-weight: 600 !important;
+  }
+
+  /* ===== PriceBlock L1 (list) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .browse-unit-price .price-number,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .contract-price .price-number {
+    font-size: 20px !important; line-height: 26px !important; font-weight: 700 !important;
+    color: var(--koala-price) !important; letter-spacing: 0 !important; font-variant-numeric: tabular-nums;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .browse-unit-price .price-unit,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .browse-unit-price .price-start,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .contract-price .price-start {
+    font-size: 12px !important; line-height: 16px !important; font-weight: 400 !important; color: var(--koala-text-3) !important; margin-left: 2px !important;
+  }
+  /* ===== PriceBlock L3 (checkout payable, white card + orange number) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .payable-hero {
+    margin: 0 0 4px !important; padding: 2px 0 14px !important;
+    border: 0 !important; border-bottom: 1px solid var(--koala-divider) !important; border-radius: 0 !important;
+    background: var(--koala-surface) !important; box-shadow: none !important;
+    display: flex !important; align-items: baseline !important; justify-content: space-between !important; gap: 12px !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .payable-hero span { font-size: 14px !important; line-height: 20px !important; font-weight: 500 !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .payable-hero b {
+    font-size: 32px !important; line-height: 38px !important; font-weight: 700 !important;
+    color: var(--koala-price) !important; letter-spacing: -.01em !important; font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== Button — primary / secondary / sheet confirm / text ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .bottombar .primary,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet-confirm,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .apply,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .loc-empty button {
+    min-height: 48px !important; height: 48px !important; padding: 0 10px !important;
+    border: 1px solid var(--koala-brand) !important; border-radius: var(--koala-radius-btn) !important;
+    background: var(--koala-brand) !important; color: var(--koala-surface) !important;
+    font-size: 15px !important; line-height: 20px !important; font-weight: 600 !important; letter-spacing: 0 !important;
+    box-shadow: none !important; white-space: nowrap !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .bottombar .secondary,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet .sheet-confirm + .sheet-confirm {
+    min-height: 48px !important; height: 48px !important; padding: 0 10px !important;
+    border: 1px solid var(--koala-brand-200) !important; border-radius: var(--koala-radius-btn) !important;
+    background: var(--koala-surface) !important; color: var(--koala-brand-700) !important;
+    font-size: 15px !important; line-height: 20px !important; font-weight: 500 !important;
+    box-shadow: none !important; white-space: nowrap !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .order-rules button,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .storage-notice button,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .estore-list-link,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .moreline,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .estimate-strip .go,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .demand .edit,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .loc-empty .search {
+    font-size: 13px !important; line-height: 20px !important; font-weight: 600 !important; color: var(--koala-brand) !important;
+    background: transparent !important; border: 0 !important; box-shadow: none !important; white-space: nowrap !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .empty-results button {
+    min-height: 36px !important; padding: 0 12px !important; margin: 8px 6px 0 0 !important;
+    border: 1px solid var(--koala-brand-200) !important; border-radius: var(--koala-radius-chip) !important;
+    background: var(--koala-surface) !important; color: var(--koala-brand-700) !important; font-size: 13px !important; font-weight: 500 !important;
+  }
+
+  /* ===== BottomBar (O01: secondary + primary; help entry untouched in this round) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .bottombar {
+    position: absolute !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+    display: flex !important; align-items: center !important; gap: 8px !important;
+    height: auto !important; min-height: var(--koala-bottombar-h) !important;
+    padding: 10px 16px max(10px, env(safe-area-inset-bottom)) !important;
+    background: var(--koala-surface) !important; border-top: 1px solid var(--koala-line) !important;
+    box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  }
+
+  /* ===== FilterBar (S01 sort / distance / service) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .controls.compact-filters {
+    display: flex !important; gap: 0 !important; width: 100% !important; min-height: 40px !important;
+    background: var(--koala-surface) !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-sm) !important;
+    overflow: hidden !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .controls .compact-filter-btn {
+    flex: 1 1 0 !important; min-width: 0 !important; height: 40px !important; min-height: 40px !important; padding: 0 8px !important;
+    border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important;
+    color: var(--koala-text) !important; font-size: 13px !important; line-height: 18px !important; font-weight: 500 !important; gap: 4px !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .controls .compact-filter-btn + .compact-filter-btn { border-left: 1px solid var(--koala-line) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .controls .compact-filter-btn.active,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .controls .compact-filter-btn[aria-expanded="true"] {
+    background: var(--koala-brand-tint) !important; color: var(--koala-brand-700) !important; font-weight: 600 !important; border-color: var(--koala-line) !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .compact-filter-btn .filter-chevron {
+    font-size: 0 !important; /* icon-zero: glyph "⌄" replaced by line icon */
+    width: 14px; height: 14px; flex: 0 0 14px; background: currentColor; color: inherit !important;
+    -webkit-mask: var(--koala-icon-chevron-down) center / contain no-repeat; mask: var(--koala-icon-chevron-down) center / contain no-repeat;
+    transition: transform .16s ease;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .compact-filter-btn[aria-expanded="true"] .filter-chevron { transform: rotate(180deg); }
+
+  /* ===== TabBar (56 + safe area, line icons, 12px labels) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .tabbar {
+    height: calc(var(--koala-tabbar-h) + env(safe-area-inset-bottom)) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    background: var(--koala-surface) !important; border-top: 1px solid var(--koala-line) !important;
+    box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .tab {
+    display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 3px !important;
+    font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; color: var(--koala-text-3) !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .tab.active { color: var(--koala-brand) !important; font-weight: 600 !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .tab .ico {
+    font-size: 0 !important; /* icon-zero: glyphs ⌂ ⌕ ▦ ◉ replaced by line icons */
+    width: 22px; height: 22px; margin: 0 !important; background: currentColor; display: block;
+    -webkit-mask: var(--koala-icon-home) center / contain no-repeat; mask: var(--koala-icon-home) center / contain no-repeat;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .tab:nth-child(2) .ico { -webkit-mask-image: var(--koala-icon-find); mask-image: var(--koala-icon-find); }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .tab:nth-child(3) .ico { -webkit-mask-image: var(--koala-icon-store); mask-image: var(--koala-icon-store); }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .tab:nth-child(4) .ico { -webkit-mask-image: var(--koala-icon-mine); mask-image: var(--koala-icon-mine); }
+
+  /* ===== Sheets (bottom sheets shared by both pages) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet {
+    background: var(--koala-surface) !important; border-radius: 20px 20px 0 0 !important;
+    padding: 16px 16px max(20px, env(safe-area-inset-bottom)) !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet .handle { background: var(--koala-line) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet h3 { font-size: 17px !important; line-height: 24px !important; font-weight: 700 !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet-desc,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet-tip,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet-intro,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .location-sheet-hint,
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .filter-tip { font-size: 13px !important; line-height: 20px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .sheet .filter-title { font-size: 14px !important; line-height: 20px !important; font-weight: 600 !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .prohibited-list b { font-size: 14px !important; line-height: 20px !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .prohibited-list span { font-size: 13px !important; line-height: 19px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .prohibited-list > div { border-bottom: 1px solid var(--koala-divider) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-sort-option { font-size: 14px !important; color: var(--koala-text) !important; border-bottom: 1px solid var(--koala-divider) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-sort-option[aria-checked="true"] { color: var(--koala-brand-700) !important; font-weight: 600 !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-sort-option .selected-mark { color: var(--koala-brand) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-distance-option {
+    min-height: 44px !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-sm) !important;
+    background: var(--koala-surface) !important; color: var(--koala-text) !important; font-size: 13px !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .quick-distance-option[aria-pressed="true"] { border: 1px solid var(--koala-brand) !important; background: var(--koala-brand-tint) !important; color: var(--koala-brand-700) !important; font-weight: 600 !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .inline-filter-sheet .option { font-size: 14px !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .inline-filter-sheet .option span { font-size: 12px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .searchbox input { font-size: 14px !important; min-height: 40px !important; border: 1px solid var(--koala-line) !important; border-radius: var(--koala-radius-sm) !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .searchbox button { min-height: 40px !important; border-radius: var(--koala-radius-sm) !important; background: var(--koala-brand) !important; color: var(--koala-surface) !important; font-size: 14px !important; font-weight: 600 !important; border: 0 !important; }
+
+  /* ===== Toast ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .toast { font-size: 13px !important; line-height: 18px !important; border-radius: var(--koala-radius-sm) !important; }
+
+  /* ===== 380px and below: keep floors, tighten paddings only ===== */
+  @media (max-width: 380px) {
+    /* 375 budget (no third control this round): 343 inner = secondary 106 (text 90 + 2×8) + gap 6 + primary 231 (inner 215 ≥ "确认并支付 ¥113,863" 159) */
+    body.koala-ui-v1:is(.koala-o01,.koala-s01) .bottombar { padding-left: 16px !important; padding-right: 16px !important; gap: 6px !important; }
+    body.koala-ui-v1:is(.koala-o01,.koala-s01) .bottombar .primary { padding: 0 8px !important; }
+    body.koala-ui-v1:is(.koala-o01,.koala-s01) .bottombar .secondary { padding: 0 8px !important; }
+  }
+}

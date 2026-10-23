@@ -1,0 +1,42 @@
+/* Scoped to the term/recommendation screen only. */
+#s5 .recommend-head{display:block!important}
+#s5 .recommend-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#s5 .recommend-heading-row .section-title{margin:0!important;white-space:nowrap}
+#s5 .recommend-heading-row .usage-store-list-link{border:0;background:transparent;color:#2F6B4F;font-size:12px;font-weight:600;line-height:18px;min-height:44px;padding:6px 0 6px 8px;text-align:right;cursor:pointer;max-width:75%}
+#s5 .recommend-heading-row .usage-store-list-link[hidden]{display:none!important}
+#s5 .recommend-location{margin-top:0!important;max-width:100%!important}
+/* Final action-bar geometry and shared transaction-button styling. */
+#s5 .bottom.usage-actions{
+  position:fixed!important;left:50%!important;right:auto!important;bottom:0!important;
+  transform:translateX(-50%)!important;width:100%!important;max-width:390px!important;
+  box-sizing:border-box!important;min-width:0!important;margin:0!important;
+  padding:8px 16px calc(12px + env(safe-area-inset-bottom))!important;
+  display:grid!important;grid-template-columns:104px minmax(0,1fr)!important;
+  grid-auto-flow:row!important;gap:7px 12px!important;align-items:center!important;
+  background:rgba(255,255,255,.97)!important;border-top:1px solid #E6E7E3!important;
+  box-shadow:0 -5px 18px rgba(31,41,35,.05)!important;
+}
+#s5 .bottom.usage-actions .cta{
+  box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  height:48px!important;min-height:48px!important;margin:0!important;padding:0 8px!important;
+  border-radius:12px!important;font-family:inherit!important;font-size:14px!important;
+  line-height:20px!important;font-weight:700!important;letter-spacing:normal!important;
+  white-space:nowrap!important;box-shadow:none!important;
+}
+#s5 .bottom.usage-actions .cta:not(.secondary){
+  border:1px solid #2F6B4F!important;background:#2F6B4F!important;color:#FFF!important;
+}
+#s5 .bottom.usage-actions .cta.secondary{
+  border:1px solid #CFE1D6!important;background:#FFF!important;color:#2F6B4F!important;
+}
+#s5 .usage-action-context{
+  grid-column:1/-1;min-width:0;max-width:100%;font-size:12px;line-height:18px;color:#59645E;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;padding:0 2px;
+}
+#s5 .usage-actions[data-action-state="term-required"]{grid-template-columns:minmax(0,1fr)!important}
+#s5 .usage-actions[data-action-state="term-required"] .cta{grid-column:1/-1}
+#s5{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
+/* Desktop preview has a 390px phone with 10px borders: its content width is 370px. */
+@media(min-width:651px){#s5 .bottom.usage-actions{max-width:370px!important}}
+body:has(#s5.active) #miniGlobalSupport{display:none!important}

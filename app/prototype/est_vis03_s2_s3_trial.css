@@ -1,0 +1,80 @@
+/* EST-VIS-03 | A compact layout + B photography refinement | SCOPED VISUAL TRIAL ONLY.
+   Does not edit business data, listeners, calculations, routes, or global CSS. */
+#s2,#s3 {background:#F8FAF9!important;}
+#s2 h1,#s3 h1 {color:#1F2923!important;font-size:21px!important;line-height:29px!important;letter-spacing:-.25px;margin-bottom:9px!important;}
+#s2 .section-title {margin:17px 0 9px!important;font-size:15px!important;letter-spacing:0!important;}
+#s2 .grid2 {gap:10px!important;align-items:stretch!important;}
+#s2 .scene {
+  box-sizing:border-box!important;position:relative!important;display:flex!important;flex-direction:column!important;
+  min-height:147px!important;height:auto!important;padding:8px 10px 10px!important;border:1px solid #DDE5DF!important;
+  border-radius:15px!important;background:#FFF!important;box-shadow:0 2px 8px rgba(31,47,37,.045)!important;
+  transition:border-color .12s ease,background .12s ease!important;
+}
+#s2 .scene.selected,#s2 .scene:focus-visible {border:2px solid #2F6B4F!important;padding:7px 9px 9px!important;background:#F5FBF6!important;box-shadow:0 0 0 2px rgba(47,107,79,.08)!important;}
+#s2 .scene .icon {display:none!important;}
+#s2 .scene .estvis03-photo {display:flex!important;flex:0 0 66px!important;align-items:center;justify-content:center;width:100%!important;
+    height:66px!important;overflow:hidden!important;border-radius:10px!important;background:linear-gradient(140deg,#F9FBF8,#F0F5F1)!important;margin-bottom:6px!important;}
+#s2 .scene[data-id="luggage"] .estvis03-photo {background:linear-gradient(135deg,#F5F7FA,#E9F1F4)!important;}
+#s2 .scene[data-id="renovation"] .estvis03-photo,#s2 .scene[data-id="seasonal"] .estvis03-photo {background:linear-gradient(135deg,#FDF9F3,#F6F1E9)!important;}
+#s2 .scene .estvis03-photo img {display:block!important;object-fit:contain!important;object-position:center!important;width:100%!important;height:100%!important;max-width:145px!important;mix-blend-mode:multiply;}
+#s2 .scene .estvis03-photo img[src$=".svg"] {max-width:136px!important;mix-blend-mode:normal;}
+#s2 .scene b {font-size:14.5px!important;line-height:20px!important;margin:0 0 3px!important;font-weight:700!important;color:#1F2923!important;}
+#s2 .scene p {font-size:12px!important;line-height:17px!important;color:#59645E!important;margin:0!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
+#s2 .scene .term:empty {display:none!important;}
+#s2 .scene .term:not(:empty) {font-size:11px!important;line-height:16px!important;margin:4px 0 0!important;}
+#s2 .scene.selected::after {content:'✓';position:absolute;top:7px;right:7px;display:grid;place-items:center;
+  width:21px;height:21px;border-radius:50%;background:#2F6B4F;color:#fff;font-size:12px;font-weight:800;z-index:2;}
+/* S3: the original context remains in DOM, but a compact visual form is displayed. */
+#s3 .hero {padding:10px 13px!important;margin:0 0 13px!important;border-radius:12px!important;
+ background:#F1F6F2!important;border:1px solid #DFEADF!important;box-shadow:none!important;color:#294638!important;min-height:0!important;}
+#s3 .hero b {font-size:13px!important;line-height:20px!important;font-weight:700!important;color:#2F6B4F!important;}
+#s3 .hero p {display:none!important;}
+#s3 .amount-card {
+ box-sizing:border-box!important;display:grid!important;position:relative!important;
+ grid-template-columns:73px minmax(0,1fr) 19px!important;grid-template-rows:auto auto auto!important;
+ column-gap:11px!important;align-items:center!important;min-height:112px!important;
+ padding:10px 10px!important;margin-bottom:10px!important;border-radius:15px!important;
+ border:1px solid #DFE6E1!important;background:#fff!important;box-shadow:0 2px 8px rgba(31,47,37,.04)!important;
+}
+#s3 .amount-card.selected,#s3 .amount-card:focus-visible {border:2px solid #2F6B4F!important;padding:9px!important;background:#F6FBF7!important;}
+#s3 .amount-card .estvis03-amount-media {grid-area:1/1/4/2;align-self:center;position:relative;
+ width:73px;height:77px;display:block;border-radius:10px;overflow:hidden;
+ background:linear-gradient(155deg,#FAFCFA,#EFF5F0);}
+#s3 .amount-card .estvis03-amount-media img {position:absolute;width:72%;height:77%;object-fit:contain;object-position:center;
+ filter:drop-shadow(0 2px 2px rgba(55,55,50,.11));mix-blend-mode:multiply;}
+#s3 .amount-card .estvis03-amount-media img.estvis03-part-0 {width:80%;height:80%;top:12%;left:9%;z-index:3;}
+#s3 .amount-card .estvis03-amount-media img.estvis03-part-1 {width:66%;height:64%;top:4%;left:33%;z-index:2;}
+#s3 .amount-card .estvis03-amount-media img.estvis03-part-2 {width:65%;height:64%;top:33%;left:1%;z-index:1;}
+#s3 .amount-card .estvis03-amount-media img.estvis03-diagram {width:100%;height:100%;inset:0;mix-blend-mode:normal;filter:none;}
+#s3 .amount-card b {grid-column:2!important;grid-row:1!important;min-width:0!important;font-size:15px!important;
+ line-height:21px!important;color:#1F2923!important;font-weight:700!important;margin:0 0 2px!important;}
+#s3 .amount-card .desc {grid-column:2!important;grid-row:2!important;font-size:12px!important;
+ line-height:18px!important;color:#59645E!important;margin:0!important;}
+#s3 .amount-card .range {grid-column:2!important;grid-row:3!important;margin:4px 0 0!important;font-size:12.5px!important;
+ line-height:18px!important;color:#2F6B4F!important;font-weight:700!important;}
+#s3 .amount-card::after {content:'';grid-column:3;grid-row:1/4;width:16px;height:16px;display:block;
+ border:1.5px solid #B6C0B8;border-radius:50%;justify-self:end;align-self:center;background:#fff;}
+#s3 .amount-card.selected::after {content:'✓';display:grid;place-items:center;font-size:11px;line-height:1;
+ font-weight:800;color:#fff;background:#2F6B4F;border-color:#2F6B4F;}
+#s3 #startBlank {border:1px dashed #CDDED2!important;background:#FCFDFC!important;border-radius:12px!important;padding:12px!important;}
+#s3 #startBlank b {font-size:13px!important;}
+#s3 #startBlank .desc {font-size:12px!important;}
+#s3 .phase3a-amount-info {background:#F3F8F4!important;border:1px solid #E1EBE3!important;border-radius:12px!important;}
+/* Keep original sticky behavior and visibility; only improve focus legibility. */
+#s3 .phase3a-amount-actions .cta {min-height:48px!important;font-size:13px!important;line-height:18px!important;}
+@media(max-width:360px){
+ #s2 .scene{padding-left:8px!important;padding-right:8px!important;}
+ #s3 .amount-card{grid-template-columns:66px minmax(0,1fr) 17px!important;column-gap:8px!important;}
+ #s3 .amount-card .estvis03-amount-media{width:66px;height:70px;}
+}
+@media(prefers-reduced-motion:reduce){#s2 .scene{transition:none!important;}}
+/* The legacy estimator already has a higher-specificity flat-grid trial using
+   body:has(#cScenes). Override only that target, without changing global cards. */
+body:has(#cScenes) #s2 .scene {
+  min-height:147px!important;padding:8px 10px 10px!important;border:1px solid #DDE5DF!important;
+  border-radius:15px!important;background:#FFF!important;box-shadow:0 2px 8px rgba(31,47,37,.045)!important;
+}
+body:has(#cScenes) #s2 .scene.selected {
+  border:2px solid #2F6B4F!important;padding:7px 9px 9px!important;background:#F5FBF6!important;
+  box-shadow:0 0 0 2px rgba(47,107,79,.08)!important;
+}

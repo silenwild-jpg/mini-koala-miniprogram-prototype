@@ -1,0 +1,25 @@
+{
+  "approved_release": "Mini Koala Phase 3B Batch C — U01 V1",
+  "baseline_release": "Phase 3B Batch A+B Controlled PATCH V1",
+  "scope": "Exactly U01 runtime HTML and explicit QA/documentation and manifest files; S01/S02, pricing, inventory fixture, estimator and transaction unchanged",
+  "runtime": {
+    "mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html": {
+      "baseline_full_sha": "9ea392369b0eb3db27db91f666287fab920be5408c504bdf2f807e596dbf851c",
+      "full_sha": "02ec7c67ba35ed6a8daaea2c04ab21e7835947d6f8609372e9c849e9b1c3ecfb",
+      "body_inner_sha": "87ee2a12fbc5ecaebee109fc403af6656e06fc87a31f9be57c9fb977da1bf96f",
+      "body_with_tag_sha": "c82e2e4d0a61a95e66a1bba7b2648db02dfceef3cc7291305f22947f0a599066"
+    }
+  },
+  "prior_batch_ab_runtime": {
+    "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html": "e52796c246c3307f6a5351c9561aa1055cd420ad20b69c829d164def9b747e2a",
+    "mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html": "f1478bfcc6c59bd8f55fc3243cfdb1aa154751109a77794bdad37b2aaec5863d"
+  },
+  "protected_unchanged": {
+    "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html": "5f2053f9bcba891f9ef8e2d840fe70dd0542e1bfff7417269bac8d6d7eb2e249",
+    "prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html": "4a012b7fa1952381aa7e83043d10f970500e97753964162715f79330cb878598",
+    "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html": "e95d9e2606fe28f94c893af702cfe8c10f73bf4a21b8e64563ffa6bab95e8186",
+    "prototype/mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html": "e77a18bf7465f4d8310a0daa064ff1dc0ab02cc2d262dc0a797f554289aef78c",
+    "prototype/mini_storage_business_ssot_v274.js": "92e3da4fc9ca7082a159a453b0b007fe0e7cfaa88bc8e2bde39b91110baa676c",
+    "data/mini_koala_data.js": "34a95c12a00d192c13177c34e517e9833f33f756792dd42c852654ff32e45ba8"
+  }
+}

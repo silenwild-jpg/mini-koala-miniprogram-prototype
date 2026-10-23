@@ -1,0 +1,18 @@
+{
+  "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html": {
+    "sha256": "380d92f2b1632c93eaea496dc33e031e3dab52cd1a3fade6f6cab252e8413ff8",
+    "bytes": 63111
+  },
+  "mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html": {
+    "sha256": "f9f9907af9b7460a75d032b8fcc6dc0c750e1dc5e4948d1ec8247d7883830ebf",
+    "bytes": 57026
+  },
+  "mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html": {
+    "sha256": "869bd86e73864f6defbffba3f1c2dd04031e0acde0e78bf11b0c65b44e9715b5",
+    "bytes": 34726
+  },
+  "mini_storage_home_H01_Visual_V2_7_4_SSOT.html": {
+    "sha256": "8c759f6e12932a37aef4a3c6bc403301510a632581dda6aae269304a4ddd2d94",
+    "bytes": 417510
+  }
+}

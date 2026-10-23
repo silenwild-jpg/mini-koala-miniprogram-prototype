@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: standalone transparent cutout for a storage app lifestyle scene, displayed about 100 x 68 pixels.
+Subject: a single compact neat stack of four folded quilts and soft blankets, alternating warm ivory cream, pale sage green, light apricot, and warm ivory. Rounded folded edges, tasteful tactile knitted or quilted fabric, without straps. No other objects.
+Style: refined photorealistic soft 3D household object illustration, natural textile texture, friendly restrained lifestyle aesthetic. Matches miniature home product render, not cartoon or vector icon.
+Composition: landscape 3:2, stack centered, front view with a gently elevated camera, object fills 80 percent of image width and 70 percent of height, transparent padding on every side. Entire stack visible. Recognizable at thumbnail size.
+Lighting: soft diffused daylight from upper left, delicate contact shadow only immediately under stack.
+Background: genuine alpha transparency. No floor plane, backdrop, gradient, colored oval, card, UI, text, letters, numbers, logo, people, koala or watermark.

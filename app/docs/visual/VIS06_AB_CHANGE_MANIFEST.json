@@ -1,0 +1,31 @@
+{
+  "task": "VIS-06A/B",
+  "date": "2026-10-14",
+  "base_archive_sha256": "96d868ca47e0f767e6e33f82583a3dbbfca0a9fc6cf7f4e9543d039170910e22",
+  "runtime_modified": [
+    {
+      "path": "prototype/mk-v3-page-m01-shell-trial.css",
+      "before": "5a895086a9d4d3b04c4edb498bd640c31de8387c332a0bba1788783d97d5665d",
+      "after": "84930d23f70a9b4f98fc28c085156d2e78953dd98995d0ddeda84c83a0601939"
+    }
+  ],
+  "runtime_added": [],
+  "runtime_deleted": [],
+  "docs_added": [
+    {
+      "path": "docs/visual/VIS06_AB_CONFLICT_CLOSEOUT_2026-10-14.md",
+      "sha256": "19b33823bf78c60f556c9bfaa534e9eea2fb8a200fe0527aef9ecb77772047f9"
+    },
+    {
+      "path": "docs/visual/VIS06_AB_OPEN_ISSUES.md",
+      "sha256": "7d66f215c5a0638268402eb51fe8bfa71cc8c653a6ef6546bfa51eb9f7629366"
+    },
+    {
+      "path": "docs/visual/VIS06_AB_SOURCE_LOCK.json",
+      "sha256": "c66ca757253b4797aad31d19ddd930313f4c59ec71069341a62948e1b09182d0"
+    }
+  ],
+  "note": "H01 and M01 HTML, business JS, assets and all other runtime source untouched",
+  "browser": "DEFERRED",
+  "release_gate": "HOLD"
+}

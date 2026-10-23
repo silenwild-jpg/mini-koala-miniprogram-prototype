@@ -1,0 +1,428 @@
+{
+ "summary": {
+  "base": "H01-004B Help Float Candidate 2026-10-13 (zip sha256 ed87033141944066265d3984ee4e10411d8ea6af84288eb9daabffc1e87c29ca)",
+  "final": "H01-007 Core Trade Fix Candidate 2026-10-13 (S5)",
+  "files_004B": 522,
+  "files_final": 542,
+  "unchanged": 504,
+  "modified_distinct": 18,
+  "modified_runtime_prototype": 12,
+  "added": 20,
+  "deleted": 0,
+  "self_excluded": [
+   "RELEASE_MANIFEST.json",
+   "docs/H01_007_CHANGE_MANIFEST.json",
+   "docs/H01_007_CHANGE_MANIFEST.md"
+  ],
+  "note": "RELEASE_MANIFEST.json (recomputed in S5) and the two CHANGE_MANIFEST files are excluded from the rows to avoid self-reference; add 1 modified (RELEASE_MANIFEST.json) and 2 added (CHANGE_MANIFEST .json/.md) for the package total. Distinct files only; a file touched in several stages is counted once (S1 8 + S2 2 + S3 6 + S4 3 = 19 stage-touches collapse to 12 distinct prototype files)."
+ },
+ "files": [
+  {
+   "path": "README_CURRENT.md",
+   "change": "MODIFIED",
+   "managed_runtime": false,
+   "stages": [
+    "S5"
+   ],
+   "issues": "S5",
+   "sha256_004B": "8941188c92887034a1aa21a06e2cd21c910080eb9a25eafba521cc962422469f",
+   "sha256_final": "806adf5c8a6f26f023149b8003520f82083f92e88eb492d06927566a3d3d72e3"
+  },
+  {
+   "path": "docs/CHANGELOG.md",
+   "change": "MODIFIED",
+   "managed_runtime": false,
+   "stages": [
+    "S5"
+   ],
+   "issues": "S5",
+   "sha256_004B": "55e4b4a37e1c0576d3b0d4fa6aa3a47f9e9a565e37fb6cc4b23f20fbe20f9b14",
+   "sha256_final": "38ee3570ef5fd675e6477528c5cbc9522a537ba9513fe2dd31b1dbabed36e887"
+  },
+  {
+   "path": "docs/CURRENT_STATUS.md",
+   "change": "MODIFIED",
+   "managed_runtime": false,
+   "stages": [
+    "S5"
+   ],
+   "issues": "S5",
+   "sha256_004B": "a1994f72ca779c029c3ce64000ad181b734567d86a94ae1725b5784feb629e75",
+   "sha256_final": "09f18ec52ceabbb8e4981bbac0affd4e77057aa13be8137d141d15a576dc5e6f"
+  },
+  {
+   "path": "prototype/mini_koala_acceptance_v11_state_patch.js",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S3"
+   ],
+   "issues": "D-07 (S3)",
+   "sha256_004B": "7d272e28aa734d178ccc3c232fc337cab631fc35ea41516a6c7c6529259f7db1",
+   "sha256_final": "6b305f96b7b3d2fe9be11db3074139ce793fe88e3886893eedc999366c5f4e36"
+  },
+  {
+   "path": "prototype/mini_storage_business_ssot_v274.js",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1",
+    "S3"
+   ],
+   "issues": "D-03/D-04 (S1), D-07/D-12 helpers (S3)",
+   "sha256_004B": "23cb0a4f09d12e1319c92230df9dbb7c8e483a313838db57ef17a63788d318db",
+   "sha256_final": "6ddbca9e12714c2883cfd2c5a370ee7a4216f2fd1834d7421fc752a919f59374"
+  },
+  {
+   "path": "prototype/mini_storage_coupon_benefit_v1.js",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S2"
+   ],
+   "issues": "D-05/D-06 (S2)",
+   "sha256_004B": "4d429b97b27770eccd7b802122b9c1cb87c0c359e29e6b171406e0e1836ef40c",
+   "sha256_final": "5ab8c4e51e1dd51c319980a80cc2d5d937fe21141dd3afd8c24cc0237d914c50"
+  },
+  {
+   "path": "prototype/mini_storage_coupon_select_c02_v1.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S2"
+   ],
+   "issues": "D-06 (S2)",
+   "sha256_004B": "21a7e82ecf2c08d163d86d27e99b47987d38b501a7da6fab878b67caca1bf35a",
+   "sha256_final": "8c60c47bfe3bcc5121ebc931e7d6873016265d79d3611eab980baf00772d87a8"
+  },
+  {
+   "path": "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S3",
+    "S4"
+   ],
+   "issues": "D-12 (S3), D-01 (S4)",
+   "sha256_004B": "f4f8c19bdb93a06379adcc4787be646f2da5d1b94c67109ac753259fbda1ef66",
+   "sha256_final": "62d1dce4eade43f8db50602f877940491e8d2c3a2944072cfb9e5e8245908583"
+  },
+  {
+   "path": "prototype/mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1",
+    "S3"
+   ],
+   "issues": "D-03 (S1), D-12 entry (S3)",
+   "sha256_004B": "6567dc526f26cd9e8ddaabef5856673848392687a9fbb6d25f8f4c6d8e574e7a",
+   "sha256_final": "913ed2237b379bffc03a7daa2b3fde2ffd745f67fec954828d8f3ca71ad4a238"
+  },
+  {
+   "path": "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1",
+    "S3"
+   ],
+   "issues": "D-04 (S1), D-12 resume re-check (S3)",
+   "sha256_004B": "5b90428049efe768baaa8707e0b1f0da5feb026ceb34d951ea9596c80ccfcbee",
+   "sha256_final": "8fd5dc757754dda5abe09cdb72c5ad1b727de519e01d6e53fc28015443daf8a6"
+  },
+  {
+   "path": "prototype/mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1"
+   ],
+   "issues": "D-04 (S1), D-07 banner (S3 via acceptance patch)",
+   "sha256_004B": "69bf0093f744528428a8aa1b0328899e5b21b71b218b26df32846ade89718d16",
+   "sha256_final": "38d7d3be52c6690d1bc4a2f6de90f4af9b33b9734d7ce53b286ade3319b9f49f"
+  },
+  {
+   "path": "prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1",
+    "S4"
+   ],
+   "issues": "D-03 (S1), D-02 (S4)",
+   "sha256_004B": "2c5a3812970264bd214b62506339a0b99d3f7f7214f0af911977e904a85b6769",
+   "sha256_final": "d377ed1da229c6ca9d3488b35b8e420714fd46849014ecd4a2a03eec30318275"
+  },
+  {
+   "path": "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1",
+    "S4"
+   ],
+   "issues": "D-03 (S1), D-02 (S4)",
+   "sha256_004B": "dfac3aefca7d945a1bb8609102a954f43cc69a29fe9ba2333417768975ec54fd",
+   "sha256_final": "8bef96961028b676ffe8ced3605045f3543c16bad9b1c86736c9637e169c69ab"
+  },
+  {
+   "path": "prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1",
+    "S3"
+   ],
+   "issues": "D-03/D-04 (S1), D-07 re-check (S3)",
+   "sha256_004B": "a6a579f54b81aa9143157c73be8acac2c212d127a3d44c5e4dc28f6142976fbf",
+   "sha256_final": "7520871a84379e35c7e2f6c9aa4fd4adc6a9c1457283a9280d81c819270fca55"
+  },
+  {
+   "path": "prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+   "change": "MODIFIED",
+   "managed_runtime": true,
+   "stages": [
+    "S1"
+   ],
+   "issues": "D-03 (S1)",
+   "sha256_004B": "113e21ec370a07839ba2c4610a32c8fec9c3f7ffe1cd9193f2ca6c9d06542987",
+   "sha256_final": "397e84de948ff0e437ea8032bd8e5d9cb867b8d5b3e4dd260ab48804ba7a19a6"
+  },
+  {
+   "path": "qa/test_home_state_integration_patch_v1.cjs",
+   "change": "MODIFIED",
+   "managed_runtime": false,
+   "stages": [
+    "S5"
+   ],
+   "issues": "S5 contract update (D-01)",
+   "sha256_004B": "3b2c494cd032414f94425efcc490c8ee73a636f128e9dc58ba3bab6b2ea5b28d",
+   "sha256_final": "f59b9b504b8a7b1358826745f3769bbcd0b06c93b46fe004c09745a566397a81"
+  },
+  {
+   "path": "tools/check_package.py",
+   "change": "MODIFIED",
+   "managed_runtime": false,
+   "stages": [
+    "S5"
+   ],
+   "issues": "S5 manifest version/changes carry-over",
+   "sha256_004B": "79cdb471a06ee009b466b88c43cd9a3f80df9e013d2c4cdbc6c1cff28392966f",
+   "sha256_final": "ed65dfe6b305956e651d732d9b81191a67f987d200a76fa2976d0c112496cdfc"
+  },
+  {
+   "path": "tools/run_regression.py",
+   "change": "MODIFIED",
+   "managed_runtime": false,
+   "stages": [
+    "S5"
+   ],
+   "issues": "S5 registers S1-S4 logic tests",
+   "sha256_004B": "9cab2cc03e262f23c57931d25bec26907e75d8e8141bd87dd5c1ebdaa64bdb7e",
+   "sha256_final": "b89b6b0cc4d11cb82c55479942be10974b32602a22f5de08097850a7fbe6d2ec"
+  },
+  {
+   "path": "docs/H01_007_OPEN_ISSUES.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "37eda88fb80a53f507a17b2a9362f49eb1176fe131fb589f16b162c5d093d607"
+  },
+  {
+   "path": "docs/H01_007_S1_Changed_Files.txt",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "7c90a80799213a2b4f634938f4c07bfa4c0967a19ad40ee7ca14ac773fd7ef4e"
+  },
+  {
+   "path": "docs/H01_007_S1_Diff_Report.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "59da1d5a998b0242a6aa833f5ef2b16b974869ea6282be664dcf011605533678"
+  },
+  {
+   "path": "docs/H01_007_S2_Changed_Files.txt",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S2"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "7b8f7a73b89107bc7d4f72477cb8bdf61ed97814e9d34f4291c010d7559cc56b"
+  },
+  {
+   "path": "docs/H01_007_S2_Diff_Report.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S2"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "7045ef0d04de09790bd9f1d5ca469ccc747f131f0b7a60b6ba1f27b1143a0705"
+  },
+  {
+   "path": "docs/H01_007_S2_State_Transitions.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S2"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "27ab8a5d059aaa527deee1f6f2237ac344ee0c490c6eefb7068ae3e496d1639d"
+  },
+  {
+   "path": "docs/H01_007_S3_Changed_Files.txt",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "06dca60a7ecd0e35ba9da0f4639c728744356fd531045e636f6533262b39cd50"
+  },
+  {
+   "path": "docs/H01_007_S3_Diff_Report.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "36d140458ab6ad23aac19eb13c579c28af79079d9f406fa9516870545d1aa3f7"
+  },
+  {
+   "path": "docs/H01_007_S4_Changed_Files.txt",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "0abcfbe63c751328cdd354c9f7dd48186630c27bd255885490ee7c3eb1137d37"
+  },
+  {
+   "path": "docs/H01_007_S4_Diff_Report.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "23df37379365089b45e3c2cf25fb7b523617ad946662e8c506c5e9bf5822ee9a"
+  },
+  {
+   "path": "docs/H01_007_S4_Regression_Classification.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "0b8c5331acdd3f0710922ab3201a48d22e50959ad8e96d4d7a0e10bd7374d829"
+  },
+  {
+   "path": "docs/H01_007_S5_FINAL_ACCEPTANCE_REPORT.md",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "154e94329ba0662a1de0ba0354d164dfa770f48789d3d3858f03097a376cfeab"
+  },
+  {
+   "path": "qa/test_h01_007_s1_http_flows.py",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S1"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "0a00f8e6e1e33fad47e0fde32ec7511584211ba57fbcb6a79bdbc13ff6229d17"
+  },
+  {
+   "path": "qa/test_h01_007_s1_requirement_trade_snapshot.cjs",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S1"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "9d0199d9c3d7fcd92e4a1a556d6a69ecc470ef9b73b753409bf2155dbbac9058"
+  },
+  {
+   "path": "qa/test_h01_007_s2_coupon_eligibility.cjs",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S2"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "51f6804748a8814e1e5ef17018310f09b0899f2eeecea9ddffc52a2b62c6420c"
+  },
+  {
+   "path": "qa/test_h01_007_s2_http_flows.py",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S2"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "51e33d381a0cce2738d3583dd12ea52f5b408df78b2610f330103dbbbb9dacf2"
+  },
+  {
+   "path": "qa/test_h01_007_s3_http_flows.py",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S3"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "5d2b2136f00df2b2c7f817ba0cfd7aa57d96b190a8b5f033279e9e61ed1163dd"
+  },
+  {
+   "path": "qa/test_h01_007_s3_trade_recheck.cjs",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S3"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "1fa344c0661b41675809a8c9a884c70d95c3c8421e285fd23623b2d3abafc7f1"
+  },
+  {
+   "path": "qa/test_h01_007_s4_entry_contracts.cjs",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S4"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "ba7a4f53a8a8b541a5ee4ecf365d7c4d49e829c2fb8b5f729397f217418b843b"
+  },
+  {
+   "path": "qa/test_h01_007_s4_http_flows.py",
+   "change": "ADDED",
+   "managed_runtime": false,
+   "stages": [
+    "S4"
+   ],
+   "issues": "",
+   "sha256_004B": null,
+   "sha256_final": "253127ecaf84258678db3e3c42a4eeb7a6fcd24c72b9b55f611401c624646c67"
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+/* EST-VIS-08: fixes EST-VIS-07 P1 touch area; do not change business event logic. */
+#s4 .kv .hd{grid-template-columns:56px minmax(0,1fr) auto!important;column-gap:6px!important}
+#s4 .kv .estvis06-thumb{width:56px!important;height:60px!important}
+#s4 .kv .qty{gap:2px!important}
+#s4 .kv .qty button{box-sizing:border-box!important;width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;flex:0 0 44px!important}
+#s4 .kv .qty span{width:14px!important;min-width:14px!important}
+#s4 .kv .variant{margin-left:62px!important}
+#s2 .scene:focus-visible,#s3 .amount-card:focus-visible{outline:2px solid #168257!important;outline-offset:2px!important}

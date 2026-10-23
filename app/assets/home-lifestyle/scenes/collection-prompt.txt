@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: transparent cutout for a small homepage storage scene illustration displayed about 100 by 68 pixels.
+Subject: one coherent camping hobby gear arrangement: a refined muted forest green hiking backpack with a few restrained warm orange panels and straps; a neatly rolled olive green sleeping mat lying beside the pack; a small classic camping lantern with a warm orange glow on the other side. The backpack dominates.
+Style: refined realistic 3D household object illustration, soft natural daylight, warm neighborly lifestyle feeling, credible subtle canvas and metal materials, clean polished detailing. This is a matching object series with silver suitcase and green travel bag.
+Composition: front view slightly from above, compact horizontal arrangement, centered subject filling image with safe transparent margins, all objects fully visible. No environment, no floor, no scene backdrop. Only a faint contact shadow.
+Palette: muted forest green, warm white/cream highlights, restrained orange details.
+Constraints: genuinely transparent background alpha; no text, logo, branding, watermark, people, animals, koala, UI, borders, card, background shapes, scenery. One asset, not a grid.

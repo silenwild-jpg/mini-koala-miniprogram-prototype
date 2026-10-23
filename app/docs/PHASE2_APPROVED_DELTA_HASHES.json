@@ -1,0 +1,51 @@
+{
+  "reason": "Phase 2 M01–M05 candidate: rebase exact hash guards only for the two deliberately changed pages. All other pages retain previous guards. Original tests remain in untouched baseline ZIP.",
+  "guard_updates": [
+    {
+      "file": "space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+      "range": "file",
+      "previous": "08d1e661420cccb6a63f58bd59474388e10f07381a7536b509fc75641bd0b716",
+      "candidate": "4f9c56a4e4de1ec55bd73eaa10e3d9170d33588a5d57024719c6e7ef99fcb2d2"
+    },
+    {
+      "file": "space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+      "range": "body_to_end",
+      "previous": "0cfc093d410589afa85c8b0f1a11cf9e0a5140e2bbba05083f60b6c5d77ce367",
+      "candidate": "38e6f8e4be9d211558345cd401d1ba629725819ccf25190e9c713028b3132727"
+    },
+    {
+      "file": "space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+      "range": "body_content",
+      "previous": "77bec39d4fd4e04149aaf6269284d98c38b6dbdf47f3065afe1b5015d88869e6",
+      "candidate": "c0b582ad17595ed4e6931c91c95ac682bf5fd2f7ca4de9b8aa2c28887330dcb8"
+    },
+    {
+      "file": "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html",
+      "range": "file",
+      "previous": "bcc099f4f69c2005fcd18e49d44171fc63766179afcf3f4a65a4f98b3da526d3",
+      "candidate": "36ebfa32fa295eb76146a54ff7f51f13e17af68e45b749dda7baa6d63f83f18b"
+    },
+    {
+      "file": "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html",
+      "range": "body_to_end",
+      "previous": "848671d5a12ece70d8d10dadb28d99409ffe0ec959a879c3f94b94fcd08b5de0",
+      "candidate": "818ab5b3ea561d9c015654a4034af1dadafaad3984222018e020b65cca4b2b5d"
+    },
+    {
+      "file": "mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html",
+      "range": "body_content",
+      "previous": "6d8a70ac00f1291146167184c0a8b01c1f55b6c3ebdaa250f7be6676ac284820",
+      "candidate": "4daff03a0d295d99e792f58fe09c6f7ac287fc9fbd42c052071eb7a256be8b3c"
+    }
+  ],
+  "affected_tests": [
+    "qa/v15_current_body_freeze.json",
+    "qa/test_visual_elevation_v2_1_density.js",
+    "qa/test_sprint1g_core_visual_harmonization.js",
+    "qa/test_sprint1d_s01_visual.js",
+    "qa/test_visual_elevation_v2_1_secondary_density.js",
+    "qa/test_sprint1c_recommendation_visual.js",
+    "qa/test_sprint1b_estimator_visual.js",
+    "qa/acceptance_v11/abc_core_html_sha256.json"
+  ]
+}

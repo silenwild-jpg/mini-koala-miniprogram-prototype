@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const html=fs.readFileSync('prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html','utf8');
+const model=html.slice(html.indexOf('function usageActionModel('),html.indexOf('function renderUsage(){'));
+const context={};vm.createContext(context);vm.runInContext(model,context);
+let v=context.usageActionModel(0,false,'三元桥店');assert.equal(v.primaryAction,'select-term');assert.equal(v.showStores,false);assert.equal(v.secondary,'');
+v=context.usageActionModel(6,false,'三元桥店');assert.equal(v.primary,'查看推荐仓位');assert.equal(v.primaryAction,'recommended-unit');assert.equal(v.secondaryAction,'advisor');assert.equal(v.hint,'当前推荐：三元桥店');
+v=context.usageActionModel(6,true,'');assert.equal(v.primaryAction,'advisor');assert.equal(v.secondaryAction,'adjust');assert.equal(v.primary,'顾问协助');assert.equal(v.secondary,'调整需求');
+assert.equal((html.match(/id="usageStoreListBtn"/g)||[]).length,1);
+assert.ok(html.includes('storeListEntry.onclick=carryRequirementToStoreList;'));
+assert.ok(html.includes('saveEffectiveRequirement({travel_mode:travel'));
+console.log('PASS: term-required / matched / nomatch action models and requirement-carrying store entry');

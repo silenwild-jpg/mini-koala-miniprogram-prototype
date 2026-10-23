@@ -1,0 +1,86 @@
+[
+  {
+    "viewportWidth": 375,
+    "scrollWidth": 375,
+    "brandHeight": 711,
+    "statCount": 3,
+    "benefitCount": 4,
+    "proofCount": 3,
+    "proofLabels": [
+      "高新技术企业",
+      "CCTV报道",
+      "国标起草单位"
+    ],
+    "imagesLoaded": true,
+    "imageSizes": [
+      [
+        1152,
+        599
+      ],
+      [
+        520,
+        404
+      ],
+      [
+        520,
+        404
+      ],
+      [
+        520,
+        404
+      ]
+    ],
+    "heroText": "城市仓储领先品牌",
+    "brandLinks": 1,
+    "proofWidths": [
+      104,
+      104,
+      104
+    ],
+    "size": "375x812",
+    "pageErrors": [],
+    "passed": true
+  },
+  {
+    "viewportWidth": 390,
+    "scrollWidth": 390,
+    "brandHeight": 719,
+    "statCount": 3,
+    "benefitCount": 4,
+    "proofCount": 3,
+    "proofLabels": [
+      "高新技术企业",
+      "CCTV报道",
+      "国标起草单位"
+    ],
+    "imagesLoaded": true,
+    "imageSizes": [
+      [
+        1152,
+        599
+      ],
+      [
+        520,
+        404
+      ],
+      [
+        520,
+        404
+      ],
+      [
+        520,
+        404
+      ]
+    ],
+    "heroText": "城市仓储领先品牌",
+    "brandLinks": 1,
+    "proofWidths": [
+      109,
+      109,
+      109
+    ],
+    "size": "390x844",
+    "pageErrors": [],
+    "passed": true
+  }
+]

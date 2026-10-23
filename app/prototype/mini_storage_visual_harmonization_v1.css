@@ -1,0 +1,79 @@
+/* Mini Koala Visual Baseline 1.0 — Sprint 1G Core Visual Harmonization */
+:root{--mk-tertiary:#6D7671;--mk-promo-bg:#FFF0E2;--mk-promo-text:#B85A16;--mk-promo-line:#F1D0AE}
+
+/* Promotion semantics: orange = price / promotion. */
+.mk-promo-tag{
+  background:var(--mk-promo-bg)!important;
+  color:var(--mk-promo-text)!important;
+  border-color:var(--mk-promo-line)!important;
+  box-shadow:none!important;
+  white-space:nowrap!important;
+}
+
+/* Decorative route/location icons are one visual family; source labels remain untouched. */
+.mk-leading-icon{
+  background-repeat:no-repeat!important;
+  background-position:left center!important;
+  background-size:16px 16px!important;
+  padding-left:22px!important;
+}
+.mk-icon-only{
+  display:inline-block!important;
+  width:18px!important;
+  min-width:18px!important;
+  height:18px!important;
+  min-height:18px!important;
+  padding:0!important;
+  color:transparent!important;
+  font-size:0!important;
+  line-height:0!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:16px 16px!important;
+  vertical-align:-3px!important;
+}
+.mk-icon-only::before,.mk-icon-only::after{content:none!important}
+
+.mk-icon-pin{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232F6B4F' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.4'/%3E%3C/svg%3E")!important;
+}
+.mk-icon-drive{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232F6B4F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 16h14l-1.2-6.1A2.4 2.4 0 0 0 15.4 8H8.6a2.4 2.4 0 0 0-2.4 1.9L5 16Z'/%3E%3Cpath d='M4 13h16v5H4z'/%3E%3Ccircle cx='7.5' cy='18' r='1.4'/%3E%3Ccircle cx='16.5' cy='18' r='1.4'/%3E%3C/svg%3E")!important;
+}
+.mk-icon-bike{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232F6B4F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5.5' cy='17' r='3.2'/%3E%3Ccircle cx='18.5' cy='17' r='3.2'/%3E%3Cpath d='M8 17l3.2-6h3.2l4.1 6M10.5 11 8 8h3M11.2 11l3.2 6H8'/%3E%3C/svg%3E")!important;
+}
+.mk-icon-walk{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232F6B4F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='13' cy='5' r='2'/%3E%3Cpath d='m11 9-2 5 3 2 1.5 5M11 10l4 3 3-1M9 14l-3 6'/%3E%3C/svg%3E")!important;
+}
+
+/* Route controls have bespoke paddings in each page; harmonization wins without changing layout semantics. */
+#travelBtn.mk-leading-icon{padding-left:27px!important;background-position:8px center!important}
+#routeText.mk-leading-icon{padding-left:21px!important;background-position:left center!important}
+#travelSheet .option.mk-leading-icon{padding-left:27px!important;background-position:5px center!important}
+.recommend-location span.mk-leading-icon{padding-left:21px!important;background-position:left center!important}
+#locationSheet .option.mk-leading-icon{padding-left:27px!important;background-position:5px center!important}
+
+/* The harmonized tertiary token is intentionally darker for 11–12px supporting text. */
+.mk-tertiary{color:var(--mk-tertiary)!important}
+
+/* High-specificity promotion semantic lock for pages with legacy !important tag rules. */
+#nearNew .store-tags span.mk-promo-tag,
+.home-store-alts .store-tags span.mk-promo-tag,
+.card-corner-badge.mk-promo-tag,
+.unit-card .role.mk-promo-tag,
+#roleLabel.mk-promo-tag,
+.kicker.mk-promo-tag{
+  background:#FFF0E2!important;
+  color:#B85A16!important;
+  border-color:#F1D0AE!important;
+  box-shadow:none!important;
+  white-space:nowrap!important;
+}
+.home-store-alts .store-alt .top .card-corner-badge.mk-promo-tag,
+#nearNew .card-corner-badge.mk-promo-tag{
+  background:#FFF0E2!important;
+  color:#B85A16!important;
+  border-color:#F1D0AE!important;
+  box-shadow:none!important;
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>迷你考拉仓 · Demo Launcher & State Matrix V2</title>
+<style>
+:root{--bg:#F7F3ED;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E6DED4;--green:#2F6B4F;--soft:#EEF5F0;--warn:#FFF7ED}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.wrap{max-width:980px;margin:auto;padding:26px 18px 54px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.top h1{font-size:26px;margin:0}.top p{margin:7px 0 0;color:var(--muted);font-size:13px;line-height:1.65}.back{flex:0 0 auto;text-decoration:none;color:var(--green);font-size:12px;font-weight:900;border:1px solid #C9D9CF;background:#fff;border-radius:11px;padding:9px 11px}.note{margin:17px 0;padding:13px 15px;border:1px solid #E5D3BE;background:var(--warn);border-radius:14px;color:#775A3C;font-size:11px;line-height:1.7}.group{margin-top:26px}.group h2{font-size:18px;margin:0 0 4px}.group>.desc{font-size:11px;color:var(--muted);margin:0 0 10px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.entry{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:13px;text-align:left;cursor:pointer;color:var(--text);min-height:78px}.entry:hover{border-color:#BFD1C5;background:#fff}.entry b{display:block;font-size:13px;color:var(--green)}.entry small{display:block;color:#8A918D;font-size:9px;margin-top:3px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.entry span{display:block;color:var(--muted);font-size:10px;line-height:1.5;margin-top:5px}.subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}.footer a{font-size:11px;font-weight:850;text-decoration:none;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 11px}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.wrap{padding:18px 12px 40px}.top{display:block}.back{display:inline-block;margin-top:10px}.grid,.subgrid{grid-template-columns:1fr}.entry{min-height:0}}
+ .mini-global-support{display:none!important}</style>
+<link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+</head>
+<body><div class="wrap">
+  <div class="top"><div><h1>Demo Launcher & State Matrix V2</h1><p>按“页面 × 用户状态”检查当前原型。所有生命周期 fixture 使用同一 canonical 用户数据，状态切换前会清理旧演示资产。</p></div><a class="back" href="product_demo_hub_v1.html">← 返回 Internal Demo Hub</a></div>
+  <div class="note"><b>状态命名：</b>NEW 新用户 · ESTIMATED 已估算 · APPOINTED 已预约 · PENDING_PAYMENT 已下单待支付 · PENDING_USE 已支付待使用 · ACTIVE 用仓中 · ENDING 即将到期 · EXITING 退租处理中 · RETURNING/HISTORICAL 历史用户。这里是 Demo preset，不代表正式后端状态机已全部冻结。</div>
+
+  <section class="group"><h2>首页 H01</h2><p class="desc">最适合检查用户主任务随生命周期如何变化。</p><div class="grid">
+    <button class="entry" data-home="new"><b>新用户</b><small>H01_NEW</small><span>无估算、无预约、无订单；显示双任务入口。</span></button>
+    <button class="entry" data-home="estimated"><b>已估算</b><small>H01_ESTIMATED</small><span>约4.8m³ · 6个月，继续找匹配门店。</span></button>
+    <button class="entry" data-home="appointed"><b>已预约</b><small>H01_APPOINTED</small><span>显示即将到店的看仓预约。</span></button>
+    <button class="entry" data-home="pending_payment"><b>已下单 · 待支付</b><small>H01_PENDING_PAYMENT</small><span>主任务变为继续支付。</span></button>
+    <button class="entry" data-home="pending_use"><b>待使用</b><small>H01_PENDING_USE</small><span>已支付，起租日在未来，展示入仓准备。</span></button>
+    <button class="entry" data-home="active"><b>用仓中</b><small>H01_ACTIVE</small><span>查看当前仓位、存取与服务。</span></button>
+    <button class="entry" data-home="ending"><b>即将到期</b><small>H01_ENDING</small><span>续租 / 退租成为优先任务。</span></button>
+  </div></section>
+
+  <section class="group"><h2>附近门店 S01</h2><p class="desc">区分普通浏览与需求匹配；“无匹配”不是筛选为空。</p><div class="grid">
+    <button class="entry" data-s01="browse"><b>新用户 · 未关联需求</b><small>S01_BROWSE</small><span>按位置、距离、服务和参考单价浏览门店。</span></button>
+    <button class="entry" data-s01="estimated"><b>已估算 · 有匹配</b><small>S01_ESTIMATED_MATCHED</small><span>约4.8m³ · 6个月，推荐排序与整期价格。</span></button>
+    <button class="entry" data-s01="nomatch"><b>已估算 · 无完全匹配</b><small>S01_ESTIMATED_NO_MATCH</small><span>大空间需求，验证相近方案与恢复路径。</span></button>
+    <button class="entry" data-s01="soldout"><b>附近含售罄门店</b><small>S01_SOLD_OUT_VISIBILITY</small><span>售罄门店退出主推荐层，在“附近其他门店”单独标识。</span></button>
+  </div></section>
+
+  <section class="group"><h2>门店详情 S02</h2><p class="desc">检查同一门店在未关联需求 / 已匹配 / 无完全匹配下的仓位展示。</p><div class="grid">
+    <button class="entry" data-s02="browse"><b>普通浏览</b><small>S02_BROWSE</small><span>具体仓位显示参考价格，引导选择租期。</span></button>
+    <button class="entry" data-s02="matched"><b>已估算 · 有匹配</b><small>S02_MATCHED</small><span>按当前需求推荐真实可租仓位。</span></button>
+    <button class="entry" data-s02="nomatch"><b>无完全匹配</b><small>S02_NO_EXACT_MATCH</small><span>展示容量取舍与替代方案。</span></button>
+    <button class="entry" data-s02="soldout"><b>门店已售罄</b><small>S02_SOLD_OUT</small><span>不逐个展示已售出仓号；引导返回附近有仓门店。</span></button>
+  </div></section>
+
+  <section class="group"><h2>Estimator / 租期与推荐</h2><p class="desc">Estimator 属于任务状态，不直接套用生命周期状态。</p><div class="grid">
+    <button class="entry" data-est="new"><b>新估算</b><small>EST_NEW</small><span>从空需求开始。</span></button>
+    <button class="entry" data-est="from_s01"><b>从附近门店进入</b><small>EST_FROM_S01</small><span>中途退出可恢复原 Browse 上下文。</span></button>
+    <button class="entry" data-est="from_s02"><b>从门店详情进入</b><small>EST_FROM_S02</small><span>返回当前门店上下文。</span></button>
+    <button class="entry" data-est="recommend"><b>已完成 · 租期与推荐</b><small>EST_LEASE_RECOMMEND</small><span>约4.8m³ · 6个月，含“查看符合需求的门店”。</span></button>
+  </div></section>
+
+  <section class="group"><h2>仓位 / 方案 / 确认订单</h2><p class="desc">统一 canonical 仓位 BJ0112S01A009，避免不同演示入口数据漂移。</p><div class="grid">
+    <button class="entry" data-open="u01"><b>仓位方案 · 库存紧张</b><small>U01_STANDARD_6M</small><span>整期价格 + 仅剩1个 + 正在查看人数 + 库存复核倒计时。</span></button>
+    <button class="entry" data-open="q01"><b>已保存方案</b><small>Q01_SAVED</small><span>读取同一 Price Snapshot。</span></button>
+    <button class="entry" data-open="o01"><b>确认订单</b><small>O01_CONFIRM</small><span>本次应付 + 费用组成 + 协议。</span></button>
+  </div></section>
+
+  <section class="group"><h2>我的 M01</h2><p class="desc">当前最完整的 Lifecycle State Matrix。</p><div class="grid">
+    <button class="entry" data-mine="new"><b>新用户</b><small>M01_NEW</small><span>无业务资产。</span></button>
+    <button class="entry" data-mine="estimated"><b>已估算</b><small>M01_ESTIMATED</small><span>保留最近需求，可继续找仓。</span></button>
+    <button class="entry" data-mine="appointed"><b>已预约</b><small>M01_APPOINTED</small><span>显示待到店预约。</span></button>
+    <button class="entry" data-mine="pending_payment"><b>待支付</b><small>M01_PENDING_PAYMENT</small><span>订单未完成，可继续处理。</span></button>
+    <button class="entry" data-mine="pending_use"><b>待使用</b><small>M01_PENDING_USE</small><span>已支付，等待起租。</span></button>
+    <button class="entry" data-mine="active"><b>用仓中</b><small>M01_ACTIVE</small><span>当前服务和租赁资产。</span></button>
+    <button class="entry" data-mine="ending"><b>即将到期</b><small>M01_ENDING</small><span>续租 / 退租入口强化。</span></button>
+    <button class="entry" data-mine="exiting"><b>退租处理中</b><small>M01_EXITING</small><span>验仓、押金、退租进度。</span></button>
+    <button class="entry" data-mine="historical"><b>历史用户</b><small>M01_RETURNING</small><span>已结束订单和历史记录。</span></button>
+  </div></section>
+
+  <section class="group"><h2>订单与租后生命周期</h2><p class="desc">按订单任务检查，而不是把所有状态塞进首页。</p><div class="grid">
+    <button class="entry" data-order="pending_use"><b>订单 · 待使用</b><small>O03_PENDING_USE</small><span>已支付但尚未起租。</span></button>
+    <button class="entry" data-order="active"><b>订单 · 用仓中</b><small>O03_ACTIVE</small><span>存取、当前服务和付款记录。</span></button>
+    <button class="entry" data-order="ending"><b>订单 · 即将到期</b><small>O03_ENDING</small><span>到期前的续退租决策。</span></button>
+    <button class="entry" data-order="exiting"><b>订单 · 退租处理中</b><small>O03_EXITING</small><span>等待验仓与押金处理。</span></button>
+    <button class="entry" data-order="historical"><b>订单 · 已结束</b><small>O03_ENDED</small><span>历史订单查看。</span></button>
+    <button class="entry" data-life="renew"><b>续租</b><small>RN01</small><span>重新报价并确认付款。</span></button>
+    <button class="entry" data-life="exit"><b>退租</b><small>EX01</small><span>退租申请与到期处理。</span></button>
+    <button class="entry" data-life="deposit"><b>押金</b><small>DP01</small><span>退租验仓后的押金状态。</span></button>
+    <button class="entry" data-life="history"><b>历史订单</b><small>OH01</small><span>统一历史租赁记录。</span></button>
+    <button class="entry" data-life="invoice"><b>发票</b><small>IV01</small><span>当前订单开票流程。</span></button>
+  </div></section>
+
+  <div class="footer"><a href="product_demo_hub_v1.html">Internal Demo Hub</a><a href="mini_storage_demo_d01_v5_entry_clarity_review.html">状态注入控制台</a><a href="index_visual_v2_7_4_8.html">全部页面入口</a></div>
+</div>
+<script src="mini_storage_demo_fixture_v2.js"></script>
+<script>
+const D=window.MINI_KOALA_DEMO_V2;
+function all(sel,fn){document.querySelectorAll(sel).forEach(el=>el.onclick=()=>fn(el))}
+all('[data-home]',el=>D.home(el.dataset.home));all('[data-s01]',el=>D.s01(el.dataset.s01));all('[data-s02]',el=>D.s02(el.dataset.s02));all('[data-est]',el=>D.estimator(el.dataset.est));all('[data-mine]',el=>D.mine(el.dataset.mine));all('[data-order]',el=>D.orderDetail(el.dataset.order));all('[data-life]',el=>D.lifecycle(el.dataset.life));all('[data-open]',el=>{if(el.dataset.open==='u01')D.u01();if(el.dataset.open==='q01')D.q01();if(el.dataset.open==='o01')D.o01();});
+</script>
+<script src="mini_storage_global_support_v274.js"></script></body></html>

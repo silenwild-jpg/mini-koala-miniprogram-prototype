@@ -1,0 +1,1017 @@
+{
+  "meta": {
+    "source_workbook": "迷你考拉门店地址.xlsx",
+    "source_field": "所属小区/园区",
+    "store_count": 126
+  },
+  "stores": {
+    "MK_SH_6DAC0F39": {
+      "store_name": "万体馆店",
+      "community": "明佳苑",
+      "source_store_name": "明佳苑",
+      "source_address": "上海市徐汇区龙华西路535弄3号楼",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_SH_8983E3AF": {
+      "store_name": "世博滨江店",
+      "community": "白玉兰家园",
+      "source_store_name": "白玉兰家园",
+      "source_address": "上海市黄浦区西藏南路1717弄白玉兰家园2号楼",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_SH_DD275356": {
+      "store_name": "中山公园店",
+      "community": "虹桥万博花园",
+      "source_store_name": "虹桥万博花园二期",
+      "source_address": "上海市长宁区虹桥万博花园21号楼",
+      "match_score": 1.05,
+      "candidate_count": 8
+    },
+    "MK_SH_140A1911": {
+      "store_name": "临平路店",
+      "community": "虹口现代公寓",
+      "source_store_name": "虹口现代公寓社区仓",
+      "source_address": "上海市虹口区天宝路66弄6栋",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_SH_BCD74F68": {
+      "store_name": "五里桥店",
+      "community": "江南造船新苑",
+      "source_store_name": "江南造船新苑",
+      "source_address": "上海市黄浦区瞿溪路926弄1号",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_SH_9CA2C96F": {
+      "store_name": "仙霞店",
+      "community": "虹古大楼",
+      "source_store_name": "虹古大楼",
+      "source_address": "上海市长宁区仙霞路620弄32号楼",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_SH_A837123C": {
+      "store_name": "凉城店",
+      "community": "广联新苑",
+      "source_store_name": "广联新苑（超级仓）",
+      "source_address": "上海市虹口区广联路29弄12号",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_SH_8CDD3DD2": {
+      "store_name": "北新泾店",
+      "community": "IBP国际会议中心",
+      "source_store_name": "IBP国际会议中心",
+      "source_address": "上海市长宁区通协路258号-2",
+      "match_score": 1.05,
+      "candidate_count": 1
+    },
+    "MK_SH_D54F2620": {
+      "store_name": "古北店",
+      "community": "古北嘉年华庭",
+      "source_store_name": "古北嘉年华庭北区",
+      "source_address": "上海市长宁区姚虹路258弄2号楼",
+      "match_score": 0.9149,
+      "candidate_count": 4
+    },
+    "MK_SH_8D34C792": {
+      "store_name": "古美店",
+      "community": "宝城大厦",
+      "source_store_name": "宝城大厦便捷仓",
+      "source_address": "上海市闵行区虹梅路263弄南楼",
+      "match_score": 1.05,
+      "candidate_count": 8
+    },
+    "MK_SH_55BC6779": {
+      "store_name": "周家嘴路店",
+      "community": "珠江香樟南园",
+      "source_store_name": "珠江香樟南园",
+      "source_address": "上海市杨浦区平凉路1889弄街道珠江香樟南园小区一号栋",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_SH_A8D25447": {
+      "store_name": "四川北路店",
+      "community": "虹祺花苑",
+      "source_store_name": "虹祺花苑二期（超级仓）",
+      "source_address": "上海市虹口区虹祺花苑12号楼",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_SH_BA3A47AD": {
+      "store_name": "大场镇店",
+      "community": "乾澄园",
+      "source_store_name": "乾澄园立方仓",
+      "source_address": "上海市宝山区大场镇，环镇北路300弄，25-27号，乾澄园小区",
+      "match_score": 0.9071,
+      "candidate_count": 2
+    },
+    "MK_SH_1C44E2CD": {
+      "store_name": "大宁店",
+      "community": "明园森林都市涵翠苑",
+      "source_store_name": "明园森林都市三期（涵翠苑）",
+      "source_address": "上海市静安区永和东路500号1号楼",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_SH_D5AF3DE3": {
+      "store_name": "张江店",
+      "community": "汤臣湖庭花园",
+      "source_store_name": "汤臣湖庭花园立方仓",
+      "source_address": "上海市浦东新区罗山路2255弄",
+      "match_score": 1.05,
+      "candidate_count": 1
+    },
+    "MK_SH_792BFEEE": {
+      "store_name": "徐家汇店",
+      "community": "尊园",
+      "source_store_name": "尊园",
+      "source_address": "上海市徐汇区漕溪北路99弄2号楼",
+      "match_score": 1.05,
+      "candidate_count": 9
+    },
+    "MK_SH_7FCD8386": {
+      "store_name": "打浦桥店",
+      "community": "鲁班路全季酒店",
+      "source_store_name": "鲁班路全季酒店超级仓",
+      "source_address": "上海市黄浦区瞿溪路1069号",
+      "match_score": 1.05,
+      "candidate_count": 8
+    },
+    "MK_SH_9BB01B52": {
+      "store_name": "新天地店",
+      "community": "马当菜场",
+      "source_store_name": "马当菜场立方仓",
+      "source_address": "上海市黄浦区合肥路223弄65号",
+      "match_score": 1.0197,
+      "candidate_count": 2
+    },
+    "MK_SH_78F4E305": {
+      "store_name": "梅园店",
+      "community": "珠江玫瑰花园",
+      "source_store_name": "珠江玫瑰花园",
+      "source_address": "上海市浦东新区浦东大道1097弄15号楼",
+      "match_score": 0.9011,
+      "candidate_count": 2
+    },
+    "MK_SH_89E1DA4D": {
+      "store_name": "武宁店",
+      "community": "康泰公寓",
+      "source_store_name": "康泰公寓",
+      "source_address": "上海市普陀区石湾路7弄16号楼",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_SH_CE81F815": {
+      "store_name": "洋泾店",
+      "community": "金淙苑",
+      "source_store_name": "金淙苑（社区仓）",
+      "source_address": "上海市浦东新区巨野路197弄2幢2号旁坡道下去",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_SH_1E5A0422": {
+      "store_name": "浦江店",
+      "community": "立跃路1758号",
+      "source_store_name": "立跃路1758号二期",
+      "source_address": "上海市闵行区立跃路1758号6幢3楼",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_SH_C3CBA391": {
+      "store_name": "甘泉宜川店",
+      "community": "绿地普陀商务广场",
+      "source_store_name": "绿地普陀商务广场立方仓",
+      "source_address": "上海市普陀区甘泉街道新村路423弄2号楼",
+      "match_score": 1.0024,
+      "candidate_count": 2
+    },
+    "MK_SH_2E34D997": {
+      "store_name": "田林店",
+      "community": "明园小安桥",
+      "source_store_name": "明园小安桥（超级仓）",
+      "source_address": "上海市徐汇区中山西路1698弄12号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_SH_1A9EB64E": {
+      "store_name": "老西门店",
+      "community": "黄浦众鑫城",
+      "source_store_name": "黄浦众鑫城",
+      "source_address": "上海市黄浦区西藏南路555弄1号",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_SH_D6E3A993": {
+      "store_name": "航华店",
+      "community": "京润花园",
+      "source_store_name": "京润花园社区仓",
+      "source_address": "上海市闵行区航华二村三街坊77-78号",
+      "match_score": 1.023,
+      "candidate_count": 2
+    },
+    "MK_SH_151CC4E1": {
+      "store_name": "董家渡店",
+      "community": "明日星城",
+      "source_store_name": "明日星城二期",
+      "source_address": "上海市黄浦区中华路835号34号",
+      "match_score": 1.0197,
+      "candidate_count": 1
+    },
+    "MK_SH_5CDD3CF2": {
+      "store_name": "西郊店",
+      "community": "新旺朝公寓",
+      "source_store_name": "新旺朝公寓立方仓",
+      "source_address": "上海市长宁区虹井路839弄2号",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_SH_525F3C3C": {
+      "store_name": "豫园店",
+      "community": "新地苑",
+      "source_store_name": "新地苑（超级仓）",
+      "source_address": "上海市黄浦区复兴东路701弄",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_SH_D85A6C67": {
+      "store_name": "金杨店",
+      "community": "金茂花园",
+      "source_store_name": "金茂花园",
+      "source_address": "上海市浦东新区浦东大道街道2515-2521号金茂花园小区北楼105栋",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_SH_83EA6E0D": {
+      "store_name": "金桥店",
+      "community": "新沪东公寓",
+      "source_store_name": "新沪东公寓",
+      "source_address": "上海市浦东新区柳阜路196弄7号楼",
+      "match_score": 1.05,
+      "candidate_count": 7
+    },
+    "MK_SH_FEE483A3": {
+      "store_name": "金汇店",
+      "community": "锦绣江南怡然居",
+      "source_store_name": "锦绣江南怡然居（超级仓）",
+      "source_address": "上海市闵行区金汇南路91弄",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_SH_53E2129F": {
+      "store_name": "金虹桥店",
+      "community": "虹桥晶典苑",
+      "source_store_name": "虹桥晶典苑",
+      "source_address": "上海市闵行区虹梅路2838弄1号楼",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_SH_113CE053": {
+      "store_name": "长寿路店",
+      "community": "常德名园",
+      "source_store_name": "常德名园（超级仓）",
+      "source_address": "上海市普陀区常德路1185",
+      "match_score": 1.05,
+      "candidate_count": 8
+    },
+    "MK_SH_6CCAF367": {
+      "store_name": "长征店",
+      "community": "振光大厦",
+      "source_store_name": "振光大厦（超级仓）",
+      "source_address": "上海市普陀区曹安路295号",
+      "match_score": 1.05,
+      "candidate_count": 7
+    },
+    "MK_SH_594002D3": {
+      "store_name": "长风店",
+      "community": "海鑫公寓",
+      "source_store_name": "海鑫公寓超级仓",
+      "source_address": "上海市普陀区中山北路3751弄17号",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_SH_9DDB15D2": {
+      "store_name": "阳城店",
+      "community": "浦联佳苑",
+      "source_store_name": "浦联佳苑",
+      "source_address": "上海市静安区浦联佳苑1幢1号楼",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_SH_3A16A780": {
+      "store_name": "鲁迅公园店",
+      "community": "恒业公寓",
+      "source_store_name": "恒业公寓（超级仓）",
+      "source_address": "上海市虹口区恒业路388号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_BJ_E56D0702": {
+      "store_name": "三元桥店",
+      "community": "UHN国际村",
+      "source_store_name": "UHN国际村社区仓二期",
+      "source_address": "北京市朝阳区UHN国际村7号楼1",
+      "match_score": 0.9643,
+      "candidate_count": 4
+    },
+    "MK_BJ_36574CE8": {
+      "store_name": "东大桥店",
+      "community": "圣世一品",
+      "source_store_name": "圣世一品二期（立方仓）",
+      "source_address": "北京市朝阳区圣世一品B座",
+      "match_score": 0.9731,
+      "candidate_count": 6
+    },
+    "MK_BJ_2BAE933C": {
+      "store_name": "东花市店",
+      "community": "东花市北里",
+      "source_store_name": "东花市北里中区（立方仓）",
+      "source_address": "北京市东城区东花市北里中区28号楼",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_BJ_8D13DAA8": {
+      "store_name": "丽泽店",
+      "community": "丽新怡园",
+      "source_store_name": "丽新怡园二期社区仓",
+      "source_address": "北京市丰台区丽新怡园3号楼",
+      "match_score": 0.9786,
+      "candidate_count": 4
+    },
+    "MK_BJ_D4462F1D": {
+      "store_name": "五道口店",
+      "community": "龙湖唐宁one",
+      "source_store_name": "龙湖唐宁one二期",
+      "source_address": "北京市海淀区中关村甲3号10号楼",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_BJ_22F55CAF": {
+      "store_name": "亚运村小营店",
+      "community": "保利香槟",
+      "source_store_name": "保利香槟",
+      "source_address": "北京市朝阳区小营路6号保利香槟一号楼二",
+      "match_score": 1.0,
+      "candidate_count": 3
+    },
+    "MK_BJ_02D955F5": {
+      "store_name": "六里桥店",
+      "community": "风荷曲苑",
+      "source_store_name": "风荷曲苑",
+      "source_address": "北京市丰台区京石高速六里桥10号风荷曲苑3号楼",
+      "match_score": 1.05,
+      "candidate_count": 1
+    },
+    "MK_BJ_5109F0B5": {
+      "store_name": "农展馆店",
+      "community": "枣营北里",
+      "source_store_name": "枣营北里社区4号楼（立方仓）",
+      "source_address": "北京市朝阳区枣营北里4号楼",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_BJ_E234411E": {
+      "store_name": "北苑店",
+      "community": "恒大名都",
+      "source_store_name": "恒大名都",
+      "source_address": "北京市朝阳区恒大名都小区2号楼",
+      "match_score": 0.8833,
+      "candidate_count": 3
+    },
+    "MK_BJ_74B66044": {
+      "store_name": "双井店",
+      "community": "东环18公寓",
+      "source_store_name": "东环18公寓社区仓",
+      "source_address": "北京市朝阳区双井东环18号公寓",
+      "match_score": 1.05,
+      "candidate_count": 11
+    },
+    "MK_BJ_E6C916DF": {
+      "store_name": "回龙观店",
+      "community": "首开智慧社",
+      "source_store_name": "首开智慧社",
+      "source_address": "北京市昌平区育知东路首开智慧社1号楼",
+      "match_score": 0.9731,
+      "candidate_count": 1
+    },
+    "MK_BJ_F2215896": {
+      "store_name": "国展店",
+      "community": "静安东里",
+      "source_store_name": "静安东里",
+      "source_address": "北京市朝阳区静安东里3号楼下地",
+      "match_score": 0.9875,
+      "candidate_count": 2
+    },
+    "MK_BJ_E68EC5FF": {
+      "store_name": "大山子店",
+      "community": "宏源公寓",
+      "source_store_name": "宏源公寓立方仓",
+      "source_address": "北京市朝阳区酒仙桥宏源公寓A座",
+      "match_score": 0.9324,
+      "candidate_count": 1
+    },
+    "MK_BJ_9817939E": {
+      "store_name": "太平桥店",
+      "community": "太平桥西里",
+      "source_store_name": "太平桥西里（立方仓）",
+      "source_address": "北京市丰台区太平桥西里31号楼b1",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_BJ_ECE5A08C": {
+      "store_name": "学院路店",
+      "community": "城华园",
+      "source_store_name": "城华园（超级仓）",
+      "source_address": "北京市海淀区城华园小区2号楼b1",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_BJ_04547515": {
+      "store_name": "安贞店",
+      "community": "国典华园",
+      "source_store_name": "国典华园二期（超级仓）",
+      "source_address": "北京市朝阳区7号楼3B",
+      "match_score": 0.9667,
+      "candidate_count": 7
+    },
+    "MK_BJ_88526796": {
+      "store_name": "官园店",
+      "community": "玉廊东园",
+      "source_store_name": "玉廊东园社区仓",
+      "source_address": "北京市西城区玉廊东园小区2号楼",
+      "match_score": 0.9875,
+      "candidate_count": 2
+    },
+    "MK_BJ_53A5BE0A": {
+      "store_name": "常营店",
+      "community": "常楹大厦",
+      "source_store_name": "常楹大厦二期立方仓",
+      "source_address": "北京市朝阳区常楹大厦2号楼",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_BJ_FFEBFE38": {
+      "store_name": "广安门店",
+      "community": "广华轩",
+      "source_store_name": "广华轩（立方仓）",
+      "source_address": "北京市西城区广华轩小区3号楼",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_BJ_9A80090D": {
+      "store_name": "广渠门店",
+      "community": "广渠家园",
+      "source_store_name": "广渠家园南区23号楼社区仓",
+      "source_address": "北京市东城区广渠家园南区23号楼",
+      "match_score": 1.05,
+      "candidate_count": 6
+    },
+    "MK_BJ_336F004E": {
+      "store_name": "建国门外店",
+      "community": "璞邸酒店",
+      "source_store_name": "璞邸酒店立方仓",
+      "source_address": "北京市东城区璞邸酒店",
+      "match_score": 1.0,
+      "candidate_count": 2
+    },
+    "MK_BJ_2CDB7BEE": {
+      "store_name": "惠新西街店",
+      "community": "惠新苑",
+      "source_store_name": "惠新苑",
+      "source_address": "北京市朝阳区惠新西街9号惠新苑小区7号楼",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_BJ_917617A6": {
+      "store_name": "方庄店",
+      "community": "新坐标",
+      "source_store_name": "新坐标",
+      "source_address": "北京市丰台区方庄左安门外10AM新坐标小区",
+      "match_score": 1.0045,
+      "candidate_count": 1
+    },
+    "MK_BJ_17F6FA2A": {
+      "store_name": "望京店",
+      "community": "朝庭公寓",
+      "source_store_name": "朝庭公寓",
+      "source_address": "北京市朝阳区望京朝庭公寓3号楼",
+      "match_score": 1.05,
+      "candidate_count": 6
+    },
+    "MK_BJ_23AE7E50": {
+      "store_name": "朝青店",
+      "community": "银谷美泉",
+      "source_store_name": "银谷美泉",
+      "source_address": "北京市朝阳区姚家园路甲8号1号楼",
+      "match_score": 0.9643,
+      "candidate_count": 4
+    },
+    "MK_BJ_72899BC9": {
+      "store_name": "欢乐谷店",
+      "community": "华侨城",
+      "source_store_name": "华侨城二期超级仓A店1区",
+      "source_address": "北京市朝阳区华侨城2号院6号楼",
+      "match_score": 1.05,
+      "candidate_count": 6
+    },
+    "MK_BJ_2366E655": {
+      "store_name": "牛街店",
+      "community": "白广路6号院",
+      "source_store_name": "白广路6号院（立方仓）",
+      "source_address": "北京市西城区6号",
+      "match_score": 0.85,
+      "candidate_count": 3
+    },
+    "MK_BJ_89A7BE99": {
+      "store_name": "牡丹园店",
+      "community": "中鑫嘉园",
+      "source_store_name": "中鑫嘉园",
+      "source_address": "北京市海淀区牡丹园北路7号院中鑫嘉园二期2号楼",
+      "match_score": 1.05,
+      "candidate_count": 1
+    },
+    "MK_BJ_D26A7381": {
+      "store_name": "玉桥店",
+      "community": "合生滨江帝景",
+      "source_store_name": "合生滨江帝景",
+      "source_address": "北京市通州区永顺镇玉桥东路合生滨江帝景119号楼",
+      "match_score": 0.9389,
+      "candidate_count": 1
+    },
+    "MK_BJ_C1BAF14C": {
+      "store_name": "玉泉营店",
+      "community": "西陆名门",
+      "source_store_name": "西陆名门（立方仓）",
+      "source_address": "北京市丰台区玉泉营西陆名门小区",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_BJ_BE0238EC": {
+      "store_name": "甘露园店",
+      "community": "天天朝阳",
+      "source_store_name": "天天朝阳二期（立方仓）",
+      "source_address": "北京市朝阳区天天朝阳8号院",
+      "match_score": 0.9786,
+      "candidate_count": 2
+    },
+    "MK_BJ_EF210913": {
+      "store_name": "甜水园店",
+      "community": "甜水西园",
+      "source_store_name": "甜水西园",
+      "source_address": "北京市朝阳区水碓子街甜水西园12号楼",
+      "match_score": 1.05,
+      "candidate_count": 1
+    },
+    "MK_BJ_7573D708": {
+      "store_name": "百子湾店",
+      "community": "金海国际",
+      "source_store_name": "金海国际",
+      "source_address": "北京市朝阳区广渠路金海国际小区8栋",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_BJ_BAD35398": {
+      "store_name": "芍药居店",
+      "community": "芍药居北里",
+      "source_store_name": "芍药居北里315号楼社区仓",
+      "source_address": "北京市朝阳区芍药居北里315号楼",
+      "match_score": 0.9643,
+      "candidate_count": 3
+    },
+    "MK_BJ_C1DD1789": {
+      "store_name": "西二旗店",
+      "community": "燕尚园",
+      "source_store_name": "燕尚园",
+      "source_address": "北京市海淀区燕尚园2号楼",
+      "match_score": 0.9389,
+      "candidate_count": 3
+    },
+    "MK_BJ_03B9ED91": {
+      "store_name": "西北旺店",
+      "community": "中关村软件园",
+      "source_store_name": "中关村软件园立方仓B店",
+      "source_address": "北京市海淀区中关村软件园9号楼",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_BJ_AB265630": {
+      "store_name": "西直门店",
+      "community": "交大嘉园",
+      "source_store_name": "交大嘉园",
+      "source_address": "北京市海淀区交通大学路1号交大嘉园3号楼",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_BJ_B44F4A09": {
+      "store_name": "车公庄店",
+      "community": "北礼士路75号院",
+      "source_store_name": "北礼士路75号院（立方仓）",
+      "source_address": "北京市西城区北礼士路75号院甲75号楼",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_BJ_FAB578DE": {
+      "store_name": "酒仙桥店",
+      "community": "和乔丽晶",
+      "source_store_name": "和乔丽晶",
+      "source_address": "北京市朝阳区芳园西路1号和乔丽晶A座",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_BJ_A8688A68": {
+      "store_name": "陶然亭店",
+      "community": "中海紫御公馆",
+      "source_store_name": "中海紫御公馆西区社区仓",
+      "source_address": "北京市东城区中海紫御公馆西区9号楼",
+      "match_score": 1.0,
+      "candidate_count": 13
+    },
+    "MK_BJ_DA2628C4": {
+      "store_name": "马家堡店",
+      "community": "晨光小区",
+      "source_store_name": "晨光小区社区仓",
+      "source_address": "北京市丰台区角门西里晨光小区甲1号楼",
+      "match_score": 0.9731,
+      "candidate_count": 3
+    },
+    "MK_GZ_B5CC9701": {
+      "store_name": "五羊新城店",
+      "community": "泊寓五羊邨店",
+      "source_store_name": "泊寓五羊邨店社区仓",
+      "source_address": "广州市越秀区寺右中街22号东山月府A座",
+      "match_score": 0.8585,
+      "candidate_count": 1
+    },
+    "MK_GZ_86E4C0EE": {
+      "store_name": "前进路店",
+      "community": "天汇大厦",
+      "source_store_name": "天汇大厦",
+      "source_address": "广州市海珠区江南中街道江南东路31号天汇大厦",
+      "match_score": 0.9862,
+      "candidate_count": 2
+    },
+    "MK_GZ_1ACD5CCC": {
+      "store_name": "宝岗店",
+      "community": "江南花园",
+      "source_store_name": "江南花园二期",
+      "source_address": "广州市海珠区宝岗大道498号江南花园二期",
+      "match_score": 0.9196,
+      "candidate_count": 2
+    },
+    "MK_GZ_8D8CF08C": {
+      "store_name": "珠江新城东店",
+      "community": "誉城苑",
+      "source_store_name": "誉城苑",
+      "source_address": "广州市天河区海清路1号誉城苑南区3栋",
+      "match_score": 0.9731,
+      "candidate_count": 2
+    },
+    "MK_GZ_A4558A33": {
+      "store_name": "磨碟沙店",
+      "community": "畔江花园",
+      "source_store_name": "畔江花园",
+      "source_address": "广州市海珠区新港东路畔江内街11号畔江花园",
+      "match_score": 0.8136,
+      "candidate_count": 2
+    },
+    "MK_GZ_C1EBDC5A": {
+      "store_name": "赤岗店",
+      "community": "恒鑫御雅庭",
+      "source_store_name": "恒鑫御雅庭",
+      "source_address": "广州市海珠区石榴岗路7大院恒鑫御雅庭御荣阁",
+      "match_score": 0.9833,
+      "candidate_count": 1
+    },
+    "MK_GZ_9910DD92": {
+      "store_name": "黄沙店",
+      "community": "御景壹号",
+      "source_store_name": "御景壹号",
+      "source_address": "广州市荔湾区黄沙大道15-17号御景壹号小区",
+      "match_score": 0.9436,
+      "candidate_count": 1
+    },
+    "MK_GZ_69379276": {
+      "store_name": "黄石店",
+      "community": "荷塘月色",
+      "source_store_name": "荷塘月色星怡居A幢",
+      "source_address": "广州市白云区荷塘月色星怡居A幢",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_C1AE98C8": {
+      "store_name": "三墩店",
+      "community": "金地自在城",
+      "source_store_name": "金地自在城东苑（超级仓）",
+      "source_address": "杭州市西湖区池华街与厚仁路交叉口",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_HZ_3FA7527B": {
+      "store_name": "九堡店",
+      "community": "汇盛德堡",
+      "source_store_name": "汇盛德堡（超级仓）",
+      "source_address": "杭州市上城区九洲路19号",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_HZ_2F7ED6FC": {
+      "store_name": "嘉绿店",
+      "community": "益展商务大厦",
+      "source_store_name": "益展商务大厦立方仓",
+      "source_address": "杭州市西湖区文一西路1号",
+      "match_score": 0.9071,
+      "candidate_count": 3
+    },
+    "MK_HZ_2D294439": {
+      "store_name": "城东新城店",
+      "community": "盈澜商务中心",
+      "source_store_name": "盈澜商务中心（立方仓）",
+      "source_address": "杭州市上城区和兴路与明月桥路交叉口北80米2幢1单负二",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_3F514DEF": {
+      "store_name": "复兴店",
+      "community": "钱塘雅苑",
+      "source_store_name": "钱塘雅苑",
+      "source_address": "杭州市上城区上城复兴路钱江四桥以西--1幢",
+      "match_score": 1.05,
+      "candidate_count": 1
+    },
+    "MK_HZ_7D5806F2": {
+      "store_name": "彩虹城店",
+      "community": "悦江商业中心",
+      "source_store_name": "悦江商业中心（便捷仓）",
+      "source_address": "杭州市滨江区闻涛路信诚路口",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_HZ_3B1B3A56": {
+      "store_name": "德胜店",
+      "community": "蓝色霞湾",
+      "source_store_name": "蓝色霞湾（超级仓）",
+      "source_address": "杭州市拱墅区假山路99号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_B377C508": {
+      "store_name": "文三店",
+      "community": "恒升花苑",
+      "source_store_name": "恒升花苑",
+      "source_address": "杭州市西湖区文三路133号恒升花苑恒兴阁",
+      "match_score": 0.9591,
+      "candidate_count": 1
+    },
+    "MK_HZ_BC6B57BD": {
+      "store_name": "文教店",
+      "community": "今日嘉园",
+      "source_store_name": "今日嘉园（超级仓）",
+      "source_address": "杭州市西湖区文一路192号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_EDFA66AD": {
+      "store_name": "朝晖店",
+      "community": "领骏世界二期",
+      "source_store_name": "领骏世界二期立方仓",
+      "source_address": "杭州市拱墅区领骏世界",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_5C0D1ACC": {
+      "store_name": "未来科技城店",
+      "community": "增通塑料有限公司",
+      "source_store_name": "增通塑料有限公司立方仓",
+      "source_address": "杭州市余杭区余杭塘路2620号，2号楼201",
+      "match_score": 1.05,
+      "candidate_count": 1
+    },
+    "MK_HZ_D9199D9B": {
+      "store_name": "桥西店",
+      "community": "名城燕园",
+      "source_store_name": "名城燕园（超级仓）",
+      "source_address": "杭州市拱墅区和盛街25号",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_HZ_47A5F2B3": {
+      "store_name": "流水苑店",
+      "community": "绿洲花园",
+      "source_store_name": "绿洲花园",
+      "source_address": "杭州市下城区朝晖路146号15幢",
+      "match_score": 0.9643,
+      "candidate_count": 2
+    },
+    "MK_HZ_0852437B": {
+      "store_name": "清波店",
+      "community": "定安苑",
+      "source_store_name": "定安苑二期",
+      "source_address": "杭州市上城区安定路36号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_67B878BA": {
+      "store_name": "湖墅店",
+      "community": "苏宁生活广场",
+      "source_store_name": "苏宁生活广场社区仓",
+      "source_address": "杭州市拱墅区湖墅南路90号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_5680AC2C": {
+      "store_name": "滨江区政府店",
+      "community": "郦城公馆",
+      "source_store_name": "郦城公馆二期社区仓",
+      "source_address": "杭州市滨江区郦城公馆负二层",
+      "match_score": 1.05,
+      "candidate_count": 14
+    },
+    "MK_HZ_E56C36BB": {
+      "store_name": "萧山新城区店",
+      "community": "荣星名座",
+      "source_store_name": "荣星名座社区仓",
+      "source_address": "杭州市萧山区萧邮路与老塘路交叉口，荣星名座负二层",
+      "match_score": 1.0256,
+      "candidate_count": 1
+    },
+    "MK_HZ_5557D6DD": {
+      "store_name": "西溪店",
+      "community": "花蒋天街",
+      "source_store_name": "花蒋天街",
+      "source_address": "杭州市西湖区余杭塘路1001号1号楼",
+      "match_score": 0.9731,
+      "candidate_count": 3
+    },
+    "MK_HZ_EDD49720": {
+      "store_name": "金沙湖店",
+      "community": "名城湖左岸",
+      "source_store_name": "名城湖左岸超级仓",
+      "source_address": "杭州市钱塘区学林街1359号",
+      "match_score": 1.0,
+      "candidate_count": 3
+    },
+    "MK_HZ_9D7640D6": {
+      "store_name": "钱江新城店",
+      "community": "盛世钱塘",
+      "source_store_name": "盛世钱塘（超级仓）",
+      "source_address": "杭州市上城区和谐路58号",
+      "match_score": 1.05,
+      "candidate_count": 5
+    },
+    "MK_HZ_CD2FDAEB": {
+      "store_name": "长河店",
+      "community": "水印城",
+      "source_store_name": "水印城（超级仓）",
+      "source_address": "杭州市滨江区水印路66号水印巷7幢",
+      "match_score": 0.9,
+      "candidate_count": 2
+    },
+    "MK_HZ_125FE573": {
+      "store_name": "闸弄口店",
+      "community": "红树林花园",
+      "source_store_name": "红树林花园（超级仓）",
+      "source_address": "杭州市上城区天城路207号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_HZ_D804B867": {
+      "store_name": "高教园区东店",
+      "community": "云滨湾",
+      "source_store_name": "云滨湾",
+      "source_address": "杭州市上城区学林路323号宝龙.云滨湾1幢",
+      "match_score": 0.9389,
+      "candidate_count": 1
+    },
+    "MK_SZ_E547C092": {
+      "store_name": "上塘店",
+      "community": "潜龙曼海宁花园",
+      "source_store_name": "潜龙曼海宁花园南区（超级仓）",
+      "source_address": "深圳市龙华区3栋",
+      "match_score": 0.8119,
+      "candidate_count": 4
+    },
+    "MK_SZ_A0CF9B5C": {
+      "store_name": "南山中心店",
+      "community": "友邻公寓",
+      "source_store_name": "友邻公寓五期立方仓",
+      "source_address": "深圳市南山区桃园路5号友邻公寓负二层",
+      "match_score": 1.05,
+      "candidate_count": 10
+    },
+    "MK_SZ_B6B0EA73": {
+      "store_name": "后海店",
+      "community": "信和自由广场",
+      "source_store_name": "信和自由广场（超级仓）",
+      "source_address": "深圳市南山区信和自由广场负三楼",
+      "match_score": 1.05,
+      "candidate_count": 6
+    },
+    "MK_SZ_34D8F002": {
+      "store_name": "大学城店",
+      "community": "德意名居",
+      "source_store_name": "德意名居三期立方仓3店",
+      "source_address": "深圳市南山区德意名居3栋A",
+      "match_score": 0.8887,
+      "candidate_count": 9
+    },
+    "MK_SZ_A730CA21": {
+      "store_name": "布吉关店",
+      "community": "国展苑",
+      "source_store_name": "国展苑社区仓",
+      "source_address": "深圳市龙岗区布吉国展苑",
+      "match_score": 0.93,
+      "candidate_count": 2
+    },
+    "MK_SZ_40306D29": {
+      "store_name": "布吉街店",
+      "community": "国都花园",
+      "source_store_name": "国都花园（立方仓）",
+      "source_address": "深圳市龙岗区金利路27号",
+      "match_score": 1.05,
+      "candidate_count": 2
+    },
+    "MK_SZ_948E1CD9": {
+      "store_name": "皇岗店",
+      "community": "海滨广场",
+      "source_store_name": "海滨广场（立方仓）",
+      "source_address": "深圳市福田区海滨广场福安阁负一楼",
+      "match_score": 1.05,
+      "candidate_count": 6
+    },
+    "MK_SZ_91A7FBE1": {
+      "store_name": "碧海店",
+      "community": "中信湾上六座",
+      "source_store_name": "中信湾上六座（立方仓）3店",
+      "source_address": "深圳市宝安区悦和路8号",
+      "match_score": 1.05,
+      "candidate_count": 6
+    },
+    "MK_SZ_959010AB": {
+      "store_name": "红山店",
+      "community": "绿景公馆1866",
+      "source_store_name": "绿景1866南区",
+      "source_address": "深圳市龙华区民治街道绿景1866南区",
+      "match_score": 0.9731,
+      "candidate_count": 1
+    },
+    "MK_SZ_EDB271C3": {
+      "store_name": "螺岭店",
+      "community": "海丽大厦",
+      "source_store_name": "海丽大厦二期超级仓",
+      "source_address": "深圳市罗湖区文锦中路1018号",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_SZ_31693794": {
+      "store_name": "西乡店",
+      "community": "合正汇一",
+      "source_store_name": "合正汇一",
+      "source_address": "深圳市宝安区西乡天虹商场负一楼9号门",
+      "match_score": 0.9912,
+      "candidate_count": 4
+    },
+    "MK_SZ_35AB96F8": {
+      "store_name": "车公庙店",
+      "community": "君临天下",
+      "source_store_name": "君临天下（超级仓）",
+      "source_address": "深圳市福田区君临天下",
+      "match_score": 1.05,
+      "candidate_count": 4
+    },
+    "MK_SZ_CBB72565": {
+      "store_name": "香蜜湖店",
+      "community": "枫丹雅苑",
+      "source_store_name": "枫丹雅苑社区仓",
+      "source_address": "深圳市福田区枫丹雅苑",
+      "match_score": 0.9196,
+      "candidate_count": 8
+    },
+    "MK_SZ_2F3D778A": {
+      "store_name": "黄贝岭店",
+      "community": "景园大厦",
+      "source_store_name": "景园大厦超级仓",
+      "source_address": "深圳市罗湖区爱国路3034号",
+      "match_score": 1.05,
+      "candidate_count": 3
+    },
+    "MK_SZ_4A85D7E6": {
+      "store_name": "龙华中心店",
+      "community": "美丽AAA",
+      "source_store_name": "美丽AAA花园社区仓",
+      "source_address": "深圳市龙华区龙华街道人民路4231号美丽AAA花园",
+      "match_score": 0.9272,
+      "candidate_count": 2
+    },
+    "MK_SZ_B2F5633B": {
+      "store_name": "龙华新区店",
+      "community": "华侨新苑",
+      "source_store_name": "华侨新苑立方仓",
+      "source_address": "深圳市龙华区民治大道866华侨新苑商业裙楼2楼2",
+      "match_score": 0.948,
+      "candidate_count": 1
+    }
+  }
+}

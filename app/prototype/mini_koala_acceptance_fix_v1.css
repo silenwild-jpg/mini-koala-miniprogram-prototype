@@ -1,0 +1,18 @@
+/* Acceptance Fix V1: decision information and touch targets. */
+.simulated-spec-note,.discount-note,.payable-formula,.coupon-change,.coupon-hint{font-size:12px!important;line-height:1.6!important}
+#couponChangeV1{min-height:44px!important;display:inline-flex!important;align-items:center!important;padding:8px 0!important;font-size:12px!important}
+.save-quote-link,#saveQuote{min-height:44px!important;font-size:13px!important}
+.gallery-tabs button,.gallery-tabs .tab,.photo-tabs button,.photo-tabs .tab{min-height:44px!important;display:inline-flex;align-items:center;justify-content:center}
+.unit-detail-link,.viewing-button,.viewing-cta{min-height:44px!important;display:flex;align-items:center;justify-content:center}
+.optional{font-size:12px!important;color:#69756D!important}
+.divider-note{font-size:12px!important;line-height:1.6!important}
+#sizeMinus:disabled,#sizePlus:disabled{opacity:.4;cursor:default}
+.sheet-mask [role=dialog]:focus{outline:none}
+.field-error{font-size:13px;color:#A15421;margin:6px 0;line-height:1.5}
+
+#termPriceHint,#simulatedSpecNote,.coupon-benefit-note,.coupon-status-v1{font-size:12px!important;line-height:1.6!important}
+.hero .gallery-tabs button,.unit-cta,#bookStoreViewing{min-height:44px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+#renewForm .chip,#termChips .chip,#typeChips .chip,#sizeChips .chip,#moveChips .chip{min-height:44px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+.sheet-mask .pill,.sheet-mask .option{min-height:44px!important;display:flex;align-items:center}
+html[data-real-store][data-s02-photo] #hero .gallery-tabs button{min-height:44px!important;min-width:44px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+body:has(#contactName) .chip,body:has(#renewForm) #monthChips .chip{min-height:44px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}

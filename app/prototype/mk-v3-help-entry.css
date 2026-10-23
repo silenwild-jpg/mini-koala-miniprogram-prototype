@@ -1,0 +1,94 @@
+/* Mini Koala — Visual V3 · Help entry (global support) | Task 02B-3 | 2026-10-12
+   Scope  : body.koala-ui-v1.koala-o01 / .koala-s01 only (the two pilot pages). Layer: mk-v3 (same single named layer as
+            mk-v3-components.css; loaded after the page files, later source order wins inside the layer).
+   Target : #miniGlobalSupport, created at runtime by mini_storage_global_support_v274.js (unchanged). That script injects an
+            UNLAYERED <style> (.mini-global-support …, .mini-support-launcher{width:44px!important …}) and
+            mini_koala_acceptance_fix_v1.js writes an INLINE style.visibility on #miniGlobalSupport (unchanged). Layered
+            !important beats both (important declarations: layered > unlayered > inline-normal); every declaration here that
+            must win over them carries !important and is listed in docs/visual/mk_v3_override_ledger.csv (help-entry rows).
+   Modes  : "header" (default, set by mk-v3-help-entry.js): the entry is appended into the sticky 48px page header and sits
+            right of the title, left of the WeChat capsule placeholder (.wx-capsule-space). Positional avoidance: it never
+            overlaps list / fee / agreement / pay content and never leaves the viewport. Actions drop down under the header.
+            "float" (fallback, when no .header exists or mkv3help=float): legacy floating position above the tab / bottom
+            bar; collision hiding (.mk-v3-support-obstructed) applies ONLY in this mode and never while expanded.
+   Text   : launcher is icon-only (span hidden; the button keeps its aria-label as accessible name). Action labels 电话 / 客服
+            stay visible at 13px (floor 12). Glyph <i> elements (＋ ☎ ◉) are replaced by line icons — icon-zero exceptions.
+   HTML prototype transition mechanism: @layer / mask-image / env() are not claimed to migrate 1:1 to WXSS. */
+@layer mk-v3 {
+  /* ===== A. shared launcher / action styling (both modes) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support { z-index: 58 !important; gap: 8px !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support button {
+    box-sizing: border-box !important; padding: 0 !important; margin: 0 !important;
+    border: 1px solid var(--koala-brand-200) !important; background: var(--koala-surface) !important; color: var(--koala-brand) !important;
+    box-shadow: var(--koala-shadow-float) !important; cursor: pointer;
+    font-size: 13px !important; line-height: 18px !important; font-weight: 500 !important; font-family: inherit;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support button i {
+    font-size: 0 !important; /* icon-zero: legacy text glyphs ＋ / ☎ / ◉ replaced by line icons (mask) */
+    display: block; width: 18px; height: 18px; flex: 0 0 18px; background: currentColor;
+    -webkit-mask: var(--koala-icon-headset) center / contain no-repeat; mask: var(--koala-icon-headset) center / contain no-repeat;
+  }
+  /* launcher: 44px round, icon-only */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-launcher {
+    width: var(--koala-fab) !important; height: var(--koala-fab) !important; border-radius: 50% !important;
+    display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important; gap: 0 !important;
+    background: var(--koala-brand) !important; color: var(--koala-surface) !important; border-color: var(--koala-brand) !important;
+    transform: none !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-launcher i { width: 22px; height: 22px; flex-basis: 22px; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-launcher span { display: none !important; } /* icon-only; aria-label "展开电话和在线客服" remains the name */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support.expanded .mini-support-launcher { transform: none !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support.expanded .mini-support-launcher i { -webkit-mask-image: var(--koala-icon-close); mask-image: var(--koala-icon-close); }
+  /* actions: two pills (icon + 13px label), stacked */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-actions { gap: 8px !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-actions button {
+    width: auto !important; min-width: 96px; height: 40px !important; border-radius: 20px !important; padding: 0 14px 0 12px !important;
+    display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 6px !important;
+    white-space: nowrap;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-actions button span { font-size: 13px !important; line-height: 18px !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-actions button:nth-child(1) i { -webkit-mask-image: var(--koala-icon-phone); mask-image: var(--koala-icon-phone); }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-actions button:nth-child(2) i { -webkit-mask-image: var(--koala-icon-chat); mask-image: var(--koala-icon-chat); }
+
+  /* ===== B. header dock (mode "header": #miniGlobalSupport is a child of .header) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header .mini-global-support {
+    position: absolute !important; top: 2px !important; right: 96px !important; left: auto !important; bottom: auto !important;
+    width: var(--koala-fab); height: var(--koala-fab);
+    display: flex !important; flex-direction: column !important; align-items: flex-end !important; justify-content: center !important;
+    z-index: 3 !important; pointer-events: none;
+    visibility: visible !important; /* neutralises the legacy inline style.visibility written by mini_koala_acceptance_fix_v1.js
+                                        (its geometric check mis-fires when content scrolls under the opaque header) */
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header .mini-global-support > * { pointer-events: auto; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header .mini-support-launcher {
+    background: var(--koala-surface) !important; color: var(--koala-brand) !important; border-color: var(--koala-brand-200) !important; box-shadow: none !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header .mini-global-support.expanded .mini-support-launcher {
+    background: var(--koala-brand) !important; color: var(--koala-surface) !important; border-color: var(--koala-brand) !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header .mini-support-actions {
+    position: absolute !important; top: calc(100% + 8px) !important; right: 0 !important; left: auto !important; bottom: auto !important;
+    flex-direction: column !important; align-items: flex-end !important;
+  }
+  /* while the menu is open the header must paint above every sticky / positioned block below it (class set by the helper) */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .header.mk-v3-help-open { z-index: 60 !important; }
+
+  /* ===== C. float fallback (mode "float": entry stays on body) ===== */
+  body.koala-ui-v1.koala-s01 .mini-global-support.mk-v3-help-float {
+    position: fixed !important; right: 12px !important; left: auto !important;
+    bottom: calc(var(--koala-tabbar-h) + 12px + env(safe-area-inset-bottom)) !important;
+  }
+  body.koala-ui-v1.koala-o01 .mini-global-support.mk-v3-help-float {
+    position: fixed !important; right: 12px !important; left: auto !important;
+    bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+  }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support.mk-v3-help-float.mk-v3-help-nudged { bottom: calc(50vh - 22px) !important; } /* second position tried before giving up on visibility */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support.mk-v3-help-float.mk-v3-support-obstructed { visibility: hidden !important; pointer-events: none !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-global-support.mk-v3-help-float.expanded { visibility: visible !important; pointer-events: none; } /* never hidden while the menu is open */
+
+  /* ===== D. 在线客服 sheet (legacy mask stays on body) ===== */
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-sheet { border-radius: 20px 20px 0 0 !important; padding: 18px 16px max(20px, env(safe-area-inset-bottom)) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-sheet h3 { font-size: 17px !important; line-height: 24px !important; color: var(--koala-text) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-sheet p { font-size: 13px !important; line-height: 20px !important; color: var(--koala-text-2) !important; }
+  body.koala-ui-v1:is(.koala-o01,.koala-s01) .mini-support-sheet button { height: 48px !important; border-radius: var(--koala-radius-btn) !important; background: var(--koala-brand) !important; color: var(--koala-surface) !important; font-size: 15px !important; font-weight: 600 !important; }
+}

@@ -1,0 +1,108 @@
+FAIL no-coupon PAID clears own NEW lock and invalidates unspent NEW coupons :: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
++   'LOCKED',
+-   'INVALID',
+-   'INVALID',
+-   'INVALID',
+    'CLAIMED',
++   'CLAIMED',
++   'CLAIMED'
+  ]
+
+FAIL switched coupon redeems actual coupon and clears old own lock :: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
++   'LOCKED',
+-   'INVALID',
+    'REDEEMED',
+    'INVALID'
+  ]
+
+PASS other-order LOCKED rows stay byte-identical
+FAIL referenced other-order coupon is never redeemed or released :: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
+    coupon_id: 'CPN-001',
+    expire_time: '2026-10-14T14:17:49.332Z',
+    locked_order_id: 'B',
++   redeemed_order_id: 'A',
++   redeemed_time: '2026-10-13T14:17:49.338Z',
++   status: 'REDEEMED',
+-   status: 'LOCKED',
+    user_coupon_id: 'UC-CPN-001'
+  }
+
+FAIL own non-NEW lock returns to CLAIMED using original expiry :: Expected values to be strictly equal:
++ actual - expected
+
++ 'LOCKED'
+- 'CLAIMED'
+
+FAIL terminal rows stay byte-identical :: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    {
+      coupon_id: 'CPN-001',
+      expire_time: '2026-10-14T14:17:49.332Z',
++     redeemed_order_id: 'A',
++     redeemed_time: '2026-10-13T14:17:49.340Z',
+-     redeemed_order_id: 'OLD',
+-     redeemed_time: 'old',
+      status: 'REDEEMED',
+      user_coupon_id: 'UC-CPN-001'
+    },
+    {
+      coupon_id: 'CPN-002',
+
+FAIL repeat O02 is idempotent, including redeemed time :: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    {
+      coupon_id: 'CPN-001',
+      expire_time: '2026-10-14T14:17:49.332Z',
+      locked_order_id: 'A',
+      redeemed_order_id: 'A',
++     redeemed_time: '2026-10-13T14:17:59.342Z',
+-     redeemed_time: '2026-10-13T14:17:49.342Z',
+      status: 'REDEEMED',
+      user_coupon_id: 'UC-CPN-001'
+    },
+    {
+      coupon_id: 'CPN-002',
+
+PASS PAYMENT_FAILED own selected coupon retains release behaviour
+PASS PENDING order and its locks remain unchanged
+FAIL invalid paid identity or conflicting payment status never settles coupons :: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    {
+      coupon_id: 'CPN-001',
+      expire_time: '2026-10-14T14:17:49.332Z',
+      locked_order_id: 'A',
++     redeemed_order_id: '',
++     redeemed_time: '2026-10-13T14:17:49.344Z',
++     status: 'REDEEMED',
+-     status: 'LOCKED',
+      user_coupon_id: 'UC-CPN-001'
+    }
+  ]
+
+FAIL unknown selected coupon does not block own unused lock cleanup :: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
++   'LOCKED',
++   'CLAIMED'
+-   'INVALID',
+-   'INVALID'
+  ]
+
+PASS valid actual coupon preserves order totals and payment breakdown
+4/12

@@ -1,0 +1,68 @@
+{
+  "version": "real_store_demo_gallery_v2",
+  "purpose": "Prototype demo visual mapping only. All assets are real Mini Koala warehouse environment photos. Exact source-store identity is not verified for each demo store.",
+  "formal_release_gate": "Before production, bind each asset to a verified physical store or relabel it as generic brand environment imagery.",
+  "consistency_rule": "Every store must use images from one warehouse-body color family across H01, S01, S02 and U01.",
+  "stores": {
+    "MK_BJ_E56D0702": {
+      "demo_store_name": "三元桥店",
+      "color_family": "green_gloss",
+      "s02_gallery": [
+        "assets/real_store_demo/v1/MK_BJ_E56D0702/home_featured.webp",
+        "assets/real_store_demo/v1/MK_BJ_E56D0702/detail_hero.webp",
+        "assets/real_store_demo/v1/MK_BJ_E56D0702/gallery_1.webp",
+        "assets/real_store_demo/v1/MK_BJ_E56D0702/list_thumb.webp"
+      ],
+      "u01_unit_entry": "assets/real_store_demo/v1/MK_BJ_E56D0702/gallery_1.webp",
+      "u01_unit_environment": "assets/real_store_demo/v1/MK_BJ_E56D0702/detail_hero.webp"
+    },
+    "MK_BJ_E68EC5FF": {
+      "demo_store_name": "大山子店",
+      "color_family": "black_yellow",
+      "s02_gallery": [
+        "assets/real_store_demo/v1/MK_BJ_E68EC5FF/detail_hero.webp",
+        "assets/real_store_demo/v1/MK_BJ_E68EC5FF/gallery_1.webp",
+        "assets/real_store_demo/v1/MK_BJ_E68EC5FF/gallery_2.webp",
+        "assets/real_store_demo/v1/MK_BJ_E68EC5FF/list_thumb.webp"
+      ],
+      "u01_unit_entry": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/gallery_2.webp",
+      "u01_unit_environment": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/detail_hero.webp"
+    },
+    "MK_BJ_04547515": {
+      "demo_store_name": "安贞店",
+      "color_family": "white",
+      "s02_gallery": [
+        "assets/real_store_demo/v1/MK_BJ_04547515/detail_hero.webp",
+        "assets/real_store_demo/v1/MK_BJ_04547515/gallery_1.webp",
+        "assets/real_store_demo/v1/MK_BJ_04547515/gallery_2.webp",
+        "assets/real_store_demo/v1/MK_BJ_04547515/list_thumb.webp"
+      ],
+      "u01_unit_entry": "assets/real_store_demo/v1/MK_BJ_04547515/gallery_1.webp",
+      "u01_unit_environment": "assets/real_store_demo/v1/MK_BJ_04547515/detail_hero.webp"
+    },
+    "MK_BJ_2CDB7BEE": {
+      "demo_store_name": "惠新西街店",
+      "color_family": "charcoal",
+      "s02_gallery": [
+        "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/detail_hero.webp",
+        "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/gallery_1.webp",
+        "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/gallery_2.webp",
+        "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/list_thumb.webp"
+      ],
+      "u01_unit_entry": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/gallery_1.webp",
+      "u01_unit_environment": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/detail_hero.webp"
+    },
+    "MK_BJ_9A80090D": {
+      "demo_store_name": "广渠门店",
+      "color_family": "green_teal",
+      "s02_gallery": [
+        "assets/real_store_demo/v1/MK_BJ_9A80090D/detail_hero.webp",
+        "assets/real_store_demo/v1/MK_BJ_9A80090D/gallery_1.webp",
+        "assets/real_store_demo/v1/MK_BJ_9A80090D/gallery_2.webp",
+        "assets/real_store_demo/v1/MK_BJ_9A80090D/list_thumb.webp"
+      ],
+      "u01_unit_entry": "assets/real_store_demo/v1/MK_BJ_9A80090D/gallery_2.webp",
+      "u01_unit_environment": "assets/real_store_demo/v1/MK_BJ_9A80090D/detail_hero.webp"
+    }
+  }
+}

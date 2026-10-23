@@ -1,0 +1,97 @@
+/* Mini Koala — Visual V3 (Bright Commercial) design tokens | Task 02B pilot | 2026-10-12
+   ------------------------------------------------------------------------------------------
+   Scope   : ONLY the two pilot pages (body.koala-ui-v1.koala-o01 / body.koala-ui-v1.koala-s01).
+             H01 / S5 / every other page keep the UI System V1 values defined in
+             mini_koala_miniprogram_ui_system_v1.css (unchanged file).
+   Prefix  : reuses and extends --koala-* (no new prefix). The eight legacy prefixes used by the
+             inline blocks and patch sheets (--ms-* --v274-* --s01-* --vb-* --ve2-* --mk-* and the
+             unprefixed --bg/--text/... ) are aliased to the --koala-* values below, so legacy rules
+             that reference a variable resolve to V3 values. Legacy rules that hard-code a literal
+             colour are NOT affected by this file; those are overridden by the mk-v3 cascade layer
+             (mk-v3-components.css / mk-v3-page-*.css).
+   Layering: this file is deliberately NOT inside @layer. Custom properties need no importance to win:
+             body.koala-ui-v1.koala-o01 (0,3,1) beats ui_system's body.koala-ui-v1 (0,1,1) and the
+             inline :root blocks (0,1,0) by normal specificity. (A layered normal declaration would
+             lose to any unlayered normal declaration, so putting tokens inside the layer would have
+             required !important on every variable.)
+   HTML-only: cascade layers and mask-image data URIs are a transition mechanism for the HTML
+             prototype; the WXSS hand-over artefact is docs/visual/mini_koala_visual_tokens_v3.json.
+   Contrast (WCAG 2.x, computed, not rounded):
+             text #1F2923 on #FFFFFF 15.00 / on #F3F6F4 13.79
+             text-2 #59645E on #FFFFFF 6.16 / on #F3F6F4 5.66 / on #F8FAF9 5.88 / on #EAF3ED 5.44 / on #F1F7F3 5.67
+             text-3 #6D7671 on #FFFFFF 4.69  (white surfaces only; on #F8FAF9 it is 4.47 -> use text-2 on tinted/grey backgrounds)
+             price #D56A1C on #FFFFFF 3.55   (large text only: >=20px/700)
+             price-strong #B85A16 on #FFFFFF 4.65 (<=14px price text on white only; on #FFF0E2 it is 4.17 -> not allowed)
+             promo-text #A04E12 on #FFF0E2 5.24 (small promotional text on the light-orange tag background)
+             brand #2F6B4F: white text on it 6.29; as text on #F8FAF9 6.00 / on #F1F7F3 5.80
+             brand-700 #214F3A on #EAF3ED 8.26 / on #FFFFFF 9.36
+*/
+body.koala-ui-v1.koala-o01,
+body.koala-ui-v1.koala-s01 {
+  /* --- surfaces --- */
+  --koala-bg: #F8FAF9;
+  --koala-surface: #FFFFFF;
+  --koala-surface-2: #F3F6F4;      /* new (accepted 02B): cool secondary surface for inner blocks, placeholders, service tags */
+  --koala-line: #E4EBE6;           /* outer borders */
+  --koala-divider: #EEF1EF;        /* new (accepted 02B): inner dividers, one step lighter than --koala-line */
+  /* --- text --- */
+  --koala-text: #1F2923;
+  --koala-text-2: #59645E;
+  --koala-text-3: #6D7671;         /* white surfaces only */
+  --koala-muted: var(--koala-text-3);
+  --koala-text-disabled: #B6BCB8;
+  /* --- brand green (official brand colour not yet supplied: DS V1 brand.600 retained) --- */
+  --koala-brand: #2F6B4F;
+  --koala-brand-700: #214F3A;
+  --koala-brand-500: #3F7D5D;
+  --koala-brand-200: #CFE1D6;
+  --koala-brand-100: #EAF3ED;
+  --koala-brand-soft: var(--koala-brand-100);
+  --koala-brand-tint: #F1F7F3;
+  /* --- price / promotion orange --- */
+  --koala-price: #D56A1C;          /* >=20px/700 price numbers */
+  --koala-price-strong: #B85A16;   /* <=14px price text on white */
+  --koala-price-soft: #FFF0E2;     /* promotion tag background */
+  --koala-promo-text: #A04E12;     /* new (02B contrast fix): small promotional text on --koala-price-soft */
+  /* --- geometry --- */
+  --koala-radius: 14px;            /* cards / sections */
+  --koala-radius-sm: 10px;         /* inner blocks */
+  --koala-radius-btn: 12px;        /* buttons */
+  --koala-radius-chip: 8px;        /* chips */
+  --koala-radius-tag: 6px;         /* service / promotion tags */
+  --koala-shadow: 0 2px 8px rgba(31, 41, 35, .05);
+  --koala-shadow-float: 0 8px 24px rgba(31, 41, 35, .12);
+  --koala-tabbar-h: 56px;
+  --koala-bottombar-h: 68px;
+  --koala-fab: 44px;
+  /* --- line icons (2px round stroke, colour via currentColor through mask-image) --- */
+  --koala-icon-chevron-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  --koala-icon-chevron-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E");
+  --koala-icon-chevron-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 6l-6 6 6 6'/%3E%3C/svg%3E");
+  --koala-icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.6-3.6'/%3E%3C/svg%3E");
+  --koala-icon-pin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E");
+  --koala-icon-home: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z'/%3E%3C/svg%3E");
+  --koala-icon-find: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z'/%3E%3Cpath d='M12 12l8-4.5M12 12v9M12 12L4 7.5'/%3E%3C/svg%3E");
+  --koala-icon-store: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l1.5-5h15L21 9'/%3E%3Cpath d='M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0'/%3E%3Cpath d='M5 11.5V20h14v-8.5'/%3E%3Cpath d='M10 20v-5h4v5'/%3E%3C/svg%3E");
+  --koala-icon-mine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E");
+  --koala-icon-headset: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14v-2a8 8 0 0 1 16 0v2'/%3E%3Cpath d='M4 14a2 2 0 0 1 2-2h1v6H6a2 2 0 0 1-2-2v-2z'/%3E%3Cpath d='M20 14a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2v-2z'/%3E%3Cpath d='M17 18v1a2 2 0 0 1-2 2h-2'/%3E%3C/svg%3E");
+  --koala-icon-phone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z'/%3E%3C/svg%3E");
+  --koala-icon-chat: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 4H4v12h5l3 3 3-3h5z'/%3E%3Cpath d='M8 9h8M8 12h5'/%3E%3C/svg%3E");
+  --koala-icon-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E");
+  --koala-icon-warehouse: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10l9-6 9 6v10H3z'/%3E%3Cpath d='M8 20v-6h8v6M8 17h8'/%3E%3C/svg%3E");
+  /* --- legacy prefix aliases (only affect legacy rules that reference these variables) --- */
+  --bg: var(--koala-bg); --ms-bg: var(--koala-bg); --s01-bg: var(--koala-bg); --vb-bg: var(--koala-bg); --ve2-paper: var(--koala-bg); --v274-bg: var(--koala-bg);
+  --card: var(--koala-surface); --ms-surface: var(--koala-surface); --vb-surface: var(--koala-surface); --v274-surface: var(--koala-surface); --s01-paper: var(--koala-surface);
+  --ve2-paper-2: var(--koala-surface-2); --ms-sand: var(--koala-surface-2); --vb-sand: var(--koala-surface-2);
+  --text: var(--koala-text); --ms-text: var(--koala-text); --vb-text: var(--koala-text); --ve2-ink: var(--koala-text); --v274-text: var(--koala-text);
+  --muted: var(--koala-text-3); --ms-muted: var(--koala-text-3); --vb-tertiary: var(--koala-text-3); --ve2-muted: var(--koala-text-3); --v274-muted: var(--koala-text-3); --s01-muted: var(--koala-text-3); --mk-tertiary: var(--koala-text-3);
+  --vb-secondary: var(--koala-text-2);
+  --line: var(--koala-line); --ms-line: var(--koala-line); --vb-line: var(--koala-line); --ve2-line: var(--koala-line); --v274-line: var(--koala-line); --s01-line: var(--koala-line);
+  --primary: var(--koala-brand); --ms-green: var(--koala-brand); --vb-green: var(--koala-brand); --ve2-green: var(--koala-brand); --v274-green: var(--koala-brand); --s01-green: var(--koala-brand);
+  --vb-green-deep: var(--koala-brand-700); --ve2-deep: var(--koala-brand-700); --ms-green-deep: var(--koala-brand-700); --s01-green-deep: var(--koala-brand-700);
+  --soft: var(--koala-brand-100); --ms-green-soft: var(--koala-brand-100); --vb-green-soft: var(--koala-brand-100); --ve2-green-soft: var(--koala-brand-100); --v274-green-soft: var(--koala-brand-100); --s01-soft: var(--koala-brand-100);
+  --ms-orange: var(--koala-price); --vb-orange: var(--koala-price); --ve2-copper: var(--koala-price); --v274-orange: var(--koala-price);
+  --vb-orange-deep: var(--koala-price-strong); --mk-promo-text: var(--koala-promo-text);
+  --vb-orange-soft: var(--koala-price-soft); --ve2-copper-soft: var(--koala-price-soft); --mk-promo-bg: var(--koala-price-soft);
+  --vb-shadow: var(--koala-shadow); --ms-shadow: var(--koala-shadow); --ms-shadow-soft: var(--koala-shadow); --ve2-shadow-hero: var(--koala-shadow); --shadow: var(--koala-shadow);
+}

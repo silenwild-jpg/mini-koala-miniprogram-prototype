@@ -1,0 +1,22 @@
+const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'../prototype');
+const src=n=>fs.readFileSync(path.join(root,n),'utf8');
+const db={small:[{id:'S1',size_option_id:'S1',v:9.98,base:700,available_count:1},{id:'S2',size_option_id:'S2',v:12.47,base:800,available_count:1},{id:'S3',size_option_id:'S3',v:15.68,base:990,available_count:1}],three:[{id:'A',size_option_id:'A',v:3.35,base:200,available_count:1},{id:'B',size_option_id:'B',v:7,base:400,available_count:1},{id:'C',size_option_id:'C',v:7.82,base:450,available_count:1}],one:[{id:'Z',size_option_id:'Z',v:20,base:1400,available_count:1}],sold:[{id:'K',size_option_id:'K',v:5,base:200,available_count:0}]};
+const profiles=Object.fromEntries(Object.keys(db).map(id=>[id,{store_id:id,city:'北京市'}]));
+const ctx={window:null,globalThis:null,MINI_KOALA_DATA:{getLegacyUnits:id=>db[id],getStore:id=>profiles[id],getStoresByCity:()=>Object.values(profiles),resolveStoreId:id=>id},MINI_STORAGE_BUSINESS_HELPERS_V274:{contractRent:(base,term)=>Math.round(base*term*.65),monthlyReference:(base)=>Math.round(base*.65)},MINI_STORAGE_MASTER_V222:{route_base:{guomao:{}},pricing:{}}};
+ctx.window=ctx;ctx.globalThis=ctx;vm.createContext(ctx);vm.runInContext(src('mini_koala_combo_match_v1.js'),ctx);vm.runInContext(src('mini_storage_requirement_recommendation_v274.js'),ctx);
+const combo=ctx.MINI_KOALA_COMBO_V1.findForStore;
+let tests=0;function test(label,fn){fn();console.log('PASS',++tests,label)}
+test('5m³ rejects 22.45m³ combination',()=>{assert.equal(combo('small',{target:5,min:4.5,max:5.8,term:6}).length,0)});
+test('18m³ three-part viable',()=>{const a=combo('three',{target:18,min:16.2,max:19.5,term:6});assert(a.length>0);assert(a[0].capacity>=18);assert(a[0].capacity<=23.4)});
+test('25m³ reasonable 2-part remains',()=>{const a=combo('small',{target:25,min:22.5,max:28,term:6});assert(a.some(x=>x.count===2&&x.capacity>25&&x.capacity<27))});
+test('35m³ reasonable 3-part remains',()=>{const a=combo('small',{target:35,min:31.5,max:40.6,term:6});assert(a.some(x=>x.count===3&&x.capacity<45.5))});
+test('single still takes precedence',()=>assert.equal(combo('one',{target:18,min:16,max:21,term:6}).length,0));
+test('never consume sold-out stock',()=>assert.equal(combo('sold',{target:8,min:7,max:9,term:6}).length,0));
+const detail=src('mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html'),stores=src('mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html'),s5=src('space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html');
+test('under-min cannot route to U01 from displayed card or click',()=>{assert(detail.includes('data-under-min='));assert(detail.includes("card.dataset.underMin==='1'"));assert(detail.includes("cards='';"));assert(detail.includes("state!=='browse'&&!idealUnits().length"))});
+test('soldout entry and return carry current demand and filters',()=>{assert(stores.includes("p.set('state',withDemand?'nomatch':'browse')"));assert(stores.includes("p.set('target',targetVolume.toFixed(1))"));assert(detail.includes('function hasCarriedStoreDemand()'));assert(detail.includes("window.location.href=nearbyStoreUrl();return"));for(const key of ['sort','distance','services'])assert(detail.includes(key))});
+test('bottom CTA points to combo consultation action and preserves safe scrolling',()=>{assert(detail.includes("$('#comboOfferBlock .combo-action')"));assert(detail.includes('scroll-margin-bottom:132px'))});
+test('saved combo state shows specific confirmation and provides working support target',()=>{assert(detail.includes("onSuccess:()=>{"));assert(detail.includes('已保存 ${format(c.capacity)} / ${c.count}间仓组合需求'));assert(detail.includes("document.querySelector('#miniSupportChat')?.click()"));assert(detail.includes('combo_total_rent:c.total'))});
+test('S5 propagates physical fit state',()=>assert(s5.includes('combo:row.combo,fitStatus:row.fitStatus,matchType:row.matchType')));
+console.log(`V2 targeted checks ${tests}/${tests}`);

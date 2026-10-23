@@ -1,0 +1,12 @@
+{
+  "total": 137,
+  "counts": {
+    "NOT_RUN": 10,
+    "FAIL": 81,
+    "PASS": 46
+  },
+  "nonbrowser": 127,
+  "browser_deferred": 10,
+  "executed_at": "2026-10-14",
+  "scope": "QA scripts from D2 ZIP; isolated QA copy"
+}

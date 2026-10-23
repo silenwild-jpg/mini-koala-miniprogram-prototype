@@ -1,0 +1,66 @@
+/* Real Store Gallery V2 — demo-only real environment imagery. Business DOM/data remain frozen. */
+html[data-real-store][data-s02-photo] #hero.hero,
+html[data-real-store][data-u01-photo] #hero.hero{
+  background-size:cover!important;background-repeat:no-repeat!important;background-color:#E9ECE7!important;
+  transition:background-image .18s ease,background-position .18s ease!important;
+}
+html[data-real-store][data-s02-photo] #hero.hero:before,
+html[data-real-store][data-u01-photo] #hero.hero:before{display:none!important}
+html[data-real-store][data-s02-photo] #hero .photo-label,
+html[data-real-store][data-u01-photo] #hero .hero-note{opacity:0!important;pointer-events:none!important}
+
+/* S02 gallery controls: visible but quiet; current asset gets one strong state. */
+html[data-real-store][data-s02-photo] #hero .gallery-tabs{display:flex!important;gap:5px!important;left:10px!important;top:10px!important;bottom:auto!important;z-index:3!important}
+html[data-real-store][data-s02-photo] #hero .gallery-tabs button{
+  min-height:26px!important;padding:4px 8px!important;border:1px solid rgba(255,255,255,.50)!important;border-radius:999px!important;
+  background:rgba(24,40,32,.42)!important;color:#FFF!important;font-size:10px!important;font-weight:600!important;
+  box-shadow:none!important;backdrop-filter:blur(8px)!important;-webkit-backdrop-filter:blur(8px)!important
+}
+html[data-real-store][data-s02-photo] #hero .gallery-tabs button.active{
+  border-color:rgba(255,255,255,.88)!important;background:rgba(255,255,255,.92)!important;color:#214F3A!important
+}
+html[data-real-store][data-s02-photo] #hero .counter{top:10px!important;right:10px!important;bottom:auto!important}
+html[data-real-store][data-s02-photo] #hero .counter,
+html[data-real-store][data-u01-photo] #hero .counter{
+  z-index:3!important;background:rgba(24,40,32,.52)!important;border:1px solid rgba(255,255,255,.42)!important;color:#FFF!important;
+  backdrop-filter:blur(8px)!important;-webkit-backdrop-filter:blur(8px)!important
+}
+
+/* --- S02: 4-photo gallery per store, always from the same frozen color family. --- */
+html[data-real-store="MK_BJ_E56D0702"][data-s02-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,.01),rgba(18,38,29,.13)),url('../v1/MK_BJ_E56D0702/home_featured.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_E56D0702"][data-s02-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,.01),rgba(18,38,29,.12)),url('../v1/MK_BJ_E56D0702/detail_hero.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_E56D0702"][data-s02-photo="2"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,.01),rgba(18,38,29,.10)),url('../v1/MK_BJ_E56D0702/gallery_1.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_E56D0702"][data-s02-photo="3"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,.01),rgba(18,38,29,.12)),url('../v1/MK_BJ_E56D0702/list_thumb.webp')!important;background-position:center 47%!important}
+
+html[data-real-store="MK_BJ_E68EC5FF"][data-s02-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.16)),url('../v1/MK_BJ_E68EC5FF/detail_hero.webp')!important;background-position:center 52%!important}
+html[data-real-store="MK_BJ_E68EC5FF"][data-s02-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.15)),url('../v1/MK_BJ_E68EC5FF/gallery_1.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_E68EC5FF"][data-s02-photo="2"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.15)),url('../v1/MK_BJ_E68EC5FF/gallery_2.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_E68EC5FF"][data-s02-photo="3"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.16)),url('../v1/MK_BJ_E68EC5FF/list_thumb.webp')!important;background-position:center 48%!important}
+
+html[data-real-store="MK_BJ_04547515"][data-s02-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(20,35,28,0),rgba(20,35,28,.08)),url('../v1/MK_BJ_04547515/detail_hero.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_04547515"][data-s02-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(20,35,28,0),rgba(20,35,28,.07)),url('../v1/MK_BJ_04547515/gallery_1.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_04547515"][data-s02-photo="2"] #hero{background-image:linear-gradient(180deg,rgba(20,35,28,0),rgba(20,35,28,.07)),url('../v1/MK_BJ_04547515/gallery_2.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_04547515"][data-s02-photo="3"] #hero{background-image:linear-gradient(180deg,rgba(20,35,28,0),rgba(20,35,28,.08)),url('../v1/MK_BJ_04547515/list_thumb.webp')!important;background-position:center 50%!important}
+
+html[data-real-store="MK_BJ_2CDB7BEE"][data-s02-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.14)),url('../v1/MK_BJ_2CDB7BEE/detail_hero.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_2CDB7BEE"][data-s02-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.14)),url('../v1/MK_BJ_2CDB7BEE/gallery_1.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_2CDB7BEE"][data-s02-photo="2"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.14)),url('../v1/MK_BJ_2CDB7BEE/gallery_2.webp')!important;background-position:center 52%!important}
+html[data-real-store="MK_BJ_2CDB7BEE"][data-s02-photo="3"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.14)),url('../v1/MK_BJ_2CDB7BEE/list_thumb.webp')!important;background-position:center 50%!important}
+
+html[data-real-store="MK_BJ_9A80090D"][data-s02-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,0),rgba(18,38,29,.12)),url('../v1/MK_BJ_9A80090D/detail_hero.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_9A80090D"][data-s02-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,0),rgba(18,38,29,.11)),url('../v1/MK_BJ_9A80090D/gallery_1.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_9A80090D"][data-s02-photo="2"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,0),rgba(18,38,29,.11)),url('../v1/MK_BJ_9A80090D/gallery_2.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_9A80090D"][data-s02-photo="3"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,0),rgba(18,38,29,.12)),url('../v1/MK_BJ_9A80090D/list_thumb.webp')!important;background-position:center 48%!important}
+
+/* --- U01: 2-photo real unit-detail hero, same family as the parent store. --- */
+html[data-real-store][data-u01-photo] #hero.hero{height:156px!important;background-size:cover!important;box-shadow:0 5px 18px rgba(31,41,35,.07)!important}
+html[data-real-store="MK_BJ_E56D0702"][data-u01-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,.01),rgba(18,38,29,.13)),url('../v1/MK_BJ_E56D0702/gallery_1.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_E56D0702"][data-u01-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,.01),rgba(18,38,29,.12)),url('../v1/MK_BJ_E56D0702/detail_hero.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_E68EC5FF"][data-u01-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.15)),url('../v1/MK_BJ_E68EC5FF/gallery_2.webp')!important;background-position:center 48%!important}
+html[data-real-store="MK_BJ_E68EC5FF"][data-u01-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.15)),url('../v1/MK_BJ_E68EC5FF/detail_hero.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_04547515"][data-u01-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(20,35,28,0),rgba(20,35,28,.08)),url('../v1/MK_BJ_04547515/gallery_1.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_04547515"][data-u01-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(20,35,28,0),rgba(20,35,28,.08)),url('../v1/MK_BJ_04547515/detail_hero.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_2CDB7BEE"][data-u01-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.14)),url('../v1/MK_BJ_2CDB7BEE/gallery_1.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_2CDB7BEE"][data-u01-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(8,10,10,.01),rgba(8,10,10,.14)),url('../v1/MK_BJ_2CDB7BEE/detail_hero.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_9A80090D"][data-u01-photo="0"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,0),rgba(18,38,29,.12)),url('../v1/MK_BJ_9A80090D/gallery_2.webp')!important;background-position:center 50%!important}
+html[data-real-store="MK_BJ_9A80090D"][data-u01-photo="1"] #hero{background-image:linear-gradient(180deg,rgba(18,38,29,0),rgba(18,38,29,.12)),url('../v1/MK_BJ_9A80090D/detail_hero.webp')!important;background-position:center 50%!important}

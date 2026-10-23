@@ -1,0 +1,44 @@
+{
+  "task": "VIS-06A/B",
+  "date": "2026-10-14",
+  "working_state": "INTEGRATION_CANDIDATE",
+  "release_gate": "HOLD",
+  "source": {
+    "work_base": {
+      "name": "Mini_Koala_EST_VIS_09_Full45_Actual_Merge_Candidate_2026-10-14.zip",
+      "sha256": "96d868ca47e0f767e6e33f82583a3dbbfca0a9fc6cf7f4e9543d039170910e22",
+      "role": "sole runtime input, original retained"
+    },
+    "envelope": {
+      "name": "Mini_Koala_EST_VIS_10_Estimate_Handoff_2026-10-14(1).zip",
+      "sha256": "f266a36fdb8fcf3c1a238235023dff4b352dedf1d60f06c9db69b9a547879c00",
+      "role": "contains input archive and handoff records"
+    },
+    "visual_reference": {
+      "name": "Mini_Koala_VIS05_Batch1_M01_Uploaded_Branch_Candidate_2026-10-14.zip",
+      "sha256": "fa815dc375a913f42d2d6a7d7950d63e9fdb41669cb3d68aeecc915f5a14c5bb",
+      "role": "M01 CSS comparison only, not a merged runtime input"
+    },
+    "h01_legacy_reference": {
+      "name": "Mini_Koala_H01_Recommendation_Card_Targeted_Fix_Candidate_2026-10-14(1).zip",
+      "sha256": "66d766faf6d90c72c321de0c7ca9cb4da265bad81f48d64e659d2bf91eb499c8",
+      "role": "H01 comparison only"
+    },
+    "h01_screenshot_layout_reference": {
+      "sha256": "5046f30c0e25aaf2708a1031c1b99017a730938afa0c45ab24e76d0822b6a865",
+      "verification": "name/hash from previous project records; original ZIP not independently acquired here"
+    }
+  },
+  "constraints": [
+    "no original archive or management master overwritten",
+    "business JS and H01 runtime unchanged",
+    "existing single M01 CSS only",
+    "no new duplicate global shell CSS",
+    "no HTTP/browser screenshots this stage",
+    "Q01/C02 P2-3 deferred"
+  ],
+  "baseline_h01_sha256": "e447ca36a07533942726b26893f4127843f43f02f59d10292499e005481e8dc2",
+  "baseline_m01_html_sha256": "86e99168844fa9c2b4bbcb8dc9b5b68742169a9e3e2fe39ab7efe1b3a1657416",
+  "baseline_m01_css_sha256": "5a895086a9d4d3b04c4edb498bd640c31de8387c332a0bba1788783d97d5665d",
+  "new_m01_css_sha256": "84930d23f70a9b4f98fc28c085156d2e78953dd98995d0ddeda84c83a0601939"
+}

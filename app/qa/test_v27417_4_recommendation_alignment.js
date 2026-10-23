@@ -1,0 +1,34 @@
+const fs=require('fs'),path=require('path'),assert=require('assert'),vm=require('vm');
+const root=path.resolve(__dirname,'..'),proto=path.join(root,'prototype');
+const est=fs.readFileSync(path.join(proto,'space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html'),'utf8');
+const s01=fs.readFileSync(path.join(proto,'mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html'),'utf8');
+const rec=fs.readFileSync(path.join(proto,'mini_storage_requirement_recommendation_v274.js'),'utf8');
+const business=fs.readFileSync(path.join(proto,'mini_storage_business_ssot_v274.js'),'utf8');
+const data=require(path.join(root,'data','mini_koala_data.js'));
+
+assert(est.includes('mini_storage_requirement_recommendation_v274.js'));
+assert(s01.includes('mini_storage_requirement_recommendation_v274.js'));
+assert(est.includes('MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.recommend'));
+assert(s01.includes('MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.recommend'));
+assert(!est.includes('符合需求仓位区间 ${sizeRange}'));
+assert(est.includes('剩余仓 ${x.availableMatchedCount||x.matchedCount}个 · 匹配仓位 ${x.matchedCount}个'));
+assert(est.includes('月均约 ${window.MINI_KOALA_DATA.priceText(x.monthly)}/月'));
+assert(est.includes('整期总租金')); assert(est.includes('rplan-start'));
+assert(est.includes('.rplan-address{white-space:nowrap!important'));
+assert(est.includes('.estore-points{display:flex!important;flex-wrap:nowrap!important'));
+assert(s01.includes('class="store demand-store${zeroMatch?'));
+assert(s01.includes('zeroMatchRecoveryHtml')); 
+assert(s01.includes('class="demand-address"'));
+assert(s01.includes('匹配仓位仅剩 ${matchedAvailable}个 · 门店剩余 ${st.availableCount}个'));
+assert(s01.includes('月均约 ${window.MINI_KOALA_DATA.priceText(d.price)}/月'));
+assert(s01.includes('demand-total')); assert(s01.includes('demand-start'));
+
+const ctx={window:null,localStorage:{getItem:()=>null,setItem:()=>{}},console,Date,Math,JSON,String,Number,Array,Object,Boolean,Error};ctx.window=ctx;
+vm.createContext(ctx);vm.runInContext(business,ctx);ctx.MINI_KOALA_DATA=data;vm.runInContext(rec,ctx);
+const result=ctx.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274.recommend({min:4.3,max:5.6,target:4.8,term:6,origin:'guomao',travel:'drive',city:'北京市'});
+assert(result.rows.length>=2,'demo must provide at least two recommendation stores');
+assert(result.rows[0].hasMatch&&result.rows[1].hasMatch,'first two demo recommendations must have matched size types');
+assert(result.rows[0].matchedCount>0&&result.rows[1].matchedCount>0,'matched type count must not be zero');
+assert.notEqual(result.rows[0].storeId,result.rows[1].storeId,'recommendation stores must be distinct');
+assert(result.rows[0].monthly>0&&result.rows[1].monthly>0,'both cards need current-term monthly prices');
+console.log('PASS V2.7.4.17.4: recommendation/S01 alignment, non-zero matches, consistent price display, one-line address, and E-store layout guard');

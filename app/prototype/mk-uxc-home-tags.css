@@ -1,0 +1,13 @@
+/* UX-PATCH C — H01 store tags use the B-stage S01/S02 common data and same display hierarchy. */
+body.koala-uxc-home .store-tags {display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;min-width:0;max-width:100%;}
+body.koala-uxc-home .store-tags .tag{
+ display:inline-flex !important;align-items:center !important;flex:0 0 auto;
+ min-height:19px !important;padding:1px 6px !important;border-radius:5px !important;
+ border:1px solid #E1E6E2 !important;background:transparent !important;color:#68736C !important;
+ box-shadow:none !important;font-size:10px !important;line-height:16px !important;
+ font-weight:500 !important;white-space:nowrap !important;
+}
+body.koala-uxc-home .store-tags .tag.mk-promo-tag{
+ border-color:#F4D8B7 !important;background:#FFF1DD !important;color:#A75B23 !important;
+ box-shadow:none !important;font-weight:650 !important;
+}

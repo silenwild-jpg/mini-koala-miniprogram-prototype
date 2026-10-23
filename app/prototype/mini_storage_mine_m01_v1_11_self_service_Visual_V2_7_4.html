@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" class="vis-bg01" data-vis-page="M01">
+<head>
+<style data-vis-bg01-order>@layer vis-bg01;</style>
+<style>@layer component-merge01;</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>M01 我的｜业务资产中心</title>
+<style>
+:root{--bg:#eef2f4;--text:#1f2a33;--muted:#75828c;--line:#dbe2e7;--primary:#24748a;--soft:#edf6f8;--warn:#fff8e8;--shadow:0 10px 28px rgba(32,50,61,.10)}
+*{box-sizing:border-box}body{margin:0;background:#dde3e7;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+button{font:inherit}.review{position:sticky;top:0;z-index:40;background:#f8fafb;border-bottom:1px solid #ccd6dc;padding:8px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.review button{border:1px solid #ccd6dc;background:#fff;border-radius:999px;padding:5px 8px;font-size:8px;cursor:pointer}
+.shell{width:390px;max-width:100%;height:calc(100vh - 43px);margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.page{height:100%;overflow:auto;padding-bottom:78px}.header{height:48px;background:#fff;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:15}
+.header h1{font-size:16px;text-align:center;margin:0}.profile{background:#fff;padding:15px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--primary)}.profile b{font-size:14px}.profile span{display:block;font-size:9px;color:var(--muted);margin-top:3px}
+.section{margin-top:9px;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 12px}.section h2{font-size:14px;margin:0 0 9px}
+.asset{border:1px solid #d9e5e9;border-radius:12px;padding:11px;margin-top:8px;background:#fff;cursor:pointer}.asset:first-of-type{margin-top:0}
+.asset .eyebrow{font-size:8px;color:var(--primary);font-weight:900}.asset b{display:block;font-size:12px;margin-top:4px}.asset p{font-size:9px;color:var(--muted);line-height:1.5;margin:4px 0 0}.asset .go{font-size:9px;color:var(--primary);font-weight:900;margin-top:8px}
+.current{background:#f7fbfc;border-color:#cfe2e7}.warn{background:var(--warn)}.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.menu button{border:1px solid var(--line);background:#fff;border-radius:11px;padding:12px 8px;font-size:10px;font-weight:800;text-align:left;cursor:pointer}.menu span{display:block;font-size:8px;color:var(--muted);margin-top:4px;font-weight:400}
+.empty{font-size:9px;color:var(--muted);padding:6px 0 2px;line-height:1.6}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:68px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:20}
+.tab{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;font-size:9px;color:#74818a;cursor:pointer}.tab .ico{font-size:17px}.tab.active{color:var(--primary);font-weight:900}
+.toast{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);background:#24323a;color:#fff;font-size:10px;padding:8px 12px;border-radius:9px;display:none;z-index:70;white-space:nowrap}
+.hidden{display:none!important}@media(max-width:650px){.review{display:none}.shell{height:100vh}}
+
+/* UX polish */
+
+.profile b{font-size:16px!important}.profile span{font-size:11px!important}.section h2{font-size:16px!important}.asset .eyebrow{font-size:10px!important}.asset b{font-size:14px!important}.asset p,.asset .go{font-size:11px!important}.menu button{font-size:12px!important}.menu span{font-size:10px!important}.empty{font-size:11px!important}.tab{font-size:10px!important}.more-services summary{list-style:none;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:900;cursor:pointer}.more-services summary::-webkit-details-marker{display:none}.more-services summary span{font-size:11px;color:var(--muted);font-weight:500}
+
+
+.mine-sheet-mask{position:absolute;inset:0;background:rgba(20,30,36,.34);z-index:90;display:none}.mine-sheet-mask.show{display:block}.mine-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:14px 14px 20px}.mine-sheet h3{font-size:17px;margin:0 0 8px}.mine-sheet .body{font-size:12px;line-height:1.65;color:#52616b}.mine-sheet .card{border:1px solid var(--line);border-radius:12px;background:#f7fafb;padding:11px;margin-top:8px}.mine-sheet .card b{font-size:14px;color:var(--text)}.mine-sheet .card span{display:block;font-size:11px;color:var(--muted);margin-top:4px}.mine-sheet button{width:100%;height:44px;border:0;border-radius:11px;background:var(--primary);color:#fff;font-size:13px;font-weight:900;margin-top:12px}
+
+/* Referral growth */
+.referral-card{border:1px solid #cfe2e7;background:linear-gradient(145deg,#f3fafb,#fff);border-radius:14px;padding:12px;cursor:pointer}.referral-card .ey{font-size:10px;color:var(--primary);font-weight:900}.referral-card b{display:block;font-size:15px;margin-top:4px}.referral-card p{font-size:11px;color:var(--muted);line-height:1.55;margin:4px 0 0}.referral-card .go{font-size:11px;color:var(--primary);font-weight:900;margin-top:9px}
+</style>
+<style id="h01-visual-system-v21-migration">
+
+:root{--ms-bg:#FBF8F2;--ms-surface:#FFFDFC;--ms-text:#282F2B;--ms-muted:#6F7671;--ms-line:#E7E0D7;--ms-green:#2D7154;--ms-green-soft:#EEF5F0;--ms-green-deep:#294638;--ms-orange:#E77A3A;--ms-sand:#F6EFE5;--ms-shadow:0 8px 24px rgba(56,48,38,.065);--ms-shadow-soft:0 4px 14px rgba(56,48,38,.045)}
+html,body{background:#EEE9E1!important;color:var(--ms-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif!important}
+.shell,.app{background:var(--ms-bg)!important;box-shadow:0 22px 52px rgba(48,43,35,.14)!important}
+.header,.nav,.tabbar,.bottombar,.bottom{background:rgba(255,253,249,.96)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.header,.nav{border-bottom:1px solid rgba(231,224,215,.78)!important}.header h1,.nav b{color:var(--ms-text)!important;font-weight:850!important}.back,.more{color:#4B5B52!important}
+h1,h2,h3{color:var(--ms-text)}.meta,.sub,.hint,.label,.eyebrow{color:var(--ms-muted)}
+.primary,.solid,.apply{background:var(--ms-green)!important;border-color:var(--ms-green)!important;color:#fff!important;box-shadow:0 5px 14px rgba(45,113,84,.14)!important}
+.secondary,.outline{background:var(--ms-surface)!important;border-color:#AFC7B8!important;color:var(--ms-green)!important}
+.price,.total{color:var(--ms-orange)!important}
+input,select,textarea{background:#FFF!important;border-color:var(--ms-line)!important;color:var(--ms-text)!important}
+@media(max-width:650px){html,body{background:var(--ms-bg)!important}.shell,.app{box-shadow:none!important}}
+
+.page{background:var(--ms-bg)!important}.review{background:#F2EFE8!important;border-color:var(--ms-line)!important}.profile{margin:10px!important;background:linear-gradient(145deg,#FFFDFC,#FBF4E9)!important;border:1px solid #EAE1D5!important;border-radius:18px!important;box-shadow:var(--ms-shadow-soft)!important}.avatar{background:var(--ms-green)!important;color:#fff!important}.section{margin:10px!important;background:var(--ms-surface)!important;border:1px solid var(--ms-line)!important;border-radius:18px!important;box-shadow:var(--ms-shadow-soft)!important}.card,.asset{background:#FFF!important;border-color:#EAE4DC!important;border-radius:14px!important}.card .go,.asset .go,.menu button span{color:var(--ms-green)!important}.referral-card{background:linear-gradient(135deg,#294638,#3D654F)!important;color:#FFFDF8!important;border:0!important;border-radius:17px!important;box-shadow:0 10px 24px rgba(36,62,49,.16)!important}.referral-card *{color:inherit!important}.menu button{background:#FFF!important;border-color:#EFE9E2!important}.more-services{background:#FBF9F5!important;border-color:#EAE4DC!important}.tabbar{border-top:1px solid var(--ms-line)!important;box-shadow:0 -5px 18px rgba(62,54,42,.04)!important}.tab.active{color:var(--ms-green)!important}.mine-sheet{background:var(--ms-surface)!important}
+.referral-card{background:#F7F4EE!important;color:#445049!important;border:1px solid #E7E0D6!important;border-radius:14px!important;box-shadow:none!important;padding:11px 12px!important}.referral-card .ey{font-size:9px!important;color:#657269!important}.referral-card b{font-size:12px!important}.referral-card p{font-size:10px!important;line-height:1.45!important;margin:4px 0!important}.referral-card .go{font-size:10px!important;color:var(--ms-green)!important}
+
+</style>
+<style id="visual-v22-qa-closeout">
+/* Visual V2.2 QA closeout — CSS only. No DOM/copy/order/JS changes. */
+:root{--v22-touch:44px}
+@media(max-width:650px){
+  html,body{background:var(--ms-bg,var(--bg,#FBF8F2))!important}
+  .shell{width:100%!important;max-width:none!important;height:100dvh!important;margin:0!important;box-shadow:none!important}
+  .tabbar,.bottomnav{padding-bottom:env(safe-area-inset-bottom)}
+  .bottombar,.bottom{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+}
+/* Bottom actions remain visually separate from scroll content. */
+.bottombar,.bottomnav,.tabbar,.bottom{box-shadow:0 -5px 18px rgba(62,54,42,.055)!important}
+/* Price typography: consistent numeric rhythm. */
+.price,.unit-price,.price-num,.value,[id*=Price],[id=monthly]{font-variant-numeric:tabular-nums}
+</style>
+
+<style id="v274-wx-capsule-global">
+/* V2.7.3 — reserve the right side for the native WeChat Mini Program capsule. */
+.wx-capsule-space{width:86px;height:30px;border:1px solid #D9DDE0;border-radius:16px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;gap:11px;color:#1F2933;font-size:15px;box-shadow:0 1px 3px rgba(20,32,51,.04);justify-self:center;flex:0 0 86px}
+.wx-capsule-space .divider{width:1px;height:16px;background:#E4E7E9}.wx-capsule-space .dot{letter-spacing:1px;font-size:13px}.wx-capsule-space .circle{width:15px;height:15px;border:2px solid #323B42;border-radius:50%;display:block}
+.header,.nav{grid-template-columns:48px minmax(0,1fr) 94px!important}
+.header{display:grid!important}.header h1,.nav>h1,.nav>b,#navTitle{text-align:center!important;min-width:0}
+.header>.back,.nav>.back{justify-self:center}.header>.wx-capsule-space,.nav>.wx-capsule-space{justify-self:center}
+.top{display:grid!important;grid-template-columns:48px minmax(0,1fr) 94px!important;align-items:center!important;gap:0!important;padding-left:8px!important;padding-right:4px!important}.top h1{text-align:center!important;min-width:0}.top>.back{justify-self:center}.top>.wx-capsule-space{justify-self:center}
+@media(max-width:380px){.wx-capsule-space{width:82px;flex-basis:82px}.header,.nav,.top{grid-template-columns:44px minmax(0,1fr) 88px!important}}
+</style>
+<style id="preflight-font-hygiene">
+/* V2.7.4.3 preflight hygiene: normalize user-visible secondary labels to 11px. */
+.menu span,.tab{font-size:11px!important}
+</style>
+<style id="preflight-token-hygiene">
+/* V2.7.4.3 preflight hygiene: retire legacy blue/gray root tokens in user-facing states. */
+:root{--primary:#2D7154;--bg:#FDFBF7;--card:#FFFDFC;--text:#282F2B;--muted:#6F7671;--line:#E7E0D7;--soft:#EEF5F0;--warn:#FFF8E8}
+</style>
+<link rel="stylesheet" href="mini_storage_sprint3_lifecycle_hifi_v1.css"><link rel="stylesheet" href="mini_koala_visual_elevation_v2_controlled_rollout.css"/><link rel="stylesheet" href="mini_koala_visual_elevation_v2_1_secondary_density.css"/>
+<link rel="stylesheet" href="mini_storage_coupon_benefit_v1.css">
+<link rel="stylesheet" href="mk-v3-page-m01-shell-trial.css" data-ui-system="v3-m01-trial">
+<script src="mini_storage_coupon_benefit_v1.js"></script>
+
+<link rel="stylesheet" href="mk-v3-life-service-batch-c.css" data-ui-system="vis06c-batch-c-life">
+<link rel="stylesheet" href="mk-uxc-scrollbar-hide.css" data-ui-system="ux-patch-c"/>
+<link rel="stylesheet" href="mk-uxc-main-tabbar.css" data-ui-system="ux-patch-c"/>
+
+<link rel="stylesheet" href="mk-uxd2-layout-actions.css" data-ux-patch="d2-layout-actions">
+<link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
+</head>
+<body class="koala-uxd2-layout koala-uxc-nav koala-ui-v1 koala-m01 koala-vis06c-life koala-life-mine" data-ux-patch-d2="v1">
+<div class="review">
+<button data-demo="empty">空状态</button><button data-demo="requirement">找仓中</button><button data-demo="viewing">已预约</button><button data-demo="quote">有报价</button><button data-demo="order">租赁中</button>
+</div>
+<div class="shell">
+<div class="page">
+<div class="header"><div></div><h1>我的</h1><div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div></div>
+<div class="profile"><div class="avatar">我</div><div><b id="profileTitle">我的迷你仓</b><span id="profilePhone">预约、报价、订单和当前仓位都在这里</span></div></div>
+<section class="section" id="primarySection">
+<h2 id="primaryTitle">待处理事项</h2>
+<div id="primaryAssets"></div>
+</section>
+<section class="section hidden" id="referralSection">
+<div class="referral-card" id="referralEntry">
+<div class="ey">老友记·推荐有礼</div>
+<b id="referralTitle">推荐成功得 ¥288–888 租仓抵用金</b>
+<p id="referralDesc">好友首单到期后可再免费使用10天；好友完成首次租仓并开始使用后，您会获得对应抵用金。</p>
+<div class="go">查看我的推荐 ›</div>
+</div>
+</section>
+<section class="section">
+<h2>我的记录</h2>
+<div class="menu">
+<button id="myViewing">预约看仓<span id="viewingBadge">查看预约记录</span></button>
+<button id="myQuote">我的报价<span id="quoteBadge">查看已保存方案</span></button>
+<button id="myOrders">我的订单<span id="orderBadge">支付与租赁记录</span></button>
+<button id="myRequirement">最近找仓<span id="reqBadge">恢复上次需求</span></button>
+<button class="hidden" id="myTransport">首单运输权益<span id="transportBadge">待预约</span></button>
+</div>
+</section>
+<section class="section">
+<details class="more-services">
+<summary>更多服务 <span>付款、发票、帮助与设置 ›</span></summary>
+<div class="menu" style="margin-top:10px">
+<button id="payments">付款记录<span>查看支付明细</span></button>
+<button id="invoice">发票<span>申请与查看发票</span></button>
+<button id="support">联系客服<span>仓位、搬运、续租等问题</span></button>
+<button id="faq">常见问题<span>租期、存取与安全</span></button>
+<button id="profile">个人信息<span>联系方式与开票信息</span></button>
+<button id="brandAbout">品牌与保障<span>了解门店网络与服务标准</span></button>
+<button id="settings">设置<span>通知与隐私</span></button>
+</div>
+</details>
+</section>
+</div>
+<div class="tabbar">
+<div class="tab" id="tabHome"><div class="ico">⌂</div><div>首页</div></div>
+<div class="tab" id="tabFind"><div class="ico">⌕</div><div>找仓</div></div>
+<div class="tab" id="tabStores"><div class="ico">▦</div><div>门店</div></div>
+<div class="tab active"><div class="ico">◉</div><div>我的</div></div>
+</div>
+<div class="mine-sheet-mask" id="mineSheet"><div class="mine-sheet"><h3 id="mineSheetTitle">服务</h3><div class="body" id="mineSheetBody"></div><button id="mineSheetClose">知道了</button></div></div><div class="toast" id="toast"></div>
+</div>
+<script src="mini_koala_asset_resume_v2.js"></script><script src="mini_storage_business_ssot_v274.js"></script>
+<script src="../data/mini_koala_data.js"></script><script>
+const homeFile='mini_storage_home_H01_Visual_V2_7_4_SSOT.html',estimatorFile='space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html',s01File='mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html',
+      v02File='mini_storage_viewing_v02_v1_14_self_service_synced.html',q01File='mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html',q03File='mini_storage_quote_q03_v4_self_service.html',o03File='mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html',t01File='mini_storage_transport_t01_v4_self_service.html',t02File='mini_storage_transport_t02_v4_self_service.html',b01File='mini_storage_brand_b01_v1_10_self_service_synced_Visual_V2_7_4.html',ref01File='mini_storage_referral_ref01_v1.html',oh01File='mini_storage_order_history_oh01_v2_7_4.html',iv01File='mini_storage_invoice_iv01_v2_7_4.html',dp01File='mini_storage_deposit_dp01_v2_7_4.html';
+const REQUIREMENT_KEY='mini_storage_requirement_current',VIEWING_KEY='mini_storage_viewing_current',QUOTE_KEY='mini_storage_quote_current',ORDER_KEY='mini_storage_order_current',PHONE_KEY='mini_storage_lead_phone';
+const REFERRAL_DASHBOARD_KEY='mini_storage_referral_dashboard';
+const MASTER=window.MINI_STORAGE_MASTER_V242,LIFECYCLE=window.MINI_STORAGE_LIFECYCLE_V242,REPO=window.MINI_STORAGE_REPO_V242;
+function get(k){try{return localStorage.getItem(k)||''}catch(e){return window['__'+k]||''}}
+function set(k,v){try{localStorage.setItem(k,v)}catch(e){window['__'+k]=v}}
+function obj(k){try{return JSON.parse(get(k)||'{}')}catch(e){return {}}}
+const STORE_NAMES=Object.fromEntries(Object.entries(MASTER.stores).map(([id,s])=>[id,s.name]));
+function toast(msg){const t=document.querySelector('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1500)}
+function mask(v){return v&&v.length>=7?`${v.slice(0,3)}****${v.slice(-4)}`:v}
+function fmtDate(v){if(!v)return '';try{const d=new Date(v);return `${d.getMonth()+1}月${d.getDate()}日`}catch(e){return v}}
+function orderCanRefer(o){const lc=LIFECYCLE.derive(o);return !!(o&&o.unit_id&&['active','ending'].includes(lc.state))}
+function validTerm(v){const H=window.MINI_STORAGE_BUSINESS_HELPERS_V274;return H&&H.validTerm?H.validTerm(v):(/^(?:[1-9]|[1-5][0-9]|60)$/.test(String(v??'').trim())?Number(v):null)}
+function goRequirement(){
+  const r=obj(REQUIREMENT_KEY);if(!r.target_volume){location.href=estimatorFile;return}
+  // H01-007-S1 D-03: a saved capacity without a valid term goes to term selection instead of a defaulted 1-month search.
+  if(!validTerm(r.term_months)){
+    const p=new URLSearchParams({entry:'known',knownSize:String(r.target_volume),requireTerm:'1',source:'mine_resume_term_required'});
+    if(r.customer_type)p.set('customer',r.customer_type);if(r.size_mode)p.set('knownMode',r.size_mode);
+    location.href=estimatorFile+'?'+p.toString();return;
+  }
+  const q=new URLSearchParams({state:'estimated',target:Number(r.target_volume).toFixed(1),term:String(validTerm(r.term_months)),travel:r.travel_mode||'drive',entry:'resume_requirement',source:'mine'});
+  if(r.customer_type)q.set('customer',r.customer_type);location.href=s01File+`?${q.toString()}`
+}
+function goViewing(){
+  const v=obj(VIEWING_KEY);if(!v.viewing_id){toast('暂无看仓预约');return}
+  const q=new URLSearchParams({viewingId:v.viewing_id,source:v.source_page||'S02',scope:v.viewing_scope||'STORE',date:v.appointment_date||'',slot:v.appointment_slot||'',status:v.status||'BOOKED',lead:v.lead||'none',start:v.start_date||'2026-09-12'});
+  if(v.unit_id)q.set('unit',v.unit_id);if(v.target_volume)q.set('target',String(v.target_volume));if(v.volume)q.set('volume',String(v.volume));if(v.term_months)q.set('term',String(v.term_months));if(v.current_monthly_price)q.set('monthly',String(v.current_monthly_price));location.href=v02File+`?${q.toString()}`
+}
+function goQuoteList(){goQuote()}
+function goQuote(){
+  const q=obj(QUOTE_KEY);if(!q.unit_id){toast('暂无已保存报价');return}
+  const p=new URLSearchParams({unit:q.unit_id,store:q.store_id||'jianguo',target:String(q.target_volume||q.volume||5),volume:String(q.volume||q.target_volume||5),term:String(q.term_months||1),monthly:String(q.monthly_price||1),rentTotal:String(q.total_price||0),deposit:String(q.deposit_amount||q.monthly_price||0),managementFee:String(q.management_fee||50),initialPayable:String(q.initial_payable||0),pricingModel:q.pricing_model_version||'unit_master_v221',quoteStatus:q.status||'active',route:q.transaction_route||'QUOTE_OPTIONAL',lead:q.lead||'none',promo:q.transport_promo_status||'NOT_CHECKED',pickup:q.pickup_address||'',pickupKm:String(q.pickup_to_store_drive_km||''),discountRatio:String(q.deal_discount_ratio||'')});
+  if(q.customer_type)p.set('customer',q.customer_type);if(!window.MINI_KOALA_ASSET_RESUME_V2.restore(q,p)){alert('方案信息不完整，请重新选择仓位');return}location.href=q01File+`?${p.toString()}`
+}
+function goOrder(){const o=obj(ORDER_KEY);if(!o.unit_id){toast('暂无订单');return}if(['PENDING','PENDING_PAYMENT','PAYMENT_FAILED'].includes(o.status)){/* H01-007-S3 D-12 */const p=new URLSearchParams({orderNo:o.order_no||'',target:String(o.volume||0)});if(!window.MINI_KOALA_ASSET_RESUME_V2.restore(o,p)){toast('订单报价需要重新确认');return}location.href='mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html?'+p.toString();return}location.href=o03File+'?orderNo='+encodeURIComponent(o.order_no||'')}
+function render(){
+  const r=obj(REQUIREMENT_KEY),v=obj(VIEWING_KEY),q=obj(QUOTE_KEY),o=obj(ORDER_KEY);
+  const box=document.querySelector('#primaryAssets');let html='';
+  const orderLifecycle=LIFECYCLE.derive(o);
+  document.querySelector('#primaryTitle').textContent=o.unit_id&&o.status==='PAID'&&orderLifecycle.is_current?'当前服务':'待处理事项';
+  const physicalUnit=o.actual_unit_id||(o.unit_id_semantics!=='LEGACY_REPRESENTATIVE_DISPLAY'?o.unit_id:null);
+  if(o.unit_id && o.status==='PAID' && orderLifecycle.is_current)html+=`<div class="asset current" id="assetOrder"><div class="eyebrow">${orderLifecycle.state==='upcoming'?'待开始':orderLifecycle.state==='ending'?'即将到期':orderLifecycle.state==='returning'?'退租处理中':'当前租赁'}</div><b>${STORE_NAMES[o.store_id]||'门店'} · ${physicalUnit?'仓位 '+physicalUnit:'容量方案待分配'}</b><p>${Number(o.volume||0).toFixed(1)}m³ · ${Number(o.term_months||1)+Number(o.renewal_months_total||0)}个月 · ${Number(o.renewal_months_total||0)>0?'最近续租月均约 ¥'+Number(o.last_renewal_monthly||0).toLocaleString()+'/月':'月均约 ¥'+Number(o.monthly_price||0).toLocaleString()+'/月'}</p><div class="go">${orderLifecycle.state==='upcoming'?'查看入仓准备':orderLifecycle.state==='ending'?'处理即将到期':orderLifecycle.state==='returning'?'查看退租进度':'查看入仓与续租服务'} ›</div></div>`;
+  else if(o.unit_id && o.status==='PAID' && orderLifecycle.state==='ended')html+=`<div class="asset" id="assetOrder"><div class="eyebrow">已结束订单</div><b>${STORE_NAMES[o.store_id]||'门店'} · ${physicalUnit?'仓位 '+physicalUnit:'容量方案'}</b><p>本次租赁已结束 · 订单与付款记录仍可查看</p><div class="go">查看订单 ›</div></div>`;
+  else if(o.unit_id && ['PENDING','PENDING_PAYMENT'].includes(o.status))html+=`<div class="asset warn" id="assetOrder"><div class="eyebrow">待支付</div><b>${o.size_option_id?'容量方案':'仓位 '+o.unit_id} · 订单未完成</b><p>可以继续处理当前订单。</p><div class="go">查看订单 ›</div></div>`;
+  else if(o.unit_id && o.status==='PAYMENT_FAILED')html+=`<div class="asset warn" id="assetOrder"><div class="eyebrow">支付未完成</div><b>${o.size_option_id?'容量方案':'仓位 '+o.unit_id} · 上次支付未完成</b><p>订单已保留，可以继续处理；重新支付前会再次核对价格和优惠。</p><div class="go">继续处理订单 ›</div></div>`; // H01-007-S3 D-12
+  if(v.viewing_id && v.status==='BOOKED')html+=`<div class="asset" id="assetViewing"><div class="eyebrow">看仓预约</div><b>${fmtDate(v.appointment_date)} · ${v.appointment_slot||''}</b><p>${STORE_NAMES[v.store_id]||'门店'}${v.size_option_id?` · 容量方案 ${Number(v.volume||v.target_volume||0).toFixed(1)}m³`:v.unit_id?` · 计划看仓位 ${v.unit_id}`:''}</p><div class="go">查看预约 ›</div></div>`;
+  const quoteVisible=!!(q.quote_id && ['active','pending_advisor'].includes(q.status) && !(o.unit_id && o.status==='PAID' && o.unit_id===q.unit_id));
+  if(quoteVisible)html+=`<div class="asset" id="assetQuote"><div class="eyebrow">已保存方案</div><b>仓位 ${q.unit_id} · ${q.term_months||1}个月</b><p>¥${Number(q.monthly_price||0).toLocaleString()}/月${q.valid_until?' · 参考至 '+fmtDate(q.valid_until):''}</p><div class="go">查看方案或继续下单 ›</div></div>`;
+  if(!html && r.target_volume)html+=`<div class="asset" id="assetRequirement"><div class="eyebrow">继续找仓</div><b>约 ${Number(r.target_volume).toFixed(1)}m³ · ${validTerm(r.term_months)?validTerm(r.term_months)+'个月':'租期待选择'}</b><p>${validTerm(r.term_months)?'恢复上次找仓需求，不需要重新估算。':'已保存容量；继续前先选择租期，再查看正式价格。'}</p><div class="go">继续找仓 ›</div></div>`;
+  if(!html)html='<div class="empty">还没有预约、报价或订单。可以从“找仓”开始，或者直接浏览附近门店。</div>';
+  const renewal=window.MINI_STORAGE_REPO_V242?.findRenewal(o.order_no);
+  if(renewal&&['QUOTE_PENDING','QUOTE_READY'].includes(renewal.status))html+=`<div class="asset" id="assetRenewal"><div class="eyebrow">${renewal.status==='QUOTE_PENDING'?'续租需求已提交':'续租报价待确认'}</div><b>续租${renewal.months}个月</b><p>${renewal.status==='QUOTE_PENDING'?'等待报价 · 提交后未扣款':'查看报价后确认支付'}</p><div class="go">查看续租进度 ›</div></div>`;
+  box.innerHTML=html;
+  document.querySelector('#assetRenewal')?.addEventListener('click',()=>location.href='mini_storage_renew_rn01_v2_7_4.html?orderNo='+encodeURIComponent(o.order_no));
+  document.querySelector('#assetOrder')?.addEventListener('click',goOrder);
+  document.querySelector('#assetTransport')?.addEventListener('click',()=>{const o=obj(ORDER_KEY);location.href='mini_storage_transport_status_v1.html?orderNo='+encodeURIComponent(o.order_no||'')});
+  document.querySelector('#assetViewing')?.addEventListener('click',goViewing);
+  document.querySelector('#assetQuote')?.addEventListener('click',goQuoteList);
+  document.querySelector('#assetRequirement')?.addEventListener('click',goRequirement);
+  document.querySelector('#viewingBadge').textContent=v.viewing_id?(v.status==='BOOKED'?'1个待到店':'查看预约记录'):'暂无预约';
+  document.querySelector('#quoteBadge').textContent=quoteVisible?'1个已保存方案':'暂无已保存方案';
+  document.querySelector('#orderBadge').textContent=o.unit_id?(o.status==='PAID'?(orderLifecycle.is_current?(orderLifecycle.state==='ending'?'即将到期':orderLifecycle.state==='returning'?'退租处理中':orderLifecycle.state==='upcoming'?'待开始':'当前租赁中'):'查看已结束订单'):['PENDING','PENDING_PAYMENT'].includes(o.status)?'1个待支付':o.status==='PAYMENT_FAILED'?'1个支付未完成':'查看订单记录'):'暂无订单'; // H01-007-S3 D-12
+  const transportBtn=document.querySelector('#myTransport');const hasTransport=orderLifecycle.is_current && o.transport_promo_status==='ELIGIBLE';transportBtn.classList.toggle('hidden',!hasTransport);if(hasTransport)document.querySelector('#transportBadge').textContent=o.transport_right_status==='REDEEMED'?'已使用':'1次单程基础运输 · 待预约';
+  document.querySelector('#reqBadge').textContent=r.target_volume?`约${Number(r.target_volume).toFixed(1)}m³ · ${validTerm(r.term_months)?validTerm(r.term_months)+'个月':'租期待选择'}`:'暂无保存需求';
+  const referralSection=document.querySelector('#referralSection');
+  const referralDashboard=obj(REFERRAL_DASHBOARD_KEY);
+  const referralEligible=!!(o.unit_id && orderCanRefer(o));
+  referralSection.classList.toggle('hidden',!referralEligible);
+  if(referralEligible){
+    document.querySelector('#referralTitle').textContent='推荐成功得 ¥288–888 租仓抵用金';
+    document.querySelector('#referralDesc').textContent='好友首单到期后可再免费使用10天；好友完成首次租仓并开始使用后，您会获得对应抵用金。';
+    const pending=(referralDashboard.rewards||[]).filter(x=>x.status==='PENDING');
+    const issued=(referralDashboard.rewards||[]).filter(x=>x.status==='ISSUED');
+    if(issued.length){document.querySelector('#referralTitle').textContent=`已有 ${issued.length} 份推荐奖励到账`;document.querySelector('#referralDesc').textContent='抵用金已发到您的账户，5年有效；每笔后续新订单限用一张。'}
+    else if(pending.length){document.querySelector('#referralTitle').textContent=`${pending.length} 位好友已租仓 · 奖励待确认`;document.querySelector('#referralDesc').textContent=`预计可得 ¥${pending.reduce((a,b)=>a+Number(b.reward_amount||0),0).toLocaleString()} 抵用金，好友开始使用后会继续确认。`}
+  }
+
+  const ph=get(PHONE_KEY);if(ph)document.querySelector('#profilePhone').textContent=`已绑定 ${mask(ph)} · 预约、报价、订单统一管理`;
+}
+document.querySelector('#tabHome').onclick=()=>location.href=homeFile;
+document.querySelector('#tabFind').onclick=()=>location.href=estimatorFile+'?source=bottom_find';
+document.querySelector('#tabStores').onclick=()=>location.href=s01File+'?state=browse&entry=browse_nearby&source=mine_bottom';
+document.querySelector('#myViewing').onclick=goViewing;document.querySelector('#myQuote').onclick=goQuoteList;document.querySelector('#myOrders').onclick=()=>location.href=oh01File;document.querySelector('#myRequirement').onclick=goRequirement;
+document.querySelector('#brandAbout').onclick=()=>location.href=b01File;
+document.querySelector('#referralEntry').onclick=()=>location.href=ref01File;
+document.querySelector('#myTransport').onclick=()=>{
+  const o=obj(ORDER_KEY);
+  location.href='mini_storage_transport_status_v1.html?orderNo='+encodeURIComponent(o.order_no||'');
+};
+function openMineSheet(title,html){document.querySelector('#mineSheetTitle').textContent=title;document.querySelector('#mineSheetBody').innerHTML=html;document.querySelector('#mineSheet').classList.add('show')}document.querySelector('#mineSheetClose').onclick=()=>document.querySelector('#mineSheet').classList.remove('show');document.querySelector('#mineSheet').onclick=e=>{if(e.target.id==='mineSheet')e.currentTarget.classList.remove('show')};
+document.querySelector('#payments').onclick=()=>{const o=obj(ORDER_KEY);const pays=REPO.getPayments().filter(x=>x.order_no===o.order_no&&x.status==='PAID');const total=pays.reduce((a,x)=>a+Number(x.amount||0),0);openMineSheet('付款记录',o.order_no?`<div class="card"><b>¥${total.toLocaleString()}</b><span>累计实际支付 · 订单 ${o.order_no}</span></div>`+pays.map(x=>`<div class="card"><b>${x.type==='RENEWAL'?'续租付款':'首次付款'} · ¥${Number(x.amount||0).toLocaleString()}</b><span>${x.payment_id}</span></div>`).join(''):'<div class="card"><b>暂无付款记录</b><span>完成订单支付后会显示在这里。</span></div>')};
+document.querySelector('#invoice').onclick=()=>{const o=obj(ORDER_KEY);if(!o.order_no){toast('暂无可开票订单');return}location.href=iv01File+'?orderNo='+encodeURIComponent(o.order_no)};
+document.querySelector('#support').onclick=()=>openMineSheet('联系客服','<div class="card"><b>138 0013 8000</b><span>仓位、搬运、续租和入仓问题都可以咨询。</span></div>');
+document.querySelector('#faq').onclick=()=>openMineSheet('常见问题','<div class="card"><b>可以租多久？</b><span>1–60个月都可以选择。</span></div><div class="card"><b>什么时候能进入仓位？</b><span>支付后仓位会锁定；完成身份证要素验证且到开始日期后可自助存取。</span></div><div class="card"><b>仓位怎么开？</b><span>满足用仓条件后，可在订单和入仓指引中查看仓位密码。</span></div>');
+document.querySelector('#profile').onclick=()=>{const ph=get(PHONE_KEY);openMineSheet('个人信息',`<div class="card"><b>${ph?mask(ph):'尚未绑定手机号'}</b><span>订单、预约和服务联系会使用这里的联系方式。</span></div>`)};
+document.querySelector('#settings').onclick=()=>openMineSheet('设置','<div class="card"><b>订单与服务提醒</b><span>当前保持开启。</span></div><div class="card"><b>隐私说明</b><span>联系方式仅用于订单、预约和服务联系。</span></div>');
+document.querySelectorAll('[data-demo]').forEach(b=>b.onclick=()=>{
+  [REQUIREMENT_KEY,VIEWING_KEY,QUOTE_KEY,ORDER_KEY].forEach(k=>set(k,''));
+  const now=new Date();
+  if(b.dataset.demo==='requirement')set(REQUIREMENT_KEY,JSON.stringify({requirement_id:'R-DEMO',target_volume:5,min_volume:4.5,max_volume:5.5,term_months:6,travel_mode:'drive',source:'DEMO'}));
+  if(b.dataset.demo==='viewing')set(VIEWING_KEY,JSON.stringify({viewing_id:'V-DEMO',status:'BOOKED',viewing_scope:'UNIT',source_page:'U01',store_id:'jianguo',unit_id:'C008',target_volume:5,term_months:6,appointment_date:'2026-09-12',appointment_slot:'14:00-16:00'}));
+  if(b.dataset.demo==='quote')set(QUOTE_KEY,JSON.stringify({quote_id:'Q-DEMO',status:'active',unit_id:'C008',target_volume:5,term_months:6,monthly_price:980,valid_until:new Date(now.getTime()+48*3600*1000).toISOString()}));
+  if(b.dataset.demo==='order')set(ORDER_KEY,JSON.stringify({order_no:'O-DEMO',status:'PAID',payment_status:'PAID',detail_state:'active',store_id:'jianguo',unit_id:'A038',volume:.8,term_months:2,monthly_price:230,total_price:460,deposit_amount:230,management_fee:50,payable_total:740,start_date:'2026-09-12',lock_code:'2468',identity_verification_status:'VERIFIED',access_status:'ACTIVE'}));
+  render()
+});
+render();
+</script>
+<script src="mini_storage_global_support_v274.js"></script>
+<script>
+ document.querySelectorAll('button').forEach(b=>{
+   const text=b.textContent.trim();
+   if(!b.onclick&&['付款记录','联系客服','常见问题','个人信息','设置'].some(t=>text.startsWith(t)))b.onclick=()=>{
+     if(text.startsWith('付款记录'))location.href='mini_storage_order_history_oh01_v2_7_4.html';
+     else if(text.startsWith('联系客服'))document.getElementById('miniSupportChat')?.click();
+     else alert(text.startsWith('常见问题')?'可通过右下角帮助入口咨询租仓、存取和续租问题。':'当前为内部演示，暂未开放在线修改。');
+   };
+ });
+</script><script src="mk-uxc-main-tabbar-a11y.js"></script>
+</body>
+</html>

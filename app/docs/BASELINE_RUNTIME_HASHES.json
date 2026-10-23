@@ -1,0 +1,610 @@
+{
+  "baseline_version": 4,
+  "unchanged_file_count": 151,
+  "files": [
+    {
+      "path": "prototype/assets/hero_storage_home.jpeg",
+      "sha256": "a7c21486889c3c08325e1560b299fb24d1cff98fbfa6c82ae4422619c5e19f95"
+    },
+    {
+      "path": "prototype/assets/honors/cctv.jpg",
+      "sha256": "75fd776da383b090e288eda580222468faccf14358e8cfa59fe6c24ee03d4e21"
+    },
+    {
+      "path": "prototype/assets/honors/hightech.jpg",
+      "sha256": "782bce82c3d12ece1b99314e88dbe5fb43682259016541f14c5a44b2e44af461"
+    },
+    {
+      "path": "prototype/assets/honors/standard.jpg",
+      "sha256": "5d22352285ee4508d9efce8379e75499435bb1052687594c3c7f982ccbe2caca"
+    },
+    {
+      "path": "prototype/assets/icons/lucide.min.js",
+      "sha256": "ab85225ecc1daa2033607856f03dd2dabcbc08e2d260a5b97e17c690aa929766"
+    },
+    {
+      "path": "prototype/assets/store/home_featured_store_01.jpg",
+      "sha256": "0ab46944073ce8bd026f09f7617f5a39fce62ebac763b5aadafd8064e48655b5"
+    },
+    {
+      "path": "prototype/home_original_reference.html",
+      "sha256": "8ae5f5df2993a16b30855d9f98278824a8f0baa6c8c41ea7fe6bedc23118c0ca"
+    },
+    {
+      "path": "prototype/index.html",
+      "sha256": "72815c4dcd6307660f372815da5625510edaa6951469b8ac90bd829bf235fc50"
+    },
+    {
+      "path": "prototype/index_state_machine_demo.html",
+      "sha256": "a117966866cb1327fcec39ab9d0673b7ab5a22931650d5dc0f1eef68c2438a3f"
+    },
+    {
+      "path": "prototype/index_visual_v2_4_1.html",
+      "sha256": "00843afe306d456c365238b80ad86eac3ab36b14bfe49b275fefc2b13d9df357"
+    },
+    {
+      "path": "prototype/index_visual_v2_7_4.html",
+      "sha256": "a0f5c78da43c6303b6fb59d3c0f766963f31609e789ca0dec417b34b3436e975"
+    },
+    {
+      "path": "prototype/index_visual_v2_7_4_4.html",
+      "sha256": "9add18f1e8c5914add5d669582dd2acbb417169db30bf286b06b39b13754d805"
+    },
+    {
+      "path": "prototype/index_visual_v2_7_4_5.html",
+      "sha256": "4345b06a8af590b884d8073c3c66b3e3aa0d39441f70efeec950a0950f9ad1ac"
+    },
+    {
+      "path": "prototype/index_visual_v2_7_4_6.html",
+      "sha256": "83b9e9b4fe05481c4dac28522d64d3ea95678a63ca65498a98dddc409ab04817"
+    },
+    {
+      "path": "prototype/index_visual_v2_7_4_7.html",
+      "sha256": "3386f22e9fb40eaccb99ee95d8a42cf3935c95443bcfb7ef380a7aaab550a1f3"
+    },
+    {
+      "path": "prototype/index_visual_v2_7_4_8.html",
+      "sha256": "19e59554a504ab612a80f3d2eeecb55d93253bb8a8e7420e0bb3f9eb44980ec6"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_fix_v1.css",
+      "sha256": "36cff3cd3f185dde344c51b232320b9d7f7f77e27fb9bfd6c6741661ed8bf2a5"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_fix_v1.js",
+      "sha256": "30a0e66f7bca92f27e173c9d2068ed0461e495faa3486d2105a229c25d8c5cb4"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_v11_facts_patch.js",
+      "sha256": "b75567bcc37990768641de6a36c20c5053793294fbb9720693b540fced6108ec"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_v11_language_patch.js",
+      "sha256": "d2eabef40269c986667bc6e2713893b0a609f29a900a28533bc1c3467af31963"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_v11_layout_patch.css",
+      "sha256": "ee593d96c35dc6476ffc6a980f46b4b90fd5f0488460daf463d0540872dcc5c5"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_v11_layout_patch.js",
+      "sha256": "31fda228cb7ce55e17c883acf356cc0180d630c36f55edb8ed8467450812af46"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_v11_state_patch.css",
+      "sha256": "3772d0fa19eee103fc3f47ed3d11494531693e016f97deecaef2352a2fa58248"
+    },
+    {
+      "path": "prototype/mini_koala_acceptance_v11_state_patch.js",
+      "sha256": "7d272e28aa734d178ccc3c232fc337cab631fc35ea41516a6c7c6529259f7db1"
+    },
+    {
+      "path": "prototype/mini_koala_estimator_item_fallback_p0_v1.js",
+      "sha256": "806af05567f5450cb65181059e1dfe26b4472c748bc7274f9830b68877b20edb"
+    },
+    {
+      "path": "prototype/mini_koala_home_approved_v2.css",
+      "sha256": "a45d15732499461f60a595785a1258f6de83236f9f5cc517407ac17bed070be8"
+    },
+    {
+      "path": "prototype/mini_koala_home_approved_v2.js",
+      "sha256": "0083aae0627f0a0d0dc1a77cd7f18354f592a4c2026232656911fca439f71bef"
+    },
+    {
+      "path": "prototype/mini_koala_internal_demo_v1.js",
+      "sha256": "37c5ef18899c9169a5b0666d74dfd855d4a4f038c23bc581c32ba1cb40e0cfcf"
+    },
+    {
+      "path": "prototype/mini_koala_sales_intervention_patch_v1.js",
+      "sha256": "43f71f888811bcfbc12c43eb83f06ae8f0628e181847533553b8019c76735f1d"
+    },
+    {
+      "path": "prototype/mini_koala_store_top_patch_v1.css",
+      "sha256": "e17273b3459014443b0881a4374f297b2d13a65a29919fefa403b4f9cc0b6d3e"
+    },
+    {
+      "path": "prototype/mini_koala_term_actions_patch_v1.css",
+      "sha256": "65a402804a3d7ae4032bf2ef04022fc2acc094770a6a68b29ae48fa77beb3c25"
+    },
+    {
+      "path": "prototype/mini_koala_visual_elevation_v2_1_density.css",
+      "sha256": "2f7580ff12d3afeaea4f1f41cb294ca04220addfb24390c457de361c6951f147"
+    },
+    {
+      "path": "prototype/mini_koala_visual_elevation_v2_1_secondary_density.css",
+      "sha256": "2df75309e4175a0e0d8a12422bfaae8f92e4491471710bc596a32c5fc3c71c68"
+    },
+    {
+      "path": "prototype/mini_koala_visual_elevation_v2_controlled_rollout.css",
+      "sha256": "d6dceb603a69c780720d5e289c2f252ffccdd8d1e55132f2c34620497a0ca4de"
+    },
+    {
+      "path": "prototype/mini_koala_visual_elevation_v2_premium_pilot.css",
+      "sha256": "e0e9f12f84288681ec9c0a9b62500688125edea8a4761909f8af9fb6d2e14efb"
+    },
+    {
+      "path": "prototype/mini_koala_visual_elevation_v2_refinement_patch.css",
+      "sha256": "290ef7bbae72a1c84e0e9db0a082724ec7177e0c9ceecc34a9267242fa741a0e"
+    },
+    {
+      "path": "prototype/mini_storage_access_a01_v2_self_service_Visual_V2_7_4.html",
+      "sha256": "a07f651d7576264ecf3aa659b9a634c75e81083652ef4edea4d37678a18647f0"
+    },
+    {
+      "path": "prototype/mini_storage_ai_loading_ai01_l_v1_demo_patch.html",
+      "sha256": "a14758f49946fb9fd8d39581509204d448dccf989dbc04eb29b18181279274e3"
+    },
+    {
+      "path": "prototype/mini_storage_ai_photo_ai01_v1_demo_patch.html",
+      "sha256": "b79cce0d7a5e2ede9310017d0d4a743d3945eff30bcc29b9541cd9a4d893fa4c"
+    },
+    {
+      "path": "prototype/mini_storage_ai_result_ai02_v1_demo_patch.html",
+      "sha256": "ab844cf2d18353f5916f67254d689096a583037dbc370d4394b5113fb9e8d184"
+    },
+    {
+      "path": "prototype/mini_storage_brand_b01_v1_10_self_service_synced_Visual_V2_7_4.html",
+      "sha256": "7147122532cb5cb725f2e84a392080e0be163e84f7a786fa0d23cc8f58ddfc0a"
+    },
+    {
+      "path": "prototype/mini_storage_business_b2b01_r113_Visual_V2_7_4.html",
+      "sha256": "ce219375dd209d628212fa1776140489d004bff5b0214a99ac34c1c6887a3c90"
+    },
+    {
+      "path": "prototype/mini_storage_business_ssot_v274.js",
+      "sha256": "92e3da4fc9ca7082a159a453b0b007fe0e7cfaa88bc8e2bde39b91110baa676c"
+    },
+    {
+      "path": "prototype/mini_storage_contract_c01_v1_agreement_confirm_Visual_V2_7_4.html",
+      "sha256": "200d3c4c604a32b78065f9232c40e259f2642b224c0ab52ae424f8f21635352f"
+    },
+    {
+      "path": "prototype/mini_storage_coupon_benefit_v1.css",
+      "sha256": "115038d730b52d635e4e6a2d879c962ef7e61c59eaf861a5a4fe81e5bc2a265a"
+    },
+    {
+      "path": "prototype/mini_storage_coupon_benefit_v1.js",
+      "sha256": "5d57abf7b93dbf398992f4501d3da175c45900b5d6814b786562e790038bef86"
+    },
+    {
+      "path": "prototype/mini_storage_coupon_select_c02_v1.html",
+      "sha256": "584e5f5e67ee2833a70a7aca6405d0eaf851bb531590d6d595da210528e9d44a"
+    },
+    {
+      "path": "prototype/mini_storage_coupon_wallet_c01_v1.html",
+      "sha256": "90151111c8d45d16abcc32429ce0a110ac94021889b25b08eb5950f742ddb45a"
+    },
+    {
+      "path": "prototype/mini_storage_demo_d01_v5_entry_clarity_review.html",
+      "sha256": "1e1192cfd8dbf8345499f62ddb4b929a194688f021496b1a97ef2d71278da2b0"
+    },
+    {
+      "path": "prototype/mini_storage_demo_fixture_v2.js",
+      "sha256": "094430a8835f3b7a4b7a8a0001660889186961b822d87ab0b37a95283b632558"
+    },
+    {
+      "path": "prototype/mini_storage_deposit_dp01_v2_7_4.html",
+      "sha256": "9c54cf47dfe3c9b12d7947cb424b34a6da755b49e84de5597adb1e34db2fb8bc"
+    },
+    {
+      "path": "prototype/mini_storage_exit_ex01_v2_7_4.html",
+      "sha256": "3e3db3b18aba45a5af4f3554d80cb1cd86e33a2639e64e893ed22cc7d7f7ac07"
+    },
+    {
+      "path": "prototype/mini_storage_global_support_v274.js",
+      "sha256": "4e7dff4acfbb138af8d17eeeea73e319457967827e6621a2422ca990b99d8467"
+    },
+    {
+      "path": "prototype/mini_storage_home_H01_Visual_V2_7_4_SSOT.html",
+      "sha256": "5f2053f9bcba891f9ef8e2d840fe70dd0542e1bfff7417269bac8d6d7eb2e249"
+    },
+    {
+      "path": "prototype/mini_storage_home_h01_vi_ready_wireframe_v1.html",
+      "sha256": "8ae5f5df2993a16b30855d9f98278824a8f0baa6c8c41ea7fe6bedc23118c0ca"
+    },
+    {
+      "path": "prototype/mini_storage_identity_id01_v2_7_4_5.html",
+      "sha256": "70b100f4e34a409c248ad597a40800cc3776bbc1cea9e32ea7dc9f4005f1713e"
+    },
+    {
+      "path": "prototype/mini_storage_inventory_urgency_v1.js",
+      "sha256": "d70c5b789558b031f2b9df76e1ca5d2241a324b3cb4f2f50f87a2c2e050aee72"
+    },
+    {
+      "path": "prototype/mini_storage_invoice_iv01_v2_7_4.html",
+      "sha256": "93c4cc7070de59a1e9ac1d28988651fc74d5299ccb3a9ed93995cb7ca1aae864"
+    },
+    {
+      "path": "prototype/mini_storage_mine_m01_v1_11_self_service_Visual_V2_7_4.html",
+      "sha256": "1ceaf235a02c85bc70670590972c1dabff9a17c7d859f8b1ee7c5bf1d3841283"
+    },
+    {
+      "path": "prototype/mini_storage_order_history_oh01_v2_7_4.html",
+      "sha256": "074b3bb1be4a69e8a78b4c38ea9a7c5e4541f66a7e5d81ed79691b146767f616"
+    },
+    {
+      "path": "prototype/mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html",
+      "sha256": "e95d9e2606fe28f94c893af702cfe8c10f73bf4a21b8e64563ffa6bab95e8186"
+    },
+    {
+      "path": "prototype/mini_storage_order_o01_v1_2_contract_linked.html",
+      "sha256": "6ebd06c1f53e14a8477761405b530553d046688bf50dc8de925c0ace4beeddc0"
+    },
+    {
+      "path": "prototype/mini_storage_order_o02_v1_17_self_service_Visual_V2_7_4.html",
+      "sha256": "1de086558cbc6dbbdd313ce6519829d04c9fc81c2afc751a4ec9ee5c3b457a73"
+    },
+    {
+      "path": "prototype/mini_storage_order_o02_v1_1_contract_linked.html",
+      "sha256": "91aca67717e66d968caf72def52c3132f7e51a996979a92e17eb04790ea9e103"
+    },
+    {
+      "path": "prototype/mini_storage_order_o03_v1_17_self_service_Visual_V2_7_4.html",
+      "sha256": "6a27f2ac3d4227ddc78c69db548d79d858dad629d35bcc90c28be9029a07e9e3"
+    },
+    {
+      "path": "prototype/mini_storage_quote_q01_v1_20_self_service_Visual_V2_7_4.html",
+      "sha256": "e77a18bf7465f4d8310a0daa064ff1dc0ab02cc2d262dc0a797f554289aef78c"
+    },
+    {
+      "path": "prototype/mini_storage_quote_q02_v4_self_service.html",
+      "sha256": "ec8ac7e228af7b54e7efc303e9b5234b64eab71509d8729e0d356058d1f38820"
+    },
+    {
+      "path": "prototype/mini_storage_quote_q03_v4_self_service.html",
+      "sha256": "2e4aaa5018d4ecf6350c2c497551dffa96fbadc21188a475b49686aca5ee4b49"
+    },
+    {
+      "path": "prototype/mini_storage_referral_ref01_v1.html",
+      "sha256": "d64b5950cb4c71564dbf53e4e6e6f18361fa0bf8d64f33543ae794b04775a091"
+    },
+    {
+      "path": "prototype/mini_storage_renew_rn01_v2_7_4.html",
+      "sha256": "bae2430e640a65abb1ba0c573e246e51af77f2acb2f51610f75f483ec0673c05"
+    },
+    {
+      "path": "prototype/mini_storage_requirement_recommendation_v274.js",
+      "sha256": "d1f3ad70754dc8a0014015ac75995219d989655d27e29de82a032ee69b62ce3c"
+    },
+    {
+      "path": "prototype/mini_storage_sales_share_demo.html",
+      "sha256": "32f0e1c27c457bb3fa4d185ce1f73876f7c7c7103efa1d3dcb9ed5bb2be8173c"
+    },
+    {
+      "path": "prototype/mini_storage_sales_share_v1.js",
+      "sha256": "a988361d619f0855128b89905e53896df3bc5c9b6815e8724c7d0ffce81d7cce"
+    },
+    {
+      "path": "prototype/mini_storage_sprint3_lifecycle_hifi_v1.css",
+      "sha256": "2246ab1087e27cf4364cd8f01472d8c8bbdc5fda5699007ddb25114516e98eb1"
+    },
+    {
+      "path": "prototype/mini_storage_store_detail_s02_v1_23_self_service_Visual_V2_7_4.html",
+      "sha256": "38d5ff8b52dc3bd72c9c9fc96ca431585559cb752881b7846a570725671815f8"
+    },
+    {
+      "path": "prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html",
+      "sha256": "bcc099f4f69c2005fcd18e49d44171fc63766179afcf3f4a65a4f98b3da526d3"
+    },
+    {
+      "path": "prototype/mini_storage_transport_status_v1.html",
+      "sha256": "722221ed119006c672b99fc6a7a0b70d35623d5e7b4d2171cd9659e0a7ad949e"
+    },
+    {
+      "path": "prototype/mini_storage_transport_t01_v4_self_service.html",
+      "sha256": "9f334c62ed7e7ee50518513b2da7e2841efaf79554093f72ae20fbff7dc15b7c"
+    },
+    {
+      "path": "prototype/mini_storage_transport_t02_v4_self_service.html",
+      "sha256": "2fecf183de79e77d921fca95223295848fdd0c2f57315dca1b12416afd2982ec"
+    },
+    {
+      "path": "prototype/mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html",
+      "sha256": "9ea392369b0eb3db27db91f666287fab920be5408c504bdf2f807e596dbf851c"
+    },
+    {
+      "path": "prototype/mini_storage_unit_master_v1.js",
+      "sha256": "5972963fadb084c56304f0e4fa7313962a72d1518de986c2246ef57e3744a326"
+    },
+    {
+      "path": "prototype/mini_storage_viewing_v01_v1_14_self_service_synced.html",
+      "sha256": "63673c7af920d41e2fe67b757fa9147f0f1f8384b5338d0841fbb071243b2e8d"
+    },
+    {
+      "path": "prototype/mini_storage_viewing_v02_v1_14_self_service_synced.html",
+      "sha256": "9be4fd20f9116a1fc7df2b68934519d864edb0d45a9c7f62d06f6d6ed7c8183c"
+    },
+    {
+      "path": "prototype/mini_storage_visual_harmonization_v1.css",
+      "sha256": "5e1ba69c693e1eb637d082bf1e38e4d74965e110d0504712ecd1f2338e5a30ed"
+    },
+    {
+      "path": "prototype/mini_storage_visual_harmonization_v1.js",
+      "sha256": "bdb4f896ec0bb3e829aa911111299edbcd951f9296767a1ecca15f4ce51291f5"
+    },
+    {
+      "path": "prototype/product_demo_hub_v1.html",
+      "sha256": "c208d0032bc8ece09aee4a39609abf2f99b73dac866b159ce201e84d71192678"
+    },
+    {
+      "path": "prototype/space_decision_assistant_v4_5_23_self_service_synced_Visual_V2_7_4.html",
+      "sha256": "08d1e661420cccb6a63f58bd59474388e10f07381a7536b509fc75641bd0b716"
+    },
+    {
+      "path": "prototype/state_demos/H01_ACTIVE.html",
+      "sha256": "8eaf8e37b58eb70218dcbe624d99c817f4bee9a9ae6d3555c1686b6560736f1d"
+    },
+    {
+      "path": "prototype/state_demos/H01_ENDING.html",
+      "sha256": "99c10f7e8dbdbe6b8a82e19b4d741fce9cbbfc3225c6c3f66c97f26d8132f035"
+    },
+    {
+      "path": "prototype/state_demos/H01_ESTIMATED.html",
+      "sha256": "c6ecb22ee1043cb6a69a73efe5013e6b7d645666591bb6940460ea91f5edfe24"
+    },
+    {
+      "path": "prototype/state_demos/H01_NEW.html",
+      "sha256": "5a94094d002bab08773d0c33422f63137e7ea2794524f3c9aae845dd7fd5d172"
+    },
+    {
+      "path": "prototype/state_demos/H01_PENDING.html",
+      "sha256": "005296eb8a014050f386005cc063d38f3d5e2f81b54f0a5c933411a5f98d3f64"
+    },
+    {
+      "path": "prototype/state_demos/H01_QUOTED.html",
+      "sha256": "8c15d02873d9914de1eb145267728726b6ecbd7f73005de01bc404d85e148b78"
+    },
+    {
+      "path": "prototype/state_demos/H01_REFERRAL_FRIEND.html",
+      "sha256": "0fb3ef091ebbfae844cf714f05bbd2f30d44809c07faa53b589264cc3935debf"
+    },
+    {
+      "path": "prototype/state_demos/H01_RETURNING.html",
+      "sha256": "d309296345a2807a7121a1e0a313ffc52afe08e6bd4232cbddf716f5bdc3a333"
+    },
+    {
+      "path": "prototype/state_demos/H01_VIEWING.html",
+      "sha256": "95b622f9f27b18d1d44f4103fa1871a737742b8b7cb88679b1ca6ee40533135b"
+    },
+    {
+      "path": "prototype/state_demos/ID01_FAILED.html",
+      "sha256": "d1f7cb4e6b2b4daaa54ecc442f033311f343dcafde01e28ae3e84714dd144c31"
+    },
+    {
+      "path": "prototype/state_demos/ID01_NOT_STARTED.html",
+      "sha256": "1c47323c9a7a88b3b077b7433f9a3a04252dd8b3b9edebf05886927dcd8b6985"
+    },
+    {
+      "path": "prototype/state_demos/ID01_PENDING.html",
+      "sha256": "7c2c3f820dd77f23f3c61baeb7d739bb1ae088983f8fdac363488ecb9baa3446"
+    },
+    {
+      "path": "prototype/state_demos/ID01_VERIFIED.html",
+      "sha256": "326c043185ca4dbf30a47e44edd864ac1b742b0a316c91845e0ebfb2a3f6706c"
+    },
+    {
+      "path": "prototype/state_demos/M01_ACTIVE.html",
+      "sha256": "346b839a8dc99ace697a117c17c2a288993da982476ade1299c120646fa33366"
+    },
+    {
+      "path": "prototype/state_demos/M01_ENDED.html",
+      "sha256": "cc7aa3d8603d95c13da1e16f23e6c892c75d6fa8fab7f76851d214ffe3b05783"
+    },
+    {
+      "path": "prototype/state_demos/M01_ENDING.html",
+      "sha256": "dae2b74400c7d712b8bbe5bb72c9d4cf17f22c8668e5327c2cf611263f8696eb"
+    },
+    {
+      "path": "prototype/state_demos/M01_RETURNING.html",
+      "sha256": "eb89a590577e6d2cec8a1046f849124879f7a5ca5d1d3df96f19e08eb380313c"
+    },
+    {
+      "path": "prototype/state_demos/O01_CONFIRM.html",
+      "sha256": "52722efea7a9313185b82af187f6a3afe9fd701115decf2744909185f4f43c9c"
+    },
+    {
+      "path": "prototype/state_demos/O03_ACTIVE.html",
+      "sha256": "c6642ed2ef86520ca6783df0e29d3b23575fa603995466c54168fff1a4fc9850"
+    },
+    {
+      "path": "prototype/state_demos/O03_ENDED.html",
+      "sha256": "b55fce489702f99f2bef59c221ed50b5acb26253470c1b2519bd9782f5132d2e"
+    },
+    {
+      "path": "prototype/state_demos/O03_ENDING.html",
+      "sha256": "fa4bb46c7897850e651bc28fc4ef9bc814656b75f911fb79af15d2e749b5f755"
+    },
+    {
+      "path": "prototype/state_demos/O03_RETURNING.html",
+      "sha256": "d1d1864ebfd3d5f0efe3ccd88b8e6aafea263e8f9a34210fca313583b88bb49d"
+    },
+    {
+      "path": "prototype/state_demos/Q01_SAVED_OPTIONAL.html",
+      "sha256": "1bf52f9e0ec654527f12faada2e39b6df60627cf550cecec8370d19ccd2562c0"
+    },
+    {
+      "path": "prototype/state_demos/S02_BROWSE.html",
+      "sha256": "09cfd281d85fa4404347b0ebc15a1c6e999d333edec3188d5096d641c189e50b"
+    },
+    {
+      "path": "prototype/state_demos/S02_HIGHVALUE.html",
+      "sha256": "c96cca0b2acd64487867364064af0588f4bc16cac40c9b20271cc6fd87e2e10a"
+    },
+    {
+      "path": "prototype/state_demos/S02_MATCHED.html",
+      "sha256": "b88691f57ea80b687307ff95f27629fd3cb04ea8421dcd3bed57430854248af1"
+    },
+    {
+      "path": "prototype/state_demos/S02_NOMATCH.html",
+      "sha256": "e6fed6881d8a6dbd8a9cd5df21ce5b69d06489b805e2a727f66b3505709f460c"
+    },
+    {
+      "path": "prototype/state_demos/U01_LONGTERM_COMPARE.html",
+      "sha256": "1d68d5f8c78a45e1c72db7a8151ce7acff0f8a8be3caa5a65e901d64a85aa546"
+    },
+    {
+      "path": "prototype/state_demos/U01_NO_TERM.html",
+      "sha256": "b2a1801c2555aa231e6db8e2c89e8500903841388f371345d3796f75d02bab9a"
+    },
+    {
+      "path": "prototype/state_demos/U01_STANDARD_6M.html",
+      "sha256": "7f37586999e1ce83aa7483cf1fe7e44fbe0497d339551db03c217f0e038a1237"
+    },
+    {
+      "path": "assets/real_store_demo/REAL_STORE_MAPPING_CONTACTSHEET_V1.jpg",
+      "sha256": "f9d040828eecd12c49b73e2a47d162e37f0e8b877c0550dd2123c7409587f649"
+    },
+    {
+      "path": "assets/real_store_demo/REAL_STORE_TRIAL_CROPS_V1.jpg",
+      "sha256": "c6074e57077f5ad1a2ddd3fa2d6c7fc2c4a831646478b84ef725e539b8fcdd81"
+    },
+    {
+      "path": "assets/real_store_demo/real_store_asset_manifest_v1.json",
+      "sha256": "b77d18856392111150509405d174f3bcfd0f5b24786bf24853e300a4a20c0f16"
+    },
+    {
+      "path": "assets/real_store_demo/real_store_gallery_manifest_v2.json",
+      "sha256": "b38b1e7e3b6c209ded169fbfd332a4991c2e6a4c3d67efc0d578b65910c8ab05"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_04547515/detail_hero.webp",
+      "sha256": "61a530d635f000752cdbc14b686b6888978a2342633bba0fd144ed711fc92f9f"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_04547515/gallery_1.webp",
+      "sha256": "72110d26cf4b0a453cd368216a9c53f902db7c8dd95ab6ced4fe6d6724f758c2"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_04547515/gallery_2.webp",
+      "sha256": "4c50c73d1ee2cb11ed0887795ac819fb4e977f3c9edc916e4581bab16aeefb62"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_04547515/list_thumb.webp",
+      "sha256": "61a530d635f000752cdbc14b686b6888978a2342633bba0fd144ed711fc92f9f"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/detail_hero.webp",
+      "sha256": "210cd8be2b879b0017968cf3574e283b76c491fc48411a0bb3570a7556cacfae"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/gallery_1.webp",
+      "sha256": "fde17df6448cb50a23ebabbcf9757cf5c805b1666b34be32278edb6f057b697c"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/gallery_2.webp",
+      "sha256": "c9b178ef89597715995557f6085037b87432a956708ce7cba54e91ed29d0c833"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_2CDB7BEE/list_thumb.webp",
+      "sha256": "fc82ff3c90a1adbd683b1156c4106ebef797223e265903dddc0f38c579004900"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_9A80090D/detail_hero.webp",
+      "sha256": "b469abcdf7ba7ab11ce37872b858009b79535949fb3a6e5817b3b23ffab9e538"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_9A80090D/gallery_1.webp",
+      "sha256": "533332ce7cf2ab316adde63b0fa7a804df417dca2588db667e0856250aaeed6c"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_9A80090D/gallery_2.webp",
+      "sha256": "6ffdb8982ab3ecb6d97cfebe6cb8d9e9471558e09aaa8f1a0d102b6fe13f0604"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_9A80090D/list_thumb.webp",
+      "sha256": "ca73061db7c8fdafb3d4693e8e84fdb3a2b0d74fba6ad5293cd83bf83c74588f"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E56D0702/detail_hero.webp",
+      "sha256": "13b91c719322a5ae99540dca64fac55ddbcac211385f576879a7903820f700ed"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E56D0702/gallery_1.webp",
+      "sha256": "4a2f51cef9fe88ad661be71f9b921ab7aae52aa4f7fd2701b89ac530e62d3190"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E56D0702/home_featured.webp",
+      "sha256": "a69ad61b956f2ac6a2b0a513389185c89a27d8bf6f736975c0d26f05f66135f6"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E56D0702/list_thumb.webp",
+      "sha256": "5aea948d89875b8d54764fad43a8d9fc3fa404555f5a1762ee7242003b4eb76c"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/detail_hero.webp",
+      "sha256": "496c4b8b37a3f3e0335e77b1bff8aa42341b08a82162d95b2b5d0d4281787637"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/gallery_1.webp",
+      "sha256": "f1040eed6326b62b3d90106ae04e5a0e02da3134bfeeabf96e122d56b9b90b75"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/gallery_2.webp",
+      "sha256": "fab599dff5d250c25f520f7cf3b671b4a5a247ec0186979420a9813cf62735cf"
+    },
+    {
+      "path": "assets/real_store_demo/v1/MK_BJ_E68EC5FF/list_thumb.webp",
+      "sha256": "e2ad46514a5ff2ba020f909a99c07cdcf89f45f36b5a37da82636484714c7a79"
+    },
+    {
+      "path": "assets/real_store_demo/v1/real_store_asset_mapping_v1.js",
+      "sha256": "a6cb7f147b9c5cf42ac2ef48964161f0d8287c4ab4724f91b2389e6215988795"
+    },
+    {
+      "path": "assets/real_store_demo/v2/real_store_gallery_v2.css",
+      "sha256": "874e362d30161a9373c0a48bcc5b5f363ec69919dae426917f780757307bca24"
+    },
+    {
+      "path": "assets/real_store_demo/v2/real_store_gallery_v2.js",
+      "sha256": "2ed74bbae311e4a09c38ff0bc9c7427820ca9614c6e2535586fcd79875e5d66a"
+    },
+    {
+      "path": "data/data_validation.json",
+      "sha256": "71d8d966442863305529c08ecbb490abc2ecff50c0d25ae78d268d52b86557c0"
+    },
+    {
+      "path": "data/mini_koala_data.js",
+      "sha256": "34a95c12a00d192c13177c34e517e9833f33f756792dd42c852654ff32e45ba8"
+    },
+    {
+      "path": "data/size_options.json",
+      "sha256": "ae18da9bf55ef76d0348c12dc2b2608051a9ca5c45a94c87c5cfd400701ee794"
+    },
+    {
+      "path": "data/store_community_map.json",
+      "sha256": "0e94418a0a3f2f4a86cb9fa3ff2c29ee06e9c72e60e14aeb1e878b4e2fd74ccf"
+    },
+    {
+      "path": "data/store_master.json",
+      "sha256": "87468126b6730800d1176b0465da16be1866ddd2824d264799771a66a0c67ed6"
+    },
+    {
+      "path": "tools/portable_server.ps1",
+      "sha256": "eb15eba18e7da983b67c99d65c1daa140ec0efdafc75fbf1339004e6b34b011b"
+    },
+    {
+      "path": "tools/start_demo.ps1",
+      "sha256": "d97d52cde2390051b8adcc3244f6ba2679805366ec2e058dcdf99869053ac124"
+    }
+  ]
+}
