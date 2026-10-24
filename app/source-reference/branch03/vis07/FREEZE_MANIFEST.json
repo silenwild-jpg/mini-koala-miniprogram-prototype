@@ -1,0 +1,124 @@
+{
+  "task": "BRANCH-03-VIS-07",
+  "freeze_date": "2026-10-23",
+  "scope": [
+    "S01_附近门店",
+    "S02_门店详情及仓位清单"
+  ],
+  "signoff_type": "INTERNAL_DEMO_VISUAL_FREEZE",
+  "visual_status": "FROZEN_FOR_DEMO_S01_S02",
+  "photo_authenticity": "UNVERIFIED_CONCEPT_IMAGE",
+  "data_status": "SIMULATED_NOT_REALTIME",
+  "interaction_status": "NOT_TESTED",
+  "prototype_code_changes": false,
+  "u01_status": "OUT_OF_THIS_VISUAL_FREEZE_PENDING",
+  "merge_status": "REFERENCE_READY_FORMAL_MERGE_HOLD",
+  "source_baseline": {
+    "archive": "Mini_Koala_PROTO_PARALLEL_01_Freeze_2026-10-21(6).zip",
+    "inner_archive": "01_BASELINE/CURRENT_CANDIDATE.zip",
+    "sha256": "bb04999dda292983780d9d627a7afb546b6f610917a2aca35fd225c3b1d384fe"
+  },
+  "file_roles": {
+    "01_FROZEN_VISUALS": "authoritative primary visual for its named S01/S02 state",
+    "02_REFERENCE_STATES": "state demonstration only; if visual or price conflicts, follow 01_FROZEN_VISUALS and approved business rules",
+    "03_EVIDENCE": "comparison board for human review; not independent implementation authority"
+  },
+  "images": [
+    {
+      "file": "01_FROZEN_VISUALS/S01_已选需求_C布局_375x812@2x.png",
+      "sha256": "79a860387ba797d471a71e0f217446c98dc8dddbcb4edfe529f0339028ddbdaa",
+      "pixels": [
+        750,
+        1624
+      ]
+    },
+    {
+      "file": "01_FROZEN_VISUALS/S01_已选需求_C布局_390x844@2x.png",
+      "sha256": "b9ce508fd0721a65ebd06e910d8df35089332b6c3950963ed842ceece24d7103",
+      "pixels": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "01_FROZEN_VISUALS/S02_已选6月_整期价格_375x812@2x.png",
+      "sha256": "9f5e25183c5818b9d42d569e5bbf9f86c7c790a2fbc94d937df2c51466923a77",
+      "pixels": [
+        750,
+        1624
+      ]
+    },
+    {
+      "file": "01_FROZEN_VISUALS/S02_已选6月_整期价格_390x844@2x.png",
+      "sha256": "f1db880c8101e985fd8b3aeca25f44c01033814b32ea2ccecd5ade7e63578529",
+      "pixels": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "02_REFERENCE_STATES/01_S01_四状态.png",
+      "sha256": "1389f49a8b6e79083020b1ecfa966cd744373b4a0dd879eebbcc11dd27dbc13e",
+      "pixels": [
+        1250,
+        842
+      ]
+    },
+    {
+      "file": "02_REFERENCE_STATES/02_S02_五档仓型.png",
+      "sha256": "613809515a9a135118e6372a1aaa7c7bd8af26e45bb10de3652a0c6eb87ce379",
+      "pixels": [
+        1250,
+        1504
+      ]
+    },
+    {
+      "file": "02_REFERENCE_STATES/03_S02_租期组合与无匹配.png",
+      "sha256": "4b25d02c7e9aff111307f7d522152ec874663106158db5611861c72c39686829",
+      "pixels": [
+        1250,
+        842
+      ]
+    },
+    {
+      "file": "02_REFERENCE_STATES/04_S02_租满评价设施.png",
+      "sha256": "19bb511794c3faed6e0d29f5275026f69793fca28c98550cc5c4426e75cb11c2",
+      "pixels": [
+        1250,
+        842
+      ]
+    },
+    {
+      "file": "02_REFERENCE_STATES/S02_未选租期_375x812@2x.png",
+      "sha256": "f8d5610518b21121ebd02c61e135abcb1c8e3ad8114175f1b24cf239d6061b32",
+      "pixels": [
+        750,
+        1624
+      ]
+    },
+    {
+      "file": "02_REFERENCE_STATES/S02_未选租期_390x844@2x.png",
+      "sha256": "0320abb97d5fcde98528d8db6dce164285b051f1e9b7a3424d3bad7ce1e546c6",
+      "pixels": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "03_EVIDENCE/S01_C方案_双尺寸对照.png",
+      "sha256": "7878eddf9c4716e90fe2c71d833c4f9b2307bcdd73d60fc08b821428bd50cafc",
+      "pixels": [
+        1860,
+        1280
+      ]
+    },
+    {
+      "file": "03_EVIDENCE/S02_价格语义_双尺寸对照.png",
+      "sha256": "bd6c5b2feb589c2a71593e1020f39656a0de89c46ff97f0bdb0a577d8df9d7e5",
+      "pixels": [
+        1370,
+        860
+      ]
+    }
+  ]
+}
