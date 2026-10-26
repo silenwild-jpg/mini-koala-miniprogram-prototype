@@ -8,9 +8,9 @@ class Handler(SimpleHTTPRequestHandler):
         super().end_headers()
 root=Path(__file__).resolve().parent
 parser=argparse.ArgumentParser();parser.add_argument('--no-browser',action='store_true');args=parser.parse_args()
-server=ThreadingHTTPServer(('127.0.0.1',4240),partial(Handler,directory=str(root)))
-url='http://127.0.0.1:4240/demo/home.html'
-print('WX-NATIVE-01E: '+url,flush=True)
+server=ThreadingHTTPServer(('127.0.0.1',4260),partial(Handler,directory=str(root)))
+url='http://127.0.0.1:4260/br03-review.html'
+print('BR03-PROMO-COPY-01: '+url,flush=True)
 if not args.no_browser:webbrowser.open(url)
 try:server.serve_forever()
 except KeyboardInterrupt:pass

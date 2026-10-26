@@ -1,0 +1,2082 @@
+[
+  {
+    "state": "browse",
+    "width": 375,
+    "height": 812,
+    "data": {
+      "width": 375,
+      "height": 812,
+      "scrollWidth": 375,
+      "stores": [
+        {
+          "top": 263,
+          "height": 324,
+          "bottom": 587
+        },
+        {
+          "top": 597,
+          "height": 324,
+          "bottom": 921
+        },
+        {
+          "top": 931,
+          "height": 176,
+          "bottom": 1107
+        },
+        {
+          "top": 1117,
+          "height": 176,
+          "bottom": 1293
+        }
+      ],
+      "expanded": [
+        2,
+        2,
+        0,
+        0
+      ],
+      "units": [
+        {
+          "top": 422,
+          "height": 66,
+          "bottom": 488
+        },
+        {
+          "top": 488,
+          "height": 65,
+          "bottom": 553
+        },
+        {
+          "top": 756,
+          "height": 66,
+          "bottom": 822
+        },
+        {
+          "top": 822,
+          "height": 65,
+          "bottom": 887
+        }
+      ],
+      "card_text_sizes": [
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "丽都水岸仓 · 丽都水岸"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "0.8km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "芳园南里9号丽都水岸A区"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 8 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 0.8～15m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "可租仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "1.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "迷你仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "行李、换季收纳"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.5m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "家居杂物、小件家具"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "望京家园仓 · 望京家园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "1.5km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园一区临街B1层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "特价仓"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 6 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 1～12m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "可租仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "1.5m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "迷你仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "闲置物品"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "4.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "换季收纳、家具"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "考拉E存 · 望京东园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "2.4km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园六区社区服务层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 5 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 1～10m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥279"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "/月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (5)⌄"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "东湖湾仓 · 东湖湾"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "3.1km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "东湖湾社区地下商业层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 5 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 0.5～9m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥279"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "/月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (5)⌄"
+        }
+      ],
+      "firstText": "朝阳区\n丽都水岸仓 · 丽都水岸\n导航 ↗\n0.8km\n芳园南里9号丽都水岸A区\n安全监控\n便捷取物\n可租仓位 8 个\n·\n容量 0.8～15m³\n可租仓位预览\n收起⌃\n1.2m³\n迷你仓\n行李、换季收纳\n特价\n¥119/月\n参考月租\n3.5m³\n小型仓\n家居杂物、小件家具\n¥288/月\n参考月租\n查看全部仓位\n›",
+      "collapsedText": "朝阳区\n考拉E存 · 望京东园\n导航 ↗\n2.4km\n望京东园六区社区服务层\n安全监控\n便捷取物\n可租仓位 5 个\n·\n容量 1～10m³\n参考月租\n¥279\n/月起\n展开仓位 (5)⌄"
+    }
+  },
+  {
+    "state": "browse",
+    "width": 390,
+    "height": 844,
+    "data": {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "stores": [
+        {
+          "top": 263,
+          "height": 324,
+          "bottom": 587
+        },
+        {
+          "top": 597,
+          "height": 324,
+          "bottom": 921
+        },
+        {
+          "top": 931,
+          "height": 176,
+          "bottom": 1107
+        },
+        {
+          "top": 1117,
+          "height": 176,
+          "bottom": 1293
+        }
+      ],
+      "expanded": [
+        2,
+        2,
+        0,
+        0
+      ],
+      "units": [
+        {
+          "top": 422,
+          "height": 66,
+          "bottom": 488
+        },
+        {
+          "top": 488,
+          "height": 65,
+          "bottom": 553
+        },
+        {
+          "top": 756,
+          "height": 66,
+          "bottom": 822
+        },
+        {
+          "top": 822,
+          "height": 65,
+          "bottom": 887
+        }
+      ],
+      "card_text_sizes": [
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "丽都水岸仓 · 丽都水岸"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "0.8km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "芳园南里9号丽都水岸A区"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 8 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 0.8～15m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "可租仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "1.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "迷你仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "行李、换季收纳"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.5m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "家居杂物、小件家具"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "望京家园仓 · 望京家园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "1.5km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园一区临街B1层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "特价仓"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 6 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 1～12m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "可租仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "1.5m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "迷你仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "闲置物品"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "4.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "换季收纳、家具"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "SMALL",
+          "cls": "",
+          "size": 12,
+          "text": "/月"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "考拉E存 · 望京东园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "2.4km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园六区社区服务层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 5 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 1～10m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥279"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "/月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (5)⌄"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "东湖湾仓 · 东湖湾"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "3.1km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "东湖湾社区地下商业层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "可租仓位 5 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 0.5～9m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "参考月租"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥279"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "/月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (5)⌄"
+        }
+      ],
+      "firstText": "朝阳区\n丽都水岸仓 · 丽都水岸\n导航 ↗\n0.8km\n芳园南里9号丽都水岸A区\n安全监控\n便捷取物\n可租仓位 8 个\n·\n容量 0.8～15m³\n可租仓位预览\n收起⌃\n1.2m³\n迷你仓\n行李、换季收纳\n特价\n¥119/月\n参考月租\n3.5m³\n小型仓\n家居杂物、小件家具\n¥288/月\n参考月租\n查看全部仓位\n›",
+      "collapsedText": "朝阳区\n考拉E存 · 望京东园\n导航 ↗\n2.4km\n望京东园六区社区服务层\n安全监控\n便捷取物\n可租仓位 5 个\n·\n容量 1～10m³\n参考月租\n¥279\n/月起\n展开仓位 (5)⌄"
+    }
+  },
+  {
+    "state": "matched",
+    "width": 375,
+    "height": 812,
+    "data": {
+      "width": 375,
+      "height": 812,
+      "scrollWidth": 375,
+      "stores": [
+        {
+          "top": 301,
+          "height": 323,
+          "bottom": 624
+        },
+        {
+          "top": 634,
+          "height": 323,
+          "bottom": 957
+        },
+        {
+          "top": 967,
+          "height": 176,
+          "bottom": 1143
+        },
+        {
+          "top": 1153,
+          "height": 176,
+          "bottom": 1329
+        }
+      ],
+      "expanded": [
+        2,
+        2,
+        0,
+        0
+      ],
+      "units": [
+        {
+          "top": 460,
+          "height": 65,
+          "bottom": 525
+        },
+        {
+          "top": 525,
+          "height": 65,
+          "bottom": 590
+        },
+        {
+          "top": 793,
+          "height": 65,
+          "bottom": 858
+        },
+        {
+          "top": 858,
+          "height": 65,
+          "bottom": 923
+        }
+      ],
+      "card_text_sizes": [
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "丽都水岸仓 · 丽都水岸"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "0.8km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "芳园南里9号丽都水岸A区"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 3 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 2.8～5.2m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "匹配仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "家居杂物、换季物品"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥2,388"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥199/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.5m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "家居杂物、小件家具"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥3,456"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥288/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "望京家园仓 · 望京家园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "1.5km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园一区临街B1层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "特价仓"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 2 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 3～4.5m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "匹配仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.0m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "个人闲置物品"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥2,520"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥210/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "4.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "换季收纳、家具"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥3,588"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥299/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "考拉E存 · 望京东园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "2.4km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园六区社区服务层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 1 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 3.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "整期租金"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥3,348"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "·12个月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (1)⌄"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "东湖湾仓 · 东湖湾"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "3.1km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "东湖湾社区地下商业层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 1 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 3.4m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "整期租金"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥3,348"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "·12个月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (1)⌄"
+        }
+      ],
+      "firstText": "朝阳区\n丽都水岸仓 · 丽都水岸\n导航 ↗\n0.8km\n芳园南里9号丽都水岸A区\n安全监控\n便捷取物\n匹配仓位 3 个\n·\n容量 2.8～5.2m³\n匹配仓位预览\n收起⌃\n3.2m³\n小型仓\n家居杂物、换季物品\n特价\n¥2,388\n12个月整期 · ¥199/月\n3.5m³\n小型仓\n家居杂物、小件家具\n¥3,456\n12个月整期 · ¥288/月\n查看全部仓位\n›",
+      "collapsedText": "朝阳区\n考拉E存 · 望京东园\n导航 ↗\n2.4km\n望京东园六区社区服务层\n安全监控\n便捷取物\n匹配仓位 1 个\n·\n容量 3.2m³\n整期租金\n¥3,348\n·12个月起\n展开仓位 (1)⌄"
+    }
+  },
+  {
+    "state": "matched",
+    "width": 390,
+    "height": 844,
+    "data": {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "stores": [
+        {
+          "top": 301,
+          "height": 323,
+          "bottom": 624
+        },
+        {
+          "top": 634,
+          "height": 323,
+          "bottom": 957
+        },
+        {
+          "top": 967,
+          "height": 176,
+          "bottom": 1143
+        },
+        {
+          "top": 1153,
+          "height": 176,
+          "bottom": 1329
+        }
+      ],
+      "expanded": [
+        2,
+        2,
+        0,
+        0
+      ],
+      "units": [
+        {
+          "top": 460,
+          "height": 65,
+          "bottom": 525
+        },
+        {
+          "top": 525,
+          "height": 65,
+          "bottom": 590
+        },
+        {
+          "top": 793,
+          "height": 65,
+          "bottom": 858
+        },
+        {
+          "top": 858,
+          "height": 65,
+          "bottom": 923
+        }
+      ],
+      "card_text_sizes": [
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "丽都水岸仓 · 丽都水岸"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "0.8km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "芳园南里9号丽都水岸A区"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 3 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 2.8～5.2m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "匹配仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "家居杂物、换季物品"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥2,388"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥199/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.5m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "家居杂物、小件家具"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥3,456"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥288/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "望京家园仓 · 望京家园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "1.5km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园一区临街B1层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "特价仓"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 2 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 3～4.5m³"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 13,
+          "text": "匹配仓位预览"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "size": 12,
+          "text": "收起⌃"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "3.0m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "个人闲置物品"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥2,520"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥210/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "size",
+          "size": 16,
+          "text": "4.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "type",
+          "size": 12,
+          "text": "小型仓"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "换季收纳、家具"
+        },
+        {
+          "tag": "EM",
+          "cls": "",
+          "size": 12,
+          "text": "特价"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price",
+          "size": 19,
+          "text": "¥3,588"
+        },
+        {
+          "tag": "DIV",
+          "cls": "price-sub",
+          "size": 12,
+          "text": "12个月整期 · ¥299/月"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "arrow",
+          "size": 18,
+          "text": "›"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "考拉E存 · 望京东园"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "2.4km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "望京东园六区社区服务层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 1 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 3.2m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "整期租金"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥3,348"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "·12个月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (1)⌄"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "district",
+          "size": 12,
+          "text": "朝阳区"
+        },
+        {
+          "tag": "DIV",
+          "cls": "store-title",
+          "size": 15.5,
+          "text": "东湖湾仓 · 东湖湾"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "nav-link",
+          "size": 12,
+          "text": "导航 ↗"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "km",
+          "size": 12.5,
+          "text": "3.1km"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "address",
+          "size": 12.5,
+          "text": "东湖湾社区地下商业层"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "安全监控"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "便捷取物"
+        },
+        {
+          "tag": "B",
+          "cls": "",
+          "size": 12.5,
+          "text": "匹配仓位 1 个"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "dot",
+          "size": 12.5,
+          "text": "·"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12.5,
+          "text": "容量 3.4m³"
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "size": 12,
+          "text": "整期租金"
+        },
+        {
+          "tag": "STRONG",
+          "cls": "",
+          "size": 17,
+          "text": "¥3,348"
+        },
+        {
+          "tag": "I",
+          "cls": "",
+          "size": 12,
+          "text": "·12个月起"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "expbtn",
+          "size": 12,
+          "text": "展开仓位 (1)⌄"
+        }
+      ],
+      "firstText": "朝阳区\n丽都水岸仓 · 丽都水岸\n导航 ↗\n0.8km\n芳园南里9号丽都水岸A区\n安全监控\n便捷取物\n匹配仓位 3 个\n·\n容量 2.8～5.2m³\n匹配仓位预览\n收起⌃\n3.2m³\n小型仓\n家居杂物、换季物品\n特价\n¥2,388\n12个月整期 · ¥199/月\n3.5m³\n小型仓\n家居杂物、小件家具\n¥3,456\n12个月整期 · ¥288/月\n查看全部仓位\n›",
+      "collapsedText": "朝阳区\n考拉E存 · 望京东园\n导航 ↗\n2.4km\n望京东园六区社区服务层\n安全监控\n便捷取物\n匹配仓位 1 个\n·\n容量 3.2m³\n整期租金\n¥3,348\n·12个月起\n展开仓位 (1)⌄"
+    }
+  }
+]

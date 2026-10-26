@@ -1,0 +1,146 @@
+{
+  "pass": 35,
+  "total": 35,
+  "checks": [
+    {
+      "name": "browse/375: four stores",
+      "pass": true
+    },
+    {
+      "name": "browse/375: first two expanded, third collapsed",
+      "pass": true
+    },
+    {
+      "name": "browse/375: no horizontal scroll",
+      "pass": true
+    },
+    {
+      "name": "browse/375: price state semantics",
+      "pass": true
+    },
+    {
+      "name": "browse/375: all list text at least 12px",
+      "pass": true
+    },
+    {
+      "name": "browse/375: second store starts above visible viewport",
+      "pass": true
+    },
+    {
+      "name": "browse/375: third store follows second",
+      "pass": true
+    },
+    {
+      "name": "browse/375: collapsed has derived starting price",
+      "pass": true
+    },
+    {
+      "name": "browse/375: third can independently expand",
+      "pass": true
+    },
+    {
+      "name": "browse/375: first can independently collapse",
+      "pass": true
+    },
+    {
+      "name": "browse/375: sort recalculates top 2",
+      "pass": true
+    },
+    {
+      "name": "browse/390: four stores",
+      "pass": true
+    },
+    {
+      "name": "browse/390: first two expanded, third collapsed",
+      "pass": true
+    },
+    {
+      "name": "browse/390: no horizontal scroll",
+      "pass": true
+    },
+    {
+      "name": "browse/390: price state semantics",
+      "pass": true
+    },
+    {
+      "name": "browse/390: all list text at least 12px",
+      "pass": true
+    },
+    {
+      "name": "browse/390: second store starts above visible viewport",
+      "pass": true
+    },
+    {
+      "name": "browse/390: third store follows second",
+      "pass": true
+    },
+    {
+      "name": "browse/390: collapsed has derived starting price",
+      "pass": true
+    },
+    {
+      "name": "matched/375: four stores",
+      "pass": true
+    },
+    {
+      "name": "matched/375: first two expanded, third collapsed",
+      "pass": true
+    },
+    {
+      "name": "matched/375: no horizontal scroll",
+      "pass": true
+    },
+    {
+      "name": "matched/375: price state semantics",
+      "pass": true
+    },
+    {
+      "name": "matched/375: all list text at least 12px",
+      "pass": true
+    },
+    {
+      "name": "matched/375: second store starts above visible viewport",
+      "pass": true
+    },
+    {
+      "name": "matched/375: third store follows second",
+      "pass": true
+    },
+    {
+      "name": "matched/375: collapsed has derived starting price",
+      "pass": true
+    },
+    {
+      "name": "matched/390: four stores",
+      "pass": true
+    },
+    {
+      "name": "matched/390: first two expanded, third collapsed",
+      "pass": true
+    },
+    {
+      "name": "matched/390: no horizontal scroll",
+      "pass": true
+    },
+    {
+      "name": "matched/390: price state semantics",
+      "pass": true
+    },
+    {
+      "name": "matched/390: all list text at least 12px",
+      "pass": true
+    },
+    {
+      "name": "matched/390: second store starts above visible viewport",
+      "pass": true
+    },
+    {
+      "name": "matched/390: third store follows second",
+      "pass": true
+    },
+    {
+      "name": "matched/390: collapsed has derived starting price",
+      "pass": true
+    }
+  ]
+}

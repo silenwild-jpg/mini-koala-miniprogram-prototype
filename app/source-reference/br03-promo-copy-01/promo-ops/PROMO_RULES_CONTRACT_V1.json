@@ -1,0 +1,299 @@
+{
+  "project": "迷你考拉仓",
+  "task": "PROMO-OPS-01A",
+  "version": "1.0",
+  "date": "2026-10-26",
+  "status": "RULE_DESIGN_FROZEN_FOR_PROTOTYPE; NOT_VISUAL_APPROVED; NOT_MERGED; PRODUCTION_QUALIFICATION_PENDING",
+  "route_paths": {
+    "A": [
+      "H01",
+      "S01",
+      "S02",
+      "O01"
+    ],
+    "B_direct": [
+      "CAP_or_ITEM_or_AI_or_ADVISOR",
+      "S5",
+      "O01"
+    ],
+    "B_store": [
+      "CAP_or_ITEM_or_AI_or_ADVISOR",
+      "S5",
+      "S02",
+      "O01"
+    ],
+    "C_quick": [
+      "H01_MENU",
+      "QUICK",
+      "O01"
+    ],
+    "C_reservation": [
+      "H01_MENU",
+      "RESERVE_LEAD_ONLY"
+    ]
+  },
+  "disallow_u01_as_required_step": true,
+  "label_family": [
+    "PROMOTION",
+    "INVENTORY",
+    "BENEFIT",
+    "STORE_ATTRIBUTE"
+  ],
+  "primary_promo_label_cap_per_unit": 1,
+  "urgency_text_cap_per_unit": 1,
+  "benefit_or_savings_line_cap_per_unit": 1,
+  "inventory_thresholds": {
+    "S01_matched_low_max": 2,
+    "S02_same_capacity_low_max": 2,
+    "S02_same_capacity_neutral_max": 5
+  },
+  "order_of_decisions": [
+    "SELLABLE_AND_MATCH",
+    "VALID_QUOTE",
+    "ELIGIBLE_CAMPAIGN",
+    "PROMO_SELECTION",
+    "INVENTORY_TEXT",
+    "DISPLAY"
+  ],
+  "priority": [
+    "SOLD_OUT_AND_NO_MATCH_GUARD",
+    "PRICE_AUTHORITY",
+    "USER_RELEVANT_SCARCITY",
+    "ONE_VALID_PROMO",
+    "ONE_VALID_BENEFIT",
+    "NEUTRAL_STORE_FACTS"
+  ],
+  "non_display_rules": [
+    "NO_RANDOM_CAMPAIGN_PROMISE",
+    "NO_FAKE_VIEWER_COUNT",
+    "NO_LOOPING_COUNTDOWN",
+    "NO_FAKE_COUPON_CLAIM",
+    "NO_FAKE_RESERVATION_LOCK",
+    "NO_UNVERIFIED_SAVINGS_BASELINE"
+  ],
+  "s01_expand_candidate": {
+    "status": "VISUAL_CANDIDATE_NOT_APPROVED",
+    "top_visible_stores_default_open": 2,
+    "max_preview_units_each": 2,
+    "S01_direct_buy_button": false,
+    "unit_click": "S02"
+  },
+  "price_authority": {
+    "no_term": "reference_only",
+    "term_confirmed": "total_rent_authoritative, monthly_average_secondary",
+    "coupon": "rent_only",
+    "benefits": "separate_from_cash_discount",
+    "O01": "same_valid_quote_snapshot"
+  },
+  "fixed_business_constraints": {
+    "term_discount_ladder": "retain_existing_SSOT",
+    "deposit": "retain_existing_quote_rule; finance_confirmation_required",
+    "management_fee": "retain_existing_50_yuan",
+    "new_order_transport": "term>=6 months AND distance>=5km AND final_discount_ratio>=0.6 AND eligibility_confirmed",
+    "coupon_rule": "do_not_assume_every_user_has_a_200_coupon"
+  },
+  "labels": [
+    {
+      "id": "P01",
+      "family": "价格活动",
+      "text": "特价仓",
+      "scope": "unit",
+      "when": "active_special_unit && available && eligible_term",
+      "weight": "primary"
+    },
+    {
+      "id": "P02",
+      "family": "价格活动",
+      "text": "限时特惠",
+      "scope": "unit",
+      "when": "campaign_active && actual_end_time && eligible",
+      "weight": "primary"
+    },
+    {
+      "id": "P03",
+      "family": "价格活动",
+      "text": "新客专享",
+      "scope": "unit/user",
+      "when": "campaign_active && confirmed_new_customer",
+      "weight": "primary"
+    },
+    {
+      "id": "P04",
+      "family": "价格活动",
+      "text": "长租优惠",
+      "scope": "unit/term",
+      "when": "campaign_active && term_months eligible",
+      "weight": "primary"
+    },
+    {
+      "id": "P05",
+      "family": "价格价值",
+      "text": "整期省¥X",
+      "scope": "unit/term",
+      "when": "valid_comparison_baseline && valid_quote && amount>0",
+      "weight": "secondary"
+    },
+    {
+      "id": "P06",
+      "family": "门店活动",
+      "text": "指定仓型特惠",
+      "scope": "store",
+      "when": "store_has_at_least_one_active_eligible_unit_campaign",
+      "weight": "primary"
+    },
+    {
+      "id": "I01",
+      "family": "真实库存",
+      "text": "同容量仅剩这1个",
+      "scope": "unit/size_group",
+      "when": "available_same_capacity_count == 1",
+      "weight": "secondary"
+    },
+    {
+      "id": "I02",
+      "family": "真实库存",
+      "text": "同容量仅剩2个",
+      "scope": "unit/size_group",
+      "when": "available_same_capacity_count == 2",
+      "weight": "secondary"
+    },
+    {
+      "id": "I03",
+      "family": "真实库存",
+      "text": "同容量剩余X个",
+      "scope": "unit/size_group",
+      "when": "3 <= available_same_capacity_count <= 5",
+      "weight": "tertiary"
+    },
+    {
+      "id": "I04",
+      "family": "需求匹配",
+      "text": "匹配仓位仅剩X个",
+      "scope": "store/demand",
+      "when": "demand_confirmed && 1 <= matched_available_count <= 2",
+      "weight": "secondary"
+    },
+    {
+      "id": "I05",
+      "family": "需求匹配",
+      "text": "匹配仓位X个",
+      "scope": "store/demand",
+      "when": "demand_confirmed && matched_available_count > 2",
+      "weight": "tertiary"
+    },
+    {
+      "id": "I06",
+      "family": "活动名额",
+      "text": "优惠名额剩余X个",
+      "scope": "campaign",
+      "when": "explicit_quota && verified_remaining_quota > 0",
+      "weight": "secondary"
+    },
+    {
+      "id": "I07",
+      "family": "售出状态",
+      "text": "已售出",
+      "scope": "unit",
+      "when": "available_unit_count == 0",
+      "weight": "disabled"
+    },
+    {
+      "id": "I08",
+      "family": "售罄状态",
+      "text": "已售罄",
+      "scope": "store",
+      "when": "store_available_unit_count == 0",
+      "weight": "disabled"
+    },
+    {
+      "id": "I09",
+      "family": "无匹配",
+      "text": "暂无符合需求的仓位",
+      "scope": "store/demand",
+      "when": "store_available_unit_count > 0 && matched_available_count == 0",
+      "weight": "notice"
+    },
+    {
+      "id": "B01",
+      "family": "服务权益",
+      "text": "送单程基础运输",
+      "scope": "quote/user",
+      "when": "new_order && term>=6 && distance>=5km && final_discount>=0.6 && confirmed_service",
+      "weight": "secondary"
+    },
+    {
+      "id": "B02",
+      "family": "服务权益",
+      "text": "可享运输优惠",
+      "scope": "quote/user",
+      "when": "campaign_active && potential_benefit && not_fully_verified",
+      "weight": "tertiary"
+    },
+    {
+      "id": "B03",
+      "family": "优惠券",
+      "text": "租仓代金券",
+      "scope": "user/coupon",
+      "when": "issued_coupon && valid_coupon",
+      "weight": "secondary"
+    },
+    {
+      "id": "B04",
+      "family": "优惠券",
+      "text": "新客券已抵扣¥X",
+      "scope": "order",
+      "when": "valid_quote && coupon_applied && amount>0",
+      "weight": "order"
+    },
+    {
+      "id": "D01",
+      "family": "推荐位置",
+      "text": "距离最近",
+      "scope": "store",
+      "when": "actual_nearest_eligible_store",
+      "weight": "neutral"
+    },
+    {
+      "id": "D02",
+      "family": "推荐位置",
+      "text": "稍远更省",
+      "scope": "store",
+      "when": "verified_price_comparison",
+      "weight": "neutral"
+    },
+    {
+      "id": "D03",
+      "family": "门店服务",
+      "text": "近地铁",
+      "scope": "store",
+      "when": "verified_store_attribute",
+      "weight": "neutral"
+    },
+    {
+      "id": "D04",
+      "family": "门店服务",
+      "text": "24小时存取",
+      "scope": "store",
+      "when": "verified_store_attribute",
+      "weight": "neutral"
+    },
+    {
+      "id": "D05",
+      "family": "门店服务",
+      "text": "电梯直达",
+      "scope": "store",
+      "when": "verified_store_attribute",
+      "weight": "neutral"
+    },
+    {
+      "id": "D06",
+      "family": "门店服务",
+      "text": "仓型齐全",
+      "scope": "store",
+      "when": "defined_threshold_and_verified",
+      "weight": "neutral"
+    }
+  ],
+  "validation_cases": 24,
+  "release_gate": "HOLD"
+}

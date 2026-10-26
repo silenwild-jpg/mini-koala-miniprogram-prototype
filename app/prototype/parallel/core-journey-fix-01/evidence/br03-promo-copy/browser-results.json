@@ -1,0 +1,315 @@
+{
+  "checks": [
+    {
+      "width": 375,
+      "name": "30 stores; first two open; at most two previews",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "third store independently opens",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "first independently collapses",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "search recomputes open defaults",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S02 public info and reference prices remain visible",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "back retains manual expansion",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "no lease asks for lease",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "unverified order opens shared gate",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "closing does not enter O01",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "N/P/L/PL; max one promo and stock line",
+      "status": "PASS",
+      "detail": [
+        {
+          "id": "SIM_BJ01_U03",
+          "promo": 0,
+          "state": "N",
+          "stock": 0
+        },
+        {
+          "id": "SIM_BJ01_U04",
+          "promo": 1,
+          "state": "P",
+          "stock": 0
+        },
+        {
+          "id": "SIM_BJ02_U03",
+          "promo": 0,
+          "state": "L",
+          "stock": 1
+        },
+        {
+          "id": "SIM_BJ02_U04",
+          "promo": 1,
+          "state": "PL",
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "S01 readable and no horizontal overflow",
+      "status": "PASS",
+      "detail": {
+        "min": 12,
+        "overflow": false
+      }
+    },
+    {
+      "width": 375,
+      "name": "S02 shares S01 price and promo facts",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "other available capacities retained",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S02 descriptions max two lines without small type",
+      "status": "PASS",
+      "detail": [
+        {
+          "font": 12,
+          "height": 38
+        },
+        {
+          "font": 12,
+          "height": 38
+        },
+        {
+          "font": 12,
+          "height": 38
+        },
+        {
+          "font": 12,
+          "height": 38
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "undersized unit cannot enter O01",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S02 directly reaches O01 with same rent and verification",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "sort resets current first two",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "no-match has no fabricated matching preview",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "no-match still offers other rentable capacities",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "sold-out has no purchase CTA",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "30 stores; first two open; at most two previews",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "third store independently opens",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "first independently collapses",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "search recomputes open defaults",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S02 public info and reference prices remain visible",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "back retains manual expansion",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "no lease asks for lease",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "unverified order opens shared gate",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "closing does not enter O01",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "N/P/L/PL; max one promo and stock line",
+      "status": "PASS",
+      "detail": [
+        {
+          "id": "SIM_BJ01_U03",
+          "promo": 0,
+          "state": "N",
+          "stock": 0
+        },
+        {
+          "id": "SIM_BJ01_U04",
+          "promo": 1,
+          "state": "P",
+          "stock": 0
+        },
+        {
+          "id": "SIM_BJ02_U03",
+          "promo": 0,
+          "state": "L",
+          "stock": 1
+        },
+        {
+          "id": "SIM_BJ02_U04",
+          "promo": 1,
+          "state": "PL",
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "S01 readable and no horizontal overflow",
+      "status": "PASS",
+      "detail": {
+        "min": 12,
+        "overflow": false
+      }
+    },
+    {
+      "width": 390,
+      "name": "S02 shares S01 price and promo facts",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "other available capacities retained",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S02 descriptions max two lines without small type",
+      "status": "PASS",
+      "detail": [
+        {
+          "font": 12,
+          "height": 38
+        },
+        {
+          "font": 12,
+          "height": 38
+        },
+        {
+          "font": 12,
+          "height": 38
+        },
+        {
+          "font": 12,
+          "height": 38
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "undersized unit cannot enter O01",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S02 directly reaches O01 with same rent and verification",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "sort resets current first two",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "no-match has no fabricated matching preview",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "no-match still offers other rentable capacities",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "sold-out has no purchase CTA",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "no console errors or broken images",
+      "status": "PASS",
+      "detail": {
+        "errors": [],
+        "brokenImages": []
+      }
+    },
+    {
+      "width": 390,
+      "name": "post-polish category has visible selected style and aria-pressed after switching",
+      "status": "PASS"
+    }
+  ],
+  "width": 390
+}

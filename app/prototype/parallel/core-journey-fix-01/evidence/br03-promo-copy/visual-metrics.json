@@ -1,0 +1,155 @@
+{
+  "capture_kind": "IAB screenshots, JPEG decoded to PNG without resizing implementation",
+  "sizes": {
+    "375-before-S01-browse.png": [
+      375,
+      812
+    ],
+    "375-before-S01-source-state.png": [
+      375,
+      812
+    ],
+    "375-before-S02-browse.png": [
+      375,
+      812
+    ],
+    "375-O01-same-price.png": [
+      375,
+      812
+    ],
+    "375-S01-browse.png": [
+      375,
+      812
+    ],
+    "375-S01-linked.png": [
+      375,
+      812
+    ],
+    "375-S02-browse.png": [
+      375,
+      812
+    ],
+    "375-S02-linked.png": [
+      375,
+      812
+    ],
+    "375-S02-no-match.png": [
+      375,
+      812
+    ],
+    "375-S02-soldout.png": [
+      375,
+      812
+    ],
+    "390-after-S01-source-state.png": [
+      390,
+      844
+    ],
+    "390-before-S01-browse.png": [
+      390,
+      844
+    ],
+    "390-before-S02-browse.png": [
+      390,
+      844
+    ],
+    "390-O01-same-price.png": [
+      390,
+      844
+    ],
+    "390-S01-browse.png": [
+      390,
+      844
+    ],
+    "390-S01-linked.png": [
+      390,
+      844
+    ],
+    "390-S02-browse.png": [
+      390,
+      844
+    ],
+    "390-S02-category-fixed.png": [
+      390,
+      844
+    ],
+    "390-S02-linked.png": [
+      390,
+      844
+    ],
+    "390-S02-no-match.png": [
+      390,
+      844
+    ],
+    "390-S02-soldout.png": [
+      390,
+      844
+    ],
+    "comparison-375-S01.png": [
+      780,
+      877
+    ],
+    "comparison-375-S02.png": [
+      780,
+      877
+    ],
+    "comparison-390-S01.png": [
+      810,
+      909
+    ],
+    "comparison-390-S02.png": [
+      810,
+      909
+    ],
+    "comparison-S01-focused.png": [
+      776,
+      550
+    ],
+    "comparison-S01-source-parent-current.png": [
+      1180,
+      909
+    ],
+    "source-expand-375-normalized.png": [
+      375,
+      812
+    ]
+  },
+  "outer_region_metrics": [
+    {
+      "width": 375,
+      "region": "s01_header",
+      "pixels_delta_over_12": 0,
+      "area": 56250
+    },
+    {
+      "width": 375,
+      "region": "s01_footer",
+      "pixels_delta_over_12": 130,
+      "area": 27750
+    },
+    {
+      "width": 375,
+      "region": "s02_header",
+      "pixels_delta_over_12": 1132,
+      "area": 193875
+    },
+    {
+      "width": 390,
+      "region": "s01_header",
+      "pixels_delta_over_12": 0,
+      "area": 58500
+    },
+    {
+      "width": 390,
+      "region": "s01_footer",
+      "pixels_delta_over_12": 188,
+      "area": 28860
+    },
+    {
+      "width": 390,
+      "region": "s02_header",
+      "pixels_delta_over_12": 0,
+      "area": 201630
+    }
+  ]
+}

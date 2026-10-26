@@ -1,0 +1,154 @@
+{
+  "task_id": "UNIT-COPY-MATCH-01B",
+  "version": "1.0",
+  "date": "2026-10-26",
+  "status": "RULES_FROZEN_NO_SOURCE_CHANGE",
+  "authority": {
+    "git_source": "future_audited_GIT-SETUP-02_final_only",
+    "visual": "BRANCH-03 VIS-07/HIFI-03 frozen original",
+    "s01_expand": "EXPAND-01B candidate layout"
+  },
+  "explicit_overrides": [
+    {
+      "old": "add dimension checking prompts for large furniture or long items",
+      "new": "forbid all user-visible dimension-checking prompts in S01 and S02"
+    },
+    {
+      "old": "add item icon rows to warehouse cards",
+      "new": "text-only short applicable-item descriptions"
+    },
+    {
+      "old": "S01 does not offer direct order CTA",
+      "new": "keep S01 & S02 立即下单 buttons per PROMO-VIS-01E"
+    }
+  ],
+  "prohibited_ui_patterns": [
+    "dimension_check_prompt",
+    "large_furniture_warning",
+    "door_width_warning",
+    "item_icon_row",
+    "item_icon_carousel",
+    "count_based_capacity_promise",
+    "new_item_advice_panel"
+  ],
+  "capacity_copy_templates": [
+    {
+      "id": "V1",
+      "capacity_range_m3": "0.5–<1",
+      "content_category_only": "迷你仓",
+      "s01": "换季衣物、箱包",
+      "s02": "换季衣物、箱包与小件收纳"
+    },
+    {
+      "id": "V2",
+      "capacity_range_m3": "1–<3",
+      "content_category_only": "立方仓",
+      "s01": "行李箱、纸箱、衣物",
+      "s02": "行李箱、纸箱和日常闲置"
+    },
+    {
+      "id": "V3",
+      "capacity_range_m3": "3–<6",
+      "content_category_only": "小型仓",
+      "s01": "纸箱、行李箱、小件家具",
+      "s02": "纸箱、行李箱和小件家具"
+    },
+    {
+      "id": "V4",
+      "capacity_range_m3": "6–<10",
+      "content_category_only": "中型仓",
+      "s01": "家电、折叠家具、收纳箱",
+      "s02": "小家电、折叠家具和收纳箱"
+    },
+    {
+      "id": "V5",
+      "capacity_range_m3": "10–<20",
+      "content_category_only": "大型仓",
+      "s01": "家具、家电、搬家物品",
+      "s02": "家庭家具、家电和搬家物品"
+    },
+    {
+      "id": "V6",
+      "capacity_range_m3": "20–<50",
+      "content_category_only": "超级仓",
+      "s01": "成组家具、家电、纸箱",
+      "s02": "多件家庭家具、家电及纸箱"
+    },
+    {
+      "id": "V7",
+      "capacity_range_m3": ">=50",
+      "content_category_only": "大容量（无固定档名）",
+      "s01": "大体量家庭物品、商家物资",
+      "s02": "大量家庭物品及商家物资"
+    }
+  ],
+  "s01": {
+    "applicable_description_max_lines": 1,
+    "store_fields_preserved": [
+      "store_thumbnail",
+      "store_name",
+      "community",
+      "distance",
+      "detailed_address",
+      "store_attributes"
+    ],
+    "expanded_first_sorted_stores": 2,
+    "unit_previews_per_store": 2,
+    "unit_cta": "立即下单",
+    "linked_requirement_preview": "matching_available_single_units_only",
+    "nonmatching_store": "show store summary + 暂无符合当前需求的仓位 + S02 browse link",
+    "price_without_term": "reference_only"
+  },
+  "s02": {
+    "applicable_description_max_lines": 2,
+    "store_fields_preserved": [
+      "store_hero",
+      "store_name",
+      "detailed_address",
+      "store_attributes"
+    ],
+    "unit_cta": "立即下单",
+    "linked_requirement_order": [
+      "matching_single_units",
+      "engine_near_alternatives",
+      "other_available_units"
+    ],
+    "allow_other_units": true,
+    "volume_match_not_guaranteed_physical_fit": true,
+    "user_visible_dim_check_prompt": false
+  },
+  "linked_state": {
+    "match_source": "existing canonical match engine; no invented thresholds",
+    "priority_when_linked": [
+      "match_relationship",
+      "short_use_or_user_selected_items",
+      "price",
+      "one_promo",
+      "one_inventory",
+      "CTA"
+    ],
+    "actual_items": "only from persisted item_estimate or AI-confirmed user choices",
+    "change_demand": "invalidate stale match and recompute"
+  },
+  "quotes": {
+    "term_unconfirmed": "reference_only",
+    "term_confirmed": "whole_term_primary_monthly_average_secondary",
+    "O01": "existing_valid_quote_snapshot",
+    "phone_verification": "retain approved verification gate before formal quote and order"
+  },
+  "promotion": {
+    "max_primary_promo_tags": 1,
+    "max_inventory_lines": 1,
+    "scope": "PROMO-OPS-01A unchanged"
+  },
+  "out_of_scope": [
+    "source changes",
+    "Git commit",
+    "visual approval",
+    "375x812 browser validation",
+    "390x844 browser validation",
+    "WeChat real device test",
+    "central merge"
+  ],
+  "gate": "HOLD"
+}

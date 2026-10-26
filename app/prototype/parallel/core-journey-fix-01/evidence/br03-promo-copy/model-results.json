@@ -1,0 +1,80 @@
+{
+  "result": "PASS",
+  "model_files": 8,
+  "model_groups": 111,
+  "models": [
+    {
+      "file": "demo\\qa\\test_beijing30.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 8,
+        "beijing": 30,
+        "units": 132,
+        "result": "PASS"
+      }
+    },
+    {
+      "file": "demo\\qa\\test_br03_policy.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 17,
+        "result": "PASS"
+      }
+    },
+    {
+      "file": "demo\\qa\\test_br04_state.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 7,
+        "result": "PASS"
+      }
+    },
+    {
+      "file": "demo\\qa\\test_business_catalog.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 10,
+        "result": "PASS"
+      }
+    },
+    {
+      "file": "demo\\qa\\test_decisions.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 22,
+        "result": "PASS",
+        "fixture": "STORE_FIXTURE_04_DECISIONS_20261026"
+      }
+    },
+    {
+      "file": "demo\\qa\\test_journey_precision.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 10,
+        "result": "PASS"
+      }
+    },
+    {
+      "file": "demo\\qa\\test_model.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 25,
+        "fixtureVersion": "STORE_FIXTURE_04_DECISIONS_20261026",
+        "stores": 33,
+        "units": 132,
+        "scenarios": 14,
+        "result": "PASS"
+      }
+    },
+    {
+      "file": "demo\\qa\\test_priority_fixes.js",
+      "exit_code": 0,
+      "output": {
+        "groups": 12,
+        "result": "PASS"
+      }
+    }
+  ],
+  "syntax_files": 24,
+  "syntax_result": "PASS"
+}
