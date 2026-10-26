@@ -1,0 +1,61 @@
+/* State controls only; the four source page styles remain isolated and unchanged. */
+body:not(.bridge-ready)>:not(script){visibility:hidden}
+.bridge-option,.bridge-primary{font:inherit;width:100%;padding:12px;margin:5px 0;border:1px solid #dce8e3;background:#f7fbf9;border-radius:10px;color:#125443;text-align:left;cursor:pointer;font-size:14px}
+.bridge-primary{background:#00745a;color:white;text-align:center;font-weight:700}
+.bridge-input{font:inherit;display:block;width:100%;height:44px;border:1px solid #d9e6df;border-radius:8px;padding:8px 10px;margin:8px 0 12px}
+.bridge-note{font-size:12px;color:#708497;line-height:1.7}
+.bridge-fees{font-size:14px;line-height:2;display:grid;grid-template-columns:1fr auto;gap:4px 12px}.bridge-fees dd{margin:0;text-align:right}
+.bridge-message{font-size:13px;line-height:1.7;color:#526f81}
+.bridge-link{cursor:pointer}.bridge-link:focus-visible{outline:2px solid #08785e;outline-offset:2px}
+.toast{white-space:normal;max-width:calc(100% - 32px);line-height:1.7;pointer-events:none}
+body[data-page="s5"] .main-photo-badge{position:absolute;top:0;left:0;width:111px;height:25px;border-radius:12px 0 11px 0;background:#ff6729;color:white;font-size:12px;line-height:25px;text-align:center;font-weight:700}
+body[data-page="s5"] .main-photo-distance{position:absolute;right:8px;top:10px;background:#fffdf4;color:#4e6e75;border-radius:10px;font-size:11px;min-width:75px;height:25px;line-height:25px;text-align:center;padding:0 5px}
+body[data-page="s5"] .major-price strong[data-private="true"]{font-size:18px;letter-spacing:0;line-height:32px}
+body[data-page="s5"] .minor-price strong[data-private="true"]{font-size:13px}
+body[data-page="s5"] .major-unit h3{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+body[data-page="s5"] .minor-unit h3{max-width:135px;font-size:13px}
+body[data-page="s5"] .minor-unit .minor-tags{gap:3px}
+body[data-page="s5"] .minor-buy{top:68px}
+body[data-page="s5"] .minor-price{top:70px;max-width:140px}
+body[data-page="s5"] .minor-price span{font-size:10px}
+body[data-page="s5"] .minor-price strong{font-size:19px}
+body[data-page="s5"] .major-unit .main-buy{font-size:14px}
+body[data-page="reserve"] .address-entry{width:100%}
+body[data-page="reserve"] .address-entry input{font-size:12.5px}
+body[data-page="reserve"] .date-input{z-index:4;left:19px;top:207px;width:calc(100% - 38px);height:41px;opacity:0}
+body[data-page="reserve"] .not-required{font-size:12px}
+body[data-page="reserve"] .popup-options .bridge-input,body[data-page="reserve"] .popup-options .bridge-primary{grid-column:1/-1}
+body[data-page="quick"] .unit-money .money[data-private="true"]{font-size:14px}
+body[data-page="quick"] .estimate-money .amount[data-private="true"]{font-size:17px}
+body[data-page="quick"] .store-name b{max-width:145px;overflow:hidden;text-overflow:ellipsis}
+body[data-page="quick"] .store-address{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-page="quick"] .unit-money{flex-wrap:wrap}
+.value-button{border:0;background:none;color:#122336;font:inherit;cursor:pointer;padding:0;font-weight:600}
+.value-date{border:0;color:#142539;background:transparent;font:inherit;font-size:12px;text-align:right;max-width:170px}
+body[data-page="o01"] .distance{font-size:9px;padding:3px 4px}
+body[data-page="o01"] .name-distance{gap:5px;white-space:normal}
+body[data-page="o01"] .name-distance>b{font-size:14px;white-space:nowrap}
+body[data-page="o01"] .total b[data-private="true"]{font-size:16px}
+body[data-page="o01"] .agreement{white-space:normal;font-size:10.5px;line-height:1.8}
+body[data-page="o01"] .agreement{position:relative}
+body[data-page="o01"] .agreement input{width:24px;height:24px;left:-3px;top:50%;transform:translateY(-50%);margin:0;z-index:1}
+body[data-page="o01"] .sheet{max-height:80%;overflow:auto}
+body[data-page="o01"] .pay-btn{font-size:16px}
+
+.operating-tag{background:#fff0dc!important;color:#ad4d0e!important;border:1px solid #e5b274!important}.location-shortcut{display:block;border:1px solid #b4d7c8;background:#edf6f0;color:#006e56;border-radius:8px;padding:8px;margin:6px 0}.reserve-contact-field{display:block;font-size:12px;color:#345f52;margin-top:6px}.reserve-contact-field input{height:34px;border:1px solid #c8d8ce;border-radius:8px;width:100%;padding:8px;box-sizing:border-box}#order-monthly{font-size:12px;color:#396754;margin:8px 16px}.bridge-fees{grid-template-columns:1fr auto}button:focus-visible,a:focus-visible{outline:3px solid #b36a16;outline-offset:3px}
+
+/* F01: preserve the approved header; give address, location helper, and phone separate rows. */
+body[data-page="reserve"] .artboard{height:976px}
+body[data-page="reserve"] .address-entry{width:100%;flex:1;min-width:0}
+body[data-page="reserve"] .location-shortcut{position:absolute;top:94px;right:19px;min-height:32px;margin:0;padding:4px 10px;font-size:12px}
+body[data-page="reserve"] .privacy-help{top:130px;right:19px}
+body[data-page="reserve"] .reserve-contact-field{position:absolute;top:165px;left:19px;right:19px;margin:0;font-size:12px;line-height:18px}
+body[data-page="reserve"] .reserve-contact-field input{display:block;width:100%;height:38px;margin-top:6px;padding:8px 10px;font-size:13px}
+body[data-page="reserve"] .time-title{top:237px}
+body[data-page="reserve"] .term-pills{top:265px}
+body[data-page="reserve"] .date-control,body[data-page="reserve"] .date-input{top:311px}
+body[data-page="reserve"] .request-title{top:373px}
+body[data-page="reserve"] .option-list{top:402px}
+body[data-page="reserve"] .note-field{top:528px}
+body[data-page="reserve"] .submit{top:637px}
+body[data-page="reserve"] .under-submit{top:692px}

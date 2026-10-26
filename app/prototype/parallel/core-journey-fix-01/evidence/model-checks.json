@@ -1,0 +1,79 @@
+[
+  {
+    "file": "demo\\qa\\test_beijing30.js",
+    "exit_code": 0,
+    "summary": {
+      "groups": 8,
+      "beijing": 30,
+      "units": 132,
+      "result": "PASS"
+    },
+    "stdout": "PASS default catalog has exactly thirty unique Beijing stores\nPASS all thirty Beijing sources have explicit workbook row mappings\nPASS sample spans eight normalized Beijing districts\nPASS every Beijing store has a configured and dimensionally consistent warehouse catalog\nPASS sample covers available sold reserved occupied unavailable and paused states\nPASS full store profiles cannot be selected or recommended as available\nPASS no-match recovery preserves demand under the expanded catalog\nPASS catalog has no asserted coordinates and invalidates prior eight-store state\n{\"groups\":8,\"beijing\":30,\"units\":132,\"result\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_br04_state.js",
+    "exit_code": 0,
+    "summary": {
+      "groups": 7,
+      "result": "PASS"
+    },
+    "stdout": "PASS optional lead fields persist without store or unit binding\nPASS address alone is sufficient and empty address is rejected\nPASS optional fields are restricted; contact only inherits from validated shared state\nPASS changing store invalidates selection and quote while retaining demand\nPASS pending order remains a snapshot after quote revocation\nPASS failed payment can release inventory before a new explicit attempt\nPASS cross-city and stale warehouse selection cannot be confirmed\n{\"groups\":7,\"result\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_business_catalog.js",
+    "exit_code": 0,
+    "summary": {
+      "groups": 10,
+      "result": "PASS"
+    },
+    "stdout": "PASS enterprise lead is separate from address reservation\nPASS valid contact is required, international numbers supported\nPASS manually supplied contact does not grant price authorization\nPASS enterprise lead creates no unit binding, order or transport entitlement\nPASS enterprise fields and multi-select are retained without fabricated term\nPASS invalid capacity, lease and date are rejected before saving\nPASS selected names and addresses map to workbook row records\nPASS warehouse dimensions agree with capacity and floor area\nPASS no invented showcase names or addresses; distance not claimed verified\nPASS prior fixture state does not survive the store source version change\n{\"groups\":10,\"result\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_decisions.js",
+    "exit_code": 0,
+    "summary": {
+      "groups": 22,
+      "result": "PASS",
+      "fixture": "STORE_FIXTURE_04_DECISIONS_20261026"
+    },
+    "stdout": "PASS manual contact permits order entry without unlocking prices\nPASS WeChat contact permits order entry without inventing a raw phone number\nPASS no implicit capacity term store warehouse or date in fresh state\nPASS combinations are restricted to two units in one store\nPASS thirty Beijing stores carry one operating tag and differentiated service tags\nPASS automatic coupon picks highest eligible rent discount and never discounts deposits\nPASS coupon choice can disable discount and service benefit cannot reduce rent\nPASS claim apply lock redeem and new-customer invalidation are coherent\nPASS failed payment releases both reserved stock and locked coupon\nPASS expired pending order cannot pay and releases stock/coupon\nPASS pending payment rechecks stock and does not overwrite a changed stock state\nPASS cancellation is only available for pending orders\nPASS identity and date checks are independent of phone authorization\nPASS renewal is re-priced and renewal coupon only applies to six or more months\nPASS exit inspection failure retry pass and refund require the right prior state\nPASS invoice is linked to a paid record and never duplicated\nPASS transport remains advisor-confirmed and cannot silently grant free transport\nPASS personal lead inherits confirmed intention/contact but never binds store/unit\nPASS consultation has local status and preserves order context\nPASS new state round trip retains coupon order service and privacy boundaries\nPASS returning to the UI expires pending orders and releases locks without a payment click\nPASS E-store advice inherits intention but remains distinct from enterprise/order binding\n{\"groups\":22,\"result\":\"PASS\",\"fixture\":\"STORE_FIXTURE_04_DECISIONS_20261026\"}\n",
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_journey_precision.js",
+    "exit_code": 0,
+    "summary": {
+      "groups": 10,
+      "result": "PASS"
+    },
+    "stdout": "PASS manual capacity keeps two-decimal contract\nPASS item estimate preserves exact precision and raw value\nPASS minimum matching volume never overwrites raw estimate\nPASS term edit keeps item estimate and invalidates prior quote\nPASS selection clearing preserves exact demand metadata\nPASS matching excludes a unit below the exact estimate\nPASS exact item demand can quote and submit a coherent order\nPASS known capacity clears item provenance and rejects absent confirmation\nPASS malformed estimates and duplicate item ids are rejected\nPASS lease confirmation cannot be fabricated by an estimate payload\n{\"groups\":10,\"result\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_model.js",
+    "exit_code": 0,
+    "summary": {
+      "groups": 25,
+      "fixtureVersion": "STORE_FIXTURE_04_DECISIONS_20261026",
+      "stores": 33,
+      "units": 132,
+      "scenarios": 14,
+      "result": "PASS"
+    },
+    "stdout": "PASS fixture identity and foreign keys\nPASS home cubic prices derive from same units\nPASS default Beijing and no silent term\nPASS capacity precision and edges\nPASS lease term is explicit, including 2 months\nPASS all scenarios are selectable and deterministic\nPASS closed/sold units and undersized selections blocked\nPASS cross-store and duplicate units blocked\nPASS no match and empty city are genuine data outcomes\nPASS alternatives exclude unavailable current store and sort by distance\nPASS nearby no-match expands past 3km using available data\nPASS authorization denial/failure and missing request cannot grant\nPASS dates are validated without defaults\nPASS known single order exact amount\nPASS combo is one order, deposits sum, management charged once\nPASS inventory changes block submission, preserve demand and offer recovery\nPASS price changes require explicit new quote\nPASS requirement/city/date changes invalidate quote\nPASS expired quote blocked\nPASS expired or revoked authorization blocks\nPASS tampered quote amount rejected\nPASS duplicate submit returns one order and reserves units\nPASS payment failure releases units; success occupies them\nPASS address-only lead creates no order/store/unit association\nPASS state hydration remains fixture-isolated and fresh visits capped\n{\"groups\":25,\"fixtureVersion\":\"STORE_FIXTURE_04_DECISIONS_20261026\",\"stores\":33,\"units\":132,\"scenarios\":14,\"result\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_priority_fixes.js",
+    "exit_code": 0,
+    "summary": {
+      "groups": 12,
+      "result": "PASS"
+    },
+    "stdout": "PASS renewal has no default but retains the actively quoted six-month choice\nPASS six to twelve invalidates the quote immediately and blocks payment until re-priced\nPASS payment rejects a changed visible month even without an input event\nPASS clearing or entering an invalid renewal month cannot preserve a payable quote\nPASS expired and tampered renewal prices fail before recording a payment\nPASS paid renewal cannot repeat and the displayed end follows paid periods\nPASS anniversary projection clamps month ends and supports leap years\nPASS supplementing enterprise data preserves identity and avoids duplicate lead records\nPASS restored enterprise drafts can update the same ID after state hydration\nPASS invalid edits cannot partially overwrite a saved enterprise lead\nPASS withdrawn leads cannot be revived by edit; explicit new request has a new ID\nPASS enterprise supplementation preserves an existing exact item estimate\n{\"groups\":12,\"result\":\"PASS\"}\n",
+    "stderr": ""
+  }
+]

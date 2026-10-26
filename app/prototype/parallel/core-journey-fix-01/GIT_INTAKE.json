@@ -1,0 +1,145 @@
+{
+  "candidate": "CORE_JOURNEY_FIX_01_20261026",
+  "intake_date": "2026-10-26",
+  "source_directory": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\CORE_JOURNEY_FIX_01_2026-10-26",
+  "source_delivery_zip": "Mini_Koala_CORE_JOURNEY_FIX_01_三项核心问题修复_2026-10-26.zip",
+  "source_delivery_zip_sha256": "3398b47566618b5d9777c955182fdc98de15c6b8c0b0e0a146cb00864ee1b95d",
+  "source_delivery_zip_bytes": 10830437,
+  "source_zip_crc": "PASS",
+  "source_zip_member_sha": "PASS",
+  "source_manifest_files": 207,
+  "source_manifest_sha256": "f19fbc4552c6d7f6600585aab51a71f6d2f0dfb32190c1af915974b471648160",
+  "source_sha256_mismatch_count": 0,
+  "changed_runtime_files": [
+    {
+      "file": "account.js",
+      "before": "10a1cb0b74dccad2f02a9af79b5426834052b27c7dfad2326540d5be3fb35319",
+      "after": "a0003171d30fbca1068154d2cd4357c69c887d70cd77ff790c2a7b9357439376"
+    },
+    {
+      "file": "business-adapter.css",
+      "before": "379664cfee3874a98aa47926cfc20294e704b73b9daea15e0775a41b6f9896ae",
+      "after": "8cb8115a40b90bee0dbd9018415b4b867001be99840b578baa1fe700cfbeed30"
+    },
+    {
+      "file": "business-bridge.js",
+      "before": "b5d728aad291a960dc7a6ace82ff55fb7344c6bb9ee66a7c43628d46e7d1b209",
+      "after": "c55763939730430052890793065ac2201471a66abc4928b9f9c3a616601c7eb0"
+    },
+    {
+      "file": "demo-core.js",
+      "before": "5970948b305bde0b27d2dadcd4880afd683fbabab007dafd1d8d18d48b94a772",
+      "after": "29cfbf44cb3c2e62838b5a1c4ddc3ada0a47b0f9e5ee61f8bc637e6bdb82c742"
+    },
+    {
+      "file": "home-bridge.js",
+      "before": "479decc84c3c18174a1ed13bd6a8f35384ae4bc30488d8f5dbc4fbc398d3fbbf",
+      "after": "e77c154df21dcf7a7e65d63cf09cfab8967ab08e2fc4f2aea149f3fd7e6f4d8c"
+    },
+    {
+      "file": "index.html",
+      "before": "a8664ffc597f8621fd9231added075598baa6d840dd75b436812f071a852d62a",
+      "after": "899260e12d177d0103da3ea2b516031635afa82ac7f0ed2ccc507771cee4f561"
+    },
+    {
+      "file": "br04/adapter.css",
+      "before": "3b29b5f721452050ed6a6517f62c964bbb161c62dba06e1fcc759163b3823d88",
+      "after": "d62e2e7f54bf4640b3c48e7dbc506659a2bc4bcc980edd90af618cc6ffbd64ec"
+    },
+    {
+      "file": "br04/bridge.js",
+      "before": "486338ec50977216aab809c23fccb241afcf5697c72b9fd30edc01f4342d63a7",
+      "after": "9e1f74142c84fd6e7cb0b5b767f093711964f878bd2ff4140ec1f36d457d952c"
+    }
+  ],
+  "checks_recorded_in_candidate": {
+    "version": "CORE_JOURNEY_FIX_01_20261026",
+    "date": "2026-10-26",
+    "scope": [
+      "F01 address layout",
+      "F02 renewal quote binding",
+      "F03 enterprise updates"
+    ],
+    "model_groups": 94,
+    "model_result": "PASS",
+    "syntax_checks": 21,
+    "focused_browser_checks": 14,
+    "base_browser_checks": 23,
+    "browser_checks": 37,
+    "browser_result": "PASS",
+    "browser_kind": "isolated headless Chrome",
+    "layouts": [
+      {
+        "width": 375,
+        "address": {
+          "x": 25.609375,
+          "y": 301.234375,
+          "width": 323.78125,
+          "height": 42
+        },
+        "optional_phone": {
+          "x": 24.59375,
+          "y": 447.75,
+          "width": 325.8125,
+          "height": 38.9375
+        },
+        "location": {
+          "x": 254.09375,
+          "y": 350.40625,
+          "width": 96.3125,
+          "height": 32.796875
+        },
+        "time_heading": {
+          "x": 24.59375,
+          "y": 496.921875,
+          "width": 144.859375,
+          "height": 22.546875
+        }
+      },
+      {
+        "width": 390,
+        "address": {
+          "x": 26.640625,
+          "y": 313.28125,
+          "width": 336.71875,
+          "height": 43.6875
+        },
+        "optional_phone": {
+          "x": 25.578125,
+          "y": 465.65625,
+          "width": 338.84375,
+          "height": 40.484375
+        },
+        "location": {
+          "x": 264.265625,
+          "y": 364.421875,
+          "width": 100.15625,
+          "height": 34.109375
+        },
+        "time_heading": {
+          "x": 25.578125,
+          "y": 516.796875,
+          "width": 150.65625,
+          "height": 23.453125
+        }
+      }
+    ],
+    "parent_unchanged": true,
+    "asset_files_unchanged": 100,
+    "fixture_unchanged": true,
+    "beijing_stores": 30,
+    "beijing_units": 120,
+    "remaining": [
+      "F04 return to current order",
+      "F05 stage actions/use state semantics",
+      "F06 duplicate inventory toast",
+      "F07 visual consistency",
+      "D25 unmatched recovery strategy",
+      "D38 enterprise capacity-band strategy",
+      "real backend integrations and full accessibility acceptance"
+    ],
+    "release_gate": "HOLD"
+  },
+  "release_gate": "HOLD",
+  "integration_status": "ISOLATED_SOURCE_INTAKE_ONLY"
+}

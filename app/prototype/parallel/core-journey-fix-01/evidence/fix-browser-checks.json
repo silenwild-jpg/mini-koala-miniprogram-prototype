@@ -1,0 +1,118 @@
+{
+  "results": [
+    {
+      "name": "F01 full-width editable address and nonoverlapping optional contact at 375",
+      "result": "PASS"
+    },
+    {
+      "name": "F01 address alone can submit without phone store unit or term at 375",
+      "result": "PASS"
+    },
+    {
+      "name": "F01 full-width editable address and nonoverlapping optional contact at 390",
+      "result": "PASS"
+    },
+    {
+      "name": "F01 address alone can submit without phone store unit or term at 390",
+      "result": "PASS"
+    },
+    {
+      "name": "F03 supplementing enterprise data keeps one ID and one record",
+      "result": "PASS"
+    },
+    {
+      "name": "F03 rapid repeat save updates the same request",
+      "result": "PASS"
+    },
+    {
+      "name": "F03 explicit new request creates a second ID only after choosing New",
+      "result": "PASS"
+    },
+    {
+      "name": "F03 invalid requested ID cannot silently create a new lead",
+      "result": "PASS"
+    },
+    {
+      "name": "F02 renewal has no default and retains six months after a quote",
+      "result": "PASS"
+    },
+    {
+      "name": "F02 changing six to twelve immediately removes old money and disables pay",
+      "result": "PASS"
+    },
+    {
+      "name": "F02 re-price twelve pays twelve and shows the updated end date",
+      "result": "PASS"
+    },
+    {
+      "name": "F02 clearing the month cannot keep a payable quote",
+      "result": "PASS"
+    },
+    {
+      "name": "F01 E-store keeps demand and uses the corrected shared address layout",
+      "result": "PASS"
+    },
+    {
+      "name": "no page errors or missing resources",
+      "result": "PASS"
+    }
+  ],
+  "errors": [],
+  "measurements": [
+    {
+      "width": 375,
+      "address": {
+        "x": 25.609375,
+        "y": 301.234375,
+        "width": 323.78125,
+        "height": 42
+      },
+      "optional_phone": {
+        "x": 24.59375,
+        "y": 447.75,
+        "width": 325.8125,
+        "height": 38.9375
+      },
+      "location": {
+        "x": 254.09375,
+        "y": 350.40625,
+        "width": 96.3125,
+        "height": 32.796875
+      },
+      "time_heading": {
+        "x": 24.59375,
+        "y": 496.921875,
+        "width": 144.859375,
+        "height": 22.546875
+      }
+    },
+    {
+      "width": 390,
+      "address": {
+        "x": 26.640625,
+        "y": 313.28125,
+        "width": 336.71875,
+        "height": 43.6875
+      },
+      "optional_phone": {
+        "x": 25.578125,
+        "y": 465.65625,
+        "width": 338.84375,
+        "height": 40.484375
+      },
+      "location": {
+        "x": 264.265625,
+        "y": 364.421875,
+        "width": 100.15625,
+        "height": 34.109375
+      },
+      "time_heading": {
+        "x": 25.578125,
+        "y": 516.796875,
+        "width": 150.65625,
+        "height": 23.453125
+      }
+    }
+  ],
+  "method": "isolated headless Chrome; fresh local contexts"
+}

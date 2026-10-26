@@ -1,0 +1,174 @@
+/*
+ Mini Koala Visual Elevation V2 — Controlled Rollout
+ Scope: S01 / U01 / Q01 / O01 / O02 / O03 / M01 / RN01 / EX01 / DP01 / OH01 / IV01 / B2B
+ VISUAL REDESIGN-LITE only. No copy/data/route/business state changes.
+*/
+:root{
+  --ve2-deep:#183E30;--ve2-green:#2F6B4F;--ve2-green-soft:#EAF3ED;
+  --ve2-paper:#FAF8F3;--ve2-paper-2:#F3EFE7;--ve2-surface:#FFF;
+  --ve2-ink:#17231D;--ve2-muted:#68716C;--ve2-line:#E7E2D9;
+  --ve2-copper:#C86424;--ve2-copper-soft:#FFF0E2;
+  --ve2-shadow-hero:0 14px 38px rgba(24,62,48,.09);--ve2-shadow-float:0 10px 30px rgba(24,62,48,.10);
+}
+
+/* ---------- S01 / premium discovery ---------- */
+body:has(#storeList){background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+body:has(#storeList) .page{background:var(--ve2-paper)!important}
+body:has(#storeList) .header{background:rgba(250,248,243,.94)!important;border-bottom:0!important;backdrop-filter:blur(18px)!important}
+body:has(#storeList) .header h1{color:var(--ve2-deep)!important;letter-spacing:-.02em!important}
+body:has(#storeList) .location-search-combined{
+  margin:10px 16px 12px!important;padding:15px!important;border:0!important;border-radius:22px!important;
+  background:linear-gradient(145deg,#183E30 0%,#23513E 100%)!important;color:#FFF!important;
+  box-shadow:var(--ve2-shadow-hero)!important;overflow:hidden!important;position:relative!important;
+}
+body:has(#storeList) .location-search-combined:after{content:"";position:absolute;right:-46px;top:-62px;width:142px;height:168px;border:1px solid rgba(255,255,255,.13);border-radius:74px 74px 28px 28px;transform:rotate(10deg);pointer-events:none}
+body:has(#storeList) .current-location{background:transparent!important;border:0!important;padding:0!important;color:#FFF!important;box-shadow:none!important}
+body:has(#storeList) .current-location .eyebrow{color:rgba(255,255,255,.58)!important;font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase!important}
+body:has(#storeList) .current-location .loc{color:#FFF!important;font-size:18px!important;letter-spacing:-.02em!important}
+body:has(#storeList) .current-location .change{color:#F1D6BC!important}
+body:has(#storeList) .current-location .pin{font-size:0!important;width:18px!important;height:18px!important;display:inline-block!important;background:currentColor!important;color:#E8D3BD!important;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E") center/contain no-repeat!important}
+body:has(#storeList) .travel-pill{background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.18)!important;color:#FFF!important;border-radius:999px!important}
+body:has(#storeList) .location-search-entry{margin-top:12px!important;background:rgba(255,255,255,.96)!important;border:0!important;border-radius:14px!important;box-shadow:none!important;min-height:46px!important}
+body:has(#storeList) .location-search-entry .placeholder{color:#777F7A!important}
+body:has(#storeList) .location-search-entry .support{color:var(--ve2-green)!important;font-weight:700!important}
+body:has(#storeList) .toolbar{background:transparent!important;border:0!important;padding:2px 16px 10px!important}
+body:has(#storeList) .controls{gap:6px!important}
+body:has(#storeList) .controls button{border:0!important;background:transparent!important;color:var(--ve2-muted)!important;padding:6px 9px!important;min-height:32px!important;box-shadow:none!important}
+body:has(#storeList) .controls button.active{background:#FFF!important;color:var(--ve2-deep)!important;border-radius:999px!important;box-shadow:inset 0 0 0 1px var(--ve2-line)!important}
+body:has(#storeList) .coverage-strip,body:has(#storeList) .estimate-strip{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin-left:16px!important;margin-right:16px!important;border-bottom:1px solid var(--ve2-line)!important}
+body:has(#storeList) .demand,body:has(#storeList) .recommendation-summary{margin-left:16px!important;margin-right:16px!important;border:0!important;box-shadow:none!important;border-radius:18px!important}
+body:has(#storeList) .recommendation-summary{background:linear-gradient(145deg,#E9F0EA,#F7F3EB)!important}
+body:has(#storeList) #storeList{padding:0 16px!important}
+body:has(#storeList) .store{
+  border:0!important;border-radius:20px!important;background:#FFF!important;box-shadow:none!important;
+  margin-bottom:12px!important;overflow:hidden!important;position:relative!important;
+}
+body:has(#storeList) .store:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ve2-line)!important}
+body:has(#storeList) .store:first-child{box-shadow:var(--ve2-shadow-hero)!important}
+body:has(#storeList) .store-name,body:has(#storeList) .demand-name{color:var(--ve2-deep)!important;letter-spacing:-.018em!important}
+body:has(#storeList) .store-facts{background:transparent!important;border-top:1px solid var(--ve2-line)!important}
+body:has(#storeList) .store-price,body:has(#storeList) .demand-total{color:var(--ve2-copper)!important;font-weight:720!important;letter-spacing:-.03em!important}
+body:has(#storeList) .v274-demand-state .store.demand-store{padding:17px 15px!important;border:0!important;border-radius:20px!important;box-shadow:0 10px 28px rgba(24,62,48,.055)!important}
+body:has(#storeList) .v274-demand-state .store.demand-store:first-of-type{background:#FFF!important;box-shadow:var(--ve2-shadow-hero)!important}
+body:has(#storeList) .demand-role{color:var(--ve2-green)!important;font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase!important}
+body:has(#storeList) .demand-district{background:var(--ve2-paper-2)!important;color:var(--ve2-muted)!important;border-radius:999px!important}
+body:has(#storeList) .demand-monthly,body:has(#storeList) .demand-address,body:has(#storeList) .demand-route{color:var(--ve2-muted)!important}
+body:has(#storeList) .estore-list-card{border:0!important;border-radius:20px!important;background:linear-gradient(145deg,#F3EFE7 0%,#FAF8F3 100%)!important;box-shadow:none!important;padding:17px 15px!important}
+body:has(#storeList) .estore-list-card .estore-list-badge{background:transparent!important;border:0!important;color:var(--ve2-green)!important;padding:0!important}
+body:has(#storeList) .estore-list-card .estore-list-points{gap:0!important}
+body:has(#storeList) .estore-list-card .estore-list-points span{border:0!important;background:transparent!important;border-radius:0!important;padding:0 8px 0 0!important;margin-right:8px!important;color:var(--ve2-muted)!important;position:relative!important}
+body:has(#storeList) .estore-list-card .estore-list-points span:not(:last-child):after{content:"·";position:absolute;right:-2px;color:#A9A299!important}
+
+/* ---------- U01 / premium warehouse decision ---------- */
+body:has(#contractTotal){background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+body:has(#contractTotal) .page{background:var(--ve2-paper)!important}
+body:has(#contractTotal) .header{background:rgba(250,248,243,.94)!important;border-bottom:0!important;backdrop-filter:blur(18px)!important}
+body:has(#contractTotal) #hero{height:184px!important;margin:0 16px!important;border-radius:74px 74px 24px 24px!important;border:0!important;background-color:#DED8CE!important;box-shadow:var(--ve2-shadow-hero)!important;overflow:hidden!important;position:relative!important}
+body:has(#contractTotal) #hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(24,62,48,0) 48%,rgba(24,62,48,.16));pointer-events:none}
+body:has(#contractTotal) #hero .hero-note{background:rgba(250,248,243,.86)!important;color:var(--ve2-deep)!important;border:0!important;backdrop-filter:blur(10px)!important}
+body:has(#contractTotal) .card{margin:-20px 16px 0!important;border:0!important;border-radius:22px!important;background:#FFF!important;box-shadow:var(--ve2-shadow-hero)!important;position:relative!important;z-index:2!important}
+body:has(#contractTotal) .kicker{color:var(--ve2-green)!important;font-size:10px!important;letter-spacing:.09em!important;text-transform:uppercase!important}
+body:has(#contractTotal) #unitSize{font-size:30px!important;color:var(--ve2-deep)!important;letter-spacing:-.035em!important}
+body:has(#contractTotal) .unitid{background:var(--ve2-paper-2)!important;border:0!important;color:var(--ve2-muted)!important}
+body:has(#contractTotal) .section{margin-left:16px!important;margin-right:16px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding-left:0!important;padding-right:0!important;border-top:1px solid var(--ve2-line)!important}
+body:has(#contractTotal) .term-details{border:0!important;background:transparent!important;box-shadow:none!important}
+body:has(#contractTotal) .term-details summary{background:transparent!important;border:0!important;padding-left:0!important;padding-right:0!important}
+body:has(#contractTotal) .term-quick button{border:0!important;background:#FFF!important;box-shadow:inset 0 0 0 1px var(--ve2-line)!important;border-radius:14px!important}
+body:has(#contractTotal) .term-quick button.active{background:var(--ve2-deep)!important;color:#FFF!important;box-shadow:none!important}
+body:has(#contractTotal) .pricebox{border:0!important;border-radius:20px!important;background:linear-gradient(145deg,#F3EFE7 0%,#FFF 100%)!important;box-shadow:none!important;padding:18px!important}
+body:has(#contractTotal) #contractTotal{font-size:34px!important;line-height:40px!important;color:var(--ve2-copper)!important;font-weight:720!important;letter-spacing:-.04em!important}
+body:has(#contractTotal) #selectedTermPrice,body:has(#contractTotal) .term-price-hint{color:var(--ve2-muted)!important}
+body:has(#contractTotal) .totalbox{margin-top:14px!important;border-top:1px solid var(--ve2-line)!important}
+body:has(#contractTotal) .totalbox .initial{background:transparent!important;border-top:1px solid var(--ve2-line)!important}
+body:has(#contractTotal) .totalbox .initial b{color:var(--ve2-deep)!important;font-size:20px!important}
+body:has(#contractTotal) .route-card,body:has(#contractTotal) .transport-support{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;border-top:1px solid var(--ve2-line)!important}
+
+/* ---------- Transactions / refined financial hierarchy ---------- */
+body:has(#quoteId),body:has(#payableTotal),body:has(#statusIcon),body:has(#statusTag){background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+body:has(#quoteId) .page,body:has(#payableTotal) .page,body:has(#statusIcon) .page,body:has(#statusTag) .page{background:var(--ve2-paper)!important}
+body:has(#quoteId) .header,body:has(#payableTotal) .header,body:has(#statusIcon) .header,body:has(#statusTag) .header{background:rgba(250,248,243,.94)!important;border-bottom:0!important;backdrop-filter:blur(18px)!important}
+body:has(#quoteId) .section,body:has(#payableTotal) .section,body:has(#statusIcon) .section,body:has(#statusTag) .section{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;border-top:1px solid var(--ve2-line)!important}
+body:has(#quoteId) .hero{margin:10px 16px 18px!important;padding:20px!important;border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#183E30 0%,#245841 100%)!important;color:#FFF!important;box-shadow:var(--ve2-shadow-hero)!important}
+body:has(#quoteId) .hero .eyebrow,body:has(#quoteId) .hero .meta{color:rgba(255,255,255,.62)!important}
+body:has(#quoteId) .hero .unit{color:#FFF!important;font-size:19px!important}
+body:has(#quoteId) .hero .price{color:#F0D8BF!important}
+body:has(#quoteId) .hero .total{border-top:1px solid rgba(255,255,255,.15)!important}
+body:has(#quoteId) .hero .total span{color:rgba(255,255,255,.68)!important}
+body:has(#quoteId) .hero .total b{color:#F4C99F!important;font-size:32px!important;letter-spacing:-.04em!important}
+body:has(#quoteId) .rows{background:#FFF!important;border:0!important;border-radius:18px!important;box-shadow:none!important;padding:4px 14px!important}
+body:has(#quoteId) .quote-trust{background:var(--ve2-paper-2)!important;border:0!important;border-radius:16px!important;color:var(--ve2-muted)!important}
+
+body:has(#payableTotal) .order-card{border:0!important;border-radius:20px!important;background:#FFF!important;box-shadow:var(--ve2-shadow-hero)!important}
+body:has(#payableTotal) .payment-section{margin-top:20px!important;border-top:0!important}
+body:has(#payableTotal) .payable-hero{border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#183E30 0%,#245841 100%)!important;box-shadow:var(--ve2-shadow-hero)!important;padding:18px!important}
+body:has(#payableTotal) .payable-hero span{color:rgba(255,255,255,.65)!important}
+body:has(#payableTotal) #payableTotal{color:#F4C99F!important;font-size:34px!important;letter-spacing:-.04em!important}
+body:has(#payableTotal) .payment-rows{background:#FFF!important;border:0!important;border-radius:18px!important;padding:4px 14px!important}
+body:has(#payableTotal) .pay-after,body:has(#payableTotal) .storage-notice,body:has(#payableTotal) .agreement{border:0!important;background:transparent!important;border-radius:0!important;box-shadow:none!important}
+
+body:has(#statusIcon) #hero{margin:10px 16px 18px!important;border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#E8F0E9 0%,#F7F3EB 100%)!important;box-shadow:none!important}
+body:has(#statusIcon) #statusIcon{background:var(--ve2-deep)!important;color:#FFF!important;box-shadow:0 10px 24px rgba(24,62,48,.16)!important}
+body:has(#statusIcon) #statusTitle{color:var(--ve2-deep)!important;letter-spacing:-.025em!important}
+body:has(#statusIcon) #paidPrice{color:var(--ve2-copper)!important;font-size:30px!important;letter-spacing:-.035em!important}
+body:has(#statusIcon) .order,body:has(#statusIcon) .password-card,body:has(#statusIcon) .next,body:has(#statusIcon) .alt-card{border:0!important;border-radius:18px!important;background:#FFF!important;box-shadow:none!important}
+
+body:has(#statusTag) .status{margin:10px 16px 18px!important;border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#E8F0E9 0%,#F7F3EB 100%)!important;box-shadow:none!important;padding:18px!important}
+body:has(#statusTag) #statusTitle{color:var(--ve2-deep)!important;letter-spacing:-.025em!important}
+body:has(#statusTag) .unit-card{border:0!important;border-radius:20px!important;background:#FFF!important;box-shadow:var(--ve2-shadow-hero)!important}
+body:has(#statusTag) .quick{gap:0!important;border-top:1px solid var(--ve2-line)!important}
+body:has(#statusTag) .quick button{background:transparent!important;border:0!important;color:var(--ve2-green)!important}
+body:has(#statusTag) .action-card{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;border-bottom:1px solid var(--ve2-line)!important}
+
+/* ---------- Lifecycle / premium service center ---------- */
+body:has(#primaryAssets),body:has(#renewForm),body:has(#requestCard),body:has(#amount),body:has(#orders),body:has(#paymentList){background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+body:has(#primaryAssets) .page,body:has(#renewForm) .phone,body:has(#requestCard) .phone,body:has(#amount) .phone,body:has(#orders) .phone,body:has(#paymentList) .phone{background:var(--ve2-paper)!important}
+body:has(#renewForm) .top,body:has(#requestCard) .top,body:has(#amount) .top,body:has(#orders) .top,body:has(#paymentList) .top,body:has(#primaryAssets) .header{background:rgba(250,248,243,.94)!important;border-bottom:0!important;backdrop-filter:blur(18px)!important}
+body:has(#primaryAssets) .profile{border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#183E30 0%,#245841 100%)!important;box-shadow:var(--ve2-shadow-hero)!important;color:#FFF!important}
+body:has(#primaryAssets) .profile b{color:#FFF!important}
+body:has(#primaryAssets) .profile span{color:rgba(255,255,255,.62)!important}
+body:has(#primaryAssets) .avatar{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.16)!important}
+body:has(#primaryAssets) .section{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;border-top:1px solid var(--ve2-line)!important;padding-left:0!important;padding-right:0!important}
+body:has(#primaryAssets) .asset{border:0!important;border-radius:18px!important;background:#FFF!important;box-shadow:none!important}
+body:has(#primaryAssets) .asset.current{background:linear-gradient(145deg,#E8F0E9,#F7F3EB)!important}
+body:has(#primaryAssets) .menu button{border:0!important;background:#FFF!important;border-radius:16px!important;box-shadow:none!important}
+body:has(#primaryAssets) .referral-card{border:0!important;background:var(--ve2-paper-2)!important;border-radius:18px!important}
+
+body:has(#renewForm) .content>.card:first-child,body:has(#requestCard) .content>.card:first-child,body:has(#amount) .content>.card:first-child,body:has(#orders) .content>.card:first-child,body:has(#paymentList) .content>.card:first-child{
+  border:0!important;border-radius:22px!important;background:linear-gradient(145deg,#E8F0E9 0%,#F7F3EB 100%)!important;box-shadow:none!important;padding:18px!important;
+}
+body:has(#renewForm) .content>.card:not(:first-child),body:has(#requestCard) .content>.card:not(:first-child),body:has(#amount) .content>.card:not(:first-child),body:has(#orders) .content>.card:not(:first-child),body:has(#paymentList) .content>.card:not(:first-child){border:0!important;border-radius:18px!important;background:#FFF!important;box-shadow:none!important}
+body:has(#renewForm) .badge,body:has(#requestCard) .badge,body:has(#amount) .badge,body:has(#orders) .badge,body:has(#paymentList) .badge{background:transparent!important;border:0!important;color:var(--ve2-green)!important;padding:0!important;letter-spacing:.06em!important;text-transform:uppercase!important}
+body:has(#requestCard) .badge.warn{color:var(--ve2-copper)!important}
+body:has(#amount) #amount{color:var(--ve2-copper)!important;font-size:34px!important;letter-spacing:-.04em!important}
+body:has(#orders) #orders .order{border:0!important;border-radius:18px!important;background:#FFF!important;box-shadow:none!important}
+body:has(#paymentList) #paymentList>.card{background:var(--ve2-paper-2)!important;border:0!important}
+body:has(#paymentList) #formCard{box-shadow:var(--ve2-shadow-hero)!important}
+
+/* ---------- B2B / premium editorial intake ---------- */
+body:has(#contactName){background:var(--ve2-paper)!important;color:var(--ve2-ink)!important}
+body:has(#contactName) .app{background:var(--ve2-paper)!important}
+body:has(#contactName) .nav{background:rgba(250,248,243,.94)!important;border-bottom:0!important;backdrop-filter:blur(18px)!important}
+body:has(#contactName) .hero{margin:0 -16px 18px!important;padding:30px 18px 24px!important;border:0!important;border-radius:0 0 30px 30px!important;background:linear-gradient(145deg,#183E30 0%,#245841 100%)!important;color:#FFF!important;box-shadow:var(--ve2-shadow-hero)!important;position:relative!important;overflow:hidden!important}
+body:has(#contactName) .hero:after{content:"";position:absolute;right:-42px;top:-68px;width:154px;height:186px;border:1px solid rgba(255,255,255,.13);border-radius:82px 82px 30px 30px;transform:rotate(10deg);pointer-events:none}
+body:has(#contactName) .hero .ey{color:#E9CDB4!important;letter-spacing:.08em!important;text-transform:uppercase!important;font-size:10px!important}
+body:has(#contactName) .hero h1{color:#FFF!important;font-size:30px!important;line-height:1.13!important;letter-spacing:-.035em!important;max-width:285px!important}
+body:has(#contactName) .hero p{color:rgba(255,255,255,.66)!important}
+body:has(#contactName) .benefits{gap:0!important;border-bottom:1px solid var(--ve2-line)!important;padding-bottom:12px!important}
+body:has(#contactName) .benefits span{border:0!important;background:transparent!important;border-radius:0!important;padding:0 9px 0 0!important;margin-right:9px!important;color:var(--ve2-muted)!important;position:relative!important}
+body:has(#contactName) .benefits span:not(:last-child):after{content:"·";position:absolute;right:-2px;color:#A9A299!important}
+body:has(#contactName) .section{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding-left:0!important;padding-right:0!important}
+body:has(#contactName) .field{padding:14px 0!important;border-bottom:1px solid var(--ve2-line)!important}
+body:has(#contactName) .field input,body:has(#contactName) .field textarea,body:has(#contactName) .input{border:0!important;border-radius:14px!important;background:#FFF!important;box-shadow:inset 0 0 0 1px var(--ve2-line)!important}
+body:has(#contactName) .chips{gap:7px!important}
+body:has(#contactName) .chip{background:#FFF!important;border:0!important;box-shadow:inset 0 0 0 1px var(--ve2-line)!important}
+body:has(#contactName) .chip.active{background:var(--ve2-deep)!important;color:#FFF!important;box-shadow:none!important}
+body:has(#contactName) #location span:first-child{font-size:0!important;width:18px!important;height:18px!important;background:var(--ve2-green)!important;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E") center/contain no-repeat!important}
+body:has(#contactName) .transport-gift{border:0!important;border-radius:18px!important;background:var(--ve2-paper-2)!important;color:var(--ve2-ink)!important;box-shadow:none!important}
+body:has(#contactName) .actions{background:rgba(250,248,243,.96)!important;border-top:1px solid var(--ve2-line)!important;box-shadow:0 -8px 24px rgba(24,62,48,.05)!important}
+body:has(#contactName) .actions .primary{background:var(--ve2-deep)!important;border-color:var(--ve2-deep)!important;box-shadow:0 8px 20px rgba(24,62,48,.14)!important}
+
+@media(max-width:380px){
+  body:has(#contractTotal) #contractTotal{font-size:32px!important}
+  body:has(#payableTotal) #payableTotal{font-size:32px!important}
+  body:has(#contactName) .hero h1{font-size:28px!important}
+}

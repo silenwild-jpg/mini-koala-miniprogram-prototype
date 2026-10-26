@@ -1,0 +1,14 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {create}=require('../demo-core');
+let count=0;
+const check=(name,fn)=>{fn();count++;console.log('PASS '+name);};
+const ready=()=>{const c=create();c.setScenario('normal');c.requestPhone();c.resolvePhone('success');c.select(['SIM_BJ01_U03']);c.setDate('2026-11-01');return c;};
+check('optional lead fields persist without store or unit binding',()=>{const c=create();const lead=c.saveLead('北京市模拟小区A座',{note:'演示备注',preferred_date:'2026-11-01',items:'文件资料',store_id:'SIM_BJ01',unit_id:'SIM_BJ01_U03'});assert.equal(lead.note,'演示备注');assert.equal(lead.items,'文件资料');assert.equal(lead.store_id,undefined);assert.equal(lead.unit_id,undefined);assert.equal(c.state().orders.length,0);});
+check('address alone is sufficient and empty address is rejected',()=>{const c=create();assert.throws(()=>c.saveLead('  '),/ENTER_ADDRESS/);assert.equal(c.saveLead('模拟地址').type,'SIMULATED_BOOKING_LEAD');});
+check('optional fields are restricted; contact only inherits from validated shared state',()=>{const c=create();const lead=c.saveLead('模拟地址',{note:'长'.repeat(300),phone:'13800000000',unknown:'忽略'});assert.equal(lead.note.length,200);assert.equal(lead.phone,null);assert.equal(lead.unknown,undefined);c.setContact('13800000000');assert.equal(c.saveLead('新地址').phone,'13800000000');assert.equal(c.authorized(),false);});
+check('changing store invalidates selection and quote while retaining demand',()=>{const c=ready();c.quote();const r=c.state().requirement;c.setRequirement(r.capacity_m3,r.term_months,r.term_confirmed);c.setStore('SIM_BJ02');const s=c.state();assert.deepEqual(s.selected,[]);assert.equal(s.quote,null);assert.deepEqual(s.requirement,r);});
+check('pending order remains a snapshot after quote revocation',()=>{const c=ready();c.quote();const o=c.submit();c.revokePhone();assert.equal(c.state().quote,null);assert.equal(c.state().orders[0].id,o.id);assert.equal(c.state().orders[0].status,'pending');assert.equal(c.state().orders[0].payable,2010);});
+check('failed payment can release inventory before a new explicit attempt',()=>{const c=ready();c.quote();const o=c.submit();c.pay(o.id,'failed');assert(c.selectionValid());c.quote();const second=c.submit();assert.notEqual(second.id,o.id);assert.equal(second.status,'pending');});
+check('cross-city and stale warehouse selection cannot be confirmed',()=>{const c=ready();c.setCity('上海');assert.equal(c.state().selected.length,0);assert.throws(()=>c.select(['SIM_BJ01_U03']),/UNAVAILABLE/);});
+console.log(JSON.stringify({groups:count,result:'PASS'}));

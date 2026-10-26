@@ -1,0 +1,16 @@
+{
+  "parent_manifest_unchanged": true,
+  "parent_entries": 204,
+  "asset_files_unchanged": 100,
+  "beijing30_fixture_unchanged": true,
+  "runtime_change_whitelist": [
+    "account.js",
+    "br04/adapter.css",
+    "br04/bridge.js",
+    "business-adapter.css",
+    "business-bridge.js",
+    "demo-core.js",
+    "home-bridge.js",
+    "index.html"
+  ]
+}

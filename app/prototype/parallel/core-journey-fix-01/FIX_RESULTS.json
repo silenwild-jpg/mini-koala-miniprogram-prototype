@@ -1,0 +1,60 @@
+[
+  {
+    "id": "F01",
+    "title": "地址框恢复为独立完整一行",
+    "result": "复查通过",
+    "detail": "地址、定位和联系电话分行；375/390宽度下地址框分别约324/337px，不再是18/19px。只填地址仍能提交，E存和个人预约共用同一修复。",
+    "criteria": [
+      "地址可见、可读、可编辑",
+      "地址是唯一必填",
+      "未新增门店/仓位绑定，需求继承有效"
+    ],
+    "before": [
+      "35-estore-advisor-form.png"
+    ],
+    "after": [
+      "F01-address-375.png",
+      "F01-address-390.png",
+      "F01-estore-corrected.png"
+    ]
+  },
+  {
+    "id": "F02",
+    "title": "修改续租月份使旧报价失效",
+    "result": "复查通过",
+    "detail": "核价后保留月份；6改12立即清除旧金额并停用付款。重新核价后显示本次月份、旧/新到期日，付款入口和引擎再次核对月份、金额、报价有效期。12个月付款记录与当前到期日一致。",
+    "criteria": [
+      "不再把6个月旧报价用于12个月输入",
+      "空值、无效月份、过期和篡改金额不能付款",
+      "付款完成显示12个月记录、累计18个月和新到期日"
+    ],
+    "before": [
+      "19-renewal-input-changed-old-quote.png",
+      "20-renewal-paid-for-old-six-months.png"
+    ],
+    "after": [
+      "F02-changed-twelve-stale-removed.png",
+      "F02-twelve-confirmation.png",
+      "F02-twelve-paid.png"
+    ]
+  },
+  {
+    "id": "F03",
+    "title": "企业补充资料更新同一需求",
+    "result": "复查通过",
+    "detail": "初次保存后固定需求ID；继续补充、连续保存、刷新和从我的需求重新打开均更新原记录。只有明确点击新建企业需求才创建第二个ID；不存在或已撤回的需求不能被更新复活。",
+    "criteria": [
+      "补充保存不增加记录数",
+      "刷新保留正在补充的内容与编号",
+      "明确新建才产生另一记录"
+    ],
+    "before": [
+      "29-enterprise-lead-unsent-receipt.png",
+      "31-enterprise-second-receipt-top.png"
+    ],
+    "after": [
+      "F03-same-id-updated.png",
+      "F03-explicit-new-record.png"
+    ]
+  }
+]

@@ -1,0 +1,53 @@
+{
+  "version": "CORE_JOURNEY_FIX_01_20261026",
+  "fixed": [
+    "F01",
+    "F02",
+    "F03"
+  ],
+  "modified_parent_runtime_files": [
+    {
+      "file": "account.js",
+      "before": "10a1cb0b74dccad2f02a9af79b5426834052b27c7dfad2326540d5be3fb35319",
+      "after": "a0003171d30fbca1068154d2cd4357c69c887d70cd77ff790c2a7b9357439376"
+    },
+    {
+      "file": "business-adapter.css",
+      "before": "379664cfee3874a98aa47926cfc20294e704b73b9daea15e0775a41b6f9896ae",
+      "after": "8cb8115a40b90bee0dbd9018415b4b867001be99840b578baa1fe700cfbeed30"
+    },
+    {
+      "file": "business-bridge.js",
+      "before": "b5d728aad291a960dc7a6ace82ff55fb7344c6bb9ee66a7c43628d46e7d1b209",
+      "after": "c55763939730430052890793065ac2201471a66abc4928b9f9c3a616601c7eb0"
+    },
+    {
+      "file": "demo-core.js",
+      "before": "5970948b305bde0b27d2dadcd4880afd683fbabab007dafd1d8d18d48b94a772",
+      "after": "29cfbf44cb3c2e62838b5a1c4ddc3ada0a47b0f9e5ee61f8bc637e6bdb82c742"
+    },
+    {
+      "file": "home-bridge.js",
+      "before": "479decc84c3c18174a1ed13bd6a8f35384ae4bc30488d8f5dbc4fbc398d3fbbf",
+      "after": "e77c154df21dcf7a7e65d63cf09cfab8967ab08e2fc4f2aea149f3fd7e6f4d8c"
+    },
+    {
+      "file": "index.html",
+      "before": "a8664ffc597f8621fd9231added075598baa6d840dd75b436812f071a852d62a",
+      "after": "899260e12d177d0103da3ea2b516031635afa82ac7f0ed2ccc507771cee4f561"
+    },
+    {
+      "file": "br04/adapter.css",
+      "before": "3b29b5f721452050ed6a6517f62c964bbb161c62dba06e1fcc759163b3823d88",
+      "after": "d62e2e7f54bf4640b3c48e7dbc506659a2bc4bcc980edd90af618cc6ffbd64ec"
+    },
+    {
+      "file": "br04/bridge.js",
+      "before": "486338ec50977216aab809c23fccb241afcf5697c72b9fd30edc01f4342d63a7",
+      "after": "9e1f74142c84fd6e7cb0b5b767f093711964f878bd2ff4140ec1f36d457d952c"
+    }
+  ],
+  "protected_asset_files_unchanged": 100,
+  "fixture_unchanged": true,
+  "new_runtime_paths": []
+}

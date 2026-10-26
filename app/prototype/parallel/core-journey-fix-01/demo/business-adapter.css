@@ -1,0 +1,11 @@
+html{scrollbar-width:none}html::-webkit-scrollbar{display:none}
+.back{border:0;background:none;padding:0;width:36px;height:42px}
+.toast{pointer-events:none}
+.hero h1{text-wrap:balance}
+.business-result[hidden]{display:none}
+.business-result{position:fixed;inset:0;background:#17231e66;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.business-result>section{width:min(100%,350px);background:#fffdfb;border:1px solid #e7e0d7;border-radius:18px;padding:22px;color:#282f2b}
+.business-result h2{font-size:20px;margin:0 0 12px}.business-result p{font-size:13px;line-height:1.7;color:#6f7671}
+.business-result button{border:0;border-radius:12px;background:#2d7154;color:#fff;padding:12px 18px;font:inherit}
+
+.enterprise-edit-context{padding:12px;background:#edf5ef;border:1px solid #d5e3d9;border-radius:10px;margin:15px 0;font-size:12px;line-height:1.6}.enterprise-edit-context p{margin:0 0 9px}.enterprise-edit-context button{font:inherit;min-height:36px;padding:7px 11px;border:1px solid #a3c3af;border-radius:7px;background:white;color:#23563c;margin-right:12px}.enterprise-edit-context a{color:#225e42}#submit:disabled{opacity:.5;cursor:default}

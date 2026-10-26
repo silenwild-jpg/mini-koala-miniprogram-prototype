@@ -1,0 +1,144 @@
+/* Mini Koala Visual Elevation V2.1 — Density Harmonization PATCH
+   Scope: Estimator / U01 / RN01 / IV01 / B2B only.
+   Visual-only: no DOM, copy, pricing, state, or interaction changes. */
+
+/* 1) Estimator — reduce two-column white-card wall; only selected choice becomes a strong surface */
+body:has(#cScenes) #s2{padding-bottom:28px!important}
+body:has(#cScenes) #s2 .section-title{margin:22px 0 8px!important;font-size:12px!important;letter-spacing:.06em!important;color:#6D7671!important}
+body:has(#cScenes) #s2 .grid2{gap:6px 8px!important}
+body:has(#cScenes) #s2 .scene{
+  min-height:112px!important;padding:13px 12px!important;border:1px solid transparent!important;
+  border-radius:16px!important;background:transparent!important;box-shadow:none!important;
+}
+body:has(#cScenes) #s2 .scene:hover{background:rgba(255,255,255,.45)!important}
+body:has(#cScenes) #s2 .scene.selected{
+  border-color:#D7E4DB!important;background:#FFF!important;
+  box-shadow:0 10px 28px rgba(24,62,48,.065)!important;
+}
+body:has(#cScenes) #s2 .scene .icon{
+  width:30px!important;height:30px!important;margin-bottom:9px!important;border:0!important;
+  border-radius:10px!important;background-color:#EAF1EB!important;background-size:18px 18px!important;
+}
+body:has(#cScenes) #s2 .scene.selected .icon{background-color:#183E30!important;filter:none!important}
+body:has(#cScenes) #s2 .scene b{font-size:14px!important;line-height:20px!important;margin-bottom:2px!important}
+body:has(#cScenes) #s2 .scene p{font-size:11.5px!important;line-height:17px!important;color:#6D7671!important}
+body:has(#cScenes) #s2 .scene .term{margin-top:5px!important;font-size:10px!important;line-height:15px!important}
+
+/* 2) U01 — merge warehouse identity into the hero, reserve one strong surface for pricing */
+body:has(#contractTotal) #hero{height:192px!important;margin-bottom:0!important}
+body:has(#contractTotal) #hero + .card{
+  width:auto!important;margin:-48px 28px 12px!important;padding:14px 16px!important;
+  border:1px solid rgba(255,255,255,.58)!important;border-radius:18px!important;
+  background:rgba(255,255,255,.88)!important;backdrop-filter:blur(16px)!important;
+  box-shadow:0 8px 24px rgba(24,62,48,.085)!important;
+}
+body:has(#contractTotal) #hero + .card .title-row{align-items:baseline!important}
+body:has(#contractTotal) #hero + .card #unitSize{font-size:27px!important}
+body:has(#contractTotal) #hero + .card .kicker{font-size:9.5px!important}
+body:has(#contractTotal) #termSection{border-top:0!important;padding-top:8px!important;margin-top:0!important}
+body:has(#contractTotal) .term-quick{gap:6px!important}
+body:has(#contractTotal) .term-quick button{background:transparent!important;box-shadow:inset 0 0 0 1px #DDDCD5!important}
+body:has(#contractTotal) .term-quick button.active{background:#183E30!important;box-shadow:none!important}
+body:has(#contractTotal) .term-custom{background:transparent!important;border:0!important;border-top:1px solid #E5E2DB!important;border-radius:0!important;padding:12px 0 0!important}
+body:has(#contractTotal) .pricebox{
+  margin-top:16px!important;padding:20px!important;border-radius:22px!important;
+  background:linear-gradient(145deg,#183E30 0%,#245841 100%)!important;
+  color:#FFF!important;box-shadow:0 14px 34px rgba(24,62,48,.12)!important;
+}
+body:has(#contractTotal) .pricebox .label,body:has(#contractTotal) .pricebox .urgency-r113,body:has(#contractTotal) .pricebox #selectedTermPrice{color:rgba(255,255,255,.62)!important}
+body:has(#contractTotal) .pricebox #contractTotal{color:#F1C69E!important}
+body:has(#contractTotal) .pricebox .totalbox{border-top-color:rgba(255,255,255,.15)!important}
+body:has(#contractTotal) .pricebox .totalbox .row,body:has(#contractTotal) .pricebox .totalbox span{color:rgba(255,255,255,.72)!important}
+body:has(#contractTotal) .pricebox .totalbox b{color:#FFF!important}
+body:has(#contractTotal) .pricebox .totalbox .initial{border-top-color:rgba(255,255,255,.15)!important;background:transparent!important}
+body:has(#contractTotal) .pricebox .totalbox .initial b{color:#FFF!important}
+body:has(#contractTotal) section.section:not(#termSection){padding-top:18px!important;padding-bottom:18px!important}
+
+/* 3) RN01 — remove one large white form card; selected term carries the visual state */
+body:has(#renewForm) .content>.card:first-child{
+  margin-bottom:6px!important;border-radius:0!important;background:transparent!important;padding:8px 0 16px!important;
+  border-bottom:1px solid #E3E1DA!important;
+}
+body:has(#renewForm) #renewForm{
+  margin:0!important;padding:22px 0 18px!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+}
+body:has(#renewForm) #renewForm h3{font-size:18px!important;letter-spacing:-.02em!important;margin-bottom:14px!important}
+body:has(#renewForm) #monthChips{gap:7px!important}
+body:has(#renewForm) #monthChips .chip{
+  min-height:39px!important;border:0!important;border-radius:12px!important;background:#F1EEE7!important;
+  color:#59645E!important;box-shadow:none!important;
+}
+body:has(#renewForm) #monthChips .chip.active{background:#183E30!important;color:#FFF!important}
+body:has(#renewForm) #termCustom{
+  margin-top:14px!important;padding:14px 0 0!important;border:0!important;border-top:1px solid #E3E1DA!important;
+  border-radius:0!important;background:transparent!important;
+}
+body:has(#renewForm) #renewForm .notice{margin-top:16px!important;padding:12px 0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#6D7671!important}
+body:has(#renewForm) #renewForm .actions{margin-top:6px!important}
+body:has(#renewForm) #statusCard{
+  margin-top:8px!important;padding:18px 0!important;border:0!important;border-top:1px solid #E3E1DA!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+
+/* 4) IV01 — form is the work area; payment history and submitted records become flat information sections */
+body:has(#paymentList) .content>.card:first-child{
+  border-radius:0!important;background:transparent!important;padding:8px 0 16px!important;
+  border-bottom:1px solid #E3E1DA!important;
+}
+body:has(#paymentList) #paymentList{margin:0!important;padding:4px 0 8px!important}
+body:has(#paymentList) #paymentList>.card{
+  margin:0!important;padding:13px 0!important;border:0!important;border-bottom:1px solid #E3E1DA!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+body:has(#paymentList) #formCard{
+  margin:12px 0 0!important;padding:22px 0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+}
+body:has(#paymentList) #formCard h3{font-size:19px!important;letter-spacing:-.02em!important;margin-bottom:16px!important}
+body:has(#paymentList) #formCard .field{padding:0 0 15px!important;margin:0 0 15px!important;border-bottom:1px solid #E8E5DE!important}
+body:has(#paymentList) #formCard .field input,body:has(#paymentList) #formCard .field select{
+  margin-top:7px!important;border:0!important;border-radius:12px!important;background:#FFF!important;
+  box-shadow:inset 0 0 0 1px #DFDDD6!important;
+}
+body:has(#paymentList) #formCard .notice{border:0!important;background:transparent!important;padding:10px 0 0!important;color:#6D7671!important}
+body:has(#paymentList) .content>#formCard + .card{
+  margin-top:4px!important;padding:18px 0!important;border:0!important;border-top:1px solid #E3E1DA!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+
+/* 5) B2B — three editorial groups; low-noise controls until selected */
+body:has(#contactName) .section{padding-top:4px!important}
+body:has(#contactName) .section>h2{font-size:20px!important;letter-spacing:-.025em!important;margin-bottom:3px!important}
+body:has(#contactName) .section>.sub{margin-bottom:18px!important}
+body:has(#contactName) .field{padding:12px 0!important;border-bottom:0!important}
+body:has(#contactName) .field:has(#location),
+body:has(#contactName) .field:has(#typeChips),
+body:has(#contactName) .field:has(#contactName){
+  margin-top:14px!important;padding-top:22px!important;border-top:1px solid #DEDCD5!important;
+}
+body:has(#contactName) .field label{font-size:13px!important;font-weight:650!important;color:#3F4A44!important;margin-bottom:8px!important}
+body:has(#contactName) .chips{gap:6px!important}
+body:has(#contactName) .chip{
+  min-height:36px!important;border:0!important;border-radius:12px!important;background:#F1EEE7!important;
+  color:#59645E!important;box-shadow:none!important;padding-left:11px!important;padding-right:11px!important;
+}
+body:has(#contactName) .chip.active{background:#183E30!important;color:#FFF!important;box-shadow:none!important}
+body:has(#contactName) .term-custom{
+  margin-top:12px!important;padding:12px 0 0!important;border:0!important;border-top:1px solid #E6E2DA!important;
+  border-radius:0!important;background:transparent!important;
+}
+body:has(#contactName) .field input,body:has(#contactName) .field textarea,body:has(#contactName) .input{
+  border:0!important;border-radius:12px!important;background:#FFF!important;box-shadow:inset 0 0 0 1px #DFDDD6!important;
+}
+body:has(#contactName) .transport-gift{margin-top:6px!important;padding:13px 14px!important;border-radius:14px!important;background:#F3EFE7!important}
+body:has(#contactName) .divider-note{margin:10px 0 4px!important;padding:14px 0!important;border:0!important;border-top:1px solid #DEDCD5!important;background:transparent!important;color:#6D7671!important}
+
+@media(max-width:380px){
+  body:has(#cScenes) #s2 .scene{min-height:108px!important;padding:12px 10px!important}
+  body:has(#contractTotal) #hero + .card{margin-left:22px!important;margin-right:22px!important}
+  body:has(#contactName) .chip{padding-left:9px!important;padding-right:9px!important;font-size:12px!important}
+}
+/* B2B term discount: keep the discount inside the choice instead of floating badges. */
+body:has(#contactName) #termChips .chip{margin-top:0!important;overflow:hidden!important;display:inline-flex!important;align-items:center!important;gap:4px!important}
+body:has(#contactName) #termChips .chip small{position:static!important;display:inline!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:currentColor!important;font-size:9.5px!important;line-height:1!important;font-weight:650!important;white-space:nowrap!important;opacity:.72!important}
