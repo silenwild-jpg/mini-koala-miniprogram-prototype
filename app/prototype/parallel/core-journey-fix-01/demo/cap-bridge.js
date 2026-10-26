@@ -4,6 +4,7 @@
   const KEY='mk_independent_sim_v1',DRAFT='mk_cap_draft_v3';
   const read=k=>{try{return JSON.parse(sessionStorage.getItem(k)||'null');}catch{return null;}};
   const core=SIM_CORE.create({state:read(KEY)}),r=core.state().requirement,draft=read(DRAFT),signature=JSON.stringify(r);
+  const phoneAuth=SIM_PHONE_AUTH.create({core,persist:()=>sessionStorage.setItem(KEY,JSON.stringify(core.state())),onMessage:message=>{const el=document.createElement('p');el.className='notice';el.setAttribute('role','status');el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);}});
   if(draft?.signature===signature){document.getElementById('capacity').value=draft.capacity;chosenMonth=core.validTerm(draft.term)?draft.term:null;}
   else{if(r.capacity_m3!==null)document.getElementById('capacity').value=r.capacity_m3;chosenMonth=r.term_confirmed?r.term_months:null;}
   const returnContext=sessionStorage.getItem('mk_estimate_return_v4')||'';const oldUpdate=update;update=function(){oldUpdate();const cta=document.getElementById('cta');if(cta&&!cta.disabled)cta.textContent=returnContext.includes('page=S01')?'查看推荐门店':returnContext.includes('page=S02')?'查看推荐仓位':'查看仓位报价';};update();
@@ -14,7 +15,7 @@
   document.getElementById('cta').addEventListener('click',()=>{
     const p=window.__VIS09_confirmed;if(!p)return;
     core.setRequirement(p.target_volume,p.term_months,p.term_confirmed);sessionStorage.setItem(KEY,JSON.stringify(core.state()));sessionStorage.removeItem(DRAFT);sessionStorage.removeItem('mk_items_draft_v3');
-    core.claimCoupons();sessionStorage.setItem(KEY,JSON.stringify(core.state()));const target=sessionStorage.getItem('mk_estimate_return_v4')||'index.html?page=S5';sessionStorage.removeItem('mk_estimate_return_v4');location.href=target;
+    core.claimCoupons();sessionStorage.setItem(KEY,JSON.stringify(core.state()));const target=sessionStorage.getItem('mk_estimate_return_v4')||'index.html?page=S5';phoneAuth.run('QUOTE','CAP_VIEW_QUOTE',()=>{sessionStorage.removeItem('mk_estimate_return_v4');location.href=target;});
   });
   window.addEventListener('pagehide',saveDraft);
   document.addEventListener('input',saveDraft);document.addEventListener('click',saveDraft);

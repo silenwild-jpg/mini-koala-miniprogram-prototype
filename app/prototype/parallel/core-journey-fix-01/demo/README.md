@@ -1,1 +1,1 @@
-当前为CORE-JOURNEY-FIX-01修复候选版。请从上级目录START_FIX.cmd启动，版本范围及复查结果位于上级目录。
+WX-NATIVE-01E统一手机号验证运行目录，基于CORE-JOURNEY-FIX-01。使用上级START_AUTH.cmd启动，评审说明见上级REVIEWER_README.md。

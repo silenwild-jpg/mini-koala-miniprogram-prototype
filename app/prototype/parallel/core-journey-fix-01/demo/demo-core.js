@@ -112,6 +112,7 @@
     function rentalPeriod(id){const o=findOrder(id),service=paidService(id),months=o.term_months+service.renewals.reduce((total,p)=>total+p.months,0);return {start_date:o.start_date,total_months:months,end_date:addCalendarMonths(o.start_date,months)};}
     return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,available,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,selectionValid,authorized,quote,submit,pay,recheck,
       hasContact(){return authorized()||validPhone(s.contactPhone);},
+      formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
       claimCoupons(){for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH'],['CPN-003','搬运补贴',200,'SERVICE_BENEFIT']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:s.orders.some(o=>o.status==='paid_simulated')&&type==='RENT_CASH'?'INVALID':'CLAIMED'});invalidate();},
       couponOptions(ids,months){const a=amounts(ids,months);return s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months),reason:c.type==='SERVICE_BENEFIT'?'服务权益，由顾问核定，不抵扣租金':!['CLAIMED','APPLIED'].includes(c.status)?'已锁定、使用或失效':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));},
@@ -143,7 +144,7 @@
       setReturn(page){s.returnPage=page;},
       consumePreview(){const eligible=!s.previewConsumed;s.previewConsumed=true;return eligible;},
       requestPhone(){if(authorized())return false;s.auth={status:'pending',expiresAt:0};return true;},
-      resolvePhone(result){if(s.auth.status!=='pending')fail('NO_PHONE_REQUEST');if(!['success','denied','failed'].includes(result))fail('INVALID_PHONE_OUTCOME');s.auth={status:result==='success'?'verified':result,expiresAt:result==='success'?now()+30*60*1000:0};if(result!=='success')invalidate();},
+      resolvePhone(result,details={}){if(s.auth.status!=='pending')fail('NO_PHONE_REQUEST');if(!['success','denied','failed'].includes(result))fail('INVALID_PHONE_OUTCOME');s.auth={status:result==='success'?'verified':result,expiresAt:result==='success'?now()+30*60*1000:0};if(result==='success'){s.auth.method=details.method||'local_fixture';s.auth.phone=details.phone||null;if(details.phone&&validPhone(details.phone))s.contactPhone=details.phone;}else invalidate();},
       revokePhone(){s.auth={status:'anonymous',expiresAt:0};invalidate();},
       markUnavailable(id){if(!unit(id))fail('INVALID_UNIT');s.stock[id]='soldout';s.inventoryVersion++;invalidate();},
       saveEnterpriseLead(input={}){

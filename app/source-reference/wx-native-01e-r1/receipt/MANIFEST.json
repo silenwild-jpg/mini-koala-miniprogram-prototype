@@ -1,0 +1,54 @@
+{
+  "kind": "isolated-authgate-integration-kit",
+  "based_on_readable_demo": "Mini_Koala_WX_NATIVE_01E_Auth_Gate_Prototype_2026-10-26.zip",
+  "demo_sha256": "e305f14494ff092fad6d811c7cb47de890b85c4db1b4d3b561b26c46edd49438",
+  "source_archive_received": false,
+  "git_commit_created": false,
+  "branch_regression_tested": false,
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "0d070e1dbe132fa57577e19cd33846da0dc1d1c7c6d50b73ff24e8ca9638e6c5"
+    },
+    {
+      "path": "adapters/native-wechat.template.md",
+      "sha256": "23fefdfb83d5afeda93723f389794e64f51e46f740c50f11080e028494d2b3af"
+    },
+    {
+      "path": "adapters/provider-contract.mjs",
+      "sha256": "371090875eded7f3c58b984288a9445d386bdc6db6628c056a6eeb92cc2ad501"
+    },
+    {
+      "path": "contracts/ENTRY_MATRIX.csv",
+      "sha256": "974061f56b0ab60a277ceae73b7bb477e08c239ae8bde3b2664423e2d37d5192"
+    },
+    {
+      "path": "contracts/INTEGRATION_STEPS.md",
+      "sha256": "604d84c214fd95a8eb638e02d7315cc6cf4a7ebee8ca0a3d89f1a7309e083d03"
+    },
+    {
+      "path": "demo/previous_01E_standalone.html",
+      "sha256": "e402463d5e5a94a849cad4c0490427a19b60a5699590a916d2ac8e18a0a98eab"
+    },
+    {
+      "path": "receipt/SOURCE_GATE.md",
+      "sha256": "4b7baf8f9d7e9c7052d401d0d1a2769c48aa7fdce8adeb70d5202d14d19d7334"
+    },
+    {
+      "path": "receipt/UNIT_TEST_RESULTS.txt",
+      "sha256": "c1ad274b54a0a68a0d4fd5ff941c8ba530ff30d1474cd3d101d55d9b8293fd67"
+    },
+    {
+      "path": "src/auth-gate.mjs",
+      "sha256": "8d6b32c948b001a18ad1c01494837dee506fc7dbb0f6891b4e97103beb3ef356"
+    },
+    {
+      "path": "src/branch-entrypoints.mjs",
+      "sha256": "e10fb55f55dafe12caf31f4c744ff668f417b13e1c01435ed6421d6ddeb154f9"
+    },
+    {
+      "path": "tests/auth-gate.test.mjs",
+      "sha256": "8e574c4776e9765b5ecdb13237d8e96bbc831fae7a28adba04e9d53e7b1d2160"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+PASS default catalog has exactly thirty unique Beijing stores
+PASS all thirty Beijing sources have explicit workbook row mappings
+PASS sample spans eight normalized Beijing districts
+PASS every Beijing store has a configured and dimensionally consistent warehouse catalog
+PASS sample covers available sold reserved occupied unavailable and paused states
+PASS full store profiles cannot be selected or recommended as available
+PASS no-match recovery preserves demand under the expanded catalog
+PASS catalog has no asserted coordinates and invalidates prior eight-store state
+{"groups":8,"beijing":30,"units":132,"result":"PASS"}
+PASS optional lead fields persist without store or unit binding
+PASS address alone is sufficient and empty address is rejected
+PASS optional fields are restricted; contact only inherits from validated shared state
+PASS changing store invalidates selection and quote while retaining demand
+PASS pending order remains a snapshot after quote revocation
+PASS failed payment can release inventory before a new explicit attempt
+PASS cross-city and stale warehouse selection cannot be confirmed
+{"groups":7,"result":"PASS"}
+PASS enterprise lead is separate from address reservation
+PASS valid contact is required, international numbers supported
+PASS manually supplied contact does not grant price authorization
+PASS enterprise lead creates no unit binding, order or transport entitlement
+PASS enterprise fields and multi-select are retained without fabricated term
+PASS invalid capacity, lease and date are rejected before saving
+PASS selected names and addresses map to workbook row records
+PASS warehouse dimensions agree with capacity and floor area
+PASS no invented showcase names or addresses; distance not claimed verified
+PASS prior fixture state does not survive the store source version change
+{"groups":10,"result":"PASS"}
+PASS manual contact remains unverified and cannot request formal prices or submit orders
+PASS verified contact unlocks only the explicitly confirmed rental term
+PASS no implicit capacity term store warehouse or date in fresh state
+PASS combinations are restricted to two units in one store
+PASS thirty Beijing stores carry one operating tag and differentiated service tags
+PASS automatic coupon picks highest eligible rent discount and never discounts deposits
+PASS coupon choice can disable discount and service benefit cannot reduce rent
+PASS claim apply lock redeem and new-customer invalidation are coherent
+PASS failed payment releases both reserved stock and locked coupon
+PASS expired pending order cannot pay and releases stock/coupon
+PASS pending payment rechecks stock and does not overwrite a changed stock state
+PASS cancellation is only available for pending orders
+PASS identity and date checks are independent of phone authorization
+PASS renewal is re-priced and renewal coupon only applies to six or more months
+PASS exit inspection failure retry pass and refund require the right prior state
+PASS invoice is linked to a paid record and never duplicated
+PASS transport remains advisor-confirmed and cannot silently grant free transport
+PASS personal lead inherits confirmed intention/contact but never binds store/unit
+PASS consultation has local status and preserves order context
+PASS new state round trip retains coupon order service and privacy boundaries
+PASS returning to the UI expires pending orders and releases locks without a payment click
+PASS E-store advice inherits intention but remains distinct from enterprise/order binding
+{"groups":22,"result":"PASS","fixture":"STORE_FIXTURE_04_DECISIONS_20261026"}
+PASS manual capacity keeps two-decimal contract
+PASS item estimate preserves exact precision and raw value
+PASS minimum matching volume never overwrites raw estimate
+PASS term edit keeps item estimate and invalidates prior quote
+PASS selection clearing preserves exact demand metadata
+PASS matching excludes a unit below the exact estimate
+PASS exact item demand can quote and submit a coherent order
+PASS known capacity clears item provenance and rejects absent confirmation
+PASS malformed estimates and duplicate item ids are rejected
+PASS lease confirmation cannot be fabricated by an estimate payload
+{"groups":10,"result":"PASS"}
+PASS fixture identity and foreign keys
+PASS home cubic prices derive from same units
+PASS default Beijing and no silent term
+PASS capacity precision and edges
+PASS lease term is explicit, including 2 months
+PASS all scenarios are selectable and deterministic
+PASS closed/sold units and undersized selections blocked
+PASS cross-store and duplicate units blocked
+PASS no match and empty city are genuine data outcomes
+PASS alternatives exclude unavailable current store and sort by distance
+PASS nearby no-match expands past 3km using available data
+PASS authorization denial/failure and missing request cannot grant
+PASS dates are validated without defaults
+PASS known single order exact amount
+PASS combo is one order, deposits sum, management charged once
+PASS inventory changes block submission, preserve demand and offer recovery
+PASS price changes require explicit new quote
+PASS requirement/city/date changes invalidate quote
+PASS expired quote blocked
+PASS expired or revoked authorization blocks
+PASS tampered quote amount rejected
+PASS duplicate submit returns one order and reserves units
+PASS payment failure releases units; success occupies them
+PASS address-only lead creates no order/store/unit association
+PASS state hydration remains fixture-isolated and fresh visits capped
+{"groups":25,"fixtureVersion":"STORE_FIXTURE_04_DECISIONS_20261026","stores":33,"units":132,"scenarios":14,"result":"PASS"}
+PASS renewal has no default but retains the actively quoted six-month choice
+PASS six to twelve invalidates the quote immediately and blocks payment until re-priced
+PASS payment rejects a changed visible month even without an input event
+PASS clearing or entering an invalid renewal month cannot preserve a payable quote
+PASS expired and tampered renewal prices fail before recording a payment
+PASS paid renewal cannot repeat and the displayed end follows paid periods
+PASS anniversary projection clamps month ends and supports leap years
+PASS supplementing enterprise data preserves identity and avoids duplicate lead records
+PASS restored enterprise drafts can update the same ID after state hydration
+PASS invalid edits cannot partially overwrite a saved enterprise lead
+PASS withdrawn leads cannot be revived by edit; explicit new request has a new ID
+PASS enterprise supplementation preserves an existing exact item estimate
+{"groups":12,"result":"PASS"}

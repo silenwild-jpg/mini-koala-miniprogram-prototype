@@ -1,33 +1,33 @@
-# CORE-JOURNEY-FIX-01 评审说明
+# WX-NATIVE-01E 统一手机号验证候选
 
-本目录是在 integration/proto-merge-01f 远端基线上的独立、可运行演示候选，用于保存 2026-10-26 修复版及其来源、截图和验证记录。它不覆盖共享首页、容量页、门店页、租期页、订单页或中央状态文件。
+本候选基于 PR #4 的 CORE-JOURNEY-FIX-01 提交 `6015b9a787ab5045c82aaa209ac626ce9d923a79`，接入已接收的 WX-NATIVE-01E-R1 共享守卫。原三项修复继续保留。阶段为独立演示候选已实现及已测试，视觉待用户评审，中央未合并，Release Gate HOLD。
 
-## 如何打开
+## 打开
 
-在本目录运行 START_FIX.cmd，或从当前 Git 工作树根目录执行：
+运行本目录的 `START_AUTH.cmd`，或 `python serve.py --no-browser`。
 
-    python app/prototype/parallel/core-journey-fix-01/serve.py --no-browser
+- 评审入口：http://127.0.0.1:4240/auth-review.html
+- 完整原型：http://127.0.0.1:4240/demo/home.html
+- 原三项修复说明：`fix.html`
 
-然后浏览：
-- http://127.0.0.1:<服务显示端口>/demo/home.html
-- http://127.0.0.1:<服务显示端口>/fix.html
+## 本批行为
 
-此版使用隔离的本地演示数据。
+- 未验证用户可浏览首页三家门店立方参考单价，以及公开门店信息和月租参考价。
+- 容量/物品估算的“查看报价”、正式整期价格、选仓到 O01、O01 深链和提交统一检查有效手机号验证。
+- 手填联系方式不解锁正式报价或订单；微信快捷授权和短信验证码是本地模拟的验证路径。
+- 关闭、拒绝、错误码或接口失败不执行受限动作，不清除容量、租期、门店和仓位；条件变化后不恢复旧操作。
+- 会话有效时不重复打扰；预约用仓仍是地址留资，不生成订单。
 
-## 修复范围
+“验证设置”是本地测试控制：微信结果可选成功/拒绝/失败；短信测试码为123456，不发送短信。真实微信、短信服务端会话、价格/库存和交易接口尚未接入。正式协议全文也仍待提供；当前协议说明只描述原型用途。
 
-- F01：预约用仓地址栏恢复完整宽度；定位和可选联系电话使用独立行。
-- F02：续租改月后使旧报价失效，重新核价绑定月数、金额及新到期日。
-- F03：补充企业需求更新原编号；明确新建才会创建另一条需求。
+## 来源和检查
 
-## 评审记录
+原模块完整保存在 `app/source-reference/wx-native-01e-r1/`，来源图在 `app/source-reference/wx-native-01e-visual/`。包SHA及当前变更清单见 `WX_NATIVE_01E_MANIFEST.json`。
 
-源码逐文件SHA记录在 MANIFEST_SHA256.json。evidence/ 中保存两种宽度的修复前后页面和之前已保存的业务回归记录。VERIFICATION.json 记录原交付中94组模型检查、37条浏览器断言及21条语法检查的结果；这些是该演示构建时的记录，本次Git文件收口不重新声称测试。
+本轮重新执行：原模块19项测试、既有业务94组、21项JS语法检查、375/390各14条页面流程，以及页面异常/HTTP资源检查。结果与截图位于 `evidence/auth01e/`。`qa_auth_browser.cjs`检查行为，`qa_auth_visual.cjs`提供 PR #4 与本候选的同尺寸对照。
 
-完整原始交付ZIP的名称与SHA见 GIT_INTAKE.json；原ZIP保留在项目外的原交付目录，没有再次嵌套进Git。
+`GIT_INTAKE.json`和`PROJECT_MANIFEST_SHA256.json`描述的是PR #4原始接收快照，保留作历史来源；当前候选请使用新增的WX清单。
 
-## 尚未完成
+## 分支范围
 
-这是 SOURCE_INTAKE_ONLY / PENDING_REVIEW。F04–F07、D25、D38及其余待确认项继续开放；最新独立聊天中提出的手机号AuthGate、S01/S02展开布局、促销状态和容量图资源还没有作为后续批准实现加入本候选。生产账号、库存、价格、顾问投递、微信真机和Release Gate均未验收。
-
-本PR必须保持 Draft，逐项评审证据后再决定后续定向接入。回滚方式：不合并PR或删除本目录；主线页面无改动。
+`feature/wx-native-01e`基于`feature/core-journey-fix-01`。评审PR以该来源分支为目标，便于只评审本批实际运行改动。原BR01–04工作树和中央分支没有被覆盖。S01展开、PROMO-VIS-01E、UNIT-COPY-MATCH-01B和仓位图片仍是后续独立批次。

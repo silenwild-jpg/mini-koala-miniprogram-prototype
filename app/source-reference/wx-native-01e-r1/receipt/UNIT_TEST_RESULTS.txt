@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: G1: anonymous official quote is blocked when login cancelled
+ok 1 - G1: anonymous official quote is blocked when login cancelled
+  ---
+  duration_ms: 4.484714
+  type: 'test'
+  ...
+# Subtest: G1: verified phone resumes pending official quote exactly once
+ok 2 - G1: verified phone resumes pending official quote exactly once
+  ---
+  duration_ms: 2.119853
+  type: 'test'
+  ...
+# Subtest: G2: previously verified order does not show login again
+ok 3 - G2: previously verified order does not show login again
+  ---
+  duration_ms: 0.736167
+  type: 'test'
+  ...
+# Subtest: G2: declined authorisation does not enter O01
+ok 4 - G2: declined authorisation does not enter O01
+  ---
+  duration_ms: 0.291709
+  type: 'test'
+  ...
+# Subtest: failure: rejected verification does not open protected data
+ok 5 - failure: rejected verification does not open protected data
+  ---
+  duration_ms: 0.264113
+  type: 'test'
+  ...
+# Subtest: stale: switching unit, months or discount during login prevents replay
+ok 6 - stale: switching unit, months or discount during login prevents replay
+  ---
+  duration_ms: 0.352965
+  type: 'test'
+  ...
+# Subtest: fail closed: a forged provider ok but not server verified is blocked
+ok 7 - fail closed: a forged provider ok but not server verified is blocked
+  ---
+  duration_ms: 0.557647
+  type: 'test'
+  ...
+# Subtest: fail closed: session service outage rejects quote
+ok 8 - fail closed: session service outage rejects quote
+  ---
+  duration_ms: 1.657547
+  type: 'test'
+  ...
+# Subtest: expired at final check: do not execute order
+ok 9 - expired at final check: do not execute order
+  ---
+  duration_ms: 2.464787
+  type: 'test'
+  ...
+# Subtest: simultaneous same operation is idempotent
+ok 10 - simultaneous same operation is idempotent
+  ---
+  duration_ms: 32.877609
+  type: 'test'
+  ...
+# Subtest: different concurrent operation remains busy
+ok 11 - different concurrent operation remains busy
+  ---
+  duration_ms: 1.339412
+  type: 'test'
+  ...
+# Subtest: BRANCH-01 home immediate order must cross ORDER gate
+ok 12 - BRANCH-01 home immediate order must cross ORDER gate
+  ---
+  duration_ms: 0.323877
+  type: 'test'
+  ...
+# Subtest: BRANCH-02 CAP->S5 official quote after verification
+ok 13 - BRANCH-02 CAP->S5 official quote after verification
+  ---
+  duration_ms: 0.373851
+  type: 'test'
+  ...
+# Subtest: BRANCH-03 S01/S02/U01 immediate order when verified
+ok 14 - BRANCH-03 S01/S02/U01 immediate order when verified
+  ---
+  duration_ms: 0.19695
+  type: 'test'
+  ...
+# Subtest: BRANCH-04 S5 official quote is blocked if no verification
+ok 15 - BRANCH-04 S5 official quote is blocked if no verification
+  ---
+  duration_ms: 0.138721
+  type: 'test'
+  ...
+# Subtest: O01 direct submit must recheck session and cannot bypass
+ok 16 - O01 direct submit must recheck session and cannot bypass
+  ---
+  duration_ms: 0.127649
+  type: 'test'
+  ...
+# Subtest: context mismatch in discount revision blocks order replay
+ok 17 - context mismatch in discount revision blocks order replay
+  ---
+  duration_ms: 2.675048
+  type: 'test'
+  ...
+# Subtest: O01 deep-link page entry blocked on anonymous cancelled login
+ok 18 - O01 deep-link page entry blocked on anonymous cancelled login
+  ---
+  duration_ms: 0.337586
+  type: 'test'
+  ...
+# Subtest: O01 deep-link page entry permitted for verified user
+ok 19 - O01 deep-link page entry permitted for verified user
+  ---
+  duration_ms: 0.254443
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 243.579117

@@ -3,6 +3,7 @@
   const KEY='mk_independent_sim_v1',DRAFT='mk_items_draft_v3';
   const read=k=>{try{return JSON.parse(sessionStorage.getItem(k)||'null');}catch{return null;}};
   const core=SIM_CORE.create({state:read(KEY)}),r=core.state().requirement;
+  const phoneAuth=SIM_PHONE_AUTH.create({core,persist:()=>sessionStorage.setItem(KEY,JSON.stringify(core.state())),onMessage:message=>{const el=document.createElement('p');el.className='notice';el.setAttribute('role','status');el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);}});
   const saved=read(DRAFT);
   if(saved&&saved.version===1){
     for(const x of ITEMS){const q=saved.counts?.[x.id],v=saved.variants?.[x.id];COUNT[x.id]=Number.isInteger(q)&&q>=0&&q<=99?q:0;if(x.variants.some(y=>y.id===v))SELECTED_VARIANT[x.id]=v;}
@@ -28,7 +29,7 @@
   showHandoff=function(){
     if(!isValidVolume()){notify('请先确认容量');return;}
     if(!core.validTerm(state.term)){notify('请选择租期');switchCat('term');return;}
-    try{const p=payload();core.setEstimate(p);sessionStorage.setItem(KEY,JSON.stringify(core.state()));sessionStorage.removeItem('mk_cap_draft_v3');persist();core.claimCoupons();sessionStorage.setItem(KEY,JSON.stringify(core.state()));const target=sessionStorage.getItem('mk_estimate_return_v4')||'index.html?page=S5';sessionStorage.removeItem('mk_estimate_return_v4');location.href=target;}
+    try{const p=payload();core.setEstimate(p);sessionStorage.setItem(KEY,JSON.stringify(core.state()));sessionStorage.removeItem('mk_cap_draft_v3');persist();core.claimCoupons();sessionStorage.setItem(KEY,JSON.stringify(core.state()));const target=sessionStorage.getItem('mk_estimate_return_v4')||'index.html?page=S5';phoneAuth.run('QUOTE','ITEMS_VIEW_QUOTE',()=>{sessionStorage.removeItem('mk_estimate_return_v4');location.href=target;});}
     catch{notify('需求暂时无法确认，请检查容量和租期');}
   };
   document.addEventListener('click',e=>{
