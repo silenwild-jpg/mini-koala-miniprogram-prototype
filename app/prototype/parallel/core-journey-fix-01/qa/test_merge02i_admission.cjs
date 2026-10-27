@@ -45,12 +45,13 @@ async function run(title,w,task){
     await br04.locator('[data-bridge="estoreBooking"]').click();
     await br04.locator('#reserveForm').waitFor({state:'attached',timeout:7000});
     const advisorDiagnostics=await br04.locator('body').evaluate(()=>{
-      const form=document.querySelector('#reserveForm'),success=document.querySelector('#success');
-      return {formHidden:form?.hidden,successHidden:success?.hidden,formDisplay:form?getComputedStyle(form).display:null,
+      const form=document.querySelector('#reserveForm'),success=document.querySelector('#success'),board=document.querySelector('#artboard');
+      return {formHidden:form?.hidden,successHidden:success?.hidden,formDisplay:form?getComputedStyle(form).display:null,formVisibility:form?getComputedStyle(form).visibility:null,formRect:form?.getBoundingClientRect().toJSON(),bodyVisibility:getComputedStyle(document.body).visibility,boardVisibility:board?getComputedStyle(board).visibility:null,
         className:document.body.className,bridgeReady:document.body.classList.contains('bridge-ready'),
         title:document.title,mode:document.body.dataset.page,
         parentHref:parent.location.href,storedAdvisor:sessionStorage.getItem('mk_advisor_context_v3')};
     });
+    console.log('ADVISOR_DIAGNOSTICS',JSON.stringify({width:w,...advisorDiagnostics}));
     if(advisorDiagnostics.formHidden||advisorDiagnostics.formDisplay==='none')throw Error('Advisor form did not enter input state '+JSON.stringify(advisorDiagnostics));
     await p.waitForTimeout(400);
     if(!(await br04.locator('#reserveForm').isVisible()))throw Error('Advisor page not fully initialized '+JSON.stringify({advisorDiagnostics,frameErrors}));
