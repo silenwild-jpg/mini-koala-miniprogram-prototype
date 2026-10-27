@@ -43,7 +43,16 @@ async function run(title,w,task){
     await p.screenshot({path:path.join(out,'S5-empty-estore-'+w+'.png')});
     await br04.locator('#open-estore').click();
     await br04.locator('[data-bridge="estoreBooking"]').click();
-    await br04.locator('#reserveForm').waitFor({state:'visible'});
+    await br04.locator('#reserveForm').waitFor({state:'attached',timeout:7000});
+    const advisorDiagnostics=await br04.locator('body').evaluate(()=>{
+      const form=document.querySelector('#reserveForm'),success=document.querySelector('#success');
+      return {formHidden:form?.hidden,successHidden:success?.hidden,formDisplay:form?getComputedStyle(form).display:null,
+        className:document.body.className,bridgeReady:document.body.classList.contains('bridge-ready'),
+        title:document.title,mode:document.body.dataset.page,
+        parentHref:parent.location.href,storedAdvisor:sessionStorage.getItem('mk_advisor_context_v3')};
+    });
+    if(advisorDiagnostics.formHidden||advisorDiagnostics.formDisplay==='none')throw Error('Advisor form did not enter input state '+JSON.stringify(advisorDiagnostics));
+    await br04.locator('#reserveForm').waitFor({state:'visible',timeout:5000});
     assert.equal(await br04.locator('#booking-address').getAttribute('required'),null,'advisor erroneously requires storage address');
     assert.notEqual(await br04.locator('#reserve-contact').getAttribute('required'),null,'advisor phone must be required');
     await br04.locator('#reserve-contact').fill('13800000000');
