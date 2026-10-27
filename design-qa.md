@@ -2,6 +2,8 @@
 
 final result: blocked
 
+2026-10-27补充：用户已明确参考月租公开、微信/SMS验证注册登录后进入订单、顾问留资、本批主链优先。原“手机号/顾问未决”不再作为待用户决定项。实施和本批功能核验见docs/MAIN_CHAIN_02_HANDOFF_20261027.md及evidence/mainchain-20261027。全站视觉同状态核对尚未全部完成，本文件的blocked仅表示全站设计签收仍未闭合；不抹去已完成的本批主链核验。
+
 ## 依据、尺寸与状态
 
 本轮FREEZE-RECOVERY-01已实施局部恢复，不是全站签收。输入提交38e69a602e31abc0150bafff0b64826e36f8b81e。来源包括BR01 VIS-11J/01B、CAP FREEZE-01/GUARD02、物品FLOW-FREEZE-01/FLOW08E、BR04 S5 FIX-02，结合73项用户裁决及后续明确变更。精确成员、原件SHA和引用副本见app/prototype/parallel/core-journey-fix-01/evidence/freeze-recovery/source-provenance.json。

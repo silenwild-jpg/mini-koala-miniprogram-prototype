@@ -31,12 +31,12 @@
   showHandoff=function(){
     if(!isValidVolume()){notify('请先确认容量');return;}
     if(!core.validTerm(state.term)){notify('请选择租期');switchCat('term');return;}
-    try{const p=payload();core.setEstimate(p);sessionStorage.setItem(KEY,JSON.stringify(core.state()));sessionStorage.removeItem('mk_cap_draft_v3');persist();core.claimCoupons();sessionStorage.setItem(KEY,JSON.stringify(core.state()));const target=sessionStorage.getItem('mk_estimate_return_v4')||'index.html?page=S5';phoneAuth.run('QUOTE','ITEMS_VIEW_QUOTE',()=>{sessionStorage.removeItem('mk_estimate_return_v4');location.href=target;});}
+    try{const p=payload();core.setEstimate(p);sessionStorage.setItem(KEY,JSON.stringify(core.state()));sessionStorage.removeItem('mk_cap_draft_v3');persist();core.claimCoupons();sessionStorage.setItem(KEY,JSON.stringify(core.state()));const target=sessionStorage.getItem('mk_estimate_return_v4')||'index.html?page=S5';sessionStorage.removeItem('mk_estimate_return_v4');location.href=target;}
     catch{notify('需求暂时无法确认，请检查容量和租期');}
   };
   document.addEventListener('click',e=>{
     if(e.target.closest('.back')){e.stopImmediatePropagation();persist();const back=sessionStorage.getItem('mk_items_back_v1')||'cap.html';location.href=/^(cap\.html|index\.html\?page=S01|index\.html\?page=S02&store=[A-Za-z0-9_-]+)$/.test(back)?back:'cap.html';}
-    else if(e.target.closest('#helpTool')){e.stopImmediatePropagation();persist();sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({_return:'items.html',items:selected().map(x=>x.name+'×'+COUNT[x.id]).join('、'),capacity_hint:volume()>0?display(volume())+'m³':'',term_hint:state.term?state.term+'个月':''}));location.href='index.html?page=BOOKING';}
+    else if(e.target.closest('#helpTool')){e.stopImmediatePropagation();persist();sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({_return:'items.html',items:selected().map(x=>x.name+'×'+COUNT[x.id]).join('、'),capacity_hint:volume()>0?display(volume())+'m³':'',term_hint:state.term?state.term+'个月':''}));location.href='index.html?page=BOOKING&mode=advisor';}
     else if(e.target.closest('#aiTool')){e.stopImmediatePropagation();persist();location.href='cap.html?assist=AI';}
     else if(e.target.closest('#footerBtn')&&isValidVolume()&&!state.term){notify('请选择租期');}
   },true);
@@ -52,4 +52,5 @@
   window.addEventListener('pagehide',persist);
   const style=document.createElement('style');style.textContent='@media(max-width:430px){.shell{height:100dvh;border-radius:0;margin:0 auto}}.notice{pointer-events:none}.content,.rail,.sheet-list{scrollbar-width:none}.content::-webkit-scrollbar,.rail::-webkit-scrollbar,.sheet-list::-webkit-scrollbar{display:none}';document.head.appendChild(style);
   render(false);
+  document.body.dataset.journeyReady='true';
 })();

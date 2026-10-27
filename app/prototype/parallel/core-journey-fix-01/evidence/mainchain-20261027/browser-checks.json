@@ -1,0 +1,91 @@
+{
+  "observations": [
+    {
+      "case": "CAP missing term",
+      "width": 390,
+      "result": "stays on capacity and says 请选择租期"
+    },
+    {
+      "case": "CAP to S5 anonymous",
+      "width": 390,
+      "result": "¥400"
+    },
+    {
+      "case": "S5 order gate",
+      "width": 390,
+      "result": "verification dialog shown before order"
+    },
+    {
+      "case": "SMS quote verification",
+      "width": 390,
+      "result": "agreement required; wrong code rejected; correct local code unlocks 6 month amount 1680 and fee total 2010"
+    },
+    {
+      "case": "O01 SMS order",
+      "width": 390,
+      "result": "3.5m³ /6 months carried; missing date and unchecked agreement blocked; one local pending order created after both confirmed"
+    },
+    {
+      "case": "local SMS account",
+      "width": 390,
+      "result": "personal center shows 已登录 138****0000（本地账户） and one paid order"
+    },
+    {
+      "case": "advisor phone/address validation",
+      "width": 390,
+      "result": "empty phone blocked; valid phone and empty address saved local lead; no S5 jump"
+    },
+    {
+      "case": "personal booking distinct",
+      "width": 390,
+      "result": "empty address blocked; address and empty phone saved personal lead"
+    },
+    {
+      "case": "S01 public references",
+      "width": 375,
+      "result": "30 Beijing stores listed, monthly references public and paused store unavailable"
+    },
+    {
+      "case": "S02 to O01 WeChat",
+      "width": 375,
+      "result": "facilities and monthly reference accessible anonymous; unselected term prompted; unchecked agreement blocked verification; successful WeChat registration preserves 3.5m³/6months"
+    },
+    {
+      "case": "advisor CAP context and return",
+      "width": 375,
+      "result": "5m³/6 months inherited; back to CAP preserves 5"
+    },
+    {
+      "case": "items advisor context and return",
+      "width": 375,
+      "result": "28寸行李箱×2, 0.22m³, 6 months inherited; confirmed restored footer after bridge initialization: 已选 1 种 · 共 2 件\n约 0.22m³ · 6个月"
+    },
+    {
+      "case": "items recommendation",
+      "width": 375,
+      "result": "2 items at 0.22m³ estimate carries 6 months and recommends available 0.8m³ unit; no request to reenter lease"
+    },
+    {
+      "case": "QUICK to O01",
+      "width": 375,
+      "result": "missing store blocked; explicit store+unit+date continue to O01 with confirmed 6 month term"
+    },
+    {
+      "case": "enterprise independent form",
+      "width": 375,
+      "result": "company and storage types preserved; inherited 0.5m³/6 month confirmed intention; local enterprise lead saved separately"
+    },
+    {
+      "case": "standalone fresh session",
+      "result": "H01 → CAP → S5 monthly reference → ORDER gate cancel; no error console records",
+      "errors": []
+    },
+    {
+      "case": "paid order terminal display fix",
+      "width": 390,
+      "result": "after successful local payment, amounts remain ¥2010 and button 查看已付款订单; no unavailable warning"
+    }
+  ],
+  "embeddedErrors": [],
+  "standaloneErrors": []
+}
