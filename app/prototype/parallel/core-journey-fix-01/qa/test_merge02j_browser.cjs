@@ -79,12 +79,18 @@ try{for(const [width,height] of [[375,812],[390,844]]){
    await child.locator('#agreed').check();
    await child.locator('#pay').click();
    await child.locator('[data-bridge="payResult"][data-value="success"]').waitFor({timeout:8500});
+   // A pending order reserves stock; do not re-run C.quote() after submit().
+   // C.quote() and C.order() were called by the actual O01 click before reservation.
    const pending=await outer.locator('body').evaluate(()=>{
-     const B=window.SIM_DEMO,C=window.SIM_CENTRAL_CONTRACT_V1,s=B.core.state();
-     const snap=C.quote(B.core,s.quote),order=C.order(B.core,s.orders[0],snap);
-     return {source:snap.catalogNamespace,type:snap.unit_identity_type,ids:snap.unit_ids,
-       representatives:snap.representative_unit_nos,quote:snap.quote_id,order:order.order_id,
-       payable:snap.amounts.payable,management:snap.amounts.management_fee};
+     const B=window.SIM_DEMO,s=B.core.state(),q=s.quote,o=s.orders[0],F=B.core.fixture;
+     const records=o.unit_ids.map(id=>F.units.find(u=>u.id===id));
+     if(!q||!o||!records.every(Boolean)||q.id!==o.quote_id||
+       q.store_id!==o.store_id||JSON.stringify(q.unit_ids)!==JSON.stringify(o.unit_ids)||
+       q.payable!==o.payable||q.deposit!==o.deposit||q.management_fee!==o.management_fee)
+       throw Error('O01 pending snapshot mismatch');
+     return {source:F.sourceNamespace,type:records[0].unit_identity_type,ids:o.unit_ids,
+       representatives:records.map(u=>u.representative_unit_no),quote:q.id,order:o.id,
+       payable:o.payable,management:o.management_fee};
    });
    assert.equal(pending.type,'SIZE_OPTION');assert.equal(pending.source,'MK');
    assert(pending.ids.every(x=>x.startsWith('MK_')));assert.equal(pending.management,50);
