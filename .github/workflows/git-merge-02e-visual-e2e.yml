@@ -36,9 +36,11 @@ jobs:
           node --check qa/merge02e_e2e.cjs
           node demo/qa/test_merge02c_policy.js
           node demo/qa/test_mainchain_decision.js
-      - name: Install Playwright Chromium
+      - name: Install Chinese font and Playwright Chromium
         working-directory: app/prototype/parallel/core-journey-fix-01
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
           npm install --no-save playwright@1.56.1
           npx playwright install chromium
       - name: HTTP new visitor click-through in 375 and 390
