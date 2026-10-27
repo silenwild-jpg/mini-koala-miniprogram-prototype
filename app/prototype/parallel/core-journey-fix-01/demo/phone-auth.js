@@ -17,6 +17,8 @@
     settings.className = 'mk-auth-settings';
     settings.innerHTML = '<summary>验证设置</summary><p>本地原型：不请求微信或短信服务。</p><label>微信返回结果 <select aria-label="微信验证结果"><option value="success">成功</option><option value="denied">用户拒绝</option><option value="failed">接口失败</option></select></label><p>短信测试码：123456</p>';
     document.body.appendChild(settings);
+    // Product previews hide internal simulation controls. ?debug=1 retains QA access.
+    settings.hidden = new URLSearchParams(location.search).get('debug') !== '1';
     function finish(answer) {
       if (!resolveVerification) return;
       const resolve = resolveVerification;
