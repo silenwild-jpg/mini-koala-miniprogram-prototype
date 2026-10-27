@@ -45,9 +45,8 @@
   const recommendationCost=ids=>core.authorized()&&state().requirement.term_confirmed?core.formalAmounts(ids,state().requirement.term_months).rent_total:referenceCost(ids);
   function candidateList(excludeStore){
     const rows=[];F.stores.filter(s=>s.city===state().city&&s.status==='open'&&s.id!==excludeStore).forEach(s=>{
-      const singles=core.matchingUnits(s.id).sort((a,b)=>a.volume-b.volume);
-      if(singles.length)rows.push({store:s,ids:[singles[0].id],volume:singles[0].volume,combo:false});
-      else {const c=core.combinations(s.id)[0];if(c)rows.push({store:s,...c,combo:true});}
+      const ids=storeOffer(s);
+      if(ids?.length)rows.push({store:s,ids,volume:ids.reduce((n,id)=>n+(unit(id)?.volume||0),0),combo:ids.length>1});
     });return REC.rank(rows.sort((a,b)=>(a.volume-(state().requirement.capacity_m3||0))-(b.volume-(state().requirement.capacity_m3||0))||storeAmount(a.store)-storeAmount(b.store)),{distanceVerified:F.distanceVerified,costOf:row=>recommendationCost(row.ids)}).items;
   }
   function alternatives(excludeStore){const rows=candidateList(excludeStore).slice(0,3);return `<section class="alternatives"><h3>其他匹配门店和仓位</h3><p>已保留您的容量和租期。</p>${rows.length?rows.map(r=>`<div class="alternative"><strong>${r.store.name}</strong><p>${r.volume}m³${r.combo?' · 组合方案':''}</p>${button('store','查看匹配方案',r.store.id,'outline')}</div>`).join(''):'<p>当前城市没有满足容量的可用方案。</p>'}${button('advisor','联系顾问 / 预约咨询','','outline')}</section>`;}
@@ -72,7 +71,9 @@
     if(visual.sort==='recommended'&&r.capacity_m3!==null){
       const matching=stores.filter(s=>s.status==='open'&&storeOffer(s));
       const other=stores.filter(s=>!matching.includes(s));
-      stores=[...REC.rank(matching,{distanceVerified:F.distanceVerified,costOf:s=>recommendationCost(storeOffer(s))}).items,...other];
+      const matchingEntries=matching.map(s=>{const ids=storeOffer(s);return {store:s,ids,volume:ids.reduce((n,id)=>n+(unit(id)?.volume||0),0)};})
+        .sort((a,b)=>(a.volume-r.capacity_m3)-(b.volume-r.capacity_m3)||recommendationCost(a.ids)-recommendationCost(b.ids));
+      stores=[...REC.rank(matchingEntries,{distanceVerified:F.distanceVerified,costOf:row=>recommendationCost(row.ids)}).items.map(row=>row.store),...other];
     }
     if(visual.sort==='distance'&&F.distanceVerified)stores.sort((a,b)=>a.distance-b.distance);
     if(visual.sort==='price'&&core.authorized())stores.sort((a,b)=>storeAmount(a)-storeAmount(b));
