@@ -11,7 +11,7 @@
   const money=n=>'¥'+Number(n).toLocaleString('zh-CN');
   const store=id=>F.stores.find(x=>x.id===id),unit=id=>F.units.find(x=>x.id===id);
   let allUI={};try{allUI=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}');}catch{}
-  const advisorMode=page==='reserve'&&new URLSearchParams(parent.location.search).get('mode')==='advisor';
+  const advisorMode=page==='reserve'&&(new URLSearchParams(parent.location.search).get('mode')==='advisor'||!!sessionStorage.getItem('mk_advisor_context_v3'));
   const uiKey=advisorMode?'advisor':page,ui=allUI[uiKey]||(allUI[uiKey]={});
   const save=()=>{sessionStorage.setItem('mk_br04_ui_v2',JSON.stringify(allUI));B.persist();};
   const text=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
