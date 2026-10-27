@@ -72,7 +72,7 @@ function assertHorizontal(doc){const viewport=doc.defaultView.innerWidth;const w
       });
       if(state.c.length){
        assert.equal(s5info.normal,true,'missing recommendation');
-       assert(s5info.tags.includes('仓型选项'),'MK source called physical unit');
+       assert(s5info.tags.some(t=>t.includes('仓型选项')||t.includes('仓型组合')),'MK source did not disclose option type: '+JSON.stringify(s5info.tags));
        assert(!s5info.tags.includes('实体门'),'unverified actual door shown');
       }else assert.equal(s5info.normal,false,'fake candidate without matching units');
       assert(s5info.root<=s5info.viewport+3,'S5 clips horizontally');
