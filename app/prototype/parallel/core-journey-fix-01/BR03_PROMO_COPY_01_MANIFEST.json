@@ -1,0 +1,1242 @@
+{
+  "candidate": "BR03-PROMO-COPY-01",
+  "baseline": "963b3509748914b71cacf4ecbdf9092d6f9a6fbc",
+  "stage": "IMPLEMENTED_LOCAL_QA_PASS_PENDING_USER_VISUAL_ACCEPTANCE",
+  "release_gate": "HOLD",
+  "sources": [
+    {
+      "name": "Mini_Koala_BRANCH03_S01_EXPAND_01B_Visual_Refinement_2026-10-26.zip",
+      "sha256": "81860c882456cba3bbe1f0c9ed92fd52bf70d9f2397ef27feacb0fb09a97a7d2",
+      "files": 19
+    },
+    {
+      "name": "PROMO_OPS_01A_Freeze_2026-10-26.zip",
+      "sha256": "9f49209b23bf3c48929f04a51ba34462785a7b88293bc75a0d43f4f6037ce1e9",
+      "files": 6
+    },
+    {
+      "name": "PROMO_VIS_01E_GIT_HANDOFF_2026-10-26.zip",
+      "sha256": "d7468a077c2468ddeed0362e45858e904bebf659cf5db46359c002dd7d9882fd",
+      "files": 4
+    },
+    {
+      "name": "UNIT_COPY_MATCH_01B_Freeze_2026-10-26.zip",
+      "sha256": "7976992c396cb99502d78660c99b15334ad0b6e2dfe7e1b548e4d5f04a72365b",
+      "files": 7
+    }
+  ],
+  "checks": {
+    "model_groups": 111,
+    "syntax_files": 24,
+    "browser_cases": 42,
+    "unchanged_images": 132
+  },
+  "scope_note": "New candidate manifest; older manifests remain historical snapshots. This manifest does not hash itself.",
+  "files": [
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/br03-review.html",
+      "sha256": "2bcbca98d6de1be9d7cfa7c8eb88a5ca2d8dcc11a4ca2e01ac8750d96c147bf3",
+      "bytes": 3642
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/account.css",
+      "sha256": "35a6ef26b1a8885b1ce73afe6eef3dd3b272710440c34d60ad071764a962fa11",
+      "bytes": 3595
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/account.html",
+      "sha256": "66dcee1bc79bd39793a1cff91236df2b2522ad25d2b484390730dc660ecbef49",
+      "bytes": 1402
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/account.js",
+      "sha256": "c7661735aaa27e5265e50464cc963041a682ce507a354c207dbc75d72462cd95",
+      "bytes": 25905
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/app.js",
+      "sha256": "f38874da18bcd190e2510c1649a053c9753c56cfb6b9399e916f298efca9a957",
+      "bytes": 36079
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/APPROVED_ASSET_EXTRACTION.json",
+      "sha256": "dae662b4f18be26dbab9b7234704b225e640f7536809049715c1e22bd624f49e",
+      "bytes": 2820
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/B01_原始走廊首屏_合成.png",
+      "sha256": "d134f73c48abcef0c2c1d444a86981d8a62cc846b5ed7a60b3ad2bb756aeab09",
+      "bytes": 191115
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/B02_双任务摄影底图.png",
+      "sha256": "b60ed58201a0954f160e3fcd0d72ced1ac199625203ab47e8f486b1e25cbf2e2",
+      "bytes": 76752
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/B_视觉签收基准.png",
+      "sha256": "ca375e2dabf51fc761b406b42d948ccb3c392f56621b0d770a91e9a31200b0de",
+      "bytes": 601536
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/below_original_375.png",
+      "sha256": "408bbcd214d74b30018cfae0f8136a68ee72100d6380f88f27383e367cfccac4",
+      "bytes": 394494
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/below_original_390.png",
+      "sha256": "2fd9fcae6bf609e76aa99259568b83ab728f8b292605dc38bee56fc96ea5a03b",
+      "bytes": 395875
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand-proof-hitech-demo.webp",
+      "sha256": "451ccb803831e337524e985f0c152894794640d59539cf4f49049532d0d871ef",
+      "bytes": 18534
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand-proof-media-demo.webp",
+      "sha256": "febd8f1012078bb497f892500a9f04f755d3e14ec589e46d735b42a502834298",
+      "bytes": 17132
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand-proof-standard-demo.webp",
+      "sha256": "544a406a1aed6ae834cd9dd89fba7c1380b7859f2d308561f38b3c0c590435e0",
+      "bytes": 21206
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand_corridor_cropped.png",
+      "sha256": "ccbcb404d2e98cbbde65032f3f9230b04c7b1320342cb76bc7c7798570c38ceb",
+      "bytes": 181705
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand_portrait_375.jpg",
+      "sha256": "848129bdba2e64b627725ba07e4b361045945bd50ea933a649aaa5f410726c60",
+      "bytes": 14970
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand_portrait_390.jpg",
+      "sha256": "6829b7be38fb3b3d19902558eb1b10c0192e3851da84a88bd1fe3f36b4c8d570",
+      "bytes": 15703
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/enterprise_375.jpg",
+      "sha256": "b3bc86f67c1ce353644ad17571722b44807f02f200c23587437d1b31f34f6c03",
+      "bytes": 29697
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/enterprise_390.jpg",
+      "sha256": "ad2b33f85b6933a133bc3bdc0450e4537441a99590d787322181b2f42bf88eb7",
+      "bytes": 31105
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_editable_375.png",
+      "sha256": "b55e16decbabc6ea341f8fccbf2f2478aa73e7a3e4553b651d265a471701c392",
+      "bytes": 149207
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_editable_390.png",
+      "sha256": "361e1beac3c508087b866769f8dc0f13e8c05010b61b62e035d520842564c68d",
+      "bytes": 147812
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_inpaint_v2.png",
+      "sha256": "2d7b7596af85a45ab4c0f306fe52f7bb12cefbf5c690f8941e1ccd7f3cc08115",
+      "bytes": 243250
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_mask_v2.png",
+      "sha256": "e2ed6ac05c148147676ad646fc95e02b6938506e498f9302e1c681a4084604bc",
+      "bytes": 3355
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_original_375.png",
+      "sha256": "84f15cf296ecbfb91950a2762ca710f8acc7a95bc43f38fe0451b73711e2805f",
+      "bytes": 203085
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_original_390.png",
+      "sha256": "86bbc06ea7f89efe4b753476b84076d2fbf90c0fadb000a4db639c80af4c0793",
+      "bytes": 202863
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/mini_split.jpg",
+      "sha256": "6a6b251b15cdfc2ea77ae335478b18156146a00b4b6427a2078535678ff8503f",
+      "bytes": 29672
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/nav_original_375.png",
+      "sha256": "feba29c60fa7f7b19f940f9dab419d7a4193997a1cd5022e1391b93eb2448e0d",
+      "bytes": 26618
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/nav_original_390.png",
+      "sha256": "5b80b4077d0a5721be4141ea00b2b243b4d5d4d95460521535a0260f1b5bb7c5",
+      "bytes": 26100
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_1_375.jpg",
+      "sha256": "4953821c1c56727afdc1a90e3164b8cd05bc913ae4b8173432c1185becd85d63",
+      "bytes": 5601
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_1_390.jpg",
+      "sha256": "d470418c6ce7cc2cce55cae589dbefdadee89558495aec0a1f2259dbe564b38b",
+      "bytes": 5397
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_2_375.jpg",
+      "sha256": "352d814bd68f73aa3aa34cd90adfca03810b7741ce4fc3a8c95f248202733fc4",
+      "bytes": 6996
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_2_390.jpg",
+      "sha256": "4a078f37528aa997eb74213f0174aca005c1452b7dd65ef31b0bcb4b2cba31d5",
+      "bytes": 6681
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_3_375.jpg",
+      "sha256": "6030a55fb6cd6009d38855cc7453ecdfb9bcea2e91f92fc5e205e3beee577f1c",
+      "bytes": 4207
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_3_390.jpg",
+      "sha256": "1f380bda4f95e3e1ac9a99dfaad6034188a2daa260c28ffa2632cd4b8bdd50d8",
+      "bytes": 4195
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_1_375.jpg",
+      "sha256": "370cdb270dc2892eb4788bd1fbc93266f3c5bb31197c7cfb5157f8097c3576a8",
+      "bytes": 4025
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_1_390.jpg",
+      "sha256": "e56397ede5eb501f0bc031388884c9df6a64db2a9a780e2d139dd90bd5c46302",
+      "bytes": 4172
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_2_375.jpg",
+      "sha256": "62311454076cb0058c60cb02a35ee467323c58d0b4ca6e3e97ea898894705726",
+      "bytes": 4436
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_2_390.jpg",
+      "sha256": "e1613317b23b22f52ba450f1d80acc8d10b1a03bef5e02ff88bc5dd75754d947",
+      "bytes": 3871
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_3_375.jpg",
+      "sha256": "7bd42bb82e757ce527deccfebe81e75651f15366c043b4556c5effcca98dcdd5",
+      "bytes": 3157
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_3_390.jpg",
+      "sha256": "ba3a813cd2cf09be0ca132c452fef48428caf318cf7f9d106c7764cfde3230eb",
+      "bytes": 3126
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_4_375.jpg",
+      "sha256": "e37914320e5564584a37e380428db9f27301b6cc092bcdcc2b1361a858d5ea80",
+      "bytes": 3930
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_4_390.jpg",
+      "sha256": "d1fdd7fff5326a1056fa45a454b70c28a7e2c244747d7cb21c3060ad00bb69c0",
+      "bytes": 4124
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_5_375.jpg",
+      "sha256": "e9509fbcb30be36d74342ff47ea89ee3bf532b59e18d143ce2cdbf415df7a74c",
+      "bytes": 4992
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_5_390.jpg",
+      "sha256": "c0b3d0bf877c0f661bde7f5a98bb4399602d91fa44c983d99da3e6a3c2b98759",
+      "bytes": 4882
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_6_375.jpg",
+      "sha256": "a7d4b29d8ec668a345c2f798258366e8e4226421035db68d9af1eeda19b3d802",
+      "bytes": 3702
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_6_390.jpg",
+      "sha256": "a32d123da1fd58f01ec6ef912ada756a7d1f5e37ce24c721fa4ec23c93f9e308",
+      "bytes": 3613
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_changning.jpg",
+      "sha256": "48106c3bce1cdadef1ed7c7cf7ba25e7fb52a2324cf209ee836b303544af10b7",
+      "bytes": 21673
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_jingan.jpg",
+      "sha256": "cc0b232bd10be4dac918d62fd787a66e649d3d6adb29a28d3d23df85d00c6c7c",
+      "bytes": 21988
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_jingan_hero_clean.jpg",
+      "sha256": "fbda0bc9176351b040176cab9592ae140b49ab8ddc145494855712cbd3878a1a",
+      "bytes": 67925
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_photo_1.png",
+      "sha256": "e0668595df5e28fda1e33fc8ee5719d2cc2509ae9fe468417f1cd5f693e24c58",
+      "bytes": 35968
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_photo_2.png",
+      "sha256": "e5169608be32aac0db44236dd4385b9792e07cd4759e9b8549ef39d39b510374",
+      "bytes": 34468
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_photo_3.png",
+      "sha256": "e7fdf2492d688100b96f0a0f76653a6489c16b3a56c6c41909899524650dfb14",
+      "bytes": 17678
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_pudong.jpg",
+      "sha256": "efab936d20246d9034fad6ff48e5f550f0417192115faa058498d6858decced4",
+      "bytes": 21530
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_xuhui.jpg",
+      "sha256": "9257fb596f8578d61583b195307f6cb59793049c82f2c3c166657a9bfc885544",
+      "bytes": 22836
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/stores_original_375.png",
+      "sha256": "a562ad4be221a3b68daab33080d818fdcbbce4627bf2e4734b17b497bfebfa15",
+      "bytes": 174911
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/stores_original_390.png",
+      "sha256": "d6ba7849386f6a5b2c5b7066042fe650c41eec87acc2e19d335ee0688c9a3817",
+      "bytes": 173851
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/task_estimate_right.png",
+      "sha256": "dd69238561de4183a26a0250e0bb6d8593766fed44d39a48faadcbe91efab946",
+      "bytes": 35921
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/task_store_left.png",
+      "sha256": "763c4926ca88cd040818566d50bc9400cc688d1c406db2ac51ad3c9f2d566a73",
+      "bytes": 54284
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_display_375.png",
+      "sha256": "43f9ab5488a6df2ede5d7866590760fd5f6cf92e3af8e0ecbca913dc6d645e1e",
+      "bytes": 88081
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_display_390.png",
+      "sha256": "ed16e452822d6cfc08cbe620e4f94f9d568d19f3a7c2b1d9cda2da89d4fb470f",
+      "bytes": 87879
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_editable_375.png",
+      "sha256": "1edd8385deb9fc43e479a8b87d0e4a2b208934bf9a2b60d59e201af52cb32fd4",
+      "bytes": 60164
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_editable_390.png",
+      "sha256": "8b6b183c34644134f64b66db7bb3833a08edf6c0b198bf5243cd28254ca1aa3e",
+      "bytes": 59176
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_original_375.png",
+      "sha256": "801b5ec987755b714d6765ffb9575efdf22699e93cd360317fd994505825eeae",
+      "bytes": 90455
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_original_390.png",
+      "sha256": "5e89348ea59f41d2326afea4a7d6c1c8842f7ee9b388033a8e368bbb6c679835",
+      "bytes": 90189
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/unit_medium.jpg",
+      "sha256": "06632043fa6e30feefe61087d0fdffe16e299da5f6c081c43d44d4b0dfbeca5a",
+      "bytes": 9719
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/unit_small1.jpg",
+      "sha256": "b884fc861728f3a7985fa78405122b1216f457aa42952274685f6c74beb7d7b8",
+      "bytes": 10899
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/unit_small2.jpg",
+      "sha256": "c646a7f58bd56df9eec5bd249233352f09da32f23d91c20dd85929a017e7b73f",
+      "bytes": 10479
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-booking.png",
+      "sha256": "80d9ca8361168b8bf7392d496625d092aab0b6b3a3e0f857823d13a0c7bc8fb9",
+      "bytes": 6886
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-clock.png",
+      "sha256": "2f7c92302bb6d475c21202ef2149193361cabc04d4fa23ad0ef43e530f6ab069",
+      "bytes": 5587
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-calendar.png",
+      "sha256": "290d838216535a7a4bac4e5d74e9bddff330c3cfa2ac47df051cb0b0ced8837e",
+      "bytes": 4833
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-home.png",
+      "sha256": "1813598622b9a668d6a073eb6ffcae754bd0990b0e5fc39ff73f99585424998a",
+      "bytes": 4494
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-stores.png",
+      "sha256": "9971488c1b39273c8bd0ec13351b023ad3325144d333cfa70c7c3ca6e312eff8",
+      "bytes": 5279
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-user.png",
+      "sha256": "31181053fe1a379386af5ef99ea7187c38741e3f55755503d80cebec53de781c",
+      "bytes": 4421
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-parking.png",
+      "sha256": "3ca02b62b4ce00ecd03d93992d0325646d273151d8edfb4f461153158f2b2fe2",
+      "bytes": 4820
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-shield.png",
+      "sha256": "9e0c271a8b2a03920888601b43f7aa5a43a43d694ca20b06e60e67889f55d5ce",
+      "bytes": 5937
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-train.png",
+      "sha256": "548ef8fc7b40d10b7eb44c5838c9881024cab72dbf20da7f47f563e0bfcae4e0",
+      "bytes": 5997
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/品牌人物_右侧裁切_B.jpg",
+      "sha256": "09670fe48500075a74b67650fa30d1eca4654bcc4b69f86651e57ce2383c717a",
+      "bytes": 44307
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/品牌人物_无文案裁切.jpg",
+      "sha256": "d627e889407b7b22d54c86dd99ea29481af33258bc9ab09203e572263280930f",
+      "bytes": 64585
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/品牌人物_横幅裁切_A.jpg",
+      "sha256": "341cb84a9d6f2d7d83b1679d3ce51fca0a3ee1a22a85550c3b81a6a2c7840217",
+      "bytes": 81577
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/商家企业横幅.png",
+      "sha256": "ff3259515b7fb9c5125cc0895e7c0a4e09a2b4bb6cdf0ab9d4b7e13a979135bc",
+      "bytes": 32744
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_1.png",
+      "sha256": "88a947964eb5b2ea1af8b34a4948211ddfdf327777c7496ccee1ac997495318c",
+      "bytes": 5282
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_2.png",
+      "sha256": "28cdf7b02d9f9d620876089fa9be47d2475080e66ec9ff54b29c4db9775c22bb",
+      "bytes": 4509
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_3.png",
+      "sha256": "c749bec04d8bc02cbcc57bec055b7053cc3785f4efec5c966381c54f28665238",
+      "bytes": 5184
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_4.png",
+      "sha256": "403d15e088e5b5aa28a1b0c336d8d102ca4ba0bba8e0621bf724b47276da8f0a",
+      "bytes": 5535
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_5.png",
+      "sha256": "0be9a0427c8d6645092ed40d21909c0595954fcca8051f44180545890a5d340a",
+      "bytes": 4644
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_6.png",
+      "sha256": "7eca0e84c47e39c995cacf6546dd7e1f5340ac1784a4af0774f7519ced1d7122",
+      "bytes": 5089
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_1.png",
+      "sha256": "2f8c0d047b5c8c06a9b6f48e9f6db4263c9c657862498a4ddf7e34a7ae54dea0",
+      "bytes": 18762
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_1_无叠字.png",
+      "sha256": "79428b196ab37ab0111b2be81449504d0d5a79ebfd803bd449541e2cf94a8c33",
+      "bytes": 18379
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_2.png",
+      "sha256": "84a037d3d6cb3d8683cc1fe7d25a09b7b3471b8863bdd847b78de2694ae78784",
+      "bytes": 19312
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_2_无叠字.png",
+      "sha256": "bdcf2aff7db2c0e341b747278696e59d0a89b8323fa03283d2e8564e3d398c61",
+      "bytes": 18521
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_3.png",
+      "sha256": "04bbe3f7af92f67f1166eeb25b939e504f1ef986566a41b2baa2875a95f67c92",
+      "bytes": 18446
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_3_无叠字.png",
+      "sha256": "e7fdf2492d688100b96f0a0f76653a6489c16b3a56c6c41909899524650dfb14",
+      "bytes": 17678
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br03-demo-snapshots.js",
+      "sha256": "c8c80c1ebdbccb330663daddc764e6525eff923fe17338493dde651ac1a4c585",
+      "bytes": 1916
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js",
+      "sha256": "597b5873554c608dee410db97007a25ab37dbc98868477008c0300e49b06ff56",
+      "bytes": 3768
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br03-promo-copy.css",
+      "sha256": "6ca8e6f1a6145c1fa5576bb5598afa75b343c279a25c64430c06ee24ba6f41e8",
+      "bytes": 5531
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/adapter.css",
+      "sha256": "d62e2e7f54bf4640b3c48e7dbc506659a2bc4bcc980edd90af618cc6ffbd64ec",
+      "bytes": 5711
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js",
+      "sha256": "cbbdf787e5eb3b35be9db8bbf9f2b14730eee7d0130ae426eb41c8adf01118e7",
+      "bytes": 30405
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/card_store.png",
+      "sha256": "5145e35166a9ce3bed7d1b4b99c7876de722cf2d5dcfd0ca7c570c44bc6228ea",
+      "bytes": 14275
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/card_unit.png",
+      "sha256": "df39aa96c58bb62bea504d318b5399fe577690704710cbdabdde07befbc369c0",
+      "bytes": 13442
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/reference_approx.png",
+      "sha256": "e94c855944ba463247ff50a43864e9f37f7be1a99a058a06c5f90a176af9d5a0",
+      "bytes": 321457
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/reference_inner.png",
+      "sha256": "8347f00e56d7157e85eb1794d282cd84ba6f34d4c46ac63544b27b7fd2be2442",
+      "bytes": 314125
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/store-front.jpg",
+      "sha256": "db5951b8d004c46c7b5ac3a0bd7cdf2aca4fe5cf72729fb6a863b4bbab85691a",
+      "bytes": 23297
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/unit-corridor.jpg",
+      "sha256": "ec7c4f2deef2b12b8907439b454ac53291d85b909275961c9f8a7ed30ccc5f55",
+      "bytes": 17184
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/index.html",
+      "sha256": "96b86749499446856b58cf457b05a679177b11caffc4d2d4e8f362824de8ef66",
+      "bytes": 5009
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/styles.css",
+      "sha256": "9b2ed0ed996610ad83b73081e9027813bc86c71dd6f5210ab78100a447d02f6e",
+      "bytes": 9324
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/assets/hero-clean.jpg",
+      "sha256": "40704edd2d183fbe441b565e46e5f1cf27c6d13b7b57c9888e901e0fb54c55ab",
+      "bytes": 7923
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/assets/store-photo.png",
+      "sha256": "c9ef6f629b1b568a2b120cf98b786c76b5b9b31e260f6488c093d7dc91799d9a",
+      "bytes": 14633
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/assets/unit-photo.png",
+      "sha256": "4e0e7fb50e8669867bcf90e668c42a4bc9621a6dd864894bfe9d3eaf87a5329e",
+      "bytes": 12472
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/index.html",
+      "sha256": "b27a5ff4c474c41edaca0eef90d40907a825630ca545604097aaab567e8f3d2b",
+      "bytes": 6270
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/style.css",
+      "sha256": "c06b09092796a9c2bf8fc48829c00bc3f5a39f1fc38da816172f84ebae096714",
+      "bytes": 10445
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/assets/master_hero_intact.png",
+      "sha256": "0ebaa915dd1aa338a462db281185d7efdeebf40c25876d90f17f800efaca293a",
+      "bytes": 139911
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/index.html",
+      "sha256": "38b20c43140af96dd03158880599a814162769828bbbb99215e4d04b4e6c3d2b",
+      "bytes": 5374
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/style.css",
+      "sha256": "9cba5de212e2fd86ec525d0dcf8abef35714824e7a9dfe72f519252fee457244",
+      "bytes": 7281
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/demand-object.png",
+      "sha256": "1a5e70e1171a521d647513a99c430c406e5a938c942b5ccffd23536830b6dba8",
+      "bytes": 17610
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/estore-existing-scene.webp",
+      "sha256": "be1cc8f89e81eae5e43dc36e1a1362a690a4aa2b667e81fc13582feca619e321",
+      "bytes": 8816
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/main-photo.png",
+      "sha256": "a61f799ff2212219ed5c7e5524dfc2a48daec5363c31e923a5801c17b3efcbfd",
+      "bytes": 64862
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/secondary-photo.png",
+      "sha256": "b90633030a2a33b27749dcd964067a48787dd3f94e19cc5bf26112c4ef2edb67",
+      "bytes": 12793
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html",
+      "sha256": "bf2b59899fef12a7fd5d74802c1583ee8cc07f3793b384e55331bbefe6736aeb",
+      "bytes": 7186
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/style.css",
+      "sha256": "bff03f481f268b92546d7cd4cb310feeb6e13b3909eeca2c4effedf54fb68c11",
+      "bytes": 18590
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/business-adapter.css",
+      "sha256": "8cb8115a40b90bee0dbd9018415b4b867001be99840b578baa1fe700cfbeed30",
+      "bytes": 1188
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/business-bridge.js",
+      "sha256": "c55763939730430052890793065ac2201471a66abc4928b9f9c3a616601c7eb0",
+      "bytes": 10301
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/business.html",
+      "sha256": "223eb783dbbd6f0d6e91419247d54bae78d95c4c44cbeb04fc7905401e090994",
+      "bytes": 16757
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/cap-bridge.js",
+      "sha256": "022754484d52145908782ff1595f5486ab2f2e73b0362613db6a450cfbfccb6d",
+      "bytes": 4520
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/cap.html",
+      "sha256": "18dc032172bf4f4e713206bd834bc8cec1982a1278d40fb934de648a28ba3ecf",
+      "bytes": 1674451
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/decision-apply.css",
+      "sha256": "7fa1af32829ddb0cea5ed162c15567159b608a5470a3c8520b69456bece78049",
+      "bytes": 1016
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/demo-core.js",
+      "sha256": "81ccea8c3a6826112e5a812c41c5bedab3b5a4ddcfc008e616954bb4c6465144",
+      "bytes": 25498
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/demo.css",
+      "sha256": "34726d3bca308e9da198f438851ed20d578bb4ac7e4dd7347dbd81660c55facb",
+      "bytes": 3760
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/fixtures.js",
+      "sha256": "1851beb2c7b965f9d96a3ba5a8f103594b1e372b83d1217f13645676bcc9bd42",
+      "bytes": 14366
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js",
+      "sha256": "e77c154df21dcf7a7e65d63cf09cfab8967ab08e2fc4f2aea149f3fd7e6f4d8c",
+      "bytes": 10152
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/home.html",
+      "sha256": "af88c4813ac50a9f23144f1cfa241ddcae3f99cb07a1b4e240a6b5d98661ac7c",
+      "bytes": 26879
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/index.html",
+      "sha256": "b135d3e902159466189c3ee9f719d8de7e92f84e39cd76f34848980d561a056b",
+      "bytes": 1363
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/items-bridge.js",
+      "sha256": "3e1c11496ce5e3e28ea8b03369f8a2fe329210d3878e77b27ad11e5199c50779",
+      "bytes": 5372
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/items.html",
+      "sha256": "9033c2718d985a08232055a2281ad632df0deb0e728390cd905c4d6e2b0ce884",
+      "bytes": 1268656
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mini_koala_visual_elevation_v2_1_density.css",
+      "sha256": "2f7580ff12d3afeaea4f1f41cb294ca04220addfb24390c457de361c6951f147",
+      "bytes": 10539
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mini_koala_visual_elevation_v2_controlled_rollout.css",
+      "sha256": "d6dceb603a69c780720d5e289c2f252ffccdd8d1e55132f2c34620497a0ca4de",
+      "bytes": 22520
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mini_storage_sprint3_lifecycle_hifi_v1.css",
+      "sha256": "2246ab1087e27cf4364cd8f01472d8c8bbdc5fda5699007ddb25114516e98eb1",
+      "bytes": 12173
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-uxc-scrollbar-hide.css",
+      "sha256": "d0e2de00b7741cb636e76486f2f8c361cd8307e47e3ecf6fa0b41050db9eb798",
+      "bytes": 347
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-uxd2-layout-actions.css",
+      "sha256": "590044e0ee82fa1c042bb7f571dbb24c953f8ac7b889e1bd06339b96454a6ff1",
+      "bytes": 1569
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-v3-life-service-batch-c.css",
+      "sha256": "2ccd8033d50f7f2839893ba2e59798014c243c79ab02fee8fc941f211453400e",
+      "bytes": 5936
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-v3-site-shell-rollout.css",
+      "sha256": "cbfeff6b0b091ad4a28032116da1380ee1662d4eb4b7624bf90fc1d77b04c557",
+      "bytes": 3799
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/phone-auth.css",
+      "sha256": "32555e800c2025b0f2428ae8b6dc8f34245fafbc2d112edbdb52b78b0dce581a",
+      "bytes": 3852
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/phone-auth.js",
+      "sha256": "7a792680e3e5287aa753f978228daa7bb341e9e9415b770c5395234ed45c66f1",
+      "bytes": 8330
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/phone-gate.js",
+      "sha256": "7f80e597587a3d7a8d5753a9bae4f611ba4ead688cd1e5024b3341863a2bebf9",
+      "bytes": 5341
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_beijing30.js",
+      "sha256": "173511bbd06918186f6f1354e3c908fa05b8617ed719a25390ff042c7e57ac58",
+      "bytes": 2907
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_br03_policy.js",
+      "sha256": "699a3fc2c7fa446058d4e7a6d36851367391b9b12824751c599a436884cb3e5a",
+      "bytes": 5089
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_br04_state.js",
+      "sha256": "3cd6cc17a45a48ac9072207c0c15ddd290a510c1a70c2ce9617ae6ec7542f0d3",
+      "bytes": 2652
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_business_catalog.js",
+      "sha256": "c82e14bd42f19a5ea48ec9eebad2e6ea8aca07880eb816109eb7191ba89669d7",
+      "bytes": 3417
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_decisions.js",
+      "sha256": "ba80f5b2f36c7198c03d75c3972696f2d44cc8f4595bfa6ceefbd012bdc772a2",
+      "bytes": 10547
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_journey_precision.js",
+      "sha256": "cdae16fd8f56b3ca26a2f987f9aa25befb931d069fa59098424ac456db598fd3",
+      "bytes": 3419
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_model.js",
+      "sha256": "56da109b0e169156f05e64b9aa30424d08f79467be48e320db063ff1f2afbb23",
+      "bytes": 8546
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_priority_fixes.js",
+      "sha256": "514014ee43a884826b4294a1fd8982291512dde52e18de9aff1ca4b384840ef3",
+      "bytes": 6291
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/README.md",
+      "sha256": "50e818df2661e7c69f90f75056daf5467527e0adea00cbdb89e53b0111f3f4ba",
+      "bytes": 156
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/serve_demo.py",
+      "sha256": "8bfece687711febf2534d71cc277178160798466da0865a74be88aba67907d27",
+      "bytes": 132
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/START_DEMO.cmd",
+      "sha256": "82de18c2bb123ee91bc0ecce269bcb59c6517870510796112523bd7ee487534c",
+      "bytes": 51
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/store-source.json",
+      "sha256": "092e7bc038e809bb9907e5dddb6adbaede39f2a2b52cce63a5444110fdb6d76e",
+      "bytes": 10824
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/styles.css",
+      "sha256": "5ffb4b7b1d6575093212c4b2c13659707c267b6af26a670729d94b27681f4164",
+      "bytes": 14097
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/vis_bg01_background_unification.css",
+      "sha256": "dbb32017127ef57b7bacbcee52b004f32056a2bb802abc49a12d9aa2426a6861",
+      "bytes": 2627
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/visual-align.css",
+      "sha256": "e44b0b2e447bddd75181292a803fb654c556c767b80e0268578f626a6319e002",
+      "bytes": 8653
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/visual-icons.js",
+      "sha256": "91afe3730d2ba285498791405b55a8e268022c516d077eb3956a1bbca617f176",
+      "bytes": 1879
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/企业表单一致性核对.md",
+      "sha256": "b60f52857b871fec16b2012202b117c827225e7e7145d84a641f90ff87cf2d40",
+      "bytes": 241
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/门店资料选取说明.md",
+      "sha256": "37cf4c6f63c6876b59dcf20ef85d97573795aaee537f2404912974077fcab4b3",
+      "bytes": 262
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-before-S01-browse.png",
+      "sha256": "3a97b4498905735bbd7435e6a3862a21d2d12adf052f2e95d48b798e65307529",
+      "bytes": 320129
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-before-S01-source-state.png",
+      "sha256": "ae5244b50c2ceba5566ce23c54a9d477974bd5ba10672eeaaf73a5f5af8f44e0",
+      "bytes": 305260
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-before-S02-browse.png",
+      "sha256": "9355cc1004e88e08480787d04a0feb3d35ccdc86e9e58e441350e6962df64064",
+      "bytes": 335681
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-O01-same-price.png",
+      "sha256": "6be0c308d48f7562d385fb8b76d577c70e5fa1d837e4c5955f334103aebcd675",
+      "bytes": 173517
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-S01-browse.png",
+      "sha256": "15c7a8576fd8556b8fc00c28287bccfa3b47a45193ad40487024c7b435865bbb",
+      "bytes": 221214
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-S01-linked.png",
+      "sha256": "ebb2b3da1ae4468e280c8f35abcb7e5b0ae85b8efb645992521bc49d1d2fd740",
+      "bytes": 226619
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-S02-browse.png",
+      "sha256": "664c40f965638abaa5094c0bfa7c6fc44caa3e50220d286a724b4e34594dc57e",
+      "bytes": 337481
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-S02-linked.png",
+      "sha256": "d94b7d8f2e11b9747912beec107e6e99da93e3b0b8d3105d9214230a43edfbb4",
+      "bytes": 294064
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-S02-no-match.png",
+      "sha256": "8ca292208ba4ea6d655bdc4e81184ddb2d2a34a2419952b2148c4af12c9d42fe",
+      "bytes": 318133
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/375-S02-soldout.png",
+      "sha256": "c6d3662466d617554e16e3dd8e6769bb379882186389f35287be1ebdd9bc96ed",
+      "bytes": 269992
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-after-S01-source-state.png",
+      "sha256": "275e5b67a69999407da044ab0111df265da7d18b1f7e321e352209346cf51213",
+      "bytes": 242783
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-before-S01-browse.png",
+      "sha256": "98383d6d14b43e75531ba3247fecb099fe1d93d1de2da5c9f59e7954b8bc3aa1",
+      "bytes": 355973
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-before-S02-browse.png",
+      "sha256": "714c57f8a924af5eb1e03620f973bfb985ab71f4e5f75d44be48e06187767a1f",
+      "bytes": 359617
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-O01-same-price.png",
+      "sha256": "36e02456a5ccae37845b75c3b23bb00d177212ab8726b8e5707dbec1cac46ddb",
+      "bytes": 178500
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-S01-browse.png",
+      "sha256": "b86dcfa0cced8aa91a98a1c8d193de8f5adcd0386cc126c1236ac35e007358cd",
+      "bytes": 240277
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-S01-linked.png",
+      "sha256": "efeb4e348ef1ff8a5dc861262d66e2b62d01bc965795ebb6a086a923355e3f4b",
+      "bytes": 240958
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-S02-browse.png",
+      "sha256": "33bfbd5282c3381ca50ef7b54a74d8352fd22501e363ef95e01b05b82917bf57",
+      "bytes": 361787
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-S02-category-fixed.png",
+      "sha256": "51b4b984134e5ec2b43530bb1e711caaf7ae81e7b988d5e749612ad19feea168",
+      "bytes": 327413
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-S02-linked.png",
+      "sha256": "2af1988df095936eb7c1cc1d8ffc383e624c7d1d7e70836852bdc61ddb88c210",
+      "bytes": 316629
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-S02-no-match.png",
+      "sha256": "0c619869cf5d30f6c3bd5ac9c22baa19efdfcf723a7c3d3b12e3713e594c62ea",
+      "bytes": 339700
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/390-S02-soldout.png",
+      "sha256": "e87c3a6ead59ced0513ef62194e3e4c5e1b81a7fc48ba85484c675aee18d01e2",
+      "bytes": 278833
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/baseline-metrics.json",
+      "sha256": "f3661264687d8d45aadf87734719ec989bd09c47504a1c6b338c1777315853cf",
+      "bytes": 956
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/browser-results.json",
+      "sha256": "674b22b44d775433c43f09894a859963f9cbf0af43def6e6f0336dcf19712e1e",
+      "bytes": 6538
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/comparison-375-S01.png",
+      "sha256": "63c0cdb7022fa4ada1921e26b7474f8ef18e54bd6f9c73301e29037e48268799",
+      "bytes": 502781
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/comparison-375-S02.png",
+      "sha256": "c4fc1570501d99f7d73bac7bbe0f3256c948610c6b731fba39f4b79e70b99cbf",
+      "bytes": 562720
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/comparison-390-S01.png",
+      "sha256": "403ba092f98a928391e2cd29fe9dcfaccd942eaf59f9d02e36a42c28bb905bb7",
+      "bytes": 557042
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/comparison-390-S02.png",
+      "sha256": "5d4ed22e883e00d58a93569e45b6a689f657c05e6fc88408524440354dae02f1",
+      "bytes": 492606
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/comparison-S01-focused.png",
+      "sha256": "3ab82e1b36de726ae6c7664c09baab19ec2858a186ded0fe433bd12afba9fd68",
+      "bytes": 247206
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/comparison-S01-source-parent-current.png",
+      "sha256": "f34263f13128a72648e722764ca0d0a55c7ce3f1b2816b61c56fc37beaac5680",
+      "bytes": 667784
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/model-results.json",
+      "sha256": "5034135f8d41c082281a6c846602c1e20e69b5b238ac7fc8fcb7edd099ed1d86",
+      "bytes": 1689
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/preservation-results.json",
+      "sha256": "10e052c5dfea7e15dc3ff47b670624db384a7505edc592cd974d8ea54894d132",
+      "bytes": 11459
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/source-expand-375-normalized.png",
+      "sha256": "54bede8058093f68d96854e589627602f44130b98838c174c21e6a4c2c3f9923",
+      "bytes": 118842
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/br03-promo-copy/visual-metrics.json",
+      "sha256": "d2f9320027f933e8656f71ce1300640fc9f6ef892b52a2972d8f7246572f3824",
+      "bytes": 2704
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/README.md",
+      "sha256": "5c7a4e9179f302a529ee3ee47ec07c3ffc2a0a2051a234a6d1786ef8dccf0e88",
+      "bytes": 994
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/REVIEWER_README.md",
+      "sha256": "d7f89d3c8939d3f056f27e80bf8b2e7e83c1f67c5716b7e35d4771ade8095e03",
+      "bytes": 2051
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/serve.py",
+      "sha256": "d6885dd77c5ea0962eed6ed1a28d8aa4dd0f9e28e146495befe7835f486f2864",
+      "bytes": 769
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/START_BR03.cmd",
+      "sha256": "15d1aa1b559d4485e4a60ac4af79d9ae82b4421797b9e03f5371bf0604ba181d",
+      "bytes": 137
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/copy/UNIT_COPY_MATCH_01B_2026-10-26/CAPACITY_COPY_DICTIONARY_V1.csv",
+      "sha256": "3fbb096899973e8ab54f69799f9be84ddfdeae4bc64bd0bf4848158a79cc56d0",
+      "bytes": 1399
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/copy/UNIT_COPY_MATCH_01B_2026-10-26/PAGE_STATE_MATRIX_V1.csv",
+      "sha256": "bad3f182954d539407035ef6028bcc8f3ad0f8b29d2f2676a3cec7ca91da0b02",
+      "bytes": 2785
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/copy/UNIT_COPY_MATCH_01B_2026-10-26/README.md",
+      "sha256": "276d6e1ff9648af640b4347086458b7575f62a74d5eeaad44abc41f824aa2457",
+      "bytes": 764
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/copy/UNIT_COPY_MATCH_01B_2026-10-26/S01_S02_纯文字信息层级示意_非母版.png",
+      "sha256": "858cdd58c4a94619276e6d89ee8d5302b06f74cacac9312976db6f5d89c91f3a",
+      "bytes": 180216
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/copy/UNIT_COPY_MATCH_01B_2026-10-26/UNIT_COPY_MATCH_01B_CONTRACT.json",
+      "sha256": "0fc516974c8f2197e1287ebf2aa3f673d43c2a959d63049b3da99f0a030c71a7",
+      "bytes": 4624
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/copy/UNIT_COPY_MATCH_01B_2026-10-26/UNIT_COPY_MATCH_01B_FREEZE.md",
+      "sha256": "2f186f84ebf461d480b72b1bb14bc9a913bf31adda4997b69cb1ac8648b9f480",
+      "bytes": 11047
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/copy/UNIT_COPY_MATCH_01B_2026-10-26/UNIT_COPY_MATCH_01B_QA_PLAN.csv",
+      "sha256": "1c40f68507ef437e483598336b4c00b17bc925590cbcd929e2ce66dfde72300c",
+      "bytes": 2216
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01A_01B_POSITION_DIFF.json",
+      "sha256": "b57a50e016a096c6b170eed0df25f63108bd3994f483459a5d20a62a1b878d00",
+      "bytes": 846
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01A_vs_01B_携带需求_390_完整长图.png",
+      "sha256": "582aa1d16168e1541dd005cdff088a7d8d71f0b087ed9a0e89eed40351fa47a2",
+      "bytes": 594242
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01A_vs_01B_携带需求_390_首屏.png",
+      "sha256": "468b7bfc15c4bdb4a367ca2bc3c7ff234da6ae343a87f1c1a2e74d3ac2f05c14",
+      "bytes": 328421
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01A_vs_01B_普通浏览_375_完整长图.png",
+      "sha256": "f629dadd65432b4ab8db12be6dca050ac8d403dffb52a24bda07140f58246e40",
+      "bytes": 559730
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01A_vs_01B_普通浏览_375_首屏.png",
+      "sha256": "deff46e6815c8a6f79800eaa06b2b0bceaab31128e6454c94855c61718894957",
+      "bytes": 298709
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01B_QA.json",
+      "sha256": "3ba7064d3ef202d39bb2029c5bee2c4d2c2a814c04133dc746770335a3aba057",
+      "bytes": 3192
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01B_RENDER_METRICS.json",
+      "sha256": "b18ec3f170708d029ffcf978c37cdeda1f56a5ddcf5dda1ef56d8b1a6d70b6e7",
+      "bytes": 45338
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/01B_双状态融合式总览.png",
+      "sha256": "8146cea5b63775efd8c2ea86799b29464bd7db46f68d31292279cde56f6f4a0d",
+      "bytes": 620679
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/PACKAGE_MANIFEST.json",
+      "sha256": "42e28e6da61973fcc44236e6dbf2eeac05622380ab0123caa62182e7fd6c2cd9",
+      "bytes": 2825
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/READ_ME_FIRST.md",
+      "sha256": "297185d47f342c553b64f01e2b254901cf0af8de80589b4e8addbd51a52aa524",
+      "bytes": 6889
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/S01_EXPAND_01B_Fusion_Refined.html",
+      "sha256": "f7378b103bc804b7f3a756478889cb4f48eee9c65bce8f4b10f5c5364c28bad6",
+      "bytes": 22743
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/携带需求_375_完整长图.png",
+      "sha256": "2fb6fddd76ac8b84cf1cfdfcb7db8ccee72bd47f14e08bb9681056330ed50150",
+      "bytes": 302701
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/携带需求_375_首屏.png",
+      "sha256": "fe61bbdf4c96eff33fced70be4a801a2d83424d09de498b0f3d3a8a4c36cb752",
+      "bytes": 169919
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/携带需求_390_完整长图.png",
+      "sha256": "1b043512f4c72ff2d3d5a2a0ace21d4e3b4dee76d401754f5000d8309fe3559e",
+      "bytes": 303628
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/携带需求_390_首屏.png",
+      "sha256": "64183ec530293b9c6ac114d6b54c822eec6b7eba243152dc06fe018a491fdf1f",
+      "bytes": 175955
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/普通浏览_375_完整长图.png",
+      "sha256": "33ccce6d82e7a2fae7aa440d2c3001e04d12b8a2b8c8489aa5bc3d8c866db081",
+      "bytes": 289747
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/普通浏览_375_首屏.png",
+      "sha256": "31fc283d572b4720ead22cea1734f281bb08b9f76d3a44a19832a503e5be811c",
+      "bytes": 159379
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/普通浏览_390_完整长图.png",
+      "sha256": "351d18561a0608446d8664536524de1d903001c08f05a58133b87b25c31bca32",
+      "bytes": 278643
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/expand/S01_EXPAND_01B/普通浏览_390_首屏.png",
+      "sha256": "0512335ab55d29e24591268e7606b219871f507181180b6e9cd049a32fa973c6",
+      "bytes": 168207
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/frozen/S01_已选需求_C布局_375x812@2x.png",
+      "sha256": "79a860387ba797d471a71e0f217446c98dc8dddbcb4edfe529f0339028ddbdaa",
+      "bytes": 936985
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/frozen/S01_已选需求_C布局_390x844@2x.png",
+      "sha256": "b9ce508fd0721a65ebd06e910d8df35089332b6c3950963ed842ceece24d7103",
+      "bytes": 967494
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/frozen/S02_已选6月_整期价格_375x812@2x.png",
+      "sha256": "9f5e25183c5818b9d42d569e5bbf9f86c7c790a2fbc94d937df2c51466923a77",
+      "bytes": 1119580
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/frozen/S02_已选6月_整期价格_390x844@2x.png",
+      "sha256": "f1db880c8101e985fd8b3aeca25f44c01033814b32ea2ccecd5ade7e63578529",
+      "bytes": 1158312
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/INTAKE.json",
+      "sha256": "00e5fb870e8ead504ba5068a105bcf2f6321d769f397d0959055bf5d13407b23",
+      "bytes": 695
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-ops/PROMO_ACCEPTANCE_CASES_V1.csv",
+      "sha256": "df8d5e9b03716c21ff0876a7073e09ba85f1f2b4ad4369f970caad7205fc8a62",
+      "bytes": 2163
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-ops/PROMO_LABEL_DICTIONARY_V1.csv",
+      "sha256": "baf71abe286fff291686133f6739300176ac25a78e31187c1c0ddc37b907f008",
+      "bytes": 3419
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-ops/PROMO_OPS_01A_FREEZE.md",
+      "sha256": "976873d507000398909d7e559ff2fcc68fec78a25512badb83de6dd9573198bb",
+      "bytes": 9718
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-ops/PROMO_PAGE_EXPOSURE_MATRIX_V1.csv",
+      "sha256": "4d1f1160d4abb3fcc37e701e98ec3a172ee37887204541400db6d7dc38f271ae",
+      "bytes": 2526
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-ops/PROMO_RULES_CONTRACT_V1.json",
+      "sha256": "ea0b5917024b5c6e94fd94af23ced9e12ea5e26dc81dadaf7e0b7ab3c1e71125",
+      "bytes": 7767
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-ops/README.md",
+      "sha256": "f006cf393e8703819ff5fd5e7d7daaccd0ff74d3ba16dc9ce20d0544a28bed78",
+      "bytes": 619
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-vis/PROMO_VIS_01E/PROMO_VIS_01E_CONTRACT.json",
+      "sha256": "8327b4307fd473b2d4e2427f2b5f4f60d0d8202fb76099a06a45fe5bf1da4721",
+      "bytes": 2842
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-vis/PROMO_VIS_01E/PROMO_VIS_01E_HANDOFF.md",
+      "sha256": "83c520e2d00449067619ae24a1028ef4f817fc9f35192846d430ef2d38112cc4",
+      "bytes": 7813
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-vis/PROMO_VIS_01E/PROMO_VIS_01E_视觉信息交接示意_概念非母版.png",
+      "sha256": "c57bcafbd35efbf98cb13890963ef1cb402c527f2fd336f4342f14df759b7d91",
+      "bytes": 1884028
+    },
+    {
+      "path": "app/source-reference/br03-promo-copy-01/promo-vis/PROMO_VIS_01E/README.md",
+      "sha256": "eccb7fce2f51b960fee299e952c15dee0577019915e95a31cf7b3b88dc449999",
+      "bytes": 571
+    },
+    {
+      "path": "design-qa.md",
+      "sha256": "e015c14276e13fd17b473cfc13ae01a102548774c0eeb5ccc2731fbe47918078",
+      "bytes": 3007
+    },
+    {
+      "path": "docs/BR03_PROMO_COPY_01_IMPLEMENTATION.md",
+      "sha256": "c2cc9222c4ac548cc49de071ed76b1b5294b7299baaf2ece5502a54d5b385cd6",
+      "bytes": 3895
+    }
+  ]
+}

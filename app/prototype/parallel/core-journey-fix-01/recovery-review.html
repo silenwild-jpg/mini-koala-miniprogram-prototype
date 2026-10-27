@@ -1,0 +1,26 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>冻结恢复 · 逐页核对</title><style>
+*{box-sizing:border-box}body{margin:0;padding:12px 20px;background:#f2f6f3;color:#183e30;font:14px/1.5 system-ui,"Microsoft YaHei",sans-serif}h1{font-size:20px;margin:0 0 4px}p{margin:4px 0}.tools{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:10px 0}select,button{font:inherit;padding:5px 8px;min-height:36px}a{color:#006e56}.pair{display:flex;gap:20px;align-items:start}h2{font-size:14px;margin:0 0 5px}iframe{display:block;background:white;border:0;width:390px;height:844px}.source-image{width:390px;height:auto;display:block}.reference{max-width:760px}.note{color:#586e63;font-size:12px;max-width:1000px}#status{font-weight:650}details{margin-top:14px}#ref-image[hidden],iframe[hidden]{display:none}</style>
+<h1>冻结恢复：原件与运行页面逐页核对</h1><p id="status">本批主链已核验 · 待产品验收 · 全站未签收 · 未合并</p><p class="note">本轮定向撤回布局覆盖，保留明确业务裁决。10月27日已明确：参考月租公开，微信/SMS验证注册登录后进入订单，顾问留资；AI与E存最终素材仍独立待验收。原件数据与北京样本不同；同状态后再比较布局。</p>
+<div class="tools"><label>页面 <select id="route" aria-label="核对页面">
+<option value="home.html">首页</option><option value="cap.html">容量填写</option><option value="items.html">物品工作台</option><option value="index.html?page=S01">附近门店 S01</option><option value="index.html?page=S02&store=SIM_BJ01">门店详情 S02</option><option value="index.html?page=S5">租期与推荐 S5</option><option value="index.html?page=BOOKING">预约用仓</option><option value="index.html?page=QUICK">快捷下单</option><option value="index.html?page=O01">确认订单</option><option value="business.html">企业需求</option><option value="index.html?page=BOOKING&mode=advisor">顾问咨询</option><option value="account.html">账户与联系方式</option><option value="account.html?view=needs">我的需求</option></select></label>
+<label>内容宽度 <select id="width" aria-label="核对宽度"><option>375</option><option selected>390</option></select></label>
+<label>左侧依据 <select id="reference" aria-label="对照依据"><option value="source">冻结原件</option><option value="before">恢复前候选（仅供差异对照）</option></select></label><a id="direct" href="demo/home.html">打开当前运行页</a></div>
+<p id="scope" class="note"></p><div class="pair"><section class="reference"><h2 id="ref-title">冻结原件</h2><iframe id="ref-frame" title="原件或恢复前页面"></iframe><img id="ref-image" class="source-image" hidden></section><section><h2>恢复后运行页面</h2><iframe id="preview" title="恢复后运行页面"></iframe></section></div>
+<details><summary>本轮状态与依据</summary><p>初步恢复：撤回首页卡高和字级覆盖、预览布局覆盖；S5恢复仓位属性及说明行；物品流程返回来源恢复。CAP/物品原主样式与原件一致，保持不动。</p><p>本页不表示全站冻结通过。详细状态以design-qa.md、恢复执行记录及实际截图为准。</p></details>
+<script>
+const route=document.getElementById('route'),width=document.getElementById('width'),reference=document.getElementById('reference'),preview=document.getElementById('preview'),refFrame=document.getElementById('ref-frame'),refImage=document.getElementById('ref-image');
+const sources={'home.html':'QA_FRAME_home.html','cap.html':'SOURCE_cap.html','items.html':'SOURCE_items.html','index.html?page=S5':'SOURCE_s5.html?state=selected'};
+const images={'index.html?page=S01':'S01_'+width.value+'_VIS07.png','index.html?page=S02&store=SIM_BJ01':'S02_'+width.value+'_VIS07.png','index.html?page=S5':'S5_source_crop.png','index.html?page=QUICK':'QUICK_source_crop.png','index.html?page=BOOKING':'BR04_4pages_handoff.png','index.html?page=O01':'BR04_4pages_handoff.png'};
+function update(reload=true){const w=Number(width.value),h=w===375?812:844,key=route.value;for(const f of [preview,refFrame]){f.width=w;f.height=h;f.style.width=w+'px';f.style.height=h+'px';}refImage.style.width=w+'px';
+ if(reload)preview.src='demo/'+key;document.getElementById('direct').href='demo/'+key;
+ const prior=reference.value==='before',src=sources[key],image=key.includes('page=S01')?'S01_'+w+'_VIS07.png':key.includes('page=S02')?'S02_'+w+'_VIS07.png':images[key];
+ refFrame.hidden=!(prior||src);refImage.hidden=prior||!!src||!image;
+ if(refFrame.hidden)refFrame.src='about:blank';
+ if(!refFrame.hidden)refFrame.src=prior?'http://127.0.0.1:4281/demo/'+key:'evidence/freeze-recovery/source/'+src;
+ if(!refImage.hidden)refImage.src='evidence/freeze-recovery/source/'+image;
+ document.getElementById('ref-title').textContent=prior?'恢复前候选（不是批准依据）':src?'原交付独立页面':image?'原件图片（含原图边框/不同演示数据）':'本页尚无独立冻结母版';
+ document.getElementById('scope').textContent=key==='business.html'?'企业表单保留独立业务结构，本次只撤除统一预览覆盖，不宣称找到企业冻结视觉。':key.includes('page=S01')?'保留D19删减及后续明确双店展开；原图匹配数量等废止表述不恢复。':key.includes('page=S5')?'只核对已批准主结构；初始租期不预选、门店数据和费用规则按后续明确裁决。':'同宽度、同选择状态比较；历史示例金额、城市和废止文字不作为恢复目标。';
+ history.replaceState(null,'','?route='+encodeURIComponent(key)+'&width='+w+'&reference='+reference.value);}
+const q=new URLSearchParams(location.search);if([...route.options].some(o=>o.value===q.get('route')))route.value=q.get('route');if(['375','390'].includes(q.get('width')))width.value=q.get('width');if(q.get('reference')==='before')reference.value='before';
+route.onchange=()=>update();width.onchange=()=>update(false);reference.onchange=()=>update(false);update();
+</script></html>

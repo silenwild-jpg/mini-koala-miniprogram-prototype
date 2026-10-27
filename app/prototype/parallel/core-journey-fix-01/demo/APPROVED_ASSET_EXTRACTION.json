@@ -1,0 +1,108 @@
+{
+  "method": "Measured crops from existing approved reference pixels; no generated replacements",
+  "sources": {
+    "S01": "b9ce508fd0721a65ebd06e910d8df35089332b6c3950963ed842ceece24d7103",
+    "S02": "f1db880c8101e985fd8b3aeca25f44c01033814b32ea2ccecd5ade7e63578529"
+  },
+  "assets": [
+    {
+      "path": "vis07-train.png",
+      "source": "S02_已选6月_整期价格_390x844@2x.png",
+      "crop": [
+        76,
+        504,
+        148,
+        576
+      ],
+      "sha256": "548ef8fc7b40d10b7eb44c5838c9881024cab72dbf20da7f47f563e0bfcae4e0"
+    },
+    {
+      "path": "vis07-clock.png",
+      "source": "S02_已选6月_整期价格_390x844@2x.png",
+      "crop": [
+        254,
+        504,
+        326,
+        576
+      ],
+      "sha256": "2f7c92302bb6d475c21202ef2149193361cabc04d4fa23ad0ef43e530f6ab069"
+    },
+    {
+      "path": "vis07-parking.png",
+      "source": "S02_已选6月_整期价格_390x844@2x.png",
+      "crop": [
+        432,
+        504,
+        504,
+        576
+      ],
+      "sha256": "3ca02b62b4ce00ecd03d93992d0325646d273151d8edfb4f461153158f2b2fe2"
+    },
+    {
+      "path": "vis07-shield.png",
+      "source": "S02_已选6月_整期价格_390x844@2x.png",
+      "crop": [
+        604,
+        504,
+        676,
+        576
+      ],
+      "sha256": "9e0c271a8b2a03920888601b43f7aa5a43a43d694ca20b06e60e67889f55d5ce"
+    },
+    {
+      "path": "vis07-booking.png",
+      "source": "S02_已选6月_整期价格_390x844@2x.png",
+      "crop": [
+        46,
+        670,
+        126,
+        750
+      ],
+      "sha256": "80d9ca8361168b8bf7392d496625d092aab0b6b3a3e0f857823d13a0c7bc8fb9"
+    },
+    {
+      "path": "vis07-nav-home.png",
+      "source": "S01_已选需求_C布局_390x844@2x.png",
+      "crop": [
+        91,
+        1478,
+        155,
+        1542
+      ],
+      "sha256": "1813598622b9a668d6a073eb6ffcae754bd0990b0e5fc39ff73f99585424998a"
+    },
+    {
+      "path": "vis07-nav-stores.png",
+      "source": "S01_已选需求_C布局_390x844@2x.png",
+      "crop": [
+        268,
+        1478,
+        332,
+        1542
+      ],
+      "sha256": "9971488c1b39273c8bd0ec13351b023ad3325144d333cfa70c7c3ca6e312eff8"
+    },
+    {
+      "path": "vis07-nav-calendar.png",
+      "source": "S01_已选需求_C布局_390x844@2x.png",
+      "crop": [
+        453,
+        1478,
+        517,
+        1542
+      ],
+      "sha256": "290d838216535a7a4bac4e5d74e9bddff330c3cfa2ac47df051cb0b0ced8837e"
+    },
+    {
+      "path": "vis07-nav-user.png",
+      "source": "S01_已选需求_C布局_390x844@2x.png",
+      "crop": [
+        636,
+        1478,
+        700,
+        1542
+      ],
+      "sha256": "31181053fe1a379386af5ef99ea7187c38741e3f55755503d80cebec53de781c"
+    }
+  ]
+}

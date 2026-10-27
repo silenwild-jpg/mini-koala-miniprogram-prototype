@@ -1,0 +1,11 @@
+branch,page_or_entry,trigger,gate_intent,public_price_visible,required_context,do_not_change,source_qa_state
+BRANCH-01,H01 首页快捷下单,进入正式快捷下单链路,ORDER,YES,city/storeId/unitId when selected,冻结首页布局和底部导航,NOT_TESTED
+BRANCH-02,CAP 容量填写,点击获取个性化正式报价,QUOTE,YES,capacityM3/months/quoteRevision,容量优先及容量示意,NOT_TESTED
+BRANCH-02,物品估算或AI估算分流至S5,自动正式报价首次加载前,QUOTE,YES,capacityM3/months,不触碰物品估算视觉母版,NOT_TESTED
+BRANCH-03,S01 附近门店,仓位卡立即下单,ORDER,YES,storeId/unitId/size/months,双店展开及门店卡视觉,NOT_TESTED
+BRANCH-03,S02 门店详情,仓位卡立即下单,ORDER,YES,storeId/unitId/size/months,门店信息和仓位卡排版,NOT_TESTED
+BRANCH-03,U01 仓位详情,立即下单,ORDER,YES,storeId/unitId/size/months,无需返回规则层,NOT_TESTED
+BRANCH-04,S5 租期与推荐,渲染/请求正式整期租金前,QUOTE,YES,capacityM3/months/discountRevision/priceRevision,已批准租期推荐视觉,NOT_TESTED
+BRANCH-04,预约用仓线索提交,留资联系电话另行验证,LEAD_NOT_ORDER,YES,leadId/phone,不新建正式订单,NOT_TESTED
+BRANCH-04,快捷下单,进入正式下单与 O01,ORDER,YES,storeId/unitId/months/snapshotId,快捷单页已批准结构,NOT_TESTED
+CENTRAL,O01 确认订单,深链/刷新/提交前都重新检查,ORDER,YES,signedQuoteSnapshotId/discountRevision,订单快照和支付恢复,NOT_TESTED

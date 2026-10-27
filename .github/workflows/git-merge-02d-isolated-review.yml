@@ -1,0 +1,53 @@
+name: GIT-MERGE-02D isolated review
+on:
+  push:
+    branches:
+      - feature/git-merge-02c-targeted-20261027
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  targeted-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Node 02C and main-chain model tests
+        working-directory: app/prototype/parallel/core-journey-fix-01/demo
+        run: |
+          set -e
+          node qa/test_merge02c_policy.js
+          node qa/test_mainchain_decision.js
+          node qa/test_br03_policy.js
+          node qa/test_model.js
+          node qa/test_br04_state.js
+          node qa/test_journey_precision.js
+          node qa/test_priority_fixes.js
+          node qa/test_decisions.js
+          node qa/test_business_catalog.js
+          node qa/test_beijing30.js
+          node qa/test_presentation_policy.js
+      - name: Install headless Chromium
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: HTTP browser 375 and 390
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 > /tmp/merge02d-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 3
+          node qa/merge02d_browser.cjs
+      - name: Upload private visual and browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge02d-private-evidence
+          path: app/prototype/parallel/core-journey-fix-01/evidence/merge02d/
+          if-no-files-found: warn
+          retention-days: 7

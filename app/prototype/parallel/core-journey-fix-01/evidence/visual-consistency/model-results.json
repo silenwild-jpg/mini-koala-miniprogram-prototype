@@ -1,0 +1,79 @@
+{
+  "result": "PASS",
+  "model_files": 9,
+  "model_groups": 123,
+  "models": [
+    {
+      "file": "test_beijing30.js",
+      "groups": 8,
+      "beijing": 30,
+      "units": 132,
+      "result": "PASS"
+    },
+    {
+      "file": "test_br03_policy.js",
+      "groups": 17,
+      "result": "PASS"
+    },
+    {
+      "file": "test_br04_state.js",
+      "groups": 7,
+      "result": "PASS"
+    },
+    {
+      "file": "test_business_catalog.js",
+      "groups": 10,
+      "result": "PASS"
+    },
+    {
+      "file": "test_decisions.js",
+      "groups": 22,
+      "result": "PASS",
+      "fixture": "STORE_FIXTURE_04_DECISIONS_20261026"
+    },
+    {
+      "file": "test_journey_precision.js",
+      "groups": 10,
+      "result": "PASS"
+    },
+    {
+      "file": "test_model.js",
+      "groups": 25,
+      "fixtureVersion": "STORE_FIXTURE_04_DECISIONS_20261026",
+      "stores": 33,
+      "units": 132,
+      "scenarios": 14,
+      "result": "PASS"
+    },
+    {
+      "file": "test_presentation_policy.js",
+      "groups": 12,
+      "result": "PASS"
+    },
+    {
+      "file": "test_priority_fixes.js",
+      "groups": 12,
+      "result": "PASS"
+    }
+  ],
+  "syntax_files": 26,
+  "inline_scripts": 4,
+  "inline": [
+    {
+      "file": "demo/cap.html",
+      "script": 0
+    },
+    {
+      "file": "demo/items.html",
+      "script": 0
+    },
+    {
+      "file": "demo/items.html",
+      "script": 1
+    },
+    {
+      "file": "consistency-review.html",
+      "script": 0
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+[
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\BRANCH-01-HANDOFF-01B_定位确认语义修复与共享契约同步.zip",
+    "member": "BRANCH_01_HANDOFF_01B/01_preview/BRANCH-01_首页独立演示_R1_定位语义修复.html",
+    "sha256": "7afdf74098dafe85ed3836dd8ee681b8fc1a50d0484eceac352edf9199cc6f9a",
+    "bytes": 7275932,
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\SOURCE_home.html",
+    "role": "Original independent source; reference only; not integrated product"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\BRANCH_02_FREEZE_01_%E5%AE%B9%E9%87%8F%E9%A1%B5%E8%A7%86%E8%A7%89%E6%AF%8D%E7%89%88%E7%AD%BE%E6%94%B6%E5%8C%85 (1).zip",
+    "member": "SIGNED_VISUAL_SOURCE.zip::BRANCH_02_VIS_GUARD_02/visual_review_offline.html",
+    "sha256": "cfb9477a2265dcb455f56fd12cf4b2ba2d7f724a10459fdaf14dfcc492157e7f",
+    "bytes": 1674208,
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\SOURCE_cap.html",
+    "role": "Original independent source; reference only; not integrated product"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\BRANCH_02_FLOW_FREEZE_01_按物品估算工作台视觉母版签收包.zip",
+    "member": "BRANCH_02_FLOW_FREEZE_01/FLOW08E_箱包摄影级独立交互预览.html",
+    "sha256": "8e6b3a98b746d26d61977c2ae6d01b823fc18b3987603d0eb7cbaab81a5bae16",
+    "bytes": 1267992,
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\SOURCE_items.html",
+    "role": "Original independent source; reference only; not integrated product"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH_04_HANDOFF_01_2026-10-23.zip",
+    "member": "BRANCH-04-HANDOFF-01/sources/Mini_Koala_BRANCH_04_S5_VIS_05_FIX_02_2026-10-23.zip::BRANCH-04-S5-VIS-05-FIX-02/S5_单文件离线预览.html",
+    "sha256": "c887c1c9f5f813c4d9932c3fb70a15aca96e7a179c77d9634796240d32b48812",
+    "bytes": 171693,
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\SOURCE_s5.html",
+    "role": "Original independent source; reference only; not integrated product"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\BRANCH-01-HANDOFF-01B_定位确认语义修复与共享契约同步.zip",
+    "member": "BRANCH_01_HANDOFF_01B/02_visual/VIS-11J_用户批准唯一视觉母版.png",
+    "sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660",
+    "width": 1024,
+    "height": 1536,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\H01_VIS11J.png",
+    "copy_sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\H01_VIS11J.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\BRANCH_02_FLOW_FREEZE_01_按物品估算工作台视觉母版签收包.zip",
+    "member": "BRANCH_02_FLOW_FREEZE_01/screens/FLOW_FREEZE_01_390x844_8states.png",
+    "sha256": "b2acc3afbdb24cd47ec3952c3c198c1e3467d7a500b5f7d71ef1e83f45fb3b59",
+    "width": 1655,
+    "height": 1823,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\ITEMS_390_8states.png",
+    "copy_sha256": "b2acc3afbdb24cd47ec3952c3c198c1e3467d7a500b5f7d71ef1e83f45fb3b59",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\ITEMS_390_8states.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\BRANCH_02_FREEZE_01_%E5%AE%B9%E9%87%8F%E9%A1%B5%E8%A7%86%E8%A7%89%E6%AF%8D%E7%89%88%E7%AD%BE%E6%94%B6%E5%8C%85 (1).zip",
+    "member": "SIGNED_VISUAL_SOURCE.zip::BRANCH_02_VIS_GUARD_02/screens/375_GUARD02_first.png",
+    "sha256": "f00b2234183061d18dbd84fb63d57cda0b0d6fc28ab8d8fd8226672a39fa3b93",
+    "width": 750,
+    "height": 1624,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\CAP_375_GUARD02.png",
+    "copy_sha256": "f00b2234183061d18dbd84fb63d57cda0b0d6fc28ab8d8fd8226672a39fa3b93",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\CAP_375_GUARD02.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\BRANCH_02_FREEZE_01_%E5%AE%B9%E9%87%8F%E9%A1%B5%E8%A7%86%E8%A7%89%E6%AF%8D%E7%89%88%E7%AD%BE%E6%94%B6%E5%8C%85 (1).zip",
+    "member": "SIGNED_VISUAL_SOURCE.zip::BRANCH_02_VIS_GUARD_02/screens/390_GUARD02_first.png",
+    "sha256": "89fac63d005180db11a784d571b6d64326695ae78d9ede68f3347b4b7fdcbd83",
+    "width": 780,
+    "height": 1688,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\CAP_390_GUARD02.png",
+    "copy_sha256": "89fac63d005180db11a784d571b6d64326695ae78d9ede68f3347b4b7fdcbd83",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\CAP_390_GUARD02.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH03_VIS07_视觉母版签收_演示素材边界冻结_2026-10-23.zip",
+    "member": "BRANCH-03-VIS-07/01_FROZEN_VISUALS/S01_已选需求_C布局_375x812@2x.png",
+    "sha256": "79a860387ba797d471a71e0f217446c98dc8dddbcb4edfe529f0339028ddbdaa",
+    "width": 750,
+    "height": 1624,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\S01_375_VIS07.png",
+    "copy_sha256": "79a860387ba797d471a71e0f217446c98dc8dddbcb4edfe529f0339028ddbdaa",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\S01_375_VIS07.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH03_VIS07_视觉母版签收_演示素材边界冻结_2026-10-23.zip",
+    "member": "BRANCH-03-VIS-07/01_FROZEN_VISUALS/S01_已选需求_C布局_390x844@2x.png",
+    "sha256": "b9ce508fd0721a65ebd06e910d8df35089332b6c3950963ed842ceece24d7103",
+    "width": 780,
+    "height": 1688,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\S01_390_VIS07.png",
+    "copy_sha256": "b9ce508fd0721a65ebd06e910d8df35089332b6c3950963ed842ceece24d7103",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\S01_390_VIS07.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH03_VIS07_视觉母版签收_演示素材边界冻结_2026-10-23.zip",
+    "member": "BRANCH-03-VIS-07/01_FROZEN_VISUALS/S02_已选6月_整期价格_375x812@2x.png",
+    "sha256": "9f5e25183c5818b9d42d569e5bbf9f86c7c790a2fbc94d937df2c51466923a77",
+    "width": 750,
+    "height": 1624,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\S02_375_VIS07.png",
+    "copy_sha256": "9f5e25183c5818b9d42d569e5bbf9f86c7c790a2fbc94d937df2c51466923a77",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\S02_375_VIS07.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH03_VIS07_视觉母版签收_演示素材边界冻结_2026-10-23.zip",
+    "member": "BRANCH-03-VIS-07/01_FROZEN_VISUALS/S02_已选6月_整期价格_390x844@2x.png",
+    "sha256": "f1db880c8101e985fd8b3aeca25f44c01033814b32ea2ccecd5ade7e63578529",
+    "width": 780,
+    "height": 1688,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\S02_390_VIS07.png",
+    "copy_sha256": "f1db880c8101e985fd8b3aeca25f44c01033814b32ea2ccecd5ade7e63578529",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\S02_390_VIS07.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH_04_HANDOFF_01_2026-10-23.zip",
+    "member": "BRANCH-04-HANDOFF-01/evidence/VISUAL_MASTER_4_PAGES_APPROVED.png",
+    "sha256": "9be05eae8e45b026060117048959f7c178efeaa42ca2c0bc3a4be00f3704a913",
+    "width": 1536,
+    "height": 1024,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\BR04_4pages_handoff.png",
+    "copy_sha256": "9be05eae8e45b026060117048959f7c178efeaa42ca2c0bc3a4be00f3704a913",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\BR04_4pages_handoff.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH_04_HANDOFF_01_2026-10-23.zip",
+    "member": "BRANCH-04-HANDOFF-01/sources/Mini_Koala_BRANCH_04_QUICK_VIS_06_Editable_DualSize_2026-10-23.zip::BRANCH-04-QUICK-VIS-06_快捷下单高保真还原/冻结母版_快捷下单_单页.png",
+    "sha256": "a1bb96e0edbae683fbbcb76b76cb04d496b0ecfedb20649bc782c1267c1c4a1a",
+    "width": 366,
+    "height": 869,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\QUICK_source_crop.png",
+    "copy_sha256": "a1bb96e0edbae683fbbcb76b76cb04d496b0ecfedb20649bc782c1267c1c4a1a",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\QUICK_source_crop.png",
+    "role": "Original visual reference"
+  },
+  {
+    "package": "C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\original-zips\\Mini_Koala_BRANCH_04_HANDOFF_01_2026-10-23.zip",
+    "member": "BRANCH-04-HANDOFF-01/sources/Mini_Koala_BRANCH_04_S5_VIS_05_FIX_02_2026-10-23.zip::BRANCH-04-S5-VIS-05-FIX-02/冻结母版_S5_原始裁切.png",
+    "sha256": "f7d09be93bf90030c37b2222019c62f7d6087f1a8e9e1af5c955dbd73426f8b8",
+    "width": 371,
+    "height": 871,
+    "copy": "C:\\Users\\silence\\OneDrive\\文档\\ChatGPT\\迷你考拉仓—统一项目\\outputs\\FREEZE_RECOVERY_2026-10-27\\source-evidence\\S5_source_crop.png",
+    "copy_sha256": "f7d09be93bf90030c37b2222019c62f7d6087f1a8e9e1af5c955dbd73426f8b8",
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\S5_source_crop.png",
+    "role": "Original visual reference"
+  },
+  {
+    "target": "app\\prototype\\parallel\\core-journey-fix-01\\evidence\\freeze-recovery\\source\\QA_FRAME_home.html",
+    "role": "QA-only frame normalization: toolbar hidden and phone viewport size normalized; source app content unchanged; not a signed original",
+    "source_sha256": "7afdf74098dafe85ed3836dd8ee681b8fc1a50d0484eceac352edf9199cc6f9a"
+  }
+]

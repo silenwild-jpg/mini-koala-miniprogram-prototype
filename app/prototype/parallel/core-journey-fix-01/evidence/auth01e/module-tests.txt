@@ -1,0 +1,27 @@
+✔ G1: anonymous official quote is blocked when login cancelled (1.0468ms)
+✔ G1: verified phone resumes pending official quote exactly once (0.2469ms)
+✔ G2: previously verified order does not show login again (0.1814ms)
+✔ G2: declined authorisation does not enter O01 (0.1665ms)
+✔ failure: rejected verification does not open protected data (0.1345ms)
+✔ stale: switching unit, months or discount during login prevents replay (0.1698ms)
+✔ fail closed: a forged provider ok but not server verified is blocked (0.1505ms)
+✔ fail closed: session service outage rejects quote (0.1764ms)
+✔ expired at final check: do not execute order (0.2481ms)
+✔ simultaneous same operation is idempotent (32.6396ms)
+✔ different concurrent operation remains busy (0.3899ms)
+✔ BRANCH-01 home immediate order must cross ORDER gate (0.2783ms)
+✔ BRANCH-02 CAP->S5 official quote after verification (0.1742ms)
+✔ BRANCH-03 S01/S02/U01 immediate order when verified (0.1675ms)
+✔ BRANCH-04 S5 official quote is blocked if no verification (0.1291ms)
+✔ O01 direct submit must recheck session and cannot bypass (0.2051ms)
+✔ context mismatch in discount revision blocks order replay (0.1367ms)
+✔ O01 deep-link page entry blocked on anonymous cancelled login (0.1164ms)
+✔ O01 deep-link page entry permitted for verified user (0.1245ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 123.0022

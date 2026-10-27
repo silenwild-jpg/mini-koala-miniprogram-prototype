@@ -1,0 +1,53 @@
+name: GIT-MERGE-02I four-branch internal demo admission
+on:
+  push:
+    branches:
+      - feature/git-merge-02i-demo-admission-20261027
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  four-branch-admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Core logic, quote, store and source integrity regression
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          set -e
+          node --check qa/test_merge02i_admission.cjs
+          node demo/qa/test_model.js
+          node demo/qa/test_decisions.js
+          node demo/qa/test_mainchain_decision.js
+          node demo/qa/test_br04_state.js
+          node demo/qa/test_merge02c_policy.js
+          node qa/test_merge02i_policy.js
+          node qa/test_merge02g_contract.js
+          node qa/test_merge02h_source.cjs
+      - name: Install browser and Chinese fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Actual 375 and 390 demo admission journeys
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/02i-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 3
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02i_admission.cjs
+      - name: Upload private evidence including failed cases
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge02i-four-branch-private
+          path: app/prototype/parallel/core-journey-fix-01/evidence/merge02i/
+          retention-days: 7
+          if-no-files-found: warn

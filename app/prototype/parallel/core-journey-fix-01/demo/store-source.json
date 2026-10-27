@@ -1,0 +1,343 @@
+{
+  "workbook": "考拉门店.xlsx",
+  "sha256": "b0d871192c4ea5f0bd8e10c3e9a430a3b796325a83928c8ca5b56bebf0601315",
+  "sheet": "Sheet1",
+  "source_rows": 308,
+  "beijing_source_rows": 105,
+  "selected_stores": [
+    {
+      "area_name": "安贞",
+      "community": "富仁名苑",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区富仁名苑胜古北里南28号楼",
+      "row": 56,
+      "id": "SIM_BJ01",
+      "name": "安贞·富仁名苑店"
+    },
+    {
+      "area_name": "芍药居",
+      "community": "芍药居北里",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区芍药居北里315号楼",
+      "row": 21,
+      "id": "SIM_BJ02",
+      "name": "芍药居北里店"
+    },
+    {
+      "area_name": "建国门外",
+      "community": "通用时代国际家园",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区通用时代国际家园永安东里甲3号通用国际中心5号楼",
+      "row": 246,
+      "id": "SIM_BJ03",
+      "name": "建国门外·通用时代店"
+    },
+    {
+      "area_name": "三元桥",
+      "community": "UHN国际村",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区UHN国际村7号楼3、4单元",
+      "row": 85,
+      "id": "SIM_BJ04",
+      "name": "三元桥·国际村店"
+    },
+    {
+      "area_name": "望京",
+      "community": "上京新航线",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区上京新航线309号楼",
+      "row": 15,
+      "id": "SIM_BJ05",
+      "name": "望京·上京新航线店"
+    },
+    {
+      "area_name": "陶然亭",
+      "community": "中海紫御公馆",
+      "city": "北京市",
+      "district": "西城区",
+      "address": "北京市西城区中海紫御公馆永定门西滨河路8号院8号楼-14",
+      "row": 12,
+      "id": "SIM_BJ06",
+      "name": "陶然亭·中海紫御公馆店"
+    },
+    {
+      "area_name": "广渠门",
+      "community": "广渠门内大街8号",
+      "city": "北京市",
+      "district": "东城区",
+      "address": "北京市东城区广渠门内大街8号安化南里2号院便利蜂斜对面",
+      "row": 14,
+      "id": "SIM_BJ07",
+      "name": "广渠门内大街8号店"
+    },
+    {
+      "area_name": "望京",
+      "community": "朝庭公寓",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区朝庭公寓望京3号楼",
+      "row": 16,
+      "id": "SIM_BJ08",
+      "name": "望京·朝庭公寓店"
+    },
+    {
+      "area_name": "科技园区",
+      "community": "中海九号公馆",
+      "city": "北京市",
+      "district": "丰台区",
+      "address": "北京市丰台区中海九号公馆丰葆路98号院一区中海御景春天1号楼",
+      "row": 32,
+      "id": "SIM_BJ09",
+      "name": "科技园区·中海九号公馆店"
+    },
+    {
+      "area_name": "双井",
+      "community": "天之骄子",
+      "city": "北京市",
+      "district": "北京朝阳区",
+      "address": "北京市北京朝阳区天之骄子朝阳区双井4号楼1单元",
+      "row": 47,
+      "id": "SIM_BJ10",
+      "name": "双井·天之骄子店"
+    },
+    {
+      "area_name": "万柳",
+      "community": "光大花园",
+      "city": "北京市",
+      "district": "海淀区",
+      "address": "北京市海淀区光大花园万柳泉宗路7号楼",
+      "row": 64,
+      "id": "SIM_BJ11",
+      "name": "万柳·光大花园店"
+    },
+    {
+      "area_name": "回龙观",
+      "community": "首开智慧社",
+      "city": "北京市",
+      "district": "昌平区",
+      "address": "北京市昌平区首开智慧社育知东路1号楼3单元",
+      "row": 146,
+      "id": "SIM_BJ12",
+      "name": "回龙观·首开智慧社店"
+    },
+    {
+      "area_name": "玉桥",
+      "community": "合生滨江帝景",
+      "city": "北京市",
+      "district": "通州区",
+      "address": "北京市通州区合生滨江帝景永顺镇玉桥东路119号楼1单元-204",
+      "row": 199,
+      "id": "SIM_BJ13",
+      "name": "玉桥·合生滨江帝景店"
+    },
+    {
+      "area_name": "老山",
+      "community": "老山东里",
+      "city": "北京市",
+      "district": "石景山区",
+      "address": "北京市石景山区老山东里47号楼",
+      "row": 284,
+      "id": "SIM_BJ14",
+      "name": "老山东里店"
+    },
+    {
+      "area_name": "广安门",
+      "community": "西堤红山",
+      "city": "北京市",
+      "district": "西城区",
+      "address": "北京市西城区西堤红山广安门外大街305号二区2号楼",
+      "row": 93,
+      "id": "SIM_BJ15",
+      "name": "广安门·西堤红山店"
+    },
+    {
+      "area_name": "陶然亭",
+      "community": "天桥商场",
+      "city": "北京市",
+      "district": "东城区",
+      "address": "北京市东城区天桥商场永定门内大街1号天桥百货商场",
+      "row": 44,
+      "id": "SIM_BJ16",
+      "name": "陶然亭·天桥商场店"
+    },
+    {
+      "area_name": "四惠",
+      "community": "八里庄东里",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区八里庄东里八里庄社区5号楼",
+      "row": 23,
+      "id": "SIM_BJ17",
+      "name": "四惠·八里庄东里店"
+    },
+    {
+      "area_name": "丽泽",
+      "community": "丽新怡园",
+      "city": "北京市",
+      "district": "丰台区",
+      "address": "北京市丰台区丽新怡园北京西站南路167号一号楼+J41:J59",
+      "row": 41,
+      "id": "SIM_BJ18",
+      "name": "丽泽·丽新怡园店"
+    },
+    {
+      "area_name": "望京",
+      "community": "望京3号院",
+      "city": "北京市",
+      "district": "北京朝阳区",
+      "address": "北京市北京朝阳区望京3号院朝阳区1号楼",
+      "row": 222,
+      "id": "SIM_BJ19",
+      "name": "望京3号院店"
+    },
+    {
+      "area_name": "学院路",
+      "community": "城华园",
+      "city": "北京市",
+      "district": "海淀区",
+      "address": "北京市海淀区城华园学清路21号2号楼",
+      "row": 131,
+      "id": "SIM_BJ20",
+      "name": "学院路·城华园店"
+    },
+    {
+      "area_name": "昌平其它",
+      "community": "龙湖滟澜新宸",
+      "city": "北京市",
+      "district": "昌平区",
+      "address": "北京市昌平区龙湖滟澜新宸沙河镇能源南街南西区9号楼2单元",
+      "row": 203,
+      "id": "SIM_BJ21",
+      "name": "昌平其它·龙湖滟澜新宸店"
+    },
+    {
+      "area_name": "潞苑",
+      "community": "珠江丽景家园",
+      "city": "北京市",
+      "district": "通州区",
+      "address": "北京市通州区珠江丽景家园永顺镇玉潞苑南里63栋2单元",
+      "row": 252,
+      "id": "SIM_BJ22",
+      "name": "潞苑·珠江丽景家园店"
+    },
+    {
+      "area_name": "牛街",
+      "community": "白广路6号院",
+      "city": "北京市",
+      "district": "西城区",
+      "address": "北京市西城区白广路6号院白广路钢社总院4，6号",
+      "row": 111,
+      "id": "SIM_BJ23",
+      "name": "牛街·白广路6号院店"
+    },
+    {
+      "area_name": "东花市",
+      "community": "东花市北里",
+      "city": "北京市",
+      "district": "东城区",
+      "address": "北京市东城区东花市北里中区 28号楼",
+      "row": 54,
+      "id": "SIM_BJ24",
+      "name": "东花市北里店"
+    },
+    {
+      "area_name": "成寿寺",
+      "community": "中海圣朝菲",
+      "city": "北京市",
+      "district": "朝阳区",
+      "address": "北京市朝阳区中海圣朝菲少角中街8号院9号楼西头",
+      "row": 24,
+      "id": "SIM_BJ25",
+      "name": "成寿寺·中海圣朝菲店"
+    },
+    {
+      "area_name": "玉泉营",
+      "community": "西陆名门",
+      "city": "北京市",
+      "district": "丰台区",
+      "address": "北京市丰台区西陆名门玉泉营",
+      "row": 74,
+      "id": "SIM_BJ26",
+      "name": "玉泉营·西陆名门店"
+    },
+    {
+      "area_name": "西二旗",
+      "community": "博雅德园",
+      "city": "北京市",
+      "district": "海淀区",
+      "address": "北京市海淀区西二旗北路与西二旗中路交叉口",
+      "row": 132,
+      "id": "SIM_BJ27",
+      "name": "西二旗·博雅德园店"
+    },
+    {
+      "area_name": "霍营",
+      "community": "龙旗广场",
+      "city": "北京市",
+      "district": "昌平区",
+      "address": "北京市昌平区龙旗广场黄平路19号楼6号楼",
+      "row": 290,
+      "id": "SIM_BJ28",
+      "name": "霍营·龙旗广场店"
+    },
+    {
+      "area_name": "北关",
+      "community": "侨商中心",
+      "city": "北京市",
+      "district": "通州区",
+      "address": "北京市通州区侨商中心北关5号院2号楼大堂进入商业楼",
+      "row": 300,
+      "id": "SIM_BJ29",
+      "name": "北关·侨商中心店"
+    },
+    {
+      "area_name": "广安门",
+      "community": "蝶翠华庭",
+      "city": "北京市",
+      "district": "西城区",
+      "address": "北京市西城区蝶翠华庭广安门外大街305号8号楼-1",
+      "row": 135,
+      "id": "SIM_BJ30",
+      "name": "广安门·蝶翠华庭店"
+    },
+    {
+      "id": "SIM_SH01",
+      "name": "中山公园店",
+      "row": 2,
+      "area_name": "中山公园",
+      "community": "延安西路1237号",
+      "city": "上海市",
+      "district": "长宁区",
+      "address": "上海市长宁区延安西路1237号佳达新苑1幢"
+    },
+    {
+      "id": "SIM_SH02",
+      "name": "北新泾店",
+      "row": 5,
+      "area_name": "北新泾",
+      "community": "IBP国际会议中心",
+      "city": "上海市",
+      "district": "长宁区",
+      "address": "上海市长宁区IBP国际会议中心通协路258号-2"
+    },
+    {
+      "id": "SIM_SZ01",
+      "name": "西乡·凤凰智谷店",
+      "row": 4,
+      "area_name": "西乡",
+      "community": "凤凰智谷",
+      "city": "深圳市",
+      "district": "宝安区",
+      "address": "深圳市宝安区凤凰智谷碧桂园A栋商铺01-112-113号"
+    }
+  ],
+  "beijing_selected": 30,
+  "distance_verified": false,
+  "name_policy": "derived from source business area and community, not official shop-name column",
+  "unit_inventory_and_prices": "internal fixture; not workbook facts"
+}

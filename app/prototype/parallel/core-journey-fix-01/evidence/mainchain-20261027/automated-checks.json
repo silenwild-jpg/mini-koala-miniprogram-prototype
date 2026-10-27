@@ -1,0 +1,737 @@
+{
+  "base": "44a1414cd9db230ba67cb4daaad9620f6b49969f",
+  "model_suites": [
+    {
+      "file": "demo/qa/test_beijing30.js",
+      "exit_code": 0,
+      "stdout": "PASS default catalog has exactly thirty unique Beijing stores\nPASS all thirty Beijing sources have explicit workbook row mappings\nPASS sample spans eight normalized Beijing districts\nPASS every Beijing store has a configured and dimensionally consistent warehouse catalog\nPASS sample covers available sold reserved occupied unavailable and paused states\nPASS full store profiles cannot be selected or recommended as available\nPASS no-match recovery preserves demand under the expanded catalog\nPASS catalog has no asserted coordinates and invalidates prior eight-store state\n{\"groups\":8,\"beijing\":30,\"units\":132,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_br03_policy.js",
+      "exit_code": 0,
+      "stdout": "PASS four configured states use actual unit identity and current amounts\nPASS unverified visitors do not receive term-qualified promo claims\nPASS unconfirmed lease cannot inherit a campaign from a default\nPASS changing term removes ineligible promotions without changing demand\nPASS changed price revision hides the old catalogue campaign\nPASS inactive and expired campaigns cannot display\nPASS marketing tags on the old store fixture cannot create unit promotions\nPASS inventory counts come only from a declared complete same-capacity group\nPASS incomplete or invalid inventory membership hides scarcity\nPASS unavailable unit removes promo and purchasing urgency\nPASS same unit renders identical campaign and price facts across pages\nPASS linked capacity uses capacity matching without inventing selected objects\nPASS actual item selections use only names from the persisted catalogue IDs\nPASS unmatched but rentable capacities are not marked as matching\nPASS browse copy follows the approved volume bands without renaming the unit\nPASS policy emits no invented quota, savings, transport or size-check prompt\nPASS all Beijing stores and source units remain intact\n{\"groups\":17,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_br04_state.js",
+      "exit_code": 0,
+      "stdout": "PASS optional lead fields persist without store or unit binding\nPASS address alone is sufficient and empty address is rejected\nPASS optional fields are restricted; contact only inherits from validated shared state\nPASS changing store invalidates selection and quote while retaining demand\nPASS pending order remains a snapshot after quote revocation\nPASS failed payment can release inventory before a new explicit attempt\nPASS cross-city and stale warehouse selection cannot be confirmed\n{\"groups\":7,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_business_catalog.js",
+      "exit_code": 0,
+      "stdout": "PASS enterprise lead is separate from address reservation\nPASS valid contact is required, international numbers supported\nPASS manually supplied contact does not grant price authorization\nPASS enterprise lead creates no unit binding, order or transport entitlement\nPASS enterprise fields and multi-select are retained without fabricated term\nPASS invalid capacity, lease and date are rejected before saving\nPASS selected names and addresses map to workbook row records\nPASS warehouse dimensions agree with capacity and floor area\nPASS no invented showcase names or addresses; distance not claimed verified\nPASS prior fixture state does not survive the store source version change\n{\"groups\":10,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_decisions.js",
+      "exit_code": 0,
+      "stdout": "PASS manual contact remains unverified and cannot request formal prices or submit orders\nPASS verified contact unlocks only the explicitly confirmed rental term\nPASS no implicit capacity term store warehouse or date in fresh state\nPASS combinations are restricted to two units in one store\nPASS thirty Beijing stores carry one operating tag and differentiated service tags\nPASS automatic coupon picks highest eligible rent discount and never discounts deposits\nPASS coupon choice can disable discount and service benefit cannot reduce rent\nPASS claim apply lock redeem and new-customer invalidation are coherent\nPASS failed payment releases both reserved stock and locked coupon\nPASS expired pending order cannot pay and releases stock/coupon\nPASS pending payment rechecks stock and does not overwrite a changed stock state\nPASS cancellation is only available for pending orders\nPASS identity and date checks are independent of phone authorization\nPASS renewal is re-priced and renewal coupon only applies to six or more months\nPASS exit inspection failure retry pass and refund require the right prior state\nPASS invoice is linked to a paid record and never duplicated\nPASS transport remains advisor-confirmed and cannot silently grant free transport\nPASS personal lead inherits confirmed intention/contact but never binds store/unit\nPASS consultation has local status and preserves order context\nPASS new state round trip retains coupon order service and privacy boundaries\nPASS returning to the UI expires pending orders and releases locks without a payment click\nPASS E-store advice inherits intention but remains distinct from enterprise/order binding\n{\"groups\":22,\"result\":\"PASS\",\"fixture\":\"STORE_FIXTURE_04_DECISIONS_20261026\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_journey_precision.js",
+      "exit_code": 0,
+      "stdout": "PASS manual capacity keeps two-decimal contract\nPASS item estimate preserves exact precision and raw value\nPASS minimum matching volume never overwrites raw estimate\nPASS term edit keeps item estimate and invalidates prior quote\nPASS selection clearing preserves exact demand metadata\nPASS matching excludes a unit below the exact estimate\nPASS exact item demand can quote and submit a coherent order\nPASS known capacity clears item provenance and rejects absent confirmation\nPASS malformed estimates and duplicate item ids are rejected\nPASS lease confirmation cannot be fabricated by an estimate payload\n{\"groups\":10,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_mainchain_decision.js",
+      "exit_code": 0,
+      "stdout": "PASS monthly references stay public before verification and do not register an account\nPASS manual contact and consultation never register or unlock an order\nPASS wechat verification registers an account and unlocks formal pricing and order submission\nPASS sms verification registers an account and unlocks formal pricing and order submission\nPASS denial failure cancellation outcomes and invalid numbers never register\nPASS same phone login preserves account identity across methods and reload; expiry gates prices\nPASS advisor requires valid phone while address is optional, without store unit order or account binding\nPASS advisor address editing preserves contact and intention, and withdrawal blocks editing\nPASS personal address-only booking and independent enterprise validation remain distinct\nPASS unconfirmed lease remains unconfirmed after verification or advisor submission\nPASS existing verified prototype sessions adopt an account without registering unverified contacts\nPASS displayed addresses exclude spreadsheet formula fragments and duplicate city prefixes\n{\"groups\":12,\"result\":\"PASS\",\"scope\":\"MAIN_CHAIN_20261027\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_model.js",
+      "exit_code": 0,
+      "stdout": "PASS fixture identity and foreign keys\nPASS home cubic prices derive from same units\nPASS default Beijing and no silent term\nPASS capacity precision and edges\nPASS lease term is explicit, including 2 months\nPASS all scenarios are selectable and deterministic\nPASS closed/sold units and undersized selections blocked\nPASS cross-store and duplicate units blocked\nPASS no match and empty city are genuine data outcomes\nPASS alternatives exclude unavailable current store and sort by distance\nPASS nearby no-match expands past 3km using available data\nPASS authorization denial/failure and missing request cannot grant\nPASS dates are validated without defaults\nPASS known single order exact amount\nPASS combo is one order, deposits sum, management charged once\nPASS inventory changes block submission, preserve demand and offer recovery\nPASS price changes require explicit new quote\nPASS requirement/city/date changes invalidate quote\nPASS expired quote blocked\nPASS expired or revoked authorization blocks\nPASS tampered quote amount rejected\nPASS duplicate submit returns one order and reserves units\nPASS payment failure releases units; success occupies them\nPASS address-only lead creates no order/store/unit association\nPASS state hydration remains fixture-isolated and fresh visits capped\n{\"groups\":25,\"fixtureVersion\":\"STORE_FIXTURE_04_DECISIONS_20261026\",\"stores\":33,\"units\":132,\"scenarios\":14,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_presentation_policy.js",
+      "exit_code": 0,
+      "stdout": "PASS public reference never issues a formal term amount\nPASS verified lease uses the same rent, average and payable engine\nPASS verification without explicit lease still shows monthly reference\nPASS revoking verification immediately removes term price context\nPASS same unit activity facts are shared with BR03 without another engine\nPASS price change invalidates the qualified special-unit badge\nPASS unavailable unit has no urgency fact\nPASS combination rent is one calculation with no invented combined activity\nPASS store facilities never turn old operating tags into price claims\nPASS home cubic references remain public and retain their published number\nPASS unknown or repeated price IDs cannot silently become a zero price\nPASS formatting does not mutate the persisted demand, selection or quote\n{\"groups\":12,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    },
+    {
+      "file": "demo/qa/test_priority_fixes.js",
+      "exit_code": 0,
+      "stdout": "PASS renewal has no default but retains the actively quoted six-month choice\nPASS six to twelve invalidates the quote immediately and blocks payment until re-priced\nPASS payment rejects a changed visible month even without an input event\nPASS clearing or entering an invalid renewal month cannot preserve a payable quote\nPASS expired and tampered renewal prices fail before recording a payment\nPASS paid renewal cannot repeat and the displayed end follows paid periods\nPASS anniversary projection clamps month ends and supports leap years\nPASS supplementing enterprise data preserves identity and avoids duplicate lead records\nPASS restored enterprise drafts can update the same ID after state hydration\nPASS invalid edits cannot partially overwrite a saved enterprise lead\nPASS withdrawn leads cannot be revived by edit; explicit new request has a new ID\nPASS enterprise supplementation preserves an existing exact item estimate\n{\"groups\":12,\"result\":\"PASS\"}\n",
+      "stderr": ""
+    }
+  ],
+  "syntax": [
+    {
+      "file": "demo/demo-core.js",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "file": "demo/app.js",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "file": "demo/account.js",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "file": "demo/br04/bridge.js",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "file": "demo/cap-bridge.js",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "file": "demo/items-bridge.js",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "file": "demo/phone-auth.js",
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "file": "demo/fixtures.js",
+      "exit_code": 0,
+      "stderr": ""
+    }
+  ],
+  "frozen_images_and_css": [
+    {
+      "file": "demo/account.css",
+      "unchanged": true,
+      "sha256": "35a6ef26b1a8885b1ce73afe6eef3dd3b272710440c34d60ad071764a962fa11"
+    },
+    {
+      "file": "demo/assets/B01_原始走廊首屏_合成.png",
+      "unchanged": true,
+      "sha256": "d134f73c48abcef0c2c1d444a86981d8a62cc846b5ed7a60b3ad2bb756aeab09"
+    },
+    {
+      "file": "demo/assets/B02_双任务摄影底图.png",
+      "unchanged": true,
+      "sha256": "b60ed58201a0954f160e3fcd0d72ced1ac199625203ab47e8f486b1e25cbf2e2"
+    },
+    {
+      "file": "demo/assets/B_视觉签收基准.png",
+      "unchanged": true,
+      "sha256": "ca375e2dabf51fc761b406b42d948ccb3c392f56621b0d770a91e9a31200b0de"
+    },
+    {
+      "file": "demo/assets/below_original_375.png",
+      "unchanged": true,
+      "sha256": "408bbcd214d74b30018cfae0f8136a68ee72100d6380f88f27383e367cfccac4"
+    },
+    {
+      "file": "demo/assets/below_original_390.png",
+      "unchanged": true,
+      "sha256": "2fd9fcae6bf609e76aa99259568b83ab728f8b292605dc38bee56fc96ea5a03b"
+    },
+    {
+      "file": "demo/assets/brand-proof-hitech-demo.webp",
+      "unchanged": true,
+      "sha256": "451ccb803831e337524e985f0c152894794640d59539cf4f49049532d0d871ef"
+    },
+    {
+      "file": "demo/assets/brand-proof-media-demo.webp",
+      "unchanged": true,
+      "sha256": "febd8f1012078bb497f892500a9f04f755d3e14ec589e46d735b42a502834298"
+    },
+    {
+      "file": "demo/assets/brand-proof-standard-demo.webp",
+      "unchanged": true,
+      "sha256": "544a406a1aed6ae834cd9dd89fba7c1380b7859f2d308561f38b3c0c590435e0"
+    },
+    {
+      "file": "demo/assets/brand_corridor_cropped.png",
+      "unchanged": true,
+      "sha256": "ccbcb404d2e98cbbde65032f3f9230b04c7b1320342cb76bc7c7798570c38ceb"
+    },
+    {
+      "file": "demo/assets/brand_portrait_375.jpg",
+      "unchanged": true,
+      "sha256": "848129bdba2e64b627725ba07e4b361045945bd50ea933a649aaa5f410726c60"
+    },
+    {
+      "file": "demo/assets/brand_portrait_390.jpg",
+      "unchanged": true,
+      "sha256": "6829b7be38fb3b3d19902558eb1b10c0192e3851da84a88bd1fe3f36b4c8d570"
+    },
+    {
+      "file": "demo/assets/enterprise_375.jpg",
+      "unchanged": true,
+      "sha256": "b3bc86f67c1ce353644ad17571722b44807f02f200c23587437d1b31f34f6c03"
+    },
+    {
+      "file": "demo/assets/enterprise_390.jpg",
+      "unchanged": true,
+      "sha256": "ad2b33f85b6933a133bc3bdc0450e4537441a99590d787322181b2f42bf88eb7"
+    },
+    {
+      "file": "demo/assets/hero_editable_375.png",
+      "unchanged": true,
+      "sha256": "b55e16decbabc6ea341f8fccbf2f2478aa73e7a3e4553b651d265a471701c392"
+    },
+    {
+      "file": "demo/assets/hero_editable_390.png",
+      "unchanged": true,
+      "sha256": "361e1beac3c508087b866769f8dc0f13e8c05010b61b62e035d520842564c68d"
+    },
+    {
+      "file": "demo/assets/hero_inpaint_v2.png",
+      "unchanged": true,
+      "sha256": "2d7b7596af85a45ab4c0f306fe52f7bb12cefbf5c690f8941e1ccd7f3cc08115"
+    },
+    {
+      "file": "demo/assets/hero_mask_v2.png",
+      "unchanged": true,
+      "sha256": "e2ed6ac05c148147676ad646fc95e02b6938506e498f9302e1c681a4084604bc"
+    },
+    {
+      "file": "demo/assets/hero_original_375.png",
+      "unchanged": true,
+      "sha256": "84f15cf296ecbfb91950a2762ca710f8acc7a95bc43f38fe0451b73711e2805f"
+    },
+    {
+      "file": "demo/assets/hero_original_390.png",
+      "unchanged": true,
+      "sha256": "86bbc06ea7f89efe4b753476b84076d2fbf90c0fadb000a4db639c80af4c0793"
+    },
+    {
+      "file": "demo/assets/mini_split.jpg",
+      "unchanged": true,
+      "sha256": "6a6b251b15cdfc2ea77ae335478b18156146a00b4b6427a2078535678ff8503f"
+    },
+    {
+      "file": "demo/assets/nav_original_375.png",
+      "unchanged": true,
+      "sha256": "feba29c60fa7f7b19f940f9dab419d7a4193997a1cd5022e1391b93eb2448e0d"
+    },
+    {
+      "file": "demo/assets/nav_original_390.png",
+      "unchanged": true,
+      "sha256": "5b80b4077d0a5721be4141ea00b2b243b4d5d4d95460521535a0260f1b5bb7c5"
+    },
+    {
+      "file": "demo/assets/proof_1_375.jpg",
+      "unchanged": true,
+      "sha256": "4953821c1c56727afdc1a90e3164b8cd05bc913ae4b8173432c1185becd85d63"
+    },
+    {
+      "file": "demo/assets/proof_1_390.jpg",
+      "unchanged": true,
+      "sha256": "d470418c6ce7cc2cce55cae589dbefdadee89558495aec0a1f2259dbe564b38b"
+    },
+    {
+      "file": "demo/assets/proof_2_375.jpg",
+      "unchanged": true,
+      "sha256": "352d814bd68f73aa3aa34cd90adfca03810b7741ce4fc3a8c95f248202733fc4"
+    },
+    {
+      "file": "demo/assets/proof_2_390.jpg",
+      "unchanged": true,
+      "sha256": "4a078f37528aa997eb74213f0174aca005c1452b7dd65ef31b0bcb4b2cba31d5"
+    },
+    {
+      "file": "demo/assets/proof_3_375.jpg",
+      "unchanged": true,
+      "sha256": "6030a55fb6cd6009d38855cc7453ecdfb9bcea2e91f92fc5e205e3beee577f1c"
+    },
+    {
+      "file": "demo/assets/proof_3_390.jpg",
+      "unchanged": true,
+      "sha256": "1f380bda4f95e3e1ac9a99dfaad6034188a2daa260c28ffa2632cd4b8bdd50d8"
+    },
+    {
+      "file": "demo/assets/scene_photo_1_375.jpg",
+      "unchanged": true,
+      "sha256": "370cdb270dc2892eb4788bd1fbc93266f3c5bb31197c7cfb5157f8097c3576a8"
+    },
+    {
+      "file": "demo/assets/scene_photo_1_390.jpg",
+      "unchanged": true,
+      "sha256": "e56397ede5eb501f0bc031388884c9df6a64db2a9a780e2d139dd90bd5c46302"
+    },
+    {
+      "file": "demo/assets/scene_photo_2_375.jpg",
+      "unchanged": true,
+      "sha256": "62311454076cb0058c60cb02a35ee467323c58d0b4ca6e3e97ea898894705726"
+    },
+    {
+      "file": "demo/assets/scene_photo_2_390.jpg",
+      "unchanged": true,
+      "sha256": "e1613317b23b22f52ba450f1d80acc8d10b1a03bef5e02ff88bc5dd75754d947"
+    },
+    {
+      "file": "demo/assets/scene_photo_3_375.jpg",
+      "unchanged": true,
+      "sha256": "7bd42bb82e757ce527deccfebe81e75651f15366c043b4556c5effcca98dcdd5"
+    },
+    {
+      "file": "demo/assets/scene_photo_3_390.jpg",
+      "unchanged": true,
+      "sha256": "ba3a813cd2cf09be0ca132c452fef48428caf318cf7f9d106c7764cfde3230eb"
+    },
+    {
+      "file": "demo/assets/scene_photo_4_375.jpg",
+      "unchanged": true,
+      "sha256": "e37914320e5564584a37e380428db9f27301b6cc092bcdcc2b1361a858d5ea80"
+    },
+    {
+      "file": "demo/assets/scene_photo_4_390.jpg",
+      "unchanged": true,
+      "sha256": "d1fdd7fff5326a1056fa45a454b70c28a7e2c244747d7cb21c3060ad00bb69c0"
+    },
+    {
+      "file": "demo/assets/scene_photo_5_375.jpg",
+      "unchanged": true,
+      "sha256": "e9509fbcb30be36d74342ff47ea89ee3bf532b59e18d143ce2cdbf415df7a74c"
+    },
+    {
+      "file": "demo/assets/scene_photo_5_390.jpg",
+      "unchanged": true,
+      "sha256": "c0b3d0bf877c0f661bde7f5a98bb4399602d91fa44c983d99da3e6a3c2b98759"
+    },
+    {
+      "file": "demo/assets/scene_photo_6_375.jpg",
+      "unchanged": true,
+      "sha256": "a7d4b29d8ec668a345c2f798258366e8e4226421035db68d9af1eeda19b3d802"
+    },
+    {
+      "file": "demo/assets/scene_photo_6_390.jpg",
+      "unchanged": true,
+      "sha256": "a32d123da1fd58f01ec6ef912ada756a7d1f5e37ce24c721fa4ec23c93f9e308"
+    },
+    {
+      "file": "demo/assets/store_changning.jpg",
+      "unchanged": true,
+      "sha256": "48106c3bce1cdadef1ed7c7cf7ba25e7fb52a2324cf209ee836b303544af10b7"
+    },
+    {
+      "file": "demo/assets/store_jingan.jpg",
+      "unchanged": true,
+      "sha256": "cc0b232bd10be4dac918d62fd787a66e649d3d6adb29a28d3d23df85d00c6c7c"
+    },
+    {
+      "file": "demo/assets/store_jingan_hero_clean.jpg",
+      "unchanged": true,
+      "sha256": "fbda0bc9176351b040176cab9592ae140b49ab8ddc145494855712cbd3878a1a"
+    },
+    {
+      "file": "demo/assets/store_photo_1.png",
+      "unchanged": true,
+      "sha256": "e0668595df5e28fda1e33fc8ee5719d2cc2509ae9fe468417f1cd5f693e24c58"
+    },
+    {
+      "file": "demo/assets/store_photo_2.png",
+      "unchanged": true,
+      "sha256": "e5169608be32aac0db44236dd4385b9792e07cd4759e9b8549ef39d39b510374"
+    },
+    {
+      "file": "demo/assets/store_photo_3.png",
+      "unchanged": true,
+      "sha256": "e7fdf2492d688100b96f0a0f76653a6489c16b3a56c6c41909899524650dfb14"
+    },
+    {
+      "file": "demo/assets/store_pudong.jpg",
+      "unchanged": true,
+      "sha256": "efab936d20246d9034fad6ff48e5f550f0417192115faa058498d6858decced4"
+    },
+    {
+      "file": "demo/assets/store_xuhui.jpg",
+      "unchanged": true,
+      "sha256": "9257fb596f8578d61583b195307f6cb59793049c82f2c3c166657a9bfc885544"
+    },
+    {
+      "file": "demo/assets/stores_original_375.png",
+      "unchanged": true,
+      "sha256": "a562ad4be221a3b68daab33080d818fdcbbce4627bf2e4734b17b497bfebfa15"
+    },
+    {
+      "file": "demo/assets/stores_original_390.png",
+      "unchanged": true,
+      "sha256": "d6ba7849386f6a5b2c5b7066042fe650c41eec87acc2e19d335ee0688c9a3817"
+    },
+    {
+      "file": "demo/assets/task_estimate_right.png",
+      "unchanged": true,
+      "sha256": "dd69238561de4183a26a0250e0bb6d8593766fed44d39a48faadcbe91efab946"
+    },
+    {
+      "file": "demo/assets/task_store_left.png",
+      "unchanged": true,
+      "sha256": "763c4926ca88cd040818566d50bc9400cc688d1c406db2ac51ad3c9f2d566a73"
+    },
+    {
+      "file": "demo/assets/tasks_display_375.png",
+      "unchanged": true,
+      "sha256": "43f9ab5488a6df2ede5d7866590760fd5f6cf92e3af8e0ecbca913dc6d645e1e"
+    },
+    {
+      "file": "demo/assets/tasks_display_390.png",
+      "unchanged": true,
+      "sha256": "ed16e452822d6cfc08cbe620e4f94f9d568d19f3a7c2b1d9cda2da89d4fb470f"
+    },
+    {
+      "file": "demo/assets/tasks_editable_375.png",
+      "unchanged": true,
+      "sha256": "1edd8385deb9fc43e479a8b87d0e4a2b208934bf9a2b60d59e201af52cb32fd4"
+    },
+    {
+      "file": "demo/assets/tasks_editable_390.png",
+      "unchanged": true,
+      "sha256": "8b6b183c34644134f64b66db7bb3833a08edf6c0b198bf5243cd28254ca1aa3e"
+    },
+    {
+      "file": "demo/assets/tasks_original_375.png",
+      "unchanged": true,
+      "sha256": "801b5ec987755b714d6765ffb9575efdf22699e93cd360317fd994505825eeae"
+    },
+    {
+      "file": "demo/assets/tasks_original_390.png",
+      "unchanged": true,
+      "sha256": "5e89348ea59f41d2326afea4a7d6c1c8842f7ee9b388033a8e368bbb6c679835"
+    },
+    {
+      "file": "demo/assets/unit_medium.jpg",
+      "unchanged": true,
+      "sha256": "06632043fa6e30feefe61087d0fdffe16e299da5f6c081c43d44d4b0dfbeca5a"
+    },
+    {
+      "file": "demo/assets/unit_small1.jpg",
+      "unchanged": true,
+      "sha256": "b884fc861728f3a7985fa78405122b1216f457aa42952274685f6c74beb7d7b8"
+    },
+    {
+      "file": "demo/assets/unit_small2.jpg",
+      "unchanged": true,
+      "sha256": "c646a7f58bd56df9eec5bd249233352f09da32f23d91c20dd85929a017e7b73f"
+    },
+    {
+      "file": "demo/assets/vis07-booking.png",
+      "unchanged": true,
+      "sha256": "80d9ca8361168b8bf7392d496625d092aab0b6b3a3e0f857823d13a0c7bc8fb9"
+    },
+    {
+      "file": "demo/assets/vis07-clock.png",
+      "unchanged": true,
+      "sha256": "2f7c92302bb6d475c21202ef2149193361cabc04d4fa23ad0ef43e530f6ab069"
+    },
+    {
+      "file": "demo/assets/vis07-nav-calendar.png",
+      "unchanged": true,
+      "sha256": "290d838216535a7a4bac4e5d74e9bddff330c3cfa2ac47df051cb0b0ced8837e"
+    },
+    {
+      "file": "demo/assets/vis07-nav-home.png",
+      "unchanged": true,
+      "sha256": "1813598622b9a668d6a073eb6ffcae754bd0990b0e5fc39ff73f99585424998a"
+    },
+    {
+      "file": "demo/assets/vis07-nav-stores.png",
+      "unchanged": true,
+      "sha256": "9971488c1b39273c8bd0ec13351b023ad3325144d333cfa70c7c3ca6e312eff8"
+    },
+    {
+      "file": "demo/assets/vis07-nav-user.png",
+      "unchanged": true,
+      "sha256": "31181053fe1a379386af5ef99ea7187c38741e3f55755503d80cebec53de781c"
+    },
+    {
+      "file": "demo/assets/vis07-parking.png",
+      "unchanged": true,
+      "sha256": "3ca02b62b4ce00ecd03d93992d0325646d273151d8edfb4f461153158f2b2fe2"
+    },
+    {
+      "file": "demo/assets/vis07-shield.png",
+      "unchanged": true,
+      "sha256": "9e0c271a8b2a03920888601b43f7aa5a43a43d694ca20b06e60e67889f55d5ce"
+    },
+    {
+      "file": "demo/assets/vis07-train.png",
+      "unchanged": true,
+      "sha256": "548ef8fc7b40d10b7eb44c5838c9881024cab72dbf20da7f47f563e0bfcae4e0"
+    },
+    {
+      "file": "demo/assets/品牌人物_右侧裁切_B.jpg",
+      "unchanged": true,
+      "sha256": "09670fe48500075a74b67650fa30d1eca4654bcc4b69f86651e57ce2383c717a"
+    },
+    {
+      "file": "demo/assets/品牌人物_无文案裁切.jpg",
+      "unchanged": true,
+      "sha256": "d627e889407b7b22d54c86dd99ea29481af33258bc9ab09203e572263280930f"
+    },
+    {
+      "file": "demo/assets/品牌人物_横幅裁切_A.jpg",
+      "unchanged": true,
+      "sha256": "341cb84a9d6f2d7d83b1679d3ce51fca0a3ee1a22a85550c3b81a6a2c7840217"
+    },
+    {
+      "file": "demo/assets/商家企业横幅.png",
+      "unchanged": true,
+      "sha256": "ff3259515b7fb9c5125cc0895e7c0a4e09a2b4bb6cdf0ab9d4b7e13a979135bc"
+    },
+    {
+      "file": "demo/assets/场景_1.png",
+      "unchanged": true,
+      "sha256": "88a947964eb5b2ea1af8b34a4948211ddfdf327777c7496ccee1ac997495318c"
+    },
+    {
+      "file": "demo/assets/场景_2.png",
+      "unchanged": true,
+      "sha256": "28cdf7b02d9f9d620876089fa9be47d2475080e66ec9ff54b29c4db9775c22bb"
+    },
+    {
+      "file": "demo/assets/场景_3.png",
+      "unchanged": true,
+      "sha256": "c749bec04d8bc02cbcc57bec055b7053cc3785f4efec5c966381c54f28665238"
+    },
+    {
+      "file": "demo/assets/场景_4.png",
+      "unchanged": true,
+      "sha256": "403d15e088e5b5aa28a1b0c336d8d102ca4ba0bba8e0621bf724b47276da8f0a"
+    },
+    {
+      "file": "demo/assets/场景_5.png",
+      "unchanged": true,
+      "sha256": "0be9a0427c8d6645092ed40d21909c0595954fcca8051f44180545890a5d340a"
+    },
+    {
+      "file": "demo/assets/场景_6.png",
+      "unchanged": true,
+      "sha256": "7eca0e84c47e39c995cacf6546dd7e1f5340ac1784a4af0774f7519ced1d7122"
+    },
+    {
+      "file": "demo/assets/门店_1.png",
+      "unchanged": true,
+      "sha256": "2f8c0d047b5c8c06a9b6f48e9f6db4263c9c657862498a4ddf7e34a7ae54dea0"
+    },
+    {
+      "file": "demo/assets/门店_1_无叠字.png",
+      "unchanged": true,
+      "sha256": "79428b196ab37ab0111b2be81449504d0d5a79ebfd803bd449541e2cf94a8c33"
+    },
+    {
+      "file": "demo/assets/门店_2.png",
+      "unchanged": true,
+      "sha256": "84a037d3d6cb3d8683cc1fe7d25a09b7b3471b8863bdd847b78de2694ae78784"
+    },
+    {
+      "file": "demo/assets/门店_2_无叠字.png",
+      "unchanged": true,
+      "sha256": "bdcf2aff7db2c0e341b747278696e59d0a89b8323fa03283d2e8564e3d398c61"
+    },
+    {
+      "file": "demo/assets/门店_3.png",
+      "unchanged": true,
+      "sha256": "04bbe3f7af92f67f1166eeb25b939e504f1ef986566a41b2baa2875a95f67c92"
+    },
+    {
+      "file": "demo/assets/门店_3_无叠字.png",
+      "unchanged": true,
+      "sha256": "e7fdf2492d688100b96f0a0f76653a6489c16b3a56c6c41909899524650dfb14"
+    },
+    {
+      "file": "demo/br03-promo-copy.css",
+      "unchanged": true,
+      "sha256": "6ca8e6f1a6145c1fa5576bb5598afa75b343c279a25c64430c06ee24ba6f41e8"
+    },
+    {
+      "file": "demo/br04/adapter.css",
+      "unchanged": true,
+      "sha256": "fcbbf1727af6c618f4699fdd74e455790df82926a939390a1dc5269a7fe7d527"
+    },
+    {
+      "file": "demo/br04/o01/assets/card_store.png",
+      "unchanged": true,
+      "sha256": "5145e35166a9ce3bed7d1b4b99c7876de722cf2d5dcfd0ca7c570c44bc6228ea"
+    },
+    {
+      "file": "demo/br04/o01/assets/card_unit.png",
+      "unchanged": true,
+      "sha256": "df39aa96c58bb62bea504d318b5399fe577690704710cbdabdde07befbc369c0"
+    },
+    {
+      "file": "demo/br04/o01/assets/reference_approx.png",
+      "unchanged": true,
+      "sha256": "e94c855944ba463247ff50a43864e9f37f7be1a99a058a06c5f90a176af9d5a0"
+    },
+    {
+      "file": "demo/br04/o01/assets/reference_inner.png",
+      "unchanged": true,
+      "sha256": "8347f00e56d7157e85eb1794d282cd84ba6f34d4c46ac63544b27b7fd2be2442"
+    },
+    {
+      "file": "demo/br04/o01/assets/store-front.jpg",
+      "unchanged": true,
+      "sha256": "db5951b8d004c46c7b5ac3a0bd7cdf2aca4fe5cf72729fb6a863b4bbab85691a"
+    },
+    {
+      "file": "demo/br04/o01/assets/unit-corridor.jpg",
+      "unchanged": true,
+      "sha256": "ec7c4f2deef2b12b8907439b454ac53291d85b909275961c9f8a7ed30ccc5f55"
+    },
+    {
+      "file": "demo/br04/o01/styles.css",
+      "unchanged": true,
+      "sha256": "9b2ed0ed996610ad83b73081e9027813bc86c71dd6f5210ab78100a447d02f6e"
+    },
+    {
+      "file": "demo/br04/quick/assets/hero-clean.jpg",
+      "unchanged": true,
+      "sha256": "40704edd2d183fbe441b565e46e5f1cf27c6d13b7b57c9888e901e0fb54c55ab"
+    },
+    {
+      "file": "demo/br04/quick/assets/store-photo.png",
+      "unchanged": true,
+      "sha256": "c9ef6f629b1b568a2b120cf98b786c76b5b9b31e260f6488c093d7dc91799d9a"
+    },
+    {
+      "file": "demo/br04/quick/assets/unit-photo.png",
+      "unchanged": true,
+      "sha256": "4e0e7fb50e8669867bcf90e668c42a4bc9621a6dd864894bfe9d3eaf87a5329e"
+    },
+    {
+      "file": "demo/br04/quick/style.css",
+      "unchanged": true,
+      "sha256": "c06b09092796a9c2bf8fc48829c00bc3f5a39f1fc38da816172f84ebae096714"
+    },
+    {
+      "file": "demo/br04/reserve/assets/master_hero_intact.png",
+      "unchanged": true,
+      "sha256": "0ebaa915dd1aa338a462db281185d7efdeebf40c25876d90f17f800efaca293a"
+    },
+    {
+      "file": "demo/br04/reserve/style.css",
+      "unchanged": true,
+      "sha256": "9cba5de212e2fd86ec525d0dcf8abef35714824e7a9dfe72f519252fee457244"
+    },
+    {
+      "file": "demo/br04/s5/assets/demand-object.png",
+      "unchanged": true,
+      "sha256": "1a5e70e1171a521d647513a99c430c406e5a938c942b5ccffd23536830b6dba8"
+    },
+    {
+      "file": "demo/br04/s5/assets/estore-existing-scene.webp",
+      "unchanged": true,
+      "sha256": "be1cc8f89e81eae5e43dc36e1a1362a690a4aa2b667e81fc13582feca619e321"
+    },
+    {
+      "file": "demo/br04/s5/assets/main-photo.png",
+      "unchanged": true,
+      "sha256": "a61f799ff2212219ed5c7e5524dfc2a48daec5363c31e923a5801c17b3efcbfd"
+    },
+    {
+      "file": "demo/br04/s5/assets/secondary-photo.png",
+      "unchanged": true,
+      "sha256": "b90633030a2a33b27749dcd964067a48787dd3f94e19cc5bf26112c4ef2edb67"
+    },
+    {
+      "file": "demo/br04/s5/style.css",
+      "unchanged": true,
+      "sha256": "bff03f481f268b92546d7cd4cb310feeb6e13b3909eeca2c4effedf54fb68c11"
+    },
+    {
+      "file": "demo/business-adapter.css",
+      "unchanged": true,
+      "sha256": "8cb8115a40b90bee0dbd9018415b4b867001be99840b578baa1fe700cfbeed30"
+    },
+    {
+      "file": "demo/decision-apply.css",
+      "unchanged": true,
+      "sha256": "7fa1af32829ddb0cea5ed162c15567159b608a5470a3c8520b69456bece78049"
+    },
+    {
+      "file": "demo/demo.css",
+      "unchanged": true,
+      "sha256": "34726d3bca308e9da198f438851ed20d578bb4ac7e4dd7347dbd81660c55facb"
+    },
+    {
+      "file": "demo/mini_koala_visual_elevation_v2_1_density.css",
+      "unchanged": true,
+      "sha256": "2f7580ff12d3afeaea4f1f41cb294ca04220addfb24390c457de361c6951f147"
+    },
+    {
+      "file": "demo/mini_koala_visual_elevation_v2_controlled_rollout.css",
+      "unchanged": true,
+      "sha256": "d6dceb603a69c780720d5e289c2f252ffccdd8d1e55132f2c34620497a0ca4de"
+    },
+    {
+      "file": "demo/mini_storage_sprint3_lifecycle_hifi_v1.css",
+      "unchanged": true,
+      "sha256": "2246ab1087e27cf4364cd8f01472d8c8bbdc5fda5699007ddb25114516e98eb1"
+    },
+    {
+      "file": "demo/mk-uxc-scrollbar-hide.css",
+      "unchanged": true,
+      "sha256": "d0e2de00b7741cb636e76486f2f8c361cd8307e47e3ecf6fa0b41050db9eb798"
+    },
+    {
+      "file": "demo/mk-uxd2-layout-actions.css",
+      "unchanged": true,
+      "sha256": "590044e0ee82fa1c042bb7f571dbb24c953f8ac7b889e1bd06339b96454a6ff1"
+    },
+    {
+      "file": "demo/mk-v3-life-service-batch-c.css",
+      "unchanged": true,
+      "sha256": "2ccd8033d50f7f2839893ba2e59798014c243c79ab02fee8fc941f211453400e"
+    },
+    {
+      "file": "demo/mk-v3-site-shell-rollout.css",
+      "unchanged": true,
+      "sha256": "cbfeff6b0b091ad4a28032116da1380ee1662d4eb4b7624bf90fc1d77b04c557"
+    },
+    {
+      "file": "demo/phone-auth.css",
+      "unchanged": true,
+      "sha256": "32555e800c2025b0f2428ae8b6dc8f34245fafbc2d112edbdb52b78b0dce581a"
+    },
+    {
+      "file": "demo/presentation-calibration.css",
+      "unchanged": true,
+      "sha256": "3904981b27fa4b2454086af316ecdf21aad47867b0e816066410c36ef865ef1b"
+    },
+    {
+      "file": "demo/preview-calibration.css",
+      "unchanged": true,
+      "sha256": "5d1c2fd1535b7fb88951c45c7f38f1530b20430f96f1f563d9856ca39b8d1d4f"
+    },
+    {
+      "file": "demo/styles.css",
+      "unchanged": true,
+      "sha256": "5ffb4b7b1d6575093212c4b2c13659707c267b6af26a670729d94b27681f4164"
+    },
+    {
+      "file": "demo/vis_bg01_background_unification.css",
+      "unchanged": true,
+      "sha256": "dbb32017127ef57b7bacbcee52b004f32056a2bb802abc49a12d9aa2426a6861"
+    },
+    {
+      "file": "demo/visual-align.css",
+      "unchanged": true,
+      "sha256": "e44b0b2e447bddd75181292a803fb654c556c767b80e0268578f626a6319e002"
+    }
+  ],
+  "source_json_unchanged": true,
+  "embedded_art_unchanged": [
+    {
+      "file": "demo/cap.html",
+      "count": 22,
+      "unchanged": true
+    },
+    {
+      "file": "demo/items.html",
+      "count": 40,
+      "unchanged": true
+    }
+  ]
+}

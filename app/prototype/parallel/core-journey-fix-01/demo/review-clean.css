@@ -1,0 +1,4 @@
+/* 02E: product review surface by default; debug-only controls with ?debug=1. */
+html.mk-review-clean .demo-settings,
+html.mk-review-clean .mk-auth-settings {display:none!important;}
+@media(max-width:699px){html.mk-review-clean .app-shell{height:100dvh;margin-top:0}}

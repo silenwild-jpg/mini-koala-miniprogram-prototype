@@ -1,0 +1,291 @@
+{
+  "total": 64,
+  "pass": 64,
+  "fail": 0,
+  "results": [
+    {
+      "check": "375x812 S01 four stores",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 original service tags preserved",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 match counts plus term rent",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 all photos loaded",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 no clipping",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 sort distance",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 search static",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 filter drawer",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 return scroll",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 three navigation tabs",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 five types",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 clean hero photo",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 no clipping",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 favorite toggle",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 medium type filter",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 mini type filter",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 reviews tab",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 facilities tab",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 external nav intent",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 individual O01 intent",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 combo ready",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 combo O01 intent",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 no-term gate",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 term confirms intent",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 no match empty",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 no-map and no-compare UI",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 no-demand month reference",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S01 128-count layout stress",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 lightweight U01 preview",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 soldout disables booking",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 S02 booking leads to intent",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 no JS runtime errors",
+      "status": "PASS"
+    },
+    {
+      "check": "375x812 screenshots geometry",
+      "status": "INFO",
+      "detail": {
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "S02": {
+          "issues": [],
+          "horizontal": 0
+        }
+      }
+    },
+    {
+      "check": "390x844 S01 four stores",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 original service tags preserved",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 match counts plus term rent",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 all photos loaded",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 no clipping",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 sort distance",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 search static",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 filter drawer",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 return scroll",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 three navigation tabs",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 five types",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 clean hero photo",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 no clipping",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 favorite toggle",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 medium type filter",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 mini type filter",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 reviews tab",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 facilities tab",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 external nav intent",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 individual O01 intent",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 combo ready",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 combo O01 intent",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 no-term gate",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 term confirms intent",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 no match empty",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 no-map and no-compare UI",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 no-demand month reference",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S01 128-count layout stress",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 lightweight U01 preview",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 soldout disables booking",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 S02 booking leads to intent",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 no JS runtime errors",
+      "status": "PASS"
+    },
+    {
+      "check": "390x844 screenshots geometry",
+      "status": "INFO",
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "S02": {
+          "issues": [],
+          "horizontal": 0
+        }
+      }
+    }
+  ]
+}

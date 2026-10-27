@@ -1,0 +1,201 @@
+{
+  "task": "MAIN-CHAIN-02",
+  "date": "2026-10-27",
+  "base_commit": "44a1414cd9db230ba67cb4daaad9620f6b49969f",
+  "branch": "feature/visual-consistency-01",
+  "user_rule_status": "APPROVED_IN_CHAT",
+  "implementation": "PRODUCED",
+  "local_model_checks": "135 groups passed in 10 suites",
+  "browser_observations": 17,
+  "product_acceptance": "PENDING_USER",
+  "full_site_visual_signoff": "HOLD",
+  "central_integration": "NOT_MERGED",
+  "production": "NOT_IN_SCOPE",
+  "files": [
+    {
+      "path": "docs/CURRENT_RULES.md",
+      "bytes": 3413,
+      "sha256": "b7f33b66ae17eb213994df7327f16d3f04ed162c768b91eeb56b321d84ca4bdb"
+    },
+    {
+      "path": "docs/MAIN_CHAIN_02_HANDOFF_20261027.md",
+      "bytes": 5371,
+      "sha256": "d63892511395d01fb0b276232328b24b4032ec029de88446d89fbe882dc08e9f"
+    },
+    {
+      "path": "docs/BRANCH_REGISTER.md",
+      "bytes": 2042,
+      "sha256": "d2f9d436489e8d3c484d44fb6b7da701805be4cc17db44fc01638cf7d86bd6d3"
+    },
+    {
+      "path": "docs/VISUAL_MANIFEST.md",
+      "bytes": 2228,
+      "sha256": "f79c815fb1e293c17cdccadea3cccd799b9f2b9bfcc9887a7d67fa5e9272714b"
+    },
+    {
+      "path": "design-qa.md",
+      "bytes": 4901,
+      "sha256": "adb38faad1166cd5d7d55e29e9a3efddf329b14c30c47c7645724747bdf71c74"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/account.js",
+      "bytes": 26315,
+      "sha256": "29bf3086d75d4e1de8da564a75da5cb95efb7de72fb3c14913cefe150a501030"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/app.js",
+      "bytes": 36378,
+      "sha256": "6ec6bf32cdc226185b96c3c5654c8da1ae806e3204f28ab311ee59234cb97730"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js",
+      "bytes": 32986,
+      "sha256": "32b129ecfb3abcd3883d9b7948976df7fd73367160629b15bc19ad32b05f12f0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/cap-bridge.js",
+      "bytes": 4586,
+      "sha256": "f9c3b9f07cbf3ff81bd01ca5b1f0b4d3ebec6c76b4a4fa319e5bb10bc4275bf8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/demo-core.js",
+      "bytes": 26767,
+      "sha256": "eba406c54ff4ad425d4a8398d6d37624e1472bef632eea2989dd2e8305e8bc2d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/fixtures.js",
+      "bytes": 14493,
+      "sha256": "8754500a58a31d753055194ba2e9b60d6e3142b8fca2cce0fbd23fada3bc72bd"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/items-bridge.js",
+      "bytes": 5959,
+      "sha256": "aa7fa2411d0c1e039527eeaa07f9dd37a9e6e44c6c4aba22c37f6f5e7316bf74"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/phone-auth.js",
+      "bytes": 8381,
+      "sha256": "80eaf56f4e748709192e4e626722d5210089cad0de33084d4fd63bd6c24e2236"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_beijing30.js",
+      "bytes": 2914,
+      "sha256": "71e093c3258912e242c89c7cacf1568d5ab7ea635bbf1ea6e7c2d8d2566f5c70"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_business_catalog.js",
+      "bytes": 3424,
+      "sha256": "da744a6021d711e101f646a04c70ede796df00dfe10a8642fed084297d6448ea"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_mainchain_decision.js",
+      "bytes": 5666,
+      "sha256": "6cb3c71d8e9c7f56f381233ce41802624cb29a7f9d4af814225a7dca4b89d00e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/recovery-review.html",
+      "bytes": 6132,
+      "sha256": "8e10cf88adc64d49fb8ff4fd66efa1b83d1a3c4e9d93046c4b57f7c79feb5abe"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/01-s5-public-390.png",
+      "bytes": 137515,
+      "sha256": "4b5db61302b382139ff4338321386f30a5e2be142bf2e1c5c380d236bd15a264"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/02-s5-formal-390.png",
+      "bytes": 138225,
+      "sha256": "032ce34c2cbbb4d36dbd651949611ac1164fcd8537cdc5f72f0d41acf2ccab3c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/03-account-sms-390.png",
+      "bytes": 73347,
+      "sha256": "44992610d0229df83534246e91b364070351025f0621ebb3e85e448735c87e58"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/04-advisor-form-390.png",
+      "bytes": 73714,
+      "sha256": "63cdd4d41ca144e896974aaeda19f1b2282ba8293322e0399bdd7aad7ab31bdf"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/05-advisor-receipt-390.png",
+      "bytes": 56819,
+      "sha256": "04f004a5a26cecdeff69bcad7afcd6605cd137352c171b30b056204ac082b6c7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/06-needs-types-390.png",
+      "bytes": 74327,
+      "sha256": "65fd7c4f95e039b495d3afe9d3f27cd7629ad5bb195f5c35e8d48ffd6c684d96"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/07-order-paid-390.png",
+      "bytes": 99537,
+      "sha256": "7e242dbaaad17c1a873d7d944909533752eab965c1b719054d41d7cdcbc6c642"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/08-s01-public-375.png",
+      "bytes": 139979,
+      "sha256": "fec620386e0f9b253baeb39731dc8adfb9a909dddc7de885dfdc274079a7dec8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/09-s02-public-375.png",
+      "bytes": 165530,
+      "sha256": "27c6817015cfd1870056086525988867570c71c1194ae550f69ba2a01ae2083d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/10-order-wechat-gate-375.png",
+      "bytes": 124528,
+      "sha256": "c7aafd44ddc46beb513a7135a77ddf1b7c5d9c5a34229a900bc40a008f5b9042"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/11-order-wechat-375.png",
+      "bytes": 97407,
+      "sha256": "0e43c5b726a7c3dd5128b2059568163154272c9ce1263dacd952551b8c293084"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/12-advisor-from-cap-375.png",
+      "bytes": 106316,
+      "sha256": "5560324bd54eeb519f8a4ff9cfee31798db2ca44d7b692c76867a219f3450984"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/13-items-375.png",
+      "bytes": 98236,
+      "sha256": "6f2b51c70a235098e19fb876e405bd96ae2d9456814ecba9d5322975e5b069ab"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/14-quick-ready-375.png",
+      "bytes": 123475,
+      "sha256": "fb80497c0c717146918cc043c5ed4a82d0afe035008789d8d5fc691e04831174"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/15-business-375.png",
+      "bytes": 61872,
+      "sha256": "bf322380aedcbc15692434576e48126efb14260ff7702717c08a93e4d7fadc99"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/16-cap-390.png",
+      "bytes": 102585,
+      "sha256": "b04434ec8ce4ce9f229e93859a58eb0998010c947bcb97f0654ef09f017bcf34"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/17-s5-public-375.png",
+      "bytes": 131311,
+      "sha256": "80588a987a292baad502018e7779b8903badbf70dfcf2614508479e0af93eded"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/automated-checks.json",
+      "bytes": 34039,
+      "sha256": "0c042280dc954deef834846a6ca4cf017bc1295daba684a80d5adfc1a9710025"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/browser-checks.json",
+      "bytes": 3151,
+      "sha256": "ac79d653b6a8e9c8e331d14fc62245b43b486b71420341fae85f7c92f566896f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/mainchain-20261027/impeccable-detector.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ]
+}

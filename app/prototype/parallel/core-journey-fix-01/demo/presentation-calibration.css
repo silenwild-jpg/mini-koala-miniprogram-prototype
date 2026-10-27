@@ -1,0 +1,11 @@
+body[data-preview-surface="home"] .store-card{height:194px}
+body[data-preview-surface="home"] .store-name{font-size:13px;line-height:18px}
+body[data-preview-surface="home"] .store-location{font-size:12px;line-height:16px;overflow:hidden;text-overflow:ellipsis;display:block}
+body[data-preview-surface="home"] .store-tags span{font-size:11px;line-height:17px;padding:2px 4px}
+body[data-preview-surface="home"] .store-price small{font-size:11px;line-height:15px}
+body[data-preview-surface="home"] .section-heading p{font-size:11px;color:#657971}
+/* Transparent extension increases hit area without changing the approved button silhouette. */
+.page-S01 .br03-buy,.page-S02 .order-button,.page-S01 .store-preview-toggle,.page-S02 .fav{position:relative}
+.page-S01 .br03-buy::after,.page-S02 .order-button::after{content:"";position:absolute;inset:-4px -2px}
+.page-S01 .store-preview-toggle::after{content:"";position:absolute;inset:-5px 0}
+.page-S02 .fav::after{content:"";position:absolute;inset:-8px}

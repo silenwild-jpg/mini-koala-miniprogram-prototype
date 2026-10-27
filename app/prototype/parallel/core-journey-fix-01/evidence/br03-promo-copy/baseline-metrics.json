@@ -1,0 +1,58 @@
+[
+  {
+    "width": 375,
+    "s01": {
+      "footer": {
+        "bottom": 812,
+        "height": 74,
+        "left": 0,
+        "right": 375,
+        "top": 738,
+        "width": 375,
+        "x": 0,
+        "y": 738
+      },
+      "height": 812,
+      "listTop": 186,
+      "width": 375
+    },
+    "s02UnitList": {
+      "bottom": 1351.5,
+      "height": 790,
+      "left": 0,
+      "right": 375,
+      "top": 561.5,
+      "width": 375,
+      "x": 0,
+      "y": 561.5
+    }
+  },
+  {
+    "width": 390,
+    "s01": {
+      "footer": {
+        "bottom": 844,
+        "height": 74,
+        "left": 0,
+        "right": 390,
+        "top": 770,
+        "width": 390,
+        "x": 0,
+        "y": 770
+      },
+      "height": 844,
+      "listTop": 186,
+      "width": 390
+    },
+    "s02UnitList": {
+      "bottom": 1351.5,
+      "height": 790,
+      "left": 0,
+      "right": 390,
+      "top": 561.5,
+      "width": 390,
+      "x": 0,
+      "y": 561.5
+    }
+  }
+]

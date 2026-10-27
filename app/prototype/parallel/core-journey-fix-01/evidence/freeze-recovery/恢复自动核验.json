@@ -1,0 +1,132 @@
+{
+  "stage": "TARGETED_RECOVERY_LOCAL_CHECKS",
+  "model_groups": 123,
+  "models": [
+    {
+      "test": "test_beijing30.js",
+      "result": {
+        "groups": 8,
+        "beijing": 30,
+        "units": 132,
+        "result": "PASS"
+      }
+    },
+    {
+      "test": "test_br03_policy.js",
+      "result": {
+        "groups": 17,
+        "result": "PASS"
+      }
+    },
+    {
+      "test": "test_br04_state.js",
+      "result": {
+        "groups": 7,
+        "result": "PASS"
+      }
+    },
+    {
+      "test": "test_business_catalog.js",
+      "result": {
+        "groups": 10,
+        "result": "PASS"
+      }
+    },
+    {
+      "test": "test_decisions.js",
+      "result": {
+        "groups": 22,
+        "result": "PASS",
+        "fixture": "STORE_FIXTURE_04_DECISIONS_20261026"
+      }
+    },
+    {
+      "test": "test_journey_precision.js",
+      "result": {
+        "groups": 10,
+        "result": "PASS"
+      }
+    },
+    {
+      "test": "test_model.js",
+      "result": {
+        "groups": 25,
+        "fixtureVersion": "STORE_FIXTURE_04_DECISIONS_20261026",
+        "stores": 33,
+        "units": 132,
+        "scenarios": 14,
+        "result": "PASS"
+      }
+    },
+    {
+      "test": "test_presentation_policy.js",
+      "result": {
+        "groups": 12,
+        "result": "PASS"
+      }
+    },
+    {
+      "test": "test_priority_fixes.js",
+      "result": {
+        "groups": 12,
+        "result": "PASS"
+      }
+    }
+  ],
+  "external_syntax": [
+    "demo\\account.js",
+    "demo\\app.js",
+    "demo\\br03-demo-snapshots.js",
+    "demo\\br03-policy.js",
+    "demo\\business-bridge.js",
+    "demo\\cap-bridge.js",
+    "demo\\demo-core.js",
+    "demo\\fixtures.js",
+    "demo\\home-bridge.js",
+    "demo\\items-bridge.js",
+    "demo\\phone-auth.js",
+    "demo\\phone-gate.js",
+    "demo\\presentation-policy.js",
+    "demo\\visual-icons.js",
+    "demo\\br04\\bridge.js"
+  ],
+  "inline_syntax": [
+    "demo\\cap.html:0",
+    "demo\\items.html:0",
+    "demo\\items.html:1",
+    "recovery-review.html:0"
+  ],
+  "unchanged_existing_image_files": 100,
+  "unchanged_embedded_images": {
+    "home.html": 0,
+    "cap.html": 22,
+    "items.html": 40
+  },
+  "unchanged_guard_files": [
+    "demo-core.js",
+    "fixtures.js",
+    "br03-policy.js",
+    "br03-demo-snapshots.js",
+    "presentation-policy.js",
+    "phone-auth.js"
+  ],
+  "primary_source_styles": [
+    {
+      "page": "home.html",
+      "normalized_first_style_sha256": "f5ed7b09591f0bd7e555b2068b28823a210bc407a803bddf5d8b4d3e329ebfc2",
+      "match": true
+    },
+    {
+      "page": "cap.html",
+      "normalized_first_style_sha256": "edfc629bc6d7e7cee7bc66aef494bac5577f80d6627e2073c8c875ab5274041a",
+      "match": true
+    },
+    {
+      "page": "items.html",
+      "normalized_first_style_sha256": "ee2dbf06e7d0062ced7e6a2823e08ebfe6ea4ae9aad52b141066a81d58bb7ef4",
+      "match": true
+    }
+  ],
+  "release_gate": "HOLD",
+  "full_design_qa": "blocked"
+}

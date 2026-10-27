@@ -1,0 +1,97 @@
+{
+  "task_id": "PROMO-VIS-01E",
+  "project": "迷你考拉仓",
+  "date": "2026-10-26",
+  "status": "HANDOFF_CANDIDATE_NOT_IMPLEMENTED",
+  "visual_authority": "BRANCH-03 VIS-07/HIFI-03 frozen originals; not physically verified in this task",
+  "s01_expand_reference": "BRANCH-03-S01-EXPAND-01B fusion concept only",
+  "source_target": "future GIT-SETUP-02 audited central product artifact (not yet verified)",
+  "handoff_gate": "HOLD_FOR_GIT_SOURCE_RECEIPT",
+  "explicit_override": {
+    "prior_contract": "PROMO-OPS-01A.s01_expand_candidate.S01_direct_buy_button=false",
+    "new_contract": "S01_direct_buy_button=true; S02_direct_buy_button=true",
+    "reason": "latest user explicit request for 立即下单 on both S01 and S02"
+  },
+  "s01": {
+    "store_card": [
+      "store_thumbnail",
+      "store_name",
+      "community",
+      "distance",
+      "detailed_address",
+      "store_attributes",
+      "up_to_two_unit_rows"
+    ],
+    "default_open_first_n_sorted_stores": 2,
+    "max_visible_unit_rows_per_open_store": 2,
+    "remaining_stores_default_collapsed": true,
+    "unit_cta_label": "立即下单",
+    "cta_target": "O01 subject to valid quote and required parameters",
+    "details_target": "S02",
+    "prevent_parent_link_from_masking_cta": true
+  },
+  "s02": {
+    "store_header": [
+      "store_hero_photo",
+      "store_name",
+      "community",
+      "distance",
+      "detailed_address",
+      "store_attributes"
+    ],
+    "unit_card": [
+      "unit_thumbnail",
+      "capacity",
+      "size",
+      "applicable_use",
+      "total_rent",
+      "monthly_average",
+      "promo_tag_max_1",
+      "inventory_line_max_1",
+      "benefit_line_max_1",
+      "primary_cta"
+    ],
+    "unit_cta_label": "立即下单",
+    "cta_target": "O01 subject to valid quote"
+  },
+  "prices": {
+    "confirmed_term": "整期总租金主价 / 月均约辅助",
+    "unconfirmed_term": "reference_only",
+    "O01": "same valid quote snapshot",
+    "no_implied_discount": "without verified eligible promotion"
+  },
+  "states": {
+    "N": "normal",
+    "P": "promotion",
+    "L": "low_inventory",
+    "PL": "promo_and_low_inventory"
+  },
+  "states_not_sellable": [
+    "SOLD_OUT_UNIT",
+    "SOLD_OUT_STORE",
+    "NO_MATCH"
+  ],
+  "prohibited": [
+    "restore U01 mandatory step",
+    "fake countdown or viewer count",
+    "random promotion labels",
+    "regenerate price in O01",
+    "modify other branches",
+    "whole-page generic CSS redesign"
+  ],
+  "deferred_tests": [
+    "original BR03 pixel comparison",
+    "375x812 full state",
+    "390x844 full state",
+    "direct route to O01",
+    "quote continuity",
+    "branch source drift",
+    "WeChat real-device"
+  ],
+  "files": [
+    "PROMO_VIS_01E_HANDOFF.md",
+    "PROMO_VIS_01E_CONTRACT.json",
+    "PROMO_VIS_01E_视觉信息交接示意_概念非母版.png",
+    "README.md"
+  ]
+}

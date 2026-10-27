@@ -1,0 +1,150 @@
+{
+  "kind": "isolated HTTP headless Chrome",
+  "results": [
+    {
+      "name": "home keeps three public cubic reference prices",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "S01 and S02 show public information and reference prices",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "term is explicit; agreement and cancellation cannot enter O01",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "SMS requires correct sent code and resumes chosen order once",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "manual contact and O01 deep link cannot bypass verification",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "expired session protects O01 again and preserves selections",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "S5 failure leaves formal price hidden; retry resumes fee action",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "changing term during verification does not replay old fee request",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "CAP quote CTA preserves input after cancellation then continues after auth",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "items quote CTA shares the same gate",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "QUICK gathers fields first and verifies before O01",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "submission rechecks session and double click creates one pending order",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "address-only booking remains a lead with no phone gate",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "verification sheet fits and traps focus at mobile size",
+      "width": 375,
+      "status": "PASS"
+    },
+    {
+      "name": "home keeps three public cubic reference prices",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "S01 and S02 show public information and reference prices",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "term is explicit; agreement and cancellation cannot enter O01",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "SMS requires correct sent code and resumes chosen order once",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "manual contact and O01 deep link cannot bypass verification",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "expired session protects O01 again and preserves selections",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "S5 failure leaves formal price hidden; retry resumes fee action",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "changing term during verification does not replay old fee request",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "CAP quote CTA preserves input after cancellation then continues after auth",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "items quote CTA shares the same gate",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "QUICK gathers fields first and verifies before O01",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "submission rechecks session and double click creates one pending order",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "address-only booking remains a lead with no phone gate",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "verification sheet fits and traps focus at mobile size",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "name": "no page exceptions or HTTP errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

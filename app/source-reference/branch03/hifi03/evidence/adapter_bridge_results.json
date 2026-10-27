@@ -1,0 +1,267 @@
+{
+  "total": 52,
+  "passed": 52,
+  "failed": [],
+  "checks": [
+    {
+      "name": "375x812 ready handshake",
+      "status": "PASS",
+      "detail": "True"
+    },
+    {
+      "name": "375x812 initial no demand",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 initial list",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 no matching labels without demand",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 bring CAP unconfirmed rental",
+      "status": "PASS",
+      "detail": "(True, None, None)"
+    },
+    {
+      "name": "375x812 CAP precision preserved",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 navigate to S02 store",
+      "status": "PASS",
+      "detail": "(True, None)"
+    },
+    {
+      "name": "375x812 unconfirmed term gate",
+      "status": "PASS",
+      "detail": "(None, None)"
+    },
+    {
+      "name": "375x812 confirm term emits order intent",
+      "status": "PASS",
+      "detail": "(None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "375x812 quote ref not fabricated when absent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 close intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 import S5 confirmed context",
+      "status": "PASS",
+      "detail": "True"
+    },
+    {
+      "name": "375x812 S5 term shown in S02",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 favorite event",
+      "status": "PASS",
+      "detail": "(None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "375x812 valid order intent preserves ref",
+      "status": "PASS",
+      "detail": "(None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "375x812 no payable amount in intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 returnContext carries S5",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 close prior intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 mismatched quote ref cleared",
+      "status": "PASS",
+      "detail": "(True, None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "375x812 close mismatched intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 term edit invalidates prior quote",
+      "status": "PASS",
+      "detail": "(True, None, None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "375x812 close updated intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 booking lead event",
+      "status": "PASS",
+      "detail": "(None, None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "375x812 invalid external store rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 no map and comparison mode",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "375x812 no app-level JS errors",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 ready handshake",
+      "status": "PASS",
+      "detail": "True"
+    },
+    {
+      "name": "390x844 initial no demand",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 initial list",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 no matching labels without demand",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 bring CAP unconfirmed rental",
+      "status": "PASS",
+      "detail": "(True, None, None)"
+    },
+    {
+      "name": "390x844 CAP precision preserved",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 navigate to S02 store",
+      "status": "PASS",
+      "detail": "(True, None)"
+    },
+    {
+      "name": "390x844 unconfirmed term gate",
+      "status": "PASS",
+      "detail": "(None, None)"
+    },
+    {
+      "name": "390x844 confirm term emits order intent",
+      "status": "PASS",
+      "detail": "(None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "390x844 quote ref not fabricated when absent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 close intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 import S5 confirmed context",
+      "status": "PASS",
+      "detail": "True"
+    },
+    {
+      "name": "390x844 S5 term shown in S02",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 favorite event",
+      "status": "PASS",
+      "detail": "(None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "390x844 valid order intent preserves ref",
+      "status": "PASS",
+      "detail": "(None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "390x844 no payable amount in intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 returnContext carries S5",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 close prior intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 mismatched quote ref cleared",
+      "status": "PASS",
+      "detail": "(True, None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "390x844 close mismatched intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 term edit invalidates prior quote",
+      "status": "PASS",
+      "detail": "(True, None, None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "390x844 close updated intent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 booking lead event",
+      "status": "PASS",
+      "detail": "(None, None, <JSHandle preview=true>, None)"
+    },
+    {
+      "name": "390x844 invalid external store rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 no map and comparison mode",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "390x844 no app-level JS errors",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}

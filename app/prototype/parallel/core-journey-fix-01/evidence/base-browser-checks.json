@@ -1,0 +1,98 @@
+{
+  "kind": "isolated_headless_chrome",
+  "results": [
+    {
+      "name": "home retains three public cubic price cards without authorization",
+      "status": "PASS"
+    },
+    {
+      "name": "shared personal center replaces inconsistent My modals",
+      "status": "PASS"
+    },
+    {
+      "name": "nearby 30 store rows use exactly one operation and two service tags",
+      "status": "PASS"
+    },
+    {
+      "name": "quick flow has no default store or warehouse",
+      "status": "PASS"
+    },
+    {
+      "name": "detail lets anonymous users browse and places alternatives above max3 unavailable rows",
+      "status": "PASS"
+    },
+    {
+      "name": "S01 estimator CTA returns to store list preserving new demand",
+      "status": "PASS"
+    },
+    {
+      "name": "S02 estimator CTA returns to the same store detail",
+      "status": "PASS"
+    },
+    {
+      "name": "anonymous order entry is blocked and manual contact does not reveal price",
+      "status": "PASS"
+    },
+    {
+      "name": "manual phone with chosen requirement enters O01 with prices hidden",
+      "status": "PASS"
+    },
+    {
+      "name": "wechat authorization reveals coherent prices monthly info and coupon choice",
+      "status": "PASS"
+    },
+    {
+      "name": "new unified center loads a pending local order through visible controls",
+      "status": "PASS"
+    },
+    {
+      "name": "pending payment reaches order identity and invoice service",
+      "status": "PASS"
+    },
+    {
+      "name": "renewal exit inspection and deposit run as connected local story",
+      "status": "PASS"
+    },
+    {
+      "name": "invoice submission validates and remains visibly unsent",
+      "status": "PASS"
+    },
+    {
+      "name": "address reservation inherits intent and stays independent of enterprise form",
+      "status": "PASS"
+    },
+    {
+      "name": "editable lead cancellation keeps clear state in unified need records",
+      "status": "PASS"
+    },
+    {
+      "name": "configured service filter actually limits the matching store list",
+      "status": "PASS"
+    },
+    {
+      "name": "available warehouses are shown before unavailable units in ascending capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "inventory failure hides obsolete prices and preserves capacity and term",
+      "status": "PASS"
+    },
+    {
+      "name": "new center dialogs support Escape and labeled keyboard focus",
+      "status": "PASS"
+    },
+    {
+      "name": "transport and consultation keep order context and require advisor confirmation",
+      "status": "PASS"
+    },
+    {
+      "name": "390 and375 layouts avoid horizontal overflow on new pages",
+      "status": "PASS"
+    },
+    {
+      "name": "no browser exceptions or HTTP errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,235 @@
+{
+  "scope": "Inherited app-root suites; not the active parallel candidate; partial run, independent browser harnesses not launched.",
+  "results": [
+    {
+      "file": "qa/test_external_review_merge_v2.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS nearest and radius-local cheapest are distinct\nPASS search expands to first radius with a cheaper candidate\nPASS zero candidates in radius puts E-storage first\nPASS explicit filter never broadens range\nPASS nearest real match may be a valid combo\nPASS unlocated ranking never uses distance\nPASS canonical none snapshot identity and gate\nPASS canonical coupon snapshot identity and gate\nPASS pending order owns snapshot and restores identity\nPASS saved quote survives unrelated current snapshot\nPASS missing or mismatched identity does not fabricate quote\nPASS price gate still rejects wrong term and wrong identity\nPASS real inventory matching stores are ranked by distance 4.8\nPASS real inventory matching stores are ranked by distance 7.4\nPASS undersized replacement is excluded\nPASS actual openSavedQuote destination gate remains valid\nPASS actual openPendingOrder destination gate remains valid\nPASS actual homepage uses policy with H01 three-kilometre radius true\nPASS actual homepage uses policy with H01 three-kilometre radius false\nPASS guided paid coupon is recorded in used wallet\n20/20 behavior groups passed\n"
+    },
+    {
+      "file": "qa/test_ux_simplification_v1.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "PASS 01 hero assurance block removed without deleting lower proof\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(h.includes('<span class=\"task-action\">30秒快速报价 →</span>'))\n\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_ux_simplification_v1.cjs:14:47\n    at check (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_ux_simplification_v1.cjs:12:25)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_ux_simplification_v1.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_store_card_unification_v1.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "PASS 1 real matching: one capacity option and two physical spaces\nPASS 2 real matching: multiple capacity options produce min-max capacities\nPASS 3 real matching: displayed starting term price is cheapest matching unit\nPASS 4 zero-match case cannot claim physical matches\nPASS 5 invalid term does not create total\nevalmachine.<anonymous>:2\n  return window.MINI_KOALA_UXB_TAGS.forStore(id,demoActivityFor(id));\n  ^\n\nReferenceError: window is not defined\n    at storeDemoTags (evalmachine.<anonymous>:2:3)\n    at Object.makeCard (evalmachine.<anonymous>:57:58)\n    at card (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_store_card_unification_v1.cjs:34:79)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_store_card_unification_v1.cjs:36:14)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_s01_filter_sort_refinement_v1.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "service selection can be cancelled without applying\nPASS one-tap distance and sort change handlers use same model\nPASS explicit filters never automatically add supplemental stores\nPASS browse versus demand store card dual-fact structure stays stable\nPASS sort by monthly browse price and exact-term demand total\nPASS missing term total is not silently ranked with monthly price\nPASS sort panel labels and selected value reflect mode\nPASS distance current selection and active state reflect actual filter\nevalmachine.<anonymous>:2\n  let ids=baseOrder().filter(passesQuickFilters);\n                             ^\n\nReferenceError: passesQuickFilters is not defined\n    at Object.filteredOrder (evalmachine.<anonymous>:2:30)\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_s01_filter_sort_refinement_v1.cjs:86:40\n    at check (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_s01_filter_sort_refinement_v1.cjs:6:35)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_s01_filter_sort_refinement_v1.cjs:81:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_s01_inline_filter_location_v2.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS sort / radius / services appear in intended left-middle-right order\nPASS location, search, travel occupy one shared row\nPASS location and search remain independent click targets\nPASS three popovers are children of the anchor toolbar, not detached bottom sheets\nPASS popovers have non-modal semantics\nPASS switching popovers closes the prior one\nPASS outside tap / escape close dropdowns\nPASS service edits commit only on apply\nPASS four radius options and three sort options preserved\nPASS live sort updates old model used by cost calculations\nPASS two store card representations remain, no rewrite\nPASS fallback still leaves user selected distance alone\nPASS 12/12 S01 inline compact controls\n"
+    },
+    {
+      "file": "qa/test_phase2_ux.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS Lower / equal / higher rent recommendations do not make false savings claims\nPASS Completed result parameters preserve sorting/radius and use active location\nPASS Radius filtering respects boundaries and unlimited mode\nPASS Opening capacity editor leaves demand untouched\nPASS Capacity draft changes are discarded on cancel\nPASS Same capacity confirmation preserves selected result\nPASS Smaller capacity shows warning and applies only on confirmation\nPASS Invalid capacity keeps editor open and does not apply\nPASS At least / at most semantics remain visible\nPASS Unsupported location is not committed\nPASS Supported location is committed together with its label\nPASS Canceling location editor keeps prior conditions\nPASS EStore introduction/cancel creates no consultation\nPASS Explicit consultation carries demand and clearly marks demo\nPASS Demo consultation feedback does not claim actual sending\nPASS Actual estimator reads current position without overwriting source context\nPASS Actual capacity apply retains items, term and position\nPASS Modified page scripts compile\nRESULT: 18 behavior groups passed; simulated DOM, browser/WeChat not verified.\n"
+    },
+    {
+      "file": "qa/test_phase3a_controlled_patch.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: missing source section const PHASE3A_QUICK_PRESETS=\n    at part (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_phase3a_controlled_patch.cjs:6:89)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_phase3a_controlled_patch.cjs:7:191)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_phase3a_independent_fix_v11.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "PASS P1-01 new known-size flow resets stale range mode and fields\nPASS P1-03 S02 valid source capacity, term and customer inherited on known selection\nPASS P1-03 source with invalid/missing capacity behaves as fresh flow\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(direct.includes('state.knownSize=hasSourceSize?sourceSize:null'))\n\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_phase3a_independent_fix_v11.cjs:22:72\n    at test (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_phase3a_independent_fix_v11.cjs:4:38)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_phase3a_independent_fix_v11.cjs:21:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_phase3c_batch_a_price_gate.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS 3C-A01 valid uncouponed snapshot\nPASS 3C-A02 explicit lease term mandatory; no 6-month fallback\nPASS 3C-A03 snapshot must exist\nPASS 3C-A04 store must match\nPASS 3C-A05 size option required even with representative unit\nPASS 3C-A06 wrong size option rejected\nPASS 3C-A07 wrong representative number rejected\nPASS 3C-A08 actual assigned unit identity cannot be silently swapped\nPASS 3C-A09 term change invalidates price snapshot\nPASS 3C-A10 pricing model version mismatch\nPASS 3C-A11 timestamp is mandatory and not future-dated\nPASS 3C-A12 invalid or negative amount is rejected\nPASS 3C-A13 monthly and deposit components must reconcile\nPASS 3C-A14 management fee must use business master\nPASS 3C-A15 wrong payable amount is rejected, not trusted from URL\nPASS 3C-A16 coupon discounts require ID and amount\nPASS 3C-A17 coupon price components must reconcile\nPASS 3C-A18 valid coupon snapshot uses only reconciled payable\nPASS 3C-A19 both transaction pages load price gate and expose invalid state\nPASS 3C-A20 Q01 blocks invalid save and continuation\nPASS 3C-A21 O01 blocks invalid payment and clears display\nPASS 3C-A22 coupon injector cannot reinstate invalid amount\nPhase 3C Batch A: 22/22 isolated source and price-gate tests passed; no browser E2E\n"
+    },
+    {
+      "file": "qa/test_phase3c_unified_final.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS U3C-01 expired coupon is ineligible\nPASS U3C-02 missing expiry fails eligibility\nPASS U3C-03 used/invalid/locked coupons are ineligible\nPASS U3C-04 new customer coupon respects first purchase\nPASS U3C-05 long lease coupon requires at least 12 months\nPASS U3C-06 minimum rent coupon rejects shortfall\nPASS U3C-07 no quote gives no eligible coupon\nPASS U3C-08 manual expired coupon does not silently switch to another\nPASS U3C-09 auto picks highest eligible rent coupon\nPASS U3C-10 service benefit never offsets rent\nPASS U3C-11 coupon component and payable reconcile\nPASS U3C-12 different plan identity invalidates old price\nPASS U3C-13 changed lease term invalidates old quote\nPASS U3C-14 expired coupon makes saved snapshot invalid\nPASS U3C-15 coupon redeemed after quotation invalidates checkout\nPASS U3C-16 coupon selection changes require re-quote\nPASS U3C-17 customer flag mismatch invalidates new customer coupon\nPASS U3C-18 noncash rights are not applied as negative fees\nPASS U3C-19 checkout and quote validate current coupon state\nPASS U3C-20 checkout revalidates before committing payment\nPASS U3C-21 coupon selection page has no invented default rent or term\nPASS U3C-22 payable breakdown keeps discount before deposit/fees\nPASS U3C-23 transport marked estimated and does not reduce payable\nPASS U3C-24 original price gate remains strict on identity and arithmetic\nUnified Phase 3C: 24/24 targeted tests passed. Browser and WeChat E2E NOT VERIFIED.\n"
+    },
+    {
+      "file": "qa/test_acceptance_v11_patch.cjs",
+      "status": "NOT_RUN",
+      "reason": "Requires separate browser/process harness."
+    },
+    {
+      "file": "qa/test_acceptance_v11_patch_b.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS canonical price invariant and exact capacity\nPASS coupon quick story seeds correct coherent quote and wallet\nPASS no-coupon quick story clears cross-fixture coupon leakage\nPASS direct O01 coupon route retains payable and unit precision\nPASS lease date add-month arithmetic matches same scenario\nPASS S01/S02 use one store+origin+travel deterministic fallback\nPASS S02 route label and all travel options are corrected after page initialization\nPASS display check uses whole-term total not rounded average × months\nPASS core page body frozen and internal hub has distinct snapshot entries\nRESULT 9/9 PATCH B focused checks PASSED\n"
+    },
+    {
+      "file": "qa/test_term_footer_geometry.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS declared geometry { viewport: 375, barWidth: 375, secondary: 104, primary: 227 }\nPASS declared geometry { viewport: 390, barWidth: 390, secondary: 104, primary: 242 }\nPASS declared geometry { viewport: 1024, barWidth: 370, secondary: 104, primary: 222 }\nPASS shared button style declarations and single-column term-required state; static geometry, not rendered CSS\n"
+    },
+    {
+      "file": "qa/test_p1_review_fix_behaviors.js",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS review P1 behavior: repeat renewal, return date/type, viewing hours, frozen AI demo context\n"
+    },
+    {
+      "file": "qa/test_p1_s01_search_context.js",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS S01 search, return context, inline dropdown modal exclusion\n"
+    },
+    {
+      "file": "qa/test_s01_ux_continuity_patch_v1.js",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "evalmachine.<anonymous>:9\n    state.travelOverride=b2b.travel_mode||inherited.travel_mode||'drive';\n                                          ^\n\nReferenceError: inherited is not defined\n    at evalmachine.<anonymous>:9:43\n    at evalmachine.<anonymous>:12:6\n    at Script.runInContext (node:vm:149:12)\n    at Object.runInContext (node:vm:301:6)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_s01_ux_continuity_patch_v1.js:13:4)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_navigation_vnext.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(start>0&&end>start)\n\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_navigation_vnext.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_home_state_integration_patch_v1.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS style loaded\nPASS task mount before original double entry\nPASS five existing state cards reused\nPASS new homepage stable across states\nPASS original acquisition modules unchanged\nPASS single visible state task decision\nPASS urgent state based on lifecycle\nPASS pending payments have first priority\nPASS estimated is prioritized above routine active\nPASS home store cards enter matched state with confirmed demand\nPASS explicit matched mode is still honoured by goStoreDetail\nPASS secondary task shortcut backed by mine\nPASS referral entry relocated into original homepage\nPASS no hidden task cards leakage\nPASS card compact metrics\nPASS main CTA retained\nPASS small width accommodation\n17/17\n"
+    },
+    {
+      "file": "qa/test_home_state_recovery_v11.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS asset-derived state\nPASS URL not trusted as business state\nPASS demo override explicitly gated\nPASS payment asset guarded by number and status\nPASS appointment validity checked by date\nPASS past booked record excluded\nPASS quote validates required fields\nPASS quote expiry checks timestamp\nPASS quote status forwarded expired\nPASS known volume passed for absent term\nPASS no default six in restore CTA\nPASS estimated length unconfirmed phrasing\nPASS validated CTA for paid states\nPASS no second task card stacked\nPASS button and other task touch 44\nPASS known size estimator route forces lease-term selection\nPASS universal home preserved\nPASS existing order quote downstream unchanged\n18/18\n"
+    },
+    {
+      "file": "qa/test_home_state_recovery_browser_v11.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "qa/test_home_visual_closeout_patch_v1.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "qa/test_cross_page_route_targets_v1.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "qa/test_cross_page_runtime_smoke_v1.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "qa/test_combo_recommendation_v1.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(s1.includes(\"'近地铁','新开门店','双11大促','24小时','电梯直达','热门','仓型齐全','免押金'\"))\n\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_combo_recommendation_v1.cjs:30:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_combo_physical_fit_p0.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": " is always pending even for real units\nPASS FIT-P0 stock cannot be double consumed and sold-out does not enter recommendation\nPASS FIT-P0 separate measured objects without enough combined physical capacity are rejected\nPASS FIT-P0 combination does not become verified from volume allocation alone\nPASS FIT-P0 same store statuses respect single physical rejection and retain nearby fallback\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(x.includes('尺寸待核对')||x.includes('尺寸还需核对'))\n\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_combo_physical_fit_p0.cjs:59:113\n    at test (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_combo_physical_fit_p0.cjs:14:38)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_combo_physical_fit_p0.cjs:57:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_demo_price_combo_cleanup.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(s02.includes('本店暂无合适的单仓，为您找到${combos.length}种组合方案'))\n\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_demo_price_combo_cleanup.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_combo_ux_regression_v2.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS 1 5m³ rejects 22.45m³ combination\nPASS 2 18m³ three-part viable\nPASS 3 25m³ reasonable 2-part remains\nPASS 4 35m³ reasonable 3-part remains\nPASS 5 single still takes precedence\nPASS 6 never consume sold-out stock\nPASS 7 under-min cannot route to U01 from displayed card or click\nPASS 8 soldout entry and return carry current demand and filters\nPASS 9 bottom CTA points to combo consultation action and preserves safe scrolling\nPASS 10 saved combo state shows specific confirmation and provides working support target\nPASS 11 S5 propagates physical fit state\nV2 targeted checks 11/11\n"
+    },
+    {
+      "file": "qa/test_combo_full_journey_recovery_v21.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "PASS 1 50m³ filters out 1.94m³ while retaining 60m³ larger alternative\nPASS 2 zero-match recommended cards contain only reasonable alternatives\nPASS 3 no near-size option yields no misleading price recommendation\nPASS 4 original five capacities keep valid single, 2-part, 3-part behavior\nevalmachine.<anonymous>:20\n  const combo=quickStoreFilters.has('single')||quickStoreFilters.has('special')?null:row.combo||null;\n              ^\n\nReferenceError: quickStoreFilters is not defined\n    at Object.matchedDataFor (evalmachine.<anonymous>:20:15)\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_combo_full_journey_recovery_v21.cjs:20:99\n    at test (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_combo_full_journey_recovery_v21.cjs:9:32)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app\\qa\\test_combo_full_journey_recovery_v21.cjs:20:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/visual_check_combo_recovery_v21.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "qa/test_identity_flow.js",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS paid order remains locked while ID is unverified\nPASS failed verification retries and verified access opens\nPASS future start and legacy paid orders cannot reveal credentials\nPASS demonstration identity verification completes in one action\n"
+    },
+    {
+      "file": "qa/visual_check_demo_price_closeout.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "qa/visual_check_combo_ux_v2.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "qa/test_h01_007_s1_requirement_trade_snapshot.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS validTerm accepts 1..60 integers only\nPASS clampTerm untouched (pricing helper still clamps as before)\nPASS M01 resume: no valid term -> estimator requireTerm=1, never term 1\nPASS S01 resume entries: bottom find + browse strip route to term selection when term missing\nPASS S01 estimated entry without valid term does not persist a default term\nPASS S02 / U01 parse the term strictly (invalid never clamps to 1)\nPASS Estimator resume never substitutes 6 months for a missing saved term\nPASS H01 restore rule unchanged and consistent (hsiValidTerm 1..60 integer)\nPASS confirm(): final term wins, original estimate preserved, identity carried\nPASS confirm(): never invents a term and never computes price fields\nPASS U01 commits the final trade requirement at both commit points only\nPASS Q01 / O01 requirement snapshot = confirmed trade; price gate untouched\nPASS Frozen rules untouched: management fee, deposit=monthly, term factors, price gate file\n13/13\n"
+    },
+    {
+      "file": "qa/test_h01_007_s2_coupon_eligibility.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS FRESH: no paid history -> new customer, wallet granted, CPN-001 applied to 6m canonical\nPASS FRESH: unpaid history (PAYMENT_FAILED / PENDING) does not end first-purchase status\nPASS REPEAT: paid order in history + new pending current order -> NOT first purchase\nPASS REPEAT: paid order that is the current order (pre-S2 behaviour) still blocks; ensureAcquisitionWallet grants nothing\nPASS REPEAT: paid order in history only (current pointer empty) blocks; ended lifecycle still counts as settled history (assumption, see report)\nPASS REPEAT: renewal coupon (CPN-004) unaffected by first-purchase status\nPASS OWN_LOCK (PENDING_PAYMENT): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK (PAYMENT_FAILED): coupon LOCKED by the current unpaid order is recoverable by that order's snapshot\nPASS OWN_LOCK: recovery still enforces coupon rules (term / rent / amount / selection)\nPASS OTHER_LOCK: another order (different store) cannot use the coupon locked by order A\nPASS OTHER_LOCK: same store/size but a different order_no, a paid current order, or no current order -> not recoverable\nPASS INVALID: expired / redeemed / invalid coupons and unmet thresholds stay blocked\nPASS TRANSITIONS: PAID -> REDEEMED + other NEW coupons INVALID; PAYMENT_FAILED -> back to CLAIMED (unchanged rules)\nPASS SOURCE: C02 builds its context through couponContextFromSnapshot (own lock shown as usable); no lock timeout / release delay introduced\n14/14  source=prototype\\mini_storage_coupon_benefit_v1.js\n"
+    },
+    {
+      "file": "qa/test_h01_007_s3_trade_recheck.cjs",
+      "status": "FAIL",
+      "exit": 1,
+      "output": "ers with an order_no and unit\nPASS amountDiff: identical amounts -> no changes\nPASS amountDiff: rent / payable change and coupon loss are reported with labels and amounts\nPASS quoteAmounts / orderAmounts: the record's own price_snapshot wins, legacy fields map when it is missing\nPASS no pricing rule is touched: contractRent / monthlyReference / termFactor unchanged and not referenced by the re-check helpers\nPASS S1 kept: validTerm + MINI_STORAGE_TRADE_SNAPSHOT_V1.confirm + U01 commitTradeRequirement + Q01/O01 confirm() calls\nFAIL S2 kept outside authorized P1 settlement function / C02 transform reset  -- Expected values to be strictly equal:\n+ actual - expected\n\n+ '820ae8769a2f5d3304da73c36907af0b5a5a15569b90afd77e4e98dc2739459d'\n- '397d63dbec777974d358772f4007e78b5e690239f0f6a4f46debe11288b13eef'\n\nPASS price gate untouched (sha256 equals H01-004B / S1 / S2; no invented 48h expiry inside the gate)\nPASS D-07 Q01 expired-quote notice is named, mentions 48h, and hands requote=1 + quoteId to U01\nPASS D-07 Q01 keeps the stale amounts viewable and 保存方案 disabled; 继续 goes to U01 without the stale snapshot\nPASS D-07 U01 re-check block: compares against the saved quote / order, requires acknowledgement, guards goOrder and goQuote\nPASS D-12 H01: PAYMENT_FAILED is a pending task with distinct copy; structure untouched\nPASS D-12 M01: failed order card, badge and goOrder -> O01\nPASS D-12 O01: resume keeps the order's own snapshot, re-checks status / price / inventory / coupon, blocks + offers re-pricing on change\nPASS D-12 O02 untouched: success only from a matching PAID gateway result or an already PAID order\n\n17/18 passed (root=C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\visual-consistency-01\\app)\n"
+    },
+    {
+      "file": "qa/test_h01_007_s4_entry_contracts.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "wse by default)\nPASS H01 markup: no store card is declared data-mode=\"matched\"\nPASS H01 #storeLink routes through goStores({nearbyShortcut:true})\nPASS H01 #navStores routes through goStores({nearbyShortcut:true})\nPASS H01 #b2bStoreLink routes through goStores({nearbyShortcut:true})\nPASS H01 #allNearbyStores routes through goStores({nearbyShortcut:true})\nPASS H01 继续找仓 (goFind) keeps the S1 validTerm guard and routes a term-less requirement to term selection\nPASS H01 #continueFind is the only home control bound to goFind (plus the matched-list link)\nPASS H01 hsiValidTerm matches SSOT validTerm range 1..60 integers\nPASS H01 S3 payment-failed task card logic untouched (hsiValidPending still accepts PAYMENT_FAILED)\nPASS S01 entry=browse_nearby forces the browse state even if state=estimated is also present\nPASS S01 browse strip offers immediate matching when a requirement is saved\nPASS S01 strip switch keeps the S1 validTerm guard\nPASS S01 openStoreDetail hands sort / distance / services to S02\nPASS S01 openStoreDetail hands loaded count and scroll offset to S02\nPASS S01 restores the loaded count for every list state\nPASS S01 restores sort / distance / services from the URL\nPASS S01 re-applies the scroll offset after deferred layout helpers (load + rAF)\nPASS S02 back button exists\nPASS S02 back passes sort / distance / services / loaded / scroll straight back to S01\nPASS S02 back returns a browse visit as the browse list (entry=browse_nearby)\nPASS S02 back still returns the estimated / extended / far states by fromS01State\nPASS S02 browse entry from S01 keeps state=browse without target/term\nPASS S4 touched no price / deposit / management-fee / coupon rule (SSOT has no H01-007-S4 marker)\nPASS confirmed demand normalizer enters matched S01 and S02 states\n\n30 passed, 0 failed\n"
+    },
+    {
+      "file": "qa/test_h01_007_p1_coupon_settlement.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS no-coupon PAID clears own NEW lock and invalidates unspent NEW coupons\nPASS switched coupon redeems actual coupon and clears old own lock\nPASS other-order LOCKED rows stay byte-identical\nPASS referenced other-order coupon is never redeemed or released\nPASS own non-NEW lock returns to CLAIMED using original expiry\nPASS terminal rows stay byte-identical\nPASS repeat O02 is idempotent, including redeemed time\nPASS PAYMENT_FAILED own selected coupon retains release behaviour\nPASS PENDING order and its locks remain unchanged\nPASS invalid paid identity or conflicting payment status never settles coupons\nPASS unknown selected coupon does not block own unused lock cleanup\nPASS valid actual coupon preserves order totals and payment breakdown\n12/12\n"
+    },
+    {
+      "file": "qa/test_h01_recommendation_card_fix.cjs",
+      "status": "PASS",
+      "exit": 0,
+      "output": "PASS H01 recommendation card: 3km expansion, browse unit price, matched facts and term-total label\n"
+    },
+    {
+      "file": "tools/check_package.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    },
+    {
+      "file": "tools/check_http.py",
+      "status": "NOT_RUN",
+      "reason": "Inherited Python visual/browser or root package/HTTP runner; current candidate uses IAB plus its own integrity checks."
+    }
+  ]
+}

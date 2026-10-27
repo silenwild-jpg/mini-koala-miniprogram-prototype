@@ -1,0 +1,21 @@
+/* UX-PATCH D2 | scoped layout tokens and footer action harmony.
+   Respect H01/S01/M01 main navigation and order/pricing/disabled business logic. */
+body.koala-uxd2-layout{--mk-d2-content-gutter:12px;--mk-d2-cta-radius:12px;--mk-d2-cta-min:48px}
+/* Only mobile content containers; exclude modal sheets, review tools, system capsule and tabs. */
+body.koala-uxd2-layout .shell>.page>.section,
+body.koala-uxd2-layout .shell>.page>.card{padding-left:var(--mk-d2-content-gutter)!important;padding-right:var(--mk-d2-content-gutter)!important}
+body.koala-uxd2-layout .phone>.content{padding-left:var(--mk-d2-content-gutter)!important;padding-right:var(--mk-d2-content-gutter)!important}
+body.koala-uxd2-layout.koala-s5 .phone>.screen{padding-left:var(--mk-d2-content-gutter)!important;padding-right:var(--mk-d2-content-gutter)!important}
+/* Action style only: never touch route, stock, amount, availability, JS-driven disabled states. */
+body.koala-uxd2-layout :is(.bottombar,.bottom) > button:not(.navitem):not(.tab),
+body.koala-uxd2-layout .actions > .btn,
+body.koala-uxd2-layout .screen>.bottom>.cta{
+  min-height:var(--mk-d2-cta-min)!important;border-radius:var(--mk-d2-cta-radius)!important;
+  font-size:14px!important;font-weight:700!important;line-height:1.3!important;
+  max-width:100%;touch-action:manipulation
+}
+body.koala-uxd2-layout :is(.bottombar,.bottom) > button:focus-visible,
+body.koala-uxd2-layout .actions > .btn:focus-visible{
+  outline:2px solid #2D7154;outline-offset:2px
+}
+/* Leave disabled/hidden styles and 68px global four-tab navigation intact. */

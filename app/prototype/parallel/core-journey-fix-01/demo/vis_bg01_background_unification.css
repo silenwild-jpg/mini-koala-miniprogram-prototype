@@ -1,0 +1,59 @@
+/* VIS-BG-01. This layer is declared FIRST in each opted-in document head.
+   Important layer order is reversed: this background-only contract precedes
+   mk-v3 and unlayered legacy declarations. No geometry or business styles.
+   Only the audited neutral containers below participate. */
+@layer vis-bg01 {
+  html.vis-bg01,
+  html.vis-bg01 body {
+    --koala-bg: #F8FAF9;
+    --koala-surface: #FFFFFF;
+    --koala-surface-2: #F3F6F4;
+    background-color: var(--koala-bg) !important;
+    background-image: none !important;
+  }
+
+  /* Structural roots only; never a descendant-wide .card/.section rule. */
+  html.vis-bg01 body > :is(.shell,.app,.phone,.wrap,.coupon-phone),
+  html.vis-bg01 body > .shell > .page,
+  html.vis-bg01 body > .wrap > .phone,
+  html.vis-bg01 body > .wrap > .phone > .page,
+  html.vis-bg01[data-vis-page="EST"] .phone > .screen {
+    background-color: var(--koala-bg) !important;
+    background-image: none !important;
+  }
+
+  /* Audited chrome at its structural location, not generic nested .top. */
+  html.vis-bg01 body > .shell > .page > .header,
+  html.vis-bg01 body > .shell > :is(.tabbar,.bottombar,.bottom),
+  html.vis-bg01 body > .phone > :is(.top,.topbar),
+  html.vis-bg01 body > .app > :is(.head,.nav),
+  html.vis-bg01 body > .wrap > .phone > :is(.status,.nav,.bottomnav),
+  html.vis-bg01 body > .coupon-phone > :is(.coupon-top,.coupon-bottom),
+  html.vis-bg01 body > :is(.actions,.bottom),
+  html.vis-bg01[data-vis-page="H01"] #page > .topbar,
+  html.vis-bg01[data-vis-page="EST"] #usageActions,
+  html.vis-bg01[data-vis-page="EST"] #s4 > .bottom {
+    background-color: var(--koala-surface) !important;
+    background-image: none !important;
+  }
+
+  /* Ordinary informational surfaces explicitly identified in G1. */
+  html.vis-bg01[data-vis-page="U01"] #hero + .card,
+  html.vis-bg01[data-vis-page="U01"] #termSection .term-price-combined,
+  html.vis-bg01[data-vis-page="U01"] #termDetails,
+  html.vis-bg01[data-vis-page="U01"] #termSection .unified-price {
+    background-color: var(--koala-surface) !important;
+    background-image: none !important;
+  }
+
+  /* Neutral nested information. Risk/stock/price/coupon blocks are excluded. */
+  html.vis-bg01[data-vis-page="U01"] #unitId,
+  html.vis-bg01[data-vis-page="Q01"] :is(.quote-trust,.quote-save-note),
+  html.vis-bg01[data-vis-page="B01"] :is(.story,#networkSection > .note),
+  html.vis-bg01[data-vis-page="CONTRACT"] .agreement-box,
+  html.vis-bg01[data-vis-page="A01"] .password,
+  html.vis-bg01[data-vis-page="M01"] .more-services {
+    background-color: var(--koala-surface-2) !important;
+    background-image: none !important;
+  }
+}

@@ -1,0 +1,61 @@
+name: GIT-MERGE-02E visual freeze and actual user journey
+on:
+  push:
+    branches:
+      - feature/git-merge-02e-visual-e2e-20261027
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  approved-visual-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package preserved signed source originals
+        run: |
+          mkdir -p visual-sources
+          cp app/prototype/parallel/core-journey-fix-01/evidence/freeze-recovery/source/{H01_VIS11J.png,CAP_375_GUARD02.png,CAP_390_GUARD02.png,S01_375_VIS07.png,S01_390_VIS07.png,S02_375_VIS07.png,S02_390_VIS07.png,S5_source_crop.png,QUICK_source_crop.png,BR04_4pages_handoff.png,ITEMS_390_8states.png} visual-sources/
+          sha256sum visual-sources/*.png > visual-sources/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: merge02e-approved-visuals-private
+          path: visual-sources/
+          retention-days: 7
+  actual-user-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check and underlying model regression
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          node --check qa/merge02e_e2e.cjs
+          node demo/qa/test_merge02c_policy.js
+          node demo/qa/test_mainchain_decision.js
+      - name: Install Chinese font and Playwright Chromium
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: HTTP new visitor click-through in 375 and 390
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/merge02e-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 3
+          node qa/merge02e_e2e.cjs
+      - name: Upload private screenshots and E2E results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge02e-e2e-private
+          path: app/prototype/parallel/core-journey-fix-01/evidence/merge02e/
+          if-no-files-found: warn
+          retention-days: 7

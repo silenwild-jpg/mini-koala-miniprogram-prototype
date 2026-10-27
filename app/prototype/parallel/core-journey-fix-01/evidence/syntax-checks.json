@@ -1,0 +1,107 @@
+[
+  {
+    "file": "demo\\account.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\app.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\business-bridge.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\cap-bridge.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\demo-core.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\fixtures.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\home-bridge.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\items-bridge.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\visual-icons.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\br04\\bridge.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_beijing30.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_br04_state.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_business_catalog.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_decisions.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_journey_precision.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_model.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "demo\\qa\\test_priority_fixes.js",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "qa_browser.cjs",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "cap.html inline 0",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "items.html inline 0",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "file": "items.html inline 1",
+    "exit_code": 0,
+    "stderr": ""
+  }
+]

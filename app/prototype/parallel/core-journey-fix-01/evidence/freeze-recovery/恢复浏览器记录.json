@@ -1,0 +1,1263 @@
+[
+  {
+    "width": 390,
+    "page": "home",
+    "reference": [
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 248.484375,
+          "height": 248.484375,
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "width": 390,
+          "x": 0,
+          "y": 0
+        },
+        "selector": "hero"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 589.7734375,
+          "height": 237,
+          "left": 0,
+          "right": 390,
+          "top": 352.7734375,
+          "width": 390,
+          "x": 0,
+          "y": 352.7734375
+        },
+        "selector": "store-section"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.7734375,
+          "height": 180,
+          "left": 17,
+          "right": 173,
+          "top": 396.7734375,
+          "width": 156,
+          "x": 17,
+          "y": 396.7734375
+        },
+        "selector": "store-card featured"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.7734375,
+          "height": 180,
+          "left": 181,
+          "right": 337,
+          "top": 396.7734375,
+          "width": 156,
+          "x": 181,
+          "y": 396.7734375
+        },
+        "selector": "store-card"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.7734375,
+          "height": 180,
+          "left": 345,
+          "right": 501,
+          "top": 396.7734375,
+          "width": 156,
+          "x": 345,
+          "y": 396.7734375
+        },
+        "selector": "store-card"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 844,
+          "height": 64.015625,
+          "left": 0,
+          "right": 390,
+          "top": 779.984375,
+          "width": 390,
+          "x": 0,
+          "y": 779.984375
+        },
+        "selector": "footer-nav"
+      }
+    ],
+    "runtime": [
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 248.484375,
+          "height": 248.484375,
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "width": 390,
+          "x": 0,
+          "y": 0
+        },
+        "selector": "hero"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 589.7734375,
+          "height": 237,
+          "left": 0,
+          "right": 390,
+          "top": 352.7734375,
+          "width": 390,
+          "x": 0,
+          "y": 352.7734375
+        },
+        "selector": "store-section"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.7734375,
+          "height": 180,
+          "left": 17,
+          "right": 173,
+          "top": 396.7734375,
+          "width": 156,
+          "x": 17,
+          "y": 396.7734375
+        },
+        "selector": "store-card featured"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.7734375,
+          "height": 180,
+          "left": 181,
+          "right": 337,
+          "top": 396.7734375,
+          "width": 156,
+          "x": 181,
+          "y": 396.7734375
+        },
+        "selector": "store-card "
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.7734375,
+          "height": 180,
+          "left": 345,
+          "right": 501,
+          "top": 396.7734375,
+          "width": 156,
+          "x": 345,
+          "y": 396.7734375
+        },
+        "selector": "store-card "
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 844,
+          "height": 64.015625,
+          "left": 0,
+          "right": 390,
+          "top": 779.984375,
+          "width": 390,
+          "x": 0,
+          "y": 779.984375
+        },
+        "selector": "footer-nav"
+      }
+    ]
+  },
+  {
+    "width": 375,
+    "page": "home",
+    "reference": [
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 238.9296875,
+          "height": 238.9296875,
+          "left": 0,
+          "right": 375,
+          "top": 0,
+          "width": 375,
+          "x": 0,
+          "y": 0
+        },
+        "selector": "hero"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.1640625,
+          "height": 237,
+          "left": 0,
+          "right": 375,
+          "top": 339.1640625,
+          "width": 375,
+          "x": 0,
+          "y": 339.1640625
+        },
+        "selector": "store-section"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 563.1640625,
+          "height": 180,
+          "left": 17,
+          "right": 167,
+          "top": 383.1640625,
+          "width": 150,
+          "x": 17,
+          "y": 383.1640625
+        },
+        "selector": "store-card featured"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 563.1640625,
+          "height": 180,
+          "left": 175,
+          "right": 325,
+          "top": 383.1640625,
+          "width": 150,
+          "x": 175,
+          "y": 383.1640625
+        },
+        "selector": "store-card"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 563.1640625,
+          "height": 180,
+          "left": 333,
+          "right": 483,
+          "top": 383.1640625,
+          "width": 150,
+          "x": 333,
+          "y": 383.1640625
+        },
+        "selector": "store-card"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 812,
+          "height": 61.5546875,
+          "left": 0,
+          "right": 375,
+          "top": 750.4453125,
+          "width": 375,
+          "x": 0,
+          "y": 750.4453125
+        },
+        "selector": "footer-nav"
+      }
+    ],
+    "runtime": [
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 238.9296875,
+          "height": 238.9296875,
+          "left": 0,
+          "right": 375,
+          "top": 0,
+          "width": 375,
+          "x": 0,
+          "y": 0
+        },
+        "selector": "hero"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 576.1640625,
+          "height": 237,
+          "left": 0,
+          "right": 375,
+          "top": 339.1640625,
+          "width": 375,
+          "x": 0,
+          "y": 339.1640625
+        },
+        "selector": "store-section"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 563.1640625,
+          "height": 180,
+          "left": 17,
+          "right": 167,
+          "top": 383.1640625,
+          "width": 150,
+          "x": 17,
+          "y": 383.1640625
+        },
+        "selector": "store-card featured"
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 563.1640625,
+          "height": 180,
+          "left": 175,
+          "right": 325,
+          "top": 383.1640625,
+          "width": 150,
+          "x": 175,
+          "y": 383.1640625
+        },
+        "selector": "store-card "
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 563.1640625,
+          "height": 180,
+          "left": 333,
+          "right": 483,
+          "top": 383.1640625,
+          "width": 150,
+          "x": 333,
+          "y": 383.1640625
+        },
+        "selector": "store-card "
+      },
+      {
+        "font": "16px",
+        "rect": {
+          "bottom": 812,
+          "height": 61.5546875,
+          "left": 0,
+          "right": 375,
+          "top": 750.4453125,
+          "width": 375,
+          "x": 0,
+          "y": 750.4453125
+        },
+        "selector": "footer-nav"
+      }
+    ]
+  },
+  {
+    "page": "cap-empty",
+    "width": 375,
+    "reference": {
+      "input": "",
+      "rect": {
+        "bottom": 812,
+        "height": 812,
+        "left": 0,
+        "right": 375,
+        "top": 0,
+        "width": 375,
+        "x": 0,
+        "y": 0
+      },
+      "selected": [],
+      "summary": "容量待填 · 租期待选"
+    },
+    "runtime": {
+      "input": "",
+      "rect": {
+        "bottom": 812,
+        "height": 812,
+        "left": 0,
+        "right": 375,
+        "top": 0,
+        "width": 375,
+        "x": 0,
+        "y": 0
+      },
+      "selected": [],
+      "summary": "容量待填 · 租期待选"
+    }
+  },
+  {
+    "page": "cap-empty",
+    "width": 390,
+    "reference": {
+      "input": "",
+      "rect": {
+        "bottom": 844,
+        "height": 844,
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "width": 390,
+        "x": 0,
+        "y": 0
+      },
+      "selected": [],
+      "summary": "容量待填 · 租期待选"
+    },
+    "runtime": {
+      "input": "",
+      "rect": {
+        "bottom": 844,
+        "height": 844,
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "width": 390,
+        "x": 0,
+        "y": 0
+      },
+      "selected": [],
+      "summary": "容量待填 · 租期待选"
+    }
+  },
+  {
+    "page": "cap-selected",
+    "width": 390,
+    "reference": {
+      "bodyScroll": 231.5,
+      "input": "8",
+      "summary": "8m³ · 12个月"
+    },
+    "runtime": {
+      "bodyScroll": 231.5,
+      "cta": "查看仓位报价",
+      "input": "8",
+      "summary": "8m³ · 12个月"
+    }
+  },
+  {
+    "page": "items-empty",
+    "width": 390,
+    "reference": {
+      "footer": {
+        "bottom": 844,
+        "height": 82,
+        "left": 0,
+        "right": 390,
+        "top": 762,
+        "width": 390,
+        "x": 0,
+        "y": 762
+      },
+      "head": {
+        "bottom": 100,
+        "height": 75,
+        "left": 0,
+        "right": 390,
+        "top": 25,
+        "width": 390,
+        "x": 0,
+        "y": 25
+      },
+      "mode": {
+        "bottom": 141,
+        "height": 41,
+        "left": 0,
+        "right": 390,
+        "top": 100,
+        "width": 390,
+        "x": 0,
+        "y": 100
+      },
+      "rail": {
+        "bottom": 762,
+        "height": 621,
+        "left": 0,
+        "right": 106,
+        "top": 141,
+        "width": 106,
+        "x": 0,
+        "y": 141
+      },
+      "rect": {
+        "bottom": 844,
+        "height": 844,
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "width": 390,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "runtime": {
+      "footer": {
+        "bottom": 844,
+        "height": 82,
+        "left": 0,
+        "right": 390,
+        "top": 762,
+        "width": 390,
+        "x": 0,
+        "y": 762
+      },
+      "head": {
+        "bottom": 100,
+        "height": 75,
+        "left": 0,
+        "right": 390,
+        "top": 25,
+        "width": 390,
+        "x": 0,
+        "y": 25
+      },
+      "mode": {
+        "bottom": 141,
+        "height": 41,
+        "left": 0,
+        "right": 390,
+        "top": 100,
+        "width": 390,
+        "x": 0,
+        "y": 100
+      },
+      "rail": {
+        "bottom": 762,
+        "height": 621,
+        "left": 0,
+        "right": 106,
+        "top": 141,
+        "width": 106,
+        "x": 0,
+        "y": 141
+      },
+      "rect": {
+        "bottom": 844,
+        "height": 844,
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "width": 390,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  {
+    "page": "items-empty",
+    "width": 375,
+    "reference": {
+      "footer": {
+        "bottom": 812,
+        "height": 82,
+        "left": 0,
+        "right": 375,
+        "top": 730,
+        "width": 375,
+        "x": 0,
+        "y": 730
+      },
+      "head": {
+        "bottom": 100,
+        "height": 75,
+        "left": 0,
+        "right": 375,
+        "top": 25,
+        "width": 375,
+        "x": 0,
+        "y": 25
+      },
+      "mode": {
+        "bottom": 141,
+        "height": 41,
+        "left": 0,
+        "right": 375,
+        "top": 100,
+        "width": 375,
+        "x": 0,
+        "y": 100
+      },
+      "rail": {
+        "bottom": 730,
+        "height": 589,
+        "left": 0,
+        "right": 102,
+        "top": 141,
+        "width": 102,
+        "x": 0,
+        "y": 141
+      },
+      "rect": {
+        "bottom": 812,
+        "height": 812,
+        "left": 0,
+        "right": 375,
+        "top": 0,
+        "width": 375,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "runtime": {
+      "footer": {
+        "bottom": 812,
+        "height": 82,
+        "left": 0,
+        "right": 375,
+        "top": 730,
+        "width": 375,
+        "x": 0,
+        "y": 730
+      },
+      "head": {
+        "bottom": 100,
+        "height": 75,
+        "left": 0,
+        "right": 375,
+        "top": 25,
+        "width": 375,
+        "x": 0,
+        "y": 25
+      },
+      "mode": {
+        "bottom": 141,
+        "height": 41,
+        "left": 0,
+        "right": 375,
+        "top": 100,
+        "width": 375,
+        "x": 0,
+        "y": 100
+      },
+      "rail": {
+        "bottom": 730,
+        "height": 589,
+        "left": 0,
+        "right": 102,
+        "top": 141,
+        "width": 102,
+        "x": 0,
+        "y": 141
+      },
+      "rect": {
+        "bottom": 812,
+        "height": 812,
+        "left": 0,
+        "right": 375,
+        "top": 0,
+        "width": 375,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  {
+    "page": "items-flow",
+    "width": 375,
+    "checks": [
+      "2 suitcase quantity persists across mode change",
+      "missing lease stays in items and shows 请选择租期",
+      "quote attempt opens existing phone gate",
+      "closing gate remains on items"
+    ],
+    "evidence": "▣\n已选 1 种 · 共 2 件\n约 0.22m³ · 6个月\n查看推荐 ›"
+  },
+  {
+    "page": "D14-items-back-S01",
+    "result": "PASS",
+    "url": "http://127.0.0.1:4280/demo/index.html?page=S01"
+  },
+  {
+    "page": "D14-items-confirm-S02",
+    "result": "PASS",
+    "url": "http://127.0.0.1:4280/demo/index.html?page=S02&store=SIM_BJ01"
+  },
+  {
+    "page": "D14-items-confirm-S01",
+    "result": "PASS",
+    "url": "http://127.0.0.1:4280/demo/index.html?page=S01"
+  },
+  {
+    "page": "CAP-items-back-CAP",
+    "result": "PASS",
+    "url": "http://127.0.0.1:4280/demo/cap.html"
+  },
+  {
+    "page": "CAP-S5-inheritance",
+    "result": "PASS",
+    "text": "您的存储需求\n5m³\n✔ 修改\n\n按已选容量匹配，可返回修改需求"
+  },
+  {
+    "page": "S5-selected-5m3-12months",
+    "width": 390,
+    "reference": [
+      {
+        "rect": {
+          "bottom": 217.60107421875,
+          "height": 119.83827209472656,
+          "left": 8.409703254699707,
+          "right": 381.59027576446533,
+          "top": 97.76280212402344,
+          "width": 373.1805725097656,
+          "x": 8.409703254699707,
+          "y": 97.76280212402344
+        },
+        "selector": ".demand"
+      },
+      {
+        "rect": {
+          "bottom": 264.9056396484375,
+          "height": 40.997283935546875,
+          "left": 13.665767669677734,
+          "right": 376.33422470092773,
+          "top": 223.90835571289065,
+          "width": 362.66845703125,
+          "x": 13.665767669677734,
+          "y": 223.90835571289065
+        },
+        "selector": ".location-line"
+      },
+      {
+        "rect": {
+          "bottom": 794.7169799804688,
+          "height": 310.1078186035156,
+          "left": 21.02425765991211,
+          "right": 370.0269432067871,
+          "top": 484.6091613769531,
+          "width": 349.002685546875,
+          "x": 21.02425765991211,
+          "y": 484.6091613769531
+        },
+        "selector": ".major-unit"
+      },
+      {
+        "rect": {
+          "bottom": 670.673828125,
+          "height": 23.12664794921875,
+          "left": 33.63881301879883,
+          "right": 284.89511489868164,
+          "top": 647.5471801757812,
+          "width": 251.2563018798828,
+          "x": 33.63881301879883,
+          "y": 647.5471801757812
+        },
+        "selector": ".unit-tags"
+      },
+      {
+        "rect": {
+          "bottom": 794.7169799804688,
+          "height": 31.53643798828125,
+          "left": 33.63881301879883,
+          "right": 357.4123725891113,
+          "top": 763.1805419921875,
+          "width": 323.7735595703125,
+          "x": 33.63881301879883,
+          "y": 763.1805419921875
+        },
+        "selector": ".benefits"
+      },
+      {
+        "rect": {
+          "bottom": 931.3746337890624,
+          "height": 117.73583984375,
+          "left": 21.02425765991211,
+          "right": 370.0269432067871,
+          "top": 813.6387939453125,
+          "width": 349.002685546875,
+          "x": 21.02425765991211,
+          "y": 813.6387939453125
+        },
+        "selector": ".minor-unit"
+      }
+    ],
+    "runtime": [
+      {
+        "rect": {
+          "bottom": 217.60107421875,
+          "height": 119.83827209472656,
+          "left": 8.409703254699707,
+          "right": 381.59027576446533,
+          "top": 97.76280212402344,
+          "width": 373.1805725097656,
+          "x": 8.409703254699707,
+          "y": 97.76280212402344
+        },
+        "selector": ".demand"
+      },
+      {
+        "rect": {
+          "bottom": 264.9056396484375,
+          "height": 40.997283935546875,
+          "left": 13.665767669677734,
+          "right": 376.33422470092773,
+          "top": 223.90835571289065,
+          "width": 362.66845703125,
+          "x": 13.665767669677734,
+          "y": 223.90835571289065
+        },
+        "selector": ".location-line"
+      },
+      {
+        "rect": {
+          "bottom": 794.7169799804688,
+          "height": 310.1078186035156,
+          "left": 21.02425765991211,
+          "right": 370.0269432067871,
+          "top": 484.6091613769531,
+          "width": 349.002685546875,
+          "x": 21.02425765991211,
+          "y": 484.6091613769531
+        },
+        "selector": ".major-unit"
+      },
+      {
+        "rect": {
+          "bottom": 670.673828125,
+          "height": 23.12664794921875,
+          "left": 33.63881301879883,
+          "right": 202.97443008422852,
+          "top": 647.5471801757812,
+          "width": 169.3356170654297,
+          "x": 33.63881301879883,
+          "y": 647.5471801757812
+        },
+        "selector": ".unit-tags"
+      },
+      {
+        "rect": {
+          "bottom": 794.7169799804688,
+          "height": 31.53643798828125,
+          "left": 33.63881301879883,
+          "right": 357.4123725891113,
+          "top": 763.1805419921875,
+          "width": 323.7735595703125,
+          "x": 33.63881301879883,
+          "y": 763.1805419921875
+        },
+        "selector": ".benefits"
+      },
+      {
+        "rect": {
+          "bottom": 931.3746337890624,
+          "height": 117.73583984375,
+          "left": 21.02425765991211,
+          "right": 370.0269432067871,
+          "top": 813.6387939453125,
+          "width": 349.002685546875,
+          "x": 21.02425765991211,
+          "y": 813.6387939453125
+        },
+        "selector": ".minor-unit"
+      }
+    ]
+  },
+  {
+    "page": "S5-selected-5m3-12months",
+    "width": 375,
+    "reference": [
+      {
+        "rect": {
+          "bottom": 209.23179626464844,
+          "height": 115.2291030883789,
+          "left": 8.08625316619873,
+          "right": 366.9137372970581,
+          "top": 94.00269317626952,
+          "width": 358.8274841308594,
+          "x": 8.08625316619873,
+          "y": 94.00269317626952
+        },
+        "selector": ".demand"
+      },
+      {
+        "rect": {
+          "bottom": 254.71697998046875,
+          "height": 39.42048645019531,
+          "left": 13.140161514282228,
+          "right": 361.859827041626,
+          "top": 215.29649353027344,
+          "width": 348.71966552734375,
+          "x": 13.140161514282228,
+          "y": 215.29649353027344
+        },
+        "selector": ".location-line"
+      },
+      {
+        "rect": {
+          "bottom": 764.1509399414062,
+          "height": 298.18060302734375,
+          "left": 20.215633392333984,
+          "right": 355.7951316833496,
+          "top": 465.9703369140625,
+          "width": 335.5794982910156,
+          "x": 20.215633392333984,
+          "y": 465.9703369140625
+        },
+        "selector": ".major-unit"
+      },
+      {
+        "rect": {
+          "bottom": 644.878662109375,
+          "height": 22.2371826171875,
+          "left": 32.34501266479492,
+          "right": 273.93761825561523,
+          "top": 622.6414794921875,
+          "width": 241.5926055908203,
+          "x": 32.34501266479492,
+          "y": 622.6414794921875
+        },
+        "selector": ".unit-tags"
+      },
+      {
+        "rect": {
+          "bottom": 764.1509399414062,
+          "height": 30.323486328125,
+          "left": 32.34501266479492,
+          "right": 343.6657829284668,
+          "top": 733.8274536132812,
+          "width": 311.3207702636719,
+          "x": 32.34501266479492,
+          "y": 733.8274536132812
+        },
+        "selector": ".benefits"
+      },
+      {
+        "rect": {
+          "bottom": 895.5525512695312,
+          "height": 113.20758056640624,
+          "left": 20.215633392333984,
+          "right": 355.7951316833496,
+          "top": 782.344970703125,
+          "width": 335.5794982910156,
+          "x": 20.215633392333984,
+          "y": 782.344970703125
+        },
+        "selector": ".minor-unit"
+      }
+    ],
+    "runtime": [
+      {
+        "rect": {
+          "bottom": 209.23179626464844,
+          "height": 115.2291030883789,
+          "left": 8.08625316619873,
+          "right": 366.9137372970581,
+          "top": 94.00269317626952,
+          "width": 358.8274841308594,
+          "x": 8.08625316619873,
+          "y": 94.00269317626952
+        },
+        "selector": ".demand"
+      },
+      {
+        "rect": {
+          "bottom": 254.71697998046875,
+          "height": 39.42048645019531,
+          "left": 13.140161514282228,
+          "right": 361.859827041626,
+          "top": 215.29649353027344,
+          "width": 348.71966552734375,
+          "x": 13.140161514282228,
+          "y": 215.29649353027344
+        },
+        "selector": ".location-line"
+      },
+      {
+        "rect": {
+          "bottom": 764.1509399414062,
+          "height": 298.18060302734375,
+          "left": 20.215633392333984,
+          "right": 355.7951316833496,
+          "top": 465.9703369140625,
+          "width": 335.5794982910156,
+          "x": 20.215633392333984,
+          "y": 465.9703369140625
+        },
+        "selector": ".major-unit"
+      },
+      {
+        "rect": {
+          "bottom": 644.878662109375,
+          "height": 22.2371826171875,
+          "left": 32.34501266479492,
+          "right": 195.1677207946777,
+          "top": 622.6414794921875,
+          "width": 162.8227081298828,
+          "x": 32.34501266479492,
+          "y": 622.6414794921875
+        },
+        "selector": ".unit-tags"
+      },
+      {
+        "rect": {
+          "bottom": 764.1509399414062,
+          "height": 30.323486328125,
+          "left": 32.34501266479492,
+          "right": 343.6657829284668,
+          "top": 733.8274536132812,
+          "width": 311.3207702636719,
+          "x": 32.34501266479492,
+          "y": 733.8274536132812
+        },
+        "selector": ".benefits"
+      },
+      {
+        "rect": {
+          "bottom": 895.5525512695312,
+          "height": 113.20758056640624,
+          "left": 20.215633392333984,
+          "right": 355.7951316833496,
+          "top": 782.344970703125,
+          "width": 335.5794982910156,
+          "x": 20.215633392333984,
+          "y": 782.344970703125
+        },
+        "selector": ".minor-unit"
+      }
+    ]
+  },
+  {
+    "page": "O01-required-fields",
+    "result": "PASS",
+    "dateAndAgreement": {
+      "agreed": false,
+      "date": "2026-11-01",
+      "total": "¥4,148"
+    }
+  },
+  {
+    "page": "S02-direct-O01-no-U01",
+    "result": "PASS",
+    "url": "http://127.0.0.1:4280/demo/index.html?page=O01"
+  },
+  {
+    "page": "QUICK-explicit-store-unit-to-O01",
+    "result": "PASS",
+    "url": "http://127.0.0.1:4280/demo/index.html?page=O01"
+  },
+  {
+    "page": "BOOKING-address-only",
+    "result": "PASS",
+    "success": "✓\n用仓需求已模拟提交\n\n模拟线索 SIM_LEAD_1 已记录用仓地址：北京市朝阳区富仁名苑胜古北里南28号楼。这是一条演示销售线索，不会创建租仓订单。\n\n返回填写页面查看我的需求"
+  },
+  {
+    "page": "enterprise-independent-form",
+    "result": "PASS",
+    "labels": [
+      "企业存储",
+      "公司 / 商家名称",
+      "联系电话",
+      "主要存储类型"
+    ],
+    "inherited": [
+      {
+        "id": "sizeInput",
+        "value": "5"
+      },
+      {
+        "id": "company",
+        "value": ""
+      },
+      {
+        "id": "phone",
+        "value": "<redacted>"
+      }
+    ]
+  },
+  {
+    "page": "index.html?page=S01",
+    "width": 375,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 375,
+      "root": {
+        "bottom": 812,
+        "height": 784,
+        "left": 0,
+        "right": 375,
+        "top": 28,
+        "width": 375,
+        "x": 0,
+        "y": 28
+      },
+      "scrollWidth": 375,
+      "url": "http://127.0.0.1:4280/demo/index.html?page=S01",
+      "width": 375
+    }
+  },
+  {
+    "page": "index.html?page=S01",
+    "width": 390,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 390,
+      "root": {
+        "bottom": 844,
+        "height": 816,
+        "left": 0,
+        "right": 390,
+        "top": 28,
+        "width": 390,
+        "x": 0,
+        "y": 28
+      },
+      "scrollWidth": 390,
+      "url": "http://127.0.0.1:4280/demo/index.html?page=S01",
+      "width": 390
+    }
+  },
+  {
+    "page": "index.html?page=S02&store=SIM_BJ01",
+    "width": 375,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 375,
+      "root": {
+        "bottom": 812,
+        "height": 784,
+        "left": 0,
+        "right": 375,
+        "top": 28,
+        "width": 375,
+        "x": 0,
+        "y": 28
+      },
+      "scrollWidth": 375,
+      "url": "http://127.0.0.1:4280/demo/index.html?page=S02&store=SIM_BJ01",
+      "width": 375
+    }
+  },
+  {
+    "page": "index.html?page=S02&store=SIM_BJ01",
+    "width": 390,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 390,
+      "root": {
+        "bottom": 844,
+        "height": 816,
+        "left": 0,
+        "right": 390,
+        "top": 28,
+        "width": 390,
+        "x": 0,
+        "y": 28
+      },
+      "scrollWidth": 390,
+      "url": "http://127.0.0.1:4280/demo/index.html?page=S02&store=SIM_BJ01",
+      "width": 390
+    }
+  },
+  {
+    "page": "business.html",
+    "width": 375,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "url": "http://127.0.0.1:4280/demo/business.html",
+      "width": 375
+    }
+  },
+  {
+    "page": "business.html",
+    "width": 390,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "url": "http://127.0.0.1:4280/demo/business.html",
+      "width": 390
+    }
+  },
+  {
+    "page": "index.html?page=QUICK",
+    "width": 375,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "url": "http://127.0.0.1:4280/demo/br04/quick/index.html?v=VA04",
+      "width": 375
+    }
+  },
+  {
+    "page": "index.html?page=QUICK",
+    "width": 390,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "url": "http://127.0.0.1:4280/demo/br04/quick/index.html?v=VA04",
+      "width": 390
+    }
+  },
+  {
+    "page": "O01-deep-link-verification-required",
+    "result": "PASS",
+    "text": "内部演示设置\n确认订单\n\n验证手机号后继续，您的容量、租期和仓位已保留。\n\n验证并继续返回选择\n验证设置\n×\n●\n迷你考拉仓\n手机号快捷登录\n\n验证手机号后，继续确认您的订单\n\n微信手机号快捷登录\n或\n短信验证码登录\n我已阅读并同意 《用户服务协议》和《隐私政策》"
+  },
+  {
+    "page": "index.html?page=O01",
+    "width": 375,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "url": "http://127.0.0.1:4280/demo/br04/o01/index.html?v=VA04",
+      "width": 375
+    }
+  },
+  {
+    "page": "index.html?page=O01",
+    "width": 390,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "url": "http://127.0.0.1:4280/demo/br04/o01/index.html?v=VA04",
+      "width": 390
+    }
+  },
+  {
+    "page": "index.html?page=QUICK",
+    "width": 375,
+    "runtime": {
+      "brokenImages": [],
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "url": "http://127.0.0.1:4280/demo/br04/quick/index.html?v=VA04",
+      "width": 375
+    }
+  },
+  {
+    "page": "index.html?page=QUICK",
+    "width": 390,
+    "runtime": {
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "url": "http://127.0.0.1:4280/demo/br04/quick/index.html?v=VA04",
+      "width": 390
+    }
+  },
+  {
+    "page": "index.html?page=BOOKING",
+    "width": 375,
+    "runtime": {
+      "clientWidth": 375,
+      "receipt": "✓\n用仓需求已模拟提交\n\n模拟线索 SIM_LEAD_1 已记录用仓地址：北京市朝阳区富仁名苑胜古北里南28号楼。这是一条演示销售线索，不会创建租仓订单。\n\n返回填写页面查看我的需求",
+      "scrollWidth": 375,
+      "url": "http://127.0.0.1:4280/demo/br04/reserve/index.html?v=VA04",
+      "width": 375
+    }
+  },
+  {
+    "page": "index.html?page=BOOKING",
+    "width": 390,
+    "runtime": {
+      "clientWidth": 390,
+      "receipt": "✓\n用仓需求已模拟提交\n\n模拟线索 SIM_LEAD_1 已记录用仓地址：北京市朝阳区富仁名苑胜古北里南28号楼。这是一条演示销售线索，不会创建租仓订单。\n\n返回填写页面查看我的需求",
+      "scrollWidth": 390,
+      "url": "http://127.0.0.1:4280/demo/br04/reserve/index.html?v=VA04",
+      "width": 390
+    }
+  }
+]

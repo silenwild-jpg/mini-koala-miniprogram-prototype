@@ -1,0 +1,5 @@
+{
+  "path": "H01→CAP→items→CAP→H01",
+  "errors": [],
+  "scope": "fresh standalone browser tab; does not clear the unattributed nested-observer error"
+}

@@ -1,0 +1,1473 @@
+{
+  "candidate": "VISUAL-CONSISTENCY-01",
+  "baseline": "8a0003d11b966818b8143ae2c473ecdcb5fa8622",
+  "stage": "USER_REJECTED_BLOCKED_PENDING_FREEZE_RECOVERY",
+  "release_gate": "HOLD",
+  "checks": {
+    "model_groups": 123,
+    "syntax_files": 26,
+    "inline_scripts": 4,
+    "browser_records": 57,
+    "legacy": {
+      "pass": 18,
+      "fail": 12,
+      "not_run": 10,
+      "failures_reproduced_on_baseline": 12
+    }
+  },
+  "scope": "Current candidate only. Older manifests are historical snapshots. This manifest does not hash itself.",
+  "files": [
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/CHANGELOG.md",
+      "bytes": 799,
+      "sha256": "4dd0b9b9b4f6daeef4d8e7624d139b320a7b2682b5e8c1b847424467815b3850"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/consistency-review.html",
+      "bytes": 6792,
+      "sha256": "d015d432521db7c50a3fb96eb2b050cf5deb755f62e768f88e3b65745a93e882"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/CURRENT_STATUS.md",
+      "bytes": 1206,
+      "sha256": "eb9c327916670cc52607670786556a2ba231fce98e093a26a87550b67ff02f59"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/account.css",
+      "bytes": 3595,
+      "sha256": "35a6ef26b1a8885b1ce73afe6eef3dd3b272710440c34d60ad071764a962fa11"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/account.html",
+      "bytes": 1402,
+      "sha256": "66dcee1bc79bd39793a1cff91236df2b2522ad25d2b484390730dc660ecbef49"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/account.js",
+      "bytes": 25905,
+      "sha256": "c7661735aaa27e5265e50464cc963041a682ce507a354c207dbc75d72462cd95"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/app.js",
+      "bytes": 35946,
+      "sha256": "9721e017412e78a5497f24db177ffc92b2f5d50e2db07f4f8f7ecef2bfcf4595"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/APPROVED_ASSET_EXTRACTION.json",
+      "bytes": 2820,
+      "sha256": "dae662b4f18be26dbab9b7234704b225e640f7536809049715c1e22bd624f49e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/B01_原始走廊首屏_合成.png",
+      "bytes": 191115,
+      "sha256": "d134f73c48abcef0c2c1d444a86981d8a62cc846b5ed7a60b3ad2bb756aeab09"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/B02_双任务摄影底图.png",
+      "bytes": 76752,
+      "sha256": "b60ed58201a0954f160e3fcd0d72ced1ac199625203ab47e8f486b1e25cbf2e2"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/B_视觉签收基准.png",
+      "bytes": 601536,
+      "sha256": "ca375e2dabf51fc761b406b42d948ccb3c392f56621b0d770a91e9a31200b0de"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/below_original_375.png",
+      "bytes": 394494,
+      "sha256": "408bbcd214d74b30018cfae0f8136a68ee72100d6380f88f27383e367cfccac4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/below_original_390.png",
+      "bytes": 395875,
+      "sha256": "2fd9fcae6bf609e76aa99259568b83ab728f8b292605dc38bee56fc96ea5a03b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand-proof-hitech-demo.webp",
+      "bytes": 18534,
+      "sha256": "451ccb803831e337524e985f0c152894794640d59539cf4f49049532d0d871ef"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand-proof-media-demo.webp",
+      "bytes": 17132,
+      "sha256": "febd8f1012078bb497f892500a9f04f755d3e14ec589e46d735b42a502834298"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand-proof-standard-demo.webp",
+      "bytes": 21206,
+      "sha256": "544a406a1aed6ae834cd9dd89fba7c1380b7859f2d308561f38b3c0c590435e0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand_corridor_cropped.png",
+      "bytes": 181705,
+      "sha256": "ccbcb404d2e98cbbde65032f3f9230b04c7b1320342cb76bc7c7798570c38ceb"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand_portrait_375.jpg",
+      "bytes": 14970,
+      "sha256": "848129bdba2e64b627725ba07e4b361045945bd50ea933a649aaa5f410726c60"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/brand_portrait_390.jpg",
+      "bytes": 15703,
+      "sha256": "6829b7be38fb3b3d19902558eb1b10c0192e3851da84a88bd1fe3f36b4c8d570"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/enterprise_375.jpg",
+      "bytes": 29697,
+      "sha256": "b3bc86f67c1ce353644ad17571722b44807f02f200c23587437d1b31f34f6c03"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/enterprise_390.jpg",
+      "bytes": 31105,
+      "sha256": "ad2b33f85b6933a133bc3bdc0450e4537441a99590d787322181b2f42bf88eb7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_editable_375.png",
+      "bytes": 149207,
+      "sha256": "b55e16decbabc6ea341f8fccbf2f2478aa73e7a3e4553b651d265a471701c392"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_editable_390.png",
+      "bytes": 147812,
+      "sha256": "361e1beac3c508087b866769f8dc0f13e8c05010b61b62e035d520842564c68d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_inpaint_v2.png",
+      "bytes": 243250,
+      "sha256": "2d7b7596af85a45ab4c0f306fe52f7bb12cefbf5c690f8941e1ccd7f3cc08115"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_mask_v2.png",
+      "bytes": 3355,
+      "sha256": "e2ed6ac05c148147676ad646fc95e02b6938506e498f9302e1c681a4084604bc"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_original_375.png",
+      "bytes": 203085,
+      "sha256": "84f15cf296ecbfb91950a2762ca710f8acc7a95bc43f38fe0451b73711e2805f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/hero_original_390.png",
+      "bytes": 202863,
+      "sha256": "86bbc06ea7f89efe4b753476b84076d2fbf90c0fadb000a4db639c80af4c0793"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/mini_split.jpg",
+      "bytes": 29672,
+      "sha256": "6a6b251b15cdfc2ea77ae335478b18156146a00b4b6427a2078535678ff8503f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/nav_original_375.png",
+      "bytes": 26618,
+      "sha256": "feba29c60fa7f7b19f940f9dab419d7a4193997a1cd5022e1391b93eb2448e0d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/nav_original_390.png",
+      "bytes": 26100,
+      "sha256": "5b80b4077d0a5721be4141ea00b2b243b4d5d4d95460521535a0260f1b5bb7c5"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_1_375.jpg",
+      "bytes": 5601,
+      "sha256": "4953821c1c56727afdc1a90e3164b8cd05bc913ae4b8173432c1185becd85d63"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_1_390.jpg",
+      "bytes": 5397,
+      "sha256": "d470418c6ce7cc2cce55cae589dbefdadee89558495aec0a1f2259dbe564b38b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_2_375.jpg",
+      "bytes": 6996,
+      "sha256": "352d814bd68f73aa3aa34cd90adfca03810b7741ce4fc3a8c95f248202733fc4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_2_390.jpg",
+      "bytes": 6681,
+      "sha256": "4a078f37528aa997eb74213f0174aca005c1452b7dd65ef31b0bcb4b2cba31d5"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_3_375.jpg",
+      "bytes": 4207,
+      "sha256": "6030a55fb6cd6009d38855cc7453ecdfb9bcea2e91f92fc5e205e3beee577f1c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/proof_3_390.jpg",
+      "bytes": 4195,
+      "sha256": "1f380bda4f95e3e1ac9a99dfaad6034188a2daa260c28ffa2632cd4b8bdd50d8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_1_375.jpg",
+      "bytes": 4025,
+      "sha256": "370cdb270dc2892eb4788bd1fbc93266f3c5bb31197c7cfb5157f8097c3576a8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_1_390.jpg",
+      "bytes": 4172,
+      "sha256": "e56397ede5eb501f0bc031388884c9df6a64db2a9a780e2d139dd90bd5c46302"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_2_375.jpg",
+      "bytes": 4436,
+      "sha256": "62311454076cb0058c60cb02a35ee467323c58d0b4ca6e3e97ea898894705726"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_2_390.jpg",
+      "bytes": 3871,
+      "sha256": "e1613317b23b22f52ba450f1d80acc8d10b1a03bef5e02ff88bc5dd75754d947"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_3_375.jpg",
+      "bytes": 3157,
+      "sha256": "7bd42bb82e757ce527deccfebe81e75651f15366c043b4556c5effcca98dcdd5"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_3_390.jpg",
+      "bytes": 3126,
+      "sha256": "ba3a813cd2cf09be0ca132c452fef48428caf318cf7f9d106c7764cfde3230eb"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_4_375.jpg",
+      "bytes": 3930,
+      "sha256": "e37914320e5564584a37e380428db9f27301b6cc092bcdcc2b1361a858d5ea80"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_4_390.jpg",
+      "bytes": 4124,
+      "sha256": "d1fdd7fff5326a1056fa45a454b70c28a7e2c244747d7cb21c3060ad00bb69c0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_5_375.jpg",
+      "bytes": 4992,
+      "sha256": "e9509fbcb30be36d74342ff47ea89ee3bf532b59e18d143ce2cdbf415df7a74c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_5_390.jpg",
+      "bytes": 4882,
+      "sha256": "c0b3d0bf877c0f661bde7f5a98bb4399602d91fa44c983d99da3e6a3c2b98759"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_6_375.jpg",
+      "bytes": 3702,
+      "sha256": "a7d4b29d8ec668a345c2f798258366e8e4226421035db68d9af1eeda19b3d802"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/scene_photo_6_390.jpg",
+      "bytes": 3613,
+      "sha256": "a32d123da1fd58f01ec6ef912ada756a7d1f5e37ce24c721fa4ec23c93f9e308"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_changning.jpg",
+      "bytes": 21673,
+      "sha256": "48106c3bce1cdadef1ed7c7cf7ba25e7fb52a2324cf209ee836b303544af10b7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_jingan.jpg",
+      "bytes": 21988,
+      "sha256": "cc0b232bd10be4dac918d62fd787a66e649d3d6adb29a28d3d23df85d00c6c7c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_jingan_hero_clean.jpg",
+      "bytes": 67925,
+      "sha256": "fbda0bc9176351b040176cab9592ae140b49ab8ddc145494855712cbd3878a1a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_photo_1.png",
+      "bytes": 35968,
+      "sha256": "e0668595df5e28fda1e33fc8ee5719d2cc2509ae9fe468417f1cd5f693e24c58"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_photo_2.png",
+      "bytes": 34468,
+      "sha256": "e5169608be32aac0db44236dd4385b9792e07cd4759e9b8549ef39d39b510374"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_photo_3.png",
+      "bytes": 17678,
+      "sha256": "e7fdf2492d688100b96f0a0f76653a6489c16b3a56c6c41909899524650dfb14"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_pudong.jpg",
+      "bytes": 21530,
+      "sha256": "efab936d20246d9034fad6ff48e5f550f0417192115faa058498d6858decced4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/store_xuhui.jpg",
+      "bytes": 22836,
+      "sha256": "9257fb596f8578d61583b195307f6cb59793049c82f2c3c166657a9bfc885544"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/stores_original_375.png",
+      "bytes": 174911,
+      "sha256": "a562ad4be221a3b68daab33080d818fdcbbce4627bf2e4734b17b497bfebfa15"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/stores_original_390.png",
+      "bytes": 173851,
+      "sha256": "d6ba7849386f6a5b2c5b7066042fe650c41eec87acc2e19d335ee0688c9a3817"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/task_estimate_right.png",
+      "bytes": 35921,
+      "sha256": "dd69238561de4183a26a0250e0bb6d8593766fed44d39a48faadcbe91efab946"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/task_store_left.png",
+      "bytes": 54284,
+      "sha256": "763c4926ca88cd040818566d50bc9400cc688d1c406db2ac51ad3c9f2d566a73"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_display_375.png",
+      "bytes": 88081,
+      "sha256": "43f9ab5488a6df2ede5d7866590760fd5f6cf92e3af8e0ecbca913dc6d645e1e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_display_390.png",
+      "bytes": 87879,
+      "sha256": "ed16e452822d6cfc08cbe620e4f94f9d568d19f3a7c2b1d9cda2da89d4fb470f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_editable_375.png",
+      "bytes": 60164,
+      "sha256": "1edd8385deb9fc43e479a8b87d0e4a2b208934bf9a2b60d59e201af52cb32fd4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_editable_390.png",
+      "bytes": 59176,
+      "sha256": "8b6b183c34644134f64b66db7bb3833a08edf6c0b198bf5243cd28254ca1aa3e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_original_375.png",
+      "bytes": 90455,
+      "sha256": "801b5ec987755b714d6765ffb9575efdf22699e93cd360317fd994505825eeae"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/tasks_original_390.png",
+      "bytes": 90189,
+      "sha256": "5e89348ea59f41d2326afea4a7d6c1c8842f7ee9b388033a8e368bbb6c679835"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/unit_medium.jpg",
+      "bytes": 9719,
+      "sha256": "06632043fa6e30feefe61087d0fdffe16e299da5f6c081c43d44d4b0dfbeca5a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/unit_small1.jpg",
+      "bytes": 10899,
+      "sha256": "b884fc861728f3a7985fa78405122b1216f457aa42952274685f6c74beb7d7b8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/unit_small2.jpg",
+      "bytes": 10479,
+      "sha256": "c646a7f58bd56df9eec5bd249233352f09da32f23d91c20dd85929a017e7b73f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-booking.png",
+      "bytes": 6886,
+      "sha256": "80d9ca8361168b8bf7392d496625d092aab0b6b3a3e0f857823d13a0c7bc8fb9"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-clock.png",
+      "bytes": 5587,
+      "sha256": "2f7c92302bb6d475c21202ef2149193361cabc04d4fa23ad0ef43e530f6ab069"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-calendar.png",
+      "bytes": 4833,
+      "sha256": "290d838216535a7a4bac4e5d74e9bddff330c3cfa2ac47df051cb0b0ced8837e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-home.png",
+      "bytes": 4494,
+      "sha256": "1813598622b9a668d6a073eb6ffcae754bd0990b0e5fc39ff73f99585424998a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-stores.png",
+      "bytes": 5279,
+      "sha256": "9971488c1b39273c8bd0ec13351b023ad3325144d333cfa70c7c3ca6e312eff8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-nav-user.png",
+      "bytes": 4421,
+      "sha256": "31181053fe1a379386af5ef99ea7187c38741e3f55755503d80cebec53de781c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-parking.png",
+      "bytes": 4820,
+      "sha256": "3ca02b62b4ce00ecd03d93992d0325646d273151d8edfb4f461153158f2b2fe2"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-shield.png",
+      "bytes": 5937,
+      "sha256": "9e0c271a8b2a03920888601b43f7aa5a43a43d694ca20b06e60e67889f55d5ce"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/vis07-train.png",
+      "bytes": 5997,
+      "sha256": "548ef8fc7b40d10b7eb44c5838c9881024cab72dbf20da7f47f563e0bfcae4e0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/品牌人物_右侧裁切_B.jpg",
+      "bytes": 44307,
+      "sha256": "09670fe48500075a74b67650fa30d1eca4654bcc4b69f86651e57ce2383c717a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/品牌人物_无文案裁切.jpg",
+      "bytes": 64585,
+      "sha256": "d627e889407b7b22d54c86dd99ea29481af33258bc9ab09203e572263280930f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/品牌人物_横幅裁切_A.jpg",
+      "bytes": 81577,
+      "sha256": "341cb84a9d6f2d7d83b1679d3ce51fca0a3ee1a22a85550c3b81a6a2c7840217"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/商家企业横幅.png",
+      "bytes": 32744,
+      "sha256": "ff3259515b7fb9c5125cc0895e7c0a4e09a2b4bb6cdf0ab9d4b7e13a979135bc"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_1.png",
+      "bytes": 5282,
+      "sha256": "88a947964eb5b2ea1af8b34a4948211ddfdf327777c7496ccee1ac997495318c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_2.png",
+      "bytes": 4509,
+      "sha256": "28cdf7b02d9f9d620876089fa9be47d2475080e66ec9ff54b29c4db9775c22bb"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_3.png",
+      "bytes": 5184,
+      "sha256": "c749bec04d8bc02cbcc57bec055b7053cc3785f4efec5c966381c54f28665238"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_4.png",
+      "bytes": 5535,
+      "sha256": "403d15e088e5b5aa28a1b0c336d8d102ca4ba0bba8e0621bf724b47276da8f0a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_5.png",
+      "bytes": 4644,
+      "sha256": "0be9a0427c8d6645092ed40d21909c0595954fcca8051f44180545890a5d340a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/场景_6.png",
+      "bytes": 5089,
+      "sha256": "7eca0e84c47e39c995cacf6546dd7e1f5340ac1784a4af0774f7519ced1d7122"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_1.png",
+      "bytes": 18762,
+      "sha256": "2f8c0d047b5c8c06a9b6f48e9f6db4263c9c657862498a4ddf7e34a7ae54dea0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_1_无叠字.png",
+      "bytes": 18379,
+      "sha256": "79428b196ab37ab0111b2be81449504d0d5a79ebfd803bd449541e2cf94a8c33"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_2.png",
+      "bytes": 19312,
+      "sha256": "84a037d3d6cb3d8683cc1fe7d25a09b7b3471b8863bdd847b78de2694ae78784"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_2_无叠字.png",
+      "bytes": 18521,
+      "sha256": "bdcf2aff7db2c0e341b747278696e59d0a89b8323fa03283d2e8564e3d398c61"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_3.png",
+      "bytes": 18446,
+      "sha256": "04bbe3f7af92f67f1166eeb25b939e504f1ef986566a41b2baa2875a95f67c92"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/assets/门店_3_无叠字.png",
+      "bytes": 17678,
+      "sha256": "e7fdf2492d688100b96f0a0f76653a6489c16b3a56c6c41909899524650dfb14"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br03-demo-snapshots.js",
+      "bytes": 1916,
+      "sha256": "c8c80c1ebdbccb330663daddc764e6525eff923fe17338493dde651ac1a4c585"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js",
+      "bytes": 3768,
+      "sha256": "597b5873554c608dee410db97007a25ab37dbc98868477008c0300e49b06ff56"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br03-promo-copy.css",
+      "bytes": 5531,
+      "sha256": "6ca8e6f1a6145c1fa5576bb5598afa75b343c279a25c64430c06ee24ba6f41e8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/adapter.css",
+      "bytes": 6156,
+      "sha256": "718071ae5472e7b506379651ca161a8a8d5a6ed0ef7ea37921f2d5f9aa2f2f67"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js",
+      "bytes": 30707,
+      "sha256": "626026353bb0b515b655d00e6b5d68fe29a8acd939209b09e29eeba19205d9df"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/card_store.png",
+      "bytes": 14275,
+      "sha256": "5145e35166a9ce3bed7d1b4b99c7876de722cf2d5dcfd0ca7c570c44bc6228ea"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/card_unit.png",
+      "bytes": 13442,
+      "sha256": "df39aa96c58bb62bea504d318b5399fe577690704710cbdabdde07befbc369c0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/reference_approx.png",
+      "bytes": 321457,
+      "sha256": "e94c855944ba463247ff50a43864e9f37f7be1a99a058a06c5f90a176af9d5a0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/reference_inner.png",
+      "bytes": 314125,
+      "sha256": "8347f00e56d7157e85eb1794d282cd84ba6f34d4c46ac63544b27b7fd2be2442"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/store-front.jpg",
+      "bytes": 23297,
+      "sha256": "db5951b8d004c46c7b5ac3a0bd7cdf2aca4fe5cf72729fb6a863b4bbab85691a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/assets/unit-corridor.jpg",
+      "bytes": 17184,
+      "sha256": "ec7c4f2deef2b12b8907439b454ac53291d85b909275961c9f8a7ed30ccc5f55"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/index.html",
+      "bytes": 5009,
+      "sha256": "96b86749499446856b58cf457b05a679177b11caffc4d2d4e8f362824de8ef66"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/o01/styles.css",
+      "bytes": 9324,
+      "sha256": "9b2ed0ed996610ad83b73081e9027813bc86c71dd6f5210ab78100a447d02f6e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/assets/hero-clean.jpg",
+      "bytes": 7923,
+      "sha256": "40704edd2d183fbe441b565e46e5f1cf27c6d13b7b57c9888e901e0fb54c55ab"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/assets/store-photo.png",
+      "bytes": 14633,
+      "sha256": "c9ef6f629b1b568a2b120cf98b786c76b5b9b31e260f6488c093d7dc91799d9a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/assets/unit-photo.png",
+      "bytes": 12472,
+      "sha256": "4e0e7fb50e8669867bcf90e668c42a4bc9621a6dd864894bfe9d3eaf87a5329e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/index.html",
+      "bytes": 6270,
+      "sha256": "b27a5ff4c474c41edaca0eef90d40907a825630ca545604097aaab567e8f3d2b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/quick/style.css",
+      "bytes": 10445,
+      "sha256": "c06b09092796a9c2bf8fc48829c00bc3f5a39f1fc38da816172f84ebae096714"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/assets/master_hero_intact.png",
+      "bytes": 139911,
+      "sha256": "0ebaa915dd1aa338a462db281185d7efdeebf40c25876d90f17f800efaca293a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/index.html",
+      "bytes": 5374,
+      "sha256": "38b20c43140af96dd03158880599a814162769828bbbb99215e4d04b4e6c3d2b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/style.css",
+      "bytes": 7281,
+      "sha256": "9cba5de212e2fd86ec525d0dcf8abef35714824e7a9dfe72f519252fee457244"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/demand-object.png",
+      "bytes": 17610,
+      "sha256": "1a5e70e1171a521d647513a99c430c406e5a938c942b5ccffd23536830b6dba8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/estore-existing-scene.webp",
+      "bytes": 8816,
+      "sha256": "be1cc8f89e81eae5e43dc36e1a1362a690a4aa2b667e81fc13582feca619e321"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/main-photo.png",
+      "bytes": 64862,
+      "sha256": "a61f799ff2212219ed5c7e5524dfc2a48daec5363c31e923a5801c17b3efcbfd"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/assets/secondary-photo.png",
+      "bytes": 12793,
+      "sha256": "b90633030a2a33b27749dcd964067a48787dd3f94e19cc5bf26112c4ef2edb67"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html",
+      "bytes": 7186,
+      "sha256": "bf2b59899fef12a7fd5d74802c1583ee8cc07f3793b384e55331bbefe6736aeb"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/br04/s5/style.css",
+      "bytes": 18590,
+      "sha256": "bff03f481f268b92546d7cd4cb310feeb6e13b3909eeca2c4effedf54fb68c11"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/business-adapter.css",
+      "bytes": 1188,
+      "sha256": "8cb8115a40b90bee0dbd9018415b4b867001be99840b578baa1fe700cfbeed30"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/business-bridge.js",
+      "bytes": 10301,
+      "sha256": "c55763939730430052890793065ac2201471a66abc4928b9f9c3a616601c7eb0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/business.html",
+      "bytes": 16755,
+      "sha256": "8c17b181001bb3faded77d1ce0b00b994a5e4264b53275eac4bd417e5b9692a8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/cap-bridge.js",
+      "bytes": 4520,
+      "sha256": "022754484d52145908782ff1595f5486ab2f2e73b0362613db6a450cfbfccb6d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/cap.html",
+      "bytes": 1674528,
+      "sha256": "d8642ea32fce38beda2e7faea2fb889fb012171761e69408ff71ec96b79992a9"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/decision-apply.css",
+      "bytes": 1016,
+      "sha256": "7fa1af32829ddb0cea5ed162c15567159b608a5470a3c8520b69456bece78049"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/demo-core.js",
+      "bytes": 25498,
+      "sha256": "81ccea8c3a6826112e5a812c41c5bedab3b5a4ddcfc008e616954bb4c6465144"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/demo.css",
+      "bytes": 3760,
+      "sha256": "34726d3bca308e9da198f438851ed20d578bb4ac7e4dd7347dbd81660c55facb"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/fixtures.js",
+      "bytes": 14366,
+      "sha256": "1851beb2c7b965f9d96a3ba5a8f103594b1e372b83d1217f13645676bcc9bd42"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js",
+      "bytes": 10378,
+      "sha256": "107ae617a2a595f3302aec8e52181aaeeb1765aab11dc90f5e672d49adcba2f3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/home.html",
+      "bytes": 27150,
+      "sha256": "322fcfc7b215dbd44bd9e9d883b4e75f8e77a352a65f6050463be7290bb536e7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/index.html",
+      "bytes": 1553,
+      "sha256": "88173fe9d9fb3d639709a17a389afa06f2c42c53d130724d418cf3fc488d6917"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/items-bridge.js",
+      "bytes": 5372,
+      "sha256": "3e1c11496ce5e3e28ea8b03369f8a2fe329210d3878e77b27ad11e5199c50779"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/items.html",
+      "bytes": 1268798,
+      "sha256": "bee308c5112b7840219594cbf77d6cc714633486652b3be1b6512a6d6fafb179"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mini_koala_visual_elevation_v2_1_density.css",
+      "bytes": 10539,
+      "sha256": "2f7580ff12d3afeaea4f1f41cb294ca04220addfb24390c457de361c6951f147"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mini_koala_visual_elevation_v2_controlled_rollout.css",
+      "bytes": 22520,
+      "sha256": "d6dceb603a69c780720d5e289c2f252ffccdd8d1e55132f2c34620497a0ca4de"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mini_storage_sprint3_lifecycle_hifi_v1.css",
+      "bytes": 12173,
+      "sha256": "2246ab1087e27cf4364cd8f01472d8c8bbdc5fda5699007ddb25114516e98eb1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-uxc-scrollbar-hide.css",
+      "bytes": 347,
+      "sha256": "d0e2de00b7741cb636e76486f2f8c361cd8307e47e3ecf6fa0b41050db9eb798"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-uxd2-layout-actions.css",
+      "bytes": 1569,
+      "sha256": "590044e0ee82fa1c042bb7f571dbb24c953f8ac7b889e1bd06339b96454a6ff1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-v3-life-service-batch-c.css",
+      "bytes": 5936,
+      "sha256": "2ccd8033d50f7f2839893ba2e59798014c243c79ab02fee8fc941f211453400e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/mk-v3-site-shell-rollout.css",
+      "bytes": 3799,
+      "sha256": "cbfeff6b0b091ad4a28032116da1380ee1662d4eb4b7624bf90fc1d77b04c557"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/phone-auth.css",
+      "bytes": 3852,
+      "sha256": "32555e800c2025b0f2428ae8b6dc8f34245fafbc2d112edbdb52b78b0dce581a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/phone-auth.js",
+      "bytes": 8330,
+      "sha256": "7a792680e3e5287aa753f978228daa7bb341e9e9415b770c5395234ed45c66f1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/phone-gate.js",
+      "bytes": 5341,
+      "sha256": "7f80e597587a3d7a8d5753a9bae4f611ba4ead688cd1e5024b3341863a2bebf9"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/presentation-calibration.css",
+      "bytes": 999,
+      "sha256": "3904981b27fa4b2454086af316ecdf21aad47867b0e816066410c36ef865ef1b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js",
+      "bytes": 1794,
+      "sha256": "8d7068abf75684ca9cf132568e1f804383e3ef12c3e754484ff6748f149c0665"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/preview-calibration.css",
+      "bytes": 1191,
+      "sha256": "5d1c2fd1535b7fb88951c45c7f38f1530b20430f96f1f563d9856ca39b8d1d4f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_beijing30.js",
+      "bytes": 2907,
+      "sha256": "173511bbd06918186f6f1354e3c908fa05b8617ed719a25390ff042c7e57ac58"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_br03_policy.js",
+      "bytes": 5089,
+      "sha256": "699a3fc2c7fa446058d4e7a6d36851367391b9b12824751c599a436884cb3e5a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_br04_state.js",
+      "bytes": 2652,
+      "sha256": "3cd6cc17a45a48ac9072207c0c15ddd290a510c1a70c2ce9617ae6ec7542f0d3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_business_catalog.js",
+      "bytes": 3417,
+      "sha256": "c82e14bd42f19a5ea48ec9eebad2e6ea8aca07880eb816109eb7191ba89669d7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_decisions.js",
+      "bytes": 10547,
+      "sha256": "ba80f5b2f36c7198c03d75c3972696f2d44cc8f4595bfa6ceefbd012bdc772a2"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_journey_precision.js",
+      "bytes": 3419,
+      "sha256": "cdae16fd8f56b3ca26a2f987f9aa25befb931d069fa59098424ac456db598fd3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_model.js",
+      "bytes": 8546,
+      "sha256": "56da109b0e169156f05e64b9aa30424d08f79467be48e320db063ff1f2afbb23"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_presentation_policy.js",
+      "bytes": 4280,
+      "sha256": "764375f35268ae821d7031b4273c4011087f528e9efc88e2567cb9c4d2c5dc9d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/qa/test_priority_fixes.js",
+      "bytes": 6291,
+      "sha256": "514014ee43a884826b4294a1fd8982291512dde52e18de9aff1ca4b384840ef3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/README.md",
+      "bytes": 156,
+      "sha256": "50e818df2661e7c69f90f75056daf5467527e0adea00cbdb89e53b0111f3f4ba"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/serve_demo.py",
+      "bytes": 132,
+      "sha256": "8bfece687711febf2534d71cc277178160798466da0865a74be88aba67907d27"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/START_DEMO.cmd",
+      "bytes": 51,
+      "sha256": "82de18c2bb123ee91bc0ecce269bcb59c6517870510796112523bd7ee487534c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/store-source.json",
+      "bytes": 10824,
+      "sha256": "092e7bc038e809bb9907e5dddb6adbaede39f2a2b52cce63a5444110fdb6d76e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/styles.css",
+      "bytes": 14097,
+      "sha256": "5ffb4b7b1d6575093212c4b2c13659707c267b6af26a670729d94b27681f4164"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/vis_bg01_background_unification.css",
+      "bytes": 2627,
+      "sha256": "dbb32017127ef57b7bacbcee52b004f32056a2bb802abc49a12d9aa2426a6861"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/visual-align.css",
+      "bytes": 8653,
+      "sha256": "e44b0b2e447bddd75181292a803fb654c556c767b80e0268578f626a6319e002"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/visual-icons.js",
+      "bytes": 1879,
+      "sha256": "91afe3730d2ba285498791405b55a8e268022c516d077eb3956a1bbca617f176"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/企业表单一致性核对.md",
+      "bytes": 241,
+      "sha256": "b60f52857b871fec16b2012202b117c827225e7e7145d84a641f90ff87cf2d40"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/demo/门店资料选取说明.md",
+      "bytes": 262,
+      "sha256": "37cf4c6f63c6876b59dcf20ef85d97573795aaee537f2404912974077fcab4b3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-auth-after.png",
+      "bytes": 512017,
+      "sha256": "1591e30f526b87aa0c3b1dc3be57ac5155904d0ed70409a427aa9a65a66953b7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-booking-after.png",
+      "bytes": 661455,
+      "sha256": "ff1a56ffad38cddf44c0af7c9e1af2ef05a87c5f2a04f16188320c1b7f4114e0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-business-after.png",
+      "bytes": 521267,
+      "sha256": "ff47b12b2cdc9a6fd854231141b71f46019f4f66644e11228e2de2c6edf84ab4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-business-comparison.png",
+      "bytes": 518906,
+      "sha256": "0d13bb0edc9b180b3156615dc13327fe3f9dc20645c684e6f39d6dd87f3d14b4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-CAP-unconfirmed.png",
+      "bytes": 565212,
+      "sha256": "118eb4570937d300a4669326004eb92a8dd8760efb6eb117350f812e6c020351"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-home-comparison.png",
+      "bytes": 1019962,
+      "sha256": "78394efa1498e2248b14234a87b8ee658c56f1f949d6da5b1e97d7c633eeb23b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-items-after.png",
+      "bytes": 517249,
+      "sha256": "e2b7632556f2d359d56f20e1368fb0b8826a5124e541f2974909142813e56a48"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-O01-after.png",
+      "bytes": 561969,
+      "sha256": "bbeb5bd448c0718a89ca4fe287b75dee194de7c3918f3e5f691102c4d351c425"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-quick-after.png",
+      "bytes": 575619,
+      "sha256": "335922c6748c05b75b829396faf80f91f7c515f43b07ebd282da7e84ee690f07"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-S01-browse-comparison.png",
+      "bytes": 625023,
+      "sha256": "600b0140aa4e35d8974dec073c2de87ee4f2e6ec9859fa63cbd815f047b2dafe"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-S01-facts-after.png",
+      "bytes": 635669,
+      "sha256": "2bb691ee48fd03d1a01af1024dd328d885c82f34d826179dcb55eae6a3c741bd"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-S02-browse-comparison.png",
+      "bytes": 891449,
+      "sha256": "1d2d8e11caabb2929a0f87e84a9eba7c4ffc967c8a88fe2605944bdec8cd16fd"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-S02-facts-after.png",
+      "bytes": 827396,
+      "sha256": "462589c9d9a093cd3f18a37181831350ea59cfd3e937ac3b2c93670919b97a47"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-S5-after.png",
+      "bytes": 634407,
+      "sha256": "e412015947bc5f9a9410b4e29f32ea56150c28975c571ea34134e8b3d2783f7e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-S5-qualified-after.png",
+      "bytes": 634758,
+      "sha256": "227fb2e982782ba4fe071b1a13424267d636bc1f71f049bdfc495f36c6be6ff7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-S5-reference-after.png",
+      "bytes": 629874,
+      "sha256": "37d8afa590ec04b0e85cb8620ef084d875758d44530a645bc4bc0c152f98b1ba"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/375-soldout-after.png",
+      "bytes": 812690,
+      "sha256": "954648e9781553b71ffe572a0ae2421b85969fafcffe22aa32b3ed5fc3255154"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-booking-after.png",
+      "bytes": 459128,
+      "sha256": "ecae4d1544ea8621a8b06add61103d499f4cbab91ab1eefce5bb657ffa0ebd4c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-business-after.png",
+      "bytes": 372004,
+      "sha256": "0980f6ca2139ca3897874f2b2ff3b98f734145688ab25df43c7ded663a606c76"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-CAP-unconfirmed.png",
+      "bytes": 400337,
+      "sha256": "77b24b29aa6bb287af924052282b6b1b82806956e39503e74b8198f746d6e73d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-home-comparison.png",
+      "bytes": 810281,
+      "sha256": "577c0d15f81f0a6b38e1c406fe7f5d387a8e42150eb32329b796dd9c80cd64f3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-items-after.png",
+      "bytes": 417232,
+      "sha256": "147c1c233714a766c794769b6520492ef475f2694bd9475b71c36103cdd865da"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-O01-after.png",
+      "bytes": 561483,
+      "sha256": "e95ae68dd42e40e6a99e3ecfc6e92a3fd310a84edba899a2cc648074190aa579"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-quick-after.png",
+      "bytes": 426988,
+      "sha256": "f900f9ff80666ea432886b9d3036f45b03927648aba1da5fe7b5bbe786031be6"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S01-browse-comparison.png",
+      "bytes": 620228,
+      "sha256": "10aa512acc07d1c1e0191602e2d766fb4d6de6ae2fc19554844c54d48f11cd99"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S01-facts-after.png",
+      "bytes": 627687,
+      "sha256": "fc866ee5c0a7c4f14c627efe2bdbe4a4cf35981eb1a2a6db7d57a20998f9e381"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S02-browse-comparison.png",
+      "bytes": 919931,
+      "sha256": "fa399a8505401cfac7cbb60283e74ffcd931a38657a519e0fd8edfdf4e9da8e4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S02-facts-after.png",
+      "bytes": 850339,
+      "sha256": "8527b2e5608f570fe06bbe04d9911270b22cc8e7b0539999f61af83a26a2c208"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S5-after.png",
+      "bytes": 656069,
+      "sha256": "e42ac4e09607eecb1d3c4ce25d822edfb384276553a378b945fab532fa493c52"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S5-inventory-detail-after.png",
+      "bytes": 598167,
+      "sha256": "e4572b32f938e3cf51782b343e88f1ccf8da2d305581dd0021a5c9a0e9aa224b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S5-qualified-after.png",
+      "bytes": 598339,
+      "sha256": "e98f716139d4c6d4f00303dc53d64ba68ce1bc01f5f2342817206b175f42adb3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-S5-reference-after.png",
+      "bytes": 590829,
+      "sha256": "37701ff674e7b06e9373ce600faa980cb2f0c878793d8696c33806e3cef1157b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/390-soldout-after.png",
+      "bytes": 833702,
+      "sha256": "1014a6374331459195f2854d4293d090a43275ab814e0ae63e7543660edc4db8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/browser-results.json",
+      "bytes": 8619,
+      "sha256": "3f752992b7db268e270b12b7e3a83ebe729706ff0b1b0d25c1e6c0986c0f449b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/capture-index.json",
+      "bytes": 12001,
+      "sha256": "75235c2109bfc441ae7e96012f02f48b2a0b96193e3fcaaa3302440ff9d68671"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-auth.png",
+      "bytes": 135629,
+      "sha256": "eef7b4b25fdd789a7d81b976dce062a56a04ebbfc66c69480fce9bf5e7b5d156"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-booking.png",
+      "bytes": 235888,
+      "sha256": "6843aff66d3203770cc373417cc70ff28d8c7d16e96066a33fbff38280388650"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-business.png",
+      "bytes": 169941,
+      "sha256": "2d7e2343a901bdcd953818834f08b430eeb6a33f62b706bb9da6dba16c761a39"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-CAP-unconfirmed.png",
+      "bytes": 196074,
+      "sha256": "93167073b76f292bf035c11f59b4587cc1b3ded8d4c85e8db18e510da3dd3643"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-home.png",
+      "bytes": 410779,
+      "sha256": "77457a64bca34f91541f5488a9df2cc357f67d4032198ada08874a57db95e00a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-items.png",
+      "bytes": 168021,
+      "sha256": "b5737c976963380dc45aff4eb9f9281645e8824e32345143d495b711469d903b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-O01.png",
+      "bytes": 182230,
+      "sha256": "5c044196c3bb6b2341ba4e5ebc4a7cba1b9ffbaa1fe2c06267834c2b53f944d1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-quick.png",
+      "bytes": 196932,
+      "sha256": "8aa25b32390404c5c544988e53c1f8efd0a30fd6ec7fb5ceb68daf80a6627998"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-S01-facts.png",
+      "bytes": 224177,
+      "sha256": "4c1e9589fb714f477637e075b51d5b6beb023df4c6b3c43a5664381bc3c69dc2"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-S01.png",
+      "bytes": 214620,
+      "sha256": "c82060debf2ff040b807e86ed5f815b94a370921beb4f39d223e1715499600f5"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-S02-facts.png",
+      "bytes": 302425,
+      "sha256": "3d7674ec25f39472a34b903825183c8110feb1c0ef45a2afa36436eca1563692"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-S02.png",
+      "bytes": 344890,
+      "sha256": "0ea932943682a0e32b6090177e7d543f7a1f5227c362b61ccefcf3f4cb53e9d1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-S5-qualified.png",
+      "bytes": 251844,
+      "sha256": "e67e34dcd7102df1ac89b6785727d9f96980f00725e0951d643df06a4228efeb"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-S5-reference.png",
+      "bytes": 247013,
+      "sha256": "09ea63cfc6f21c05d48ff497c7542dd4856eb284330fa66349aeee6519d7ed77"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-S5.png",
+      "bytes": 250527,
+      "sha256": "ac3abbd04cb88df191de482bcbd91ed9ff6652564bc8a6564186151d519ab6ff"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/375-soldout.png",
+      "bytes": 266499,
+      "sha256": "0caaee4578642feadbbcd7f2dc92315d9d111e6b5e0edbe43161be80fd423684"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-booking.png",
+      "bytes": 256292,
+      "sha256": "67e800a3ae5fbd5d1e2735a5a9901e0dfeb14df7c90f32b586da45e3f30fd258"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-business.png",
+      "bytes": 171533,
+      "sha256": "4a73614116fe4214d12d1a2f68431a678a4796d40d8155b0a667ecd21e73229f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-CAP-unconfirmed.png",
+      "bytes": 210171,
+      "sha256": "7952d1be47101cb2660142e5b79e77033d25e7c57c5f7c148f9995c7f8e69e89"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-home.png",
+      "bytes": 434665,
+      "sha256": "df08442229098fe27b52eb131ca956875ce061e83bf0389be8e1b5b32ce13370"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-items.png",
+      "bytes": 167002,
+      "sha256": "c66de9bb996bc3af4b469f49951809db21162fe347101a70b2c4ea9f1d0e4ff1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-O01.png",
+      "bytes": 179125,
+      "sha256": "13918a7320c0430133e5dc176e7ba62150b454b368ffa4466785da143f8b2966"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-quick.png",
+      "bytes": 213606,
+      "sha256": "79a377ddbda27cd78650fed18996521269254b2f5a4ef96c3e3020b00b0296b6"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S01-facts.png",
+      "bytes": 237768,
+      "sha256": "e353ba403cc73d91138948ff074c34a0557a97afa6bcd40524c94cdca1995aa1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S01.png",
+      "bytes": 230357,
+      "sha256": "05db333810abc9795988bf3b65889d7d00a8cc792474a1af000915a9e3ace78a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S02-facts.png",
+      "bytes": 326521,
+      "sha256": "3a447980fad04e52c4eaaa2a46f881f3ce1e6812497275bba726e8729ee35992"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S02.png",
+      "bytes": 360753,
+      "sha256": "1bb83bae8c575bcb79767c4c5870930900e7783f0711ad4bae7e0b4568a4b3ca"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S5-inventory-detail.png",
+      "bytes": 271491,
+      "sha256": "21e3a15cfa9480b0acdacebc8259354203001faebb44a3fca496448bbd1f3c4c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S5-qualified.png",
+      "bytes": 271504,
+      "sha256": "9c209beff6d80c0d42a8438c3e755f79f0ba5b51dbb84aef5c2e6694482521d3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S5-reference.png",
+      "bytes": 264188,
+      "sha256": "cf0b91dbffc591f64ca369981f7247e3fa4b0c0ffef049dc94dddb37b6e6a9cf"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-S5.png",
+      "bytes": 270037,
+      "sha256": "1813985231ef645ecc01795f14866b88df60b6f50beeedc57be1cdf178e0c49e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/focus/390-soldout.png",
+      "bytes": 279594,
+      "sha256": "7a6428df85bede23dbaf22a70c3636bb3d62bc80121edbb8147e92f23672736f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/fresh-standalone-order.png",
+      "bytes": 168384,
+      "sha256": "4683925d3525522d55e73973408c88d48feb0b46e52d8160b0db60118997549c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/inherited-baseline-comparison.json",
+      "bytes": 20392,
+      "sha256": "38259926118f13064e2e3f882e7444d9c7311b2730ab932f9dd2128b7e825be4"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/inherited-regression-results.json",
+      "bytes": 38338,
+      "sha256": "04f0be21c252b851d636d68a1313520fddd83ddb0b1398ccc18d11127db7c68d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/model-results.json",
+      "bytes": 1555,
+      "sha256": "e33b07d558151b0f6139471daa5915ff21e2908bfa88260a10a92c0f154d7f87"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/pair-375-home.png",
+      "bytes": 827136,
+      "sha256": "62ddc39c4f5ebfb216f1386c0b86b74de8db658af17b552bef2960bcd7011324"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/pair-375-S01.png",
+      "bytes": 445234,
+      "sha256": "da1d42a352f561f419628ca5d2da1235ef09a5868477307b53ae5152f783f7a6"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/pair-375-S02.png",
+      "bytes": 697882,
+      "sha256": "720fab01d1936263d3524e50987be5b05ee01d687dd4feec2b0ce9b16010caf1"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/pair-390-home.png",
+      "bytes": 635667,
+      "sha256": "71afa500d7f0e0e9a37b551d294f5b37ef78ca577698f478af91ecdfb7566775"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/pair-390-S01.png",
+      "bytes": 450918,
+      "sha256": "90e148d115cee3ce0a001deab0221cab0f6cedc29996932ba57e0f434def056d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/pair-390-S02.png",
+      "bytes": 734995,
+      "sha256": "f8b84a3862c30848a2e0d250b5d617e482274a1219782832d8dc6a252a29072a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/preservation-results.json",
+      "bytes": 14828,
+      "sha256": "8bd561222e1c348ffe7937999752f45133176583b4911239d48132c6b64a2096"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-auth-after.png",
+      "bytes": 111285,
+      "sha256": "b92479d1bcbd4c8bf067a9a38d5d60d03024733c8bd122e2cef6d536e8525f6c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-booking-after.png",
+      "bytes": 131488,
+      "sha256": "ef9839d9bb2a696f65f5c2d37177227655b64cf217043d18144c70e74f7de271"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-business-after.png",
+      "bytes": 120523,
+      "sha256": "9ea2b68df6ac8e82384451e55e51d7f82e9704bfc26807d967b1b5c887858273"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-business-comparison.png",
+      "bytes": 119532,
+      "sha256": "f23df01f403072f35cffae5bea92089a792bafce00271c2218a4768dfe7aff83"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-CAP-unconfirmed.png",
+      "bytes": 119154,
+      "sha256": "686af090526b36e1ccbd58d8614784a72dcd07c630ff706bed204f3c4c9881b0"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-home-comparison.png",
+      "bytes": 186853,
+      "sha256": "e36476688dd31dc6ebabdde23c475eaddf3ff2c30bf3d2e2cebe1a91b9d05628"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-items-after.png",
+      "bytes": 106078,
+      "sha256": "24ccb4f39a4daefc63c28f578428b3a4176cba9698e8ae9ffcb4c8912e77a9e3"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-O01-after.png",
+      "bytes": 119443,
+      "sha256": "9659e37830add7d3290a6c443c166d0d9343284816256b966d149c149e710f5a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-quick-after.png",
+      "bytes": 121826,
+      "sha256": "d078d7de0faa82260fec1e4f7c152c703e4d8b292333bff1fa8bde74983dd4ba"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-S01-browse-comparison.png",
+      "bytes": 139163,
+      "sha256": "faf26d5b03943191c98b8358f7cc8bd76ee065522668fcf9afd12b0b6ebfdb1f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-S01-facts-after.png",
+      "bytes": 139895,
+      "sha256": "861175b6a679f7b07c694b2c0cd5b9f048812b090f46c68ba96548a1f3db362e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-S02-browse-comparison.png",
+      "bytes": 166886,
+      "sha256": "479fe82adf75bf5fcf34e94196a0cb188da672dc567f67e9a5c214bfd1441e84"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-S02-facts-after.png",
+      "bytes": 149630,
+      "sha256": "ce48a78b7b6542c23306cbb3b9c2956253f0c459b9df28a052e98b6e74d6704e"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-S5-after.png",
+      "bytes": 127686,
+      "sha256": "237fd32c55abffdf73b2767c55c54d8a79edba5845f634ed53d58502eceb55a7"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-S5-qualified-after.png",
+      "bytes": 129801,
+      "sha256": "d80c5d5bd74634bf90952162a4429a0d2092c0b965ee2a0cb57213b69ddcf631"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-S5-reference-after.png",
+      "bytes": 128805,
+      "sha256": "f5bc5bc6424d9426eacb14c7b346b07a014cf8bfff5b8ef728270d9fdf1dbed8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/375-soldout-after.png",
+      "bytes": 155139,
+      "sha256": "27cabaa65b3222035c61e41b4e988ba12ed20c7b63da1e17d7f4fa5c5b70595b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-booking-after.png",
+      "bytes": 136317,
+      "sha256": "22ef68d883f2df3ef7de00d41af9fa7755e9f7284199fb2a1c15d5dcc61f669f"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-business-after.png",
+      "bytes": 121828,
+      "sha256": "7d4b667647fa1df24d702ab27900747286f4a55ab1030549190f8d20798c28bb"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-CAP-unconfirmed.png",
+      "bytes": 122318,
+      "sha256": "0fb109a0b082b89429d6f4d47991f759cdfe6d2e89937ac2d8249c333cf5789c"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-home-comparison.png",
+      "bytes": 192782,
+      "sha256": "5b3276aebf82c262a4f650a0d857f2766d5906ab0e5143000d6a2bef827c48d5"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-items-after.png",
+      "bytes": 105290,
+      "sha256": "ff9a265604917ab78dadeecbcee60437f903cbd552ade84ad39cc1de57bda051"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-O01-after.png",
+      "bytes": 120018,
+      "sha256": "80d974b2710577b44ad5b47d3a58953441977791f8cb6a268e07716dde73b084"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-quick-after.png",
+      "bytes": 127139,
+      "sha256": "4f9e69220e8e6aa29cf333b93cacd3b7bb2bf6f1a9ec7d237b851618af6d83d2"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S01-browse-comparison.png",
+      "bytes": 142021,
+      "sha256": "804807a726a0c6d5b168217f136fc63da4e1143ee75447447b5bcf2a5411316b"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S01-facts-after.png",
+      "bytes": 142239,
+      "sha256": "d396647e23f6f7ccaeff7e408962cb80d3947dd5079d46c768096a573eb50d16"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S02-browse-comparison.png",
+      "bytes": 171931,
+      "sha256": "215926b6433596defeac7f7f752ea82cd80d64b5433a7df4e773dae3eb9c6377"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S02-facts-after.png",
+      "bytes": 154452,
+      "sha256": "a9ac2a3e743f305fae6019f7bbf6f6c3923c9d66bcc900b7f3a7aa28bff34a13"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S5-after.png",
+      "bytes": 131704,
+      "sha256": "aa43e0e2413d8597c3faeb9a1ef6c6c7779dcb89513fab581712b1ac6ad7d1be"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S5-inventory-detail-after.png",
+      "bytes": 132859,
+      "sha256": "cef0085c57374057ab73a9eca368052380bad6ae47dee7a9f2956b7a6470981a"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S5-qualified-after.png",
+      "bytes": 132796,
+      "sha256": "dddd88a259763b58554a386f2415c2b43879612f9a1a946a2fee7237772d5442"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-S5-reference-after.png",
+      "bytes": 131531,
+      "sha256": "8bbdf8c91377cd1dcecffdb1c727dede2ed5100b6215998df698cf56b4089a37"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/390-soldout-after.png",
+      "bytes": 158799,
+      "sha256": "63459167192c6820a62dd91618a0a83bd944e21a80a806413a90436fe4f86f88"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/fresh-standalone-order.png",
+      "bytes": 39272,
+      "sha256": "ad31e9d0ac4324734b570390e0dcd2a5b8d1a826f5b55870327806d18ea3c656"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/raw/review-final.png",
+      "bytes": 193806,
+      "sha256": "028dafa0263769244669b2d0fe19f0270285dfac744a3416844ff149a4048cbf"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/evidence/visual-consistency/review-final.png",
+      "bytes": 813592,
+      "sha256": "e92132b36a1133aa185a84c902b5109f2c12b3bbbb947f00cb364643239f2f2d"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/README.md",
+      "bytes": 1719,
+      "sha256": "5f90ee799eb5f95087484d313de810860513fcfb982662240f9c011c03d83502"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/REVIEWER_README.md",
+      "bytes": 2697,
+      "sha256": "a739e1e86072e670050a06fe0d33b42e7f8d90e2fecfc1c9f72e614345df56e8"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/serve.py",
+      "bytes": 779,
+      "sha256": "581c8f078a6245945bebabdec3ee62094b0ad1e044341f77a3dbe31752855905"
+    },
+    {
+      "path": "app/prototype/parallel/core-journey-fix-01/START_CONSISTENCY.cmd",
+      "bytes": 137,
+      "sha256": "15d1aa1b559d4485e4a60ac4af79d9ae82b4421797b9e03f5371bf0604ba181d"
+    },
+    {
+      "path": "design-qa.md",
+      "bytes": 873,
+      "sha256": "1b6c6b8f11f56c6b7169bfaf70132a72e639062cb60f834a2cfafbb1781fadff"
+    },
+    {
+      "path": "docs/VISUAL_CONSISTENCY_01_IMPLEMENTATION.md",
+      "bytes": 4187,
+      "sha256": "a45753f23589d02dce8882b8412f09478894204e1c73ce488ef78bbf69f35d8c"
+    },
+    {
+      "path": "docs/VISUAL_CONSISTENCY_01_SPEC.md",
+      "bytes": 1274,
+      "sha256": "204bab29904b7b3fa05b17819bb67d12bf312e2cbe2070578bbb7d053611be5e"
+    },
+    {
+      "path": "docs/FREEZE_RECOVERY_2026-10-27.md",
+      "bytes": 4194,
+      "sha256": "159a06c33c5413cc8bddf03450295540a1cc4fcfc5905954cd08311c254005e2"
+    },
+    {
+      "path": "docs/VISUAL_CONSISTENCY_01_QA_PRE_REJECTION.md",
+      "bytes": 4133,
+      "sha256": "0fec90fcd517d7dacf0c11b39e4e01b8b799e5c7a24a1b8db2085ad121348e53"
+    }
+  ],
+  "checks_scope": "Historical implementation checks; frozen visual/layout/interaction acceptance is blocked.",
+  "user_feedback_date": "2026-10-27"
+}

@@ -1,0 +1,88 @@
+{
+  "version": "CORE_JOURNEY_FIX_01_20261026",
+  "date": "2026-10-26",
+  "scope": [
+    "F01 address layout",
+    "F02 renewal quote binding",
+    "F03 enterprise updates"
+  ],
+  "model_groups": 94,
+  "model_result": "PASS",
+  "syntax_checks": 21,
+  "focused_browser_checks": 14,
+  "base_browser_checks": 23,
+  "browser_checks": 37,
+  "browser_result": "PASS",
+  "browser_kind": "isolated headless Chrome",
+  "layouts": [
+    {
+      "width": 375,
+      "address": {
+        "x": 25.609375,
+        "y": 301.234375,
+        "width": 323.78125,
+        "height": 42
+      },
+      "optional_phone": {
+        "x": 24.59375,
+        "y": 447.75,
+        "width": 325.8125,
+        "height": 38.9375
+      },
+      "location": {
+        "x": 254.09375,
+        "y": 350.40625,
+        "width": 96.3125,
+        "height": 32.796875
+      },
+      "time_heading": {
+        "x": 24.59375,
+        "y": 496.921875,
+        "width": 144.859375,
+        "height": 22.546875
+      }
+    },
+    {
+      "width": 390,
+      "address": {
+        "x": 26.640625,
+        "y": 313.28125,
+        "width": 336.71875,
+        "height": 43.6875
+      },
+      "optional_phone": {
+        "x": 25.578125,
+        "y": 465.65625,
+        "width": 338.84375,
+        "height": 40.484375
+      },
+      "location": {
+        "x": 264.265625,
+        "y": 364.421875,
+        "width": 100.15625,
+        "height": 34.109375
+      },
+      "time_heading": {
+        "x": 25.578125,
+        "y": 516.796875,
+        "width": 150.65625,
+        "height": 23.453125
+      }
+    }
+  ],
+  "parent_unchanged": true,
+  "asset_files_unchanged": 100,
+  "fixture_unchanged": true,
+  "beijing_stores": 30,
+  "beijing_units": 120,
+  "remaining": [
+    "F04 return to current order",
+    "F05 stage actions/use state semantics",
+    "F06 duplicate inventory toast",
+    "F07 visual consistency",
+    "D25 unmatched recovery strategy",
+    "D38 enterprise capacity-band strategy",
+    "real backend integrations and full accessibility acceptance"
+  ],
+  "release_gate": "HOLD"
+}

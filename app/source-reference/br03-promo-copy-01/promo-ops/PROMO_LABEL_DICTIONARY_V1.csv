@@ -1,0 +1,26 @@
+﻿ID,类别,标准文案,对象层级,显示条件(伪代码),显示权重,优先级,备注
+P01,价格活动,特价仓,unit,active_special_unit && available && eligible_term,primary,P0,指定仓位专项特价，不由第二张卡位置推定
+P02,价格活动,限时特惠,unit,campaign_active && actual_end_time && eligible,primary,P1,截止日期有真实配置；不伪造倒计时
+P03,价格活动,新客专享,unit/user,campaign_active && confirmed_new_customer,primary,P1,仅在资格已确认时直接承诺
+P04,价格活动,长租优惠,unit/term,campaign_active && term_months eligible,primary,P1,区别于常规租期阶梯价
+P05,价格价值,整期省¥X,unit/term,valid_comparison_baseline && valid_quote && amount>0,secondary,P0,注明对比对象，不能跨租期/跨仓型虚比
+P06,门店活动,指定仓型特惠,store,store_has_at_least_one_active_eligible_unit_campaign,primary,P1,不能表述全店所有仓位均可享
+I01,真实库存,同容量仅剩这1个,unit/size_group,available_same_capacity_count == 1,secondary,P0,同容量分组可解释、数量可核验
+I02,真实库存,同容量仅剩2个,unit/size_group,available_same_capacity_count == 2,secondary,P0,同容量分组可解释、数量可核验
+I03,真实库存,同容量剩余X个,unit/size_group,3 <= available_same_capacity_count <= 5,tertiary,P1,普通提示，不做强闪烁
+I04,需求匹配,匹配仓位仅剩X个,store/demand,demand_confirmed && 1 <= matched_available_count <= 2,secondary,P0,与用户确认的容量和必要限制关联
+I05,需求匹配,匹配仓位X个,store/demand,demand_confirmed && matched_available_count > 2,tertiary,P0,普通事实展示
+I06,活动名额,优惠名额剩余X个,campaign,explicit_quota && verified_remaining_quota > 0,secondary,P1,不得以仓位库存数量冒充名额
+I07,售出状态,已售出,unit,available_unit_count == 0,disabled,P0,不可进入正常可购买链路
+I08,售罄状态,已售罄,store,store_available_unit_count == 0,disabled,P0,退出正常推荐/价格排序
+I09,无匹配,暂无符合需求的仓位,store/demand,store_available_unit_count > 0 && matched_available_count == 0,notice,P0,不可误称售罄
+B01,服务权益,送单程基础运输,quote/user,new_order && term>=6 && distance>=5km && final_discount>=0.6 && confirmed_service,secondary,P1,业务原条件不变；未核实仅说预计符合
+B02,服务权益,可享运输优惠,quote/user,campaign_active && potential_benefit && not_fully_verified,tertiary,P1,避免误写已赠送
+B03,优惠券,租仓代金券,user/coupon,issued_coupon && valid_coupon,secondary,P1,仅用户实际持有或明确有资格领取时显示
+B04,优惠券,新客券已抵扣¥X,order,valid_quote && coupon_applied && amount>0,order,P0,券抵租金不抵押金管理费
+D01,推荐位置,距离最近,store,actual_nearest_eligible_store,neutral,P0,不能改变既有首页第一推荐位
+D02,推荐位置,稍远更省,store,verified_price_comparison,neutral,P0,不得默认显示3km内最低标签
+D03,门店服务,近地铁,store,verified_store_attribute,neutral,P1,没有支持时不乱贴
+D04,门店服务,24小时存取,store,verified_store_attribute,neutral,P1,不能默认覆盖所有门店
+D05,门店服务,电梯直达,store,verified_store_attribute,neutral,P1,仓型/门店需支持
+D06,门店服务,仓型齐全,store,defined_threshold_and_verified,neutral,P2,定义齐全依据

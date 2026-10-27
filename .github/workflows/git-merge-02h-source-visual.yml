@@ -1,0 +1,52 @@
+name: GIT-MERGE-02H source candidates and same-state visual
+on:
+  push:
+    branches:
+      - feature/git-merge-02h-source-and-visual-20261027
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  same-source-and-visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit MK/SIM names, addresses, and forbidden cross-source IDs
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          node qa/test_merge02h_source.cjs
+          node demo/qa/test_merge02c_policy.js
+          node qa/test_merge02g_contract.js
+      - name: Install private browser with Chinese fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Check S01, S02, S5 same candidate and two phone sizes
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/merge02h-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 3
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02h_visual.cjs
+      - name: Keep approved sources as separate non-matched references
+        if: always()
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          mkdir -p evidence/merge02h/approved-reference-different-state
+          cp evidence/freeze-recovery/source/{S01_375_VIS07.png,S01_390_VIS07.png,S02_375_VIS07.png,S02_390_VIS07.png,S5_source_crop.png} evidence/merge02h/approved-reference-different-state/ || true
+      - name: Upload private source and screenshot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge02h-source-and-visual-private
+          path: app/prototype/parallel/core-journey-fix-01/evidence/merge02h/
+          retention-days: 7
+          if-no-files-found: warn
