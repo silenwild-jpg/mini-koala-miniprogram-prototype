@@ -82,7 +82,7 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
     assert.equal(after[0].management_fee,50);
     await p.screenshot({path:path.join(out,'O01-paid-'+w+'.png')});
     assert.equal(errors.length,0,'pageerror: '+errors.join('|'));
-    record('quick-actual-selection-consent-pay-success',w,'PASS',{quick:selectedQuick,orderId:after[0].id,amount:after[0].payable,status:after[0].status});
+    record('quick-actual-selection-consent-pay-success',w,'PASS',{quick:selectedQuick,orderId:after[0].id,amount:after[0].payable,orderStatus:after[0].status});
    }catch(e){mark('quick-actual-selection-consent-pay-success',w,e,{url:p.url(),errors});}
    await ctx.close();
   }
