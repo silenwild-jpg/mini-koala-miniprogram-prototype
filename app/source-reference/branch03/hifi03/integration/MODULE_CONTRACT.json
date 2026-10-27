@@ -1,0 +1,15 @@
+{
+  "task": "BRANCH-03-HIFI-03",
+  "version": "1.0.0",
+  "status": "ISOLATED_INTEGRATION_READY_NOT_CENTRAL_MERGED",
+  "pages": ["S01", "S02"],
+  "visual_freeze": ["BRANCH-03-VIS-07", "BRANCH-03-VIS-06C-ACCEPT", "BRANCH-03-VIS-06"],
+  "host_api": ["mount", "openS01", "openS02", "setRequirement", "getState", "showScenario", "subscribe", "destroy"],
+  "events": ["ORDER_INTENT", "BOOKING_INTENT", "FAVORITE_CHANGED", "STATE_CHANGED", "NAV_REQUEST"],
+  "accepted_entry_fields": ["capacity_m3", "capacityM3", "source", "entrySource", "term_months", "rentalMonths", "term_confirmed", "termConfirmed", "entry_context", "returnContext", "quote_snapshot_ref", "quoteSnapshotRef", "quoteStoreId", "quoteUnitId"],
+  "unit_selection_contract": "ONE_ORDER_INTENT_SINGLE_OR_COMBO",
+  "quote_policy": "CENTRAL_ONLY; never trust/display-price as payable; invalidate imported ref on capacity/term edit",
+  "favorite_policy": "EMIT_TO_HOST_ONLY; demo local key is not central shared key",
+  "preview_policy": "IFRAME_ISOLATION_ONLY; not approved as native final integration",
+  "exclude_from_this_delivery": ["CENTRAL_PATCH", "FULL_U01_SIGNOFF", "REAL_O01_QUOTE_AND_PAYMENT", "CAP_S5_LIVE_ROUTE", "HTTP_NAVIGATION_QA", "WECHAT_NATIVE_QA"]
+}

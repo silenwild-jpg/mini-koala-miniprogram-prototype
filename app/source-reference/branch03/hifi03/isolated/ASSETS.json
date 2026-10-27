@@ -1,0 +1,77 @@
+{
+  "usage": "Internal concept-only visuals; not verified real store photos",
+  "items": [
+    {
+      "file": "mini_split.jpg",
+      "size": [
+        254,
+        244
+      ],
+      "sha256": "6a6b251b15cdfc2ea77ae335478b18156146a00b4b6427a2078535678ff8503f"
+    },
+    {
+      "file": "store_changning.jpg",
+      "size": [
+        272,
+        276
+      ],
+      "sha256": "48106c3bce1cdadef1ed7c7cf7ba25e7fb52a2324cf209ee836b303544af10b7"
+    },
+    {
+      "file": "store_jingan.jpg",
+      "size": [
+        261,
+        245
+      ],
+      "sha256": "cc0b232bd10be4dac918d62fd787a66e649d3d6adb29a28d3d23df85d00c6c7c"
+    },
+    {
+      "file": "store_pudong.jpg",
+      "size": [
+        261,
+        261
+      ],
+      "sha256": "efab936d20246d9034fad6ff48e5f550f0417192115faa058498d6858decced4"
+    },
+    {
+      "file": "store_xuhui.jpg",
+      "size": [
+        261,
+        258
+      ],
+      "sha256": "9257fb596f8578d61583b195307f6cb59793049c82f2c3c166657a9bfc885544"
+    },
+    {
+      "file": "unit_medium.jpg",
+      "size": [
+        232,
+        167
+      ],
+      "sha256": "06632043fa6e30feefe61087d0fdffe16e299da5f6c081c43d44d4b0dfbeca5a"
+    },
+    {
+      "file": "unit_small1.jpg",
+      "size": [
+        233,
+        174
+      ],
+      "sha256": "b884fc861728f3a7985fa78405122b1216f457aa42952274685f6c74beb7d7b8"
+    },
+    {
+      "file": "unit_small2.jpg",
+      "size": [
+        232,
+        171
+      ],
+      "sha256": "c646a7f58bd56df9eec5bd249233352f09da32f23d91c20dd85929a017e7b73f"
+    },
+    {
+      "file": "store_jingan_hero_clean.jpg",
+      "size": [
+        565,
+        272
+      ],
+      "sha256": "fbda0bc9176351b040176cab9592ae140b49ab8ddc145494855712cbd3878a1a"
+    }
+  ]
+}

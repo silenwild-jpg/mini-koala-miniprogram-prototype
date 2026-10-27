@@ -1,0 +1,12 @@
+{
+  "name":"BRANCH-03-HIFI-01",
+  "scope":["S01","S02"],
+  "status":"standalone-demo-not-merged",
+  "integration_events":[
+    {"event":"br03:orderIntent","shape":"OrderDraftIntent","fields":["store_id","unit_id","units","capacity_m3","area_m2","start_date","term_months","term_confirmed","quote_snapshot_ref","return_context","status"]},
+    {"event":"br03:bookingIntent","shape":"BookingLeadIntent","fields":["type","store_id","remark","status"]}
+  ],
+  "local_demo_only_storage":["mini_koala_branch03_order_intent","mini_koala_branch03_booking_intent","br03_demo_favs"],
+  "not_implemented":["central_O01_page","shared_quote_snapshot","payment","CAP_S5_real_routing","WeChat_native_map_navigation"],
+  "guardrail":"Do not treat prototype prices, images, review counts or availability as live data."
+}
