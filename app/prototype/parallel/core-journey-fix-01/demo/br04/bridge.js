@@ -61,7 +61,7 @@
     document.querySelector('.no-match>p').textContent=r.capacity_m3?'已保留容量和租期。可调整条件、查看其他门店或联系顾问。':'请先填写容量需求，租期需要您主动选择。';
     offerRows.forEach((row,i)=>{const first=i===0,suffix=first?'main':'secondary',s=row.store;
       document.querySelector(first?'.major-unit h3':'.minor-unit h3').textContent=s.name+' · '+row.volume+'m³'+(row.combo?'组合':'仓');
-      const tags=document.querySelector(first?'.unit-tags':'.minor-tags');tags.innerHTML='<span>'+row.volume+'m³</span><span>'+(row.combo?row.ids.length+'间组合':'独立仓位')+'</span><span>实体门</span>';
+      const tags=document.querySelector(first?'.unit-tags':'.minor-tags');tags.innerHTML='<span>'+row.volume+'m³</span><span>'+(row.combo?row.ids.length+'项组合':F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span>';
       $(first?'main-buy':'secondary-buy').disabled=false;
       $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';
       // S5 keeps its own frozen physical-attribute tags and benefits row; BR03 promotional-card rules do not replace them.
@@ -77,7 +77,7 @@
     if(st)image('.store-row>img','../../assets/'+st.photo,'门店场景示意');
     text('unit-name',chosen?rows.map(u=>u.name).join(' + '):'请选择仓位');text('capacity-value',chosen?rows.reduce((n,u)=>n+u.volume,0)+'m³':'选仓后显示');
     if(chosen)image('.unit-row>img','../../assets/'+(rows[0].volume<=1.5?'mini_split.jpg':rows[0].photo),'仓位空间示意');
-    document.querySelector('.badges').innerHTML=chosen?'<span>'+(rows.length>1?rows.length+'间组合':'独立仓位')+'</span><span>实体门</span><span>空间示意</span>':'<span>请主动选择可用仓位</span>';
+    document.querySelector('.badges').innerHTML=chosen?'<span>'+(rows.length>1?rows.length+'项组合':F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span><span>空间示意</span>':'<span>请主动选择可用仓位</span>';
     $$('[data-term]').forEach(el=>el.setAttribute('aria-pressed',String(s.requirement.term_confirmed&&Number(el.dataset.term)===s.requirement.term_months)));
     const allowed=core.authorized()&&s.requirement.term_confirmed&&valid,amount=allowed?amounts(q.ids):null;
     text('unit-price',!chosen?'—':!valid?'当前不可用':!core.authorized()||!s.requirement.term_confirmed?money(rows.reduce((n,u)=>n+u.base_month,0))+'/月起 · 参考价':money(amount.rent_total));
@@ -105,7 +105,7 @@
     document.querySelector('.capacity').textContent=rows.length?rows.reduce((n,u)=>n+u.volume,0)+'m³':'待选择';
     if(st){image('.store-img','../../assets/'+st.photo,'门店场景示意');document.querySelector('.distance').textContent='';}
     if(rows.length)image('.unit-img','../../assets/'+(rows[0].volume<=1.5?'mini_split.jpg':rows[0].photo),'仓位空间示意');
-    document.querySelector('.summary .tags').innerHTML=rows.length>1?'<span>'+rows.length+'间组合</span><span>独立仓位</span><span>空间示意</span>':'<span>独立仓位</span><span>实体门</span><span>空间示意</span>';document.querySelectorAll('.fee-row')[2].querySelector('span').textContent=rows.length>1?'押金（各仓月租合计）':'押金（1个月月租）';
+    document.querySelector('.summary .tags').innerHTML=rows.length>1?'<span>'+rows.length+'项组合</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>空间示意</span>':'<span>'+(F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span><span>空间示意</span>';document.querySelectorAll('.fee-row')[2].querySelector('span').textContent=rows.length>1?'押金（各仓月租合计）':'押金（1个月月租）';
     text('period',confirmed?s.requirement.term_months+'个月':'请选择租期');$('period').disabled=!!(pending||paid);$('start-date').disabled=!!(pending||paid);$('start-date').min=F.demoToday;$('start-date').value=s.startDate||'';
     text('phone',authorized?'手机号 · 已验证':s.contactPhone?'联系电话 '+s.contactPhone+' · 价格待授权':'未授权，报价暂不可见');
     const allowed=authorized&&confirmed&&a&&valid;
