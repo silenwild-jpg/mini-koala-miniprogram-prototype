@@ -65,13 +65,23 @@ main{max-width:580px;margin:0 auto;padding:50px 22px 60px}
 h1{font-size:26px;line-height:1.35;margin:0 0 12px}
 p{font-size:14px;line-height:1.7;color:#47685d}
 .small{font-size:12px;color:#667d74}
-a{display:block;margin:18px 0 8px;padding:15px 18px;border-radius:9px;text-decoration:none;font-weight:700}
+a{display:block;margin:18px 0 8px;padding:15px 18px;border-radius:9px;text-decoration:none;font-weight:700}nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}nav a{margin:0;font-size:13px;font-weight:600;padding:11px 12px}h2{font-size:17px;margin:24px 0 12px}@media(max-width:350px){nav{grid-template-columns:1fr}}
 .primary{background:#196847;color:white}.secondary{border:1px solid #bdcbc4;color:#196847;background:white}
 hr{border:0;border-top:1px solid #d9e4df;margin:26px 0}</style></head>
 <body><main><h1>迷你考拉仓 · 内部评审站</h1>
 <p>DEMO-MK-RC1-20261027｜126 家历史门店 · 766 种仓型选项 · 五城市</p>
 <a class="primary" data-integration="CENTRAL_DEMO_02J" href="/central-review-02g.html?catalog=mk">进入统一小程序演示（旧门店数据）</a>
 <a class="secondary" href="/central-review-02g.html?catalog=sim">进入 SIM 异常及备用场景</a>
+<h2>页面导航（MK 历史门店）</h2><nav aria-label="页面与状态导航">
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=H01">H01 首页 · 主态</a>
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=CAP">CAP 容量填写</a>
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=ITEMS">物品估算</a>
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=S01">S01 门店列表</a>
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=S02&store=MK_BJ_E56D0702">S02 门店详情 · 示例</a>
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=S5">S5 租期与推荐</a>
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=BOOKING">预约用仓 · 留资态</a>
+<a class="secondary" href="/central-review-02g.html?catalog=mk&page=QUICK">快捷下单 · 编辑态</a>
+</nav><p class="small">确认订单 O01 必须在 S5 或快捷下单完成选仓及验证后进入；直接打开 O01 将被保护规则拦截。</p>
 <hr><p>本页面仅供授权的内部业务与视觉评审。号码验证、报价、库存占用与支付均为模拟；历史价格和仓型选项不是实时正式报价或已分配的物理仓号。</p>
 <p class="small">主链：H01 → CAP / S01 → S02 / S5 → O01。
 演示数据及资料来自固定 GitHub RC1 基线，页面冻结视觉仍待最终签收。</p>
