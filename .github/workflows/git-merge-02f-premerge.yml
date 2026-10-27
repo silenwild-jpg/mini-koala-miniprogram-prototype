@@ -1,0 +1,45 @@
+name: GIT-MERGE-02F premerge directed regression
+on:
+  push:
+    branches:
+      - feature/git-merge-02f-premerge-gates-20261027
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  form-and-order-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run fresh approved business and source checks
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          node --check qa/merge02f_premerge.cjs
+          node demo/qa/test_merge02c_policy.js
+          node demo/qa/test_mainchain_decision.js
+          node demo/qa/test_model.js
+      - name: Install Chromium for real browser clicks
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Browser 375 and 390 submitted forms and order
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/merge02f-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 3
+          node qa/merge02f_premerge.cjs
+      - name: Upload private QA evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge02f-submission-and-visual-evidence
+          path: app/prototype/parallel/core-journey-fix-01/evidence/merge02f/
+          if-no-files-found: warn
+          retention-days: 7
