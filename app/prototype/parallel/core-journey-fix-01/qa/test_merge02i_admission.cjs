@@ -53,8 +53,10 @@ async function run(title,w,task){
     });
     console.log('ADVISOR_DIAGNOSTICS',JSON.stringify({width:w,...advisorDiagnostics}));
     if(advisorDiagnostics.formHidden||advisorDiagnostics.formDisplay==='none')throw Error('Advisor form did not enter input state '+JSON.stringify(advisorDiagnostics));
-    await p.waitForTimeout(400);
-    if(!(await br04.locator('#reserveForm').isVisible()))throw Error('Advisor page not fully initialized '+JSON.stringify({advisorDiagnostics,frameErrors}));
+    // Frozen reserve master uses absolute-positioned fields, so the FORM's own box can be zero-height.
+    // Verify the actual contact input and submit control rather than the container's bounding box.
+    await br04.locator('#reserve-contact').waitFor({state:'visible',timeout:7000});
+    await br04.locator('#submit').waitFor({state:'visible',timeout:7000});
     assert.equal(await br04.locator('#booking-address').getAttribute('required'),null,'advisor erroneously requires storage address');
     assert.notEqual(await br04.locator('#reserve-contact').getAttribute('required'),null,'advisor phone must be required');
     await br04.locator('#reserve-contact').fill('13800000000');
