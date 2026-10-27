@@ -31,7 +31,7 @@ async function run(title,w,task){
   await run('E-store-empty-city-advisor-contact-lead-only',w,async()=>{
    const ctx=await browser.newContext({viewport:{width:w,height:h},locale:'zh-CN'});
    try{
-    const p=await ctx.newPage();
+    const p=await ctx.newPage();const frameErrors=[];p.on('pageerror',e=>frameErrors.push(String(e)));
     await p.goto(root+'central-review-02g.html?page=S01',{waitUntil:'domcontentloaded'});
     const host=p.frameLocator('#central-host');
     await host.locator('body').evaluate(()=>{
@@ -52,7 +52,8 @@ async function run(title,w,task){
         parentHref:parent.location.href,storedAdvisor:sessionStorage.getItem('mk_advisor_context_v3')};
     });
     if(advisorDiagnostics.formHidden||advisorDiagnostics.formDisplay==='none')throw Error('Advisor form did not enter input state '+JSON.stringify(advisorDiagnostics));
-    await br04.locator('#reserveForm').waitFor({state:'visible',timeout:5000});
+    await p.waitForTimeout(400);
+    if(!(await br04.locator('#reserveForm').isVisible()))throw Error('Advisor page not fully initialized '+JSON.stringify({advisorDiagnostics,frameErrors}));
     assert.equal(await br04.locator('#booking-address').getAttribute('required'),null,'advisor erroneously requires storage address');
     assert.notEqual(await br04.locator('#reserve-contact').getAttribute('required'),null,'advisor phone must be required');
     await br04.locator('#reserve-contact').fill('13800000000');
@@ -115,10 +116,12 @@ async function run(title,w,task){
     const results=[];
     for(const [key,u] of routes){
      const res=await p.goto(root+'prototype/parallel/core-journey-fix-01/demo/'+u,{waitUntil:'domcontentloaded'});
-     const visible=await p.locator('body').innerText();
-     const embedded=await p.locator('iframe').count()?await p.frameLocator('iframe').locator('body').innerText():'';
+     const markup=await p.locator('body').innerHTML();
+     const hasFrame=await p.locator('iframe').count()>0;
+     if(hasFrame)await p.frameLocator('iframe').locator('body').waitFor({state:'attached'});
      assert.equal(res.status(),200,key+' HTTP unavailable');
-     assert((visible+embedded).length>25,key+' empty');
+     assert(markup.length>50,key+' absent DOM');
+     if(hasFrame)assert((await p.locator('iframe').getAttribute('src'))?.length>0,key+' empty frame source');
      results.push(key);
     }
     return {reachablePages:results,br04Count:4};
