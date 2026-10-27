@@ -116,8 +116,9 @@ async function run(title,w,task){
     for(const [key,u] of routes){
      const res=await p.goto(root+'prototype/parallel/core-journey-fix-01/demo/'+u,{waitUntil:'domcontentloaded'});
      const visible=await p.locator('body').innerText();
+     const embedded=await p.locator('iframe').count()?await p.frameLocator('iframe').locator('body').innerText():'';
      assert.equal(res.status(),200,key+' HTTP unavailable');
-     assert(visible.length>25,key+' empty');
+     assert((visible+embedded).length>25,key+' empty');
      results.push(key);
     }
     return {reachablePages:results,br04Count:4};
