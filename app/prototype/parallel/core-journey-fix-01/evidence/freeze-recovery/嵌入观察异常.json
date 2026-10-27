@@ -1,0 +1,22 @@
+{
+  "earlierObserved": [
+    {
+      "timestamp": "2026-10-27T03:30:50.252Z",
+      "message": "Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.",
+      "source": "not supplied by browser log"
+    }
+  ],
+  "latest": [
+    {
+      "level": "error",
+      "message": "Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.",
+      "timestamp": "2026-10-27T03:30:50.252Z"
+    },
+    {
+      "level": "error",
+      "message": "Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.",
+      "timestamp": "2026-10-27T07:13:05.334Z"
+    }
+  ],
+  "conclusion": "Unattributed nested-observer error retained; standalone journey returned no errors; not a global console PASS."
+}

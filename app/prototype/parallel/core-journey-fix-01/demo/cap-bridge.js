@@ -21,7 +21,7 @@
   document.addEventListener('input',saveDraft);document.addEventListener('click',saveDraft);
   window.openIndependentFlow=function(name){
     saveDraft();
-    if(name.includes('物品')){navigate('items.html');return;}
+    if(name.includes('物品')){sessionStorage.setItem('mk_items_back_v1','cap.html');navigate('items.html');return;}
     if(name.includes('顾问')){sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({_return:'cap.html',capacity_hint:core.validCapacity(Number(document.getElementById('capacity').value))?document.getElementById('capacity').value+'m³':'',term_hint:chosenMonth?chosenMonth+'个月':''}));navigate('index.html?page=BOOKING');return;}
     const bg=document.getElementById('flowBg'),box=bg.querySelector('.flow');
     box.innerHTML='<h3>AI估算</h3><p>照片识别功能尚未接入，当前不会上传或识别照片，也不会自动填写容量。您可以按物品估算，或返回手动填写。</p><button id="ai-items">按物品估算</button><button id="ai-return">返回容量填写</button>';

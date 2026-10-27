@@ -2,6 +2,7 @@
   'use strict';
   const page=document.body.dataset.page;
   const pageIds={s5:'S5',reserve:'BOOKING',quick:'QUICK',o01:'O01'};
+  const s5BenefitMarker=page==='s5'?document.querySelector('.benefits span')?.cloneNode(true):null;
   const B=parent.SIM_DEMO;
   if(!B){location.replace('../../index.html?page='+pageIds[page]);return;}
   const core=B.core,F=core.fixture,presentation=B.presentation,$=id=>document.getElementById(id),$$=s=>Array.from(document.querySelectorAll(s));
@@ -60,7 +61,9 @@
       document.querySelector(first?'.major-unit h3':'.minor-unit h3').textContent=s.name+' · '+row.volume+'m³'+(row.combo?'组合':'仓');
       const tags=document.querySelector(first?'.unit-tags':'.minor-tags');tags.innerHTML='<span>'+row.volume+'m³</span><span>'+(row.combo?row.ids.length+'间组合':'独立仓位')+'</span><span>实体门</span>';
       $(first?'main-buy':'secondary-buy').disabled=false;
-      $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';const facts=presentation.facts(row.ids),services=presentation.services(s);const labels=first?[facts.promoLabel,...services]:[facts.promoLabel,facts.inventoryLine||services[0]];tags.innerHTML=labels.filter(Boolean).slice(0,first?3:2).map(t=>'<span class="'+(t===facts.promoLabel?'operating-tag':'')+'">'+esc(t)+'</span>').join('');if(first){const line=document.querySelector('.benefits');line.textContent=facts.inventoryLine;line.hidden=!facts.inventoryLine;}tags.dataset.promoState=facts.state;
+      $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';
+      // S5 keeps its own frozen physical-attribute tags and benefits row; BR03 promotional-card rules do not replace them.
+      if(first){const line=document.querySelector('.benefits');line.replaceChildren(...(s5BenefitMarker?[s5BenefitMarker.cloneNode(true)]:[]),document.createTextNode(' '+['容量匹配',...presentation.services(s)].join(' · ')));line.hidden=false;}
       if(first){text('main-distance','门店环境');$('main-distance').hidden=false;}else{document.querySelector('.distance-nav span').textContent='';document.querySelector('.distance-nav').hidden=true;}
       offerPrice(suffix,row);
     });
