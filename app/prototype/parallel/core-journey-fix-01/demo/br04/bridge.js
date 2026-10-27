@@ -31,7 +31,7 @@
   function priceReady(){if(!core.authorized()){phone();return false;}if(!core.state().requirement.term_confirmed){toast('请选择租期');return false;}return true;}
   function applyTerm(value){const m=Number(value),s=core.state(),ids=page==='o01'?s.selected:[];core.setTerm(m);if(ids.length&&core.selectionValid(ids))core.select(ids);close();save();refresh();}
   function moreTerms(){sheet('选择租期（1–60个月）',[1,3,6,12,24,36,60].map(m=>act('term',m+'个月',String(m))).join('')+'<label for="custom-months">自定义月份</label><input class="bridge-input" id="custom-months" type="number" min="1" max="60">'+act('customTerm','确认租期','',true));}
-  function citySheet(){sheet('选择城市',['北京','上海','深圳','广州'].map(c=>act('city',c,c)).join(''));}
+  function citySheet(){sheet('选择城市',['北京','上海','深圳','杭州','广州'].map(c=>act('city',c,c)).join(''));}
   function alternatives(message='当前方案不可用，已保留您的容量和租期。'){
     const exclude=core.state().storeId,offers=B.offers(exclude).slice(0,3);
     sheet('其他匹配门店',note(message)+offers.map(r=>act('store',r.store.name+' · '+r.volume+'m³',r.store.id)).join('')+(!offers.length?note('当前城市暂无满足容量的方案。'):'')+act('booking','联系顾问 / 预约用仓'));
