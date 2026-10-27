@@ -19,7 +19,11 @@
   }
   function storeId(fixture,id){
     const catalog=source(fixture),key=String(id||'');
-    if(!catalog.stores.has(key))fail(/^MK_|^SIM_/.test(key)?'STORE_SOURCE_MISMATCH_OR_UNMAPPED':'UNKNOWN_STORE_ID');
+    if(!catalog.stores.has(key)){
+      if(catalog.sourceNamespace==='SIM'&&/^MK_/.test(key))fail('LEGACY_STORE_ID_UNMAPPED');
+      if(catalog.sourceNamespace==='MK'&&/^SIM_/.test(key))fail('STORE_SOURCE_MISMATCH_OR_UNMAPPED');
+      fail('UNKNOWN_STORE_ID');
+    }
     return key;
   }
   function unitIds(fixture,store,ids){
