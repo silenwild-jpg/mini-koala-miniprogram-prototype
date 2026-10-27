@@ -68,6 +68,10 @@
     if(visual.keyword)stores=stores.filter(s=>(s.name+s.address).includes(visual.keyword));
     if(visual.service!=='all')stores=stores.filter(s=>s.serviceTags.includes(visual.service));
     if(core.authorized()&&visual.price!=='all'){const limit=Number(visual.price);stores=stores.filter(s=>limit===3000?storeAmount(s)<=3000:storeAmount(s)>3000);}
+    if(visual.sort==='recommended'&&r.capacity_m3===null){
+      const active=stores.filter(s=>s.status==='open');
+      stores=[...REC.rank(active,{distanceVerified:F.distanceVerified,costOf:s=>s.teaserCubicPrice}).items,...stores.filter(s=>!active.includes(s))];
+    }
     if(visual.sort==='recommended'&&r.capacity_m3!==null){
       const matching=stores.filter(s=>s.status==='open'&&storeOffer(s));
       const other=stores.filter(s=>!matching.includes(s));
