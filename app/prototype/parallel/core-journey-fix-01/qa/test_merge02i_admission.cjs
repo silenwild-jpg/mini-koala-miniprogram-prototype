@@ -28,6 +28,47 @@ async function run(title,w,task){
     return {defaultClean:true,debugToggle:true};
    }finally{await ctx.close();}
   });
+  await run('home-third-operational-and-empty-city-Estore-to-advisor',w,async()=>{
+   const ctx=await browser.newContext({viewport:{width:w,height:h},locale:'zh-CN'});
+   try{
+     const p=await ctx.newPage();
+     await p.goto(root+'prototype/parallel/core-journey-fix-01/demo/home.html',{waitUntil:'domcontentloaded'});
+     await p.locator('#storeRail .store-card').first().waitFor();
+     const ranked=await p.locator('#storeRail [data-sim-store]').evaluateAll(els=>els.map(el=>el.dataset.simStore));
+     const promotion=await p.evaluate(()=>window.SIM_FIXTURES.stores.find(s=>s.id===document.querySelectorAll('#storeRail [data-sim-store]')[2]?.dataset.simStore)?.operatingTag);
+     assert.equal(ranked.length,3);
+     assert.deepEqual(ranked.slice(0,2),['SIM_BJ01','SIM_BJ02']);
+     assert.equal(promotion,'特价仓');
+     await p.evaluate(()=>{const c=window.SIM_CORE.create();c.setCity('广州');sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(c.state()));});
+     await p.reload({waitUntil:'domcontentloaded'});
+     await p.locator('.demo13-empty.show').waitFor({state:'visible',timeout:7000});
+     assert.equal(await p.locator('#storeRail [data-sim-store]').count(),0);
+     assert((await p.locator('.demo13-empty').innerText()).includes('考拉E存'));
+     await p.screenshot({path:path.join(out,'HOME-Estore-no-city-'+w+'.png')});
+     await p.locator('.demo13-empty [data-h="estore"]').click();
+     await p.waitForURL(/page=BOOKING&mode=advisor/,{timeout:8000});
+     await p.frameLocator('iframe').locator('#reserve-contact').waitFor({state:'visible',timeout:7000});
+     return {slots:ranked,thirdTag:promotion,emptyEstoreFirst:true,advisorRoute:true};
+   }finally{await ctx.close();}
+  });
+  await run('S01-empty-city-Estore-first-action',w,async()=>{
+   const ctx=await browser.newContext({viewport:{width:w,height:h},locale:'zh-CN'});
+   try{
+     const p=await ctx.newPage();
+     await p.goto(root+'prototype/parallel/core-journey-fix-01/demo/index.html?page=S01',{waitUntil:'domcontentloaded'});
+     await p.locator('body').evaluate(()=>{
+       const core=window.SIM_DEMO.core;core.setCity('广州');window.SIM_DEMO.persist();window.SIM_DEMO.navigate('S01');
+     });
+     const empty=p.locator('.empty-units');
+     await empty.waitFor({state:'visible'});
+     assert((await empty.innerText()).includes('考拉E存'));
+     assert(await empty.locator('[data-action="estore"]').count()>0);
+     await p.screenshot({path:path.join(out,'S01-Estore-no-city-'+w+'.png')});
+     await empty.locator('[data-action="estore"]').click();
+     await p.waitForURL(/page=BOOKING&mode=advisor/,{timeout:7000});
+     return {eStoreFirst:true,advisorRoute:true};
+   }finally{await ctx.close();}
+  });
   await run('E-store-empty-city-advisor-contact-lead-only',w,async()=>{
    const ctx=await browser.newContext({viewport:{width:w,height:h},locale:'zh-CN'});
    try{
