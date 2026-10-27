@@ -1,7 +1,7 @@
 'use strict';
 const {chromium}=require('playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const out=path.resolve(__dirname,'../../evidence/merge02d');
+const out=path.resolve(__dirname,'../evidence/merge02d');
 fs.mkdirSync(out,{recursive:true});
 const base='http://127.0.0.1:4270/demo/';
 const results=[];
@@ -28,7 +28,10 @@ const results=[];
           pageErrors.length=0;
           const response=await page.goto(base+url,{waitUntil:'domcontentloaded',timeout:25000});
           await page.waitForTimeout(500);
-          const status=response?.status(),title=await page.title(),body=await page.locator('body').innerText({timeout:8000});
+          const status=response?.status(),title=await page.title(),parentText=await page.locator('body').innerText({timeout:8000});
+          const frame=page.locator('iframe').first();
+          const frameText=await page.locator('iframe').count()?await frame.contentFrame().locator('body').innerText({timeout:8000}):'';
+          const body=parentText+'\n'+frameText;
           const shot=key+'-'+width+'.png';
           await page.screenshot({path:path.join(out,shot),fullPage:false});
           const row={case:key,size:width+'x'+height,status,title,bodyChars:body.length,errors:[...pageErrors],screenshot:shot};
@@ -82,10 +85,19 @@ const results=[];
           if(row.phoneGateShown){
             await page.locator('.mk-auth-close').click();
             row.cancelledStillNoOrder=await page.evaluate(()=>window.SIM_DEMO.core.state().orders.length===0);
+            await page.locator('[data-action="choose"]:not([disabled])').first().click();
+            await page.locator('#mk-auth-agree').check();
+            await page.locator('[data-auth="wechat"]').click();
+            await page.waitForTimeout(550);
+            const verified=await page.evaluate(()=>({auth:window.SIM_DEMO.core.authorized(),account:!!window.SIM_DEMO.core.state().account}));
+            row.phoneVerified=verified.auth&&verified.account;
+            row.orderPage=await page.evaluate(()=>new URLSearchParams(location.search).get('page'));
+            row.orderFrame=await page.locator('iframe').count();
+            await page.screenshot({path:path.join(out,'O01-after-auth-'+width+'.png')});
           }
         }
         row.pageErrors=[...pageErrors];
-        row.result=count>0&&row.s5Iframe===1&&row.phoneGateShown===true&&row.referenceNoOrderWithoutVerification&&row.cancelledStillNoOrder&&!pageErrors.length?'PASS':'FAIL';
+        row.result=count>0&&row.s5Iframe===1&&row.phoneGateShown===true&&row.referenceNoOrderWithoutVerification&&row.cancelledStillNoOrder&&row.phoneVerified&&row.orderPage==='O01'&&!pageErrors.length?'PASS':'FAIL';
         results.push(row);console.log('JOURNEY',JSON.stringify(row));
       }catch(e){
         const row={case:'S01-S5-O01',size:width+'x'+height,result:'FAIL',error:String(e),pageErrors:[...pageErrors]};
