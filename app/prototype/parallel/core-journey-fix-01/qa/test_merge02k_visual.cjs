@@ -22,7 +22,7 @@ function assertHorizontal(doc){const viewport=doc.defaultView.innerWidth;const w
     try{
       await page.goto(root,{waitUntil:'domcontentloaded'});
       await frame.locator('.store-row').first().waitFor({timeout:9000});
-      const prepared=await frame.locator('body').evaluate((c)=>{
+      const prepared=await frame.locator('body').evaluate((_el,c)=>{
        const app=window.SIM_DEMO,core=app.core;core.setCity(c);core.setRequirement(3.5,6,true);app.persist();app.navigate('S01');
        return {city:core.state().city,stores:core.fixture.stores.filter(x=>x.city===c).length};
       },city);
