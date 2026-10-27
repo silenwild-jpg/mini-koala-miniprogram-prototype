@@ -16,7 +16,6 @@ const report=[];function note(name,width,ok,more={}){const v={name,width,result:
    await page.waitForURL(/central-review-02g.html/);
    const frame=page.frameLocator('#central-host');
    await frame.locator('[data-action*="估大小"]').first().waitFor({state:'visible'});
-   assert.equal(await page.locator('body').getAttribute('data-source'),null);
    const source=await page.locator('body').getAttribute('data-source');
    assert(source,'missing central contract fixture source');
    await frame.locator('.task-hotspots [data-action*="估大小"]').first().click();
