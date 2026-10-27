@@ -70,7 +70,7 @@ a{display:block;margin:18px 0 8px;padding:15px 18px;border-radius:9px;text-decor
 hr{border:0;border-top:1px solid #d9e4df;margin:26px 0}</style></head>
 <body><main><h1>迷你考拉仓 · 内部评审站</h1>
 <p>DEMO-MK-RC1-20261027｜126 家历史门店 · 766 种仓型选项 · 五城市</p>
-<a class="primary" href="/central-review-02g.html?catalog=mk">进入统一小程序演示（旧门店数据）</a>
+<a class="primary" data-integration="CENTRAL_DEMO_02J" href="/central-review-02g.html?catalog=mk">进入统一小程序演示（旧门店数据）</a>
 <a class="secondary" href="/central-review-02g.html?catalog=sim">进入 SIM 异常及备用场景</a>
 <hr><p>本页面仅供授权的内部业务与视觉评审。号码验证、报价、库存占用与支付均为模拟；历史价格和仓型选项不是实时正式报价或已分配的物理仓号。</p>
 <p class="small">主链：H01 → CAP / S01 → S02 / S5 → O01。
