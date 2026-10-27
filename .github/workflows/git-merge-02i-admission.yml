@@ -25,6 +25,7 @@ jobs:
           node demo/qa/test_mainchain_decision.js
           node demo/qa/test_br04_state.js
           node demo/qa/test_merge02c_policy.js
+          node qa/test_merge02i_policy.js
           node qa/test_merge02g_contract.js
           node qa/test_merge02h_source.cjs
       - name: Install browser and Chinese fonts
