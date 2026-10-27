@@ -1,0 +1,68 @@
+name: GIT-MERGE-02N private RC1 review site package
+on:
+  push:
+    branches:
+      - feature/git-merge-02n-protected-review-package-20261027
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  protected-demo-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check entire frozen RC1 application tree
+        run: node scripts/verify_demo_rc1_lock.cjs
+      - name: Build private site package with runtime-only asset allowlist
+        run: python3 scripts/build_rc1_private_site.py
+      - name: Check ZIP content and artifact inventory
+        run: |
+          python3 - <<'PY'
+          from zipfile import ZipFile
+          from pathlib import Path
+          import json
+          d=Path('release-evidence/merge02n')
+          with ZipFile(next(d.glob('*.zip'))) as z:
+              names=z.namelist()
+              assert 'index.html' in names
+              assert 'central-review-02g.html' in names
+              assert not any('/qa/' in n or '/evidence/' in n or n.endswith('.md') for n in names)
+              assert len(names)>50
+              print('REVIEW_SITE_ZIP_OK',len(names))
+          print('REVIEW_SITE_SUMMARY',json.loads((d/'build-summary.json').read_text()))
+          PY
+      - name: Install headless Chromium and Chinese fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Regress old stores and O01 in actual static deployment package
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE/release-evidence/merge02n/site" >/tmp/merge02n-server.log 2>&1 &
+          HTTP_PID=$!
+          trap 'kill "$HTTP_PID" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Upload private site bundle and verification receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DEMO-MK-RC1-02N-PRIVATE-SITE-DEPLOY-ARTIFACT
+          path: |
+            release-evidence/merge02n/DEMO_MK_RC1_Protected_Internal_Site_20261027.zip
+            release-evidence/merge02n/build-summary.json
+            release-evidence/merge02n/manifest.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+          retention-days: 14
+          if-no-files-found: warn
