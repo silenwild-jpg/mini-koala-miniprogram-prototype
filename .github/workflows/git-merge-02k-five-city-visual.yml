@@ -1,0 +1,50 @@
+name: GIT-MERGE-02K old-store 5-city visual admission
+on:
+  push:
+    branches:
+      - feature/git-merge-02k-legacy-visual-gate-20261027
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  five-city-375-390:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify original data and independent SIM model regression
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          set -e
+          MK_CATALOG_MODE=MK node qa/test_merge02j_legacy.cjs
+          node qa/test_merge02g_contract.js
+          node qa/test_merge02i_policy.js
+          node demo/qa/test_model.js
+          node demo/qa/test_mainchain_decision.js
+          node --check qa/test_merge02k_visual.cjs
+      - name: Install browser and Chinese fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: S01 S02 S5 five cities each at 375 and 390
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/merge02k-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 3
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Upload private visual and source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge02k-five-city-375-390-visual-evidence
+          path: app/prototype/parallel/core-journey-fix-01/evidence/merge02k/
+          if-no-files-found: warn
+          retention-days: 7
