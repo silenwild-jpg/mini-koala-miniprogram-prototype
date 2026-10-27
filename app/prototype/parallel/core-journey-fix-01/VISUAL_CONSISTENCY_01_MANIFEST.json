@@ -1,7 +1,7 @@
 {
   "candidate": "VISUAL-CONSISTENCY-01",
   "baseline": "8a0003d11b966818b8143ae2c473ecdcb5fa8622",
-  "stage": "IMPLEMENTED_LOCAL_QA_PASS_PENDING_USER_VISUAL_ACCEPTANCE",
+  "stage": "USER_REJECTED_BLOCKED_PENDING_FREEZE_RECOVERY",
   "release_gate": "HOLD",
   "checks": {
     "model_groups": 123,
@@ -24,13 +24,13 @@
     },
     {
       "path": "app/prototype/parallel/core-journey-fix-01/consistency-review.html",
-      "bytes": 6511,
-      "sha256": "cc4c5d7d295693570ff40188c8daf84fd3cf45d0184cd340e5b01dea815c95bf"
+      "bytes": 6792,
+      "sha256": "d015d432521db7c50a3fb96eb2b050cf5deb755f62e768f88e3b65745a93e882"
     },
     {
       "path": "app/prototype/parallel/core-journey-fix-01/CURRENT_STATUS.md",
-      "bytes": 900,
-      "sha256": "75a0ec09279ba210e13eea19a21d5ceff068a6e6f5d196880e2db2d6b50f94ee"
+      "bytes": 1206,
+      "sha256": "eb9c327916670cc52607670786556a2ba231fce98e093a26a87550b67ff02f59"
     },
     {
       "path": "app/prototype/parallel/core-journey-fix-01/demo/account.css",
@@ -1424,13 +1424,13 @@
     },
     {
       "path": "app/prototype/parallel/core-journey-fix-01/README.md",
-      "bytes": 1519,
-      "sha256": "77fb1a0a7076265ef6f41ca622b641959bbbeb7349566d8ff03dbd7f9b777b5d"
+      "bytes": 1719,
+      "sha256": "5f90ee799eb5f95087484d313de810860513fcfb982662240f9c011c03d83502"
     },
     {
       "path": "app/prototype/parallel/core-journey-fix-01/REVIEWER_README.md",
-      "bytes": 2497,
-      "sha256": "098fdb4a3bf1efc74c8476e2bde6a0d5b37735d794ec7de56daa81ccf1fd75d3"
+      "bytes": 2697,
+      "sha256": "a739e1e86072e670050a06fe0d33b42e7f8d90e2fecfc1c9f72e614345df56e8"
     },
     {
       "path": "app/prototype/parallel/core-journey-fix-01/serve.py",
@@ -1444,8 +1444,8 @@
     },
     {
       "path": "design-qa.md",
-      "bytes": 4133,
-      "sha256": "0fec90fcd517d7dacf0c11b39e4e01b8b799e5c7a24a1b8db2085ad121348e53"
+      "bytes": 873,
+      "sha256": "1b6c6b8f11f56c6b7169bfaf70132a72e639062cb60f834a2cfafbb1781fadff"
     },
     {
       "path": "docs/VISUAL_CONSISTENCY_01_IMPLEMENTATION.md",
@@ -1456,6 +1456,18 @@
       "path": "docs/VISUAL_CONSISTENCY_01_SPEC.md",
       "bytes": 1274,
       "sha256": "204bab29904b7b3fa05b17819bb67d12bf312e2cbe2070578bbb7d053611be5e"
+    },
+    {
+      "path": "docs/FREEZE_RECOVERY_2026-10-27.md",
+      "bytes": 4194,
+      "sha256": "159a06c33c5413cc8bddf03450295540a1cc4fcfc5905954cd08311c254005e2"
+    },
+    {
+      "path": "docs/VISUAL_CONSISTENCY_01_QA_PRE_REJECTION.md",
+      "bytes": 4133,
+      "sha256": "0fec90fcd517d7dacf0c11b39e4e01b8b799e5c7a24a1b8db2085ad121348e53"
     }
-  ]
+  ],
+  "checks_scope": "Historical implementation checks; frozen visual/layout/interaction acceptance is blocked.",
+  "user_feedback_date": "2026-10-27"
 }
