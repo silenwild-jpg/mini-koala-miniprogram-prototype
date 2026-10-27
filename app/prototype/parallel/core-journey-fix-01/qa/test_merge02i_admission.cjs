@@ -39,8 +39,11 @@ async function run(title,w,task){
      assert.equal(ranked.length,3);
      assert.deepEqual(ranked.slice(0,2),['SIM_BJ01','SIM_BJ02']);
      assert.equal(promotion,'特价仓');
-     await p.evaluate(()=>{const c=window.SIM_CORE.create();c.setCity('广州');sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(c.state()));});
-     await p.reload({waitUntil:'domcontentloaded'});
+     // Changing sessionStorage while H01 is open is overwritten by its pagehide persist.
+     // Use the shared S01 runtime to select the city, then enter H01 as a returning visitor.
+     await p.goto(root+'prototype/parallel/core-journey-fix-01/demo/index.html?page=S01',{waitUntil:'domcontentloaded'});
+     await p.locator('body').evaluate(()=>{window.SIM_DEMO.core.setCity('广州');window.SIM_DEMO.persist();});
+     await p.goto(root+'prototype/parallel/core-journey-fix-01/demo/home.html',{waitUntil:'domcontentloaded'});
      await p.locator('.demo13-empty.show').waitFor({state:'visible',timeout:7000});
      assert.equal(await p.locator('#storeRail [data-sim-store]').count(),0);
      assert((await p.locator('.demo13-empty').innerText()).includes('考拉E存'));
