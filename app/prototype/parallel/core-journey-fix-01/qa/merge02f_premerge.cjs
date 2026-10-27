@@ -99,7 +99,7 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
      const ready=!(await p.locator('#cta').isDisabled());
      assert.equal(ready,true);
      assert.equal(await p.locator('.mk-auth-settings').isHidden(),true,'CAP phone-debug bar should be hidden in product mode');
-     assert.equal((await p.locator('#cta').innerText()).trim(),'查看仓位','CAP CTA drifted from signed master');
+     assert.equal((await p.locator('#cta').innerText()).trim(),'查看仓位 →','CAP CTA drifted from signed master');
      await p.evaluate(()=>{window.scrollTo(0,0);document.scrollingElement&&(document.scrollingElement.scrollTop=0);document.querySelectorAll('.scroll,.page-scroll,.screen-viewport,[data-scroll]').forEach(el=>el.scrollTop=0);});
      await pause(160);
      await p.screenshot({path:path.join(out,'CAP-8m3-12mo-'+w+'.png')});
