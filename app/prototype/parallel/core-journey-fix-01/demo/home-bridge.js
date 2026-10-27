@@ -17,8 +17,10 @@
     for(const [id,file] of Object.entries(images)){const el=document.getElementById(id);if(el)el.src='assets/'+file;}}
   fit();window.addEventListener('resize',fit);
   const city=document.createElement('span');city.className='demo13-city-label';city.textContent=core.state().city;document.querySelector('.hero').appendChild(city);
-  const stores=F.stores.filter(x=>x.city===core.state().city&&x.status==='open').slice(0,3);
-  document.getElementById('storeRail').innerHTML=stores.map((x,i)=>`<article class="store-card ${i===0?'featured':''}" data-sim-store="${x.id}" tabindex="0" role="link" aria-label="查看${esc(x.name)}"><img class="store-photo" src="assets/${x.photo}" alt="门店场景示意"><div class="store-body"><b class="store-name">${esc(x.name)}</b><div class="store-location">${esc(x.district+' · '+(x.community||x.address))}</div><div class="store-tags">${presentation.services(x).map(t=>`<span>${esc(t)}</span>`).join('')}</div><div class="store-price"></div></div></article>`).join('')||'<p>当前城市暂无门店，您可以切换城市或预约咨询。</p>';
+  const selection=SIM_HOME_RECOMMEND_02I.rank(F.stores.filter(x=>x.city===core.state().city),{distanceVerified:F.distanceVerified});
+  const stores=selection.cards;
+  document.getElementById('storeRail').innerHTML=stores.map((x,i)=>`<article class="store-card ${i===0?'featured':''}" data-sim-store="${x.id}" tabindex="0" role="link" aria-label="查看${esc(x.name)}"><img class="store-photo" src="assets/${x.photo}" alt="门店场景示意"><div class="store-body"><b class="store-name">${esc(x.name)}</b><div class="store-location">${esc(x.district+' · '+(x.community||x.address))}</div><div class="store-tags">${presentation.services(x).map(t=>`<span>${esc(t)}</span>`).join('')}</div><div class="store-price"></div></div></article>`).join('');
+  if(selection.estoreFirst){const wrap=document.querySelector('.store-section');wrap.classList.add('demo13-no-stores');const empty=document.createElement('div');empty.className='demo13-empty show';empty.innerHTML='<strong>考拉E存 · 上门取送</strong><small>当前城市暂无可展示的门店仓位。可了解适用范围，由顾问确认服务方案。</small><div><button type="button" data-h="estore">了解考拉E存</button><button type="button" data-h="booking">预约咨询</button></div>';document.getElementById('storeRail').after(empty);}
   const reference=document.querySelector('.section-heading p');if(reference)reference.textContent='12个月立方参考价';if(reference)reference.title='12个月租期的每立方米月参考价，非整期报价';
   function prices(){const allowed=true;document.querySelectorAll('#storeRail .store-price').forEach((el,i)=>{const p=presentation.cubicReference(stores[i]);el.innerHTML=allowed&&p?`<b>${p.money}</b><small>${p.unit}</small>`:'<small>暂无参考价</small>';});persist();}
   prices();setInterval(prices,1000);
@@ -46,6 +48,7 @@
   document.addEventListener('click',e=>{
     const h=e.target.closest('[data-h]');if(h){e.preventDefault();const a=h.dataset.h;
       if(a==='close')close();if(a==='booking')go('index.html?page=BOOKING');if(a==='quick')go('index.html?page=QUICK');
+      if(a==='estore'){sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({service_source:'estore',capacity_hint:core.state().requirement.capacity_m3?(core.state().requirement.capacity_m3+'m³'):'',term_hint:core.state().requirement.term_confirmed?(core.state().requirement.term_months+'个月'):''}));go('index.html?page=BOOKING&mode=advisor');}
       if(a==='revoke'){core.revokePhone();persist();prices();details.open=false;}
       if(a==='search'){const c=document.getElementById('home-city').value;if(c!==core.state().city)core.setCity(c);const v=read('mk_visual_align_ui_v1')||{};v.keyword=document.getElementById('home-search').value.trim();sessionStorage.setItem('mk_visual_align_ui_v1',JSON.stringify(v));go('index.html?page=S01');}return;
     }
