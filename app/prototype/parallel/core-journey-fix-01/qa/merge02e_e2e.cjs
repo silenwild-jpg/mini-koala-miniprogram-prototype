@@ -113,9 +113,9 @@ try{for(const [width,height] of [[375,812],[390,844]]){
   await page.goto(root+'cap.html',{waitUntil:'domcontentloaded'});
   await page.locator('#capacity').fill('8');
   await page.locator('#capacity').dispatchEvent('input');
-  const select12=page.getByRole('button',{name:/^12\\s*个?月$/}).first();
+  const select12=page.getByRole('button',{name:/^12/}).first();
   if(await select12.count())await select12.click();
-  else await page.locator('button').filter({hasText:/12\\s*个?月/}).first().click();
+  else await page.locator('button').filter({hasText:'12个月'}).first().click();
   await page.waitForTimeout(280);
   const enabled=!(await page.locator('#cta').isDisabled());
   if(!enabled)throw Error('8m3/12m CTA disabled');
