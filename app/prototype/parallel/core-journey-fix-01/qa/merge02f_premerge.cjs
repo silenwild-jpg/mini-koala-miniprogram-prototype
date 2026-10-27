@@ -98,6 +98,8 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
      await pause(200);
      const ready=!(await p.locator('#cta').isDisabled());
      assert.equal(ready,true);
+     await p.evaluate(()=>{window.scrollTo(0,0);document.scrollingElement&&(document.scrollingElement.scrollTop=0);document.querySelectorAll('.scroll,.page-scroll,.screen-viewport,[data-scroll]').forEach(el=>el.scrollTop=0);});
+     await pause(160);
      await p.screenshot({path:path.join(out,'CAP-8m3-12mo-'+w+'.png')});
      record('cap-8m3-12mo-visual-state',w,'PASS',{ready,reference:'CAP_GUARD02',pixelEquivalence:'NOT_ASSESSED'});
    }catch(e){mark('cap-8m3-12mo-visual-state',w,e,{url:p.url()});}
