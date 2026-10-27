@@ -41,6 +41,7 @@ try{for(const [width,height] of [[375,812],[390,844]]){
       count:document.querySelectorAll('.store-row').length,
       first:document.querySelector('.store-row')?.dataset.storeId}));
    assert(list.count>0);assert(list.first.startsWith('MK_'));
+   assert.equal(await outer.locator('.store-row .rating').count(),0,'unknown historical ratings must not show fabricated 0.0');
    await p.screenshot({path:path.join(out,'MK-S01-'+width+'.png')});
    await rows.first().locator('[data-store]').first().click();
    await outer.locator('.unit-row[data-unit]').first().waitFor({timeout:9000});
