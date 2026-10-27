@@ -139,7 +139,7 @@
       withdrawLead(id){const lead=[...s.leads,...s.enterpriseLeads].find(l=>l.id===id);if(!lead)fail('LEAD_NOT_FOUND');lead.status='withdrawn';},
       clearSelection(){s.selected=[];invalidate();},
       select(ids){if(!selectionValid(ids))fail('UNAVAILABLE');s.selected=[...ids];s.storeId=unit(ids[0]).store_id;invalidate();},
-      setCity(city){if(!['北京','上海','深圳','广州'].includes(city))fail('INVALID_CITY');s.city=city;s.locationAuthorized=false;s.selected=[];s.storeId=null;invalidate();},
+      setCity(city){if(!['北京','上海','深圳','广州','杭州'].includes(city))fail('INVALID_CITY');s.city=city;s.locationAuthorized=false;s.selected=[];s.storeId=null;invalidate();},
       setDate(v){if(!validDate(v))fail('SELECT_DATE');s.startDate=v;s.dateConfirmed=true;invalidate();},
       setStore(id){if(!store(id)||store(id).city!==s.city)fail('INVALID_STORE');s.storeId=id;},
       setReturn(page){s.returnPage=page;},
