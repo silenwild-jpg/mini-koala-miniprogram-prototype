@@ -12,13 +12,14 @@
     if(!fixture||fixture.synthetic!==true||!fixture.version||!Array.isArray(fixture.stores)||!Array.isArray(fixture.units))
       fail('FIXTURE_NOT_AUTHORIZED');
     const stores=new Map(),units=new Map();
-    for(const s of fixture.stores){if(!/^SIM_/.test(s.id)||stores.has(s.id))fail('STORE_NAMESPACE');stores.set(s.id,s);}
-    for(const u of fixture.units){if(!/^SIM_/.test(u.id)||units.has(u.id)||!stores.has(u.store_id))fail('UNIT_NAMESPACE');units.set(u.id,u);}
-    return {stores,units,fixtureVersion:fixture.version};
+    const ns=fixture.sourceNamespace==='MK'?'MK':'SIM',validId=id=>typeof id==='string'&&id.startsWith(ns+'_');
+    for(const s of fixture.stores){if(!validId(s.id)||stores.has(s.id))fail('STORE_NAMESPACE');stores.set(s.id,s);}
+    for(const u of fixture.units){if(!validId(u.id)||units.has(u.id)||!stores.has(u.store_id))fail('UNIT_NAMESPACE');units.set(u.id,u);}
+    return {stores,units,fixtureVersion:fixture.version,sourceNamespace:ns};
   }
   function storeId(fixture,id){
     const catalog=source(fixture),key=String(id||'');
-    if(!catalog.stores.has(key))fail(/^MK_/.test(key)?'LEGACY_STORE_ID_UNMAPPED':'UNKNOWN_STORE_ID');
+    if(!catalog.stores.has(key))fail(/^MK_|^SIM_/.test(key)?'STORE_SOURCE_MISMATCH_OR_UNMAPPED':'UNKNOWN_STORE_ID');
     return key;
   }
   function unitIds(fixture,store,ids){
@@ -34,7 +35,13 @@
     if(!s.requirement.term_confirmed||!Number.isInteger(s.requirement.term_months)||s.requirement.term_months<1||s.requirement.term_months>60)fail('TERM_UNCONFIRMED');
     if(!s.dateConfirmed||!s.startDate)fail('DATE_UNCONFIRMED');
     if(!core.authorized())fail('PHONE_UNVERIFIED');
-    return {source:VERSION,fixtureVersion:fixture.version,store_id:s.storeId,unit_ids:ids,term_months:s.requirement.term_months,start_date:s.startDate};
+    return {source:VERSION,fixtureVersion:fixture.version,
+      catalogNamespace:fixture.sourceNamespace==='MK'?'MK':'SIM',
+      unit_identity_type:fixture.sourceNamespace==='MK'?'SIZE_OPTION':'SIMULATED_UNIT',
+      size_option_ids:fixture.sourceNamespace==='MK'?[...ids]:[],
+      representative_unit_nos:fixture.sourceNamespace==='MK'?ids.map(id=>source(fixture).units.get(id).representative_unit_no):[],
+      pricing_origin:fixture.sourceNamespace==='MK'?'historical_prediscount_base_demo_formula':'synthetic_demo_price',
+      store_id:s.storeId,unit_ids:ids,term_months:s.requirement.term_months,start_date:s.startDate};
   }
   function quote(core,q=core.state().quote){
     const intent=selection(core);
