@@ -34,7 +34,7 @@
   function entry(scene){sessionStorage.removeItem('mk_estimate_return_v4');sessionStorage.setItem('mk_entry_context_v3',JSON.stringify({scene,source:'home',id:Date.now()}));go('cap.html');}
   function dispatch(a){
     if(a==='首页')return;
-    if(a.includes('城市')||a.includes('搜索')){show('城市与门店搜索','<label for="home-city">选择城市</label><select id="home-city" aria-label="选择城市">'+['北京','上海','深圳','广州'].map(x=>`<option ${core.state().city===x?'selected':''}>${x}</option>`).join('')+'</select><label for="home-search">门店或区域</label><input id="home-search" aria-label="搜索门店或区域" placeholder="输入门店名或区域">'+option('search','查看门店','',true));return;}
+    if(a.includes('城市')||a.includes('搜索')){show('城市与门店搜索','<label for="home-city">选择城市</label><select id="home-city" aria-label="选择城市">'+['北京','上海','深圳','杭州','广州'].map(x=>`<option ${core.state().city===x?'selected':''}>${x}</option>`).join('')+'</select><label for="home-search">门店或区域</label><input id="home-search" aria-label="搜索门店或区域" placeholder="输入门店名或区域">'+option('search','查看门店','',true));return;}
     if(a.includes('估大小')){entry(null);return;}
     if(/搬家过渡|装修暂存|行李寄存|换季收纳|兴趣收藏|闲置物品/.test(a)){entry(a.split(' →')[0]);return;}
     if(a.includes('预约订单')){orderMenu();return;}
