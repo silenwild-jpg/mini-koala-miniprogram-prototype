@@ -1,0 +1,346 @@
+{
+  "checks": [
+    {
+      "width": 375,
+      "name": "home public three cubic references without legacy marketing",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "content viewport has requested dimensions",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "CAP preserves unconfirmed lease",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "CAP requires explicit lease and stays on page",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "CAP lease options have no blanket promo",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "QUOTE uses shared phone gate",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "gate cancellation retains capacity and term",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S5 formal rent caption and single facts source",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "O01 same rent and distinct first payable",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "O01 no automatic date; pay button inside frame",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S01 independent first-two expansion and max-two previews",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S01 order hot area enlarged without visible height change",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S01 configured N P L PL require active authenticated context",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S01 independent first-two expansion and max-two previews",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S01 order hot area enlarged without visible height change",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S01 configured N P L PL require active authenticated context",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S02 keeps qualified same-unit promo inventory and whole-term price",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "S02 plain text line bound and no new item icons",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "journey shell fills mobile content viewport",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "enterprise separate form has no blanket discount tags",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "enterprise inherits lease and shares preview width",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "no match invents no matching previews",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "soldout has no enabled order action",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "home content viewport 390 by 844",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "home three public references and no legacy activity",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "home unit and helper text enlarged",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "CAP no default confirmed lease",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "CAP missing term prompts and stays",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "CAP no blanket promo badges",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "QUOTE opens shared verification",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "gate cancel retains capacity and lease",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S5 formal caption and qualified nonduplicate facts",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "O01 same rent and correct first payable",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "O01 date empty and CTA within content viewport",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S01 first two stores and max two previews retained",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S01 transparent hot area keeps 36px silhouette",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S02 stays direct order with two-line plain text",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "unverified S5 reference is never called term rent",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "N P L PL facts match authenticated single-unit context",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "S02 same 2600 unit promo and scarcity",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "new shell has 390x844 content size",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "enterprise no blanket term discounts and separate company field",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "enterprise keeps six month demand and uniform width",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "no matching previews fabricated",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "soldout prevents enabled order actions",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "375 S5 public reference caption distinct from formal rent",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "375 S5 qualified scarcity preserved without duplicate facilities",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "390 S5 qualified inventory text stays present",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "390 items workbench keeps empty-entry structure and fills viewport",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "390 personal reservation stays address-only lead path",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "390 quick rent caption and no repeated verification",
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "390 unselected store does not claim no Beijing stores",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "375 workbench keeps default empty entry and fills viewport",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "375 personal reservation remains address-only lead entry",
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "name": "375 quick order preserves verified contact and rent meaning",
+      "status": "PASS"
+    },
+    {
+      "width": "standalone",
+      "name": "fresh standalone S01 to O01 with no console errors",
+      "status": "PASS",
+      "contentViewport": [
+        390,
+        720
+      ]
+    },
+    {
+      "width": 390,
+      "name": "transparent button extension participates in browser hit testing",
+      "status": "PASS"
+    }
+  ],
+  "sizes": [
+    375,
+    390
+  ],
+  "mode": "IAB content frames with verified client dimensions",
+  "notes": [
+    "Preliminary run found and fixed O01 title selector before final run."
+  ],
+  "attempts": [
+    {
+      "check": {
+        "width": 375,
+        "name": "home content viewport 390 by 844",
+        "status": "FAIL"
+      },
+      "resolution": "Harness width closure corrected before 390 run; not a product change."
+    },
+    {
+      "check": {
+        "width": 390,
+        "name": "390 quick order retains quote context without repeated verification",
+        "status": "FAIL"
+      },
+      "resolution": "Quick page title is 快捷下单, not 立即下单. Added explicit price caption and factual unselected-store copy, then rechecked."
+    }
+  ],
+  "width": 390,
+  "frameRects": {
+    "375": {
+      "height": 812,
+      "width": 375,
+      "x": 456.5,
+      "y": 275.59375
+    },
+    "390": {
+      "height": 844,
+      "width": 390,
+      "x": 471.5,
+      "y": 275.59375
+    }
+  },
+  "consoleErrorsAfterFix": [
+    {
+      "level": "error",
+      "message": "Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.",
+      "timestamp": "2026-10-27T01:02:24.586Z"
+    }
+  ],
+  "freshStandaloneSmoke": {
+    "result": "PASS",
+    "errors": []
+  },
+  "observerNote": "One unassigned MutationObserver observation occurred during nested comparison inspection. Product demo source contains no MutationObserver call. Fresh standalone S01-to-O01 run has zero console errors; original observation retained without claiming attribution or production clearance."
+}

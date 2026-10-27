@@ -1,0 +1,451 @@
+[
+  {
+    "file": "375-auth-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-auth-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-booking-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-booking-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-business-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-business-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-business-comparison.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-business-comparison.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-CAP-unconfirmed.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-CAP-unconfirmed.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-home-comparison.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-home-comparison.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-items-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-items-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-O01-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-O01-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-quick-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-quick-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-S01-browse-comparison.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-S01-browse-comparison.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-S01-facts-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-S01-facts-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-S02-browse-comparison.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-S02-browse-comparison.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-S02-facts-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-S02-facts-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-S5-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-S5-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-S5-qualified-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-S5-qualified-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-S5-reference-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-S5-reference-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "375-soldout-after.png",
+    "full_capture_size": [
+      1265,
+      1187
+    ],
+    "content_viewport": [
+      375,
+      812
+    ],
+    "raw_file": "raw/375-soldout-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-booking-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-booking-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-business-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-business-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-CAP-unconfirmed.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-CAP-unconfirmed.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-home-comparison.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-home-comparison.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-items-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-items-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-O01-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-O01-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-quick-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-quick-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S01-browse-comparison.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S01-browse-comparison.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S01-facts-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S01-facts-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S02-browse-comparison.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S02-browse-comparison.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S02-facts-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S02-facts-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S5-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S5-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S5-inventory-detail-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S5-inventory-detail-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S5-qualified-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S5-qualified-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-S5-reference-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-S5-reference-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "390-soldout-after.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": [
+      390,
+      844
+    ],
+    "raw_file": "raw/390-soldout-after.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "fresh-standalone-order.png",
+    "full_capture_size": [
+      1280,
+      720
+    ],
+    "content_viewport": null,
+    "raw_file": "raw/fresh-standalone-order.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  },
+  {
+    "file": "review-final.png",
+    "full_capture_size": [
+      1265,
+      1219
+    ],
+    "content_viewport": null,
+    "raw_file": "raw/review-final.png",
+    "note": "Full-page IAB capture; focus/ is a reading crop using recorded actual iframe rectangle, not a resized viewport."
+  }
+]

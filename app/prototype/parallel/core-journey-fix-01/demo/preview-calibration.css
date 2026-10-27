@@ -1,0 +1,12 @@
+/* Preview boundary only. Original artwork, status bars, internal card layouts and brand palettes stay in their page files. */
+html{scrollbar-width:none}html::-webkit-scrollbar{display:none}
+body[data-preview-surface]{margin:0;overflow-x:hidden}
+body[data-preview-surface="journey"] .app-shell{width:min(100%,390px);max-width:390px;height:100dvh;min-height:0;margin:0 auto;border:0;border-radius:0;box-shadow:none}
+body[data-preview-surface="journey"] .demo-settings{position:fixed;top:0;left:auto;right:0;width:auto;height:auto;background:transparent;z-index:45}
+body[data-preview-surface="journey"] .demo-settings summary{height:14px;line-height:14px;font-size:9px;color:#72877b}
+body[data-preview-surface="journey"] .demo-settings[open] .demo-toolbar{top:18px;left:auto;right:0;width:min(350px,100vw);transform:none}
+body[data-preview-surface="home"] .phone{height:100dvh;max-height:none;border-radius:0;box-shadow:none}
+body[data-preview-surface="capacity"] .screen{max-width:390px}
+body[data-preview-surface="items"] #app{max-width:390px;margin:0 auto}
+body[data-preview-surface="business"]{max-width:390px;margin:0 auto}
+body[data-preview-surface="business"] .actions{max-width:390px}

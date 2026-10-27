@@ -1,9 +1,11 @@
-# BR03-PROMO-COPY-01 门店预览与仓位信息候选
+# VISUAL-CONSISTENCY-01 第一批视觉一致性校准
 
-运行 START_BR03.cmd，打开 http://127.0.0.1:4260/br03-review.html 。已有服务可直接访问。
+运行 START_CONSISTENCY.cmd；已有服务可直接访问 http://127.0.0.1:4270/consistency-review.html?width=390 。对照左侧为4260上一候选，右侧为4270新候选。双方使用不同会话，比较正式金额时需设置相同条件。
 
-本候选基于 WX-NATIVE-01E 的 963b3509748914b71cacf4ecbdf9092d6f9a6fbc，新增 S01 独立展开、S01/S02 绿色立即下单、同源促销/库存状态和适用物品文案。实现报告在仓库 docs/BR03_PROMO_COPY_01_IMPLEMENTATION.md，视觉复查在仓库 design-qa.md。
+本批移除无活动依据的常驻营销标签，统一参考价/整期租金/首次应付的语义，统一外层预览宽高，并定向放大首页辅助文字及S01/S02按钮热区。原四分支已签收内部结构、图片和核心核价/验证守卫保持。
 
-新清单为 BR03_PROMO_COPY_01_MANIFEST.json。原 WX_NATIVE_01E_MANIFEST.json、PROJECT_MANIFEST_SHA256.json 和 GIT_INTAKE.json 仅记录此前快照，不能用于判断本候选文件是否完整。4260 与父候选 4240 为两个独立目录。
+123组模型、26个外部脚本语法、4段内联脚本语法、57项IAB检查通过（375×812与390×844内容视口各28项、独立页面1项）。160个已跟踪图片文件（包含历史证据）、7个核心/守卫/活动文件，以及CAP22个和物品页40个内嵌图均与基线字节一致。
 
-状态：已实现；111 组模型、24 个脚本语法、两种手机尺寸共 42 项浏览器检查通过；等待用户视觉验收。Draft PR 按 feature/wx-native-01e 叠放，未合并中央分支，Release Gate HOLD。实际微信、短信、库存、支付服务尚未连接。
+边界：旧根目录继承测试18 PASS / 12 FAIL / 10 NOT RUN；12项失败在原8a0003d候选复跑同样失败，不能把整库回归写成通过。嵌套观察时有1条未归因MutationObserver异常，独立页面S01→O01复查日志为0错误；原始记录保留。真实微信、短信、库存、支付及真机均未验收。
+
+当前仅第一批局部候选完成并通过相应复查，待用户视觉签收，中央未合并，Release Gate HOLD。物品默认列表、S02定位、企业介绍压缩和新图片未实施。新清单为VISUAL_CONSISTENCY_01_MANIFEST.json，旧清单保留为历史快照。

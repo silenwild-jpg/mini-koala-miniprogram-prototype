@@ -1,0 +1,104 @@
+{
+  "baseline": "8a0003d11b966818b8143ae2c473ecdcb5fa8622",
+  "candidate_failures": 12,
+  "same_failures_on_baseline": 12,
+  "results": [
+    {
+      "file": "qa/test_ux_simplification_v1.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "PASS 01 hero assurance block removed without deleting lower proof\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(h.includes('<span class=\"task-action\">30秒快速报价 →</span>'))\n\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_ux_simplification_v1.cjs:14:47\n    at check (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_ux_simplification_v1.cjs:12:25)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_ux_simplification_v1.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_store_card_unification_v1.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "PASS 1 real matching: one capacity option and two physical spaces\nPASS 2 real matching: multiple capacity options produce min-max capacities\nPASS 3 real matching: displayed starting term price is cheapest matching unit\nPASS 4 zero-match case cannot claim physical matches\nPASS 5 invalid term does not create total\nevalmachine.<anonymous>:2\n  return window.MINI_KOALA_UXB_TAGS.forStore(id,demoActivityFor(id));\n  ^\n\nReferenceError: window is not defined\n    at storeDemoTags (evalmachine.<anonymous>:2:3)\n    at Object.makeCard (evalmachine.<anonymous>:57:58)\n    at card (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_store_card_unification_v1.cjs:34:79)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_store_card_unification_v1.cjs:36:14)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_s01_filter_sort_refinement_v1.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "des\nPASS service selection can be cancelled without applying\nPASS one-tap distance and sort change handlers use same model\nPASS explicit filters never automatically add supplemental stores\nPASS browse versus demand store card dual-fact structure stays stable\nPASS sort by monthly browse price and exact-term demand total\nPASS missing term total is not silently ranked with monthly price\nPASS sort panel labels and selected value reflect mode\nPASS distance current selection and active state reflect actual filter\nevalmachine.<anonymous>:2\n  let ids=baseOrder().filter(passesQuickFilters);\n                             ^\n\nReferenceError: passesQuickFilters is not defined\n    at Object.filteredOrder (evalmachine.<anonymous>:2:30)\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_s01_filter_sort_refinement_v1.cjs:86:40\n    at check (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_s01_filter_sort_refinement_v1.cjs:6:35)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_s01_filter_sort_refinement_v1.cjs:81:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_phase3a_controlled_patch.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: missing source section const PHASE3A_QUICK_PRESETS=\n    at part (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_phase3a_controlled_patch.cjs:6:89)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_phase3a_controlled_patch.cjs:7:191)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_phase3a_independent_fix_v11.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "PASS P1-01 new known-size flow resets stale range mode and fields\nPASS P1-03 S02 valid source capacity, term and customer inherited on known selection\nPASS P1-03 source with invalid/missing capacity behaves as fresh flow\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(direct.includes('state.knownSize=hasSourceSize?sourceSize:null'))\n\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_phase3a_independent_fix_v11.cjs:22:72\n    at test (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_phase3a_independent_fix_v11.cjs:4:38)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_phase3a_independent_fix_v11.cjs:21:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_s01_ux_continuity_patch_v1.js",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "evalmachine.<anonymous>:9\n    state.travelOverride=b2b.travel_mode||inherited.travel_mode||'drive';\n                                          ^\n\nReferenceError: inherited is not defined\n    at evalmachine.<anonymous>:9:43\n    at evalmachine.<anonymous>:12:6\n    at Script.runInContext (node:vm:149:12)\n    at Object.runInContext (node:vm:301:6)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_s01_ux_continuity_patch_v1.js:13:4)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_navigation_vnext.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(start>0&&end>start)\n\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_navigation_vnext.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_combo_recommendation_v1.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(s1.includes(\"'近地铁','新开门店','双11大促','24小时','电梯直达','热门','仓型齐全','免押金'\"))\n\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_combo_recommendation_v1.cjs:30:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_combo_physical_fit_p0.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "m details is always pending even for real units\nPASS FIT-P0 stock cannot be double consumed and sold-out does not enter recommendation\nPASS FIT-P0 separate measured objects without enough combined physical capacity are rejected\nPASS FIT-P0 combination does not become verified from volume allocation alone\nPASS FIT-P0 same store statuses respect single physical rejection and retain nearby fallback\nnode:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(x.includes('尺寸待核对')||x.includes('尺寸还需核对'))\n\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_combo_physical_fit_p0.cjs:59:113\n    at test (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_combo_physical_fit_p0.cjs:14:38)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_combo_physical_fit_p0.cjs:57:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_demo_price_combo_cleanup.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "node:internal/assert/utils:77\n    throw err;\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(s02.includes('本店暂无合适的单仓，为您找到${combos.length}种组合方案'))\n\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_demo_price_combo_cleanup.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_combo_full_journey_recovery_v21.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "PASS 1 50m³ filters out 1.94m³ while retaining 60m³ larger alternative\nPASS 2 zero-match recommended cards contain only reasonable alternatives\nPASS 3 no near-size option yields no misleading price recommendation\nPASS 4 original five capacities keep valid single, 2-part, 3-part behavior\nevalmachine.<anonymous>:20\n  const combo=quickStoreFilters.has('single')||quickStoreFilters.has('special')?null:row.combo||null;\n              ^\n\nReferenceError: quickStoreFilters is not defined\n    at Object.matchedDataFor (evalmachine.<anonymous>:20:15)\n    at C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_combo_full_journey_recovery_v21.cjs:20:99\n    at test (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_combo_full_journey_recovery_v21.cjs:9:32)\n    at Object.<anonymous> (C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app\\qa\\test_combo_full_journey_recovery_v21.cjs:20:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n\nNode.js v24.22.1\n"
+    },
+    {
+      "file": "qa/test_h01_007_s3_trade_recheck.cjs",
+      "candidate_status": "FAIL",
+      "baseline_status": "FAIL",
+      "baseline_exit": 1,
+      "same_test_bytes": true,
+      "baseline_output": "orders with an order_no and unit\nPASS amountDiff: identical amounts -> no changes\nPASS amountDiff: rent / payable change and coupon loss are reported with labels and amounts\nPASS quoteAmounts / orderAmounts: the record's own price_snapshot wins, legacy fields map when it is missing\nPASS no pricing rule is touched: contractRent / monthlyReference / termFactor unchanged and not referenced by the re-check helpers\nPASS S1 kept: validTerm + MINI_STORAGE_TRADE_SNAPSHOT_V1.confirm + U01 commitTradeRequirement + Q01/O01 confirm() calls\nFAIL S2 kept outside authorized P1 settlement function / C02 transform reset  -- Expected values to be strictly equal:\n+ actual - expected\n\n+ '820ae8769a2f5d3304da73c36907af0b5a5a15569b90afd77e4e98dc2739459d'\n- '397d63dbec777974d358772f4007e78b5e690239f0f6a4f46debe11288b13eef'\n\nPASS price gate untouched (sha256 equals H01-004B / S1 / S2; no invented 48h expiry inside the gate)\nPASS D-07 Q01 expired-quote notice is named, mentions 48h, and hands requote=1 + quoteId to U01\nPASS D-07 Q01 keeps the stale amounts viewable and 保存方案 disabled; 继续 goes to U01 without the stale snapshot\nPASS D-07 U01 re-check block: compares against the saved quote / order, requires acknowledgement, guards goOrder and goQuote\nPASS D-12 H01: PAYMENT_FAILED is a pending task with distinct copy; structure untouched\nPASS D-12 M01: failed order card, badge and goOrder -> O01\nPASS D-12 O01: resume keeps the order's own snapshot, re-checks status / price / inventory / coupon, blocks + offers re-pricing on change\nPASS D-12 O02 untouched: success only from a matching PAID gateway result or an already PAID order\n\n17/18 passed (root=C:\\Users\\silence\\Documents\\Codex\\2026-10-23\\referenced-chatgpt-conversation-this-is-an\\outputs\\GIT_SETUP_02_2026-10-23\\worktrees\\br03-promo-copy-01\\app)\n"
+    }
+  ],
+  "note": "Inherited app-root suite remains partial and failing; not claimed as an active-candidate PASS. No legacy source changed."
+}
