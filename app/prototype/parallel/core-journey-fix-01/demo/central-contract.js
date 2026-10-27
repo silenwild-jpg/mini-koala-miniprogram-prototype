@@ -48,8 +48,10 @@
       fail('QUOTE_COMPONENT_MISMATCH');
     return {...intent,quote_id:q.id,amounts:Object.fromEntries(values.map(k=>[k,q[k]])),coupon_id:q.coupon_id};
   }
-  function order(core,o,q=core.state().quote){
-    const snap=quote(core,q);
+  function order(core,o,snap){
+    // Uses the certified pre-submit snapshot: submit() legitimately reserves inventory.
+    if(!snap||snap.source!==VERSION||snap.fixtureVersion!==core.fixture.version)fail('UNCERTIFIED_QUOTE');
+    unitIds(core.fixture,snap.store_id,snap.unit_ids);
     if(!o||o.kind!=='SIMULATED_ORDER'||o.quote_id!==snap.quote_id||o.store_id!==snap.store_id
       ||JSON.stringify(o.unit_ids)!==JSON.stringify(snap.unit_ids)||o.term_months!==snap.term_months
       ||o.start_date!==snap.start_date)fail('ORDER_SNAPSHOT_MISMATCH');
