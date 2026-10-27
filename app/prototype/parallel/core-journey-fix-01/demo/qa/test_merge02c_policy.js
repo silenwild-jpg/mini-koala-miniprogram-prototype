@@ -49,7 +49,8 @@ const app = fs.readFileSync(path.join(demo, 'app.js'), 'utf8');
 const s5 = fs.readFileSync(path.join(demo, 'br04', 'bridge.js'), 'utf8');
 const entry = fs.readFileSync(path.join(demo, 'index.html'), 'utf8');
 check('S01 and S5 share candidate order and the dependency is loaded', () => {
-  assert(app.includes('REC.rank(matching,'));
+  assert(app.includes('REC.rank(matchingEntries,'));
+  assert(app.includes('const ids=storeOffer(s);'));
   assert(app.includes('REC.rank(rows.sort('));
   assert(s5.includes('offerRows=candidates.slice(0,2)'));
   assert(entry.indexOf('recommendation-policy.js') >= 0);
