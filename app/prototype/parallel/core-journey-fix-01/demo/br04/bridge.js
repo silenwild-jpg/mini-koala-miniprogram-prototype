@@ -61,7 +61,7 @@
     document.querySelector('.no-match>p').textContent=r.capacity_m3?'已保留容量和租期。可调整条件、查看其他门店或联系顾问。':'请先填写容量需求，租期需要您主动选择。';
     offerRows.forEach((row,i)=>{const first=i===0,suffix=first?'main':'secondary',s=row.store;
       document.querySelector(first?'.major-unit h3':'.minor-unit h3').textContent=s.name+' · '+row.volume+'m³'+(row.combo?'组合':'仓');
-      const tags=document.querySelector(first?'.unit-tags':'.minor-tags');tags.innerHTML='<span>'+row.volume+'m³</span><span>'+(row.combo?row.ids.length+'项组合':F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span>';
+      const tags=document.querySelector(first?'.unit-tags':'.minor-tags');tags.innerHTML='<span>'+row.volume+'m³</span><span>'+(row.combo?(F.unitIdentityType==='SIZE_OPTION'?row.ids.length+'项仓型组合':row.ids.length+'项组合'):F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span>';
       $(first?'main-buy':'secondary-buy').disabled=false;
       $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';
       // S5 keeps its own frozen physical-attribute tags and benefits row; BR03 promotional-card rules do not replace them.
