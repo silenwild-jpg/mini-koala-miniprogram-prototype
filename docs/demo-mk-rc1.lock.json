@@ -1,0 +1,89 @@
+{
+  "version": "DEMO-MK-RC1-20261027",
+  "purpose": "internal-product-validation-only",
+  "freeze_source_commit": "e863dead4391567d21b2ed2bd7163b8b618d22bd",
+  "original_main_commit": "97ecfe97df9a880dc66518f914117ed192f622f4",
+  "repo": "silenwild-jpg/mini-koala-miniprogram-prototype",
+  "baseline_pr_chain": [
+    {
+      "pr": 11,
+      "sha": "8bd1ad9a340995d118730314248f783924b3adfb"
+    },
+    {
+      "pr": 12,
+      "sha": "91e6ef31785a64e2d6dfc39af7fec04b0d452666"
+    },
+    {
+      "pr": 13,
+      "sha": "6584b5202db49d2e618c7a678cf79b59823bc610"
+    },
+    {
+      "pr": 14,
+      "sha": "2d72a3d2f4ec71034d699fe71f9395b5d66b6563"
+    },
+    {
+      "pr": 15,
+      "sha": "f6ffcb29fd4c95ca3cd8630562cc2caf1c27ee74"
+    },
+    {
+      "pr": 16,
+      "sha": "c141bec6b35b2d7852a14a6976504b13d4372e9b"
+    },
+    {
+      "pr": 17,
+      "sha": "a6c828476e5208f9b871d4389a82936b72b4ad24"
+    },
+    {
+      "pr": 18,
+      "sha": "fd4babb615b5b16b3040e2c639f7da48c3e3abce"
+    },
+    {
+      "pr": 19,
+      "sha": "e863dead4391567d21b2ed2bd7163b8b618d22bd"
+    }
+  ],
+  "immutable_app_tree": true,
+  "source_blobs": {
+    "app/data/store_master.json": "87c28f095148f0314ed08eee83803c835cf29fda",
+    "app/data/mini_koala_data.js": "6d5a3f9c57e70c32bdf804b8f50d023e3b0c1e9b",
+    "app/prototype/parallel/core-journey-fix-01/demo/fixtures.js": "df080d463ee318382214ab81fbbe9c9fbc3250b5",
+    "app/index.html": "774d52d7f4c6b241556bdccae826a5ed9634588f",
+    "app/central-review-02g.html": "2db6265e714df34725b53147e2334400132974ee"
+  },
+  "runtime": {
+    "web_root": "app/",
+    "entry": "index.html",
+    "mk_entry": "central-review-02g.html?catalog=mk",
+    "sim_entry": "central-review-02g.html?catalog=sim",
+    "legacy_stores": 126,
+    "legacy_size_options": 766,
+    "cities": [
+      "北京",
+      "上海",
+      "深圳",
+      "杭州",
+      "广州"
+    ],
+    "formal_price": false,
+    "physical_unit_assignment": false,
+    "online_payment": false
+  },
+  "acceptance_evidence": [
+    {
+      "area": "MK original source and 375/390 full checkout",
+      "run": 40506474049,
+      "result": "PASS 8/8"
+    },
+    {
+      "area": "five-city S01 S02 S5 375/390",
+      "run": 40508445953,
+      "result": "PASS 12/12"
+    }
+  ],
+  "release_gates": {
+    "internal_demo": "CONDITIONALLY_ACCEPTED",
+    "final_visual_master": "HOLD",
+    "legacy_data_realtime": "NOT_VERIFIED",
+    "main_merge": "HOLD_REQUIRES_EXPLICIT_APPROVAL"
+  }
+}
