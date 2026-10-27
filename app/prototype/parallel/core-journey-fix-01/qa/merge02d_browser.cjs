@@ -3,6 +3,18 @@ const {chromium}=require('playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const out=path.resolve(__dirname,'../evidence/merge02d');
 fs.mkdirSync(out,{recursive:true});
+const freezeSources=path.resolve(__dirname,'../evidence/freeze-recovery/source');
+const comparisonSourceDir=path.join(out,'approved-source');
+fs.mkdirSync(comparisonSourceDir,{recursive:true});
+for(const filename of [
+  'H01_VIS11J.png','CAP_375_GUARD02.png','CAP_390_GUARD02.png',
+  'S01_375_VIS07.png','S01_390_VIS07.png','S02_375_VIS07.png','S02_390_VIS07.png',
+  'S5_source_crop.png','QUICK_source_crop.png','BR04_4pages_handoff.png','ITEMS_390_8states.png'
+]){
+ const src=path.join(freezeSources,filename);
+ if(fs.existsSync(src))fs.copyFileSync(src,path.join(comparisonSourceDir,filename));
+ else console.warn('REFERENCE_MISSING',filename);
+}
 const base='http://127.0.0.1:4270/demo/';
 const results=[];
 (async()=>{
