@@ -63,3 +63,9 @@ body[data-page="reserve"] .under-submit{top:692px}
 /* Calibration: preserve card silhouettes; only qualified facts and readable price context. */
 body[data-page="o01"] .payment-note{font-size:12px;color:#64758a}
 body[data-page="o01"] .discount-tags em{font-size:11px}
+
+/* MERGE-02F: long store/unit option sheets must remain within the phone viewport.
+   Only affects overflow for opened Quick order dialogs; approved visual card styles unchanged. */
+body[data-page="quick"] .modal-sheet{max-height:calc(100% - 24px);display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box}
+body[data-page="quick"] .modal-sheet>header{flex:none}
+body[data-page="quick"] #modal-content{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
