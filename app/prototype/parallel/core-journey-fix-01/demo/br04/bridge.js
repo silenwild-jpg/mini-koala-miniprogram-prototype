@@ -48,7 +48,7 @@
     price.tabIndex=0;price.setAttribute('role','button');price.setAttribute('aria-label',!core.authorized()?'验证手机号查看正式报价':p.kind!=='term'?'请选择租期':'查看费用明细');price.dataset.offer=prefix;
   }
   function renderS5(){
-    const s=core.state(),r=s.requirement;const candidates=r.capacity_m3?B.offers():[];offerRows=candidates.slice(0,1);if(candidates.length>1){const cheapest=[...candidates].filter(x=>x.store.id!==offerRows[0].store.id).sort((a,b)=>r.term_confirmed?core.amounts(a.ids,r.term_months).rent_total-core.amounts(b.ids,r.term_months).rent_total:a.volume-b.volume)[0];if(cheapest)offerRows.push(cheapest);}
+    const s=core.state(),r=s.requirement;const candidates=r.capacity_m3?B.offers():[];offerRows=candidates.slice(0,2);
     $('capacity').innerHTML=(r.capacity_m3??'—')+'<span>m³</span>';
     document.querySelector('.demand>p').textContent=r.capacity_m3?'按已选容量匹配，可返回修改需求':'填写容量后，为您推荐合适仓位';
     text('origin-name',s.city+' · 查看本城门店');
