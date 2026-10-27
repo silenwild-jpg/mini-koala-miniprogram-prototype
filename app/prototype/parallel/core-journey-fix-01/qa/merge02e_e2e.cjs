@@ -77,7 +77,22 @@ try{for(const [width,height] of [[375,812],[390,844]]){
   const text=await frame.locator('body').innerText();
   if(state.requirement?.capacity_m3!==3.5||state.requirement?.term_months!==6||!text.includes('3.5'))throw Error('CAP->S5 context lost '+JSON.stringify({state,text:text.slice(0,180)}));
   await page.screenshot({path:path.join(out,'S5-actual-click-'+width+'.png')});
-  pass('H01-click-CAP-enter-term-S5',width,{demand:state.requirement});
+  const mainBuy=frame.locator('#main-buy');
+  await mainBuy.click();
+  await page.locator('.mk-auth-overlay').waitFor({timeout:7000});
+  const deniedOrderCount=await page.evaluate(()=>window.SIM_DEMO.core.state().orders.length);
+  await page.locator('.mk-auth-close').click();
+  if(deniedOrderCount!==0||containsUrl(page,'page=O01'))throw Error('Anonymous order gate bypassed');
+  await mainBuy.click();
+  await page.locator('#mk-auth-agree').check();
+  await page.locator('[data-auth="wechat"]').click();
+  await page.waitForURL(/page=O01/,{timeout:8000});
+  await page.waitForTimeout(350);
+  const orderState=await page.evaluate(()=>({authorized:window.SIM_DEMO.core.authorized(),selected:window.SIM_DEMO.core.state().selected,requirement:window.SIM_DEMO.core.state().requirement}));
+  const orderText=await page.frameLocator('iframe').locator('body').innerText();
+  if(!orderState.authorized||!orderState.selected.length||!orderText.includes('首次'))throw Error('Verified actual CAP flow did not reach priced O01 '+JSON.stringify({orderState,orderText:orderText.slice(0,300)}));
+  await page.screenshot({path:path.join(out,'O01-from-CAP-click-'+width+'.png')});
+  pass('H01-click-CAP-enter-term-S5-O01',width,{demand:state.requirement,authorized:orderState.authorized,selectedIds:orderState.selected,orderHasPayable:orderText.includes('首次')});
  }catch(e){fail('H01-click-CAP-enter-term-S5',width,e,{url:page.url()});}
  // New visitor home -> booking and quick order select panels
  for(const [key,action,urlPart] of [['BOOKING','booking','page=BOOKING'],['QUICK','quick','page=QUICK']]){
@@ -93,6 +108,20 @@ try{for(const [width,height] of [[375,812],[390,844]]){
    pass('H01-click-'+key,width,{iframeContent:true});
   }catch(e){fail('H01-click-'+key,width,e,{url:page.url()});}
  }
+ // Matched CAP capacity and term for layout comparison with signed 8m³ / 12-month reference.
+ try {
+  await page.goto(root+'cap.html',{waitUntil:'domcontentloaded'});
+  await page.locator('#capacity').fill('8');
+  await page.locator('#capacity').dispatchEvent('input');
+  const select12=page.getByRole('button',{name:/^12\\s*个?月$/}).first();
+  if(await select12.count())await select12.click();
+  else await page.locator('button').filter({hasText:/12\\s*个?月/}).first().click();
+  await page.waitForTimeout(280);
+  const enabled=!(await page.locator('#cta').isDisabled());
+  if(!enabled)throw Error('8m3/12m CTA disabled');
+  await page.screenshot({path:path.join(out,'CAP-8m3-12months-'+width+'.png')});
+  pass('CAP-8m3-12mo-reference-state',width,{capacity:8,term:12});
+ } catch(e) {fail('CAP-8m3-12mo-reference-state',width,e,{url:page.url()});}
  await ctx.close();
 }}finally{await browser.close();}
 fs.writeFileSync(path.join(out,'e2e-results.json'),JSON.stringify({cases:results,summary:results.reduce((a,r)=>(a[r.status]=(a[r.status]||0)+1,a),{})},null,2));
