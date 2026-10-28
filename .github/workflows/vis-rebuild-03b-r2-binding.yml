@@ -1,0 +1,57 @@
+name: VIS-REBUILD-03B R2 isolated RC1 binding
+on:
+  push:
+    branches:
+      - visual/vis-rebuild-03b-r2-isolated-binding-20261028
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  r2-contract-and-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JS syntax and unchanged original source contract
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          set -e
+          node --check demo/app.js
+          node --check demo/s01-r2-bind.js
+          node --check qa/test_vis_rebuild_03b.cjs
+          MK_CATALOG_MODE=MK node qa/test_merge02j_legacy.cjs
+          node qa/test_merge02g_contract.js
+          node qa/test_merge02i_policy.js
+          node demo/qa/test_model.js
+          node demo/qa/test_mainchain_decision.js
+      - name: Chromium and fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Real S01 R2 opt-in screenshots and end-to-end phone/order guard
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/vis03b-http.log 2>&1 &
+          PID=$!
+          trap 'kill "$PID" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03b.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Private screenshots and test receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-REBUILD-03B-R2-MK-SIM-375-390
+          path: |
+            app/prototype/parallel/core-journey-fix-01/evidence/vis-rebuild-03b/
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+          if-no-files-found: warn
+          retention-days: 14
