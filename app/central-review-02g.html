@@ -14,6 +14,7 @@
 'use strict';
 const f=SIM_FIXTURES,c=SIM_CENTRAL_CONTRACT_V1,p=new URLSearchParams(location.search);
 try{
+ if(p.get('s01_r2')==='1'){document.title='迷你考拉仓';document.getElementById('central-host').title='迷你考拉仓';}
  const page=(p.get('page')||'H01').toUpperCase(),store=p.get('store'),unit=p.get('unit');
  let stored=null;try{stored=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'null');}catch{}
  // A user must arrive at O01 from the in-app purchase action, not forge a page query.

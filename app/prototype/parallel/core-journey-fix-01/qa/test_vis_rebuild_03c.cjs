@@ -31,6 +31,7 @@ function pixelDiff(before,after,masks,file){
  fs.writeFileSync(file,PNG.sync.write(diff));return {rawMAE:total/(a.width*a.height),outsideContentMAE:unmasked/count,outsideContentChangedFraction:changed/count,maskedContentSlots:maskSelector};
 }
 async function visibleText(frame){return frame.locator('body').evaluate(body=>{const walk=(d)=>[...d.querySelectorAll('body')].map(x=>x.innerText).join('\n')+[...d.querySelectorAll('iframe')].map(x=>x.contentDocument?walk(x.contentDocument):'').join('\n');return walk(body.ownerDocument);});}
+async function titles(page){return page.evaluate(()=>{const walk=d=>d.title+[...d.querySelectorAll('iframe')].map(f=>f.title+(f.contentDocument?walk(f.contentDocument):'')).join('');return walk(document);});}
 async function run(browser,width,height,source){
  const ctx=await browser.newContext({viewport:{width,height},locale:'zh-CN',deviceScaleFactor:1});
  const p=await ctx.newPage(),outer=p.frameLocator('#central-host'),s01=outer.frameLocator('#s01-r2-frame');
@@ -43,6 +44,7 @@ async function run(browser,width,height,source){
   assert.equal(initial.bg,'rgb(255, 255, 255)');assert(!initial.overflow);assert(!/演示|模拟|示意|测试|undefined|仓型预览|参考价说明/.test(initial.text));
   assert(initial.cards.every(s=>s.tags.length===3&&s.loaded&&/^\d+\.\dkm$/.test(s.distance)&&s.addressFits));
   assert(initial.cards.every(s=>s.id.startsWith(source.toUpperCase()+'_')&&s.units.every(u=>u.id.startsWith(source.toUpperCase()+'_'))));
+  assert(!/演示|模拟|示意|测试/.test(await titles(p)),'product/browser/frame title contains internal copy');
   const actual=await p.screenshot({path:path.join(out,`${prefix}-S01.png`)});
   const ref=await ctx.newPage();await ref.goto(`${origin}/prototype/parallel/core-journey-fix-01/evidence/vis-rebuild-03c/A-R2-reference.html`);
   await ref.locator('.store-photo').last().evaluate(img=>img.decode());const reference=await measure(ref);
@@ -75,6 +77,7 @@ async function run(browser,width,height,source){
   else {await outer.locator('[data-auth="sms"]').click();await outer.locator('#mk-auth-phone').fill('13800000000');await outer.locator('[data-auth="send"]').click();await outer.locator('#mk-auth-code').fill('123456');await outer.locator('[data-auth="smsSubmit"]').click();}
   const order=outer.frameLocator('#br04-frame');await order.locator('#store-name').waitFor();assert.equal(await order.locator('#store-name').innerText(),initial.cards[0].name);
   const orderText=await order.locator('body').innerText();assert(!/演示|模拟|示意|测试|undefined/.test(orderText));assert(orderText.includes('6个月'));assert(orderText.includes('3.35')||source==='sim');
+  assert(!/演示|模拟|示意|测试/.test(await titles(p)));
   await p.screenshot({path:path.join(out,`${prefix}-O01.png`)});
   assert.equal(errors.length,0,errors.join('|'));
   records.push({source,width,height,status:'PASS',initial,maxGeometryError,pixelDifference:diff,search:true,region:true,capacity:true,invalidTerm:true,termInherited:true,phoneCancellation:true,phoneMethod:width===375?'wechat':'sms',S02:true,O01:true});
