@@ -39,7 +39,7 @@ function assertHorizontal(doc){const viewport=doc.defaultView.innerWidth;const w
       assert(info.ids.every(x=>x.startsWith('MK_')),'found cross-source store');
       assert.equal(info.badRating,false,'no rating should be invented');
       assert(info.images.every(x=>x.loaded&&x.alt.includes('示意')),'store photos missing provenance or not loaded');
-      assert(info.distanceText.includes('待定位'),'distance falsely verified');
+      assert(info.distanceText.includes('待定位')||info.distanceText.includes('演示距离'),'unverified distance cannot be presented as real: '+info.distanceText);
       assert(info.root<=info.viewport+3,'S01 clips horizontally');
       await page.screenshot({path:path.join(out,'MK-S01-'+city+'-'+w+'.png')});
       const first=info.ids[0];
