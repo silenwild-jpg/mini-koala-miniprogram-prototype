@@ -33,7 +33,7 @@
   try{Object.assign(r2Filters,JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}'));}catch{}
   function saveR2Filters(){sessionStorage.setItem('mk_s01_r2_filters_v1',JSON.stringify(r2Filters));}
   function r2View(s){
-    if(!r2Orders[s.city])r2Orders[s.city]=REC.rank(F.stores.filter(x=>x.city===s.city&&x.status==='open'),{distanceVerified:F.distanceVerified,costOf:x=>x.teaserCubicPrice}).items.map(x=>x.id);
+    if(!r2Orders[s.city])r2Orders[s.city]=REC.rank(F.stores.filter(x=>x.city===s.city&&x.status==='open'),{distanceVerified:F.distanceVerified,costOf:x=>x.teaserCubicPrice}).items.sort((a,b)=>(F.units.filter(u=>u.store_id===b.id&&core.available(u)).length>=2?1:0)-(F.units.filter(u=>u.store_id===a.id&&core.available(u)).length>=2?1:0)).map(x=>x.id);
     return R2.view(s,Math.max(0,r2Orders[s.city].indexOf(s.id)));
   }
   function r2Store(s){if(!s||!r2Mode()||!R2)return s;const v=r2View(s);return {...s,address:v.address,district:v.district,serviceTags:v.services,facilities:v.services,r2Photo:v.photo};}
@@ -184,6 +184,7 @@
       let stores=visibleS01Stores().filter(s=>r2Filters.region==='all'||r2View(s).district===r2Filters.region);
       const rowsFor=s=>(r.capacity_m3!==null?core.matchingUnits(s.id):F.units.filter(u=>u.store_id===s.id)).filter(u=>core.available(u)&&s.status==='open'&&R2.matches(u.volume,r2Filters.capacity)).sort((a,b)=>a.volume-b.volume);
       if(r2Filters.capacity!=='all')stores=stores.filter(s=>rowsFor(s).length);
+      stores.sort((a,b)=>Math.min(2,rowsFor(b).length)-Math.min(2,rowsFor(a).length));
       return {city:state().city,sourceNamespace:F.sourceNamespace||'SIM',distanceVerified:!!F.distanceVerified,
         authorized:core.authorized(),termConfirmed:r.term_confirmed,termMonths:r.term_months,
         keyword:visual.keyword,storeCount:stores.length,filters:{...r2Filters},
