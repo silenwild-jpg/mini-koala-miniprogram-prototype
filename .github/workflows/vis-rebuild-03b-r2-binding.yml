@@ -1,0 +1,82 @@
+name: VIS-REBUILD-03B R2 isolated RC1 binding
+on:
+  push:
+    branches:
+      - visual/vis-rebuild-03b-r2-isolated-binding-20261028
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  r2-contract-and-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JS syntax and unchanged original source contract
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          set -e
+          node --check demo/app.js
+          node --check demo/s01-r2-bind.js
+          node --check qa/test_vis_rebuild_03b.cjs
+          MK_CATALOG_MODE=MK node qa/test_merge02j_legacy.cjs
+          node qa/test_merge02g_contract.js
+          node qa/test_merge02i_policy.js
+          node demo/qa/test_model.js
+          node demo/qa/test_mainchain_decision.js
+      - name: Chromium and fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Real S01 R2 opt-in screenshots and end-to-end phone/order guard
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/vis03b-http.log 2>&1 &
+          PID=$!
+          trap 'kill "$PID" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03b.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Package runnable isolated RC1 R2 demo (no private QA files)
+        if: success()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile,ZIP_DEFLATED
+          root=Path('app')
+          output=Path('release-evidence/vis-rebuild-03b')
+          output.mkdir(parents=True,exist_ok=True)
+          target=output/'VIS_REBUILD_03B_R2_RC1_Isolated_Runnable_20261028.zip'
+          demo=root/'prototype/parallel/core-journey-fix-01/demo'
+          types={'.html','.js','.css','.json','.svg','.png','.jpg','.jpeg','.webp','.gif','.woff','.woff2','.ico'}
+          files=[root/'central-review-02g.html',root/'index.html']
+          for folder in [demo,root/'assets',root/'prototype/assets']:
+            if folder.exists():
+              for file in folder.rglob('*'):
+                if file.is_file() and file.suffix.lower() in types and not set(file.parts).intersection({'qa','evidence','node_modules','__pycache__'}):
+                  files.append(file)
+          with ZipFile(target,'w',ZIP_DEFLATED,compresslevel=6) as z:
+            for file in sorted(set(files)): z.write(file,str(file.relative_to(root)))
+            z.writestr('VIS_03B_打开方式.txt','迷你考拉仓 VIS-REBUILD-03B R2 隔离绑定演示\\n\\n解压后在文件夹中执行：python -m http.server 4270\\n在浏览器打开：http://127.0.0.1:4270/central-review-02g.html?catalog=mk&page=S01&s01_r2=1\\n原 RC1 对照：http://127.0.0.1:4270/central-review-02g.html?catalog=mk&page=S01\\n内嵌门店照片是获批 A 设计场景示意，并非所显示 MK 门店实拍。历史价格不是实时报价。\\n')
+          assert len(set(files))>200
+          print('VIS03B_RUNNABLE_ZIP_OK',len(set(files)),target.stat().st_size)
+          PY
+      - name: Private screenshots and test receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-REBUILD-03B-R2-MK-SIM-375-390
+          path: |
+            release-evidence/vis-rebuild-03b/VIS_REBUILD_03B_R2_RC1_Isolated_Runnable_20261028.zip
+            app/prototype/parallel/core-journey-fix-01/evidence/vis-rebuild-03b/
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+          if-no-files-found: warn
+          retention-days: 14
