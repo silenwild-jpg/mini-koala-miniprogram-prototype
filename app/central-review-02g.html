@@ -14,13 +14,14 @@
 'use strict';
 const f=SIM_FIXTURES,c=SIM_CENTRAL_CONTRACT_V1,p=new URLSearchParams(location.search);
 try{
+ if(p.get('s01_r2')==='1'){document.title='迷你考拉仓';document.getElementById('central-host').title='迷你考拉仓';}
  const page=(p.get('page')||'H01').toUpperCase(),store=p.get('store'),unit=p.get('unit');
  let stored=null;try{stored=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'null');}catch{}
  // A user must arrive at O01 from the in-app purchase action, not forge a page query.
  const qualified=Boolean(stored&&stored.selected?.length&&stored.auth?.status==='verified'&&stored.quote);
  let url=c.route(f,{page,store,unit,hasEligibleOrderContext:qualified});
  // S01 R2 visual preview is explicit opt-in. Default RC1 page and route contract are unchanged.
- if(page==='S01'&&p.get('s01_r2')==='1')url+=(url.includes('?')?'&':'?')+'s01_r2=1';
+ if(page==='S01'&&['0','1'].includes(p.get('s01_r2')))url+=(url.includes('?')?'&':'?')+'s01_r2='+p.get('s01_r2');
  document.getElementById('central-host').src='prototype/parallel/core-journey-fix-01/demo/'+url;
  document.body.dataset.contract=c.VERSION;
  document.body.dataset.source=f.version;

@@ -9,7 +9,9 @@
   function setUnit(el,u){
     if(!u){el.hidden=true;el.dataset.unitId='';return;}
     el.hidden=false;el.dataset.unitId=u.id;
-    setText(el.querySelector('.capacity'),u.volume+'m³');
+    const capacity=el.querySelector('.capacity');
+    capacity.firstChild.nodeValue=u.volume+'m';
+    setText(capacity.querySelector('sup'),'3');
     setText(el.querySelector('.price strong'),u.price);
     setText(el.querySelector('.price span'),u.suffix);
     setText(el.querySelector('.unit-desc'),u.usage);
@@ -25,9 +27,9 @@
   function fill(card,s){
     card.dataset.storeId=s.id;card.dataset.source='CENTRAL_RC1';
     const photo=card.querySelector('.store-photo');
-    // The photograph is the frozen A-design concept, NOT a real photograph of the MK store.
-    photo.alt='A 方案场景示意，不代表'+s.name+'实际门店摄影';
-    photo.dataset.assetOrigin='A_APPROVED_CONCEPT_ONLY';
+    photo.src=s.photo;
+    photo.alt=s.name+'门店环境';
+    photo.dataset.assetOrigin='A_APPROVED_PROTOTYPE_CONTENT';
     setText(card.querySelector('h2'),s.name);card.querySelector('h2').title=s.name;
     const tags=Array.from(card.querySelectorAll('.store-tags span'));
     tags.forEach((tag,i)=>{tag.hidden=!s.services[i];setText(tag,s.services[i]||'');});
@@ -58,7 +60,16 @@
       const clone=masters[existing.length%2].cloneNode(true);
       stage.append(clone);existing.push(clone);
     }
+    stage.querySelector('[role="status"]')?.remove();
     existing.forEach((card,i)=>i>=state.stores.length?card.remove():fill(card,state.stores[i]));
+    if(!state.stores.length){
+      const empty=document.createElement('p');empty.setAttribute('role','status');
+      empty.textContent='未找到匹配门店，请调整搜索或筛选条件';stage.append(empty);
+    }
+    document.querySelectorAll('.filter').forEach((n,i)=>{
+      n.firstChild.nodeValue=state.filterLabels[i]+' ';
+      n.setAttribute('aria-label',state.filterLabels[i]);
+    });
     if(typeof scaleApprovedReference==='function')scaleApprovedReference();
   }
   stage.addEventListener('click',e=>{
@@ -76,9 +87,14 @@
   document.querySelector('.map-pill')?.addEventListener('click',()=>bridge.action('navigation'));
   document.querySelectorAll('.filter').forEach((n,i)=>{
     n.setAttribute('role','button');n.tabIndex=0;
-    const action=()=>i===0?bridge.action('city'):i===1?bridge.action('go','CAP'):bridge.action('term');
+    const action=()=>bridge.filter(i);
     n.addEventListener('click',action);
     n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action();}});
   });
+  for(const [selector,label] of [['.nav-back','返回首页'],['.nav-target','切换城市'],['.map-pill','地图']]){
+    const n=document.querySelector(selector);n.removeAttribute('aria-hidden');
+    n.setAttribute('role','button');n.setAttribute('aria-label',label);n.tabIndex=0;
+    n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();n.click();}});
+  }
   window.S01_R2_REFRESH=render;render();
 })();
