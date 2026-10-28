@@ -1,0 +1,77 @@
+name: VIS-REBUILD-03A-R1 A-reference isolated static QA
+on:
+  push:
+    branches:
+      - visual/vis-rebuild-03a-r1-pixel-faithful-20261028
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-original-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Browser dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Test 358 original width, 375 and 390 / no structural invention
+        run: |
+          node <<'NODE'
+          const fs=require('fs'),path=require('path'),assert=require('assert/strict');
+          const {chromium}=require('playwright');
+          (async()=>{
+            const html=fs.readFileSync('design/vis-rebuild-03a-r1/S01_A_pixel_structure_standalone.html','utf8');
+            assert(html.includes('data:image/webp;base64,'));
+            const out='evidence/vis-rebuild-03a-r1';fs.mkdirSync(out,{recursive:true});
+            const b=await chromium.launch({headless:true,args:['--no-sandbox']}),results=[];
+            try{
+              for(const [width,height] of [[358,812],[375,812],[390,844]]){
+                const page=await b.newPage({viewport:{width,height},deviceScaleFactor:1,locale:'zh-CN'});
+                const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+                await page.setContent(html,{waitUntil:'load'});
+                const a=await page.evaluate(()=>({
+                  background:getComputedStyle(document.body).backgroundColor,
+                  rootWidth:document.documentElement.scrollWidth, viewport:innerWidth,
+                  stores:document.querySelectorAll('.store-card').length,
+                  units:document.querySelectorAll('.unit').length,
+                  filters:document.querySelectorAll('.filter').length,
+                  extra:[...document.querySelectorAll('h2,.filter,.unit,.store-preview-toggle,.store-more')].filter(e=>/仓型预览|收起|查看更多|需求/.test(e.textContent||'')).length,
+                  photos:[...document.querySelectorAll('.store-photo')].map(e=>({y:e.getBoundingClientRect().y,loaded:e.complete&&e.naturalWidth>0})),
+                  kilometers:[...document.querySelectorAll('.km')].map(e=>e.textContent.trim()),
+                  text:document.querySelector('main')?.innerText||''
+                }));
+                assert.equal(a.background,'rgb(255, 255, 255)');
+                assert.equal(a.stores,2);assert.equal(a.units,4);assert.equal(a.filters,3);assert.equal(a.extra,0);
+                assert(a.rootWidth<=width+1);assert(a.photos.every(x=>x.loaded));
+                assert.deepEqual(a.kilometers,['演示 1.2km','演示 3.6km']);
+                assert(!a.text.includes('仓型预览')&&!a.text.includes('查看更多'));
+                assert.equal(errors.length,0);
+                if(width===358){
+                  assert(Math.abs(a.photos[0].y-148)<=4);
+                  assert(Math.abs(a.photos[1].y-499)<=5);
+                }
+                await page.screenshot({path:path.join(out,'S01_A_R1_'+width+'_viewport.png')});
+                await page.screenshot({path:path.join(out,'S01_A_R1_'+width+'_full.png'),fullPage:true});
+                results.push({width,height,status:'PASS',stores:a.stores,units:a.units,filters:a.filters,extra:a.extra,photos:a.photos});
+                await page.close();
+              }
+            }finally{await b.close()}
+            fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({result:'PASS',visualSigned:false,tests:results},null,2));
+            console.log('VIS_REBUILD_03A_R1_RESULT',JSON.stringify({pass:results.length,fail:0}));
+          })().catch(e=>{console.error(e.stack);process.exitCode=1});
+          NODE
+      - name: Keep internal browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-REBUILD-03A-R1-A-STRUCTURE-358-375-390
+          path: evidence/vis-rebuild-03a-r1/
+          if-no-files-found: warn
+          retention-days: 14
