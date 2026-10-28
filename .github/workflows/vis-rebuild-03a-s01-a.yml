@@ -1,0 +1,54 @@
+name: VIS-REBUILD-03A approved S01 A white and km visual QA
+on:
+  push:
+    branches:
+      - visual/vis-rebuild-03a-s01-approved-a-white-distance-20261028
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s01-a-375-390:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate syntax and unchanged business model
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          set -e
+          node --check demo/app.js
+          node --check qa/test_vis_rebuild_03a.cjs
+          MK_CATALOG_MODE=MK node qa/test_merge02j_legacy.cjs
+          node qa/test_merge02g_contract.js
+          node qa/test_merge02i_policy.js
+      - name: Install chromium and Chinese fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Approved A design full-height 375 and 390 screenshots
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/s01vis03a-http.log 2>&1 &
+          P=$!
+          trap 'kill "$P" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03a.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Upload screenshots and browser test receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-REBUILD-03A-S01-A-375-390-EVIDENCE
+          path: |
+            app/prototype/parallel/core-journey-fix-01/evidence/vis-rebuild-03a/
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+          retention-days: 14
+          if-no-files-found: warn
