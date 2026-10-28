@@ -1,12 +1,12 @@
 {
   "task": "VIS-REBUILD-03C",
   "status": "PASS",
-  "runtime_commit": "bcc097163fcba9506860a33f7056bdf7fec49f6d",
+  "runtime_commit": "11f5794dfcf22bfbdd16493b72c8c7247b33faa4",
   "base_commit": "f67505dcf27d724b4378d195e13424fb95f77eb2",
   "main_unchanged": "46cfdc8e8026098e20f988b8007c96b8f2be4789",
   "pull_request": "https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/27",
-  "actions_run": 40698077855,
-  "artifact_id": 12820955672,
+  "actions_run": 40700590358,
+  "artifact_id": 12821282145,
   "R2_cases": 16,
   "legacy_MK": 8,
   "legacy_five_city": 12,
@@ -61,5 +61,6 @@
     }
   ],
   "human_signoff": false,
-  "reference": "PR26 R2 source template, not the absent full original A upload"
+  "reference": "PR26 R2 source template, not the absent full original A upload",
+  "browserAndFrameTitles": "PASS"
 }

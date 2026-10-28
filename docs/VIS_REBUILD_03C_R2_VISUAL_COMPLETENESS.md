@@ -34,16 +34,16 @@
 
 原模板与候选截图保持同一浏览器、字体、尺寸和 DPR1；逐节点记录几何误差。全图 MAE 包含用户授权变化的店名、价格等文字；另外只对明确列出的内容槽位做遮罩，报告槽位外 MAE，照片和卡片边界不遮罩。两种误差都不是人工视觉签收比例。
 
-已通过的运行提交：`bcc097163fcba9506860a33f7056bdf7fec49f6d`。
+已通过的运行提交：`11f5794dfcf22bfbdd16493b72c8c7247b33faa4`。
 
-- [GitHub Actions #40698077855](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/40698077855)：**SUCCESS**。R2 验收 **16/16 PASS**（MK/SIM × 两尺寸 4 条完整链路、MK 五城市 × 两尺寸 10 项、同会话 RC1 回退 2 项）；原 MK 业务 **8/8 PASS**；原五城市旧页面 **12/12 PASS**。
+- [GitHub Actions #40700590358](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/40700590358)：**SUCCESS**。R2 验收 **16/16 PASS**（MK/SIM × 两尺寸 4 条完整链路、MK 五城市 × 两尺寸 10 项、同会话 RC1 回退 2 项）；原 MK 业务 **8/8 PASS**；原五城市旧页面 **12/12 PASS**。
 - 源/模型回归：MK 126 店/766 选项来源合同；中央契约 6 组；推荐规则 6 组；SIM 模型 25 组；主链状态 12 组，均 PASS。
 - 独立 Windows IAB：375×812、390×844 原模板与动态页各 **32 个节点最大几何误差 0px**；搜索、区域/容量、S02 返回、手机号取消、微信/SMS（含错误验证码）→O01 已实际操作并存图。
 - CI Chromium 同图：四个 MK/SIM 双尺寸主态的最大几何误差均 **0px**。MK 全图 RGB MAE 为 **3.4085 / 3.4357**（375 / 390，0–255 尺度，包含授权文字变化）；内容槽位之外 MAE 为 **0.000149 / 0.000161**，变化超过 12/255 的像素比例为 **0**。没有把遮罩内的改动计成“像素一致”。
 - 两张 A 摄影导出文件 SHA256：`fac869267ebc745b2dbe6ac7a989cbee041beb6af9a22986921c1718c52c0daf`、`314d46abfcc8a8cf84611a05265d5a37688d00705664d546411e43db281653fc`，与基点内嵌数据字节相同。
-- [私有截图及 JSON Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/40698077855/artifacts/12820955672)：41 文件，ZIP CRC PASS，SHA256 `95638c92026a4cc255d86734e7586dd08a6e013522d82fea100d404a0ff85c6d`。
+- [私有截图及 JSON Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/40700590358/artifacts/12821282145)：41 文件，ZIP CRC PASS，SHA256 `3d64e63867e5922cc368ccac3b1f1ac4ed69637a0239781dfe07b05e3a9f5bc3`。
 
-首轮回归暴露 SIM 空库存门店抢占第二展示位，已在 R2 视图内修复为优先显示有完整可租仓型的门店，不制造库存；第二轮脚本曾错误期待广州空目录，核实当前实际 8 店后修正为真实城市断言。上述 SUCCESS 来自修复后的完整重跑。人工最终视觉签收未代签。
+首轮回归暴露 SIM 空库存门店抢占第二展示位，已在 R2 视图内修复为优先显示有完整可租仓型的门店，不制造库存；第二轮脚本曾错误期待广州空目录，核实当前实际 8 店后修正为真实城市断言。上述 SUCCESS 来自修复后的完整重跑。浏览器标签页和 iframe 无障碍标题也已纳入禁用词检查并通过。人工最终视觉签收未代签。
 
 本轮核对 main 仍为 `46cfdc8e8026098e20f988b8007c96b8f2be4789`，未合并。后续仅证据/文档补交不改变上述已测试运行字节。
 
