@@ -21,9 +21,9 @@
 .page-S01 .list-body{padding:0 14px 105px;background:#fff}
 .page-S01 .store-row{display:block;border:1px solid #edf0ed;border-radius:17px;margin:10px 0 16px;padding:0;overflow:hidden;background:#fff;box-shadow:0 5px 17px rgba(24,66,42,.06)}
 .page-S01 .store-entry{display:flex;flex-direction:column;gap:0;padding:0!important;position:relative;color:inherit;text-decoration:none}
-.page-S01 .store-photo{width:100%!important;min-width:0!important;height:169px!important;display:block;object-fit:cover;border-radius:0!important;background:#e7eee9}
-.page-S01 .s01-03a-photo-label{position:absolute;top:140px;left:10px;z-index:1;background:rgba(15,39,29,.73);padding:3px 7px;border-radius:5px;color:white;font-size:10px;line-height:17px}
-.page-S01 .store-info{display:block;padding:12px 12px 5px;min-width:0;background:white}
+.page-S01 .store-photo{width:100%!important;min-width:0!important;height:151px!important;display:block;object-fit:cover;border-radius:0!important;background:#e7eee9}
+.page-S01 .s01-03a-photo-label{position:absolute;top:122px;left:10px;z-index:1;background:rgba(15,39,29,.73);padding:3px 7px;border-radius:5px;color:white;font-size:10px;line-height:17px}
+.page-S01 .store-info{display:block;padding:9px 12px 3px;min-width:0;background:white}
 .page-S01 .store-title{height:auto;min-height:24px;display:flex;align-items:center;overflow:visible}
 .page-S01 .store-name{font-size:17px;line-height:23px;font-weight:800;white-space:normal;max-width:none;letter-spacing:-.3px;color:#193a2a}
 .page-S01 .rating{display:none}
@@ -35,16 +35,15 @@
 .page-S01 .store-preview-bar strong{color:#316248;font-size:12px;font-weight:750}
 .page-S01 .store-preview-toggle{font-size:12px;color:#24865e;min-height:30px}
 .page-S01 .store-previews{margin:1px 12px 0;border-top:0;padding:0}
-.page-S01 .unit-preview{display:block;padding:12px 2px 11px;border-top:1px solid #e9eeeb;border-bottom:0!important}
+.page-S01 .unit-preview{display:block;padding:8px 2px 7px;border-top:1px solid #e9eeeb;border-bottom:0!important}
 .page-S01 .unit-preview:first-of-type{border-top:0}
 .page-S01 .preview-image{display:none!important}
 .page-S01 .preview-body{min-width:0}
 .page-S01 .preview-title{font-size:15px;line-height:21px;color:#233d32;margin:0 0 3px;font-weight:800;letter-spacing:-.25px}
-.page-S01 .preview-use{font-size:11px;line-height:16px;margin:0 0 7px;color:#829187;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page-S01 .preview-use{font-size:11px;line-height:16px;margin:0 0 4px;color:#829187;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .page-S01 .preview-bottom{display:flex;align-items:center;gap:8px;justify-content:space-between;min-height:32px}
 .page-S01 .br03-price{min-width:0;max-width:calc(100% - 96px);color:#1e392b;line-height:1.2}
 .page-S01 .br03-price-main{font-size:18px;font-weight:850;color:#1c3b2b;line-height:23px;letter-spacing:-.4px}
-.page-S01 .br03-price:has(.br03-reference) .br03-price-main::after{content:'/月 · 参考';font-size:10px;color:#86918a;font-weight:500;letter-spacing:0;margin-left:2px}
 .page-S01 .br03-price-term,.page-S01 .br03-reference{font-size:10px;line-height:14px;color:#85928a}
 .page-S01 .br03-price-term+.br03-price-average,.page-S01 .br03-price-average{font-size:11px}
 .page-S01 .br03-buy{min-height:38px;padding:8px 13px;background:#129458;border-radius:9px;color:#fff;font-weight:750;font-size:12px;box-shadow:0 2px 6px rgba(18,148,88,.15)}
@@ -54,8 +53,8 @@
 .page-S01 .bottom-nav{border-top:1px solid #ecf1ec;background:#fff}
 @media(max-width:380px){
   .page-S01 .list-body{padding-left:13px;padding-right:13px}
-  .page-S01 .store-photo{height:160px!important}
-  .page-S01 .s01-03a-photo-label{top:132px}
+  .page-S01 .store-photo{height:141px!important}
+  .page-S01 .s01-03a-photo-label{top:113px}
   .page-S01 .filter-btn{font-size:10.5px}
   .page-S01 .preview-use{max-width:100%}
 }
