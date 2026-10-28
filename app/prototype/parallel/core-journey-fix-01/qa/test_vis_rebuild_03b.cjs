@@ -63,7 +63,7 @@ async function run(width,height,source='mk'){
    await outer.locator('.mk-auth-overlay').waitFor({timeout:9000});
    await outer.locator('#mk-auth-agree').check();
    await outer.locator('[data-auth="wechat"]').click();
-   await outer.frameLocator('#br04-frame').locator('#artboard').waitFor({timeout:10000});
+   await outer.frameLocator('#br04-frame').locator('#store-name').waitFor({timeout:10000});
    const checkout=await outer.locator('body').evaluate(()=>({selected:window.SIM_DEMO.core.state().selected,authorized:window.SIM_DEMO.core.authorized(),term:window.SIM_DEMO.core.state().requirement.term_months}));
    assert(checkout.authorized);assert.equal(checkout.term,6);assert.deepEqual(checkout.selected,[firstUnit.id]);
    assert(!errors.length,'JS errors: '+errors.join('|'));
