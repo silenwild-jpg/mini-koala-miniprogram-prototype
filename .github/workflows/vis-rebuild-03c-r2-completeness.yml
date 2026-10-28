@@ -1,0 +1,56 @@
+name: VIS-REBUILD-03C R2 visual and journey acceptance
+on:
+  push:
+    branches: [visual/vis-rebuild-03c-r2-completeness-20261028]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Source and model contracts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          set -e
+          node --check demo/app.js
+          node --check demo/s01-r2-bind.js
+          node --check demo/s01-r2-content.js
+          node --check demo/br04/bridge.js
+          MK_CATALOG_MODE=MK node qa/test_merge02j_legacy.cjs
+          node qa/test_merge02g_contract.js
+          node qa/test_merge02i_policy.js
+          node demo/qa/test_model.js
+          node demo/qa/test_mainchain_decision.js
+          python3 qa/prepare_vis03c.py
+      - name: Chromium and Chinese fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1 pngjs@7.0.0
+          npx playwright install chromium
+      - name: Dual-size real screenshots, visual difference and linked journeys
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/vis03c-http.log 2>&1 &
+          node prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03c.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Private screenshots and receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-REBUILD-03C-R2-375-390
+          path: |
+            app/prototype/parallel/core-journey-fix-01/evidence/vis-rebuild-03c/
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+          retention-days: 14
