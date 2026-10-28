@@ -1,0 +1,65 @@
+{
+  "task": "VIS-REBUILD-03C",
+  "status": "PASS",
+  "runtime_commit": "bcc097163fcba9506860a33f7056bdf7fec49f6d",
+  "base_commit": "f67505dcf27d724b4378d195e13424fb95f77eb2",
+  "main_unchanged": "46cfdc8e8026098e20f988b8007c96b8f2be4789",
+  "pull_request": "https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/27",
+  "actions_run": 40698077855,
+  "artifact_id": 12820955672,
+  "R2_cases": 16,
+  "legacy_MK": 8,
+  "legacy_five_city": 12,
+  "comparisons": [
+    {
+      "source": "mk",
+      "width": 375,
+      "height": 812,
+      "maxGeometryError": 0,
+      "pixelDifference": {
+        "rawMAE": 3.408526546250713,
+        "outsideContentMAE": 0.00014925006233384953,
+        "outsideContentChangedFraction": 0,
+        "maskedContentSlots": ".search-pill,.filter,.store-body h2,.store-tags,.address,.capacity,.price,.hot,.unit-desc"
+      }
+    },
+    {
+      "source": "sim",
+      "width": 375,
+      "height": 812,
+      "maxGeometryError": 0,
+      "pixelDifference": {
+        "rawMAE": 3.046361247947459,
+        "outsideContentMAE": 0.00014925006233384953,
+        "outsideContentChangedFraction": 0,
+        "maskedContentSlots": ".search-pill,.filter,.store-body h2,.store-tags,.address,.capacity,.price,.hot,.unit-desc"
+      }
+    },
+    {
+      "source": "mk",
+      "width": 390,
+      "height": 844,
+      "maxGeometryError": 0,
+      "pixelDifference": {
+        "rawMAE": 3.4356766719326193,
+        "outsideContentMAE": 0.00016099681421455513,
+        "outsideContentChangedFraction": 0,
+        "maskedContentSlots": ".search-pill,.filter,.store-body h2,.store-tags,.address,.capacity,.price,.hot,.unit-desc"
+      }
+    },
+    {
+      "source": "sim",
+      "width": 390,
+      "height": 844,
+      "maxGeometryError": 0,
+      "pixelDifference": {
+        "rawMAE": 3.0563849394418208,
+        "outsideContentMAE": 0.00016099681421455513,
+        "outsideContentChangedFraction": 0,
+        "maskedContentSlots": ".search-pill,.filter,.store-body h2,.store-tags,.address,.capacity,.price,.hot,.unit-desc"
+      }
+    }
+  ],
+  "human_signoff": false,
+  "reference": "PR26 R2 source template, not the absent full original A upload"
+}
