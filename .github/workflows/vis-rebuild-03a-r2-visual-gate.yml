@@ -1,0 +1,80 @@
+name: VIS-REBUILD-03A-R2 | A original visual fidelity
+on:
+  push:
+    branches:
+      - visual/vis-rebuild-03a-r2-fidelity-20261028
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-static-358-375-390:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium for actual screenshot checks
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Verify A-layout exact structures on 358, 375, and 390
+        run: |
+          node <<'NODE'
+          const {chromium}=require('playwright');
+          const fs=require('node:fs'), path=require('node:path'), assert=require('node:assert/strict');
+          const html=fs.readFileSync('design/vis-rebuild-03a-r1/S01_A_pixel_structure_standalone.html','utf8');
+          const results=[];
+          const folder='evidence/vis-rebuild-03a-r2';fs.mkdirSync(folder,{recursive:true});
+          (async()=>{
+            const b=await chromium.launch({headless:true,args:['--no-sandbox']});
+            try{
+              for(const [width,height] of [[358,812],[375,812],[390,844]]){
+                const page=await b.newPage({viewport:{width,height},deviceScaleFactor:1,locale:'zh-CN'});
+                const errors=[];page.on('pageerror',x=>errors.push(String(x)));
+                await page.setContent(html,{waitUntil:'load'});
+                const x=await page.evaluate(()=>{
+                  const all=s=>[...document.querySelectorAll(s)];
+                  return {bg:getComputedStyle(document.body).backgroundColor,viewport:innerWidth,
+                    documentWidth:document.documentElement.scrollWidth,photos:all('.store-photo').map(e=>{const r=e.getBoundingClientRect();return {y:r.y,width:r.width,loaded:e.complete&&e.naturalWidth>0}}),
+                    stores:all('.store-card').length,unitRows:all('.unit').length,
+                    filters:all('.filter').map(e=>e.textContent.trim()),
+                    kilometers:all('.km').map(e=>e.textContent.trim()),callToAction:all('.order').length,
+                    unauthorized:all('.store-preview-bar,.store-more,.demand,.filter-extra').length,
+                    bodyText:document.body.innerText
+                  };
+                });
+                assert.equal(x.bg,'rgb(255, 255, 255)');
+                assert.equal(x.stores,2);assert.equal(x.unitRows,4);assert.equal(x.callToAction,4);
+                assert.deepEqual(x.filters,['全部区域','全部容量','全部租期']);
+                assert.deepEqual(x.kilometers,['演示 1.2km','演示 3.6km']);
+                assert(x.photos.every(e=>e.loaded));
+                assert.equal(x.unauthorized,0);
+                assert(!/仓型预览|查看本店仓位|参考价说明/.test(x.bodyText));
+                assert(x.documentWidth<=width+1);
+                assert.equal(errors.length,0,errors.join(';'));
+                const scale=width/358;
+                assert(Math.abs(x.photos[0].y-147*scale)<=2);
+                assert(Math.abs(x.photos[1].y-499*scale)<=2);
+                await page.screenshot({path:path.join(folder,'S01_A_R2_'+width+'_viewport.png')});
+                await page.screenshot({path:path.join(folder,'S01_A_R2_'+width+'_full.png'),fullPage:true});
+                results.push({width,height,status:'PASS',photos:x.photos});
+                console.log('VIS_R2_CASE',JSON.stringify(results.at(-1)));
+                await page.close();
+              }
+            }finally{await b.close();}
+            fs.writeFileSync(path.join(folder,'results.json'),JSON.stringify({status:'PASS',tests:results,visualUserSigned:false,mainMerged:false},null,2));
+            console.log('VIS_R2_SUMMARY',JSON.stringify({PASS:results.length}));
+          })().catch(e=>{console.error('VIS_R2_FAIL',e.stack);process.exitCode=1});
+          NODE
+      - name: Upload private R2 screen proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-REBUILD-03A-R2-358-375-390-SCREENSHOTS
+          path: evidence/vis-rebuild-03a-r2/
+          retention-days: 14
+          if-no-files-found: warn
