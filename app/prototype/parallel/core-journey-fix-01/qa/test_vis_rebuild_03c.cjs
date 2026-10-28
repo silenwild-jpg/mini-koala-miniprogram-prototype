@@ -87,7 +87,8 @@ async function multiCityAndRollback(browser,width,height){
   for(const city of ['北京','上海','深圳','杭州','广州']){
    await s01.getByRole('button',{name:'切换城市',exact:true}).click();await outer.locator('[data-action="setCity"]').filter({hasText:city}).click();
    await s01.locator('html[data-binding]').waitFor();const data=await measure(s01);assert(!data.overflow);assert(!/演示|模拟|示意|测试|undefined/.test(data.text));
-   if(city==='广州')assert.equal(data.cards.length,0);else assert.equal(data.cards.length,2);
+   assert((await s01.locator('#r2-search').getAttribute('placeholder')).startsWith(city));
+   assert.equal(data.cards.length,2);
    await p.screenshot({path:path.join(out,`MK-${width}-${city}.png`)});records.push({city,width,status:'PASS',cards:data.cards.length,units:data.cards.flatMap(s=>s.units).length});
   }
   await p.goto(`${origin}/central-review-02g.html?catalog=mk&page=S01&s01_r2=0`);await outer.locator('.filter-bar').waitFor();assert.equal(await outer.locator('#s01-r2-frame').count(),0);records.push({width,rollback:'RC1_EXPLICIT_ZERO',status:'PASS'});
