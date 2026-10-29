@@ -28,7 +28,7 @@ fs.mkdirSync(outdir,{recursive:true});
     actual=page.url();
     await page.waitForLoadState('domcontentloaded');
     assert.equal(errors.length,0,'no HTTP 404 triggered on S5 edit-demand click');
-    assert.ok(/\\/demo\\/(cap|items)\\.html(?:\\?|$)/.test(new URL(actual).pathname),'land on central capacity or items page');
+    assert.ok(new URL(actual).pathname.endsWith('/demo/cap.html')||new URL(actual).pathname.endsWith('/demo/items.html'),'land on central capacity or items page');
     status='PASS';
     await page.screenshot({path:path.join(outdir,'staged-s5-modify-landed-'+vp.width+'x'+vp.height+'.png'),fullPage:false});
    }catch(e){error=String(e.message).slice(0,380);}
