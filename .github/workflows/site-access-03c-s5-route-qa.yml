@@ -25,8 +25,23 @@ jobs:
         run: |
           node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
           node --check app/prototype/parallel/core-journey-fix-01/qa/test_site_access_03c_browser.cjs
-      - name: Build isolated Netlify-equivalent static package
-        run: python3 scripts/build_rc1_private_site.py
+      - name: Verify RC1-P1 integrity while preserving original RC1 freeze
+        run: node scripts/verify_demo_rc1_p1.cjs
+      - name: Build private versioned RC1-P1 site package
+        env:
+          MK_REVIEW_VERSION: DEMO-MK-RC1-P1-20261029
+        run: |
+          python3 scripts/build_rc1_private_site.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("release-evidence/merge02n")
+          meta=json.loads((root/"build-summary.json").read_text())
+          assert meta["version"]=="DEMO-MK-RC1-P1-20261029", meta
+          assert (root/"DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip").exists()
+          assert "DEMO-MK-RC1-P1-20261029" in (root/"site/index.html").read_text()
+          print("SITE_ACCESS_03D_VERSIONED_BUILD_PASS", meta["version"],meta["source_commit"])
+          PY
       - name: Install Chromium and Chinese fonts
         working-directory: app/prototype/parallel/core-journey-fix-01
         run: |
@@ -61,5 +76,9 @@ jobs:
             app/prototype/parallel/core-journey-fix-01/evidence/site-access-03c/*
             app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
             app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+            release-evidence/site-access-03d/rc1-p1-integrity.json
+            release-evidence/merge02n/build-summary.json
+            release-evidence/merge02n/manifest.json
+            release-evidence/merge02n/DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip
           if-no-files-found: warn
           retention-days: 14
