@@ -46,6 +46,7 @@ jobs:
           sleep 2
           node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
           node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+          node "$GITHUB_WORKSPACE/scripts/site_access_03b_s5_modify_repro.cjs"
       - name: Validate 375 and 390 case counts and mark live SSO as NOT TESTED
         run: |
           python3 - <<'PY'
