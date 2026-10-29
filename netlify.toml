@@ -1,9 +1,11 @@
-# GIT-MERGE-02N: publish only the sanitized RC1 static review runtime.
-# Netlify site-level SSO/team-login restriction MUST cover all deploy contexts.
-# This config does not provide access control by itself.
+# SITE-CONNECT-03A: private internal RC1-P1 review Git build only.
+# Team SSO must be enabled for ALL deploy contexts in the Netlify site settings.
+# These settings, robots, and response headers are NOT access controls.
 [build]
-  command = "python3 scripts/build_rc1_private_site.py"
+  command = "node scripts/verify_demo_rc1_p1.cjs && python3 scripts/build_rc1_private_site.py"
   publish = "release-evidence/merge02n/site"
 
 [build.environment]
+  NODE_VERSION = "22"
   PYTHON_VERSION = "3.13"
+  MK_REVIEW_VERSION = "DEMO-MK-RC1-P1-20261029"
