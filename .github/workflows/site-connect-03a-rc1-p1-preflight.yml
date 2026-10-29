@@ -1,0 +1,97 @@
+name: SITE-CONNECT-03A RC1-P1 private CD preflight
+on:
+  push:
+    branches:
+      - ops/site-connect-03a-rc1-p1-cd-20261029
+  pull_request:
+    branches:
+      - main
+    paths:
+      - netlify.toml
+      - scripts/build_rc1_private_site.py
+      - scripts/verify_demo_rc1_p1.cjs
+      - .github/workflows/site-connect-03a-rc1-p1-preflight.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  private-rc1-p1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Preserve original RC1 and check only approved P1 overlay
+        run: node scripts/verify_demo_rc1_p1.cjs
+      - name: Build fixed-version private review package
+        env:
+          MK_REVIEW_VERSION: DEMO-MK-RC1-P1-20261029
+        run: python3 scripts/build_rc1_private_site.py
+      - name: Audit Git-CD configuration, package, immutable source provenance
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, re, subprocess
+          from pathlib import Path
+          root=Path.cwd()
+          config=(root/'netlify.toml').read_text(encoding='utf-8')
+          assert 'node scripts/verify_demo_rc1_p1.cjs && python3 scripts/build_rc1_private_site.py' in config
+          assert 'MK_REVIEW_VERSION = "DEMO-MK-RC1-P1-20261029"' in config
+          assert 'publish = "release-evidence/merge02n/site"' in config
+          out=root/'release-evidence/merge02n'
+          site=out/'site'
+          summary=json.loads((out/'build-summary.json').read_text(encoding='utf-8'))
+          manifest=json.loads((out/'manifest.json').read_text(encoding='utf-8'))
+          sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          assert summary['version']=='DEMO-MK-RC1-P1-20261029'
+          assert summary['source_commit']==sha
+          assert summary['site_visibility_required']=='SSO_TEAM_LOGIN_FOR_ALL_DEPLOYS'
+          assert summary['screens_not_reauthored'] is True
+          assert len(manifest)==summary['root_files']
+          assert (out/'DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip').is_file()
+          paths={item['path'] for item in manifest}
+          must={
+            'index.html',
+            'central-review-02g.html',
+            'prototype/parallel/core-journey-fix-01/demo/index.html',
+            'prototype/parallel/core-journey-fix-01/demo/app.js',
+            'prototype/parallel/core-journey-fix-01/demo/cap.html',
+            'prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html',
+          }
+          assert must<=paths, must-paths
+          for item in manifest:
+            p=Path(item['path'])
+            assert p.suffix.lower() not in {'.zip','.md','.pdf','.env'}
+            assert not {'qa','evidence','node_modules','.git','.netlify','__pycache__'} & {z.lower() for z in p.parts}
+            local=site/p
+            assert hashlib.sha256(local.read_bytes()).hexdigest()==item['sha256']
+          source=(root/'app/prototype/parallel/core-journey-fix-01/demo/app.js').read_bytes()
+          deployed=(site/'prototype/parallel/core-journey-fix-01/demo/app.js').read_bytes()
+          assert source==deployed, 'P1 repaired runtime differs in package'
+          assert (site/'_headers').is_file()
+          assert 'noindex' in (site/'_headers').read_text(encoding='utf-8')
+          assert 'Disallow: /' in (site/'robots.txt').read_text(encoding='utf-8')
+          assert 'DEMO-MK-RC1-P1-20261029' in (site/'index.html').read_text(encoding='utf-8')
+          print('SITE_CONNECT_03A_RC1_P1_PREFLIGHT_PASS',sha,len(manifest))
+          print('NETLIFY_TEAM_SSO_REQUIRES_EXTERNAL_UI_VERIFICATION')
+          print('NETLIFY_GIT_LINK_AND_FIRST_DEPLOY_NOT_TESTED')
+          PY
+      - name: Archive compact private build evidence (not site or credentials)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: SITE-CONNECT-03A-RC1-P1-CD-PREFLIGHT
+          path: |
+            release-evidence/site-access-03d/rc1-p1-integrity.json
+            release-evidence/merge02n/build-summary.json
+            release-evidence/merge02n/manifest.json
+          if-no-files-found: warn
+          retention-days: 14
