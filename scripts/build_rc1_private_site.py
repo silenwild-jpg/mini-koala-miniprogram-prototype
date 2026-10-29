@@ -4,6 +4,8 @@ The frozen app tree is never edited; this script copies only public runtime depe
 """
 import hashlib
 import json
+import os
+from subprocess import check_output
 from pathlib import Path
 from shutil import copy2, rmtree
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -12,7 +14,9 @@ REPO = Path(__file__).resolve().parents[1]
 APP = REPO / "app"
 OUTPUT = REPO / "release-evidence" / "merge02n"
 SITE = OUTPUT / "site"
-ARCHIVE = OUTPUT / "DEMO_MK_RC1_Protected_Internal_Site_20261027.zip"
+REVIEW_VERSION = os.environ.get("MK_REVIEW_VERSION", "DEMO-MK-RC1-20261027")
+assert REVIEW_VERSION in {"DEMO-MK-RC1-20261027", "DEMO-MK-RC1-P1-20261029"}
+ARCHIVE = OUTPUT / ("DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip" if REVIEW_VERSION.endswith("P1-20261029") else "DEMO_MK_RC1_Protected_Internal_Site_20261027.zip")
 VALID_ASSET = {".png", ".jpg", ".jpeg", ".webp", ".avif", ".svg", ".gif", ".ico", ".woff", ".woff2", ".ttf", ".otf"}
 VALID_RUNTIME = VALID_ASSET | {".html", ".css", ".js", ".json"}
 forbidden = {"qa", "evidence", "node_modules", ".git", ".netlify", "__pycache__"}
@@ -86,6 +90,9 @@ hr{border:0;border-top:1px solid #d9e4df;margin:26px 0}</style></head>
 <p class="small">主链：H01 → CAP / S01 → S02 / S5 → O01。
 演示数据及资料来自固定 GitHub RC1 基线，页面冻结视觉仍待最终签收。</p>
 </main></body></html>"""
+landing = landing.replace("DEMO-MK-RC1-20261027", REVIEW_VERSION)
+if REVIEW_VERSION.endswith("P1-20261029"):
+    landing = landing.replace("固定 GitHub RC1 基线", "受控 GitHub RC1-P1 基线")
 (SITE / "index.html").write_text(landing, encoding="utf-8")
 (SITE / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
 (SITE / "_headers").write_text(
@@ -122,8 +129,8 @@ payload = [
     for p in sorted(SITE.rglob("*")) if p.is_file()
 ]
 summary = {
-    "version": "DEMO-MK-RC1-20261027",
-    "source_commit": "285ff1529a0f756662d3f57a7f29ddab3afb07ee",
+    "version": REVIEW_VERSION,
+    "source_commit": (check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip() if REVIEW_VERSION.endswith("P1-20261029") else "285ff1529a0f756662d3f57a7f29ddab3afb07ee"),
     "site_visibility_required": "SSO_TEAM_LOGIN_FOR_ALL_DEPLOYS",
     "site_is_private_only_if_netlify_sso_is_active": True,
     "screens_not_reauthored": True,

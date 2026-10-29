@@ -1,0 +1,87 @@
+name: SITE-ACCESS-03C S5 iframe navigation and dual-viewport regression
+on:
+  push:
+    branches:
+      - fix/site-access-03c-s5-iframe-route-20261029
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s5-isolated-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Syntax check central route and reproduction
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/qa/test_site_access_03c_browser.cjs
+      - name: Verify RC1-P1 integrity while preserving original RC1 freeze
+        run: node scripts/verify_demo_rc1_p1.cjs
+      - name: Build private versioned RC1-P1 site package
+        env:
+          MK_REVIEW_VERSION: DEMO-MK-RC1-P1-20261029
+        run: |
+          python3 scripts/build_rc1_private_site.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("release-evidence/merge02n")
+          meta=json.loads((root/"build-summary.json").read_text())
+          assert meta["version"]=="DEMO-MK-RC1-P1-20261029", meta
+          assert (root/"DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip").exists()
+          assert "DEMO-MK-RC1-P1-20261029" in (root/"site/index.html").read_text()
+          print("SITE_ACCESS_03D_VERSIONED_BUILD_PASS", meta["version"],meta["source_commit"])
+          PY
+      - name: Install Chromium and Chinese fonts
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Model, pricing and contract regressions
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          MK_CATALOG_MODE=MK node qa/test_merge02j_legacy.cjs
+          node qa/test_merge02g_contract.js
+          node demo/qa/test_model.js
+          node demo/qa/test_mainchain_decision.js
+          node qa/test_merge02i_policy.js
+      - name: 375 and 390 browser regression plus S5 real click fix
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE/release-evidence/merge02n/site" >/tmp/site-access-03c-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_site_access_03c_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Archive private results and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: SITE-ACCESS-03C-S5-375-390-PRIVATE-QA
+          path: |
+            app/prototype/parallel/core-journey-fix-01/evidence/site-access-03c/*
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+            release-evidence/site-access-03d/rc1-p1-integrity.json
+            release-evidence/merge02n/build-summary.json
+            release-evidence/merge02n/manifest.json
+            release-evidence/merge02n/DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip
+          if-no-files-found: warn
+          retention-days: 14

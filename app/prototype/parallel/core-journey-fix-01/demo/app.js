@@ -1,6 +1,8 @@
 (function(){
   'use strict';
   const KEY='mk_independent_sim_v1',UIKEY='mk_independent_sim_ui_v1';
+  // Resolve edit-demand navigation against this central runtime script, never an S5 child frame.
+  const CENTRAL_DEMO_BASE=new URL('.',document.currentScript.src);
   let saved;try{saved=JSON.parse(sessionStorage.getItem(KEY)||'null');}catch{}
   const core=SIM_CORE.create({state:saved}),F=SIM_FIXTURES;
   const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -152,6 +154,6 @@
   window.addEventListener('popstate',()=>{page=new URLSearchParams(location.search).get('page')||'S01';const id=new URLSearchParams(location.search).get('store');act(()=>{if(id)core.setStore(id);render();});});
   let lastStatus=state().auth.status;setInterval(()=>{const expired=core.expirePendingOrders();core.authorized();const status=state().auth.status;if(status!==lastStatus||expired){lastStatus=status;render();}},1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});
-  window.SIM_DEMO={presentation,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,openStore(id,from){core.setReturn(from);go('S02',id);},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+state().storeId:''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));location.href=itemsFlow?'items.html':'cap.html';},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
+  window.SIM_DEMO={presentation,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,openStore(id,from){core.setReturn(from);go('S02',id);},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+state().storeId:''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
   const initialStore=new URLSearchParams(location.search).get('store');act(()=>{if(initialStore)core.setStore(initialStore);render();});if(page==='O01'&&!core.authorized())phoneAuth.run('ORDER','DIRECT_O01',()=>render());
 })();
