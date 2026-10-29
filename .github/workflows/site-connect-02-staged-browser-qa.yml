@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - ops/site-connect-02-live-access-qa-20261029
+  pull_request:
+    branches:
+      - ops/site-connect-01-protected-cd-20261029
   workflow_dispatch:
 
 permissions:
