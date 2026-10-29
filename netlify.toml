@@ -1,9 +1,11 @@
 # GIT-MERGE-02N: publish only the sanitized RC1 static review runtime.
+# SITE-CONNECT-01: a Git build must reject any unauthorized RC1 app-tree drift.
 # Netlify site-level SSO/team-login restriction MUST cover all deploy contexts.
 # This config does not provide access control by itself.
 [build]
-  command = "python3 scripts/build_rc1_private_site.py"
+  command = "node scripts/verify_demo_rc1_lock.cjs && python3 scripts/build_rc1_private_site.py"
   publish = "release-evidence/merge02n/site"
 
 [build.environment]
+  NODE_VERSION = "22"
   PYTHON_VERSION = "3.13"
