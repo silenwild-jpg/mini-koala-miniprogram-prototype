@@ -40,7 +40,7 @@ async function check(label,url){
     const browser=await chromium.launch({headless:true});
     const shots=[];
     for(const viewport of [{width:375,height:812},{width:390,height:844}]){
-      const context=await browser.newContext({viewportSize:viewport,deviceScaleFactor:1});
+      const context=await browser.newContext({viewport,deviceScaleFactor:1});
       const page=await context.newPage();
       const response=await page.goto(origin+'/',{waitUntil:'domcontentloaded',timeout:25000});
       const status=response?.status()??null;
