@@ -26,7 +26,7 @@ async function test(browser,viewport,catalog,source){
      if(mode==='items') b.core.setEstimate({source:'known_capacity_in_items_flow',target_volume:3.5,term_months:6,term_confirmed:true});
      else b.core.setRequirement(3.5,6,true);
      b.persist();b.navigate('S5');
-     return {requirement:b.core.state().requirement,fixture:b.core.fixture.sourceNamespace};
+     return {requirement:b.core.state().requirement,fixture:b.core.fixture.sourceNamespace||'SIM'};
    },source);
    assert.equal(prepared.fixture,catalog.toUpperCase());
    originalRequirement=prepared.requirement;
