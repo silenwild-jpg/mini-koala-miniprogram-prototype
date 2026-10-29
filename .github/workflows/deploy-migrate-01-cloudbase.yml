@@ -1,0 +1,127 @@
+name: DEPLOY-MIGRATE-01 CloudBase feasibility and neutral probe
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'deploy/cloudbase/neutral-probe/**'
+      - 'scripts/verify_cloudbase_migration.py'
+      - '.github/workflows/deploy-migrate-01-cloudbase.yml'
+      - 'scripts/build_rc1_private_site.py'
+      - 'scripts/verify_demo_rc1_lock.cjs'
+  workflow_dispatch:
+    inputs:
+      publish_generic_probe:
+        type: boolean
+        description: 'Publish ONLY the generic connectivity probe; never RC1 application assets'
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify public generic probe contains no private assets
+        run: python3 scripts/verify_cloudbase_migration.py probe
+      - name: Verify frozen RC1 source unchanged
+        run: node scripts/verify_demo_rc1_lock.cjs
+      - name: Build RC1 candidate offline without publishing
+        run: python3 scripts/build_rc1_private_site.py
+      - name: Validate RC1 candidate manifest and privacy boundaries
+        run: python3 scripts/verify_cloudbase_migration.py candidate
+      - name: Install Chromium for staged mobile QA
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Run existing 375/390 browser tests against staged RC1 directory
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE/release-evidence/merge02n/site" >/tmp/cloudbase-migration-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Verify complete staged regression matrix
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('app/prototype/parallel/core-journey-fix-01/evidence')
+          mk = json.loads((root / 'merge02j/browser-results.json').read_text())
+          cities = json.loads((root / 'merge02k/result.json').read_text())
+          assert mk['counts'].get('PASS') == 8 and not mk['counts'].get('FAIL')
+          assert cities['summary'].get('PASS') == 12 and not cities['summary'].get('FAIL')
+          assert {x['width'] for x in mk['cases']} == {375, 390}
+          assert {x['width'] for x in cities['records']} == {375, 390}
+          print('CLOUDBASE_CANDIDATE_STAGED_BROWSER_PASS_20_OF_20')
+          print('ONLINE_CLOUDBASE_DEPLOYMENT_NOT_TESTED')
+          PY
+      - name: Upload private QA evidence (never CloudBase)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DEPLOY-MIGRATE-01-OFFLINE-375-390-PRIVATE-QA
+          path: |
+            release-evidence/merge02n/cloudbase-migration-preflight.json
+            release-evidence/merge02n/manifest.json
+            release-evidence/merge02n/build-summary.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/*.png
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/*.png
+          retention-days: 14
+          if-no-files-found: warn
+
+  # This intentionally publishes ONLY an unbranded 3-file probe.
+  # Private RC1 must never be published before gateway + direct-default-domain
+  # bypass protections have been independently tested and explicitly accepted.
+  deploy-neutral-probe:
+    needs: build-and-validate
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_generic_probe == true && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: cloudbase-neutral-probe
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Repeat strict public-probe allowlist audit
+        run: python3 scripts/verify_cloudbase_migration.py probe
+      - name: Require Tencent credentials from protected environment
+        env:
+          TCB_SECRET_ID: ${{ secrets.TCB_SECRET_ID }}
+          TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
+          TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
+        run: |
+          test -n "$TCB_SECRET_ID"
+          test -n "$TCB_SECRET_KEY"
+          test -n "$TCB_ENV_ID"
+      - name: Install Tencent CloudBase CLI
+        run: npm install -g @cloudbase/cli
+      - name: Deploy generic probe only and verify uploaded content
+        env:
+          TCB_SECRET_ID: ${{ secrets.TCB_SECRET_ID }}
+          TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
+          TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
+        run: |
+          tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
+          tcb hosting deploy deploy/cloudbase/neutral-probe /mk-connectivity-01 -e "$TCB_ENV_ID" --safe --verify
+          echo "GENERIC_PROBE_DEPLOYED; private RC1 was not uploaded."
