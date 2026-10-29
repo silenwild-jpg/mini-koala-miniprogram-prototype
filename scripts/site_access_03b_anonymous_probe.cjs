@@ -35,7 +35,8 @@ async function check(label,url){
  if(results[0].state==='PROTECTED'){
    // These screenshots show ONLY Netlify's anonymous access gate, never the private product.
    try{
-    const {chromium}=require('../app/prototype/parallel/core-journey-fix-01/node_modules/playwright');
+    const playwrightPath=require.resolve('playwright',{paths:[process.cwd(),path.join(process.cwd(),'app/prototype/parallel/core-journey-fix-01'),path.join(process.cwd(),'app'),path.join(process.cwd(),'scripts')]});
+    const {chromium}=require(playwrightPath);
     const browser=await chromium.launch({headless:true});
     const shots=[];
     for(const viewport of [{width:375,height:812},{width:390,height:844}]){
