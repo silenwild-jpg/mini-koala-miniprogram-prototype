@@ -2,7 +2,7 @@
 // SITE-ACCESS-03B: reproduce S5 edit-demand click only against staged HTTP package.
 // Does not access authenticated Netlify or modify product sources.
 const path=require('node:path'),fs=require('node:fs'),assert=require('node:assert/strict');
-const playwright=require(require.resolve('playwright',{paths:[process.cwd(),path.join(process.cwd(),'app/prototype/parallel/core-journey-fix-01'),path.join(process.cwd(),'app')]}));
+const playwright=require(require.resolve('playwright',{paths:[process.cwd(),path.join(process.cwd(),'prototype/parallel/core-journey-fix-01'),path.join(process.cwd(),'app/prototype/parallel/core-journey-fix-01')]}));
 const base='http://127.0.0.1:4270/prototype/parallel/core-journey-fix-01/demo';
 const outdir=path.join(process.env.GITHUB_WORKSPACE||path.resolve(__dirname,'..'),'release-evidence/site-access-03b');
 fs.mkdirSync(outdir,{recursive:true});
