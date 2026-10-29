@@ -1,0 +1,73 @@
+name: SITE-CONNECT-01 protected review build preflight
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'scripts/build_rc1_private_site.py'
+      - 'scripts/verify_demo_rc1_lock.cjs'
+      - 'docs/demo-mk-rc1.lock.json'
+      - 'netlify.toml'
+      - '.github/workflows/site-connect-01-rc1-preflight.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'scripts/build_rc1_private_site.py'
+      - 'scripts/verify_demo_rc1_lock.cjs'
+      - 'docs/demo-mk-rc1.lock.json'
+      - 'netlify.toml'
+      - '.github/workflows/site-connect-01-rc1-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rc1-private-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Reject changes to frozen RC1 app tree
+        run: node scripts/verify_demo_rc1_lock.cjs
+      - name: Produce allowlisted static site
+        run: python3 scripts/build_rc1_private_site.py
+      - name: Audit publish output and access-control warnings
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          site = Path('release-evidence/merge02n/site')
+          out = site.parent
+          summary = json.loads((out / 'build-summary.json').read_text('utf-8'))
+          manifest = json.loads((out / 'manifest.json').read_text('utf-8'))
+          assert summary['version'] == 'DEMO-MK-RC1-20261027'
+          assert summary['site_visibility_required'] == 'SSO_TEAM_LOGIN_FOR_ALL_DEPLOYS'
+          assert summary['screens_not_reauthored'] is True
+          assert len(manifest) == summary['root_files']
+          paths = {item['path'] for item in manifest}
+          required = {'index.html', 'central-review-02g.html',
+                      'prototype/parallel/core-journey-fix-01/demo/index.html'}
+          assert required <= paths, required - paths
+          assert (site / '_headers').is_file()
+          assert 'noindex' in (site / '_headers').read_text('utf-8')
+          assert (site / 'robots.txt').is_file()
+          assert 'Disallow: /' in (site / 'robots.txt').read_text('utf-8')
+          forbidden = {'qa', 'evidence', 'node_modules', '.git', '.netlify'}
+          for item in manifest:
+              p = Path(item['path'])
+              assert p.suffix.lower() not in {'.zip', '.md', '.pdf', '.env'}
+              assert not forbidden.intersection({part.lower() for part in p.parts})
+          print('SITE_CONNECT_01_STATIC_PACKAGE_PASS', len(manifest))
+          print('SITE_ACCESS_REQUIRES_NETLIFY_TEAM_SSO_CONFIG_VALIDATION')
+          PY
