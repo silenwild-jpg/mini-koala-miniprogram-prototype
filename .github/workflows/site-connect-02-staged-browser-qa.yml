@@ -63,6 +63,8 @@ jobs:
           f.write_text(json.dumps(state,ensure_ascii=False,indent=2))
           print('SITE_CONNECT_02_STAGED_BROWSER_PASS',f)
           PY
+      - name: SITE-ACCESS-03B anonymous live deployment deep links and guarded screenshot checks
+        run: node scripts/site_access_03b_anonymous_probe.cjs
       - name: Archive private staged screenshots and exact QA receipts
         if: always()
         uses: actions/upload-artifact@v4
@@ -74,5 +76,6 @@ jobs:
             app/prototype/parallel/core-journey-fix-01/evidence/merge02k/*.png
             app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
             release-evidence/merge02n/site-connect-02-staged-qa.json
+            release-evidence/site-access-03b/*
           retention-days: 14
           if-no-files-found: warn
