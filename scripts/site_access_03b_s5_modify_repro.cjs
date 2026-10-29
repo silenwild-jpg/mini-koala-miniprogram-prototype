@@ -35,7 +35,7 @@ const correct=url=>{try{return ['/demo/cap.html','/demo/items.html'].some(p=>new
       await page.waitForTimeout(250);
     }
     if(!actual)throw Error('No central CAP/ITEMS navigation after click');
-    if(errors.some(x=>/\\/br04\\/s5\\/(cap|items)\\.html/.test(x.url)))throw Error('S5-local incorrect relative HTML path returned 404');
+    if(errors.some(x=>x.url.includes('/br04/s5/cap.html')||x.url.includes('/br04/s5/items.html')))throw Error('S5-local incorrect relative HTML path returned 404');
     status='PASS';
     await page.screenshot({path:path.join(outdir,'staged-s5-modify-landed-'+vp.width+'x'+vp.height+'.png'),fullPage:false});
    }catch(e){error=String(e.message).slice(0,400);}
