@@ -1,0 +1,82 @@
+name: SITE-CONNECT-02 staged 375-390 browser QA (NOT live SSO)
+
+on:
+  push:
+    branches:
+      - ops/site-connect-02-live-access-qa-20261029
+  pull_request:
+    branches:
+      - ops/site-connect-01-protected-cd-20261029
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  staged-mobile-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Assert immutable RC1 app sources
+        run: node scripts/verify_demo_rc1_lock.cjs
+      - name: Build the exact Netlify publish directory
+        run: python3 scripts/build_rc1_private_site.py
+      - name: Install Chromium and Chinese fonts for 375 and 390 review
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1
+          npx playwright install chromium
+      - name: Run real browser regression against staged publish directory, not live Netlify
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE/release-evidence/merge02n/site" >/tmp/site-connect-02-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+          node "$GITHUB_WORKSPACE/scripts/site_access_03b_s5_modify_repro.cjs"
+      - name: Validate 375 and 390 case counts and mark live SSO as NOT TESTED
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          base=Path('app/prototype/parallel/core-journey-fix-01/evidence')
+          a=json.loads((base/'merge02j/browser-results.json').read_text())
+          b=json.loads((base/'merge02k/result.json').read_text())
+          assert a['counts'].get('PASS')==8 and not a['counts'].get('FAIL'),a['counts']
+          assert b['summary'].get('PASS')==12 and not b['summary'].get('FAIL'),b['summary']
+          assert {r['width'] for r in a['cases']}=={375,390}
+          assert {r['width'] for r in b['records']}=={375,390}
+          state={'environment':'GITHUB_ACTIONS_LOCAL_STAGED_STATIC_PACKAGE','site_id':'e8bba69f-09d5-4866-842d-43c30411114e','production_git_deploy':'NOT_VERIFIED','online_sso_login':'NOT_TESTED','online_browser_375_390':'NOT_TESTED','packaged_browser':{'mk_paths':a['counts'],'city_state':b['summary'],'widths':[375,390]},'visual_human_signoff':'NOT_DONE'}
+          f=Path('release-evidence/merge02n/site-connect-02-staged-qa.json')
+          f.write_text(json.dumps(state,ensure_ascii=False,indent=2))
+          print('SITE_CONNECT_02_STAGED_BROWSER_PASS',f)
+          PY
+      - name: SITE-ACCESS-03B anonymous live deployment deep links and guarded screenshot checks
+        run: node scripts/site_access_03b_anonymous_probe.cjs
+      - name: Archive private staged screenshots and exact QA receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: SITE-CONNECT-02-STAGED-375-390-PRIVATE-QA
+          path: |
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/*.png
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/*.png
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+            release-evidence/merge02n/site-connect-02-staged-qa.json
+            release-evidence/site-access-03b/*
+          retention-days: 14
+          if-no-files-found: warn
