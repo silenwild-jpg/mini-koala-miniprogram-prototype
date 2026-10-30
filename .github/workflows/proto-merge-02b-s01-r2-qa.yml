@@ -59,6 +59,41 @@ jobs:
           node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-content.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
           python3 app/prototype/parallel/core-journey-fix-01/qa/prepare_vis03c.py
+      - name: Validate private Netlify Preview context and exact candidate build
+        env:
+          CONTEXT: deploy-preview
+          REVIEW_ID: '33'
+          BRANCH: isolate/proto-merge-02b-s01-r2-rc1p1-20261030
+          MK_REVIEW_VERSION: DEMO-MK-S01-R2-CANDIDATE-20261030
+        run: |
+          python3 - <<'PY'
+          import tomllib
+          from pathlib import Path
+          config=tomllib.loads(Path('netlify.toml').read_text())
+          assert config['build']['command'].startswith('node scripts/verify_demo_rc1_p1.cjs')
+          assert config['build']['environment']['MK_REVIEW_VERSION']=='DEMO-MK-RC1-P1-20261029'
+          assert config['context']['deploy-preview']['command'].startswith('node scripts/verify_s01_r2_preview.cjs')
+          assert config['context']['deploy-preview']['environment']['MK_REVIEW_VERSION']=='DEMO-MK-S01-R2-CANDIDATE-20261030'
+          print('PREVIEW_CONTEXT_OVERRIDE_PASS')
+          PY
+          node scripts/verify_s01_r2_preview.cjs
+          python3 scripts/build_rc1_private_site.py
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          o=Path('release-evidence/merge02n')
+          s=json.loads((o/'build-summary.json').read_text())
+          sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          assert s['version']=='DEMO-MK-S01-R2-CANDIDATE-20261030'
+          assert s['source_commit']==sha
+          assert s['site_visibility_required']=='SSO_TEAM_LOGIN_FOR_ALL_DEPLOYS'
+          site=o/'site'
+          assert 'DEMO-MK-S01-R2-CANDIDATE-20261030' in (site/'index.html').read_text()
+          assert 's01_r2=1' in (site/'index.html').read_text()
+          assert (site/'prototype/parallel/core-journey-fix-01/demo/s01-r2-live.html').exists()
+          assert (site/'_headers').exists()
+          print('PROTO_MERGE_02E_R1_NETLIFY_PREVIEW_BUILD_PASS',sha,s['root_files'])
+          PY
       - name: Model, legacy MK IDs, quotes and order snapshot
         working-directory: app/prototype/parallel/core-journey-fix-01
         run: |
