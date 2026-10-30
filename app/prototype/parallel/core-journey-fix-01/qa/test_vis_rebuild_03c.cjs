@@ -45,13 +45,15 @@ async function run(browser,width,height,source){
     const d=window.SIM_DEMO,f=window.SIM_FIXTURES,p=window.SIM_REC_POLICY;
     const s=d.state();
     const active=f.stores.filter(row=>row.city===s.city&&row.status==='open');
-    const ranked=p.rank(active,{distanceVerified:f.distanceVerified,costOf:row=>row.teaserCubicPrice}).items;
+    const eligible=active.filter(row=>f.units.some(u=>u.store_id===row.id&&d.core.available(u)));
+    const ranked=p.rank(eligible,{distanceVerified:f.distanceVerified,costOf:row=>row.teaserCubicPrice}).items;
     const recommended=ranked.slice(0,2).map(row=>({id:row.id,name:row.name,available:f.units.filter(u=>u.store_id===row.id&&d.core.available(u)).length}));
     const shown=d.s01R2Bridge.snapshot().stores.map(row=>({id:row.id,name:row.name,shownUnits:row.units.length}));
     return {catalog:f.sourceNamespace||'SIM',city:s.city,capacity:s.requirement.capacity_m3,recommended,shown,
       sameOrder:recommended.every((x,i)=>x.id===shown[i]?.id)};
   });
   console.log('S01_R2_RECOMMENDATION_AUDIT '+JSON.stringify(rankedAudit));
+  assert(rankedAudit.sameOrder,'R2 display changed eligible central recommendation order: '+JSON.stringify(rankedAudit));
   const initial=await measure(s01);assert.equal(initial.cards.length,2);assert.equal(initial.cards.flatMap(s=>s.units).length,4);assert.equal(initial.filters.length,3);
   assert.equal(initial.bg,'rgb(255, 255, 255)');assert(!initial.overflow);assert(!/演示|模拟|示意|测试|undefined|仓型预览|参考价说明/.test(initial.text));
   assert(initial.cards.every(s=>s.tags.length===3&&s.loaded&&/^\d+\.\dkm$/.test(s.distance)&&s.addressFits));
