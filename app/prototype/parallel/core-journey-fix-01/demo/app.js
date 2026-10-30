@@ -186,7 +186,14 @@
       let stores=visibleS01Stores().filter(s=>r2Filters.region==='all'||r2View(s).district===r2Filters.region);
       const rowsFor=s=>(r.capacity_m3!==null?core.matchingUnits(s.id):F.units.filter(u=>u.store_id===s.id)).filter(u=>core.available(u)&&s.status==='open'&&R2.matches(u.volume,r2Filters.capacity)).sort((a,b)=>a.volume-b.volume);
       if(r2Filters.capacity!=='all')stores=stores.filter(s=>rowsFor(s).length);
-      stores.sort((a,b)=>Math.min(2,rowsFor(b).length)-Math.min(2,rowsFor(a).length));
+      // For unconfigured demand, apply the shared recommendation policy only to stores
+      // with an actually available size option. Unavailable stores stay in fallback;
+      // the number of rows in the visual card must never re-rank the offers.
+      if(visual.sort==='recommended'&&r.capacity_m3===null){
+        const eligible=stores.filter(s=>rowsFor(s).length>0);
+        const unavailable=stores.filter(s=>rowsFor(s).length===0);
+        stores=[...REC.rank(eligible,{distanceVerified:F.distanceVerified,costOf:s=>s.teaserCubicPrice}).items,...unavailable];
+      }
       return {city:state().city,sourceNamespace:F.sourceNamespace||'SIM',distanceVerified:!!F.distanceVerified,
         authorized:core.authorized(),termConfirmed:r.term_confirmed,termMonths:r.term_months,
         keyword:visual.keyword,storeCount:stores.length,filters:{...r2Filters},
