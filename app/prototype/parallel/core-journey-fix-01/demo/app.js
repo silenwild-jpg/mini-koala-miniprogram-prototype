@@ -35,7 +35,13 @@
   try{Object.assign(r2Filters,JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}'));}catch{}
   function saveR2Filters(){sessionStorage.setItem('mk_s01_r2_filters_v1',JSON.stringify(r2Filters));}
   function r2View(s){
-    if(!r2Orders[s.city])r2Orders[s.city]=REC.rank(F.stores.filter(x=>x.city===s.city&&x.status==='open'),{distanceVerified:F.distanceVerified,costOf:x=>x.teaserCubicPrice}).items.sort((a,b)=>(F.units.filter(u=>u.store_id===b.id&&core.available(u)).length>=2?1:0)-(F.units.filter(u=>u.store_id===a.id&&core.available(u)).length>=2?1:0)).map(x=>x.id);
+    if(!r2Orders[s.city]){
+      const active=F.stores.filter(x=>x.city===s.city&&x.status==='open');
+      const eligible=active.filter(x=>F.units.some(u=>u.store_id===x.id&&core.available(u)));
+      const fallback=active.filter(x=>!eligible.includes(x));
+      // Use the same availability-first recommendation for concept-photo slots and card order.
+      r2Orders[s.city]=[...REC.rank(eligible,{distanceVerified:F.distanceVerified,costOf:x=>x.teaserCubicPrice}).items,...fallback].map(x=>x.id);
+    }
     return R2.view(s,Math.max(0,r2Orders[s.city].indexOf(s.id)));
   }
   function r2Store(s){if(!s||!r2Mode()||!R2)return s;const v=r2View(s);return {...s,address:v.address,district:v.district,serviceTags:v.services,facilities:v.services,r2Photo:v.photo};}
