@@ -63,7 +63,8 @@ jobs:
         env:
           CONTEXT: deploy-preview
           REVIEW_ID: '33'
-          BRANCH: isolate/proto-merge-02b-s01-r2-rc1p1-20261030
+          BRANCH: pull/33/head
+          HEAD: isolate/proto-merge-02b-s01-r2-rc1p1-20261030
           MK_REVIEW_VERSION: DEMO-MK-S01-R2-CANDIDATE-20261030
         run: |
           python3 - <<'PY'
@@ -77,6 +78,7 @@ jobs:
           print('PREVIEW_CONTEXT_OVERRIDE_PASS')
           PY
           node scripts/verify_s01_r2_preview.cjs
+          BRANCH=isolate/proto-merge-02b-s01-r2-rc1p1-20261030 node scripts/verify_s01_r2_preview.cjs
           python3 scripts/build_rc1_private_site.py
           python3 - <<'PY'
           import json,subprocess
