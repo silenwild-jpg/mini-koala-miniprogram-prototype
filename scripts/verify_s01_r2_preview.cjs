@@ -4,7 +4,10 @@ const git=(...xs)=>cp.execFileSync('git',xs,{encoding:'utf8'}).trim();
 const base='274c5110aa18af7ed71d92533ab126ebbbd11f75', root='app/prototype/parallel/core-journey-fix-01/';
 assert.equal(process.env.CONTEXT,'deploy-preview','Preview context required');
 assert.equal(process.env.REVIEW_ID,'33','Only PR #33 can build S01 R2 candidate');
-assert.equal(process.env.BRANCH,'isolate/proto-merge-02b-s01-r2-rc1p1-20261030');
+// Netlify may expose the GitHub PR checkout ref as BRANCH instead of the source branch.
+const sourceBranch='isolate/proto-merge-02b-s01-r2-rc1p1-20261030';
+assert([sourceBranch,'pull/33/head'].includes(process.env.BRANCH),'Only the approved source branch or PR #33 checkout ref may build');
+if(process.env.HEAD)assert.equal(process.env.HEAD,sourceBranch,'Unexpected preview source branch');
 assert.equal(process.env.MK_REVIEW_VERSION,'DEMO-MK-S01-R2-CANDIDATE-20261030');
 assert.equal(git('merge-base',base,'HEAD'),base);
 const expected=[
