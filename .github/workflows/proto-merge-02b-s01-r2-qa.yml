@@ -1,0 +1,137 @@
+name: PROTO-MERGE-02B S01 R2 isolated RC1-P1 compatible review
+on:
+  push:
+    branches:
+      - isolate/proto-merge-02b-s01-r2-rc1p1-20261030
+  pull_request:
+    branches: [main]
+    paths:
+      - app/central-review-02g.html
+      - app/prototype/parallel/core-journey-fix-01/demo/**
+      - app/prototype/parallel/core-journey-fix-01/qa/prepare_vis03c.py
+      - app/prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03c.cjs
+      - .github/workflows/proto-merge-02b-s01-r2-qa.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Check RC1-P1 S5 route repair, R2 opt-in, immutable original sources
+        run: |
+          node - <<'NODE'
+          const fs=require('fs'),assert=require('assert/strict'),cp=require('child_process');
+          const app='app/prototype/parallel/core-journey-fix-01/demo/app.js';
+          const js=fs.readFileSync(app,'utf8');
+          assert(js.includes("const CENTRAL_DEMO_BASE=new URL('.',document.currentScript.src)"));
+          assert(js.includes("window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href)"));
+          assert(!js.includes("location.href=itemsFlow?'items.html':'cap.html';"));
+          assert(js.includes("sessionStorage.getItem('mk_s01_r2_preview_v1')"));
+          assert(js.includes('s01-r2-frame'));
+          const baseline='274c5110aa18af7ed71d92533ab126ebbbd11f75';
+          const git=(...a)=>cp.execFileSync('git',a,{encoding:'utf8'}).trim();
+          for(const file of [
+            'app/prototype/parallel/core-journey-fix-01/demo/demo-core.js',
+            'app/prototype/parallel/core-journey-fix-01/demo/fixtures.js',
+            'app/prototype/parallel/core-journey-fix-01/demo/phone-gate.js',
+            'app/prototype/parallel/core-journey-fix-01/demo/central-contract.js',
+            'app/prototype/parallel/core-journey-fix-01/demo/cap-bridge.js',
+            'app/prototype/parallel/core-journey-fix-01/demo/items-bridge.js',
+            'app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js',
+            'app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html',
+            'app/data/store_master.json'
+          ])assert.equal(git('rev-parse','HEAD:'+file),git('rev-parse',baseline+':'+file),'Unexpected modification: '+file);
+          console.log('PROTO_MERGE_02B_COMPAT_GUARD_PASS');
+          NODE
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-content.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          python3 app/prototype/parallel/core-journey-fix-01/qa/prepare_vis03c.py
+      - name: Validate private Netlify Preview context and exact candidate build
+        env:
+          CONTEXT: deploy-preview
+          REVIEW_ID: '33'
+          BRANCH: pull/33/head
+          HEAD: isolate/proto-merge-02b-s01-r2-rc1p1-20261030
+          MK_REVIEW_VERSION: DEMO-MK-S01-R2-CANDIDATE-20261030
+        run: |
+          python3 - <<'PY'
+          import tomllib
+          from pathlib import Path
+          config=tomllib.loads(Path('netlify.toml').read_text())
+          assert config['build']['command'].startswith('node scripts/verify_demo_rc1_p1.cjs')
+          assert config['build']['environment']['MK_REVIEW_VERSION']=='DEMO-MK-RC1-P1-20261029'
+          assert config['context']['deploy-preview']['command'].startswith('node scripts/verify_s01_r2_preview.cjs')
+          assert config['context']['deploy-preview']['environment']['MK_REVIEW_VERSION']=='DEMO-MK-S01-R2-CANDIDATE-20261030'
+          print('PREVIEW_CONTEXT_OVERRIDE_PASS')
+          PY
+          node scripts/verify_s01_r2_preview.cjs
+          BRANCH=isolate/proto-merge-02b-s01-r2-rc1p1-20261030 node scripts/verify_s01_r2_preview.cjs
+          python3 scripts/build_rc1_private_site.py
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          o=Path('release-evidence/merge02n')
+          s=json.loads((o/'build-summary.json').read_text())
+          sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          assert s['version']=='DEMO-MK-S01-R2-CANDIDATE-20261030'
+          assert s['source_commit']==sha
+          assert s['site_visibility_required']=='SSO_TEAM_LOGIN_FOR_ALL_DEPLOYS'
+          site=o/'site'
+          assert 'DEMO-MK-S01-R2-CANDIDATE-20261030' in (site/'index.html').read_text()
+          assert 's01_r2=1' in (site/'index.html').read_text()
+          assert (site/'prototype/parallel/core-journey-fix-01/demo/s01-r2-live.html').exists()
+          assert (site/'_headers').exists()
+          print('PROTO_MERGE_02E_R1_NETLIFY_PREVIEW_BUILD_PASS',sha,s['root_files'])
+          PY
+      - name: Model, legacy MK IDs, quotes and order snapshot
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          MK_CATALOG_MODE=MK node qa/test_merge02j_legacy.cjs
+          node qa/test_merge02g_contract.js
+          node qa/test_merge02i_policy.js
+          node demo/qa/test_model.js
+          node demo/qa/test_mainchain_decision.js
+      - name: Install Chromium and CJK fonts for dual viewports
+        working-directory: app/prototype/parallel/core-journey-fix-01
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save playwright@1.56.1 pngjs@7.0.0
+          npx playwright install chromium
+      - name: S01 R2 reference fidelity and S5 CAP return - real 375/390 browser
+        working-directory: app
+        run: |
+          python3 -m http.server 4270 --bind 127.0.0.1 >/tmp/merge02b-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 2
+          node prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03c.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_site_access_03c_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02j_browser.cjs
+          node prototype/parallel/core-journey-fix-01/qa/test_merge02k_visual.cjs
+      - name: Keep internal screenshots privately in GitHub Actions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PROTO-MERGE-02B-RC1P1-S01-R2-PRIVATE-375-390
+          path: |
+            app/prototype/parallel/core-journey-fix-01/evidence/vis-rebuild-03c/
+            app/prototype/parallel/core-journey-fix-01/evidence/site-access-03c/results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/site-access-03c/*.png
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02j/browser-results.json
+            app/prototype/parallel/core-journey-fix-01/evidence/merge02k/result.json
+          if-no-files-found: warn
+          retention-days: 14
