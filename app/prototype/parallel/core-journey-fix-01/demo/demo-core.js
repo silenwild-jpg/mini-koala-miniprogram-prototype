@@ -111,6 +111,108 @@
     const notify=(title,id)=>s.messages.push({id:'MSG_'+(++s.sequence),title,order_id:id,read:false});
     function addCalendarMonths(date,months){const d=new Date(date+'T00:00:00Z'),day=d.getUTCDate();d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+months);const last=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0)).getUTCDate();d.setUTCDate(Math.min(day,last));return d.toISOString().slice(0,10);}
     function rentalPeriod(id){const o=findOrder(id),service=paidService(id),months=o.term_months+service.renewals.reduce((total,p)=>total+p.months,0);return {start_date:o.start_date,total_months:months,end_date:addCalendarMonths(o.start_date,months)};}
+
+    // Isolated V2 lifecycle contract: review-only backend transitions and no inferred prices.
+    const dayNow=()=>new Date(now()).toISOString().slice(0,10);
+    const lifecycleLedger=id=>{
+      const service=paidService(id);
+      if(!service.lifecycle_v2)service.lifecycle_v2={renewal_requests:[],exit:null,deposit:'HELD',invoices:[]};
+      return service.lifecycle_v2;
+    };
+    function lifecycleView(id){
+      const o=findOrder(id);
+      if(o.status!=='paid_simulated')fail('PAID_ORDER_REQUIRED');
+      const service=s.services[id]||{},l=service.lifecycle_v2||{renewal_requests:[],exit:null,deposit:'HELD',invoices:[]};
+      const completed=(l.renewal_requests||[]).filter(x=>x.status==='COMPLETED');
+      const legacyRenewals=(service.renewals||[]).filter(x=>x.kind==='RENEWAL');
+      const totalMonths=o.term_months+completed.reduce((n,x)=>n+x.months,0)+legacyRenewals.reduce((n,x)=>n+x.months,0);
+      const end=addCalendarMonths(o.start_date,totalMonths);
+      const exit=l.exit;
+      const leaseStatus=exit&&exit.status==='INSPECTION_PASSED'?'ended':
+        exit&&['REQUESTED','WAITING_INSPECTION','INSPECTION_FAILED'].includes(exit.status)?'returning':
+        dayNow()<o.start_date?'upcoming':dayNow()>=end?'expired':'active';
+      const payments=[{id:o.id,type:'INITIAL',amount:o.payable,simulated:true},
+        ...legacyRenewals.map(x=>({id:x.id,type:'RENEWAL',amount:x.payable??x.rent_after_coupon,simulated:true})),
+        ...completed.map(x=>({id:x.id,type:'RENEWAL',amount:x.quote_total,simulated:true}))];
+      return copy({order_id:id,lease_status:leaseStatus,start_date:o.start_date,end_date:end,total_months:totalMonths,
+        deposit_status:l.deposit||'HELD',exit:exit||null,renewal_requests:l.renewal_requests||[],invoices:l.invoices||[],
+        payments,access_allowed:leaseStatus==='active'&&service.identity==='verified',identity_status:service.identity||'pending'});
+    }
+    function lifecycleRequestRenewal(id,months){
+      if(!authorized())fail('PHONE_REQUIRED');
+      if(!validTerm(months))fail('SELECT_TERM');
+      const v=lifecycleView(id),l=lifecycleLedger(id);
+      if(!['active','upcoming'].includes(v.lease_status)||v.total_months+months>60)fail('RENEWAL_UNAVAILABLE');
+      if(l.renewal_requests.some(x=>['QUOTE_PENDING','QUOTE_READY'].includes(x.status)))fail('RENEWAL_ALREADY_PENDING');
+      const req={id:'LRENEW_'+(++s.sequence),months,status:'QUOTE_PENDING',requested_at:now()};
+      l.renewal_requests.push(req);return copy(req);
+    }
+    function lifecycleReviewQuote(id,reqId,monthly,review){
+      if(review!==true)fail('REVIEW_ONLY');
+      if(!Number.isFinite(monthly)||monthly<=0||monthly>1000000)fail('INVALID_REVIEW_QUOTE');
+      const req=lifecycleLedger(id).renewal_requests.find(x=>x.id===reqId);
+      if(!req||req.status!=='QUOTE_PENDING')fail('RENEWAL_REQUEST_NOT_PENDING');
+      req.quote_monthly=Number(monthly.toFixed(2));req.quote_total=Number((req.quote_monthly*req.months).toFixed(2));
+      req.status='QUOTE_READY';req.review_simulated=true;return copy(req);
+    }
+    function lifecycleConfirmRenewal(id,reqId){
+      if(!authorized())fail('PHONE_REQUIRED');
+      const v=lifecycleView(id),req=lifecycleLedger(id).renewal_requests.find(x=>x.id===reqId);
+      if(!req||req.status!=='QUOTE_READY'||!Number.isFinite(req.quote_total))fail('RENEWAL_QUOTE_REQUIRED');
+      if(!['active','upcoming'].includes(v.lease_status)||v.total_months+req.months>60)fail('RENEWAL_UNAVAILABLE');
+      req.status='COMPLETED';req.completed_at=now();req.id_payment='LRENEW_PAYMENT_'+(++s.sequence);
+      req.id=req.id_payment; // payment identity for invoice reference; request ref remains on record
+      notify('演示续租确认完成，费用来自人工审核报价',id);return copy(req);
+    }
+    function lifecycleRequestExit(id,type,date){
+      if(!authorized())fail('PHONE_REQUIRED');
+      if(!['expiry','early'].includes(type)||!validDate(date))fail('INVALID_EXIT_REQUEST');
+      if(lifecycleView(id).lease_status!=='active')fail('ACTIVE_ORDER_REQUIRED');
+      const l=lifecycleLedger(id);
+      if(l.exit)fail('EXIT_IN_PROGRESS');
+      l.exit={type,date,status:'REQUESTED',requested_at:now()};notify('退租安排已记录',id);return copy(l.exit);
+    }
+    function lifecycleRequestInspection(id){
+      if(!authorized())fail('PHONE_REQUIRED');
+      const l=lifecycleLedger(id);
+      if(!l.exit||!['REQUESTED','INSPECTION_FAILED'].includes(l.exit.status))fail('EXIT_REQUEST_REQUIRED');
+      l.exit.status='WAITING_INSPECTION';l.deposit='WAITING_INSPECTION';
+      notify('已申请验仓，等待门店确认',id);return copy(l.exit);
+    }
+    function lifecycleReviewInspection(id,outcome,review){
+      if(review!==true)fail('REVIEW_ONLY');
+      const l=lifecycleLedger(id);
+      if(!l.exit||l.exit.status!=='WAITING_INSPECTION'||!['passed','failed'].includes(outcome))fail('INSPECTION_NOT_PENDING');
+      if(outcome==='failed'){l.exit.status='INSPECTION_FAILED';return copy(l.exit);}
+      l.exit.status='INSPECTION_PASSED';l.deposit='REFUND_PENDING';
+      const service=paidService(id);service.useStatus='ended';
+      const o=findOrder(id);for(const unitId of o.unit_ids)if(s.stock[unitId]==='occupied')s.stock[unitId]='available';
+      s.inventoryVersion++;notify('演示验仓通过，押金待处理',id);return copy(l.exit);
+    }
+    function lifecycleReviewRefund(id,review){
+      if(review!==true)fail('REVIEW_ONLY');
+      const l=lifecycleLedger(id);
+      if(l.exit?.status!=='INSPECTION_PASSED'||l.deposit!=='REFUND_PENDING')fail('INSPECTION_REQUIRED');
+      l.deposit='REFUNDED';notify('演示押金状态已更新为退款完成，不代表真实打款',id);
+      return {status:l.deposit,amount:null,simulated:true};
+    }
+    function lifecycleRequestInvoice(id,paymentId,input){
+      if(!authorized())fail('PHONE_REQUIRED');
+      const v=lifecycleView(id),p=v.payments.find(x=>x.id===paymentId);
+      if(!p)fail('INVALID_PAYMENT');
+      const kind=input?.kind;
+      if(!['personal','enterprise'].includes(kind)||!String(input.title||'').trim()||
+        !/^\S+@\S+\.\S+$/.test(String(input.email||''))||
+        (kind==='enterprise'&&!String(input.tax_id||'').trim()))fail('INVOICE_FIELDS');
+      const l=lifecycleLedger(id);
+      if(l.invoices.some(x=>x.payment_id===paymentId))fail('INVOICE_EXISTS');
+      const req={id:'LINVOICE_'+(++s.sequence),payment_id:paymentId,payment_amount:p.amount,
+        kind,title:String(input.title).trim().slice(0,120),email:String(input.email).trim().slice(0,120),
+        tax_id:kind==='enterprise'?String(input.tax_id).trim().slice(0,50):null,
+        status:'SUBMITTED',simulated:true,submitted_at:now()};
+      l.invoices.push(req);notify('模拟发票申请已提交，实际开具尚未接入',id);return copy(req);
+    }
+
     return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,available,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,selectionValid,authorized,quote,submit,pay,recheck,
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
@@ -122,8 +224,9 @@
       cancelOrder(id){const o=findOrder(id);if(o.status!=='pending')fail('INVALID_ORDER_STATE');releaseOrder(o,'cancelled');return copy(o);},
       orderDetail(id){const o=findOrder(id);return {...copy(o),service:copy(s.services[id]||null)};},
       identity(id,outcome){const service=paidService(id);if(!['success','failed'].includes(outcome))fail('INVALID_IDENTITY');service.identity=outcome==='success'?'verified':'failed';notify(outcome==='success'?'身份验证通过':'身份验证失败，可重试',id);},
-      enterStorage(id){const service=paidService(id),o=findOrder(id);if(service.identity!=='verified')fail('IDENTITY_REQUIRED');if(o.start_date>new Date(now()).toISOString().slice(0,10))fail('BEFORE_START');if(service.exit?.status==='completed')fail('ORDER_CLOSED');service.useStatus='active';notify('已查看入仓指引',id);},
+      enterStorage(id){const service=paidService(id),o=findOrder(id);if(service.identity!=='verified')fail('IDENTITY_REQUIRED');if(o.start_date>new Date(now()).toISOString().slice(0,10))fail('BEFORE_START');if(service.exit?.status==='completed')fail('ORDER_CLOSED');if(!lifecycleView(id).access_allowed)fail('ORDER_CLOSED');service.useStatus='active';notify('已查看入仓指引',id);},
       rentalPeriod,
+      lifecycleView,lifecycleRequestRenewal,lifecycleReviewQuote,lifecycleConfirmRenewal,lifecycleRequestExit,lifecycleRequestInspection,lifecycleReviewInspection,lifecycleReviewRefund,lifecycleRequestInvoice,
       setRenewalMonths(id,value){const service=paidService(id);service.renewalDraft=String(value??'').slice(0,12);const months=Number(service.renewalDraft);if(!validTerm(months)||service.renewalQuote?.months!==months)delete service.renewalQuote;return service.renewalDraft;},
       renewalQuote(id,months){const service=paidService(id);if(service.exit)fail('EXIT_IN_PROGRESS');if(!validTerm(months))fail('SELECT_TERM');if(!authorized())fail('PHONE_REQUIRED');if(!s.coupons.some(c=>c.id==='CPN-004'))s.coupons.push({id:'CPN-004',name:'续租券',amount:150,type:'RENEWAL_CASH',status:'CLAIMED'});const a=amounts(findOrder(id).unit_ids,months,{renewal:true}),period=rentalPeriod(id);service.renewalDraft=String(months);service.renewalQuote={...a,quote_id:'RENEW_QUOTE_'+(++s.sequence),months,previous_end_date:period.end_date,new_end_date:addCalendarMonths(period.start_date,period.total_months+months),expiresAt:now()+5*60*1000,base:findOrder(id).unit_ids.map(x=>s.prices[x]||unit(x).base_month)};return copy(service.renewalQuote);},
       payRenewal(id,expectedMonths){const service=paidService(id),o=findOrder(id),q=service.renewalQuote;if(!authorized())fail('PHONE_REQUIRED');if(service.exit)fail('EXIT_IN_PROGRESS');const draft=Number(service.renewalDraft??q?.months),stale=()=>{delete service.renewalQuote;fail('QUOTE_STALE');};if(!q||!validTerm(draft)||q.months!==draft||(expectedMonths!==undefined&&(!validTerm(expectedMonths)||expectedMonths!==q.months))||q.expiresAt<=now()||q.previous_end_date!==rentalPeriod(id).end_date||q.new_end_date!==addCalendarMonths(o.start_date,rentalPeriod(id).total_months+q.months)||o.unit_ids.some((u,i)=>(s.prices[u]||unit(u).base_month)!==q.base[i]))stale();const fresh=amounts(o.unit_ids,q.months,{renewal:true});if(Object.keys(fresh).some(k=>fresh[k]!==q[k]))stale();const payment={...q,id:'RENEW_'+(++s.sequence),paid_at:now(),kind:'RENEWAL'};service.renewals.push(payment);if(q.coupon_id)s.coupons.find(c=>c.id===q.coupon_id).status='REDEEMED';delete service.renewalQuote;service.renewalDraft='';notify('续租付款已记录',id);return copy(payment);},
