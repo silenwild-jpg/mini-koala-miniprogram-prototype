@@ -130,10 +130,13 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
    {const ctx=await browser.newContext({viewport:{width,height}});const {page,app,errors}=await start(ctx,'S01');
     await app.locator('#screen').evaluate(()=>{window.SIM_DEMO.core.setRequirement(3,6,true);window.SIM_DEMO.persist();window.SIM_DEMO.navigate('S5');});
     await app.locator('#screen.page-S5').waitFor();const s5=app.frameLocator('#br04-frame');
+    await s5.locator('#main-buy').waitFor();
+    assert.equal(await app.locator('#screen.page-S5').count(),1,'S5 screenshot is not captured on S5');
+    await page.screenshot({path:path.join(dir,'s5-recommendation-'+width+'.png'),fullPage:true});
     await s5.locator('#main-buy').click();await phone(app);
     const o=await orderReady(app);await finish(app,o,'success');
     await app.locator('button[data-value="DP01"]').waitFor();
-    await layout(app,width);await page.screenshot({path:path.join(dir,'s5-recommendation-'+width+'.png'),fullPage:true});
+    await layout(app,width);await page.screenshot({path:path.join(dir,'o03-after-s5-order-'+width+'.png'),fullPage:true});
     assert.deepEqual(errors,[]);out.push({size:width,case:'S5-prefilled-to-O03',result:'PASS'});await ctx.close();}
   }
   fs.writeFileSync(path.join(dir,'summary.json'),JSON.stringify({result:'PASS',cases:out,scope:'isolated PR; S5 capacity preseeded; not deployed RC2'},null,2));
