@@ -16,7 +16,8 @@ function render(page,core,selectedId,tools){
  }[s]||'办理中');
  const publicOrder=id=>{
    const suffix=String(id||'').match(/[0-9]+$/)?.[0];
-   return 'KL'+(suffix||'0').padStart(8,'0');
+   if(suffix)return 'KL'+suffix.padStart(8,'0');
+   return 'KL'+Array.from(String(id||'')).reduce((n,ch)=>(Math.imul(n,31)+ch.charCodeAt(0))>>>0,0).toString().padStart(10,'0').slice(-10);
  };
  let body='<div class="detail-blank">';
  if(!match)return title(names[page]||'租后管理','O03')+body+'<p>没有可办理租后服务的订单，请从我的订单进入。</p>'+button('go','返回订单','M01','outline')+'</div>';
