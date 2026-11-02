@@ -50,6 +50,13 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
   for(const [width,height] of dims){
    // Primary route: real S01 click -> S02 click -> term -> phone refusal -> reattempt -> O01 -> pay -> O03 -> aftercare
    {const ctx=await browser.newContext({viewport:{width,height}});const {page,app,errors}=await start(ctx,'H01');
+    // VIS-11J old homepage is the user-selected final visual; capture actual runtime before navigation.
+    const hero=app.locator('#heroPhoto'),task=app.locator('#taskPhoto'),nav=app.locator('#navPhoto');
+    for(const img of [hero,task,nav])assert(await img.evaluate(async el=>{try{await el.decode();return el.naturalWidth>0;}catch{return false;}}),'approved VIS-11J H01 image missing');
+    assert((await hero.getAttribute('src')).includes(width===375?'375':'390'),'wrong H01 responsive visual asset');
+    assert.equal(await app.locator('.task-hotspots button[aria-label="找附近门店"]').count(),1);
+    assert.equal(await app.locator('.task-hotspots button[aria-label="估大小算价格"]').count(),1);
+    await page.screenshot({path:path.join(dir,'h01-vis11j-final-runtime-'+width+'.png'),fullPage:true});
     await app.locator('.task-hotspots button[aria-label="找附近门店"]').click();await app.locator('#screen.page-S01').waitFor();
     await verifyRouteRemoved(app);
     await fromStore(app);await phone(app,true);
