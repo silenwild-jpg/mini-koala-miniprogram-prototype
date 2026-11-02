@@ -5,7 +5,7 @@ on:
       - isolate/rc2-merge-prep-10-order-review-hifi-gate-20261102
   pull_request:
     branches:
-      - isolate/rc2-merge-prep-10-unified-rc2-demo-20261102
+      - isolate/rc2-merge-prep-09-unified-rc2-demo-20261102
   workflow_dispatch:
 permissions:
   contents: read
