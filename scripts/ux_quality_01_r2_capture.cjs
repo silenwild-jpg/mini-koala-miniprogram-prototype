@@ -66,15 +66,19 @@ try{
     await page.waitForTimeout(130);
   });
   await safe('05-S02-detail','Store detail after list entry',async()=>{
-    await nav('S01');
-    await frame.locator('.store-entry[data-store]').first().click({timeout:10000});
+    await nav('S01','&s01_r2=1');
+    await frame.frameLocator('#s01-r2-frame').locator('.store-card').first().click({timeout:10000});
     await frame.locator('#screen.page-S02').waitFor({timeout:10000});
   });
   await safe('06-PHONE-gate','Phone gate reached from selected unit',async()=>{
     await frame.locator('.order-button[data-action="choose"]:not([disabled])').first().click();
     await frame.locator('.mk-auth-overlay').waitFor({timeout:10000});
   });
+  await safe('06b-PHONE-policy','Consent panel expanded user-facing agreement terms',async()=>{
+    await frame.locator('button[data-auth="policy"]').click({timeout:5000});
+  });
   await safe('07-O01-confirm','Formal order with consent and pricing',async()=>{
+    if(await frame.locator('button[data-auth="policyClose"]').count())await frame.locator('button[data-auth="policyClose"]').click();
     await frame.locator('#mk-auth-agree').check();
     await frame.locator('button[data-auth="wechat"]').click();
     await frame.locator('#screen.page-O01').waitFor({timeout:10000});
@@ -94,5 +98,5 @@ const names=all.filter(x=>x.filename),blocked=all.filter(x=>x.status==='NOT_CAPT
 const meta={source_sha:process.env.GITHUB_SHA||null,method:'fresh Playwright Chromium screenshots on isolated audit branch, runtime identical to central candidate',captured:names.length,blocked:blocked.length,results:all};
 fs.writeFileSync(path.join(out,'ux-r2-capture-index.json'),JSON.stringify(meta,null,2));
 console.log('UX_R2_CAPTURE_RESULT',JSON.stringify({captured:names.length,blocked:blocked.length}));
-if(names.length<20) process.exitCode=1;
+if(names.length<22) process.exitCode=1;
 })().catch(e=>{console.error(e);process.exitCode=1});
