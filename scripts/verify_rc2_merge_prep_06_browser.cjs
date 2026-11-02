@@ -30,6 +30,7 @@ for(const [width,height] of [[375,812],[390,844]]){
   const r2=page.frameLocator('#s01-r2-frame');await r2.locator('.filter').first().waitFor();
   const cols=await r2.locator('.filter').evaluateAll(xs=>xs.map(x=>({width:x.getBoundingClientRect().width,height:x.getBoundingClientRect().height})));
   assert.equal(cols.length,4);assert(cols.every(x=>x.height>=40));assert(Math.max(...cols.map(x=>x.width))-Math.min(...cols.map(x=>x.width))<2);
+  const s01Screenshot=await shot(page,'s01-r2-four-filters-before-edit',width);
   await r2.locator('.nav-more').click();
   assert.equal(await page.locator('button[data-action="r2EditDemand"]').count(),1);
   await page.locator('button[data-action="r2EditDemand"]').click();
@@ -48,9 +49,16 @@ for(const [width,height] of [[375,812],[390,844]]){
   need=await requirement(page);assert.equal(need.capacity_m3,8);assert.equal(need.term_months,6);
   assert.equal(await page.locator('#screen.page-S02').count(),1);
   await cssAudit(page,width,'#screen');
+  const scrollInfo=await page.locator('#screen').evaluate(el=>({scrollHeight:el.scrollHeight,clientHeight:el.clientHeight,scrollTop:el.scrollTop}));
+  if(scrollInfo.scrollHeight>scrollInfo.clientHeight+10){
+    await page.locator('#screen').evaluate(el=>{el.scrollTop=el.scrollHeight;});
+    const scrollBottom=await page.locator('#screen').evaluate(el=>el.scrollTop);
+    assert(scrollBottom>10,'S02 detail content cannot be scrolled');
+    await page.locator('#screen').evaluate(el=>{el.scrollTop=0;});
+  }
   const screenshot=await shot(page,'s02-after-demand-edit',width);
   await page.locator('button[aria-label="返回门店列表"]').click();await expectRoute(page,'S01','s01_r2=1');await r2.locator('.filter').first().waitFor();
-  await pass(o,{storeId:store,capacity:'3→8',term:'12→6',r2ModePreserved:true,screen:screenshot});
+  await pass(o,{storeId:store,capacity:'3→8',term:'12→6',r2ModePreserved:true,s01Screenshot,screen:screenshot});
  }
  // From S01 to CAP to ITEMS: estimate, return S01 and choose S02, then S02 edit routes to ITEMS.
  {
