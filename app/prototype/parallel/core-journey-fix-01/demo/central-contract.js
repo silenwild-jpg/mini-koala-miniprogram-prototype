@@ -72,7 +72,7 @@
   const allowedRoutes={H01:'home.html',CAP:'cap.html',ITEMS:'items.html',
     S01:'index.html?page=S01',S02:'index.html?page=S02',
     S5:'index.html?page=S5',BOOKING:'index.html?page=BOOKING',
-    QUICK:'index.html?page=QUICK',O01:'index.html?page=O01'};
+    QUICK:'index.html?page=QUICK',O01:'index.html?page=O01',M01:'index.html?page=M01',O03:'index.html?page=O03',OH01:'index.html?page=OH01'};
   function route(fixture,options={}){
     const p=String(options.page||'H01').toUpperCase();
     if(!Object.prototype.hasOwnProperty.call(allowedRoutes,p))fail('ROUTE_UNKNOWN');
