@@ -30,6 +30,7 @@ try{
   await app.locator('button[data-action="r2SearchClear"]').click();
   assert((await state()).stores.length>0);
   await app.locator('button[data-action="close"]').last().click();
+  assert(await r2.locator('.nav-more').evaluate(el=>new Promise(done=>setTimeout(()=>done(document.activeElement===el),120))), 'search modal did not restore S01 opener focus');
   // P17: closing sort/service overlays must not change filters or leave an obscuring scrim.
   for(const filterIndex of [0,3]){
    const before=await state();
@@ -40,6 +41,7 @@ try{
    const after=await state();
    assert.deepEqual(after.filterActive,before.filterActive,'closing filter sheet changed selections');
    assert.equal(await app.locator('.scrim').count(),0,'scrim stuck after close');
+   assert(await r2.locator('.filter').nth(filterIndex).evaluate(el=>new Promise(done=>setTimeout(()=>done(document.activeElement===el),120))), 'filter sheet did not restore S01 trigger focus');
   }
   // UX-02: repeated close/open must not duplicate sheets or leak a scrim.
   for(let attempt=0;attempt<3;attempt++){
@@ -48,11 +50,20 @@ try{
    await app.locator('.control-sheet button[data-action="close"]').click();
    await app.locator('.control-sheet').waitFor({state:'detached'});
    assert.equal(await app.locator('.scrim').count(),0,'stale overlay');
+   assert(await r2.locator('.filter').nth(0).evaluate(el=>new Promise(done=>setTimeout(()=>done(document.activeElement===el),120))), 'repeated sort modal did not restore focus');
   }
   // Returning from a store detail must keep selection, identity and browser back control.
   const beforeStore=await state();
   await r2.locator('.store-card').first().click();
   await app.locator('#screen.page-S02').waitFor();
+  const scrollBefore=await app.locator('#scroll').evaluate(el=>{el.scrollTop=130;return el.scrollTop;});
+  await app.locator('button[data-action="navigation"]').click();
+  await app.locator('.control-sheet').waitFor();
+  await app.locator('.control-sheet button[data-action="close"]').click();
+  await app.locator('.control-sheet').waitFor({state:'detached'});
+  assert(await app.locator('button[data-action="navigation"]').evaluate(el=>new Promise(done=>setTimeout(()=>done(document.activeElement===el),120))), 'S02 modal did not restore trigger focus');
+  const scrollAfter=await app.locator('#scroll').evaluate(el=>el.scrollTop);
+  assert(Math.abs(scrollAfter-scrollBefore)<=2,'S02 scroll changed after modal close');
   await app.locator('button[aria-label="返回门店列表"]').click();
   await r2.locator('.store-card').first().waitFor();
   assert.deepEqual((await state()).filterActive,beforeStore.filterActive,'return changed filter state');
@@ -93,6 +104,10 @@ try{
   await r2.locator('.filter').nth(2).click();
   await app.locator('button[data-action="setPrice"][data-value="all"]').click();
   assert.equal((await state()).filterActive[2],false);
+  await r2.locator('.filter').nth(2).click();
+  await app.locator('.control-sheet').waitFor();
+  assert.equal(await app.locator('.mk-auth-overlay').count(),0,'already verified user re-prompted for phone on price filter');
+  await app.locator('.control-sheet button[data-action="close"]').click();
   // R2 cards are still linked to the exact existing O01/O03 order lifecycle.
   const overflow=await r2.locator('html').evaluate(el=>el.scrollWidth-document.documentElement.clientWidth);
   assert(overflow<=4,'S01 horizontal overflow: '+overflow);
