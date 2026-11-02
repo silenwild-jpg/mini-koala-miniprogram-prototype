@@ -62,6 +62,8 @@ try{
   await app.locator('button[data-action="setPrice"][data-value="all"]').click();
   assert.equal((await state()).filterActive[2],false);
   // R2 cards are still linked to the exact existing O01/O03 order lifecycle.
+  const overflow=await r2.locator('html').evaluate(el=>el.scrollWidth-document.documentElement.clientWidth);
+  assert(overflow<=4,'S01 horizontal overflow: '+overflow);
   await r2.locator('.order[aria-disabled="false"]').first().click();
   await app.locator('#screen.page-O01').waitFor();
   const o=app.frameLocator('#br04-frame');await o.locator('#pay').waitFor();
@@ -74,8 +76,6 @@ try{
   await app.locator('button[data-value="RN01"]').waitFor();
   assert.equal((await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state().orders.at(-1))).status,'paid_simulated');
   assert.deepEqual(errors,[]);
-  const overflow=await r2.locator('html').evaluate(el=>el.scrollWidth-document.documentElement.clientWidth);
-  assert(overflow<=4,'S01 horizontal overflow: '+overflow);
   await page.screenshot({path:path.join(output,'S01_four_filters_'+width+'x'+height+'.png'),fullPage:true});
   all.push({width,height,controls:['排序','距离','价格','服务'],search:'nav-more',gate:{distance:'UNVERIFIED_BLOCKED',price:'PHONE_AND_TERM_REQUIRED'},paidOrderToO03:'PASS',browserErrors:0});
   await ctx.close();
