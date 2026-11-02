@@ -45,16 +45,6 @@
     document.documentElement.dataset.binding='CENTRAL_RC1';
     document.documentElement.dataset.source=state.sourceNamespace;
     document.documentElement.dataset.verifiedDistance=String(state.distanceVerified);
-    const old=document.querySelector('.search-pill span');
-    if(old){
-      const input=document.createElement('input');input.id='r2-search';input.type='search';
-      input.autocomplete='off';input.setAttribute('aria-label','搜索门店及地址');
-      input.style.cssText='border:0;outline:0;background:transparent;width:100%;font:inherit;color:inherit;min-width:0;padding:0;';
-      old.replaceWith(input);
-      input.addEventListener('input',()=>bridge.search(input.value));
-    }
-    const input=document.querySelector('#r2-search');
-    if(input){if(document.activeElement!==input)input.value=state.keyword||'';input.placeholder=state.city+' · 搜索门店';}
     const existing=Array.from(stage.querySelectorAll('.store-card'));
     while(existing.length<state.stores.length){
       const clone=masters[existing.length%2].cloneNode(true);
@@ -69,6 +59,7 @@
     document.querySelectorAll('.filter').forEach((n,i)=>{
       n.firstChild.nodeValue=state.filterLabels[i]+' ';
       n.setAttribute('aria-label',state.filterLabels[i]);
+      n.setAttribute('aria-pressed',String(!!state.filterActive?.[i]));
     });
     if(typeof scaleApprovedReference==='function')scaleApprovedReference();
   }
@@ -84,14 +75,14 @@
   });
   document.querySelector('.nav-back')?.addEventListener('click',()=>bridge.action('home'));
   document.querySelector('.nav-target')?.addEventListener('click',()=>bridge.action('city'));
-  document.querySelector('.map-pill')?.addEventListener('click',()=>bridge.action('navigation'));
+  document.querySelector('.nav-more')?.addEventListener('click',()=>bridge.action('searchModal'));
   document.querySelectorAll('.filter').forEach((n,i)=>{
     n.setAttribute('role','button');n.tabIndex=0;
     const action=()=>bridge.filter(i);
     n.addEventListener('click',action);
     n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action();}});
   });
-  for(const [selector,label] of [['.nav-back','返回首页'],['.nav-target','切换城市'],['.map-pill','地图']]){
+  for(const [selector,label] of [['.nav-back','返回首页'],['.nav-target','切换城市'],['.nav-more','搜索门店']]){
     const n=document.querySelector(selector);n.removeAttribute('aria-hidden');
     n.setAttribute('role','button');n.setAttribute('aria-label',label);n.tabIndex=0;
     n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();n.click();}});
