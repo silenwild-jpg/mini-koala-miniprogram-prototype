@@ -16,7 +16,8 @@ assert(app.includes("r2Filters.region='all';r2Filters.capacity='all';saveR2Filte
 assert(bind.includes("bridge.action('searchModal')")&&bind.includes("state.filterActive"));
 assert(!bind.includes("document.querySelector('.search-pill span')"));
 assert(!/\bU01\s*:|\bQ01\s*:/.test(contract));
-assert.equal(gate.h01.status,'SOURCE_NOT_MOUNTED');assert.equal(gate.h01.adoption_status,'HOLD_DO_NOT_REPLACE_RC1_HOME');
+assert.equal(gate.h01.status,'HIFI06_ABANDONED');assert.equal(gate.h01.next_final_visual,'NOT_SELECTED');
+assert.deepEqual(gate.h01.retired_prs,[34,38]);
 assert.equal(gate.release.allow_merge_main,false);
 const git=(...xs)=>cp.execFileSync('git',xs,{encoding:'utf8'}).trim();
 for(const a of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp']){
@@ -25,4 +26,4 @@ for(const a of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp']){
 }
 const home='app/prototype/parallel/core-journey-fix-01/demo/home.html';
 assert.equal(git('rev-parse','HEAD:'+home),git('rev-parse',gate.baseline_commit+':'+home),'unapproved H01 swap');
-console.log('RC2_MERGE_PREP_02_STATIC_PASS',JSON.stringify({filterControls:4,searchLocation:'navbar-more',h01:'HOLD',masterImages:'UNCHANGED',production:'UNTOUCHED'}));
+console.log('RC2_MERGE_PREP_04_STATIC_PASS',JSON.stringify({filterControls:4,searchLocation:'navbar-more',h01:'HOLD',masterImages:'UNCHANGED',production:'UNTOUCHED'}));
