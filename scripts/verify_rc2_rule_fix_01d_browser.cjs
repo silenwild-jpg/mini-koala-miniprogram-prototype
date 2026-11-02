@@ -22,6 +22,7 @@ async function phone(app,expectDenied=false){
  const policyCopy=await policy.innerText();
  assert.match(policyCopy,/关闭登录层后，仍可浏览门店、仓位及公开月租信息/,'R2 privacy sheet must explain publicly browsable prices');
  assert.doesNotMatch(policyCopy,/参考价/,'R2 retired reference-price wording must not return');
+ assert.doesNotMatch(policyCopy,/本地原型|待提供|测试码/,'R2 customer policy sheet must not show internal demo placeholders');
  const viewportWidth=await overlay.evaluate(()=>innerWidth);
  await overlay.screenshot({path:path.join(dir,'phone-policy-r2-copy-'+viewportWidth+'.png')});
  await overlay.locator('button[data-auth="policyClose"]').click();
