@@ -1,5 +1,5 @@
 /* VIS-REBUILD-03C: isolated presentation data, permitted by user on 2026-10-28.
- * Services, compact addresses, distances and A photographs are prototype content.
+ * Services, compact addresses and A photographs are prototype content. Distance is rendered only from verified central location data.
  * Original fixture IDs, inventory, capacity, price and order contracts are untouched.
  */
 (function(root){
@@ -13,7 +13,7 @@
     if(address.length>18)address=district+(s.community||s.name.replace(/店$/,'')).slice(0,9)+'88号B1层';
     const photoIndex=index%2;
     return {district,address,services:photoIndex?['24小时开放','商圈核心','交通便利']:['24小时开放','近地铁','停车方便'],
-      distance:(index===0?1.2:index===1?3.6:4.2+(index-2)*0.7).toFixed(1)+'km',
+      distance:null, // No ranking-index-based demo kilometers
       photo:'assets/s01-r2-a-'+(photoIndex+1)+'.webp'};
   }
   // Only copy on the isolated R2 journey is normalized. No fixture or state mutation.
