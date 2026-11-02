@@ -90,7 +90,7 @@ for(const [width,height] of [[375,812],[390,844]]){
  assert.equal(state.requirement.term_months,6);
  assert.equal(state.requirement.term_confirmed,true);
  assert.deepEqual(errors,[]);
- result.push({viewport:width+'x'+height,publicMonthly:true,phonePlusTermWholeRent:expected.price,monthly:expected.monthly,distance:'PRESET_DEMO_KM_DISPLAY',distanceSort:'BLOCKED',cardGeometry:geometry,checkoutRoute:'O01',jsErrors:0});
+ result.push({viewport:width+'x'+height,publicMonthly:true,phonePlusTermWholeRent:expected.price,monthly:expected.monthly,distance:'PRESET_DEMO_KM_DISPLAY',distanceSort:'ENABLED_R2_DEMO_WITHOUT_VERIFIED_LOCATION',cardGeometry:geometry,checkoutRoute:'O01',jsErrors:0});
  await ctx.close();
 }
 fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({result:'PASS',cases:result,visualSignoff:'TECHNICAL_ONLY',mergeAllowed:false},null,2));
