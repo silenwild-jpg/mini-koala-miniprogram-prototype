@@ -30,7 +30,9 @@ for(const file of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp']){
 const homepage='app/prototype/parallel/core-journey-fix-01/demo/home.html';
 assert.equal(git('rev-parse','HEAD:'+homepage),git('rev-parse',cfg.baseline_commit+':'+homepage),'unapproved H01 source swap');
 assert.equal(cfg.h01.status,'HIFI06_ABANDONED');
-assert.equal(cfg.h01.next_final_visual,'NOT_SELECTED');
+assert.equal(cfg.h01.next_final_visual,'H01_APPROVED_MASTER_20261102.png');
+assert.equal(cfg.h01.physical_source_received,false);
+assert.equal(cfg.h01.implementation_signed_off,false);
 assert.equal(cfg.s01.filter_count,4);
 assert.equal(cfg.s01.distance_sort_demo_allowed_without_verified_location,true);
 assert.equal(cfg.s01.verified_location_required_in_live_mode,true);
@@ -51,7 +53,7 @@ const head=git('rev-parse','HEAD'),main=git('rev-parse','origin/main');
 const changed=parseInt(git('rev-list','--count','origin/main..HEAD'),10);
 const missing=parseInt(git('rev-list','--count','HEAD..origin/main'),10);
 const blockers=[
-  'H01_FINAL_VISUAL_NOT_SELECTED_OR_SIGNED_OFF',
+  'H01_SELECTED_MASTER_SOURCE_NOT_PHYSICALLY_RECEIVED_OR_SIGNED_OFF',
   'S01_FOUR_FILTER_VISUAL_FINAL_APPROVAL_PENDING',
   'EXPLICIT_MAIN_MERGE_AUTHORIZATION_MISSING',
   'EXPLICIT_DEPLOY_AUTHORIZATION_MISSING'
