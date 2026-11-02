@@ -23,7 +23,8 @@ for(const p of ['M01','O03','OH01'])assert.match(read('central-contract.js'),new
 for(const p of ['U01','Q01'])assert.doesNotMatch(read('central-contract.js'),new RegExp(p+":"));
 assert.match(loader,/src="lifecycle-contract\.js"/);
 assert.match(core,/function renderM01/);assert.match(core,/function renderO03/);assert.match(core,/function renderOH01/);
-assert.match(core,/selectedOrderId=sessionStorage\.getItem/);
+assert.match(core,/requestedOrderId&&state\(\)\.orders\.some/);
+assert.match(core,/sessionStorage\.getItem\('mk_lifecycle_selected_order_v1'\)/);
 assert.match(core,/sessionStorage\.setItem\('mk_lifecycle_selected_order_v1',id\)/);
 assert.match(core,/button\('orderDetail','查看订单详情',o\.id/);
 assert.doesNotMatch(core,/location\.href='account\.html'/);
