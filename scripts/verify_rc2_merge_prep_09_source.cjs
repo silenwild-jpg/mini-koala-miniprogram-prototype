@@ -28,7 +28,16 @@ for(const file of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp']){
  sourceAssets[file]=actual;
 }
 const homepage='app/prototype/parallel/core-journey-fix-01/demo/home.html';
-assert.equal(git('rev-parse','HEAD:'+homepage),git('rev-parse',cfg.baseline_commit+':'+homepage),'unapproved H01 source swap');
+// VIS-11J is user-selected; exactly two text labels and one intrusive pseudo-overlay are approved repairs.
+const sourceHome=git('show',cfg.baseline_commit+':'+homepage);
+const overlayToken='.fidelity-hero .task-hotspots button:nth-child(2)::after{';
+const start=sourceHome.indexOf(overlayToken),end=sourceHome.indexOf('}',start)+1;
+assert(start>=0&&end>start,'approved legacy H01 overlay not found');
+const authorizedHome=(sourceHome.slice(0,start)+sourceHome.slice(end))
+  .replaceAll('aria-label="估大小算价格"','aria-label="估算大小"')
+  .replace('<b data-edit>估大小算价格</b>','<b data-edit>估算大小</b>')
+  .replace('<h2 data-edit>推荐门店</h2>','<h2 data-edit>附近推荐门店</h2>');
+assert.equal(read(homepage).trim(),authorizedHome.trim(),'unapproved H01 change beyond VIS11J fidelity repair');
 assert.equal(cfg.h01.status,'HIFI06_ABANDONED');
 assert.equal(cfg.h01.next_final_visual,'VIS-11J');
 assert.equal(cfg.h01.effective_h01_visual,'VIS11J_USER_APPROVED_FINAL_VISUAL_20261102');
