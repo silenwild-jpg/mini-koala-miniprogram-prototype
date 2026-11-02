@@ -41,6 +41,21 @@ try{
    assert.deepEqual(after.filterActive,before.filterActive,'closing filter sheet changed selections');
    assert.equal(await app.locator('.scrim').count(),0,'scrim stuck after close');
   }
+  // UX-02: repeated close/open must not duplicate sheets or leak a scrim.
+  for(let attempt=0;attempt<3;attempt++){
+   await r2.locator('.filter').nth(0).click();
+   assert.equal(await app.locator('.control-sheet').count(),1,'duplicate sort sheets');
+   await app.locator('.control-sheet button[data-action="close"]').click();
+   await app.locator('.control-sheet').waitFor({state:'detached'});
+   assert.equal(await app.locator('.scrim').count(),0,'stale overlay');
+  }
+  // Returning from a store detail must keep selection, identity and browser back control.
+  const beforeStore=await state();
+  await r2.locator('.store-card').first().click();
+  await app.locator('#screen.page-S02').waitFor();
+  await app.locator('button[aria-label="返回门店列表"]').click();
+  await r2.locator('.store-card').first().waitFor();
+  assert.deepEqual((await state()).filterActive,beforeStore.filterActive,'return changed filter state');
   // sorting
   await r2.locator('.filter').nth(0).click();
   await app.locator('button[data-action="setSort"][data-value="recommended"]').waitFor();
