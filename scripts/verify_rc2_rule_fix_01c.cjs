@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+'use strict';
+const assert=require('node:assert/strict');
+const path=require('node:path');
+const root=path.resolve(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo');
+const {create}=require(path.join(root,'demo-core.js'));
+const catalog=require(path.join(root,'fixtures.js'));
+const read=require(path.join(root,'lifecycle-contract.js'));
+const fixed=Date.parse('2026-11-02T12:00:00Z');
+let n=0;const check=(fn)=>{fn();n++;};
+const sample=create({now:()=>fixed}).state();
+const store=catalog.stores[0];const unit=catalog.units.find(u=>u.store_id===store.id);
+assert(store&&unit,'missing fixture');
+sample.orders=[
+ {id:'SIM_ORDER_PAID',kind:'SIMULATED_ORDER',status:'paid_simulated',store_id:store.id,unit_ids:[unit.id],term_months:6,start_date:'2026-10-01',payable:4857,deposit:687},
+ {id:'SIM_ORDER_FAILED',kind:'SIMULATED_ORDER',status:'payment_failed',store_id:store.id,unit_ids:[unit.id],term_months:3,start_date:'2026-10-01',payable:2500,deposit:500},
+ {id:'SIM_ORDER_PENDING',kind:'SIMULATED_ORDER',status:'pending',store_id:store.id,unit_ids:[unit.id],term_months:3,start_date:'2026-10-01',payable:2500,deposit:500,expiresAt:fixed+3600000}
+];
+sample.services={SIM_ORDER_PAID:{identity:'verified',useStatus:'active',renewals:[],exit:null,deposit:'held',invoices:[]}};
+sample.auth={status:'verified',phone:'13800138000',method:'sim',expiresAt:fixed+86400000};
+sample.stock={[unit.id]:'occupied'};
+const core=create({now:()=>fixed,state:sample});
+check(()=>assert.equal(core.lifecycleView('SIM_ORDER_PAID').lease_status,'active'));
+check(()=>assert.equal(core.lifecycleView('SIM_ORDER_PAID').access_allowed,true));
+check(()=>assert.throws(()=>core.lifecycleView('SIM_ORDER_FAILED'),/PAID_ORDER_REQUIRED/));
+check(()=>assert.throws(()=>core.lifecycleView('SIM_ORDER_PENDING'),/PAID_ORDER_REQUIRED/));
+const req=core.lifecycleRequestRenewal('SIM_ORDER_PAID',3);
+check(()=>assert.equal(req.status,'QUOTE_PENDING'));
+check(()=>assert.equal(core.lifecycleView('SIM_ORDER_PAID').payments.length,1));
+check(()=>assert.throws(()=>core.lifecycleReviewQuote('SIM_ORDER_PAID',req.id,700,false),/REVIEW_ONLY/));
+check(()=>assert.throws(()=>core.lifecycleConfirmRenewal('SIM_ORDER_PAID',req.id),/RENEWAL_QUOTE_REQUIRED/));
+const quoted=core.lifecycleReviewQuote('SIM_ORDER_PAID',req.id,700,true);
+check(()=>assert.equal(quoted.quote_total,2100));
+const paid=core.lifecycleConfirmRenewal('SIM_ORDER_PAID',req.id);
+check(()=>assert.equal(paid.id,req.id)); // renewal request identity is stable
+check(()=>assert.equal(core.lifecycleView('SIM_ORDER_PAID').total_months,9));
+check(()=>assert.equal(core.lifecycleView('SIM_ORDER_PAID').payments.length,2));
+check(()=>assert.equal(core.lifecycleView('SIM_ORDER_PAID').end_date,'2027-07-01'));
+check(()=>assert.throws(()=>core.lifecycleRequestRenewal('SIM_ORDER_PAID',60),/RENEWAL_UNAVAILABLE/));
+const after=core.state();
+const restored=create({now:()=>fixed,state:after});
+check(()=>assert.equal(restored.lifecycleView('SIM_ORDER_PAID').renewal_requests[0].status,'COMPLETED'));
+const invoice=restored.lifecycleRequestInvoice('SIM_ORDER_PAID',paid.payment_id,{kind:'enterprise',title:'测试企业',email:'billing@example.com',tax_id:'1234567890'});
+check(()=>assert.equal(invoice.status,'SUBMITTED'));
+check(()=>assert.equal(invoice.payment_amount,2100));
+check(()=>assert.throws(()=>restored.lifecycleRequestInvoice('SIM_ORDER_PAID',paid.payment_id,{kind:'personal',title:'某某',email:'me@example.com'}),/INVOICE_EXISTS/));
+const exit=restored.lifecycleRequestExit('SIM_ORDER_PAID','early','2026-11-15');
+check(()=>assert.equal(exit.status,'REQUESTED'));
+check(()=>assert.equal(restored.lifecycleView('SIM_ORDER_PAID').lease_status,'returning'));
+check(()=>assert.throws(()=>restored.lifecycleRequestRenewal('SIM_ORDER_PAID',1),/RENEWAL_UNAVAILABLE/));
+restored.lifecycleRequestInspection('SIM_ORDER_PAID');
+check(()=>assert.equal(restored.lifecycleView('SIM_ORDER_PAID').deposit_status,'WAITING_INSPECTION'));
+check(()=>assert.throws(()=>restored.enterStorage('SIM_ORDER_PAID'),/ORDER_CLOSED/));
+check(()=>assert.throws(()=>restored.lifecycleReviewInspection('SIM_ORDER_PAID','passed',false),/REVIEW_ONLY/));
+restored.lifecycleReviewInspection('SIM_ORDER_PAID','passed',true);
+check(()=>assert.equal(restored.lifecycleView('SIM_ORDER_PAID').lease_status,'ended'));
+check(()=>assert.equal(restored.lifecycleView('SIM_ORDER_PAID').deposit_status,'REFUND_PENDING'));
+check(()=>assert.throws(()=>restored.lifecycleReviewRefund('SIM_ORDER_PAID',false),/REVIEW_ONLY/));
+const refund=restored.lifecycleReviewRefund('SIM_ORDER_PAID',true);
+check(()=>assert.equal(refund.amount,null));
+check(()=>assert.equal(restored.lifecycleView('SIM_ORDER_PAID').deposit_status,'REFUNDED'));
+check(()=>assert.equal(read.history(restored.state()).length,3));
+check(()=>assert.equal(read.orderById(restored.state(),'SIM_ORDER_PAID').payment_records.length,2));
+check(()=>assert.equal(read.orderById(restored.state(),'SIM_ORDER_FAILED').payment_records.length,0));
+check(()=>assert.equal(read.orderById(restored.state(),'SIM_ORDER_PAID').lease_status,'ended'));
+const expired=sample;expired.orders[0].start_date='2026-01-01';
+const past=create({now:()=>fixed,state:expired});
+check(()=>assert.equal(past.lifecycleView('SIM_ORDER_PAID').access_allowed,false));
+check(()=>assert.throws(()=>past.enterStorage('SIM_ORDER_PAID'),/ORDER_CLOSED/));
+console.log('RC2_RULE_FIX_01C_LIFECYCLE_PASS',JSON.stringify({assertion_groups:n,scope:'isolated simulated runtime; no live backend'}));
