@@ -55,8 +55,9 @@ def copy_tree(source: Path, destination: Path) -> int:
 def main() -> None:
     cfg = json.loads((REPO / "docs/RC2_MERGE_PREP_02_SOURCE_GATE.json").read_text("utf-8"))
     assert cfg["h01"]["status"] == "HIFI06_ABANDONED", "RETIRED_MASTER_MUST_NOT_RETURN"
-    assert cfg["h01"]["next_final_visual"] == "H01_APPROVED_MASTER_20261102.png", "LATEST_H01_MASTER_SELECTION_MISSING"
-    assert cfg["h01"]["physical_source_received"] is False, "DO_NOT_CLAIM_H01_SOURCE_IMPORTED"
+    assert cfg["h01"]["next_final_visual"] == "VIS-11J", "USER_APPROVED_OLD_H01_VISUAL_MISSING"
+    assert cfg["h01"]["physical_source_received"] is True, "APPROVED_OLD_H01_IMAGE_NOT_RECEIVED"
+    assert cfg["h01"]["approved_visual_embedded_in_repo"] is False, "DO_NOT_CLAIM_GITHUB_MASTER_IMAGE_IMPORT"
     assert cfg["release"]["allow_merge_main"] is False, "MUST_NOT_ELEVATE_RELEASE_PERMISSION"
     assert cfg["release"]["allow_deploy"] is False, "MUST_NOT_ELEVATE_DEPLOY_PERMISSION"
 
@@ -104,7 +105,7 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
 <p>内部隔离演示候选。此入口仅用于业务流程与视觉评审，不代表正式发布或最终视觉签收。</p>
 <div class="links">
 <a href="central-review-02g.html?catalog=sim&page=S01&s01_r2=1">附近门店 · S01 四筛选</a>
-<a href="central-review-02g.html?catalog=sim&page=H01">首页 · 现有功能演示</a>
+<a href="central-review-02g.html?catalog=sim&page=H01">首页 · 已选 VIS-11J 旧版视觉（运行效果待对照）</a>
 <a href="central-review-02g.html?catalog=sim&page=CAP">容量填写</a>
 <a href="central-review-02g.html?catalog=sim&page=ITEMS">按物品与场景估算</a>
 <a href="central-review-02g.html?catalog=sim&page=S5">租期与推荐</a>
@@ -127,7 +128,7 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
         "retired_prs": [34, 38],
         "hifi06": "ABANDONED_NOT_BUNDLED",
         "release_status": "ISOLATED_INTERNAL_REVIEW_ONLY",
-        "visual_signoff": "S01_SCREENSHOT_TECHNICAL_REVIEW_ONLY_H01_MASTER_SELECTED_SOURCE_PENDING",
+        "visual_signoff": "H01_VIS11J_OLD_VISUAL_USER_APPROVED_RUNTIME_QA_PENDING_S01_SCREENSHOT_TECHNICAL_ONLY",
         "main_merge_allowed": False,
         "deployment_allowed": False,
         "files": len(manifest),
