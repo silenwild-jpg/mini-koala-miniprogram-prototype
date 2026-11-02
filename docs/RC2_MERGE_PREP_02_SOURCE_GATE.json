@@ -14,21 +14,25 @@
       34,
       38
     ],
-    "effective_h01_visual": "CURRENT_DEMO_ONLY_NOT_FINAL_APPROVED",
-    "next_final_visual": "H01_APPROVED_MASTER_20261102.png",
-    "visual_gate": "SEPARATE_NOT_REQUIRED_FOR_ISOLATED_BUSINESS_QA",
-    "final_signoff": "PENDING_SOURCE_RECEIPT_AND_375_390_VISUAL_REVIEW",
+    "effective_h01_visual": "VIS11J_USER_APPROVED_FINAL_VISUAL_20261102",
+    "next_final_visual": "VIS-11J",
+    "visual_gate": "APPROVED_OLD_HOME_VIS11J_NO_UNAUTHORIZED_VISUAL_REDESIGN",
+    "final_signoff": "VISUAL_APPROVED_IMPLEMENTATION_375_390_SOURCE_COMPARISON_PENDING",
     "source_pr_contains_hifi": false,
     "approved_master_size_px": [
-      863,
-      1822
+      1024,
+      1536
     ],
     "master_select_date": "2026-11-02",
-    "master_receipt": "LIBRARY_IMAGE_VISUALLY_INSPECTED_RAW_BYTES_UNAVAILABLE",
-    "source_zip": "BR01_H01_MASTER_20261102.zip",
-    "implementation_candidate": "BR01_H01_HIFI_01.zip",
-    "physical_source_received": false,
-    "implementation_signed_off": false
+    "master_receipt": "USER_IMAGE_PIXEL_INSPECTED_SHA256_VERIFIED_IN_CURRENT_SESSION",
+    "source_zip": null,
+    "implementation_candidate": "EXISTING_RC2_H01_HOME_HTML_VIS11J",
+    "physical_source_received": true,
+    "implementation_signed_off": false,
+    "approved_master_name": "OLD_VIS_11J_NOT_LATEST.png",
+    "approved_master_sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660",
+    "approved_visual_embedded_in_repo": false,
+    "decision_note": "User explicitly chose legacy dark corridor VIS-11J old homepage as final visual, superseding 2026-11-02 light H01 master. HIFI-06 remains abandoned. Approved screenshot is a two-viewport composite; runtime must be compared, not inferred signed off."
   },
   "s01": {
     "approved_change": "Replace search strip and area/capacity/term triad with four sort/distance/price/service filters",
@@ -56,7 +60,7 @@
     "isolated_bundle_is_public_release": false,
     "main_merge_gate": "HOLD_VISUAL_AND_AUTHORIZATION",
     "orders_visual_scope": "M01_O03_OH01_AND_AFTERCARE_STATUS_COPY",
-    "h01_master_status": "MASTER_SELECTED_PHYSICAL_RECEIPT_PENDING_HIFI06_ABANDONED"
+    "h01_master_status": "VIS11J_OLD_HOME_FINAL_VISUAL_APPROVED_IMPLEMENTATION_SIGNOFF_PENDING_HIFI06_ABANDONED"
   },
   "decision_date": "2026-11-02"
 }
