@@ -19,7 +19,7 @@
     let secondary=priceBox.querySelector('.price-secondary');
     if(!secondary){secondary=document.createElement('small');secondary.className='price-secondary';priceBox.append(secondary);}
     setText(secondary,u.secondary);
-    priceBox.setAttribute('aria-label',u.priceKind==='term'?u.price+' 整期租金，'+u.secondary:u.price+' 月租参考，'+u.secondary);
+    priceBox.setAttribute('aria-label',u.priceKind==='term'?u.price+' 整期租金，'+u.secondary:u.price+' 每月起');
     setText(el.querySelector('.unit-desc'),u.usage);
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
     const btn=el.querySelector('.order');if(btn){
@@ -41,7 +41,7 @@
     tags.forEach((tag,i)=>{tag.hidden=!s.services[i];setText(tag,s.services[i]||'');});
     card.querySelector('.store-tags').style.visibility=s.services.length?'visible':'hidden';
     const address=card.querySelector('.address-copy');setText(address,s.address);address.title=s.address;
-    const distance=card.querySelector('.km');setText(distance,s.distance);distance.dataset.verified=String(!!s.distanceVerified);distance.setAttribute('aria-label',s.distanceVerified?'距离约'+s.distance:'暂未取得可靠定位，定位后显示距离');
+    const distance=card.querySelector('.km');setText(distance,s.distance);distance.dataset.verified=String(!!s.distanceVerified);distance.setAttribute('aria-label','距离约'+s.distance);
     card.querySelectorAll('.unit').forEach((el,i)=>setUnit(el,s.units[i]));
     card.querySelector('.units').hidden=!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);
