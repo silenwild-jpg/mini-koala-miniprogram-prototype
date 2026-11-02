@@ -58,27 +58,31 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     await app.locator('.order-button[data-action="choose"]:not([disabled])').first().click();
     await phone(app);
     const o=await orderReady(app);const body=await finish(app,o,'success');
-    assert(body.includes('paid_simulated'),'O03 did not show paid order');
+    assert(body.includes('已支付')&&!body.includes('paid_simulated'),'O03 must show customer-facing paid status');
     const state=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state());
     assert.equal(state.orders.length,1);assert.equal(state.orders[0].status,'paid_simulated');assert.equal(state.services[state.orders[0].id].deposit,'held');
+    await app.locator('.mk-order-summary').waitFor();
+    assert.equal(await app.locator('.mk-order-badge').first().innerText(),'已支付');
+    assert.equal(await app.locator('.mk-order-action').count(),4);
+    await page.screenshot({path:path.join(dir,'o03-customer-success-'+width+'.png'),fullPage:true});
     await app.locator('button[data-value="RN01"]').click();await app.locator('#renew-months').waitFor();
     const orderId=state.orders[0].id;
-    await page.goto(base+'/central-review-02g.html?catalog=sim&page=O03');const af=page.frameLocator('#central-host');await af.getByText(orderId).first().waitFor();
+    await page.goto(base+'/central-review-02g.html?catalog=sim&page=O03');const af=page.frameLocator('#central-host');await af.getByText('KL'+orderId.match(/[0-9]+$/)[0].padStart(8,'0'),{exact:false}).first().waitFor();
     await verifyRouteRemoved(af);
     await page.goto(base+'/central-review-02g.html?catalog=sim&page=H01');
     let home=page.frameLocator('#central-host');
     await home.locator('.lifecycle-home-task a').first().click();
-    await home.locator('#screen.page-O03').waitFor();await home.getByText(orderId).first().waitFor();
+    await home.locator('#screen.page-O03').waitFor();await home.getByText('KL'+orderId.match(/[0-9]+$/)[0].padStart(8,'0'),{exact:false}).first().waitFor();
     await page.goto(base+'/central-review-02g.html?catalog=sim&page=H01');
     home=page.frameLocator('#central-host');
     await home.locator('[data-action="我的 → 个人中心"]').click();
-    await home.locator('#screen.page-M01').waitFor();await home.getByText(orderId).first().waitFor();
+    await home.locator('#screen.page-M01').waitFor();await home.getByText('KL'+orderId.match(/[0-9]+$/)[0].padStart(8,'0'),{exact:false}).first().waitFor();
     await layout(home,width);await page.screenshot({path:path.join(dir,'s01-success-'+width+'.png'),fullPage:true});
     assert.deepEqual(errors,[]);out.push({size:width,case:'H01-S01-payment-aftercare',result:'PASS',orderId});await ctx.close();}
    // Failure case: payment failure must persist failure record and release inventory, but not unlock RN01
    {const ctx=await browser.newContext({viewport:{width,height}});const {page,app,errors}=await start(ctx);
     await fromStore(app);await phone(app);const o=await orderReady(app);const body=await finish(app,o,'failed');
-    assert(body.includes('payment_failed'));assert.equal(await app.locator('button[data-value="RN01"]').count(),0);
+    assert(body.includes('支付失败')&&!body.includes('payment_failed'));assert.equal(await app.locator('button[data-value="RN01"]').count(),0);
     const state=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state());
     assert.equal(state.orders.at(-1).status,'payment_failed');
     assert(!state.services[state.orders.at(-1).id]);

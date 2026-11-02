@@ -160,23 +160,82 @@
     if(displayedPage===page&&$('#scroll'))positions[page]=$('#scroll').scrollTop;
     const was=displayedPage;core.authorized();persist();
     const framed={S5:'s5',BOOKING:'reserve',QUICK:'quick',O01:'o01'};
-    function renderM01(){const os=MK_LIFECYCLE_CONTRACT_V1.history(state());return title('我的','S01')+'<div class="detail-blank"><h3>我的订单</h3><p>仅内部模拟订单，无真实支付。</p>'+ (os.length?os.map(o=>'<p>'+esc(o.id)+' · '+esc(o.status)+button('orderDetail','查看详情',o.id,'outline')+'</p>').join(''):'<p>暂无订单</p>')+button('go','订单记录','OH01','outline')+'</div>';}
-  function renderO03(){
-   const os=MK_LIFECYCLE_CONTRACT_V1.history(state());
-   const o=selectedOrderId?MK_LIFECYCLE_CONTRACT_V1.orderById(state(),selectedOrderId):os[0];
-   let html=title('订单详情','M01')+'<div class="detail-blank">';
-   if(!o)html+='<h3>暂无可查看订单</h3>';
-   else {
-    html+='<h3>'+esc(o.id)+'</h3><p>订单状态：'+esc(o.status)+'</p><p>门店 ID：'+esc(o.store_id)+'</p><p>仓型 ID：'+esc(o.unit_ids.join('、'))+'</p><p>原租期：'+esc(o.term_months)+'个月</p><p>模拟应付：'+money(o.payable)+'</p>';
-    if(o.status==='paid_simulated'){
-     const v=core.lifecycleView(o.id);
-     html+='<p>租赁状态：'+esc(v.lease_status)+'</p><p>总租期：'+esc(v.total_months)+'个月 · 至'+esc(v.end_date)+'</p><p>押金状态：'+esc(v.deposit_status)+'</p>';
-     html+=button('go','续租','RN01','outline')+button('go','退租/到期','EX01','outline')+button('go','押金进度','DP01','outline')+button('go','申请发票','IV01','outline');
-    }else {html+='<p>未支付成功的订单不能使用租后服务。</p>';if(o.status==='pending')html+=button('resumeOrder','继续支付','', 'outline');}
-   }
-   return html+button('go','返回我的','M01','outline')+'</div>';
+    function readableOrderNo(id){
+    const suffix=String(id||'').match(/[0-9]+$/)?.[0];
+    if(suffix)return 'KL'+suffix.padStart(8,'0');
+    return 'KL'+Array.from(String(id||'')).reduce((n,ch)=>(Math.imul(n,31)+ch.charCodeAt(0))>>>0,0).toString().padStart(10,'0').slice(-10);
   }
-  function renderOH01(){const os=MK_LIFECYCLE_CONTRACT_V1.history(state());return title('订单记录','M01')+'<div class="detail-blank"><h3>当前与历史订单</h3>'+(os.length?os.map(o=>'<p>'+esc(o.id)+' · '+esc(o.status)+button('orderDetail','查看详情',o.id,'outline')+'</p>').join(''):'<p>暂无订单</p>')+button('go','返回我的','M01','outline')+'</div>';}
+  const orderStatusLabel=status=>({
+    paid_simulated:'已支付',pending:'待支付',payment_failed:'支付失败',
+    payment_cancelled:'支付已取消',cancelled:'已取消',expired:'已过期'
+  }[status]||'办理中');
+  const orderStatusTone=status=>status==='paid_simulated'?'paid':status==='pending'?'pending':'inactive';
+  const leaseStatusLabel=status=>({
+    upcoming:'待起租',active:'租用中',returning:'退租处理中',ended:'已退租',
+    not_active:'尚未起租',active_demo:'租用中'
+  }[status]||'办理中');
+  const depositStatusLabel=status=>({
+    HELD:'押金保管中',held:'押金保管中',
+    REFUND_PENDING:'退款处理中',REFUNDED:'已退还',
+    not_collected:'暂无押金',NOT_COLLECTED:'暂无押金'
+  }[status]||'处理中');
+  const orderStoreName=o=>store(o.store_id)?.name||'已选择门店';
+  const orderUnitName=o=>o.unit_ids.map(id=>unit(id)?.name||'仓位方案').join('、');
+  const orderLine=(label,value)=>'<div class="mk-order-line"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>';
+  function orderBrief(o){
+    return '<article class="mk-order-list-row"><div class="mk-order-list-meta"><b>'+esc(orderStoreName(o))+'</b><span class="mk-order-badge '+orderStatusTone(o.status)+'">'+esc(orderStatusLabel(o.status))+'</span></div>'
+      +'<p class="mk-order-id">订单号 '+esc(readableOrderNo(o.id))+'</p>'
+      +'<div class="mk-order-list-main"><span>'+esc(orderUnitName(o))+' · '+esc(o.term_months)+'个月</span><b>'+money(o.payable)+'</b></div>'
+      +button('orderDetail','查看订单详情',o.id,'mk-order-list-link')+'</article>';
+  }
+  function renderM01(){
+    const orders=MK_LIFECYCLE_CONTRACT_V1.history(state());
+    return title('我的','S01')+'<div class="mk-orders">'
+      +'<div class="mk-order-heading"><h2>我的订单</h2><p>查看用仓进度与订单服务</p></div>'
+      +(orders.length?'<section class="mk-order-list">'+orders.map(orderBrief).join('')+'</section>'
+        :'<div class="mk-order-empty"><b>还没有用仓订单</b><p>找到合适的门店和仓位，即可开始下单。</p>'+button('go','去附近门店','S01','mk-order-primary')+'</div>')
+      +'<div class="mk-order-bottom">'+button('go','查看全部订单','OH01','mk-order-text-button')+'</div></div>';
+  }
+  function renderO03(){
+    const os=MK_LIFECYCLE_CONTRACT_V1.history(state());
+    const o=selectedOrderId?MK_LIFECYCLE_CONTRACT_V1.orderById(state(),selectedOrderId):os[0];
+    let html=title('订单详情','M01')+'<div class="mk-orders mk-order-details">';
+    if(!o)return html+'<div class="mk-order-empty"><b>暂无可查看的订单</b><p>请从我的订单列表选择需要查看的订单。</p>'+button('go','返回我的订单','M01','mk-order-primary')+'</div></div>';
+    html+='<section class="mk-order-summary"><div class="mk-order-summary-top"><span class="mk-order-badge '+orderStatusTone(o.status)+'">'+esc(orderStatusLabel(o.status))+'</span><span class="mk-order-number">订单号 '+esc(readableOrderNo(o.id))+'</span></div>'
+      +'<h2>'+esc(orderStoreName(o))+'</h2><p>'+esc(orderUnitName(o))+'</p>'
+      +'<div class="mk-order-total"><span>订单应付金额</span><strong>'+money(o.payable)+'</strong></div></section>';
+    html+='<section class="mk-order-section"><h3>用仓信息</h3>'
+      +orderLine('用仓门店',orderStoreName(o))
+      +orderLine('仓位类型',orderUnitName(o))
+      +orderLine('约定租期',o.term_months+'个月');
+    if(o.start_date)html+=orderLine('起租日期',o.start_date);
+    html+='</section>';
+    if(o.status==='paid_simulated'){
+      const v=core.lifecycleView(o.id);
+      html+='<section class="mk-order-section"><h3>租赁进度</h3>'
+        +orderLine('当前状态',leaseStatusLabel(v.lease_status))
+        +orderLine('累计租期',v.total_months+'个月')
+        +(v.end_date?orderLine('租期至',v.end_date):'')
+        +orderLine('押金进度',depositStatusLabel(v.deposit_status))+'</section>'
+        +'<section class="mk-order-services"><h3>订单服务</h3><div class="mk-order-action-grid">'
+        +button('go','续租','RN01','mk-order-action')+button('go','退租/到期','EX01','mk-order-action')
+        +button('go','押金进度','DP01','mk-order-action')+button('go','申请发票','IV01','mk-order-action')
+        +'</div></section>';
+    }else{
+      html+='<section class="mk-order-section"><h3>订单进度</h3><p class="mk-order-tip">完成付款后，可在这里办理续租、退租和押金等服务。</p>';
+      if(o.status==='pending')html+=button('resumeOrder','继续支付','','mk-order-primary');
+      html+='</section>';
+    }
+    return html+'<div class="mk-order-bottom">'+button('go','返回我的订单','M01','mk-order-text-button')+'</div></div>';
+  }
+  function renderOH01(){
+    const os=MK_LIFECYCLE_CONTRACT_V1.history(state());
+    return title('订单记录','M01')+'<div class="mk-orders">'
+      +'<div class="mk-order-heading"><h2>全部订单</h2><p>按最近订单排序</p></div>'
+      +(os.length?'<section class="mk-order-list">'+os.map(orderBrief).join('')+'</section>'
+        :'<div class="mk-order-empty"><b>暂无订单记录</b><p>先去附近门店看看可用仓位。</p>'+button('go','去附近门店','S01','mk-order-primary')+'</div>')
+      +'<div class="mk-order-bottom">'+button('go','返回我的订单','M01','mk-order-text-button')+'</div></div>';
+  }
   function renderLifecycle(page){return MK_LIFECYCLE_UI_V1.render(page,core,lifecycleId(),{esc,button,title,money,reviewMode});}
   const functions={S01:renderS01,S02:renderS02,RESULT:renderResult,M01:renderM01,O03:renderO03,OH01:renderOH01,RN01:()=>renderLifecycle('RN01'),EX01:()=>renderLifecycle('EX01'),DP01:()=>renderLifecycle('DP01'),IV01:()=>renderLifecycle('IV01')};
     if(!functions[page]&&!framed[page])page='S01';

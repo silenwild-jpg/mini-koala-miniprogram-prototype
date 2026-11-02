@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const {chromium}=require('playwright'),http=require('node:http'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),cp=require('node:child_process');
-const output=path.resolve(__dirname,'../release-evidence/rc2-merge-prep-09'),root=path.join(output,'site');
+const output=path.resolve(__dirname,'../release-evidence/rc2-merge-prep-10'),root=path.join(output,'site');
 const summary=JSON.parse(fs.readFileSync(path.join(output,'build-summary.json'),'utf8'));
 const manifest=JSON.parse(fs.readFileSync(path.join(output,'manifest.json'),'utf8'));
 assert.equal(summary.hifi06,'ABANDONED_NOT_BUNDLED');
@@ -45,6 +45,13 @@ const base='http://127.0.0.1:4439/';
    assert.equal(selected.filterActive[1],true);
    assert(Number.parseFloat(selected.stores[0].distance)<=Number.parseFloat(selected.stores[1].distance));
    await page.screenshot({path:path.join(output,'isolated-S01-distance-'+w+'.png'),fullPage:true});
+   // The packaged customer-facing M01 and O03 must load their new user-facing styles.
+   await page.goto(base+'central-review-02g.html?catalog=sim&page=M01');
+   const mine=page.frameLocator('#central-host');
+   await mine.locator('.mk-orders').waitFor();
+   assert.equal(await mine.locator('.mk-order-heading').count(),1);
+   const style=await mine.locator('.mk-orders').evaluate(e=>getComputedStyle(e).paddingLeft);
+   assert(parseInt(style,10)>=12,'new orders stylesheet absent from actual ZIP');
    // Input route smoke using the actual packaged central wrapper and its nested iframe.
    await page.goto(base+'central-review-02g.html?catalog=sim&page=CAP');
    const cap=page.frameLocator('#central-host');
@@ -66,6 +73,6 @@ const base='http://127.0.0.1:4439/';
   }
   const receipt={status:'ISOLATED_BUNDLE_SMOKE_PASS',candidate:summary.version,source_commit:summary.commit,bundle_files:manifest.length,cases,visual_signoff:'NOT_FINAL',formal_merge_allowed:false,live_deployment:false};
   fs.writeFileSync(path.join(output,'isolated-bundle-smoke.json'),JSON.stringify(receipt,null,2)+'\n');
-  console.log('RC2_MERGE_PREP_09_BUNDLE_BROWSER_PASS',JSON.stringify(cases));
+  console.log('RC2_MERGE_PREP_10_BUNDLE_BROWSER_PASS',JSON.stringify(cases));
  }finally{await browser.close();}
-})().catch(err=>{console.error('RC2_MERGE_PREP_09_BUNDLE_BROWSER_FAIL',err);process.exitCode=1}).finally(()=>server.close());
+})().catch(err=>{console.error('RC2_MERGE_PREP_10_BUNDLE_BROWSER_FAIL',err);process.exitCode=1}).finally(()=>server.close());
