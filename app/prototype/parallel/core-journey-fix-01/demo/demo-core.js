@@ -133,7 +133,7 @@
         dayNow()<o.start_date?'upcoming':dayNow()>=end?'expired':'active';
       const payments=[{id:o.id,type:'INITIAL',amount:o.payable,simulated:true},
         ...legacyRenewals.map(x=>({id:x.id,type:'RENEWAL',amount:x.payable??x.rent_after_coupon,simulated:true})),
-        ...completed.map(x=>({id:x.id,type:'RENEWAL',amount:x.quote_total,simulated:true}))];
+        ...completed.map(x=>({id:x.payment_id,type:'RENEWAL',amount:x.quote_total,simulated:true}))];
       return copy({order_id:id,lease_status:leaseStatus,start_date:o.start_date,end_date:end,total_months:totalMonths,
         deposit_status:l.deposit||'HELD',exit:exit||null,renewal_requests:l.renewal_requests||[],invoices:l.invoices||[],
         payments,access_allowed:leaseStatus==='active'&&service.identity==='verified',identity_status:service.identity||'pending'});
@@ -160,8 +160,7 @@
       const v=lifecycleView(id),req=lifecycleLedger(id).renewal_requests.find(x=>x.id===reqId);
       if(!req||req.status!=='QUOTE_READY'||!Number.isFinite(req.quote_total))fail('RENEWAL_QUOTE_REQUIRED');
       if(!['active','upcoming'].includes(v.lease_status)||v.total_months+req.months>60)fail('RENEWAL_UNAVAILABLE');
-      req.status='COMPLETED';req.completed_at=now();req.id_payment='LRENEW_PAYMENT_'+(++s.sequence);
-      req.id=req.id_payment; // payment identity for invoice reference; request ref remains on record
+      req.status='COMPLETED';req.completed_at=now();req.payment_id='LRENEW_PAYMENT_'+(++s.sequence);
       notify('演示续租确认完成，费用来自人工审核报价',id);return copy(req);
     }
     function lifecycleRequestExit(id,type,date){
