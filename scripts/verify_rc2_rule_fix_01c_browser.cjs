@@ -55,13 +55,13 @@ const server=http.createServer((req,res)=>{
    await page.getByText('COMPLETED').first().waitFor();
    const renewal=await page.evaluate(()=>window.SIM_DEMO.core.lifecycleView('SIM_ORDER_BROWSER_PAID'));
    assert.equal(renewal.total_months,9);assert.equal(renewal.payments.length,2);
-   await page.locator('button[data-value="O03"]').click();
+   await page.getByRole('button',{name:'返回订单详情'}).click();
    await page.locator('button[data-value="IV01"]').click();
    await page.locator('#invoice-title').fill('测试个人');
    await page.locator('#invoice-email').fill('demo@example.com');
    await page.locator('button[data-action="requestInvoice"]').click();
    await page.getByText('SUBMITTED').first().waitFor();
-   await page.locator('button[data-value="O03"]').click();
+   await page.getByRole('button',{name:'返回订单详情'}).click();
    await page.locator('button[data-value="EX01"]').click();
    const planned=new Date(Date.now()+86400000*3).toISOString().slice(0,10);
    await page.locator('#exit-date').fill(planned);
@@ -71,7 +71,7 @@ const server=http.createServer((req,res)=>{
    await page.getByText('WAITING_INSPECTION').first().waitFor();
    await page.locator('button[data-action="reviewInspectPass"]').click();
    await page.getByText('INSPECTION_PASSED').first().waitFor();
-   await page.locator('button[data-value="O03"]').click();
+   await page.getByRole('button',{name:'返回订单详情'}).click();
    await page.locator('button[data-value="DP01"]').click();
    await page.getByText('REFUND_PENDING').first().waitFor();
    await page.locator('button[data-action="reviewRefund"]').click();
