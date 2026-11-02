@@ -24,15 +24,17 @@
       1536
     ],
     "master_select_date": "2026-11-02",
-    "master_receipt": "USER_IMAGE_PIXEL_INSPECTED_SHA256_VERIFIED_IN_CURRENT_SESSION",
+    "master_receipt": "APPROVED_IMAGE_PIXEL_HASH_VERIFIED_AND_IDENTICAL_GITHUB_BLOB",
     "source_zip": null,
     "implementation_candidate": "EXISTING_RC2_H01_HOME_HTML_VIS11J",
     "physical_source_received": true,
     "implementation_signed_off": false,
     "approved_master_name": "OLD_VIS_11J_NOT_LATEST.png",
     "approved_master_sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660",
-    "approved_visual_embedded_in_repo": false,
-    "decision_note": "User explicitly chose legacy dark corridor VIS-11J old homepage as final visual, superseding 2026-11-02 light H01 master. HIFI-06 remains abandoned. Approved screenshot is a two-viewport composite; runtime must be compared, not inferred signed off."
+    "approved_visual_embedded_in_repo": true,
+    "decision_note": "User selected legacy VIS-11J dark corridor homepage. Source image exact byte match in approved sandbox evidence and GitHub app/assets/branch01. Existing H01 runtime uses VIS-11J slices. Runtime screenshot fidelity at 375/390 still requires confirmation; retired HIFI-06 remains abandoned.",
+    "approved_master_repo_path": "app/assets/branch01/VIS-11J_用户批准唯一视觉母版.png",
+    "approved_master_git_blob": "ba9995b7ca50079549d3e69ffde2bb3bdb7e4ee3"
   },
   "s01": {
     "approved_change": "Replace search strip and area/capacity/term triad with four sort/distance/price/service filters",
