@@ -16,6 +16,15 @@ async function start(ctx,mode='S01'){const page=await ctx.newPage();const errors
 async function phone(app,expectDenied=false){
  const overlay=app.locator('.mk-auth-overlay');await overlay.waitFor();
  if(expectDenied){assert.equal(await app.locator('.page-O01').count(),0);await overlay.locator('button[data-auth="close"]').click();await overlay.waitFor({state:'detached'});return;}
+ await overlay.locator('button[data-auth="policy"]').click();
+ const policy=overlay.locator('.mk-auth-policy-content');
+ await policy.waitFor({state:'visible'});
+ const policyCopy=await policy.innerText();
+ assert.match(policyCopy,/关闭登录层后，仍可浏览门店、仓位及公开月租信息/,'R2 privacy sheet must explain publicly browsable prices');
+ assert.doesNotMatch(policyCopy,/参考价/,'R2 retired reference-price wording must not return');
+ const viewportWidth=await overlay.evaluate(()=>innerWidth);
+ await overlay.screenshot({path:path.join(dir,'phone-policy-r2-copy-'+viewportWidth+'.png')});
+ await overlay.locator('button[data-auth="policyClose"]').click();
  await overlay.locator('#mk-auth-agree').check();
  await overlay.locator('button[data-auth="wechat"]').click();
  await overlay.waitFor({state:'detached'});
