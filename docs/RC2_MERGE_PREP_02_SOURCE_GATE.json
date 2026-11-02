@@ -1,5 +1,5 @@
 {
-  "task": "RC2-MERGE-PREP-04",
+  "task": "RC2-MERGE-PREP-08",
   "date": "2026-11-02",
   "baseline_pr": 36,
   "baseline_commit": "33174a2d35e350a587c2128c86dda944f75df7e7",
@@ -25,13 +25,17 @@
     "search_relocated_to": "navbar-more",
     "filter_count": 4,
     "legacy_invisible_region_capacity": "RESET",
-    "distance_requires_verified_source": true,
+    "distance_requires_verified_source": false,
     "pricing_requires_phone_gate": true,
-    "visual_state": "ISOLATED_CANDIDATE_NOT_FINAL_SIGNOFF"
+    "visual_state": "ISOLATED_CANDIDATE_NOT_FINAL_SIGNOFF",
+    "distance_sort_demo_allowed_without_verified_location": true,
+    "verified_location_required_in_live_mode": true,
+    "distance_display_source": "STORE_STABLE_DEMO_DISTANCE",
+    "technical_visual_review": "375_390_SCREENSHOTS_REVIEWED_NOT_FINAL_MASTER_SIGNOFF"
   },
   "release": {
-    "candidate_version": "RC2-ISOLATED-MERGE-PREP-04",
-    "premerge_candidate_ref": "isolate/rc2-merge-prep-04-without-hifi06-20261102",
+    "candidate_version": "RC2-ISOLATED-MERGE-PREP-08",
+    "premerge_candidate_ref": "isolate/rc2-merge-prep-08-distance-sort-visual-gate-20261102",
     "postdeploy_commit_sha": null,
     "old_rc1_freeze_unchanged": true,
     "allow_isolated_business_qa": true,
