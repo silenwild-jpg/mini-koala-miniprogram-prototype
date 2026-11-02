@@ -64,7 +64,16 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     await app.locator('button[data-value="RN01"]').click();await app.locator('#renew-months').waitFor();
     const orderId=state.orders[0].id;
     await page.goto(base+'/central-review-02g.html?catalog=sim&page=O03');const af=page.frameLocator('#central-host');await af.getByText(orderId).first().waitFor();
-    await verifyRouteRemoved(af);await layout(af,width);await page.screenshot({path:path.join(dir,'s01-success-'+width+'.png'),fullPage:true});
+    await verifyRouteRemoved(af);
+    await page.goto(base+'/central-review-02g.html?catalog=sim&page=H01');
+    let home=page.frameLocator('#central-host');
+    await home.locator('.lifecycle-home-task a').first().click();
+    await home.locator('#screen.page-O03').waitFor();await home.getByText(orderId).first().waitFor();
+    await page.goto(base+'/central-review-02g.html?catalog=sim&page=H01');
+    home=page.frameLocator('#central-host');
+    await home.locator('[data-action="我的 → 个人中心"]').click();
+    await home.locator('#screen.page-M01').waitFor();await home.getByText(orderId).first().waitFor();
+    await layout(home,width);await page.screenshot({path:path.join(dir,'s01-success-'+width+'.png'),fullPage:true});
     assert.deepEqual(errors,[]);out.push({size:width,case:'H01-S01-payment-aftercare',result:'PASS',orderId});await ctx.close();}
    // Failure case: payment failure must persist failure record and release inventory, but not unlock RN01
    {const ctx=await browser.newContext({viewport:{width,height}});const {page,app,errors}=await start(ctx);
