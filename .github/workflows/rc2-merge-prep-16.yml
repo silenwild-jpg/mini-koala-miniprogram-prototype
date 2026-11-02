@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - isolate/rc2-merge-prep-14-s01-hit-targets-20261102
+  pull_request:
+    branches:
+      - isolate/rc2-merge-prep-10-order-review-hifi-gate-20261102
   workflow_dispatch:
 permissions:
   contents: read
