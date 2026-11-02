@@ -85,7 +85,7 @@
     const heading=r.capacity_m3!==null?'匹配仓位预览':'仓位预览';
     let empty=s.status!=='open'?'门店暂停服务':!hasStock?'已售罄':core.combinations(s.id).length?'暂无符合当前需求的单仓，可查看组合方案':'暂无符合当前需求的仓位';
     const min=rows.length?[...rows].sort((a,b)=>core.amounts([a.id],r.term_months||1).rent_total-core.amounts([b.id],r.term_months||1).rent_total)[0]:null;
-    const collapsed=min?`${money(core.authorized()&&r.term_confirmed?core.formalAmounts([min.id],r.term_months).rent_total:(state().prices[min.id]||min.base_month))}${core.authorized()&&r.term_confirmed?' / '+r.term_months+'个月起':' /月起 · 参考价'}`:empty;
+    const collapsed=min?`${money(core.authorized()&&r.term_confirmed?core.formalAmounts([min.id],r.term_months).rent_total:(state().prices[min.id]||min.base_month))}${core.authorized()&&r.term_confirmed?' / '+r.term_months+'个月起' :' /月起'}`:empty;
     return `<article class="store-row ${expanded?'is-expanded':''}" data-store-id="${s.id}"><a class="store-entry" data-store="${s.id}" href="index.html?page=S02&store=${s.id}" aria-label="查看${s.name}"><img class="store-photo" src="assets/${s.photo}" alt="${F.sourceNamespace==='MK'?'门店场景示意素材':s.name+'门店环境'}"><div class="store-info"><div class="store-title"><strong class="store-name">${esc(s.name)}</strong>${Number.isFinite(s.rating)?`<span class="rating">${Number(s.rating).toFixed(1)}</span>`:''}</div><p class="address">${esc(s.address)}</p><p class="store-distance">${esc(s.district)} · ${F.distanceVerified?s.distance+'km':'距离待定位'}</p><div class="tags">${serviceTags(s).slice(0,2).map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div></div></a><div class="store-preview-bar"><strong>${expanded?heading:collapsed}</strong><button class="store-preview-toggle" data-action="toggleStore" data-value="${s.id}" aria-expanded="${expanded}" aria-controls="preview-${s.id}">${expanded?'收起':'展开仓位'}</button></div><section class="store-previews" id="preview-${s.id}" ${expanded?'':'hidden'} aria-label="${s.name}${heading}">${previews.length?previews.map(previewRow).join(''):`<p class="store-empty">${empty}</p>`}<a class="store-more" data-store="${s.id}" href="index.html?page=S02&store=${s.id}">${r.capacity_m3!==null&&rows.length>2?'查看本店更多匹配仓位':'查看本店仓位'}</a></section></article>`;
   }
   function previewRow(u){const f=P.facts(u),description=P.describe(u,'S01').lines[0];return `<article class="unit-preview" data-unit="${u.id}" data-promo-state="${f.state}"><img class="preview-image" src="assets/${u.volume<=1.5?'mini_split.jpg':u.photo}" alt="${esc(u.name)}空间示意"><div class="preview-body"><h3 class="preview-title">${esc(u.name)}</h3><p class="preview-use" title="${esc(description)}">${esc(description)}</p><div class="preview-bottom">${price([u.id])}<button class="br03-buy" data-action="choose" data-value="${u.id}">立即下单</button></div>${stateLine(f)}</div></article>`;}
@@ -136,7 +136,7 @@
   }
   function amountLines(a){return `<dl class="amount-lines"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月均约</dt><dd>${money(a.monthly_average)}</dd><dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd><strong>${money(a.payable)}</strong></dd></dl>`;}
   function renderResult(){const o=resultKind==='order'?(state().orders.find(o=>o.id===lastOrder)||state().orders.at(-1)):null;return `${title('模拟结果')}<div class="detail-blank">${o?`<h3>${o.status==='paid_simulated'?'模拟支付成功':o.status==='payment_failed'?'模拟支付失败，仓位已释放':'模拟订单已创建，待支付'}</h3><p>${o.id}</p><p>${store(o.store_id).name} · ${o.unit_ids.length}间 · ${o.term_months}个月</p>${core.authorized()?amountLines(o):priceCTA()}${o.status==='pending'?button('paySuccess','模拟支付成功')+button('payFailed','模拟支付失败','','outline'):''}`:'<h3>预约需求已模拟提交</h3><p>已记录用仓地址，后续由顾问跟进；没有创建租仓订单。</p>'}${o&&o.status==='paid_simulated'?button('orderDetail','查看订单详情',o.id,'outline'):''}${button('go','继续浏览门店','S01','outline')}</div>`;}
-  function modalHtml(){if(!modal)return'';let body='';if(modal==='contact')body=`<h3>请提供联系电话</h3><p>填写号码仅保存联系方式；进入订单前，请完成微信或短信验证并注册登录。参考月租可直接浏览。</p><label for="contact-phone">手机号</label><input id="contact-phone" class="field" type="tel" autocomplete="tel" value="${esc(state().contactPhone)}">${button('contactContinue','确认手机号并继续')}${button('phone','使用微信手机号授权','','outline')}`;if(modal==='phone')body=`<h3>手机号授权演示</h3><p>授权后可查看报价；拒绝后仍可浏览门店与设施。</p><p class="context-note">这里只模拟微信结果，不获取真实手机号。</p>${button('phoneSuccess','模拟同意并查看')}${button('phoneDenied','暂不授权，继续浏览','','outline')}${button('phoneFailed','模拟接口失败','','outline')}`;
+  function modalHtml(){if(!modal)return'';let body='';if(modal==='contact')body=`<h3>请提供联系电话</h3><p>填写号码仅保存联系方式；进入订单前，请完成微信或短信验证并注册登录。月租价格可直接浏览。</p><label for="contact-phone">手机号</label><input id="contact-phone" class="field" type="tel" autocomplete="tel" value="${esc(state().contactPhone)}">${button('contactContinue','确认手机号并继续')}${button('phone','使用微信手机号授权','','outline')}`;if(modal==='phone')body=`<h3>手机号授权演示</h3><p>授权后可查看报价；拒绝后仍可浏览门店与设施。</p><p class="context-note">这里只模拟微信结果，不获取真实手机号。</p>${button('phoneSuccess','模拟同意并查看')}${button('phoneDenied','暂不授权，继续浏览','','outline')}${button('phoneFailed','模拟接口失败','','outline')}`;
     if(modal==='capacityMismatch')body=`<h3>当前仓位不满足已选容量</h3><p>已保留您的容量和租期。可以修改需求，或继续查看其他匹配门店。</p>${button('editCapacity','修改容量需求')}${button('go','查看其他匹配门店','S01','outline')}`;
     if(modal==='term')body=`<h3>请选择租期</h3><div class="chip-row">${[1,3,6,12,24,36,60].map(m=>button('setTerm',m+'个月',String(m),'chip')).join('')}</div><label for="custom-term">自定义租期（1–60个月）</label><input id="custom-term" class="field" type="number" min="1" max="60">${button('customTerm','确认租期')}`;
     if(modal==='r2-search')body=`<h3>搜索门店</h3><label for="r2-search-query">门店、区域或地址</label><input id="r2-search-query" class="field" type="search" maxlength="60" placeholder="输入门店名称、区域或地址" value="${esc(visual.keyword)}">${button('r2SearchClear','清除搜索','','outline')}${button('r2EditDemand','修改容量与租期','','outline')}`;
@@ -235,7 +235,7 @@
           const hasVerifiedDistance=!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
           const formal=core.authorized()&&r.term_confirmed;
           return {id:s.id,name:s.name,...v,
-            distance:hasVerifiedDistance?Number(s.distance).toFixed(1)+'km':'定位后显示',
+            distance:hasVerifiedDistance?Number(s.distance).toFixed(1)+'km':v.distance,
             distanceVerified:hasVerifiedDistance,
             units:rowsFor(s).slice(0,2).map((u,i)=>{
               // Only the O01-equivalent central calculation may produce formal, whole-term rent.
@@ -243,9 +243,9 @@
               return {
                 id:u.id,name:u.name,volume:u.volume,
                 price:money(amount?amount.rent_total:referenceCost([u.id])),
-                suffix:amount?'整期租金':'月租参考',
+                suffix:amount?'整期租金':'/月起',
                 priceKind:amount?'term':'reference',
-                secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':'仅供参考 · 起/月',
+                secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':'',
                 usage:'独立仓 · '+(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
                 promo:i===0?'热租':'',available:core.available(u)
               };
