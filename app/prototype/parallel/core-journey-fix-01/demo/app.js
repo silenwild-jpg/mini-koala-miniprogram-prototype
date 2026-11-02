@@ -25,7 +25,8 @@
   const state=()=>core.state(),persist=()=>sessionStorage.setItem(KEY,JSON.stringify(state()));
   let page=new URLSearchParams(location.search).get('page')||'S01',modal=null,pending=null,notice='',lastOrder=null;
   let displayedPage=null;
-  let selectedOrderId=sessionStorage.getItem('mk_lifecycle_selected_order_v1')||null;
+  const requestedOrderId=new URLSearchParams(location.search).get('order');
+  let selectedOrderId=requestedOrderId&&state().orders.some(o=>o.id===requestedOrderId)?requestedOrderId:(sessionStorage.getItem('mk_lifecycle_selected_order_v1')||null);
   const reviewMode=new URLSearchParams(location.search).get('review')==='1';
   const lifecycleId=()=>selectedOrderId||state().orders.filter(o=>o.status==='paid_simulated').at(-1)?.id;
   let resultKind=sessionStorage.getItem('mk_sim_result_kind')||'order';
