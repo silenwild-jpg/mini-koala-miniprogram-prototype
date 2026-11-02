@@ -232,10 +232,24 @@
         filterLabels:[visual.sort==='recommended'?'排序':visual.sort==='distance'?'距离优先':'价格优先','距离',visual.price==='all'?'价格':'已筛价格',visual.service==='all'?'服务':'已选服务'],filterActive:[visual.sort!=='recommended',visual.sort==='distance',visual.price!=='all',visual.service!=='all'],
         stores:stores.slice(0,2).map(s=>{
           const v=r2View(s);
-          return {id:s.id,name:s.name,...v,units:rowsFor(s).slice(0,2).map((u,i)=>({
-            id:u.id,name:u.name,volume:u.volume,price:money(referenceCost([u.id])),suffix:'/月起',
-            usage:'独立仓 · '+(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
-            promo:i===0?'热租':'',available:core.available(u)}))};
+          const hasVerifiedDistance=!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
+          const formal=core.authorized()&&r.term_confirmed;
+          return {id:s.id,name:s.name,...v,
+            distance:hasVerifiedDistance?Number(s.distance).toFixed(1)+'km':'定位后显示',
+            distanceVerified:hasVerifiedDistance,
+            units:rowsFor(s).slice(0,2).map((u,i)=>{
+              // Only the O01-equivalent central calculation may produce formal, whole-term rent.
+              const amount=formal?core.formalAmounts([u.id],r.term_months):null;
+              return {
+                id:u.id,name:u.name,volume:u.volume,
+                price:money(amount?amount.rent_total:referenceCost([u.id])),
+                suffix:amount?'整期租金':'月租参考',
+                priceKind:amount?'term':'reference',
+                secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':'仅供参考 · 起/月',
+                usage:'独立仓 · '+(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
+                promo:i===0?'热租':'',available:core.available(u)
+              };
+            })};
         })};
     },
     filter(index){if(![0,1,2,3].includes(index))return;act(()=>{pending=null;if(index===0)handlers.sort();else if(index===1){if(!F.distanceVerified){modal='r2-distance';render();}else handlers.setSort('distance');}else if(index===2)handlers.priceFilter();else handlers.serviceFilter();});},
