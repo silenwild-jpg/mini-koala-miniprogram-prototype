@@ -1,4 +1,4 @@
-name: RC2-RULE-FIX-01C isolated lifecycle QA
+name: RC2-RULE-FIX-01D isolated full-journey QA
 on:
   pull_request:
     paths:
@@ -6,6 +6,7 @@ on:
       - 'scripts/verify_rc2_rule_fix_01b.cjs'
       - 'scripts/verify_rc2_rule_fix_01c.cjs'
       - 'scripts/verify_rc2_rule_fix_01c_browser.cjs'
+      - 'scripts/verify_rc2_rule_fix_01d_browser.cjs'
       - '.github/workflows/rc2-rule-fix-01b.yml'
   workflow_dispatch:
 jobs:
@@ -20,9 +21,11 @@ jobs:
         run: |
           node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/lifecycle-contract.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
           node --check scripts/verify_rc2_rule_fix_01c_browser.cjs
+          node --check scripts/verify_rc2_rule_fix_01d_browser.cjs
           node scripts/verify_rc2_rule_fix_01b.cjs
           node scripts/verify_rc2_rule_fix_01c.cjs
   browser:
@@ -39,10 +42,14 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Real 375/390 browser lifecycle QA
         run: node scripts/verify_rc2_rule_fix_01c_browser.cjs
+      - name: Real 375/390 browser S01-S02-O01-S5 aftercare and payment variants
+        run: node scripts/verify_rc2_rule_fix_01d_browser.cjs
       - name: Upload private screenshots and result
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rc2-rule-fix-01c-lifecycle-evidence
-          path: release-evidence/rc2-fix-01c/
+          name: rc2-rule-fix-01d-full-journey-evidence
+          path: |
+            release-evidence/rc2-fix-01c/
+            release-evidence/rc2-fix-01d/
           if-no-files-found: warn
