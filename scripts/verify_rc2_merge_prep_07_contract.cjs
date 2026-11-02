@@ -19,7 +19,10 @@ const parts=[
 [/\.km\[data-verified="false"\]/,html,'unverified distance style']
 ];
 for(const [pattern,text,label] of parts)assert.match(text,pattern,label);
-assert.match(view,/index===0\?1\.2:index===1\?3\.6/,'demo kilometers must render');
+assert.match(view,/distance:distanceOf\(s\)/,'demo kilometers must follow source store ID');
+assert.match(view,/const num=s\.distance===null\|\|s\.distance===undefined\?NaN:Number\(s\.distance\)/,'fixture store distance stable');
+assert.doesNotMatch(view,/index===0\?1\.2|index===1\?3\.6/,'card position must not change store distance');
+assert.match(app,/const demoDistanceReady=F\.synthetic===true/,'demo-only nearest-first recommendation');
 assert.doesNotMatch(html,/演示\s*[0-9]+\.[0-9]+km/,'no demo disclaimers in user interface');
 assert.equal((html.match(/<div class="filter">/g)||[]).length,4,'S01 four-filter visual frozen');
 for(const [name,str] of [['app',app],['bridge',bind],['html',html]]) assert.doesNotMatch(str,/参考价|仅供参考|月租参考|定位后显示/,name+' should not show disclaimer');
