@@ -43,7 +43,7 @@ function quantity(r,id){return r.items.find(i=>i.id===id)?.quantity||0;}
    let r=await requirement(page);
    assert.equal(r.source,'items_estimate');assert.equal(r.term_months,12);assert.equal(r.term_confirmed,true);
    assert.equal(quantity(r,ids[0]),2);assert.equal(quantity(r,ids[1]),1);
-   const original=r.capacity_m3;
+   const original=r.estimated_volume;
    await page.frameLocator('#br04-frame').locator('#modify').click();
    await page.waitForURL(/items\.html$/);await itemsReady(page);
    const restored=await itemPayloadFromDraft(page);
@@ -57,9 +57,10 @@ function quantity(r,id){return r.items.find(i=>i.id===id)?.quantity||0;}
    await page.locator('#footerBtn').click();await s5Ready(page);
    r=await requirement(page);assert.equal(r.source,'items_estimate');assert.equal(r.term_months,6);
    assert.equal(quantity(r,ids[0]),3);assert.equal(quantity(r,ids[1]),1);
-   assert(r.capacity_m3>original,'edited item quantity did not recompute S5 capacity');
+   assert(r.estimated_volume>original,'edited item quantity did not recompute estimated volume');
+   assert.equal(r.capacity_m3,Math.max(.5,r.estimated_volume),'matchable capacity must respect 0.5m3 minimum');
    await screen(page,'items-edit-return-s5',width);
-   await complete(o,{itemIds:ids,oldCapacity:original,newCapacity:r.capacity_m3,termChanged:'12→6',countsRestored:true});
+   await complete(o,{itemIds:ids,oldEstimatedVolume:original,newEstimatedVolume:r.estimated_volume,matchCapacity:r.capacity_m3,termChanged:'12→6',countsRestored:true});
   }
   // Scene mode -> select -> switch tabs -> S5 -> modify -> preserve scene mode and counts.
   {
@@ -85,7 +86,8 @@ function quantity(r,id){return r.items.find(i=>i.id===id)?.quantity||0;}
    await page.locator('[data-category="scene_moving"]').click();
    await clickItem(page,id,1);
    await page.locator('#footerBtn').click();await s5Ready(page);
-   const after=await requirement(page);assert.equal(quantity(after,id),3);assert(after.capacity_m3>before.capacity_m3);
+   const after=await requirement(page);assert.equal(quantity(after,id),3);assert(after.estimated_volume>before.estimated_volume);
+   assert.equal(after.capacity_m3,Math.max(.5,after.estimated_volume));
    await screen(page,'scenes-edit-return-s5',width);
    await complete(o,{itemId:id,sceneModeRestored:true,quantityBefore:2,quantityAfter:3});
   }
