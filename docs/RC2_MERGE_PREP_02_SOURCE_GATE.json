@@ -1,18 +1,24 @@
 {
-  "task": "RC2-MERGE-PREP-02",
+  "task": "RC2-MERGE-PREP-04",
   "date": "2026-11-02",
   "baseline_pr": 36,
   "baseline_commit": "33174a2d35e350a587c2128c86dda944f75df7e7",
   "h01": {
-    "approved_handoff_name": "BR01_H01_HIFI_06.zip",
-    "status": "SOURCE_NOT_MOUNTED",
-    "verified_html_sha256": null,
-    "verified_webp_assets": [],
-    "expected_original_webp_count": 7,
-    "source_pr": 34,
-    "source_pr_contains_hifi": false,
-    "adoption_status": "HOLD_DO_NOT_REPLACE_RC1_HOME",
-    "approval_required": true
+    "status": "HIFI06_ABANDONED",
+    "decision": "User explicitly discontinued H01 HIFI-06; do not request, accept, render or reuse this version",
+    "retired_source_names": [
+      "BR01_H01_HIFI_06.zip",
+      "BR01_H01_CONNECT_05.zip"
+    ],
+    "retired_prs": [
+      34,
+      38
+    ],
+    "effective_h01_visual": "CURRENT_DEMO_ONLY_NOT_FINAL_APPROVED",
+    "next_final_visual": "NOT_SELECTED",
+    "visual_gate": "SEPARATE_NOT_REQUIRED_FOR_ISOLATED_BUSINESS_QA",
+    "final_signoff": "PENDING_NEW_USER_DECISION",
+    "source_pr_contains_hifi": false
   },
   "s01": {
     "approved_change": "Replace search strip and area/capacity/term triad with four sort/distance/price/service filters",
@@ -24,10 +30,13 @@
     "visual_state": "ISOLATED_CANDIDATE_NOT_FINAL_SIGNOFF"
   },
   "release": {
-    "candidate_version": "RC2-ISOLATED-MERGE-PREP-02",
-    "official_rc2_deployment_sha": null,
+    "candidate_version": "RC2-ISOLATED-MERGE-PREP-04",
+    "premerge_candidate_ref": "isolate/rc2-merge-prep-04-without-hifi06-20261102",
+    "postdeploy_commit_sha": null,
     "old_rc1_freeze_unchanged": true,
+    "allow_isolated_business_qa": true,
     "allow_merge_main": false,
     "allow_deploy": false
-  }
+  },
+  "decision_date": "2026-11-02"
 }
