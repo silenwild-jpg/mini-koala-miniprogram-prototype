@@ -1,0 +1,151 @@
+name: RC2-MERGE-PREP-10 customer-facing orders and isolated RC2 demo QA
+on:
+  push:
+    branches:
+      - isolate/rc2-merge-prep-10-order-review-hifi-gate-20261102
+  pull_request:
+    branches:
+      - isolate/rc2-merge-prep-10-unified-rc2-demo-20261102
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate branch HEAD provenance
+        env:
+          RC2_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$RC2_EXPECTED_HEAD"
+      - name: Syntax and no-drift business contract
+        run: |
+          node --check scripts/verify_rc2_merge_prep_05_browser.cjs
+          node --check scripts/verify_rc2_merge_prep_06_browser.cjs
+          node --check scripts/verify_rc2_merge_prep_07_browser.cjs
+          node --check scripts/verify_rc2_merge_prep_08_browser.cjs
+          node --check scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+          node --check scripts/verify_rc2_merge_prep_09_source.cjs
+          node --check scripts/verify_rc2_merge_prep_10_order_contract.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
+          node scripts/verify_rc2_merge_prep_10_order_contract.cjs
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py
+          node scripts/verify_rc2_merge_prep_09_source.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check scripts/verify_rc2_merge_prep_07_contract.cjs
+          node scripts/verify_rc2_merge_prep_07_contract.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/items-bridge.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/cap-bridge.js
+          node scripts/verify_rc2_merge_prep_02.cjs
+          node scripts/verify_rc2_rule_fix_01b.cjs
+          node scripts/verify_rc2_rule_fix_01c.cjs
+  browser:
+    needs: contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: S01 distance sort toggles + refresh + legacy guard 375/390
+        run: node scripts/verify_rc2_merge_prep_08_browser.cjs
+      - name: S01 term-price source, location provenance and visual geometry 375/390
+        run: node scripts/verify_rc2_merge_prep_07_browser.cjs
+      - name: S01 S02 return, item variant / limits, screen geometry 375/390
+        run: node scripts/verify_rc2_merge_prep_06_browser.cjs
+      - name: ITEMS item counts + scenes + CAP return state 375/390
+        run: node scripts/verify_rc2_merge_prep_05_browser.cjs
+      - name: CAP and ITEMS basic form regression
+        run: node scripts/verify_rc2_merge_prep_04_cap_items_browser.cjs
+      - name: S01 four filters through payment
+        run: node scripts/verify_rc2_merge_prep_02_browser.cjs
+      - name: O01 and aftercare regression 375/390
+        run: |
+          node scripts/verify_rc2_rule_fix_01c_browser.cjs
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload private screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-merge-prep-10-full-chain-evidence
+          path: |
+            release-evidence/rc2-merge-prep-05/
+            release-evidence/rc2-merge-prep-06/
+            release-evidence/rc2-merge-prep-07/
+            release-evidence/rc2-merge-prep-08/
+            release-evidence/rc2-merge-prep-04/*.png
+            release-evidence/rc2-merge-prep-04/cap-items-results.json
+            release-evidence/rc2-merge-prep-02/
+            release-evidence/rc2-fix-01c/
+            release-evidence/rc2-fix-01d/
+          if-no-files-found: warn
+  isolated-bundle:
+    needs: browser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build one isolated RC2 internal review bundle (no Netlify, no main merge)
+        run: |
+          node scripts/verify_rc2_merge_prep_09_source.cjs
+          python3 scripts/build_rc2_isolated_demo.py
+          python3 -c "from zipfile import ZipFile;from pathlib import Path;z=ZipFile(Path('release-evidence/rc2-merge-prep-10/MiniKoala_RC2_Review_Candidate_10_20261102.zip')); assert z.testzip() is None; print('RC2_ZIP_CRC_PASS',len(z.namelist()))"
+      - name: Install Chromium for the packaged site smoke test
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Open the actual bundled SIM/MK entrypoints at 375 and 390
+        run: node scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+      - name: Store isolated ZIP, manifests and screenshot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-merge-prep-10-isolated-review-zip
+          path: |
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_Review_Candidate_10_20261102.zip
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/manifest.json
+            release-evidence/rc2-merge-prep-10/source-audit.json
+            release-evidence/rc2-merge-prep-10/isolated-bundle-smoke.json
+            release-evidence/rc2-merge-prep-10/*.png
+          if-no-files-found: warn
+  premerge-hold:
+    needs: [browser, isolated-bundle]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Assert HIFI06 remains abandoned and visual authorization remains HOLD
+        run: |
+          set +e
+          node scripts/verify_rc2_merge_prep_02_release_gate.cjs
+          code=$?
+          set -e
+          if [ "$code" -ne 2 ]; then echo "Expected premerge HOLD, got $code"; exit 1; fi
+          node -e "const r=require('./release-evidence/rc2-merge-prep-04/release-gate.json');if(r.status!=='HOLD'||r.hifi06!=='ABANDONED_NOT_A_REQUIRED_SOURCE'||r.merge_permitted)process.exit(1)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rc2-merge-prep-10-controlled-hold
+          path: release-evidence/rc2-merge-prep-04/release-gate.json
+          if-no-files-found: warn
