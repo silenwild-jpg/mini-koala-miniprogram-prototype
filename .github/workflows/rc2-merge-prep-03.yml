@@ -1,0 +1,48 @@
+name: RC2-MERGE-PREP-03 H01 physical master intake
+on:
+  push:
+    branches:
+      - isolate/rc2-merge-prep-03-h01-receipt-gate-20261102
+  pull_request:
+    branches:
+      - isolate/rc2-merge-prep-02-s01-fourfilters-h01-gate-20261102
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-validator-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate intake and screenshot scripts
+        run: |
+          python3 -m py_compile scripts/verify_rc2_merge_prep_03_h01_source.py
+          node --check scripts/verify_rc2_merge_prep_03_h01_browser.cjs
+      - name: Continue protecting PR37 four-filter source
+        run: node scripts/verify_rc2_merge_prep_02.cjs
+  physical-hifi06-receipt:
+    needs: source-validator-syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify real original ZIP (missing input MUST remain HOLD)
+        run: python3 scripts/verify_rc2_merge_prep_03_h01_source.py
+      - name: Install Chromium for source-only rendering
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Source-only H01 375/390 screenshot and resource check
+        run: node scripts/verify_rc2_merge_prep_03_h01_browser.cjs
+      - name: Save private evidence on success or HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-merge-prep-03-h01-physical-receipt
+          path: |
+            release-evidence/rc2-merge-prep-03/h01_receipt.json
+            release-evidence/rc2-merge-prep-03/h01_render.json
+            release-evidence/rc2-merge-prep-03/*.png
+          if-no-files-found: warn
