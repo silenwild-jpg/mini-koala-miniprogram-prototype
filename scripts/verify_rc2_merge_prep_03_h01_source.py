@@ -24,8 +24,9 @@ def sha256(data):
 
 def safe_member(info):
     s = info.filename.replace("\\", "/")
-    p = PurePosixPath(s)
-    if not s or s.startswith("/") or any(x in ("", ".", "..") for x in s.split("/")):
+    normalized = s.rstrip("/") if info.is_dir() else s
+    p = PurePosixPath(normalized)
+    if not normalized or normalized.startswith("/") or any(x in ("", ".", "..") for x in normalized.split("/")):
         raise ValueError("UNSAFE_ZIP_PATH: " + s)
     if ":" in s or s.startswith("~"):
         raise ValueError("UNSAFE_ZIP_PATH: " + s)
@@ -106,20 +107,25 @@ def inspect(zip_path, out_dir, chosen_entry):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--zip", default=os.environ.get("H01_HIFI06_ZIP", "inputs/h01/BR01_H01_HIFI_06.zip"))
+    p.add_argument("--zip", default=os.environ.get("H01_HIFI06_ZIP"))
     p.add_argument("--html-entry", default=os.environ.get("H01_HIFI06_HTML_ENTRY"))
     p.add_argument("--out", default=str(REPORT_DIR))
     args = p.parse_args()
     output = Path(args.out)
     output.mkdir(parents=True, exist_ok=True)
     try:
-        report = inspect(Path(args.zip), output, args.html_entry)
+        approved_names = ("BR01_H01_CONNECT_05.zip", "BR01_H01_HIFI_06.zip")
+        location = Path("inputs/h01")
+        chosen = Path(args.zip) if args.zip else next((location / n for n in approved_names if (location / n).is_file()), location / approved_names[0])
+        report = inspect(chosen, output, args.html_entry)
         rc = 0
     except (ValueError, OSError, zipfile.BadZipFile) as exc:
         report = {
             "task": "RC2-MERGE-PREP-03",
             "status": "HOLD",
             "blocker": str(exc),
+            "accepted_names": ["BR01_H01_CONNECT_05.zip", "BR01_H01_HIFI_06.zip"],
+            "source_note": "Library records alone do not authorize access to the raw ZIP; supply physical bytes in inputs/h01 or via --zip.",
             "approval_status": "NOT_VERIFIED",
             "merge_permitted": False,
             "deployment_permitted": False,
