@@ -12,8 +12,14 @@
     const capacity=el.querySelector('.capacity');
     capacity.firstChild.nodeValue=u.volume+'m';
     setText(capacity.querySelector('sup'),'3');
-    setText(el.querySelector('.price strong'),u.price);
-    setText(el.querySelector('.price span'),u.suffix);
+    const priceBox=el.querySelector('.price');
+    priceBox.dataset.priceKind=u.priceKind;
+    setText(priceBox.querySelector('strong'),u.price);
+    setText(priceBox.querySelector('span'),u.suffix);
+    let secondary=priceBox.querySelector('.price-secondary');
+    if(!secondary){secondary=document.createElement('small');secondary.className='price-secondary';priceBox.append(secondary);}
+    setText(secondary,u.secondary);secondary.hidden=!u.secondary;
+    priceBox.setAttribute('aria-label',u.priceKind==='term'?u.price+' 整期租金，'+u.secondary:u.price+' 每月起');
     setText(el.querySelector('.unit-desc'),u.usage);
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
     const btn=el.querySelector('.order');if(btn){
@@ -35,7 +41,7 @@
     tags.forEach((tag,i)=>{tag.hidden=!s.services[i];setText(tag,s.services[i]||'');});
     card.querySelector('.store-tags').style.visibility=s.services.length?'visible':'hidden';
     const address=card.querySelector('.address-copy');setText(address,s.address);address.title=s.address;
-    setText(card.querySelector('.km'),s.distance);
+    const distance=card.querySelector('.km');setText(distance,s.distance);distance.dataset.verified=String(!!s.distanceVerified);distance.setAttribute('aria-label','距离约'+s.distance);
     card.querySelectorAll('.unit').forEach((el,i)=>setUnit(el,s.units[i]));
     card.querySelector('.units').hidden=!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);

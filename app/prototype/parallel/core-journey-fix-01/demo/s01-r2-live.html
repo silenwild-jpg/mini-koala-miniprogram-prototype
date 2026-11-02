@@ -27,6 +27,15 @@
 .map-pill{transform:translateX(2px)}
 
 .filters .filter{min-width:0;gap:5px;cursor:pointer;white-space:nowrap;font-weight:600}.filters .filter[aria-pressed="true"]{color:#087854}.nav-more:focus-visible,.filters .filter:focus-visible{outline:2px solid #087854;outline-offset:2px}
+
+/* RC2-MERGE-PREP-07: only the existing unit price line becomes a 2-level hierarchy. */
+.unit{height:70px;padding-top:9px}
+.unit-main{height:36px}
+.price{display:grid;grid-template-columns:max-content auto;grid-template-rows:19px 15px;align-content:center;align-items:baseline;white-space:nowrap;min-width:122px}
+.price strong{grid-column:1;grid-row:1;font-size:16px;letter-spacing:-.75px}
+.price span{grid-column:2;grid-row:1;font-size:9px;margin-left:3px}
+.price .price-secondary{display:block;grid-column:1/-1;grid-row:2;font-size:10px;line-height:15px;color:#607184;font-weight:500;letter-spacing:-.1px}
+.km[data-verified="false"]{color:#607c6d}.price .price-secondary[hidden]{display:none}.price[data-price-kind="reference"]{grid-template-rows:23px}.price[data-price-kind="reference"] strong{font-size:18px}
 </style>
 </head>
 <body>
@@ -58,7 +67,7 @@
           <div class="store-body">
             <h2>朝阳大悦城店</h2>
             <div class="store-tags"><span>24小时开放</span><span>近地铁</span><span>停车方便</span></div>
-            <div class="address"><span class="address-copy">朝阳区青年路甲5号院3号楼1层</span><span class="km">演示 1.2km</span></div>
+            <div class="address"><span class="address-copy">朝阳区青年路甲5号院3号楼1层</span><span class="km">1.2km</span></div>
             <div class="units">
               <div class="unit">
                 <div class="unit-main"><b class="capacity">3.5m<sup>3</sup></b><div class="price"><strong>¥299</strong><span>/月起</span></div><span class="hot">热租</span><span class="order">立即下单</span></div>
@@ -76,7 +85,7 @@
           <div class="store-body">
             <h2>望京SOHO店</h2>
             <div class="store-tags"><span>24小时开放</span><span>商圈核心</span><span>交通便利</span></div>
-            <div class="address"><span class="address-copy">朝阳区望京街10号楼B1层</span><span class="km">演示 3.6km</span></div>
+            <div class="address"><span class="address-copy">朝阳区望京街10号楼B1层</span><span class="km">3.6km</span></div>
             <div class="units">
               <div class="unit">
                 <div class="unit-main"><b class="capacity">3.5m<sup>3</sup></b><div class="price"><strong>¥320</strong><span>/月起</span></div><span class="order">立即下单</span></div>

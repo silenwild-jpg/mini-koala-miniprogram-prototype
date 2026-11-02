@@ -1,5 +1,5 @@
 /* VIS-REBUILD-03C: isolated presentation data, permitted by user on 2026-10-28.
- * Services, compact addresses, distances and A photographs are prototype content.
+ * Services, compact addresses and A photographs are prototype content. Distances are fixed demonstration display values when live location is unavailable; they never mark geolocation verified or authorize sorting.
  * Original fixture IDs, inventory, capacity, price and order contracts are untouched.
  */
 (function(root){
@@ -7,13 +7,21 @@
   const capacities=[['all','全部容量'],['mini','1m³以内'],['small','1–3m³'],['medium','3–6m³'],['large','6–10m³'],['extra','10m³以上']];
   const ranges={mini:[0,1],small:[1,3],medium:[3,6],large:[6,10],extra:[10,Infinity]};
   function matches(volume,key){const range=ranges[key];return !range||(volume>range[0]&&volume<=range[1]);}
+  function distanceOf(s){
+    const num=s.distance===null||s.distance===undefined?NaN:Number(s.distance);
+    if(Number.isFinite(num)&&num>=0)return num.toFixed(1)+'km';
+    // Stable demonstration fallback: the same store ID must not change kilometers after filtering.
+    const id=String(s.id||s.name||'store');
+    const hash=Array.from(id).reduce((n,c)=>(Math.imul(n,31)+c.charCodeAt(0))>>>0,0);
+    return (1+(hash%111)/10).toFixed(1)+'km';
+  }
   function view(s,index){
     const district=(s.district||'').replace(/^(北京|上海|广州|深圳|杭州)/,'').split(/\s*\/\s*/)[0];
     let address=(s.address||'').replace(/^(北京市|上海市|广州市|深圳市|杭州市)/,'').replace(/地下一层/gi,'B1层').replace(/地下二层/gi,'B2层');
     if(address.length>18)address=district+(s.community||s.name.replace(/店$/,'')).slice(0,9)+'88号B1层';
     const photoIndex=index%2;
     return {district,address,services:photoIndex?['24小时开放','商圈核心','交通便利']:['24小时开放','近地铁','停车方便'],
-      distance:(index===0?1.2:index===1?3.6:4.2+(index-2)*0.7).toFixed(1)+'km',
+      distance:distanceOf(s), // Store-stable demo display; geolocation remains unverified
       photo:'assets/s01-r2-a-'+(photoIndex+1)+'.webp'};
   }
   // Only copy on the isolated R2 journey is normalized. No fixture or state mutation.
@@ -32,6 +40,6 @@
     }
     node.querySelectorAll('[alt],[title]').forEach(el=>{for(const key of ['alt','title'])if(el.hasAttribute(key))el.setAttribute(key,productText(el.getAttribute(key)));});
   }
-  const api={capacities,matches,view,productText,cleanCopy};root.S01_R2_CONTENT=api;
+  const api={capacities,matches,view,distanceOf,productText,cleanCopy};root.S01_R2_CONTENT=api;
   if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof window==='object'?window:globalThis);
