@@ -13,7 +13,8 @@ const chain=[
  [40,'e0bb05634223416f49cac695d50004ff75f70d86'],
  [41,'6897057f73ad12b473254ae7a57934ab2febfe52'],
  [42,'83f3c072820aee9d41bd6ef2434a33bb4661eab1'],
- [43,'26d066479f7072bce50cccfceabb0c4eafeb19ee']
+ [43,'26d066479f7072bce50cccfceabb0c4eafeb19ee'],
+ [44,'225b781070c5cb79d2e03f813981bc93d4c63bb5']
 ];
 for(const [pr,sha] of chain){
  assert.equal(git('cat-file','-t',sha),'commit','missing source commit PR'+pr);
@@ -56,7 +57,7 @@ const blockers=[
   'EXPLICIT_DEPLOY_AUTHORIZATION_MISSING'
 ];
 const obj={
- task:'RC2-MERGE-PREP-09',status:'ISOLATED_SOURCE_PASS_FORMAL_MERGE_HOLD',candidate_commit:head,
+ task:'RC2-MERGE-PREP-10',status:'ISOLATED_SOURCE_PASS_FORMAL_MERGE_HOLD',candidate_commit:head,
  main_commit:main,ahead:changed,behind:missing,
  integrated_pr_chain:chain.map(([number,source_commit])=>({number,source_commit})),
  discarded_prs:[34,38],hifi06:'ABANDONED',
@@ -68,4 +69,4 @@ const obj={
  blockers
 };
 fs.writeFileSync(path.join(out,'source-audit.json'),JSON.stringify(obj,null,2)+'\n');
-console.log('RC2_MERGE_PREP_09_SOURCE_AUDIT_PASS',JSON.stringify({head,main,ahead:changed,behind:missing,sourcePrs:chain.map(x=>x[0]),blockers}));
+console.log('RC2_MERGE_PREP_10_SOURCE_AUDIT_PASS',JSON.stringify({head,main,ahead:changed,behind:missing,sourcePrs:chain.map(x=>x[0]),blockers}));
