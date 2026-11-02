@@ -38,6 +38,7 @@ function quantity(r,id){return r.items.find(i=>i.id===id)?.quantity||0;}
    assert.match(await page.locator('#footerBtn').innerText(),/选择租期/);
    await page.locator('#footerBtn').click();
    await term(page,12);
+   assert.equal(await page.locator('#notice.show').count(),0,'obsolete select-term banner still covers content after a valid term is chosen');
    await screen(page,'items-counts-before-s5',width);
    await page.locator('#footerBtn').click();await s5Ready(page);
    let r=await requirement(page);

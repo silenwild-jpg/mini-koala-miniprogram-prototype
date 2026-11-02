@@ -25,7 +25,7 @@
   }
   function persist(){sessionStorage.setItem(DRAFT,JSON.stringify({version:1,entryId:entry?.id||saved?.entryId||null,counts:COUNT,variants:SELECTED_VARIANT,state:{category:state.category,mode:state.mode,lastItemCat:state.lastItemCat,lastSceneCat:state.lastSceneCat,known:state.known,term:state.term,browsing:state.browsing,search:state.search}}));}
   const returnContext=sessionStorage.getItem('mk_estimate_return_v4')||'';
-  const originalUpdateFooter=updateFooter;updateFooter=function(){originalUpdateFooter();if(isValidVolume()&&core.validTerm(state.term)){const b=document.getElementById('footerBtn');if(returnContext.includes('page=S01'))b.textContent='查看推荐门店';else if(returnContext.includes('page=S02'))b.textContent='查看推荐仓位';}};
+  const originalUpdateFooter=updateFooter;updateFooter=function(){originalUpdateFooter();if(isValidVolume()&&core.validTerm(state.term)){const stale=document.getElementById('notice');if(stale?.classList.contains('show')&&stale.textContent==='请选择租期')stale.classList.remove('show');const b=document.getElementById('footerBtn');if(returnContext.includes('page=S01'))b.textContent='查看推荐门店';else if(returnContext.includes('page=S02'))b.textContent='查看推荐仓位';}};
   const originalRender=render;render=function(reset){originalRender(reset);persist();};
   const originalClear=clearAll;clearAll=function(){originalClear();state.mode='items';state.category='all';state.browsing=false;state.search='';render(false);};
   showHandoff=function(){
