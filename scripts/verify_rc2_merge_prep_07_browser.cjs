@@ -51,8 +51,13 @@ for(const [width,height] of [[375,812],[390,844]]){
  assert.equal(selected.authorized,false);
  assert(selected.stores.every(s=>s.units.every(u=>u.priceKind==='reference')),'term-only displayed formal quote before phone');
  await r2.locator('.filter').nth(1).click();
- await page.locator('.control-sheet').getByText('当前距离尚未验证').waitFor();
- await page.locator('button[data-action="close"]').last().click();
+ const distanceSorted=await snapshot();
+ assert.equal(distanceSorted.distanceVerified,false,'demo sort cannot elevate real geolocation state');
+ assert.equal(distanceSorted.distanceSortSource,'STABLE_DEMO_DISTANCE');
+ assert.equal(distanceSorted.filterActive[1],true);
+ assert(Number.parseFloat(distanceSorted.stores[0].distance)<=Number.parseFloat(distanceSorted.stores[1].distance));
+ await r2.locator('.filter').nth(0).click();
+ await page.locator('button[data-action="setSort"][data-value="recommended"]').click();
  await r2.locator('.filter').nth(2).click();
  const auth=page.locator('.mk-auth-overlay');await auth.waitFor();
  await auth.locator('#mk-auth-agree').check();await auth.locator('[data-auth="wechat"]').click();
