@@ -50,6 +50,23 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
   for(const [width,height] of dims){
    // Primary route: real S01 click -> S02 click -> term -> phone refusal -> reattempt -> O01 -> pay -> O03 -> aftercare
    {const ctx=await browser.newContext({viewport:{width,height}});const {page,app,errors}=await start(ctx,'H01');
+    // VIS-11J old homepage is the user-selected final visual; capture actual runtime before navigation.
+    const hero=app.locator('#heroPhoto'),task=app.locator('#taskPhoto'),nav=app.locator('#navPhoto');
+    for(const img of [hero,task,nav])assert(await img.evaluate(async el=>{try{await el.decode();return el.naturalWidth>0;}catch{return false;}}),'approved VIS-11J H01 image missing');
+    assert((await hero.getAttribute('src')).includes(width===375?'375':'390'),'wrong H01 responsive visual asset');
+    assert.equal(await app.locator('.task-hotspots button[aria-label="找附近门店"]').count(),1);
+    assert.equal(await app.locator('.task-hotspots button[aria-label="估算大小"]').count(),1);
+    assert.equal((await app.locator('.section-heading p').innerText()).trim(),'先看距离，再挑适合的空间','H01 approved nearby-store subtitle drift');
+    const capacityOverlay=await app.locator('.task-hotspots button[aria-label="估算大小"]').evaluate(el=>getComputedStyle(el,'::after').content);
+    assert(['none','normal'].includes(capacityOverlay),'H01 old approved capacity text still overprinted');
+    await page.screenshot({path:path.join(dir,'h01-vis11j-final-runtime-'+width+'.png'),fullPage:true});
+    const below=app.locator('#belowImg');
+    assert(await below.evaluate(async el=>{try{await el.decode();return el.naturalWidth>0;}catch{return false;}}),'approved VIS11J enterprise and brand image missing');
+    const scroller=app.locator('#scroller');
+    const scrollEnd=await scroller.evaluate(el=>{el.scrollTop=el.scrollHeight;return el.scrollTop;});
+    assert(scrollEnd>60,'H01 approved long page must scroll to enterprise and brand section');
+    assert.equal(await app.locator('.brand-details-link').count(),0,'unapproved extra brand link returned');
+    await page.screenshot({path:path.join(dir,'h01-vis11j-final-bottom-'+width+'.png'),fullPage:true});
     await app.locator('.task-hotspots button[aria-label="找附近门店"]').click();await app.locator('#screen.page-S01').waitFor();
     await verifyRouteRemoved(app);
     await fromStore(app);await phone(app,true);
@@ -113,10 +130,13 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
    {const ctx=await browser.newContext({viewport:{width,height}});const {page,app,errors}=await start(ctx,'S01');
     await app.locator('#screen').evaluate(()=>{window.SIM_DEMO.core.setRequirement(3,6,true);window.SIM_DEMO.persist();window.SIM_DEMO.navigate('S5');});
     await app.locator('#screen.page-S5').waitFor();const s5=app.frameLocator('#br04-frame');
+    await s5.locator('#main-buy').waitFor();
+    assert.equal(await app.locator('#screen.page-S5').count(),1,'S5 screenshot is not captured on S5');
+    await page.screenshot({path:path.join(dir,'s5-recommendation-'+width+'.png'),fullPage:true});
     await s5.locator('#main-buy').click();await phone(app);
     const o=await orderReady(app);await finish(app,o,'success');
     await app.locator('button[data-value="DP01"]').waitFor();
-    await layout(app,width);await page.screenshot({path:path.join(dir,'s5-recommendation-'+width+'.png'),fullPage:true});
+    await layout(app,width);await page.screenshot({path:path.join(dir,'o03-after-s5-order-'+width+'.png'),fullPage:true});
     assert.deepEqual(errors,[]);out.push({size:width,case:'S5-prefilled-to-O03',result:'PASS'});await ctx.close();}
   }
   fs.writeFileSync(path.join(dir,'summary.json'),JSON.stringify({result:'PASS',cases:out,scope:'isolated PR; S5 capacity preseeded; not deployed RC2'},null,2));

@@ -36,6 +36,14 @@
 .price span{grid-column:2;grid-row:1;font-size:9px;margin-left:3px}
 .price .price-secondary{display:block;grid-column:1/-1;grid-row:2;font-size:10px;line-height:15px;color:#607184;font-weight:500;letter-spacing:-.1px}
 .km[data-verified="false"]{color:#607c6d}.price .price-secondary[hidden]{display:none}.price[data-price-kind="reference"]{grid-template-rows:23px}.price[data-price-kind="reference"] strong{font-size:18px}
+
+/* RC2-MERGE-PREP-14: enlarge invisible navigation hit areas; preserve original glyph coordinates. */
+.nav-back{left:5px;top:0;width:44px;height:37px;cursor:pointer}
+.nav-back svg{position:absolute;left:14px;top:9px;width:17px;height:20px}
+.nav-more{right:49px;top:0;width:44px;height:37px;background:radial-gradient(circle at 14px 9px,#101010 1.65px,transparent 2px),radial-gradient(circle at 21px 9px,#101010 1.65px,transparent 2px),radial-gradient(circle at 28px 9px,#101010 1.65px,transparent 2px)}
+.nav-target{right:8px;top:0;width:40px;height:37px;cursor:pointer}
+.nav-target svg{position:absolute;right:16px;top:11px;width:16px;height:16px}
+.nav-back:focus-visible,.nav-target:focus-visible{outline:2px solid #087854;outline-offset:-2px}
 </style>
 </head>
 <body>

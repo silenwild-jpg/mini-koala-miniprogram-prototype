@@ -35,6 +35,11 @@ const base='http://127.0.0.1:4439/';
    await r2.locator('.store-card').first().waitFor();
    assert.equal(await r2.locator('.filter').count(),4);
    assert.equal(await r2.locator('.nav-more').count(),1);
+   // P14: CSS-only hit target correction must retain the existing S01 structure.
+   const targetSizes=await r2.locator('.navbar').evaluate(el=>Object.fromEntries(['.nav-back','.nav-more','.nav-target'].map(s=>{const n=el.querySelector(s);return [s,{width:n.offsetWidth,height:n.offsetHeight}]})));
+   assert(targetSizes['.nav-back'].width>=44&&targetSizes['.nav-back'].height>=37,'back hit area undersized');
+   assert(targetSizes['.nav-more'].width>=44&&targetSizes['.nav-more'].height>=37,'search hit area undersized');
+   assert(targetSizes['.nav-target'].width>=40&&targetSizes['.nav-target'].height>=37,'city hit area undersized');
    const before=await host.locator('body').evaluate(()=>window.SIM_DEMO.s01R2Bridge.snapshot());
    assert.equal(before.distanceVerified,false);
    assert.equal(before.distanceSortSource,'STABLE_DEMO_DISTANCE');
