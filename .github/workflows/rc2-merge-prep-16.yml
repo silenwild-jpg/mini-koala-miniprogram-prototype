@@ -1,0 +1,39 @@
+name: RC2-MERGE-PREP-16 S01 target sizes and packed 375-390 QA
+on:
+  push:
+    branches:
+      - isolate/rc2-merge-prep-14-s01-hit-targets-20261102
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  packed-s01:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check original S01 interaction tests and package source
+        run: |
+          node --check scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+          node scripts/verify_rc2_merge_prep_09_source.cjs
+      - name: Build isolated demo candidate (never deploy)
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install browser
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Check packed 375-390 S01 hit targets
+        run: node scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+      - name: Upload private evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-p16-s01-packed-qa
+          path: |
+            release-evidence/rc2-merge-prep-10/isolated-bundle-smoke.json
+            release-evidence/rc2-merge-prep-10/isolated-S01-distance-*.png
+          if-no-files-found: warn
