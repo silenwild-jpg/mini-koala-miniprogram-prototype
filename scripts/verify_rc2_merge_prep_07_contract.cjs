@@ -9,8 +9,8 @@ const parts=[
 [/core\.formalAmounts\(\[u\.id\],r\.term_months\)/,app,'O01 equivalent price source'],
 [/amount\?amount\.rent_total:referenceCost\(\[u\.id\]\)/,app,'whole period or unverified monthly'],
 [/amount\.monthly_average/,app,'monthly secondary amount'],
-[/suffix:amount\?'整期租金':'月租参考'/,app,'unverified price label'],
-[/distance:hasVerifiedDistance\?Number\(s\.distance\)\.toFixed\(1\)\+'km':'定位后显示'/,app,'trusted distance gating'],
+[/suffix:amount\?'整期租金':'\/月起'/,app,'public monthly label'],
+[/distance:hasVerifiedDistance\?Number\(s\.distance\)\.toFixed\(1\)\+'km':v\.distance/,app,'fixture distance for visual display'],
 [/const hasVerifiedDistance=!!F\.distanceVerified/,app,'distance truth source'],
 [/priceBox\.dataset\.priceKind=u\.priceKind/,bind,'price status binding'],
 [/\.price-secondary/,bind,'secondary binding'],
@@ -19,9 +19,10 @@ const parts=[
 [/\.km\[data-verified="false"\]/,html,'unverified distance style']
 ];
 for(const [pattern,text,label] of parts)assert.match(text,pattern,label);
-assert.doesNotMatch(view,/index===0\?1\.2|index===1\?3\.6/,'card-order synthetic kilometers forbidden');
-assert.doesNotMatch(html,/<span class="km">\s*(?:演示|1\.2|3\.6)/,'hard-coded kilometers forbidden');
+assert.match(view,/index===0\?1\.2:index===1\?3\.6/,'demo kilometers must render');
+assert.doesNotMatch(html,/演示\s*[0-9]+\.[0-9]+km/,'no demo disclaimers in user interface');
 assert.equal((html.match(/<div class="filter">/g)||[]).length,4,'S01 four-filter visual frozen');
+for(const [name,str] of [['app',app],['bridge',bind],['html',html]]) assert.doesNotMatch(str,/参考价|仅供参考|月租参考|定位后显示/,name+' should not show disclaimer');
 const master=/s01-r2-a-(?:1|2)\.webp/g;
 assert.equal([...html.matchAll(master)].length>=2,true,'approved R2 images still referenced');
-console.log('RC2_MERGE_PREP_07_CONTRACT_PASS',JSON.stringify({checks:parts.length+4,formalGate:'PHONE_AND_TERM',main:'FULL_TERM_RENT',secondary:'MONTHLY_AVERAGE',noLocation:'定位后显示',hifi06:'ABANDONED'}));
+console.log('RC2_MERGE_PREP_07_CONTRACT_PASS',JSON.stringify({checks:parts.length+4,formalGate:'PHONE_AND_TERM',main:'FULL_TERM_RENT',secondary:'MONTHLY_AVERAGE',noLocation:'PRESET_DEMO_KILOMETERS',hifi06:'ABANDONED'}));
