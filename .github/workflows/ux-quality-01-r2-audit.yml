@@ -1,0 +1,35 @@
+name: UX-QUALITY-01-R2 fresh experience audit evidence
+on:
+  push:
+    branches:
+      - isolate/ux-quality-01-r2-audit-20261102
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Exact runtime source fingerprint
+        run: |
+          test "$(git rev-parse HEAD^:app/prototype/parallel/core-journey-fix-01/demo/app.js)" = "$(git rev-parse HEAD:app/prototype/parallel/core-journey-fix-01/demo/app.js)" || exit 1
+          node --check scripts/ux_quality_01_r2_capture.cjs
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Fresh screenshot capture, customer routes and tap areas at 375 and 390
+        run: node scripts/ux_quality_01_r2_capture.cjs
+      - name: Upload UX-QUALITY-01-R2 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ux-quality-01-r2-fresh-audit-evidence
+          path: release-evidence/ux-quality-01-r2/
+          if-no-files-found: warn
