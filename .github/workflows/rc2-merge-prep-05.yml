@@ -1,0 +1,83 @@
+name: RC2-MERGE-PREP-05 items scenes and return-state QA
+on:
+  push:
+    branches:
+      - isolate/rc2-merge-prep-05-items-scenes-return-20261102
+  pull_request:
+    branches:
+      - isolate/rc2-merge-prep-04-without-hifi06-20261102
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and no-drift business contract
+        run: |
+          node --check scripts/verify_rc2_merge_prep_05_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/items-bridge.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/cap-bridge.js
+          node scripts/verify_rc2_merge_prep_02.cjs
+          node scripts/verify_rc2_rule_fix_01b.cjs
+          node scripts/verify_rc2_rule_fix_01c.cjs
+  browser:
+    needs: contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: ITEMS item counts + scenes + CAP return state 375/390
+        run: node scripts/verify_rc2_merge_prep_05_browser.cjs
+      - name: CAP and ITEMS basic form regression
+        run: node scripts/verify_rc2_merge_prep_04_cap_items_browser.cjs
+      - name: S01 four filters through payment
+        run: node scripts/verify_rc2_merge_prep_02_browser.cjs
+      - name: O01 and aftercare regression 375/390
+        run: |
+          node scripts/verify_rc2_rule_fix_01c_browser.cjs
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload private screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-merge-prep-05-full-journey-evidence
+          path: |
+            release-evidence/rc2-merge-prep-05/
+            release-evidence/rc2-merge-prep-04/*.png
+            release-evidence/rc2-merge-prep-04/cap-items-results.json
+            release-evidence/rc2-merge-prep-02/
+            release-evidence/rc2-fix-01c/
+            release-evidence/rc2-fix-01d/
+          if-no-files-found: warn
+  premerge-hold:
+    needs: browser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert HIFI06 remains abandoned and visual authorization remains HOLD
+        run: |
+          set +e
+          node scripts/verify_rc2_merge_prep_02_release_gate.cjs
+          code=$?
+          set -e
+          if [ "$code" -ne 2 ]; then echo "Expected premerge HOLD, got $code"; exit 1; fi
+          node -e "const r=require('./release-evidence/rc2-merge-prep-04/release-gate.json');if(r.status!=='HOLD'||r.hifi06!=='ABANDONED_NOT_A_REQUIRED_SOURCE'||r.merge_permitted)process.exit(1)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rc2-merge-prep-05-controlled-hold
+          path: release-evidence/rc2-merge-prep-04/release-gate.json
+          if-no-files-found: warn
