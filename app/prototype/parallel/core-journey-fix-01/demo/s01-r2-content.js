@@ -1,5 +1,5 @@
 /* VIS-REBUILD-03C: isolated presentation data, permitted by user on 2026-10-28.
- * Services, compact addresses and A photographs are prototype content. Distance is rendered only from verified central location data.
+ * Services, compact addresses and A photographs are prototype content. Distances are fixed demonstration display values when live location is unavailable; they never mark geolocation verified or authorize sorting.
  * Original fixture IDs, inventory, capacity, price and order contracts are untouched.
  */
 (function(root){
