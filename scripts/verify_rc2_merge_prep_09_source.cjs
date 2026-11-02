@@ -30,9 +30,17 @@ for(const file of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp']){
 const homepage='app/prototype/parallel/core-journey-fix-01/demo/home.html';
 assert.equal(git('rev-parse','HEAD:'+homepage),git('rev-parse',cfg.baseline_commit+':'+homepage),'unapproved H01 source swap');
 assert.equal(cfg.h01.status,'HIFI06_ABANDONED');
-assert.equal(cfg.h01.next_final_visual,'H01_APPROVED_MASTER_20261102.png');
-assert.equal(cfg.h01.physical_source_received,false);
+assert.equal(cfg.h01.next_final_visual,'VIS-11J');
+assert.equal(cfg.h01.effective_h01_visual,'VIS11J_USER_APPROVED_FINAL_VISUAL_20261102');
+assert.equal(cfg.h01.approved_master_sha256,'30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660');
+assert.equal(cfg.h01.physical_source_received,true);
+assert.equal(cfg.h01.approved_visual_embedded_in_repo,false);
 assert.equal(cfg.h01.implementation_signed_off,false);
+const approvedOldHomepage=read(homepage);
+assert.match(approvedOldHomepage,/VIS-11J/);
+assert.match(approvedOldHomepage,/让城市生活/);
+assert.match(approvedOldHomepage,/找附近门店/);
+assert.match(approvedOldHomepage,/590\+/);
 assert.equal(cfg.s01.filter_count,4);
 assert.equal(cfg.s01.distance_sort_demo_allowed_without_verified_location,true);
 assert.equal(cfg.s01.verified_location_required_in_live_mode,true);
@@ -53,7 +61,7 @@ const head=git('rev-parse','HEAD'),main=git('rev-parse','origin/main');
 const changed=parseInt(git('rev-list','--count','origin/main..HEAD'),10);
 const missing=parseInt(git('rev-list','--count','HEAD..origin/main'),10);
 const blockers=[
-  'H01_SELECTED_MASTER_SOURCE_NOT_PHYSICALLY_RECEIVED_OR_SIGNED_OFF',
+  'H01_VIS11J_OLD_VISUAL_SELECTED_RUNTIME_MATCH_NOT_SIGNED_OFF',
   'S01_FOUR_FILTER_VISUAL_FINAL_APPROVAL_PENDING',
   'EXPLICIT_MAIN_MERGE_AUTHORIZATION_MISSING',
   'EXPLICIT_DEPLOY_AUTHORIZATION_MISSING'
@@ -65,7 +73,7 @@ const obj={
  discarded_prs:[34,38],hifi06:'ABANDONED',
  retired_h01_adapter:'INERT_SOURCE_REFERENCE_ONLY_NOT_IN_BUNDLE',
  s01_approved_webp_git_blobs:sourceAssets,
- h01_current_visual:'FUNCTIONAL_DEMO_ONLY',
+ h01_current_visual:'VIS11J_SELECTED_OLD_HOME_RUNTIME_MATCH_PENDING',
  s01_visual_review:'375_390_TECHNICAL_SCREENSHOTS_REVIEWED_NOT_SIGNED_OFF',
  source_checks:'PASS',isolated_package_allowed:true,merge_allowed:false,deploy_allowed:false,
  blockers
