@@ -49,7 +49,7 @@ for(const [width,height] of [[375,812],[390,844]]){
  const mkapp=pageMk.frameLocator('#central-host'),mkr2=mkapp.frameLocator('#s01-r2-frame');await mkr2.locator('#r2-search').waitFor();
  const cities=['北京','上海','深圳','杭州','广州'];
  for(const city of cities){
-  const snapshot=await mkapp.locator('#screen').evaluate(city=>{window.SIM_DEMO.core.setCity(city);return window.SIM_DEMO.s01R2Bridge.snapshot();},city);
+  const snapshot=await mkapp.locator('#screen').evaluate((element,city)=>{window.SIM_DEMO.core.setCity(city);return window.SIM_DEMO.s01R2Bridge.snapshot();},city);
   assert.equal(snapshot.city,city);assert.equal(snapshot.sourceNamespace,'MK');
   const ids=snapshot.stores.map(o=>o.id);assert(ids.every(id=>id.startsWith('MK_')),'non-MK store id');
  }
