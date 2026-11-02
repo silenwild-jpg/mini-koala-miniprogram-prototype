@@ -15,7 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
+      - name: Verify exact PR HEAD provenance
+        env:
+          RC2_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$RC2_EXPECTED_HEAD"
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
