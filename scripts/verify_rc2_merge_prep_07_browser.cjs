@@ -62,6 +62,10 @@ for(const [width,height] of [[375,812],[390,844]]){
  await r2.locator('.store-card').first().waitFor();
  const after=await snapshot();assert.equal(after.authorized,true);assert.equal(after.termMonths,6);
  assert(after.stores.every(s=>!s.distanceVerified&&/^[0-9]+[.][0-9]+km$/.test(s.distance)));
+ const nearest=after.stores[0],next=after.stores[1];
+ assert(nearest&&next,'two matching stores required');
+ const storeKm=id=>Number(after.stores.find(x=>x.id===id).distance.replace('km',''));
+ assert(storeKm(nearest.id)<=storeKm(next.id),'nearer demo store must be first in recommended R2');
  const first=after.stores[0].units[0];assert(first&&first.priceKind==='term');
  const expected=await page.evaluate(id=>{const c=window.SIM_DEMO.core,r=c.state().requirement,a=c.formalAmounts([id],r.term_months);return {price:'¥'+Number(a.rent_total).toLocaleString('zh-CN'),monthly:'月均约 ¥'+Number(a.monthly_average).toLocaleString('zh-CN')+'/月'};},first.id);
  assert.equal(first.price,expected.price,'main price must match central O01 calculation');
