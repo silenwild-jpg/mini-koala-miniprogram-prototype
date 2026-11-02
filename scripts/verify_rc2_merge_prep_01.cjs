@@ -23,7 +23,7 @@ for(const f of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp','s01-r2-live.h
 const git=(...xs)=>cp.execFileSync('git',xs,{encoding:'utf8'}).trim();
 for(const asset of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp','s01-r2-live.html']){
  const target='app/prototype/parallel/core-journey-fix-01/demo/'+asset;
- const expected=git('rev-parse','isolate/proto-merge-02b-s01-r2-rc1p1-20261030:'+target);
+ const expected=git('rev-parse','origin/isolate/proto-merge-02b-s01-r2-rc1p1-20261030:'+target);
  const actual=git('rev-parse','HEAD:'+target);
  assert.equal(actual,expected,'approved R2 asset changed: '+asset);
 }
