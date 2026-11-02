@@ -18,7 +18,7 @@
     setText(priceBox.querySelector('span'),u.suffix);
     let secondary=priceBox.querySelector('.price-secondary');
     if(!secondary){secondary=document.createElement('small');secondary.className='price-secondary';priceBox.append(secondary);}
-    setText(secondary,u.secondary);
+    setText(secondary,u.secondary);secondary.hidden=!u.secondary;
     priceBox.setAttribute('aria-label',u.priceKind==='term'?u.price+' 整期租金，'+u.secondary:u.price+' 每月起');
     setText(el.querySelector('.unit-desc'),u.usage);
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
