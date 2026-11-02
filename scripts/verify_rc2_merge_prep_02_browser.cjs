@@ -52,6 +52,8 @@ try{
    assert.equal(await app.locator('.scrim').count(),0,'stale overlay');
    assert(await r2.locator('.filter').nth(0).evaluate(el=>new Promise(done=>setTimeout(()=>done(document.activeElement===el),120))), 'repeated sort modal did not restore focus');
   }
+  // Capture the actual S01 state before navigating to S02; never label O03 as S01 evidence.
+  await page.screenshot({path:path.join(output,'S01_four_filters_'+width+'x'+height+'.png'),fullPage:true});
   // Returning from a store detail must keep selection, identity and browser back control.
   const beforeStore=await state();
   await r2.locator('.store-card').first().click();
@@ -123,7 +125,7 @@ try{
   await app.locator('button[data-value="RN01"]').waitFor();
   assert.equal((await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state().orders.at(-1))).status,'paid_simulated');
   assert.deepEqual(errors,[]);
-  await page.screenshot({path:path.join(output,'S01_four_filters_'+width+'x'+height+'.png'),fullPage:true});
+  await page.screenshot({path:path.join(output,'O03_after_S01_order_'+width+'x'+height+'.png'),fullPage:true});
   all.push({width,height,controls:['排序','距离','价格','服务'],search:'nav-more',gate:{distance:'UNVERIFIED_BLOCKED',price:'PHONE_AND_TERM_REQUIRED'},paidOrderToO03:'PASS',browserErrors:0});
   await ctx.close();
  }
