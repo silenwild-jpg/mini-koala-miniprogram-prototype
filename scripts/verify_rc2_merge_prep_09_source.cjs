@@ -40,6 +40,7 @@ const authorizedHome=(sourceHome.slice(0,start)+sourceHome.slice(end))
 assert.equal(read(homepage).trim(),authorizedHome.trim(),'unapproved H01 change beyond VIS11J fidelity repair');
 assert.doesNotMatch(read('app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js'),/了解考拉服务与存放说明/,'unapproved extra bottom branding link');
 assert.equal(cfg.h01.status,'HIFI06_ABANDONED');
+assert.equal(fs.existsSync(path.join(repo,'app/prototype/mk-h01-central-route-connect03.js')),false,'retired H01 adapter must not exist in central main integration candidate');
 assert.equal(cfg.h01.next_final_visual,'VIS-11J');
 assert.equal(cfg.h01.effective_h01_visual,'VIS11J_USER_APPROVED_FINAL_VISUAL_20261102');
 assert.equal(cfg.h01.approved_master_sha256,'30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660');
@@ -83,7 +84,7 @@ const obj={
  main_commit:main,ahead:changed,behind:missing,
  integrated_pr_chain:chain.map(([number,source_commit])=>({number,source_commit})),
  discarded_prs:[34,38],hifi06:'ABANDONED',
- retired_h01_adapter:'INERT_SOURCE_REFERENCE_ONLY_NOT_IN_BUNDLE',
+ retired_h01_adapter:'REMOVED_FROM_GATE_READY_02_MAIN_CANDIDATE',
  s01_approved_webp_git_blobs:sourceAssets,
  h01_current_visual:'VIS11J_SELECTED_OLD_HOME_RUNTIME_MATCH_PENDING',
  s01_visual_review:'375_390_TECHNICAL_SCREENSHOTS_REVIEWED_NOT_SIGNED_OFF',
