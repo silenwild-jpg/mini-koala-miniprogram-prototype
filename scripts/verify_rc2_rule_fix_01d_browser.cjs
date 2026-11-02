@@ -86,7 +86,10 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     await f.locator('button[data-action="orderDetail"][data-value="'+pendingId+'"]').click();
     await f.locator('button[data-action="resumeOrder"]').click();
     await f.locator('#screen.page-O01').waitFor();
-    o=f.frameLocator('#br04-frame');await o.locator('#pay').click();
+    o=f.frameLocator('#br04-frame');
+    assert.equal(await o.locator('#agreed').isChecked(),false,'agreement should require fresh affirmative consent');
+    await o.locator('#pay').click();assert.equal(await o.locator('button[data-bridge="payResult"][data-value="success"]').count(),0);
+    await o.locator('#agreed').check();await o.locator('#pay').click();
     await o.locator('button[data-bridge="payResult"][data-value="success"]').click();
     await o.locator('button[data-bridge="orderDetail"]').click();await f.locator('#screen.page-O03').waitFor();
     st=await f.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state());
