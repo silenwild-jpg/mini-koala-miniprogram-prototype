@@ -58,8 +58,6 @@ def main() -> None:
     assert cfg["h01"]["next_final_visual"] == "VIS-11J", "USER_APPROVED_OLD_H01_VISUAL_MISSING"
     assert cfg["h01"]["physical_source_received"] is True, "APPROVED_OLD_H01_IMAGE_NOT_RECEIVED"
     assert cfg["h01"]["approved_visual_embedded_in_repo"] is True, "APPROVED_VIS11J_IMAGE_MISSING_FROM_GITHUB"
-    master = SITE / "assets/branch01/VIS-11J_用户批准唯一视觉母版.png"
-    assert master.is_file() and digest(master.read_bytes()) == cfg["h01"]["approved_master_sha256"], "VIS11J_APPROVED_IMAGE_MISMATCH"
     assert cfg["release"]["allow_merge_main"] is False, "MUST_NOT_ELEVATE_RELEASE_PERMISSION"
     assert cfg["release"]["allow_deploy"] is False, "MUST_NOT_ELEVATE_DEPLOY_PERMISSION"
 
@@ -70,6 +68,8 @@ def main() -> None:
     runtime_count = copy_tree(APP / RUNTIME, RUNTIME)
     asset_count = copy_tree(APP / "assets", Path("assets"))
     prototype_asset_count = copy_tree(APP / "prototype/assets", Path("prototype/assets"))
+    master = SITE / "assets/branch01/VIS-11J_用户批准唯一视觉母版.png"
+    assert master.is_file() and digest(master.read_bytes()) == cfg["h01"]["approved_master_sha256"], "VIS11J_APPROVED_IMAGE_MISMATCH"
     assert not (SITE / "prototype/mk-h01-central-route-connect03.js").exists()
 
     required = [
