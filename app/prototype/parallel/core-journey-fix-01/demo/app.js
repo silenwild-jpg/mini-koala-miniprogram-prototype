@@ -14,7 +14,7 @@
   try{Object.assign(visual,JSON.parse(sessionStorage.getItem('mk_visual_align_ui_v1')||'{}'));}catch{}
   const saveVisual=()=>sessionStorage.setItem('mk_visual_align_ui_v1',JSON.stringify(visual));
   if(visual.tab==='用户评价')visual.tab='可选仓位';
-  if(!F.distanceVerified&&!(F.synthetic===true&&r2Mode())&&visual.sort==='distance')visual.sort='recommended';
+  if(!F.distanceVerified&&!(F.synthetic===true&&(new URLSearchParams(location.search).get('s01_r2')==='1'||sessionStorage.getItem('mk_s01_r2_preview_v1')==='1'))&&visual.sort==='distance')visual.sort='recommended';
   const categories=['全部','迷你仓','小型仓','中型仓','大型仓'];
   const category=u=>u.volume<=1.5?'迷你仓':u.volume<=5?'小型仓':u.volume<=10?'中型仓':'大型仓';
   const unitName=u=>u.name;
