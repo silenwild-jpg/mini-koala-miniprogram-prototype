@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - isolate/rc2-merge-prep-01-visual-plus-lifecycle-20261102
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
