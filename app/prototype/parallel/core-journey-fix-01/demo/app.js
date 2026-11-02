@@ -38,6 +38,8 @@
   const r2Filters={region:'all',capacity:'all'};
   try{Object.assign(r2Filters,JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}'));}catch{}
   function saveR2Filters(){sessionStorage.setItem('mk_s01_r2_filters_v1',JSON.stringify(r2Filters));}
+  // New four-filter visual deliberately retires hidden region/capacity restrictions.
+  if(r2Mode()&&(r2Filters.region!=='all'||r2Filters.capacity!=='all')){r2Filters.region='all';r2Filters.capacity='all';saveR2Filters();}
   function r2View(s){
     if(!r2Orders[s.city]){
       const active=F.stores.filter(x=>x.city===s.city&&x.status==='open');
