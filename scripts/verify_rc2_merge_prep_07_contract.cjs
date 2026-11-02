@@ -23,6 +23,11 @@ assert.match(view,/index===0\?1\.2:index===1\?3\.6/,'demo kilometers must render
 assert.doesNotMatch(html,/演示\s*[0-9]+\.[0-9]+km/,'no demo disclaimers in user interface');
 assert.equal((html.match(/<div class="filter">/g)||[]).length,4,'S01 four-filter visual frozen');
 for(const [name,str] of [['app',app],['bridge',bind],['html',html]]) assert.doesNotMatch(str,/参考价|仅供参考|月租参考|定位后显示/,name+' should not show disclaimer');
-const master=/s01-r2-a-(?:1|2)\.webp/g;
-assert.equal([...html.matchAll(master)].length>=2,true,'approved R2 images still referenced');
+for(const name of ['assets/s01-r2-a-1.webp','assets/s01-r2-a-2.webp']){
+  const bytes=fs.readFileSync(path.join(base,name));
+  assert(bytes.length>5000,'approved R2 photo is missing or unexpectedly small: '+name);
+  assert.equal(bytes.toString('ascii',0,4),'RIFF','approved R2 photo header');
+  assert.equal(bytes.toString('ascii',8,12),'WEBP','approved R2 photo encoding');
+}
+assert.match(bind,/photo\.src=s\.photo/,'source-preserved photos must be runtime bound');
 console.log('RC2_MERGE_PREP_07_CONTRACT_PASS',JSON.stringify({checks:parts.length+4,formalGate:'PHONE_AND_TERM',main:'FULL_TERM_RENT',secondary:'MONTHLY_AVERAGE',noLocation:'PRESET_DEMO_KILOMETERS',hifi06:'ABANDONED'}));
