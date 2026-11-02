@@ -29,13 +29,14 @@ for(const [width,height] of [[375,812],[390,844]]){
  let before=await snapshot();
  assert.equal(before.distanceVerified,false);
  assert.equal(before.stores.length,2);
- assert(before.stores.every(s=>!s.distanceVerified&&s.distance==='定位后显示'));
- assert(before.stores.every(s=>s.units.every(u=>u.priceKind==='reference'&&u.suffix==='月租参考'&&/仅供参考/.test(u.secondary))));
- assert((await r2.locator('.km').allTextContents()).every(t=>t==='定位后显示'));
+ assert(before.stores.every(s=>!s.distanceVerified&&/^\\d+\\.\\d+km$/.test(s.distance)));
+ assert(before.stores.every(s=>s.units.every(u=>u.priceKind==='reference'&&u.suffix==='/月起'&&u.secondary==='')));
+ assert((await r2.locator('.km').allTextContents()).every(t=>/^\\d+\\.\\d+km$/.test(t)));
  assert.equal(await r2.locator('.filter').count(),4);
  assert.equal(await r2.locator('.price-secondary').count(),before.stores.reduce((n,s)=>n+s.units.length,0));
- await layout(r2,width,'reference');
- await page.screenshot({path:path.join(out,'S01-reference-'+width+'.png'),fullPage:true});
+ assert.equal(await r2.locator('.price-secondary:visible').count(),0);
+ await layout(r2,width,'public-monthly');
+ await page.screenshot({path:path.join(out,'S01-monthly-'+width+'.png'),fullPage:true});
  // Require real CAP selection before full-term price; term alone must not bypass phone gate.
  await r2.locator('.nav-more').click();
  await page.locator('button[data-action="r2EditDemand"]').click();
@@ -58,7 +59,7 @@ for(const [width,height] of [[375,812],[390,844]]){
  await auth.waitFor({state:'detached'});
  await r2.locator('.store-card').first().waitFor();
  const after=await snapshot();assert.equal(after.authorized,true);assert.equal(after.termMonths,6);
- assert(after.stores.every(s=>!s.distanceVerified&&s.distance==='定位后显示'));
+ assert(after.stores.every(s=>!s.distanceVerified&&/^\\d+\\.\\d+km$/.test(s.distance)));
  const first=after.stores[0].units[0];assert(first&&first.priceKind==='term');
  const expected=await page.evaluate(id=>{const c=window.SIM_DEMO.core,r=c.state().requirement,a=c.formalAmounts([id],r.term_months);return {price:'¥'+Number(a.rent_total).toLocaleString('zh-CN'),monthly:'月均约 ¥'+Number(a.monthly_average).toLocaleString('zh-CN')+'/月'};},first.id);
  assert.equal(first.price,expected.price,'main price must match central O01 calculation');
@@ -78,10 +79,10 @@ for(const [width,height] of [[375,812],[390,844]]){
  assert.equal(state.requirement.term_months,6);
  assert.equal(state.requirement.term_confirmed,true);
  assert.deepEqual(errors,[]);
- result.push({viewport:width+'x'+height,publicReferenceOnly:true,phonePlusTermWholeRent:expected.price,monthly:expected.monthly,distance:'unverified→定位后显示',distanceSort:'BLOCKED',cardGeometry:geometry,checkoutRoute:'O01',jsErrors:0});
+ result.push({viewport:width+'x'+height,publicMonthly:true,phonePlusTermWholeRent:expected.price,monthly:expected.monthly,distance:'PRESET_DEMO_KM_DISPLAY',distanceSort:'BLOCKED',cardGeometry:geometry,checkoutRoute:'O01',jsErrors:0});
  await ctx.close();
 }
 fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({result:'PASS',cases:result,visualSignoff:'TECHNICAL_ONLY',mergeAllowed:false},null,2));
-console.log('RC2_MERGE_PREP_07_BROWSER_PASS',JSON.stringify(result.map(({viewport,publicReferenceOnly,phonePlusTermWholeRent,monthly,distance,distanceSort,checkoutRoute,jsErrors})=>({viewport,publicReferenceOnly,phonePlusTermWholeRent,monthly,distance,distanceSort,checkoutRoute,jsErrors}))));
+console.log('RC2_MERGE_PREP_07_BROWSER_PASS',JSON.stringify(result.map(({viewport,publicMonthly,phonePlusTermWholeRent,monthly,distance,distanceSort,checkoutRoute,jsErrors})=>({viewport,publicMonthly,phonePlusTermWholeRent,monthly,distance,distanceSort,checkoutRoute,jsErrors}))));
 }finally{await browser.close();}
 })().catch(e=>{console.error('RC2_MERGE_PREP_07_BROWSER_FAILED',e);process.exitCode=1}).finally(()=>srv.close());
