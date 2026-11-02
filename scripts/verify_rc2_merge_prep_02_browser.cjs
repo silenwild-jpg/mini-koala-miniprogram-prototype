@@ -30,6 +30,17 @@ try{
   await app.locator('button[data-action="r2SearchClear"]').click();
   assert((await state()).stores.length>0);
   await app.locator('button[data-action="close"]').last().click();
+  // P17: closing sort/service overlays must not change filters or leave an obscuring scrim.
+  for(const filterIndex of [0,3]){
+   const before=await state();
+   await r2.locator('.filter').nth(filterIndex).click();
+   await app.locator('.control-sheet').waitFor();
+   await app.locator('.control-sheet button[data-action="close"]').click();
+   await app.locator('.control-sheet').waitFor({state:'detached'});
+   const after=await state();
+   assert.deepEqual(after.filterActive,before.filterActive,'closing filter sheet changed selections');
+   assert.equal(await app.locator('.scrim').count(),0,'scrim stuck after close');
+  }
   // sorting
   await r2.locator('.filter').nth(0).click();
   await app.locator('button[data-action="setSort"][data-value="recommended"]').waitFor();
