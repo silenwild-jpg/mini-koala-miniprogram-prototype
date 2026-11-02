@@ -70,8 +70,12 @@ try{
     await frame.frameLocator('#s01-r2-frame').locator('.store-card').first().click({timeout:10000});
     await frame.locator('#screen.page-S02').waitFor({timeout:10000});
   });
-  await safe('06-PHONE-gate','Phone gate reached from selected unit',async()=>{
+  await safe('06-TERM-required','Term selection shown after immediate-order CTA',async()=>{
     await frame.locator('.order-button[data-action="choose"]:not([disabled])').first().click();
+    await frame.locator('button[data-action="setTerm"][data-value="6"]').waitFor({timeout:10000});
+  });
+  await safe('06a-PHONE-gate','Phone gate after confirming six-month term',async()=>{
+    await frame.locator('button[data-action="setTerm"][data-value="6"]').click({timeout:10000});
     await frame.locator('.mk-auth-overlay').waitFor({timeout:10000});
   });
   await safe('06b-PHONE-policy','Consent panel expanded user-facing agreement terms',async()=>{
