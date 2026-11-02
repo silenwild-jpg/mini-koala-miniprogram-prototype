@@ -12,7 +12,7 @@ const server=http.createServer((req,res)=>{
 });
 const dims=[[375,812],[390,844]],out=[];
 async function start(ctx,mode='S01'){const page=await ctx.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',e=>{if(e.type()==='error'&&!/favicon/.test(e.text()))errors.push(e.text());});
- await page.goto(base+'/central-review-02g.html?catalog=sim&page='+mode);const app=page.frameLocator('#central-host');await app.locator('#screen').waitFor();return {page,app,errors};}
+ await page.goto(base+'/central-review-02g.html?catalog=sim&page='+mode);const app=page.frameLocator('#central-host');await app.locator(mode==='H01'?'.task-card.primary':'#screen').waitFor();return {page,app,errors};}
 async function phone(app,expectDenied=false){
  const overlay=app.locator('.mk-auth-overlay');await overlay.waitFor();
  if(expectDenied){assert.equal(await app.locator('.page-O01').count(),0);await overlay.locator('button[data-auth="close"]').click();await overlay.waitFor({state:'detached'});return;}
