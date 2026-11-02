@@ -29,9 +29,9 @@ for(const [width,height] of [[375,812],[390,844]]){
  let before=await snapshot();
  assert.equal(before.distanceVerified,false);
  assert.equal(before.stores.length,2);
- assert(before.stores.every(s=>!s.distanceVerified&&/^\\d+\\.\\d+km$/.test(s.distance)));
+ assert(before.stores.every(s=>!s.distanceVerified&&/^[0-9]+[.][0-9]+km$/.test(s.distance)));
  assert(before.stores.every(s=>s.units.every(u=>u.priceKind==='reference'&&u.suffix==='/月起'&&u.secondary==='')));
- assert((await r2.locator('.km').allTextContents()).every(t=>/^\\d+\\.\\d+km$/.test(t)));
+ assert((await r2.locator('.km').allTextContents()).every(t=>/^[0-9]+[.][0-9]+km$/.test(t)));
  assert.equal(await r2.locator('.filter').count(),4);
  assert.equal(await r2.locator('.price-secondary').count(),before.stores.reduce((n,s)=>n+s.units.length,0));
  assert.equal(await r2.locator('.price-secondary:visible').count(),0);
@@ -59,7 +59,7 @@ for(const [width,height] of [[375,812],[390,844]]){
  await auth.waitFor({state:'detached'});
  await r2.locator('.store-card').first().waitFor();
  const after=await snapshot();assert.equal(after.authorized,true);assert.equal(after.termMonths,6);
- assert(after.stores.every(s=>!s.distanceVerified&&/^\\d+\\.\\d+km$/.test(s.distance)));
+ assert(after.stores.every(s=>!s.distanceVerified&&/^[0-9]+[.][0-9]+km$/.test(s.distance)));
  const first=after.stores[0].units[0];assert(first&&first.priceKind==='term');
  const expected=await page.evaluate(id=>{const c=window.SIM_DEMO.core,r=c.state().requirement,a=c.formalAmounts([id],r.term_months);return {price:'¥'+Number(a.rent_total).toLocaleString('zh-CN'),monthly:'月均约 ¥'+Number(a.monthly_average).toLocaleString('zh-CN')+'/月'};},first.id);
  assert.equal(first.price,expected.price,'main price must match central O01 calculation');
