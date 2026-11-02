@@ -15,10 +15,20 @@
       38
     ],
     "effective_h01_visual": "CURRENT_DEMO_ONLY_NOT_FINAL_APPROVED",
-    "next_final_visual": "NOT_SELECTED",
+    "next_final_visual": "H01_APPROVED_MASTER_20261102.png",
     "visual_gate": "SEPARATE_NOT_REQUIRED_FOR_ISOLATED_BUSINESS_QA",
-    "final_signoff": "PENDING_NEW_USER_DECISION",
-    "source_pr_contains_hifi": false
+    "final_signoff": "PENDING_SOURCE_RECEIPT_AND_375_390_VISUAL_REVIEW",
+    "source_pr_contains_hifi": false,
+    "approved_master_size_px": [
+      863,
+      1822
+    ],
+    "master_select_date": "2026-11-02",
+    "master_receipt": "LIBRARY_IMAGE_VISUALLY_INSPECTED_RAW_BYTES_UNAVAILABLE",
+    "source_zip": "BR01_H01_MASTER_20261102.zip",
+    "implementation_candidate": "BR01_H01_HIFI_01.zip",
+    "physical_source_received": false,
+    "implementation_signed_off": false
   },
   "s01": {
     "approved_change": "Replace search strip and area/capacity/term triad with four sort/distance/price/service filters",
@@ -46,7 +56,7 @@
     "isolated_bundle_is_public_release": false,
     "main_merge_gate": "HOLD_VISUAL_AND_AUTHORIZATION",
     "orders_visual_scope": "M01_O03_OH01_AND_AFTERCARE_STATUS_COPY",
-    "h01_master_status": "NOT_SELECTED_HIFI06_ABANDONED"
+    "h01_master_status": "MASTER_SELECTED_PHYSICAL_RECEIPT_PENDING_HIFI06_ABANDONED"
   },
   "decision_date": "2026-11-02"
 }
