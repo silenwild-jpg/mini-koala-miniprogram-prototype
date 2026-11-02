@@ -64,6 +64,7 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     const scroller=app.locator('#scroller');
     const scrollEnd=await scroller.evaluate(el=>{el.scrollTop=el.scrollHeight;return el.scrollTop;});
     assert(scrollEnd>60,'H01 approved long page must scroll to enterprise and brand section');
+    assert.equal(await app.locator('.brand-details-link').count(),0,'unapproved extra brand link returned');
     await page.screenshot({path:path.join(dir,'h01-vis11j-final-bottom-'+width+'.png'),fullPage:true});
     await app.locator('.task-hotspots button[aria-label="找附近门店"]').click();await app.locator('#screen.page-S01').waitFor();
     await verifyRouteRemoved(app);
