@@ -34,12 +34,18 @@ try{
   await r2.locator('.filter').nth(0).click();
   await app.locator('button[data-action="setSort"][data-value="recommended"]').waitFor();
   await app.locator('button[data-action="setSort"][data-value="recommended"]').click();
-  // unverified distance is blocked, no imaginary kilometer sort
+  // Approved demo distance sort follows the same per-store seeded kilometers
+  // without changing the core trusted-location flag.
   await r2.locator('.filter').nth(1).click();
-  const distanceText=await app.locator('.control-sheet').innerText();
-  assert.match(distanceText,/距离尚未验证/);
-  assert.notEqual((await state()).filterActive[1],true);
-  await app.locator('button[data-action="close"]').last().click();
+  const distanceState=await state();
+  assert.equal(distanceState.distanceVerified,false);
+  assert.equal(distanceState.distanceSortSource,'STABLE_DEMO_DISTANCE');
+  assert.equal(distanceState.filterActive[1],true);
+  assert.equal(distanceState.filterLabels[1],'距离优先');
+  assert(Number.parseFloat(distanceState.stores[0].distance)<=Number.parseFloat(distanceState.stores[1].distance));
+  await r2.locator('.filter').nth(0).click();
+  await app.locator('button[data-action="setSort"][data-value="recommended"]').click();
+  assert.equal((await state()).filterActive[1],false);
   // services, including reverting back to all
   await r2.locator('.filter').nth(3).click();
   await app.locator('button[data-action="setService"][data-value="近地铁"]').click();
