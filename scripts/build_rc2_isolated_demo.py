@@ -14,14 +14,14 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 REPO = Path(__file__).resolve().parents[1]
 APP = REPO / "app"
-OUT = REPO / "release-evidence" / "rc2-merge-prep-09"
+OUT = REPO / "release-evidence" / "rc2-merge-prep-10"
 SITE = OUT / "site"
-ARCHIVE = OUT / "MiniKoala_RC2_Isolated_Internal_Demo_20261102.zip"
+ARCHIVE = OUT / "MiniKoala_RC2_Review_Candidate_10_20261102.zip"
 RUNTIME = Path("prototype/parallel/core-journey-fix-01/demo")
 ASSET_EXT = {".png", ".jpg", ".jpeg", ".webp", ".avif", ".svg", ".gif", ".ico"}
 EXT = ASSET_EXT | {".html", ".css", ".js", ".json"}
 FORBIDDEN = {"qa", "evidence", "node_modules", ".git", ".netlify", "__pycache__"}
-LABEL = "RC2-ISOLATED-DEMO-CANDIDATE-20261102"
+LABEL = "RC2-ISOLATED-DEMO-CANDIDATE-10-20261102"
 
 def git(*args: str) -> str:
     return check_output(["git", *args], cwd=REPO, text=True).strip()
@@ -118,9 +118,9 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
     summary = {
         "version": LABEL,
         "commit": commit,
-        "candidate_branch": "isolate/rc2-merge-prep-09-unified-rc2-demo-20261102",
-        "base_pr": 43,
-        "source_chain_prs": [36, 37, 39, 40, 41, 42, 43],
+        "candidate_branch": "isolate/rc2-merge-prep-10-order-review-hifi-gate-20261102",
+        "base_pr": 44,
+        "source_chain_prs": [36, 37, 39, 40, 41, 42, 43, 44],
         "retired_prs": [34, 38],
         "hifi06": "ABANDONED_NOT_BUNDLED",
         "release_status": "ISOLATED_INTERNAL_REVIEW_ONLY",
