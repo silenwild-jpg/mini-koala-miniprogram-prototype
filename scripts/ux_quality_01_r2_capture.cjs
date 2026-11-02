@@ -27,8 +27,8 @@ try{
    await page.screenshot({path:path.join(out,filename),fullPage:true});
    let text='',buttonCount=0,smallTapTargets=[],screen='';
    try {
-    text=(await frame.locator('body').innerText()).slice(0,3500);
-    const x=await frame.locator('body').evaluate(el=>{
+    text=(await (await page.locator('#central-host').count()?frame.locator('body'):page.locator('body')).innerText()).slice(0,3500);
+    const x=await (await page.locator('#central-host').count()?frame.locator('body'):page.locator('body')).evaluate(el=>{
      const controls=[...el.querySelectorAll('button,a,[role=button],input,select')].filter(n=>{
        const s=getComputedStyle(n),r=n.getBoundingClientRect();
        return s.display!=='none' && s.visibility!=='hidden' && r.width>0 && r.height>0 && r.top<window.innerHeight && r.bottom>0;
@@ -66,8 +66,8 @@ try{
     await page.waitForTimeout(130);
   });
   await safe('05-S02-detail','Store detail after list entry',async()=>{
-    await nav('S01','&s01_r2=1');
-    await frame.locator('.store-entry[data-store]').first().click();
+    await nav('S01');
+    await frame.locator('.store-entry[data-store]').first().click({timeout:10000});
     await frame.locator('#screen.page-S02').waitFor({timeout:10000});
   });
   await safe('06-PHONE-gate','Phone gate reached from selected unit',async()=>{
@@ -79,8 +79,8 @@ try{
     await frame.locator('button[data-auth="wechat"]').click();
     await frame.locator('#screen.page-O01').waitFor({timeout:10000});
   });
-  await safe('08-CAP-entry','Known capacity and term input',async()=>{await nav('CAP')});
-  await safe('09-ITEMS-entry','Item-by-item estimation default state',async()=>{await nav('ITEMS')});
+  await safe('08-CAP-entry','Known capacity and term input',async()=>{await page.goto(base+'/prototype/parallel/core-journey-fix-01/demo/cap.html');await page.locator('#capacity').waitFor()});
+  await safe('09-ITEMS-entry','Item-by-item estimation default state',async()=>{await page.goto(base+'/prototype/parallel/core-journey-fix-01/demo/items.html');await page.locator('#footerBtn').waitFor()});
   await safe('10-S5-demand','S5 prefilled requirement recommendation',async()=>{
     await nav('S01');
     await frame.locator('#screen').evaluate(()=>{window.SIM_DEMO.core.setRequirement(3,6,true);window.SIM_DEMO.persist();window.SIM_DEMO.navigate('S5')});
@@ -94,5 +94,5 @@ const names=all.filter(x=>x.filename),blocked=all.filter(x=>x.status==='NOT_CAPT
 const meta={source_sha:process.env.GITHUB_SHA||null,method:'fresh Playwright Chromium screenshots on isolated audit branch, runtime identical to central candidate',captured:names.length,blocked:blocked.length,results:all};
 fs.writeFileSync(path.join(out,'ux-r2-capture-index.json'),JSON.stringify(meta,null,2));
 console.log('UX_R2_CAPTURE_RESULT',JSON.stringify({captured:names.length,blocked:blocked.length}));
-if(names.length<12) process.exitCode=1;
+if(names.length<20) process.exitCode=1;
 })().catch(e=>{console.error(e);process.exitCode=1});
