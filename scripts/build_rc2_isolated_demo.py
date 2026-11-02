@@ -55,6 +55,8 @@ def copy_tree(source: Path, destination: Path) -> int:
 def main() -> None:
     cfg = json.loads((REPO / "docs/RC2_MERGE_PREP_02_SOURCE_GATE.json").read_text("utf-8"))
     assert cfg["h01"]["status"] == "HIFI06_ABANDONED", "RETIRED_MASTER_MUST_NOT_RETURN"
+    assert cfg["h01"]["next_final_visual"] == "H01_APPROVED_MASTER_20261102.png", "LATEST_H01_MASTER_SELECTION_MISSING"
+    assert cfg["h01"]["physical_source_received"] is False, "DO_NOT_CLAIM_H01_SOURCE_IMPORTED"
     assert cfg["release"]["allow_merge_main"] is False, "MUST_NOT_ELEVATE_RELEASE_PERMISSION"
     assert cfg["release"]["allow_deploy"] is False, "MUST_NOT_ELEVATE_DEPLOY_PERMISSION"
 
@@ -125,7 +127,7 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
         "retired_prs": [34, 38],
         "hifi06": "ABANDONED_NOT_BUNDLED",
         "release_status": "ISOLATED_INTERNAL_REVIEW_ONLY",
-        "visual_signoff": "S01_SCREENSHOT_TECHNICAL_REVIEW_ONLY_H01_NOT_SELECTED",
+        "visual_signoff": "S01_SCREENSHOT_TECHNICAL_REVIEW_ONLY_H01_MASTER_SELECTED_SOURCE_PENDING",
         "main_merge_allowed": False,
         "deployment_allowed": False,
         "files": len(manifest),
