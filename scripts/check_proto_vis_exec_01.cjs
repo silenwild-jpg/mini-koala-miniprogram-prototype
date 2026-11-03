@@ -43,6 +43,32 @@ function assessS02(source){
  }
  return issues;
 }
+function assessS01(source){
+ const issues=[];
+ const begin=source.indexOf('function renderS01(){'),end=source.indexOf('function renderS02(){',begin);
+ if(begin<0||end<begin)return issues; // Historic renderer may use other module names.
+ const renderer=source.slice(begin,end);
+ const bar=renderer.match(/<div class="filter-bar"[^>]*>([\s\S]*?)<\/div>/);
+ if(bar){
+  const n=(bar[1].match(/class="filter-btn/g)||[]).length;
+  if(n!==3)issues.push('S01筛选栏必须是排序、距离、服务三列，当前按钮数：'+n);
+  if(/data-action="priceFilter"|价格区间/.test(bar[1]))issues.push('S01出现已删除的独立价格筛选');
+  if(!/服务/.test(bar[1]))issues.push('S01第三项应为服务筛选');
+ }
+ return issues;
+}
+function reportEvidence(body,isDraft){
+ const statuses={};
+ for(const status of ['G-TECH','VIS_SIGNED','DEPLOYED']){
+  statuses[status]=(body.match(new RegExp(status+':\\s*(PASS|HOLD|NOT_TESTED)'))||[])[1]||null;
+ }
+ const issues=[];
+ if(!isDraft){
+  if(statuses['G-TECH']!=='PASS')issues.push('非草稿视觉PR须标记G-TECH: PASS并提供实测证据');
+  if(statuses.VIS_SIGNED!=='PASS')issues.push('非草稿视觉PR必须获得人工视觉签收VIS_SIGNED: PASS');
+ }
+ return {statuses,issues};
+}
 function checkPRBody(body){
  const missing=[];
  const fields=['基线 Commit','活动页面','获批视觉','变更对照','375','390','视觉签收','回滚'];
@@ -56,6 +82,10 @@ function verifyFixture(){
  const fixture='function renderS02(){ const tabs="可选仓位 服务设施 交通路线 s02MainTabs s02Demand() s02HotRibbon(s) s02AccessHours(s) data-action=\"detailTab\"";const content=visual.tab===\'交通路线\'?s02Route(s):visual.tab===\'服务设施\'?s02Services(s):"units"; }function amountLines(){}function s02HotRibbon(s){return "<div>🔥 热门仓型</div>";}function s02Route(s){}';
  const ok=assessS02(fixture),bad=assessS02(fixture.replace('s02MainTabs','s02-lower-tabs').replace('热门仓型</div>','热门仓型<button>查看仓位</button></div>'));
  if(ok.length||!bad.some(s=>s.includes('CTA'))||!bad.some(s=>s.includes('s02MainTabs')))throw Error('visual guard self-test failed: '+JSON.stringify({ok,bad}));
+ const g=reportEvidence('G-TECH: PASS\nVIS_SIGNED: HOLD\nDEPLOYED: HOLD',false);
+ if(!g.issues.some(x=>x.includes('视觉签收')))throw Error('unapproved ready PR unexpectedly allowed');
+ const g2=reportEvidence('G-TECH: PASS\nVIS_SIGNED: HOLD\nDEPLOYED: HOLD',true);
+ if(g2.issues.length)throw Error('draft review should remain allowed');
  console.log('PROTO-VIS-EXEC-01 self-test: PASS');return;
 }
 if(process.argv.includes('--self-test')){verifyFixture();process.exit(0)}
@@ -66,10 +96,14 @@ if(!fs.existsSync(path.join(root,'docs/VISUAL_MANIFEST.md')))issues.push('批准
 if(!fs.existsSync(path.join(root,'docs/PROTO_VIS_EXEC_01.md')))issues.push('治理规则缺失');
 if(changed.includes(active)){
  const source=fs.readFileSync(path.join(root,active),'utf8');
- issues.push(...assessS02(source));
+ issues.push(...assessS02(source));issues.push(...assessS01(source));
 }
 if(visual.length){
  const body=event.pull_request?.body||'';
+ if(event.pull_request){
+  const evidence=reportEvidence(body,!!event.pull_request.draft);
+  issues.push(...evidence.issues);
+ }
  if(!body)warnings.push('当前 PR 缺少双门禁证据字段；需要按新模板补充。');
  else {
   const missing=checkPRBody(body);
