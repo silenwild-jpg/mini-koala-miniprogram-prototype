@@ -1,0 +1,51 @@
+{
+  "task": "PROTO-RULE-RESTORE-07",
+  "as_of": "2026-11-03",
+  "baseline_pr": 52,
+  "baseline_sha": "3ffc3d8f8abc04a77f708453949e1457a7e935a2",
+  "visual_master": {
+    "H01": {
+      "status": "SOURCE_VERIFIED_RUNTIME_STRUCTURE_PARTIAL_FINAL_HOLD",
+      "file": "app/assets/branch01/VIS-11J_用户批准唯一视觉母版.png",
+      "sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660"
+    },
+    "S01": {
+      "status": "APPROVED_THREE_FILTER_FULL_PAGE_NOT_RECEIVED",
+      "approved_original_path": null,
+      "approved_original_sha256": null,
+      "do_not_use_as_master": [
+        "VIS-07 historic",
+        "EXPAND-01B historic",
+        "s01-r2-a-1.webp",
+        "s01-r2-a-2.webp",
+        "CI runtime images"
+      ]
+    }
+  },
+  "technical": {
+    "S01_unique_r2_entry": "PASS_AS_TESTED",
+    "three_filters": "PASS_AS_TESTED",
+    "h01_source_integrity": "PASS",
+    "main_merged": false,
+    "deployed": false
+  },
+  "signoff": {
+    "H01_full_page": "HOLD",
+    "S01_full_page": "HOLD",
+    "all_pages_final": "HOLD"
+  },
+  "uat": {
+    "functional_exploration": "CONDITIONAL_GO_AFTER_PRIVATE_ACCESS_AND_DATA_BRIEF",
+    "private_mobile_url_verified": false,
+    "real_users_tested": false,
+    "device_wechat_checked": false,
+    "uat_result": "NOT_RUN"
+  },
+  "open_gates": [
+    "S01_APPROVED_IMAGE_BYTES",
+    "S01_IDENTICAL_STATE_375_390_REVIEW",
+    "H01_FULL_SCROLL_IDENTICAL_STATE_SIGNOFF",
+    "PRIVATE_MOBILE_ACCESS",
+    "TESTER_CONSENT_AND_RESULTS"
+  ]
+}
