@@ -35,10 +35,11 @@ const cases=[
      await s5.locator('body.bridge-ready').waitFor({timeout:18000});
      const probe=await s5.locator('body').evaluate((body,scenario)=>{
        const host=window.parent.SIM_DEMO,core=host.core;
-       core.setRequirement(scenario.capacity,12,scenario.confirmed!==false);
+       core.setRequirement(3,12,true);
        const baseRows=host.offers();
        if(!baseRows.length&&!scenario.empty)throw Error('FIXTURE_NO_VALID_BASE_OFFER');
        const template=baseRows[0];
+       core.setRequirement(scenario.capacity,12,scenario.confirmed!==false);
        const candidate=template?{...template,volume:scenario.volume??template.volume,combo:scenario.combo?{count:2}:template.combo,expandedSearch:!!scenario.expandedSearch}:null;
        // Use real offer identity/price formatter and only inject deterministic state labels and rent thresholds.
        host.offers=()=>scenario.empty?[]:[candidate];
