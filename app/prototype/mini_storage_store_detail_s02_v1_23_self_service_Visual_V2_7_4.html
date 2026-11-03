@@ -522,6 +522,26 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <link rel="stylesheet" href="demo_price01_b1_discovery_contract.css" data-price-patch="demo-price-01-b1">
 <link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
 <link rel="stylesheet" href="mini_koala_unit_choice_r5a_patch.css" data-patch="UNIT-COMPARE-R5A"/>
+
+<style id="s02-ux-review-03">
+/* Approved global principle: task-critical UI copy only, no explanatory decoration. */
+.hero .gallery-tabs{top:9px!important;bottom:auto!important}
+.s02-access-hours{position:absolute;left:9px;bottom:9px;z-index:5;max-width:calc(100% - 80px);padding:5px 9px;border-radius:7px;background:rgba(21,37,30,.78);color:#fff;font-size:11px;font-weight:600;line-height:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s02-access-hours.hidden{display:none!important}
+.s02-service-route{background:#fff;margin:8px 0 0}
+.s02-section-tabs{display:flex;gap:26px;padding:0 16px;border-bottom:1px solid #e8ece8}
+.s02-section-tabs button{position:relative;border:0;background:transparent;padding:13px 0;font:600 14px/20px inherit;color:#6e7770;cursor:pointer}
+.s02-section-tabs button.active{color:#276d4d;font-weight:700}
+.s02-section-tabs button.active:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#276d4d}
+.s02-service-route .section{margin:0!important;border-radius:0!important;box-shadow:none!important}
+#s02RoutePanel{padding:16px}
+#s02RoutePanel[hidden]{display:none!important}
+.s02-route-address{font-size:13px;color:#38453e;line-height:1.5;margin-bottom:14px}
+.s02-route-modes{display:flex;gap:8px}
+.s02-route-modes button{flex:1;min-height:38px;border:1px solid #dce6de;border-radius:8px;background:#fff;color:#405449;font-size:13px;cursor:pointer}
+.s02-route-modes button.active{border-color:#3d8160;background:#eef6f0;color:#286a49;font-weight:700}
+.s02-route-nav{display:block;width:100%;height:44px;margin-top:14px;border:0;border-radius:10px;background:#2f6b4f;color:white;font-size:14px;font-weight:700}
+</style>
 </head>
 <body class="koala-uxd2-layout koala-site-shell koala-s02" data-ux-patch-d2="v1">
 <div class="review">
@@ -539,6 +559,7 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div>
 </div>
 <div class="hero" id="hero">
+<div id="s02AccessHours" class="s02-access-hours hidden" aria-label="门店存取时间"></div>
 <div class="photo-label" id="photoLabel">门店环境示意</div>
 <div class="gallery-tabs">
 <button data-photo="0">仓内</button>
@@ -628,22 +649,21 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <button id="bookStoreViewing">预约看仓</button>
 </div>
 </section>
-<details class="section section-collapsible"><summary><div><b>到店与搬运</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="logistics">
-<div class="infoitem"><span>存取时间</span><b>24小时自助存取</b></div>
+<section class="s02-service-route" aria-label="门店信息"><div class="s02-section-tabs" role="tablist"><button type="button" role="tab" id="s02ServiceTab" aria-selected="true" aria-controls="s02ServicePanel" class="active">门店服务</button><button type="button" role="tab" id="s02RouteTab" aria-selected="false" aria-controls="s02RoutePanel">交通路线</button></div><div id="s02ServicePanel" role="tabpanel" aria-labelledby="s02ServiceTab"><details class="section section-collapsible" open><summary><div><b>到店与搬运</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="logistics">
 <div class="infoitem"><span>看仓 / 服务时间</span><b>09:00–18:00</b></div>
 <div class="infoitem"><span>车辆到店</span><b>门口可短暂停靠</b></div>
 <div class="infoitem"><span>货梯</span><b>有</b></div>
 <div class="infoitem"><span>搬运支持</span><b>可预约</b></div>
 <div class="infoitem"><span>进入仓库</span><b>地下1层 · 电梯直达</b></div>
 </div></div></details>
-<details class="section section-collapsible"><summary><div><b>设施与服务</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="grid6">
+<details class="section section-collapsible" open><summary><div><b>设施与服务</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="grid6">
 <div class="iconbox"><div class="ico">◉</div><b>视频监控</b></div>
 <div class="iconbox"><div class="ico">≈</div><b>防潮除湿</b></div>
 <div class="iconbox"><div class="ico">△</div><b>消防设施</b></div>
 <div class="iconbox"><div class="ico">↪</div><b>自助进入</b></div>
 <div class="iconbox"><div class="ico">⌑</div><b>独立门锁</b></div>
 <div class="iconbox"><div class="ico">◇</div><b>物品保险</b></div>
-</div><div class="store-standard-link" id="brandStandardLink">了解品牌服务标准 ›</div></div></details>
+</div><div class="store-standard-link" id="brandStandardLink">了解品牌服务标准 ›</div></div></details></div><div id="s02RoutePanel" role="tabpanel" aria-labelledby="s02RouteTab" hidden><div class="s02-route-address" id="s02RouteAddress"></div><div class="s02-route-modes"><button type="button" data-route-mode="drive">驾车</button><button type="button" data-route-mode="bike">骑行</button><button type="button" data-route-mode="walk">步行</button></div><button type="button" class="s02-route-nav" id="s02RouteNavigate">导航到门店 ›</button></div></section>
 </div>
 <div class="bottombar">
 <button class="secondary" id="consultBtn">顾问协助</button>
@@ -1568,5 +1588,46 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
 </script>
 <script src="mini_storage_global_support_v274.js"></script>
 <script src="mini_koala_unit_choice_r5a_patch.js" data-patch="UNIT-COMPARE-R5A"></script>
+
+<script id="s02-ux-review-03-runtime">
+(function(){
+  const $=s=>document.querySelector(s);
+  const profiles=window.MINI_STORAGE_MASTER_V222?.stores||{};
+  const params=new URLSearchParams(location.search);
+  const id=params.get('store')||'jianguo';
+  const store=profiles[id]||{};
+  const business=window.MINI_STORAGE_BUSINESS_SSOT_V274?.stores?.[id]||{};
+  function hourLabel(value){
+    const raw=String(value||'').trim();
+    if(!raw)return '';
+    if(/24\s*小时|全天|00:00\s*[-–—~至]\s*24:00/.test(raw))return '存取时间：24小时';
+    const match=raw.match(/([01]?\d|2[0-3]):([0-5]\d)\s*[-–—~至]\s*([01]?\d|2[0-4]):([0-5]\d)/);
+    if(match)return '存取时间：'+match[1].padStart(2,'0')+':'+match[2]+'-'+match[3].padStart(2,'0')+':'+match[4];
+    return '';
+  }
+  const hours=$('#s02AccessHours');
+  const hoursText=hourLabel(store.access_hours||store.accessHours||business.access_hours);
+  if(hours&&hoursText){hours.textContent=hoursText;hours.classList.remove('hidden')}
+  const address=$('#s02RouteAddress');if(address)address.textContent=store.address||'';
+  const serviceTab=$('#s02ServiceTab'),routeTab=$('#s02RouteTab'),servicePanel=$('#s02ServicePanel'),routePanel=$('#s02RoutePanel');
+  function selectTab(which){
+    const route=which==='route';
+    serviceTab?.classList.toggle('active',!route);routeTab?.classList.toggle('active',route);
+    serviceTab?.setAttribute('aria-selected',String(!route));routeTab?.setAttribute('aria-selected',String(route));
+    if(servicePanel)servicePanel.hidden=route;if(routePanel)routePanel.hidden=!route;
+  }
+  serviceTab?.addEventListener('click',()=>selectTab('service'));
+  routeTab?.addEventListener('click',()=>selectTab('route'));
+  const modes=[...document.querySelectorAll('[data-route-mode]')];
+  modes.forEach(button=>button.addEventListener('click',()=>{
+    modes.forEach(b=>b.classList.toggle('active',b===button));
+    const existing=document.querySelector('#travelSheet .option[data-travel="'+button.dataset.routeMode+'"]');
+    existing?.click();
+  }));
+  modes[0]?.classList.add('active');
+  $('#s02RouteNavigate')?.addEventListener('click',()=>$('#navTop')?.click());
+  selectTab('service');
+})();
+</script>
 </body>
 </html>
