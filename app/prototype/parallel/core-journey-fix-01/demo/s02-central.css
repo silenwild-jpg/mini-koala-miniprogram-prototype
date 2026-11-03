@@ -21,6 +21,11 @@
 .page-S02 .unit-card-inner{min-width:0}
 .page-S02 .unit-bottom{gap:5px}
 .page-S02 .unit-price{min-width:0}
+/* Approved compact price hierarchy: keep amount and /month text on one row. */
+.page-S02 .unit-row .br03-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 3px;min-width:0;line-height:1.2}
+.page-S02 .unit-row .br03-price-main{font-size:18px;line-height:22px;white-space:nowrap}
+.page-S02 .unit-row .br03-reference,.page-S02 .unit-row .br03-price-term{display:inline;font-size:11px;line-height:17px;white-space:nowrap}
+.page-S02 .unit-row .br03-price-average,.page-S02 .unit-row .br03-price-link{flex-basis:100%}
 .page-S02 .order-button{min-height:36px}
 .page-S02 .combo-row .scenario{color:#57776b;font-weight:600}
 .page-S02 .s02-main-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:0;margin:0 10px;border-bottom:1px solid #e8ede9;height:45px}
