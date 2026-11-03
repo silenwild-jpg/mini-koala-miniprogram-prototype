@@ -2,6 +2,9 @@ name: S5-UX-CLOSE-01 actual catalog + frozen visual gate NO DEPLOY
 on:
   push:
     branches: [isolate/s5-ux-close-01-20261103]
+  pull_request:
+    branches: [isolate/s5-ux-review-03-20261103]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 permissions:
   contents: read
