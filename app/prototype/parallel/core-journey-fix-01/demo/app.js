@@ -16,7 +16,7 @@
   // RESTORE-03: clear retired persisted price filters without changing price-based sorting.
   if(visual.price!=='all'){visual.price='all';saveVisual();}
   if(visual.tab==='用户评价')visual.tab='可选仓位';
-  if(!F.distanceVerified&&!(F.synthetic===true&&(new URLSearchParams(location.search).get('s01_r2')==='1'||sessionStorage.getItem('mk_s01_r2_preview_v1')==='1'))&&visual.sort==='distance')visual.sort='recommended';
+  if(!F.distanceVerified&&!(F.synthetic===true&&(new URLSearchParams(location.search).get('s01_r2')==='1'))&&visual.sort==='distance')visual.sort='recommended';
   const categories=['全部','迷你仓','小型仓','中型仓','大型仓'];
   const category=u=>u.volume<=1.5?'迷你仓':u.volume<=5?'小型仓':u.volume<=10?'中型仓':'大型仓';
   const unitName=u=>u.name;
@@ -33,9 +33,9 @@
   const lifecycleId=()=>selectedOrderId||state().orders.filter(o=>o.status==='paid_simulated').at(-1)?.id;
   let resultKind=sessionStorage.getItem('mk_sim_result_kind')||'order';
   let positions={};try{positions=JSON.parse(sessionStorage.getItem(UIKEY)||'{}');}catch{}
-  if(new URLSearchParams(location.search).get('s01_r2')==='0')sessionStorage.removeItem('mk_s01_r2_preview_v1');
-  if(new URLSearchParams(location.search).get('s01_r2')==='1')sessionStorage.setItem('mk_s01_r2_preview_v1','1');
-  const r2Mode=()=>sessionStorage.getItem('mk_s01_r2_preview_v1')==='1';
+  // Mode is now derived from this URL; do not retain a session-wide preview flag.
+  
+  const r2Mode=()=>new URLSearchParams(location.search).get('s01_r2')==='1';
   const R2=window.S01_R2_CONTENT,r2Orders={};
   const r2Filters={region:'all',capacity:'all'};
   try{Object.assign(r2Filters,JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}'));}catch{}
@@ -242,7 +242,7 @@
   const functions={S01:renderS01,S02:renderS02,RESULT:renderResult,M01:renderM01,O03:renderO03,OH01:renderOH01,RN01:()=>renderLifecycle('RN01'),EX01:()=>renderLifecycle('EX01'),DP01:()=>renderLifecycle('DP01'),IV01:()=>renderLifecycle('IV01')};
     if(!functions[page]&&!framed[page])page='S01';
     document.body.classList.toggle('br04-mode',!!framed[page]);$('#screen').className='screen page-'+page;
-    if(page==='S01'&&sessionStorage.getItem('mk_s01_r2_preview_v1')==='1'){
+    if(page==='S01'&&r2Mode()){
       const f=$('#s01-r2-frame');
       if(!f||was!==page)$('#screen').innerHTML='<iframe id="s01-r2-frame" class="br04-frame s01-r2-frame" title="附近门店" src="s01-r2-live.html"></iframe>';
       else {try{f.contentWindow.S01_R2_REFRESH?.();}catch{}}
@@ -284,7 +284,7 @@
   document.addEventListener('change',e=>{if(e.target.id==='start-date')act(()=>{core.setDate(e.target.value);render();});});
   $('#scenario').innerHTML=F.scenarios.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
   $('#scenario').addEventListener('change',e=>act(()=>{core.setScenario(e.target.value);resetVisualFilters();sessionStorage.removeItem('mk_br04_ui_v2');['mk_cap_draft_v3','mk_items_draft_v3','mk_entry_context_v3'].forEach(k=>sessionStorage.removeItem(k));positions={};pending=null;lastOrder=null;modal=null;go('S01',null,true);}));
-  window.addEventListener('popstate',()=>{page=new URLSearchParams(location.search).get('page')||'S01';const id=new URLSearchParams(location.search).get('store');act(()=>{if(id)core.setStore(id);render();});});
+  window.addEventListener('popstate',()=>{document.documentElement.classList.toggle('r2-product',r2Mode());page=new URLSearchParams(location.search).get('page')||'S01';const id=new URLSearchParams(location.search).get('store');act(()=>{if(id)core.setStore(id);render();});});
   let lastStatus=state().auth.status;setInterval(()=>{const expired=core.expirePendingOrders();core.authorized();const status=state().auth.status;if(status!==lastStatus||expired){lastStatus=status;render();}},1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});
   const s01R2Bridge={
