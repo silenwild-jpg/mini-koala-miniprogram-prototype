@@ -18,7 +18,7 @@ assert.match(js,/\$\('s5-advisor-action'\)\.onclick=\(\)=>consult\('advisor'\)/)
 const start=js.indexOf('function s5MatchState(');
 const end=js.indexOf('function renderS5()',start);
 assert.ok(start>0&&end>start,'state helpers exist');
-const ctx={amounts:ids=>({rent_total:ids[0]}),Number};
+const ctx={core:{amounts:ids=>({rent_total:ids[0]})},Number};
 vm.createContext(ctx);
 vm.runInContext(js.slice(start,end),ctx);
 const rows=(volume,rent,other={})=>[{volume,ids:[rent],...other}];
