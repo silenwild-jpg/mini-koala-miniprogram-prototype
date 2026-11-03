@@ -157,6 +157,9 @@
     return `<div class="scrim" data-action="close"></div><section class="control-sheet" role="dialog" aria-modal="true" aria-label="${modal}">${button('close','关闭','','close-button')}${body}</section>`;
   }
   function render(){
+    // Snapshot the live value before any RN01 view replacement, including non-input-triggered refreshes.
+    const inProgressRenewal=document.getElementById('renew-months');
+    if(page==='RN01'&&inProgressRenewal)renewalDraftByOrder[lifecycleId()]=inProgressRenewal.value;
     core.expirePendingOrders();
     if(page==='O01'&&!core.authorized())notice='请验证手机号后继续确认订单';
     if(displayedPage===page&&$('#scroll'))positions[page]=$('#scroll').scrollTop;
