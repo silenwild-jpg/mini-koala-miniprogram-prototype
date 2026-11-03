@@ -93,6 +93,13 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     assert.equal(await app.locator('.mk-order-action').count(),4);
     await page.screenshot({path:path.join(dir,'o03-customer-success-'+width+'.png'),fullPage:true});
     await app.locator('button[data-value="RN01"]').click();await app.locator('#renew-months').waitFor();
+    await app.locator('#renew-months').fill('61');
+    await app.locator('button[data-action="requestRenewal"]').click();
+    assert.equal(await app.locator('#renew-months').inputValue(),'61','invalid renewal input must be preserved');
+    assert.match(await app.locator('#renew-error').innerText(),/累计租期不得超过60个月/);
+    await app.locator('#renew-months').fill('3');
+    assert.equal(await app.locator('#renew-error').count(),0,'renewal error should clear on edit');
+    assert.equal(await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.lifecycleView(window.SIM_DEMO.core.state().orders.at(-1).id).renewal_requests.length),0,'invalid input created a request');
     const orderId=state.orders[0].id;
     await page.goto(base+'/central-review-02g.html?catalog=sim&page=O03');const af=page.frameLocator('#central-host');await af.getByText('KL'+orderId.match(/[0-9]+$/)[0].padStart(8,'0'),{exact:false}).first().waitFor();
     await verifyRouteRemoved(af);
@@ -113,6 +120,13 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     const state=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state());
     assert.equal(state.orders.at(-1).status,'payment_failed');
     assert(!state.services[state.orders.at(-1).id]);
+    assert.equal(await app.locator('button[data-action="recoverFailedOrder"]').count(),1,'missing payment failure recovery CTA');
+    await app.locator('button[data-action="recoverFailedOrder"]').click();
+    await app.locator('#screen.page-S01').waitFor();
+    const recovery=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state());
+    assert.equal(recovery.orders.length,1,'recovery created duplicate order');
+    assert.equal(recovery.orders[0].status,'payment_failed');
+    assert.equal(recovery.requirement.term_months,state.requirement.term_months,'recovery lost rental term');
     await layout(app,width);await page.screenshot({path:path.join(dir,'s01-failure-'+width+'.png'),fullPage:true});
     assert.deepEqual(errors,[]);out.push({size:width,case:'S01-payment-failure',result:'PASS'});await ctx.close();}
    // Cancel and restore pending: no second order, no successful transaction before completion.

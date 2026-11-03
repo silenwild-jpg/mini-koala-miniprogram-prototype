@@ -6,7 +6,7 @@
   const B=parent.SIM_DEMO;
   const C=parent.SIM_CENTRAL_CONTRACT_V1;
   if(!B){location.replace('../../index.html?page='+pageIds[page]);return;}
-  const r2=()=>sessionStorage.getItem('mk_s01_r2_preview_v1')==='1';
+  const r2=()=>new URLSearchParams(parent.location.search).get('s01_r2')==='1';
   const clean=()=>{if(r2())parent.S01_R2_CONTENT?.cleanCopy(document.body);};
   const core=B.core,F=core.fixture,presentation=B.presentation,$=id=>document.getElementById(id),$$=s=>Array.from(document.querySelectorAll(s));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -68,7 +68,7 @@
       $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';
       // S5 keeps its own frozen physical-attribute tags and benefits row; BR03 promotional-card rules do not replace them.
       if(first){const line=document.querySelector('.benefits');line.replaceChildren(...(s5BenefitMarker?[s5BenefitMarker.cloneNode(true)]:[]),document.createTextNode(' '+['容量匹配',...presentation.services(s)].join(' · ')));line.hidden=false;}
-      if(first){text('main-distance','门店环境');$('main-distance').hidden=false;}else{document.querySelector('.distance-nav span').textContent='';document.querySelector('.distance-nav').hidden=true;}
+      if(first){text('main-distance','门店环境');$('main-distance').hidden=false;}else{const secondaryNav=document.querySelector('.distance-nav');secondaryNav.querySelector('span').textContent='';secondaryNav.hidden=false;}
       offerPrice(suffix,row);
     });
     document.querySelector('.minor-unit').hidden=offerRows.length<2;fit();

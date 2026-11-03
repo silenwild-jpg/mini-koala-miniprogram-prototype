@@ -118,6 +118,20 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
 </main></body></html>"""
     (SITE / "index.html").write_text(landing, "utf-8")
     (SITE / "robots.txt").write_text("User-agent: *\nDisallow: /\n", "utf-8")
+    # Retired U01 links must never create an order or trust stale store/unit IDs.
+    # Netlify reads these rules when an isolated, SSO-protected preview is explicitly deployed.
+    legacy_target = "/central-review-02g.html?catalog=sim&page=S01&s01_r2=1&legacy=u01"
+    old_unit = "mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.html"
+    retired_paths = [
+        "/prototype/" + old_unit,
+        "/app/prototype/" + old_unit,
+        "/" + old_unit,
+        *["/prototype/state_demos/U01_" + state + ".html" for state in ("LONGTERM_COMPARE", "NO_TERM", "STANDARD_6M")],
+    ]
+    (SITE / "_redirects").write_text(
+        "\n".join(path + " " + legacy_target + " 302" for path in retired_paths) + "\n",
+        "utf-8"
+    )
 
     manifest = [{"path": str(p.relative_to(SITE)).replace("\\", "/"), "sha256": digest(p.read_bytes()), "bytes": p.stat().st_size}
                 for p in sorted(SITE.rglob("*")) if p.is_file()]
