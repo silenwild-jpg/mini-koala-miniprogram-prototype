@@ -155,11 +155,11 @@
   function s02HotRibbon(s){
     const available=F.units.filter(u=>u.store_id===s.id&&core.available(u));
     if(!available.length)return '';
-    const low=available.filter(u=>Number(u.available_count)>0&&Number(u.available_count)<=2)
-      .sort((a,b)=>Number(a.available_count)-Number(b.available_count));
+    const low=available.filter(u=>core.stockCount(u)>0&&core.stockCount(u)<=2)
+      .sort((a,b)=>core.stockCount(a)-core.stockCount(b));
     const urgent=low.length>0;
     const headline=urgent?'热门仓型余量紧张，建议尽快锁定':'热门仓型正在热租';
-    const description=urgent?'部分仓型仅剩'+Number(low[0].available_count)+'间':'本店可租'+available.length+'种仓位';
+    const description=urgent?'部分仓型仅剩'+core.stockCount(low[0])+'间':'本店可租'+available.length+'种仓位';
     const right=urgent?'仅剩少量仓位':'热租中';
     return '<div class="s02-hot"><span class="s02-fire" aria-hidden="true">🔥</span><div class="s02-hot-copy"><strong>'+headline+'</strong><small>'+description+'</small></div><span class="s02-hot-stock">'+right+'</span></div>';
   }
