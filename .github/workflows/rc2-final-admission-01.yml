@@ -24,8 +24,12 @@ jobs:
           node scripts/check_proto_vis_exec_01.cjs
       - name: Run inventory and location contracts
         run: node scripts/verify_s02_inventory_geo_contract.cjs
+      - name: Check live-route user-facing copy
+        run: node scripts/verify_rc2_customer_copy_01.cjs
       - name: Build exact traceable RC2 site bytes
         run: python3 scripts/build_rc2_final_admission_01.py
+      - name: Check packaged user-facing copy
+        run: node scripts/verify_rc2_customer_copy_01.cjs --packaged
       - name: Set up Chromium
         run: |
           npm install --no-save --no-package-lock playwright@1.56.1
