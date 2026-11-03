@@ -1615,7 +1615,7 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
  const params=new URLSearchParams(location.search);
  const storeId=params.get('store')||'jianguo';
  const profile=window.MINI_STORAGE_MASTER_V222?.stores?.[storeId]||{};
- const businessSources=window.MINI_STORAGE_BUSINESS_SSOT_V274||window.MINI_STORAGE_BUSINESS_V274||{};
+ const businessSources=window.MINI_STORAGE_MASTER_V242||window.MINI_STORAGE_BUSINESS_SSOT_V274||{};
  const business=businessSources?.stores?.[storeId]||{};
  function formatAccessHours(value){
   const raw=String(value||'').trim();
@@ -1650,8 +1650,10 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
  const metric=$('#s02RouteMetric');
  function selectMode(mode){
   modes.forEach(button=>button.classList.toggle('active',button.dataset.routeMode===mode));
-  const existing=mode==='transit'?null:document.querySelector('#travelSheet .option[data-travel="'+mode+'"]');
-  if(existing)existing.click();
+  if(mode!=='transit'&&typeof travelMode!=='undefined'){
+   travelMode=mode;
+   if(typeof renderTravelContext==='function')renderTravelContext();
+  }
   const route=mode==='transit'?null:window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274?.routeFor?.(storeId,params.get('searchOriginKey')||'guomao',mode);
   const valid=route&&Number(route.m)>0&&Number(route.km)>0;
   metric.textContent=valid?'约'+Math.round(Number(route.m))+'分钟 · '+Number(route.km).toFixed(1)+'km':'';
