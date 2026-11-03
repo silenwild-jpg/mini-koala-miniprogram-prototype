@@ -14,6 +14,8 @@ assert.doesNotMatch(html,/class="(?:fixed-buy|fixed-cta|bottom-buy|sticky-checko
 assert.match(css,/\.s5-advisor\[hidden\]\{display:none!important\}/);
 assert.match(css,/data-advisor-visible="true"/);
 assert.ok(js.includes("dataset.designHeight=matchState==='none'||matchState==='incomplete'?'858'"),'compact incomplete layout contract');
+assert.ok(js.includes("offerRows.length===1?'1116':'1256'"),'single recommendation consultant compact height');
+assert.ok(js.includes("Number(row.volume)<Number(core.state().requirement.capacity_m3)"),'undersized alternative cannot directly order');
 assert.match(js,/\$\('s5-advisor-action'\)\.onclick=\(\)=>consult\('advisor'\)/);
 const start=js.indexOf('function s5MatchState(');
 const end=js.indexOf('function renderS5()',start);
