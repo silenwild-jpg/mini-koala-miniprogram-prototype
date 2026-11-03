@@ -164,7 +164,7 @@
     $('period').onclick=moreTerms;$('start-date').onchange=e=>guard(()=>{core.setDate(e.target.value);save();refresh();});
     document.querySelector('[data-open="phone"]').onclick=phone;
     document.querySelector('[data-open="coupon"]').onclick=()=>{if(core.state().orders.some(o=>o.status==='pending'&&JSON.stringify(o.unit_ids)===JSON.stringify(core.state().selected))){toast('待支付订单已锁定优惠，取消后可重新选择');return;}if(!core.authorized()){phone();return;}const s=core.state();if(!s.selected.length||!s.requirement.term_confirmed){toast('请先选择仓位和租期');return;}core.claimCoupons();sheet('选择优惠券',act('coupon','自动使用最优优惠','auto')+act('coupon','暂不使用优惠','none')+core.couponOptions(s.selected,s.requirement.term_months).map(c=>c.eligible?act('coupon',c.name+' · '+money(c.amount),c.id):note(c.name+'：'+(c.reason||'不适用于当前订单'))).join(''));};
-    $$('[data-legal]').forEach(el=>el.onclick=e=>{e.preventDefault();sheet(el.dataset.legal,note('这里只展示内部模拟条款说明，不签署正式协议，不产生真实扣款。'));});
+    $$('[data-legal]').forEach(el=>el.onclick=e=>{e.preventDefault();sheet(el.dataset.legal,note('请阅读协议内容。当前操作不产生实际扣款。'));});
     $('agreed').onchange=e=>{ui.agreed=e.target.checked;save();};$('pay').onclick=()=>guard(orderPay);
   }
   window.BR04_REFRESH=refresh;window.addEventListener('resize',fit);
