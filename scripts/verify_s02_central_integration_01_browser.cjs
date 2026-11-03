@@ -37,6 +37,10 @@ checks.activeS02=await page.locator('.screen.page-S02').count()===1;
 checks.hours=/^存取时间：(24小时|09:00-21:00|08:00-23:00)$/.test((await page.locator('.s02-hours').innerText()).trim());
 checks.demand=await page.locator('.s02-demand').isVisible();
 checks.inventory=await page.locator('#s02Inventory').isVisible();
+checks.singleLevelTabs=await page.locator('#s02MainTabs [role="tab"]').count()===3;
+checks.tabsBeforeInventory=await page.evaluate(()=>{const t=document.querySelector('#s02MainTabs'),i=document.querySelector('#s02Inventory');return !!(t&&i&&(t.compareDocumentPosition(i)&Node.DOCUMENT_POSITION_FOLLOWING))});
+checks.noHotCTA=await page.locator('.s02-hot button,.s02-hot [data-action="s02ToUnits"]').count()===0;
+
 checks.state=await page.locator('#s02Inventory').getAttribute('data-s02-status')===name;
 if(name==='nomatch')checks.noUnusableListing=await page.locator('.s02-no-match').isVisible()&&await page.locator('#s02Inventory .unit-row').count()===0;
 if(name==='combo')checks.splitVisual=await page.locator('.s02-combo-pics img').count()===2;
@@ -61,6 +65,8 @@ checks.travelSwitch=await page.locator('.s02-travel-modes button.active').getAtt
 await page.screenshot({path:path.join(output,name+'-'+width+'-route.png')});
 await page.locator('[data-action="detailTab"][data-value="服务设施"]').click();
 checks.serviceReturn=await page.locator('.s02-services').isVisible();
+await page.locator('[data-action="detailTab"][data-value="可选仓位"]').click();
+checks.unitsTabReturn=await page.locator('#s02Inventory').isVisible();
 }catch(e){failure=String(e.stack||e)}
 rows.push({name,width,checks,errors,missing,failure});await page.close();
 }await context.close();
