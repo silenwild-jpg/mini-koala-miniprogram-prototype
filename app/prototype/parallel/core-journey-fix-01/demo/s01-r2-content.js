@@ -9,20 +9,19 @@
   function matches(volume,key){const range=ranges[key];return !range||(volume>range[0]&&volume<=range[1]);}
   function distanceOf(s){
     const num=s.distance===null||s.distance===undefined?NaN:Number(s.distance);
-    if(Number.isFinite(num)&&num>=0)return num.toFixed(1)+'km';
-    // Stable demonstration fallback: the same store ID must not change kilometers after filtering.
-    const id=String(s.id||s.name||'store');
-    const hash=Array.from(id).reduce((n,c)=>(Math.imul(n,31)+c.charCodeAt(0))>>>0,0);
-    return (1+(hash%111)/10).toFixed(1)+'km';
+    // No hashed fake kilometers: a missing source is missing data, never a position.
+    return Number.isFinite(num)&&num>=0?num.toFixed(1)+'km':'';
   }
   function view(s,index){
-    const district=(s.district||'').replace(/^(北京|上海|广州|深圳|杭州)/,'').split(/\s*\/\s*/)[0];
-    let address=(s.address||'').replace(/^(北京市|上海市|广州市|深圳市|杭州市)/,'').replace(/地下一层/gi,'B1层').replace(/地下二层/gi,'B2层');
-    if(address.length>18)address=district+(s.community||s.name.replace(/店$/,'')).slice(0,9)+'88号B1层';
-    const photoIndex=index%2;
-    return {district,address,services:photoIndex?['24小时开放','商圈核心','交通便利']:['24小时开放','近地铁','停车方便'],
-      distance:distanceOf(s), // Store-stable demo display; geolocation remains unverified
-      photo:'assets/s01-r2-a-'+(photoIndex+1)+'.webp'};
+    // Preserve current fixture/catalog fields (same IDs as S02 and O01).
+    // Prior R2 visual reconstruction invented addresses ending in "88号B1层",
+    // alternated generic services and recycled two photographs for all stores.
+    const district=String(s.district||'').trim();
+    const address=String(s.address||'').trim();
+    const services=[...new Set((s.serviceTags||[]).filter(v=>typeof v==='string'&&v.trim()))].slice(0,3);
+    const asset=String(s.photo||'');
+    const photo=/^[a-zA-Z0-9_.-]+\.(?:jpg|jpeg|png|webp)$/.test(asset)?'assets/'+asset:'assets/s01-r2-a-1.webp';
+    return {district,address,services,distance:distanceOf(s),photo};
   }
   // Only copy on the isolated R2 journey is normalized. No fixture or state mutation.
   function productText(value){return String(value)
