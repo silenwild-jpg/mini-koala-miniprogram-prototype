@@ -1007,7 +1007,7 @@ function unitCard(unit,role,reason,tradeoff='',showLonger=false){
   const totalPrice=termMonths?pricingContractFromBase(unit.base,activeTerm,storeId):0;
   const priceHtml=termMonths
     ? `<span class="unit-price-label">整期总租金</span><span class="unit-price-main">¥${totalPrice.toLocaleString()}</span><small>月均约 ${currentPrice}/月 · ${termDiscountLabel(activeTerm)}</small>`
-    : `<span class="unit-price-label">参考价格</span><span class="unit-price-main">${currentPrice}/月</span><small>选择租期后重新计算</small>`;
+    : `<span class="unit-price-label">月租</span><span class="unit-price-main">${window.MINI_KOALA_DATA.priceText(priceAtTerm(unit,60))}/月起</span>`;
   const nextTerm=termMonths?nextPriceBreakpoint(termMonths):null;
   const longerHtml=showLonger && nextTerm && priceAtTerm(unit,nextTerm)<priceFor(unit)
     ? `<div class="price-logic longer-preview" data-next-term="${nextTerm}" data-unit="${unit.id}">比较${termHuman(nextTerm)}：月均约 ${window.MINI_KOALA_DATA.priceText(priceAtTerm(unit,nextTerm))}/月 · 整期总租金 ¥${pricingContractFromBase(unit.base,nextTerm,storeId).toLocaleString()} ›</div>`
@@ -1437,7 +1437,7 @@ $('#navTop').onclick=openStoreMap;
 $('#mapLink')?.addEventListener('click',openStoreMap);
 $('#mapSheetClose').onclick=()=>document.querySelector('#storeMapSheet').classList.remove('show');
 $('#storeMapSheet').onclick=e=>{if(e.target.id==='storeMapSheet')e.currentTarget.classList.remove('show')};
-$('#checkTransportPromo').onclick=()=>{const u=recommendedUnit();gotoU01(u.id,{focusTerm:termMonths&&termMonths>=6?termMonths:6,transportIntent:true})};
+$('#checkTransportPromo').onclick=()=>openLeadCapture({node:'S02_TRANSPORT_SUPPORT',title:'搬运支持',allowSkip:true,context:{store_id:storeId,target_volume:targetVolume,term_months:termMonths}});
 // S01 / S02 share the same explicit estimator return-context protocol.
 // Browse keeps estimation as an auxiliary entry while the bottom primary action
 // continues to the real units already listed on this page.
@@ -1529,7 +1529,7 @@ $$('#savePlanSheet .save-option').forEach(opt=>opt.onclick=()=>{
   }
   if(type==='longer'){
     const nt=Number(opt.dataset.nextTerm)||nextPriceBreakpoint(termMonths);
-    if(nt)gotoU01(recommended.id,{focusTerm:nt});
+    if(nt){closeSheet($('#savePlanSheet'));openSheet('#requirementSheet');}
   }
   if(type==='farther'){
     const p=new URLSearchParams({state:'estimated',target:targetVolume.toFixed(1),travel:travelMode,sort:'price',pricePriority:'1'});if(termMonths)p.set('term',String(termMonths));
