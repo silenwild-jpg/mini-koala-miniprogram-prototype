@@ -1,0 +1,71 @@
+name: PROTO-RULE-RESTORE-09 isolated RC2 internal review candidate (NO DEPLOY)
+on:
+  push:
+    branches:
+      - isolate/proto-rule-restore-09-private-rc2-review-candidate-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify source is unchanged from approved isolated PR54
+        run: |
+          set -eu
+          git diff --name-only ac83603dc20be2de53f7e27a3b428ee674d54637 HEAD | tee /tmp/changed.txt
+          ! grep -E '^(app/|netlify.toml$|scripts/build_rc2_isolated_demo.py$)' /tmp/changed.txt
+          node scripts/verify_proto_rule_restore_05.cjs
+          node scripts/verify_proto_rule_restore_06.cjs
+          python3 -m py_compile scripts/verify_proto_rule_restore_09_private_pack.py
+      - name: Install headless browser and CJK fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build exact RC2 private-review candidate without publishing
+        env:
+          RC2_BUNDLE_LABEL: PROTO-RULE-RESTORE-09-INTERNAL-REVIEW-20261103
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_RESTORE_09_Private_Review_Candidate_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/proto-rule-restore-09-private-rc2-review-candidate-20261103
+        run: |
+          set -eu
+          python3 scripts/build_rc2_isolated_demo.py
+          python3 scripts/verify_proto_rule_restore_09_private_pack.py
+      - name: Fixed city 375x812 and 390x844 browser QA
+        run: |
+          node scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+          node scripts/verify_proto_rule_restore_06_browser.cjs
+          node scripts/verify_proto_rule_restore_08_same_state.cjs
+          node scripts/verify_proto_rule_restore_04.cjs
+          node scripts/verify_proto_rule_restore_04_browser.cjs
+      - name: Repeat critical order and aftercare journey
+        run: |
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload private release preparation evidence (restricted GitHub artifact only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restore09-rc2-private-review-candidate
+          path: |
+            release-evidence/proto-rule-restore-09/
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_RESTORE_09_Private_Review_Candidate_20261103.zip
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/manifest.json
+            release-evidence/rule-restore-06/
+            release-evidence/proto-rule-restore-08/
+            release-evidence/rc2-fix-01d/summary.json
+          if-no-files-found: warn
+          retention-days: 14

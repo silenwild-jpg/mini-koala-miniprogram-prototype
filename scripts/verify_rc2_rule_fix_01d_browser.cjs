@@ -96,6 +96,8 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     await page.screenshot({path:path.join(dir,'o03-customer-success-'+width+'.png'),fullPage:true});
     await app.locator('button[data-value="RN01"]').click();await app.locator('#renew-months').waitFor();
     await app.locator('#renew-months').fill('61');
+    const renewBefore=await app.locator('#screen').evaluate(el=>({before:el.querySelector('#renew-months')?.value??null,page:el.className,href:location.href,order:window.SIM_DEMO.core.state().orders.at(-1)?.id,visible:document.visibilityState}));
+    console.log('PROTO_RESTORE_09_RN01_BEFORE_REDRAW',JSON.stringify({width,renewBefore}));
     // Force a normal redraw while the user is still editing. This used to reset the input to 3
     // and could silently submit a valid renewal instead of preserving/rejecting 61.
     await app.locator('#screen').evaluate(()=>window.SIM_DEMO.navigate('RN01'));
