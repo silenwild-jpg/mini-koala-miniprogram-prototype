@@ -37,12 +37,33 @@ for(const [width,height] of [[375,812],[390,844]]){
    checks.noExtraCTA=await page.locator('.s02-hot button').count()===0;
    checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
    checks.threeTabs=await page.locator('#s02MainTabs [role="tab"]').count()===3;
-   checks.inventoryCountValid=await page.evaluate(()=>{
+   checks.destinationCoverage=await page.evaluate(()=>{
+      const stores=window.SIM_DEMO.core.fixture.stores;
+      return stores.length>=30&&stores.every(s=>s.geo?.store_id===s.id&&
+         s.geo.address===s.address&&s.geo.destination_query.includes(s.name));
+    });
+    checks.snapshotStockLifecycle=await page.evaluate(()=>{
+      const app=window.SIM_DEMO,unit=app.core.fixture.units.find(u=>app.core.available(u));
+      if(!unit)return false;
+      const original=app.core.stockCount(unit);
+      const saved=app.core.state();
+      const clone=JSON.parse(JSON.stringify(saved));
+      clone.stock[unit.id]='reserved';
+      const reserved=window.SIM_CORE.create({state:clone});
+      clone.stock[unit.id]='occupied';
+      const occupied=window.SIM_CORE.create({state:clone});
+      clone.stock[unit.id]='available';
+      const released=window.SIM_CORE.create({state:clone});
+      return original>0&&reserved.stockCount(unit)===0&&occupied.stockCount(unit)===0&&
+        released.stockCount(unit)===original&&
+        !reserved.matchingUnits(unit.store_id).some(u=>u.id===unit.id);
+    });
+    checks.inventoryCountValid=await page.evaluate(()=>{
      const a=window.SIM_DEMO;return a.core.fixture.units.filter(u=>a.core.available(u)).every(u=>Number.isInteger(u.available_count)&&u.available_count>=1);
    });
    checks.galleryCycle=await page.evaluate(()=>{
      const countText=document.querySelector('.gallery-count')?.textContent||'';
-     return /^1\/[34]$/.test(countText);
+     return /^1\/[1-4]$/.test(countText);
    });
    const slides=Number((await page.locator('.gallery-count').innerText()).split('/')[1]);
    for(let i=0;i<slides;i++)await page.locator('.gallery-count').click();
@@ -117,6 +138,23 @@ checks.mapHeight=(await page.locator('#s02MapSlot').boundingBox()).height>=220;
 checks.travelModes=await page.locator('.s02-travel-modes button').count()===4;
 await page.locator('[data-action="s02TravelMode"][data-value="walk"]').click();
 checks.travelSwitch=await page.locator('.s02-travel-modes button.active').getAttribute('data-value')==='walk';
+checks.routeModeContract=await page.evaluate(()=>{
+  const app=window.SIM_DEMO,store=app.core.fixture.stores.find(s=>s.id===app.state().storeId);
+  if(!store?.geo)return false;
+  const old=store.geo,prior=window.open;
+  const codes={transit:'bus',drive:'car',walk:'walk',bike:'ride'},answers={};
+  store.geo={...old,verified:true,longitude:116.4,latitude:39.9};
+  try{
+    for(const [display,mode] of Object.entries(codes)){
+      document.querySelector('[data-action="s02TravelMode"][data-value="'+display+'"]').click();
+      let url='';
+      window.open=x=>{url=String(x);return {closed:false}};
+      document.querySelector('[data-action="s02OpenMap"]').click();
+      answers[display]=url.includes('uri.amap.com/navigation')&&new URL(url).searchParams.get('mode')===mode;
+    }
+  }finally{window.open=prior;store.geo=old}
+  return Object.values(answers).every(Boolean);
+});
 checks.navigationAction=await page.evaluate(()=>{
  const app=window.SIM_DEMO,store=app.core.fixture.stores.find(s=>s.id===app.state().storeId);
  const prior=window.open;let uri='';window.open=(v)=>{uri=String(v);return {closed:false}};
