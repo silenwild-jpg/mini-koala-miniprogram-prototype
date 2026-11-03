@@ -14,8 +14,8 @@ for(const s of f.stores){
  assert(!s.geo.verified||[s.geo.longitude,s.geo.latitude].every(Number.isFinite),'invalid verified coordinate '+s.id);
  const source=context.SIM_STORE_GEO.get(s.id);
  assert(source,'missing source matched location '+s.id);
- if(source.needs_review){manualReview++;assert(!s.geo.verified,'ambiguous must not be routeable')}
- else {routeable++;assert(s.geo.verified,'source matched coordinate disabled '+s.id)}
+ if(source.needs_review){manualReview++;assert(!s.geo.route_candidate,'ambiguous must not be routeable')}
+ else {routeable++;assert(s.geo.route_candidate,'source matched coordinate disabled '+s.id);assert(!s.geo.verified,'source-only location must not be marked provider verified')}
 
 }
 let matched=0;
