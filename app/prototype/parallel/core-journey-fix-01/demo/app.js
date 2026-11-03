@@ -65,7 +65,7 @@
   function title(text,back='S01'){return `<div class="view-title">${button('go','‹',back,'back-button')}<strong>${text}</strong><a href="home.html">首页</a></div>`;}
   function footer(){return `<nav class="bottom-nav" aria-label="底部导航">${[['home','首页','home'],['go','附近门店','stores','S01'],['navBooking','预约订单','calendar'],['mine','我的','user']].map(([action,label,icon,value])=>`<button class="bottom-item ${page==='S01'&&label==='附近门店'?'active':''}" data-action="${action}" data-value="${value||''}"><img class="approved-nav-icon" src="assets/vis07-nav-${icon}.png" alt=""><span>${label}</span></button>`).join('')}</nav>`;}
   function visualDemand(){const r=state().requirement;return `<div class="demand ${r.capacity_m3===null?'demand-empty':''}"><span class="roundicon">${I('cube')}</span><span class="summary">${r.capacity_m3===null?'未选需求，可直接浏览门店':'已选需求：'+r.capacity_m3+'m³ · '+(r.term_confirmed?r.term_months+'个月':'租期待选')}</span><a data-edit-demand href="${state().requirement.source==='items_estimate'||state().requirement.source==='known_capacity_in_items_flow'?'items.html':'cap.html'}">${r.capacity_m3===null?'填写需求':'修改'} ${I('chevron')}</a></div>`;}
-  function resetVisualFilters(){visual.keyword='';visual.sort='recommended';visual.price='all';visual.service='all';visual.category='全部';visual.tab='可选仓位';visual.gallery=0;saveVisual();}
+  function resetVisualFilters(){visual.keyword='';visual.sort='recommended';visual.price='all';visual.service='all';visual.category='全部';visual.tab='服务设施';visual.gallery=0;saveVisual();}
   function storeOffer(s){const single=core.matchingUnits(s.id).sort((a,b)=>core.amounts([a.id],state().requirement.term_months||1).rent_total-core.amounts([b.id],state().requirement.term_months||1).rent_total)[0];return single?[single.id]:core.combinations(s.id)[0]?.ids;}
   function storeAmount(s){const ids=storeOffer(s);return ids?core.amounts(ids,state().requirement.term_months||1).rent_total:Infinity;}
   const referenceCost=ids=>ids.reduce((total,id)=>total+(state().prices[id]??unit(id)?.base_month??0),0);
@@ -144,7 +144,8 @@
     if(r.capacity_m3===null)return 'browse';
     if(available.some(u=>u.volume>=r.capacity_m3))return 'matched';
     if(core.combinations(s.id).length)return 'combo';
-    return 'near';
+    const largest=Math.max(...available.map(u=>Number(u.volume)||0));
+    return largest>=r.capacity_m3*0.8?'near':'nomatch';
   }
   function s02Demand(){
     const r=state().requirement;
@@ -164,7 +165,8 @@
     return '<div class="s02-route"><p class="s02-route-address">'+addr+'</p>'+map+'<div class="s02-travel-modes" role="group" aria-label="出行方式">'+[['transit','公交地铁'],['drive','驾车'],['walk','步行'],['bike','骑行']].map(item=>'<button type="button" data-action="s02TravelMode" data-value="'+item[0]+'" class="'+(visual.travelMode===item[0]?'active':'')+'">'+item[1]+'</button>').join('')+'</div><button class="s02-route-open" data-action="s02OpenMap">导航到门店 ›</button></div>';
   }
   function s02Services(s){
-    const facilities=[...new Set([...(s.facilities||[]),'到店搬运','装卸区域'])];
+    const hours=s02AccessHours(s);
+    const facilities=[...new Set([...(s.facilities||[]).filter(v=>hours==='24小时'||!/24小时|全天/.test(v)),'到店搬运','装卸区域'])];
     return '<div class="s02-services"><div class="s02-services-hours"><span>存取时间</span><strong>'+esc(s02AccessHours(s))+'</strong></div><div class="s02-service-tags">'+facilities.slice(0,6).map(x=>'<span>'+esc(x)+'</span>').join('')+'</div></div>';
   }
   function renderS02(){
