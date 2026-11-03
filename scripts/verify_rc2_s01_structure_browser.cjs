@@ -31,7 +31,7 @@ async function run(){
    // Source contract: same store id must retain address, service tags and photo,
    // not R2-generated "88号B1层" placeholders or two rotating generic cards.
    const firstId=await child.locator('.store-card').first().getAttribute('data-store-id');
-   const original=await app.locator('#screen').evaluate(id=>{const src=window.SIM_FIXTURES.stores,x=src.find(s=>s.id===id);return x?{id:x.id,address:x.address,photo:x.photo,services:x.serviceTags||[]}:{missing:true,received:id,sourceExamples:src.slice(0,4).map(s=>s.id),renderExamples:window.SIM_DEMO.s01R2Bridge.snapshot().stores.slice(0,4).map(s=>s.id)};},firstId);
+   const original=await app.locator('#screen').evaluate((el,id)=>{const src=window.SIM_FIXTURES.stores,x=src.find(s=>s.id===id);return x?{id:x.id,address:x.address,photo:x.photo,services:x.serviceTags||[]}:{missing:true,received:id,sourceExamples:src.slice(0,4).map(s=>s.id),renderExamples:window.SIM_DEMO.s01R2Bridge.snapshot().stores.slice(0,4).map(s=>s.id)};},firstId);
    assert(!original.missing,'Rendered S01 card has no matching canonical catalog store: '+JSON.stringify(original));
    const first=child.locator('.store-card').first();
    assert.equal(await first.locator('.address-copy').innerText(),original.address,'store address was fabricated in R2');
