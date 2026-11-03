@@ -13,7 +13,7 @@ assert.match(html,/id="secondary-buy"/);
 assert.doesNotMatch(html,/class="(?:fixed-buy|fixed-cta|bottom-buy|sticky-checkout)"/);
 assert.match(css,/\.s5-advisor\[hidden\]\{display:none!important\}/);
 assert.match(css,/data-advisor-visible="true"/);
-assert.match(js,/dataset\\.designHeight=matchState==='none'\\|\\|matchState==='incomplete'\\?'858'/);
+assert.ok(js.includes("dataset.designHeight=matchState==='none'||matchState==='incomplete'?'858'"),'compact incomplete layout contract');
 assert.match(js,/\$\('s5-advisor-action'\)\.onclick=\(\)=>consult\('advisor'\)/);
 const start=js.indexOf('function s5MatchState(');
 const end=js.indexOf('function renderS5()',start);
