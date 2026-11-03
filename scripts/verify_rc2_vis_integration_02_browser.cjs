@@ -25,19 +25,35 @@ const screens=['H01','S01','S02','CAP','ITEMS','S5','BOOKING','QUICK','O01','M01
     let record={screen,width,height,status:'PASS'};
     try{
      await page.goto(url,{waitUntil:'domcontentloaded',timeout:20000});
-     const frame=page.frameLocator('#central-host'),el=frame.locator('#screen');
-     await el.waitFor({state:'attached',timeout:12000});
-     await page.waitForTimeout(170);
-     const state=await el.evaluate(e=>{
-      const box=e.getBoundingClientRect(),doc=document.documentElement;
-      const texts=(e.innerText||'').trim();
-      return {cls:e.className,renderedText:texts.length,scrollWidth:doc.scrollWidth,innerWidth:innerWidth,screenRect:{width:box.width,height:box.height},nav:!!document.querySelector('.bottom-nav'),auth:!!document.querySelector('.mk-auth-overlay')};
+     const frame=page.frameLocator('#central-host');
+     const body=frame.locator('body');
+     await body.waitFor({state:'attached',timeout:12000});
+     const innerScreen=frame.locator('#screen'),hasScreen=await innerScreen.count()>0;
+     let surface=hasScreen?innerScreen:body;
+     let source='ROOT_BODY',textValue='';
+     if(hasScreen)source='CENTRAL_SCREEN';
+     // H01, CAP and ITEMS run as dedicated source pages without a #screen node.
+     // S5, BOOKING and QUICK mount their content inside the BR04 iframe.
+     if(await frame.locator('#br04-frame').count()){
+       const inside=frame.frameLocator('#br04-frame').locator('body');
+       await inside.waitFor({state:'attached',timeout:12000});
+       surface=inside;source='BR04_IFRAME';
+     }else if(await frame.locator('#s01-r2-frame').count()){
+       const inside=frame.frameLocator('#s01-r2-frame').locator('body');
+       await inside.waitFor({state:'attached',timeout:12000});
+       surface=inside;source='S01_R2_IFRAME';
+     }
+     await page.waitForTimeout(200);
+     textValue=(await surface.innerText()).trim();
+     const state=await body.evaluate(e=>{
+       const doc=document.documentElement;
+       return {cls:document.querySelector('#screen')?.className||'',scrollWidth:doc.scrollWidth,innerWidth:innerWidth,nav:!!document.querySelector('.bottom-nav'),auth:!!document.querySelector('.mk-auth-overlay')};
      });
-     record={...record,...state,errors,bad,entryMode:contextGuarded.has(screen)?'CONTEXT_GUARD_INSPECTION':'DIRECT_PAGE'};
+     record={...record,...state,renderedText:textValue.length,source,errors,bad,entryMode:contextGuarded.has(screen)?'CONTEXT_GUARD_INSPECTION':'DIRECT_PAGE'};
      await page.screenshot({path:path.join(out,screen+'-'+width+'.png'),fullPage:true,timeout:15000});
-     if(!contextGuarded.has(screen))assert(state.renderedText>8,'blank or placeholder screen '+screen);
-     // These pages depend on verified phone, existing order, or quote context.
-     // A denied direct link is expected; never mark it as a product defect or bypass its guard.
+     // A protected direct entry may safely redirect or show an authorization gate.
+     // Its eligible-state behavior is tested by the continuous order/lifecycle scripts.
+     if(!contextGuarded.has(screen))assert(textValue.length>8,'blank or placeholder '+source+' '+screen);
      if(contextGuarded.has(screen))record.contextGate='DIRECT_URL_ONLY_NOT_FULL_JOURNEY';
      assert(state.scrollWidth<=width+4,'horizontal overflow '+screen+' '+JSON.stringify(state));
      assert.equal(errors.length,0,'uncaught JavaScript errors');
