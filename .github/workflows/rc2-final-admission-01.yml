@@ -1,0 +1,76 @@
+name: RC2 FINAL ADMISSION 01
+on:
+  pull_request:
+    branches:
+      - preview/rc2-r2-private-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package-and-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and structure guard
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check scripts/check_proto_vis_exec_01.cjs
+          node scripts/check_proto_vis_exec_01.cjs --self-test
+          node scripts/check_proto_vis_exec_01.cjs
+      - name: Run inventory and location contracts
+        run: node scripts/verify_s02_inventory_geo_contract.cjs
+      - name: Check live-route user-facing copy
+        run: node scripts/verify_rc2_customer_copy_01.cjs
+      - name: Build exact traceable RC2 site bytes
+        run: python3 scripts/build_rc2_final_admission_01.py
+      - name: Check packaged user-facing copy
+        run: node scripts/verify_rc2_customer_copy_01.cjs --packaged
+      - name: Set up Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Test final packaged browser routes and visual states
+        run: node scripts/verify_rc2_final_admission_01_browser.cjs
+      - name: Upload reproducible private RC2 site ZIP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-final-admission-01-private-site
+          path: |
+            release-evidence/rc2-final-admission-01/MiniKoala_RC2_FINAL_ADMISSION_01_PRIVATE_REVIEW.zip
+            release-evidence/rc2-final-admission-01/manifest.json
+            release-evidence/rc2-final-admission-01/build-summary.json
+            release-evidence/rc2-final-admission-01/SHA256SUMS.txt
+          if-no-files-found: warn
+      - name: Upload 375 and 390 screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-final-admission-01-packaged-browser-evidence
+          path: release-evidence/rc2-final-admission-01/screens/
+          if-no-files-found: warn
+  full-s02-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: S02 6 matching states and 2 inventory states across two widths
+        run: node scripts/verify_s02_central_integration_01_browser.cjs
+      - name: Upload six-state S02 visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-final-admission-01-s02-states
+          path: release-evidence/s02-central-integration-01/
+          if-no-files-found: warn

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>迷你考拉仓｜02G 中央同源演示候选</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>迷你考拉仓</title>
 <style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f4f8f5;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.central-host{width:100%;height:100dvh;border:0;display:block;background:#fff}.error{display:none;box-sizing:border-box;max-width:500px;margin:60px auto;padding:18px;color:#28443a;line-height:1.7}.error h1{font-size:20px}.error p{font-size:14px}.error a{color:#006d52}</style>
 <script>
 (function(){
@@ -7,8 +7,8 @@
   sessionStorage.setItem('mk_active_catalog_v1',mode);
 })();
 </script><script src="prototype/parallel/core-journey-fix-01/demo/fixtures.js"></script><script src="prototype/parallel/core-journey-fix-01/demo/central-contract.js"></script></head>
-<body><iframe class="central-host" id="central-host" title="迷你考拉仓统一业务演示候选"></iframe>
-<section class="error" role="alert" id="central-error"><h1>未能打开此演示入口</h1><p id="central-reason"></p><p>请从演示首页切换正确的数据来源。MK 为旧门店与仓型选项快照，SIM 为独立回归场景；两套 ID 不自动转换，仓型选项不等于可签约的实际仓号。</p><a href="central-review-02g.html">返回统一演示首页</a></section>
+<body><iframe class="central-host" id="central-host" title="迷你考拉仓"></iframe>
+<section class="error" role="alert" id="central-error"><h1>页面暂时无法打开</h1><p id="central-reason"></p><p>请返回首页重新选择门店或仓位。</p><a href="central-review-02g.html">返回首页</a></section>
 <script>
 (function(){
 'use strict';
@@ -29,7 +29,7 @@ try{
 }catch(e){
  const frame=document.getElementById('central-host');frame.remove();
  document.getElementById('central-error').style.display='block';
- document.getElementById('central-reason').textContent='来源契约拒绝了此链接：'+String(e.message||e);
+ document.getElementById('central-reason').textContent='请返回首页重新进入。';
 }
 })();
 </script></body></html>
