@@ -1025,7 +1025,7 @@ function unitCard(unit,role,reason,tradeoff='',showLonger=false){
     ${(()=>{const remain=Math.max(0,Number(unit.available_count||0));if(remain<=0)return '';const viewer=window.MINI_STORAGE_INVENTORY_URGENCY_V1?.viewerCount(`${storeId}|${unit.size_option_id||unit.id}`,remain)||0;const copy=remain===1?'同容量仅剩这1个':remain===2?'同容量仅剩2个':remain<=5?`同容量剩余${remain}个`:'';return copy?`<div class="unit-urgency${remain<=2?' strong':''}">${copy}${viewer?`<span class="viewer">${viewer}人正在查看</span>`:''}</div>`:''})()}
     <div class="unit-bottom">
       <div class="unit-price">${priceHtml}${longerHtml}</div>
-      <button class="unit-cta" ${!maySelect?'disabled aria-disabled="true"':''}>${soldOut?'已售出':isBelowMin?'低于需求':'查看仓位方案'}</button>
+      <button class="unit-cta" ${!maySelect?'disabled aria-disabled="true"':''}>${soldOut?'已售出':isBelowMin?'低于需求':'立即下单'}</button>
     </div>
   </div>`;
 }
@@ -1089,23 +1089,49 @@ function markSizeOptionSelection(unit){
   try{localStorage.setItem('mini_storage_requirement_current',JSON.stringify({...estimatorRequirement,selected_store_id:storeId,selected_size_option_id:unit.size_option_id||'',selected_representative_unit_no:unit.representative_unit_no||unit.id||'',selected_actual_unit_id:null,selected_unit_id:null,selection_source:'S02_SIZE_OPTION',inventory_identity_type:'SIZE_OPTION',updated_at:new Date().toISOString()}))}catch(e){}
 }
 function gotoU01(unitId,opts={}){
+  // Preserve the legacy handler name while routing directly to O01.
   const unit=rawUnits.find(item=>item.id===unitId);
+  if(!unit || Number(unit.available_count||0)<=0){toast('当前仓位不可租');return}
+  if(state!=='browse' && unit.v<range().min){toast('仓位容量低于当前需求');return}
+  if(!termMonths){openSheet('#requirementSheet');toast('请先选择租期');return}
+  const chosenTerm=Number(opts.focusTerm||termMonths);
+  if(!Number.isInteger(chosenTerm)||chosenTerm<1||chosenTerm>60){toast('请选择有效租期');return}
   markSizeOptionSelection(unit);
+  const monthly=priceAtTerm(unit,chosenTerm);
+  const rawBase=Number(window.MINI_KOALA_DATA.positivePrice(unit)||0);
+  const total=pricingContractFromBase(rawBase,chosenTerm,storeId);
+  if(!(monthly>0&&total>0)){toast('价格暂不可用');return}
+  const management=Number(window.MINI_STORAGE_MASTER_V222.fees.management_fee||50);
+  const sizeOption=unit.size_option_id||'';
+  const representative=unit.representative_unit_no||unitId;
+  const snapshot={
+    store_id:storeId,unit_id:representative,size_option_id:sizeOption,
+    representative_unit_no:representative,actual_unit_id:null,unit_identity_type:'SIZE_OPTION',
+    term_months:chosenTerm,discount_rate:BUSINESS_HELPERS.termFactor(chosenTerm),
+    base_monthly_price:rawBase,total_rent:total,monthly_average:monthly,monthly_price:monthly,
+    deposit:monthly,management_fee:management,upfront_payable:total+monthly+management,
+    is_starting_price:false,pricing_model_version:PRICING_MODEL_VERSION,
+    pricing_timestamp:new Date().toISOString()
+  };
+  try{localStorage.setItem('mini_storage_price_snapshot_current',JSON.stringify(snapshot))}catch(e){toast('无法保存当前报价');return}
   const advisor=advisorStateFor(unit);
-  const reselected=['estimated','extended','far'].includes(fromS01State)||selectionContext==='estimate_recommendation';
-  const p=new URLSearchParams({unit:unitId,sizeOption:unit?.size_option_id||'',representativeUnit:unit?.representative_unit_no||unitId,inventoryIdentity:'SIZE_OPTION',store:storeId,source:new URLSearchParams(location.search).get('returnTo')==='S5'?'estimator_recommendation':'s02',s02State:state,fromS01State,selectionContext:reselected?'estimate_size_option':'browse_size_option',reselected:reselected?'1':'0',searchOriginKey,lead:advisor.level,leadReason:advisor.reason,leadTcv:String(advisor.expected_contract_rent),access:accessFrequency,searchKm:String(searchKm),searchMin:String(searchMin),routeSource:window.MINI_STORAGE_MASTER_V222.route_source});
-  if(new URLSearchParams(location.search).get('returnTo')==='S5')p.set('returnTo','S5');
-  p.set('travel',travelMode);
-  for(const key of ['otherStoresSource','excludeStore','sort','distance','services','loaded','scroll'])if(qp.has(key))p.set(key,qp.get(key));
+  const p=new URLSearchParams({
+    unit:representative,sizeOption,representativeUnit:representative,
+    inventoryIdentity:'SIZE_OPTION',store:storeId,
+    target:String(state==='browse'?unit.v:targetVolume),volume:String(unit.v),term:String(chosenTerm),
+    monthly:String(monthly),rentTotal:String(total),deposit:String(monthly),
+    managementFee:String(management),initialPayable:String(snapshot.upfront_payable),
+    route:advisor.level==='strong'?'SALES_ASSISTED':'QUOTE_OPTIONAL',
+    source:'s02',fromS01State,s02State:state,searchOriginKey,searchMin:String(searchMin),
+    searchKm:String(searchKm),access:accessFrequency,travel:travelMode,
+    lead:advisor.level,leadReason:advisor.reason||'',leadTcv:String(advisor.expected_contract_rent||0),
+    discountRatio:String(BUSINESS_HELPERS.termFactor(chosenTerm)),
+    discountBasisPrice:String(rawBase),firstPurchase:'1'
+  });
   if(customerType)p.set('customer',customerType);
-  if(termMonths)p.set('term',termMonths);
-  if(targetVolume)p.set('target',targetVolume.toFixed(1));
-  if(opts.focusTerm)p.set('focusTerm',opts.focusTerm);
-  if(opts.tradeoff)p.set('tradeoff',opts.tradeoff);
-  if(opts.transportIntent)p.set('transportIntent','1');
-  if(window.MINI_KOALA_STORE_ACTIVITY_DEMO.forStore(storeId).specialUnitIds.has(unitId))p.set('special','1');
+  for(const key of ['otherStoresSource','excludeStore','sort','distance','services','loaded','scroll'])if(qp.has(key))p.set(key,qp.get(key));
   if(window.MINI_STORAGE_SALES_SHARE?.enabled){window.MINI_STORAGE_SALES_SHARE.append(p);p.set('shareType','unit')}
-  window.location.href=u01File+`?${p.toString()}`;
+  window.location.href='mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html?'+p.toString();
 }
 function otherCapacityRows(){
   const master=window.MINI_STORAGE_UNIT_MASTER_V1;
