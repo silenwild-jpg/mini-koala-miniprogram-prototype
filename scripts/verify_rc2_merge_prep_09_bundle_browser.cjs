@@ -10,6 +10,7 @@ assert.equal(summary.commit,cp.execFileSync('git',['rev-parse','HEAD'],{encoding
 const fileIndex=new Set(manifest.map(x=>x.path));
 for(const p of ['index.html','central-review-02g.html','prototype/parallel/core-journey-fix-01/demo/s01-r2-live.html','prototype/parallel/core-journey-fix-01/demo/cap.html','prototype/parallel/core-journey-fix-01/demo/items.html'])assert(fileIndex.has(p),'missing bundle entry '+p);
 assert(![...fileIndex].some(x=>/hifi.?06|mk-h01-central-route-connect03|\.md$|netlify\.toml|node_modules/i.test(x)),'retired or non-runtime material bundled');
+assert(![...fileIndex].some(x=>/u01[^/]*\.html$/i.test(x)),'retired U01 page bundled');
 for(const x of manifest){const b=fs.readFileSync(path.join(root,x.path));const digest=require('node:crypto').createHash('sha256').update(b).digest('hex');assert.equal(digest,x.sha256,'bundle hash mismatch '+x.path);}
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.json':'application/json'};
 const server=http.createServer((req,res)=>{
@@ -33,7 +34,19 @@ const base='http://127.0.0.1:4439/';
    await page.waitForURL(/central-review-02g\.html/);
    const host=page.frameLocator('#central-host'),r2=host.frameLocator('#s01-r2-frame');
    await r2.locator('.store-card').first().waitFor();
-   assert.equal(await r2.locator('.filter').count(),4);
+   assert.equal(await r2.locator('.filter').count(),3);
+    assert.deepEqual((await r2.locator('.filter').allInnerTexts()).map(x=>x.trim()),['排序','距离','服务']);
+    const grid=await r2.locator('.filters').evaluate(e=>getComputedStyle(e).gridTemplateColumns.trim().split(/\s+/).length);
+    assert.equal(grid,3,'S01 three-column grid required');
+    const initial=await host.locator('body').evaluate(()=>window.SIM_DEMO.s01R2Bridge.snapshot());
+    assert.equal(initial.filterLabels.length,3);assert.equal(initial.filterActive.length,3);
+    await r2.locator('.filter').nth(2).click();
+    assert.match(await host.locator('.control-sheet h3').innerText(),/服务筛选/);
+    await host.locator('[data-action="setService"][data-value="近地铁"]').click();
+    const service=await host.locator('body').evaluate(()=>window.SIM_DEMO.s01R2Bridge.snapshot());
+    assert.equal(service.filterActive[2],true);
+    await r2.locator('.filter').nth(2).click();
+    await host.locator('[data-action="setService"][data-value="all"]').click();
    assert.equal(await r2.locator('.nav-more').count(),1);
    // P14: CSS-only hit target correction must retain the existing S01 structure.
    const targetSizes=await r2.locator('.navbar').evaluate(el=>Object.fromEntries(['.nav-back','.nav-more','.nav-target'].map(s=>{const n=el.querySelector(s);return [s,{width:n.offsetWidth,height:n.offsetHeight}]})));
@@ -73,7 +86,7 @@ const base='http://127.0.0.1:4439/';
    const catalog=await page.locator('body').getAttribute('data-catalog');
    assert.equal(catalog,'MK');
    assert.deepEqual(jsErrors,[]);
-   cases.push({viewport:w+'x'+h,source_sha:summary.commit,entry:'RC2_ARTIFACT_LOCAL',r2FourFilters:true,sort:'DEMO_DISTANCE_ENABLED',cap:true,items:true,mk_catalog:true,jsErrors:0});
+   cases.push({viewport:w+'x'+h,source_sha:summary.commit,entry:'RC2_ARTIFACT_LOCAL',r2ThreeFilters:true,sort:'DEMO_DISTANCE_ENABLED',cap:true,items:true,mk_catalog:true,jsErrors:0});
    await ctx.close();
   }
   const receipt={status:'ISOLATED_BUNDLE_SMOKE_PASS',candidate:summary.version,source_commit:summary.commit,bundle_files:manifest.length,cases,visual_signoff:'NOT_FINAL',formal_merge_allowed:false,live_deployment:false};
