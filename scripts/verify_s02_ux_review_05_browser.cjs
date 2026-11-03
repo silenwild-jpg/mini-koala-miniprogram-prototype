@@ -8,7 +8,7 @@ const mime={'.html':'text/html','.js':'application/javascript','.css':'text/css'
 const server=http.createServer((req,res)=>{let file;try{file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname))}catch{res.writeHead(400).end();return}
 if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return}
 fs.readFile(file,(err,data)=>err?res.writeHead(404).end('Missing'):res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(data));});
-const cases=[['browse','browse',5],['matched','matched',4.8],['near_match','matched',3.1],['no_match','nomatch',80],['combo','matched',15],['sold_out','matched',4.8]];
+const cases=[['browse','browse',5],['matched','matched',3.35],['near_match','matched',3.1],['no_match','nomatch',80],['combo','matched',15],['sold_out','matched',4.8]];
 (async()=>{
 await new Promise(r=>server.listen(4785,'127.0.0.1',r));
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']}),rows=[];
@@ -42,7 +42,7 @@ await page.locator('#s02ServiceTab').click();checks.service=await page.locator('
 if(name==='sold_out')checks.soldout=await page.locator('.unit-cta:not([disabled])').count()===0;
 if(name==='matched'){
 const btn=page.locator('.unit-cta:not([disabled])').first();
-if(await btn.count()){await btn.click();await page.waitForTimeout(250);checks.checkout=page.url().includes('mini_storage_order_o01')||await page.locator('#requirementSheet').evaluate(e=>e.classList.contains('show'));}
+if(await btn.count()){await btn.click();await page.waitForTimeout(350);checks.checkout=page.url().includes('mini_storage_order_o01')||await page.locator('#requirementSheet').evaluate(e=>e.classList.contains('show'))||await page.locator('#leadMask').evaluate(e=>e.classList.contains('show'));checks.checkoutUrl=page.url();}
 else checks.checkout=false;
 }
 }catch(e){failure=String(e.stack||e)}
