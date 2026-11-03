@@ -17,7 +17,7 @@
   // RESTORE-03: clear retired persisted price filters without changing price-based sorting.
   if(visual.price!=='all'){visual.price='all';saveVisual();}
   if(visual.tab==='用户评价')visual.tab='可选仓位';
-  if(!F.distanceVerified&&!(F.synthetic===true&&(new URLSearchParams(location.search).get('s01_r2')==='1'))&&visual.sort==='distance')visual.sort='recommended';
+  if(!F.distanceVerified&&visual.sort==='distance')visual.sort='recommended';
   const categories=['全部','迷你仓','小型仓','中型仓','大型仓'];
   const category=u=>u.volume<=1.5?'迷你仓':u.volume<=5?'小型仓':u.volume<=10?'中型仓':'大型仓';
   const unitName=u=>u.name;
@@ -335,7 +335,7 @@
         stores=[...REC.rank(eligible,{distanceVerified:F.distanceVerified||demoDistanceReady,costOf:s=>s.teaserCubicPrice}).items,...unavailable];
       }
       if(visual.sort==='distance'&&F.distanceVerified){
-        const kilometers=s=>Number.parseFloat(R2.distanceOf(s));
+        const kilometers=s=>Number.parseFloat(R2.distanceOf(s,true));
         const byKm=(a,b)=>kilometers(a)-kilometers(b)||String(a.id).localeCompare(String(b.id));
         const available=stores.filter(s=>rowsFor(s).length>0);
         const unavailable=stores.filter(s=>!rowsFor(s).length);
