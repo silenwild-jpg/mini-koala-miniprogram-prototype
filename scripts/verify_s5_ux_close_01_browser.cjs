@@ -45,11 +45,22 @@ const cities=['北京','上海','深圳','杭州','广州'],capacities=[null,0.5
      }
     }
    }
+   // Existing project scenario, not a mocked offer: closest two stores sold out.
+   const expanded=await frame.locator('body').evaluate(()=>{
+     const host=parent.SIM_DEMO;host.core.setScenario('noNear');
+     const offers=host.s5Offers();window.BR04_REFRESH();
+     return {state:document.getElementById('artboard').dataset.match,city:host.core.state().city,
+       capacity:host.core.state().requirement.capacity_m3,count:offers.length,
+       nearestDistance:offers[0]?.store.distance,expanded:offers[0]?.expandedSearch===true};
+   });
+   assert.equal(expanded.state,'expanded','sold-out nearby stores should exercise real expanded city fallback');
+   records.push({...expanded,width,height,scenario:'noNear',source:'ACTUAL_DEMO_SCENARIO'});
+   await page.screenshot({path:path.join(out,'expanded-'+width+'.png'),fullPage:true});
    await ctx.close();
   }
   assert.equal(errors.length,0,'JS runtime errors: '+errors.join(';'));
   const states=[...new Set(records.map(r=>r.state))].sort();
-  for(const required of ['matched','large','none','incomplete'])assert(states.includes(required),'actual directory did not exercise '+required);
+  for(const required of ['matched','near','expanded','combo','large','none','incomplete'])assert(states.includes(required),'actual directory did not exercise '+required);
   assert(records.some(r=>r.capacity>10&&r.count>0&&r.advisor),'large-capacity advisor not triggered on real offer');
   fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({status:'PASS',source:'REAL_DEMO_FIXTURE',tested:records.length,states,missingStates:['matched','near','expanded','combo','large','none','incomplete'].filter(s=>!states.includes(s)),records},null,2));
   console.log('S5_UX_CLOSE_01_ACTUAL_CATALOG_PASS',JSON.stringify({tested:records.length,states}));
