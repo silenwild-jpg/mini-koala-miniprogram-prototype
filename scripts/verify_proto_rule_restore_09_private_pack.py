@@ -36,7 +36,6 @@ for x in required:
     assert x in byname, f"missing review entry: {x}"
 body = (SITE/"central-review-02g.html").read_text("utf-8")
 assert "if(page==='S01')" in body and "s01_r2=1" in body, "S01 canonical route missing"
-assert "noindex" not in body.lower() or True  # robots controls below; never treated as authentication
 assert (SITE/"robots.txt").read_text("utf-8").strip() == "User-agent: *\nDisallow: /"
 redirects = (SITE/"_redirects").read_text("utf-8")
 assert redirects.count(" 302") >= 6 and redirects.count("page=S01") >= 6
