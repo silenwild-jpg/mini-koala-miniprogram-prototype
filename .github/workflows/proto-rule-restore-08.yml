@@ -1,0 +1,73 @@
+name: PROTO-RULE-RESTORE-08 same-state visual and private UAT evidence
+on:
+  push:
+    branches:
+      - isolate/proto-rule-restore-08-same-state-private-uat-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Previous approved source and normal S01 contract
+        run: |
+          node --check scripts/verify_proto_rule_restore_08_same_state.cjs
+          node scripts/verify_proto_rule_restore_05.cjs
+          node scripts/verify_proto_rule_restore_06.cjs
+          git diff --name-only baae5c3424b1dc83eb972ffd3b5ba4503529835d HEAD | tee /tmp/restore08-changed
+          ! grep -E '^app/(assets/|prototype/parallel/core-journey-fix-01/demo/)' /tmp/restore08-changed
+  same-state-browser:
+    needs: evidence-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install Chromium and CJK fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Assemble isolated candidate, never deploy
+        env:
+          RC2_BUNDLE_LABEL: PROTO-RULE-RESTORE-08-INTERNAL-VISUAL-CANDIDATE-20261103
+          RC2_BUNDLE_ARCHIVE: MiniKoala_PROTO_RULE_RESTORE_08_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/proto-rule-restore-08-same-state-private-uat-20261103
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Record H01 and S01 for identical Shanghai demo state 375/390
+        run: node scripts/verify_proto_rule_restore_08_same_state.cjs
+      - name: Check S01 single route and two-round core journey
+        run: |
+          node scripts/verify_proto_rule_restore_06_browser.cjs
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload private visual and test receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restore08-same-state-private-375-390
+          path: |
+            release-evidence/proto-rule-restore-08/
+            release-evidence/rule-restore-06/single-s01-browser.json
+            release-evidence/rc2-fix-01d/summary.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
+          if-no-files-found: warn
+          retention-days: 14
