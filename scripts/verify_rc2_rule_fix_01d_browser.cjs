@@ -31,7 +31,9 @@ async function phone(app,expectDenied=false){
  await overlay.waitFor({state:'detached'});
 }
 async function fromStore(app){
- await app.locator('.store-entry[data-store]').first().click();
+ const r2=app.frameLocator('#s01-r2-frame');
+ await r2.locator('.store-card[data-store-id]').first().waitFor();
+ await r2.locator('.store-card[data-store-id]').first().click();
  await app.locator('#screen.page-S02').waitFor();
  await app.locator('.order-button[data-action="choose"]:not([disabled])').first().click();
  if(await app.locator('button[data-action="setTerm"][data-value="6"]').count())await app.locator('button[data-action="setTerm"][data-value="6"]').click();
