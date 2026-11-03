@@ -87,3 +87,9 @@
 #artboard[data-count="1"] .s5-advisor{top:815px}
 #artboard[data-count="1"] .estore{top:823px}
 #artboard[data-count="1"][data-advisor-visible="true"] .estore{top:916px}
+
+/* CLOSE-01: large demand without inventory reuses the existing empty-state surface. */
+#artboard[data-match="large"][data-count="0"] .recommend-wrap,
+#artboard[data-match="large"][data-count="0"] .more-units{display:none}
+#artboard[data-match="large"][data-count="0"] .no-match{display:block}
+#artboard[data-match="large"][data-count="0"] .estore{top:682px}

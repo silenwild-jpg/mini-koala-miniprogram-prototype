@@ -11,7 +11,7 @@ const cases=[
   {name:'matched',capacity:3,rent:2000,volume:3,expectedAdvisor:false},
   {name:'near',capacity:3,rent:2001,volume:2,expectedAdvisor:true},
   {name:'expanded',capacity:3,rent:1900,volume:3,expandedSearch:true,expectedAdvisor:false},
-  {name:'combo',capacity:15,rent:1900,combo:true,expectedAdvisor:true},
+  {name:'combo',capacity:15,rent:1900,volume:15,combo:true,expectedAdvisor:true},
   {name:'large',capacity:60,rent:1900,volume:60,expectedAdvisor:true},
   {name:'none',capacity:11,rent:0,empty:true,expectedAdvisor:false},
   {name:'incomplete',capacity:3,rent:0,confirmed:false,expectedAdvisor:false}
@@ -43,6 +43,7 @@ const cases=[
        const candidate=template?{...template,volume:scenario.volume??template.volume,combo:scenario.combo?{count:2}:template.combo,expandedSearch:!!scenario.expandedSearch}:null;
        // Use real offer identity/price formatter and only inject deterministic state labels and rent thresholds.
        host.offers=()=>scenario.empty?[]:[candidate];
+       host.s5Offers=host.offers;
        const originalAmounts=core.amounts.bind(core);
        core.amounts=(ids,term)=>({...originalAmounts(ids,term),rent_total:scenario.rent});
        window.BR04_REFRESH();
