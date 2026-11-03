@@ -28,7 +28,7 @@ async function inspect(page,kind,width,id){
  assert(src?.includes(expected),kind+' '+width+' expected '+expected+' got '+src);
  const natural=await img.evaluate(async el=>{await el.decode();return {w:el.naturalWidth,h:el.naturalHeight,alt:el.alt};});
  assert(natural.w>=512,'image broken or fallback was rendered in '+kind+' '+src);
- assert(natural.alt.includes(kind==='S02'?'归属':'环境'),'image alt status lost');
+ assert(natural.alt.includes(kind==='S02'?'示意':'环境'),'image alt status lost');
  return {page:kind,width,storeId,src,dimensions:[natural.w,natural.h]};
 }
 (async()=>{
