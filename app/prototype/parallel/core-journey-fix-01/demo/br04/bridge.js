@@ -6,7 +6,7 @@
   const B=parent.SIM_DEMO;
   const C=parent.SIM_CENTRAL_CONTRACT_V1;
   if(!B){location.replace('../../index.html?page='+pageIds[page]);return;}
-  const r2=()=>sessionStorage.getItem('mk_s01_r2_preview_v1')==='1';
+  const r2=()=>new URLSearchParams(parent.location.search).get('s01_r2')==='1';
   const clean=()=>{if(r2())parent.S01_R2_CONTENT?.cleanCopy(document.body);};
   const core=B.core,F=core.fixture,presentation=B.presentation,$=id=>document.getElementById(id),$$=s=>Array.from(document.querySelectorAll(s));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
