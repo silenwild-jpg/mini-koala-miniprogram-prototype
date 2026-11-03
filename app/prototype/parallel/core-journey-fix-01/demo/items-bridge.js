@@ -35,7 +35,7 @@
     catch{notify('需求暂时无法确认，请检查容量和租期');}
   };
   document.addEventListener('click',e=>{
-    if(e.target.closest('.back')){e.stopImmediatePropagation();persist();const back=sessionStorage.getItem('mk_items_back_v1')||'cap.html';location.href=/^(cap\.html|index\.html\?page=S01|index\.html\?page=S02&store=[A-Za-z0-9_-]+)$/.test(back)?back:'cap.html';}
+    if(e.target.closest('.back')){e.stopImmediatePropagation();persist();const back=sessionStorage.getItem('mk_items_back_v1')||'cap.html';location.href=/^(cap\.html|index\.html\?page=S01(?:&s01_r2=1)?|index\.html\?page=S02&store=[A-Za-z0-9_-]+(?:&s01_r2=1)?)$/.test(back)?back:'cap.html';}
     else if(e.target.closest('#helpTool')){e.stopImmediatePropagation();persist();sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({_return:'items.html',items:selected().map(x=>x.name+'×'+COUNT[x.id]).join('、'),capacity_hint:volume()>0?display(volume())+'m³':'',term_hint:state.term?state.term+'个月':''}));location.href='index.html?page=BOOKING&mode=advisor';}
     else if(e.target.closest('#aiTool')){e.stopImmediatePropagation();persist();location.href='cap.html?assist=AI';}
     else if(e.target.closest('#footerBtn')&&isValidVolume()&&!state.term){notify('请选择租期');}
