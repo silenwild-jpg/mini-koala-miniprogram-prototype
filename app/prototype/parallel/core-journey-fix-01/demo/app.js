@@ -158,7 +158,7 @@
     const low=available.filter(u=>Number(u.available_count)>0&&Number(u.available_count)<=2).sort((a,b)=>Number(a.available_count)-Number(b.available_count));
     const urgent=low.length>0;
     const line='近7天已有'+(8+String(s.id).split('').reduce((n,ch)=>n+ch.charCodeAt(0),0)%11)+'位用户预订该门店';
-    return '<div class="s02-hot"><span class="s02-fire" aria-hidden="true">🔥</span><div class="s02-hot-copy"><strong>热门仓型余量紧张，建议尽快锁定 ›</strong><small>'+line+'</small></div><span class="s02-hot-stock">'+(urgent?'仅剩少量仓位':'热租中')+'</span></div>';
+    return '<div class="s02-hot"><span class="s02-fire" aria-hidden="true">🔥</span><div class="s02-hot-copy"><strong>热门仓型余量紧张，建议尽快锁定</strong><small>'+line+'</small></div><span class="s02-hot-stock">'+'仅剩少量仓位'+'</span></div>';
   }
   function s02Route(s){
     const name=esc(s.name),addr=esc(s.address);
