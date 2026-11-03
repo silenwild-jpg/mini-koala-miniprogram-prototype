@@ -18,6 +18,18 @@ jobs:
         run: |
           node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
           node --check scripts/verify_s02_central_integration_01_browser.cjs
+      - name: Verify S02 against PROTO-VIS-EXEC governance candidate
+        env:
+          VIS_GUARD_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          VIS_GUARD_CHANGED_FILES: app/prototype/parallel/core-journey-fix-01/demo/app.js
+        run: |
+          git fetch --depth=1 origin governance/proto-vis-exec-01-20261103
+          git show FETCH_HEAD:scripts/check_proto_vis_exec_01.cjs > scripts/check_proto_vis_exec_01.cjs
+          git show FETCH_HEAD:docs/PROTO_VIS_EXEC_01_CONTRACT.json > docs/PROTO_VIS_EXEC_01_CONTRACT.json
+          git show FETCH_HEAD:docs/PROTO_VIS_EXEC_01.md > docs/PROTO_VIS_EXEC_01.md
+          git show FETCH_HEAD:docs/VISUAL_MANIFEST.md > docs/VISUAL_MANIFEST.md
+          node scripts/check_proto_vis_exec_01.cjs --self-test
+          node scripts/check_proto_vis_exec_01.cjs
       - name: Install browser
         run: |
           npm install --no-save --no-package-lock playwright@1.56.1
