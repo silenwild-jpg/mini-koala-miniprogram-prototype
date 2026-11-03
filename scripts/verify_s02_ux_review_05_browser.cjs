@@ -30,6 +30,13 @@ checks.estimate=name!=='browse'||await page.locator('#browseEstimator').isVisibl
 checks.inventory=await page.locator('#inventorySection').isVisible();
 checks.popular=name==='sold_out'?!(await page.locator('#s02Popular').isVisible()):(await page.locator('#s02Popular').isVisible()&&await page.locator('.s02-popular-cta').count()===1);
 checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
+checks.overviewFlat=await page.locator('.store-overview').evaluate(el=>{
+ const s=getComputedStyle(el);return parseFloat(s.borderTopWidth)===0&&parseFloat(s.borderTopLeftRadius)===0&&s.boxShadow==='none';
+});
+checks.bannerBelowHero=await page.evaluate(()=>{
+ const hero=document.querySelector('#hero'),banner=document.querySelector('#s02Popular'),overview=document.querySelector('.store-overview');
+ return !!(hero&&banner&&overview&&(hero.compareDocumentPosition(banner)&Node.DOCUMENT_POSITION_FOLLOWING)&&(banner.compareDocumentPosition(overview)&Node.DOCUMENT_POSITION_FOLLOWING));
+});
 checks.capacityIllustration=['sold_out','no_match','combo'].includes(name)||await page.locator('.unit-card .unit-visual img').first().evaluate(el=>el.complete&&el.naturalWidth>0).catch(()=>false);
 checks.noReview=!(await page.locator('.review').isVisible());
 await page.screenshot({path:path.join(out,name+'-'+width+'-main.png'),fullPage:true});
