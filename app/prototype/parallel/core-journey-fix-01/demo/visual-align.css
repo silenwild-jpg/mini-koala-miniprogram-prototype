@@ -16,9 +16,6 @@
 .page-S01 .demand a{display:flex;align-items:center;font-size:11px;text-decoration:none}
 .page-S01 .demand a .ico{width:14px}
 .page-S01 .filter-bar{height:45px;padding:0 17px;border:0}
-.page-S01 .filter-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
-.page-S01 .filter-bar .filter-btn{justify-content:center;min-width:0;border-left:1px solid #edf0ed}
-.page-S01 .filter-bar .filter-btn:first-child{border-left:0}
 .page-S01 .filter-btn{font-size:13px;min-height:39px;display:flex;gap:4px;align-items:center}
 .page-S01 .filter-btn .ico{width:14px;height:14px}
 .page-S01 .list-body{padding:0 15px 12px}
