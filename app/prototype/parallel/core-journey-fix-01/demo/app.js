@@ -93,6 +93,29 @@
       if(ids?.length)rows.push({store:s,ids,volume:ids.reduce((n,id)=>n+(unit(id)?.volume||0),0),combo:ids.length>1});
     });return REC.rank(rows.sort((a,b)=>(a.volume-(state().requirement.capacity_m3||0))-(b.volume-(state().requirement.capacity_m3||0))||storeAmount(a.store)-storeAmount(b.store)),{distanceVerified:F.distanceVerified,costOf:row=>recommendationCost(row.ids)}).items;
   }
+  // S5-only adaptation from the same live city/store/unit directory as S01.
+  // Public demo distance values are explicitly illustrative when geolocation is unverified.
+  function s5CandidateList(){
+    const requirement=state().requirement,need=Number(requirement.capacity_m3);
+    if(!(need>0)||!requirement.term_confirmed)return [];
+    const exact=candidateList();
+    if(exact.length){
+      // First two remain in the same order as the common recommendation contract.
+      // Mark area expansion only when a usable distance is present and all suitable
+      // candidates are outside the initial 3km radius (demo distances are permitted).
+      const distances=exact.map(row=>row.store.distance);
+      const expanded=distances.length>0&&distances.every(km=>Number.isFinite(km)&&km>3);
+      return exact.map(row=>({...row,expandedSearch:expanded,distanceDemo:!F.distanceVerified}));
+    }
+    // No adequate warehouse: offer a clearly disclosed nearby-size alternative,
+    // never treat it as meeting the user's actual volume or enable direct ordering.
+    const near=F.stores.filter(s=>s.city===state().city&&s.status==='open')
+      .flatMap(s=>F.units.filter(u=>u.store_id===s.id&&core.available(u)&&u.volume<need&&u.volume>=need*0.8)
+        .map(u=>({store:s,ids:[u.id],volume:u.volume,combo:false,nearCapacity:true,distanceDemo:!F.distanceVerified})));
+    return near.sort((a,b)=>b.volume-a.volume ||
+      Number(a.store.distance??Infinity)-Number(b.store.distance??Infinity) ||
+      core.amounts(a.ids,requirement.term_months).rent_total-core.amounts(b.ids,requirement.term_months).rent_total).slice(0,2);
+  }
   function alternatives(excludeStore){const rows=candidateList(excludeStore).slice(0,3);return `<section class="alternatives"><h3>其他匹配门店和仓位</h3><p>已保留您的容量和租期。</p>${rows.length?rows.map(r=>`<div class="alternative"><strong>${r.store.name}</strong><p>${r.volume}m³${r.combo?' · 组合方案':''}</p>${button('store','查看匹配方案',r.store.id,'outline')}</div>`).join(''):'<p>当前城市没有满足容量的可用方案。</p>'}${button('advisor','联系顾问 / 预约咨询','','outline')}</section>`;}
   function storeCard(s){
     const expanded=visual.expandedStoreIds.includes(s.id),r=state().requirement;
@@ -396,6 +419,6 @@
     loadMore(){r2Filters.visibleLimit=Math.min(50,r2Filters.visibleLimit+10);saveR2Filters();act(()=>render());},
     editDemand(){window.SIM_DEMO.editRequirement();}
   };
-  window.SIM_DEMO={s01R2Bridge,presentation,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
+  window.SIM_DEMO={s01R2Bridge,presentation,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
   const initialStore=new URLSearchParams(location.search).get('store');act(()=>{if(initialStore)core.setStore(initialStore);render();});if(page==='O01'&&!core.authorized())phoneAuth.run('ORDER','DIRECT_O01',()=>render());
 })();
