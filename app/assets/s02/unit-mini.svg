@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 190" role="img" aria-label="仓位容量图">
+<defs><linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c3e0d7"/><stop offset="1" stop-color="#7fb6a2"/></linearGradient><linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f5f4ec"/><stop offset="1" stop-color="#e0e8de"/></linearGradient></defs>
+<ellipse cx="121" cy="170" rx="74" ry="10" fill="#d6e3dc" opacity=".7"/>
+<path d="M54.5 141 L83.1 129.25 L201.1 129.25 L172.5 143 Z" fill="#c1d1c4" stroke="#8da798" stroke-width="1.3"/>
+<path d="M54.5 33 L83.1 18.7 L83.1 129.25 L54.5 143 Z" fill="url(#wall)" stroke="#528b78" stroke-width="1.4"/>
+<path d="M83.1 18.7 L201.1 18.7 L201.1 129.25 L83.1 129.25 Z" fill="url(#front)" stroke="#9cb8a8" stroke-width="1.2"/>
+<g><g><path d="M100.5 105 l9.6 -4.48 h23.04 l-9.6 4.48Z" fill="#efcf9f"/><rect x="100.5" y="105" width="23.04" height="24" fill="#c99a65"/><path d="M123.53999999999999 105 l9.6 -4.48 v24 l-9.6 4.48Z" fill="#ae7b4b"/></g><rect x="82.5" y="107" width="21" height="33" rx="5" fill="#436f72"/><path d="M89.5 107v-6h8v6" stroke="#2d5254" stroke-width="3" fill="none"/></g>
+<path d="M54.5 33v110 M172.5 33v110" stroke="#237b63" stroke-width="6" stroke-linecap="round"/>
+<path d="M54.5 33H172.5" stroke="#2a9177" stroke-width="7" stroke-linecap="round"/>
+
+</svg>

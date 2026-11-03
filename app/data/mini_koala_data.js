@@ -1,6 +1,18 @@
 (function(root, factory) {
   const data = factory();
   root.MINI_KOALA_DATA = data;
+  // S02-UX-REVIEW-04: stable provisional access-hour allocation by store ID.
+  // Replace with verified per-store operating hours when the operational source is connected.
+  const accessHourOptions = ['24小时', '09:00-21:00', '08:00-23:00'];
+  const accessHoursFor = id => {
+    const key = String(id || '');
+    let hash = 2166136261;
+    for (let i = 0; i < key.length; i++) hash = Math.imul(hash ^ key.charCodeAt(i), 16777619) >>> 0;
+    return accessHourOptions[hash % accessHourOptions.length];
+  };
+  data.stores.forEach(store => {
+    if (!store.access_hours) store.access_hours = accessHoursFor(store.store_id);
+  });
   const master = root.MINI_STORAGE_MASTER_V242 || root.MINI_STORAGE_MASTER_V222;
   if (master) {
     const actualStores = Object.fromEntries(data.stores.map(store => [store.store_id, {

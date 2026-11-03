@@ -522,10 +522,101 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <link rel="stylesheet" href="demo_price01_b1_discovery_contract.css" data-price-patch="demo-price-01-b1">
 <link rel="stylesheet" href="vis_bg01_background_unification.css" data-ui-system="vis-bg01">
 <link rel="stylesheet" href="mini_koala_unit_choice_r5a_patch.css" data-patch="UNIT-COMPARE-R5A"/>
+
+<style id="s02-ux-review-03">
+/* S02 production-oriented presentation: keep QA controls out of the customer viewport. */
+/* The bottom bar already offers 顾问协助; do not duplicate it as an overlapping floater. */
+#miniGlobalSupport{display:none!important;pointer-events:none!important}
+
+.review{display:none!important}
+
+/* Approved global principle: task-critical UI copy only, no explanatory decoration. */
+.hero .gallery-tabs{top:9px!important;bottom:auto!important}
+.s02-access-hours{position:absolute;left:9px;bottom:9px;z-index:5;max-width:calc(100% - 80px);padding:5px 9px;border-radius:7px;background:rgba(21,37,30,.78);color:#fff;font-size:11px;font-weight:600;line-height:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s02-access-hours.hidden{display:none!important}
+.s02-service-route{background:#fff;margin:8px 0 0}
+.s02-section-tabs{display:flex;gap:26px;padding:0 16px;border-bottom:1px solid #e8ece8}
+.s02-section-tabs button{position:relative;border:0;background:transparent;padding:13px 0;font-size:14px;line-height:20px;font-family:inherit;font-weight:600;color:#6e7770;cursor:pointer}
+.s02-section-tabs button.active{color:#276d4d;font-weight:700}
+.s02-section-tabs button.active:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#276d4d}
+.s02-service-route .section{margin:0!important;border-radius:0!important;box-shadow:none!important}
+#s02RoutePanel{padding:16px}
+#s02RoutePanel[hidden]{display:none!important}
+.s02-route-address{font-size:13px;color:#38453e;line-height:1.5;margin-bottom:14px}
+.s02-route-modes{display:flex;gap:8px}
+.s02-map{height:238px;overflow:hidden;border-radius:10px;background:#edf1e9;margin:0 0 13px;position:relative}
+.s02-map-stage{width:100%;height:100%;position:relative}
+.s02-map-stage svg{display:block;width:100%;height:100%}
+.s02-map-store-label{position:absolute;right:12px;top:13px;font-size:12px;font-weight:700;background:#fff;border-radius:7px;padding:6px 9px;color:#2e5943;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s02-map-demo-tag{position:absolute;left:10px;bottom:10px;font-size:10px;color:#6a7970;background:rgba(255,255,255,.9);border-radius:5px;padding:4px 7px}
+.s02-route-metric{min-height:20px;margin-top:11px;font-size:13px;font-weight:600;color:#445a4d}
+.s02-route-modes button{flex:1;min-height:38px;border:1px solid #dce6de;border-radius:8px;background:#fff;color:#405449;font-size:13px;cursor:pointer}
+.s02-route-modes button.active{border-color:#3d8160;background:#eef6f0;color:#286a49;font-weight:700}
+.s02-route-nav{display:block;width:100%;height:44px;margin-top:14px;border:0;border-radius:10px;background:#2f6b4f;color:white;font-size:14px;font-weight:700}
+</style>
+<style id="s02-vis-restore-01">
+/* One scoped visual layer supersedes legacy style patches without deleting active behavior. */
+/* Stronger than legacy scoped selectors. */
+#page .combo-plan{border-color:#e3ebe5!important;border-radius:12px!important;box-shadow:none!important}
+#page .combo-part{background:transparent!important;border:0!important;border-radius:0!important;padding:2px 6px 2px 0!important}
+#page .combo-bottom{border-top-color:#e9eee9!important}
+#page .soldout-empty{border:0!important;box-shadow:none!important;min-height:100px!important}
+
+html body #page .store-overview{margin:0!important;padding:12px 16px 11px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+html body #page .browse-helper{margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+html body #page .s02-popular{position:relative;z-index:4;margin:0!important}
+html body #page .hero .gallery-tabs{display:flex!important;gap:3px!important;top:10px!important;left:12px!important;bottom:auto!important;background:rgba(26,49,38,.48)!important;border-radius:6px!important;padding:2px 4px!important}
+html body #page .hero .gallery-tabs button{background:transparent!important;color:#f7fbf8!important;border:0!important;border-radius:3px!important;padding:5px 6px!important;min-height:29px!important;font-size:11px!important;font-weight:550!important}
+html body #page .hero .gallery-tabs button.active{background:rgba(255,255,255,.96)!important;color:#2a664f!important;font-weight:700!important}
+
+.store-overview{margin:0!important;padding:12px 16px 11px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+.store-title{font-size:19px!important;line-height:26px!important}
+.store-title-row{align-items:center!important}
+.store-detail-address{line-height:1.5!important}
+.store-overview .service-line{margin-top:6px!important}
+.browse-helper{margin:0!important;padding:11px 16px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+.browse-helper b{font-size:13px!important}
+.s02-popular{display:flex;align-items:center;gap:10px;margin:0!important;padding:11px 14px!important;background:#fff7f2!important;border-top:2px solid #f05d42!important;border-bottom:1px solid #ffe6dd!important;border-left:0!important;border-right:0!important;border-radius:0!important;box-shadow:none!important}
+.s02-popular[hidden]{display:none!important}
+.s02-popular-icon{display:flex;flex:0 0 23px;align-items:center;justify-content:center}
+.s02-popular-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.s02-popular-copy strong{font-size:13px;line-height:19px;font-weight:700;color:#c8442c;white-space:normal}
+.s02-popular-copy span{font-size:11px;line-height:16px;color:#89675b}
+.s02-popular-cta{flex:none;border:0!important;background:transparent!important;padding:9px 0 9px 4px!important;color:#dc572f!important;font-size:11px!important;font-weight:700!important;white-space:nowrap;min-height:40px;cursor:pointer}
+#inventorySection{padding-top:12px!important;scroll-margin-top:54px!important}
+#inventorySection .section-head{margin-bottom:10px!important}
+#inventorySection .section-head h2{font-size:18px!important;font-weight:750!important}
+#inventorySection .inventory-summary{display:none!important}
+#inventorySection .price-band{display:none!important}
+#inventorySection .unit-list{display:grid;gap:10px}
+#inventorySection .unit-card,#allUnitsInline .unit-card{position:relative;overflow:hidden;padding:12px 12px 10px!important;border:1px solid #e8ece8!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important}
+.unit-main{display:flex;align-items:center;gap:12px;margin:7px 0 4px;min-width:0}
+.unit-visual{width:102px;height:88px;flex:0 0 102px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#f3f8f4;overflow:hidden}
+.unit-visual img{display:block;width:100%;height:100%;object-fit:contain}
+.unit-facts{flex:1;min-width:0}
+.unit-facts .unit-size{font-size:22px!important;line-height:27px!important;margin:0!important}
+.unit-facts .unit-dims{font-size:10px!important;line-height:15px!important;margin-top:3px!important}
+.unit-usage{margin-top:4px;font-size:11px;line-height:16px;color:#63716a;overflow-wrap:anywhere}
+.unit-card .unit-reason{font-size:11px!important;line-height:16px!important;margin:4px 0 0!important}
+.unit-card .unit-bottom{margin-top:8px!important;padding-top:8px!important;gap:8px!important;align-items:end!important}
+.unit-card .unit-price-label{font-size:10px!important}
+.unit-card .unit-price-main{font-size:20px!important;white-space:nowrap}
+.unit-card .unit-price small{font-size:10px!important}
+.unit-card .unit-cta{min-height:42px!important;padding:7px 12px!important;background:#2b7053!important;color:#fff!important;border:0!important;border-radius:9px!important;font-size:12px!important;font-weight:700!important;white-space:nowrap}
+.unit-card .unit-cta:disabled{background:#e7eae6!important;color:#8a918b!important}
+.unit-card .unit-top{min-height:21px!important}
+.unit-card .unit-id{font-size:11px!important;color:#69776f!important}
+.unit-card .r5a-store-favorite{top:9px!important;right:10px!important}
+.unit-card .unit-urgency{margin:5px 0 0!important;font-size:11px!important;color:#dc5b31!important}
+.page{padding-bottom:122px!important;scroll-padding-bottom:122px!important}
+.bottombar{height:auto!important;min-height:68px!important;box-shadow:none!important;background:#fff!important}
+#viewingSection .viewing-card{box-shadow:none!important}
+@media(max-width:375px){.unit-visual{width:92px;flex-basis:92px}.unit-main{gap:9px}.unit-card .unit-cta{padding:7px 10px!important}}
+</style>
 </head>
 <body class="koala-uxd2-layout koala-site-shell koala-s02" data-ux-patch-d2="v1">
 <div class="review">
-<span class="label">评审状态（非用户端）</span>
+<span class="label">页面状态</span>
 <button class="stagechip active" data-state="browse">普通浏览</button>
 <button class="stagechip" data-state="matched">已有需求·匹配</button>
 <button class="stagechip" data-state="nomatch">本店无理想仓位</button>
@@ -539,7 +630,8 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div aria-label="微信小程序系统操作区占位" class="wx-capsule-space"><span class="dot">•••</span><span class="divider"></span><span class="circle"></span></div>
 </div>
 <div class="hero" id="hero">
-<div class="photo-label" id="photoLabel">门店环境示意</div>
+<div id="s02AccessHours" class="s02-access-hours hidden" aria-label="门店存取时间"></div>
+<div class="photo-label" id="photoLabel">门店环境</div>
 <div class="gallery-tabs">
 <button data-photo="0">仓内</button>
 <button data-photo="1">仓位</button>
@@ -548,6 +640,11 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 </div>
 <div class="counter" id="photoCounter">1 / 4</div>
 </div>
+<section class="s02-popular" id="s02Popular" aria-label="热门仓型" hidden>
+  <div class="s02-popular-icon" aria-hidden="true"><svg width="20" height="24" viewBox="0 0 24 28" fill="none"><path d="M13 1c2 6-1 7 0 12 3-1 5-5 5-7 8 8 6 20-5 21C3 28-2 19 5 10c1 6 5 6 5 6C7 11 9 7 13 1Z" fill="#EF512D"/><path d="M12 15c3 4-2 6 1 8 3-1 4-5 3-7 5 6 1 12-5 11-6-1-7-8-2-12 0 3 2 4 3 4v-4Z" fill="#FFA04A"/></svg></div>
+  <div class="s02-popular-copy"><strong id="s02PopularTitle">热门仓型正在热租</strong><span id="s02PopularDesc">查看本店可租仓位</span></div>
+  <button type="button" class="s02-popular-cta" id="s02PopularCTA">查看仓位 ›</button>
+</section>
 <div class="store-overview">
 <div class="store-title-row">
 <div>
@@ -587,6 +684,7 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div><b>大空间 / 长租需求</b><br/><span>可同时查看可租仓位，也可获取多仓组合、搬运和长期租赁方案</span></div>
 <div class="go" id="hvAdvisor">获取方案 ›</div>
 </div>
+
 <section class="section" id="inventorySection">
 <div class="section-head">
 <div>
@@ -624,26 +722,39 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <section class="section" id="viewingSection">
 <div class="viewing-card">
 <div class="ve">免费预约看仓</div>
-<b>看仓位实际大小和到店条件</b>
+
 <button id="bookStoreViewing">预约看仓</button>
 </div>
 </section>
-<details class="section section-collapsible"><summary><div><b>到店与搬运</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="logistics">
-<div class="infoitem"><span>存取时间</span><b>24小时自助存取</b></div>
+<section class="s02-service-route" aria-label="门店信息"><div class="s02-section-tabs" role="tablist"><button type="button" role="tab" id="s02ServiceTab" aria-selected="true" aria-controls="s02ServicePanel" class="active">门店服务</button><button type="button" role="tab" id="s02RouteTab" aria-selected="false" aria-controls="s02RoutePanel">交通路线</button></div><div id="s02ServicePanel" role="tabpanel" aria-labelledby="s02ServiceTab"><details class="section section-collapsible" open><summary><div><b>到店与搬运</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="logistics">
 <div class="infoitem"><span>看仓 / 服务时间</span><b>09:00–18:00</b></div>
 <div class="infoitem"><span>车辆到店</span><b>门口可短暂停靠</b></div>
 <div class="infoitem"><span>货梯</span><b>有</b></div>
 <div class="infoitem"><span>搬运支持</span><b>可预约</b></div>
 <div class="infoitem"><span>进入仓库</span><b>地下1层 · 电梯直达</b></div>
 </div></div></details>
-<details class="section section-collapsible"><summary><div><b>设施与服务</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="grid6">
+<details class="section section-collapsible" open><summary><div><b>设施与服务</b></div><em>展开 ▾</em></summary><div class="collapse-body"><div class="grid6">
 <div class="iconbox"><div class="ico">◉</div><b>视频监控</b></div>
 <div class="iconbox"><div class="ico">≈</div><b>防潮除湿</b></div>
 <div class="iconbox"><div class="ico">△</div><b>消防设施</b></div>
 <div class="iconbox"><div class="ico">↪</div><b>自助进入</b></div>
 <div class="iconbox"><div class="ico">⌑</div><b>独立门锁</b></div>
 <div class="iconbox"><div class="ico">◇</div><b>物品保险</b></div>
-</div><div class="store-standard-link" id="brandStandardLink">了解品牌服务标准 ›</div></div></details>
+</div><div class="store-standard-link" id="brandStandardLink">了解品牌服务标准 ›</div></div></details></div><div id="s02RoutePanel" role="tabpanel" aria-labelledby="s02RouteTab" hidden><div class="s02-route-address" id="s02RouteAddress"></div><div class="s02-map" id="s02MapContainer" data-map-provider="pending" data-map-mode="pending" aria-label="门店位置地图">
+<div class="s02-map-stage" id="s02MapStage">
+<svg viewBox="0 0 360 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="门店周边位置">
+<rect width="360" height="250" fill="#edf1e9"/>
+<g fill="#dce6d9"><rect x="12" y="8" width="75" height="63" rx="7"/><rect x="112" y="8" width="78" height="63" rx="7"/><rect x="216" y="8" width="130" height="63" rx="7"/><rect x="8" y="99" width="107" height="55" rx="7"/><rect x="142" y="99" width="84" height="55" rx="7"/><rect x="252" y="99" width="94" height="55" rx="7"/><rect x="8" y="183" width="94" height="59" rx="7"/><rect x="128" y="183" width="100" height="59" rx="7"/><rect x="254" y="183" width="92" height="59" rx="7"/></g>
+<g fill="none" stroke="#fff" stroke-width="16"><path d="M98 -10 V270"/><path d="M239 -10 V270"/><path d="M-10 84 H380"/><path d="M-10 170 H380"/></g>
+<path d="M48 213 L98 213 L98 170 L175 170 L175 126 L239 126 L239 84 L292 84" fill="none" stroke="#348864" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+<circle cx="48" cy="213" r="9" fill="#fff" stroke="#348864" stroke-width="4"/>
+<g transform="translate(292 72)"><path d="M0 -16 C-20 -16 -20 5 0 23 C20 5 20 -16 0 -16Z" fill="#2c7655"/><circle cy="-5" r="6" fill="#fff"/></g>
+</svg>
+<div class="s02-map-store-label" id="s02MapStoreName"></div>
+</div></div>
+<div class="s02-route-modes"><button type="button" data-route-mode="transit">公交地铁</button><button type="button" data-route-mode="drive">驾车</button><button type="button" data-route-mode="walk">步行</button><button type="button" data-route-mode="bike">骑行</button></div>
+<div id="s02RouteMetric" class="s02-route-metric"></div>
+<button type="button" class="s02-route-nav" id="s02RouteNavigate">导航到门店 ›</button></div></section>
 </div>
 <div class="bottombar">
 <button class="secondary" id="consultBtn">顾问协助</button>
@@ -740,7 +851,7 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div class="lead-note">授权后仅用于本次咨询和后续服务联系，已确认的手机号不会重复索取。</div>
 </div>
 </div>
-<div class="map-sheet-mask" id="storeMapSheet"><div class="map-sheet"><h3 id="mapSheetTitle">门店位置</h3><div class="map-card"><b id="mapSheetStore">门店位置</b><span id="mapSheetAddress">—</span></div><p id="mapSheetRoute">路线时间仅供参考。</p><button id="mapSheetClose">知道了</button></div></div><div class="toast" id="toast"></div>
+<div class="map-sheet-mask" id="storeMapSheet"><div class="map-sheet"><h3 id="mapSheetTitle">门店位置</h3><div class="map-card"><b id="mapSheetStore">门店位置</b><span id="mapSheetAddress">—</span></div><p id="mapSheetRoute"></p><button id="mapSheetClose">知道了</button></div></div><div class="toast" id="toast"></div>
 </div>
 <script src="mini_storage_business_ssot_v274.js"></script>
 <script src="../data/mini_koala_data.js"></script><script src="mini_storage_prepay_qa_facts.js"></script>
@@ -853,7 +964,7 @@ const u01File='mini_storage_unit_detail_u01_v1_21_self_service_Visual_V2_7_4.htm
 const v01File='mini_storage_viewing_v01_v1_14_self_service_synced.html';
 const b01File='mini_storage_brand_b01_v1_10_self_service_synced_Visual_V2_7_4.html';
 
-const photos=['门店环境示意','仓位环境示意','门店入口示意','搬运区域示意'];
+const photos=['门店环境','仓位环境','门店入口','搬运区域'];
 const travel={
   drive:{icon:'🚗',label:'驾车',m:8,km:3.2},
   bike:{icon:'🚲',label:'骑行',m:14,km:3.0},
@@ -964,7 +1075,7 @@ function unitCard(unit,role,reason,tradeoff='',showLonger=false){
   const totalPrice=termMonths?pricingContractFromBase(unit.base,activeTerm,storeId):0;
   const priceHtml=termMonths
     ? `<span class="unit-price-label">整期总租金</span><span class="unit-price-main">¥${totalPrice.toLocaleString()}</span><small>月均约 ${currentPrice}/月 · ${termDiscountLabel(activeTerm)}</small>`
-    : `<span class="unit-price-label">参考价格</span><span class="unit-price-main">${currentPrice}/月</span><small>选择租期后重新计算</small>`;
+    : `<span class="unit-price-label">月租</span><span class="unit-price-main">${window.MINI_KOALA_DATA.priceText(priceAtTerm(unit,60))}/月起</span>`;
   const nextTerm=termMonths?nextPriceBreakpoint(termMonths):null;
   const longerHtml=showLonger && nextTerm && priceAtTerm(unit,nextTerm)<priceFor(unit)
     ? `<div class="price-logic longer-preview" data-next-term="${nextTerm}" data-unit="${unit.id}">比较${termHuman(nextTerm)}：月均约 ${window.MINI_KOALA_DATA.priceText(priceAtTerm(unit,nextTerm))}/月 · 整期总租金 ¥${pricingContractFromBase(unit.base,nextTerm,storeId).toLocaleString()} ›</div>`
@@ -974,15 +1085,16 @@ function unitCard(unit,role,reason,tradeoff='',showLonger=false){
       ${displayRole?`<span class="role ${displayRole==='特价'?'special-price':''}">${displayRole}</span>`:'<span></span>'}
       <span class="unit-id">仓位 ${unit.id}</span>
     </div>
-    <div class="unit-size">${window.MINI_KOALA_DATA.sizeText(unit.v)}</div>
-    <div class="unit-dims">${window.MINI_KOALA_DATA.areaText(unit.v)} · ${window.MINI_KOALA_DATA.dimensionText(unit)}</div><button class="r5a-store-favorite" type="button" data-r5a-favorite="${unit.id}" aria-label="收藏仓位 ${unit.id}" aria-pressed="false" title="收藏此仓位">♡</button>
+    <div class="unit-main"><div class="unit-visual"><img src="${s02UnitIllustration(unit).src}" alt="${window.MINI_KOALA_DATA.sizeText(unit.v)}仓位空间" loading="lazy"></div><div class="unit-facts"><div class="unit-size">${window.MINI_KOALA_DATA.sizeText(unit.v)}</div>
+    <div class="unit-dims">${window.MINI_KOALA_DATA.areaText(unit.v)} · ${window.MINI_KOALA_DATA.dimensionText(unit)}</div>
+    <div class="unit-usage">${s02UnitIllustration(unit).use}</div></div></div><button class="r5a-store-favorite" type="button" data-r5a-favorite="${unit.id}" aria-label="收藏仓位 ${unit.id}" aria-pressed="false" title="收藏此仓位">♡</button>
 
     ${displayReason?`<div class="unit-reason">${displayReason}</div>`:''}
     ${tradeoff?`<div class="tradeoff">${tradeoff}</div>`:''}
-    ${(()=>{const remain=Math.max(0,Number(unit.available_count||0));if(remain<=0)return '';const viewer=window.MINI_STORAGE_INVENTORY_URGENCY_V1?.viewerCount(`${storeId}|${unit.size_option_id||unit.id}`,remain)||0;const copy=remain===1?'同容量仅剩这1个':remain===2?'同容量仅剩2个':remain<=5?`同容量剩余${remain}个`:'';return copy?`<div class="unit-urgency${remain<=2?' strong':''}">${copy}${viewer?`<span class="viewer">${viewer}人正在查看</span>`:''}</div>`:''})()}
+    ${(()=>{const remain=Math.max(0,Number(unit.available_count||0));return remain>0&&remain<=2?`<div class="unit-urgency">仅剩${remain}间</div>`:''})()}
     <div class="unit-bottom">
       <div class="unit-price">${priceHtml}${longerHtml}</div>
-      <button class="unit-cta" ${!maySelect?'disabled aria-disabled="true"':''}>${soldOut?'已售出':isBelowMin?'低于需求':'查看仓位方案'}</button>
+      <button class="unit-cta" ${!maySelect?'disabled aria-disabled="true"':''}>${soldOut?'已售出':isBelowMin?'低于需求':'立即下单'}</button>
     </div>
   </div>`;
 }
@@ -1038,7 +1150,7 @@ function bindUnitCards(){
   $$('.longer-preview').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
     if(el.closest('.unit-card')?.dataset.underMin==='1')return;
-    gotoU01(el.dataset.unit,{focusTerm:Number(el.dataset.nextTerm)});
+    openSheet('#requirementSheet');
   });
 }
 function markSizeOptionSelection(unit){
@@ -1046,23 +1158,49 @@ function markSizeOptionSelection(unit){
   try{localStorage.setItem('mini_storage_requirement_current',JSON.stringify({...estimatorRequirement,selected_store_id:storeId,selected_size_option_id:unit.size_option_id||'',selected_representative_unit_no:unit.representative_unit_no||unit.id||'',selected_actual_unit_id:null,selected_unit_id:null,selection_source:'S02_SIZE_OPTION',inventory_identity_type:'SIZE_OPTION',updated_at:new Date().toISOString()}))}catch(e){}
 }
 function gotoU01(unitId,opts={}){
+  // Preserve the legacy handler name while routing directly to O01.
   const unit=rawUnits.find(item=>item.id===unitId);
+  if(!unit || Number(unit.available_count||0)<=0){toast('当前仓位不可租');return}
+  if(state!=='browse' && unit.v<range().min){toast('仓位容量低于当前需求');return}
+  if(!termMonths){openSheet('#requirementSheet');toast('请先选择租期');return}
+  const chosenTerm=Number(opts.focusTerm||termMonths);
+  if(!Number.isInteger(chosenTerm)||chosenTerm<1||chosenTerm>60){toast('请选择有效租期');return}
   markSizeOptionSelection(unit);
+  const monthly=priceAtTerm(unit,chosenTerm);
+  const rawBase=Number(window.MINI_KOALA_DATA.positivePrice(unit)||0);
+  const total=pricingContractFromBase(rawBase,chosenTerm,storeId);
+  if(!(monthly>0&&total>0)){toast('价格暂不可用');return}
+  const management=Number(window.MINI_STORAGE_MASTER_V222.fees.management_fee||50);
+  const sizeOption=unit.size_option_id||'';
+  const representative=unit.representative_unit_no||unitId;
+  const snapshot={
+    store_id:storeId,unit_id:representative,size_option_id:sizeOption,
+    representative_unit_no:representative,actual_unit_id:null,unit_identity_type:'SIZE_OPTION',
+    term_months:chosenTerm,discount_rate:BUSINESS_HELPERS.termFactor(chosenTerm),
+    base_monthly_price:rawBase,total_rent:total,monthly_average:monthly,monthly_price:monthly,
+    deposit:monthly,management_fee:management,upfront_payable:total+monthly+management,
+    is_starting_price:false,pricing_model_version:PRICING_MODEL_VERSION,
+    pricing_timestamp:new Date().toISOString()
+  };
+  try{localStorage.setItem('mini_storage_price_snapshot_current',JSON.stringify(snapshot))}catch(e){toast('无法保存当前报价');return}
   const advisor=advisorStateFor(unit);
-  const reselected=['estimated','extended','far'].includes(fromS01State)||selectionContext==='estimate_recommendation';
-  const p=new URLSearchParams({unit:unitId,sizeOption:unit?.size_option_id||'',representativeUnit:unit?.representative_unit_no||unitId,inventoryIdentity:'SIZE_OPTION',store:storeId,source:new URLSearchParams(location.search).get('returnTo')==='S5'?'estimator_recommendation':'s02',s02State:state,fromS01State,selectionContext:reselected?'estimate_size_option':'browse_size_option',reselected:reselected?'1':'0',searchOriginKey,lead:advisor.level,leadReason:advisor.reason,leadTcv:String(advisor.expected_contract_rent),access:accessFrequency,searchKm:String(searchKm),searchMin:String(searchMin),routeSource:window.MINI_STORAGE_MASTER_V222.route_source});
-  if(new URLSearchParams(location.search).get('returnTo')==='S5')p.set('returnTo','S5');
-  p.set('travel',travelMode);
-  for(const key of ['otherStoresSource','excludeStore','sort','distance','services','loaded','scroll'])if(qp.has(key))p.set(key,qp.get(key));
+  const p=new URLSearchParams({
+    unit:representative,sizeOption,representativeUnit:representative,
+    inventoryIdentity:'SIZE_OPTION',store:storeId,
+    target:String(state==='browse'?unit.v:targetVolume),volume:String(unit.v),term:String(chosenTerm),
+    monthly:String(monthly),rentTotal:String(total),deposit:String(monthly),
+    managementFee:String(management),initialPayable:String(snapshot.upfront_payable),
+    route:advisor.level==='strong'?'SALES_ASSISTED':'QUOTE_OPTIONAL',
+    source:'s02',fromS01State,s02State:state,searchOriginKey,searchMin:String(searchMin),
+    searchKm:String(searchKm),access:accessFrequency,travel:travelMode,
+    lead:advisor.level,leadReason:advisor.reason||'',leadTcv:String(advisor.expected_contract_rent||0),
+    discountRatio:String(BUSINESS_HELPERS.termFactor(chosenTerm)),
+    discountBasisPrice:String(rawBase),firstPurchase:'1'
+  });
   if(customerType)p.set('customer',customerType);
-  if(termMonths)p.set('term',termMonths);
-  if(targetVolume)p.set('target',targetVolume.toFixed(1));
-  if(opts.focusTerm)p.set('focusTerm',opts.focusTerm);
-  if(opts.tradeoff)p.set('tradeoff',opts.tradeoff);
-  if(opts.transportIntent)p.set('transportIntent','1');
-  if(window.MINI_KOALA_STORE_ACTIVITY_DEMO.forStore(storeId).specialUnitIds.has(unitId))p.set('special','1');
+  for(const key of ['otherStoresSource','excludeStore','sort','distance','services','loaded','scroll'])if(qp.has(key))p.set(key,qp.get(key));
   if(window.MINI_STORAGE_SALES_SHARE?.enabled){window.MINI_STORAGE_SALES_SHARE.append(p);p.set('shareType','unit')}
-  window.location.href=u01File+`?${p.toString()}`;
+  window.location.href='mini_storage_order_o01_v1_18_self_service_Visual_V2_7_4.html?'+p.toString();
 }
 function otherCapacityRows(){
   const master=window.MINI_STORAGE_UNIT_MASTER_V1;
@@ -1105,9 +1243,9 @@ function renderComboOffers(combos){
   if(!panel)return;
   const hasSingle=idealUnits().length>0;
   if(hasSingle || state==='browse' || !termMonths || inventoryStatus==='SOLD_OUT'){panel.innerHTML='';panel.classList.add('hidden');return;}
+  if(!combos.length){panel.innerHTML='';panel.classList.add('hidden');return;}
   const format=v=>Number(v).toFixed(1)+'m³';
-  const intro=combos.length?`<div class="combo-intro">组合仓位 ${combos.length}个</div>`:
-    '<div class="nearby-recovery"><b>看看附近其他门店</b><p>本店没有满足当前需求的单仓或组合仓位，可以继续比较附近门店，无需重新填写容量和租期。</p><button type="button" id="comboNearbyBtn">查看附近可选门店 ›</button></div>';
+  const intro=combos.length?`<div class="combo-intro">组合仓位 ${combos.length}个</div>`:'';
   const safeCopy=v=>String(v||'').replace(/[&<>\"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[x]));
   panel.innerHTML=intro+(combos.length?'<div id="comboLeadFeedback" class="combo-lead-feedback hidden" role="status" aria-live="polite"><span id="comboLeadFeedbackText"></span><button id="comboContactService" type="button">联系客服</button></div>':'')+combos.map((c,i)=>`<div class="combo-plan"><div class="combo-header"><strong>${i===0?'推荐组合':'其他组合'} · ${format(c.capacity)}</strong><span>${c.count}间独立仓</span></div><div class="combo-parts">${c.parts.map((u,j)=>`<span class="combo-part">仓位${j+1} · ${format(u.v)}</span>`).join('')}</div>${c.physicalFit?.allocations?.some(a=>a.item_names?.length)?`<div class="combo-allocation">${c.physicalFit.allocations.map((a,k)=>a.item_names?.length?`<div>仓位${k+1}：${safeCopy(a.item_names.slice(0,4).join('、'))}</div>`:'').join('')}</div>`:''}<div class="combo-bottom"><div><div class="combo-total-label">${termMonths}个月整期总租金</div><div class="combo-total">¥${c.total.toLocaleString()}</div><div class="combo-total-label">月均约 ¥${c.monthly.toLocaleString()}</div></div><button type="button" class="combo-action" data-combo-index="${i}">咨询此组合</button></div></div>`).join('');
   panel.classList.remove('hidden');
@@ -1121,6 +1259,31 @@ function renderComboOffers(combos){
     }});
   });
 }
+function renderPopularSizes(){
+  const section=$('#s02Popular'),title=$('#s02PopularTitle'),desc=$('#s02PopularDesc'),action=$('#s02PopularCTA');
+  if(!section||!title||!desc||!action)return;
+  const available=inventoryStatus==='SOLD_OUT'?[]:inventoryUnits().filter(u=>Number(u.available_count||0)>0);
+  section.hidden=available.length===0 || !(state==='browse'||idealUnits().length>0);
+  if(!available.length)return;
+  const low=available.filter(u=>Number(u.available_count)>0&&Number(u.available_count)<=2)
+    .sort((a,b)=>Number(a.available_count)-Number(b.available_count));
+  if(low.length){
+    title.textContent='热门仓型余量紧张，建议尽快锁定';
+    desc.textContent='部分仓型仅剩'+low[0].available_count+'间';
+    action.textContent='查看仓位 ›';
+  }else{
+    title.textContent='热门仓型正在热租';
+    desc.textContent='本店可租仓位 · '+available.length+'种容量';
+    action.textContent='查看仓位 ›';
+  }
+  action.onclick=()=>$('#inventorySection')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function s02UnitIllustration(unit){
+  const v=Number(unit.v||0);
+  const k=v<=1.5?'mini':v<=5?'small':v<=15?'medium':'large';
+  return {src:'../assets/s02/unit-'+k+'.svg',use:k==='mini'?'行李箱、纸箱':k==='small'?'衣物、家庭杂物':k==='medium'?'家具、搬家物品':'大件家具、整屋收纳'};
+}
+
 function renderInventory(){
   let cards='';
   const combos=matchedCombos();
@@ -1137,7 +1300,7 @@ function renderInventory(){
     $('#inventorySubtitle').textContent='';
     $('#inventoryCount').textContent='0个可租仓位';
     $('#inventoryRange').textContent='暂无可租库存';
-    $('#unitList').innerHTML='<div class="soldout-empty"><span class="status">已售罄</span><b>看看其他可租门店</b><span>也可以让顾问帮您比较。</span></div>';
+    $('#unitList').innerHTML='<div class="soldout-empty"><span class="status">已售罄</span></div>';
     $('#allUnits').classList.add('hidden');
     $('#priceBand').classList.add('hidden');
     $('#inventoryFeedback').textContent='';
@@ -1236,6 +1399,7 @@ function renderState(resetScroll=true){
     else if(state==='nomatch'&&single)state='matched';
     $$('.stagechip').forEach(x=>x.classList.toggle('active',x.dataset.state===state));
   }
+  renderPopularSizes();
   renderRequirement();
   const sharedTags=document.getElementById('s02StoreDemoTags');
   if(sharedTags)sharedTags.innerHTML=window.MINI_KOALA_UXB_TAGS.html(storeId,window.MINI_KOALA_STORE_ACTIVITY_DEMO.forStore(storeId));
@@ -1243,7 +1407,7 @@ function renderState(resetScroll=true){
   $('#soldoutNotice')?.classList.remove('show'); // 无库存只在仓位列表处展示一次，减少重复提醒。
   if($('#soldoutNoticeBody')&&inventoryStatus==='SOLD_OUT')$('#soldoutNoticeBody').textContent='当前没有可租仓位，您可以查看附近有仓门店，或请顾问协助查找。';
   $('#browseEstimator')?.classList.toggle('hidden',inventoryStatus==='SOLD_OUT');
-  $('#viewingSection')?.classList.toggle('hidden',inventoryStatus==='SOLD_OUT');
+  $('#viewingSection')?.classList.toggle('hidden',inventoryStatus==='SOLD_OUT'||state==='nomatch');
   $$('.state-browse').forEach(x=>x.classList.toggle('hidden',state!=='browse'));
   $$('.state-demand').forEach(x=>x.classList.toggle('hidden',!(state==='matched'||state==='nomatch'||state==='highvalue')));
   $$('.state-nomatch').forEach(x=>x.classList.add('hidden')); // 备选卡和底部按钮承担引导，不重复显示无匹配公告。
@@ -1319,7 +1483,7 @@ function renderTravelContext(){
   searchMin=t.m;searchKm=t.km;
   $('#routeText').innerHTML=`${t.icon} ${t.label}约 <b>${t.m} 分钟</b> · ${Number(t.km).toFixed(1)}km ▾`;
   $('#routeText').dataset.routeSource=t.source;
-  $('#routeText').title='到店时间与距离为演示数据';
+  $('#routeText').removeAttribute('title');
   $$('#travelSheet .option').forEach(option=>{
     const row=travel[option.dataset.travel];
     option.querySelector('span').textContent=`约${row.m}分钟 · ${Number(row.km).toFixed(1)}km`;
@@ -1363,12 +1527,12 @@ $('#backBtn').onclick=()=>{
   if(window.MINI_STORAGE_SALES_SHARE?.enabled){window.MINI_STORAGE_SALES_SHARE.append(p);p.set('shareType','stores')}
   window.location.href=s01File+`?${p.toString()}`;
 };
-function openStoreMap(){document.querySelector('#mapSheetStore').textContent=storeProfile.name;document.querySelector('#mapSheetAddress').textContent=storeProfile.address;document.querySelector('#mapSheetRoute').textContent=$('#routeText').textContent.replace('▾','').trim()+' · 路线时间仅供参考';document.querySelector('#storeMapSheet').classList.add('show')}
+function openStoreMap(){document.querySelector('#mapSheetStore').textContent=storeProfile.name;document.querySelector('#mapSheetAddress').textContent=storeProfile.address;document.querySelector('#mapSheetRoute').textContent=$('#routeText').textContent.replace('▾','').trim();document.querySelector('#storeMapSheet').classList.add('show')}
 $('#navTop').onclick=openStoreMap;
 $('#mapLink')?.addEventListener('click',openStoreMap);
 $('#mapSheetClose').onclick=()=>document.querySelector('#storeMapSheet').classList.remove('show');
 $('#storeMapSheet').onclick=e=>{if(e.target.id==='storeMapSheet')e.currentTarget.classList.remove('show')};
-$('#checkTransportPromo').onclick=()=>{const u=recommendedUnit();gotoU01(u.id,{focusTerm:termMonths&&termMonths>=6?termMonths:6,transportIntent:true})};
+$('#checkTransportPromo').onclick=()=>openLeadCapture({node:'S02_TRANSPORT_SUPPORT',title:'搬运支持',allowSkip:true,context:{store_id:storeId,target_volume:targetVolume,term_months:termMonths}});
 // S01 / S02 share the same explicit estimator return-context protocol.
 // Browse keeps estimation as an auxiliary entry while the bottom primary action
 // continues to the real units already listed on this page.
@@ -1460,7 +1624,7 @@ $$('#savePlanSheet .save-option').forEach(opt=>opt.onclick=()=>{
   }
   if(type==='longer'){
     const nt=Number(opt.dataset.nextTerm)||nextPriceBreakpoint(termMonths);
-    if(nt)gotoU01(recommended.id,{focusTerm:nt});
+    if(nt){closeSheet($('#savePlanSheet'));openSheet('#requirementSheet');}
   }
   if(type==='farther'){
     const p=new URLSearchParams({state:'estimated',target:targetVolume.toFixed(1),travel:travelMode,sort:'price',pricePriority:'1'});if(termMonths)p.set('term',String(termMonths));
@@ -1568,5 +1732,80 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
 </script>
 <script src="mini_storage_global_support_v274.js"></script>
 <script src="mini_koala_unit_choice_r5a_patch.js" data-patch="UNIT-COMPARE-R5A"></script>
+
+<script id="s02-ux-review-03-runtime">
+(function(){
+ const $=s=>document.querySelector(s);
+ const params=new URLSearchParams(location.search);
+ const storeId=params.get('store')||'jianguo';
+ const profile=window.MINI_STORAGE_MASTER_V222?.stores?.[storeId]||{};
+ const businessSources=window.MINI_STORAGE_MASTER_V242||window.MINI_STORAGE_BUSINESS_SSOT_V274||{};
+ const business=businessSources?.stores?.[storeId]||{};
+ function formatAccessHours(value){
+  const raw=String(value||'').trim();
+  if(!raw)return '';
+  if(/24\s*小时|全天|00:00\s*[-–—~至]\s*24:00/.test(raw))return '存取时间：24小时';
+  const m=raw.match(/([01]?\d|2[0-3]):([0-5]\d)\s*[-–—~至]\s*([01]?\d|2[0-4]):([0-5]\d)/);
+  if(m)return '存取时间：'+m[1].padStart(2,'0')+':'+m[2]+'-'+m[3].padStart(2,'0')+':'+m[4];
+  return '';
+ }
+ const badge=$('#s02AccessHours');
+ const hoursText=formatAccessHours(profile.access_hours||profile.accessHours||business.access_hours);
+ if(badge&&hoursText){badge.textContent=hoursText;badge.classList.remove('hidden')}
+ $('#s02RouteAddress').textContent=profile.address||business.address||'';
+ $('#s02MapStoreName').textContent=profile.name||business.name||'门店位置';
+ const serviceTab=$('#s02ServiceTab'),routeTab=$('#s02RouteTab'),servicePanel=$('#s02ServicePanel'),routePanel=$('#s02RoutePanel');
+ function selectTab(which){const isRoute=which==='route';
+  serviceTab.classList.toggle('active',!isRoute);routeTab.classList.toggle('active',isRoute);
+  serviceTab.setAttribute('aria-selected',String(!isRoute));routeTab.setAttribute('aria-selected',String(isRoute));
+  servicePanel.hidden=isRoute;routePanel.hidden=!isRoute;
+ }
+ serviceTab.addEventListener('click',()=>selectTab('service'));
+ routeTab.addEventListener('click',()=>selectTab('route'));
+ // Adapter contract: a future verified map plugin may replace only #s02MapStage,
+ // then set data-map-mode="live"; no separate S02 layout is needed.
+ const map=$('#s02MapContainer');
+ window.MINI_KOALA_S02_MAP_ADAPTER={
+   mount(render){if(typeof render!=='function')return;const stage=$('#s02MapStage');render(stage,{storeId,address:profile.address||business.address||'',name:profile.name||business.name||''});map.dataset.mapMode='live';},
+   unmount(){map.dataset.mapMode='pending';}
+ };
+ const routeLabels={transit:'公交地铁',drive:'驾车',walk:'步行',bike:'骑行'};
+ const modes=[...document.querySelectorAll('[data-route-mode]')];
+ const metric=$('#s02RouteMetric');
+ function selectMode(mode){
+  modes.forEach(button=>button.classList.toggle('active',button.dataset.routeMode===mode));
+  if(mode!=='transit'&&typeof travelMode!=='undefined'){
+   travelMode=mode;
+   if(typeof renderTravelContext==='function')renderTravelContext();
+  }
+  const planner=window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274;
+  const origin=params.get('searchOriginKey')||'guomao';
+  const route=mode==='transit'?null:planner?.routeFor?.(storeId,origin,mode);
+  const driveRoute=mode==='transit'?planner?.routeFor?.(storeId,origin,'drive'):null;
+  const valid=route&&Number(route.m)>0&&Number(route.km)>0;
+  const transitEstimate=driveRoute&&Number(driveRoute.m)>0?Math.max(15,Math.round(Number(driveRoute.m)*1.6+8)):null;
+  metric.textContent=valid?'约'+Math.round(Number(route.m))+'分钟 · '+Number(route.km).toFixed(1)+'km':
+    (mode==='transit'&&transitEstimate?'约'+transitEstimate+'分钟':'');
+  // Internal data provenance; do not render technical metadata in customer UI.
+  metric.dataset.routeSource=valid?(route.source||'estimate'):(transitEstimate?'provisional':'unavailable');
+  $('#s02RouteNavigate').textContent='导航到门店 ›';
+ }
+ modes.forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.routeMode)));
+ selectMode('drive');
+ function navigateToStore(){
+   const address=String(profile.address||business.address||'').trim();
+   if(!address){return}
+   const keyword=[profile.name||business.name||'',address].filter(Boolean).join(' ');
+   const query=new URLSearchParams({keyword,city:String(profile.city||business.city||''),view:'map',src:'minikoala',callnative:'1'});
+   const url='https://uri.amap.com/search?'+query.toString();
+   const opened=window.open(url,'_blank','noopener,noreferrer');
+   if(!opened)window.location.href=url;
+ }
+ $('#s02RouteNavigate').addEventListener('click',navigateToStore);
+ const topNavigation=$('#navTop');
+ if(topNavigation)topNavigation.onclick=navigateToStore;
+ selectTab('service');
+})();
+</script>
 </body>
 </html>
