@@ -7,6 +7,7 @@ const out=path.resolve(__dirname,'../release-evidence/rc2-vis-integration-02');
 const port=4532,base='http://127.0.0.1:'+port;
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml'};
 const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,base).pathname));}catch{res.writeHead(400).end();return;}if(!fp.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(fp,(e,b)=>e?res.writeHead(404).end('not found'):res.writeHead(200,{'Content-Type':mime[path.extname(fp)]||'application/octet-stream'}).end(b));});
+const contextGuarded=new Set(['O01','O03','RN01','EX01','DP01','OH01','IV01']);
 const screens=['H01','S01','S02','CAP','ITEMS','S5','BOOKING','QUICK','O01','M01','O03','RN01','EX01','DP01','OH01','IV01'];
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
@@ -32,9 +33,12 @@ const screens=['H01','S01','S02','CAP','ITEMS','S5','BOOKING','QUICK','O01','M01
       const texts=(e.innerText||'').trim();
       return {cls:e.className,renderedText:texts.length,scrollWidth:doc.scrollWidth,innerWidth:innerWidth,screenRect:{width:box.width,height:box.height},nav:!!document.querySelector('.bottom-nav'),auth:!!document.querySelector('.mk-auth-overlay')};
      });
-     record={...record,...state,errors,bad};
+     record={...record,...state,errors,bad,entryMode:contextGuarded.has(screen)?'CONTEXT_GUARD_INSPECTION':'DIRECT_PAGE'};
      await page.screenshot({path:path.join(out,screen+'-'+width+'.png'),fullPage:true,timeout:15000});
-     assert(state.renderedText>8,'blank or placeholder screen '+screen);
+     if(!contextGuarded.has(screen))assert(state.renderedText>8,'blank or placeholder screen '+screen);
+     // These pages depend on verified phone, existing order, or quote context.
+     // A denied direct link is expected; never mark it as a product defect or bypass its guard.
+     if(contextGuarded.has(screen))record.contextGate='DIRECT_URL_ONLY_NOT_FULL_JOURNEY';
      assert(state.scrollWidth<=width+4,'horizontal overflow '+screen+' '+JSON.stringify(state));
      assert.equal(errors.length,0,'uncaught JavaScript errors');
      assert.equal(bad.length,0,'missing static resources');
