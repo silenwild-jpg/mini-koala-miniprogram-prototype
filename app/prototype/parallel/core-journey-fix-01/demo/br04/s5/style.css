@@ -65,3 +65,17 @@
 .major-unit .monthly{top:245px;left:13px;line-height:14px;font-size:10.7px;color:#72869b;white-space:nowrap}
 .major-unit .benefits{height:30px}
 .minor-unit .minor-price small{top:23px;left:0;font-size:10px;line-height:13px;color:#72869b;white-space:nowrap}
+
+/* S5-UX-REVIEW-02: in-flow conditional consultation, no fixed purchase bar.
+   Maintain approved positioning of existing demand/term/recommendation cards. */
+.s5-advisor{position:absolute;left:17px;top:955px;width:337px;min-height:88px;padding:13px 1px 12px;border-top:1px solid #e8efed;display:flex;align-items:center;justify-content:space-between;gap:10px;background:transparent}
+.s5-advisor[hidden]{display:none!important}
+.s5-advisor-copy{min-width:0;flex:1}
+.s5-advisor-copy strong{font-size:12.5px;font-weight:750;color:#193d35;line-height:19px;display:block}
+.s5-advisor-copy p{margin:5px 0 0;color:#74879a;font-size:11px;line-height:17px}
+.s5-advisor button{flex:none;color:#00705a;background:transparent;border:0;font-size:12.5px;font-weight:750;min-width:78px;min-height:44px;padding:5px 0}
+#artboard[data-advisor-visible="true"] .estore{top:1056px}
+#artboard[data-match="incomplete"] .recommend-wrap,
+#artboard[data-match="incomplete"] .more-units{display:none}
+#artboard[data-match="incomplete"] .no-match{display:block}
+#artboard[data-match="incomplete"] .estore{top:682px}
