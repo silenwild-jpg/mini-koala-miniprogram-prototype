@@ -197,9 +197,10 @@
     const chosen=options.sort((a,b)=>a.volume-b.volume)[0];
     const combos=chosen?[]:core.combinations(s.id);
     const quoteIds=chosen?[chosen.id]:(combos[0]?.ids||[]);
-    const term=req.term_confirmed?req.term_months:12;
-    const estimatedTotal=quoteIds.length?core.amounts(quoteIds,term).rent_total:0;
-    const showAdvisor=visual.tab==='可选仓位'&&(Number(req.capacity_m3)>10||estimatedTotal>2000);
+    const totalRent=quoteIds.length&&req.capacity_m3!==null&&req.term_confirmed?
+      core.amounts(quoteIds,req.term_months).rent_total:0;
+    const showAdvisor=visual.tab==='可选仓位'&&
+      (Number(req.capacity_m3)>10||totalRent>2000);
     const advisor=showAdvisor?'<button type="button" class="s02-advisor" data-action="advisor">顾问协助 ›</button>':'';
     return hero+banner+header+s02Demand()+tabs+content+advisor;
   }
