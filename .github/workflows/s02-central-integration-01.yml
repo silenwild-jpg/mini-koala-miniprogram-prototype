@@ -30,6 +30,8 @@ jobs:
           git show FETCH_HEAD:docs/VISUAL_MANIFEST.md > docs/VISUAL_MANIFEST.md
           node scripts/check_proto_vis_exec_01.cjs --self-test
           node scripts/check_proto_vis_exec_01.cjs
+      - name: Verify complete store destination and inventory snapshots
+        run: node scripts/verify_s02_inventory_geo_contract.cjs
       - name: Install browser
         run: |
           npm install --no-save --no-package-lock playwright@1.56.1
