@@ -654,7 +654,7 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <section class="section" id="viewingSection">
 <div class="viewing-card">
 <div class="ve">免费预约看仓</div>
-<b>看仓位实际大小和到店条件</b>
+
 <button id="bookStoreViewing">预约看仓</button>
 </div>
 </section>
@@ -1022,7 +1022,7 @@ function unitCard(unit,role,reason,tradeoff='',showLonger=false){
 
     ${displayReason?`<div class="unit-reason">${displayReason}</div>`:''}
     ${tradeoff?`<div class="tradeoff">${tradeoff}</div>`:''}
-    ${(()=>{const remain=Math.max(0,Number(unit.available_count||0));if(remain<=0)return '';const viewer=window.MINI_STORAGE_INVENTORY_URGENCY_V1?.viewerCount(`${storeId}|${unit.size_option_id||unit.id}`,remain)||0;const copy=remain===1?'同容量仅剩这1个':remain===2?'同容量仅剩2个':remain<=5?`同容量剩余${remain}个`:'';return copy?`<div class="unit-urgency${remain<=2?' strong':''}">${copy}${viewer?`<span class="viewer">${viewer}人正在查看</span>`:''}</div>`:''})()}
+    ${(()=>{const remain=Math.max(0,Number(unit.available_count||0));return remain>0&&remain<=2?`<div class="unit-urgency">仅剩${remain}间</div>`:''})()}
     <div class="unit-bottom">
       <div class="unit-price">${priceHtml}${longerHtml}</div>
       <button class="unit-cta" ${!maySelect?'disabled aria-disabled="true"':''}>${soldOut?'已售出':isBelowMin?'低于需求':'立即下单'}</button>
@@ -1176,7 +1176,7 @@ function renderComboOffers(combos){
   if(hasSingle || state==='browse' || !termMonths || inventoryStatus==='SOLD_OUT'){panel.innerHTML='';panel.classList.add('hidden');return;}
   const format=v=>Number(v).toFixed(1)+'m³';
   const intro=combos.length?`<div class="combo-intro">组合仓位 ${combos.length}个</div>`:
-    '<div class="nearby-recovery"><b>看看附近其他门店</b><p>本店没有满足当前需求的单仓或组合仓位，可以继续比较附近门店，无需重新填写容量和租期。</p><button type="button" id="comboNearbyBtn">查看附近可选门店 ›</button></div>';
+    '<div class="nearby-recovery"><b>看看附近其他门店</b><button type="button" id="comboNearbyBtn">查看附近可选门店 ›</button></div>';
   const safeCopy=v=>String(v||'').replace(/[&<>\"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[x]));
   panel.innerHTML=intro+(combos.length?'<div id="comboLeadFeedback" class="combo-lead-feedback hidden" role="status" aria-live="polite"><span id="comboLeadFeedbackText"></span><button id="comboContactService" type="button">联系客服</button></div>':'')+combos.map((c,i)=>`<div class="combo-plan"><div class="combo-header"><strong>${i===0?'推荐组合':'其他组合'} · ${format(c.capacity)}</strong><span>${c.count}间独立仓</span></div><div class="combo-parts">${c.parts.map((u,j)=>`<span class="combo-part">仓位${j+1} · ${format(u.v)}</span>`).join('')}</div>${c.physicalFit?.allocations?.some(a=>a.item_names?.length)?`<div class="combo-allocation">${c.physicalFit.allocations.map((a,k)=>a.item_names?.length?`<div>仓位${k+1}：${safeCopy(a.item_names.slice(0,4).join('、'))}</div>`:'').join('')}</div>`:''}<div class="combo-bottom"><div><div class="combo-total-label">${termMonths}个月整期总租金</div><div class="combo-total">¥${c.total.toLocaleString()}</div><div class="combo-total-label">月均约 ¥${c.monthly.toLocaleString()}</div></div><button type="button" class="combo-action" data-combo-index="${i}">咨询此组合</button></div></div>`).join('');
   panel.classList.remove('hidden');
