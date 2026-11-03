@@ -26,7 +26,7 @@
         +'</div>';
     }else if(openIndex===1){
       const items=a.distanceFilterEnabled?[[0,'不限距离'],[1,'1km内'],[3,'3km内'],[5,'5km内'],[10,'10km内']]:[];
-      content='<p class="s01-panel-note">'+(a.distanceFilterEnabled?'距离范围仅用于当前内部演示数据':'当前缺少可核验的位置信息，不能按距离筛选')+'</p>'
+      content='<p class="s01-panel-note">'+(a.distanceFilterEnabled?'选择距离范围':'当前暂无可用的距离筛选')+'</p>'
         +(items.length?'<div class="s01-choice-list">'+items.map(([v,label])=>choice(label,v,(a.maxKm===null?v===0:Number(a.maxKm)===v),'data-radius')).join('')+'</div>':'');
     }else{
       content='<p class="s01-panel-note">可多选服务；确认后更新门店列表</p><div class="s01-choice-list">'
@@ -69,9 +69,10 @@
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
     const btn=el.querySelector('.order');if(btn){
       btn.dataset.unitId=u.id;
+      btn.dataset.action=u.orderable===false?'store':'choose';
       btn.setAttribute('role','button');btn.tabIndex=u.available?0:-1;
       btn.setAttribute('aria-disabled',u.available?'false':'true');
-      setText(btn,u.available?'立即下单':'暂不可租');
+      setText(btn,!u.available?'暂不可租':u.orderable===false?'查看门店':'立即下单');
       btn.style.opacity=u.available?'1':'0.56';
     }
   }
@@ -130,7 +131,13 @@
     existing.forEach((card,i)=>i>=state.stores.length?card.remove():fill(card,state.stores[i],i));
     if(!state.stores.length){
       const empty=document.createElement('p');empty.setAttribute('role','status');
-      empty.textContent='未找到匹配门店，请调整搜索或筛选条件';stage.append(empty);
+      empty.className='s01-empty';
+      empty.textContent='当前条件下暂无匹配门店，可修改需求或清除筛选。';
+      for(const [label,handler] of [['清除筛选',()=>bridge.clearFilters()],['修改需求',()=>bridge.editDemand()],['考拉E存',()=>bridge.action('estore')]]){
+        const button=document.createElement('button');button.type='button';button.textContent=label;
+        button.className='s01-empty-action';button.addEventListener('click',handler);empty.append(button);
+      }
+      stage.append(empty);
     }
     document.querySelectorAll('.filter').forEach((n,i)=>{
       n.firstChild.nodeValue=state.filterLabels[i]+' ';
@@ -150,13 +157,20 @@
   }
   stage.addEventListener('click',e=>{
     const order=e.target.closest('.order');
-    if(order){if(order.getAttribute('aria-disabled')==='true')return;bridge.action('choose',order.dataset.unitId);return;}
+    if(order){if(order.getAttribute('aria-disabled')==='true')return;
+      const card=order.closest('.store-card');
+      if(order.dataset.action==='store')bridge.action('store',card?.dataset.storeId);
+      else bridge.action('choose',order.dataset.unitId);
+      return;}
     const card=e.target.closest('.store-card');if(card)bridge.action('store',card.dataset.storeId);
   });
   stage.addEventListener('keydown',e=>{
     if(!['Enter',' '].includes(e.key))return;
     const order=e.target.closest('.order');
-    if(order){e.preventDefault();if(order.getAttribute('aria-disabled')!=='true')bridge.action('choose',order.dataset.unitId);return;}
+    if(order){e.preventDefault();if(order.getAttribute('aria-disabled')!=='true'){
+      if(order.dataset.action==='store')bridge.action('store',order.closest('.store-card')?.dataset.storeId);
+      else bridge.action('choose',order.dataset.unitId);
+    }return;}
     const compact=e.target.closest('.store-card.s01-compact');
     if(compact&&e.target===compact){e.preventDefault();bridge.action('store',compact.dataset.storeId);}
   });
