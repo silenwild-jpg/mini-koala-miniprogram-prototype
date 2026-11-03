@@ -95,10 +95,12 @@
   }
   // S5-only adaptation from the same live city/store/unit directory as S01.
   // Public demo distance values are explicitly illustrative when geolocation is unverified.
-  function s5CandidateList(){
+  function s5CandidateList(preferredDistrict=''){
     const requirement=state().requirement,need=Number(requirement.capacity_m3);
     if(!(need>0)||!requirement.term_confirmed)return [];
-    const exact=candidateList();
+    const allExact=candidateList();
+    const localExact=preferredDistrict?allExact.filter(row=>row.store.district===preferredDistrict):[];
+    const exact=localExact.length?REC.rank(localExact,{distanceVerified:true,costOf:row=>recommendationCost(row.ids)}).items.concat(allExact.filter(row=>row.store.district!==preferredDistrict)):allExact;
     if(exact.length){
       // First two remain in the same order as the common recommendation contract.
       // Mark area expansion only when a usable distance is present and all suitable
@@ -120,7 +122,7 @@
       }
       return rows.sort((a,b)=>b.volume-a.volume).slice(0,1);
     });
-    return near.sort((a,b)=>b.volume-a.volume ||
+    return near.sort((a,b)=>(preferredDistrict&&a.store.district===preferredDistrict?-1:0)-(preferredDistrict&&b.store.district===preferredDistrict?-1:0)||b.volume-a.volume ||
       Number(a.store.distance??Infinity)-Number(b.store.distance??Infinity) ||
       core.amounts(a.ids,requirement.term_months).rent_total-core.amounts(b.ids,requirement.term_months).rent_total).slice(0,2);
   }
