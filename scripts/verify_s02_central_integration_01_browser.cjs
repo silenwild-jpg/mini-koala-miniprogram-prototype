@@ -82,6 +82,15 @@ checks.activeS02=await page.locator('.screen.page-S02').count()===1;
 checks.hours=/^存取时间：(24小时|09:00-21:00|08:00-23:00)$/.test((await page.locator('.s02-hours').innerText()).trim());
 checks.demand=await page.locator('.s02-demand').isVisible();
 checks.inventory=await page.locator('#s02Inventory').isVisible();
+checks.pricePresentation=await page.evaluate(()=>{
+ const app=window.SIM_DEMO;
+ const row=document.querySelector('#s02Inventory .unit-row[data-unit]');
+ if(!row)return true;
+ const id=row.getAttribute('data-unit'),price=app.presentation.price([id]);
+ return row.querySelector('.br03-price-main')?.textContent===price.money&&
+   (price.kind!=='term'||row.textContent.includes('整期'));
+});
+if(name==='browse')checks.noUnaskedAdvisor=!(await page.locator('.s02-advisor').isVisible().catch(()=>false));
 checks.singleLevelTabs=await page.locator('#s02MainTabs [role="tab"]').count()===3;
 checks.tabsBeforeInventory=await page.evaluate(()=>{const t=document.querySelector('#s02MainTabs'),i=document.querySelector('#s02Inventory');return !!(t&&i&&(t.compareDocumentPosition(i)&Node.DOCUMENT_POSITION_FOLLOWING))});
 checks.noHotCTA=await page.locator('.s02-hot button,.s02-hot [data-action="s02ToUnits"]').count()===0;
