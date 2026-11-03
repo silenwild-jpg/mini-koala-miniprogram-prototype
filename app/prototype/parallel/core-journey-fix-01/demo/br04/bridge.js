@@ -109,6 +109,7 @@
       $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';
       // S5 keeps its own frozen physical-attribute tags and benefits row; BR03 promotional-card rules do not replace them.
       if(first){const line=document.querySelector('.benefits');line.replaceChildren(...(s5BenefitMarker?[s5BenefitMarker.cloneNode(true)]:[]),document.createTextNode(' '+[Number(row.volume)<Number(r.capacity_m3)?'容量接近，仍需确认':'容量匹配',...presentation.services(s)].join(' · ')));line.hidden=false;}
+      if(first){document.querySelector('.main-photo-badge').textContent=Number(row.volume)<Number(r.capacity_m3)?'容量接近 · 备选':'推荐 · 适合需求';}
       if(first){text('main-distance','门店环境');$('main-distance').hidden=false;}else{const secondaryNav=document.querySelector('.distance-nav');secondaryNav.querySelector('span').textContent='';secondaryNav.hidden=false;}
       offerPrice(suffix,row);
     });
