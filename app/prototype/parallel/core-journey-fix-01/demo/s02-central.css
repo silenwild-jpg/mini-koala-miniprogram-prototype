@@ -47,3 +47,7 @@
 .page-S02 .s02-combo-pics img{display:block;width:calc(50% - 2px);height:85%;object-fit:contain}
 .page-S02 .order-button:disabled{background:#e9ede9;color:#738279;opacity:1}
 @media(max-width:375px){.page-S02 .s02-combo-pics{width:100px;height:100px}}
+
+.page-S02 .s02-no-match{padding:28px 16px 30px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #edf1eb}
+.page-S02 .s02-no-match strong{font-size:14px;line-height:21px;color:#3a5949}
+.page-S02 .s02-no-match button{border:0;background:transparent;color:#267651;font-weight:750;font-size:12px;white-space:nowrap;min-height:42px}
