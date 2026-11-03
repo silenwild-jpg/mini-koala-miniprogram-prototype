@@ -1,0 +1,58 @@
+{
+  "task": "PROTO-RULE-RESTORE-09",
+  "created_at": "2026-11-03",
+  "source_parent": {
+    "pr": 54,
+    "sha": "ac83603dc20be2de53f7e27a3b428ee674d54637"
+  },
+  "release_candidate_branch": "isolate/proto-rule-restore-09-private-rc2-review-candidate-20261103",
+  "release_candidate_sha": "USE_CI_RECEIPT_GIT_HEAD_NOT_STATIC_DOC",
+  "review_artifact": "MiniKoala_RC2_RESTORE_09_Private_Review_Candidate_20261103.zip",
+  "dependency_chain": [
+    "main",
+    "PR47",
+    "PR48",
+    "PR49",
+    "PR51",
+    "PR52",
+    "PR53",
+    "PR54"
+  ],
+  "independent_prd_branch": "PR50_NOT_IN_RUNNING_CHAIN",
+  "build": {
+    "status": "CI_REQUIRED",
+    "private_github_artifact": true,
+    "ready_for_separate_review_site_only_after_approval": true,
+    "merge_main": false,
+    "deploy": false
+  },
+  "visual": {
+    "H01_approved_master_sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660",
+    "H01_full_signoff": "HOLD",
+    "S01_three_filter_approved_fullpage_png": "NOT_RECEIVED",
+    "S01_final_visual_signoff": "HOLD"
+  },
+  "current_netlify": {
+    "project_id": "e8bba69f-09d5-4866-842d-43c30411114e",
+    "site": "mini-koala-internal-rc1-review",
+    "published_main_commit": "274c5110aa18af7ed71d92533ab126ebbbd11f75",
+    "published_deploy_id": "6ae3eecbe34f877c27632485",
+    "ssoteam_required_all_deploy_contexts": true,
+    "password_required": false,
+    "current_site_is_rc2": false,
+    "old_s02_link_error_seen": true
+  },
+  "pending_release_conditions": [
+    "EXPLICIT_PRIVATE_DEPLOY_APPROVAL",
+    "INDEPENDENT_RC2_SITE_WITH_SSO_BEFORE_FIRST_DEPLOY",
+    "SIGNED_IN_MOBILE_ACCESS",
+    "UNAUTHENTICATED_MOBILE_DENIAL",
+    "PINNED_DEPLOY_SHA_MATCHES_ARTIFACT",
+    "CHINA_MAINLAND_REAL_NETWORK_CHECK",
+    "UAT_T01_T06_GATHERED_RESULTS"
+  ],
+  "internal_uat": "NO_GO_FOR_CROSS_DEVICE_LIVE_URL",
+  "simulated_local_qa": "GO_WITH_MODEL_DATA_ONLY",
+  "no_actual_mobile_test": true,
+  "privacy": "robots_txt_is_not_authentication"
+}
