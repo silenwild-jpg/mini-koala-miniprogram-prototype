@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - isolate/s02-ux-review-03-hours-routes-copy-20261103
+  pull_request:
+    branches:
+      - preview/rc2-r2-private-20261103
   workflow_dispatch:
 permissions:
   contents: read
