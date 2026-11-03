@@ -37,6 +37,17 @@ for(const [width,height] of [[375,812],[390,844]]){
    checks.noExtraCTA=await page.locator('.s02-hot button').count()===0;
    checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
    checks.threeTabs=await page.locator('#s02MainTabs [role="tab"]').count()===3;
+   checks.inventoryCountValid=await page.evaluate(()=>{
+     const a=window.SIM_DEMO;return a.core.fixture.units.filter(u=>a.core.available(u)).every(u=>Number.isInteger(u.available_count)&&u.available_count>=1);
+   });
+   checks.galleryCycle=await page.evaluate(()=>{
+     const countText=document.querySelector('.gallery-count')?.textContent||'';
+     return /^1\/[34]$/.test(countText);
+   });
+   const slides=Number((await page.locator('.gallery-count').innerText()).split('/')[1]);
+   for(let i=0;i<slides;i++)await page.locator('.gallery-count').click();
+   checks.galleryWrap=(await page.locator('.gallery-count').innerText()).trim()==='1/'+slides;
+
    await page.screenshot({path:path.join(output,scenario+'-'+width+'-top.png')});
   }catch(e){failure=String(e.stack||e)}
   rows.push({name:scenario,width,checks,errors,missing:[],failure});
@@ -96,11 +107,25 @@ checks.mapHeight=(await page.locator('#s02MapSlot').boundingBox()).height>=220;
 checks.travelModes=await page.locator('.s02-travel-modes button').count()===4;
 await page.locator('[data-action="s02TravelMode"][data-value="walk"]').click();
 checks.travelSwitch=await page.locator('.s02-travel-modes button.active').getAttribute('data-value')==='walk';
+checks.navigationAction=await page.evaluate(()=>{
+ const app=window.SIM_DEMO,store=app.core.fixture.stores.find(s=>s.id===app.state().storeId);
+ const prior=window.open;let uri='';window.open=(v)=>{uri=String(v);return {closed:false}};
+ try{document.querySelector('[data-action="s02OpenMap"]').click()}finally{window.open=prior}
+ return uri.startsWith('https://uri.amap.com/')&&uri.includes(encodeURIComponent(store.name));
+});
 await page.screenshot({path:path.join(output,name+'-'+width+'-route.png')});
 await page.locator('[data-action="detailTab"][data-value="服务设施"]').click();
 checks.serviceReturn=await page.locator('.s02-services').isVisible();
 await page.locator('[data-action="detailTab"][data-value="可选仓位"]').click();
 checks.unitsTabReturn=await page.locator('#s02Inventory').isVisible();
+if(name==='matched'){
+ checks.advisorByPrice=await page.evaluate(()=>{
+  const app=window.SIM_DEMO,units=app.core.fixture.units.filter(u=>u.store_id===app.state().storeId&&app.core.available(u));
+  const target=units[0];if(!target)return false;
+  target.base_month=1500;app.core.setRequirement(target.volume,12,true);app.navigate('S02',app.state().storeId);
+  return !!document.querySelector('.s02-advisor');
+ });
+}
 }catch(e){failure=String(e.stack||e)}
 rows.push({name,width,checks,errors,missing,failure});await page.close();
 }await context.close();
