@@ -524,6 +524,20 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <link rel="stylesheet" href="mini_koala_unit_choice_r5a_patch.css" data-patch="UNIT-COMPARE-R5A"/>
 
 <style id="s02-ux-review-03">
+/* Popular sizes: one quiet horizontal band, no stacked nested cards. */
+.s02-popular{margin:10px 0 2px;padding:13px 16px 14px;background:#f3f7f1}
+.s02-popular[hidden]{display:none!important}
+.s02-popular-head{display:flex;align-items:baseline;gap:9px;margin-bottom:11px}
+.s02-popular-head strong{color:#2a6949;font-size:16px;line-height:22px;font-weight:750}
+.s02-popular-head span{font-size:11px;color:#758479;line-height:17px}
+.s02-popular-options{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
+.s02-popular-options::-webkit-scrollbar{display:none}
+.s02-popular-option{flex:0 0 auto;min-width:100px;max-width:138px;padding:0 12px 0 0;border:0;background:none;text-align:left;color:#344c3d;cursor:pointer}
+.s02-popular-option+.s02-popular-option{border-left:1px solid #d8e5d9;padding-left:12px}
+.s02-popular-option b{display:block;font-size:13px;line-height:20px;font-weight:720;white-space:nowrap}
+.s02-popular-option small{display:block;color:#718176;font-size:11px;line-height:18px;white-space:nowrap}
+.s02-popular-option:focus-visible{outline:2px solid #2c7850;outline-offset:3px}
+
 /* S02 production-oriented presentation: keep QA controls out of the customer viewport. */
 /* The bottom bar already offers 顾问协助; do not duplicate it as an overlapping floater. */
 #miniGlobalSupport{display:none!important;pointer-events:none!important}
@@ -620,6 +634,10 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div><b>大空间 / 长租需求</b><br/><span>可同时查看可租仓位，也可获取多仓组合、搬运和长期租赁方案</span></div>
 <div class="go" id="hvAdvisor">获取方案 ›</div>
 </div>
+<section class="s02-popular" id="s02Popular" aria-label="热门仓型">
+  <div class="s02-popular-head"><strong>热门仓型</strong><span>按物品大小选仓</span></div>
+  <div class="s02-popular-options" id="s02PopularOptions"></div>
+</section>
 <section class="section" id="inventorySection">
 <div class="section-head">
 <div>
@@ -1193,6 +1211,33 @@ function renderComboOffers(combos){
     }});
   });
 }
+function renderPopularSizes(){
+  const section=$('#s02Popular'),container=$('#s02PopularOptions');
+  if(!section||!container)return;
+  const available=inventoryStatus==='SOLD_OUT'?[]:inventoryUnits().filter(unit=>Number(unit.available_count||0)>0);
+  const categories=[
+    {label:'迷你仓',use:'行李箱、纸箱',min:0,max:1.5},
+    {label:'小型仓',use:'衣物、家庭杂物',min:1.5,max:5},
+    {label:'中型仓',use:'家具、搬家物品',min:5,max:15},
+    {label:'大型仓',use:'整屋收纳',min:15,max:Infinity}
+  ];
+  const items=categories.map(category=>{
+    const matching=available.filter(u=>u.v>category.min&&u.v<=category.max).sort((a,b)=>a.v-b.v);
+    return matching.length?{category,unit:matching[0]}:null;
+  }).filter(Boolean).slice(0,3);
+  section.hidden=items.length===0;
+  container.innerHTML=items.map(item=>
+    '<button type="button" class="s02-popular-option" data-popular-unit="'+item.unit.id+'"><b>'+
+    item.category.label+' · '+window.MINI_KOALA_DATA.sizeText(item.unit.v)+'</b><small>'+
+    item.category.use+'</small></button>'
+  ).join('');
+  container.querySelectorAll('[data-popular-unit]').forEach(button=>button.onclick=()=>{
+    const id=button.dataset.popularUnit;
+    let card=[...document.querySelectorAll('#unitList .unit-card')].find(el=>el.dataset.unit===id);
+    if(!card){renderAllUnitsInline();card=[...document.querySelectorAll('#allUnitsInline .unit-card')].find(el=>el.dataset.unit===id)}
+    (card||$('#inventorySection')).scrollIntoView({behavior:'smooth',block:'center'});
+  });
+}
 function renderInventory(){
   let cards='';
   const combos=matchedCombos();
@@ -1300,6 +1345,7 @@ function renderAllUnitsInline(){
 function renderS02Lead(){ /* 中部顾问卡已删除；底部与异常兜底入口保留。 */ }
 
 function renderState(resetScroll=true){
+  renderPopularSizes();
   // Capacity edits can turn a previously matched store into a no-match store (or vice versa).
   // Update the state before drawing recommendations and the fixed primary action.
   if(inventoryStatus!=='SOLD_OUT' && (state==='matched'||state==='nomatch')){
