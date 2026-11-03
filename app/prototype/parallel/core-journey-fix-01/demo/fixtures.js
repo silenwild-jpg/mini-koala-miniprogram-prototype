@@ -103,13 +103,18 @@
   });
   // All store IDs have a destination lookup record. Coordinates require map-provider POI verification.
   activeFixture.stores.forEach(s=>{
-    const hasVerified=Number.isFinite(Number(s.longitude))&&Number.isFinite(Number(s.latitude))&&
+    const source=root.SIM_STORE_GEO?.get(s.id)||null;
+    const explicit=Number.isFinite(Number(s.longitude))&&Number.isFinite(Number(s.latitude))&&
       Number(s.longitude)>70&&Number(s.longitude)<140&&Number(s.latitude)>15&&Number(s.latitude)<55&&
       s.coordinate_verified===true;
+    const resolved=explicit||!!(source&&!source.needs_review);
     s.geo={
       provider:'amap',store_id:s.id,address:s.address,city:s.city,
-      verified:!!hasVerified,longitude:hasVerified?Number(s.longitude):null,
-      latitude:hasVerified?Number(s.latitude):null,
+      verified:resolved,longitude:explicit?Number(s.longitude):resolved?source.amap_gcj02[0]:null,
+      latitude:explicit?Number(s.latitude):resolved?source.amap_gcj02[1]:null,
+      source_store_code:source?.source_store_code||null,
+      source_date:source?.source_date||null,
+      needs_review:!!source?.needs_review,coordinate_scope:source?.coordinate_scope||'unverified',
       destination_query:[s.name,s.address].filter(Boolean).join(' ')
     };
   });
