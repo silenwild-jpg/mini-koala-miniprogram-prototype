@@ -86,7 +86,7 @@
     tags.forEach((tag,i)=>{tag.hidden=!s.services[i];setText(tag,s.services[i]||'');});
     card.querySelector('.store-tags').style.visibility=s.services.length?'visible':'hidden';
     const address=card.querySelector('.address-copy');setText(address,s.address);address.title=s.address;
-    const distance=card.querySelector('.km');setText(distance,s.distance);distance.dataset.verified=String(!!s.distanceVerified);distance.setAttribute('aria-label','距离约'+s.distance);
+    const distance=card.querySelector('.km');setText(distance,s.distance);distance.hidden=!s.distance;distance.dataset.verified=String(!!s.distanceVerified);if(s.distance)distance.setAttribute('aria-label','距离约'+s.distance);else distance.removeAttribute('aria-label');
     card.querySelectorAll('.unit').forEach((el,i)=>setUnit(el,s.units[i]));
     card.querySelector('.units').hidden=!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);
