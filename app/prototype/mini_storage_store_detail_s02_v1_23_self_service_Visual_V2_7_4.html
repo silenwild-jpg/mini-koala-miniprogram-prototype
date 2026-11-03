@@ -525,6 +525,9 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 
 <style id="s02-ux-review-03">
 /* S02 production-oriented presentation: keep QA controls out of the customer viewport. */
+/* The bottom bar already offers 顾问协助; do not duplicate it as an overlapping floater. */
+#miniGlobalSupport{display:none!important;pointer-events:none!important}
+
 .review{display:none!important}
 
 /* Approved global principle: task-critical UI copy only, no explanatory decoration. */
@@ -1206,7 +1209,7 @@ function renderInventory(){
     $('#inventorySubtitle').textContent='';
     $('#inventoryCount').textContent='0个可租仓位';
     $('#inventoryRange').textContent='暂无可租库存';
-    $('#unitList').innerHTML='<div class="soldout-empty"><span class="status">已售罄</span><b>看看其他可租门店</b><span>也可以让顾问帮您比较。</span></div>';
+    $('#unitList').innerHTML='<div class="soldout-empty"><span class="status">已售罄</span><b>看看其他可租门店</b></div>';
     $('#allUnits').classList.add('hidden');
     $('#priceBand').classList.add('hidden');
     $('#inventoryFeedback').textContent='';
