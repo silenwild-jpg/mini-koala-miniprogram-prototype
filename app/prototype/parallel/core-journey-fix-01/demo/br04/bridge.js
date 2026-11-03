@@ -83,7 +83,7 @@
     const match=offerRows.length>0;
     const matchState=s5MatchState(offerRows,r);
     $('artboard').dataset.match=matchState;
-    $('artboard').dataset.count=String(offerRows.length);
+    $('artboard').dataset.count=String(matchState==='incomplete'?0:offerRows.length);
     const existingAdvisorPrimary=matchState==='none'||matchState==='incomplete';
     const showAdvisor=match&&!existingAdvisorPrimary&&s5AdvisorNeeded(offerRows,r);
     $('s5-advisor').hidden=!showAdvisor;
