@@ -28,6 +28,7 @@ checks.store=await page.locator('.store-title').count()===1;
 checks.hours=/^存取时间：(24小时|09:00-21:00|08:00-23:00)$/.test(await page.locator('#s02AccessHours').innerText());
 checks.estimate=name!=='browse'||await page.locator('#browseEstimator').isVisible();
 checks.inventory=await page.locator('#inventorySection').isVisible();
+checks.popular=name==='sold_out'?!(await page.locator('#s02Popular').isVisible()):(await page.locator('#s02Popular').isVisible()&&await page.locator('.s02-popular-option').count()>0);
 checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
 checks.noReview=!(await page.locator('.review').isVisible());
 await page.screenshot({path:path.join(out,name+'-'+width+'-main.png'),fullPage:true});
