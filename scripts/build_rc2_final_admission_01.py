@@ -29,6 +29,13 @@ def main() -> None:
 <script>location.replace('central-review-02g.html?catalog=sim&page=H01')</script></head>
 <body><a href="central-review-02g.html?catalog=sim&amp;page=H01">进入迷你考拉仓</a></body></html>
 ""","utf-8")
+    # The historical CAP HTML is >1.6 MB and embeds a retired toast in an inline script.
+    # Strip exactly this unused prototype message from the review build, fail if source drifts.
+    cap_file=SITE/"prototype/parallel/core-journey-fix-01/demo/cap.html"
+    cap_html=cap_file.read_text("utf-8")
+    deprecated="notify('独立流程入口演示，实际流程由对应页面承接');"
+    if cap_html.count(deprecated)!=1: raise RuntimeError("CAP_COPY_SOURCE_DRIFT")
+    cap_file.write_text(cap_html.replace(deprecated,""),"utf-8")
     (SITE/"_redirects").write_text("/central-review-02g /central-review-02g.html 200\n", "utf-8")
     (SITE/"_headers").write_text("/*\n  X-Robots-Tag: noindex, nofollow, noarchive\n  Referrer-Policy: strict-origin-when-cross-origin\n","utf-8")
     # Headers and robots are discoverability hints, not a substitute for Netlify SSO site protection.
