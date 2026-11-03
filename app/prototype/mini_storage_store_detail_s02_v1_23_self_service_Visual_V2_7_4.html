@@ -570,6 +570,14 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 </style>
 <style id="s02-vis-restore-01">
 /* One scoped visual layer supersedes legacy style patches without deleting active behavior. */
+/* Stronger than legacy scoped selectors. */
+html body #page .store-overview{margin:0!important;padding:12px 16px 11px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+html body #page .browse-helper{margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+html body #page .s02-popular{position:relative;z-index:4;margin:0!important}
+html body #page .hero .gallery-tabs{display:flex!important;gap:3px!important;top:10px!important;left:12px!important;bottom:auto!important;background:rgba(26,49,38,.48)!important;border-radius:6px!important;padding:2px 4px!important}
+html body #page .hero .gallery-tabs button{background:transparent!important;color:#f7fbf8!important;border:0!important;border-radius:3px!important;padding:5px 6px!important;min-height:29px!important;font-size:11px!important;font-weight:550!important}
+html body #page .hero .gallery-tabs button.active{background:rgba(255,255,255,.96)!important;color:#2a664f!important;font-weight:700!important}
+
 .store-overview{margin:0!important;padding:12px 16px 11px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
 .store-title{font-size:19px!important;line-height:26px!important}
 .store-title-row{align-items:center!important}
@@ -641,6 +649,11 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 </div>
 <div class="counter" id="photoCounter">1 / 4</div>
 </div>
+<section class="s02-popular" id="s02Popular" aria-label="热门仓型" hidden>
+  <div class="s02-popular-icon" aria-hidden="true"><svg width="20" height="24" viewBox="0 0 24 28" fill="none"><path d="M13 1c2 6-1 7 0 12 3-1 5-5 5-7 8 8 6 20-5 21C3 28-2 19 5 10c1 6 5 6 5 6C7 11 9 7 13 1Z" fill="#EF512D"/><path d="M12 15c3 4-2 6 1 8 3-1 4-5 3-7 5 6 1 12-5 11-6-1-7-8-2-12 0 3 2 4 3 4v-4Z" fill="#FFA04A"/></svg></div>
+  <div class="s02-popular-copy"><strong id="s02PopularTitle">热门仓型正在热租</strong><span id="s02PopularDesc">查看本店可租仓位</span></div>
+  <button type="button" class="s02-popular-cta" id="s02PopularCTA">查看仓位 ›</button>
+</section>
 <div class="store-overview">
 <div class="store-title-row">
 <div>
@@ -680,11 +693,7 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div><b>大空间 / 长租需求</b><br/><span>可同时查看可租仓位，也可获取多仓组合、搬运和长期租赁方案</span></div>
 <div class="go" id="hvAdvisor">获取方案 ›</div>
 </div>
-<section class="s02-popular" id="s02Popular" aria-label="热门仓型" hidden>
-  <div class="s02-popular-icon" aria-hidden="true"><svg width="20" height="24" viewBox="0 0 24 28" fill="none"><path d="M13 1c2 6-1 7 0 12 3-1 5-5 5-7 8 8 6 20-5 21C3 28-2 19 5 10c1 6 5 6 5 6C7 11 9 7 13 1Z" fill="#EF512D"/><path d="M12 15c3 4-2 6 1 8 3-1 4-5 3-7 5 6 1 12-5 11-6-1-7-8-2-12 0 3 2 4 3 4v-4Z" fill="#FFA04A"/></svg></div>
-  <div class="s02-popular-copy"><strong id="s02PopularTitle">热门仓型正在热租</strong><span id="s02PopularDesc">查看本店可租仓位</span></div>
-  <button type="button" class="s02-popular-cta" id="s02PopularCTA">查看仓位 ›</button>
-</section>
+
 <section class="section" id="inventorySection">
 <div class="section-head">
 <div>
