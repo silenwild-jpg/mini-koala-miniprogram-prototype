@@ -54,6 +54,7 @@ const cases=[
      assert.equal(probe.state,tc.name,JSON.stringify(probe));
      assert.equal(probe.advisor,tc.expectedAdvisor,'advisor condition');
      assert.equal(probe.buyCount,2,'preserve both card CTAs');
+     if(tc.name==='incomplete'||tc.name==='none')assert.equal(probe.boardHeight,858,'empty/incomplete should not leave long blank page');
      assert.equal(probe.hasFixedPurchase,false,'fixed purchase should be absent');
      assert(probe.bodyWidth<=probe.viewportWidth+2,'S5 iframe horizontally overflows');
      if(probe.advisor){
