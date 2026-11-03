@@ -8,7 +8,7 @@ const server=http.createServer((req,res)=>{const f=path.resolve(root,'.'+decodeU
 (async()=>{
 await new Promise(r=>server.listen(4758,'127.0.0.1',r));
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
-const scenarios=[['browse',null],['matched',0.5],['near',4],['nomatch',500],['combo',12],['soldout','stock']];
+const scenarios=[['browse',null],['matched',0.5],['near',9],['nomatch',200],['combo',12],['soldout','stock']];
 const rows=[];
 try{
 for(const [width,height] of [[375,812],[390,844]]){
@@ -24,9 +24,10 @@ await page.waitForTimeout(250);
 if(capacity!==null){
 await page.evaluate(({capacity,name})=>{
  const app=window.SIM_DEMO;
- if(name==='soldout'){
+ if(name==='soldout'||name==='near'){
   const units=app.core.fixture.units.filter(u=>u.store_id===app.state().storeId);
-  for(const u of units){u.available_count=0;u.stock=0;u.available=false;u.status='soldout'}
+  for(const u of units){if(name==='near'&&Number(u.volume)>=7)continue;u.available_count=0;u.stock=0;u.available=false;u.status='soldout'}
+  if(name==='near')app.core.setRequirement(capacity,12,true);
  }else app.core.setRequirement(capacity,12,true);
  app.navigate('S02',app.state().storeId);
 },{capacity,name});
@@ -36,7 +37,9 @@ checks.activeS02=await page.locator('.screen.page-S02').count()===1;
 checks.hours=/^存取时间：(24小时|09:00-21:00|08:00-23:00)$/.test((await page.locator('.s02-hours').innerText()).trim());
 checks.demand=await page.locator('.s02-demand').isVisible();
 checks.inventory=await page.locator('#s02Inventory').isVisible();
-checks.unitPhoto=await page.locator('.unit-img').first().evaluate(el=>el.complete&&el.naturalWidth>0).catch(()=>name==='soldout');
+checks.state=await page.locator('#s02Inventory').getAttribute('data-s02-status')===name;
+if(name==='combo')checks.splitVisual=await page.locator('.s02-combo-pics img').count()===2;
+checks.unitPhoto=['soldout','nomatch','combo'].includes(name)||await page.locator('.unit-img').first().evaluate(el=>el.complete&&el.naturalWidth>0).catch(()=>false);
 checks.styleLoaded=await page.locator('.s02-hot').first().evaluate(el=>getComputedStyle(el).backgroundColor!=='rgba(0, 0, 0, 0)').catch(()=>name==='soldout'||name==='nomatch'||name==='near'||name==='combo');
 checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
 checks.noDuplicateOldBooking=await page.locator('.booking').count()===0;
