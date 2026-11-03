@@ -1,0 +1,62 @@
+name: RC2 S01 structure and historical rule restoration (NO DEPLOY)
+on:
+  push:
+    branches:
+      - isolate/rc2-structure-restore-s01-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-and-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Locked scope, no redesign of H01 and no main mutation
+        run: |
+          set -eu
+          node --check scripts/verify_rc2_s01_structure_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
+          git diff --name-only 8038039cc74d57e09b2bd4dd396c767f1c008f1e HEAD | tee /tmp/changed
+          ! grep -E '^(app/assets/|app/prototype/parallel/core-journey-fix-01/demo/(home|cap|items|br04)/|netlify.toml)' /tmp/changed
+          node scripts/verify_proto_rule_restore_05.cjs
+          node scripts/verify_proto_rule_restore_06.cjs
+      - name: Browser dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build new isolated RC2 candidate, never publish
+        env:
+          RC2_BUNDLE_LABEL: RC2-STRUCTURE-RESTORE-S01-20261103
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_S01_Structure_Restore_Candidate_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/rc2-structure-restore-s01-20261103
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: S01 real visible search, bottom four, inline filtering and state
+        run: node scripts/verify_rc2_s01_structure_browser.cjs
+      - name: Full other journey and routes
+        run: |
+          node scripts/verify_proto_rule_restore_06_browser.cjs
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Evidence package
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-s01-structure-restore-375-390
+          path: |
+            release-evidence/rc2-structure-restore/
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_S01_Structure_Restore_Candidate_20261103.zip
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-fix-01d/summary.json
+          if-no-files-found: warn
+          retention-days: 14
