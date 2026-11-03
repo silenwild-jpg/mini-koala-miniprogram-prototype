@@ -80,6 +80,25 @@
 .address{height:auto;min-height:36px;align-items:flex-start;white-space:normal;padding-top:4px;padding-bottom:4px}
 .address-copy{white-space:normal;line-height:17px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .km{margin-top:3px}
+
+/* S01-UX-REVIEW-02: only stores 3+ use an 88px compact row.
+   Their entire row navigates to S02; no collapsed expansion control exists. */
+.store-card.s01-compact{display:grid;grid-template-columns:88px minmax(0,1fr);align-items:center;column-gap:11px;min-height:112px;padding:10px 11px;cursor:pointer}
+.s01-compact .store-photo,.s01-compact .store-photo.first-photo,.s01-compact .store-photo.second-photo{width:88px;height:88px;min-width:88px;object-fit:cover;border-radius:8px}
+.s01-compact .store-body,.store-card.s01-compact:nth-child(2) .store-body{padding:0;min-width:0}
+.s01-compact .store-body h2{font-size:14px;line-height:19px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s01-compact .store-tags{height:16px;overflow:hidden;gap:4px}
+.s01-compact .store-tags span{font-size:11px;line-height:16px;height:16px;padding:0 5px}
+.s01-compact .store-tags span:nth-child(n+3){display:none}
+.s01-compact .address{min-height:0;padding:3px 0 0;display:flex;gap:5px;align-items:baseline}
+.s01-compact .address-copy{font-size:11px;line-height:16px;-webkit-line-clamp:1}
+.s01-compact .km{font-size:11px;white-space:nowrap}
+.s01-compact .units,.s01-compact .s01-match-hint{display:none!important}
+.s01-compact-summary{font-size:11px;line-height:17px;color:#15765b;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s01-compact-summary[hidden],.s01-match-hint[hidden]{display:none!important}
+.s01-match-hint{margin:7px 0 0;color:#566d63;font-size:12px;line-height:1.45}
+.s01-compact:focus-visible{outline:2px solid #087d67;outline-offset:2px}
+.s01-compact:active{background:#f5faf7}
 </style>
 </head>
 <body>

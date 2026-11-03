@@ -53,8 +53,8 @@
   if(!Array.isArray(r2Filters.services))r2Filters.services=[];
   if(!Array.isArray(r2Filters.quick))r2Filters.quick=[];
   if(!Number.isInteger(r2Filters.visibleLimit)||r2Filters.visibleLimit<2)r2Filters.visibleLimit=10;
-  if(!Number.isFinite(Number(r2Filters.maxKm))||Number(r2Filters.maxKm)<=0||!F.distanceVerified)r2Filters.maxKm=null;
-  if(!F.distanceVerified&&visual.sort==='distance'){visual.sort='recommended';saveVisual();}
+  if(!Number.isFinite(Number(r2Filters.maxKm))||Number(r2Filters.maxKm)<=0||!(F.distanceVerified||F.synthetic))r2Filters.maxKm=null;
+  if(!F.distanceVerified&&!F.synthetic&&visual.sort==='distance'){visual.sort='recommended';saveVisual();}
   // Three-filter visual keeps hidden region/capacity restrictions retired.
   if(r2Mode()&&(r2Filters.region!=='all'||r2Filters.capacity!=='all')){r2Filters.region='all';r2Filters.capacity='all';saveR2Filters();}
   function r2View(s){
@@ -146,7 +146,7 @@
     if(visual.service!=='all')stores=stores.filter(s=>s.serviceTags.includes(visual.service));
     if(r2Mode()){
       if(r2Filters.services.length)stores=stores.filter(s=>r2Filters.services.every(v=>(s.serviceTags||[]).includes(v)));
-      if(r2Filters.maxKm!==null&&F.distanceVerified)stores=stores.filter(s=>Number.isFinite(Number(s.distance))&&Number(s.distance)<=Number(r2Filters.maxKm));
+      if(r2Filters.maxKm!==null&&(F.distanceVerified||F.synthetic))stores=stores.filter(s=>Number.parseFloat(R2.distanceOf(s,F.distanceVerified))<=Number(r2Filters.maxKm));
       if(r2Filters.quick.includes('promo'))stores=stores.filter(s=>s.operatingTag==='特价仓'||s.operatingTag==='双11大促');
       if(r2Filters.quick.includes('moving'))stores=stores.filter(s=>s.operatingTag==='免费搬运');
       if(r2Filters.quick.includes('single'))stores=stores.filter(s=>F.units.some(u=>u.store_id===s.id&&core.available(u)&&(state().requirement.capacity_m3===null||u.volume>=state().requirement.capacity_m3)));
@@ -154,17 +154,17 @@
 
     if(visual.sort==='recommended'&&r.capacity_m3===null){
       const active=stores.filter(s=>s.status==='open');
-      stores=[...REC.rank(active,{distanceVerified:F.distanceVerified,costOf:s=>s.teaserCubicPrice}).items,...stores.filter(s=>!active.includes(s))];
+      stores=[...REC.rank(active,{distanceVerified:F.distanceVerified||F.synthetic,costOf:s=>s.teaserCubicPrice}).items,...stores.filter(s=>!active.includes(s))];
     }
     if(visual.sort==='recommended'&&r.capacity_m3!==null){
       const matching=stores.filter(s=>s.status==='open'&&storeOffer(s));
       const other=stores.filter(s=>!matching.includes(s));
       const matchingEntries=matching.map(s=>{const ids=storeOffer(s);return {store:s,ids,volume:ids.reduce((n,id)=>n+(unit(id)?.volume||0),0)};})
         .sort((a,b)=>(a.volume-r.capacity_m3)-(b.volume-r.capacity_m3)||recommendationCost(a.ids)-recommendationCost(b.ids));
-      stores=[...REC.rank(matchingEntries,{distanceVerified:F.distanceVerified,costOf:row=>recommendationCost(row.ids)}).items.map(row=>row.store),...other];
+      stores=[...REC.rank(matchingEntries,{distanceVerified:F.distanceVerified||F.synthetic,costOf:row=>recommendationCost(row.ids)}).items.map(row=>row.store),...other];
     }
-    if(visual.sort==='distance'&&F.distanceVerified)stores.sort((a,b)=>a.distance-b.distance);
-    if(visual.sort==='price'&&core.authorized())stores.sort((a,b)=>storeAmount(a)-storeAmount(b));
+    if(visual.sort==='distance'&&(F.distanceVerified||F.synthetic))stores.sort((a,b)=>Number.parseFloat(R2.distanceOf(a,F.distanceVerified))-Number.parseFloat(R2.distanceOf(b,F.distanceVerified)));
+    if(visual.sort==='price')stores.sort((a,b)=>storeAmount(a)-storeAmount(b));
     return stores;
   }
   function renderS01(){
@@ -354,64 +354,85 @@
     regions(){return [...new Set(F.stores.filter(s=>s.city===state().city).map(s=>r2View(s).district))].filter(Boolean);},
     snapshot(){
       const r=state().requirement;
+      const need=Number(r.capacity_m3)||0;
       let stores=visibleS01Stores().filter(s=>r2Filters.region==='all'||r2View(s).district===r2Filters.region);
-      const rowsFor=s=>(r.capacity_m3!==null?core.matchingUnits(s.id):F.units.filter(u=>u.store_id===s.id)).filter(u=>core.available(u)&&s.status==='open'&&R2.matches(u.volume,r2Filters.capacity)).sort((a,b)=>a.volume-b.volume);
-      if(r2Filters.capacity!=='all')stores=stores.filter(s=>rowsFor(s).length);
-      // For unconfigured demand, apply the shared recommendation policy only to stores
-      // with an actually available size option. Unavailable stores stay in fallback;
-      // the number of rows in the visual card must never re-rank the offers.
+      const availableAt=s=>F.units.filter(u=>u.store_id===s.id&&s.status==='open'&&core.available(u)&&R2.matches(u.volume,r2Filters.capacity)).sort((a,b)=>a.volume-b.volume);
+      const describeStore=s=>{
+        const all=availableAt(s);
+        const exact=need>0?all.filter(u=>u.volume>=need):all;
+        const combo=need>0&&!exact.length?core.combinations(s.id).find(row=>row.ids.every(id=>all.some(u=>u.id===id))):null;
+        const near=need>0&&!exact.length&&!combo?all.filter(u=>u.volume<need&&u.volume>=need*.8).sort((a,b)=>b.volume-a.volume):[];
+        const status=need===0?(all.length?'browse':'soldout'):exact.length?'exact':combo?'combo':near.length?'near':all.length?'none':'soldout';
+        return {all,exact,combo,near,status,rows:exact.length?exact.slice(0,2):near.slice(0,1)};
+      };
+      if(r2Filters.capacity!=='all')stores=stores.filter(s=>availableAt(s).length>0);
       if(visual.sort==='recommended'){
-        const eligible=stores.filter(s=>rowsFor(s).length>0);
-        const unavailable=stores.filter(s=>rowsFor(s).length===0);
-        // In the isolated demo, presentation ranking follows the same per-store
-        // seeded kilometers shown to users; this must not mark core location verified.
-        const demoDistanceReady=false; // Unverified fixture kilometers must not be used to rank as nearby.
+        const eligible=stores.filter(s=>describeStore(s).exact.length>0||describeStore(s).combo);
+        const unavailable=stores.filter(s=>!eligible.includes(s));
+        // Both ranking and displayed distance refer to the same current store IDs.
+        const demoDistanceReady=F.synthetic===true&&eligible.every(s=>Number.isFinite(Number(s.distance))&&Number(s.distance)>=0);
         stores=[...REC.rank(eligible,{distanceVerified:F.distanceVerified||demoDistanceReady,costOf:s=>s.teaserCubicPrice}).items,...unavailable];
       }
-      if(visual.sort==='distance'&&F.distanceVerified){
-        const kilometers=s=>Number.parseFloat(R2.distanceOf(s,true));
-        const byKm=(a,b)=>kilometers(a)-kilometers(b)||String(a.id).localeCompare(String(b.id));
-        const available=stores.filter(s=>rowsFor(s).length>0);
-        const unavailable=stores.filter(s=>!rowsFor(s).length);
-        stores=[...available.sort(byKm),...unavailable.sort(byKm)];
+      if(visual.sort==='distance'&&(F.distanceVerified||F.synthetic)){
+        const km=s=>Number.parseFloat(R2.distanceOf(s,F.distanceVerified));
+        stores=stores.slice().sort((a,b)=>km(a)-km(b)||String(a.id).localeCompare(String(b.id)));
       }
+      const viewportLimit=Math.max(2,Math.min(50,r2Filters.visibleLimit));
+      const listed=stores.slice(0,viewportLimit);
       return {city:state().city,sourceNamespace:F.sourceNamespace||'SIM',
-        distanceSortSource:F.distanceVerified?'VERIFIED_LOCATION':'DISABLED',
+        distanceSortSource:F.distanceVerified?'VERIFIED_LOCATION':F.synthetic?'STABLE_DEMO_DISTANCE':'DISABLED',
         distanceVerified:!!F.distanceVerified,
         authorized:core.authorized(),termConfirmed:r.term_confirmed,termMonths:r.term_months,
         keyword:visual.keyword,storeCount:stores.length,filters:{...r2Filters},
-        filterLabels:[visual.sort==='price'?'价格优先':visual.sort==='distance'?'距离优先':'排序',r2Filters.maxKm!==null?r2Filters.maxKm+'km内':'距离',r2Filters.services.length?'已选服务':'服务'],filterActive:[visual.sort!=='recommended',r2Filters.maxKm!==null,r2Filters.services.length>0],
+        filterLabels:[visual.sort==='price'?'价格优先':visual.sort==='distance'?'距离优先':'排序',r2Filters.maxKm!==null?r2Filters.maxKm+'km内':'距离',r2Filters.services.length?'已选服务':'服务'],
+        filterActive:[visual.sort!=='recommended',r2Filters.maxKm!==null,r2Filters.services.length>0],
         servicesSelected:[...r2Filters.services],maxKm:r2Filters.maxKm,quickSelected:[...r2Filters.quick],
-        requirement:{capacity:r.capacity_m3,term:r.term_confirmed?r.term_months:null},distanceFilterEnabled:!!F.distanceVerified,
-        visibleStoreCount:Math.min(stores.length,Math.max(2,Math.min(50,r2Filters.visibleLimit))),canLoadMore:stores.length>Math.max(2,Math.min(50,r2Filters.visibleLimit)),
-        stores:stores.slice(0,Math.max(2,Math.min(50,r2Filters.visibleLimit))).map(s=>{
-          const v=r2View(s);
-          const hasVerifiedDistance=!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
+        requirement:{capacity:r.capacity_m3,term:r.term_confirmed?r.term_months:null},
+        distanceFilterEnabled:!!(F.distanceVerified||F.synthetic),
+        visibleStoreCount:listed.length,canLoadMore:stores.length>viewportLimit,
+        stores:listed.map((s,index)=>{
+          const v=r2View(s),match=describeStore(s);
+          const realKm=F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
           const formal=core.authorized()&&r.term_confirmed;
+          const highCapacity=need>10;
+          const highAmount=!!(formal&&match.exact.length&&core.formalAmounts([match.exact[0].id],r.term_months).rent_total>2000);
+          const matchHint=match.status==='combo'?'可组合选仓 · 2间合计'+match.combo.volume+'m³，请查看门店'
+            :match.status==='near'?'容量略小，需查看门店确认其他方案'
+            :match.status==='soldout'?'本店目前暂无可租仓位'
+            :match.status==='none'?'本店没有满足当前容量的可租仓位'
+            :highCapacity||highAmount?'大容量或较高金额方案，可咨询顾问协助选仓':'';
+          const first=match.rows[0];
+          const summary=match.status==='combo'?'可组合选仓 · '+match.combo.volume+'m³ · 查看门店 ›'
+            :match.status==='near'?'容量略小 · '+first.volume+'m³ · 查看门店 ›'
+            :match.status==='soldout'?'暂无可租仓位 · 查看门店 ›'
+            :match.status==='none'?'暂无匹配容量 · 查看门店 ›'
+            :(need>0?'匹配':'可租')+match.exact.length+'种仓位 · '+(first?first.volume+'m³起 · ':'')+'查看门店 ›';
           return {id:s.id,name:s.name,...v,
-            distance:hasVerifiedDistance?Number(s.distance).toFixed(1)+'km':v.distance,
-            distanceVerified:hasVerifiedDistance,
-            units:rowsFor(s).slice(0,2).map((u,i)=>{
-              // Only the O01-equivalent central calculation may produce formal, whole-term rent.
+            distance:realKm?Number(s.distance).toFixed(1)+'km':v.distance,
+            distanceVerified:realKm,
+            matchState:match.status,matchHint,compactSummary:summary,
+            units:match.rows.map(u=>{
+              const canOrder=match.status==='exact'||match.status==='browse';
               const amount=formal?core.formalAmounts([u.id],r.term_months):null;
-              return {
-                id:u.id,name:u.name,volume:u.volume,
+              return {id:u.id,name:u.name,volume:u.volume,
                 price:money(amount?amount.rent_total:referenceCost([u.id])),
-                suffix:amount?'整期租金':'/月起',
-                priceKind:amount?'term':'reference',
+                suffix:amount?'整期租金':'/月起',priceKind:amount?'term':'reference',
                 secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':'',
                 usage:'独立仓 · '+(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
-                promo:i===0?'热租':'',available:core.available(u)
-              };
-            })};
-        })};
+                promo:(s.operatingTag==='特价仓'?'特价':s.operatingTag==='双11大促'?'活动':''),
+                available:core.available(u),orderable:canOrder,action:canOrder?'choose':'store'};
+            })
+          };
+        })
+      };
     },
     filter(index){if(![0,1,2].includes(index))return;if(index===0||index===2)modalReturnTarget={scope:'r2',kind:'filter',index};act(()=>{pending=null;if(index===0)handlers.sort();else if(index===1){if(F.distanceVerified)handlers.setSort('distance');else{modal='r2-distance';render();}}else handlers.serviceFilter();});},
     action(name,value){
-      const allowed=['store','choose','city','term','home','go','navigation','searchModal'];
+      const allowed=['store','choose','city','term','home','go','navigation','searchModal','estore'];
       if(!allowed.includes(name))return false;
       act(()=>{
-        if(name==='searchModal'){modalReturnTarget={scope:'r2',kind:'nav',selector:'.nav-more'};handlers.r2Search();}
+        if(name==='estore')handlers.estore();
+        else if(name==='searchModal'){modalReturnTarget={scope:'r2',kind:'nav',selector:'.nav-more'};handlers.r2Search();}
         else if(name==='choose')handlers.choose(String(value));
         else if(name==='store')handlers.store(String(value));
         else if(name==='city'){modalReturnTarget={scope:'r2',kind:'nav',selector:'.nav-target'};handlers.city();}
@@ -423,10 +444,16 @@
     },
     search(text){visual.keyword=String(text||'').trimStart().slice(0,60);r2Filters.visibleLimit=10;saveR2Filters();saveVisual();act(()=>render());},
     setSort(value){if(!['recommended','distance','price'].includes(value))return;act(()=>handlers.setSort(value));},
-    setRadius(value){const km=value===null?null:Number(value);if(km!==null&&(![1,3,5,10].includes(km)||!F.distanceVerified))return false;r2Filters.maxKm=km;r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());return true;},
+    setRadius(value){const km=value===null?null:Number(value);if(km!==null&&(![1,3,5,10].includes(km)||!(F.distanceVerified||F.synthetic)))return false;r2Filters.maxKm=km;r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());return true;},
     setServices(values){const allowed=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];r2Filters.services=Array.isArray(values)?[...new Set(values)].filter(v=>allowed.includes(v)):[];visual.service='all';r2Filters.visibleLimit=10;saveVisual();saveR2Filters();act(()=>render());},
     setQuick(value){if(!['promo','moving','single'].includes(value))return;r2Filters.quick=r2Filters.quick.includes(value)?r2Filters.quick.filter(v=>v!==value):[...r2Filters.quick,value];r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());},
     loadMore(){r2Filters.visibleLimit=Math.min(50,r2Filters.visibleLimit+10);saveR2Filters();act(()=>render());},
+    clearFilters(){
+      visual.keyword='';visual.sort='recommended';visual.service='all';visual.price='all';
+      r2Filters.maxKm=null;r2Filters.services=[];r2Filters.quick=[];
+      r2Filters.region='all';r2Filters.capacity='all';r2Filters.visibleLimit=10;
+      saveVisual();saveR2Filters();act(()=>render());
+    },
     editDemand(){window.SIM_DEMO.editRequirement();}
   };
   window.SIM_DEMO={s01R2Bridge,presentation,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
