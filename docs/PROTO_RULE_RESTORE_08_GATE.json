@@ -1,0 +1,72 @@
+{
+  "task": "PROTO-RULE-RESTORE-08",
+  "as_of": "2026-11-03",
+  "parent_pr": 53,
+  "parent_sha": "baae5c3424b1dc83eb972ffd3b5ba4503529835d",
+  "approved_art": {
+    "H01": {
+      "status": "PHYSICAL_SOURCE_VERIFIED",
+      "path": "app/assets/branch01/VIS-11J_用户批准唯一视觉母版.png",
+      "sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660",
+      "same_state_visual": "PARTIAL_ONLY"
+    },
+    "S01": {
+      "status": "HOLD_APPROVED_THREE_FILTER_FULL_PAGE_ORIGINAL_NOT_RECEIVED",
+      "approved_original_path": null,
+      "sha256": null,
+      "approval_proof": null,
+      "do_not_promote_runtime_to_master": true
+    }
+  },
+  "same_state": {
+    "ci_run_id": 41576995731,
+    "ci_commit": "a3c61aeb62be11148423c45b63bd7e08231f8660",
+    "city": "上海",
+    "scenario": "SIM",
+    "viewports": [
+      "375x812",
+      "390x844"
+    ],
+    "h01_s01_store_ids": [
+      "SIM_SH01",
+      "SIM_SH02"
+    ],
+    "three_filters": [
+      "排序",
+      "距离",
+      "服务"
+    ],
+    "javascript_errors": 0,
+    "result": "PASS_FOR_TESTED_FLOW_NOT_VISUAL_SIGNOFF"
+  },
+  "netlify": {
+    "project": "mini-koala-internal-rc1-review",
+    "site_id": "e8bba69f-09d5-4866-842d-43c30411114e",
+    "deployed_commit": "274c5110aa18af7ed71d92533ab126ebbbd11f75",
+    "deployed_branch": "main",
+    "deploy_id": "6ae3eecbe34f877c27632485",
+    "state": "ready",
+    "requires_sso_team_login": true,
+    "requires_password": false,
+    "current_rc2_candidate_deployed": false,
+    "old_s02_deep_link_observed_status": "APP_ENTRY_ERROR",
+    "mobile_authenticated_test": "NOT_RUN",
+    "approval_to_publish_this_candidate": false
+  },
+  "signoff": {
+    "H01_full_page": "HOLD",
+    "S01_full_page": "HOLD",
+    "all_site_visual": "HOLD",
+    "code_merge_main": false,
+    "real_internal_users": "NOT_RUN",
+    "private_mobile_trial": "NO_GO",
+    "controlled_local_mock_exploration": "CONDITIONAL_GO"
+  },
+  "next_requirements": [
+    "S01_latest_approved_full_page_source_and_approval_evidence",
+    "H01_visual_approval_under_identical_data_plus_third_card_fixture",
+    "private_authenticated_deploy_at_exact_candidate_sha",
+    "375_390_real_mobile_SSO_and_route_acceptance",
+    "participant_consent_and_T01_T06_execution"
+  ]
+}
