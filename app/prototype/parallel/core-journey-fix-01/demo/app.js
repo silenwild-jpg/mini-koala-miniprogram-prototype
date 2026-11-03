@@ -1,6 +1,7 @@
 (function(){
   'use strict';
   const KEY='mk_independent_sim_v1',UIKEY='mk_independent_sim_ui_v1';
+  const renewalDraftByOrder=Object.create(null);
   // RC1-P1: S5 edit-demand must resolve relative to central runtime, not nested BR04 iframe.
   const CENTRAL_DEMO_BASE=new URL('.',document.currentScript.src);
   let saved;try{saved=JSON.parse(sessionStorage.getItem(KEY)||'null');}catch{}
@@ -244,7 +245,6 @@
       +'<div class="mk-order-bottom">'+button('go','返回我的订单','M01','mk-order-text-button')+'</div></div>';
   }
   // Preserve the in-progress renewal field across harmless screen re-renders (auth/status refresh).
-  const renewalDraftByOrder=Object.create(null);
   function renderLifecycle(page){const id=lifecycleId();return MK_LIFECYCLE_UI_V1.render(page,core,id,{esc,button,title,money,reviewMode,renewalDraft:renewalDraftByOrder[id]??null});}
   const functions={S01:renderS01,S02:renderS02,RESULT:renderResult,M01:renderM01,O03:renderO03,OH01:renderOH01,RN01:()=>renderLifecycle('RN01'),EX01:()=>renderLifecycle('EX01'),DP01:()=>renderLifecycle('DP01'),IV01:()=>renderLifecycle('IV01')};
     if(!functions[page]&&!framed[page])page='S01';
