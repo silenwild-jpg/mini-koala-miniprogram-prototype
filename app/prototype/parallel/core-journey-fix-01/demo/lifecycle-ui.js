@@ -1,7 +1,7 @@
 (function(root){
 'use strict';
 function render(page,core,selectedId,tools){
- const {esc,button,title,money,reviewMode}=tools;
+ const {esc,button,title,money,reviewMode,renewalDraft}=tools;
  const orders=core.state().orders.filter(o=>o.status==='paid_simulated');
  const id=selectedId||orders.at(-1)?.id;
  const match=orders.some(o=>o.id===id);
@@ -35,7 +35,7 @@ function render(page,core,selectedId,tools){
    if(r.status==='COMPLETED')body+='<p>续租已完成：'+money(r.quote_total)+'</p>';
   }
   if(['active','upcoming'].includes(v.lease_status)&&v.total_months<60&&!v.renewal_requests.some(r=>['QUOTE_PENDING','QUOTE_READY'].includes(r.status))){
-   body+='<label>续租月数（1–60，累计租期不超过60） <input id="renew-months" type="number" min="1" max="60" value="3"></label>'+button('requestRenewal','提交续租需求');
+   body+='<label>续租月数（1–60，累计租期不超过60） <input id="renew-months" type="number" min="1" max="60" value="'+esc(renewalDraft===null||renewalDraft===undefined?'3':String(renewalDraft))+'"></label>'+button('requestRenewal','提交续租需求');
   }else body+='<p>当前状态暂不接受新的续租申请。</p>';
  }else if(page==='EX01'){
   body+='<h3>退租安排</h3><p>退租费用与验仓结果以门店办理结果为准。</p>';
