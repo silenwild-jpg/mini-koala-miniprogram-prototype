@@ -86,6 +86,7 @@ def main() -> None:
             raise RuntimeError(f"RC2_RUNTIME_MISSING: {item}")
     assert not any(p.suffix.lower() == ".md" for p in SITE.rglob("*") if p.is_file())
     assert not any("mk-h01-central-route-connect03" in str(p) for p in SITE.rglob("*"))
+    assert not any("u01" in p.name.lower() and p.suffix.lower() == ".html" for p in SITE.rglob("*")), "U01_RETIRED_PAGE_BUNDLED"
 
     # Immutable visual resources remain bit-identical to their accepted original source.
     for name in ("s01-r2-a-1.webp", "s01-r2-a-2.webp"):
@@ -106,7 +107,7 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
 </style></head><body><main><h1>迷你考拉仓 · RC2</h1>
 <p>内部隔离演示候选。此入口仅用于业务流程与视觉评审，不代表正式发布或最终视觉签收。</p>
 <div class="links">
-<a href="central-review-02g.html?catalog=sim&page=S01&s01_r2=1">附近门店 · S01 四筛选</a>
+<a href="central-review-02g.html?catalog=sim&page=S01&s01_r2=1">附近门店 · S01 三筛选</a>
 <a href="central-review-02g.html?catalog=sim&page=H01">首页 · 已选 VIS-11J 旧版视觉（运行效果待对照）</a>
 <a href="central-review-02g.html?catalog=sim&page=CAP">容量填写</a>
 <a href="central-review-02g.html?catalog=sim&page=ITEMS">按物品与场景估算</a>
