@@ -15,8 +15,9 @@
 .page-S01 .summary{font-size:12px;letter-spacing:-.3px}
 .page-S01 .demand a{display:flex;align-items:center;font-size:11px;text-decoration:none}
 .page-S01 .demand a .ico{width:14px}
-.page-S01 .filter-bar{height:45px;padding:0 17px;border:0}
-.page-S01 .filter-btn{font-size:13px;min-height:39px;display:flex;gap:4px;align-items:center}
+.page-S01 .filter-bar{height:45px;padding:0 17px;border:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.page-S01 .filter-btn{font-size:13px;min-height:39px;display:flex;gap:4px;align-items:center;justify-content:center;min-width:0}
+.page-S01 .filter-btn:not(:last-child){border-right:1px solid #e7ecea}
 .page-S01 .filter-btn .ico{width:14px;height:14px}
 .page-S01 .list-body{padding:0 15px 12px}
 .page-S01 .store-row{margin:0;padding:11px 0 14px;gap:12px;min-height:156px;border-color:#f0f2f4;outline-offset:2px}
