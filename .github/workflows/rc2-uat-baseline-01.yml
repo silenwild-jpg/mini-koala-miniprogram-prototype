@@ -1,0 +1,54 @@
+name: RC2 UAT Baseline 01 isolated visual QA
+on:
+  pull_request:
+    branches:
+      - preview/rc2-r2-private-20261103
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rc2-visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Import approved-upstream PR59 assets into isolated candidate
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin refs/heads/isolate/unit-image-rebuild-01-r3-20261103
+          git checkout FETCH_HEAD -- app/prototype/parallel/core-journey-fix-01/demo/assets/unit-r3
+          test -f app/prototype/parallel/core-journey-fix-01/demo/assets/unit-r3/asset_manifest.json
+          for tier in mini small medium large; do
+            test -s "app/prototype/parallel/core-journey-fix-01/demo/assets/unit-r3/thumb/unit-r3-${tier}-336x312.webp"
+            test -s "app/prototype/parallel/core-journey-fix-01/demo/assets/unit-r3/cap/unit-r3-${tier}-640x480.webp"
+          done
+          git status --short
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Check routes and capture scroll segments
+        run: node scripts/verify_rc2_uat_baseline_01_browser.cjs
+      - name: Save report and real browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-uat-baseline-01-evidence
+          path: release-evidence/rc2-uat-baseline-01/
+          if-no-files-found: warn
+      - name: Commit original PR59 assets to isolated source branch
+        if: always()
+        run: |
+          set -euo pipefail
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'assets(RC2): transplant PR59 four-tier capacity files into UAT repair candidate'
+            git fetch origin isolate/rc2-uat-baseline-01-20261103
+            git rebase origin/isolate/rc2-uat-baseline-01-20261103
+            git push origin HEAD:isolate/rc2-uat-baseline-01-20261103
+          fi

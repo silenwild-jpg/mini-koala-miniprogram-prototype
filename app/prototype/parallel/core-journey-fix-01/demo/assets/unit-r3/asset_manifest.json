@@ -1,0 +1,41 @@
+{
+  "task": "UNIT-IMAGE-REBUILD-01-R3",
+  "version": "2026-11-03",
+  "base_ref": "isolate/unit-image-rebuild-01-r3-20261103",
+  "source_quality": "Generated illustrative 3D scenes; image pixels cannot prove real-world geometry",
+  "height_rule": ">=3m³ example unit height 2.5m; mini exception",
+  "examples": {
+    "mini": {
+      "volume_m3": 0.75,
+      "width_m": 1,
+      "depth_m": 0.75,
+      "height_m": 1
+    },
+    "small": {
+      "volume_m3": 4.5,
+      "width_m": 1.2,
+      "depth_m": 1.5,
+      "height_m": 2.5
+    },
+    "medium": {
+      "volume_m3": 15,
+      "width_m": 2.5,
+      "depth_m": 2.4,
+      "height_m": 2.5
+    },
+    "large": {
+      "volume_m3": 35,
+      "width_m": 4,
+      "depth_m": 3.5,
+      "height_m": 2.5
+    }
+  },
+  "validation": "Example volume arithmetic only; actual dimensions from store data",
+  "bindings": {
+    "CAP": "cap.html #sceneimg",
+    "S02": "app.js r3UnitImage()",
+    "S5": "br04/bridge.js r3Thumb()",
+    "S01": "app.js unit-preview"
+  },
+  "hifi_guard": "Only resource and src binding changes; preserve layout, routes and pricing"
+}
