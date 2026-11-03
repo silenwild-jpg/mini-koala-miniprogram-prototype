@@ -14,8 +14,10 @@ for(const s of f.stores){
  assert(!s.geo.verified||[s.geo.longitude,s.geo.latitude].every(Number.isFinite),'invalid verified coordinate '+s.id);
  const source=context.SIM_STORE_GEO.get(s.id);
  assert(source,'missing source matched location '+s.id);
- if(source.needs_review){manualReview++;assert(!s.geo.route_candidate,'ambiguous must not be routeable')}
- else {routeable++;assert(s.geo.route_candidate,'source matched coordinate disabled '+s.id);assert(!s.geo.verified,'source-only location must not be marked provider verified')}
+ assert(s.geo.route_candidate,'source coordinate must be selectable '+s.id);
+ assert(!s.geo.verified,'source-only point is not a provider-verified warehouse entrance '+s.id);
+ routeable++;
+ if(source.was_multi_candidate){manualReview++;assert(s.geo.was_multi_candidate,'multi-candidate source flag was lost '+s.id)}
 
 }
 let matched=0;
@@ -65,4 +67,4 @@ paid.pay(paidOrder.id,'success');
 assert.equal(paid.stockCount(unitSample),0,'paid stock remains available');
 assert.equal(context.SIM_CORE.create({state:paid.state()}).stockCount(unitSample),0,'paid status not persisted');
 
-console.log(JSON.stringify({pass:true,stores:f.stores.length,unitOptions:f.units.length,bookable:matched,verifiedCoordinateStores:routeable,manualReviewStores:manualReview,lookupCovered:f.stores.length}));
+console.log(JSON.stringify({pass:true,stores:f.stores.length,unitOptions:f.units.length,bookable:matched,verifiedCoordinateStores:routeable,autoSelectedMultiCandidateStores:manualReview,lookupCovered:f.stores.length}));
