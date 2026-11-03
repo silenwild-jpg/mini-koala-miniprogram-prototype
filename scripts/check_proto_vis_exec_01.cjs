@@ -15,8 +15,7 @@ function changePaths(){
 }
 function isVisualFile(file){
  return /(^|\/)(app|prototype|assets|styles|pages)(\/|$)/.test(file) &&
-        /\.(html|jsx?|tsx?|vue|css|scss|svg|png|jpe?g|webp)$/.test(file) ||
-        /\.github\/(workflows|pull_request_template)/.test(file);
+        /\.(html|jsx?|tsx?|vue|css|scss|svg|png|jpe?g|webp)$/.test(file);
 }
 function assessS02(source){
  const issues=[];
@@ -108,7 +107,12 @@ function verifyFixture(){
  if(g2.issues.length)throw Error('draft review should remain allowed');
  console.log('PROTO-VIS-EXEC-01 self-test: PASS');return;
 }
-if(process.argv.includes('--self-test')){verifyFixture();process.exit(0)}
+if(process.argv.includes('--self-test')){
+ verifyFixture();
+ if(isVisualFile('.github/pull_request_template.md'))throw Error('governance-only metadata treated as a page visual');
+ if(!isVisualFile('app/prototype/parallel/core-journey-fix-01/demo/s02-central.css'))throw Error('visual CSS not flagged');
+ process.exit(0);
+}
 const changed=changePaths();
 const visual=changed.filter(isVisualFile);
 const issues=[],warnings=[];
