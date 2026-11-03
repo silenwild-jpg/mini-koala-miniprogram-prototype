@@ -9,3 +9,13 @@
   NODE_VERSION = "22"
   PYTHON_VERSION = "3.13"
   MK_REVIEW_VERSION = "DEMO-MK-RC1-P1-20261029"
+
+# RC2 + UX-R2 private preview for this isolated PR only. Production RC1-P1 remains unchanged.
+# Visitor access MUST remain Team SSO for ALL deploy contexts; no public release.
+[context.deploy-preview]
+  command = "node --check app/prototype/parallel/core-journey-fix-01/demo/phone-auth.js && python3 scripts/build_rc2_isolated_demo.py"
+  publish = "release-evidence/rc2-merge-prep-10/site"
+[context.deploy-preview.environment]
+  MK_REVIEW_VERSION = "DEMO-MK-RC2-R2-PRIVATE-20261103"
+  RC2_BUNDLE_LABEL = "DEMO-MK-RC2-R2-PRIVATE-20261103"
+  RC2_BUNDLE_BRANCH = "preview/rc2-r2-private-20261103"

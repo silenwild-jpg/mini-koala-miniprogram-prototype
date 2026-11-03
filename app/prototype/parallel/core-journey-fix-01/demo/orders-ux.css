@@ -1,0 +1,46 @@
+/* RC2-PREP-10 · Customer-facing order pages only. No changes to S01/S02, BR02/04 masters. */
+.page-M01 .mk-orders,.page-O03 .mk-orders,.page-OH01 .mk-orders{
+ box-sizing:border-box;min-height:100%;background:#f7faf8;padding:14px 16px 100px;color:#18382e;
+ font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+.mk-order-heading{padding:2px 2px 16px}
+.mk-order-heading h2{font-size:22px;line-height:1.35;letter-spacing:-.35px;margin:0 0 4px;font-weight:750;color:#192f29}
+.mk-order-heading p{font-size:12px;line-height:1.5;margin:0;color:#778b83}
+.mk-order-list{background:#fff;border-radius:12px;padding:0 15px;overflow:hidden}
+.mk-order-list-row{padding:18px 0 16px;border-bottom:1px solid #edf0ee}
+.mk-order-list-row:last-child{border-bottom:0}
+.mk-order-list-meta{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.mk-order-list-meta b{font-size:16px;font-weight:750;line-height:1.4;overflow-wrap:anywhere}
+.mk-order-badge{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border-radius:4px;padding:4px 7px;font-size:11px;line-height:1.2;font-weight:650;background:#e9f6ef;color:#087c55}
+.mk-order-badge.pending{color:#a46220;background:#fff4e4}
+.mk-order-badge.inactive{color:#697f75;background:#eef2ef}
+.mk-order-id{font-size:11px;line-height:1.5;color:#87978f;margin:7px 0 12px}
+.mk-order-list-main{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-top:1px solid #f1f3f2;padding-top:12px}
+.mk-order-list-main span{font-size:12px;line-height:1.5;color:#647971;min-width:0;overflow-wrap:anywhere}
+.mk-order-list-main b{font-size:17px;color:#18392f;font-weight:750;white-space:nowrap}
+.mk-order-list-link,.mk-order-text-button{display:inline-block;color:#0b7955;background:transparent;border:0;padding:10px 0;font-size:13px;font-weight:650;cursor:pointer}
+.mk-order-list-link{margin-top:6px}
+.mk-order-summary{background:#fff;padding:20px 17px 16px;border-radius:12px}
+.mk-order-summary-top{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.mk-order-number{font-size:11px;color:#83928b}
+.mk-order-summary h2{font-size:20px;line-height:1.3;font-weight:750;letter-spacing:-.5px;margin:17px 0 6px;overflow-wrap:anywhere}
+.mk-order-summary p{font-size:13px;color:#647971;margin:0 0 18px;line-height:1.65}
+.mk-order-total{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding-top:13px;border-top:1px solid #edf0ee}
+.mk-order-total span{font-size:12px;color:#667c73}
+.mk-order-total strong{font-size:25px;color:#0e7750;line-height:1.4;font-weight:800;letter-spacing:-.5px}
+.mk-order-section{background:#fff;margin-top:10px;padding:16px 17px;border-radius:12px}
+.mk-order-section h3,.mk-order-services h3{font-size:15px;font-weight:750;margin:0 0 12px;color:#19392e}
+.mk-order-line{display:flex;justify-content:space-between;gap:14px;align-items:baseline;border-bottom:1px solid #f1f4f2;padding:10px 0;line-height:1.45}
+.mk-order-line:last-child{border-bottom:0;padding-bottom:0}
+.mk-order-line span{flex:0 0 90px;font-size:12px;color:#7a8d85}
+.mk-order-line strong{font-size:12px;line-height:1.6;color:#264b3e;text-align:right;font-weight:600;overflow-wrap:anywhere;min-width:0}
+.mk-order-services{margin-top:10px;padding:17px;background:#fff;border-radius:12px}
+.mk-order-action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#eaf0ed;border-top:1px solid #eaf0ed}
+.mk-order-action{background:#fff;border:0;color:#0c7451;font-size:13px;font-weight:700;min-height:54px;padding:12px 5px;cursor:pointer}
+.mk-order-action:focus-visible,.mk-order-list-link:focus-visible,.mk-order-text-button:focus-visible{outline:2px solid #098154;outline-offset:-2px}
+.mk-order-bottom{text-align:center;margin:9px 0}
+.mk-order-empty{padding:34px 20px;text-align:center;background:#fff;border-radius:12px}
+.mk-order-empty b{font-size:16px;color:#18392e}
+.mk-order-empty p,.mk-order-tip{font-size:13px;line-height:1.7;color:#778a81;margin:10px 0 20px}
+.mk-order-primary{display:block;width:100%;min-height:48px;background:#0d8058;color:#fff;border:0;border-radius:8px;font-weight:750;font-size:15px;padding:12px 10px;cursor:pointer}
+@media(max-width:380px){.page-M01 .mk-orders,.page-O03 .mk-orders,.page-OH01 .mk-orders{padding-left:13px;padding-right:13px}.mk-order-line span{flex-basis:80px}}
