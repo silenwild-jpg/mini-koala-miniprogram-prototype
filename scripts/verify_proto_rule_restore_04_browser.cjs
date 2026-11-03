@@ -54,6 +54,8 @@ const cases=[];
    assert.equal(await s5.locator('#navigate-secondary').isVisible(),true,'second map navigation missing');
    assert.equal((await s5.locator('.distance-nav span').innerText()).trim(),'','unverified distance should stay absent');
    await page.screenshot({path:path.resolve(__dirname,'../release-evidence/rule-restore-04/s5-map-'+width+'.png'),fullPage:true});
+   await s5.locator('.minor-unit').scrollIntoViewIfNeeded();
+   await page.screenshot({path:path.resolve(__dirname,'../release-evidence/rule-restore-04/s5-second-nav-'+width+'.png')});
    await s5.locator('#open-store-secondary').click();
    await app.locator('#screen.page-S02').waitFor();
    await app.locator('#screen').evaluate(()=>window.SIM_DEMO.navigate('S01'));
