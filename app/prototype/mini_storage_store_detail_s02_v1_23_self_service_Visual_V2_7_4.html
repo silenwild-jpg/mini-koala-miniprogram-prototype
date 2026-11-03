@@ -1407,7 +1407,7 @@ function renderState(resetScroll=true){
   $('#soldoutNotice')?.classList.remove('show'); // 无库存只在仓位列表处展示一次，减少重复提醒。
   if($('#soldoutNoticeBody')&&inventoryStatus==='SOLD_OUT')$('#soldoutNoticeBody').textContent='当前没有可租仓位，您可以查看附近有仓门店，或请顾问协助查找。';
   $('#browseEstimator')?.classList.toggle('hidden',inventoryStatus==='SOLD_OUT');
-  $('#viewingSection')?.classList.toggle('hidden',inventoryStatus==='SOLD_OUT');
+  $('#viewingSection')?.classList.toggle('hidden',inventoryStatus==='SOLD_OUT'||state==='nomatch');
   $$('.state-browse').forEach(x=>x.classList.toggle('hidden',state!=='browse'));
   $$('.state-demand').forEach(x=>x.classList.toggle('hidden',!(state==='matched'||state==='nomatch'||state==='highvalue')));
   $$('.state-nomatch').forEach(x=>x.classList.add('hidden')); // 备选卡和底部按钮承担引导，不重复显示无匹配公告。
