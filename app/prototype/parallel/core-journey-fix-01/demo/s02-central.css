@@ -6,12 +6,12 @@
 .page-S02 .detail-head{height:auto;min-height:29px}
 .page-S02 .detail-name{white-space:normal;overflow-wrap:anywhere;line-height:26px}
 .page-S02 .detail-addr{margin:5px 0 0;line-height:19px}
-.page-S02 .s02-hot{display:flex;gap:10px;align-items:center;padding:8px 14px 8px 16px;background:#fff7f3;border-top:2px solid #f2694a;border-bottom:1px solid #f8e1d9;color:#d64d30;min-height:54px}
-.page-S02 .s02-fire{font-size:23px;line-height:30px;color:#ed5b39;flex:none}
-.page-S02 .s02-hot-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}
-.page-S02 .s02-hot-copy strong{font-size:12px;font-weight:760;line-height:17px}
-.page-S02 .s02-hot-copy small{font-size:10px;line-height:15px;color:#876d60}
-.page-S02 .s02-hot button{padding:7px 0;border:0;background:transparent;color:#d74f2e;font-size:11px;white-space:nowrap;min-height:40px;font-weight:700}
+.page-S02 .s02-hot{display:flex;gap:9px;align-items:center;margin:0 10px;padding:8px 10px;background:#fff;border:2px solid #f26654;border-radius:3px;min-height:59px;color:#da4a31}
+.page-S02 .s02-fire{font-size:21px;line-height:28px;flex:none}
+.page-S02 .s02-hot-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.page-S02 .s02-hot-copy strong{font-size:12px;font-weight:740;line-height:18px}
+.page-S02 .s02-hot-copy small{font-size:10px;line-height:15px;color:#7a7774}
+.page-S02 .s02-hot-stock{flex:none;font-size:10px;line-height:16px;color:#d74e36;font-weight:700;white-space:nowrap;text-align:right;max-width:91px}
 .page-S02 .s02-demand{min-height:43px;margin:0;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#f6f9f6;font-size:12px;color:#435d4d}
 .page-S02 .s02-demand a{flex:none;text-decoration:none;color:#287a54;font-weight:750;min-height:25px;padding:3px 0}
 .page-S02 #s02Inventory{scroll-margin-top:0}
@@ -23,9 +23,9 @@
 .page-S02 .unit-price{min-width:0}
 .page-S02 .order-button{min-height:36px}
 .page-S02 .combo-row .scenario{color:#57776b;font-weight:600}
-.page-S02 .s02-lower-tabs{display:flex;align-items:center;gap:20px;padding:0 16px;border-bottom:1px solid #e8ede9;border-top:1px solid #f1f3ef;margin-top:14px;height:45px}
-.page-S02 .s02-lower-tabs button{height:45px;border:0;border-bottom:2px solid transparent;background:transparent;padding:5px 0;color:#6e7a71;font-size:13px;font-weight:550}
-.page-S02 .s02-lower-tabs button.active{color:#2d7756;font-weight:750;border-bottom-color:#2d7756}
+.page-S02 .s02-main-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:0;margin:0 10px;border-bottom:1px solid #e8ede9;height:45px}
+.page-S02 .s02-main-tabs button{width:100%;min-width:0;height:45px;border:0;border-bottom:2px solid transparent;background:transparent;padding:5px 2px;text-align:center;color:#6e7a71;font-size:13px;font-weight:550}
+.page-S02 .s02-main-tabs button.active{color:#277554;font-weight:750;border-bottom-color:#277554}
 .page-S02 .s02-services{padding:13px 16px 25px}
 .page-S02 .s02-services-hours{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:13px;color:#627469}
 .page-S02 .s02-services-hours strong{color:#2f6248;font-size:13px}
