@@ -1,0 +1,63 @@
+name: S01-UX-REVIEW-02 compact cards and matching - 375/390 NO DEPLOY
+on:
+  push:
+    branches:
+      - isolate/s01-ux-review-02-compact-state-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s01-browser-and-core-journey:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Source and JavaScript syntax gates
+        run: |
+          set -eu
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-content.js
+          node --check scripts/verify_s01_ux_review_02_browser.cjs
+          node --check scripts/verify_rc2_s01_structure_browser.cjs
+          if grep -q 'grid-template-columns:repeat(4' app/prototype/parallel/core-journey-fix-01/demo/s01-r2-live.html; then
+            echo 'Legacy four-filter S01 layout detected'; exit 1
+          fi
+      - name: Install Chromium + CJK fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build exact-source isolated candidate, do not deploy
+        env:
+          RC2_BUNDLE_LABEL: S01-UX-REVIEW-02-CANDIDATE
+          RC2_BUNDLE_ARCHIVE: MiniKoala_S01_UX_REVIEW_02_Candidate_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/s01-ux-review-02-compact-state-20261103
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify existing S01 three-filter/search/nav behavior
+        run: node scripts/verify_rc2_s01_structure_browser.cjs
+      - name: Verify compact third+ cards, direct S02 and matching scenarios
+        run: node scripts/verify_s01_ux_review_02_browser.cjs
+      - name: Verify order phone, payment, inventory and return journey
+        run: node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Save two-width screenshot and source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s01-ux-review-02-375-390-private-evidence
+          path: |
+            release-evidence/rc2-structure-restore/
+            release-evidence/s01-ux-review-02/
+            release-evidence/rc2-fix-01d/
+            release-evidence/rc2-merge-prep-10/build-summary.json
+          if-no-files-found: warn
+          retention-days: 14
