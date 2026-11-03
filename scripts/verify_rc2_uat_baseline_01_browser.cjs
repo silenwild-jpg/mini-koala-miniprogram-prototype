@@ -35,10 +35,18 @@ const routes=['H01','CAP','S01','S02','S5'],rows=[];
      checks.capacity=await nested.locator('#capacity').count()===1;
      for(const [ix,px] of [[1,380],[2,760]]){await nested.locator('#app-viewport').evaluate((e,n)=>e.scrollTop=n,px);await page.waitForTimeout(220);await snap('scroll'+ix)}
     }else{
-     const scroll=frame.locator('#scroll');
-     if(await scroll.count()){
-      for(const [ix,px] of [[1,360],[2,720]]){await scroll.evaluate((e,n)=>e.scrollTop=n,px);await page.waitForTimeout(200);await snap('scroll'+ix)}
+     // Select the actual inner scrolling surface; outer fullPage screenshots miss iframe content.
+     let scrollerInfo=null;
+     for(const [ix,fraction] of [[1,.5],[2,1]]){
+      const info=await frame.locator('body').evaluate((body,ratio)=>{
+       const elements=[document.querySelector('#app-viewport'),document.querySelector('#scroll'),document.querySelector('.page'),document.querySelector('.scroll'),document.scrollingElement,body].filter(Boolean);
+       const chosen=elements.map(el=>({el,range:Math.max(0,el.scrollHeight-el.clientHeight)})).sort((a,b)=>b.range-a.range)[0];
+       if(chosen&&chosen.range>0)chosen.el.scrollTop=chosen.range*ratio;
+       return {max:chosen?.range||0,at:chosen?.el.scrollTop||0,element:chosen?.el.id||chosen?.el.className||chosen?.el.tagName};
+      },fraction);
+      scrollerInfo=info;await page.waitForTimeout(180);await snap('scroll'+ix);
      }
+     checks.scrollSegmentCaptured=!!scrollerInfo;
      if(route==='S02'){
        checks.unitImage=await frame.locator('.unit-img').first().evaluate(e=>e.complete&&e.naturalWidth>0).catch(()=>false);
        checks.capacitySource=await frame.locator('.unit-img').first().getAttribute('src').then(v=>/unit-r3/.test(v||'')).catch(()=>false);
