@@ -15,7 +15,7 @@
 ## Netlify现有站点（实际读取）
 - 项目 `mini-koala-internal-rc1-review` / id `e8bba69f-09d5-4866-842d-43c30411114e`，当前published deploy `6ae3eecbe34f877c27632485`。
 - published实际Commit为 `main@274c5110aa18af7ed71d92533ab126ebbbd11f75`，2026-10-30，状态ready。**此站不是本RC2，不作为评审地址发放**。
-- 已返回项目级 `requiresSSOTeamLogin=true`（all deploy contexts）、`requiresPassword=false`。这表明现有站点设置要求团队SSO，不表示所有拟邀请的试用用户拥有该团队访问权限；也未证明新候选实际部署及手机端访问成功。
+- 已返回项目级 `requiresSSOTeamLogin=true`（all deploy contexts）、`requiresPassword=false`。Netlify团队 `silenwild` 是 Free 方案、当前成员数仅1、当前用户为 Owner；**尚无已核验的其他内部试用成员身份**。这表明现有站点设置要求团队SSO，不表示所有拟邀请的试用用户拥有该团队访问权限；也未证明新候选实际部署及手机端访问成功。
 - 当前浏览器旧S02深链曾显示“未能打开此演示入口”；只代表RC1旧版本该链接，不判定RC2核心链路失效。
 - Netlify站点与部署设置**保持原样，不创建站、不上传ZIP、不更改SSO、不合并main**。
 
