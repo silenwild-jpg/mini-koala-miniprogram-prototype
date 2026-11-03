@@ -73,7 +73,11 @@ async function run(){
         const scenarioPage=await ctx.newPage();
         scenarioPage.on('pageerror',e=>errors.push(e.message));
         const {app:scenarioApp,s01:scenarioS01}=await open(scenarioPage);
-        await scenarioApp.locator('#scenario').selectOption(scenario);
+        // The demo selector is deliberately hidden on the customer-facing surface.
+        // Dispatch its existing change contract rather than trying to click a hidden UI.
+        await scenarioApp.locator('#scenario').evaluate((el,value)=>{
+          el.value=value;el.dispatchEvent(new Event('change',{bubbles:true}));
+        },scenario);
         await scenarioS01.locator('.store-card').first().waitFor({state:'attached'});
         const snapshot=await scenarioApp.locator('#screen').evaluate(()=>window.SIM_DEMO.s01R2Bridge.snapshot());
         assert(snapshot.stores.length>=1,'scenario has no store candidates at all');
