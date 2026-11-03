@@ -50,6 +50,7 @@ await page.screenshot({path:path.join(out,name+'-'+width+'-route.png'),fullPage:
 await page.locator('#s02ServiceTab').click();checks.service=await page.locator('#s02ServicePanel').isVisible();
 if(name==='sold_out')checks.soldout=await page.locator('.unit-cta:not([disabled])').count()===0;
 if(name==='no_match')checks.noDuplicateRecovery=!(await page.locator('#comboOfferBlock').isVisible());
+if(name==='no_match')checks.noInvalidBooking=!(await page.locator('#viewingSection').isVisible());
 if(name==='matched'){
 const btn=page.locator('.unit-cta:not([disabled])').first();
 if(await btn.count()){await btn.click();await page.waitForTimeout(350);checks.checkout=page.url().includes('mini_storage_order_o01')||await page.locator('#requirementSheet').evaluate(e=>e.classList.contains('show'))||await page.locator('#leadMask').evaluate(e=>e.classList.contains('show'));checks.checkoutUrl=page.url();if(page.url().includes('mini_storage_order_o01'))checks.priceGate=await page.evaluate(()=>window.MINI_KOALA_PRICE_GATE_STATUS?.valid===true);}
