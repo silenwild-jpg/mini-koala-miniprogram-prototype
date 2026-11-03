@@ -1,8 +1,5 @@
 name: RC2 UAT Baseline 01 isolated visual QA
 on:
-  push:
-    branches:
-      - isolate/rc2-uat-baseline-01-20261103
   pull_request:
     branches:
       - preview/rc2-r2-private-20261103
@@ -51,5 +48,7 @@ jobs:
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git commit -m 'assets(RC2): transplant PR59 four-tier capacity files into UAT repair candidate'
+            git fetch origin isolate/rc2-uat-baseline-01-20261103
+            git rebase origin/isolate/rc2-uat-baseline-01-20261103
             git push origin HEAD:isolate/rc2-uat-baseline-01-20261103
           fi
