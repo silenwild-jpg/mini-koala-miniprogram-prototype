@@ -4,12 +4,19 @@ const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('ass
 const dir=path.resolve(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo');
 const context={console,Date,Math,Number,JSON,Array,String,Intl,setTimeout,clearTimeout};
 context.window=context;context.globalThis=context;vm.createContext(context);
-for(const file of ['fixtures.js','demo-core.js'])vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),context,{filename:file});
+for(const file of ['store-geo.js','fixtures.js','demo-core.js'])vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),context,{filename:file});
 const f=context.SIM_FIXTURES,core=context.SIM_CORE.create({});
 assert(f.stores.length>=30,'store coverage too low');
+assert.equal(context.SIM_STORE_GEO.coverage(),f.stores.length,'coordinate source coverage');
+let routeable=0,manualReview=0;
 for(const s of f.stores){
  assert(s.geo&&s.geo.store_id===s.id&&s.geo.address===s.address&&s.geo.destination_query.includes(s.name),'missing lookup '+s.id);
  assert(!s.geo.verified||[s.geo.longitude,s.geo.latitude].every(Number.isFinite),'invalid verified coordinate '+s.id);
+ const source=context.SIM_STORE_GEO.get(s.id);
+ assert(source,'missing source matched location '+s.id);
+ if(source.needs_review){manualReview++;assert(!s.geo.verified,'ambiguous must not be routeable')}
+ else {routeable++;assert(s.geo.verified,'source matched coordinate disabled '+s.id)}
+
 }
 let matched=0;
 for(const u of f.units){
@@ -30,4 +37,4 @@ for(const u of f.units){
  }
  else assert.equal(core.stockCount(u),0,'unavailable count');
 }
-console.log(JSON.stringify({pass:true,stores:f.stores.length,unitOptions:f.units.length,bookable:matched,verifiedCoordinateStores:f.stores.filter(s=>s.geo.verified).length,lookupCovered:f.stores.length}));
+console.log(JSON.stringify({pass:true,stores:f.stores.length,unitOptions:f.units.length,bookable:matched,verifiedCoordinateStores:routeable,manualReviewStores:manualReview,lookupCovered:f.stores.length}));
