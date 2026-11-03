@@ -26,6 +26,16 @@ const screens=['H01','S01','S02','CAP','ITEMS','S5','BOOKING','QUICK','O01','M01
     try{
      await page.goto(url,{waitUntil:'domcontentloaded',timeout:20000});
      const frame=page.frameLocator('#central-host');
+     // O01 requires an eligible selection, confirmed term and phone authorization.
+     // The central wrapper may intentionally decline to mount its iframe on a
+     // cold direct link. Verify denial instead of waiting for a nonexistent body.
+     if(screen==='O01'){
+       assert.equal(await frame.locator('#screen.page-O01').count(),0,'cold direct O01 must be denied');
+       assert((await page.locator('body').innerText()).trim().length>8,'O01 guard wrapper did not render');
+       record={...record,source:'DIRECT_ORDER_GUARD',contextGate:'UNAUTHORIZED_DIRECT_O01_BLOCKED',errors,bad};
+       await page.screenshot({path:path.join(out,screen+'-'+width+'.png'),fullPage:true,timeout:15000});
+       rows.push(record);console.log('RC2_VIS_INTEGRATION_02_PAGE',JSON.stringify(record));await page.close();continue;
+     }
      const body=frame.locator('body');
      await body.waitFor({state:'attached',timeout:12000});
      const innerScreen=frame.locator('#screen'),hasScreen=await innerScreen.count()>0;
