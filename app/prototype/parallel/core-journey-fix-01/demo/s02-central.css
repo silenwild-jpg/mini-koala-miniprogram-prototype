@@ -6,7 +6,7 @@
 .page-S02 .detail-head{height:auto;min-height:29px}
 .page-S02 .detail-name{white-space:normal;overflow-wrap:anywhere;line-height:26px}
 .page-S02 .detail-addr{margin:5px 0 0;line-height:19px}
-.page-S02 .s02-hot{display:flex;gap:9px;align-items:center;margin:0 10px;padding:8px 10px;background:#fff;border:2px solid #f26654;border-radius:3px;min-height:59px;color:#da4a31}
+.page-S02 .s02-hot{position:relative;z-index:4;display:flex;gap:9px;align-items:center;margin:-12px 0 0;padding:10px 16px 9px;background:#fff;border:0;border-radius:12px 12px 0 0;min-height:59px;color:#da4a31}
 .page-S02 .s02-fire{font-size:21px;line-height:28px;flex:none}
 .page-S02 .s02-hot-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
 .page-S02 .s02-hot-copy strong{font-size:12px;font-weight:740;line-height:18px}
