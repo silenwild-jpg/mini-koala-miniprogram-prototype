@@ -568,6 +568,52 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 .s02-route-modes button.active{border-color:#3d8160;background:#eef6f0;color:#286a49;font-weight:700}
 .s02-route-nav{display:block;width:100%;height:44px;margin-top:14px;border:0;border-radius:10px;background:#2f6b4f;color:white;font-size:14px;font-weight:700}
 </style>
+<style id="s02-vis-restore-01">
+/* One scoped visual layer supersedes legacy style patches without deleting active behavior. */
+.store-overview{margin:0!important;padding:12px 16px 11px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+.store-title{font-size:19px!important;line-height:26px!important}
+.store-title-row{align-items:center!important}
+.store-detail-address{line-height:1.5!important}
+.store-overview .service-line{margin-top:6px!important}
+.browse-helper{margin:0!important;padding:11px 16px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+.browse-helper b{font-size:13px!important}
+.s02-popular{display:flex;align-items:center;gap:10px;margin:0!important;padding:11px 14px!important;background:#fff7f2!important;border-top:2px solid #f05d42!important;border-bottom:1px solid #ffe6dd!important;border-left:0!important;border-right:0!important;border-radius:0!important;box-shadow:none!important}
+.s02-popular[hidden]{display:none!important}
+.s02-popular-icon{display:flex;flex:0 0 23px;align-items:center;justify-content:center}
+.s02-popular-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.s02-popular-copy strong{font-size:13px;line-height:19px;font-weight:700;color:#c8442c;white-space:normal}
+.s02-popular-copy span{font-size:11px;line-height:16px;color:#89675b}
+.s02-popular-cta{flex:none;border:0!important;background:transparent!important;padding:9px 0 9px 4px!important;color:#dc572f!important;font-size:11px!important;font-weight:700!important;white-space:nowrap;min-height:40px;cursor:pointer}
+#inventorySection{padding-top:12px!important;scroll-margin-top:54px!important}
+#inventorySection .section-head{margin-bottom:10px!important}
+#inventorySection .section-head h2{font-size:18px!important;font-weight:750!important}
+#inventorySection .inventory-summary{display:none!important}
+#inventorySection .price-band{display:none!important}
+#inventorySection .unit-list{display:grid;gap:10px}
+#inventorySection .unit-card,#allUnitsInline .unit-card{position:relative;overflow:hidden;padding:12px 12px 10px!important;border:1px solid #e8ece8!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important}
+.unit-main{display:flex;align-items:center;gap:12px;margin:7px 0 4px;min-width:0}
+.unit-visual{width:102px;height:88px;flex:0 0 102px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#f3f8f4;overflow:hidden}
+.unit-visual img{display:block;width:100%;height:100%;object-fit:contain}
+.unit-facts{flex:1;min-width:0}
+.unit-facts .unit-size{font-size:22px!important;line-height:27px!important;margin:0!important}
+.unit-facts .unit-dims{font-size:10px!important;line-height:15px!important;margin-top:3px!important}
+.unit-usage{margin-top:4px;font-size:11px;line-height:16px;color:#63716a;overflow-wrap:anywhere}
+.unit-card .unit-reason{font-size:11px!important;line-height:16px!important;margin:4px 0 0!important}
+.unit-card .unit-bottom{margin-top:8px!important;padding-top:8px!important;gap:8px!important;align-items:end!important}
+.unit-card .unit-price-label{font-size:10px!important}
+.unit-card .unit-price-main{font-size:20px!important;white-space:nowrap}
+.unit-card .unit-price small{font-size:10px!important}
+.unit-card .unit-cta{min-height:42px!important;padding:7px 12px!important;background:#2b7053!important;color:#fff!important;border:0!important;border-radius:9px!important;font-size:12px!important;font-weight:700!important;white-space:nowrap}
+.unit-card .unit-cta:disabled{background:#e7eae6!important;color:#8a918b!important}
+.unit-card .unit-top{min-height:21px!important}
+.unit-card .unit-id{font-size:11px!important;color:#69776f!important}
+.unit-card .r5a-store-favorite{top:9px!important;right:10px!important}
+.unit-card .unit-urgency{margin:5px 0 0!important;font-size:11px!important;color:#dc5b31!important}
+.page{padding-bottom:122px!important;scroll-padding-bottom:122px!important}
+.bottombar{height:auto!important;min-height:68px!important;box-shadow:none!important;background:#fff!important}
+#viewingSection .viewing-card{box-shadow:none!important}
+@media(max-width:375px){.unit-visual{width:92px;flex-basis:92px}.unit-main{gap:9px}.unit-card .unit-cta{padding:7px 10px!important}}
+</style>
 </head>
 <body class="koala-uxd2-layout koala-site-shell koala-s02" data-ux-patch-d2="v1">
 <div class="review">
@@ -634,9 +680,10 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div><b>大空间 / 长租需求</b><br/><span>可同时查看可租仓位，也可获取多仓组合、搬运和长期租赁方案</span></div>
 <div class="go" id="hvAdvisor">获取方案 ›</div>
 </div>
-<section class="s02-popular" id="s02Popular" aria-label="热门仓型">
-  <div class="s02-popular-head"><strong>热门仓型</strong><span>按物品大小选仓</span></div>
-  <div class="s02-popular-options" id="s02PopularOptions"></div>
+<section class="s02-popular" id="s02Popular" aria-label="热门仓型" hidden>
+  <div class="s02-popular-icon" aria-hidden="true"><svg width="20" height="24" viewBox="0 0 24 28" fill="none"><path d="M13 1c2 6-1 7 0 12 3-1 5-5 5-7 8 8 6 20-5 21C3 28-2 19 5 10c1 6 5 6 5 6C7 11 9 7 13 1Z" fill="#EF512D"/><path d="M12 15c3 4-2 6 1 8 3-1 4-5 3-7 5 6 1 12-5 11-6-1-7-8-2-12 0 3 2 4 3 4v-4Z" fill="#FFA04A"/></svg></div>
+  <div class="s02-popular-copy"><strong id="s02PopularTitle">热门仓型正在热租</strong><span id="s02PopularDesc">查看本店可租仓位</span></div>
+  <button type="button" class="s02-popular-cta" id="s02PopularCTA">查看仓位 ›</button>
 </section>
 <section class="section" id="inventorySection">
 <div class="section-head">
@@ -1038,8 +1085,9 @@ function unitCard(unit,role,reason,tradeoff='',showLonger=false){
       ${displayRole?`<span class="role ${displayRole==='特价'?'special-price':''}">${displayRole}</span>`:'<span></span>'}
       <span class="unit-id">仓位 ${unit.id}</span>
     </div>
-    <div class="unit-size">${window.MINI_KOALA_DATA.sizeText(unit.v)}</div>
-    <div class="unit-dims">${window.MINI_KOALA_DATA.areaText(unit.v)} · ${window.MINI_KOALA_DATA.dimensionText(unit)}</div><button class="r5a-store-favorite" type="button" data-r5a-favorite="${unit.id}" aria-label="收藏仓位 ${unit.id}" aria-pressed="false" title="收藏此仓位">♡</button>
+    <div class="unit-main"><div class="unit-visual"><img src="${s02UnitIllustration(unit).src}" alt="${window.MINI_KOALA_DATA.sizeText(unit.v)}仓位空间" loading="lazy"></div><div class="unit-facts"><div class="unit-size">${window.MINI_KOALA_DATA.sizeText(unit.v)}</div>
+    <div class="unit-dims">${window.MINI_KOALA_DATA.areaText(unit.v)} · ${window.MINI_KOALA_DATA.dimensionText(unit)}</div>
+    <div class="unit-usage">${s02UnitIllustration(unit).use}</div></div></div><button class="r5a-store-favorite" type="button" data-r5a-favorite="${unit.id}" aria-label="收藏仓位 ${unit.id}" aria-pressed="false" title="收藏此仓位">♡</button>
 
     ${displayReason?`<div class="unit-reason">${displayReason}</div>`:''}
     ${tradeoff?`<div class="tradeoff">${tradeoff}</div>`:''}
@@ -1212,32 +1260,30 @@ function renderComboOffers(combos){
   });
 }
 function renderPopularSizes(){
-  const section=$('#s02Popular'),container=$('#s02PopularOptions');
-  if(!section||!container)return;
-  const available=inventoryStatus==='SOLD_OUT'?[]:inventoryUnits().filter(unit=>Number(unit.available_count||0)>0);
-  const categories=[
-    {label:'迷你仓',use:'行李箱、纸箱',min:0,max:1.5},
-    {label:'小型仓',use:'衣物、家庭杂物',min:1.5,max:5},
-    {label:'中型仓',use:'家具、搬家物品',min:5,max:15},
-    {label:'大型仓',use:'整屋收纳',min:15,max:Infinity}
-  ];
-  const items=categories.map(category=>{
-    const matching=available.filter(u=>u.v>category.min&&u.v<=category.max).sort((a,b)=>a.v-b.v);
-    return matching.length?{category,unit:matching[0]}:null;
-  }).filter(Boolean).slice(0,3);
-  section.hidden=items.length===0;
-  container.innerHTML=items.map(item=>
-    '<button type="button" class="s02-popular-option" data-popular-unit="'+item.unit.id+'"><b>'+
-    item.category.label+' · '+window.MINI_KOALA_DATA.sizeText(item.unit.v)+'</b><small>'+
-    item.category.use+'</small></button>'
-  ).join('');
-  container.querySelectorAll('[data-popular-unit]').forEach(button=>button.onclick=()=>{
-    const id=button.dataset.popularUnit;
-    let card=[...document.querySelectorAll('#unitList .unit-card')].find(el=>el.dataset.unit===id);
-    if(!card){renderAllUnitsInline();card=[...document.querySelectorAll('#allUnitsInline .unit-card')].find(el=>el.dataset.unit===id)}
-    (card||$('#inventorySection')).scrollIntoView({behavior:'smooth',block:'center'});
-  });
+  const section=$('#s02Popular'),title=$('#s02PopularTitle'),desc=$('#s02PopularDesc'),action=$('#s02PopularCTA');
+  if(!section||!title||!desc||!action)return;
+  const available=inventoryStatus==='SOLD_OUT'?[]:inventoryUnits().filter(u=>Number(u.available_count||0)>0);
+  section.hidden=available.length===0;
+  if(!available.length)return;
+  const low=available.filter(u=>Number(u.available_count)>0&&Number(u.available_count)<=2)
+    .sort((a,b)=>Number(a.available_count)-Number(b.available_count));
+  if(low.length){
+    title.textContent='热门仓型余量紧张，建议尽快锁定';
+    desc.textContent='部分仓型仅剩'+low[0].available_count+'间';
+    action.textContent='查看仓位 ›';
+  }else{
+    title.textContent='热门仓型正在热租';
+    desc.textContent='本店可租仓位 · '+available.length+'种容量';
+    action.textContent='查看仓位 ›';
+  }
+  action.onclick=()=>$('#inventorySection')?.scrollIntoView({behavior:'smooth',block:'start'});
 }
+function s02UnitIllustration(unit){
+  const v=Number(unit.v||0);
+  const k=v<=1.5?'mini':v<=5?'small':v<=15?'medium':'large';
+  return {src:'../assets/s02/unit-'+k+'.svg',use:k==='mini'?'行李箱、纸箱':k==='small'?'衣物、家庭杂物':k==='medium'?'家具、搬家物品':'大件家具、整屋收纳'};
+}
+
 function renderInventory(){
   let cards='';
   const combos=matchedCombos();
