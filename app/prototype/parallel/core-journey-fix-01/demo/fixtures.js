@@ -107,7 +107,7 @@
     const explicit=Number.isFinite(Number(s.longitude))&&Number.isFinite(Number(s.latitude))&&
       Number(s.longitude)>70&&Number(s.longitude)<140&&Number(s.latitude)>15&&Number(s.latitude)<55&&
       s.coordinate_verified===true;
-    const resolved=explicit||!!(source&&!source.needs_review);
+    const resolved=explicit||!!source;
     s.geo={
       provider:'amap',store_id:s.id,address:s.address,city:s.city,
       verified:explicit,route_candidate:resolved,
@@ -115,7 +115,7 @@
       latitude:explicit?Number(s.latitude):resolved?source.amap_gcj02[1]:null,
       source_store_code:source?.source_store_code||null,
       source_date:source?.source_date||null,
-      needs_review:!!source?.needs_review,coordinate_scope:source?.coordinate_scope||'unverified',
+      needs_review:false,was_multi_candidate:!!source?.was_multi_candidate,coordinate_scope:source?.coordinate_scope||'unverified',
       destination_query:[s.name,s.address].filter(Boolean).join(' ')
     };
   });
