@@ -13,7 +13,7 @@ async function verifyS01(app,width,tag){
  assert.equal(await app.locator('#s01-r2-frame').count(),1,'S01 R2 frame absent: '+tag);
  assert.equal(await app.locator('.filter-btn').count(),0,'retired S01 layout reachable: '+tag);
  assert.deepEqual((await child.locator('.filter').allInnerTexts()).map(x=>x.trim()),['排序','距离','服务']);
- const info=await child.locator('.filters').evaluate(e=>{const box=e.getBoundingClientRect(),cs=getComputedStyle(e);return {columns:cs.gridTemplateColumns.trim().split(/\s+/).map(Number),width:box.width,scroll:document.documentElement.scrollWidth,viewport:window.innerWidth};});
+ const info=await child.locator('.filters').evaluate(e=>{const box=e.getBoundingClientRect(),cs=getComputedStyle(e);return {columns:cs.gridTemplateColumns.trim().split(/\s+/).map(Number.parseFloat),width:box.width,scroll:document.documentElement.scrollWidth,viewport:window.innerWidth};});
  assert.equal(info.columns.length,3,'not three columns');
  assert(Math.max(...info.columns)-Math.min(...info.columns)<2,'unequal filter widths');
  assert(info.scroll<=info.viewport+2,'unexpected S01 horizontal overflow');
