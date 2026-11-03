@@ -31,8 +31,8 @@ try{
  // A user must arrive at O01 from the in-app purchase action, not forge a page query.
  const qualified=Boolean(stored&&stored.selected?.length&&stored.auth?.status==='verified'&&stored.quote);
  let url=c.route(f,{page,store,unit,hasEligibleOrderContext:qualified});
- // S01 R2 visual preview is explicit opt-in. Default RC1 page and route contract are unchanged.
- if(page==='S01'&&['0','1'].includes(p.get('s01_r2')))url+=(url.includes('?')?'&':'?')+'s01_r2='+p.get('s01_r2');
+ // RESTORE-06: S01 is the unique high-fidelity customer entry; old ?s01_r2=0 cannot reopen the retired list.
+ if(page==='S01')url+=(url.includes('?')?'&':'?')+'s01_r2=1';
  document.getElementById('central-host').src='prototype/parallel/core-journey-fix-01/demo/'+url;
  document.body.dataset.contract=c.VERSION;
  document.body.dataset.source=f.version;

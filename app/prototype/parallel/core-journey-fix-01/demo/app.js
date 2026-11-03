@@ -27,6 +27,15 @@
   const store=id=>r2Store(F.stores.find(s=>s.id===id)),unit=id=>F.units.find(u=>u.id===id);
   const state=()=>core.state(),persist=()=>sessionStorage.setItem(KEY,JSON.stringify(state()));
   let page=new URLSearchParams(location.search).get('page')||'S01',modal=null,pending=null,notice='',lastOrder=null;
+  // RESTORE-06: normalize direct and historical S01 links before the first render.
+  function canonicalS01Url(){
+    if(page!=='S01')return;
+    const url=new URL(location.href);
+    if(url.searchParams.get('s01_r2')==='1')return;
+    url.searchParams.set('s01_r2','1');
+    history.replaceState(history.state||{},'',url.pathname+url.search+url.hash);
+  }
+  canonicalS01Url();
   let displayedPage=null;
   const requestedOrderId=new URLSearchParams(location.search).get('order');
   let selectedOrderId=requestedOrderId&&state().orders.some(o=>o.id===requestedOrderId)?requestedOrderId:(sessionStorage.getItem('mk_lifecycle_selected_order_v1')||null);
@@ -59,7 +68,7 @@
   const messages={ENTER_PHONE:'请填写有效的联系电话',PHONE_REQUIRED:'请先完成手机号验证',SELECT_TERM:'请选择租期',SELECT_CAPACITY:'请填写容量',INVALID_CAPACITY:'请输入0.5–200m³的容量，最多两位小数',INVALID_TERM:'租期请选择1–60个月的整数',UNAVAILABLE:'当前仓位不可用，请选择其他匹配门店或仓位',SELECT_DATE:'请选择有效的用仓开始日期',INVENTORY_CHANGED:'库存刚刚发生变化，当前仓位不可用。已保留容量和租期，请选择其他匹配方案。',PRICE_CHANGED:'价格刚刚发生变化，请重新查看并确认报价。',QUOTE_STALE:'报价已失效，请重新获取报价',ENTER_ADDRESS:'请填写用仓地址（不超过120字）',INVALID_STORE:'该门店不存在或不属于当前城市',NO_PHONE_REQUEST:'请先点击页面内的授权入口'};
   function act(fn){try{fn();persist();}catch(e){notice=messages[e.message]||'当前操作无法完成，请检查选择';persist();render();}}
   function remember(){positions[page]=$('#scroll')?.scrollTop||0;sessionStorage.setItem(UIKEY,JSON.stringify(positions));}
-  function go(next,storeId,reset=false){if(next==='O01'&&!core.authorized()){phoneAuth.run('ORDER','OPEN_O01',()=>go(next,storeId,reset));return;}if(next==='O01'&&page!=='O01')sessionStorage.setItem('mk_order_return_v2',page);remember();if(reset)positions={};if(storeId&&storeId!==state().storeId){positions.S02=0;visual.tab='可选仓位';visual.category='全部';visual.gallery=0;saveVisual();}if(storeId)core.setStore(storeId);page=next;displayedPage=null;notice='';modal=null;persist();const q=new URLSearchParams({page});if(r2Mode())q.set('s01_r2','1');if(reviewMode)q.set('review','1');if(next==='S02'&&state().storeId)q.set('store',state().storeId);if(next==='BOOKING'&&sessionStorage.getItem('mk_advisor_context_v3'))q.set('mode','advisor');history.pushState({},'',location.pathname+'?'+q);render();}
+  function go(next,storeId,reset=false){if(next==='O01'&&!core.authorized()){phoneAuth.run('ORDER','OPEN_O01',()=>go(next,storeId,reset));return;}if(next==='O01'&&page!=='O01')sessionStorage.setItem('mk_order_return_v2',page);remember();if(reset)positions={};if(storeId&&storeId!==state().storeId){positions.S02=0;visual.tab='可选仓位';visual.category='全部';visual.gallery=0;saveVisual();}if(storeId)core.setStore(storeId);page=next;displayedPage=null;notice='';modal=null;persist();const q=new URLSearchParams({page});if(next==='S01'||r2Mode())q.set('s01_r2','1');if(reviewMode)q.set('review','1');if(next==='S02'&&state().storeId)q.set('store',state().storeId);if(next==='BOOKING'&&sessionStorage.getItem('mk_advisor_context_v3'))q.set('mode','advisor');history.pushState({},'',location.pathname+'?'+q);render();}
   function button(action,label,value='',cls='btn'){return `<button ${label==='‹'?'aria-label="返回上页"':''} class="${cls}" data-action="${action}" data-value="${esc(value)}">${label}</button>`;}
   const priceCTA=()=>button('phone','验证后查看整期报价','','price-access-button');
   function price(ids){const p=presentation.price(ids);return `<div class="br03-price"><strong class="br03-price-main">${p.money}</strong>${p.kind==='term'?`<span class="br03-price-term">${p.termLabel}</span><span class="br03-price-average">${p.average}</span>`:`<span class="br03-reference">${p.termLabel}</span>${state().requirement.term_confirmed?button('phone','验证后查看整期价','','br03-price-link'):''}`}</div>`;}
@@ -291,7 +300,7 @@
   document.addEventListener('change',e=>{if(e.target.id==='start-date')act(()=>{core.setDate(e.target.value);render();});});
   $('#scenario').innerHTML=F.scenarios.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
   $('#scenario').addEventListener('change',e=>act(()=>{core.setScenario(e.target.value);resetVisualFilters();sessionStorage.removeItem('mk_br04_ui_v2');['mk_cap_draft_v3','mk_items_draft_v3','mk_entry_context_v3'].forEach(k=>sessionStorage.removeItem(k));positions={};pending=null;lastOrder=null;modal=null;go('S01',null,true);}));
-  window.addEventListener('popstate',()=>{document.documentElement.classList.toggle('r2-product',r2Mode());page=new URLSearchParams(location.search).get('page')||'S01';const id=new URLSearchParams(location.search).get('store');act(()=>{if(id)core.setStore(id);render();});});
+  window.addEventListener('popstate',()=>{page=new URLSearchParams(location.search).get('page')||'S01';canonicalS01Url();document.documentElement.classList.toggle('r2-product',r2Mode());const id=new URLSearchParams(location.search).get('store');act(()=>{if(id)core.setStore(id);render();});});
   let lastStatus=state().auth.status;setInterval(()=>{const expired=core.expirePendingOrders();core.authorized();const status=state().auth.status;if(status!==lastStatus||expired){lastStatus=status;render();}},1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});
   const s01R2Bridge={

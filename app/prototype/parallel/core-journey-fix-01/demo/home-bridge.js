@@ -39,7 +39,7 @@
     if(/搬家过渡|装修暂存|行李寄存|换季收纳|兴趣收藏|闲置物品/.test(a)){entry(a.split(' →')[0]);return;}
     if(a.includes('预约订单')){orderMenu();return;}
     if(a.includes('企业用仓')){sessionStorage.removeItem('mk_estimate_return_v4');go('business.html');return;}
-    if(a.includes('附近门店')||a.includes('全部门店')){go('index.html?page=S01');return;}
+    if(a.includes('附近门店')||a.includes('全部门店')){go('index.html?page=S01&s01_r2=1');return;}
     if(a.includes('消息')){go('account.html?view=messages');return;}
     if(a.includes('我的')){go('index.html?page=M01');return;}if(a.includes('品牌')||a.includes('了解考拉')){go('account.html?view=brand');return;}
     const proofs=[['高新','proof1','高新技术企业资料'],['CCTV','proof2','CCTV报道资料'],['国标','proof3','国标起草资料']];
@@ -50,9 +50,9 @@
       if(a==='close')close();if(a==='booking')go('index.html?page=BOOKING');if(a==='quick')go('index.html?page=QUICK');
       if(a==='estore'){sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({service_source:'estore',capacity_hint:core.state().requirement.capacity_m3?(core.state().requirement.capacity_m3+'m³'):'',term_hint:core.state().requirement.term_confirmed?(core.state().requirement.term_months+'个月'):''}));go('index.html?page=BOOKING&mode=advisor');}
       if(a==='revoke'){core.revokePhone();persist();prices();details.open=false;}
-      if(a==='search'){const c=document.getElementById('home-city').value;if(c!==core.state().city)core.setCity(c);const v=read('mk_visual_align_ui_v1')||{};v.keyword=document.getElementById('home-search').value.trim();sessionStorage.setItem('mk_visual_align_ui_v1',JSON.stringify(v));go('index.html?page=S01');}return;
+      if(a==='search'){const c=document.getElementById('home-city').value;if(c!==core.state().city)core.setCity(c);const v=read('mk_visual_align_ui_v1')||{};v.keyword=document.getElementById('home-search').value.trim();sessionStorage.setItem('mk_visual_align_ui_v1',JSON.stringify(v));go('index.html?page=S01&s01_r2=1');}return;
     }
-    const card=e.target.closest('[data-sim-store]');if(card){e.preventDefault();core.setStore(card.dataset.simStore);core.setReturn('S01');go('index.html?page=S02&store='+card.dataset.simStore);return;}
+    const card=e.target.closest('[data-sim-store]');if(card){e.preventDefault();core.setStore(card.dataset.simStore);core.setReturn('S01');go('index.html?page=S02&store='+card.dataset.simStore+'&s01_r2=1');return;}
     const b=e.target.closest('[data-action]');if(b){e.preventDefault();dispatch(b.dataset.action);}
   });
   document.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)&&e.target.matches('[data-sim-store]')){e.preventDefault();e.target.click();}if(e.key==='Escape')close();});

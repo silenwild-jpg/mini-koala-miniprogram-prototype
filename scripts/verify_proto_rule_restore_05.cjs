@@ -20,7 +20,7 @@ const checks={
  payment_failed_recovery:/recoverFailedOrder/.test(app)&&/payment_failed/.test(app),
  latest_rules_recorded:/PROTO-RULE-RESTORE-04/.test(current)&&/排序、距离、服务/.test(current),
  hifi06_not_bundled:/HIFI06_ABANDONED/.test(read('scripts/build_rc2_isolated_demo.py')),
- s01_two_modes_explicit:/const r2Mode=\(\)=>new URLSearchParams\(location\.search\)\.get\('s01_r2'\)==='1'/.test(app),
+ s01_canonical_runtime:/const r2Mode=\(\)=>new URLSearchParams\(location\.search\)\.get\('s01_r2'\)==='1'/.test(app)&&/function canonicalS01Url\(/.test(app)&&/next==='S01'\|\|r2Mode\(\)/.test(app),
 };
 const failed=Object.keys(checks).filter(k=>!checks[k]);
 const visual={
@@ -33,6 +33,6 @@ const visual={
  O01:'TECHNICAL_ONLY',
  O03:'TECHNICAL_ONLY'
 };
-const receipt={status:failed.length?'FAIL':'STATIC_PASS',commit:cp.execFileSync('git',['rev-parse','HEAD'],{cwd:base,encoding:'utf8'}).trim(),checks,visual,open_gate:['S01_TWO_PARALLEL_RENDER_MODES','H01_LATEST_APPROVED_MASTER_PHYSICAL_SIGNOFF','S01_FULL_PAGE_APPROVED_MASTER_SIGNOFF','MAIN_MERGE_AND_DEPLOY_NOT_APPROVED']};
+const receipt={status:failed.length?'FAIL':'STATIC_PASS',commit:cp.execFileSync('git',['rev-parse','HEAD'],{cwd:base,encoding:'utf8'}).trim(),checks,visual,open_gate:['H01_RUNTIME_PIXEL_REGION_COMPARISON_PENDING','S01_FULL_PAGE_APPROVED_MASTER_SIGNOFF','MAIN_MERGE_AND_DEPLOY_NOT_APPROVED']};
 const out=path.join(base,'release-evidence/rule-restore-05');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'static.json'),JSON.stringify(receipt,null,2)+'\n');
 console.log('PROTO_RULE_RESTORE_05_STATIC',JSON.stringify(receipt));assert.equal(failed.length,0,'RESTORE_05_FAILED: '+failed.join(','));
