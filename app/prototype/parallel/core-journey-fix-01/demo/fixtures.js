@@ -88,6 +88,18 @@
     ?(()=>{try{return sessionStorage.getItem('mk_active_catalog_v1')==='MK';}catch{return false;}})()
     :(typeof process==='object'&&process.env.MK_CATALOG_MODE==='MK'));
   const activeFixture=requestedLegacy?legacyFixture():data;
+  // Store-ID-stable access schedule shared by S01/S02. Replace with verified store records when available.
+  const storeSchedules=['24小时','09:00-21:00','08:00-23:00'];
+  activeFixture.stores.forEach(s=>{
+    let hash=2166136261;
+    for(const char of String(s.id)){hash=Math.imul(hash^char.charCodeAt(0),16777619)>>>0}
+    s.access_hours=s.access_hours||storeSchedules[hash%storeSchedules.length];
+    if(s.access_hours!=='24小时'){
+      for(const key of ['serviceTags','facilities','tags']){
+        if(Array.isArray(s[key]))s[key]=s[key].filter(v=>!/24小时|全天存取/.test(String(v)));
+      }
+    }
+  });
   root.SIM_FIXTURES=activeFixture;
   if(typeof module==='object'&&module.exports)module.exports=activeFixture;
 })(typeof window==='object'?window:globalThis);
