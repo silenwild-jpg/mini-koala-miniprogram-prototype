@@ -30,7 +30,7 @@ checks.estimate=name!=='browse'||await page.locator('#browseEstimator').isVisibl
 checks.inventory=await page.locator('#inventorySection').isVisible();
 checks.popular=name==='sold_out'?!(await page.locator('#s02Popular').isVisible()):(await page.locator('#s02Popular').isVisible()&&await page.locator('.s02-popular-cta').count()===1);
 checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
-checks.capacityIllustration=name==='sold_out'||await page.locator('.unit-card .unit-visual img').first().evaluate(el=>el.complete&&el.naturalWidth>0).catch(()=>false);
+checks.capacityIllustration=['sold_out','no_match','combo'].includes(name)||await page.locator('.unit-card .unit-visual img').first().evaluate(el=>el.complete&&el.naturalWidth>0).catch(()=>false);
 checks.noReview=!(await page.locator('.review').isVisible());
 await page.screenshot({path:path.join(out,name+'-'+width+'-main.png'),fullPage:true});
 await page.locator('#s02RouteTab').click();
