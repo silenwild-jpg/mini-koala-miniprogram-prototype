@@ -7,7 +7,8 @@
   const capacities=[['all','全部容量'],['mini','1m³以内'],['small','1–3m³'],['medium','3–6m³'],['large','6–10m³'],['extra','10m³以上']];
   const ranges={mini:[0,1],small:[1,3],medium:[3,6],large:[6,10],extra:[10,Infinity]};
   function matches(volume,key){const range=ranges[key];return !range||(volume>range[0]&&volume<=range[1]);}
-  function distanceOf(s){
+  function distanceOf(s,verified=false){
+    if(!verified)return '';
     const num=s.distance===null||s.distance===undefined?NaN:Number(s.distance);
     // No hashed fake kilometers: a missing source is missing data, never a position.
     return Number.isFinite(num)&&num>=0?num.toFixed(1)+'km':'';
@@ -21,7 +22,7 @@
     const services=[...new Set((s.serviceTags||[]).filter(v=>typeof v==='string'&&v.trim()))].slice(0,3);
     const asset=String(s.photo||'');
     const photo=/^(?:store-curated\/v1\/SIM_[A-Z0-9]+\/(?:card|hero)\.webp|[a-zA-Z0-9_.-]+\.(?:jpg|jpeg|png|webp))$/.test(asset)?'assets/'+asset:'assets/s01-r2-a-1.webp';
-    return {district,address,services,distance:distanceOf(s),photo,photoFallback:s.photoLegacy?'assets/'+s.photoLegacy:null,photoOrigin:s.photo_source||'LEGACY_DEMO'};
+    return {district,address,services,distance:distanceOf(s,false),photo,photoFallback:s.photoLegacy?'assets/'+s.photoLegacy:null,photoOrigin:s.photo_source||'LEGACY_DEMO'};
   }
   // Only copy on the isolated R2 journey is normalized. No fixture or state mutation.
   function productText(value){return String(value)
