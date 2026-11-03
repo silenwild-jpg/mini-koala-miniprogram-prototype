@@ -95,7 +95,10 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     await app.locator('button[data-value="RN01"]').click();await app.locator('#renew-months').waitFor();
     await app.locator('#renew-months').fill('61');
     await app.locator('button[data-action="requestRenewal"]').click();
-    assert.equal(await app.locator('#renew-months').inputValue(),'61','invalid renewal input must be preserved');
+    const renewalState=await app.locator('#screen').evaluate(el=>({page:el.className,input:el.querySelector('#renew-months')?.value??null,error:el.querySelector('#renew-error')?.innerText??null,notice:el.querySelector('.notice')?.innerText??null,href:location.href}));
+    console.log('PROTO_RESTORE_05_RN01_DIAGNOSTIC',JSON.stringify({width,renewalState}));
+    assert.equal(renewalState.page,'screen page-RN01','RN01 must remain the active page after invalid input');
+    assert.equal(renewalState.input,'61','invalid renewal input must be preserved');
     assert.match(await app.locator('#renew-error').innerText(),/累计租期不得超过60个月/);
     await app.locator('#renew-months').fill('3');
     assert.equal(await app.locator('#renew-error').count(),0,'renewal error should clear on edit');
