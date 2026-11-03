@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - isolate/rc2-vis-integration-01-gate-20261103
+  pull_request:
+    branches:
+      - isolate/rc2-store-image-map-01-20261103
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 permissions:
   contents: read
