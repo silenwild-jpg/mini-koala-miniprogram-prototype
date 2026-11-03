@@ -1,0 +1,63 @@
+name: RC2-STORE-IMAGE-MAP-01 curated user photos three page consistency (NO DEPLOY)
+on:
+  push:
+    branches:
+      - isolate/rc2-store-image-map-01-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify photo mapping, SHA, source scope, approved H01 unchanged
+        run: |
+          set -eu
+          node --check scripts/verify_rc2_store_image_map_01.cjs
+          node --check scripts/verify_rc2_store_image_map_01_browser.cjs
+          node scripts/verify_rc2_store_image_map_01.cjs
+          node scripts/verify_proto_rule_restore_05.cjs
+          node scripts/verify_proto_rule_restore_06.cjs
+          git diff --name-only f6c8a15ffffada8aa0665c979d91c05b05f0aa96 HEAD | tee /tmp/change_scope
+          ! grep -E '^(app/assets/branch01/|app/prototype/parallel/core-journey-fix-01/demo/(cap|items|br04)/|netlify.toml$)' /tmp/change_scope
+      - name: Install browser and CJK font
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build isolated RC2 with uploaded store imagery (never deploy)
+        env:
+          RC2_BUNDLE_LABEL: RC2-STORE-IMAGE-MAP-01-CANDIDATE-20261103
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_Store_Image_Map_01_Candidate_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/rc2-store-image-map-01-20261103
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: H01 S01 S02 real photo source consistent at 375 and 390
+        run: node scripts/verify_rc2_store_image_map_01_browser.cjs
+      - name: Regress S01 baseline controls and end-to-end order journey
+        run: |
+          node scripts/verify_rc2_s01_structure_browser.cjs
+          node scripts/verify_proto_rule_restore_06_browser.cjs
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload private source-built candidate and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-store-image-map-01-source-built-private
+          path: |
+            release-evidence/rc2-store-image-map-01/
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_Store_Image_Map_01_Candidate_20261103.zip
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-structure-restore/
+          if-no-files-found: warn
+          retention-days: 14

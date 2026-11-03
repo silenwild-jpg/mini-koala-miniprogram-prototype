@@ -78,9 +78,11 @@
   function fill(card,s){
     card.dataset.storeId=s.id;card.dataset.source='CENTRAL_RC1';
     const photo=card.querySelector('.store-photo');
+    photo.onerror=null;
+    photo.onerror=()=>{photo.onerror=null;if(s.photoFallback)photo.src=s.photoFallback;};
     photo.src=s.photo;
-    photo.alt=s.name+'门店环境';
-    photo.dataset.assetOrigin='A_APPROVED_PROTOTYPE_CONTENT';
+    photo.alt=s.photoOrigin?.includes('NOT_PHYSICAL_STORE_VERIFIED')?'迷你考拉仓门店环境示例照片，具体门店归属待核实':s.name+'门店环境';
+    photo.dataset.assetOrigin=s.photoOrigin||'LEGACY_DEMO';
     setText(card.querySelector('h2'),s.name);card.querySelector('h2').title=s.name;
     const tags=Array.from(card.querySelectorAll('.store-tags span'));
     tags.forEach((tag,i)=>{tag.hidden=!s.services[i];setText(tag,s.services[i]||'');});

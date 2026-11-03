@@ -43,6 +43,19 @@
   const operating=['特价仓','新开门店','双11大促','免费搬运'];
   const services=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];
   stores.forEach((s,i)=>{s.source_address=s.address;s.address=s.address.replace('北京市北京朝阳区','北京市朝阳区').replace('+J41:J59','');s.district=districts[s.id]||s.city;s.operatingTag=operating[i%operating.length];s.serviceTags=[services[i%7],services[(i+2)%7],services[(i+4)%7]];s.tags=[s.operatingTag,...s.serviceTags];s.facilities=[...s.serviceTags];});
+
+  const curatedDemoPhotoById={"SIM_BJ01":"store-curated/v1/SIM_BJ01","SIM_BJ02":"store-curated/v1/SIM_BJ02","SIM_BJ03":"store-curated/v1/SIM_BJ03","SIM_BJ04":"store-curated/v1/SIM_BJ04","SIM_BJ05":"store-curated/v1/SIM_BJ05","SIM_BJ06":"store-curated/v1/SIM_BJ06","SIM_BJ07":"store-curated/v1/SIM_BJ07","SIM_BJ08":"store-curated/v1/SIM_BJ08","SIM_BJ09":"store-curated/v1/SIM_BJ09","SIM_SH01":"store-curated/v1/SIM_SH01","SIM_SH02":"store-curated/v1/SIM_SH02","SIM_SZ01":"store-curated/v1/SIM_SZ01"};
+  function attachCuratedDemoPhotos(s){
+    const dir=curatedDemoPhotoById[s.id];
+    if(!dir)return;
+    s.photoLegacy=s.photo;
+    s.photo=dir+'/card.webp';
+    s.photoDetail=dir+'/hero.webp';
+    s.photoGallery=[s.photoDetail];
+    s.photo_source='USER_SUPPLIED_ENVIRONMENT_GENERIC_DEMO_NOT_PHYSICAL_STORE_VERIFIED';
+    s.photo_identity_verified=false;
+  }
+  stores.forEach(attachCuratedDemoPhotos);
   data.version='STORE_FIXTURE_04_DECISIONS_20261026';
 
   // 02J: imported original September 29 catalog from app/data/{store_master.json,mini_koala_data.js}.
