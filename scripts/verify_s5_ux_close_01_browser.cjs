@@ -39,9 +39,11 @@ const cities=['北京','上海','深圳','杭州','广州'],capacities=[null,0.5
      records.push({...res,width,height});
      if(!seen.has(res.state+'-'+width)){
        seen.add(res.state+'-'+width);
+       await frame.locator('#app-viewport').evaluate(el=>el.scrollTop=0);
        await page.screenshot({path:path.join(out,res.state+'-'+width+'.png'),fullPage:true});
        await frame.locator('#app-viewport').evaluate(el=>el.scrollTop=el.scrollHeight);
        await page.screenshot({path:path.join(out,res.state+'-'+width+'-bottom.png'),fullPage:true});
+       await frame.locator('#app-viewport').evaluate(el=>el.scrollTop=0);
      }
     }
    }
