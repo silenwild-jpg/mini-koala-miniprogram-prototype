@@ -58,6 +58,7 @@ const cases=[
      if(tc.name==='matched')assert.equal(await s5.locator('#main-buy').innerText(),'立即下单','valid offer retains purchase CTA');
      if(tc.name==='matched'||tc.name==='near'||tc.name==='expanded'||tc.name==='combo'||tc.name==='large')assert.equal(probe.boardHeight,tc.expectedAdvisor?1116:1005,'single recommendation layout must collapse blank space');
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(probe.boardHeight,858,'empty/incomplete should not leave long blank page');
+     if(tc.name==='incomplete'){assert.equal((await s5.locator('.nm-kicker').innerText()).trim(),'请先确认租期');assert.match(await s5.locator('[data-nm="range"]').innerText(),/选择租期/);}
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(await s5.locator('#artboard').getAttribute('data-count'),'0','hidden recommendation must not activate single-card layout');
      assert.equal(probe.hasFixedPurchase,false,'fixed purchase should be absent');
      assert(probe.bodyWidth<=probe.viewportWidth+2,'S5 iframe horizontally overflows');
