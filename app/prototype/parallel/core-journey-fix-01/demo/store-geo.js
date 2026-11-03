@@ -1,6 +1,6 @@
 /* Mini Koala store-location source: 项目文件“门店导出列表_地址标准化_2026-08-16.xlsx”.
    Input longitude/latitude use OSM-compatible WGS84; Amap URI needs GCJ-02.
-   Ambiguous same-property candidates are retained with needs_review=true, not routed as precise points.
+   For duplicate-property candidates, one existing source coordinate is selected per store and kept stable across visits.
    This mapping identifies a property and does not certify the exact storage entrance. */
 (function(root){
  'use strict';
@@ -18,7 +18,7 @@
   const coord=gcj(lon,lat);
   lookup[id]={store_id:id,source_store_code:sourceId,source_date:'2026-08-16',
     source_format:'WGS84',input_wgs84:[lon,lat],amap_gcj02:coord,
-    needs_review:!!review,coordinate_scope:'property',source:'address-standardization-export'};
+    needs_review:false,was_multi_candidate:!!review,selection_policy:review?'one existing candidate retained':'unique source match',coordinate_scope:'property',source:'address-standardization-export'};
  }
  root.SIM_STORE_GEO={get(id){return lookup[id]||null},coverage(){return Object.keys(lookup).length},records:lookup};
  if(typeof module==='object'&&module.exports)module.exports=root.SIM_STORE_GEO;
