@@ -1656,10 +1656,10 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
   }
   const route=mode==='transit'?null:window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274?.routeFor?.(storeId,params.get('searchOriginKey')||'guomao',mode);
   const valid=route&&Number(route.m)>0&&Number(route.km)>0;
-  metric.textContent=valid?'约'+Math.round(Number(route.m))+'分钟 · '+Number(route.km).toFixed(1)+'km':'';
+  metric.textContent=valid?'约'+Math.round(Number(route.m))+'分钟 · '+Number(route.km).toFixed(1)+'km · 演示':'';
   // Non-verified route numbers remain demonstration-only; do not present as live navigation.
   metric.dataset.routeSource=valid?(route.source||'demo'):'unavailable';
-  $('#s02RouteNavigate').textContent='导航到门店 ›';
+  $('#s02RouteNavigate').textContent=map.dataset.mapMode==='live'?'导航到门店 ›':'查看门店位置 ›';
  }
  modes.forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.routeMode)));
  selectMode('drive');
