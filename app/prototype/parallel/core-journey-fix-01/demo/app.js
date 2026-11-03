@@ -91,7 +91,7 @@
     const rows=[];F.stores.filter(s=>s.city===state().city&&s.status==='open'&&s.id!==excludeStore).forEach(s=>{
       const ids=storeOffer(s);
       if(ids?.length)rows.push({store:s,ids,volume:ids.reduce((n,id)=>n+(unit(id)?.volume||0),0),combo:ids.length>1});
-    });return REC.rank(rows.sort((a,b)=>(a.volume-(state().requirement.capacity_m3||0))-(b.volume-(state().requirement.capacity_m3||0))||storeAmount(a.store)-storeAmount(b.store)),{distanceVerified:F.distanceVerified,costOf:row=>recommendationCost(row.ids)}).items;
+    });return REC.rank(rows.sort((a,b)=>(a.volume-(state().requirement.capacity_m3||0))-(b.volume-(state().requirement.capacity_m3||0))||storeAmount(a.store)-storeAmount(b.store)),{distanceVerified:F.distanceVerified||F.stores.filter(s=>s.city===state().city&&s.status==='open').every(s=>Number.isFinite(s.distance)&&s.distance>=0),costOf:row=>recommendationCost(row.ids)}).items;
   }
   // S5-only adaptation from the same live city/store/unit directory as S01.
   // Public demo distance values are explicitly illustrative when geolocation is unverified.
