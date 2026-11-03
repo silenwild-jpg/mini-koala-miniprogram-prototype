@@ -53,7 +53,9 @@ function update(){
  one('#visual').classList.toggle('hasvalue',ok);
  if(ok){
   const b=bandData.find(x=>n<=x.max) || bandData[bandData.length-1];
-  one('#sceneimg').src=__embeddedAssets['scenes/'+b.image];
+  const r3Tier=n<=1.5?'mini':n<=5?'small':n<=15?'medium':'large';
+  one('#sceneimg').src='assets/unit-r3/cap/unit-r3-'+r3Tier+'-640x480.webp';
+  one('#sceneimg').style.objectFit='contain';
   one('#sceneimg').alt='约'+b.anchor+'立方米仓储空间参考示意';
   one('#scenetitle').textContent=b.title;
   one('#scenenote').textContent=b.note;
