@@ -58,8 +58,8 @@
     if(!rows.length)return Number(requirement.capacity_m3)>50?'large':'none';
     const first=rows[0];
     if(Number(requirement.capacity_m3)>50)return 'large';
-    if(first.combo)return 'combo';
     if(Number(first.volume)<Number(requirement.capacity_m3))return 'near';
+    if(first.combo)return 'combo';
     if(first.expandedSearch===true||first.searchExpanded===true)return 'expanded';
     return 'matched';
   }
