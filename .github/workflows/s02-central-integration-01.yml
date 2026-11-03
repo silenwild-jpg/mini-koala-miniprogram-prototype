@@ -1,0 +1,33 @@
+name: S02 Central Integration 01 browser QA
+on:
+  pull_request:
+    branches:
+      - preview/rc2-r2-private-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s02:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check scripts/verify_s02_central_integration_01_browser.cjs
+      - name: Install browser
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: S02 real browser six-state double size QA
+        run: node scripts/verify_s02_central_integration_01_browser.cjs
+      - name: Save screenshot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s02-central-integration-01-evidence
+          path: release-evidence/s02-central-integration-01/
+          if-no-files-found: warn
