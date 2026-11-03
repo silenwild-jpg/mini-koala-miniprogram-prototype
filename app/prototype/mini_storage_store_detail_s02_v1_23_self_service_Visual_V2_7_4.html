@@ -1692,7 +1692,18 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
  }
  modes.forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.routeMode)));
  selectMode('drive');
- $('#s02RouteNavigate').addEventListener('click',()=>$('#navTop')?.click());
+ function navigateToStore(){
+   const address=String(profile.address||business.address||'').trim();
+   if(!address){return}
+   const keyword=[profile.name||business.name||'',address].filter(Boolean).join(' ');
+   const query=new URLSearchParams({keyword,city:String(profile.city||business.city||''),view:'map',src:'minikoala',callnative:'1'});
+   const url='https://uri.amap.com/search?'+query.toString();
+   const opened=window.open(url,'_blank','noopener,noreferrer');
+   if(!opened)window.location.href=url;
+ }
+ $('#s02RouteNavigate').addEventListener('click',navigateToStore);
+ const topNavigation=$('#navTop');
+ if(topNavigation)topNavigation.onclick=navigateToStore;
  selectTab('service');
 })();
 </script>
