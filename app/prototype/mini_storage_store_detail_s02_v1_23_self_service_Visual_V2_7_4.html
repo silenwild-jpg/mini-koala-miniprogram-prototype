@@ -1243,6 +1243,7 @@ function renderComboOffers(combos){
   if(!panel)return;
   const hasSingle=idealUnits().length>0;
   if(hasSingle || state==='browse' || !termMonths || inventoryStatus==='SOLD_OUT'){panel.innerHTML='';panel.classList.add('hidden');return;}
+  if(!combos.length){panel.innerHTML='';panel.classList.add('hidden');return;}
   const format=v=>Number(v).toFixed(1)+'m³';
   const intro=combos.length?`<div class="combo-intro">组合仓位 ${combos.length}个</div>`:'';
   const safeCopy=v=>String(v||'').replace(/[&<>\"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[x]));
