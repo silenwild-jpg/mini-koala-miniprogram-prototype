@@ -7,11 +7,18 @@
   const capacities=[['all','全部容量'],['mini','1m³以内'],['small','1–3m³'],['medium','3–6m³'],['large','6–10m³'],['extra','10m³以上']];
   const ranges={mini:[0,1],small:[1,3],medium:[3,6],large:[6,10],extra:[10,Infinity]};
   function matches(volume,key){const range=ranges[key];return !range||(volume>range[0]&&volume<=range[1]);}
+  // RC2 is an internal demo: unverified coordinates may still have stable visual km.
+  // The same value is used for display, distance filtering and ranking; it never
+  // changes the separate location-verification state.
   function distanceOf(s,verified=false){
-    if(!verified)return '';
     const num=s.distance===null||s.distance===undefined?NaN:Number(s.distance);
-    // No hashed fake kilometers: a missing source is missing data, never a position.
-    return Number.isFinite(num)&&num>=0?num.toFixed(1)+'km':'';
+    const synthetic=typeof SIM_FIXTURES!=='undefined'&&SIM_FIXTURES.synthetic===true;
+    if(!verified&&!synthetic)return '';
+    if(Number.isFinite(num)&&num>=0)return num.toFixed(1)+'km';
+    if(!synthetic)return '';
+    const id=String(s.id||s.name||'store');
+    const hash=Array.from(id).reduce((n,ch)=>(Math.imul(n,31)+ch.charCodeAt(0))>>>0,0);
+    return (1+(hash%111)/10).toFixed(1)+'km';
   }
   function view(s,index){
     // Preserve current fixture/catalog fields (same IDs as S02 and O01).
