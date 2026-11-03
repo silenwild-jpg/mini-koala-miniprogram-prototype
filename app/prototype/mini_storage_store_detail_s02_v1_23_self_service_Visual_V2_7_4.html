@@ -524,20 +524,6 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <link rel="stylesheet" href="mini_koala_unit_choice_r5a_patch.css" data-patch="UNIT-COMPARE-R5A"/>
 
 <style id="s02-ux-review-03">
-/* Popular sizes: one quiet horizontal band, no stacked nested cards. */
-.s02-popular{margin:10px 0 2px;padding:13px 16px 14px;background:#f3f7f1}
-.s02-popular[hidden]{display:none!important}
-.s02-popular-head{display:flex;align-items:baseline;gap:9px;margin-bottom:11px}
-.s02-popular-head strong{color:#2a6949;font-size:16px;line-height:22px;font-weight:750}
-.s02-popular-head span{font-size:11px;color:#758479;line-height:17px}
-.s02-popular-options{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
-.s02-popular-options::-webkit-scrollbar{display:none}
-.s02-popular-option{flex:0 0 auto;min-width:100px;max-width:138px;padding:0 12px 0 0;border:0;background:none;text-align:left;color:#344c3d;cursor:pointer}
-.s02-popular-option+.s02-popular-option{border-left:1px solid #d8e5d9;padding-left:12px}
-.s02-popular-option b{display:block;font-size:13px;line-height:20px;font-weight:720;white-space:nowrap}
-.s02-popular-option small{display:block;color:#718176;font-size:11px;line-height:18px;white-space:nowrap}
-.s02-popular-option:focus-visible{outline:2px solid #2c7850;outline-offset:3px}
-
 /* S02 production-oriented presentation: keep QA controls out of the customer viewport. */
 /* The bottom bar already offers 顾问协助; do not duplicate it as an overlapping floater. */
 #miniGlobalSupport{display:none!important;pointer-events:none!important}
@@ -571,6 +557,11 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <style id="s02-vis-restore-01">
 /* One scoped visual layer supersedes legacy style patches without deleting active behavior. */
 /* Stronger than legacy scoped selectors. */
+#page .combo-plan{border-color:#e3ebe5!important;border-radius:12px!important;box-shadow:none!important}
+#page .combo-part{background:transparent!important;border:0!important;border-radius:0!important;padding:2px 6px 2px 0!important}
+#page .combo-bottom{border-top-color:#e9eee9!important}
+#page .soldout-empty{border:0!important;box-shadow:none!important;min-height:100px!important}
+
 html body #page .store-overview{margin:0!important;padding:12px 16px 11px!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
 html body #page .browse-helper{margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 html body #page .s02-popular{position:relative;z-index:4;margin:0!important}
@@ -1253,8 +1244,7 @@ function renderComboOffers(combos){
   const hasSingle=idealUnits().length>0;
   if(hasSingle || state==='browse' || !termMonths || inventoryStatus==='SOLD_OUT'){panel.innerHTML='';panel.classList.add('hidden');return;}
   const format=v=>Number(v).toFixed(1)+'m³';
-  const intro=combos.length?`<div class="combo-intro">组合仓位 ${combos.length}个</div>`:
-    '<div class="nearby-recovery"><b>看看附近其他门店</b><button type="button" id="comboNearbyBtn">查看附近可选门店 ›</button></div>';
+  const intro=combos.length?`<div class="combo-intro">组合仓位 ${combos.length}个</div>`:'';
   const safeCopy=v=>String(v||'').replace(/[&<>\"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[x]));
   panel.innerHTML=intro+(combos.length?'<div id="comboLeadFeedback" class="combo-lead-feedback hidden" role="status" aria-live="polite"><span id="comboLeadFeedbackText"></span><button id="comboContactService" type="button">联系客服</button></div>':'')+combos.map((c,i)=>`<div class="combo-plan"><div class="combo-header"><strong>${i===0?'推荐组合':'其他组合'} · ${format(c.capacity)}</strong><span>${c.count}间独立仓</span></div><div class="combo-parts">${c.parts.map((u,j)=>`<span class="combo-part">仓位${j+1} · ${format(u.v)}</span>`).join('')}</div>${c.physicalFit?.allocations?.some(a=>a.item_names?.length)?`<div class="combo-allocation">${c.physicalFit.allocations.map((a,k)=>a.item_names?.length?`<div>仓位${k+1}：${safeCopy(a.item_names.slice(0,4).join('、'))}</div>`:'').join('')}</div>`:''}<div class="combo-bottom"><div><div class="combo-total-label">${termMonths}个月整期总租金</div><div class="combo-total">¥${c.total.toLocaleString()}</div><div class="combo-total-label">月均约 ¥${c.monthly.toLocaleString()}</div></div><button type="button" class="combo-action" data-combo-index="${i}">咨询此组合</button></div></div>`).join('');
   panel.classList.remove('hidden');
@@ -1272,7 +1262,7 @@ function renderPopularSizes(){
   const section=$('#s02Popular'),title=$('#s02PopularTitle'),desc=$('#s02PopularDesc'),action=$('#s02PopularCTA');
   if(!section||!title||!desc||!action)return;
   const available=inventoryStatus==='SOLD_OUT'?[]:inventoryUnits().filter(u=>Number(u.available_count||0)>0);
-  section.hidden=available.length===0;
+  section.hidden=available.length===0 || !(state==='browse'||idealUnits().length>0);
   if(!available.length)return;
   const low=available.filter(u=>Number(u.available_count)>0&&Number(u.available_count)<=2)
     .sort((a,b)=>Number(a.available_count)-Number(b.available_count));
@@ -1309,7 +1299,7 @@ function renderInventory(){
     $('#inventorySubtitle').textContent='';
     $('#inventoryCount').textContent='0个可租仓位';
     $('#inventoryRange').textContent='暂无可租库存';
-    $('#unitList').innerHTML='<div class="soldout-empty"><span class="status">已售罄</span><b>看看其他可租门店</b></div>';
+    $('#unitList').innerHTML='<div class="soldout-empty"><span class="status">已售罄</span></div>';
     $('#allUnits').classList.add('hidden');
     $('#priceBand').classList.add('hidden');
     $('#inventoryFeedback').textContent='';
@@ -1400,7 +1390,6 @@ function renderAllUnitsInline(){
 function renderS02Lead(){ /* 中部顾问卡已删除；底部与异常兜底入口保留。 */ }
 
 function renderState(resetScroll=true){
-  renderPopularSizes();
   // Capacity edits can turn a previously matched store into a no-match store (or vice versa).
   // Update the state before drawing recommendations and the fixed primary action.
   if(inventoryStatus!=='SOLD_OUT' && (state==='matched'||state==='nomatch')){
@@ -1409,6 +1398,7 @@ function renderState(resetScroll=true){
     else if(state==='nomatch'&&single)state='matched';
     $$('.stagechip').forEach(x=>x.classList.toggle('active',x.dataset.state===state));
   }
+  renderPopularSizes();
   renderRequirement();
   const sharedTags=document.getElementById('s02StoreDemoTags');
   if(sharedTags)sharedTags.innerHTML=window.MINI_KOALA_UXB_TAGS.html(storeId,window.MINI_KOALA_STORE_ACTIVITY_DEMO.forStore(storeId));
