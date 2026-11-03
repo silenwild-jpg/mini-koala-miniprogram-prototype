@@ -37,17 +37,20 @@
     "approved_master_git_blob": "ba9995b7ca50079549d3e69ffde2bb3bdb7e4ee3"
   },
   "s01": {
-    "approved_change": "Replace search strip and area/capacity/term triad with four sort/distance/price/service filters",
+    "approved_change": "Latest approved 2026-11-03: sorting, distance, service, three equal filters; no separate price filter",
     "search_relocated_to": "navbar-more",
-    "filter_count": 4,
+    "filter_count": 3,
     "legacy_invisible_region_capacity": "RESET",
     "distance_requires_verified_source": false,
     "pricing_requires_phone_gate": true,
-    "visual_state": "ISOLATED_CANDIDATE_NOT_FINAL_SIGNOFF",
+    "visual_state": "S01_R2_CANONICAL_CUSTOMER_ENTRY_TECHNICAL_PASS_MASTER_FULL_IMAGE_SIGNOFF_HOLD",
     "distance_sort_demo_allowed_without_verified_location": true,
     "verified_location_required_in_live_mode": true,
     "distance_display_source": "STORE_STABLE_DEMO_DISTANCE",
-    "technical_visual_review": "375_390_TECHNICAL_SCREENSHOTS_PASS_NOT_FINAL_MASTER_SIGNOFF"
+    "technical_visual_review": "375_390_TECHNICAL_SCREENSHOTS_PASS_NOT_FINAL_MASTER_SIGNOFF",
+    "single_entry": "R2_HIFI_S01_ONLY",
+    "old_variant": "ARCHIVAL_ONLY_NOT_RUNTIME_ROUTE",
+    "entry_decision": "PROTO-RULE-RESTORE-06_20261103"
   },
   "release": {
     "candidate_version": "RC2-ISOLATED-DEMO-CANDIDATE-10-20261102",
