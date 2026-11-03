@@ -101,6 +101,18 @@
     for(const ch of String(u.id)){h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0}
     u.available_count=[1,2,4,6,8][h%5];
   });
+  // All store IDs have a destination lookup record. Coordinates require map-provider POI verification.
+  activeFixture.stores.forEach(s=>{
+    const hasVerified=Number.isFinite(Number(s.longitude))&&Number.isFinite(Number(s.latitude))&&
+      Number(s.longitude)>70&&Number(s.longitude)<140&&Number(s.latitude)>15&&Number(s.latitude)<55&&
+      s.coordinate_verified===true;
+    s.geo={
+      provider:'amap',store_id:s.id,address:s.address,city:s.city,
+      verified:!!hasVerified,longitude:hasVerified?Number(s.longitude):null,
+      latitude:hasVerified?Number(s.latitude):null,
+      destination_query:[s.name,s.address].filter(Boolean).join(' ')
+    };
+  });
   activeFixture.stores.forEach(s=>{
     let hash=2166136261;
     for(const char of String(s.id)){hash=Math.imul(hash^char.charCodeAt(0),16777619)>>>0}
