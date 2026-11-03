@@ -783,7 +783,7 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div class="lead-note">授权后仅用于本次咨询和后续服务联系，已确认的手机号不会重复索取。</div>
 </div>
 </div>
-<div class="map-sheet-mask" id="storeMapSheet"><div class="map-sheet"><h3 id="mapSheetTitle">门店位置</h3><div class="map-card"><b id="mapSheetStore">门店位置</b><span id="mapSheetAddress">—</span></div><p id="mapSheetRoute">路线时间仅供参考。</p><button id="mapSheetClose">知道了</button></div></div><div class="toast" id="toast"></div>
+<div class="map-sheet-mask" id="storeMapSheet"><div class="map-sheet"><h3 id="mapSheetTitle">门店位置</h3><div class="map-card"><b id="mapSheetStore">门店位置</b><span id="mapSheetAddress">—</span></div><p id="mapSheetRoute"></p><button id="mapSheetClose">知道了</button></div></div><div class="toast" id="toast"></div>
 </div>
 <script src="mini_storage_business_ssot_v274.js"></script>
 <script src="../data/mini_koala_data.js"></script><script src="mini_storage_prepay_qa_facts.js"></script>
@@ -1081,7 +1081,7 @@ function bindUnitCards(){
   $$('.longer-preview').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
     if(el.closest('.unit-card')?.dataset.underMin==='1')return;
-    gotoU01(el.dataset.unit,{focusTerm:Number(el.dataset.nextTerm)});
+    openSheet('#requirementSheet');
   });
 }
 function markSizeOptionSelection(unit){
@@ -1388,7 +1388,7 @@ function renderTravelContext(){
   searchMin=t.m;searchKm=t.km;
   $('#routeText').innerHTML=`${t.icon} ${t.label}约 <b>${t.m} 分钟</b> · ${Number(t.km).toFixed(1)}km ▾`;
   $('#routeText').dataset.routeSource=t.source;
-  $('#routeText').title='到店时间与距离为演示数据';
+  $('#routeText').removeAttribute('title');
   $$('#travelSheet .option').forEach(option=>{
     const row=travel[option.dataset.travel];
     option.querySelector('span').textContent=`约${row.m}分钟 · ${Number(row.km).toFixed(1)}km`;
@@ -1432,7 +1432,7 @@ $('#backBtn').onclick=()=>{
   if(window.MINI_STORAGE_SALES_SHARE?.enabled){window.MINI_STORAGE_SALES_SHARE.append(p);p.set('shareType','stores')}
   window.location.href=s01File+`?${p.toString()}`;
 };
-function openStoreMap(){document.querySelector('#mapSheetStore').textContent=storeProfile.name;document.querySelector('#mapSheetAddress').textContent=storeProfile.address;document.querySelector('#mapSheetRoute').textContent=$('#routeText').textContent.replace('▾','').trim()+' · 路线时间仅供参考';document.querySelector('#storeMapSheet').classList.add('show')}
+function openStoreMap(){document.querySelector('#mapSheetStore').textContent=storeProfile.name;document.querySelector('#mapSheetAddress').textContent=storeProfile.address;document.querySelector('#mapSheetRoute').textContent=$('#routeText').textContent.replace('▾','').trim();document.querySelector('#storeMapSheet').classList.add('show')}
 $('#navTop').onclick=openStoreMap;
 $('#mapLink')?.addEventListener('click',openStoreMap);
 $('#mapSheetClose').onclick=()=>document.querySelector('#storeMapSheet').classList.remove('show');
