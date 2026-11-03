@@ -34,6 +34,8 @@ function assessS02(source){
  else {
    const banner=source.slice(bannerStart,bannerEnd);
    if(/<button|data-action="s02ToUnits"|查看仓位/.test(banner))issues.push('热门仓型横幅擅自新增CTA');
+   if(/const urgent=low.length>0/.test(banner) && /<strong>热门仓型余量紧张/.test(banner) && !/urgent?/.test(banner.slice(banner.indexOf('return'))))issues.push('热门横幅对非低库存门店仍固定显示余量紧张');
+   if(/charCodeAt(0).{0,140}位用户预订|位用户预订.{0,140}charCodeAt(0)/s.test(banner))issues.push('预订人数由门店ID推算，缺少独立数据契约');
  }
  const styles=path.join(root,'app/prototype/parallel/core-journey-fix-01/demo/s02-central.css');
  if(fs.existsSync(styles)){
@@ -42,6 +44,22 @@ function assessS02(source){
   if(css.includes('s02-lower-tabs'))issues.push('旧版底部选项卡样式残留');
  }
  return issues;
+}
+function sectionChanged(relativePath,sectionName){
+  const base=process.env.VIS_GUARD_BASE_SHA||event.pull_request?.base?.sha;
+  if(!base)return true; // no trustworthy comparison; fail safely
+  const full=path.join(root,relativePath);
+  if(!fs.existsSync(full))return true;
+  let old;
+  try{old=git(['show',base+':'+relativePath])}catch{return true}
+  const current=fs.readFileSync(full,'utf8');
+  function body(source){
+   const begin=source.indexOf('function '+sectionName+'(){');
+   if(begin<0)return null;
+   const next=source.indexOf('\n  function ',begin+12);
+   return source.slice(begin,next<0?undefined:next);
+  }
+  return body(old)!==body(current);
 }
 function assessS01(source){
  const issues=[];
@@ -82,6 +100,8 @@ function verifyFixture(){
  const fixture='function renderS02(){ const tabs="可选仓位 服务设施 交通路线 s02MainTabs s02Demand() s02HotRibbon(s) s02AccessHours(s) data-action=\"detailTab\"";const content=visual.tab===\'交通路线\'?s02Route(s):visual.tab===\'服务设施\'?s02Services(s):"units"; }function amountLines(){}function s02HotRibbon(s){return "<div>🔥 热门仓型</div>";}function s02Route(s){}';
  const ok=assessS02(fixture),bad=assessS02(fixture.replace('s02MainTabs','s02-lower-tabs').replace('热门仓型</div>','热门仓型<button>查看仓位</button></div>'));
  if(ok.length||!bad.some(s=>s.includes('CTA'))||!bad.some(s=>s.includes('s02MainTabs')))throw Error('visual guard self-test failed: '+JSON.stringify({ok,bad}));
+ const invented=assessS02(fixture.replace('return "<div>🔥 热门仓型</div>"','const low=[];const urgent=low.length>0;return "<strong>热门仓型余量紧张</strong>"'));
+ if(!invented.some(x=>x.includes('余量紧张')))throw Error('fake stock urgency not rejected');
  const g=reportEvidence('G-TECH: PASS\nVIS_SIGNED: HOLD\nDEPLOYED: HOLD',false);
  if(!g.issues.some(x=>x.includes('视觉签收')))throw Error('unapproved ready PR unexpectedly allowed');
  const g2=reportEvidence('G-TECH: PASS\nVIS_SIGNED: HOLD\nDEPLOYED: HOLD',true);
@@ -96,7 +116,10 @@ if(!fs.existsSync(path.join(root,'docs/VISUAL_MANIFEST.md')))issues.push('批准
 if(!fs.existsSync(path.join(root,'docs/PROTO_VIS_EXEC_01.md')))issues.push('治理规则缺失');
 if(changed.includes(active)){
  const source=fs.readFileSync(path.join(root,active),'utf8');
- issues.push(...assessS02(source));issues.push(...assessS01(source));
+ if(sectionChanged(active,'renderS02'))issues.push(...assessS02(source));
+ else warnings.push('本次未修改S02渲染器；历史S02债务不会阻断无关页面修改');
+ if(sectionChanged(active,'renderS01'))issues.push(...assessS01(source));
+ else warnings.push('本次未修改S01渲染器；历史S01债务不会阻断无关页面修改');
 }
 if(visual.length){
  const body=event.pull_request?.body||'';
