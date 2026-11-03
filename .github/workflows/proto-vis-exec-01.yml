@@ -1,0 +1,30 @@
+name: PROTO-VIS-EXEC-01 Visual Governance
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-contract:
+    name: Visual contract and evidence guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate guard syntax and self-tests
+        run: |
+          node --check scripts/check_proto_vis_exec_01.cjs
+          node scripts/check_proto_vis_exec_01.cjs --self-test
+      - name: Evaluate changed visual contracts and PR evidence
+        run: node scripts/check_proto_vis_exec_01.cjs --strict
+      - name: Upload independent governance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: proto-vis-exec-01-guard-report
+          path: release-evidence/proto-vis-exec-01/visual-guard-report.json
+          if-no-files-found: warn
