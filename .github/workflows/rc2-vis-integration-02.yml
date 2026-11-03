@@ -23,6 +23,7 @@ jobs:
       - name: Validate source/photo mapping and frozen visual
         run: |
           set -eu
+          node scripts/verify_rc2_vis_integration_04_guards.cjs
           node scripts/verify_rc2_store_image_map_01.cjs
           node scripts/verify_proto_rule_restore_05.cjs
           node scripts/verify_proto_rule_restore_06.cjs
