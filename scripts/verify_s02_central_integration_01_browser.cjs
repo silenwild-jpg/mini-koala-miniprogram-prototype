@@ -10,7 +10,41 @@ await new Promise(r=>server.listen(4758,'127.0.0.1',r));
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const scenarios=[['browse',null],['matched',0.5],['near',9],['nomatch',200],['combo',12],['soldout','stock']];
 const rows=[];
+const stockCases=[['normal_stock',false],['low_stock',true]];
 try{
+for(const [width,height] of [[375,812],[390,844]]){
+ const ctx=await browser.newContext({viewport:{width,height},deviceScaleFactor:1});
+ for(const [scenario,urgent] of stockCases){
+  const page=await ctx.newPage(),errors=[],checks={};let failure='';
+  page.on('pageerror',e=>errors.push(e.message));
+  try{
+   await page.goto('http://127.0.0.1:4758/prototype/parallel/core-journey-fix-01/demo/index.html?page=S02&store=SIM_BJ01',{waitUntil:'load'});
+   await page.waitForTimeout(120);
+   await page.evaluate(low=>{
+    const app=window.SIM_DEMO,units=app.core.fixture.units.filter(u=>u.store_id===app.state().storeId&&app.core.available(u));
+    for(const u of units)u.available_count=8;
+    if(low&&units.length)units[0].available_count=1;
+    app.navigate('S02',app.state().storeId);
+   },urgent);
+   await page.waitForTimeout(150);
+   const headline=(await page.locator('.s02-hot-copy strong').innerText()).trim();
+   const detail=(await page.locator('.s02-hot-copy small').innerText()).trim();
+   const marker=(await page.locator('.s02-hot-stock').innerText()).trim();
+   checks.correctHeadline=urgent?headline==='热门仓型余量紧张，建议尽快锁定':headline==='热门仓型正在热租';
+   checks.correctDetail=urgent?detail==='部分仓型仅剩1间':/^本店可租\d+种仓位$/.test(detail);
+   checks.correctMarker=urgent?marker==='仅剩少量仓位':marker==='热租中';
+   checks.noInventedBookings=!(await page.locator('.s02-hot').innerText()).includes('近7天');
+   checks.noExtraCTA=await page.locator('.s02-hot button').count()===0;
+   checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
+   checks.threeTabs=await page.locator('#s02MainTabs [role="tab"]').count()===3;
+   await page.screenshot({path:path.join(output,scenario+'-'+width+'-top.png')});
+  }catch(e){failure=String(e.stack||e)}
+  rows.push({name:scenario,width,checks,errors,missing:[],failure});
+  await page.close();
+ }
+ await ctx.close();
+}
+
 for(const [width,height] of [[375,812],[390,844]]){
 const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1});
 for(const [name,capacity] of scenarios){
