@@ -28,7 +28,7 @@ checks.store=await page.locator('.store-title').count()===1;
 checks.hours=/^存取时间：(24小时|09:00-21:00|08:00-23:00)$/.test(await page.locator('#s02AccessHours').innerText());
 checks.estimate=name!=='browse'||await page.locator('#browseEstimator').isVisible();
 checks.inventory=await page.locator('#inventorySection').isVisible();
-checks.popular=name==='sold_out'?!(await page.locator('#s02Popular').isVisible()):(await page.locator('#s02Popular').isVisible()&&await page.locator('.s02-popular-cta').count()===1);
+checks.popular=['sold_out','no_match','combo'].includes(name)?!(await page.locator('#s02Popular').isVisible()):(await page.locator('#s02Popular').isVisible()&&await page.locator('.s02-popular-cta').count()===1);
 checks.noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
 checks.overviewFlat=await page.locator('.store-overview').evaluate(el=>{
  const s=getComputedStyle(el);return parseFloat(s.borderTopWidth)===0&&parseFloat(s.borderTopLeftRadius)===0&&s.boxShadow==='none';
@@ -49,6 +49,7 @@ checks.mode=await page.locator('[data-route-mode="bike"]').evaluate(e=>e.classLi
 await page.screenshot({path:path.join(out,name+'-'+width+'-route.png'),fullPage:true});
 await page.locator('#s02ServiceTab').click();checks.service=await page.locator('#s02ServicePanel').isVisible();
 if(name==='sold_out')checks.soldout=await page.locator('.unit-cta:not([disabled])').count()===0;
+if(name==='no_match')checks.noDuplicateRecovery=!(await page.locator('#comboOfferBlock').isVisible());
 if(name==='matched'){
 const btn=page.locator('.unit-cta:not([disabled])').first();
 if(await btn.count()){await btn.click();await page.waitForTimeout(350);checks.checkout=page.url().includes('mini_storage_order_o01')||await page.locator('#requirementSheet').evaluate(e=>e.classList.contains('show'))||await page.locator('#leadMask').evaluate(e=>e.classList.contains('show'));checks.checkoutUrl=page.url();if(page.url().includes('mini_storage_order_o01'))checks.priceGate=await page.evaluate(()=>window.MINI_KOALA_PRICE_GATE_STATUS?.valid===true);}
