@@ -110,7 +110,8 @@
     const resolved=explicit||!!(source&&!source.needs_review);
     s.geo={
       provider:'amap',store_id:s.id,address:s.address,city:s.city,
-      verified:resolved,longitude:explicit?Number(s.longitude):resolved?source.amap_gcj02[0]:null,
+      verified:explicit,route_candidate:resolved,
+      longitude:explicit?Number(s.longitude):resolved?source.amap_gcj02[0]:null,
       latitude:explicit?Number(s.latitude):resolved?source.amap_gcj02[1]:null,
       source_store_code:source?.source_store_code||null,
       source_date:source?.source_date||null,
