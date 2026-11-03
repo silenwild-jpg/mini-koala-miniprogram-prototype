@@ -75,7 +75,30 @@
       btn.style.opacity=u.available?'1':'0.56';
     }
   }
-  function fill(card,s){
+  // The first two stores keep their full, two-unit card. From the third onward,
+  // the whole compact row is a single S02 navigation target; never expand units.
+  function setCompact(card,s,position){
+    const compact=position>=2;
+    card.classList.toggle('s01-compact',compact);
+    card.dataset.presentation=compact?'compact-direct':'expanded-two';
+    card.dataset.matchState=s.matchState||'browse';
+    if(compact){
+      card.setAttribute('role','link');card.setAttribute('tabindex','0');
+      card.setAttribute('aria-label','查看'+s.name+'门店详情');
+    }else{
+      card.removeAttribute('role');card.removeAttribute('tabindex');card.removeAttribute('aria-label');
+    }
+    let summary=card.querySelector('.s01-compact-summary');
+    if(!summary){summary=document.createElement('div');summary.className='s01-compact-summary';card.querySelector('.store-body').append(summary);}
+    setText(summary,s.compactSummary||'查看门店仓位');
+    summary.hidden=!compact;
+    let hint=card.querySelector('.s01-match-hint');
+    if(!hint){hint=document.createElement('p');hint.className='s01-match-hint';card.querySelector('.store-body').append(hint);}
+    setText(hint,s.matchHint||'');
+    hint.hidden=compact||!s.matchHint;
+  }
+  function fill(card,s,position){
+    setCompact(card,s,position);
     card.dataset.storeId=s.id;card.dataset.source='CENTRAL_RC1';
     const photo=card.querySelector('.store-photo');
     photo.onerror=null;
@@ -90,7 +113,7 @@
     const address=card.querySelector('.address-copy');setText(address,s.address);address.title=s.address;
     const distance=card.querySelector('.km');setText(distance,s.distance);distance.hidden=!s.distance;distance.dataset.verified=String(!!s.distanceVerified);if(s.distance)distance.setAttribute('aria-label','距离约'+s.distance);else distance.removeAttribute('aria-label');
     card.querySelectorAll('.unit').forEach((el,i)=>setUnit(el,s.units[i]));
-    card.querySelector('.units').hidden=!s.units.length;
+    card.querySelector('.units').hidden=position>=2||!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);
   }
   function render(){
@@ -104,7 +127,7 @@
       stage.append(clone);existing.push(clone);
     }
     stage.querySelector('[role="status"]')?.remove();
-    existing.forEach((card,i)=>i>=state.stores.length?card.remove():fill(card,state.stores[i]));
+    existing.forEach((card,i)=>i>=state.stores.length?card.remove():fill(card,state.stores[i],i));
     if(!state.stores.length){
       const empty=document.createElement('p');empty.setAttribute('role','status');
       empty.textContent='未找到匹配门店，请调整搜索或筛选条件';stage.append(empty);
@@ -133,7 +156,9 @@
   stage.addEventListener('keydown',e=>{
     if(!['Enter',' '].includes(e.key))return;
     const order=e.target.closest('.order');
-    if(order){e.preventDefault();if(order.getAttribute('aria-disabled')!=='true')bridge.action('choose',order.dataset.unitId);}
+    if(order){e.preventDefault();if(order.getAttribute('aria-disabled')!=='true')bridge.action('choose',order.dataset.unitId);return;}
+    const compact=e.target.closest('.store-card.s01-compact');
+    if(compact&&e.target===compact){e.preventDefault();bridge.action('store',compact.dataset.storeId);}
   });
   document.querySelector('.nav-back')?.addEventListener('click',()=>bridge.action('home'));
   document.querySelector('.nav-target')?.addEventListener('click',()=>bridge.action('city'));
