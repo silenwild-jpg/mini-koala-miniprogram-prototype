@@ -1683,11 +1683,16 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
    travelMode=mode;
    if(typeof renderTravelContext==='function')renderTravelContext();
   }
-  const route=mode==='transit'?null:window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274?.routeFor?.(storeId,params.get('searchOriginKey')||'guomao',mode);
+  const planner=window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274;
+  const origin=params.get('searchOriginKey')||'guomao';
+  const route=mode==='transit'?null:planner?.routeFor?.(storeId,origin,mode);
+  const driveRoute=mode==='transit'?planner?.routeFor?.(storeId,origin,'drive'):null;
   const valid=route&&Number(route.m)>0&&Number(route.km)>0;
-  metric.textContent=valid?'约'+Math.round(Number(route.m))+'分钟 · '+Number(route.km).toFixed(1)+'km':'';
-  // Non-verified route numbers remain demonstration-only; do not present as live navigation.
-  metric.dataset.routeSource=valid?(route.source||'estimate'):'unavailable';
+  const transitEstimate=driveRoute&&Number(driveRoute.m)>0?Math.max(15,Math.round(Number(driveRoute.m)*1.6+8)):null;
+  metric.textContent=valid?'约'+Math.round(Number(route.m))+'分钟 · '+Number(route.km).toFixed(1)+'km':
+    (mode==='transit'&&transitEstimate?'约'+transitEstimate+'分钟':'');
+  // Internal data provenance; do not render technical metadata in customer UI.
+  metric.dataset.routeSource=valid?(route.source||'estimate'):(transitEstimate?'provisional':'unavailable');
   $('#s02RouteNavigate').textContent='导航到门店 ›';
  }
  modes.forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.routeMode)));
