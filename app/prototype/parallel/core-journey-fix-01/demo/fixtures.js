@@ -26,7 +26,7 @@
     ['SIM_GZ01','广州','天河·体育西店','天河区','广州市天河区体育西路附近',1.8,[1,3.5,8,15]],
     ['SIM_GZ02','广州','海珠·江南西店','海珠区','广州市海珠区江南西路附近',4.6,[.8,5,12]]
   ];
-  const supplementalDimensions={.8:[.8,.5,2],1:[1,.5,2],3.5:[1.4,1,2.5],5:[2,1,2.5],8:[2,1.6,2.5],12:[2.4,2,2.5],15:[3,2,2.5]};
+  const supplementalDimensions={'0.8':[.8,.5,2],'1':[1,.5,2],'3.5':[1.4,1,2.5],'5':[2,1,2.5],'8':[2,1.6,2.5],'12':[2.4,2,2.5],'15':[3,2,2.5]};
   supplementalDemoStores.forEach(([id,city,name,district,address,distance,volumes],i)=>{
     stores.push({id,city,name,district,address,distance,photo:i%2?'store_changning.jpg':'store_xuhui.jpg',
       rating:4.7,review:86+i*17,status:'open',tags:['24小时','独立安防'],
@@ -64,7 +64,7 @@
   const districts={"SIM_BJ01": "朝阳区", "SIM_BJ02": "朝阳区", "SIM_BJ03": "朝阳区", "SIM_BJ04": "朝阳区", "SIM_BJ05": "朝阳区", "SIM_BJ06": "西城区", "SIM_BJ07": "东城区", "SIM_BJ08": "朝阳区", "SIM_BJ09": "丰台区", "SIM_BJ10": "朝阳区", "SIM_BJ11": "海淀区", "SIM_BJ12": "昌平区", "SIM_BJ13": "通州区", "SIM_BJ14": "石景山区", "SIM_BJ15": "西城区", "SIM_BJ16": "东城区", "SIM_BJ17": "朝阳区", "SIM_BJ18": "丰台区", "SIM_BJ19": "朝阳区", "SIM_BJ20": "海淀区", "SIM_BJ21": "昌平区", "SIM_BJ22": "通州区", "SIM_BJ23": "西城区", "SIM_BJ24": "东城区", "SIM_BJ25": "朝阳区", "SIM_BJ26": "丰台区", "SIM_BJ27": "海淀区", "SIM_BJ28": "昌平区", "SIM_BJ29": "通州区", "SIM_BJ30": "西城区", "SIM_SH01": "长宁区", "SIM_SH02": "长宁区", "SIM_SZ01": "宝安区"};
   const operating=['特价仓','新开门店','双11大促','免费搬运'];
   const services=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];
-  stores.forEach((s,i)=>{s.source_address=s.address;s.address=s.address.replace('北京市北京朝阳区','北京市朝阳区').replace('+J41:J59','');s.district=districts[s.id]||s.city;s.operatingTag=operating[i%operating.length];s.serviceTags=[services[i%7],services[(i+2)%7],services[(i+4)%7]];s.tags=[s.operatingTag,...s.serviceTags];s.facilities=[...s.serviceTags];});
+  stores.forEach((s,i)=>{s.source_address=s.address;s.address=s.address.replace('北京市北京朝阳区','北京市朝阳区').replace('+J41:J59','');s.district=districts[s.id]||s.district||s.city;s.operatingTag=operating[i%operating.length];s.serviceTags=[services[i%7],services[(i+2)%7],services[(i+4)%7]];s.tags=[s.operatingTag,...s.serviceTags];s.facilities=[...s.serviceTags];});
 
   const curatedDemoPhotoById={"SIM_BJ01":"store-curated/v1/SIM_BJ01","SIM_BJ02":"store-curated/v1/SIM_BJ02","SIM_BJ03":"store-curated/v1/SIM_BJ03","SIM_BJ04":"store-curated/v1/SIM_BJ04","SIM_BJ05":"store-curated/v1/SIM_BJ05","SIM_BJ06":"store-curated/v1/SIM_BJ06","SIM_BJ07":"store-curated/v1/SIM_BJ07","SIM_BJ08":"store-curated/v1/SIM_BJ08","SIM_BJ09":"store-curated/v1/SIM_BJ09","SIM_SH01":"store-curated/v1/SIM_SH01","SIM_SH02":"store-curated/v1/SIM_SH02","SIM_SZ01":"store-curated/v1/SIM_SZ01"};
   function attachCuratedDemoPhotos(s){
