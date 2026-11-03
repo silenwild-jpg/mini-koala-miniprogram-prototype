@@ -51,10 +51,17 @@ async function run(){
    assert(await child.locator('[data-sort="recommended"]').count());
    await child.locator('[data-sort="recommended"]').click();
    await child.locator('.filter').nth(1).click();
-   assert(await child.locator('[data-radius="3"]').isVisible(),'distance range is missing');
-   await child.locator('[data-radius="3"]').click();
-   assert((await child.locator('.store-card').count())>0,'3km radius unexpectedly produced no candidate');
-   await child.locator('.filter').nth(1).click();await child.locator('[data-radius="0"]').click();
+   const verified=await app.locator('#screen').evaluate(()=>!!window.SIM_FIXTURES.distanceVerified);
+   if(verified){
+     assert(await child.locator('[data-radius="3"]').isVisible(),'verified-distance range is missing');
+     await child.locator('[data-radius="3"]').click();
+     await child.locator('.filter').nth(1).click();await child.locator('[data-radius="0"]').click();
+   }else{
+     assert.equal(await child.locator('[data-radius="3"]').count(),0,'unverified distances must not create a radius filter');
+     assert.match(await child.locator('#s01-inline-panel').innerText(),/缺少可核验的位置信息/);
+     await child.locator('.filter').nth(1).click();
+     assert.equal(await child.locator('.km:visible').count(),0,'unverified kilometers shown on S01');
+   }
    await child.locator('.filter').nth(2).click();
    assert(await child.locator('[name="s01-service"]').count()>=7,'service option list incomplete');
    await child.locator('input[name="s01-service"][value="近地铁"]').check();
@@ -78,7 +85,7 @@ async function run(){
    assert.equal(new URL(page.url()).searchParams.get('page'),'S01','wrapper URL remains central while frame navigation updates');
    assert.equal(await app.locator('#s01-r2-frame').count(),0,'bottom My did not navigate away from S01');
    assert.deepEqual(errors,[],'browser runtime errors');
-   rows.push({width,nav,initialShown:initial,filters:labels,multiSelected:2,search:'PASS',distance:'PASS',quick:'PASS',more:'PASS',jsErrors:0});
+   rows.push({width,nav,initialShown:initial,filters:labels,multiSelected:2,search:'PASS',distance:verified?'VERIFIED_RANGE_PASS':'UNVERIFIED_DISABLED_PASS',quick:'PASS',more:'PASS',jsErrors:0});
    await ctx.close();
   }
   fs.writeFileSync(path.join(out,'test-results.json'),JSON.stringify({status:'PASS',rows},null,2));
