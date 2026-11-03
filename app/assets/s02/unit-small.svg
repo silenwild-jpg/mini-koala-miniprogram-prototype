@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 190" role="img" aria-label="仓位容量图">
+<defs><linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c3e0d7"/><stop offset="1" stop-color="#7fb6a2"/></linearGradient><linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f5f4ec"/><stop offset="1" stop-color="#e0e8de"/></linearGradient></defs>
+<ellipse cx="121" cy="170" rx="86" ry="10" fill="#d6e3dc" opacity=".7"/>
+<path d="M42.5 151 L81.5 134.25 L223.5 134.25 L184.5 153 Z" fill="#c1d1c4" stroke="#8da798" stroke-width="1.3"/>
+<path d="M42.5 33 L81.5 13.5 L81.5 134.25 L42.5 153 Z" fill="url(#wall)" stroke="#528b78" stroke-width="1.4"/>
+<path d="M81.5 13.5 L223.5 13.5 L223.5 134.25 L81.5 134.25 Z" fill="url(#front)" stroke="#9cb8a8" stroke-width="1.2"/>
+<g><g><path d="M88.5 105 l9.6 -4.48 h23.04 l-9.6 4.48Z" fill="#efcf9f"/><rect x="88.5" y="105" width="23.04" height="24" fill="#c99a65"/><path d="M111.53999999999999 105 l9.6 -4.48 v24 l-9.6 4.48Z" fill="#ae7b4b"/></g><rect x="70.5" y="107" width="21" height="33" rx="5" fill="#436f72"/><path d="M77.5 107v-6h8v6" stroke="#2d5254" stroke-width="3" fill="none"/><g><path d="M121.5 91 l11.1 -5.180000000000001 h26.64 l-11.1 5.180000000000001Z" fill="#efcf9f"/><rect x="121.5" y="91" width="26.64" height="37" fill="#c99a65"/><path d="M148.14 91 l11.1 -5.180000000000001 v37 l-11.1 5.180000000000001Z" fill="#ae7b4b"/></g><g><path d="M149.5 114 l9.299999999999999 -4.340000000000001 h22.32 l-9.299999999999999 4.340000000000001Z" fill="#efcf9f"/><rect x="149.5" y="114" width="22.32" height="22" fill="#c99a65"/><path d="M171.82 114 l9.299999999999999 -4.340000000000001 v22 l-9.299999999999999 4.340000000000001Z" fill="#ae7b4b"/></g></g>
+<path d="M42.5 33v120 M184.5 33v120" stroke="#237b63" stroke-width="6" stroke-linecap="round"/>
+<path d="M42.5 33H184.5" stroke="#2a9177" stroke-width="7" stroke-linecap="round"/>
+
+</svg>
