@@ -43,8 +43,8 @@ const cases=[
        const candidate=template?{...template,volume:scenario.volume??template.volume,combo:scenario.combo?{count:2}:template.combo,expandedSearch:!!scenario.expandedSearch}:null;
        // Use real offer identity/price formatter and only inject deterministic state labels and rent thresholds.
        host.offers=()=>scenario.empty?[]:[candidate];
-       const originalAmounts=core.formalAmounts.bind(core);
-       core.formalAmounts=(ids,term)=>({...originalAmounts(ids,term),rent_total:scenario.rent});
+       const originalAmounts=core.amounts.bind(core);
+       core.amounts=(ids,term)=>({...originalAmounts(ids,term),rent_total:scenario.rent});
        window.BR04_REFRESH();
        const board=document.getElementById('artboard'),advisor=document.getElementById('s5-advisor');
        const visible=el=>!!el&&!el.hidden&&getComputedStyle(el).display!=='none';
