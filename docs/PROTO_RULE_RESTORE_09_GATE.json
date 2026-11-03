@@ -40,9 +40,15 @@
     "ssoteam_required_all_deploy_contexts": true,
     "password_required": false,
     "current_site_is_rc2": false,
-    "old_s02_link_error_seen": true
+    "old_s02_link_error_seen": true,
+    "team_slug": "silenwild",
+    "team_plan": "Free",
+    "team_members_count": 1,
+    "current_user_role": "Owner",
+    "other_testers_access_verified": false
   },
   "pending_release_conditions": [
+    "TESTER_IDENTITY_AND_TEAM_ACCESS_VALIDATED",
     "EXPLICIT_PRIVATE_DEPLOY_APPROVAL",
     "INDEPENDENT_RC2_SITE_WITH_SSO_BEFORE_FIRST_DEPLOY",
     "SIGNED_IN_MOBILE_ACCESS",
