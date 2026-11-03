@@ -69,7 +69,7 @@
     // Trigger on the current primary recommended scheme's full-term rent,
     // excluding deposit and management fee; never compare payable or monthly price.
     try{
-      const rent=Number(amounts(rows[0].ids)?.rent_total);
+      const rent=Number(core.amounts(rows[0].ids,requirement.term_months)?.rent_total);
       return Number.isFinite(rent)&&rent>2000;
     }catch{return false;}
   }
