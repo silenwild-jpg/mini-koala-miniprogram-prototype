@@ -21,7 +21,7 @@ const server=http.createServer((req,res)=>{const dest=path.resolve(root,'.'+deco
    await page.goto(base+'/central-review-02g.html?catalog=sim&page=H01');
    let app=page.frameLocator('#central-host');
    await app.locator('#heroPhoto').waitFor();
-   await app.locator('[aria-label="选择城市或搜索门店"]').click();
+   await app.locator('.hero-hotspots .hot-search').click();
    await app.locator('#home-city').selectOption({label:'上海'});
    await app.locator('[data-h="search"]').click();
    const first=app.frameLocator('#s01-r2-frame');
