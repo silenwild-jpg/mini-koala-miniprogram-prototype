@@ -8,11 +8,11 @@ const port=4547,base='http://127.0.0.1:'+port;
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml'};
 const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,base).pathname));}catch{res.writeHead(400).end();return;}if(!fp.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(fp,(e,b)=>e?res.writeHead(404).end('not found'):res.writeHead(200,{'Content-Type':mime[path.extname(fp)]||'application/octet-stream'}).end(b));});
 const cases=[
-  {name:'matched',capacity:3,rent:2000,expectedAdvisor:false},
+  {name:'matched',capacity:3,rent:2000,volume:3,expectedAdvisor:false},
   {name:'near',capacity:3,rent:2001,volume:2,expectedAdvisor:true},
-  {name:'expanded',capacity:3,rent:1900,expandedSearch:true,expectedAdvisor:false},
+  {name:'expanded',capacity:3,rent:1900,volume:3,expandedSearch:true,expectedAdvisor:false},
   {name:'combo',capacity:15,rent:1900,combo:true,expectedAdvisor:true},
-  {name:'large',capacity:60,rent:1900,expectedAdvisor:true},
+  {name:'large',capacity:60,rent:1900,volume:60,expectedAdvisor:true},
   {name:'none',capacity:11,rent:0,empty:true,expectedAdvisor:false},
   {name:'incomplete',capacity:3,rent:0,confirmed:false,expectedAdvisor:false}
 ];
