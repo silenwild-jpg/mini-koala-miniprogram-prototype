@@ -1,0 +1,80 @@
+name: PROTO-RULE-RESTORE-03 isolated S01/U01 regression
+on:
+  push:
+    branches:
+      - isolate/proto-rule-restore-03-three-filters-no-u01-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify source syntax and approved three-filter/no-U01 contract
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
+          node --check scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+          node --check scripts/verify_proto_rule_restore_03.cjs
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py
+          node scripts/verify_proto_rule_restore_03.cjs
+      - name: Upload static QA proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: proto-rule-restore-03-static
+          path: release-evidence/rule-restore-03/static-check.json
+          if-no-files-found: warn
+  browser-regression:
+    needs: source-and-contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install browser and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Assemble isolated user demo without U01
+        env:
+          RC2_BUNDLE_LABEL: PROTO-RULE-RESTORE-03-ISOLATED-20261103
+          RC2_BUNDLE_ARCHIVE: MiniKoala_PROTO_RULE_RESTORE_03_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/proto-rule-restore-03-three-filters-no-u01-20261103
+        run: |
+          python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify packaged three filters and service/distance on 375 and 390
+        run: node scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+      - name: Verify H01-S01-S02-O01-O03, S5 and returns on 375 and 390
+        run: node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload private QA screenshots and isolated zip (no production deploy)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: proto-rule-restore-03-private-375-390
+          path: |
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/isolated-bundle-smoke.json
+            release-evidence/rc2-merge-prep-10/isolated-S01-distance-*.png
+            release-evidence/rc2-merge-prep-10/MiniKoala_PROTO_RULE_RESTORE_03_20261103.zip
+            release-evidence/rc2-fix-01d/summary.json
+            release-evidence/rc2-fix-01d/*.png
+          if-no-files-found: warn
+          retention-days: 14
