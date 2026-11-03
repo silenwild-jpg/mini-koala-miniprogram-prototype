@@ -37,4 +37,32 @@ for(const u of f.units){
  }
  else assert.equal(core.stockCount(u),0,'unavailable count');
 }
+
+// Exercise an actual order transaction and verify the same inventory state survives a central reload.
+const sample=f.units.find(u=>core.available(u)&&f.stores.find(s=>s.id===u.store_id)?.status==='open');
+assert(sample,'no available sample');
+const base=JSON.parse(JSON.stringify(core.state()));
+base.city=f.stores.find(s=>s.id===sample.store_id).city;
+base.auth={status:'verified',method:'phone',phone:'13800000000',expiresAt:Date.now()+3600*1000};
+base.requirement={capacity_m3:sample.volume,term_months:12,term_confirmed:true,source:'known_capacity'};
+base.selected=[sample.id];
+base.dateConfirmed=true;base.startDate=f.demoToday;
+const unitSample=f.units.find(u=>u.id===sample.id);
+const transaction=context.SIM_CORE.create({state:base});
+assert(transaction.selectionValid(),'selected inventory invalid before order');
+const quote=transaction.quote();
+assert(quote.unit_ids.includes(sample.id),'wrong quoted unit');
+const reservedOrder=transaction.submit();
+assert.equal(transaction.stockCount(unitSample),0,'pending order did not lock stock');
+const reloaded=context.SIM_CORE.create({state:transaction.state()});
+assert.equal(reloaded.stockCount(unitSample),0,'reserved state lost after central reload');
+reloaded.cancelOrder(reservedOrder.id);
+assert.equal(reloaded.stockCount(unitSample),core.stockCount(unitSample),'cancel did not restore stock');
+const paid=context.SIM_CORE.create({state:base});
+paid.quote();
+const paidOrder=paid.submit();
+paid.pay(paidOrder.id,'success');
+assert.equal(paid.stockCount(unitSample),0,'paid stock remains available');
+assert.equal(context.SIM_CORE.create({state:paid.state()}).stockCount(unitSample),0,'paid status not persisted');
+
 console.log(JSON.stringify({pass:true,stores:f.stores.length,unitOptions:f.units.length,bookable:matched,verifiedCoordinateStores:routeable,manualReviewStores:manualReview,lookupCovered:f.stores.length}));
