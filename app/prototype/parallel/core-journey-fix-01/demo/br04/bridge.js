@@ -87,7 +87,7 @@
     const showAdvisor=match&&!existingAdvisorPrimary&&s5AdvisorNeeded(offerRows,r);
     $('s5-advisor').hidden=!showAdvisor;
     $('artboard').dataset.advisorVisible=String(showAdvisor);
-    $('artboard').dataset.designHeight=match?(showAdvisor?'1256':'1145'):'858';
+    $('artboard').dataset.designHeight=matchState==='none'||matchState==='incomplete'?'858':(showAdvisor?'1256':'1145');
     document.querySelector('.rec-heading h2').textContent='为您推荐 '+offerRows.length+' 个合适的方案';
     document.querySelector('.rec-heading p').textContent=({
       matched:'按容量与租期为您推荐',near:'以下是容量接近的备选方案',
