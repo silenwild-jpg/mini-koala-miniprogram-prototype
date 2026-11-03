@@ -21,7 +21,7 @@ const cities=['北京','上海','深圳','杭州','广州'],capacities=[null,0.5
    await frame.locator('body.bridge-ready').waitFor({timeout:15000});
    for(const city of cities){
     for(const capacity of capacities){
-     const res=await frame.locator('body').evaluate(({city,capacity})=>{
+     const res=await frame.locator('body').evaluate((body,{city,capacity})=>{
        const host=parent.SIM_DEMO,core=host.core;
        core.setCity(city);core.setRequirement(capacity,capacity===null?null:12,capacity!==null);
        const offers=host.s5Offers();
