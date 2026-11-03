@@ -11,6 +11,7 @@
   const core=B.core,F=core.fixture,presentation=B.presentation,$=id=>document.getElementById(id),$$=s=>Array.from(document.querySelectorAll(s));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money=n=>'¥'+Number(n).toLocaleString('zh-CN');
+  const r3Thumb=(v)=>'../../assets/unit-r3/thumb/unit-r3-'+(Number(v)<=1.5?'mini':Number(v)<=5?'small':Number(v)<=15?'medium':'large')+'-336x312.webp';
   const store=id=>F.stores.find(x=>x.id===id),unit=id=>F.units.find(x=>x.id===id);
   let allUI={};try{allUI=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}');}catch{}
   const advisorMode=page==='reserve'&&(new URLSearchParams(parent.location.search).get('mode')==='advisor'||!!sessionStorage.getItem('mk_advisor_context_v3'));
@@ -78,7 +79,7 @@
     document.querySelector('.store-row>img').alt='门店场景示意';document.querySelector('.unit-row>img').alt='仓位空间示意';text('city-text',s.city+' · 默认城市');text('store-name',st?.name||'请选择门店');text('store-address',st?.address||(F.stores.some(x=>x.city===s.city&&x.status==='open')?'选择门店后显示地址':'暂无可展示门店'));text('distance-value','');
     if(st)image('.store-row>img','../../assets/'+st.photo,'门店场景示意');
     text('unit-name',chosen?rows.map(u=>u.name).join(' + '):'请选择仓位');text('capacity-value',chosen?rows.reduce((n,u)=>n+u.volume,0)+'m³':'选仓后显示');
-    if(chosen)image('.unit-row>img','../../assets/'+(rows[0].volume<=1.5?'mini_split.jpg':rows[0].photo),'仓位空间示意');
+    if(chosen)image('.unit-row>img',r3Thumb(rows[0].volume),'仓位空间示意');
     document.querySelector('.badges').innerHTML=chosen?'<span>'+(rows.length>1?rows.length+'项组合':F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span><span>空间示意</span>':'<span>请主动选择可用仓位</span>';
     $$('[data-term]').forEach(el=>el.setAttribute('aria-pressed',String(s.requirement.term_confirmed&&Number(el.dataset.term)===s.requirement.term_months)));
     const allowed=core.authorized()&&s.requirement.term_confirmed&&valid,amount=allowed?amounts(q.ids):null;
@@ -106,7 +107,7 @@
     document.querySelector('.store-img').alt='门店场景示意';document.querySelector('.unit-img').alt='仓位空间示意';document.querySelector('.distance').style.visibility='hidden';text('store-name',st?.name||'尚未选择门店');text('store-address',st?.address||'请返回选择仓位');text('unit-name',rows.length?rows.map(u=>u.name).join(' + '):'尚未选择仓位');
     document.querySelector('.capacity').textContent=rows.length?rows.reduce((n,u)=>n+u.volume,0)+'m³':'待选择';
     if(st){image('.store-img','../../assets/'+st.photo,'门店场景示意');document.querySelector('.distance').textContent='';}
-    if(rows.length)image('.unit-img','../../assets/'+(rows[0].volume<=1.5?'mini_split.jpg':rows[0].photo),'仓位空间示意');
+    if(rows.length)image('.unit-img',r3Thumb(rows[0].volume),'仓位空间示意');
     document.querySelector('.summary .tags').innerHTML=rows.length>1?'<span>'+rows.length+'项组合</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>空间示意</span>':'<span>'+(F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span><span>空间示意</span>';document.querySelectorAll('.fee-row')[2].querySelector('span').textContent=rows.length>1?'押金（各仓月租合计）':'押金（1个月月租）';
     text('period',confirmed?s.requirement.term_months+'个月':'请选择租期');$('period').disabled=!!(pending||paid);$('start-date').disabled=!!(pending||paid);$('start-date').min=F.demoToday;$('start-date').value=s.startDate||'';
     text('phone',authorized?'手机号 · 已验证':s.contactPhone?'联系电话 '+s.contactPhone+' · 价格待授权':'未授权，报价暂不可见');
