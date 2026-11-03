@@ -117,7 +117,7 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
 </div><small>O01 确认订单需经页面内选仓与手机号验证进入。模拟支付、续租及退租均不产生真实交易。本包请仅在受控内网或本地浏览器中使用；文件本身不提供访问控制。</small>
 </main></body></html>"""
     (SITE / "index.html").write_text(landing, "utf-8")
-    (SITE / "robots.txt").write_text("User-agent: *\\nDisallow: /\\n", "utf-8")
+    (SITE / "robots.txt").write_text("User-agent: *\nDisallow: /\n", "utf-8")
     # Retired U01 links must never create an order or trust stale store/unit IDs.
     # Netlify reads these rules when an isolated, SSO-protected preview is explicitly deployed.
     legacy_target = "/central-review-02g.html?catalog=sim&page=S01&s01_r2=1&legacy=u01"
@@ -129,7 +129,7 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
         *["/prototype/state_demos/U01_" + state + ".html" for state in ("LONGTERM_COMPARE", "NO_TERM", "STANDARD_6M")],
     ]
     (SITE / "_redirects").write_text(
-        "\\n".join(path + " " + legacy_target + " 302" for path in retired_paths) + "\\n",
+        "\n".join(path + " " + legacy_target + " 302" for path in retired_paths) + "\n",
         "utf-8"
     )
 
