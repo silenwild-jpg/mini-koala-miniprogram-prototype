@@ -15,7 +15,7 @@ for(const w of [375,390]){
  for(const prefix of ['hero_original','tasks_display','below_original','nav_original']){
   const filename=prefix+'_'+w+'.png';
   assert(fs.statSync(path.join(root,dir,'assets',filename)).size>1000,'H01 runtime slice absent '+filename);
-  assert(home.includes(filename.replace('_'+w,'.png','_${suffix}.png')),'H01 not using source slice '+filename);
+  assert(home.includes(filename.replace('_'+w+'.png','_${suffix}.png')),'H01 not using source slice '+filename);
  }
 }
 assert.equal(gate.s01.filter_count,3);
