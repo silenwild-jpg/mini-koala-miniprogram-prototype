@@ -73,6 +73,7 @@ const cases=[
      await s5.locator('#artboard').screenshot({path:path.join(out,tc.name+'-'+width+'-artboard.png')});
      const scrollMetrics=await s5.locator('#app-viewport').evaluate(el=>{el.scrollTop=el.scrollHeight;return {clientHeight:el.clientHeight,scrollHeight:el.scrollHeight,scrollTop:el.scrollTop};});
      if(tc.expectedAdvisor)assert(scrollMetrics.scrollHeight>scrollMetrics.clientHeight,'advisor mode content must be scrollable');
+     if(tc.name==='none'||tc.name==='incomplete')assert(await s5.locator('.estore').evaluate(el=>el.getBoundingClientRect().bottom<=innerHeight+4),'empty or incomplete E-store must remain fully reachable');
      await page.waitForTimeout(120);
      await page.screenshot({path:path.join(out,tc.name+'-'+width+'-scrolled-bottom.png')});
      row.scrollMetrics=scrollMetrics;
