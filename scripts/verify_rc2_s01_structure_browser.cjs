@@ -28,6 +28,15 @@ async function run(){
    assert(spatial.frameBottom<=spatial.navTop+2,'S01 list is covered by nav');
    assert(spatial.bodyWidth<=spatial.viewport+2,'unexpected horizontal page overflow');
    const initial=await child.locator('.store-card').count();assert(initial>=3,'R2 still truncates to just two stores');
+   // Source contract: same store id must retain address, service tags and photo,
+   // not R2-generated "88号B1层" placeholders or two rotating generic cards.
+   const firstId=await child.locator('.store-card').first().getAttribute('data-store-id');
+   const original=await app.locator('#screen').evaluate(id=>{const x=window.SIM_FIXTURES.stores.find(s=>s.id===id);return {id:x.id,address:x.address,photo:x.photo,services:x.serviceTags||[]};},firstId);
+   const first=child.locator('.store-card').first();
+   assert.equal(await first.locator('.address-copy').innerText(),original.address,'store address was fabricated in R2');
+   assert((await first.locator('.store-photo').getAttribute('src')).endsWith('/'+original.photo),'store photo was replaced with a generic carousel asset');
+   const tags=await first.locator('.store-tags span:not([hidden])').allInnerTexts();
+   assert(tags.every(x=>original.services.includes(x)),'store card services are not from same store source');
    assert(await child.locator('.s01-result-summary').innerText()!=='正在载入门店');
    await page.screenshot({path:path.join(out,'S01-restored-'+width+'.png'),fullPage:true});
    await child.locator('#s01-search').fill('安贞');
