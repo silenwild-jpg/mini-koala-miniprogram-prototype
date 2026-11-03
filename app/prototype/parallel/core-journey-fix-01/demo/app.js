@@ -109,9 +109,17 @@
     }
     // No adequate warehouse: offer a clearly disclosed nearby-size alternative,
     // never treat it as meeting the user's actual volume or enable direct ordering.
-    const near=F.stores.filter(s=>s.city===state().city&&s.status==='open')
-      .flatMap(s=>F.units.filter(u=>u.store_id===s.id&&core.available(u)&&u.volume<need&&u.volume>=need*0.8)
-        .map(u=>({store:s,ids:[u.id],volume:u.volume,combo:false,nearCapacity:true,distanceDemo:!F.distanceVerified})));
+    const near=F.stores.filter(s=>s.city===state().city&&s.status==='open').flatMap(s=>{
+      const units=F.units.filter(u=>u.store_id===s.id&&core.available(u)&&u.volume<need);
+      const rows=units.filter(u=>u.volume>=need*0.8)
+        .map(u=>({store:s,ids:[u.id],volume:u.volume,combo:false,nearCapacity:true,distanceDemo:!F.distanceVerified}));
+      for(let i=0;i<units.length;i++)for(let j=i+1;j<units.length;j++){
+        const volume=Number((units[i].volume+units[j].volume).toFixed(3));
+        if(volume<need&&volume>=need*0.8)
+          rows.push({store:s,ids:[units[i].id,units[j].id],volume,combo:true,nearCapacity:true,distanceDemo:!F.distanceVerified});
+      }
+      return rows.sort((a,b)=>b.volume-a.volume).slice(0,1);
+    });
     return near.sort((a,b)=>b.volume-a.volume ||
       Number(a.store.distance??Infinity)-Number(b.store.distance??Infinity) ||
       core.amounts(a.ids,requirement.term_months).rent_total-core.amounts(b.ids,requirement.term_months).rent_total).slice(0,2);
