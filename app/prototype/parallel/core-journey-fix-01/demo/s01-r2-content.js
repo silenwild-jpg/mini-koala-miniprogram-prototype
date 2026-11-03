@@ -20,8 +20,8 @@
     const address=String(s.address||'').trim();
     const services=[...new Set((s.serviceTags||[]).filter(v=>typeof v==='string'&&v.trim()))].slice(0,3);
     const asset=String(s.photo||'');
-    const photo=/^[a-zA-Z0-9_.-]+\.(?:jpg|jpeg|png|webp)$/.test(asset)?'assets/'+asset:'assets/s01-r2-a-1.webp';
-    return {district,address,services,distance:distanceOf(s),photo};
+    const photo=/^(?:store-curated\/v1\/SIM_[A-Z0-9]+\/(?:card|hero)\.webp|[a-zA-Z0-9_.-]+\.(?:jpg|jpeg|png|webp))$/.test(asset)?'assets/'+asset:'assets/s01-r2-a-1.webp';
+    return {district,address,services,distance:distanceOf(s),photo,photoFallback:s.photoLegacy?'assets/'+s.photoLegacy:null,photoOrigin:s.photo_source||'LEGACY_DEMO'};
   }
   // Only copy on the isolated R2 journey is normalized. No fixture or state mutation.
   function productText(value){return String(value)
