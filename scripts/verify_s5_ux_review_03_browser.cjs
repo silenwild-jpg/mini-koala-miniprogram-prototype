@@ -67,6 +67,11 @@ const cases=[
      await page.screenshot({path:path.join(out,tc.name+'-'+width+'.png'),fullPage:true});
      // Capture full S5 iframe, not just the outer preview window.
      await s5.locator('#artboard').screenshot({path:path.join(out,tc.name+'-'+width+'-artboard.png')});
+     const scrollMetrics=await s5.locator('#app-viewport').evaluate(el=>{el.scrollTop=el.scrollHeight;return {clientHeight:el.clientHeight,scrollHeight:el.scrollHeight,scrollTop:el.scrollTop};});
+     if(tc.expectedAdvisor)assert(scrollMetrics.scrollHeight>scrollMetrics.clientHeight,'advisor mode content must be scrollable');
+     await page.waitForTimeout(120);
+     await page.screenshot({path:path.join(out,tc.name+'-'+width+'-scrolled-bottom.png')});
+     row.scrollMetrics=scrollMetrics;
      row={...row,status:'PASS',probe};
     }catch(e){row.failure=String(e.message||e);}
     results.push(row);console.log('S5_UX_REVIEW_03_CASE',JSON.stringify(row));
