@@ -1,0 +1,52 @@
+name: S5-UX-REVIEW-02 isolated source and 375-390 Chromium regression NO DEPLOY
+on:
+  push:
+    branches:
+      - isolate/s5-ux-review-02-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s5-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify syntax state transitions and advisor threshold boundaries
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check scripts/verify_s5_ux_review_02.cjs
+          node scripts/verify_s5_ux_review_02.cjs
+      - name: Install Chromium and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build isolated RC2 without deployment
+        env:
+          RC2_BUNDLE_LABEL: S5-UX-REVIEW-02-ISOLATED
+          RC2_BUNDLE_ARCHIVE: MiniKoala_S5_UX_REVIEW_02_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/s5-ux-review-02-20261103
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Real 375x812 and 390x844 browser smoke and screenshots
+        run: node scripts/verify_rc2_vis_integration_02_browser.cjs
+      - name: Core S5 navigation and pricing chain
+        run: node scripts/verify_proto_rule_restore_06_browser.cjs
+      - name: Store evidence privately
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s5-ux-review-02-private-qa
+          path: |
+            release-evidence/rc2-vis-integration-02/
+            release-evidence/rule-restore-06/
+            release-evidence/rc2-merge-prep-10/build-summary.json
+          retention-days: 14
+          if-no-files-found: warn
