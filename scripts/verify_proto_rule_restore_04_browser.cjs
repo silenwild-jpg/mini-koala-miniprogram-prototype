@@ -18,20 +18,24 @@ const cases=[];
   for(const [width,height] of [[375,812],[390,844]]){
    const ctx=await browser.newContext({viewport:{width,height},deviceScaleFactor:1});
    const page=await ctx.newPage(),errors=[];page.on('pageerror',x=>errors.push(x.message));
-   // Previously saved preview must not mutate a new S01 URL's mode.
+   // The sole live S01 presentation is R2 high fidelity, including historical no-flag links.
    await page.goto(base+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1');
    let app=page.frameLocator('#central-host');
    await app.frameLocator('#s01-r2-frame').locator('.filter').first().waitFor();
    assert.equal(await app.frameLocator('#s01-r2-frame').locator('.filter').count(),3);
-   await page.goto(base+'/central-review-02g.html?catalog=sim&page=S01');
-   app=page.frameLocator('#central-host');
-   await app.locator('#screen.page-S01').waitFor();
-   assert.equal(await app.locator('#s01-r2-frame').count(),0,'R2 mode incorrectly leaked from previous page');
-   assert.equal(await app.locator('.filter-btn').count(),3,'default S01 filters changed');
-   await app.locator('[data-action="serviceFilter"]').click();
+   for(const q of ['','&s01_r2=0']){
+     await page.goto(base+'/central-review-02g.html?catalog=sim&page=S01'+q);
+     app=page.frameLocator('#central-host');
+     await app.locator('#screen.page-S01').waitFor();
+     await app.frameLocator('#s01-r2-frame').locator('.filter').first().waitFor();
+     assert.equal(await app.frameLocator('#s01-r2-frame').locator('.filter').count(),3,'S01 must always show three filters');
+     assert.equal(await app.locator('.filter-btn').count(),0,'retired S01 list reappeared');
+     assert.equal(await app.locator('#screen').evaluate(()=>new URLSearchParams(location.search).get('s01_r2')),'1','S01 inner URL not canonical');
+   }
+   await app.frameLocator('#s01-r2-frame').locator('.filter').nth(2).click();
    await app.locator('.control-sheet').getByText('服务筛选').waitFor();
    await app.locator('[data-action="setService"][data-value="all"]').click();
-   cases.push({size:width,case:'explicit-S01-mode-and-three-filters',result:'PASS'});
+   cases.push({size:width,case:'canonical-single-S01-three-filters',result:'PASS'});
    // U01 deep link must discard stale unit/store/quote parameters.
    await page.goto(base+'/central-review-02g.html?catalog=sim&page=U01&store=FAKE&unit=FAKE&price=1');
    await page.waitForURL(/page=S01.*legacy=u01/);
