@@ -82,7 +82,7 @@ checks.activeS02=await page.locator('.screen.page-S02').count()===1;
 checks.hours=/^存取时间：(24小时|09:00-21:00|08:00-23:00)$/.test((await page.locator('.s02-hours').innerText()).trim());
 checks.demand=await page.locator('.s02-demand').isVisible();
 checks.inventory=await page.locator('#s02Inventory').isVisible();
-checks.pricePresentation=await page.evaluate(()=>{
+checks.pricePresentation=name==='soldout'||await page.evaluate(()=>{
  const app=window.SIM_DEMO;
  const row=document.querySelector('#s02Inventory .unit-row[data-unit]');
  if(!row)return true;
@@ -96,6 +96,7 @@ checks.tabsBeforeInventory=await page.evaluate(()=>{const t=document.querySelect
 checks.noHotCTA=await page.locator('.s02-hot button,.s02-hot [data-action="s02ToUnits"]').count()===0;
 
 checks.state=await page.locator('#s02Inventory').getAttribute('data-s02-status')===name;
+if(name==='soldout')checks.unavailableCTA=await page.locator('#s02Inventory .order-button:not([disabled])').count()===0;
 if(name==='nomatch')checks.noUnusableListing=await page.locator('.s02-no-match').isVisible()&&await page.locator('#s02Inventory .unit-row').count()===0;
 if(name==='combo')checks.splitVisual=await page.locator('.s02-combo-pics img').count()===2;
 checks.unitPhoto=['soldout','nomatch','combo'].includes(name)||await page.locator('.unit-img').first().evaluate(el=>el.complete&&el.naturalWidth>0).catch(()=>false);
