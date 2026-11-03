@@ -22,7 +22,7 @@ const routes=['H01','CAP','S01','S02','S5'],rows=[];
    page.on('response',r=>{if(r.url().startsWith('http://127.0.0.1')&&r.status()>=400)badAssets.push({status:r.status(),url:r.url().split('?')[0]})});
    let failure='';
    try{
-    await page.goto('http://127.0.0.1:4932/central-review-02g.html?catalog=sim&page='+route,{waitUntil:'load',timeout:25000});
+    await page.goto('http://127.0.0.1:4932/central-review-02g.html?catalog=sim&page='+route+(route==='S02'?'&store=SIM_BJ01':''),{waitUntil:'load',timeout:25000});
     await page.waitForTimeout(900);
     checks.contractErrorHidden=await page.locator('#central-error').isHidden();
     const frame=page.frameLocator('#central-host');
