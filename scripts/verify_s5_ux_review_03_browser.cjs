@@ -54,6 +54,9 @@ const cases=[
      assert.equal(probe.state,tc.name,JSON.stringify(probe));
      assert.equal(probe.advisor,tc.expectedAdvisor,'advisor condition');
      assert.equal(probe.buyCount,2,'preserve both card CTAs');
+     if(tc.name==='near')assert.equal(await s5.locator('#main-buy').innerText(),'查看门店','undersized alternative must not offer direct checkout');
+     if(tc.name==='matched')assert.equal(await s5.locator('#main-buy').innerText(),'立即下单','valid offer retains purchase CTA');
+     if(tc.name==='matched'||tc.name==='near'||tc.name==='expanded'||tc.name==='combo'||tc.name==='large')assert.equal(probe.boardHeight,tc.expectedAdvisor?1116:1005,'single recommendation layout must collapse blank space');
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(probe.boardHeight,858,'empty/incomplete should not leave long blank page');
      assert.equal(probe.hasFixedPurchase,false,'fixed purchase should be absent');
      assert(probe.bodyWidth<=probe.viewportWidth+2,'S5 iframe horizontally overflows');
