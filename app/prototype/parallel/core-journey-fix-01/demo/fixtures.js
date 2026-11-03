@@ -18,6 +18,28 @@
   const units=[];
   const dimensionMap={0.8:[.8,.5,2],1:[1,.5,2],1.5:[1,.75,2],2:[1,1,2],3:[1.5,1,2],3.5:[1.25,1.4,2],4:[2,1,2],5:[1.25,2,2],6:[2,1.5,2],7:[1.75,2,2],8:[2,2,2],9:[3,1.5,2],10:[2.5,2,2],12:[3,2,2],14:[3.5,2,2],16:[4,2,2]};
   stores.forEach((s,i)=>(i<5?capacitySets[i]:s.city!=='北京'?capacitySets[{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id]]:[[.8,1.5,3,5],[1,2,4,8],[1.5,3.5,6,12],[2,4,10,16],[1,3,5,9]][(i-5)%5]).forEach((volume,j)=>units.push({id:s.id+'_U'+String(j+1).padStart(2,'0'),store_id:s.id,code:'A'+String(j+1).padStart(2,'0'),name:'A'+String(j+1).padStart(2,'0')+' · '+volume+'m³独立仓',volume,area:Number((volume/2).toFixed(2)),dimensions:dimensionMap[volume].join(' × ')+'m',dimensions_m:dimensionMap[volume],base_month:Math.round((110+volume*(82+(s.city==='北京'?i:{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id])*3))/10)*10,status:(i===0&&j===1)?'soldout':s.status==='closed'?'unavailable':'available',photo:volume<4?'unit_small1.jpg':'unit_medium.jpg',revision:1})));
+  // RC2-S5-FINAL-01: explicitly synthetic stores for natural five-city demo flows.
+  // They use existing photos only; names, positions, stock and prices are illustrative.
+  const supplementalDemoStores=[
+    ['SIM_HZ01','杭州','西湖·文三路店','西湖区','杭州市西湖区文三路附近',2.2,[.8,3.5,8,15]],
+    ['SIM_HZ02','杭州','滨江·江南大道店','滨江区','杭州市滨江区江南大道附近',5.4,[1,5,12]],
+    ['SIM_GZ01','广州','天河·体育西店','天河区','广州市天河区体育西路附近',1.8,[1,3.5,8,15]],
+    ['SIM_GZ02','广州','海珠·江南西店','海珠区','广州市海珠区江南西路附近',4.6,[.8,5,12]]
+  ];
+  const supplementalDimensions={.8:[.8,.5,2],1:[1,.5,2],3.5:[1.4,1,2.5],5:[2,1,2.5],8:[2,1.6,2.5],12:[2.4,2,2.5],15:[3,2,2.5]};
+  supplementalDemoStores.forEach(([id,city,name,district,address,distance,volumes],i)=>{
+    stores.push({id,city,name,district,address,distance,photo:i%2?'store_changning.jpg':'store_xuhui.jpg',
+      rating:4.7,review:86+i*17,status:'open',tags:['24小时','独立安防'],
+      facilities:['24小时存取','独立安防','装卸区域','顾问协助'],synthetic:true});
+    volumes.forEach((volume,j)=>{
+      const dimensions=supplementalDimensions[volume];
+      units.push({id:id+'_U'+String(j+1).padStart(2,'0'),store_id:id,code:'A'+String(j+1).padStart(2,'0'),
+        name:'A'+String(j+1).padStart(2,'0')+' · '+volume+'m³独立仓',volume,
+        area:Number((volume/dimensions[2]).toFixed(2)),dimensions:dimensions.join(' × ')+'m',dimensions_m:dimensions,
+        base_month:Math.round((155+volume*(83+i*2))/10)*10,status:'available',
+        photo:volume<4?'unit_small1.jpg':'unit_medium.jpg',revision:1,synthetic:true});
+    });
+  });
   const sampleProfiles={SIM_BJ06:'soldout',SIM_BJ07:'reserved',SIM_BJ08:'maintenance',SIM_BJ09:'occupied',SIM_BJ10:'mixed'};
   units.forEach(u=>{const p=sampleProfiles[u.store_id];if(p==='mixed'){if(u.code==='A01')u.status='soldout';if(u.code==='A02')u.status='reserved';}else if(p)u.status=p==='maintenance'?'unavailable':p;});
   stores.forEach(s=>s.sample_profile=sampleProfiles[s.id]||(s.status==='closed'?'service_paused':'available'));
@@ -31,7 +53,7 @@
     {id:'combo',name:'组合仓方案',capacity:9,term:6,city:'北京'},
     {id:'inventoryChanged',name:'下单前库存变化',capacity:3.5,term:6,city:'北京',nextRecheck:'inventory'},
     {id:'priceChanged',name:'下单前价格变化',capacity:3.5,term:6,city:'北京',nextRecheck:'price'},
-    {id:'emptyCity',name:'城市暂无门店',capacity:3.5,term:6,city:'广州'},
+    {id:'emptyCity',name:'城市暂无门店',capacity:3.5,term:6,city:'广州',soldStores:['SIM_GZ01','SIM_GZ02']},
     {id:'shanghai',name:'切换城市 · 上海',capacity:3.5,term:6,city:'上海'},
     {id:'phoneDenied',name:'拒绝手机号授权',capacity:3.5,term:6,city:'北京',auth:'denied'},
     {id:'phoneFailed',name:'手机号接口失败',capacity:3.5,term:6,city:'北京',auth:'failed'},
