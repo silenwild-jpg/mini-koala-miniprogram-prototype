@@ -79,3 +79,11 @@
 #artboard[data-match="incomplete"] .more-units{display:none}
 #artboard[data-match="incomplete"] .no-match{display:block}
 #artboard[data-match="incomplete"] .estore{top:682px}
+
+/* S5-UX-REVIEW-03: only the single-recommendation state may collapse empty space.
+   Two-card approved geometry remains byte-for-byte unchanged above this rule. */
+#artboard[data-count="1"] .recommend-wrap{height:380px}
+#artboard[data-count="1"] .more-units{top:765px}
+#artboard[data-count="1"] .s5-advisor{top:815px}
+#artboard[data-count="1"] .estore{top:823px}
+#artboard[data-count="1"][data-advisor-visible="true"] .estore{top:916px}
