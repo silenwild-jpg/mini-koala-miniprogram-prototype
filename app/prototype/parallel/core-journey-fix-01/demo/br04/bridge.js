@@ -75,10 +75,10 @@
     }catch{return false;}
   }
   function renderS5(){
-    const s=core.state(),r=s.requirement;const candidates=r.capacity_m3&&r.term_confirmed?(B.s5Offers?.()||B.offers()):[];offerRows=candidates.slice(0,2);
+    const s=core.state(),r=s.requirement;const selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
+    const candidates=r.capacity_m3&&r.term_confirmed?(B.s5Offers?.(selectedArea)||B.offers()):[];offerRows=candidates.slice(0,2);
     $('capacity').innerHTML=(r.capacity_m3??'—')+'<span>m³</span>';
     document.querySelector('.demand>p').textContent=r.capacity_m3?'按已选容量匹配，可返回修改需求':'填写容量后，为您推荐合适仓位';
-    const selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
     text('origin-name',s.city+' · '+(selectedArea||'全城门店'));
     $('origin-name').title=selectedArea?'已手动选择区域，非实时定位':'未使用实时定位，可手动选择区域';
     $$('[data-term]').forEach(el=>{const selected=r.term_confirmed&&Number(el.dataset.term)===r.term_months;el.classList.toggle('active',selected);el.setAttribute('aria-pressed',String(selected));});
