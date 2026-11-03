@@ -1,0 +1,44 @@
+/* S02-CENTRAL-INTEGRATION-01: active central renderer only. No legacy page imports. */
+.page-S02 .hero{height:176px}
+.page-S02 .hero .s02-hours{position:absolute;z-index:4;left:12px;bottom:12px;padding:5px 9px;border-radius:7px;background:rgba(19,39,31,.77);color:white;font-size:11px;line-height:17px;font-weight:650}
+.page-S02 .hero .gallery-count{right:13px;bottom:12px}
+.page-S02 .detail-main{margin:0;border-radius:0;padding:12px 16px 9px;box-shadow:none}
+.page-S02 .detail-head{height:auto;min-height:29px}
+.page-S02 .detail-name{white-space:normal;overflow-wrap:anywhere;line-height:26px}
+.page-S02 .detail-addr{margin:5px 0 0;line-height:19px}
+.page-S02 .s02-hot{display:flex;gap:10px;align-items:center;padding:8px 14px 8px 16px;background:#fff7f3;border-top:2px solid #f2694a;border-bottom:1px solid #f8e1d9;color:#d64d30;min-height:54px}
+.page-S02 .s02-fire{font-size:23px;line-height:30px;color:#ed5b39;flex:none}
+.page-S02 .s02-hot-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}
+.page-S02 .s02-hot-copy strong{font-size:12px;font-weight:760;line-height:17px}
+.page-S02 .s02-hot-copy small{font-size:10px;line-height:15px;color:#876d60}
+.page-S02 .s02-hot button{padding:7px 0;border:0;background:transparent;color:#d74f2e;font-size:11px;white-space:nowrap;min-height:40px;font-weight:700}
+.page-S02 .s02-demand{min-height:43px;margin:0;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#f6f9f6;font-size:12px;color:#435d4d}
+.page-S02 .s02-demand a{flex:none;text-decoration:none;color:#287a54;font-weight:750;min-height:25px;padding:3px 0}
+.page-S02 #s02Inventory{scroll-margin-top:0}
+.page-S02 .unit-filter{padding:12px 15px 7px}
+.page-S02 .unit-row{min-height:114px}
+.page-S02 .unit-img{object-fit:contain;background:#f3f7f4}
+.page-S02 .unit-card-inner{min-width:0}
+.page-S02 .unit-bottom{gap:5px}
+.page-S02 .unit-price{min-width:0}
+.page-S02 .order-button{min-height:36px}
+.page-S02 .combo-row .scenario{color:#57776b;font-weight:600}
+.page-S02 .s02-lower-tabs{display:flex;align-items:center;gap:20px;padding:0 16px;border-bottom:1px solid #e8ede9;border-top:1px solid #f1f3ef;margin-top:14px;height:45px}
+.page-S02 .s02-lower-tabs button{height:45px;border:0;border-bottom:2px solid transparent;background:transparent;padding:5px 0;color:#6e7a71;font-size:13px;font-weight:550}
+.page-S02 .s02-lower-tabs button.active{color:#2d7756;font-weight:750;border-bottom-color:#2d7756}
+.page-S02 .s02-services{padding:13px 16px 25px}
+.page-S02 .s02-services-hours{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:13px;color:#627469}
+.page-S02 .s02-services-hours strong{color:#2f6248;font-size:13px}
+.page-S02 .s02-service-tags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}
+.page-S02 .s02-service-tags span{font-size:12px;line-height:18px;color:#566a5f;padding:5px 0}
+.page-S02 .s02-route{padding:14px 16px 26px}
+.page-S02 .s02-route-address{margin:0 0 12px;color:#51645a;font-size:12px;line-height:19px}
+.page-S02 .s02-map{width:100%;height:238px;position:relative;overflow:hidden;background:#edf1e9;border-radius:10px}
+.page-S02 .s02-map svg{display:block;width:100%;height:100%}
+.page-S02 .s02-map-place{position:absolute;right:12px;top:12px;max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:5px 9px;border-radius:6px;background:#fff;color:#2b6d4d;font-size:12px;font-weight:720}
+.page-S02 .s02-travel-modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:13px}
+.page-S02 .s02-travel-modes button{padding:8px 3px;min-width:0;min-height:39px;border:1px solid #dfe9e1;border-radius:8px;background:#fff;color:#597165;font-size:11px}
+.page-S02 .s02-travel-modes button.active{border-color:#69a284;background:#f0f7f1;color:#2f7453;font-weight:730}
+.page-S02 .s02-route-open{display:block;width:100%;margin-top:12px;height:44px;border:0;border-radius:9px;background:#317a57;color:#fff;font-size:14px;font-weight:750}
+.page-S02 .s02-advisor{display:block;width:calc(100% - 32px);margin:0 16px 28px;min-height:44px;border:1px solid #d4e7db;border-radius:9px;background:#f3faf5;color:#27714e;font-size:13px;font-weight:700}
+@media(max-width:375px){.page-S02 .unit-img{width:100px;height:100px}.page-S02 .unit-row{gap:9px}.page-S02 .s02-hot-copy strong{font-size:11.5px}}
