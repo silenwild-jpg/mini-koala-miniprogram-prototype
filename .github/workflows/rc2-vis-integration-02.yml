@@ -1,0 +1,65 @@
+name: RC2-VIS-INTEGRATION-02 full-site 375-390 regression NO DEPLOY
+on:
+  push:
+    branches:
+      - isolate/rc2-vis-integration-01-gate-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integrated-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Validate source/photo mapping and frozen visual
+        run: |
+          set -eu
+          node scripts/verify_rc2_store_image_map_01.cjs
+          node scripts/verify_proto_rule_restore_05.cjs
+          node scripts/verify_proto_rule_restore_06.cjs
+          node --check scripts/verify_rc2_vis_integration_02_browser.cjs
+      - name: Install Chromium and CJK fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build exact SHA isolated candidate not deployment
+        env:
+          RC2_BUNDLE_LABEL: RC2-VIS-INTEGRATION-02-CANDIDATE
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_VIS_INTEGRATION_02_Candidate_20261103.zip
+          RC2_BUNDLE_BRANCH: isolate/rc2-vis-integration-01-gate-20261103
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Run all pages 375 and 390 and capture screenshots
+        run: node scripts/verify_rc2_vis_integration_02_browser.cjs
+      - name: Verify store photos and same-store identity across H01 S01 S02
+        run: node scripts/verify_rc2_store_image_map_01_browser.cjs
+      - name: Verify S01 complete interactive controls
+        run: node scripts/verify_rc2_s01_structure_browser.cjs
+      - name: Verify H01 S01 S02 and S5 canonical journeys
+        run: node scripts/verify_proto_rule_restore_06_browser.cjs
+      - name: Verify order payment, authorization, renewal and return
+        run: node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload source SHA and all screens no public deploy
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-vis-integration-02-private-qa
+          path: |
+            release-evidence/rc2-vis-integration-02/
+            release-evidence/rc2-store-image-map-01/
+            release-evidence/rc2-structure-restore/
+            release-evidence/rule-restore-06/
+            release-evidence/rc2-fix-01d/
+            release-evidence/rc2-merge-prep-10/build-summary.json
+          if-no-files-found: warn
+          retention-days: 14
