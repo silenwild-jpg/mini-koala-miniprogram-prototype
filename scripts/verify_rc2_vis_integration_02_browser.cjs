@@ -31,7 +31,10 @@ const screens=['H01','S01','S02','CAP','ITEMS','S5','BOOKING','QUICK','O01','M01
      // cold direct link. Verify denial instead of waiting for a nonexistent body.
      if(screen==='O01'){
        assert.equal(await frame.locator('#screen.page-O01').count(),0,'cold direct O01 must be denied');
-       assert((await page.locator('body').innerText()).trim().length>8,'O01 guard wrapper did not render');
+       const guardText=(await page.locator('body').innerText()).trim();
+       assert.match(guardText,/请先选择仓位/,'cold O01 does not explain next step');
+       assert.doesNotMatch(guardText,/CENTRAL_CONTRACT|MK 为旧门店|SIM 为独立回归|来源契约/,'technical errors leaked to customer');
+       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'guard error page overflow');
        record={...record,source:'DIRECT_ORDER_GUARD',contextGate:'UNAUTHORIZED_DIRECT_O01_BLOCKED',errors,bad};
        await page.screenshot({path:path.join(out,screen+'-'+width+'.png'),fullPage:true,timeout:15000});
        rows.push(record);console.log('RC2_VIS_INTEGRATION_02_PAGE',JSON.stringify(record));await page.close();continue;
