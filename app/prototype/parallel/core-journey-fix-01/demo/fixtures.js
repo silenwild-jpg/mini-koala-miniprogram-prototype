@@ -90,6 +90,17 @@
   const activeFixture=requestedLegacy?legacyFixture():data;
   // Store-ID-stable access schedule shared by S01/S02. Replace with verified store records when available.
   const storeSchedules=['24小时','09:00-21:00','08:00-23:00'];
+  // Unify warehouse option stock counts with the stock/status contract used by order selection.
+  // Existing counts from source records take precedence; missing prototype counts are stable per unit ID.
+  activeFixture.units.forEach(u=>{
+    const eligible=u.status==='available';
+    const reported=Number(u.available_count);
+    if(!eligible){u.available_count=0;return;}
+    if(Number.isInteger(reported)&&reported>0)return;
+    let h=2166136261;
+    for(const ch of String(u.id)){h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0}
+    u.available_count=[1,2,4,6,8][h%5];
+  });
   activeFixture.stores.forEach(s=>{
     let hash=2166136261;
     for(const char of String(s.id)){hash=Math.imul(hash^char.charCodeAt(0),16777619)>>>0}
