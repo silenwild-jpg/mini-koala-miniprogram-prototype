@@ -130,8 +130,10 @@ checks.unitsTabReturn=await page.locator('#s02Inventory').isVisible();
 if(name==='matched'){
  checks.advisorByPrice=await page.evaluate(()=>{
   const app=window.SIM_DEMO,units=app.core.fixture.units.filter(u=>u.store_id===app.state().storeId&&app.core.available(u));
-  const target=units[0];if(!target)return false;
-  target.base_month=1500;app.core.setRequirement(target.volume,12,true);app.navigate('S02',app.state().storeId);
+  const target=units.filter(u=>u.volume<=10&&app.core.amounts([u.id],12).rent_total>2000)
+    .sort((a,b)=>a.volume-b.volume)[0];
+  if(!target)return false;
+  app.core.setRequirement(target.volume,12,true);app.navigate('S02',app.state().storeId);
   return !!document.querySelector('.s02-advisor');
  });
 }
