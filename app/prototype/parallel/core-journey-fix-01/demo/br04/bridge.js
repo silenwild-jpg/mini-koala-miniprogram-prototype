@@ -83,11 +83,12 @@
     const match=offerRows.length>0;
     const matchState=s5MatchState(offerRows,r);
     $('artboard').dataset.match=matchState;
+    $('artboard').dataset.count=String(offerRows.length);
     const existingAdvisorPrimary=matchState==='none'||matchState==='incomplete';
     const showAdvisor=match&&!existingAdvisorPrimary&&s5AdvisorNeeded(offerRows,r);
     $('s5-advisor').hidden=!showAdvisor;
     $('artboard').dataset.advisorVisible=String(showAdvisor);
-    $('artboard').dataset.designHeight=matchState==='none'||matchState==='incomplete'?'858':(showAdvisor?'1256':'1145');
+    $('artboard').dataset.designHeight=matchState==='none'||matchState==='incomplete'?'858':(showAdvisor?(offerRows.length===1?'1116':'1256'):(offerRows.length===1?'1005':'1145'));
     document.querySelector('.rec-heading h2').textContent='为您推荐 '+offerRows.length+' 个合适的方案';
     document.querySelector('.rec-heading p').textContent=({
       matched:'按容量与租期为您推荐',near:'以下是容量接近的备选方案',
@@ -101,7 +102,9 @@
     offerRows.forEach((row,i)=>{const first=i===0,suffix=first?'main':'secondary',s=row.store;
       document.querySelector(first?'.major-unit h3':'.minor-unit h3').textContent=s.name+' · '+row.volume+'m³'+(row.combo?'组合':'仓');
       const tags=document.querySelector(first?'.unit-tags':'.minor-tags');tags.innerHTML='<span>'+row.volume+'m³</span><span>'+(row.combo?(F.unitIdentityType==='SIZE_OPTION'?row.ids.length+'项仓型组合':row.ids.length+'项组合'):F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span>';
-      $(first?'main-buy':'secondary-buy').disabled=false;
+      const buyButton=$(first?'main-buy':'secondary-buy');
+      buyButton.disabled=false;
+      buyButton.textContent=Number(row.volume)>=Number(r.capacity_m3)?'立即下单':'查看门店';
       $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';
       // S5 keeps its own frozen physical-attribute tags and benefits row; BR03 promotional-card rules do not replace them.
       if(first){const line=document.querySelector('.benefits');line.replaceChildren(...(s5BenefitMarker?[s5BenefitMarker.cloneNode(true)]:[]),document.createTextNode(' '+['容量匹配',...presentation.services(s)].join(' · ')));line.hidden=false;}
@@ -170,7 +173,9 @@
     document.querySelector('.back').onclick=()=>B.navigate('S01');document.querySelector('.mini-menu').onclick=()=>toast('内部演示导航');
     $('modify').onclick=()=>{B.editRequirement();};$('change-origin').onclick=citySheet;
     $$('[data-term]').forEach(el=>el.onclick=()=>guard(()=>applyTerm(el.dataset.term)));$('more-term').onclick=moreTerms;
-    ['main','secondary'].forEach((prefix,i)=>{const buy=$(prefix==='main'?'main-buy':'secondary-buy');buy.onclick=()=>guard(()=>{const row=offerRows[i];if(!row)return;if(!core.state().requirement.term_confirmed){toast('请选择租期');return;}B.order(row.ids);});$(prefix==='main'?'open-store-main':'open-store-secondary').onclick=()=>offerRows[i]&&B.openStore(offerRows[i].store.id,'S5');$(prefix==='main'?'navigate-main':'navigate-secondary').onclick=()=>toast('路线导航服务尚未接入，可按门店地址查找');$(prefix==='main'?'main-price':'secondary-price').onclick=()=>B.guarded('QUOTE','S5_FEES',()=>{if(priceReady()&&offerRows[i])sheet('费用明细',moneyLines(amounts(offerRows[i].ids)));});});
+    ['main','secondary'].forEach((prefix,i)=>{const buy=$(prefix==='main'?'main-buy':'secondary-buy');buy.onclick=()=>guard(()=>{const row=offerRows[i];if(!row)return;if(!core.state().requirement.term_confirmed){toast('请选择租期');return;}
+      if(Number(row.volume)<Number(core.state().requirement.capacity_m3)){B.openStore(row.store.id,'S5');return;}
+      B.order(row.ids);});$(prefix==='main'?'open-store-main':'open-store-secondary').onclick=()=>offerRows[i]&&B.openStore(offerRows[i].store.id,'S5');$(prefix==='main'?'navigate-main':'navigate-secondary').onclick=()=>toast('路线导航服务尚未接入，可按门店地址查找');$(prefix==='main'?'main-price':'secondary-price').onclick=()=>B.guarded('QUOTE','S5_FEES',()=>{if(priceReady()&&offerRows[i])sheet('费用明细',moneyLines(amounts(offerRows[i].ids)));});});
     $('s5-advisor-action').onclick=()=>consult('advisor');
     $('see-more').onclick=()=>B.navigate('S01');$('open-estore').onclick=()=>sheet('考拉E存',note('上门取送服务的适用范围及方案由顾问确认；此处仍为候选服务入口。')+act('estoreBooking','联系顾问','',true));
     $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else B.navigate('S01');});
