@@ -530,7 +530,7 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 .s02-access-hours.hidden{display:none!important}
 .s02-service-route{background:#fff;margin:8px 0 0}
 .s02-section-tabs{display:flex;gap:26px;padding:0 16px;border-bottom:1px solid #e8ece8}
-.s02-section-tabs button{position:relative;border:0;background:transparent;padding:13px 0;font:600 14px/20px inherit;color:#6e7770;cursor:pointer}
+.s02-section-tabs button{position:relative;border:0;background:transparent;padding:13px 0;font-size:14px;line-height:20px;font-family:inherit;font-weight:600;color:#6e7770;cursor:pointer}
 .s02-section-tabs button.active{color:#276d4d;font-weight:700}
 .s02-section-tabs button.active:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#276d4d}
 .s02-service-route .section{margin:0!important;border-radius:0!important;box-shadow:none!important}
@@ -538,6 +538,12 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 #s02RoutePanel[hidden]{display:none!important}
 .s02-route-address{font-size:13px;color:#38453e;line-height:1.5;margin-bottom:14px}
 .s02-route-modes{display:flex;gap:8px}
+.s02-map{height:238px;overflow:hidden;border-radius:10px;background:#edf1e9;margin:0 0 13px;position:relative}
+.s02-map-stage{width:100%;height:100%;position:relative}
+.s02-map-stage svg{display:block;width:100%;height:100%}
+.s02-map-store-label{position:absolute;right:12px;top:13px;font-size:12px;font-weight:700;background:#fff;border-radius:7px;padding:6px 9px;color:#2e5943;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s02-map-demo-tag{position:absolute;left:10px;bottom:10px;font-size:10px;color:#6a7970;background:rgba(255,255,255,.9);border-radius:5px;padding:4px 7px}
+.s02-route-metric{min-height:20px;margin-top:11px;font-size:13px;font-weight:600;color:#445a4d}
 .s02-route-modes button{flex:1;min-height:38px;border:1px solid #dce6de;border-radius:8px;background:#fff;color:#405449;font-size:13px;cursor:pointer}
 .s02-route-modes button.active{border-color:#3d8160;background:#eef6f0;color:#286a49;font-weight:700}
 .s02-route-nav{display:block;width:100%;height:44px;margin-top:14px;border:0;border-radius:10px;background:#2f6b4f;color:white;font-size:14px;font-weight:700}
@@ -663,7 +669,21 @@ html[data-real-store="MK_BJ_9A80090D"] .hero{background-image:linear-gradient(18
 <div class="iconbox"><div class="ico">↪</div><b>自助进入</b></div>
 <div class="iconbox"><div class="ico">⌑</div><b>独立门锁</b></div>
 <div class="iconbox"><div class="ico">◇</div><b>物品保险</b></div>
-</div><div class="store-standard-link" id="brandStandardLink">了解品牌服务标准 ›</div></div></details></div><div id="s02RoutePanel" role="tabpanel" aria-labelledby="s02RouteTab" hidden><div class="s02-route-address" id="s02RouteAddress"></div><div class="s02-route-modes"><button type="button" data-route-mode="drive">驾车</button><button type="button" data-route-mode="bike">骑行</button><button type="button" data-route-mode="walk">步行</button></div><button type="button" class="s02-route-nav" id="s02RouteNavigate">导航到门店 ›</button></div></section>
+</div><div class="store-standard-link" id="brandStandardLink">了解品牌服务标准 ›</div></div></details></div><div id="s02RoutePanel" role="tabpanel" aria-labelledby="s02RouteTab" hidden><div class="s02-route-address" id="s02RouteAddress"></div><div class="s02-map" id="s02MapContainer" data-map-provider="pending" data-map-mode="demo" aria-label="门店位置地图">
+<div class="s02-map-stage" id="s02MapStage">
+<svg viewBox="0 0 360 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="门店周边地图演示">
+<rect width="360" height="250" fill="#edf1e9"/>
+<g fill="#dce6d9"><rect x="12" y="8" width="75" height="63" rx="7"/><rect x="112" y="8" width="78" height="63" rx="7"/><rect x="216" y="8" width="130" height="63" rx="7"/><rect x="8" y="99" width="107" height="55" rx="7"/><rect x="142" y="99" width="84" height="55" rx="7"/><rect x="252" y="99" width="94" height="55" rx="7"/><rect x="8" y="183" width="94" height="59" rx="7"/><rect x="128" y="183" width="100" height="59" rx="7"/><rect x="254" y="183" width="92" height="59" rx="7"/></g>
+<g fill="none" stroke="#fff" stroke-width="16"><path d="M98 -10 V270"/><path d="M239 -10 V270"/><path d="M-10 84 H380"/><path d="M-10 170 H380"/></g>
+<path d="M48 213 L98 213 L98 170 L175 170 L175 126 L239 126 L239 84 L292 84" fill="none" stroke="#348864" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+<circle cx="48" cy="213" r="9" fill="#fff" stroke="#348864" stroke-width="4"/>
+<g transform="translate(292 72)"><path d="M0 -16 C-20 -16 -20 5 0 23 C20 5 20 -16 0 -16Z" fill="#2c7655"/><circle cy="-5" r="6" fill="#fff"/></g>
+</svg>
+<div class="s02-map-store-label" id="s02MapStoreName"></div>
+<div class="s02-map-demo-tag" id="s02MapDemoTag">地图演示</div></div></div>
+<div class="s02-route-modes"><button type="button" data-route-mode="transit">公交地铁</button><button type="button" data-route-mode="drive">驾车</button><button type="button" data-route-mode="walk">步行</button><button type="button" data-route-mode="bike">骑行</button></div>
+<div id="s02RouteMetric" class="s02-route-metric"></div>
+<button type="button" class="s02-route-nav" id="s02RouteNavigate">导航到门店 ›</button></div></section>
 </div>
 <div class="bottombar">
 <button class="secondary" id="consultBtn">顾问协助</button>
@@ -1591,42 +1611,58 @@ if(qp.get('source')==='u01_other_units'&&qp.get('focusOtherUnits')==='1'){
 
 <script id="s02-ux-review-03-runtime">
 (function(){
-  const $=s=>document.querySelector(s);
-  const profiles=window.MINI_STORAGE_MASTER_V222?.stores||{};
-  const params=new URLSearchParams(location.search);
-  const id=params.get('store')||'jianguo';
-  const store=profiles[id]||{};
-  const business=window.MINI_STORAGE_BUSINESS_SSOT_V274?.stores?.[id]||{};
-  function hourLabel(value){
-    const raw=String(value||'').trim();
-    if(!raw)return '';
-    if(/24\s*小时|全天|00:00\s*[-–—~至]\s*24:00/.test(raw))return '存取时间：24小时';
-    const match=raw.match(/([01]?\d|2[0-3]):([0-5]\d)\s*[-–—~至]\s*([01]?\d|2[0-4]):([0-5]\d)/);
-    if(match)return '存取时间：'+match[1].padStart(2,'0')+':'+match[2]+'-'+match[3].padStart(2,'0')+':'+match[4];
-    return '';
-  }
-  const hours=$('#s02AccessHours');
-  const hoursText=hourLabel(store.access_hours||store.accessHours||business.access_hours);
-  if(hours&&hoursText){hours.textContent=hoursText;hours.classList.remove('hidden')}
-  const address=$('#s02RouteAddress');if(address)address.textContent=store.address||'';
-  const serviceTab=$('#s02ServiceTab'),routeTab=$('#s02RouteTab'),servicePanel=$('#s02ServicePanel'),routePanel=$('#s02RoutePanel');
-  function selectTab(which){
-    const route=which==='route';
-    serviceTab?.classList.toggle('active',!route);routeTab?.classList.toggle('active',route);
-    serviceTab?.setAttribute('aria-selected',String(!route));routeTab?.setAttribute('aria-selected',String(route));
-    if(servicePanel)servicePanel.hidden=route;if(routePanel)routePanel.hidden=!route;
-  }
-  serviceTab?.addEventListener('click',()=>selectTab('service'));
-  routeTab?.addEventListener('click',()=>selectTab('route'));
-  const modes=[...document.querySelectorAll('[data-route-mode]')];
-  modes.forEach(button=>button.addEventListener('click',()=>{
-    modes.forEach(b=>b.classList.toggle('active',b===button));
-    const existing=document.querySelector('#travelSheet .option[data-travel="'+button.dataset.routeMode+'"]');
-    existing?.click();
-  }));
-  modes[0]?.classList.add('active');
-  $('#s02RouteNavigate')?.addEventListener('click',()=>$('#navTop')?.click());
-  selectTab('service');
+ const $=s=>document.querySelector(s);
+ const params=new URLSearchParams(location.search);
+ const storeId=params.get('store')||'jianguo';
+ const profile=window.MINI_STORAGE_MASTER_V222?.stores?.[storeId]||{};
+ const businessSources=window.MINI_STORAGE_BUSINESS_SSOT_V274||window.MINI_STORAGE_BUSINESS_V274||{};
+ const business=businessSources?.stores?.[storeId]||{};
+ function formatAccessHours(value){
+  const raw=String(value||'').trim();
+  if(!raw)return '';
+  if(/24\s*小时|全天|00:00\s*[-–—~至]\s*24:00/.test(raw))return '存取时间：24小时';
+  const m=raw.match(/([01]?\d|2[0-3]):([0-5]\d)\s*[-–—~至]\s*([01]?\d|2[0-4]):([0-5]\d)/);
+  if(m)return '存取时间：'+m[1].padStart(2,'0')+':'+m[2]+'-'+m[3].padStart(2,'0')+':'+m[4];
+  return '';
+ }
+ const badge=$('#s02AccessHours');
+ const hoursText=formatAccessHours(profile.access_hours||profile.accessHours||business.access_hours);
+ if(badge&&hoursText){badge.textContent=hoursText;badge.classList.remove('hidden')}
+ $('#s02RouteAddress').textContent=profile.address||business.address||'';
+ $('#s02MapStoreName').textContent=profile.name||business.name||'门店位置';
+ const serviceTab=$('#s02ServiceTab'),routeTab=$('#s02RouteTab'),servicePanel=$('#s02ServicePanel'),routePanel=$('#s02RoutePanel');
+ function selectTab(which){const isRoute=which==='route';
+  serviceTab.classList.toggle('active',!isRoute);routeTab.classList.toggle('active',isRoute);
+  serviceTab.setAttribute('aria-selected',String(!isRoute));routeTab.setAttribute('aria-selected',String(isRoute));
+  servicePanel.hidden=isRoute;routePanel.hidden=!isRoute;
+ }
+ serviceTab.addEventListener('click',()=>selectTab('service'));
+ routeTab.addEventListener('click',()=>selectTab('route'));
+ // Adapter contract: a future verified map plugin may replace only #s02MapStage,
+ // then set data-map-mode="live"; no separate S02 layout is needed.
+ const map=$('#s02MapContainer');
+ window.MINI_KOALA_S02_MAP_ADAPTER={
+   mount(render){if(typeof render!=='function')return;const stage=$('#s02MapStage');render(stage,{storeId,address:profile.address||business.address||'',name:profile.name||business.name||''});map.dataset.mapMode='live';},
+   unmount(){map.dataset.mapMode='demo';}
+ };
+ const routeLabels={transit:'公交地铁',drive:'驾车',walk:'步行',bike:'骑行'};
+ const modes=[...document.querySelectorAll('[data-route-mode]')];
+ const metric=$('#s02RouteMetric');
+ function selectMode(mode){
+  modes.forEach(button=>button.classList.toggle('active',button.dataset.routeMode===mode));
+  const existing=mode==='transit'?null:document.querySelector('#travelSheet .option[data-travel="'+mode+'"]');
+  if(existing)existing.click();
+  const route=mode==='transit'?null:window.MINI_STORAGE_REQUIREMENT_RECOMMENDATION_V274?.routeFor?.(storeId,params.get('searchOriginKey')||'guomao',mode);
+  const valid=route&&Number(route.m)>0&&Number(route.km)>0;
+  metric.textContent=valid?'约'+Math.round(Number(route.m))+'分钟 · '+Number(route.km).toFixed(1)+'km':'';
+  // Non-verified route numbers remain demonstration-only; do not present as live navigation.
+  metric.dataset.routeSource=valid?(route.source||'demo'):'unavailable';
+  $('#s02RouteNavigate').textContent='导航到门店 ›';
+ }
+ modes.forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.routeMode)));
+ selectMode('drive');
+ $('#s02RouteNavigate').addEventListener('click',()=>$('#navTop')?.click());
+ selectTab('service');
 })();
 </script>
 </body>
