@@ -47,6 +47,10 @@ const routes=['H01','CAP','S01','S02','S5'],rows=[];
       scrollerInfo=info;await page.waitForTimeout(180);await snap('scroll'+ix);
      }
      checks.scrollSegmentCaptured=!!scrollerInfo;
+     if(route==='S01'){
+      checks.threeFilters=await frame.locator('.filter-bar .filter-btn').count()===3;
+      checks.serviceFilter=await frame.locator('.filter-bar .filter-btn').last().innerText().then(s=>s.includes('服务'));
+     }
      if(route==='S02'){
        checks.unitImage=await frame.locator('.unit-img').first().evaluate(e=>e.complete&&e.naturalWidth>0).catch(()=>false);
        checks.capacitySource=await frame.locator('.unit-img').first().getAttribute('src').then(v=>/unit-r3/.test(v||'')).catch(()=>false);
