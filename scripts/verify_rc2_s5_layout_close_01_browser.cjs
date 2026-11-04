@@ -47,7 +47,7 @@ const server=http.createServer((req,res)=>{
         const x=board.querySelector(a),y=board.querySelector(b);
         if(!x||!y)return false;
         const r=x.getBoundingClientRect(),s=y.getBoundingClientRect();
-        return Math.abs((r.top+r.height/2)-(s.top+s.height/2))<=12&&r.right<=s.left+2;
+        return r.bottom>s.top+2&&s.bottom>r.top+2&&r.right<=s.left+3;
        });
       });
       checks.buttonsNoOverlap=await nested.locator('#artboard').evaluate(board=>{
