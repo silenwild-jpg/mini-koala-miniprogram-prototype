@@ -2,7 +2,7 @@
    card stacking without importing any historical prototype styles. */
 body[data-page="s5"] #artboard{
   display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
-  gap:10px;padding:96px 13px 19px;height:auto;min-height:0;overflow:hidden;
+  gap:10px;padding:96px 13px 19px;height:auto;min-height:0;overflow:visible;width:100%;max-width:430px;margin:0 auto;transform:none;
 }
 body[data-page="s5"] #artboard>.demand,
 body[data-page="s5"] #artboard>.location-line,
@@ -46,11 +46,11 @@ body[data-page="s5"] .rec-heading p{display:none}
 body[data-page="s5"] .major-unit,body[data-page="s5"] .minor-unit{
   position:relative;top:auto;left:auto;right:auto;width:100%;height:auto;
   display:grid;grid-template-columns:minmax(0,1fr) 105px;
-  grid-template-rows:147px 33px 25px 36px 18px;
+  grid-template-rows:140px 33px 25px 36px 18px;
   gap:3px 5px;margin:0;padding:0 10px 13px;
   border:0;border-radius:11px;background:white;box-shadow:none;overflow:hidden;
 }
-body[data-page="s5"] .minor-unit{grid-template-rows:134px 33px 25px 36px 18px}
+body[data-page="s5"] .minor-unit{grid-template-rows:140px 33px 25px 36px 18px}
 body[data-page="s5"] .major-photo,body[data-page="s5"] .minor-photo{
   grid-column:1/-1;grid-row:1;
   position:relative;left:auto;right:auto;top:auto;bottom:auto;
@@ -70,16 +70,16 @@ body[data-page="s5"] .major-unit h3,body[data-page="s5"] .minor-unit h3{
   font-size:14px;line-height:24px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 body[data-page="s5"] .main-store-link,body[data-page="s5"] .minor-store-link{
-  position:absolute;top:150px;right:38px;width:64px;height:29px;min-height:29px;min-width:0;
+  position:absolute;top:143px;right:38px;width:64px;height:29px;min-height:29px;min-width:0;
   display:flex;justify-content:center;align-items:center;padding:2px 0;
   font-size:11px;line-height:17px;color:#087558;z-index:2;
 }
-body[data-page="s5"] .minor-store-link{top:138px}
+body[data-page="s5"] .minor-store-link{top:143px}
 body[data-page="s5"] .main-map-nav,body[data-page="s5"] .distance-nav{
-  position:absolute;top:150px;right:7px;width:30px;height:29px;min-width:30px;min-height:29px;
+  position:absolute;top:143px;right:7px;width:30px;height:29px;min-width:30px;min-height:29px;
   background:transparent;border:0;padding:0;display:flex;justify-content:center;align-items:center;z-index:2;
 }
-body[data-page="s5"] .distance-nav{top:138px}
+body[data-page="s5"] .distance-nav{top:143px}
 body[data-page="s5"] .distance-nav span{display:none}
 body[data-page="s5"] .distance-nav svg{width:18px;height:18px}
 body[data-page="s5"] .unit-tags,body[data-page="s5"] .minor-tags{
@@ -87,7 +87,7 @@ body[data-page="s5"] .unit-tags,body[data-page="s5"] .minor-tags{
   align-self:center;display:flex;gap:6px;min-width:0;overflow:hidden;white-space:nowrap;
 }
 body[data-page="s5"] .unit-tags span,body[data-page="s5"] .minor-tags span{height:21px;line-height:21px;padding:0 7px;font-size:11px;border-radius:4px}
-body[data-page="s5"] .major-label,body[data-page="s5"] .benefits{display:none}
+
 body[data-page="s5"] .major-price,body[data-page="s5"] .minor-price{
   grid-column:1;grid-row:4;position:relative;left:auto;top:auto;right:auto;
   display:flex;align-items:baseline;justify-content:flex-start;gap:3px;
@@ -142,3 +142,14 @@ body[data-page="s5"] #artboard[data-match="none"]>.estore{order:6;top:auto}
 body[data-page="s5"] #artboard[data-match="none"]>.no-match>p{margin:7px 0 12px;line-height:1.5}
 body[data-page="s5"] #artboard[data-match="none"]>.no-match .nm-actions{gap:0 12px}
 body[data-page="s5"] #artboard[data-match="none"]>.no-match .nm-actions button{height:44px}
+
+/* CLEANUP-02: native fluid layout, identical card geometry, price remains separate from CTA. */
+body[data-page="s5"] #app-viewport{width:100%;height:auto;min-height:100vh;overflow:visible}
+body[data-page="s5"] #artboard{box-sizing:border-box;transform:none!important;min-width:0;max-width:430px}
+body[data-page="s5"] .major-unit,body[data-page="s5"] .minor-unit{min-width:0;grid-template-columns:minmax(0,1fr) 105px;grid-template-rows:140px 33px 25px 36px 18px}
+body[data-page="s5"] .major-price,body[data-page="s5"] .minor-price{min-width:0;max-width:100%;font-variant-numeric:tabular-nums}
+body[data-page="s5"] .major-price strong,body[data-page="s5"] .minor-price strong{font-size:clamp(17px,5.4vw,24px);letter-spacing:-.5px}
+body[data-page="s5"] .major-price strong[data-length="long"],body[data-page="s5"] .minor-price strong[data-length="long"]{font-size:clamp(15px,4.6vw,20px)}
+body[data-page="s5"] .major-price span,body[data-page="s5"] .minor-price span{font-size:10px}
+body[data-page="s5"] .minor-price small{flex-basis:100%;white-space:nowrap}
+@media(max-width:360px){body[data-page="s5"] .major-unit,body[data-page="s5"] .minor-unit{grid-template-columns:minmax(0,1fr) 96px}body[data-page="s5"] .main-buy,body[data-page="s5"] .minor-buy{width:94px}}
