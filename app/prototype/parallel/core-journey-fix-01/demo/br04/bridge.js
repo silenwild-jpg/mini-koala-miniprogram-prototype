@@ -248,7 +248,7 @@
     document.querySelector('.back').onclick=()=>B.navigate('S01');document.querySelector('.mini-menu').onclick=()=>toast('内部演示导航');
     $('modify').onclick=()=>{B.editRequirement();};$('change-origin').onclick=citySheet;
     $('term-edit').onclick=()=>{s5TermEditing=true;renderS5();};
-    $('[data-term]').forEach(el=>el.onclick=()=>guard(()=>{applyTerm(el.dataset.term);s5TermEditing=false;refresh();}));
+    document.querySelectorAll('[data-term]').forEach(el=>el.onclick=()=>guard(()=>{applyTerm(el.dataset.term);s5TermEditing=false;refresh();}));
     $('more-term').onclick=moreTerms;
     document.querySelector('.recommend-wrap').addEventListener('click',e=>{
       const buy=e.target.closest('[data-s5-buy]'),price=e.target.closest('[data-s5-price]'),storeBtn=e.target.closest('[data-s5-store],[data-s5-map]');
