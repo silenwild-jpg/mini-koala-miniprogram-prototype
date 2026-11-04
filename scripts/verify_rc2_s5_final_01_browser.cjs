@@ -111,6 +111,20 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
      await page.screenshot({path:path.join(out,city+'-'+width+'-scroll-bottom.png'),fullPage:true});
      records.push({...state,width,height});
    }
+   // Confirmed term is displayed once and remains editable without losing selected store context.
+   await frame.locator('#app-viewport').evaluate(el=>el.scrollTop=0);
+   assert(await frame.locator('#term-summary').isVisible(),'confirmed term summary should be visible');
+   assert.equal(await frame.locator('#term-options').isVisible(),false,'confirmed term should not duplicate option chips');
+   await frame.locator('#term-edit').click();
+   assert(await frame.locator('#term-options').isVisible(),'modify term should reveal the choices');
+   await frame.locator('[data-term="6"]').click();
+   assert(await frame.locator('#term-summary').isVisible(),'term should collapse again after changing');
+   assert.match(await frame.locator('#term-current').innerText(),/6 个月/);
+   const updated=await frame.locator('body').evaluate(()=>parent.SIM_DEMO.core.state().requirement.term_months);
+   assert.equal(updated,6,'term edit must update central state and subsequent formal quote term');
+   records.push({width,height,termEdit:updated,summaryCollapsed:true});
+   await frame.locator('#term-edit').click();
+   await frame.locator('[data-term="12"]').click();
    // Existing empty-city scenario remains available despite supplemental data.
    const scenario=await frame.locator('body').evaluate(()=>{
      const h=parent.SIM_DEMO;h.core.setScenario('emptyCity');window.BR04_REFRESH();
