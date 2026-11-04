@@ -60,6 +60,7 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
        assert(card.services>0,'no S01 matching service tags');
        assert(card.unitCount>=1&&card.unitCount<=2,'must show one or two unit previews per store');
        assert(card.rows.every(row=>row.ids&&row.uses&&row.price&&row.action),'unit prices/copy/actions must be complete');
+       assert(card.rows.every(row=>row.price==='查看整期价'),'anonymous user must not receive formal full-term quote');
      }
      assert(parity[0].bottom<=parity[1].top+2,'two store cards overlap');
      records.push({city,width,height,parity});
