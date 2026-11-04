@@ -425,9 +425,9 @@
           const highAmount=!!(r.term_confirmed&&advisoryIds.length&&core.amounts(advisoryIds,r.term_months).rent_total>2000);
           const matchHint=match.status==='combo'?'可组合选仓 · 2间合计'+match.combo.volume+'m³，请查看门店'
             :match.status==='near'?'容量略小，需查看门店确认其他方案'
-            :match.status==='soldout'?'本店目前暂无可租仓位'
-            :match.status==='none'?'本店没有满足当前容量的可租仓位'
-            :highCapacity||highAmount?'大容量或较高金额方案，可咨询顾问协助选仓'
+            :match.status==='soldout'?(noAdequateMatch?'':'本店目前暂无可租仓位')
+            :match.status==='none'?(noAdequateMatch?'':'本店没有满足当前容量的可租仓位')
+            :highCapacity||highAmount?''
             :expandedSearch?'已扩大查找范围，以下展示全城可选门店'
             :need>0&&!r.term_confirmed?'选择租期后可查看整期报价':'';
           const first=match.rows[0];
