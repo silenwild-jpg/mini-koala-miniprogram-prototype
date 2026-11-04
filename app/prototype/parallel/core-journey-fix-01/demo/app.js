@@ -416,12 +416,13 @@
     },
     filter(index){if(![0,1,2].includes(index))return;if(index===0||index===2)modalReturnTarget={scope:'r2',kind:'filter',index};act(()=>{pending=null;if(index===0)handlers.sort();else if(index===1){if(F.distanceVerified)handlers.setSort('distance');else{modal='r2-distance';render();}}else handlers.serviceFilter();});},
     action(name,value){
-      const allowed=['store','choose','city','term','home','go','navigation','searchModal'];
+      const allowed=['store','choose','city','term','home','go','navigation','searchModal','estore'];
       if(!allowed.includes(name))return false;
       act(()=>{
         if(name==='searchModal'){modalReturnTarget={scope:'r2',kind:'nav',selector:'.nav-more'};handlers.r2Search();}
         else if(name==='choose')handlers.choose(String(value));
         else if(name==='store')handlers.store(String(value));
+        else if(name==='estore')handlers.estore();
         else if(name==='city'){modalReturnTarget={scope:'r2',kind:'nav',selector:'.nav-target'};handlers.city();}
         else if(name==='go'&&value==='CAP')window.SIM_DEMO.editRequirement();
         else if(name==='go'&&value==='S01')handlers.go('S01');

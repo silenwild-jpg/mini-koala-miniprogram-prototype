@@ -80,6 +80,28 @@
 .address{height:auto;min-height:36px;align-items:flex-start;white-space:normal;padding-top:4px;padding-bottom:4px}
 .address-copy{white-space:normal;line-height:17px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .km{margin-top:3px}
+
+/* RC2-S01-RECOMMEND-03: only slots 3+; never restyle the approved first two cards. */
+.s01-estore-card{display:flex;align-items:center;gap:12px;margin:0 -4px 12px 0;padding:10px 11px;background:#f1f8f4;border-radius:12px;min-height:98px}
+.s01-estore-card>img{display:block;width:86px;height:78px;object-fit:cover;border-radius:8px;flex:none}
+.s01-estore-info{display:flex;flex-direction:column;align-items:flex-start;min-width:0;flex:1;gap:3px}
+.s01-estore-info>span{color:#00795c;font-size:10px;font-weight:600}
+.s01-estore-info>strong{color:#173c30;font-size:16px;font-weight:800;line-height:19px}
+.s01-estore-info>p{font-size:10.5px;color:#5e786d;line-height:16px;margin:0}
+.s01-estore-cta{flex:none;border:0;background:transparent;color:#00745a;font-size:11px;font-weight:750;min-height:40px;padding:0 0 0 3px}
+.s01-compact-store{display:grid;grid-template-columns:83px minmax(0,1fr) 76px;gap:10px;align-items:center;min-height:111px;padding:10px;margin:0 -4px 9px 0;box-shadow:none;border:0;border-bottom:1px solid #edf1ef;border-radius:0;cursor:pointer}
+.s01-compact-photo{display:block;width:83px;height:83px;object-fit:cover;border-radius:7px;background:#eef4f0}
+.s01-compact-info{min-width:0;align-self:center}
+.s01-compact-info>strong{display:block;color:#172e38;font-size:13px;font-weight:800;line-height:19px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s01-compact-address{font-size:10.5px;color:#6a7984;line-height:16px;margin:4px 0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.s01-compact-tags{display:flex;align-items:center;gap:4px;white-space:nowrap;min-width:0}
+.s01-compact-tags>span{font-size:9.5px;color:#287458;background:#edf6f1;padding:2px 3px;border-radius:3px;overflow:hidden;text-overflow:ellipsis;max-width:73px}
+.s01-compact-side{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:3px;text-align:right;min-width:0}
+.s01-compact-side>strong{font-size:14px;color:#e34b30;font-weight:800;line-height:20px}
+.s01-compact-side>small{font-size:9px;color:#79878a;white-space:nowrap}
+.s01-compact-arrow{font-size:10px;color:#00765b;font-weight:700;margin-top:5px;white-space:nowrap}
+.s01-compact-store:focus-visible,.s01-estore-cta:focus-visible{outline:2px solid #007d61;outline-offset:2px}
+
 </style>
 </head>
 <body>
