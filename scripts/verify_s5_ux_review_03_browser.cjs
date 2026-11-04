@@ -54,10 +54,10 @@ const cases=[
      },tc);
      assert.equal(probe.state,tc.name,JSON.stringify(probe));
      assert.equal(probe.advisor,tc.expectedAdvisor,'advisor condition');
-     assert.equal(probe.buyCount,2,'preserve both card CTAs');
+     assert.equal(probe.buyCount,tc.empty||tc.confirmed===false?0:1,'one recommendation has one primary store CTA');
      if(tc.name==='near')assert.equal(await s5.locator('#main-buy').innerText(),'查看门店','undersized alternative must not offer direct checkout');
      if(tc.name==='matched')assert.equal(await s5.locator('#main-buy').innerText(),'立即下单','valid offer retains purchase CTA');
-     if(tc.name==='matched'||tc.name==='near'||tc.name==='expanded'||tc.name==='combo'||tc.name==='large')assert.equal(probe.boardHeight,tc.expectedAdvisor?1116:1005,'single recommendation layout must collapse blank space');
+     if(['matched','near','expanded','combo','large'].includes(tc.name))assert(probe.boardHeight>1005,'new S01-store card must receive scroll height');
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(probe.boardHeight,858,'empty/incomplete should not leave long blank page');
      if(tc.name==='incomplete'){assert.equal((await s5.locator('.nm-kicker').innerText()).trim(),'请先确认租期');assert.match(await s5.locator('[data-nm="range"]').innerText(),/选择租期/);}
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(await s5.locator('#artboard').getAttribute('data-count'),'0','hidden recommendation must not activate single-card layout');
