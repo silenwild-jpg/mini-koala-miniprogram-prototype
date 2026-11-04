@@ -5,7 +5,7 @@
   if(root)root.SIM_HOME_RECOMMEND_02I=api;
 })(typeof window==='object'?window:globalThis,function(){
   'use strict';
-  const num=x=>Number.isFinite(Number(x))&&Number(x)>=0?Number(x):null;
+  const num=x=>x!==null&&x!==undefined&&x!==''&&Number.isFinite(Number(x))&&Number(x)>=0?Number(x):null;
   const cost=x=>num(x?.teaserCubicPrice)>0?num(x.teaserCubicPrice):null;
   const distance=x=>num(x?.distance)??Number.POSITIVE_INFINITY;
   function rank(rows,{distanceVerified=false}={}){

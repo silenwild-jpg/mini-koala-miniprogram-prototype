@@ -135,6 +135,12 @@
       s.photo_source='brand_generic_environment_user_supplied';
     });
   }
+  // Stable demo kilometers are used in every catalog; location permission remains independent.
+  activeFixture.stores.forEach(s=>{
+    if(s.distance!==null&&s.distance!==undefined&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0)return;
+    let n=0;for(const c of String(s.id))n=(Math.imul(n,31)+c.charCodeAt(0))>>>0;
+    s.distance=Number((0.9+(n%110)/10).toFixed(1));
+  });
   // Store-ID-stable access schedule shared by S01/S02. Replace with verified store records when available.
   const storeSchedules=['24小时','09:00-21:00','08:00-23:00'];
   // Unify warehouse option stock counts with the stock/status contract used by order selection.
