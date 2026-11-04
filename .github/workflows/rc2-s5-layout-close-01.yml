@@ -1,0 +1,72 @@
+name: RC2 S5 Layout Close 01
+on:
+  pull_request:
+    branches:
+      - isolate/rc2-final-admission-01-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s5-layout-and-core-journey:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax, contracts and visual governance
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node scripts/verify_s02_inventory_geo_contract.cjs
+          node scripts/check_proto_vis_exec_01.cjs --self-test
+          node scripts/check_proto_vis_exec_01.cjs
+      - name: Rebuild traceable review bundle
+        run: python3 scripts/build_rc2_final_admission_01.py
+      - name: Verify approved real store images and on-screen copy
+        run: |
+          node scripts/verify_rc2_s5_curated_photo_01.cjs
+          node scripts/verify_rc2_customer_copy_01.cjs --packaged
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: S5 compact design and multi-page 375/390 browser QA
+        run: |
+          node scripts/verify_rc2_s5_layout_close_01_browser.cjs
+          node scripts/verify_rc2_final_admission_01_browser.cjs
+      - name: Upload screenshots and checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-s5-layout-close-01-evidence
+          path: |
+            release-evidence/rc2-s5-layout-close-01/screens/
+            release-evidence/rc2-final-admission-01/screens/
+          if-no-files-found: warn
+      - name: Upload candidate site ZIP and manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-s5-layout-close-01-site
+          path: |
+            release-evidence/rc2-final-admission-01/MiniKoala_RC2_FINAL_ADMISSION_01_PRIVATE_REVIEW.zip
+            release-evidence/rc2-final-admission-01/build-summary.json
+            release-evidence/rc2-final-admission-01/manifest.json
+            release-evidence/rc2-final-admission-01/SHA256SUMS.txt
+          if-no-files-found: warn
+  s02-states:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Preserve S02 six-state dual-width regression
+        run: node scripts/verify_s02_central_integration_01_browser.cjs
