@@ -11,6 +11,8 @@
     const store=id=>fixture.stores.find(x=>x.id===id);
     const unit=id=>fixture.units.find(x=>x.id===id);
     const available=u=>!!u&&store(u.store_id)?.status==='open'&&(s.stock[u.id]||u.status)==='available';
+    // Count reflects shared reservation/occupancy state, not an independent display-only counter.
+    const stockCount=u=>!available(u)?0:Math.max(0,Math.trunc(Number(u.available_count)||0));
     const validTerm=m=>Number.isInteger(m)&&m>=1&&m<=60;
     const validCapacity=c=>typeof c==='number'&&Number.isFinite(c)&&c>=.5&&c<=200&&Math.abs(c*100-Math.round(c*100))<1e-7;
     const authorized=()=>{if(s.auth.status==='verified'&&now()>=s.auth.expiresAt){s.auth.status='expired';s.quote=null;}return s.auth.status==='verified';};
@@ -212,7 +214,7 @@
       l.invoices.push(req);notify('模拟发票申请已提交，实际开具尚未接入',id);return copy(req);
     }
 
-    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,available,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,selectionValid,authorized,quote,submit,pay,recheck,
+    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,selectionValid,authorized,quote,submit,pay,recheck,
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},

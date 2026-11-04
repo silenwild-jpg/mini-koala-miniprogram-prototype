@@ -26,7 +26,7 @@
         +'</div>';
     }else if(openIndex===1){
       const items=a.distanceFilterEnabled?[[0,'不限距离'],[1,'1km内'],[3,'3km内'],[5,'5km内'],[10,'10km内']]:[];
-      content='<p class="s01-panel-note">'+(a.distanceFilterEnabled?'距离范围仅用于当前内部演示数据':'当前缺少可核验的位置信息，不能按距离筛选')+'</p>'
+      content='<p class="s01-panel-note">'+(a.distanceFilterEnabled?'选择距离范围':'暂不可筛选距离')+'</p>'
         +(items.length?'<div class="s01-choice-list">'+items.map(([v,label])=>choice(label,v,(a.maxKm===null?v===0:Number(a.maxKm)===v),'data-radius')).join('')+'</div>':'');
     }else{
       content='<p class="s01-panel-note">可多选服务；确认后更新门店列表</p><div class="s01-choice-list">'
@@ -95,41 +95,57 @@
   }
   // Positions 1–2 retain the approved expanded store master. Position 3 is the
   // permanent E-storage operating slot. Later stores use a compact, clickable row.
+  // Keep the PR #85 shared store/unit IDs and click paths, but render the PR #81
+  // approved native-width photo-row structure for operating slot 3 and cards 4+.
   function estoreCard(){
     const article=document.createElement('article');
     article.className='s01-estore-card';
     article.dataset.cardRank='3';
     article.dataset.cardKind='estore';
-    article.innerHTML='<img src="br04/s5/assets/estore-existing-scene.webp" alt="考拉E存上门取送服务">'+
-      '<div class="s01-estore-info"><span>上门取送</span><strong>考拉E存</strong>'+
-      '<p>物品上门收取，按需存放</p></div><button type="button" class="s01-estore-cta">了解服务 ›</button>';
+    article.dataset.service='estore';
+    article.innerHTML='<img class="s01-estore-photo" src="br04/s5/assets/estore-existing-scene.webp" alt="考拉E存上门取送服务">'+
+      '<div class="s01-estore-copy"><span class="s01-estore-kicker">上门取送</span>'+
+      '<strong class="s01-estore-name">考拉E存</strong>'+
+      '<button type="button" class="s01-estore-cta">了解服务 ›</button></div>';
+    const photo=article.querySelector('img');
+    photo.onerror=()=>{photo.onerror=null;photo.src='assets/brand_corridor_cropped.png';};
     return article;
   }
   function compactStore(s,rank){
     const article=document.createElement('article');
-    article.className='store-card s01-compact-store';
+    article.className='store-card s01-compact s01-compact-store';
     article.dataset.storeId=s.id;
     article.dataset.cardRank=String(rank);
     article.dataset.cardKind='compact';
+    article.dataset.presentation='compact-direct';
     article.setAttribute('role','button');
     article.setAttribute('tabindex','0');
     article.setAttribute('aria-label','查看'+s.name+'的门店详情');
     const photo=document.createElement('img');
-    photo.className='s01-compact-photo';photo.src=s.photo;
-    photo.alt=s.name+'门店环境';photo.loading='lazy';
+    photo.className='store-photo s01-compact-photo';
+    photo.src=s.photo;
+    photo.alt=s.name+'门店环境';
+    photo.loading='lazy';
     photo.onerror=()=>{photo.onerror=null;if(s.photoFallback)photo.src=s.photoFallback;};
-    const info=document.createElement('div');info.className='s01-compact-info';
-    const name=document.createElement('strong');name.textContent=s.name;info.append(name);
-    const address=document.createElement('p');address.className='s01-compact-address';address.textContent=s.address||'';info.append(address);
-    const tags=document.createElement('div');tags.className='s01-compact-tags';
+    const info=document.createElement('div');info.className='store-body s01-compact-info';
+    const name=document.createElement('h2');name.textContent=s.name;info.append(name);
+    const tags=document.createElement('div');tags.className='store-tags s01-compact-tags';
     (s.services||[]).slice(0,2).forEach(v=>{const el=document.createElement('span');el.textContent=v;tags.append(el);});
     info.append(tags);
+    const address=document.createElement('div');address.className='address';
+    const addrText=document.createElement('span');addrText.className='address-copy';addrText.textContent=s.address||'';
+    address.append(addrText);
+    if(s.distance){const distance=document.createElement('span');distance.className='km';distance.textContent=s.distance;distance.dataset.verified=String(!!s.distanceVerified);address.append(distance);}
+    info.append(address);
     const side=document.createElement('div');side.className='s01-compact-side';
     const first=s.units?.[0];
-    if(first){const price=document.createElement('strong');price.textContent=first.price;side.append(price);
-      const suffix=document.createElement('small');suffix.textContent=first.suffix||'';side.append(suffix);}
+    if(first){
+      const price=document.createElement('strong');price.textContent=first.price;side.append(price);
+      const suffix=document.createElement('small');suffix.textContent=first.suffix||'';side.append(suffix);
+    }
     const arrow=document.createElement('span');arrow.className='s01-compact-arrow';arrow.textContent='查看门店 ›';side.append(arrow);
-    article.append(photo,info,side);
+    info.append(side);
+    article.append(photo,info);
     return article;
   }
   function render(){
@@ -142,7 +158,7 @@
       if(i===2)nodes.push(estoreCard());
       if(i<2){
         const card=masters[i].cloneNode(true);
-        fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';
+        fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';card.dataset.presentation='expanded-two';
         nodes.push(card);
       }else nodes.push(compactStore(store,i+2));
     });
@@ -168,7 +184,6 @@
     setText(document.querySelector('.s01-result-summary'),'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
     const more=document.querySelector('#s01-more');more.hidden=!state.canLoadMore;
     document.querySelectorAll('[data-quick]').forEach(b=>b.setAttribute('aria-pressed',String(state.quickSelected.includes(b.dataset.quick))));
-    if(typeof scaleApprovedReference==='function')scaleApprovedReference();
   }
   stage.addEventListener('click',e=>{
     if(e.target.closest('.s01-estore-card')){bridge.action('estore');return;}
