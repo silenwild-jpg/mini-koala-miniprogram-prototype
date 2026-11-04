@@ -75,6 +75,12 @@ async function run(){
         }
       }
       await capture(page,'01-initial-'+width+'.png');
+      const estore=s01.locator('.s01-estore-card');
+      assert.equal(await estore.count(),1,'fixed E-store card missing');
+      const slots=await s01.locator('.stores').evaluate(el=>Array.from(el.children).slice(0,4).map(n=>n.dataset.service||n.dataset.presentation||'unknown'));
+      assert.deepEqual(slots,['expanded-two','expanded-two','estore','compact-direct'],'E-store must occupy third visual slot');
+      await estore.scrollIntoViewIfNeeded();
+      await capture(page,'02-estore-third-'+width+'.png');
       const third=s01.locator('.store-card').nth(2);
       await third.scrollIntoViewIfNeeded();
       let box=await third.boundingBox();
@@ -87,14 +93,16 @@ async function run(){
           info:el.querySelector('.s01-compact-summary')?.innerText||'',photo:el.querySelector('.store-photo')?.getAttribute('src'),
           noVisibleUnits:getComputedStyle(el.querySelector('.units')).display==='none'};
       });
-      assert(thirdVisual.picW>=82&&thirdVisual.picW<=99,'compact thumbnail mis-sized');
+      assert(thirdVisual.picW>=108&&thirdVisual.picW<=136,'fourth+ photo ratio is not the approved horizontal reference');
       assert(thirdVisual.cardH<=160,'compact row unexpectedly expanded');
       assert(thirdVisual.scrollWidth<=thirdVisual.clientWidth+3,'compact horizontal overflow');
-      assert(thirdVisual.info.includes('查看门店'),'compact action hint missing');
+      assert(!thirdVisual.info,'marked bottom summary is still present');
+      assert.equal(await third.locator('.price:visible,.order:visible').count(),0,'marked price/CTA area reappeared');
+      assert.equal(await third.locator('h2').count(),1,'store identity name must remain');
       assert(thirdVisual.noVisibleUnits,'compact has visible unit rows');
-      await capture(page,'02-third-card-'+width+'.png');
+      await capture(page,'03-fourth-store-'+width+'.png');
       const last=s01.locator('.store-card').last();await last.scrollIntoViewIfNeeded();
-      await capture(page,'03-tail-cards-'+width+'.png');
+      await capture(page,'04-tail-cards-'+width+'.png');
       const targetId=await third.getAttribute('data-store-id');
       await third.click();await app.locator('#screen.page-S02').waitFor({state:'attached'});
       assert.equal(await app.locator('#screen').evaluate(()=>window.SIM_DEMO.state().storeId),targetId);
@@ -120,15 +128,15 @@ async function run(){
         requireFlag(view,test.flag);
         const cardCount=await ui.s01.locator('.store-card').count();
         assert.equal(cardCount,view.stores.length,'state visual cards desynced from source');
-        const advisorLinks=await ui.s01.locator('.s01-inline-advisor').count();
-        assert.equal(advisorLinks,view.nineState.advisorEligible?1:0,'advisor CTA must appear exactly once when eligible');
+        assert.equal(await ui.s01.locator('.s01-inline-advisor,.s01-result-summary').count(),0,'removed results/advisor strip returned');
+        assert.equal(await ui.s01.locator('.s01-estore-card').count(),1,'E-store fixed service card missing in scenario');
         if(test.code==='M3'){
           const row=view.stores.find(s=>s.id===details.selectedStore);
           assert(row&&row.matchState==='near','missing near-capacity row');
           assert(row.units.every(u=>u.orderable===false&&u.action==='store'),'near unit must not order');
           assert.equal(await ui.s01.locator('.order').first().innerText(),'查看门店');
         }
-        if(test.code==='M5')assert(await ui.s01.locator('#s01-citywide-fallback').isVisible(),'Estore not at top of all-city no-match');
+        if(test.code==='M5')assert(await ui.s01.locator('.s01-estore-card').isVisible(),'E-store must remain available for no-match');
         if(test.code==='M7'){
           const row=view.stores.find(s=>s.id===details.selectedStore);
           assert.equal(row.matchState,'soldout','stock changed but previous unit still available');
@@ -140,7 +148,7 @@ async function run(){
         if(test.code==='M4')assert(view.expandedSearch,'expanded scope flag missing');
         await capture(newPage,test.code+'-'+width+'.png');
         if(test.code==='M8b'){
-          await ui.s01.locator('.s01-inline-advisor').click();
+          await ui.s01.locator('.s01-estore-card').click();
           await ui.app.locator('#br04-frame').waitFor({state:'attached'});
           assert.equal(await ui.app.locator('#s01-r2-frame').count(),0,'advisor action did not leave S01');
         }
