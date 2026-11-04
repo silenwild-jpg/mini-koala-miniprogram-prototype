@@ -46,14 +46,31 @@ const route='http://127.0.0.1:4968/prototype/parallel/core-journey-fix-01/demo/'
     results.push({width,height,city,cards,photoLoaded:true,routeStore:selected,ids:data.map(x=>x.id)});
     await page.goto(route+'home.html',{waitUntil:'load'});
    }
-   await page.evaluate(()=>{const k='mk_independent_sim_v1',s=JSON.parse(sessionStorage.getItem(k));s.orders=[];s.leads=[];s.enterpriseLeads=[];s.requirement={capacity_m3:3,term_months:12,term_confirmed:true};sessionStorage.setItem(k,JSON.stringify(s));});
+   // Injection occurs before page JS: pagehide otherwise overwrites ad-hoc storage changes.
+   await page.addInitScript(()=>{
+    const stage=sessionStorage.getItem('mk_h01_test_stage');if(!['demand','pending','rented'].includes(stage))return;
+    const key='mk_independent_sim_v1',s=JSON.parse(sessionStorage.getItem(key)||'null');if(!s)return;
+    s.orders=[];s.leads=[];s.enterpriseLeads=[];
+    s.requirement={capacity_m3:3,term_months:12,term_confirmed:true};
+    if(stage==='pending')s.orders=[{id:'SIM_ORDER_TEST',status:'pending',expiresAt:Date.now()+900000}];
+    if(stage==='rented'){
+      s.orders=[{id:'SIM_ORDER_RENT',status:'paid_simulated',start_date:'2026-11-01',term_months:12}];
+      s.services={SIM_ORDER_RENT:{identity:'verified',renewals:[]}};
+    }
+    sessionStorage.setItem(key,JSON.stringify(s));sessionStorage.setItem('mk_h01_test_stage','done');
+   });
+   await page.evaluate(()=>sessionStorage.setItem('mk_h01_test_stage','demand'));
    await page.reload();await page.locator('.lifecycle-home-task').waitFor();
    assert.match(await page.locator('.lifecycle-home-task').innerText(),/继续查看已估算方案/);
    await page.screenshot({path:path.join(out,'demand-'+width+'.png')});
-   await page.evaluate(()=>{const k='mk_independent_sim_v1',s=JSON.parse(sessionStorage.getItem(k));s.orders=[{id:'SIM_ORDER_TEST',status:'pending',expiresAt:Date.now()+900000}];sessionStorage.setItem(k,JSON.stringify(s));});
+   await page.evaluate(()=>sessionStorage.setItem('mk_h01_test_stage','pending'));
    await page.reload();await page.locator('.lifecycle-home-task').waitFor();
    assert.match(await page.locator('.lifecycle-home-task').innerText(),/待支付订单/);
    await page.screenshot({path:path.join(out,'pending-'+width+'.png')});
+   await page.evaluate(()=>sessionStorage.setItem('mk_h01_test_stage','rented'));
+   await page.reload();await page.locator('.lifecycle-home-task').waitFor();
+   assert.match(await page.locator('.lifecycle-home-task').innerText(),/我的在租仓位/);
+   await page.screenshot({path:path.join(out,'rented-'+width+'.png')});
    assert.equal(errors.length,0,errors.join('\n'));await ctx.close();
   }
  }finally{await browser.close();await new Promise(ok=>server.close(ok));}
