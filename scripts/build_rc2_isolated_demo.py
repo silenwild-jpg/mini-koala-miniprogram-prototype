@@ -87,10 +87,16 @@ def main() -> None:
     assert not any(p.suffix.lower() == ".md" for p in SITE.rglob("*") if p.is_file())
     assert not any("mk-h01-central-route-connect03" in str(p) for p in SITE.rglob("*"))
 
-    # Immutable visual resources remain bit-identical to their accepted original source.
-    for name in ("s01-r2-a-1.webp", "s01-r2-a-2.webp"):
+    # S01 assets were added after the 33174a2 legacy build baseline. The old
+    # baseline cannot be resolved for these paths; pin the verified H01 source
+    # tree blobs instead. Retains strict bit-identity without disabling VIS-GUARD.
+    approved_s01_webp_blobs = {
+        "s01-r2-a-1.webp": "eb93b338275b49991d7407099eea5373c1076185",
+        "s01-r2-a-2.webp": "66ff289af021c5fdc992e6de435808d7281ac5a7",
+    }
+    for name, expected_blob in approved_s01_webp_blobs.items():
         key = str(Path("app") / RUNTIME / "assets" / name)
-        assert git("rev-parse", "HEAD:" + key) == git("rev-parse", cfg["baseline_commit"] + ":" + key), "S01_WEBP_CHANGED: " + name
+        assert git("rev-parse", "HEAD:" + key) == expected_blob, "S01_WEBP_CHANGED: " + name
         data = (SITE / RUNTIME / "assets" / name).read_bytes()
         assert data[:4] == b"RIFF" and data[8:12] == b"WEBP"
 
