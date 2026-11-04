@@ -198,7 +198,7 @@
     const combos=visual.category==='全部'?core.combinations(s.id):[];
     if(!catalog.some(u=>core.available(u)))return '<section class="empty-units"><h3>'+(s.status==='open'?'本店暂无可租仓位':'本店暂停服务')+'</h3><p>您的容量和租期已保留，可查看其他匹配门店。</p></section>'+alternatives(s.id)+'<details class="detail-blank"><summary>查看暂不可租仓位（最多3个）</summary>'+unavailable.slice(0,3).map(unitRow).join('')+'</details>';
     const filters=`<div class="unit-filter" role="group" aria-label="仓型筛选">${categories.map(x=>`<button class="chip ${visual.category===x?'selected':''}" data-action="category" data-value="${x}" aria-pressed="${visual.category===x}">${x}</button>`).join('')}</div>`;
-    const comboHtml=combos.length?`<h3 class="br03-group-title">组合方案</h3>${combos.map(x=>`<article class="unit-row combo-row"><img class="unit-img" src="${r3UnitImage({volume:x.volume})}" alt="组合仓空间示意"><div class="unit-card-inner"><h3 class="unit-name">${x.volume}m³ · ${x.ids.length}间组合</h3><p class="scenario"><span>一笔订单 · 同一门店</span></p><div class="unit-bottom">${price(x.ids)}${button('choose','立即下单',x.ids.join(','),'order-button')}</div></div></article>`).join('')}`:'';
+    const comboHtml=combos.length?`<h3 class="br03-group-title">组合方案</h3>${combos.map(x=>`<article class="unit-row combo-row"><div class="s02-combo-pics" aria-label="多间独立仓位组合">${x.ids.slice(0,2).map(id=>`<img src="${r3UnitImage(unit(id))}" alt="${esc(unit(id)?.name||'独立仓位')}" loading="lazy">`).join('')}</div><div class="unit-card-inner"><h3 class="unit-name">${x.volume}m³ · ${x.ids.length}间组合</h3><p class="scenario"><span>一笔订单 · 同一门店</span></p><div class="unit-bottom">${price(x.ids)}${button('choose','立即下单',x.ids.join(','),'order-button')}</div></div></article>`).join('')}`:'';
     return filters+`<div class="unit-list">${matching.length?matching.map(unitRow).join(''):linked?'<p class="br03-group-note">暂无符合当前需求的单仓，您的容量和租期已保留。</p>':''}${comboHtml}${others.length?'<h3 class="br03-group-title">其他可租容量</h3>'+others.map(unitRow).join(''):''}${!available.length&&!combos.length?'<p class="br03-group-note">当前仓型暂无可租仓位。</p>'+button('category','查看全部仓型','全部','outline'):''}${unavailable.length?'<details class="unavailable-units"><summary>查看暂不可租仓位</summary>'+unavailable.slice(0,3).map(unitRow).join('')+'</details>':''}${linked&&!matching.length&&!combos.length?alternatives(s.id):''}</div>`;
   }
   const s02HoursOptions=['24小时','09:00-21:00','08:00-23:00'];
@@ -224,7 +224,7 @@
   function s02HotRibbon(s){
     const available=F.units.filter(u=>u.store_id===s.id&&core.available(u));
     if(!available.length)return '';
-    const quantity=u=>{const raw=u.remaining_count??u.stock_count??u.available_rooms;const n=raw===null||raw===undefined?NaN:Number(raw);return Number.isInteger(n)&&n>=0?n:null;};
+    const quantity=u=>{const raw=u.available_count??u.remaining_count??u.stock_count??u.available_rooms;const n=raw===null||raw===undefined?NaN:Number(raw);return Number.isInteger(n)&&n>=0?n:null;};
     const low=available.filter(u=>quantity(u)!==null&&quantity(u)>0&&quantity(u)<=2)
       .sort((a,b)=>quantity(a)-quantity(b));
     const urgent=low.length>0;
