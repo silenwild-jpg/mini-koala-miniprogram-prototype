@@ -31,8 +31,14 @@ async function phone(app,expectDenied=false){
  await overlay.waitFor({state:'detached'});
 }
 async function fromStore(app){
- await app.locator('.store-entry[data-store]').first().click();
+ // S01-STORE-CARD-SLOT-04: the approved entry is the S01 iframe's actual
+ // first full store card, not the removed central .store-entry DOM.
+ const s01=app.frameLocator('#s01-r2-frame');
+ await s01.locator('.store-card[data-store-id]').first().waitFor();
+ const storeId=await s01.locator('.store-card[data-store-id]').first().getAttribute('data-store-id');
+ await s01.locator('.store-card[data-store-id]').first().click();
  await app.locator('#screen.page-S02').waitFor();
+ assert.equal(await app.locator('#screen').evaluate(()=>window.SIM_DEMO.state().storeId),storeId,'S01->S02 same-store binding');
  await app.locator('.order-button[data-action="choose"]:not([disabled])').first().click();
  if(await app.locator('button[data-action="setTerm"][data-value="6"]').count())await app.locator('button[data-action="setTerm"][data-value="6"]').click();
 }
