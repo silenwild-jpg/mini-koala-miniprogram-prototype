@@ -1,0 +1,37 @@
+name: H01 UX REVIEW 02
+on:
+  pull_request:
+    branches:
+      - isolate/rc2-final-admission-01-20261103
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  five-city-ui-and-state:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JavaScript syntax
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/home-recommend-policy.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - name: Five-city static catalog and photo mapping
+        run: node scripts/verify_h01_ux_review_02.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: 375 and 390 browser flow and states
+        run: node scripts/verify_h01_ux_review_02_browser.cjs
+      - name: Upload visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: h01-ux-review-02-five-city-375-390
+          path: release-evidence/h01-ux-review-02/
+          if-no-files-found: warn

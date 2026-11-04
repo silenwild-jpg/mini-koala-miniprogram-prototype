@@ -88,6 +88,59 @@
     ?(()=>{try{return sessionStorage.getItem('mk_active_catalog_v1')==='MK';}catch{return false;}})()
     :(typeof process==='object'&&process.env.MK_CATALOG_MODE==='MK'));
   const activeFixture=requestedLegacy?legacyFixture():data;
+  // H01-UX-REVIEW-02: five-city demo extension uses known store names/addresses.
+  // Photos are generic brand environments, never verified individual store photographs.
+  if(!requestedLegacy){
+    const regionCode={上海:'SH',深圳:'SZ',杭州:'HZ',广州:'GZ'};
+    const availableFromSource=legacyStoreRows.filter(r=>Number(r[6])>0);
+    const knownAddresses=new Set(activeFixture.stores.map(s=>String(s.address).replace(/[,，\s]/g,'')));
+    for(const city of Object.keys(regionCode)){
+      const cityCount=activeFixture.stores.filter(s=>s.city===city).length;
+      const missing=Math.max(0,5-cityCount);
+      const candidates=availableFromSource.filter(r=>r[1]===city&&!knownAddresses.has(String(r[4]).replace(/[,，\s]/g,''))).slice(0,missing);
+      for(const [index,r] of candidates.entries()){
+        const offset=cityCount+index,code=regionCode[city];
+        const id='SIM_'+code+String(offset+1).padStart(2,'0');
+        const address=r[4];knownAddresses.add(String(address).replace(/[,，\s]/g,''));
+        const store={id,city,name:r[2],district:r[3],address,community:r[5],
+          distance:Number((cityCount===0?1.4+index*1.1:3.5+index*1.2).toFixed(1)),
+          status:'open',rating:null,review:null,operatingTag:index===2?'特价仓':null,
+          serviceTags:['安防监控','电梯直达'],tags:['安防监控','电梯直达'],facilities:['安防监控','电梯直达'],
+          source_store_id:r[0],source:'MK_LEGACY_NAME_ADDRESS_DEMO',photo_identity_verified:false};
+        activeFixture.stores.push(store);
+        for(const [j,volume] of [1,3,8,15].entries()){
+          const height=volume<=3?2:2.5,width=volume<=3?1:2.5,depth=Number((volume/(height*width)).toFixed(2));
+          activeFixture.units.push({id:id+'_U'+String(j+1).padStart(2,'0'),store_id:id,
+            code:'A'+String(j+1).padStart(2,'0'),name:volume+'m³独立仓',volume,
+            area:Number((volume/height).toFixed(2)),dimensions:[width,depth,height].join(' × ')+'m',dimensions_m:[width,depth,height],
+            base_month:Math.round((110+volume*(86+offset*3))/10)*10,status:'available',
+            photo:volume<=3?'unit_small1.jpg':'unit_medium.jpg',available_count:3+((index+j)%5),revision:1,
+            source:'H01_R2_DEMO_CAPACITY'});
+        }
+        const related=activeFixture.units.filter(u=>u.store_id===id);
+        store.teaserCubicPrice=Number(Math.min(...related.map(u=>Math.round(u.base_month*12*.65/10)*10/12/u.volume)).toFixed(2));
+      }
+    }
+    const slots=['SIM_BJ01','SIM_BJ02','SIM_BJ03','SIM_BJ04','SIM_BJ05','SIM_BJ06',
+      'SIM_BJ07','SIM_BJ08','SIM_BJ09','SIM_SH01','SIM_SH02','SIM_SZ01'];
+    const cityImageIndex={};
+    const cityStart={北京:0,上海:3,深圳:6,杭州:0,广州:5};
+    activeFixture.stores.forEach((s,i)=>{
+      const position=cityImageIndex[s.city]||0;cityImageIndex[s.city]=position+1;
+      const slot=slots.includes(s.id)?s.id:slots[((cityStart[s.city]||0)+position)%slots.length];
+      s.photoLegacy=s.photo||'store_jingan.jpg';
+      s.photo='store-curated/v1/'+slot+'/card.webp';
+      s.gallery_photos=['assets/store-curated/v1/'+slot+'/hero.webp'];
+      s.photo_identity_verified=false;
+      s.photo_source='brand_generic_environment_user_supplied';
+    });
+  }
+  // Stable demo kilometers are used in every catalog; location permission remains independent.
+  activeFixture.stores.forEach(s=>{
+    if(s.distance!==null&&s.distance!==undefined&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0)return;
+    let n=0;for(const c of String(s.id))n=(Math.imul(n,31)+c.charCodeAt(0))>>>0;
+    s.distance=Number((0.9+(n%110)/10).toFixed(1));
+  });
   // Store-ID-stable access schedule shared by S01/S02. Replace with verified store records when available.
   const storeSchedules=['24小时','09:00-21:00','08:00-23:00'];
   // Unify warehouse option stock counts with the stock/status contract used by order selection.
