@@ -45,7 +45,7 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
        return cards.map(card=>{
          const img=card.querySelector('.s5-store-photo img'),rows=[...card.querySelectorAll('.s5-unit-row')];
          const r=card.getBoundingClientRect();
-         return {storeName:card.querySelector('.s5-store-title strong')?.textContent,
+         return {storeId:card.dataset.storeId,storeName:card.querySelector('.s5-store-title strong')?.textContent,
            address:card.querySelector('.s5-store-address span')?.textContent,
            services:card.querySelectorAll('.s5-store-services span').length,
            image:img?.getAttribute('src'),unitCount:rows.length,rows:rows.map(row=>({
@@ -63,6 +63,42 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
        assert(card.rows.every(row=>row.price==='查看整期价'),'anonymous user must not receive formal full-term quote');
      }
      assert(parity[0].bottom<=parity[1].top+2,'two store cards overlap');
+     const sourceParity=await frame.locator('body').evaluate(()=>{
+       const h=parent.SIM_DEMO;
+       const cards=[...document.querySelectorAll('.s5-store-card:not([hidden])')];
+       return cards.map(card=>{
+         const id=card.dataset.storeId,s=h.s5SharedStore(id),unitEls=[...card.querySelectorAll('.s5-unit-row')];
+         return {id,source:s,unitRows:unitEls.map(el=>{
+           const ids=el.dataset.unitIds.split(',');
+           const summary=h.s5SharedUnit(ids);
+           return {ids,source:summary,shown:el.querySelector('.s5-unit-info p')?.textContent};
+         })};
+       });
+     });
+     for(let i=0;i<parity.length;i++){
+       const item=sourceParity[i],card=parity[i];
+       assert.equal(item.id,card.storeId,'S5 store id must stay identical to S01/S02');
+       assert.equal(item.source.name,card.storeName,'store name diverged from S01 source');
+       assert.equal(item.source.address,card.address,'store address diverged from S01 source');
+       assert(card.image.includes(item.source.photo),'store image not mapped to same S01 id');
+       assert(item.unitRows.every(row=>row.source.available),'unavailable S02 warehouse rendered as buyable S5');
+       assert(item.unitRows.every(row=>row.shown===row.source.description),'S01/S02 shared unit copy not applied');
+       assert(item.unitRows.every(row=>row.source.ids.every(id=>initial.cities.length&&!!id)),'missing canonical warehouse identity');
+     }
+     assert(await frame.locator('#s5-compare').isVisible(),'two offers must expose lightweight compare entry');
+     await frame.locator('#s5-compare').click();
+     assert(await frame.locator('#modal').isVisible(),'compare sheet must open');
+     assert.match(await frame.locator('#modal-title').innerText(),/对比推荐门店/);
+     await frame.locator('#close-modal').click();
+     const sync=await frame.locator('body').evaluate(()=>{
+       const h=parent.SIM_DEMO,area=h.s5AreaPreference(),snap=h.s01R2Bridge.snapshot();
+       return {area,first:snap.stores[0]?.district||'',topFilters:snap.filterLabels,visible:snap.stores.length};
+     });
+     assert.equal(sync.area,area,'S5 area must be stored for S01');
+     assert.equal(sync.first,area,'S01 should rank selected district first without hiding full-city candidates');
+     assert.deepEqual(sync.topFilters.length,3,'S01 three filters retained');
+     records.push({city,width,height,sync,sourceParity});
+
      records.push({city,width,height,parity});
 
      assert.equal(state.first,area,'manual preferred district was not used for first offer');

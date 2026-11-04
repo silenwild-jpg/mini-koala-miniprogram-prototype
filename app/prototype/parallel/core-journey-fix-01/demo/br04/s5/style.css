@@ -128,3 +128,8 @@
 .s5-unit-terms>small{color:#788c9b;font-size:10px;white-space:nowrap}
 .s5-unit-buy{background:#00745c;border:0;border-radius:7px;color:white;min-height:33px;min-width:91px;padding:6px 10px;font-size:11.5px;font-weight:750;margin-top:4px}
 .s5-unit-buy:focus-visible,.s5-store-open:focus-visible,.s5-store-address button:focus-visible,.s5-unit-price:focus-visible{outline:2px solid #00745c;outline-offset:2px}
+
+/* ALIGN-02: use the existing heading, no extra card or fixed comparison overlay. */
+#s5-compare{position:absolute;right:4px;top:0;background:transparent;border:0;color:#00735a;padding:3px 4px;font-size:12px;font-weight:700}
+#s5-compare[hidden]{display:none!important}
+.s5-promo-tag{display:inline-block;color:#d75825;font-size:10px;white-space:nowrap;margin-top:2px}
