@@ -16,6 +16,7 @@ for(const [width,height] of [[375,812],[390,844]]){
  const ctx=await browser.newContext({viewport:{width,height},deviceScaleFactor:1});
  for(const [scenario,urgent] of stockCases){
   const page=await ctx.newPage(),errors=[],checks={};let failure='';
+page.setDefaultTimeout(5000);
   page.on('pageerror',e=>errors.push(e.message));
   try{
    await page.goto('http://127.0.0.1:4758/prototype/parallel/core-journey-fix-01/demo/index.html?page=S02&store=SIM_BJ01',{waitUntil:'load'});
@@ -81,6 +82,7 @@ for(const [width,height] of [[375,812],[390,844]]){
 const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1});
 for(const [name,capacity] of scenarios){
 const page=await context.newPage(),errors=[],missing=[];
+page.setDefaultTimeout(5000);
 page.on('pageerror',e=>errors.push(e.message));
 page.on('response',r=>{if(r.status()>=400&&r.url().startsWith('http://127.0.0.1'))missing.push(r.url())});
 const checks={};let failure='';
