@@ -119,6 +119,19 @@
   }
   function render(){
     const state=bridge.snapshot();
+    // Failure recovery is a single flat inline strip, not a new bordered card.
+    let fallback=document.querySelector('#s01-citywide-fallback');
+    if(!fallback){
+      fallback=document.createElement('div');
+      fallback.id='s01-citywide-fallback';
+      fallback.className='s01-citywide-fallback';
+      fallback.innerHTML='<span class="s01-fallback-copy"></span><button type="button" data-fallback-estore>了解考拉E存</button><button type="button" data-fallback-edit>修改需求</button>';
+      stage.before(fallback);
+      fallback.querySelector('[data-fallback-estore]').addEventListener('click',()=>bridge.action('estore'));
+      fallback.querySelector('[data-fallback-edit]').addEventListener('click',()=>bridge.editDemand());
+    }
+    fallback.hidden=!state.noAdequateMatch||state.storeCount===0;
+    setText(fallback.querySelector('.s01-fallback-copy'),'当前没有满足容量的可租仓位');
     document.documentElement.dataset.binding='CENTRAL_RC1';
     document.documentElement.dataset.source=state.sourceNamespace;
     document.documentElement.dataset.verifiedDistance=String(state.distanceVerified);
@@ -150,7 +163,16 @@
     if(query&&document.activeElement!==query)query.value=state.keyword||'';
     setText(document.querySelector('.s01-context-text'),state.requirement.capacity===null?'未填写容量需求，可直接找仓':'已选需求：'+state.requirement.capacity+'m³ · '+(state.requirement.term?state.requirement.term+'个月':'租期待选'));
     setText(document.querySelector('.s01-edit'),state.requirement.capacity===null?'估算大小':'修改需求');
-    setText(document.querySelector('.s01-result-summary'),'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
+    const resultsNode=document.querySelector('.s01-result-summary');
+    setText(resultsNode,'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
+    // One conditional advisor entry on the list, never one on every card.
+    if(state.nineState?.advisorEligible&&resultsNode){
+      const help=document.createElement('button');
+      help.type='button';help.className='s01-inline-advisor';help.textContent='顾问选仓';
+      help.setAttribute('aria-label','联系顾问协助选仓');
+      help.addEventListener('click',()=>bridge.action('advisor'));
+      resultsNode.append(help);
+    }
     const more=document.querySelector('#s01-more');more.hidden=!state.canLoadMore;
     document.querySelectorAll('[data-quick]').forEach(b=>b.setAttribute('aria-pressed',String(state.quickSelected.includes(b.dataset.quick))));
     if(typeof scaleApprovedReference==='function')scaleApprovedReference();

@@ -99,6 +99,36 @@
 .s01-match-hint{margin:7px 0 0;color:#566d63;font-size:12px;line-height:1.45}
 .s01-compact:focus-visible{outline:2px solid #087d67;outline-offset:2px}
 .s01-compact:active{background:#f5faf7}
+
+/* S01-UX-REVIEW-03: no adequate match - inline recovery, no new card/border/shadow. */
+.s01-citywide-fallback{margin:1px 15px 10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:11px;line-height:17px;color:#446859}
+.s01-citywide-fallback[hidden]{display:none!important}
+.s01-fallback-copy{flex-basis:100%;font-weight:600;color:#3b6252}
+.s01-citywide-fallback button{border:0;border-radius:4px;background:transparent;color:#137b5a;font-size:12px;font-weight:600;padding:3px 0;cursor:pointer;min-height:30px}
+.s01-citywide-fallback button+button{margin-left:14px;color:#57656b;font-weight:500}
+
+/* S01-UX-REVIEW-03 visual QA: third+ rows are plain compact list entries.
+   No changes to the first/second approved full cards. */
+.store-card.s01-compact{
+  border-color:transparent;
+  border-bottom-color:#e9eeeb;
+  border-radius:0;
+  box-shadow:none;
+  margin-bottom:5px;
+  min-height:110px;
+}
+.s01-compact .store-body h2{font-size:14px;line-height:20px}
+.s01-compact .store-tags{height:18px}
+.s01-compact .store-tags span{font-size:12px;line-height:18px;height:18px}
+.s01-compact .address{height:auto;min-height:20px;max-height:20px;align-items:center;overflow:hidden;flex-wrap:nowrap}
+.s01-compact .address-copy{font-size:12px;line-height:18px;max-width:calc(100% - 42px);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.s01-compact .km{font-size:12px;line-height:18px;flex:0 0 auto}
+.s01-compact-summary{font-size:12px;line-height:18px}
+
+/* Single conditional consultant link: shares the existing result-summary line. */
+.s01-result-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:22px}
+.s01-inline-advisor{flex:0 0 auto;padding:4px 0;border:0;background:transparent;color:#118362;font-size:12px;font-weight:700;min-height:32px;cursor:pointer}
+.s01-inline-advisor:focus-visible{outline:2px solid #138362;outline-offset:2px}
 </style>
 </head>
 <body>
