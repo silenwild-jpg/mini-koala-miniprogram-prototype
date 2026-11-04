@@ -62,6 +62,19 @@ const cases=[
      if(tc.name==='none')assert.equal(probe.boardHeight,793,'no-match state should collapse');
      if(tc.name==='incomplete'){assert.equal((await s5.locator('.nm-kicker').innerText()).trim(),'请先确认租期');assert.match(await s5.locator('[data-nm="range"]').innerText(),/选择租期/);}
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(await s5.locator('#artboard').getAttribute('data-count'),'0','hidden recommendation must not activate single-card layout');
+     const termView=await s5.locator('body').evaluate(()=>{
+       const board=document.getElementById('artboard');
+       return {compact:board.dataset.termCompact,summary:getComputedStyle(document.querySelector('#term-summary')).display,
+         choices:getComputedStyle(document.querySelector('#term-options')).display};
+     });
+     if(tc.confirmed===false){
+       assert.equal(termView.compact,'false','unconfirmed term must allow selection');
+       assert.notEqual(termView.choices,'none','unconfirmed term choices must remain visible');
+     }else{
+       assert.equal(termView.compact,'true','confirmed term must collapse');
+       assert.notEqual(termView.summary,'none','confirmed term summary must be visible');
+       assert.equal(termView.choices,'none','duplicate term choices must be hidden');
+     }
      assert.equal(probe.hasFixedPurchase,false,'fixed purchase should be absent');
      assert(probe.bodyWidth<=probe.viewportWidth+2,'S5 iframe horizontally overflows');
      if(probe.advisor){
