@@ -52,6 +52,8 @@
   function saveR2Filters(){sessionStorage.setItem('mk_s01_r2_filters_v1',JSON.stringify(r2Filters));}
   if(!Array.isArray(r2Filters.services))r2Filters.services=[];
   if(!Array.isArray(r2Filters.quick))r2Filters.quick=[];
+  // Removed by S01 latest approved rules: no retired single-unit filter, including persisted selections.
+  if(r2Filters.quick.includes('single')){r2Filters.quick=r2Filters.quick.filter(x=>x!=='single');saveR2Filters();}
   if(!Number.isInteger(r2Filters.visibleLimit)||r2Filters.visibleLimit<2)r2Filters.visibleLimit=10;
   if(!Number.isFinite(Number(r2Filters.maxKm))||Number(r2Filters.maxKm)<=0||!F.distanceVerified)r2Filters.maxKm=null;
   if(!F.distanceVerified&&visual.sort==='distance'){visual.sort='recommended';saveVisual();}
@@ -149,7 +151,6 @@
       if(r2Filters.maxKm!==null&&F.distanceVerified)stores=stores.filter(s=>Number.isFinite(Number(s.distance))&&Number(s.distance)<=Number(r2Filters.maxKm));
       if(r2Filters.quick.includes('promo'))stores=stores.filter(s=>s.operatingTag==='特价仓'||s.operatingTag==='双11大促');
       if(r2Filters.quick.includes('moving'))stores=stores.filter(s=>s.operatingTag==='免费搬运');
-      if(r2Filters.quick.includes('single'))stores=stores.filter(s=>F.units.some(u=>u.store_id===s.id&&core.available(u)&&(state().requirement.capacity_m3===null||u.volume>=state().requirement.capacity_m3)));
     }
 
     if(visual.sort==='recommended'&&r.capacity_m3===null){
@@ -432,7 +433,7 @@
     setSort(value){if(!['recommended','distance','price'].includes(value))return;act(()=>handlers.setSort(value));},
     setRadius(value){const km=value===null?null:Number(value);if(km!==null&&(![1,3,5,10].includes(km)||!F.distanceVerified))return false;r2Filters.maxKm=km;r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());return true;},
     setServices(values){const allowed=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];r2Filters.services=Array.isArray(values)?[...new Set(values)].filter(v=>allowed.includes(v)):[];visual.service='all';r2Filters.visibleLimit=10;saveVisual();saveR2Filters();act(()=>render());},
-    setQuick(value){if(!['promo','moving','single'].includes(value))return;r2Filters.quick=r2Filters.quick.includes(value)?r2Filters.quick.filter(v=>v!==value):[...r2Filters.quick,value];r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());},
+    setQuick(value){if(!['promo','moving'].includes(value))return;r2Filters.quick=r2Filters.quick.includes(value)?r2Filters.quick.filter(v=>v!==value):[...r2Filters.quick,value];r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());},
     loadMore(){r2Filters.visibleLimit=Math.min(50,r2Filters.visibleLimit+10);saveR2Filters();act(()=>render());},
     editDemand(){window.SIM_DEMO.editRequirement();}
   };
