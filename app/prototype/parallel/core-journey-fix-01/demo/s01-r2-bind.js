@@ -163,7 +163,16 @@
     if(query&&document.activeElement!==query)query.value=state.keyword||'';
     setText(document.querySelector('.s01-context-text'),state.requirement.capacity===null?'未填写容量需求，可直接找仓':'已选需求：'+state.requirement.capacity+'m³ · '+(state.requirement.term?state.requirement.term+'个月':'租期待选'));
     setText(document.querySelector('.s01-edit'),state.requirement.capacity===null?'估算大小':'修改需求');
-    setText(document.querySelector('.s01-result-summary'),'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
+    const resultsNode=document.querySelector('.s01-result-summary');
+    setText(resultsNode,'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
+    // One conditional advisor entry on the list, never one on every card.
+    if(state.nineState?.advisorEligible&&resultsNode){
+      const help=document.createElement('button');
+      help.type='button';help.className='s01-inline-advisor';help.textContent='顾问选仓';
+      help.setAttribute('aria-label','联系顾问协助选仓');
+      help.addEventListener('click',()=>bridge.action('advisor'));
+      resultsNode.append(help);
+    }
     const more=document.querySelector('#s01-more');more.hidden=!state.canLoadMore;
     document.querySelectorAll('[data-quick]').forEach(b=>b.setAttribute('aria-pressed',String(state.quickSelected.includes(b.dataset.quick))));
     if(typeof scaleApprovedReference==='function')scaleApprovedReference();
