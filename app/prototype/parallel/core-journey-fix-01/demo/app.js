@@ -48,7 +48,8 @@
       // Use the same availability-first recommendation for concept-photo slots and card order.
       r2Orders[s.city]=[...REC.rank(eligible,{distanceVerified:F.distanceVerified,costOf:x=>x.teaserCubicPrice}).items,...fallback].map(x=>x.id);
     }
-    return R2.view(s,Math.max(0,r2Orders[s.city].indexOf(s.id)));
+    const view=R2.view(s,Math.max(0,r2Orders[s.city].indexOf(s.id)));
+    return {...view,address:s.address||view.address,district:s.district||view.district,photo:'assets/'+s.photo,services:(s.serviceTags||[]).slice(0,2)};
   }
   function r2Store(s){if(!s||!r2Mode()||!R2)return s;const v=r2View(s);return {...s,address:v.address,district:v.district,serviceTags:v.services,facilities:v.services,r2Photo:v.photo};}
   if(r2Mode()){document.documentElement.classList.add('r2-product');document.title='迷你考拉仓';}

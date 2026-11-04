@@ -5,31 +5,30 @@
   if(root)root.SIM_HOME_RECOMMEND_02I=api;
 })(typeof window==='object'?window:globalThis,function(){
   'use strict';
-  const value=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0?x:null;
+  const num=x=>Number.isFinite(Number(x))&&Number(x)>=0?Number(x):null;
+  const cost=x=>num(x?.teaserCubicPrice)>0?num(x.teaserCubicPrice):null;
+  const distance=x=>num(x?.distance)??Number.POSITIVE_INFINITY;
   function rank(rows,{distanceVerified=false}={}){
-    const eligible=(Array.isArray(rows)?rows:[]).filter(x=>x&&x.status==='open');
-    let firstTwo;
-    if(distanceVerified&&eligible.every(x=>value(x.distance)!==null)){
-      const sorted=eligible.slice().sort((a,b)=>a.distance-b.distance||String(a.id).localeCompare(String(b.id)));
-      const first=sorted[0],rest=sorted.slice(1),primaryPrice=value(first?.teaserCubicPrice);
-      let second=null;
-      if(primaryPrice!==null){
-        for(const radius of [3,5,10,Infinity]){
-          const cheaper=rest.filter(x=>x.distance<=radius&&value(x.teaserCubicPrice)!==null&&x.teaserCubicPrice<primaryPrice)
-            .sort((a,b)=>a.teaserCubicPrice-b.teaserCubicPrice||a.distance-b.distance);
-          if(cheaper.length){second=cheaper[0];break;}
-        }
-      }
-      firstTwo=[first,second||rest[0]].filter(Boolean);
-    }else{
-      // Source fixture has no verified distance: preserve existing approved demo card order.
-      firstTwo=eligible.slice(0,2);
+    const open=(Array.isArray(rows)?rows:[]).filter(x=>x&&x.status==='open');
+    const eligible=open.filter(x=>cost(x)!==null);
+    if(!eligible.length)return {cards:[],firstTwo:[],operator:null,nearestClaimAllowed:false,estoreFirst:true};
+    const sorted=eligible.slice().sort((a,b)=>distance(a)-distance(b)||String(a.id).localeCompare(String(b.id)));
+    const first=sorted[0],rest=sorted.slice(1);
+    let second=null;
+    for(const radius of [3,5,10,Number.POSITIVE_INFINITY]){
+      const cheaper=rest.filter(x=>distance(x)<=radius&&cost(x)<cost(first))
+        .sort((a,b)=>cost(a)-cost(b)||distance(a)-distance(b));
+      if(cheaper.length){second=cheaper[0];break;}
     }
-    const rest=eligible.filter(x=>!firstTwo.includes(x));
-    const operation=rest.find(x=>x.operatingTag==='特价仓')||rest.find(x=>x.operatingTag)||rest[0];
-    return {cards:[...firstTwo,...(operation?[operation]:[])],firstTwo:firstTwo.map(s=>s.id),
-      operator:operation?.id||null,nearestClaimAllowed:distanceVerified===true&&eligible.every(x=>value(x.distance)!==null),
-      estoreFirst:eligible.length===0};
+    if(!second)second=rest[0]||null;
+    const selected=[first,...(second?[second]:[])];
+    const remaining=rest.filter(x=>!selected.includes(x));
+    const nearby=remaining.filter(x=>distance(x)<=10);
+    const operation=nearby.find(x=>x.operatingTag==='特价仓')||nearby.find(x=>x.operatingTag)||nearby[0]||
+      remaining.find(x=>x.operatingTag==='特价仓')||remaining[0]||null;
+    if(operation)selected.push(operation);
+    return {cards:selected,firstTwo:selected.slice(0,2).map(x=>x.id),operator:operation?.id||null,
+      nearestClaimAllowed:distanceVerified===true,estoreFirst:false};
   }
   return {rank};
 });
