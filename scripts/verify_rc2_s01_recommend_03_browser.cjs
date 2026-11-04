@@ -49,6 +49,36 @@ const server=http.createServer((req,res)=>{
    await child.locator('#canvas').screenshot({path:path.join(out,'S01-'+width+'-full.png'),timeout:25000});
    await child.locator('.s01-estore-card').screenshot({path:path.join(out,'S01-'+width+'-estore.png')});
    await child.locator('.s01-compact-store').first().screenshot({path:path.join(out,'S01-'+width+'-compact.png')});
+   // Continuous actual viewport scroll evidence — do not substitute element-only screenshots.
+   const scroller=await child.locator('body').evaluate(()=>{
+     const candidates=[document.scrollingElement,document.documentElement,document.body,
+       ...document.querySelectorAll('#stage,#canvas')];
+     const ranked=candidates.filter(Boolean).map(el=>({tag:el.id||el.tagName,range:el.scrollHeight-el.clientHeight}))
+       .sort((a,b)=>b.range-a.range);
+     return {ranked,bodyHeight:document.body.scrollHeight,visibleHeight:innerHeight};
+   });
+   const slicePositions=[{name:'third',selector:'.s01-estore-card'},
+                         {name:'fourth',selector:'.s01-compact-store:first-of-type'},
+                         {name:'last',selector:'.s01-compact-store:last-of-type'}];
+   const scrollEvidence=[];
+   for(const item of slicePositions){
+     const locator=item.name==='fourth'?child.locator('.s01-compact-store').first():
+       item.name==='last'?child.locator('.s01-compact-store').last():
+       child.locator(item.selector);
+     await locator.scrollIntoViewIfNeeded();
+     const visible=await locator.evaluate(el=>{
+       const r=el.getBoundingClientRect();
+       return {top:r.top,bottom:r.bottom,viewport:innerHeight,scrollY:scrollY,
+         pageHeight:document.scrollingElement?.scrollHeight,
+         visible:Math.min(r.bottom,innerHeight)>Math.max(r.top,0)};
+     });
+     assert(visible.visible,item.name+' must be visible within the iframe viewport after scrolling');
+     await page.screenshot({path:path.join(out,'S01-'+width+'-scroll-'+item.name+'.png'),fullPage:false});
+     scrollEvidence.push({...visible,name:item.name});
+   }
+   assert(scrollEvidence[0].pageHeight>scrollEvidence[0].viewport,'long list must extend below first viewport');
+   rows.push({width,height,scrollEvidence,scrollMetrics:scroller});
+
    const compactId=profile.cards[3].id;
    await child.locator('.s01-compact-store').first().click();
    await app.locator('.page-S02').waitFor({state:'visible',timeout:12000});

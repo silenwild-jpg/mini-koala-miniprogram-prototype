@@ -128,6 +128,7 @@
       '<p class="s5-store-distance">'+esc(view.district||s.district||'')+(distance?' · '+distance:'')+'</p></div>'+
       '<div class="s5-unit-list">'+rows+'</div>';
   }
+  let s5TermEditing=false;
   function renderS5(){
     const s=core.state(),r=s.requirement,selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
     const candidates=r.capacity_m3&&r.term_confirmed?(B.s5Offers?.(selectedArea)||B.offers()):[];
@@ -139,6 +140,15 @@
     $$('[data-term]').forEach(el=>{const selected=r.term_confirmed&&Number(el.dataset.term)===r.term_months;el.classList.toggle('active',selected);el.setAttribute('aria-pressed',String(selected));});
     const custom=r.term_confirmed&&![1,3,6,12,24].includes(r.term_months);
     text('more-term',custom?r.term_months+'个月⌄':'更多⌄');$('more-term').classList.toggle('active',custom);
+    const compactTerm=!!r.term_confirmed&&!s5TermEditing;
+    $('artboard').dataset.termCompact=String(compactTerm);
+    $('term-summary').hidden=!compactTerm;
+    text('term-current',r.term_confirmed?'已选 '+r.term_months+' 个月':'');
+    document.querySelector('.term-heading h2').textContent=compactTerm?'用仓租期':'选择租期';
+    $('term-edit').setAttribute('aria-expanded',String(s5TermEditing));
+    const recTop=compactTerm?325:391;
+    document.querySelector('.recommend-wrap').style.top=recTop+'px';
+    document.querySelector('.no-match').style.top=recTop+'px';
     const match=offerRows.length>0,matchState=s5MatchState(offerRows,r);
     $('artboard').dataset.match=matchState;
     $('artboard').dataset.count=String(match?offerRows.length:0);
@@ -157,17 +167,19 @@
     cards.forEach((el,i)=>{el.hidden=i>=offerRows.length;el.dataset.storeId=offerRows[i]?.store.id||'';if(offerRows[i])el.innerHTML=s5StoreCard(offerRows[i],i);else el.innerHTML='';});
     const wrap=document.querySelector('.recommend-wrap'),more=document.querySelector('.more-units'),advisorEl=$('s5-advisor'),estore=document.querySelector('.estore');
     if(!match){
-      $('artboard').dataset.designHeight='858';
-      estore.style.top='682px';more.style.top='';advisorEl.style.top='';
+      const emptyEstoreTop=compactTerm?617:682;
+      $('artboard').dataset.designHeight=String(emptyEstoreTop+176);
+      estore.style.top=emptyEstoreTop+'px';more.style.top='';advisorEl.style.top='';
+      wrap.style.height='';
     }else{
       const sizes=cards.slice(0,offerRows.length).map(el=>el.offsetHeight);
-      const contentHeight=70+sizes.reduce((a,b)=>a+b,0)+Math.max(0,sizes.length-1)*12+14;
+      const contentHeight=70+sizes.reduce((a,b)=>a+b,0)+Math.max(0,sizes.length-1)*12+12;
       wrap.style.height=contentHeight+'px';
-      const moreTop=391+contentHeight+10;
+      const moreTop=recTop+contentHeight+6;
       more.style.top=moreTop+'px';
-      advisorEl.style.top=moreTop+57+'px';
-      estore.style.top=(moreTop+(advisor?155:58))+'px';
-      $('artboard').dataset.designHeight=String(moreTop+(advisor?155:58)+145);
+      advisorEl.style.top=moreTop+52+'px';
+      estore.style.top=(moreTop+(advisor?148:53))+'px';
+      $('artboard').dataset.designHeight=String(moreTop+(advisor?148:53)+143);
     }
     document.querySelector('[data-nm="range"]').innerHTML=matchState==='incomplete'?'选择租期 <span>›</span>':'查看全城门店 <span>›</span>';
     fit();
@@ -235,7 +247,9 @@
   if(page==='s5'){
     document.querySelector('.back').onclick=()=>B.navigate('S01');document.querySelector('.mini-menu').onclick=()=>toast('内部演示导航');
     $('modify').onclick=()=>{B.editRequirement();};$('change-origin').onclick=citySheet;
-    $$('[data-term]').forEach(el=>el.onclick=()=>guard(()=>applyTerm(el.dataset.term)));$('more-term').onclick=moreTerms;
+    $('term-edit').onclick=()=>{s5TermEditing=true;renderS5();};
+    document.querySelectorAll('[data-term]').forEach(el=>el.onclick=()=>guard(()=>{applyTerm(el.dataset.term);s5TermEditing=false;refresh();}));
+    $('more-term').onclick=moreTerms;
     document.querySelector('.recommend-wrap').addEventListener('click',e=>{
       const buy=e.target.closest('[data-s5-buy]'),price=e.target.closest('[data-s5-price]'),storeBtn=e.target.closest('[data-s5-store],[data-s5-map]');
       const key=buy?.dataset.s5Buy||price?.dataset.s5Price;

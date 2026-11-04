@@ -133,3 +133,14 @@
 #s5-compare{position:absolute;right:4px;top:0;background:transparent;border:0;color:#00735a;padding:3px 4px;font-size:12px;font-weight:700}
 #s5-compare[hidden]{display:none!important}
 .s5-promo-tag{display:inline-block;color:#d75825;font-size:10px;white-space:nowrap;margin-top:2px}
+
+/* RC2-VIS-P1-CLOSE-01: compact inherited term; unchanged controls when editing. */
+#artboard[data-term-compact="true"] .term{height:53px}
+#artboard[data-term-compact="true"] .term-heading{top:13px}
+#artboard[data-term-compact="true"] .term-heading h2{font-size:14px}
+#artboard[data-term-compact="true"] .term-sub{display:none}
+.term-summary{display:flex;align-items:center;justify-content:flex-end;gap:10px;position:absolute;right:12px;top:10px;height:34px}
+.term-summary[hidden]{display:none!important}
+.term-summary strong{font-size:13px;font-weight:750;color:#123b31}
+.term-summary button{border:0;background:transparent;padding:7px 2px;color:#007459;font-size:12px;font-weight:750}
+#artboard[data-term-compact="true"] .term-options{display:none}

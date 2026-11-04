@@ -57,10 +57,24 @@ const cases=[
      assert.equal(probe.buyCount,tc.empty||tc.confirmed===false?0:1,'one recommendation has one primary store CTA');
      if(tc.name==='near')assert.equal(await s5.locator('#main-buy').innerText(),'查看门店','undersized alternative must not offer direct checkout');
      if(tc.name==='matched')assert.equal(await s5.locator('#main-buy').innerText(),'立即下单','valid offer retains purchase CTA');
-     if(['matched','near','expanded','combo','large'].includes(tc.name))assert(probe.boardHeight>1005,'new S01-store card must receive scroll height');
-     if(tc.name==='incomplete'||tc.name==='none')assert.equal(probe.boardHeight,858,'empty/incomplete should not leave long blank page');
+     if(['matched','near','expanded','combo','large'].includes(tc.name))assert(probe.boardHeight>850,'S01-store card must receive non-overlapping scroll height');
+     if(tc.name==='incomplete')assert.equal(probe.boardHeight,858,'unconfirmed-term empty state keeps selection controls');
+     if(tc.name==='none')assert.equal(probe.boardHeight,793,'no-match state should collapse');
      if(tc.name==='incomplete'){assert.equal((await s5.locator('.nm-kicker').innerText()).trim(),'请先确认租期');assert.match(await s5.locator('[data-nm="range"]').innerText(),/选择租期/);}
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(await s5.locator('#artboard').getAttribute('data-count'),'0','hidden recommendation must not activate single-card layout');
+     const termView=await s5.locator('body').evaluate(()=>{
+       const board=document.getElementById('artboard');
+       return {compact:board.dataset.termCompact,summary:getComputedStyle(document.querySelector('#term-summary')).display,
+         choices:getComputedStyle(document.querySelector('#term-options')).display};
+     });
+     if(tc.confirmed===false){
+       assert.equal(termView.compact,'false','unconfirmed term must allow selection');
+       assert.notEqual(termView.choices,'none','unconfirmed term choices must remain visible');
+     }else{
+       assert.equal(termView.compact,'true','confirmed term must collapse');
+       assert.notEqual(termView.summary,'none','confirmed term summary must be visible');
+       assert.equal(termView.choices,'none','duplicate term choices must be hidden');
+     }
      assert.equal(probe.hasFixedPurchase,false,'fixed purchase should be absent');
      assert(probe.bodyWidth<=probe.viewportWidth+2,'S5 iframe horizontally overflows');
      if(probe.advisor){
