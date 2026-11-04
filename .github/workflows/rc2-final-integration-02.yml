@@ -40,6 +40,17 @@ jobs:
           node scripts/verify_s01_ux_review_03_nine_states_browser.cjs
       - name: RC2 full customer lifecycle regression
         run: node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload traceable RC2 review ZIP (not deployed)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-FINAL-INTEGRATION-02-private-review-ZIP
+          path: |
+            release-evidence/rc2-final-admission-01/MiniKoala_RC2_FINAL_ADMISSION_01_PRIVATE_REVIEW.zip
+            release-evidence/rc2-final-admission-01/manifest.json
+            release-evidence/rc2-final-admission-01/build-summary.json
+            release-evidence/rc2-final-admission-01/SHA256SUMS.txt
+          if-no-files-found: warn
       - name: Upload all actual screenshot evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -51,4 +62,27 @@ jobs:
             release-evidence/s01-ux-review-02/
             release-evidence/s01-ux-review-03/
             release-evidence/rc2-rule-fix-01d/
+          if-no-files-found: warn
+
+  fullsite-375-390-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JavaScript syntax
+        run: node --check scripts/verify_rc2_final_integration_02_fullsite_browser.cjs
+      - name: Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Nine actual routes at 375 and 390, three viewport positions
+        run: node scripts/verify_rc2_final_integration_02_fullsite_browser.cjs
+      - name: Upload 54 whole-site smoke screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-FINAL-INTEGRATION-02-fullsite-screens
+          path: release-evidence/rc2-final-integration-02/fullsite/
           if-no-files-found: warn
