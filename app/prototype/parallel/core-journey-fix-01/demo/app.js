@@ -375,6 +375,13 @@
         const unavailable=stores.filter(s=>!rowsFor(s).length);
         stores=[...available.sort(byKm),...unavailable.sort(byKm)];
       }
+      // Preserve an S5-selected district as a non-exclusive ranking preference on S01.
+      // Keep the three approved top-level filters and let users browse all stores.
+      const preferredDistrict=s5AreaPreference();
+      if(preferredDistrict&&visual.sort==='recommended'&&stores.some(s=>r2View(s).district===preferredDistrict&&rowsFor(s).length)){
+        stores=[...stores.filter(s=>r2View(s).district===preferredDistrict&&rowsFor(s).length),
+          ...stores.filter(s=>!(r2View(s).district===preferredDistrict&&rowsFor(s).length))];
+      }
       return {city:state().city,sourceNamespace:F.sourceNamespace||'SIM',
         distanceSortSource:F.distanceVerified?'VERIFIED_LOCATION':'DISABLED',
         distanceVerified:!!F.distanceVerified,
