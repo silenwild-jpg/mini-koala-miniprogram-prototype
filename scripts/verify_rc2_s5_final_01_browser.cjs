@@ -40,12 +40,38 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
          priceGuarded:!c.authorized(),hasFixedBuy:!!document.querySelector('.fixed-buy,.sticky-checkout')};
      });
      assert(state.count>0,city+' should support regular demand in demo');
+     const parity=await frame.locator('body').evaluate(()=>{
+       const cards=[...document.querySelectorAll('.s5-store-card:not([hidden])')];
+       return cards.map(card=>{
+         const img=card.querySelector('.s5-store-photo img'),rows=[...card.querySelectorAll('.s5-unit-row')];
+         const r=card.getBoundingClientRect();
+         return {storeName:card.querySelector('.s5-store-title strong')?.textContent,
+           address:card.querySelector('.s5-store-address span')?.textContent,
+           services:card.querySelectorAll('.s5-store-services span').length,
+           image:img?.getAttribute('src'),unitCount:rows.length,rows:rows.map(row=>({
+             ids:row.dataset.unitIds,uses:row.querySelector('.s5-unit-info p')?.textContent,
+             price:row.querySelector('.s5-unit-price')?.textContent,action:row.querySelector('.s5-unit-buy')?.textContent
+           })),top:r.top,bottom:r.bottom};
+       });
+     });
+     assert.equal(parity.length,2,'S5 must render two uniformly structured S01-style store cards');
+     for(const card of parity){
+       assert(card.storeName&&card.address&&card.image,'store info/photo/address missing');
+       assert(card.services>0,'no S01 matching service tags');
+       assert(card.unitCount>=1&&card.unitCount<=2,'must show one or two unit previews per store');
+       assert(card.rows.every(row=>row.ids&&row.uses&&row.price&&row.action),'unit prices/copy/actions must be complete');
+     }
+     assert(parity[0].bottom<=parity[1].top+2,'two store cards overlap');
+     records.push({city,width,height,parity});
+
      assert.equal(state.first,area,'manual preferred district was not used for first offer');
      assert(state.width<=state.viewport+2,'horizontal overflow');
      assert.equal(state.priceGuarded,true,'phone gate must remain');
      assert(!state.hasFixedBuy,'S5 fixed buy action introduced');
      await frame.locator('#app-viewport').evaluate(e=>e.scrollTop=0);
      await page.screenshot({path:path.join(out,city+'-'+width+'.png'),fullPage:true});
+     await frame.locator('#app-viewport').evaluate(e=>e.scrollTop=e.scrollHeight);
+     await page.screenshot({path:path.join(out,city+'-'+width+'-scroll-bottom.png'),fullPage:true});
      records.push({...state,width,height});
    }
    // Existing empty-city scenario remains available despite supplemental data.
