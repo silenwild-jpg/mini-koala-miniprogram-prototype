@@ -3,7 +3,6 @@
   const page=document.body.dataset.page;
   function approvedThumb(u){const v=Number(u?.volume)||0;const tier=v<=1.5?'mini':v<=5?'small':v<=15?'medium':'large';return '../../assets/unit-r3/thumb/unit-r3-'+tier+'-336x312.webp';}
   const pageIds={s5:'S5',reserve:'BOOKING',quick:'QUICK',o01:'O01'};
-  const s5BenefitMarker=page==='s5'?document.querySelector('.benefits span')?.cloneNode(true):null;
   const B=parent.SIM_DEMO;
   const C=parent.SIM_CENTRAL_CONTRACT_V1;
   if(!B){location.replace('../../index.html?page='+pageIds[page]);return;}
@@ -40,7 +39,7 @@
     sheet('其他匹配门店',note(message)+offers.map(r=>act('store',r.store.name+' · '+r.volume+'m³',r.store.id)).join('')+(!offers.length?note('当前城市暂无满足容量的方案。'):'')+act('booking','联系顾问 / 预约用仓'));
   }
   function fit(){
-    if(page==='s5'){const v=$('app-viewport'),board=$('artboard'),scale=v.clientWidth/371;board.style.height='auto';board.style.minHeight='0';board.style.width='371px';const H=Math.ceil(board.scrollHeight);board.dataset.designHeight=String(H);board.style.transform=`scale(${scale})`;board.style.marginBottom=H*(scale-1)+'px';}
+    if(page==='s5'){const board=$('artboard');board.style.removeProperty('transform');board.style.removeProperty('margin-bottom');board.style.removeProperty('width');board.style.removeProperty('height');board.style.removeProperty('min-height');}
     if(page==='reserve'){const v=$('screenViewport'),scale=v.clientWidth/366; $('artboard').style.transform=`scale(${scale})`;$('artboardHolder').style.height=976*scale+'px';}
   }
   function offerPrice(prefix,row){
@@ -48,7 +47,6 @@
     price.dataset.private=String(p.kind!=='term');price.dataset.length=p.money.length>=7?'long':'normal';price.textContent=p.money;
     text(main?'main-unit':'secondary-term',p.kind==='term'?p.suffix:'/月起');
     text(main?'main-monthly':'secondary-monthly',p.kind==='term'?p.average:'');
-    if(main)document.querySelector('.major-label').textContent=p.caption;
     price.tabIndex=0;price.setAttribute('role','button');price.setAttribute('aria-label',!core.authorized()?'验证手机号查看正式报价':p.kind!=='term'?'请选择租期':'查看费用明细');price.dataset.offer=prefix;
   }
   // Reuse the user's own landscape crops from PR #57; no old prototype UI/styles imported.
@@ -72,7 +70,6 @@
     const s=core.state(),r=s.requirement;const candidates=r.capacity_m3?B.offers():[];offerRows=candidates.slice(0,2);let previousPhotoId='';
     $('capacity').innerHTML=(r.capacity_m3??'—')+'<span>m³</span>';
     text('term-summary-value',r.term_confirmed?r.term_months+'个月':'请选择租期');$('artboard').classList.toggle('s5-term-needed',!r.term_confirmed);
-    document.querySelector('.demand>p').textContent=r.capacity_m3?'按已选容量匹配，可返回修改需求':'填写容量后，为您推荐合适仓位';
     text('origin-name',s.city+' · 查看本城门店');
     $$('[data-term]').forEach(el=>{const selected=r.term_confirmed&&Number(el.dataset.term)===r.term_months;el.classList.toggle('active',selected);el.setAttribute('aria-pressed',String(selected));});
     const custom=r.term_confirmed&&![1,3,6,12,24].includes(r.term_months);text('more-term',custom?r.term_months+'个月⌄':'更多⌄');$('more-term').classList.toggle('active',custom);$('more-term').setAttribute('aria-pressed',String(custom));
@@ -86,8 +83,6 @@
       const photo=s5Photo(s,i,previousPhotoId);previousPhotoId=photo.id;image(first?'.major-photo img':'.minor-photo',photo.src,s.name+'门店仓储环境');
       $(first?'main-buy':'secondary-buy').disabled=false;
       $(first?'navigate-main':'navigate-secondary').setAttribute('aria-label','查看'+s.name+'地址');$(first?'navigate-main':'navigate-secondary').title='查看'+s.name+'地址';
-      // S5 keeps its own frozen physical-attribute tags and benefits row; BR03 promotional-card rules do not replace them.
-      if(first){const line=document.querySelector('.benefits');line.replaceChildren(...(s5BenefitMarker?[s5BenefitMarker.cloneNode(true)]:[]),document.createTextNode(' '+['容量匹配',...presentation.services(s)].join(' · ')));line.hidden=false;}
       if(first){$('main-distance').hidden=true;}else{document.querySelector('.distance-nav span').textContent='';document.querySelector('.distance-nav').hidden=false;}
       offerPrice(suffix,row);
     });
