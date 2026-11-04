@@ -76,6 +76,8 @@ const server=http.createServer((req,res)=>{
       checks.noPreviewToggles=await central.locator('.store-preview-toggle').count()===0;
       checks.noPreviewBlocks=await central.locator('.store-previews').count()===0;
       checks.storeDetailLinks=await central.locator('.store-quick-link').count()>=2;
+      checks.firstTwoRealBanners=await central.locator('.store-row.lead-store .store-photo').evaluateAll(es=>es.length===2&&es.every(x=>x.complete&&x.naturalWidth>=1000&&x.getBoundingClientRect().width>=300&&x.getBoundingClientRect().height>=130));
+      checks.laterCardsRemainCompact=await central.locator('.store-row.compact-store .store-photo').first().evaluate(x=>x.getBoundingClientRect().width<=110).catch(()=>false);
       checks.capacityPrompt=(await central.locator('.demand').innerText()).includes('不确定用多大仓？');
       checks.estimateLink=(await central.locator('.demand').innerText()).includes('立即估算');
       await page.screenshot({path:path.join(out,'S01-'+width+'-compact.png')});
