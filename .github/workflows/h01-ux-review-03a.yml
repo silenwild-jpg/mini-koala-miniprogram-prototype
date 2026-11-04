@@ -1,0 +1,38 @@
+name: H01 UX REVIEW 03A
+on:
+  pull_request:
+    branches:
+      - isolate/h01-ux-review-02-fivecity-state-photo-20261104
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  h01-visual-and-states:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and five city contract
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js
+          node --check scripts/verify_h01_ux_review_03a_browser.cjs
+          node scripts/verify_h01_ux_review_02.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: 375 and 390 UI and customer state screenshots
+        run: node scripts/verify_h01_ux_review_03a_browser.cjs
+      - name: Five city and cross page regression
+        run: node scripts/verify_h01_ux_review_02_browser.cjs
+      - name: Upload visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: H01-UX-REVIEW-03A-375-390
+          path: |
+            release-evidence/h01-ux-review-03a/
+            release-evidence/h01-ux-review-02/
+          if-no-files-found: warn
