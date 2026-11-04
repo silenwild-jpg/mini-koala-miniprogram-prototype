@@ -102,6 +102,7 @@
     article.className='s01-estore-card';
     article.dataset.cardRank='3';
     article.dataset.cardKind='estore';
+    article.dataset.service='estore';
     article.innerHTML='<img class="s01-estore-photo" src="br04/s5/assets/estore-existing-scene.webp" alt="考拉E存上门取送服务">'+
       '<div class="s01-estore-copy"><span class="s01-estore-kicker">上门取送</span>'+
       '<strong class="s01-estore-name">考拉E存</strong>'+
@@ -157,7 +158,7 @@
       if(i===2)nodes.push(estoreCard());
       if(i<2){
         const card=masters[i].cloneNode(true);
-        fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';
+        fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';card.dataset.presentation='expanded-two';
         nodes.push(card);
       }else nodes.push(compactStore(store,i+2));
     });
