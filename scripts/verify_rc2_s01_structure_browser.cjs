@@ -38,7 +38,11 @@ async function run(){
    assert((await first.locator('.store-photo').getAttribute('src')).endsWith('/'+original.photo),'store photo was replaced with a generic carousel asset');
    const tags=await first.locator('.store-tags span:not([hidden])').allInnerTexts();
    assert(tags.every(x=>original.services.includes(x)),'store card services are not from same store source');
-   assert(await child.locator('.s01-result-summary').innerText()!=='正在载入门店');
+   assert.equal(await child.locator('.s01-result-summary').count(),0,'marked redundant results strip was not removed');
+   assert.equal(await child.locator('[data-quick="single"]').count(),0,'single-only filter reappeared');
+   assert.equal(await child.locator('.s01-estore-card').count(),1,'E-store fixed slot missing');
+   const order=await child.locator('.stores').evaluate(el=>Array.from(el.children).slice(0,4).map(n=>n.classList.contains('s01-estore-card')?'estore':n.classList.contains('store-card')?'store':'other'));
+   assert.deepEqual(order,['store','store','estore','store'],'E-store must own visual slot 3');
    await page.screenshot({path:path.join(out,'S01-restored-'+width+'.png'),fullPage:true});
    await child.locator('#s01-search').fill('安贞');
    await page.waitForTimeout(100);
