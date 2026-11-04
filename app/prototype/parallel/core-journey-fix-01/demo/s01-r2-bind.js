@@ -119,6 +119,19 @@
   }
   function render(){
     const state=bridge.snapshot();
+    // Failure recovery is a single flat inline strip, not a new bordered card.
+    let fallback=document.querySelector('#s01-citywide-fallback');
+    if(!fallback){
+      fallback=document.createElement('div');
+      fallback.id='s01-citywide-fallback';
+      fallback.className='s01-citywide-fallback';
+      fallback.innerHTML='<span class="s01-fallback-copy"></span><button type="button" data-fallback-estore>了解考拉E存</button><button type="button" data-fallback-edit>修改需求</button>';
+      stage.before(fallback);
+      fallback.querySelector('[data-fallback-estore]').addEventListener('click',()=>bridge.action('estore'));
+      fallback.querySelector('[data-fallback-edit]').addEventListener('click',()=>bridge.editDemand());
+    }
+    fallback.hidden=!state.noAdequateMatch||state.storeCount===0;
+    setText(fallback.querySelector('.s01-fallback-copy'),'当前没有满足容量的可租仓位');
     document.documentElement.dataset.binding='CENTRAL_RC1';
     document.documentElement.dataset.source=state.sourceNamespace;
     document.documentElement.dataset.verifiedDistance=String(state.distanceVerified);
