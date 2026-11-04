@@ -109,11 +109,21 @@ body.export{background:white}.export .toolbar{display:none}.export .workstage{pa
 
 .task-card.secondary b{background:#f8faf6;font-size:17px;padding:0 2px}
 .home-price-locked{font-size:11px!important;color:#006c54!important;line-height:1.4!important;white-space:normal!important}
-</style><link rel="icon" href="data:,"><link rel="stylesheet" href="decision-apply.css"></head>
-<body data-preview-surface="home"><div class="toolbar"><strong>BRANCH-01-DEMO-13-R1｜首页文案与场景收口</strong><button data-width="375" class="active">375×812</button><button data-width="390">390×844</button><button data-mode="editable" class="active">可编辑还原</button><button data-mode="reference">原图对照</button><button id="heroLockToggle">首屏：原图融合</button><button id="editToggle">开启文字编辑</button><button id="resetCopy">恢复文字</button><small>独立视觉演示，未接线到其他分支</small><select id="stateSelect" class="state-switch" aria-label="演示用户状态"><option value="new">新用户</option><option value="demand">已有需求</option><option value="payment">待支付</option><option value="rent">在租</option><option value="denied">定位拒绝</option></select></div>
+</style><link rel="icon" href="data:,"><link rel="stylesheet" href="decision-apply.css"><style>
+/* H01 text-only override: the frozen VIS-11J panorama contains rasterized old task copy.
+   Mask precisely the label, not the approved card/photo structure or secondary action. */
+.fidelity-task-label{display:none}
+.fidelity-hero:not(.ref-mode) .task-area>.fidelity-task-label{
+ display:flex;position:absolute;left:59.7%;top:10%;width:32.5%;height:26%;
+ align-items:center;white-space:nowrap;pointer-events:none;z-index:5;
+ padding:0 1px 0 4px;background:linear-gradient(90deg,#fcfaf7 0%,#faf6f1 84%,#f8f1e9 100%);
+ font-size:14.7px;line-height:23px;font-weight:800;letter-spacing:-.057em;color:#07372e;
+}
+</style></head>
+<body data-preview-surface="home"><div class="toolbar"><strong>BRANCH-01-DEMO-13-R1｜首页文案与场景收口</strong><button data-width="375" class="active">375×812</button><button data-width="390">390×844</button><button data-mode="editable" class="active">可编辑还原</button><button data-mode="reference">原图对照</button><button id="heroLockToggle">首屏：原图融合</button><button id="editToggle">开启文字编辑</button><button id="resetCopy">恢复文字</button><small>页面设置</small><select id="stateSelect" class="state-switch" aria-label="用户状态"><option value="new">新用户</option><option value="demand">已有需求</option><option value="payment">待支付</option><option value="rent">在租</option><option value="denied">定位拒绝</option></select></div>
 <div class="workstage"><main class="phone" id="phone"><div class="scroll" id="scroller"><div class="page">
 <section class="hero" aria-label="首页品牌与城市搜索"><img id="heroPhoto" src="" alt="仓储走廊空间融合首屏图"><div class="editable-content"><button class="search" data-action="搜索门店及区域" aria-label="选择城市或搜索门店"><span class="place">⌖ <span data-edit>上海</span> ⌄</span><span class="magnifier" aria-hidden="true"></span><span class="search-text" data-edit>搜索门店、区域或地标</span></button><button class="notice" aria-label="消息" data-action="消息中心"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></button><div class="hero-copy"><h1 data-edit>让城市生活<span>更轻松</span></h1><p data-edit>家具、行李、闲置物品<br>找到附近适合的存储空间</p></div></div><div class="hero-hotspots"><button class="hot-search" aria-label="城市及搜索入口" data-action="城市和门店搜索"></button><button class="hot-notice" aria-label="消息入口" data-action="消息中心"></button></div></section>
-<section class="task-area" aria-label="双任务入口"><img id="taskPhoto" src="" alt="融合式任务摄影卡片"><div class="task-overlay"><button class="task-card primary" aria-label="找附近门店" data-action="找附近门店 → S01"><b data-edit>找附近门店</b><small data-edit>查看位置与可选仓位</small><span class="btn">查看门店&nbsp; ›</span></button><button class="task-card secondary" aria-label="估算大小" data-action="估大小算价格 → CAP"><b data-edit>估算大小</b><small data-edit>不知道租多大？</small><span class="btn">›</span></button></div><div class="task-hotspots"><button aria-label="找附近门店" data-action="找附近门店 → S01"></button><button aria-label="估算大小" data-action="估大小算价格 → CAP"></button></div></section>
+<section class="task-area" aria-label="双任务入口"><img id="taskPhoto" src="" alt="融合式任务摄影卡片"><span class="fidelity-task-label" aria-hidden="true">估大小算价格</span><div class="task-overlay"><button class="task-card primary" aria-label="找附近门店" data-action="找附近门店 → S01"><b data-edit>找附近门店</b><small data-edit>查看位置与可选仓位</small><span class="btn">查看门店&nbsp; ›</span></button><button class="task-card secondary" aria-label="估大小算价格" data-action="估大小算价格 → CAP"><b data-edit>估大小算价格</b><small data-edit>不知道租多大？</small><span class="btn">›</span></button></div><div class="task-hotspots"><button aria-label="找附近门店" data-action="找附近门店 → S01"></button><button aria-label="估大小算价格" data-action="估大小算价格 → CAP"></button></div></section>
 <section class="state-panel" id="statePanel" aria-label="当前待办事项"><div class="state-line"><div class="state-copy"><strong id="stateTitle"></strong><small id="stateDesc"></small></div><button id="stateAction" data-action="处理当前事项"></button></div></section>
 <section class="reference-stores" aria-label="原图门店区"><img id="refStores" src="" alt="原始指定母版门店模块"></section>
 <section class="store-section" aria-label="推荐门店"><div class="section-heading"><h2 data-edit>附近推荐门店</h2><p data-edit>先看距离，再挑适合的空间</p><button data-action="全部门店 → S01">全部门店</button></div><div class="store-rail" id="storeRail" aria-label="向左滑动查看更多门店">
@@ -154,9 +164,9 @@ body.export{background:white}.export .toolbar{display:none}.export .workstage{pa
    <div class="brand-service"><svg viewBox="0 0 32 32"><path d="M2 9h17v14H2zM19 14h6l5 5v4H19z"/><circle cx="9" cy="24" r="3"/><circle cx="25" cy="24" r="3"/></svg><div class="service-txt"><strong data-edit>上门搬运</strong><small data-edit>考拉E存服务</small></div></div>
   </div>
   <div class="brand-proofs">
-   <button data-action="高新技术企业资料（演示）"><img id="proof1" src="" alt="高新技术企业品牌资料图片"></button>
-   <button data-action="CCTV报道资料（演示）"><img id="proof2" src="" alt="CCTV 报道资料图片"></button>
-   <button data-action="国标起草单位资料（演示）"><img id="proof3" src="" alt="国标起草单位资料图片"></button>
+   <button data-action="高新技术企业资料"><img id="proof1" src="" alt="高新技术企业品牌资料图片"></button>
+   <button data-action="CCTV报道资料"><img id="proof2" src="" alt="CCTV 报道资料图片"></button>
+   <button data-action="国标起草单位资料"><img id="proof3" src="" alt="国标起草单位资料图片"></button>
   </div>
  </section>
 </section>

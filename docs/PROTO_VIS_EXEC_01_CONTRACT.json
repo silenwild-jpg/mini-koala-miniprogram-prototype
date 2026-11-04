@@ -1,0 +1,83 @@
+{
+  "schema": "PROTO-VIS-EXEC-01",
+  "effective_when": "governance PR merged and checks enabled",
+  "pages": {
+    "H01": {
+      "owner": "BRANCH-01",
+      "required_structure": [
+        "nearby primary",
+        "capacity secondary"
+      ],
+      "visual_source": "docs/VISUAL_MANIFEST.md"
+    },
+    "CAP": {
+      "owner": "BRANCH-02",
+      "required_structure": [
+        "known capacity primary",
+        "items estimation secondary"
+      ],
+      "visual_source": "docs/VISUAL_MANIFEST.md"
+    },
+    "S01": {
+      "owner": "BRANCH-03",
+      "required_tabs": [
+        "排序",
+        "距离",
+        "服务"
+      ],
+      "prohibit": [
+        "independent price filter"
+      ],
+      "visual_source": "docs/VISUAL_MANIFEST.md"
+    },
+    "S02": {
+      "owner": "BRANCH-03",
+      "active_file": "app/prototype/parallel/core-journey-fix-01/demo/app.js",
+      "allowed_navigation": [
+        "可选仓位",
+        "服务设施",
+        "交通路线"
+      ],
+      "tab_count": 3,
+      "header_order": [
+        "hero",
+        "hot_ribbon",
+        "store_information",
+        "need_summary",
+        "single_tab_bar",
+        "selected_tab_content"
+      ],
+      "no_hot_cta": true,
+      "required_interactions": [
+        "estimated entry",
+        "photo access hours",
+        "3 same-level tab switches",
+        "map when selected",
+        "direct O01",
+        "combo separate units"
+      ],
+      "visual_source": "user-provided 2026-11-03 hot-unit screenshot; approved BR03 VIS-07 archive"
+    },
+    "S5": {
+      "owner": "BRANCH-04",
+      "visual_source": "docs/VISUAL_MANIFEST.md"
+    },
+    "O01": {
+      "owner": "BRANCH-04",
+      "visual_source": "docs/VISUAL_MANIFEST.md"
+    }
+  },
+  "status_lexicon": [
+    "APPROVED",
+    "IMPLEMENTED",
+    "TESTED",
+    "VIS_SIGNED",
+    "MERGED",
+    "DEPLOYED"
+  ],
+  "release_gates": [
+    "G-TECH",
+    "G-VIS",
+    "DEPLOY_PROVENANCE"
+  ]
+}

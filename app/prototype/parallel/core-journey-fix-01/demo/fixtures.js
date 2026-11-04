@@ -88,6 +88,47 @@
     ?(()=>{try{return sessionStorage.getItem('mk_active_catalog_v1')==='MK';}catch{return false;}})()
     :(typeof process==='object'&&process.env.MK_CATALOG_MODE==='MK'));
   const activeFixture=requestedLegacy?legacyFixture():data;
+  // Store-ID-stable access schedule shared by S01/S02. Replace with verified store records when available.
+  const storeSchedules=['24小时','09:00-21:00','08:00-23:00'];
+  // Unify warehouse option stock counts with the stock/status contract used by order selection.
+  // Existing counts from source records take precedence; missing prototype counts are stable per unit ID.
+  activeFixture.units.forEach(u=>{
+    const eligible=u.status==='available';
+    const reported=Number(u.available_count);
+    if(!eligible){u.available_count=0;return;}
+    if(Number.isInteger(reported)&&reported>0)return;
+    let h=2166136261;
+    for(const ch of String(u.id)){h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0}
+    u.available_count=[1,2,4,6,8][h%5];
+  });
+  // All store IDs have a destination lookup record. Coordinates require map-provider POI verification.
+  activeFixture.stores.forEach(s=>{
+    const source=root.SIM_STORE_GEO?.get(s.id)||null;
+    const explicit=Number.isFinite(Number(s.longitude))&&Number.isFinite(Number(s.latitude))&&
+      Number(s.longitude)>70&&Number(s.longitude)<140&&Number(s.latitude)>15&&Number(s.latitude)<55&&
+      s.coordinate_verified===true;
+    const resolved=explicit||!!source;
+    s.geo={
+      provider:'amap',store_id:s.id,address:s.address,city:s.city,
+      verified:explicit,route_candidate:resolved,
+      longitude:explicit?Number(s.longitude):resolved?source.amap_gcj02[0]:null,
+      latitude:explicit?Number(s.latitude):resolved?source.amap_gcj02[1]:null,
+      source_store_code:source?.source_store_code||null,
+      source_date:source?.source_date||null,
+      needs_review:false,was_multi_candidate:!!source?.was_multi_candidate,coordinate_scope:source?.coordinate_scope||'unverified',
+      destination_query:[s.name,s.address].filter(Boolean).join(' ')
+    };
+  });
+  activeFixture.stores.forEach(s=>{
+    let hash=2166136261;
+    for(const char of String(s.id)){hash=Math.imul(hash^char.charCodeAt(0),16777619)>>>0}
+    s.access_hours=s.access_hours||storeSchedules[hash%storeSchedules.length];
+    if(s.access_hours!=='24小时'){
+      for(const key of ['serviceTags','facilities','tags']){
+        if(Array.isArray(s[key]))s[key]=s[key].filter(v=>!/24小时|全天存取/.test(String(v)));
+      }
+    }
+  });
   root.SIM_FIXTURES=activeFixture;
   if(typeof module==='object'&&module.exports)module.exports=activeFixture;
 })(typeof window==='object'?window:globalThis);
