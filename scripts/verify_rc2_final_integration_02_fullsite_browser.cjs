@@ -60,7 +60,7 @@ const routes=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','M01'];
    await context.close();
   }
  }finally{await browser.close();await new Promise(ok=>srv.close(ok))}
- const results={pass:true,screenshots:routes.length*2*3,routeStates:rows.length,head:process.env.GITHUB_SHA||null,rows};
+ const results={pass:true,screenshots:routes.length*2*3,routeStates:rows.length,head:require('node:child_process').execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),rows};
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(results,null,2));
  console.log(JSON.stringify({pass:true,routeStates:rows.length,screenshots:routes.length*2*3,routes},null,2));
 })().catch(e=>{console.error(e);process.exitCode=1});

@@ -77,7 +77,7 @@ async function contract(page){
    await context.close();
   }
  }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
- const output={source:'RC2 isolated H01-UX-REVIEW-03A',sourceSha:process.env.GITHUB_SHA||null,pass:true,results};
+ const output={source:'RC2 isolated H01-UX-REVIEW-03A',sourceSha:require('node:child_process').execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),pass:true,results};
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(output,null,2));
  console.log(JSON.stringify(output,null,2));
 })().catch(e=>{console.error(e);process.exitCode=1});

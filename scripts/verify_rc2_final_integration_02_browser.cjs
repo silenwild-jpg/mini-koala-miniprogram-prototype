@@ -76,7 +76,7 @@ const base='http://127.0.0.1:4949/central-review-02g.html?catalog=sim&page=';
    await ctx.close();
   }
  }finally{await browser.close();await new Promise(ok=>server.close(ok))}
- const result={source:'single RC2-FINAL-INTEGRATION-02 isolated candidate',head:process.env.GITHUB_SHA||null,pass:true,rows};
+ const result={source:'single RC2-FINAL-INTEGRATION-02 isolated candidate',head:require('node:child_process').execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),pass:true,rows};
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(result,null,2));
  console.log(JSON.stringify(result,null,2));
 })().catch(e=>{console.error(e);process.exitCode=1});
