@@ -47,6 +47,7 @@ const screens=['H01','S01','S02','CAP','ITEMS','S5','BOOKING','QUICK','O01','M01
      if(hasScreen)source='CENTRAL_SCREEN';
      // H01, CAP and ITEMS run as dedicated source pages without a #screen node.
      // S5, BOOKING and QUICK mount their content inside the BR04 iframe.
+     if(['S5','BOOKING','QUICK'].includes(screen))await frame.locator('#br04-frame').waitFor({state:'attached',timeout:12000});
      if(await frame.locator('#br04-frame').count()){
        const inside=frame.frameLocator('#br04-frame').locator('body');
        await inside.waitFor({state:'attached',timeout:12000});
