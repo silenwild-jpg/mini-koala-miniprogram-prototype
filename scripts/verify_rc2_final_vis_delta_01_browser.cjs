@@ -43,7 +43,7 @@ const server=http.createServer((req,res)=>{
       assert.equal(h01.pointerEvents,'none','H01 label patch must not intercept click');
       await page.screenshot({path:path.join(out,'H01-'+width+'-visible-task-correction.png'),fullPage:false});
       await page.locator('.task-hotspots button[aria-label="估大小算价格"]').click();
-      await page.waitForURL(/page=CAP/, {timeout:13000});
+      await page.waitForURL(/\/cap\.html(?:[?#]|$)/, {timeout:13000});
       const cap=await page.evaluate(()=>({href:location.href}));
       await page.goto(base+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
       const app=page.frameLocator('#central-host'),s01=app.frameLocator('#s01-r2-frame');
@@ -62,7 +62,7 @@ const server=http.createServer((req,res)=>{
       assert(s01Profile.visible,'S01 estimate action too narrow');
       await page.screenshot({path:path.join(out,'S01-'+width+'-empty-demand-correction.png'),fullPage:false});
       await s01.locator('.s01-edit').click();
-      await app.locator('#screen.page-CAP').waitFor({timeout:13000});
+      await page.waitForFunction(()=>{const frame=document.getElementById('central-host');return !!frame&&frame.contentWindow.location.pathname.endsWith('/cap.html');},null,{timeout:13000});
       assert.equal(errors.length,0,'JS runtime errors: '+errors.join('; '));
       assert.equal(missing.length,0,'missing files: '+JSON.stringify(missing.slice(0,4)));
       results.push({width,height,h01,cap,s01Profile,result:'PASS'});
