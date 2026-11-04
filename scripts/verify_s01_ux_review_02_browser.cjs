@@ -21,7 +21,7 @@ async function open(page){
   await page.goto(base+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
   const app=page.frameLocator('#central-host'),s01=app.frameLocator('#s01-r2-frame');
   await s01.locator('#s01-search').waitFor({state:'visible'});
-  await s01.locator('.s01-result-summary').getByText(/共/).waitFor();
+  await s01.locator('.s01-estore-card').waitFor({state:'visible'});
   return {app,s01};
 }
 async function run(){
@@ -45,11 +45,14 @@ async function run(){
         assert.equal(await card.getAttribute('data-presentation'),'compact-direct','third-plus card must be compact');
         assert(await card.evaluate(el=>getComputedStyle(el).display==='grid'),'third-plus layout not compact');
         assert.equal(await card.locator('.order:visible').count(),0,'third-plus contains visible order CTA');
-        assert.equal(await card.locator('.s01-compact-summary:visible').count(),1,'compact summary missing');
-        assert.equal(await card.locator('.s01-compact-summary').getAttribute('hidden'),null);
+        assert.equal(await card.locator('.s01-compact-summary:visible').count(),0,'marked bottom summary reappeared');
         const thumb=await card.locator('.store-photo').boundingBox();
-        assert(thumb&&thumb.width>=82&&thumb.width<=99,'compact photo is not thumbnail sized');
+        assert(thumb&&thumb.width>=108&&thumb.width<=136,'compact photo proportions differ from horizontal-image reference');
       }
+      const visualSlots=await s01.locator('.stores').evaluate(el=>Array.from(el.children).slice(0,4).map(n=>n.dataset.service||n.dataset.presentation||'unknown'));
+      assert.deepEqual(visualSlots,['expanded-two','expanded-two','estore','compact-direct'],'visual slot order regressed');
+      assert.equal(await s01.locator('[data-quick="single"]').count(),0,'retired single-only chip visible');
+      assert.equal(await s01.locator('.s01-result-summary').count(),0,'removed result strip visible');
       const full=await cards.first().locator('.units').isVisible();
       assert(full,'first store must show its available unit previews');
       const frameSafety=await app.locator('#screen').evaluate(el=>{
@@ -97,7 +100,8 @@ async function run(){
       const emptyPage=await ctx.newPage(),{s01:emptyS01}=await open(emptyPage);
       await emptyS01.locator('#s01-search').fill('没有这家门店XYZ');
       assert.equal(await emptyS01.locator('.store-card').count(),0);
-      assert.equal(await emptyS01.locator('.s01-empty-action').count(),3);
+      assert.equal(await emptyS01.locator('.s01-empty-action').count(),2);
+      assert.equal(await emptyS01.locator('.s01-estore-card').count(),1,'E-store must survive empty search');
       await emptyS01.locator('.s01-empty-action').first().click();
       assert(await emptyS01.locator('.store-card').count()>2,'clear-filters failed to recover stores');
       await emptyPage.close();
