@@ -127,10 +127,12 @@
       card.setAttribute('role','button');
       card.tabIndex=0;
       card.setAttribute('aria-label','考拉E存，上门取送，查看服务');
-      card.innerHTML='<div class="s01-estore-mark" aria-hidden="true">考</div>'
-        +'<div class="s01-estore-copy"><strong class="s01-estore-name">考拉E存</strong>'
-        +'<span class="s01-estore-desc">上门取送 · 顾问协助</span></div>'
-        +'<span class="s01-estore-next">了解服务 ›</span>';
+      card.innerHTML='<img class="s01-estore-photo" src="br04/s5/assets/estore-existing-scene.webp" alt="考拉E存上门取送服务" />'
+        +'<div class="s01-estore-copy"><span class="s01-estore-kicker">上门取送</span>'
+        +'<strong class="s01-estore-name">考拉E存</strong>'
+        +'<span class="s01-estore-desc">便捷存储 · 了解服务 ›</span></div>';
+      const photo=card.querySelector('.s01-estore-photo');
+      photo.onerror=()=>{photo.onerror=null;photo.src='assets/brand_corridor_cropped.png';};
       const open=()=>bridge.action('estore');
       card.addEventListener('click',open);
       card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
@@ -179,7 +181,7 @@
     // is the single consistent entry for service and consultant assistance.
     const more=document.querySelector('#s01-more');more.hidden=!state.canLoadMore;
     document.querySelectorAll('[data-quick]').forEach(b=>b.setAttribute('aria-pressed',String(state.quickSelected.includes(b.dataset.quick))));
-    if(typeof scaleApprovedReference==='function')scaleApprovedReference();
+    // Native flow layout: do not scale text or pixel positions after render.
   }
   stage.addEventListener('click',e=>{
     const order=e.target.closest('.order');
