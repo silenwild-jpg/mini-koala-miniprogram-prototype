@@ -93,22 +93,67 @@
     card.querySelector('.units').hidden=!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);
   }
+  // Positions 1–2 retain the approved expanded store master. Position 3 is the
+  // permanent E-storage operating slot. Later stores use a compact, clickable row.
+  function estoreCard(){
+    const article=document.createElement('article');
+    article.className='s01-estore-card';
+    article.dataset.cardRank='3';
+    article.dataset.cardKind='estore';
+    article.innerHTML='<img src="br04/s5/assets/estore-existing-scene.webp" alt="考拉E存上门取送服务">'+
+      '<div class="s01-estore-info"><span>上门取送</span><strong>考拉E存</strong>'+
+      '<p>物品上门收取，按需存放</p></div><button type="button" class="s01-estore-cta">了解服务 ›</button>';
+    return article;
+  }
+  function compactStore(s,rank){
+    const article=document.createElement('article');
+    article.className='store-card s01-compact-store';
+    article.dataset.storeId=s.id;
+    article.dataset.cardRank=String(rank);
+    article.dataset.cardKind='compact';
+    article.setAttribute('role','button');
+    article.setAttribute('tabindex','0');
+    article.setAttribute('aria-label','查看'+s.name+'的门店详情');
+    const photo=document.createElement('img');
+    photo.className='s01-compact-photo';photo.src=s.photo;
+    photo.alt=s.name+'门店环境';photo.loading='lazy';
+    photo.onerror=()=>{photo.onerror=null;if(s.photoFallback)photo.src=s.photoFallback;};
+    const info=document.createElement('div');info.className='s01-compact-info';
+    const name=document.createElement('strong');name.textContent=s.name;info.append(name);
+    const address=document.createElement('p');address.className='s01-compact-address';address.textContent=s.address||'';info.append(address);
+    const tags=document.createElement('div');tags.className='s01-compact-tags';
+    (s.services||[]).slice(0,2).forEach(v=>{const el=document.createElement('span');el.textContent=v;tags.append(el);});
+    info.append(tags);
+    const side=document.createElement('div');side.className='s01-compact-side';
+    const first=s.units?.[0];
+    if(first){const price=document.createElement('strong');price.textContent=first.price;side.append(price);
+      const suffix=document.createElement('small');suffix.textContent=first.suffix||'';side.append(suffix);}
+    const arrow=document.createElement('span');arrow.className='s01-compact-arrow';arrow.textContent='查看门店 ›';side.append(arrow);
+    article.append(photo,info,side);
+    return article;
+  }
   function render(){
     const state=bridge.snapshot();
     document.documentElement.dataset.binding='CENTRAL_RC1';
     document.documentElement.dataset.source=state.sourceNamespace;
     document.documentElement.dataset.verifiedDistance=String(state.distanceVerified);
-    const existing=Array.from(stage.querySelectorAll('.store-card'));
-    while(existing.length<state.stores.length){
-      const clone=masters[existing.length%2].cloneNode(true);
-      stage.append(clone);existing.push(clone);
-    }
-    stage.querySelector('[role="status"]')?.remove();
-    existing.forEach((card,i)=>i>=state.stores.length?card.remove():fill(card,state.stores[i]));
+    const nodes=[];
+    state.stores.forEach((store,i)=>{
+      if(i===2)nodes.push(estoreCard());
+      if(i<2){
+        const card=masters[i].cloneNode(true);
+        fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';
+        nodes.push(card);
+      }else nodes.push(compactStore(store,i+2));
+    });
+    // No store listings still offer the operating service, without inventing stores.
+    if(state.stores.length<=2)nodes.push(estoreCard());
     if(!state.stores.length){
       const empty=document.createElement('p');empty.setAttribute('role','status');
-      empty.textContent='未找到匹配门店，请调整搜索或筛选条件';stage.append(empty);
+      empty.textContent='未找到匹配门店，请调整搜索或筛选条件';
+      nodes.unshift(empty);
     }
+    stage.replaceChildren(...nodes);
     document.querySelectorAll('.filter').forEach((n,i)=>{
       n.firstChild.nodeValue=state.filterLabels[i]+' ';
       n.setAttribute('aria-label',state.filterLabels[i]);
@@ -126,12 +171,17 @@
     if(typeof scaleApprovedReference==='function')scaleApprovedReference();
   }
   stage.addEventListener('click',e=>{
+    if(e.target.closest('.s01-estore-card')){bridge.action('estore');return;}
     const order=e.target.closest('.order');
     if(order){if(order.getAttribute('aria-disabled')==='true')return;bridge.action('choose',order.dataset.unitId);return;}
     const card=e.target.closest('.store-card');if(card)bridge.action('store',card.dataset.storeId);
   });
   stage.addEventListener('keydown',e=>{
     if(!['Enter',' '].includes(e.key))return;
+    const compact=e.target.closest('.s01-compact-store');
+    if(compact){e.preventDefault();bridge.action('store',compact.dataset.storeId);return;}
+    const estore=e.target.closest('.s01-estore-cta');
+    if(estore){e.preventDefault();bridge.action('estore');return;}
     const order=e.target.closest('.order');
     if(order){e.preventDefault();if(order.getAttribute('aria-disabled')!=='true')bridge.action('choose',order.dataset.unitId);}
   });
