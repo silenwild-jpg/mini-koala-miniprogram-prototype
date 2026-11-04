@@ -18,7 +18,6 @@
   if(visual.price!=='all'){visual.price='all';saveVisual();}
   if(!['可选仓位','服务设施','交通路线'].includes(visual.tab))visual.tab='可选仓位';
   if(!['transit','drive','walk','bike'].includes(visual.travelMode))visual.travelMode='drive';
-  if(!demoDistanceEnabled&&visual.sort==='distance')visual.sort='recommended';
   // Prototype display can use stable derived distances without asserting verified geolocation.
   const demoDistanceEnabled=!!F.distanceVerified||!!F.synthetic;
   const displayedDistanceKm=s=>{
@@ -29,6 +28,7 @@
     let h=2166136261;for(const ch of String(s?.id||''))h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0;
     return Number((0.7+(h%150)/20).toFixed(1));
   };
+  if(!demoDistanceEnabled&&visual.sort==='distance')visual.sort='recommended';
   const categories=['全部','迷你仓','小型仓','中型仓','大型仓'];
   const category=u=>u.volume<=1.5?'迷你仓':u.volume<=5?'小型仓':u.volume<=10?'中型仓':'大型仓';
   const unitName=u=>u.name;
