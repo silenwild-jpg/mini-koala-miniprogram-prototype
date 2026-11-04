@@ -43,6 +43,8 @@ jobs:
         run: python3 scripts/build_rc2_isolated_demo.py
       - name: Real source directory across city capacity and term permutations
         run: node scripts/verify_s5_ux_close_01_browser.cjs
+      - name: Verify fixed third E-storage, compact fourth-plus store rows and actual routes in both sizes
+        run: node scripts/verify_rc2_s01_recommend_03_browser.cjs
       - name: Manual city and district selection and demo stock in both sizes
         run: node scripts/verify_rc2_s5_final_01_browser.cjs
       - name: Seven controlled states 375 and 390
