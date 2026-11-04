@@ -22,7 +22,7 @@ async function open(page){
   return {app,s01};
 }
 async function state(app,scenario,setup){
-  return app.locator('#screen').evaluate(({scenario,setup})=>{
+  return app.locator('#screen').evaluate((_screen,{scenario,setup})=>{
     const S=window.SIM_DEMO,F=window.SIM_FIXTURES;
     S.s01R2Bridge.clearFilters();
     const known=F.scenarios.map(x=>x.id);
