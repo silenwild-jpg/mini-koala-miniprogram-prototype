@@ -77,6 +77,15 @@
     });return REC.rank(rows.sort((a,b)=>(a.volume-(state().requirement.capacity_m3||0))-(b.volume-(state().requirement.capacity_m3||0))||storeAmount(a.store)-storeAmount(b.store)),{distanceVerified:F.distanceVerified,costOf:row=>recommendationCost(row.ids)}).items;
   }
   function alternatives(excludeStore){const rows=candidateList(excludeStore).slice(0,3);return `<section class="alternatives"><h3>其他匹配门店和仓位</h3><p>已保留您的容量和租期。</p>${rows.length?rows.map(r=>`<div class="alternative"><strong>${r.store.name}</strong><p>${r.volume}m³${r.combo?' · 组合方案':''}</p>${button('store','查看匹配方案',r.store.id,'outline')}</div>`).join(''):'<p>当前城市没有满足容量的可用方案。</p>'}${button('advisor','联系顾问 / 预约咨询','','outline')}</section>`;}
+  // Approved first-two-store landscape photos from PR #57, scoped to SIM visual slots.
+  // Fallback is stable for additional listed stores and does not assert physical-site identity.
+  const curatedStoreHeroIds=['SIM_BJ01','SIM_BJ02','SIM_BJ03','SIM_BJ04','SIM_BJ05','SIM_BJ06','SIM_BJ07','SIM_BJ08','SIM_BJ09','SIM_SH01','SIM_SH02','SIM_SZ01'];
+  function s01Photo(s,index){
+    if(index>=2)return 'assets/'+s.photo;
+    const key=String(s.id||''),sum=[...key].reduce((v,ch)=>v+ch.charCodeAt(0),0);
+    const id=curatedStoreHeroIds.includes(key)?key:curatedStoreHeroIds[(sum+index)%curatedStoreHeroIds.length];
+    return 'assets/store-curated/v1/'+id+'/hero.webp';
+  }
   function storeCard(s,index=0){
     const expanded=visual.expandedStoreIds.includes(s.id),r=state().requirement;
     const all=F.units.filter(u=>u.store_id===s.id&&core.available(u));
@@ -86,7 +95,7 @@
     let empty=s.status!=='open'?'门店暂停服务':!hasStock?'已售罄':core.combinations(s.id).length?'暂无符合当前需求的单仓，可查看组合方案':'暂无符合当前需求的仓位';
     const min=rows.length?[...rows].sort((a,b)=>core.amounts([a.id],r.term_months||1).rent_total-core.amounts([b.id],r.term_months||1).rent_total)[0]:null;
     const collapsed=min?`${money(core.authorized()&&r.term_confirmed?core.formalAmounts([min.id],r.term_months).rent_total:(state().prices[min.id]||min.base_month))}${core.authorized()&&r.term_confirmed?' / '+r.term_months+'个月起' :' /月起'}`:empty;
-    return `<article class="store-row ${expanded?'is-expanded':''}" data-store-id="${s.id}"><a class="store-entry" data-store="${s.id}" href="index.html?page=S02&store=${s.id}" aria-label="查看${s.name}"><img class="store-photo" src="assets/${s.photo}" alt="${F.sourceNamespace==='MK'?'门店场景示意素材':s.name+'门店环境'}"><div class="store-info"><div class="store-title"><strong class="store-name">${esc(s.name)}</strong>${Number.isFinite(s.rating)?`<span class="rating">${Number(s.rating).toFixed(1)}</span>`:''}</div><p class="address">${esc(s.address)}</p><p class="store-distance">${esc(s.district)} · ${F.distanceVerified?Number(s.distance).toFixed(1)+'km':R2.distanceOf(s)}</p><div class="tags">${serviceTags(s).slice(0,2).map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div></div></a><div class="store-preview-bar store-quick-entry"><strong>${collapsed}</strong><a class="store-quick-link" data-store="${s.id}" href="index.html?page=S02&store=${s.id}" aria-label="查看${esc(s.name)}仓位">查看门店 ›</a></div></article>`;
+    return `<article class="store-row ${index<2?'lead-store':'compact-store'}" data-store-id="${s.id}"><a class="store-entry" data-store="${s.id}" href="index.html?page=S02&store=${s.id}" aria-label="查看${s.name}"><img class="store-photo" src="${s01Photo(s,index)}" alt="门店仓储环境"><div class="store-info"><div class="store-title"><strong class="store-name">${esc(s.name)}</strong>${Number.isFinite(s.rating)?`<span class="rating">${Number(s.rating).toFixed(1)}</span>`:''}</div><p class="address">${esc(s.address)}</p><p class="store-distance">${esc(s.district)} · ${F.distanceVerified?Number(s.distance).toFixed(1)+'km':R2.distanceOf(s)}</p><div class="tags">${serviceTags(s).slice(0,2).map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div></div></a><div class="store-preview-bar store-quick-entry"><strong>${collapsed}</strong><a class="store-quick-link" data-store="${s.id}" href="index.html?page=S02&store=${s.id}" aria-label="查看${esc(s.name)}仓位">查看门店 ›</a></div></article>`;
   }
   function approvedUnitThumb(u){const v=Number(u.volume)||0;const tier=v<=1.5?'mini':v<=5?'small':v<=15?'medium':'large';return 'assets/unit-r3/thumb/unit-r3-'+tier+'-336x312.webp';}
   function previewRow(u){const f=P.facts(u),description=P.describe(u,'S01').lines[0];return `<article class="unit-preview" data-unit="${u.id}" data-promo-state="${f.state}"><img class="preview-image" src="${approvedUnitThumb(u)}" alt="${esc(u.name)}空间示意"><div class="preview-body"><h3 class="preview-title">${esc(u.name)}</h3><p class="preview-use" title="${esc(description)}">${esc(description)}</p><div class="preview-bottom">${price([u.id])}<button class="br03-buy" data-action="choose" data-value="${u.id}">立即下单</button></div>${stateLine(f)}</div></article>`;}
