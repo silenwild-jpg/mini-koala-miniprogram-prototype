@@ -76,8 +76,8 @@
       btn.style.opacity=u.available?'1':'0.56';
     }
   }
-  // The first two stores keep their full, two-unit card. From the third onward,
-  // the whole compact row is a single S02 navigation target; never expand units.
+  // The first two store results remain full; E-store is fixed at visual slot 3.
+  // From visual slot 4 onward, store results use direct-to-S02 compact rows.
   function setCompact(card,s,position){
     const compact=position>=2;
     card.classList.toggle('s01-compact',compact);
@@ -89,10 +89,8 @@
     }else{
       card.removeAttribute('role');card.removeAttribute('tabindex');card.removeAttribute('aria-label');
     }
-    let summary=card.querySelector('.s01-compact-summary');
-    if(!summary){summary=document.createElement('div');summary.className='s01-compact-summary';card.querySelector('.store-body').append(summary);}
-    setText(summary,s.compactSummary||'查看门店仓位');
-    summary.hidden=!compact;
+    // No price/large order area or extra summary on compact cards.
+    card.querySelector('.s01-compact-summary')?.remove();
     let hint=card.querySelector('.s01-match-hint');
     if(!hint){hint=document.createElement('p');hint.className='s01-match-hint';card.querySelector('.store-body').append(hint);}
     setText(hint,s.matchHint||'');
@@ -117,36 +115,50 @@
     card.querySelector('.units').hidden=position>=2||!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);
   }
+  // E-store is a service destination, not a warehouse ID, searchable store
+  // or artificial entry in price/distance/stock ranking.
+  function ensureEStore(){
+    let card=stage.querySelector('.s01-estore-card');
+    if(!card){
+      card=document.createElement('article');
+      card.className='s01-estore-card';
+      card.dataset.fixedSlot='3';
+      card.dataset.service='estore';
+      card.setAttribute('role','button');
+      card.tabIndex=0;
+      card.setAttribute('aria-label','考拉E存，上门取送，查看服务');
+      card.innerHTML='<div class="s01-estore-mark" aria-hidden="true">考</div>'
+        +'<div class="s01-estore-copy"><strong class="s01-estore-name">考拉E存</strong>'
+        +'<span class="s01-estore-desc">上门取送 · 顾问协助</span></div>'
+        +'<span class="s01-estore-next">了解服务 ›</span>';
+      const open=()=>bridge.action('estore');
+      card.addEventListener('click',open);
+      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+    }
+    return card;
+  }
   function render(){
     const state=bridge.snapshot();
-    // Failure recovery is a single flat inline strip, not a new bordered card.
-    let fallback=document.querySelector('#s01-citywide-fallback');
-    if(!fallback){
-      fallback=document.createElement('div');
-      fallback.id='s01-citywide-fallback';
-      fallback.className='s01-citywide-fallback';
-      fallback.innerHTML='<span class="s01-fallback-copy"></span><button type="button" data-fallback-estore>了解考拉E存</button><button type="button" data-fallback-edit>修改需求</button>';
-      stage.before(fallback);
-      fallback.querySelector('[data-fallback-estore]').addEventListener('click',()=>bridge.action('estore'));
-      fallback.querySelector('[data-fallback-edit]').addEventListener('click',()=>bridge.editDemand());
-    }
-    fallback.hidden=!state.noAdequateMatch||state.storeCount===0;
-    setText(fallback.querySelector('.s01-fallback-copy'),'当前没有满足容量的可租仓位');
     document.documentElement.dataset.binding='CENTRAL_RC1';
     document.documentElement.dataset.source=state.sourceNamespace;
     document.documentElement.dataset.verifiedDistance=String(state.distanceVerified);
-    const existing=Array.from(stage.querySelectorAll('.store-card'));
+    const existing=Array.from(stage.querySelectorAll(':scope > .store-card'));
     while(existing.length<state.stores.length){
       const clone=masters[existing.length%2].cloneNode(true);
       stage.append(clone);existing.push(clone);
     }
     stage.querySelector('[role="status"]')?.remove();
     existing.forEach((card,i)=>i>=state.stores.length?card.remove():fill(card,state.stores[i],i));
+    const shown=Array.from(stage.querySelectorAll(':scope > .store-card'));
+    const estore=ensureEStore();
+    if(shown.length>=2)shown[1].after(estore);
+    else if(shown.length===1)shown[0].after(estore);
+    else stage.prepend(estore);
     if(!state.stores.length){
       const empty=document.createElement('p');empty.setAttribute('role','status');
       empty.className='s01-empty';
       empty.textContent='当前条件下暂无匹配门店，可修改需求或清除筛选。';
-      for(const [label,handler] of [['清除筛选',()=>bridge.clearFilters()],['修改需求',()=>bridge.editDemand()],['考拉E存',()=>bridge.action('estore')]]){
+      for(const [label,handler] of [['清除筛选',()=>bridge.clearFilters()],['修改需求',()=>bridge.editDemand()]]){
         const button=document.createElement('button');button.type='button';button.textContent=label;
         button.className='s01-empty-action';button.addEventListener('click',handler);empty.append(button);
       }
@@ -163,16 +175,8 @@
     if(query&&document.activeElement!==query)query.value=state.keyword||'';
     setText(document.querySelector('.s01-context-text'),state.requirement.capacity===null?'未填写容量需求，可直接找仓':'已选需求：'+state.requirement.capacity+'m³ · '+(state.requirement.term?state.requirement.term+'个月':'租期待选'));
     setText(document.querySelector('.s01-edit'),state.requirement.capacity===null?'估算大小':'修改需求');
-    const resultsNode=document.querySelector('.s01-result-summary');
-    setText(resultsNode,'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
-    // One conditional advisor entry on the list, never one on every card.
-    if(state.nineState?.advisorEligible&&resultsNode){
-      const help=document.createElement('button');
-      help.type='button';help.className='s01-inline-advisor';help.textContent='顾问选仓';
-      help.setAttribute('aria-label','联系顾问协助选仓');
-      help.addEventListener('click',()=>bridge.action('advisor'));
-      resultsNode.append(help);
-    }
+    // Red-marked results/advisor strip is retired. The fixed E-store card
+    // is the single consistent entry for service and consultant assistance.
     const more=document.querySelector('#s01-more');more.hidden=!state.canLoadMore;
     document.querySelectorAll('[data-quick]').forEach(b=>b.setAttribute('aria-pressed',String(state.quickSelected.includes(b.dataset.quick))));
     if(typeof scaleApprovedReference==='function')scaleApprovedReference();
