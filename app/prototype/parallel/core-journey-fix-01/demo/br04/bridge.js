@@ -106,14 +106,15 @@
       const buyId=primary?(main?'main-buy':'secondary-buy'):'';
       const caption=u.near?'容量接近 · 需确认':u.combo?'组合仓 · '+u.ids.length+'间':'独立仓 · '+u.volume+'m³';
       const button=u.near?'查看门店':'立即下单';
-      const kind=p.kind==='term'?'整期租金':'月租';
-      const suffix=p.kind==='term'?(p.average||''):(p.termLabel||'');
+      const kind='整期租金';
+      const priceDisplay=p.kind==='term'?p.money:'查看整期价';
+      const suffix=p.kind==='term'?(p.average||''):'月租 '+p.money+'起';
       return '<div class="s5-unit-row" data-unit-ids="'+esc(u.ids.join(','))+'">'+
         '<img class="s5-unit-thumb" src="'+s5UnitImage(u.volume)+'" alt="'+esc(u.volume+'m³仓位空间示意')+'">'+
         '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.volume))+'</p>'+
         '<span class="s5-unit-price-label">'+kind+'</span></div>'+
         '<div class="s5-unit-terms"><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
-        'data-s5-price="'+rank+':'+i+'" aria-label="查看费用明细">'+esc(p.money)+'</button>'+
+        'data-s5-price="'+rank+':'+i+'" aria-label="验证手机号后查看整期费用">'+esc(priceDisplay)+'</button>'+
         '<small>'+esc(suffix)+'</small><button type="button" class="s5-unit-buy" '+(buyId?'id="'+buyId+'" ':'')+
         'data-s5-buy="'+rank+':'+i+'">'+button+'</button></div></div>';
     }).join('');
