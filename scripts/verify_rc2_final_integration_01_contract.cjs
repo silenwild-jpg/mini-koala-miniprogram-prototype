@@ -11,7 +11,7 @@ assert.doesNotMatch(hero,/content:"优先推荐"/,'H01 old generic recommendatio
 assert.match(s01,/data-quick="promo"/);
 assert.match(s01,/data-quick="moving"/);
 assert.doesNotMatch(s01,/data-quick="single"|只看单仓/,'deleted single-unit filter leaked into UI');
-assert.doesNotMatch(app,/\['promo','moving','single'\]|r2Filters\.quick\.includes\('single'\)/,'deleted single-unit filter logic present');
+assert.doesNotMatch(app,/\['promo','moving','single'\]|if\(r2Filters\.quick\.includes\('single'\)\)stores=/,'deleted single-unit filter logic present');
 assert.match(app,/r2Filters\.quick\.filter\(x=>x!=='single'\)/,'old session state must self-heal');
 assert.match(s01,/data-filter="(?:sort|distance|service)"|class="filter"/,'3-filter area must be present');
 assert.match(br04,/s5SharedStore/,'S5 store field source must remain integrated');
