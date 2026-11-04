@@ -1,0 +1,63 @@
+name: S01 fixed E-store slot and fourth-plus cards 375-390 (NO DEPLOY)
+on:
+  push:
+    branches:
+      - isolate/s01-card-layout-estore-slot-20261104
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  s01-nine-state-screenshot-and-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Syntax, branch isolation and visual guard
+        run: |
+          set -eu
+          for f in app/prototype/parallel/core-journey-fix-01/demo/{app.js,s01-r2-bind.js,s01-r2-content.js} scripts/verify_s01_ux_review_{02_browser,03_nine_states_browser}.cjs; do
+            node --check "$f"
+          done
+          git diff --name-only 7c6cb17001e7b03777e8b0191877bca02a0e6988...HEAD
+          ! grep -q 'grid-template-columns:repeat(4' app/prototype/parallel/core-journey-fix-01/demo/s01-r2-live.html
+      - name: Install CJK and real Chromium
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build immutable-sha isolated candidate (do not publish)
+        env:
+          RC2_BUNDLE_LABEL: S01-ESTORE-SLOT-04-ISOLATED
+          RC2_BUNDLE_ARCHIVE: MiniKoala_S01_Estore_Slot_04_Candidate_20261104.zip
+          RC2_BUNDLE_BRANCH: isolate/s01-card-layout-estore-slot-20261104
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Retest S01 search/three filters/tabs
+        run: node scripts/verify_rc2_s01_structure_browser.cjs
+      - name: Test slot three E-store and fourth-plus horizontal store cards
+        run: node scripts/verify_s01_ux_review_02_browser.cjs
+      - name: Nine state + fixed third slot + fourth/tail card scrolled screenshots
+        run: node scripts/verify_s01_ux_review_03_nine_states_browser.cjs
+      - name: Cross-page quote/phone/order/payment/return regression
+        run: node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Upload 375/390 screenshots, 9-state JSON and exact build fingerprint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s01-estore-slot-04-375-390-nine-state-evidence
+          path: |
+            release-evidence/s01-ux-review-03/
+            release-evidence/s01-ux-review-02/
+            release-evidence/rc2-structure-restore/
+            release-evidence/rc2-fix-01d/
+            release-evidence/rc2-merge-prep-10/build-summary.json
+          if-no-files-found: warn
+          retention-days: 21
