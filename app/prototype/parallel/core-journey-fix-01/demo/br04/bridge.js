@@ -154,7 +154,7 @@
     document.querySelector('.nm-kicker').textContent=matchState==='incomplete'?(r.capacity_m3?'请先确认租期':'先填写容量，再查看推荐'):matchState==='large'&&!match?'大空间需求，顾问协助选仓':'暂无完全匹配的仓位';
     document.querySelector('.no-match>p').textContent=matchState==='incomplete'?(r.capacity_m3?'请选择租期后查看仓位推荐。':'请先填写容量并确认租期。'):'可调整条件、查看更多门店或联系顾问。';
     const cards=$$('.s5-store-card');
-    cards.forEach((el,i)=>{el.hidden=i>=offerRows.length;if(offerRows[i])el.innerHTML=s5StoreCard(offerRows[i],i);else el.innerHTML='';});
+    cards.forEach((el,i)=>{el.hidden=i>=offerRows.length;el.dataset.storeId=offerRows[i]?.store.id||'';if(offerRows[i])el.innerHTML=s5StoreCard(offerRows[i],i);else el.innerHTML='';});
     const wrap=document.querySelector('.recommend-wrap'),more=document.querySelector('.more-units'),advisorEl=$('s5-advisor'),estore=document.querySelector('.estore');
     if(!match){
       $('artboard').dataset.designHeight='858';
