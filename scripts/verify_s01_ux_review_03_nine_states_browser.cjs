@@ -120,6 +120,8 @@ async function run(){
         requireFlag(view,test.flag);
         const cardCount=await ui.s01.locator('.store-card').count();
         assert.equal(cardCount,view.stores.length,'state visual cards desynced from source');
+        const advisorLinks=await ui.s01.locator('.s01-inline-advisor').count();
+        assert.equal(advisorLinks,view.nineState.advisorEligible?1:0,'advisor CTA must appear exactly once when eligible');
         if(test.code==='M3'){
           const row=view.stores.find(s=>s.id===details.selectedStore);
           assert(row&&row.matchState==='near','missing near-capacity row');
@@ -137,6 +139,11 @@ async function run(){
         if(test.code==='M8b')assert(view.stores.some(s=>s.advisorEligible),'price-only advisor detection failed');
         if(test.code==='M4')assert(view.expandedSearch,'expanded scope flag missing');
         await capture(newPage,test.code+'-'+width+'.png');
+        if(test.code==='M8b'){
+          await ui.s01.locator('.s01-inline-advisor').click();
+          await ui.app.locator('#br04-frame').waitFor({state:'attached'});
+          assert.equal(await ui.app.locator('#s01-r2-frame').count(),0,'advisor action did not leave S01');
+        }
         records.push({width,height,state:test.code,flag:test.flag,stores:view.stores.length,selectedStore:details.selectedStore,matchedStates:[...new Set(view.stores.map(s=>s.matchState))],result:'PASS'});
         await newPage.close();
       }
