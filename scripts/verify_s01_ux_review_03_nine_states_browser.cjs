@@ -25,6 +25,8 @@ async function state(app,scenario,setup){
   return app.locator('#screen').evaluate(({scenario,setup})=>{
     const S=window.SIM_DEMO,F=window.SIM_FIXTURES;
     S.s01R2Bridge.clearFilters();
+    const known=F.scenarios.map(x=>x.id);
+    if(!known.includes(scenario))throw Error('Invalid scenario: '+JSON.stringify({scenario,setup,known}));
     S.core.setScenario(scenario);
     let store=null;
     if(setup==='near'){
