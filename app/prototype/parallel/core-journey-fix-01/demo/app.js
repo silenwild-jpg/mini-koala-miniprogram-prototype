@@ -17,7 +17,7 @@
   // RESTORE-03: clear retired persisted price filters without changing price-based sorting.
   if(visual.price!=='all'){visual.price='all';saveVisual();}
   if(visual.tab==='用户评价')visual.tab='可选仓位';
-  if(!F.distanceVerified&&visual.sort==='distance')visual.sort='recommended';
+  if(!F.distanceVerified&&!F.synthetic&&visual.sort==='distance')visual.sort='recommended';
   const categories=['全部','迷你仓','小型仓','中型仓','大型仓'];
   const category=u=>u.volume<=1.5?'迷你仓':u.volume<=5?'小型仓':u.volume<=10?'中型仓':'大型仓';
   const unitName=u=>u.name;
@@ -366,8 +366,16 @@
         return {all,exact,combo,near,status,rows:exact.length?exact.slice(0,2):near.slice(0,1)};
       };
       if(r2Filters.capacity!=='all')stores=stores.filter(s=>availableAt(s).length>0);
+      const adequate=stores.filter(s=>describeStore(s).exact.length>0||describeStore(s).combo);
+      const nearTotal=stores.filter(s=>describeStore(s).near.length>0).length;
+      const distanceUsable=!!(F.distanceVerified||F.synthetic);
+      const expandedSearch=need>0&&distanceUsable&&adequate.length>0&&adequate.every(s=>{
+        const km=Number.parseFloat(R2.distanceOf(s,F.distanceVerified));
+        return Number.isFinite(km)&&km>3;
+      });
+      const noAdequateMatch=need>0&&adequate.length===0;
       if(visual.sort==='recommended'){
-        const eligible=stores.filter(s=>describeStore(s).exact.length>0||describeStore(s).combo);
+        const eligible=adequate;
         const unavailable=stores.filter(s=>!eligible.includes(s));
         // Both ranking and displayed distance refer to the same current store IDs.
         const demoDistanceReady=F.synthetic===true&&eligible.every(s=>Number.isFinite(Number(s.distance))&&Number(s.distance)>=0);
@@ -388,6 +396,22 @@
         filterActive:[visual.sort!=='recommended',r2Filters.maxKm!==null,r2Filters.services.length>0],
         servicesSelected:[...r2Filters.services],maxKm:r2Filters.maxKm,quickSelected:[...r2Filters.quick],
         requirement:{capacity:r.capacity_m3,term:r.term_confirmed?r.term_months:null},
+        nineState:{
+          browsing:need===0,
+          exact:stores.some(s=>describeStore(s).exact.length>0&&need>0),
+          combination:stores.some(s=>!!describeStore(s).combo),
+          near:nearTotal>0,
+          expanded:expandedSearch,
+          noAdequateMatch,
+          incomplete:need>0&&!r.term_confirmed,
+          stockChanged:Number(state().inventoryVersion)>0,
+          advisorEligible:need>10||!!(r.term_confirmed&&stores.some(s=>{
+            const m=describeStore(s);
+            const ids=m.exact.length?[m.exact[0].id]:m.combo?.ids||[];
+            return ids.length&&core.amounts(ids,r.term_months).rent_total>2000;
+          }))
+        },
+        expandedSearch,noAdequateMatch,nearStoreCount:nearTotal,
         distanceFilterEnabled:!!(F.distanceVerified||F.synthetic),
         visibleStoreCount:listed.length,canLoadMore:stores.length>viewportLimit,
         stores:listed.map((s,index)=>{
@@ -395,12 +419,17 @@
           const realKm=F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
           const formal=core.authorized()&&r.term_confirmed;
           const highCapacity=need>10;
-          const highAmount=!!(formal&&match.exact.length&&core.formalAmounts([match.exact[0].id],r.term_months).rent_total>2000);
+          // Threshold detection is internal only: do not reveal a formal quote
+          // before phone verification, but still offer consultant help.
+          const advisoryIds=match.exact.length?[match.exact[0].id]:(match.combo?.ids||[]);
+          const highAmount=!!(r.term_confirmed&&advisoryIds.length&&core.amounts(advisoryIds,r.term_months).rent_total>2000);
           const matchHint=match.status==='combo'?'可组合选仓 · 2间合计'+match.combo.volume+'m³，请查看门店'
             :match.status==='near'?'容量略小，需查看门店确认其他方案'
             :match.status==='soldout'?'本店目前暂无可租仓位'
             :match.status==='none'?'本店没有满足当前容量的可租仓位'
-            :highCapacity||highAmount?'大容量或较高金额方案，可咨询顾问协助选仓':'';
+            :highCapacity||highAmount?'大容量或较高金额方案，可咨询顾问协助选仓'
+            :expandedSearch?'已扩大查找范围，以下展示全城可选门店'
+            :need>0&&!r.term_confirmed?'选择租期后可查看整期报价':'';
           const first=match.rows[0];
           const summary=match.status==='combo'?'可组合选仓 · '+match.combo.volume+'m³ · 查看门店 ›'
             :match.status==='near'?'容量略小 · '+first.volume+'m³ · 查看门店 ›'
@@ -411,6 +440,7 @@
             distance:realKm?Number(s.distance).toFixed(1)+'km':v.distance,
             distanceVerified:realKm,
             matchState:match.status,matchHint,compactSummary:summary,
+            advisorEligible:highCapacity||highAmount,expandedSearch,termPending:need>0&&!r.term_confirmed,inventoryChanged:Number(state().inventoryVersion)>0,
             units:match.rows.map(u=>{
               const canOrder=match.status==='exact'||match.status==='browse';
               const amount=formal?core.formalAmounts([u.id],r.term_months):null;
