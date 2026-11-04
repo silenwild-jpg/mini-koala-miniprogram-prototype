@@ -13,7 +13,7 @@ assert.match(html,/class="minor-unit s5-store-card"/);
 assert.doesNotMatch(html,/class="(?:fixed-buy|fixed-cta|bottom-buy|sticky-checkout)"/);
 assert.match(css,/\.s5-advisor\[hidden\]\{display:none!important\}/);
 assert.match(css,/data-advisor-visible="true"/);
-assert.ok(js.includes("dataset.designHeight='858'"),'compact empty/incomplete layout contract');
+assert.ok(js.includes('emptyEstoreTop+176'),'compact empty/incomplete layout contract');
 assert.ok(js.includes("sizes.reduce((a,b)=>a+b,0)"),'same-size store-card dynamic page height');
 assert.ok(js.includes("Number(item.volume)<Number(core.state().requirement.capacity_m3)"),'undersized alternative cannot directly order');
 assert.match(js,/\$\('s5-advisor-action'\)\.onclick=\(\)=>consult\('advisor'\)/);
