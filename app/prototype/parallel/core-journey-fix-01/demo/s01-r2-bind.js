@@ -26,7 +26,7 @@
         +'</div>';
     }else if(openIndex===1){
       const items=a.distanceFilterEnabled?[[0,'不限距离'],[1,'1km内'],[3,'3km内'],[5,'5km内'],[10,'10km内']]:[];
-      content='<p class="s01-panel-note">'+(a.distanceFilterEnabled?'距离范围仅用于当前内部演示数据':'当前缺少可核验的位置信息，不能按距离筛选')+'</p>'
+      content='<p class="s01-panel-note">'+(a.distanceFilterEnabled?'选择距离范围':'暂不可筛选距离')+'</p>'
         +(items.length?'<div class="s01-choice-list">'+items.map(([v,label])=>choice(label,v,(a.maxKm===null?v===0:Number(a.maxKm)===v),'data-radius')).join('')+'</div>':'');
     }else{
       content='<p class="s01-panel-note">可多选服务；确认后更新门店列表</p><div class="s01-choice-list">'
