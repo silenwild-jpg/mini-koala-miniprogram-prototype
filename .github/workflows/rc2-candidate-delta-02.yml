@@ -41,6 +41,8 @@ jobs:
           RC2_BUNDLE_BRANCH: isolate/rc2-candidate-delta-02-s5-native-20261105
           RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_CANDIDATE_DELTA_02.zip
         run: python3 scripts/build_rc2_isolated_demo.py
+      - name: S5 source-backed isolated 0/1/2-store price extreme and native flow
+        run: node scripts/verify_rc2_s5_delta_02a_price_and_flow.cjs
       - name: S5 seven-state 375/390 natural flow
         run: node scripts/verify_s5_ux_review_03_browser.cjs
       - name: S5 five-city source and two-store contract
@@ -61,6 +63,7 @@ jobs:
         with:
           name: rc2-candidate-delta-02-s5-private-evidence
           path: |
+            release-evidence/rc2-candidate-delta-02a/
             release-evidence/s5-ux-review-03/
             release-evidence/rc2-s5-final-01/
             release-evidence/s5-ux-close-01/
