@@ -120,6 +120,22 @@
       '<p class="s5-store-distance">'+esc(view.district||s.district||'')+(distance?' · '+distance:'')+'</p></div>'+
       '<div class="s5-unit-list">'+rows+'</div>';
   }
+  // Keep full price text visible within the allocated S5 price column.
+  // Ellipsis hides the actual amount and is forbidden on the purchase surface.
+  function fitS5VisiblePrices(){
+    document.querySelectorAll('.s5-store-card:not([hidden]) .s5-unit-price').forEach(node=>{
+      node.style.removeProperty('font-size');
+      const maxWidth=node.clientWidth;
+      let size=parseFloat(getComputedStyle(node).fontSize)||17;
+      while(node.scrollWidth>maxWidth+1&&size>10){
+        size=Math.max(10,size-.5);
+        node.style.fontSize=size+'px';
+      }
+      const fits=node.scrollWidth<=maxWidth+1;
+      node.dataset.priceFits=String(fits);
+      node.title=node.textContent.trim();
+    });
+  }
   let s5TermEditing=false;
   function renderS5(){
     const s=core.state(),r=s.requirement,selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
@@ -155,6 +171,7 @@
     document.querySelector('.no-match>p').textContent=matchState==='incomplete'?(r.capacity_m3?'请选择租期后查看仓位推荐。':'请先填写容量并确认租期。'):'可调整条件、查看更多门店或联系顾问。';
     const cards=$$('.s5-store-card');
     cards.forEach((el,i)=>{el.hidden=i>=offerRows.length;el.dataset.storeId=offerRows[i]?.store.id||'';if(offerRows[i])el.innerHTML=s5StoreCard(offerRows[i],i);else el.innerHTML='';});
+    fitS5VisiblePrices();
     // RC2-CANDIDATE-DELTA-02: native document flow handles one/two/zero store cards.
     // Avoid pixel offsets, transforms and persisted artboard heights.
     for(const node of [document.querySelector('.recommend-wrap'),document.querySelector('.more-units'),$('s5-advisor'),document.querySelector('.estore'),document.querySelector('.no-match')]){
