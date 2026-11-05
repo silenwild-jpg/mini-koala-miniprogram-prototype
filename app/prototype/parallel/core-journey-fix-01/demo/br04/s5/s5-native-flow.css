@@ -99,12 +99,17 @@ body[data-page="s5"] .s5-unit-row{
   gap:7px;min-height:99px;padding:9px 10px;
 }
 body[data-page="s5"] .s5-unit-thumb{width:60px;height:72px}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]){
+  grid-template-columns:56px minmax(0,1fr) 128px;
+}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-thumb{width:56px}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-terms{width:128px}
 body[data-page="s5"] .s5-unit-info{min-width:0}
 body[data-page="s5"] .s5-unit-terms{min-width:0;width:112px;max-width:100%}
 body[data-page="s5"] .s5-unit-price{
   display:block;max-width:100%;font-variant-numeric:tabular-nums;
   font-size:clamp(13px,4.1vw,17px);line-height:23px;
-  letter-spacing:-.35px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  letter-spacing:-.35px;white-space:nowrap;overflow:hidden;text-overflow:clip;
 }
 body[data-page="s5"] .s5-unit-price[data-price-length="long"]{font-size:14px;letter-spacing:-.5px}
 body[data-page="s5"] .s5-unit-price[data-price-length="extreme"]{font-size:12px;letter-spacing:-.65px}
