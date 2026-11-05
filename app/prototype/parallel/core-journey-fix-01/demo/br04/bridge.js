@@ -2,7 +2,7 @@
   'use strict';
   const page=document.body.dataset.page;
   const pageIds={s5:'S5',reserve:'BOOKING',quick:'QUICK',o01:'O01'};
-  const s5BenefitMarker=page==='s5'?document.querySelector('.benefits span')?.cloneNode(true):null;
+
   const B=parent.SIM_DEMO;
   const C=parent.SIM_CENTRAL_CONTRACT_V1;
   if(!B){location.replace('../../index.html?page='+pageIds[page]);return;}
@@ -43,14 +43,6 @@
   function fit(){
     if(page==='s5'){const board=$('artboard');for(const property of ['transform','width','height','min-height','margin-bottom'])board.style.removeProperty(property);}
     if(page==='reserve'){const v=$('screenViewport'),scale=v.clientWidth/366; $('artboard').style.transform=`scale(${scale})`;$('artboardHolder').style.height=976*scale+'px';}
-  }
-  function offerPrice(prefix,row){
-    const main=prefix==='main',p=presentation.price(row.ids),price=$(main?'main-price':'secondary-price');
-    price.dataset.private=String(p.kind!=='term');price.textContent=p.money;
-    text(main?'main-unit':'secondary-term',p.kind==='term'?p.suffix:'');
-    text(main?'main-monthly':'secondary-monthly',p.kind==='term'?p.average:p.termLabel);
-    if(main)document.querySelector('.major-label').textContent=p.caption;
-    price.tabIndex=0;price.setAttribute('role','button');price.setAttribute('aria-label',!core.authorized()?'验证手机号查看正式报价':p.kind!=='term'?'请选择租期':'查看费用明细');price.dataset.offer=prefix;
   }
   // S5-UX-REVIEW-02: one rendering contract for seven user-facing match states.
   // Search expansion is not inferred from an untrusted distance label.
