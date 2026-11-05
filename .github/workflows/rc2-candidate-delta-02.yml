@@ -1,11 +1,12 @@
 name: RC2-CANDIDATE-DELTA-02 S5 native 375 390 NO DEPLOY
 on:
-  push:
-    branches: [isolate/rc2-candidate-delta-02-s5-native-20261105]
   pull_request:
-    branches: [isolate/rc2-final-vis-delta-01-20261104]
-    types: [opened, synchronize, reopened]
+    branches: [isolate/rc2-final-vis-delta-01-20261104, isolate/rc2-candidate-delta-02-s5-native-20261105]
+    types: [ready_for_review]
   workflow_dispatch:
+concurrency:
+  group: rc2-candidate-delta-02-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -38,7 +39,7 @@ jobs:
       - name: Package exact isolated candidate
         env:
           RC2_BUNDLE_LABEL: RC2-CANDIDATE-DELTA-02-S5-NATIVE
-          RC2_BUNDLE_BRANCH: isolate/rc2-candidate-delta-02-s5-native-20261105
+          RC2_BUNDLE_BRANCH: ${{ github.head_ref || github.ref_name }}
           RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_CANDIDATE_DELTA_02.zip
         run: python3 scripts/build_rc2_isolated_demo.py
       - name: S5 source-backed isolated 0/1/2-store price extreme and native flow
