@@ -28,7 +28,7 @@ assert.match(bridge,/s5StoreCard\(row,rank\)/,'S5 single-source store cards');
 assert.match(bridge,/s5TermEditing/,'S5 rent term summary preserved');
 assert.match(bridge,/s5SharedUnit/,'S5 units still central-shared');
 const s5Markup=read('br04/s5/index.html'),s5Flow=read('br04/s5/s5-native-flow.css');
-assert.match(s5Markup,/s5-native-flow\\.css/,'RC2 S5 native stylesheet must be connected');
+assert.match(s5Markup,/s5-native-flow\.css/,'RC2 S5 native stylesheet must be connected');
 assert.doesNotMatch(s5Markup,/demand-object|data-design-height=/,'retired S5 decorative DOM or fixed design height');
 assert.match(s5Markup,/class="major-unit s5-store-card"/,'first RC2 dynamic store card must remain');
 assert.match(s5Markup,/class="minor-unit s5-store-card"/,'second RC2 dynamic store card must remain');
