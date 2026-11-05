@@ -87,7 +87,15 @@ function markup(spec){
           assert.notEqual(measure.noMatchDisplay,'none','empty state missing');
         }else assert(measure.cardRects.at(-1).bottom<=measure.estore.top+1,'E-storage overlaps store cards');
         await page.screenshot({path:path.join(artifact,spec.id+'-'+width+'.png'),fullPage:true});
-        results.push({width,height,scenario:spec.id,status:'PASS',measure});
+        const scrollReach=await page.evaluate(()=>{
+          const scroll=document.getElementById('app-viewport');
+          scroll.scrollTop=scroll.scrollHeight;
+          return {scrollTop:scroll.scrollTop,scrollHeight:scroll.scrollHeight,viewportHeight:innerHeight,
+            estoreBottom:document.querySelector('.estore').getBoundingClientRect().bottom};
+        });
+        assert(scrollReach.estoreBottom<=height+2,'E-storage inaccessible after scrolling');
+        await page.screenshot({path:path.join(artifact,spec.id+'-'+width+'-bottom.png'),fullPage:true});
+        results.push({width,height,scenario:spec.id,status:'PASS',measure,scrollReach});
         await page.close();
       }
       await context.close();
