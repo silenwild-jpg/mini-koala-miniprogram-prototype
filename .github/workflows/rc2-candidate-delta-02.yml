@@ -1,11 +1,12 @@
 name: RC2-CANDIDATE-DELTA-02 S5 native 375 390 NO DEPLOY
 on:
-  push:
-    branches: [isolate/rc2-candidate-delta-02-s5-native-20261105]
   pull_request:
     branches: [isolate/rc2-final-vis-delta-01-20261104]
-    types: [opened, synchronize, reopened]
+    types: [ready_for_review]
   workflow_dispatch:
+concurrency:
+  group: rc2-candidate-delta-02-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
