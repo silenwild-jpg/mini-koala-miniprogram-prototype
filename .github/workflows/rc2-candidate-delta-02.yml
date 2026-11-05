@@ -1,0 +1,77 @@
+name: RC2-CANDIDATE-DELTA-02 S5 native 375 390 NO DEPLOY
+on:
+  pull_request:
+    branches: [isolate/rc2-final-vis-delta-01-20261104, isolate/rc2-candidate-delta-02-s5-native-20261105]
+    types: [ready_for_review]
+  workflow_dispatch:
+concurrency:
+  group: rc2-candidate-delta-02-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  source-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Syntax and central source guard
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check scripts/verify_s5_ux_review_03_browser.cjs
+          node --check scripts/verify_rc2_final_vis_delta_01_browser.cjs
+          node scripts/verify_rc2_single_candidate_01_source.cjs
+          node scripts/verify_rc2_final_integration_01_contract.cjs
+      - name: Install browser and CJK font
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Package exact isolated candidate
+        env:
+          RC2_BUNDLE_LABEL: RC2-CANDIDATE-DELTA-02-S5-NATIVE
+          RC2_BUNDLE_BRANCH: ${{ github.head_ref || github.ref_name }}
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_CANDIDATE_DELTA_02.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: S5 source-backed isolated 0/1/2-store price extreme and native flow
+        run: node scripts/verify_rc2_s5_delta_02a_price_and_flow.cjs
+      - name: S5 seven-state 375/390 natural flow
+        run: node scripts/verify_s5_ux_review_03_browser.cjs
+      - name: S5 five-city source and two-store contract
+        run: |
+          node scripts/verify_s5_ux_close_01_browser.cjs
+          node scripts/verify_rc2_s5_final_01_browser.cjs
+      - name: H01/S01 copy and route regression
+        run: node scripts/verify_rc2_final_vis_delta_01_browser.cjs
+      - name: Full RC2 core visual pages and navigation
+        run: node scripts/verify_rc2_vis_integration_02_browser.cjs
+      - name: Central order authorization and lifecycle contracts
+        run: |
+          node scripts/verify_rc2_rule_fix_01d_browser.cjs
+          node scripts/verify_proto_rule_restore_06_browser.cjs
+      - name: Private QA evidence; do not deploy
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-candidate-delta-02-s5-private-evidence
+          path: |
+            release-evidence/rc2-candidate-delta-02a/
+            release-evidence/s5-ux-review-03/
+            release-evidence/rc2-s5-final-01/
+            release-evidence/s5-ux-close-01/
+            release-evidence/rc2-final-vis-delta-01/
+            release-evidence/rc2-vis-integration-02/
+            release-evidence/rc2-rule-fix-01d/
+            release-evidence/rule-restore-06/
+            release-evidence/rc2-merge-prep-10/build-summary.json
+          retention-days: 14
+          if-no-files-found: warn

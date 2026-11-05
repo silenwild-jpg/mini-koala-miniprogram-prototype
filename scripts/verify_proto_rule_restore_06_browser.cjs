@@ -36,7 +36,7 @@ async function verifyS01(app,width,tag){
    assert(visual.src.includes(width===375?'375':'390')&&visual.width>10,'H01 wrong approved-width hero source');
    for(const id of ['taskPhoto','navPhoto','belowImg'])assert(await app.locator('#'+id).evaluate(async el=>{try{await el.decode();return el.naturalWidth>0;}catch{return false;}}),'H01 visual source missing: '+id);
    assert.equal(await app.locator('.task-hotspots button[aria-label="找附近门店"]').count(),1);
-   assert.equal(await app.locator('.task-hotspots button[aria-label="估算大小"]').count(),1);
+   assert.equal(await app.locator('.task-hotspots button[aria-label="估大小算价格"]').count(),1);
    await page.screenshot({path:path.join(dir,'H01-runtime-'+width+'.png'),fullPage:true});
    await app.locator('.task-hotspots button[aria-label="找附近门店"]').click();
    let child=await verifyS01(app,width,'H01 button');

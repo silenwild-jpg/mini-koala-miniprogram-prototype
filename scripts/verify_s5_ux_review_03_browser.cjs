@@ -50,16 +50,16 @@ const cases=[
        const board=document.getElementById('artboard'),advisor=document.getElementById('s5-advisor');
        const visible=el=>!!el&&!el.hidden&&getComputedStyle(el).display!=='none';
        const rect=selector=>{const el=document.querySelector(selector);if(!el||getComputedStyle(el).display==='none')return null;const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};};
-       return {state:board.dataset.match,advisor:visible(advisor),advisorRect:rect('#s5-advisor'),estoreRect:rect('.estore'),moreRect:rect('.more-units'),boardHeight:Number(board.dataset.designHeight),bodyWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth,buyCount:document.querySelectorAll('#main-buy,#secondary-buy').length,hasFixedPurchase:!!document.querySelector('.fixed-buy,.fixed-cta,.bottom-buy,.sticky-checkout')};
+       return {state:board.dataset.match,advisor:visible(advisor),advisorRect:rect('#s5-advisor'),estoreRect:rect('.estore'),moreRect:rect('.more-units'),boardHeight:board.getBoundingClientRect().height,boardScrollHeight:board.scrollHeight,boardWidth:board.getBoundingClientRect().width,boardTransform:getComputedStyle(board).transform,bodyWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth,buyCount:document.querySelectorAll('#main-buy,#secondary-buy').length,hasFixedPurchase:!!document.querySelector('.fixed-buy,.fixed-cta,.bottom-buy,.sticky-checkout')};
      },tc);
      assert.equal(probe.state,tc.name,JSON.stringify(probe));
      assert.equal(probe.advisor,tc.expectedAdvisor,'advisor condition');
      assert.equal(probe.buyCount,tc.empty||tc.confirmed===false?0:1,'one recommendation has one primary store CTA');
      if(tc.name==='near')assert.equal(await s5.locator('#main-buy').innerText(),'查看门店','undersized alternative must not offer direct checkout');
      if(tc.name==='matched')assert.equal(await s5.locator('#main-buy').innerText(),'立即下单','valid offer retains purchase CTA');
-     if(['matched','near','expanded','combo','large'].includes(tc.name))assert(probe.boardHeight>850,'S01-store card must receive non-overlapping scroll height');
-     if(tc.name==='incomplete')assert.equal(probe.boardHeight,858,'unconfirmed-term empty state keeps selection controls');
-     if(tc.name==='none')assert.equal(probe.boardHeight,793,'no-match state should collapse');
+     if(['matched','near','expanded','combo','large'].includes(tc.name))assert(probe.boardHeight>720,'S5 native card must have measurable full scroll height');
+     if(tc.name==='incomplete')assert(probe.boardHeight>650,'unconfirmed-term native flow must retain controls');
+     if(tc.name==='none')assert(probe.boardHeight>600,'no-match state must include the reachable E-store');
      if(tc.name==='incomplete'){assert.equal((await s5.locator('.nm-kicker').innerText()).trim(),'请先确认租期');assert.match(await s5.locator('[data-nm="range"]').innerText(),/选择租期/);}
      if(tc.name==='incomplete'||tc.name==='none')assert.equal(await s5.locator('#artboard').getAttribute('data-count'),'0','hidden recommendation must not activate single-card layout');
      const termView=await s5.locator('body').evaluate(()=>{
@@ -76,12 +76,27 @@ const cases=[
        assert.equal(termView.choices,'none','duplicate term choices must be hidden');
      }
      assert.equal(probe.hasFixedPurchase,false,'fixed purchase should be absent');
+     assert.equal(probe.boardTransform,'none','S5 must not use 371px canvas transform');
+     assert(probe.boardWidth<=probe.viewportWidth+1,'S5 board must fit 375/390');
+     assert(probe.boardScrollHeight>=probe.boardHeight-2,'S5 must retain natural document height');
+     if(probe.estoreRect)assert(probe.estoreRect.bottom<=probe.boardHeight+2,'E-store must be inside natural artboard');
+     if(probe.moreRect&&probe.estoreRect)assert(probe.moreRect.bottom<=probe.estoreRect.top+2,'E-store must not overlap more-units');
      assert(probe.bodyWidth<=probe.viewportWidth+2,'S5 iframe horizontally overflows');
      if(probe.advisor){
        assert(probe.moreRect&&probe.advisorRect&&probe.estoreRect,'required layout rects missing');
        assert(probe.moreRect.bottom<=probe.advisorRect.top+2,'advisor overlaps more link');
        assert(probe.advisorRect.bottom<=probe.estoreRect.top+2,'advisor overlaps E-store');
      }
+     const priceProbe=await s5.locator('body').evaluate(()=>{
+       const card=document.querySelector('.s5-store-card:not([hidden])');
+       if(!card)return [];
+       return [...card.querySelectorAll('.s5-unit-price')].map(el=>({
+         nowrap:getComputedStyle(el).whiteSpace==='nowrap',
+         width:el.getBoundingClientRect().width,
+         parentWidth:el.parentElement.getBoundingClientRect().width
+       }));
+     });
+     assert(priceProbe.every(p=>p.nowrap&&p.width<=p.parentWidth+2),'S5 price must stay on one line without entering CTA');
      assert.equal(errors.length,0,'browser JS errors');
      assert.equal(bad.length,0,'missing assets');
      await page.screenshot({path:path.join(out,tc.name+'-'+width+'.png'),fullPage:true});
@@ -89,7 +104,7 @@ const cases=[
      await s5.locator('#artboard').screenshot({path:path.join(out,tc.name+'-'+width+'-artboard.png')});
      const scrollMetrics=await s5.locator('#app-viewport').evaluate(el=>{el.scrollTop=el.scrollHeight;return {clientHeight:el.clientHeight,scrollHeight:el.scrollHeight,scrollTop:el.scrollTop};});
      if(tc.expectedAdvisor)assert(scrollMetrics.scrollHeight>scrollMetrics.clientHeight,'advisor mode content must be scrollable');
-     if(tc.name==='none'||tc.name==='incomplete')assert(await s5.locator('.estore').evaluate(el=>el.getBoundingClientRect().bottom<=innerHeight+4),'empty or incomplete E-store must remain fully reachable');
+     if(tc.name==='none'||tc.name==='incomplete')assert(await s5.locator('.estore').evaluate(el=>el.getBoundingClientRect().bottom<=innerHeight+4),'empty or incomplete E-store must be reachable after scrolling');
      await page.waitForTimeout(120);
      await page.screenshot({path:path.join(out,tc.name+'-'+width+'-scrolled-bottom.png')});
      row.scrollMetrics=scrollMetrics;
