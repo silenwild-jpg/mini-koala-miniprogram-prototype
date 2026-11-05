@@ -27,6 +27,10 @@ const server=http.createServer((req,res)=>{
       const origin=base+'/prototype/parallel/core-journey-fix-01/demo/';
       await page.goto(origin+'home.html',{waitUntil:'load'});
       await page.locator('#taskPhoto').evaluate(img=>img.decode());
+      // Page ownership: the no-capacity estimate prompt belongs to S01, never H01.
+      assert.equal(await page.getByText('不确定用多大仓？',{exact:true}).count(),0,'S01 capacity prompt leaked into H01');
+      assert.equal(await page.getByText('立即估算',{exact:true}).count(),0,'S01 estimate CTA leaked into H01');
+      assert.equal(await page.locator('.s01-context,.s01-context-text,.s01-edit').count(),0,'S01 context section leaked into H01');
       const label=page.locator('.task-caption-correction');
       assert(await label.isVisible(),'Visible H01 label patch is missing');
       assert.equal((await label.innerText()).trim(),'估大小算价格');
