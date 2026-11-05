@@ -67,10 +67,10 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     for(const img of [hero,task,nav])assert(await img.evaluate(async el=>{try{await el.decode();return el.naturalWidth>0;}catch{return false;}}),'approved VIS-11J H01 image missing');
     assert((await hero.getAttribute('src')).includes(width===375?'375':'390'),'wrong H01 responsive visual asset');
     assert.equal(await app.locator('.task-hotspots button[aria-label="找附近门店"]').count(),1);
-    assert.equal(await app.locator('.task-hotspots button[aria-label="估算大小"]').count(),1);
+    assert.equal(await app.locator('.task-hotspots button[aria-label="估大小算价格"]').count(),1);
     assert.equal(await app.locator('.section-heading p,.section-heading button[data-action="全部门店 → S01"]').count(),0,'H01 latest approved subtitle/more entry must be removed');
     assert.equal((await app.locator('.section-heading h2').innerText()).trim(),'为您推荐','H01 current approved heading');
-    const capacityOverlay=await app.locator('.task-hotspots button[aria-label="估算大小"]').evaluate(el=>getComputedStyle(el,'::after').content);
+    const capacityOverlay=await app.locator('.task-hotspots button[aria-label="估大小算价格"]').evaluate(el=>getComputedStyle(el,'::after').content);
     assert(['none','normal'].includes(capacityOverlay),'H01 old approved capacity text still overprinted');
     await page.screenshot({path:path.join(dir,'h01-vis11j-final-runtime-'+width+'.png'),fullPage:true});
     const below=app.locator('#belowImg');
