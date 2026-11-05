@@ -1,0 +1,86 @@
+name: RC2-UAT-DEPLOY-GATE-01 pinned package only NO DEPLOY
+on:
+  push:
+    branches:
+      - ops/rc2-uat-package-gate-20261105
+permissions:
+  contents: read
+concurrency:
+  group: rc2-uat-package-gate-01
+  cancel-in-progress: true
+jobs:
+  build-pinned-rc2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout approved PR91 candidate exactly
+        uses: actions/checkout@v4
+        with:
+          ref: a04c9a5a8190eab2466d6e7b1d2b7dd5ee73dc5c
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Build exact PR91 isolated UAT package (never deploy)
+        env:
+          RC2_BUNDLE_LABEL: RC2-UAT-CANDIDATE-A04C9A5A-20261105
+          RC2_BUNDLE_BRANCH: isolate/rc2-candidate-delta-02-s5-native-20261105
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_UAT_a04c9a5a_20261105.zip
+        run: |
+          test "$(git rev-parse HEAD)" = "a04c9a5a8190eab2466d6e7b1d2b7dd5ee73dc5c"
+          python scripts/build_rc2_isolated_demo.py
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          import json,hashlib,subprocess
+          out=Path('release-evidence/rc2-merge-prep-10')
+          archive=out/'MiniKoala_RC2_UAT_a04c9a5a_20261105.zip'
+          sha='a04c9a5a8190eab2466d6e7b1d2b7dd5ee73dc5c'
+          tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()
+          assert tree=='201af9bba9354c63c9af7a6bbccf2b3e50861474'
+          metadata={
+            'package_type':'RC2-SOURCE-PINNED-UAT',
+            'source_commit':sha,
+            'source_tree':tree,
+            'source_pr':91,
+            'candidate_branch':'isolate/rc2-candidate-delta-02-s5-native-20261105',
+            'requires_ssoprotected_internal_site':True,
+            'visual_approval':'HOLD',
+            'human_uat':'NOT_RUN',
+            'main_merged':False,
+          }
+          payload=(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n').encode('utf-8')
+          with ZipFile(archive,'a',ZIP_DEFLATED,compresslevel=6) as z:
+            assert 'rc2-version.json' not in z.namelist()
+            z.writestr('rc2-version.json',payload)
+          with ZipFile(archive) as z:
+            names=set(z.namelist())
+            assert 'index.html' in names and 'central-review-02g.html' in names
+            assert 'prototype/parallel/core-journey-fix-01/demo/index.html' in names
+            assert json.loads(z.read('rc2-version.json'))['source_commit']==sha
+            assert z.testzip() is None
+          digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+          summary_path=out/'build-summary.json'
+          summary=json.loads(summary_path.read_text('utf-8'))
+          assert summary['commit']==sha and summary['main_merge_allowed'] is False
+          summary['archive_sha256']=digest
+          summary['files']+=1
+          summary['total_bytes']+=len(payload)
+          summary['uat_source_tree']=tree
+          summary['uat_version_manifest']='rc2-version.json'
+          summary_path.write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n','utf-8')
+          (out/'package.sha256').write_text(digest+'  '+archive.name+'\n','utf-8')
+          print('RC2_UAT_PACKAGE_READY',json.dumps({'source':sha,'tree':tree,'zip_sha256':digest,'zip_bytes':archive.stat().st_size,'files':len(names)},ensure_ascii=False))
+          PY
+      - name: Upload deployable ZIP and manifest for authorized manual SSO deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-UAT-PINNED-a04c9a5a-NO-DEPLOY
+          path: |
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_UAT_a04c9a5a_20261105.zip
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/package.sha256
+          retention-days: 7
+          if-no-files-found: error
