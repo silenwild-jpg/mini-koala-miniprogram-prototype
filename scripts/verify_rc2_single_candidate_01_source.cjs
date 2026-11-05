@@ -35,6 +35,10 @@ assert.match(s5Markup,/class="minor-unit s5-store-card"/,'second RC2 dynamic sto
 assert.match(s5Flow,/display:flex;flex-direction:column/,'S5 vertical natural flow expected');
 assert.match(s5Flow,/\.s5-unit-row/,'two-unit S5 card grid preserved');
 assert.doesNotMatch(bridge,/dataset\.designHeight|const recTop=/,'S5 fixed-position layout math retired');
+const s5BaseCss=read('br04/s5/style.css');
+assert.doesNotMatch(s5BaseCss,/demand-object|demand>p|major-photo|minor-photo|benefits|major-label/,'retired S5 old-card CSS must be physically removed');
+assert.doesNotMatch(s5BaseCss,/\#artboard\[data-count="1"\]|\#artboard\[data-match="none"\] \.estore/,'retired S5 fixed offsets must be physically removed');
+assert.doesNotMatch(bridge,/function offerPrice\(|s5BenefitMarker/,'retired S5 JS helpers must be physically removed');
 assert.match(bridge,/s5StoreUnitRows\[rank\]=units/,'S5 two-unit store model preserved');
 assert.match(bridge,/data-price-length/,'S5 price extreme responsive size flag');
 console.log('RC2_CANDIDATE_DELTA_02_SOURCE_CONTRACT_PASS: S5 native flow / two stores / shared units / no 371px scale');
