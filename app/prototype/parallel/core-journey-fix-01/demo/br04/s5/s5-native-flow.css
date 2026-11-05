@@ -48,6 +48,8 @@ body[data-page="s5"] .term-heading{
   padding:0;display:flex;align-items:center;gap:7px;
 }
 body[data-page="s5"] .term-heading h2{font-size:14px;line-height:22px}
+body[data-page="s5"] #artboard[data-term-compact="true"] .term-heading{top:auto;height:39px}
+body[data-page="s5"] #artboard[data-term-compact="true"] .term-heading h2{font-size:14px;line-height:22px}
 body[data-page="s5"] .term-heading .term-sub{display:none}
 body[data-page="s5"] .term-summary{right:2px;top:3px;height:36px}
 body[data-page="s5"] .term-summary strong{font-size:14px}
