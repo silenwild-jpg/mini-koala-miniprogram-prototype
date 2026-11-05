@@ -41,7 +41,7 @@
     sheet('其他匹配门店',note(message)+offers.map(r=>act('store',r.store.name+' · '+r.volume+'m³',r.store.id)).join('')+(!offers.length?note('当前城市暂无满足容量的方案。'):'')+act('booking','联系顾问 / 预约用仓'));
   }
   function fit(){
-    if(page==='s5'){const board=$('artboard');for(const property of ['transform','width','height','min-height','margin-bottom'])board.style.removeProperty(property);}
+    if(page==='s5'){const board=$('artboard');for(const property of ['transform','width','height','min-height','margin-bottom'])board.style.removeProperty(property);fitS5VisiblePrices();}
     if(page==='reserve'){const v=$('screenViewport'),scale=v.clientWidth/366; $('artboard').style.transform=`scale(${scale})`;$('artboardHolder').style.height=976*scale+'px';}
   }
   // S5-UX-REVIEW-02: one rendering contract for seven user-facing match states.
@@ -125,13 +125,12 @@
   function fitS5VisiblePrices(){
     document.querySelectorAll('.s5-store-card:not([hidden]) .s5-unit-price').forEach(node=>{
       node.style.removeProperty('font-size');
-      const maxWidth=node.clientWidth;
       let size=parseFloat(getComputedStyle(node).fontSize)||17;
-      while(node.scrollWidth>maxWidth+1&&size>10){
+      while(node.scrollWidth>node.clientWidth+1&&size>10){
         size=Math.max(10,size-.5);
         node.style.fontSize=size+'px';
       }
-      const fits=node.scrollWidth<=maxWidth+1;
+      const fits=node.scrollWidth<=node.clientWidth+1;
       node.dataset.priceFits=String(fits);
       node.title=node.textContent.trim();
     });
@@ -171,7 +170,6 @@
     document.querySelector('.no-match>p').textContent=matchState==='incomplete'?(r.capacity_m3?'请选择租期后查看仓位推荐。':'请先填写容量并确认租期。'):'可调整条件、查看更多门店或联系顾问。';
     const cards=$$('.s5-store-card');
     cards.forEach((el,i)=>{el.hidden=i>=offerRows.length;el.dataset.storeId=offerRows[i]?.store.id||'';if(offerRows[i])el.innerHTML=s5StoreCard(offerRows[i],i);else el.innerHTML='';});
-    fitS5VisiblePrices();
     // RC2-CANDIDATE-DELTA-02: native document flow handles one/two/zero store cards.
     // Avoid pixel offsets, transforms and persisted artboard heights.
     for(const node of [document.querySelector('.recommend-wrap'),document.querySelector('.more-units'),$('s5-advisor'),document.querySelector('.estore'),document.querySelector('.no-match')]){
