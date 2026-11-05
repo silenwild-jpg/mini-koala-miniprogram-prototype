@@ -41,6 +41,13 @@ const server=http.createServer((req,res)=>{
       assert(h01.top>h01.imgTop&&h01.top<h01.imgTop+imgHeight(width),'H01 label is outside fused image');
       assert(h01.maskBackground.includes('gradient'),'H01 old baked text not visually masked');
       assert.equal(h01.pointerEvents,'none','H01 label patch must not intercept click');
+      // Show the correction only for the fused hero; original reference and editable modes must not duplicate text.
+      await page.evaluate(()=>document.body.classList.add('ref-mode'));
+      assert.equal(await label.isVisible(),false,'H01 original reference must not be overpainted');
+      await page.evaluate(()=>document.body.classList.remove('ref-mode','fidelity-hero'));
+      assert.equal(await label.isVisible(),false,'H01 editable task text must not be duplicated');
+      await page.evaluate(()=>document.body.classList.add('fidelity-hero'));
+      assert(await label.isVisible(),'H01 fused hero must show corrected label');
       await page.screenshot({path:path.join(out,'H01-'+width+'-visible-task-correction.png'),fullPage:false});
       await page.locator('.task-hotspots button[aria-label="估大小算价格"]').click();
       await page.waitForURL(/\/cap\.html(?:[?#]|$)/, {timeout:13000});
