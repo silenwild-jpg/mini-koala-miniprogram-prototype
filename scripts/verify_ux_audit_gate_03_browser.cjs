@@ -39,6 +39,21 @@ const server=http.createServer((req,res)=>{
    assert.equal(previews.length,2,'two comparable stores');
    assert(previews.every(x=>x.visible===1),'known capacity: one matching preview per store: '+JSON.stringify(previews));
    await page.screenshot({path:path.join(out,'s01-known-'+width+'.png'),fullPage:false});
+   // Return from a genuine lower-ranked compact store without losing the S01 list position.
+   const compact=s01.locator('.s01-compact-store').last();
+   await compact.click();
+   await app.locator('#screen.page-S02').waitFor();
+   const savedTop=await app.locator('#screen').evaluate(()=>Number(sessionStorage.getItem('mk_s01_scroll_top_v1')||0));
+   assert(savedTop>0,'S01 must record a nonzero list scroll before leaving for S02');
+   await app.locator('.hero .back-button').click();
+   await app.locator('#screen.page-S01').waitFor();
+   s01=app.frameLocator('#s01-r2-frame');
+   await s01.locator('.s01-context').waitFor({state:'visible'});
+   await page.waitForTimeout(200); // two requestAnimationFrames restore the child frame scroll.
+   const restoredTop=await s01.locator('body').evaluate(()=>window.scrollY);
+   assert(restoredTop>0&&Math.abs(restoredTop-savedTop)<180,
+     'S01->S02->S01 should restore scroll '+JSON.stringify({savedTop,restoredTop}));
+   await page.screenshot({path:path.join(out,'s01-return-scroll-'+width+'.png'),fullPage:false});
 
    // Real S5 → S01 → S5 source recovery without prices or IDs in URL.
    await app.locator('#screen').evaluate(()=>window.SIM_DEMO.navigate('S5'));
