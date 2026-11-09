@@ -141,6 +141,10 @@
     const candidates=r.capacity_m3&&r.term_confirmed?(B.s5Offers?.(selectedArea)||B.offers()):[];
     offerRows=candidates.slice(0,2);s5StoreUnitRows=[];
     $('capacity').innerHTML=(r.capacity_m3??'—')+'<span>m³</span>';
+    const requiresCapacity=!(Number(r.capacity_m3)>0);
+    $('artboard').dataset.requiresCapacity=String(requiresCapacity);
+    document.querySelector('.term').hidden=requiresCapacity;
+    document.querySelector('[data-nm="capacity"]').hidden=requiresCapacity;
 
     text('origin-name',s.city+' · '+(selectedArea||'全城门店'));
     if(selectedArea)B.s5SetArea?.(selectedArea);
@@ -177,7 +181,7 @@
       for(const prop of ['top','height','margin-bottom'])node.style.removeProperty(prop);
     }
     $('artboard').removeAttribute('data-design-height');
-    document.querySelector('[data-nm="range"]').innerHTML=matchState==='incomplete'?'选择租期 <span>›</span>':'查看全城门店 <span>›</span>';
+    document.querySelector('[data-nm="range"]').innerHTML=matchState==='incomplete'?(requiresCapacity?'先确定容量 <span>›</span>':'选择租期 <span>›</span>'):'查看全城门店 <span>›</span>';
     fit();
   }
   function quickState(){const s=core.state();if(!ui.quick)ui.quick={storeId:null,ids:[]};if(ui.quick.storeId&&store(ui.quick.storeId)?.city!==s.city)ui.quick={storeId:null,ids:[]};return ui.quick;}
@@ -283,7 +287,7 @@
     };
     $('s5-advisor-action').onclick=()=>consult('advisor');
     $('see-more').onclick=()=>B.navigate('S01');$('open-estore').onclick=()=>sheet('考拉E存',note('上门取送服务的适用范围及方案由顾问确认；此处仍为候选服务入口。')+act('estoreBooking','联系顾问','',true));
-    $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else if(a==='range'&&$('artboard').dataset.match==='incomplete')moreTerms();else B.navigate('S01');});
+    $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else if(a==='range'&&$('artboard').dataset.match==='incomplete'){if($('artboard').dataset.requiresCapacity==='true')B.editRequirement();else moreTerms();}else B.navigate('S01');});
   }
   if(page==='quick'){
     $('back-button').onclick=()=>B.navigate('S01');$('menu-button').onclick=()=>toast('内部演示导航');$('more-terms').onclick=moreTerms;

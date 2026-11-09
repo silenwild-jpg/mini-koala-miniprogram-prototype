@@ -32,14 +32,13 @@ button{cursor:pointer}
 .bars{width:16px;height:13px}.wifi{width:15px;height:13px}.battery{width:23px;height:12px}
 .navbar{position:relative;height:46px;display:flex;align-items:center;justify-content:center}
 .navbar h1{margin:0;font-size:17px;font-weight:750;letter-spacing:0;color:#172522;line-height:22px}
-.nav-back,.nav-target{position:absolute;top:1px;display:block;height:44px;cursor:pointer}
-.nav-back{left:8px;width:44px}.nav-back svg{position:absolute;left:11px;top:12px;width:19px;height:19px}
+.nav-target{position:absolute;top:1px;display:block;height:44px;cursor:pointer}
 .nav-more{position:absolute;right:54px;top:2px;width:42px;height:42px;padding:0;border:0;
   background:radial-gradient(circle at 13px 20px,#20332c 1.55px,transparent 2px),
     radial-gradient(circle at 21px 20px,#20332c 1.55px,transparent 2px),
     radial-gradient(circle at 29px 20px,#20332c 1.55px,transparent 2px)}
 .nav-target{right:8px;width:43px}.nav-target svg{position:absolute;right:13px;top:13px;width:19px;height:19px}
-.nav-back:focus-visible,.nav-target:focus-visible,.nav-more:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.nav-target:focus-visible,.nav-more:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .searchbar{height:55px;display:flex;align-items:center;gap:11px;padding:0 16px}
 .s01-city{height:40px;flex:0 0 66px;border:0;padding:0;background:#fff;
   text-align:left;color:#123c30;font-size:14px;font-weight:700;
@@ -56,6 +55,7 @@ button{cursor:pointer}
 .s01-context-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .s01-edit{height:38px;flex:0 0 auto;border:0;padding:0 1px;background:transparent;
   color:#10845e;font-weight:700;font-size:12px}
+.s01-return-recommend{border:0;background:transparent;color:#0a7655;font-size:12px;font-weight:700;min-height:38px;white-space:nowrap}
 .filters{height:49px;padding:0 16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   align-items:center;text-align:center;border-bottom:1px solid #f2f4f3}
 .filter{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;
@@ -227,7 +227,6 @@ button{cursor:pointer}
         </div>
       </div>
       <header class="navbar">
-        <span class="nav-back" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 4L7 12l8 8" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <h1>附近门店</h1>
         <button type="button" class="nav-more" aria-label="搜索门店" title="搜索门店"></button>
         <span class="nav-target" aria-hidden="true"><svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="8.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="11" cy="11" r="3" fill="currentColor"/><path d="M11 1v4M11 17v4M1 11h4M17 11h4" stroke="currentColor" stroke-width="1.4"/></svg></span>
@@ -236,7 +235,7 @@ button{cursor:pointer}
         <button class="s01-city" type="button" aria-label="切换城市">北京 ▾</button>
         <label class="search-pill"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.7"/><path d="m12.7 12.7 5 5"/></svg><input id="s01-search" type="search" inputmode="search" autocomplete="off" maxlength="60" aria-label="搜索门店、区域或地址" placeholder="搜索门店、区域或地址"></label>
       </div>
-      <div class="s01-context" aria-label="当前用仓需求"><span class="s01-context-text">不确定用多大仓？</span><button class="s01-edit" type="button">立即估算</button></div>
+      <div class="s01-context" aria-label="当前用仓需求"><span class="s01-context-text">不确定用多大仓？</span><button class="s01-edit" type="button">立即估算</button><button class="s01-return-recommend" type="button" hidden>返回推荐 ›</button></div>
       <section class="filters" aria-label="门店排序及筛选">
         <div class="filter">排序 <span class="chevron"></span></div>
         <div class="filter">距离 <span class="chevron"></span></div>
