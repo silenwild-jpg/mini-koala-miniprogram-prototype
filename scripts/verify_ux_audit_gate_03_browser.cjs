@@ -70,6 +70,7 @@ const server=http.createServer((req,res)=>{
      assert.equal(await app.locator('.bottom-nav').count(),0,sub+' is a task, not a primary tab');
    }
    result.push({width,stage:'navigation-and-s01-known',status:'PASS',previews});
+   assert.deepEqual(errors,[],'no JS page exceptions in primary navigation');
    await ctx.close();
 
    // Capacity unknown: S5 must lead with capacity, not a rent term selector.
@@ -105,7 +106,6 @@ const server=http.createServer((req,res)=>{
    result.push({width,stage:'s5-missing-term',status:'PASS'});
    await termCtx.close();
   }
-  assert.deepEqual(errors,[],'no JS page exceptions');
   fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({status:'PASS',source:'NEW_GIT_HEAD_ONLY',cases:result,main_merged:false,live_wechat_tested:false},null,2));
   console.log('UX_AUDIT_GATE_03_BROWSER_PASS '+JSON.stringify(result));
  }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
