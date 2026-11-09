@@ -92,6 +92,15 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     const state=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state());
     assert.equal(state.orders.length,1);assert.equal(state.orders[0].status,'paid_simulated');assert.equal(state.services[state.orders[0].id].deposit,'held');
     await app.locator('.mk-order-summary').waitFor();
+    assert.equal(await app.locator('.bottom-nav').count(),0,'O03 order details must not render primary tab bar');
+    // Verify task navigation only after an actual order is created and paid in this journey.
+    for(const sub of ['OH01','RN01','EX01','DP01','IV01']){
+      await app.locator('#screen').evaluate(name=>window.SIM_DEMO.navigate(name),sub);
+      await app.locator('#screen.page-'+sub).waitFor();
+      assert.equal(await app.locator('.bottom-nav').count(),0,sub+' aftercare is not a primary tab');
+      await app.locator('#screen').evaluate(()=>window.SIM_DEMO.navigate('O03'));
+      await app.locator('#screen.page-O03').waitFor();
+    }
     assert.equal(await app.locator('.mk-order-badge').first().innerText(),'已支付');
     assert.equal(await app.locator('.mk-order-action').count(),4);
     await page.screenshot({path:path.join(dir,'o03-customer-success-'+width+'.png'),fullPage:true});
