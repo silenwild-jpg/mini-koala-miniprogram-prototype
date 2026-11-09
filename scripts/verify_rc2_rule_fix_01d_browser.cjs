@@ -95,7 +95,7 @@ async function layout(app,width){const info=await app.locator('#screen').evaluat
     assert.equal(await app.locator('.bottom-nav').count(),0,'O03 order details must not render primary tab bar');
     // Verify task navigation only after an actual order is created and paid in this journey.
     for(const sub of ['OH01','RN01','EX01','DP01','IV01']){
-      const probe=await app.locator('#screen').evaluate(name=>{
+      const probe=await app.locator('#screen').evaluate((_,name)=>{
         try{window.SIM_DEMO.navigate(name);return {error:null,cls:document.querySelector('#screen')?.className,href:location.href};}
         catch(e){return {error:String(e.stack||e),cls:document.querySelector('#screen')?.className,href:location.href};}
       },sub);
