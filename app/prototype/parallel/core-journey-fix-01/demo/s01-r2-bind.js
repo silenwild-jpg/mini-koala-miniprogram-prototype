@@ -181,6 +181,8 @@
     if(query&&document.activeElement!==query)query.value=state.keyword||'';
     setText(document.querySelector('.s01-context-text'),state.requirement.capacity===null?'不确定用多大仓？':'已选需求：'+state.requirement.capacity+'m³ · '+(state.requirement.term?state.requirement.term+'个月':'租期待选'));
     setText(document.querySelector('.s01-edit'),state.requirement.capacity===null?'立即估算':'修改需求');
+    const contextualReturn=document.querySelector('.s01-return-recommend');
+    if(contextualReturn)contextualReturn.hidden=!state.canReturnToS5;
     setText(document.querySelector('.s01-result-summary'),'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
     const more=document.querySelector('#s01-more');more.hidden=!state.canLoadMore;
     document.querySelectorAll('[data-quick]').forEach(b=>b.setAttribute('aria-pressed',String(state.quickSelected.includes(b.dataset.quick))));
@@ -200,7 +202,7 @@
     const order=e.target.closest('.order');
     if(order){e.preventDefault();if(order.getAttribute('aria-disabled')!=='true')bridge.action('choose',order.dataset.unitId);}
   });
-  document.querySelector('.nav-back')?.addEventListener('click',()=>bridge.action('home'));
+  document.querySelector('.s01-return-recommend')?.addEventListener('click',()=>bridge.action('returnRecommend'));
   document.querySelector('.nav-target')?.addEventListener('click',()=>bridge.action('city'));
   document.querySelector('.nav-more')?.addEventListener('click',()=>bridge.action('searchModal'));
   document.querySelectorAll('.filter').forEach((n,i)=>{
@@ -209,10 +211,13 @@
     n.addEventListener('click',action);
     n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action();}});
   });
-  for(const [selector,label] of [['.nav-back','返回首页'],['.nav-target','切换城市'],['.nav-more','搜索门店']]){
+  for(const [selector,label] of [['.nav-target','切换城市'],['.nav-more','搜索门店']]){
     const n=document.querySelector(selector);n.removeAttribute('aria-hidden');
     n.setAttribute('role','button');n.setAttribute('aria-label',label);n.tabIndex=0;
     n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();n.click();}});
   }
   window.S01_R2_REFRESH=()=>{render();if(openIndex>=0)renderPanel();};render();
+  // Re-entering a top-level tab from S02 keeps the user's list position.
+  const lastScroll=Number(sessionStorage.getItem('mk_s01_scroll_top_v1'))||0;
+  if(lastScroll>0)requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,lastScroll)));
 })();
