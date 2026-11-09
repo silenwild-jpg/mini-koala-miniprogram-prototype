@@ -137,6 +137,8 @@ body[data-page="s5"] #artboard > .no-match{
 }
 body[data-page="s5"] #artboard[data-match="none"] > .recommend-wrap,
 body[data-page="s5"] #artboard[data-match="none"] > .more-units,
+body[data-page="s5"] #artboard[data-requires-capacity="true"] > .term{display:none!important}
+body[data-page="s5"] #artboard[data-requires-capacity="true"] [data-nm="capacity"]{display:none!important}
 body[data-page="s5"] #artboard[data-match="incomplete"] > .recommend-wrap,
 body[data-page="s5"] #artboard[data-match="incomplete"] > .more-units,
 body[data-page="s5"] #artboard[data-match="large"][data-count="0"] > .recommend-wrap,
