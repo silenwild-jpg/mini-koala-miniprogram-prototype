@@ -28,6 +28,7 @@ jobs:
           node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
           node --check scripts/verify_s5_ux_review_03_browser.cjs
           node --check scripts/verify_rc2_final_vis_delta_01_browser.cjs
+          node --check scripts/verify_ux_audit_gate_03_browser.cjs
           node scripts/verify_rc2_single_candidate_01_source.cjs
           node scripts/verify_rc2_final_integration_01_contract.cjs
       - name: Install browser and CJK font
@@ -52,6 +53,8 @@ jobs:
           node scripts/verify_rc2_s5_final_01_browser.cjs
       - name: H01/S01 copy and route regression
         run: node scripts/verify_rc2_final_vis_delta_01_browser.cjs
+      - name: UX-AUDIT-GATE-03 navigation and capacity-first 375/390
+        run: node scripts/verify_ux_audit_gate_03_browser.cjs
       - name: Full RC2 core visual pages and navigation
         run: node scripts/verify_rc2_vis_integration_02_browser.cjs
       - name: Central order authorization and lifecycle contracts
@@ -70,6 +73,7 @@ jobs:
             release-evidence/s5-ux-close-01/
             release-evidence/rc2-final-vis-delta-01/
             release-evidence/rc2-vis-integration-02/
+            release-evidence/ux-audit-gate-03/
             release-evidence/rc2-rule-fix-01d/
             release-evidence/rule-restore-06/
             release-evidence/rc2-merge-prep-10/build-summary.json
