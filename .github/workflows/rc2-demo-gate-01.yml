@@ -1,0 +1,52 @@
+name: RC2-DEMO-GATE-01 375-390 independent design evidence NO DEPLOY
+on:
+  push:
+    branches: [audit/rc2-uat-user-01-20261110]
+    paths:
+      - .github/workflows/rc2-demo-gate-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-demo-gate-01
+  cancel-in-progress: true
+jobs:
+  isolated-visual-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13' }
+      - name: Pin exact shipped app code and syntax checks
+        run: |
+          set -eux
+          test "$(git rev-parse HEAD:app)" = 6f96d6dc95c0669aa571e260ff18d0ca097cc3cf
+          node --check scripts/capture_rc2_demo_gate_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Generate isolated RC2 bundle (no deploy)
+        env:
+          RC2_BUNDLE_LABEL: RC2-DEMO-GATE-01-INSPECTION
+          RC2_BUNDLE_BRANCH: audit/rc2-uat-user-01-20261110
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_DEMO_GATE_01.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install browser and Chinese font for consistent snapshots
+        run: |
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Capture 375/390 H01 S01 S02 S5 CAP QUICK BOOKING and guarded order
+        run: node scripts/capture_rc2_demo_gate_01.cjs
+      - name: Upload independent screenshots and geometry/copy records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-demo-gate-01-visual-evidence
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            release-evidence/rc2-demo-gate-01/
+            release-evidence/rc2-merge-prep-10/build-summary.json
