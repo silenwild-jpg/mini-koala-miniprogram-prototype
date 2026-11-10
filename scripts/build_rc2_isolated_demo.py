@@ -119,6 +119,26 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
 <a href="central-review-02g.html?catalog=mk&page=S01&s01_r2=1">MK 门店目录 · S01</a>
 </div><small>O01 确认订单需经页面内选仓与手机号验证进入。模拟支付、续租及退租均不产生真实交易。本包请仅在受控内网或本地浏览器中使用；文件本身不提供访问控制。</small>
 </main></body></html>"""
+    commit = git("rev-parse", "HEAD")
+    # Publicly inspectable identity in the package (not evidence that a deployment occurred).
+    uat_identity = {
+        "project": "mini-koala-rc2",
+        "stage": "RC2-UAT-ACCESS-01",
+        "source_sha": commit,
+        "source_branch": os.environ.get("RC2_BUNDLE_BRANCH", "integration/rc2-rebaseline-01-20261110"),
+        "source_pr": 96,
+        "bundle_label": LABEL,
+        "review_entry": "/central-review-02g.html?catalog=sim&page=H01",
+        "verification": "CHECK_DEPLOYED_SHA_EQUALS_GITHUB_PR_HEAD",
+        "release_status": "ISOLATED_REVIEW_NOT_MAIN",
+        "human_uat_signed_off": False,
+        "backend_crm_wechat_verified": False,
+    }
+    (SITE / "rc2-uat-version.json").write_text(json.dumps(uat_identity, ensure_ascii=False, indent=2) + "\\n", "utf-8")
+    landing = landing.replace(
+        "<div class=\\"links\\">",
+        '<p class="uat-version-stamp">评审版本：' + commit[:12] + ' · PR #96</p><div class="links">'
+    )
     (SITE / "index.html").write_text(landing, "utf-8")
     (SITE / "robots.txt").write_text("User-agent: *\nDisallow: /\n", "utf-8")
     # Retired U01 links must never create an order or trust stale store/unit IDs.
@@ -141,6 +161,8 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
     commit = git("rev-parse", "HEAD")
     summary = {
         "version": LABEL,
+        "uat_identity_path": "rc2-uat-version.json",
+        "uat_source_sha": commit,
         "commit": commit,
         "candidate_branch": os.environ.get("RC2_BUNDLE_BRANCH", "isolate/rc2-merge-prep-10-order-review-hifi-gate-20261102"),
         "base_pr": 46,
