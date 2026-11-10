@@ -134,9 +134,9 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
         "human_uat_signed_off": False,
         "backend_crm_wechat_verified": False,
     }
-    (SITE / "rc2-uat-version.json").write_text(json.dumps(uat_identity, ensure_ascii=False, indent=2) + "\\n", "utf-8")
+    (SITE / "rc2-uat-version.json").write_text(json.dumps(uat_identity, ensure_ascii=False, indent=2) + "\n", "utf-8")
     landing = landing.replace(
-        "<div class=\\"links\\">",
+        '<div class="links">',
         '<p class="uat-version-stamp">评审版本：' + commit[:12] + ' · PR #96</p><div class="links">'
     )
     (SITE / "index.html").write_text(landing, "utf-8")
