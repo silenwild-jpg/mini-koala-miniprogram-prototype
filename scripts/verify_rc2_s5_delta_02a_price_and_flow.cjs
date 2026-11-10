@@ -81,7 +81,7 @@ function markup(spec){
         assert(measure.board.width<=width+1,'artboard escapes viewport');
         assert.equal(measure.cardRects.length,spec.stores,'incorrect store count');
         for(let i=1;i<measure.cardRects.length;i++)assert(measure.cardRects[i-1].bottom<=measure.cardRects[i].top+1,'card overlap');
-        assert(measure.prices.every(p=>p.full&&p.actual<=p.available+1&&p.nowrap&&!p.ellipsis),'amount clipped or wrapped');
+        assert(measure.prices.every(p=>p.full&&p.actual<=p.available+1&&p.nowrap&&!p.ellipsis&&parseFloat(p.fontSize)>=14),'amount clipped, wrapped or below 14px readable minimum: '+JSON.stringify(measure.prices));
         if(spec.stores===0){
           assert.equal(measure.moreDisplay,'none','empty state shows more units');
           assert.notEqual(measure.noMatchDisplay,'none','empty state missing');
