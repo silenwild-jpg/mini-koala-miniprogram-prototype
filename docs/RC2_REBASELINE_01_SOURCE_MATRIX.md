@@ -64,4 +64,4 @@
 - `G4 UAT`：可访问同SHA评审站，非研发用户实际任务回放（下一轮）。
 - `G5 MERGE`：审查来源与风险后人工裁定，允许时才进入 main。
 
-**当前：SOURCE 建立中；BUSINESS/UX/TECH/UAT/MAIN 全 HOLD。**
+**最新：SOURCE 已建立；BUSINESS 局部源码完成、隔离 V8 单元 13/13 PASS；完整 GitHub Actions、375/390、真实企业订单与 CRM、UAT 和 MAIN 仍 HOLD。详见 `RC2_BUSINESS_REBUILD_01_IMPLEMENTATION_20261110.md`。
