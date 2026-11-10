@@ -194,11 +194,12 @@
     if(chosen)image('.unit-row>img',r3Thumb(rows[0].volume),'仓位空间示意');
     document.querySelector('.badges').innerHTML=chosen?'<span>'+(rows.length>1?rows.length+'项组合':F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span><span>空间示意</span>':'<span>请主动选择可用仓位</span>';
     $$('[data-term]').forEach(el=>el.setAttribute('aria-pressed',String(s.requirement.term_confirmed&&Number(el.dataset.term)===s.requirement.term_months)));
-    const allowed=core.authorized()&&s.requirement.term_confirmed&&valid,amount=allowed?amounts(q.ids):null;
-    text('unit-price',!chosen?'—':!valid?'当前不可用':!core.authorized()||!s.requirement.term_confirmed?money(rows.reduce((n,u)=>n+u.base_month,0))+'/月起':money(amount.rent_total));
-    $('unit-price').dataset.private=String(!allowed);text('price-term',allowed?'/ '+s.requirement.term_months+'个月':'');text('monthly-note',allowed?'月均约'+money(amount.monthly_average):'');
+    const computed=valid&&s.requirement.term_confirmed?core.amounts(q.ids,s.requirement.term_months):null;
+    const allowed=core.authorized()&&!!computed,amount=computed;
+    text('unit-price',!chosen?'—':!valid?'当前不可用':!computed?money(rows.reduce((n,u)=>n+u.base_month,0))+'/月起':money(computed.rent_total));
+    $('unit-price').dataset.private=String(!allowed);text('price-term',computed?'/ '+s.requirement.term_months+'个月':'');text('monthly-note',computed?'月均约'+money(computed.monthly_average):'');
     document.querySelector('.estimate-heading').textContent='预计整期租金';
-    text('estimate-amount',amount?money(amount.rent_total):!chosen?'选择仓位后显示':!core.authorized()?'授权查看报价':'请选择租期');$('estimate-amount').dataset.private=String(!allowed);text('estimate-months',allowed?'/ '+s.requirement.term_months+'个月':'');text('estimate-monthly',allowed?'月均约'+money(amount.monthly_average):'');
+    text('estimate-amount',amount?money(amount.rent_total):!chosen?'选择仓位后显示':!valid?'当前不可用':'请选择租期');$('estimate-amount').dataset.private=String(!allowed);text('estimate-months',computed?'/ '+s.requirement.term_months+'个月':'');text('estimate-monthly',computed?'月均约'+money(computed.monthly_average):'');
     $('start-date').min=core.today();$('start-date').value=s.startDate||'';text('date-label',s.startDate||'请选择用仓日期');save();
   }
   function chooseStore(){const s=core.state();sheet('更换门店',F.stores.filter(x=>x.city===s.city&&x.status==='open').map(st=>act('quickStore',st.name+' · '+st.address,st.id)).join('')||note('暂无可展示门店，可切换城市或联系顾问。'));}
