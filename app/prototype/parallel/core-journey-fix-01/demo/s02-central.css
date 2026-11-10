@@ -21,7 +21,7 @@
 .page-S02 .unit-card-inner{min-width:0}
 .page-S02 .unit-bottom{gap:5px}
 .page-S02 .unit-price{min-width:0}
-.page-S02 .order-button{min-height:36px}
+.page-S02 .order-button{min-height:44px}
 .page-S02 .combo-row .scenario{color:#57776b;font-weight:600}
 .page-S02 .s02-main-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:0;margin:0 10px;border-bottom:1px solid #e8ede9;height:45px}
 .page-S02 .s02-main-tabs button{width:100%;min-width:0;height:45px;border:0;border-bottom:2px solid transparent;background:transparent;padding:5px 2px;text-align:center;color:#6e7a71;font-size:13px;font-weight:550}
