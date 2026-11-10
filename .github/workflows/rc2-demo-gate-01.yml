@@ -51,4 +51,5 @@ jobs:
             release-evidence/rc2-demo-gate-01/
             release-evidence/rc2-merge-prep-10/build-summary.json
 
-# R2: H01 and CAP use a different mounted DOM contract than #screen.
+
+# R3: check embedded frames + actual rendered screenshot bytes for H01/CAP.
