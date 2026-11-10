@@ -11,6 +11,7 @@ const {create}=require(base+'demo-core.js');
 const P=require(base+'presentation-policy.js');
 const R=require(base+'recommendation-policy.js');
 const Home=require(base+'home-recommend-policy.js');
+const Central=require(base+'central-contract.js');
 const precision=n=>Math.round((n+Number.EPSILON)*100)/100;
 const test=(name,fn)=>{fn();console.log('PASS',name);};
 const available=F.units.filter(u=>u.status==='available');
@@ -131,6 +132,31 @@ test('Enterprise lead uses the same pricing and stock state (lead-only scope)',(
   assert.equal(lead.customer_type,'enterprise');
   assert.deepEqual(core.amounts([a.id],6),before);
   assert.equal(core.stockCount(a),stockBefore);
+});
+
+test('O01 central same-cents quote → combination snapshot → payment failure release',()=>{
+  const c=create();
+  const rows=F.units.filter(u=>u.status==='available'&&u.store_id===a.store_id);
+  assert(rows.length,'Needs an available store');
+  c.setRequirement(a.volume,12,true);
+  c.setStore(a.store_id);
+  c.setDate(c.today());
+  c.requestPhone();
+  c.resolvePhone('success',{phone:'13800138000'});
+  c.select([a.id]);
+  c.claimCoupons();
+  c.setCoupon('CPN-002');
+  const quote=c.quote();
+  const signed=Central.quote(c,quote);
+  const order=c.submit();
+  const certified=Central.order(c,order,signed);
+  assert.equal(certified.order_id,order.id);
+  assert.equal(order.rent_total,c.amounts([a.id],12).rent_total);
+  assert.equal(order.deposit,order.monthly_average);
+  assert.equal(order.moving_benefit_pending_id,'CPN-003');
+  const failed=c.pay(order.id,'failed');
+  assert.equal(failed.status,'payment_failed');
+  assert.equal(c.available(a),true);
 });
 
 console.log('RC2 business unit contracts complete. No browser/WeChat/CRM verification implied.');
