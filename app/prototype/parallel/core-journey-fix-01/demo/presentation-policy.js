@@ -6,10 +6,11 @@
     function price(ids){
       if(!Array.isArray(ids)||!ids.length||new Set(ids).size!==ids.length)throw Error('INVALID_PRESENTATION_IDS');
       const rows=ids.map(id=>fixture.units.find(u=>u.id===id));if(rows.some(x=>!x))throw Error('UNKNOWN_PRESENTATION_UNIT');
-      const s=core.state(),r=s.requirement,formal=core.authorized()&&r.term_confirmed;
-      const amount=formal?core.formalAmounts(ids,r.term_months):null;
+      const s=core.state(),r=s.requirement,termVisible=r.term_confirmed===true;
+      // The computed term price is visible before phone verification; only core.quote() issues binding quotes.
+      const amount=termVisible?core.amounts(ids,r.term_months):null;
       const value=amount?amount.rent_total:rows.reduce((sum,u)=>sum+(s.prices[u.id]||u.base_month),0);
-      return {kind:formal?'term':'reference',value,money:money(value),months:formal?r.term_months:null,caption:formal?'整期租金':'月租',suffix:formal?'/ '+r.term_months+'个月':'/月起',termLabel:formal?r.term_months+'个月整期':'/月起',average:amount?'月均约 '+money(amount.monthly_average):'',amounts:amount};
+      return {kind:termVisible?'term':'reference',value,money:money(value),months:termVisible?r.term_months:null,caption:termVisible?'整期租金':'月租',suffix:termVisible?'/ '+r.term_months+'个月':'/月起',termLabel:termVisible?r.term_months+'个月整期':'/月起',average:amount?'月均约 '+money(amount.monthly_average):'',amounts:amount};
     }
     function facts(ids){
       if(ids.length===1){const u=fixture.units.find(x=>x.id===ids[0]);if(u)return unitPolicy.facts(u);}
