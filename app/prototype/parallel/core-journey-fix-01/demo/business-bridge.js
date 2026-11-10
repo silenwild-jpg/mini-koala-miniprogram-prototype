@@ -46,7 +46,7 @@
   $('typeChips').onclick=e=>{const b=e.target.closest('[data-type]');if(!b)return;const v=b.dataset.type;form.types=form.types.includes(v)?form.types.filter(x=>x!==v):[...form.types,v];refresh();};
   $('moveChips').onclick=e=>{const b=e.target.closest('[data-move]');if(b){form.move=b.dataset.move;refresh();}};
   for(const [id,key] of Object.entries(fields))$(id).oninput=e=>{form[key]=e.target.value;persist();};
-  $('expectedDate').min=core.fixture.demoToday;
+  $('expectedDate').min=core.today();
   $('estimate').setAttribute('role','button');$('estimate').tabIndex=0;
   $('estimate').onclick=()=>{persist();sessionStorage.setItem('mk_estimate_return_v4','business.html');location.href='cap.html';};
   $('estimate').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('estimate').click();}};
