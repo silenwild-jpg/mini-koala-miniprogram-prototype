@@ -129,7 +129,14 @@ a:focus-visible{outline:2px solid #006e50}small{display:block;color:#6b7b75;marg
         "source_pr": 96,
         "bundle_label": LABEL,
         "review_entry": "/central-review-02g.html?catalog=sim&page=H01",
-        "verification": "CHECK_DEPLOYED_SHA_EQUALS_GITHUB_PR_HEAD",
+        "approved_candidate_sha": os.environ.get("RC2_APPROVED_CANDIDATE_SHA", commit),
+        "approved_app_tree_sha": os.environ.get("RC2_APPROVED_APP_TREE", ""),
+        "netlify_site_id": os.environ.get("RC2_UAT_NETLIFY_SITE_ID", ""),
+        "verification": (
+            "CHECK_DEPLOY_SHA_EQUALS_UAT_BRANCH_AND_PINNED_APP_TREE"
+            if os.environ.get("RC2_BUNDLE_BRANCH", "").startswith("uat/")
+            else "CHECK_DEPLOYED_SHA_EQUALS_GITHUB_PR_HEAD"
+        ),
         "release_status": "ISOLATED_REVIEW_NOT_MAIN",
         "human_uat_signed_off": False,
         "backend_crm_wechat_verified": False,
