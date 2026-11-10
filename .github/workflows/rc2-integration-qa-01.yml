@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -40,7 +40,7 @@ jobs:
           node scripts/verify_rc2_business_rebuild_01.cjs
           node scripts/verify_rc2_single_candidate_01_source.cjs
           node scripts/verify_rc2_final_integration_01_contract.cjs
-      - name: Build frozen isolated RC2 site only
+      # Full git history is required to compare S01 source bytes with their PR origin.\n      - name: Build frozen isolated RC2 site only
         env:
           RC2_BUNDLE_LABEL: RC2-INTEGRATION-QA-01-ISOLATED
           RC2_BUNDLE_BRANCH: integration/rc2-rebaseline-01-20261110
