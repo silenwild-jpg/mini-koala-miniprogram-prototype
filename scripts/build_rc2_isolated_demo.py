@@ -88,10 +88,13 @@ def main() -> None:
     assert not any("mk-h01-central-route-connect03" in str(p) for p in SITE.rglob("*"))
     assert not any("u01" in p.name.lower() and p.suffix.lower() == ".html" for p in SITE.rglob("*")), "U01_RETIRED_PAGE_BUNDLED"
 
-    # Immutable visual resources remain bit-identical to their accepted original source.
+    # The PR36 business baseline predates the two R2 WebP files. Compare instead to
+    # their verified original introducing commit (PR proto-merge-02b), never to a
+    # commit that does not contain them. Do not bypass this frozen asset check.
+    s01_asset_origin = "4dc9f5f76277639463d9d0d2ffed2c4e7f49e969"
     for name in ("s01-r2-a-1.webp", "s01-r2-a-2.webp"):
         key = str(Path("app") / RUNTIME / "assets" / name)
-        assert git("rev-parse", "HEAD:" + key) == git("rev-parse", cfg["baseline_commit"] + ":" + key), "S01_WEBP_CHANGED: " + name
+        assert git("rev-parse", "HEAD:" + key) == git("rev-parse", s01_asset_origin + ":" + key), "S01_WEBP_CHANGED: " + name
         data = (SITE / RUNTIME / "assets" / name).read_bytes()
         assert data[:4] == b"RIFF" and data[8:12] == b"WEBP"
 
