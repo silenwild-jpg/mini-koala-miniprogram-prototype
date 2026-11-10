@@ -77,7 +77,7 @@
       const eligible=active.filter(x=>F.units.some(u=>u.store_id===x.id&&core.available(u)));
       const fallback=active.filter(x=>!eligible.includes(x));
       // Use the same availability-first recommendation for concept-photo slots and card order.
-      r2Orders[s.city]=[...REC.rank(eligible,{distanceVerified:F.distanceVerified,costOf:x=>x.teaserCubicPrice}).items,...fallback].map(x=>x.id);
+      r2Orders[s.city]=[...REC.rank(eligible,{distanceVerified:demoDistanceEnabled,costOf:x=>presentation.cubicReference(x)?.value??Infinity}).items,...fallback].map(x=>x.id);
     }
     const v=R2.view(s,Math.max(0,r2Orders[s.city].indexOf(s.id)));const km=displayedDistanceKm(s);
     return {...v,distance:Number.isFinite(km)?km.toFixed(1)+'km':''};
@@ -197,14 +197,14 @@
 
     if(visual.sort==='recommended'&&r.capacity_m3===null){
       const active=stores.filter(s=>s.status==='open');
-      stores=[...REC.rank(active,{distanceVerified:F.distanceVerified,costOf:s=>s.teaserCubicPrice}).items,...stores.filter(s=>!active.includes(s))];
+      stores=[...REC.rank(active,{distanceVerified:demoDistanceEnabled,costOf:s=>presentation.cubicReference(s)?.value??Infinity}).items,...stores.filter(s=>!active.includes(s))];
     }
     if(visual.sort==='recommended'&&r.capacity_m3!==null){
       const matching=stores.filter(s=>s.status==='open'&&storeOffer(s));
       const other=stores.filter(s=>!matching.includes(s));
       const matchingEntries=matching.map(s=>{const ids=storeOffer(s);return {store:s,ids,volume:ids.reduce((n,id)=>n+(unit(id)?.volume||0),0)};})
         .sort((a,b)=>(a.volume-r.capacity_m3)-(b.volume-r.capacity_m3)||recommendationCost(a.ids)-recommendationCost(b.ids));
-      stores=[...REC.rank(matchingEntries,{distanceVerified:F.distanceVerified,costOf:row=>recommendationCost(row.ids)}).items.map(row=>row.store),...other];
+      stores=[...REC.rank(matchingEntries,{distanceVerified:demoDistanceEnabled,costOf:row=>recommendationCost(row.ids)}).items.map(row=>row.store),...other];
     }
     if(visual.sort==='distance'&&demoDistanceEnabled)stores.sort((a,b)=>displayedDistanceKm(a)-displayedDistanceKm(b));
     if(visual.sort==='price'&&core.authorized())stores.sort((a,b)=>storeAmount(a)-storeAmount(b));
@@ -492,11 +492,11 @@
         const unavailable=stores.filter(s=>rowsFor(s).length===0);
         // In the isolated demo, presentation ranking follows the same per-store
         // seeded kilometers shown to users; this must not mark core location verified.
-        const demoDistanceReady=false; // Unverified fixture kilometers must not be used to rank as nearby.
-        stores=[...REC.rank(eligible,{distanceVerified:F.distanceVerified||demoDistanceReady,costOf:s=>s.teaserCubicPrice}).items,...unavailable];
+        const demoDistanceReady=!!F.synthetic; // Stable demonstration distances may rank, while location verification remains false.
+        stores=[...REC.rank(eligible,{distanceVerified:F.distanceVerified||demoDistanceReady,costOf:s=>presentation.cubicReference(s)?.value??Infinity}).items,...unavailable];
       }
-      if(visual.sort==='distance'&&F.distanceVerified){
-        const kilometers=s=>Number.parseFloat(R2.distanceOf(s,true));
+      if(visual.sort==='distance'&&demoDistanceEnabled){
+        const kilometers=s=>displayedDistanceKm(s);
         const byKm=(a,b)=>kilometers(a)-kilometers(b)||String(a.id).localeCompare(String(b.id));
         const available=stores.filter(s=>rowsFor(s).length>0);
         const unavailable=stores.filter(s=>!rowsFor(s).length);
@@ -528,11 +528,12 @@
             units:rowsFor(s).slice(0,r.capacity_m3!==null?1:(rank===0?2:1)).map((u,i)=>{
               // Only the O01-equivalent central calculation may produce formal, whole-term rent.
               const amount=formal?core.formalAmounts([u.id],r.term_months):null;
+              const publicRate=!formal?presentation.cubicReference(s):null;
               return {
                 id:u.id,name:u.name,volume:u.volume,
-                price:money(amount?amount.rent_total:referenceCost([u.id])),
-                suffix:amount?'整期租金':'/月起',
-                priceKind:amount?'term':'reference',
+                price:amount?money(amount.rent_total):(publicRate?.money||'暂无报价'),
+                suffix:amount?'整期租金':'/m³/月起',
+                priceKind:amount?'term':'store_cubic',
                 secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':'',
                 usage:'独立仓 · '+(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
                 promo:i===0?'热租':'',available:core.available(u)
