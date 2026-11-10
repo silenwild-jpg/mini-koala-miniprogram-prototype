@@ -124,6 +124,15 @@ body[data-page="s5"] .more-units button{min-height:37px;padding:7px 0}
 body[data-page="s5"] #artboard > .s5-advisor{
   height:auto!important;min-height:76px;padding:10px 3px;
 }
+/* Advisor remains optional: elevate the action itself, not a competing card. */
+body[data-page="s5"] #artboard > .s5-advisor .s5-advisor-copy strong{
+  font-size:14px;line-height:20px;color:#193d35;
+}
+body[data-page="s5"] #artboard > .s5-advisor button{
+  min-height:44px;min-width:104px;padding:9px 12px;
+  background:#118561;color:#fff;border:0;border-radius:9px;
+  font-size:13px;font-weight:750;box-shadow:none;
+}
 body[data-page="s5"] #artboard > .s5-advisor[hidden]{display:none!important}
 body[data-page="s5"] #artboard > .estore{
   height:auto!important;min-height:124px;
