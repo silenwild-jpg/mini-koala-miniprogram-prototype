@@ -252,16 +252,10 @@
     return '<div class="s02-demand"><span>'+esc(r.capacity_m3)+'m³ · '+(r.term_confirmed?esc(r.term_months)+'个月':'租期待选')+'</span><a data-edit-demand href="cap.html">修改 ›</a></div>';
   }
   function s02HotRibbon(s){
-    const available=F.units.filter(u=>u.store_id===s.id&&core.available(u));
-    if(!available.length)return '';
-    const quantity=u=>{const raw=u.available_count??u.remaining_count??u.stock_count??u.available_rooms;const n=raw===null||raw===undefined?NaN:Number(raw);return Number.isInteger(n)&&n>=0?n:null;};
-    const low=available.filter(u=>quantity(u)!==null&&quantity(u)>0&&quantity(u)<=2)
-      .sort((a,b)=>quantity(a)-quantity(b));
-    const urgent=low.length>0;
-    const headline=urgent?'热门仓型余量紧张，建议尽快锁定':'热门仓型正在热租';
-    const description=urgent?'部分仓型仅剩'+quantity(low[0])+'间':'本店可租'+available.length+'种仓位';
-    const right=urgent?'仅剩少量仓位':'热租中';
-    return '<div class="s02-hot"><span class="s02-fire" aria-hidden="true">🔥</span><div class="s02-hot-copy"><strong>'+headline+'</strong><small>'+description+'</small></div><span class="s02-hot-stock">'+right+'</span></div>';
+    // A generated quantity is useful for selecting demo warehouse options, but cannot justify a scarcity claim.
+    const certified=F.units.filter(u=>u.store_id===s.id&&u.inventory_verified===true&&core.available(u));
+    if(!s.inventory_claim_verified||!certified.length)return '';
+    return '<div class="s02-hot" data-inventory-verified="true"><div class="s02-hot-copy"><strong>当前可租仓型 '+certified.length+' 种</strong></div></div>';
   }
   function s02Route(s){
     const name=esc(s.name),addr=esc(s.address);
@@ -522,19 +516,23 @@
           const v=r2View(s);
           const hasVerifiedDistance=!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
           const termVisible=r.term_confirmed===true;
+          const publicCubic=!termVisible?presentation.cubicReference(s):null;
+          const publicTerm=F.pricing.homeReferenceTerm||12;
           return {id:s.id,name:s.name,...v,
+            publicCubicPrice:publicCubic?.money||null,publicCubicTerm:publicTerm,
             distance:v.distance,
             distanceVerified:hasVerifiedDistance,
             units:rowsFor(s).slice(0,r.capacity_m3!==null?1:(rank===0?2:1)).map((u,i)=>{
               // Only the O01-equivalent central calculation may produce formal, whole-term rent.
               const amount=termVisible?core.amounts([u.id],r.term_months):null;
-              const publicRate=!termVisible?presentation.cubicReference(s):null;
+              // Unit rows show the actual selected unit's monthly amount, not the store-wide minimum per m³.
+              const unitMonthly=termVisible?null:core.amounts([u.id],publicTerm).monthly_average;
               return {
                 id:u.id,name:u.name,volume:u.volume,
-                price:amount?money(amount.rent_total):(publicRate?.money||'暂无报价'),
-                suffix:amount?'整期租金':'/m³/月起',
-                priceKind:amount?'term':'store_cubic',
-                secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':'',
+                price:amount?money(amount.rent_total):money(unitMonthly),
+                suffix:amount?'整期租金':'/月',
+                priceKind:amount?'term':'unit_month',
+                secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':publicTerm+'个月租期',
                 usage:'独立仓 · '+(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
                 promo:i===0?'热租':'',available:core.available(u)
               };
