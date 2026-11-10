@@ -1,21 +1,40 @@
-# SITE-CONNECT-03A: private internal RC1-P1 review Git build only.
-# Team SSO must be enabled for ALL deploy contexts in the Netlify site settings.
-# These settings, robots, and response headers are NOT access controls.
+# RC2-UAT-CD-01: dedicated branch + dedicated SSO-protected Netlify site ONLY.
+# This file exists on uat/rc2-pr96-20261110; it does NOT modify main or PR #96.
+# Linking the repository in Netlify is a one-time owner action: there is no deploy API exposed in Chat.
+# THIS IS NOT PUBLIC ACCESS CONTROL: retain Netlify Team SSO in site settings.
+#
+# Git repository: silenwild-jpg/mini-koala-miniprogram-prototype
+# Production branch for this UAT-only site: uat/rc2-pr96-20261110
+# Netlify site ID: bc2df934-a53b-4b99-b751-810b8781577f
+# Validated PR runtime: a6b5e7c70b7b44b699369218c2b2ee67401d5c81
+# Pinned app/ Git tree: 6f96d6dc95c0669aa571e260ff18d0ca097cc3cf
+
 [build]
-  command = "node scripts/verify_demo_rc1_p1.cjs && python3 scripts/build_rc1_private_site.py"
-  publish = "release-evidence/merge02n/site"
+  # Guard blocks altered runtime, wrong Netlify site, or wrong deploy branch.
+  # Preserve the historical VIS-11J / S01 master verification when Git clones are shallow.
+  command = "python3 scripts/verify_rc2_netlify_uat_01.py && (git cat-file -e 4dc9f5f76277639463d9d0d2ffed2c4e7f49e969^{commit} || git fetch --quiet --no-tags origin 4dc9f5f76277639463d9d0d2ffed2c4e7f49e969) && python3 scripts/build_rc2_isolated_demo.py && python3 scripts/verify_rc2_uat_access_01_package.py"
+  publish = "release-evidence/rc2-merge-prep-10/site"
 
 [build.environment]
-  NODE_VERSION = "22"
   PYTHON_VERSION = "3.13"
-  MK_REVIEW_VERSION = "DEMO-MK-RC1-P1-20261029"
+  NODE_VERSION = "22"
+  RC2_BUNDLE_LABEL = "RC2-UAT-PR96-GIT-CD-01"
+  RC2_BUNDLE_BRANCH = "uat/rc2-pr96-20261110"
+  RC2_BUNDLE_ARCHIVE = "MiniKoala_RC2_UAT_PR96.zip"
+  RC2_APPROVED_CANDIDATE_SHA = "a6b5e7c70b7b44b699369218c2b2ee67401d5c81"
+  RC2_APPROVED_APP_TREE = "6f96d6dc95c0669aa571e260ff18d0ca097cc3cf"
+  RC2_UAT_NETLIFY_SITE_ID = "bc2df934-a53b-4b99-b751-810b8781577f"
 
-# RC2 + UX-R2 private preview for this isolated PR only. Production RC1-P1 remains unchanged.
-# Visitor access MUST remain Team SSO for ALL deploy contexts; no public release.
-[context.deploy-preview]
-  command = "node --check app/prototype/parallel/core-journey-fix-01/demo/phone-auth.js && python3 scripts/build_rc2_isolated_demo.py"
-  publish = "release-evidence/rc2-merge-prep-10/site"
-[context.deploy-preview.environment]
-  MK_REVIEW_VERSION = "DEMO-MK-RC2-R2-PRIVATE-20261103"
-  RC2_BUNDLE_LABEL = "DEMO-MK-RC2-R2-PRIVATE-20261103"
-  RC2_BUNDLE_BRANCH = "preview/rc2-r2-private-20261103"
+# The site is an internal review environment; crawl-control headers do not replace Team SSO.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "SAMEORIGIN"
+
+[[headers]]
+  for = "/rc2-uat-version.json"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
