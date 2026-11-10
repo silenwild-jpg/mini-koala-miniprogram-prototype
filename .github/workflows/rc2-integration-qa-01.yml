@@ -1,0 +1,83 @@
+name: RC2-INTEGRATION-QA-01 isolated source and 375-390 browser NO DEPLOY
+on:
+  push:
+    branches:
+      - integration/rc2-rebaseline-01-20261110
+    paths:
+      - .github/workflows/rc2-integration-qa-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-integration-qa-01
+  cancel-in-progress: true
+jobs:
+  isolated-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Show immutable candidate SHA
+        run: |
+          echo "RC2_INTEGRATION_SHA=$GITHUB_SHA"
+          mkdir -p release-evidence/rc2-integration-qa-01
+          printf '{"head_sha":"%s","branch":"%s","no_deploy":true}\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" > release-evidence/rc2-integration-qa-01/source.json
+      - name: Source syntax and business V1.1 arithmetic
+        run: |
+          set -eux
+          node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/central-contract.js
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_rc2_single_candidate_01_source.cjs
+          node scripts/verify_rc2_final_integration_01_contract.cjs
+      - name: Build frozen isolated RC2 site only
+        env:
+          RC2_BUNDLE_LABEL: RC2-INTEGRATION-QA-01-ISOLATED
+          RC2_BUNDLE_BRANCH: integration/rc2-rebaseline-01-20261110
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_INTEGRATION_QA_01.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install one Chromium and CJK fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: 375 and 390 browser suites
+        run: |
+          mkdir -p release-evidence/rc2-integration-qa-01
+          set +e
+          status=0
+          for script in             scripts/verify_ux_audit_gate_03_browser.cjs             scripts/verify_rc2_s5_delta_02a_price_and_flow.cjs             scripts/verify_rc2_final_vis_delta_01_browser.cjs             scripts/verify_rc2_vis_integration_02_browser.cjs             scripts/verify_rc2_rule_fix_01d_browser.cjs; do
+            echo "::group::$script"
+            node "$script"
+            code=$?
+            echo "$script $code" | tee -a release-evidence/rc2-integration-qa-01/browser-results.txt
+            if [ "$code" -ne 0 ]; then status=1; fi
+            echo "::endgroup::"
+          done
+          exit "$status"
+      - name: Save review evidence without deploying or merging
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-integration-qa-01-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-integration-qa-01/
+            release-evidence/ux-audit-gate-03/
+            release-evidence/rc2-candidate-delta-02a/
+            release-evidence/rc2-final-vis-delta-01/
+            release-evidence/rc2-vis-integration-02/
+            release-evidence/rc2-rule-fix-01d/
+            release-evidence/rc2-merge-prep-10/build-summary.json
