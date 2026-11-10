@@ -79,6 +79,7 @@ const rect=locator=>locator.evaluate(el=>({height:el.getBoundingClientRect().hei
    await book.locator('#reserve-contact').fill('13800138000');
    await book.locator('#submit').click();
    await book.locator('#success').waitFor({state:'visible',timeout:5000});
+   assert.equal(await book.locator('#toast').isVisible(),false,'stale validation error must disappear on successful lead receipt');
    const info=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state().leads.at(-1));
    assert.equal(info.address,'北京市朝阳区建国路88号');
    assert.equal(info.phone,'13800138000');
