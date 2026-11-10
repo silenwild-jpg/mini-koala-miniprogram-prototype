@@ -541,7 +541,7 @@
                 priceKind:amount?'term':'unit_month',
                 secondary:amount?'月均约 '+money(amount.monthly_average)+'/月':publicTerm+'个月租期',
                 usage:'独立仓 · '+(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
-                promo:i===0?'热租':'',available:core.available(u)
+                promo:u.promo_verified===true&&typeof u.promo_label==='string'?u.promo_label:'',available:core.available(u)
               };
             })};
         })};
