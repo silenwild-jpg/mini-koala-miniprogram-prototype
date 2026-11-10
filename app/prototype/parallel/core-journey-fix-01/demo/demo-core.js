@@ -26,14 +26,14 @@
     function setEstimate(payload){
       const p=payload||{},raw=p.estimated_volume;
       if(p.source==='known_capacity_in_items_flow'){
-        if(p.term_confirmed!==true)fail('SELECT_TERM');
-        setRequirement(p.target_volume,p.term_months,p.term_confirmed===true);
+        if(p.term_confirmed===true&&!validTerm(p.term_months))fail('SELECT_TERM');
+        setRequirement(p.target_volume,p.term_months??null,p.term_confirmed===true);
         s.requirement.source=p.source;s.requirement.estimated_volume=null;s.requirement.items=[];return;
       }
       if(p.source!=='items_estimate'||typeof raw!=='number'||!Number.isFinite(raw)||raw<=0||raw>200||Math.abs(raw*1000-Math.round(raw*1000))>1e-7||p.target_volume!==Math.max(.5,raw))fail('INVALID_ESTIMATE');
-      if(!validTerm(p.term_months)||p.term_confirmed!==true)fail('SELECT_TERM');
+      if(p.term_confirmed===true&&!validTerm(p.term_months))fail('SELECT_TERM');
       if(!Array.isArray(p.items)||!p.items.length||p.items.some(x=>typeof x.id!=='string'||typeof x.variant!=='string'||!Number.isInteger(x.quantity)||x.quantity<1||x.quantity>99)||new Set(p.items.map(x=>x.id)).size!==p.items.length)fail('INVALID_ESTIMATE');
-      s.requirement={capacity_m3:p.target_volume,term_months:p.term_months,term_confirmed:true,source:p.source,estimated_volume:raw,items:p.items.map(x=>({id:x.id,variant:x.variant,quantity:x.quantity}))};s.selected=[];invalidate();
+      s.requirement={capacity_m3:p.target_volume,term_months:p.term_confirmed===true?p.term_months:null,term_confirmed:p.term_confirmed===true,source:p.source,estimated_volume:raw,items:p.items.map(x=>({id:x.id,variant:x.variant,quantity:x.quantity}))};s.selected=[];invalidate();
     }
     function setTerm(months){if(!validTerm(months))fail('INVALID_TERM');s.requirement.term_months=months;s.requirement.term_confirmed=true;s.selected=[];invalidate();}
     const validRequirementCapacity=()=>validCapacity(s.requirement.capacity_m3)||(s.requirement.source==='items_estimate'&&s.requirement.estimated_volume>0&&s.requirement.estimated_volume<=200&&s.requirement.capacity_m3===Math.max(.5,s.requirement.estimated_volume)&&Math.abs(s.requirement.capacity_m3*1000-Math.round(s.requirement.capacity_m3*1000))<1e-7);
@@ -61,7 +61,9 @@
       for(let i=0;i<units.length;i++)for(let j=i+1;j<units.length;j++)if(units[i].volume+units[j].volume>=target)rows.push({ids:[units[i].id,units[j].id],volume:totalVolume([units[i].id,units[j].id]),store_id:storeId});
       return rows.sort((a,b)=>a.volume-b.volume).slice(0,3);
     }
-    function rent(u,months){if(!validTerm(months))fail('SELECT_TERM');const base=s.prices[u.id]||u.base_month;const factor=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max).factor;return Math.round(base*months*factor/10)*10;}
+    const currency=n=>Math.round((n+Number.EPSILON)*100)/100;
+    function discountedMonth(u,months){if(!validTerm(months))fail('SELECT_TERM');const base=s.prices[u.id]??u.base_month;const rule=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max);if(!rule)fail('INVALID_TERM');return currency(base*rule.factor);}
+    function rent(u,months){return currency(discountedMonth(u,months)*months);}
     function couponEligible(c,rentTotal,months,renewal=false){
       if(!['CLAIMED','APPLIED'].includes(c.status))return false;
       if(c.id==='CPN-004')return renewal&&months>=6;
@@ -70,12 +72,16 @@
     }
     function amounts(ids,months,opts={}){
       if(!ids.length||ids.some(id=>!unit(id)))fail('INVALID_SELECTION');
-      const rentTotal=ids.reduce((n,id)=>n+rent(unit(id),months),0);
-      const deposit=ids.reduce((n,id)=>n+Math.round(rent(unit(id),months)/months),0);
+      const rentTotal=currency(ids.reduce((n,id)=>n+rent(unit(id),months),0));
+      // Entire combination pays a single deposit equal to its discounted monthly rent.
+      const deposit=currency(ids.reduce((n,id)=>n+discountedMonth(unit(id),months),0));
       const eligible=s.coupons.filter(c=>couponEligible(c,rentTotal,months,!!opts.renewal));
       const coupon=opts.renewal?eligible.find(c=>c.id==='CPN-004'):s.couponChoice==='none'?null:s.couponChoice==='auto'?eligible.sort((a,b)=>b.amount-a.amount)[0]:eligible.find(c=>c.id===s.couponChoice);
       const discount=coupon?Math.min(coupon.amount,rentTotal):0;
-      return {rent_total:rentTotal,monthly_average:Math.round(rentTotal/months),rent_after_coupon:rentTotal-discount,monthly_after_coupon:Math.round((rentTotal-discount)/months),deposit:opts.renewal?0:deposit,management_fee:opts.renewal?0:fixture.pricing.managementFee,coupon_id:coupon?.id||null,coupon_discount:discount,payable:rentTotal-discount+(opts.renewal?0:deposit+fixture.pricing.managementFee)};
+      // A moving/service entitlement is tracked separately, and does not subtract rent.
+      const moving=s.coupons.find(c=>c.type==='SERVICE_BENEFIT'&&c.status==='CLAIMED'&&!s.orders.some(o=>o.status==='paid_simulated'&&o.moving_benefit_pending_id===c.id));
+      const rentAfterCoupon=currency(rentTotal-discount);
+      return {rent_total:rentTotal,monthly_average:deposit,rent_after_coupon:rentAfterCoupon,monthly_after_coupon:currency(rentAfterCoupon/months),deposit:opts.renewal?0:deposit,management_fee:opts.renewal?0:fixture.pricing.managementFee,coupon_id:coupon?.id||null,coupon_discount:discount,moving_benefit_pending_id:opts.renewal?null:(moving?.id||null),payable:currency(rentAfterCoupon+(opts.renewal?0:deposit+fixture.pricing.managementFee))};
     }
     function signature(){return JSON.stringify({fixture:fixture.version,inventory:s.inventoryVersion,requirement:s.requirement,city:s.city,selected:s.selected,startDate:s.startDate,couponChoice:s.couponChoice,coupons:s.coupons.map(c=>[c.id,c.status]),prices:s.selected.map(id=>s.prices[id]||unit(id)?.base_month)});}
     function assertReady(){
@@ -85,7 +91,8 @@
       if(!selectionValid())fail('UNAVAILABLE');
       if(!s.dateConfirmed||!validDate(s.startDate))fail('SELECT_DATE');
     }
-    function validDate(v){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;const d=new Date(v+'T00:00:00Z');return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===v&&v>=fixture.demoToday;}
+    const today=()=>new Date(now()+8*60*60*1000).toISOString().slice(0,10); // Business date: UTC+8
+    function validDate(v){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;const d=new Date(v+'T00:00:00Z');return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===v&&v>=today();}
     function recheck(){
       if(!s.nextRecheck||!s.selected.length)return null;
       const reason=s.nextRecheck;s.nextRecheck=null;
@@ -214,7 +221,7 @@
       l.invoices.push(req);notify('模拟发票申请已提交，实际开具尚未接入',id);return copy(req);
     }
 
-    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,selectionValid,authorized,quote,submit,pay,recheck,
+    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,today,selectionValid,authorized,quote,submit,pay,recheck,
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
@@ -266,7 +273,7 @@
         if(existing)s.enterpriseLeads[index]=lead;else s.enterpriseLeads.push(lead);if(phone)s.contactPhone=phone;return copy(lead);
       },
       saveAdvisorLead(input={}){const phone=String(input.phone??(authorized()?s.auth.phone:'')??'').replace(/[\s-]/g,''),address=String(input.address||'').trim();if(!validPhone(phone))fail('ENTER_PHONE');if(address.length>120)fail('ENTER_ADDRESS');const lead={id:'SIM_LEAD_'+(++s.sequence),type:'ADVISOR_CONSULTATION',address,phone,capacity_m3:s.requirement.capacity_m3,term_months:s.requirement.term_confirmed?s.requirement.term_months:null,status:'saved_locally'};for(const key of ['start_hint','preferred_date','items','capacity_hint','term_hint','note','service_source'])if(typeof input[key]==='string'&&input[key].trim())lead[key]=input[key].trim().slice(0,200);s.contactPhone=phone;s.leads.push(lead);return copy(lead);},
-      saveLead(address,details={}){const text=String(address||'').trim();if(!text||text.length>120)fail('ENTER_ADDRESS');const lead={id:'SIM_LEAD_'+(++s.sequence),type:'SIMULATED_BOOKING_LEAD',address:text,capacity_m3:s.requirement.capacity_m3,term_months:s.requirement.term_confirmed?s.requirement.term_months:null,phone:s.contactPhone||null,status:'submitted_simulated'};for(const key of ['start_hint','preferred_date','items','capacity_hint','term_hint','note','service_source']){if(typeof details[key]==='string'&&details[key].trim())lead[key]=details[key].trim().slice(0,200);}s.leads.push(lead);return copy(lead);}
+      saveLead(address,details={}){const text=String(address||'').trim(),phone=String(details.phone??s.contactPhone??'').replace(/[\s-]/g,'');if(!validPhone(phone))fail('ENTER_PHONE');if(!text||text.length>120)fail('ENTER_ADDRESS');const lead={id:'SIM_LEAD_'+(++s.sequence),type:'SIMULATED_BOOKING_LEAD',address:text,capacity_m3:s.requirement.capacity_m3,term_months:s.requirement.term_confirmed?s.requirement.term_months:null,phone,status:'saved_locally',follow_up_owner:'sales_pending_sync'};for(const key of ['start_hint','preferred_date','items','capacity_hint','term_hint','note','service_source']){if(typeof details[key]==='string'&&details[key].trim())lead[key]=details[key].trim().slice(0,200);}s.leads.push(lead);return copy(lead);}
     };
   }
   root.SIM_CORE={create};
