@@ -67,12 +67,13 @@ const sizeModes=[[375,812],[390,844]],scenes=['H01','S01','S02','S5','BOOKING','
          // These two standalone approved visual pages are mounted directly rather than #screen.
          // A missing #screen is not a failed render; inspect the screenshot and real page DOM.
          await page.waitForTimeout(800);
-         assert((await page.locator('body').innerText()).trim().length>25,'H01/CAP rendered blank text');
+         assert(page.frames().length>=2,'H01/CAP embedded frame not mounted');
        }else{
          await app.locator('#screen').waitFor({timeout:15000});
        }
        const f=scene+'-'+width+'.png';
        await page.screenshot({path:path.join(output,f),fullPage:false});
+       assert(fs.statSync(path.join(output,f)).size>18000,'Screenshot appears to be blank or not rendered');
        shots.push({scene,width,height,file:f,status:'CAPTURED',jsErrors});
      }catch(err){
        const file='FAIL-'+scene+'-'+width+'.png';
