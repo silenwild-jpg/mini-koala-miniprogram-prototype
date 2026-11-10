@@ -99,11 +99,37 @@ body[data-page="s5"] .s5-unit-row{
   gap:7px;min-height:99px;padding:9px 10px;
 }
 body[data-page="s5"] .s5-unit-thumb{width:60px;height:72px}
+/* At exceptional prices use full available text width, not illegibly tiny numerals. */
 body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]){
-  grid-template-columns:56px minmax(0,1fr) 128px;
+  grid-template-columns:60px minmax(0,1fr);
+  grid-template-rows:auto auto;
+  row-gap:2px;
+  align-items:start;
 }
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-thumb{width:56px}
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-terms{width:128px}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-thumb{
+  grid-row:1 / 3;width:60px;
+}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-info{
+  grid-column:2;grid-row:1;
+}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-terms{
+  grid-column:2;grid-row:2;display:grid;
+  grid-template-columns:minmax(0,1fr) 94px;
+  grid-template-rows:auto auto;gap:1px 7px;
+  width:100%;max-width:none;align-items:center;
+}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-price{
+  grid-column:1;grid-row:1;max-width:100%;
+  font-size:16px;line-height:22px;letter-spacing:-.4px;
+  overflow:visible;text-align:left;
+}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-terms>small{
+  grid-column:1;grid-row:2;text-align:left;
+}
+body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-buy{
+  grid-column:2;grid-row:1 / span 2;
+  margin-top:0;min-width:94px;min-height:44px;
+}
 body[data-page="s5"] .s5-unit-info{min-width:0}
 body[data-page="s5"] .s5-unit-terms{min-width:0;width:112px;max-width:100%}
 body[data-page="s5"] .s5-unit-price{
@@ -112,7 +138,7 @@ body[data-page="s5"] .s5-unit-price{
   letter-spacing:-.35px;white-space:nowrap;overflow:hidden;text-overflow:clip;
 }
 body[data-page="s5"] .s5-unit-price[data-price-length="long"]{font-size:14px;letter-spacing:-.5px}
-body[data-page="s5"] .s5-unit-price[data-price-length="extreme"]{font-size:12px;letter-spacing:-.65px}
+body[data-page="s5"] .s5-unit-price[data-price-length="extreme"]{font-size:16px;letter-spacing:-.4px}
 body[data-page="s5"] .s5-unit-terms>small{max-width:100%;overflow:hidden;text-overflow:ellipsis}
 body[data-page="s5"] .s5-unit-buy{min-width:94px;min-height:35px}
 body[data-page="s5"] #artboard > .more-units{
