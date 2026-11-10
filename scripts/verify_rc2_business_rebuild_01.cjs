@@ -134,6 +134,34 @@ test('Enterprise lead uses the same pricing and stock state (lead-only scope)',(
   assert.equal(core.stockCount(a),stockBefore);
 });
 
+test('S01/S5 matching term amount is visible without bypassing signed quote guard',()=>{
+  const core=create();
+  core.setRequirement(a.volume,12,true);
+  const publicTerm=P.create({core,fixture:F,unitPolicy:{}}).price([a.id]);
+  assert.equal(publicTerm.kind,'term');
+  assert.equal(publicTerm.amounts.rent_total,core.amounts([a.id],12).rent_total);
+  assert.throws(()=>core.formalAmounts([a.id],12),/PHONE_REQUIRED/);
+  assert.throws(()=>core.quote(),/PHONE_REQUIRED/);
+});
+
+test('Combination full selection certifies one order, two units and one ¥50 management fee',()=>{
+  const rows=F.units.filter(u=>u.status==='available'&&u.store_id===a.store_id);
+  const right=rows.find(u=>u.id!==a.id&&u.volume!==a.volume);
+  assert(right,'Needs an available second different size');
+  const core=create();
+  core.setRequirement(precision(a.volume+right.volume),6,true);
+  core.setStore(a.store_id);
+  core.setDate(core.today());
+  core.requestPhone();core.resolvePhone('success',{phone:'13800138000'});
+  core.select([a.id,right.id]);
+  const quote=core.quote(),snap=Central.quote(core,quote),order=core.submit();
+  Central.order(core,order,snap);
+  assert.deepEqual(order.unit_ids,[a.id,right.id]);
+  assert.equal(order.management_fee,50);
+  assert.equal(order.deposit,order.monthly_average);
+  assert.equal(order.rent_total,precision(order.monthly_average*6));
+});
+
 test('O01 central same-cents quote → combination snapshot → payment failure release',()=>{
   const c=create();
   const rows=F.units.filter(u=>u.status==='available'&&u.store_id===a.store_id);
