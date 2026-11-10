@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   isolated-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
@@ -49,10 +49,9 @@ jobs:
         run: python3 scripts/build_rc2_isolated_demo.py
       - name: Install one Chromium and CJK fonts
         run: |
-          sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-noto-cjk
           npm install --no-save --no-package-lock playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: 375 and 390 browser suites
         run: |
           mkdir -p release-evidence/rc2-integration-qa-01
