@@ -89,18 +89,21 @@ const results=[];
     assert.deepEqual(errors,[]);
     results.push({test:'BOOKING_no_internal_id_and_truthful_receipt',width,status:'PASS',receiptText:txt,leadStatus:lead.status});await page.close();
    }
-   // O01 false payment claims must be absent from the default and dynamic view strings.
+   // O01 direct access must remain guarded; payment copy is verified in both source views.
    {
     const page=await ctx.newPage();
-    await page.goto(base+'/prototype/parallel/core-journey-fix-01/demo/br04/o01/index.html',{waitUntil:'domcontentloaded'});
-    await page.locator('#pay').waitFor();
-    assert.match(await page.locator('.payment-note').innerText(),/不会实际扣款或锁定仓位/);
-    assert(!/模拟支付/.test(await page.locator('#pay').innerText()),'O01 initial pay CTA exposes simulated-payment label');
+    const html=fs.readFileSync(path.resolve(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo/br04/o01/index.html'),'utf8');
+    assert.match(html,/本次不会实际扣款或锁定仓位/);
+    assert.match(html,/<button class="pay-btn" id="pay">确认订单/);
+    assert(!/确认并模拟支付/.test(html),'old misleading pay button is still in initial HTML');
     const bridge=fs.readFileSync(path.resolve(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js'),'utf8');
     assert(bridge.includes("'确认订单 <span id=\"pay-amount\">'"),'rendered O01 pay action mismatch');
     assert(bridge.includes("体验支付成功流程")&&bridge.includes("体验支付失败流程"),'payment outcome flow must remain explicitly non-transactional');
-    await page.screenshot({path:path.join(out,'O01-entry-'+width+'.png'),fullPage:false});
-    results.push({test:'O01_truthful_static_and_dynamic_payment_copy',width,status:'PASS'});await page.close();
+    await page.goto(base+'/central-review-02g.html?catalog=sim&page=O01&store=SIM_BJ01&unit=BAD_ID',{waitUntil:'domcontentloaded'});
+    await page.locator('#central-error').waitFor({state:'visible'});
+    assert.match(await page.locator('#central-error').innerText(),/请先选择仓位/);
+    await page.screenshot({path:path.join(out,'O01-guarded-'+width+'.png'),fullPage:false});
+    results.push({test:'O01_guarded_entry_and_truthful_payment_copy',width,status:'PASS'});await page.close();
    }
   }finally{await ctx.close();}
  }
