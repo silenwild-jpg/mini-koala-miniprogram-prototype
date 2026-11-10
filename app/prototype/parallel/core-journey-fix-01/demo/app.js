@@ -130,7 +130,7 @@
   function storeOffer(s){const single=core.matchingUnits(s.id).sort((a,b)=>core.amounts([a.id],state().requirement.term_months||1).rent_total-core.amounts([b.id],state().requirement.term_months||1).rent_total)[0];return single?[single.id]:core.combinations(s.id)[0]?.ids;}
   function storeAmount(s){const ids=storeOffer(s);return ids?core.amounts(ids,state().requirement.term_months||1).rent_total:Infinity;}
   const referenceCost=ids=>ids.reduce((total,id)=>total+(state().prices[id]??unit(id)?.base_month??0),0);
-  const recommendationCost=ids=>core.authorized()&&state().requirement.term_confirmed?core.formalAmounts(ids,state().requirement.term_months).rent_total:referenceCost(ids);
+  const recommendationCost=ids=>state().requirement.term_confirmed?core.amounts(ids,state().requirement.term_months).rent_total:referenceCost(ids);
   function candidateList(excludeStore){
     const rows=[];F.stores.filter(s=>s.city===state().city&&s.status==='open'&&s.id!==excludeStore).forEach(s=>{
       const ids=storeOffer(s);
@@ -521,14 +521,14 @@
         stores:stores.slice(0,Math.max(2,Math.min(50,r2Filters.visibleLimit))).map((s,rank)=>{
           const v=r2View(s);
           const hasVerifiedDistance=!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
-          const formal=core.authorized()&&r.term_confirmed;
+          const termVisible=r.term_confirmed===true;
           return {id:s.id,name:s.name,...v,
             distance:v.distance,
             distanceVerified:hasVerifiedDistance,
             units:rowsFor(s).slice(0,r.capacity_m3!==null?1:(rank===0?2:1)).map((u,i)=>{
               // Only the O01-equivalent central calculation may produce formal, whole-term rent.
-              const amount=formal?core.formalAmounts([u.id],r.term_months):null;
-              const publicRate=!formal?presentation.cubicReference(s):null;
+              const amount=termVisible?core.amounts([u.id],r.term_months):null;
+              const publicRate=!termVisible?presentation.cubicReference(s):null;
               return {
                 id:u.id,name:u.name,volume:u.volume,
                 price:amount?money(amount.rent_total):(publicRate?.money||'暂无报价'),
