@@ -63,6 +63,11 @@ const sizeModes=[[375,812],[390,844]],scenes=['H01','S01','S02','S5','BOOKING','
          await b.locator('#success').waitFor({state:'visible',timeout:10000});
          const receipt=await b.locator('#success').innerText();
          notices.push({type:'BOOKING_RECEIPT_CONTENT',width,receipt});
+       }else if(scene==='H01'||scene==='CAP'){
+         // These two standalone approved visual pages are mounted directly rather than #screen.
+         // A missing #screen is not a failed render; inspect the screenshot and real page DOM.
+         await page.waitForTimeout(800);
+         assert((await page.locator('body').innerText()).trim().length>25,'H01/CAP rendered blank text');
        }else{
          await app.locator('#screen').waitFor({timeout:15000});
        }
