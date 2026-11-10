@@ -1,0 +1,95 @@
+name: RC2-UAT-GIT-CD-01 dedicated Netlify branch preflight NO DEPLOY
+on:
+  push:
+    branches:
+      - uat/rc2-pr96-20261110
+    paths:
+      - .github/workflows/rc2-netlify-uat-preflight.yml
+      - netlify.toml
+      - scripts/build_rc2_isolated_demo.py
+      - scripts/verify_rc2_uat_access_01_package.py
+      - scripts/verify_rc2_netlify_uat_01.py
+      - app/**
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-uat-git-cd-01-preflight
+  cancel-in-progress: true
+jobs:
+  static-uat-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify approved candidate runtime tree and source contracts
+        run: |
+          set -eux
+          test "$(git rev-parse HEAD:app)" = 6f96d6dc95c0669aa571e260ff18d0ca097cc3cf
+          git diff --exit-code a6b5e7c70b7b44b699369218c2b2ee67401d5c81 HEAD -- app/
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py scripts/verify_rc2_uat_access_01_package.py scripts/verify_rc2_netlify_uat_01.py
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_rc2_single_candidate_01_source.cjs
+          node scripts/verify_rc2_final_integration_01_contract.cjs
+      - name: Run exact Netlify toml build and verify SHA identity
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+          import tomllib
+
+          cfg = tomllib.loads(Path("netlify.toml").read_text("utf-8"))
+          build, env = cfg["build"], dict(os.environ)
+          env.update(build["environment"])
+          env["BRANCH"] = "uat/rc2-pr96-20261110"
+          env["SITE_ID"] = "bc2df934-a53b-4b99-b751-810b8781577f"
+          env["CONTEXT"] = "production"
+          assert build["publish"] == "release-evidence/rc2-merge-prep-10/site"
+          assert env["RC2_APPROVED_APP_TREE"] == "6f96d6dc95c0669aa571e260ff18d0ca097cc3cf"
+          subprocess.run(["bash", "-e", "-o", "pipefail", "-c", build["command"]], env=env, check=True)
+          identity = json.loads(Path(build["publish"], "rc2-uat-version.json").read_text("utf-8"))
+          sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          assert identity["source_sha"] == sha == os.environ["GITHUB_SHA"]
+          assert identity["source_branch"] == env["BRANCH"]
+          assert identity["approved_candidate_sha"] == env["RC2_APPROVED_CANDIDATE_SHA"]
+          assert identity["approved_app_tree_sha"] == env["RC2_APPROVED_APP_TREE"]
+          assert identity["netlify_site_id"] == env["SITE_ID"]
+          assert identity["human_uat_signed_off"] is False
+          output = Path("release-evidence/rc2-netlify-uat-preflight")
+          output.mkdir(parents=True, exist_ok=True)
+          result = {
+              "verdict": "PASS",
+              "source_commit": sha,
+              "source_branch": env["BRANCH"],
+              "approved_pr_candidate": env["RC2_APPROVED_CANDIDATE_SHA"],
+              "approved_app_tree": env["RC2_APPROVED_APP_TREE"],
+              "netlify_site_id": env["SITE_ID"],
+              "configured_build_command_checked": True,
+              "same_runtime_as_previously_passed_375_390": True,
+              "netlify_repo_link_verified": False,
+              "netlify_deploy_verified": False,
+              "human_uat_verified": False,
+              "site_file_count": len([x for x in Path(build["publish"]).rglob("*") if x.is_file()]),
+          }
+          (output / "preflight.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", "utf-8")
+          print("RC2_NETLIFY_UAT_CD_01_PREFLIGHT_PASS", json.dumps(result, ensure_ascii=False))
+          PY
+      - name: Publish small preflight receipts only (not a Netlify deployment)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-netlify-uat-cd-01-preflight
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-netlify-uat-preflight/
+            release-evidence/rc2-uat-access-01/package-receipt.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
