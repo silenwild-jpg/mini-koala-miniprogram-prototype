@@ -68,6 +68,11 @@ const server=http.createServer((req,res)=>{
    await app.locator('#screen.page-S02').waitFor();
    assert.equal(await app.locator('.s02-hot').count(),0,'synthetic inventory must not trigger urgent marketing banner');
    assert.equal(await app.getByText('热门仓型余量紧张',{exact:false}).count(),0,'legacy scarcity claim leaked');
+   const firstModel=snapshot.stores[0].units[0];
+   const actualDetailMonthly=await app.locator('.unit-row[data-unit="'+firstModel.id+'"] .unit-price .br03-price-main').innerText();
+   assert.equal(actualDetailMonthly,firstModel.price,'S01 to S02 must not jump from discounted monthly to standard monthly');
+   const detailBasis=await app.locator('.unit-row[data-unit="'+firstModel.id+'"] .unit-price .br03-reference').innerText();
+   assert(detailBasis.includes(String(snapshot.stores[0].publicCubicTerm)+'个月租期'),'S02 reference month must disclose discount term');
    await page.screenshot({path:path.join(out,'s02-no-unverified-scarcity-'+width+'.png'),fullPage:true});
    assert.deepEqual(errors,[],'JavaScript runtime errors');
    records.push({width,status:'PASS',publicStoreCards:observations.length,unitPrices:observations.map(v=>v.perUnit.map(u=>u.price)),s02UnverifiedUrgency:false});
