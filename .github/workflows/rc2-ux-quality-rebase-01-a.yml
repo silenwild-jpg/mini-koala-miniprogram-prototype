@@ -1,0 +1,57 @@
+name: RC2 UX QUALITY REBASE Batch A fresh 375-390 audit NO DEPLOY
+on:
+  push:
+    branches:
+      - audit/rc2-ux-quality-rebase-01-20261111
+    paths:
+      - .github/workflows/rc2-ux-quality-rebase-01-a.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-ux-quality-rebase-01-a
+  cancel-in-progress: true
+jobs:
+  evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Pin UAT source and verify syntax
+        run: |
+          set -eux
+          test "$(git rev-parse HEAD:app)" = 4fbf5eefccbc9ee3e05a969b88334314263a3e79
+          git diff --exit-code e435bb25eddc8a8ad4c84427ca9883d4ec3e9c16 HEAD -- app/
+          node --check scripts/audit_rc2_ux_quality_rebase_01_capture.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Build frozen source without Netlify changes
+        env:
+          RC2_BUNDLE_BRANCH: audit/rc2-ux-quality-rebase-01-20261111
+          RC2_BUNDLE_LABEL: RC2-UX-REBASE-01-BATCH-A
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_UX_REBASE_A.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install independent Chromium and CJK fonts
+        run: |
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Capture nine pages and multi-state screenshots on 375 and 390
+        run: node scripts/audit_rc2_ux_quality_rebase_01_capture.cjs
+      - name: Preserve raw screenshots and DOM metrics irrespective of verdict
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-ux-quality-rebase-01-batch-a-capture
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            release-evidence/rc2-ux-quality-rebase-01/
+            release-evidence/rc2-merge-prep-10/build-summary.json
