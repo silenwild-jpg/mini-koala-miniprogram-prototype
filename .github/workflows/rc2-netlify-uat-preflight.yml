@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - uat/rc2-pr96-20261110
+      - stage/rc2-pr96-p1-uat-20261110
     paths:
       - .github/workflows/rc2-netlify-uat-preflight.yml
       - netlify.toml
@@ -30,8 +31,8 @@ jobs:
       - name: Verify approved candidate runtime tree and source contracts
         run: |
           set -eux
-          test "$(git rev-parse HEAD:app)" = 6f96d6dc95c0669aa571e260ff18d0ca097cc3cf
-          git diff --exit-code a6b5e7c70b7b44b699369218c2b2ee67401d5c81 HEAD -- app/
+          test "$(git rev-parse HEAD:app)" = 4fbf5eefccbc9ee3e05a969b88334314263a3e79
+          git diff --exit-code e435bb25eddc8a8ad4c84427ca9883d4ec3e9c16 HEAD -- app/
           python3 -m py_compile scripts/build_rc2_isolated_demo.py scripts/verify_rc2_uat_access_01_package.py scripts/verify_rc2_netlify_uat_01.py
           node scripts/verify_rc2_business_rebuild_01.cjs
           node scripts/verify_rc2_single_candidate_01_source.cjs
@@ -53,7 +54,7 @@ jobs:
           env["SITE_ID"] = "bc2df934-a53b-4b99-b751-810b8781577f"
           env["CONTEXT"] = "production"
           assert build["publish"] == "release-evidence/rc2-merge-prep-10/site"
-          assert env["RC2_APPROVED_APP_TREE"] == "6f96d6dc95c0669aa571e260ff18d0ca097cc3cf"
+          assert env["RC2_APPROVED_APP_TREE"] == "4fbf5eefccbc9ee3e05a969b88334314263a3e79"
           subprocess.run(["bash", "-e", "-o", "pipefail", "-c", build["command"]], env=env, check=True)
           identity = json.loads(Path(build["publish"], "rc2-uat-version.json").read_text("utf-8"))
           sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()

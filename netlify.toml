@@ -6,8 +6,8 @@
 # Git repository: silenwild-jpg/mini-koala-miniprogram-prototype
 # Production branch for this UAT-only site: uat/rc2-pr96-20261110
 # Netlify site ID: bc2df934-a53b-4b99-b751-810b8781577f
-# Validated PR runtime: a6b5e7c70b7b44b699369218c2b2ee67401d5c81
-# Pinned app/ Git tree: 6f96d6dc95c0669aa571e260ff18d0ca097cc3cf
+# Script-QA validated PR runtime (human final visual signoff pending): e435bb25eddc8a8ad4c84427ca9883d4ec3e9c16
+# Pinned app/ Git tree: 4fbf5eefccbc9ee3e05a969b88334314263a3e79
 
 [build]
   # Guard blocks altered runtime, wrong Netlify site, or wrong deploy branch.
@@ -18,11 +18,11 @@
 [build.environment]
   PYTHON_VERSION = "3.13"
   NODE_VERSION = "22"
-  RC2_BUNDLE_LABEL = "RC2-UAT-PR96-GIT-CD-01"
+  RC2_BUNDLE_LABEL = "RC2-UAT-PR96-P1-CANDIDATE-02"
   RC2_BUNDLE_BRANCH = "uat/rc2-pr96-20261110"
-  RC2_BUNDLE_ARCHIVE = "MiniKoala_RC2_UAT_PR96.zip"
-  RC2_APPROVED_CANDIDATE_SHA = "a6b5e7c70b7b44b699369218c2b2ee67401d5c81"
-  RC2_APPROVED_APP_TREE = "6f96d6dc95c0669aa571e260ff18d0ca097cc3cf"
+  RC2_BUNDLE_ARCHIVE = "MiniKoala_RC2_UAT_PR96_P1.zip"
+  RC2_APPROVED_CANDIDATE_SHA = "e435bb25eddc8a8ad4c84427ca9883d4ec3e9c16"
+  RC2_APPROVED_APP_TREE = "4fbf5eefccbc9ee3e05a969b88334314263a3e79"
   RC2_UAT_NETLIFY_SITE_ID = "bc2df934-a53b-4b99-b751-810b8781577f"
 
 # The site is an internal review environment; crawl-control headers do not replace Team SSO.
