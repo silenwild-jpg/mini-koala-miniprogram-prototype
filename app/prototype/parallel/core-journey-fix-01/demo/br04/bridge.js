@@ -128,8 +128,9 @@
     document.querySelectorAll('.s5-store-card:not([hidden]) .s5-unit-price').forEach(node=>{
       node.style.removeProperty('font-size');
       let size=parseFloat(getComputedStyle(node).fontSize)||17;
-      while(node.scrollWidth>node.clientWidth+1&&size>10){
-        size=Math.max(10,size-.5);
+      // 14px is the readable floor. The two-row layout gives extreme amounts more width.
+      while(node.scrollWidth>node.clientWidth+1&&size>14){
+        size=Math.max(14,size-.5);
         node.style.fontSize=size+'px';
       }
       const fits=node.scrollWidth<=node.clientWidth+1;
