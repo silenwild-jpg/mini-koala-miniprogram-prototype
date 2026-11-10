@@ -1,5 +1,6 @@
 name: RC2-INTEGRATION-QA-01 isolated source and 375-390 browser NO DEPLOY
 # RC2-VISUAL-DECISION-01: S01→S02 same unit-month pricing contract rerun
+# RC2-VISUAL-UAT-01: verify effective S02 44px after br03 CSS cascade and validated booking/recovery
 on:
   push:
     branches:
