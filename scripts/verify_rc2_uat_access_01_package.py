@@ -32,7 +32,7 @@ def main() -> None:
     identity = json.loads(identity_path.read_text("utf-8"))
     summary = json.loads((BUILD / "build-summary.json").read_text("utf-8"))
     manifest = json.loads((BUILD / "manifest.json").read_text("utf-8"))
-    expected_branch = "integration/rc2-rebaseline-01-20261110"
+    expected_branch = os.environ.get("RC2_BUNDLE_BRANCH", "integration/rc2-rebaseline-01-20261110")
 
     checks = {
         "SHA matches immutable checkout": identity["source_sha"] == summary["commit"] == git_sha,
