@@ -48,10 +48,16 @@ jobs:
       # Full git history is required to compare S01 source bytes with their PR origin.
       - name: Build frozen isolated RC2 site only
         env:
-          RC2_BUNDLE_LABEL: RC2-INTEGRATION-QA-01-ISOLATED
+          RC2_BUNDLE_LABEL: RC2-UAT-ACCESS-01-PR96-ISOLATED
           RC2_BUNDLE_BRANCH: integration/rc2-rebaseline-01-20261110
-          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_INTEGRATION_QA_01.zip
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_UAT_PR96.zip
         run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Certify immutable UAT package and offline ZIP identity
+        env:
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_UAT_PR96.zip
+        run: |
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py scripts/verify_rc2_uat_access_01_package.py
+          python3 scripts/verify_rc2_uat_access_01_package.py
       - name: Install one Chromium and CJK fonts
         run: |
           sudo apt-get install -y -qq fonts-noto-cjk
@@ -88,4 +94,17 @@ jobs:
             release-evidence/rc2-vis-integration-02/
             release-evidence/rc2-rule-fix-01d/
             release-evidence/rc2-fix-01d/
+            release-evidence/rc2-uat-access-01/
             release-evidence/rc2-merge-prep-10/build-summary.json
+      - name: Publish exact-SHA UAT site ZIP after full QA passes (NO DEPLOY)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-uat-access-01-sha-site
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_UAT_PR96.zip
+            release-evidence/rc2-uat-access-01/package-receipt.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/manifest.json
