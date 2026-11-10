@@ -108,7 +108,7 @@
         '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+ (shared?.promo?'<span class="s5-promo-tag">'+esc(shared.promo)+'</span>':'')+
         '<span class="s5-unit-price-label">'+kind+'</span></div>'+
         '<div class="s5-unit-terms"><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
-        'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+'" data-s5-price="'+rank+':'+i+'" aria-label="验证手机号后查看整期费用">'+esc(priceDisplay)+'</button>'+
+        'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+'" data-s5-price="'+rank+':'+i+'" aria-label="查看费用明细（确认订单前需验证手机号）">'+esc(priceDisplay)+'</button>'+
         '<small>'+esc(suffix)+'</small><button type="button" class="s5-unit-buy" '+(buyId?'id="'+buyId+'" ':'')+
         'data-s5-buy="'+rank+':'+i+'">'+button+'</button></div></div>';
     }).join('');
@@ -197,9 +197,9 @@
     const computed=valid&&s.requirement.term_confirmed?core.amounts(q.ids,s.requirement.term_months):null;
     const allowed=core.authorized()&&!!computed,amount=computed;
     text('unit-price',!chosen?'—':!valid?'当前不可用':!computed?money(rows.reduce((n,u)=>n+u.base_month,0))+'/月起':money(computed.rent_total));
-    $('unit-price').dataset.private=String(!allowed);text('price-term',computed?'/ '+s.requirement.term_months+'个月':'');text('monthly-note',computed?'月均约'+money(computed.monthly_average):'');
+    $('unit-price').dataset.private=String(!computed);text('price-term',computed?'/ '+s.requirement.term_months+'个月':'');text('monthly-note',computed?'月均约'+money(computed.monthly_average):'');
     document.querySelector('.estimate-heading').textContent='预计整期租金';
-    text('estimate-amount',amount?money(amount.rent_total):!chosen?'选择仓位后显示':!valid?'当前不可用':'请选择租期');$('estimate-amount').dataset.private=String(!allowed);text('estimate-months',computed?'/ '+s.requirement.term_months+'个月':'');text('estimate-monthly',computed?'月均约'+money(computed.monthly_average):'');
+    text('estimate-amount',amount?money(amount.rent_total):!chosen?'选择仓位后显示':!valid?'当前不可用':'请选择租期');$('estimate-amount').dataset.private=String(!computed);text('estimate-months',computed?'/ '+s.requirement.term_months+'个月':'');text('estimate-monthly',computed?'月均约'+money(computed.monthly_average):'');
     $('start-date').min=core.today();$('start-date').value=s.startDate||'';text('date-label',s.startDate||'请选择用仓日期');save();
   }
   function chooseStore(){const s=core.state();sheet('更换门店',F.stores.filter(x=>x.city===s.city&&x.status==='open').map(st=>act('quickStore',st.name+' · '+st.address,st.id)).join('')||note('暂无可展示门店，可切换城市或联系顾问。'));}
