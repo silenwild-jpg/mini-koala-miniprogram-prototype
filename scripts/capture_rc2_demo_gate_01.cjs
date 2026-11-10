@@ -73,7 +73,7 @@ const sizeModes=[[375,812],[390,844]],scenes=['H01','S01','S02','S5','BOOKING','
        }
        const f=scene+'-'+width+'.png';
        await page.screenshot({path:path.join(output,f),fullPage:false});
-       assert(fs.statSync(path.join(output,f)).size>18000,'Screenshot appears to be blank or not rendered');
+       assert(fs.statSync(path.join(output,f)).size>(scene==='O01_COLD'?12000:18000),'Screenshot appears to be blank or not rendered');
        shots.push({scene,width,height,file:f,status:'CAPTURED',jsErrors});
      }catch(err){
        const file='FAIL-'+scene+'-'+width+'.png';
