@@ -1,0 +1,60 @@
+name: RC2-P1-DEMO-CLOSE-02 O01 six-state browser gate NO DEPLOY
+on:
+  push:
+    branches: [audit/rc2-p1-demo-close-02-20261110]
+    paths:
+      - .github/workflows/rc2-p1-demo-close-02.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-p1-demo-close-02
+  cancel-in-progress: true
+jobs:
+  isolated-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Pin exact PR97 app tree and syntax; verify core price rule
+        run: |
+          git diff --exit-code 449098dd28dc02a0eec65ebb5a5f0ba685c9fe73 HEAD -- app/
+          node --check scripts/verify_rc2_p1_demo_close_02_order_ui.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Build PR97 isolated static candidate only
+        env:
+          RC2_BUNDLE_LABEL: RC2-P1-DEMO-CLOSE-02-QA-NO-DEPLOY
+          RC2_BUNDLE_BRANCH: audit/rc2-p1-demo-close-02-20261110
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_P1_DEMO_CLOSE_02_QA.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install browser and fonts
+        run: |
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Real O01 UI: no agreement, pending, cancel, resume, success, failure
+        run: node scripts/verify_rc2_p1_demo_close_02_order_ui.cjs
+      - name: Re-run PR97 visual P1, pricing, navigation and task coverage
+        run: |
+          node scripts/verify_rc2_p1_demo_close_01_browser.cjs
+          node scripts/verify_rc2_visual_uat_01_tasks.cjs
+          node scripts/verify_rc2_visual_decision_01_browser.cjs
+          node scripts/verify_ux_audit_gate_03_browser.cjs
+      - name: Publish evidence only, never site deployment
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-p1-demo-close-02-order-visual-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-p1-demo-close-02/
+            release-evidence/rc2-p1-demo-close-01/results.json
+            release-evidence/rc2-visual-uat-01/results.json
+            release-evidence/rc2-visual-decision-01/results.json
+            release-evidence/ux-audit-gate-03/results.json
