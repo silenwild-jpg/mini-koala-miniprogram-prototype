@@ -140,7 +140,7 @@ body[data-page="s5"] .s5-unit-price{
 body[data-page="s5"] .s5-unit-price[data-price-length="long"]{font-size:14px;letter-spacing:-.5px}
 body[data-page="s5"] .s5-unit-price[data-price-length="extreme"]{font-size:16px;letter-spacing:-.4px}
 body[data-page="s5"] .s5-unit-terms>small{max-width:100%;overflow:hidden;text-overflow:ellipsis}
-body[data-page="s5"] .s5-unit-buy{min-width:94px;min-height:35px}
+body[data-page="s5"] .s5-unit-buy{min-width:94px;min-height:44px}
 body[data-page="s5"] #artboard > .more-units{
   height:41px!important;display:flex;justify-content:flex-end;
   align-items:center;padding:0 3px;
