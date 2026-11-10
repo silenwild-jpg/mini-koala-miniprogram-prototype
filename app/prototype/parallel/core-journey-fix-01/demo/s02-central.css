@@ -6,12 +6,12 @@
 .page-S02 .detail-head{height:auto;min-height:29px}
 .page-S02 .detail-name{white-space:normal;overflow-wrap:anywhere;line-height:26px}
 .page-S02 .detail-addr{margin:5px 0 0;line-height:19px}
-.page-S02 .s02-hot{position:relative;z-index:4;display:flex;gap:9px;align-items:center;margin:-12px 0 0;padding:10px 16px 9px;background:#fff;border:0;border-radius:12px 12px 0 0;min-height:59px;color:#da4a31}
-.page-S02 .s02-fire{font-size:21px;line-height:28px;flex:none}
-.page-S02 .s02-hot-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
-.page-S02 .s02-hot-copy strong{font-size:12px;font-weight:740;line-height:18px}
-.page-S02 .s02-hot-copy small{font-size:10px;line-height:15px;color:#7a7774}
-.page-S02 .s02-hot-stock{flex:none;font-size:10px;line-height:16px;color:#d74e36;font-weight:700;white-space:nowrap;text-align:right;max-width:91px}
+/* Inventory facts are shown only with verified source data; no synthetic scarcity emphasis. */
+.page-S02 .s02-hot{
+  display:flex;align-items:center;margin:0;padding:7px 16px;
+  background:#f6f9f7;border:0;border-radius:0;min-height:32px;color:#3a6f5a;
+}
+.page-S02 .s02-hot-copy strong{font-size:12px;font-weight:650;line-height:18px}
 .page-S02 .s02-demand{min-height:43px;margin:0;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#f6f9f6;font-size:12px;color:#435d4d}
 .page-S02 .s02-demand a{flex:none;text-decoration:none;color:#287a54;font-weight:750;min-height:25px;padding:3px 0}
 .page-S02 #s02Inventory{scroll-margin-top:0}
