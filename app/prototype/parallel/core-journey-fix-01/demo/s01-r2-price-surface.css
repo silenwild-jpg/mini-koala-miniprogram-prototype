@@ -1,0 +1,21 @@
+/* RC2-VISUAL-DECISION-01: business price ownership; preserve the approved flat S01 surface. */
+.store-cubic-price{
+  margin-top:8px;
+  color:#31725b;
+  font-size:12px;
+  font-weight:650;
+  line-height:18px;
+  letter-spacing:-.1px;
+}
+.store-cubic-price[hidden]{display:none}
+.unit-main{min-height:48px}
+.unit .price[data-price-kind="unit_month"]{grid-template-rows:22px 15px}
+.unit .price[data-price-kind="unit_month"] strong{font-size:17px;letter-spacing:-.4px}
+.unit .price[data-price-kind="unit_month"] .price-secondary{font-size:10.5px}
+.unit .order{height:48px;min-height:48px}
+.s01-compact-store .s01-compact-side{flex-wrap:wrap;row-gap:0}
+.s01-compact-store .s01-compact-side[aria-label] strong{font-size:13px}
+@media(max-width:375px){
+  .unit-main{gap:4px}
+  .unit .order{flex-basis:82px}
+}

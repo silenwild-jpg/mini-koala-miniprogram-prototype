@@ -42,7 +42,7 @@
 .page-S02 .scenario span{display:block;white-space:normal}
 .page-S02 .unit-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:6px}
 .page-S02 .unit-price{min-width:0}
-.page-S02 .order-button{border-radius:7px;margin:0;padding:7px 9px;min-height:36px;font-size:12px;line-height:20px}
+.page-S02 .order-button{border-radius:7px;margin:0;padding:7px 9px;min-height:44px;font-size:12px;line-height:20px}
 .page-S02 .br03-group-title{font-size:14px;font-weight:600;color:#375d48;margin:14px 0 3px;padding:5px 0}
 .page-S02 .br03-group-note{font-size:12px;color:#708075;margin:4px 0 8px;line-height:19px}
 .page-S02 .unavailable{font-size:12px;line-height:18px}

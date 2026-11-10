@@ -1,0 +1,56 @@
+name: RC2-UAT-ACCESS-01 low-cost SHA ZIP with proven runtime tree NO DEPLOY
+on:
+  push:
+    branches:
+      - integration/rc2-rebaseline-01-20261110
+    paths:
+      - .github/workflows/rc2-uat-package-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-uat-access-01-package
+  cancel-in-progress: true
+jobs:
+  verified-review-bundle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Block changed application bytes relative to passed 375/390 UAT tasks
+        run: |
+          set -eux
+          LAST_FULL_BROWSER_SHA=df852e2b7c46ab6f08fc0cf57d7fab5f6a06d858
+          git cat-file -e "$LAST_FULL_BROWSER_SHA^{commit}"
+          test "$(git rev-parse HEAD:app)" = "$(git rev-parse "$LAST_FULL_BROWSER_SHA":app)"
+          git diff --exit-code "$LAST_FULL_BROWSER_SHA" HEAD -- app/
+          echo "RC2_UAT_EXACT_RUNTIME_TREE_MATCH=PASS, baseline=$LAST_FULL_BROWSER_SHA, current=$GITHUB_SHA"
+      - name: Run business rules and source contracts without Chromium reinstall
+        run: |
+          set -eux
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_rc2_single_candidate_01_source.cjs
+          node scripts/verify_rc2_final_integration_01_contract.cjs
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py scripts/verify_rc2_uat_access_01_package.py
+      - name: Build immutable RC2 Netlify upload folder and certify ZIP contents
+        env:
+          RC2_BUNDLE_LABEL: RC2-UAT-ACCESS-01-PR96-ISOLATED
+          RC2_BUNDLE_BRANCH: integration/rc2-rebaseline-01-20261110
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_UAT_PR96.zip
+        run: |
+          set -eux
+          python3 scripts/build_rc2_isolated_demo.py
+          python3 scripts/verify_rc2_uat_access_01_package.py
+      - name: Upload independently verifiable ZIP for manual protected deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-uat-access-01-manual-deploy
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_UAT_PR96.zip
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/manifest.json
+            release-evidence/rc2-uat-access-01/package-receipt.json

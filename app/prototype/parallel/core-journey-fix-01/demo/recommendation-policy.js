@@ -25,12 +25,12 @@
     let second = null;
     if (reliableDistance && Number.isFinite(baseCost)) {
       // Expand 3 km -> 5 km -> 10 km -> whole current city if no lower-price option exists.
-      for (const radius of [3, 5, 10, Infinity]) {
+      for (const radius of [3, 5, 10]) {
         const cheaper = rest.filter(row => dist(row) <= radius && cost(row) < baseCost);
         if (cheaper.length) { second = cheaper.sort(byCost)[0]; break; }
       }
     }
-    if (!second) second = rest.slice().sort(byCost)[0];
+    if (!second) second = reliableDistance ? rest.slice().sort((a,b)=>dist(a)-dist(b)||byCost(a,b))[0] : rest.slice().sort(byCost)[0];
     const tail = rest.filter(row => row !== second);
     return {items: [first, second, ...tail], distanceRanked: reliableDistance,
       cheaperSecond: cost(second) < baseCost};

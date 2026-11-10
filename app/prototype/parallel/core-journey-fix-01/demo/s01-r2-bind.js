@@ -3,6 +3,7 @@
   'use strict';
   const masters=Array.from(document.querySelectorAll('.store-card')).map(n=>n.cloneNode(true));
   const stage=document.querySelector('.stores');
+  const priceCss=document.createElement('link');priceCss.rel='stylesheet';priceCss.href='s01-r2-price-surface.css';document.head.append(priceCss);
   const bridge=window.parent!==window?window.parent.SIM_DEMO?.s01R2Bridge:null;
   if(!bridge||!stage||masters.length!==2){document.documentElement.dataset.binding='UNAVAILABLE';return;}
   const setText=(el,v)=>{if(el)el.textContent=String(v??'');};
@@ -64,7 +65,7 @@
     let secondary=priceBox.querySelector('.price-secondary');
     if(!secondary){secondary=document.createElement('small');secondary.className='price-secondary';priceBox.append(secondary);}
     setText(secondary,u.secondary);secondary.hidden=!u.secondary;
-    priceBox.setAttribute('aria-label',u.priceKind==='term'?u.price+' 整期租金，'+u.secondary:u.price+' 每月起');
+    priceBox.setAttribute('aria-label',u.priceKind==='term'?u.price+' 整期租金，'+u.secondary:u.priceKind==='unit_month'?u.price+' 每月，'+u.secondary:u.price+' 每月起');
     setText(el.querySelector('.unit-desc'),u.usage);
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
     const btn=el.querySelector('.order');if(btn){
@@ -89,6 +90,10 @@
     card.querySelector('.store-tags').style.visibility=s.services.length?'visible':'hidden';
     const address=card.querySelector('.address-copy');setText(address,s.address);address.title=s.address;
     const distance=card.querySelector('.km');setText(distance,s.distance);distance.hidden=!s.distance;distance.dataset.verified=String(!!s.distanceVerified);if(s.distance)distance.setAttribute('aria-label','距离约'+s.distance);else distance.removeAttribute('aria-label');
+    let publicRate=card.querySelector('.store-cubic-price');
+    if(!publicRate){publicRate=document.createElement('div');publicRate.className='store-cubic-price';card.querySelector('.address').after(publicRate);}
+    publicRate.hidden=!s.publicCubicPrice;
+    if(s.publicCubicPrice){setText(publicRate,s.publicCubicTerm+'个月租期 · 门店低至 '+s.publicCubicPrice+'/m³/月');publicRate.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月租期');}
     card.querySelectorAll('.unit').forEach((el,i)=>setUnit(el,s.units[i]));
     card.querySelector('.units').hidden=!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);
@@ -139,9 +144,10 @@
     info.append(address);
     const side=document.createElement('div');side.className='s01-compact-side';
     const first=s.units?.[0];
-    if(first){
-      const price=document.createElement('strong');price.textContent=first.price;side.append(price);
-      const suffix=document.createElement('small');suffix.textContent=first.suffix||'';side.append(suffix);
+    if(s.publicCubicPrice||first){
+      const price=document.createElement('strong');price.textContent=s.publicCubicPrice||first.price;side.append(price);
+      const suffix=document.createElement('small');suffix.textContent=s.publicCubicPrice?'/m³/月起':(first.suffix||'');side.append(suffix);
+      if(s.publicCubicPrice)side.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月租期');
     }
     const arrow=document.createElement('span');arrow.className='s01-compact-arrow';arrow.textContent='查看门店 ›';side.append(arrow);
     info.append(side);
