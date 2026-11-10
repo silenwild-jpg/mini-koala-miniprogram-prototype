@@ -62,6 +62,7 @@ jobs:
           if-no-files-found: warn
           path: |
             release-evidence/rc2-p1-demo-close-01/
+            release-evidence/rc2-p1-demo-close-02/
             release-evidence/rc2-visual-uat-01/results.json
             release-evidence/rc2-visual-decision-01/results.json
             release-evidence/ux-audit-gate-03/results.json
