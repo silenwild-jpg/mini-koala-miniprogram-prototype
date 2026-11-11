@@ -49,7 +49,7 @@
       } else if(status==="ended"){
         // Completed rentals appear in order history; pending refunds are handled above.
       } else if(identity!=="verified"){
-        records.push(row("identity","入仓前需完成验证","待办理",desc,[[date(o.start_date),"计划起租"],["未完成","身份验证"]],["完成身份验证","order"],["一键开锁","unlock"],87,o));
+        records.push(row("identity","入仓前需完成验证","待办理",desc,[[date(o.start_date),"计划起租"],["未完成","身份验证"]],["完成身份验证","verify"],["一键开锁","unlock"],87,o));
       } else if(renew.some(x=>x.status==="QUOTE_READY"||x.status==="QUOTE_PENDING")){
         records.push(row("renewal","续租申请处理中","办理中",desc,[[end?date(end):"待确认","当前租期至"],["待确认","续租报价"]],["一键开锁","unlock"],["查看续租进度","renew"],86,o));
       } else if(status==="upcoming"){
