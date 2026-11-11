@@ -331,3 +331,35 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-a
     font-size:20px
   }
 }
+
+/* S01-REF-VIS-SIGNOFF-05 | P1 readability + touch-area correction.
+   Latest screenshot source retains the selected store/unit hierarchy;
+   all improvements are restricted to first two matched S01 store cards.
+   No global H01/S02/S5 token or business-flow changes. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-tags .mk-store-tag{
+  height:20px;min-height:20px;line-height:18px;
+  padding:0 5px;font-size:11px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-tags{
+  height:20px;min-height:20px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address,
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address-copy{
+  font-size:12px;line-height:17px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .km{
+  font-size:12px;line-height:19px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+  font-size:12px;line-height:20px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]>.s01-term-discount{
+  font-size:11px;line-height:18px;height:18px;min-height:18px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>h2{
+  padding-right:44px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-store-detail{
+  top:2px;right:0;width:44px;height:44px;
+  min-width:44px;min-height:44px
+}

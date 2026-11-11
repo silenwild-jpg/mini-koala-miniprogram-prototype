@@ -99,6 +99,13 @@ const cases=[];
               opacity:addressStyle.opacity,fontSize:addressStyle.fontSize,color:addressStyle.color,
               width:address.clientWidth,height:address.clientHeight,scrollWidth:address.scrollWidth,
               style:address.getAttribute('style')},
+            typography:{
+              storeTagFonts:[...card.querySelectorAll('.store-tags .mk-store-tag')].map(e=>parseFloat(getComputedStyle(e).fontSize)),
+              distanceFont:parseFloat(getComputedStyle(km).fontSize),
+              monthlyFont:parseFloat(getComputedStyle(monthly).fontSize),
+              discountFont:parseFloat(getComputedStyle(discount).fontSize),
+              descriptionFont:parseFloat(getComputedStyle(use).fontSize)
+            },
             unitDisplay:getComputedStyle(unit).display,
             boxShadow:getComputedStyle(card).boxShadow,
             cardRadius:getComputedStyle(card).borderRadius
@@ -130,6 +137,13 @@ const cases=[];
         assert(r.monthly.y>r.total.y,'monthly formula should be below total');
         assert(r.button.y>=r.total.y-2,'order action aligns with price row');
         assert(r.button.height>=48,'order tap target height');
+        assert(r.detail.width>=44&&r.detail.height>=44,'S02 chevron needs a 44x44 click area');
+        assert(v.typography.storeTagFonts.every(f=>f>=11),'store tag text should be at least 11px');
+        assert(v.typography.distanceFont>=12&&parseFloat(v.addressDetail.fontSize)>=12,
+          'store address and distance should be at least 12px');
+        assert(v.typography.monthlyFont>=12&&v.typography.descriptionFont>=12,
+          'monthly rent and usage description should be at least 12px');
+        assert(v.typography.discountFont>=11,'term discount should be at least 11px');
         assert(v.addressOneLine&&r.address.width>70&&r.address.height>=16&&r.address.x>=r.photo.right-2,'address must visibly appear to the right of the photo, on one line');
         assert(v.unitDisplay==='grid');
         assert(!v.totalClipped&&!v.monthlyClipped,'normal price should never be clipped');
