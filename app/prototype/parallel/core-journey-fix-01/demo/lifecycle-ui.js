@@ -29,7 +29,7 @@ function render(page,core,selectedId,tools){
    '<dt>起止日期</dt><dd>'+esc(v.start_date)+' 至 '+esc(v.end_date)+'</dd></dl></section>';
  
  if(page==='RN01'){
-  body+='<h3>续租报价申请</h3><p>续租价格必须单独确认，不自动沿用当前月租。续租金额经确认后生效。</p>';
+  body+='<p>续租价格需单独确认，不自动沿用当前月租。</p>';
   for(const r of v.renewal_requests){
    body+='<p>'+esc(r.months)+'个月 · '+esc(stateLabel(r.status))+'</p>';
    if(r.status==='QUOTE_PENDING'&&reviewMode){
@@ -39,7 +39,7 @@ function render(page,core,selectedId,tools){
    if(r.status==='COMPLETED')body+='<p>续租已完成：'+money(r.quote_total)+'</p>';
   }
   if(['active','upcoming'].includes(v.lease_status)&&v.total_months<60&&!v.renewal_requests.some(r=>['QUOTE_PENDING','QUOTE_READY'].includes(r.status))){
-   body+='<label>续租月数（1–60，累计租期不超过60） <input id="renew-months" type="number" min="1" max="60" value="'+esc(renewalDraft===null||renewalDraft===undefined?'':String(renewalDraft))+'"></label>'+button('requestRenewal','提交续租需求');
+   body+='<label>续租月数（1–'+(60-v.total_months)+'个月） <input id="renew-months" type="number" min="1" max="'+(60-v.total_months)+'" value="'+esc(renewalDraft===null||renewalDraft===undefined?'':String(renewalDraft))+'"></label>'+button('requestRenewal','提交续租需求');
   }else body+='<p>当前状态暂不接受新的续租申请。</p>';
  }else if(page==='EX01'){
   body+='<h3>退租安排</h3><p>退租费用与验仓结果以门店办理结果为准。</p>';
