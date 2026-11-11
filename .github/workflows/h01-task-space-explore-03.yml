@@ -61,9 +61,7 @@ jobs:
           fi
           if ! fc-list :lang=zh family | grep -q .; then
             mkdir -p "$HOME/.local/share/fonts"
-            timeout 75s curl -fLsS --retry 1 --retry-delay 2 --max-time 65 \\
-              'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf' \\
-              -o "$HOME/.local/share/fonts/h01-temporary-cjk.otf"
+            timeout 75s curl -fLsS --retry 1 --retry-delay 2 --max-time 65 'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf' -o "$HOME/.local/share/fonts/h01-temporary-cjk.otf"
             fc-cache -f "$HOME/.local/share/fonts"
           fi
           fc-list :lang=zh family | sort -u | head -15 | tee release-evidence/h01-task-space-explore-03/font-families.txt
