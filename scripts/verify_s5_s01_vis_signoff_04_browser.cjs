@@ -38,14 +38,14 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
       const rect=e=>e?.getBoundingClientRect().toJSON()||null;
       const cards=[...document.querySelectorAll('.s5-store-card')].filter(visible);
       return {cards:cards.map(e=>{
-        const store=e.querySelector('.s5-store-head'),photo=e.querySelector('.s5-store-photo'),info=e.querySelector('.s5-store-info'),unit=e.querySelector('.s5-unit-row'),title=e.querySelector('.s5-store-title>strong'),map=e.querySelector('.s5-map-action'),open=e.querySelector('.s5-store-open'),buy=e.querySelector('.s5-unit-buy'),price=e.querySelector('.s5-unit-price'),discount=e.querySelector('.s5-term-discount');
+        const store=e.querySelector('.s5-store-head'),photo=e.querySelector('.s5-store-photo'),info=e.querySelector('.s5-store-info'),unit=e.querySelector('.s5-unit-row'),title=e.querySelector('.s5-store-name'),map=e.querySelector('.s5-map-action'),open=e.querySelector('.s5-store-open'),buy=e.querySelector('.s5-unit-buy'),price=e.querySelector('.s5-unit-price'),discount=e.querySelector('.s5-term-discount');
         const head=rect(store),p=rect(photo),i=rect(info),b=rect(buy),pbtn=rect(price),m=rect(map),detail=rect(open),cap=rect(e.querySelector('.s5-unit-capacity'));
         return {id:e.dataset.storeId,photo:photo?.querySelector('img')?.currentSrc||'',imgReady:!!photo?.querySelector('img')?.naturalWidth,
           storeName:title?.textContent||'',cabin:e.querySelector('.s5-cabin-tag')?.textContent||'',
           capacity:e.querySelector('.s5-unit-capacity')?.textContent||'',usage:e.querySelector('.s5-unit-use')?.textContent||'',
           discount:discount?.textContent||'',price:price?.textContent||'',secondary:e.querySelector('.s5-unit-terms>small')?.textContent||'',
           priceFit:!!price&&price.scrollWidth<=price.clientWidth+2,ctaText:buy?.textContent||'',unitIds:unit?.dataset.unitIds?.split(',')||[],
-          photoLeft:p?.left,infoLeft:i?.left,headRight:head?.right,priceButton:pbtn,cta:b,map:m,details:detail,capacityRect:cap,cardRect:rect(e),
+          photoLeft:p?.left,infoLeft:i?.left,headRight:head?.right,priceButton:pbtn,cta:b,map:m,details:detail,nameHit:rect(title),capacityRect:cap,cardRect:rect(e),
           tagText:[...e.querySelectorAll('.s5-store-services .mk-store-tag')].map(n=>n.textContent),
           address:e.querySelector('.s5-store-address>span')?.textContent||'',
           distance:e.querySelector('.s5-store-distance')?.textContent||''};
@@ -70,7 +70,7 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
       assert(!c.usage.includes('月均'),'do not mix rent identity into usage');
       assert(!/对比|查看门店|导航|距离优先|区域低价/.test(c.ctaText),'CTA text regressed');
       assert(c.cta?.height>=47.5,'48px purchase CTA');
-      assert(c.map?.width>=43.5&&c.map?.height>=43.5&&c.details?.height>=43.5,'map/store touch target min44px');
+      assert(c.map?.width>=43.5&&c.map?.height>=43.5&&c.details?.height>=43.5&&c.nameHit?.height>=43.5,'map/store/name touch target min44px');
       assert(c.priceButton?.height>=43.5&&c.priceFit,'fee details click target and price unclipped');
       assert(c.tagText.length<=2,'S5 tags maximum 2');
       assert(c.price===r.price,'S01/S5 same unit term price '+c.id+' '+c.price+' vs '+r.price);
