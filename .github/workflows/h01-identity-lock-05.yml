@@ -1,4 +1,4 @@
-name: H01 05 identity and BLE ACK exact-SHA 375-390 (NO DEPLOY)
+name: H01 05 identity and lock demo entry 375-390 (NO DEPLOY)
 on:
   push:
     branches: [feat/h01-identity-lock-gate-05-20261111]
@@ -42,7 +42,7 @@ jobs:
           sudo apt-get install -y -qq fonts-noto-cjk
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install chromium
-      - name: Real-page identity BLE ACK and lifecycle checks
+      - name: Verify identity and demo-only lock entry with lifecycle states
         env:
           RC2_EXPECT_SHA: ${{ github.sha }}
         run: node scripts/verify_h01_identity_lock_05_browser.cjs
@@ -50,9 +50,11 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: PR114_H01_IDENTITY_LOCK_05_EXACT_SHA_EVIDENCE
+          name: PR114_H01_IDENTITY_LOCK_DEMO_ONLY_EVIDENCE
           path: |
             release-evidence/h01-identity-lock-05/
             release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
           retention-days: 7
           if-no-files-found: warn
+
+# Latest scope: one-tap lock UI only. No BLE implementation or device ACK testing.
