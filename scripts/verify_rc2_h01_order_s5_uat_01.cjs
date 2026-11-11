@@ -19,20 +19,37 @@ function server(){
  });
 }
 async function seed(page,ttl){
+ // Seed from the actual shared app, not from a transient second core while H01's periodic save runs.
+ await page.goto(main+'?page=S01',{waitUntil:'domcontentloaded'});
+ await page.locator('#screen').waitFor();
  const data=await page.evaluate((ttl)=>{
-  const c=SIM_CORE.create(),f=SIM_FIXTURES,s=c.state();
+  const c=window.SIM_DEMO.core,f=c.fixture,s=c.state();
   const store=f.stores.find(x=>x.city===s.city&&x.status==='open');
   const unit=f.units.find(x=>x.store_id===store.id&&c.available(x));
   if(!unit)throw Error('No available demo unit');
   c.setRequirement(unit.volume,12,true);c.select([unit.id]);c.setDate(c.today());
   c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});
-  c.quote();const o=c.submit(),snapshot=c.state();
-  if(ttl!==null)snapshot.orders.find(x=>x.id===o.id).expiresAt=Date.now()+ttl;
-  sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(snapshot));
-  return {orderId:o.id,unitId:unit.id,expiresAt:ttl===null?o.expiresAt:snapshot.orders.find(x=>x.id===o.id).expiresAt};
+  c.quote();const o=c.submit();
+  window.SIM_DEMO.persist();
+  const snapshot=c.state();
+  if(ttl!==null){
+    const order=snapshot.orders.find(x=>x.id===o.id);
+    order.expiresAt=Date.now()+ttl;
+    sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(snapshot));
+  }
+  const final=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'{}');
+  const created=final.orders?.find(x=>x.id===o.id);
+  if(!created||created.status!=='pending')throw Error('SEED_NOT_PERSISTED');
+  return {orderId:o.id,unitId:unit.id,expiresAt:created.expiresAt};
  },ttl);
- await page.reload({waitUntil:'domcontentloaded'});
- await page.locator('#h01FlowTitle').waitFor();
+ await page.goto(home,{waitUntil:'domcontentloaded'});
+ const diagnostic=await page.evaluate(()=>{
+  const s=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'{}');
+  const d=window.H01_STATE_POLICY?.derive(s,window.SIM_CORE.create({state:s}));
+  return {orders:s.orders?.map(x=>({id:x.id,status:x.status})),task:d?.key,visible:!!document.querySelector('#h01FlowTitle')?.getBoundingClientRect().height,loading:!!window.SIM_CORE};
+ });
+ if(diagnostic.task!=='pending')throw Error('H01_SEED_STATE_LOST: '+JSON.stringify(diagnostic));
+ await page.locator('#h01FlowTitle').waitFor({state:'visible',timeout:5000});
  return data;
 }
 async function capture(page,w,label){
