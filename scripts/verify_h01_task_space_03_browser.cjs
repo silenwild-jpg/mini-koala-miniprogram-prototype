@@ -194,6 +194,16 @@ async function start(){
      assert(Object.values(cjk.samples).every(x=>x.pixels>60),'Chinese glyph sample unexpectedly empty');
      assert.deepEqual(cjk.boxes.filter(x=>x.clipped&&x.overflow!=='ellipsis'),[],
        'H01 visible Chinese task label/button clipped without ellipsis');
+     // Buttons must be measured on the H01 task BEFORE scenario actions navigate to O03/S02/QUICK/other pages.
+     if(outcome.key!=='new'&&phase!=='active_browse'){
+       const primaryHeight=await page.locator('#h01FlowPrimary').evaluate(el=>el.getBoundingClientRect().height);
+       assert(primaryHeight>=47.5,'H01 task primary button must be at least 48px');
+       const secondaryVisible=await page.locator('#h01FlowSecondary').isVisible();
+       const secondaryHeight=secondaryVisible
+         ?await page.locator('#h01FlowSecondary').evaluate(el=>el.getBoundingClientRect().height):null;
+       if(secondaryVisible)assert(secondaryHeight>=47.5,'H01 task secondary button must be at least 48px');
+       record.ctaSizes={primary:primaryHeight,secondary:secondaryHeight};
+     }
      record.screenshot=await photo(page,w,phase);
      // An initial viewport is not the whole page. Verify that CJK-wrapped help can
      // be scrolled completely above the fixed nav, and preserve the actual bottom screenshot.
@@ -403,14 +413,6 @@ async function start(){
        await page.locator('#h01FlowReturn [data-h01="business"]').click();
        await page.locator('body.h01-flow-business').waitFor();
        record.action='marketing→business';
-     }
-     if(outcome.key!=='new'&&phase!=='active_browse'){
-       const cta=await page.locator('#h01FlowPrimary').evaluate(el=>el.getBoundingClientRect());
-       assert(cta.height>=47.5,'H01 task primary button must be at least 48px');
-       if(await page.locator('#h01FlowSecondary').isVisible()){
-         const second=await page.locator('#h01FlowSecondary').evaluate(el=>el.getBoundingClientRect());
-         assert(second.height>=47.5,'H01 task secondary button must be at least 48px');
-       }
      }
      if(outcome.key==='new')assert.equal(outcome.modules.hero,true,'New-user master missing');
      if(outcome.key!=='new'&&phase!=='active_browse')assert.equal(outcome.modules.task,true,'Task view missing');
