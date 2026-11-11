@@ -452,6 +452,8 @@
   const handlers={
     m01View(value){M01_REBASELINE_01.setView(value);render();},
     m01Order(value){if(!MK_LIFECYCLE_CONTRACT_V1.orderById(state(),value)){notice='订单信息已更新，请重新查看订单记录';render();return;}selectedOrderId=value;sessionStorage.setItem('mk_lifecycle_selected_order_v1',value);go('O03');},
+    m01ContinuePay(value){const o=state().orders.find(x=>x.id===value);if(!o||o.status!=='pending'){notice='订单状态已更新，请重新查看';render();return;}selectedOrderId=value;sessionStorage.setItem('mk_lifecycle_selected_order_v1',value);handlers.resumeOrder();},
+    m01Recover(value){const o=state().orders.find(x=>x.id===value);if(!o||o.status!=='payment_failed'){notice='请从订单记录核对最新状态';render();return;}selectedOrderId=value;sessionStorage.setItem('mk_lifecycle_selected_order_v1',value);handlers.recoverFailedOrder();},
     m01Service(value){const pieces=String(value||'').split('|'),id=pieces[0],target=pieces[1];if(!['RN01','EX01','DP01','IV01'].includes(target)||!state().orders.some(o=>o.id===id&&o.status==='paid_simulated')){notice='当前订单不可办理此项服务';render();return;}selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go(target);},
     m01Identity(value){if(!state().orders.some(o=>o.id===value&&o.status==='paid_simulated'))return;location.href='account.html?view=identity&id='+encodeURIComponent(value);},
     m01Access(value){if(!state().orders.some(o=>o.id===value&&o.status==='paid_simulated'))return;location.href='account.html?view=access&id='+encodeURIComponent(value);},
