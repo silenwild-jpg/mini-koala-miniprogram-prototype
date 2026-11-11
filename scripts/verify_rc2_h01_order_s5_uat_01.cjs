@@ -66,6 +66,34 @@ async function runCase(browser,w,h,name,fn){
  records.push(item);await ctx.close();
  console.log(name+' '+w+' '+item.status+(item.error?' '+item.error.split('\n')[0]:''));
 }
+async function completeNewOrder(page,oldOrderId,item,shot){
+ const quick=page.frameLocator('#br04-frame');
+ await quick.locator('[data-choice="store"]').click();
+ await quick.locator('[data-bridge="quickStore"]').first().click();
+ await quick.locator('[data-choice="unit"]').click();
+ await quick.locator('[data-bridge="quickUnit"]').first().click();
+ const term=quick.locator('[data-term="12"]');
+ if(await term.count())await term.click();
+ const today=await page.evaluate(()=>window.SIM_DEMO.core.today());
+ await quick.locator('#start-date').fill(today);
+ await quick.locator('#next-button').click();
+ await page.waitForURL(/page=O01/);
+ const orderPage=page.frameLocator('#br04-frame');
+ await orderPage.locator('#pay').waitFor();
+ await orderPage.locator('#agreed').check();
+ await orderPage.locator('#pay').click();
+ await orderPage.locator('[data-bridge="cancelPay"]').waitFor();
+ const s=await snapshot(page),fresh=s.orders.find(x=>x.status==='pending'&&x.id!==oldOrderId);
+ assert(fresh,'New unpaid order was not created');
+ assert.equal(fresh.expiresAt-fresh.createdAt,3*60*60*1000);
+ assert.equal(s.orders.find(x=>x.id===oldOrderId).status==='pending',false);
+ await shot('05-new-order');
+ await orderPage.locator('[data-bridge="cancelPay"]').click();
+ await page.goto(home);
+ assert.equal(await page.locator('#h01FlowTitle').innerText(),'订单待支付');
+ await shot('06-home-new-order');
+ item.newOrderId=fresh.id;item.oldOrderId=oldOrderId;
+}
 async function paymentFailure(page,item,shot){
  const o=await seed(page,null);
  assert.equal(await page.locator('#h01FlowTitle').innerText(),'订单待支付');
@@ -83,7 +111,7 @@ async function paymentFailure(page,item,shot){
  await page.waitForURL(/page=QUICK/);
  await page.frameLocator('#br04-frame').locator('#next-button').waitFor();
  await shot('04-quick-new-order');
- item.oldOrderId=o.orderId;
+ await completeNewOrder(page,o.orderId,item,shot);
 }
 async function cancelAndResume(page,item,shot){
  const o=await seed(page,null),frame=await checkout(page);
@@ -100,7 +128,7 @@ async function cancelAndResume(page,item,shot){
 async function expiry(page,item,shot){
  const o=await seed(page,2300);
  await shot('01-before-expiry');
- await page.waitForFunction(()=>document.querySelector('#h01FlowTitle')?.textContent.includes('订单已超时'),{timeout:6000});
+ await page.waitForFunction(()=>document.querySelector('#h01FlowTitle')?.textContent.includes('订单已超时'),null,{timeout:6000});
  const s=await snapshot(page);
  assert.equal(s.orders.find(x=>x.id===o.orderId).status,'expired');
  assert.equal(s.stock[o.unitId],'available');
@@ -108,6 +136,7 @@ async function expiry(page,item,shot){
  await page.locator('#h01FlowPrimary').click();
  await page.waitForURL(/page=QUICK/);
  await shot('03-new-order');
+ await completeNewOrder(page,o.orderId,item,shot);
 }
 async function detailAndS5(page,item,shot,w,h,browser){
  await seed(page,null);
@@ -140,6 +169,11 @@ async function detailAndS5(page,item,shot,w,h,browser){
 (async()=>{
  if(!fs.existsSync(path.join(root,'prototype/parallel/core-journey-fix-01/demo/home.html')))
   throw Error('SOURCE_BUILD_MISSING: run python3 scripts/build_rc2_isolated_demo.py from PR #107 checkout first');
+ const sha=process.env.RC2_EXPECT_SHA;
+ if(!sha||!/^[0-9a-f]{40}$/.test(sha))throw Error('RC2_EXPECT_SHA_REQUIRED: pass exact checkout SHA (40 hex digits)');
+ const manifest=JSON.parse(fs.readFileSync(path.join(root,'rc2-uat-version.json'),'utf8'));
+ if(manifest.source_sha!==sha||manifest.source_pr!==107||manifest.source_branch!=='integration/rc2-h01-order-s5-isolated-20261111')
+   throw Error('BUILD_IDENTITY_MISMATCH: expected PR #107 SHA '+sha+', got '+JSON.stringify(manifest));
  fs.mkdirSync(out,{recursive:true});
  const srv=server();await new Promise(ok=>srv.listen(4681,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
@@ -152,7 +186,7 @@ async function detailAndS5(page,item,shot,w,h,browser){
   }
  }finally{await browser.close();await new Promise(ok=>srv.close(ok))}
  const failed=records.filter(x=>x.status!=='PASS');
- fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({kind:'SCRIPTED_PLAYWRIGHT_REAL_BUILT_PAGES_NOT_HUMAN_UAT',sha:process.env.RC2_EXPECT_SHA||'NOT_PINNED',result:failed.length?'FAIL':'PASS',records},null,2));
+ fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({kind:'SCRIPTED_PLAYWRIGHT_REAL_BUILT_PAGES_NOT_HUMAN_UAT',sha:sha,result:failed.length?'FAIL':'PASS',records},null,2));
  if(failed.length)throw Error('UAT FAIL '+failed.map(x=>x.case+'/'+x.width).join(','));
  console.log('RC2 H01 ORDER S5 UAT SCRIPTED '+records.length+'/'+records.length+' PASS');
 })().catch(e=>{console.error(e.stack||String(e));process.exitCode=1});
