@@ -22,7 +22,9 @@
   '<button type="button" data-h01="renew">续租</button><button type="button" data-h01="more">更多服务 ›</button></div></section>'+
   '<div class="h01-flow-other" id="h01FlowOther"><button type="button" data-h01="allorders">我的订单 <span>›</span></button></div>'+
   '<button type="button" class="h01-flow-browse" id="h01FlowBrowse" data-h01="browse">浏览其他门店 ›</button>'+
-  '<p class="h01-flow-note" id="h01FlowNote"></p></div>';
+  '<p class="h01-flow-note" id="h01FlowNote"></p>'+
+  '<section class="h01-flow-help" id="h01FlowHelp" hidden><div class="h01-flow-help-top"><strong id="h01FlowHelpTitle"></strong><button type="button" data-h01="help" id="h01FlowHelpAction">查看须知 ›</button></div><p id="h01FlowHelpText"></p></section>'+
+  '<div class="h01-flow-promo" id="h01FlowPromo" hidden><span id="h01FlowPromoTitle"></span><button data-h01="promo" type="button">了解活动 ›</button></div></div>';
   root.insertBefore(el,root.firstChild);
   const one=s=>el.querySelector(s);
   function getState(){
@@ -71,7 +73,7 @@
     if(order?.term_months&&["pending","identity","upcoming","active","expiring","renewal"].includes(t.key))summary+=(summary?" · ":"")+order.term_months+"个月";
     subNode.textContent=summary;subNode.hidden=!summary;
     const address=one("#h01FlowAddress");
-    const locationText=["upcoming","active"].includes(t.key)?String(actualStore?.address||""):"";
+    const locationText=["identity","upcoming","active","expiring","renewal","returning","lease_expired"].includes(t.key)?String(actualStore?.address||""):"";
     address.textContent=locationText;address.hidden=!locationText;
     one("#h01FlowTask").dataset.urgent=["pending","expired","payment_failed","invalidated","refund","returning","identity","expiring"].includes(t.key)?"true":"false";
     const facts=one("#h01FlowFacts");facts.replaceChildren();
@@ -79,13 +81,39 @@
     updateCountdown();
     one("#h01FlowPrimary").textContent=t.primary?.[0]||"查看订单";
     one("#h01FlowSecondary").textContent=t.secondary?.[0]||"查看订单";
-    one("#h01FlowSecondary").hidden=!t.secondary||["booking","refund","returning"].includes(t.key);
+    one("#h01FlowSecondary").hidden=!t.secondary||["booking","refund"].includes(t.key);
     const service=t.key==="active"||t.key==="expiring";
     one("#h01FlowServices").hidden=!service||t.key==="expiring";
     one("#h01FlowOther").hidden=t.key!=="active"&&!(t.otherActiveCount>0);
     // Top text link replaces duplicate inline browse / top tabs. Existing markup is retained for comparison only.
     one("#h01FlowBrowse").hidden=true;
-    one("#h01FlowNote").textContent=t.otherActiveCount>0?"另有 "+t.otherActiveCount+" 间在租仓位，请在订单中查看。":(t.key==="identity"?"请先完成验证，开门权限按订单资格判断。":"");
+    one("#h01FlowNote").textContent=t.otherActiveCount>0?"另有 "+t.otherActiveCount+" 间在租仓位，请在订单中查看。":"";
+    const help={
+      pending:["付款帮助","关闭支付窗口不会取消订单；请在付款有效期内继续支付。"],
+      payment_failed:["重新下单说明","失败订单已释放仓位，重新下单前需确认最新仓位与费用。"],
+      expired:["超时订单说明","原订单已失效，重新选择仓位后再付款。"],
+      identity:["入仓前准备","完成身份验证后，起租日可使用仓门开锁。"],
+      upcoming:["首次入仓须知","起租日开放存取，提前查看门店位置和存取时间。"],
+      active:["门店使用须知","存取时核对仓号，离开前请确认仓门已关好。"],
+      expiring:["到期办理提醒","到期前可办理续租；退租时需清空并申请验仓。"],
+      renewal:["续租办理提醒","续租费用与生效日期请以订单确认结果为准。"],
+      returning:["退仓与验仓","仓内物品清空后申请验仓，押金以审核结果为准。"],
+      lease_expired:["退押金办理","先完成退租和门店验仓，再办理押金退还。"],
+      refund:["退款进度","押金进度以订单审核记录为准。"]
+    };
+    const entry=help[t.key]||null;
+    one("#h01FlowHelp").hidden=!entry;
+    if(entry){one("#h01FlowHelpTitle").textContent=entry[0];one("#h01FlowHelpText").textContent=entry[1];}
+    // Campaigns are opt-in and require a verified, active configuration. Never invent offers.
+    const promo=window.MK_H01_PROMOTION;
+    const canPromote=["active","upcoming"].includes(t.key);
+    const validPromo=canPromote&&promo?.approved===true&&promo?.active===true&&
+      typeof promo.title==="string"&&promo.title.trim().length>0&&
+      ["storeService","nearby"].includes(promo.action)&&
+      (!promo.storeId||promo.storeId===t.storeId)&&
+      (!promo.expiresAt||Date.now()<Date.parse(promo.expiresAt));
+    one("#h01FlowPromo").hidden=!validPromo;
+    if(validPromo)one("#h01FlowPromoTitle").textContent=promo.title.slice(0,42);
   }
   function countdownValue(expiresAt){
     const remaining=Math.max(0,Math.ceil((Number(expiresAt)-Date.now())/1000));
@@ -160,7 +188,76 @@
     if(kind==="nearby"){go("index.html?page=S01&s01_r2=1");return}
     if(kind==="recommend"){go("index.html?page=S5");return}
     if(kind==="estimate"){go("cap.html");return}
-    if(kind==="navigate"){go(storeUrl());return}
+    if(kind==="navigate"){
+      const st=window.SIM_FIXTURES?.stores?.find(x=>x.id===t.storeId);
+      const geo=st?.geo;
+      if(geo?.verified===true&&Number.isFinite(geo.latitude)&&Number.isFinite(geo.longitude)&&typeof window.wx?.openLocation==="function"){
+        window.wx.openLocation({latitude:geo.latitude,longitude:geo.longitude,name:st.name,address:st.address,scale:16,
+          fail:()=>showChoice("门店导航",st.address||st.name,[["查看门店位置",()=>go(storeUrl())]])});
+      }else if(st?.address){
+        showChoice("门店导航",st.address,[
+          ["地图搜索路线",()=>{
+            const keyword=encodeURIComponent([st.name,st.address].filter(Boolean).join(" "));
+            const url="https://uri.amap.com/search?keyword="+keyword+"&city="+encodeURIComponent(st.city||"");
+            const opened=window.open(url,"_blank","noopener,noreferrer");if(!opened)go(storeUrl());
+          }],
+          ["查看门店位置",()=>go(storeUrl())]
+        ]);
+      }else go(storeUrl());
+      return;
+    }
+    if(kind==="verify"){
+      showChoice("身份验证","完成身份核验后，起租日才可使用蓝牙开锁。",[
+        ["查看订单及资格",()=>go(orderUrl())],
+        ["联系门店",()=>go(storeUrl())]
+      ]);return;
+    }
+    if(kind==="unlock"){
+      const current=getState();
+      const decision=window.H01_STATE_POLICY.accessDecision(current.state,
+        window.SIM_CORE.create({state:current.state}),t.orderId);
+      if(!decision.allowed){
+        const messages={identity:"请先完成身份核验。",before_start:"起租日 "+(decision.startDate||"待确认")+" 后可以开锁。",lease_inactive:"当前租约或验仓状态不允许开锁。",not_paid:"订单未支付，暂不能开锁。"};
+        showChoice("仓门开锁",messages[decision.reason]||"请查看订单的开锁资格。",[
+          ["查看订单",()=>go(orderUrl())],["查看门店位置",()=>go(storeUrl())]
+        ]);return;
+      }
+      const gateway=window.MK_H01_LOCK_GATEWAY;
+      if(typeof gateway?.requestUnlock==="function"){
+        Promise.resolve().then(()=>gateway.requestUnlock({orderId:decision.orderId,storeId:decision.storeId,unitIds:decision.unitIds})).then(result=>{
+          if(result?.confirmed===true&&result?.acknowledged===true)
+            showChoice("开锁成功","请在仓门关闭后确认锁具已锁好。",[["完成",()=>render()]]);
+          else showChoice("无法完成开锁","未收到仓门的开锁确认，请重试或联系门店。",[["查看门店",()=>go(storeUrl())]]);
+        }).catch(()=>showChoice("无法完成开锁","蓝牙连接或仓门授权未完成，请检查蓝牙并联系门店。",[["查看门店",()=>go(storeUrl())]]));
+      }else showChoice("蓝牙开锁","请靠近仓门并开启手机蓝牙。仓门设备尚未绑定，暂时无法开锁。",[
+        ["查看门店位置",()=>go(storeUrl())],["查看我的订单",()=>go(orderUrl())]
+      ]);
+      return;
+    }
+    if(kind==="exit"){go("index.html?page=EX01&order="+encodeURIComponent(t.orderId));return}
+    if(kind==="deposit"){go("index.html?page=DP01&order="+encodeURIComponent(t.orderId));return}
+    if(kind==="help"){
+      const details={
+        pending:"关闭付款窗口不影响有效订单。单次付款失败会使该订单失效，须重新选择仓位；三小时后未支付则订单过期。",
+        payment_failed:"付款失败的旧单不能继续支付。请重新选择可用仓位，确认费用并建立新订单。",
+        expired:"已过期订单无法继续付款，预留仓位已释放；请重新选仓并创建订单。",
+        identity:"准备身份材料，并确认门店存取时间。身份未核验完成前不能开锁。",
+        upcoming:"到店前确认地址与起租日期，携带必要物品。起租后才开放开锁权限。",
+        active:"存取前确认仓位编号；禁止存放易燃易爆等危险物品；离开前关闭仓门并检查锁具。",
+        expiring:"租期到期前确认续租或退租安排，退租需清空仓位并由门店验仓。",
+        renewal:"续租金额、起止日期和生效情况以订单确认记录为准。",
+        returning:"清空全部物品后申请验仓。验仓通过后处理押金，未通过需按门店提示处理。",
+        lease_expired:"租期已结束，仓门权限将停止。申请退租、清空验仓后再处理押金。",
+        refund:"退款处理中可查看订单状态，退还金额和到账时间以实际处理结果为准。"
+      };
+      showChoice("用仓帮助",details[t.key]||"请查看门店存取规则。",[["查看我的订单",()=>go(orderUrl())]]);return;
+    }
+    if(kind==="promo"){
+      const cfg=window.MK_H01_PROMOTION;
+      if(cfg?.approved!==true||cfg?.active!==true)return;
+      act(cfg.action);return;
+    }
+    if(kind==="storeService"){go(storeUrl());return}
     if(kind==="support"){go(t.orderId?orderUrl():"index.html?page=M01");return}
     if(kind==="renew"){
       if(!t.orderId){go("index.html?page=M01");return;}

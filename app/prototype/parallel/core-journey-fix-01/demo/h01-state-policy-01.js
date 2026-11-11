@@ -41,22 +41,24 @@
       const end=life?.end_date||null;
       const renew=Array.isArray(life?.renewal_requests)?life.renewal_requests:[];
       if(["REFUND_PENDING","PROCESSING","REFUND_PROCESSING","REFUND_FAILED"].includes(deposit)){
-        records.push(row("refund","押金处理中","待完成",name,[[deposit==="REFUND_FAILED"?"处理异常":"待处理","押金状态"],["以订单记录为准","办理进度"]],["查看押金进度","order"],["查看订单","order"],91,o));
+        records.push(row("refund","押金处理中","待完成",name,[[deposit==="REFUND_FAILED"?"处理异常":"待处理","押金状态"],["以订单记录为准","办理进度"]],["查看押金进度","deposit"],["查看订单","order"],91,o));
       } else if(status==="returning"||["REQUESTED","WAITING_INSPECTION","INSPECTION_FAILED","awaiting_inspection","inspection_failed"].includes(exit?.status)){
-        records.push(row("returning","退租处理中","办理中",desc,[[exit?.status==="INSPECTION_FAILED"||exit?.status==="inspection_failed"?"需重新验仓":"待确认","验仓进度"]],["查看退租进度","order"],["查看订单","order"],90,o));
-      } else if(status==="ended"||status==="expired"){
-        // Completed rentals are available from the order history, not a permanent homepage interruption.
+        records.push(row("returning","退租处理中","办理中",desc,[[exit?.status==="INSPECTION_FAILED"||exit?.status==="inspection_failed"?"需重新验仓":"待确认","验仓进度"]],["查看退租进度","exit"],["一键开锁","unlock"],90,o));
+       } else if(status==="expired"){
+        records.push(row("lease_expired","租期已到期","待办理",desc,[[end?date(end):"待确认","租期截止"],["待验仓","押金办理"]],["办理退租及退押金","exit"],["查看押金进度","deposit"],89,o));
+      } else if(status==="ended"){
+        // Completed rentals appear in order history; pending refunds are handled above.
       } else if(identity!=="verified"){
-        records.push(row("identity","入仓前需完成验证","待办理",desc,[[date(o.start_date),"计划起租"],["未完成","身份验证"]],["完成身份验证","order"],["入仓指引","order"],87,o));
+        records.push(row("identity","入仓前需完成验证","待办理",desc,[[date(o.start_date),"计划起租"],["未完成","身份验证"]],["完成身份验证","order"],["一键开锁","unlock"],87,o));
       } else if(renew.some(x=>x.status==="QUOTE_READY"||x.status==="QUOTE_PENDING")){
-        records.push(row("renewal","续租申请处理中","办理中",desc,[[end?date(end):"待确认","当前租期至"],["待确认","续租报价"]],["查看续租进度","order"],["查看租约","order"],86,o));
+        records.push(row("renewal","续租申请处理中","办理中",desc,[[end?date(end):"待确认","当前租期至"],["待确认","续租报价"]],["一键开锁","unlock"],["查看续租进度","renew"],86,o));
       } else if(status==="upcoming"){
-        records.push(row("upcoming","入仓准备","已支付",desc,[[date(o.start_date),"计划起租"],["起租日生效","入仓权限"]],["查看入仓安排","order"],["查看门店位置","navigate"],77,o));
+        records.push(row("upcoming","入仓准备","已支付",desc,[[date(o.start_date),"计划起租"],["起租日生效","入仓权限"]],["一键开锁","unlock"],["门店导航","navigate"],77,o));
       } else if(end&&Number.isFinite(dayDiff(end,nowMs))&&dayDiff(end,nowMs)<=30&&dayDiff(end,nowMs)>=0){
         const n=dayDiff(end,nowMs);
-        const r=row("expiring","租期即将到期","需关注",desc,[[date(end),"租期至"],[String(n)+"天","剩余租期"]],["办理续租","renew"],["查看租约","order"],82,o);r.layout="service";records.push(r);
+        const r=row("expiring","租期即将到期","需关注",desc,[[date(end),"租期至"],[String(n)+"天","剩余租期"]],["一键开锁","unlock"],["办理续租","renew"],82,o);r.layout="service";records.push(r);
       } else {
-        const r=row("active","我的在租仓位","租赁中",desc,[[end?date(end):"待确认","租期至"],[(stores.find(x=>x.id===o.store_id)||{}).access_hours||"24小时","存取时间"]],["查看仓位与租约","order"],["查看门店位置","navigate"],20,o);r.layout="service";records.push(r);
+        const r=row("active","我的在租仓位","租赁中",desc,[[end?date(end):"待确认","租期至"],[(stores.find(x=>x.id===o.store_id)||{}).access_hours||"24小时","存取时间"]],["一键开锁","unlock"],["门店导航","navigate"],20,o);r.layout="service";records.push(r);
       }
     }
     const req=s.requirement||{},selected=Array.isArray(s.selected)?s.selected:[];
@@ -76,5 +78,16 @@
     const activeOrders=records.filter(x=>x.key==="active"||x.key==="expiring");
     return {...main,otherActiveCount:activeOrders.filter(x=>x.orderId!==main.orderId).length,hasRental:activeOrders.length>0,hasOrder:all.length>0,allowTab:main.key==="active"||main.key==="expiring",isMarketing:main.key==="new"};
   }
-  return {derive};
+
+  // Display-only eligibility; final BLE authorization must be verified server-side.
+  function accessDecision(state,core,orderId){
+    const order=(state?.orders||[]).find(o=>o.id===orderId);
+    if(!order||order.status!=="paid_simulated")return {allowed:false,reason:"not_paid"};
+    let view;try{view=core?.lifecycleView?.(order.id);}catch(_){return {allowed:false,reason:"not_available"};}
+    if(view.identity_status!=="verified")return {allowed:false,reason:"identity"};
+    if(view.lease_status==="upcoming")return {allowed:false,reason:"before_start",startDate:order.start_date};
+    if(!view.access_allowed)return {allowed:false,reason:"lease_inactive",status:view.lease_status};
+    return {allowed:true,reason:"eligible",orderId:order.id,storeId:order.store_id,unitIds:order.unit_ids||[]};
+  }
+  return {derive,accessDecision};
 });
