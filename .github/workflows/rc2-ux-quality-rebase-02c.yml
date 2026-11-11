@@ -55,3 +55,5 @@ jobs:
 
 
 # R3: source-proven public computed amount and binding PHONE_REQUIRED are different contracts.
+
+# R4: use the correct locator.evaluate(element, ids) argument ordering.
