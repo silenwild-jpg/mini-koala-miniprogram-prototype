@@ -2,6 +2,9 @@
    Flat information hierarchy, native widths, fixed 88px store images.
    No changes to the H01 master or the S5 recommendation layout. */
 :root{--s01-green:#0a926b;--s01-ink:#19372e;--s01-sub:#677e73;--s01-hair:#e9efeb}
+/* Overflow-x:hidden on the old html/body created a non-scrolling sticky ancestor.
+   clip avoids generating a scroll container while preserving horizontal clipping. */
+html,body{overflow-x:clip;overflow-y:visible}
 .navbar{height:45px}
 .navbar .nav-more,.navbar .nav-target{display:none!important}
 .searchbar{height:55px;gap:9px}
@@ -82,7 +85,7 @@ body.s01-panel-open::before{
   font-size:12px;line-height:18px;color:#0c8964;font-weight:700
 }
 .store-card[data-card-kind="expanded"] .store-cubic-price{
-  margin-top:3px;color:#43826b;font-size:12px;line-height:18px;font-weight:600
+  margin:3px 0 0 100px;color:#43826b;font-size:12px;line-height:18px;font-weight:600
 }
 .store-card[data-card-kind="expanded"] .units{
   clear:both;margin:10px 0 -5px;padding:3px 0 7px;
