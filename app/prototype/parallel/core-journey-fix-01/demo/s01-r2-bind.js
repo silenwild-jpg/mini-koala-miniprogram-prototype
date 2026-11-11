@@ -5,6 +5,20 @@
   const stage=document.querySelector('.stores');
   const priceCss=document.createElement('link');priceCss.rel='stylesheet';priceCss.href='s01-r2-price-surface.css';document.head.append(priceCss);
   const visualCss=document.createElement('link');visualCss.rel='stylesheet';visualCss.href='s01-vis-decision-02.css?v=20261111';document.head.append(visualCss);
+  // S01-UX-REFINE-05: isolated visual experiments only.
+  // Without the explicit URL flag PR #99 remains pixel/interaction identical.
+  const uxVariant=(()=>{
+    try{
+      const q=new URLSearchParams(window.top.location.search).get('s01_ux_refine');
+      return q==='A'||q==='B'?q:null;
+    }catch{return null;}
+  })();
+  document.documentElement.dataset.s01UxRefine=uxVariant||'baseline';
+  if(uxVariant){
+    const experimentCss=document.createElement('link');
+    experimentCss.rel='stylesheet';experimentCss.href='s01-ux-refine-05.css?v=01';
+    document.head.append(experimentCss);
+  }
   const bridge=window.parent!==window?window.parent.SIM_DEMO?.s01R2Bridge:null;
   if(!bridge||!stage||masters.length!==2){document.documentElement.dataset.binding='UNAVAILABLE';return;}
   const setText=(el,v)=>{if(el)el.textContent=String(v??'');};
@@ -89,6 +103,21 @@
       btn.setAttribute('aria-disabled',u.available?'false':'true');
       setText(btn,u.available?'立即下单':'暂不可租');
       btn.style.opacity=u.available?'1':'0.56';
+    }
+    if(uxVariant&&u){
+      // Reparent existing data nodes, preserving the real order CTA and central
+      // price. The two variants differ only in presentation and tap geometry.
+      const main=el.querySelector('.unit-main'),desc=el.querySelector('.unit-desc');
+      const cap=main?.querySelector('.capacity'),promo=main?.querySelector('.hot');
+      if(main&&desc&&cap){
+        const meta=document.createElement('div');meta.className='s01-ux-unit-meta';
+        const prefix=document.createElement('span');prefix.className='s01-ux-unit-label';
+        prefix.textContent='仓位';
+        meta.append(prefix,cap,desc);
+        if(promo&&promo.hidden===false)meta.append(promo);
+        main.prepend(meta);
+        el.dataset.s01Ux=uxVariant;
+      }
     }
   }
   function fill(card,s){
@@ -220,8 +249,23 @@
     setText(document.querySelector('.s01-city'),state.city+' ▾');
     const query=document.querySelector('#s01-search');
     if(query&&document.activeElement!==query)query.value=state.keyword||'';
-    setText(document.querySelector('.s01-context-text'),state.matched?'已选需求：'+state.requirement.capacity+'m³ · '+state.requirement.term+'个月':'不确定用多大仓？');
-    setText(document.querySelector('.s01-edit'),state.matched?'修改需求':'立即估算');
+    if(uxVariant){
+      const t=document.querySelector('.s01-context-text');
+      if(uxVariant==='A'){
+        t.textContent=state.matched?'需求  '+state.requirement.capacity+'m³ · '+state.requirement.term+'个月':'不知道租多大？';
+      }else{
+        t.replaceChildren();
+        const prefix=document.createElement('small');prefix.className='s01-ux-context-prefix';
+        prefix.textContent=state.matched?'已选需求':'不确定容量';
+        const text=document.createElement('strong');text.className='s01-ux-context-value';
+        text.textContent=state.matched?state.requirement.capacity+'m³ · '+state.requirement.term+'个月':'先估算需要多大空间';
+        t.append(prefix,text);
+      }
+      setText(document.querySelector('.s01-edit'),state.matched?'修改 ›':'估算一下 ›');
+    }else{
+      setText(document.querySelector('.s01-context-text'),state.matched?'已选需求：'+state.requirement.capacity+'m³ · '+state.requirement.term+'个月':'不确定用多大仓？');
+      setText(document.querySelector('.s01-edit'),state.matched?'修改需求':'立即估算');
+    }
     const contextualReturn=document.querySelector('.s01-return-recommend');
     if(contextualReturn)contextualReturn.hidden=!state.canReturnToS5;
     setText(document.querySelector('.s01-result-summary'),'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
