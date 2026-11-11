@@ -178,6 +178,17 @@ const cases=[];
         'metadata/CTA geometry problem in '+city);
       assert(info.overflow<=2,'city horizontal overflow '+city);
       cityLayouts.push({city,...info});
+      // Capture each city from the same zero-scroll origin; reusing a tab can
+      // otherwise inherit the prior city's scroll position and crop the header.
+      await s01.locator('html').evaluate(el=>{
+        el.ownerDocument.scrollingElement.scrollTop=0;
+        el.ownerDocument.defaultView.scrollTo(0,0);
+      });
+      await app.locator('html').evaluate(el=>{
+        el.ownerDocument.scrollingElement.scrollTop=0;
+        el.ownerDocument.defaultView.scrollTo(0,0);
+      });
+      await page.evaluate(()=>window.scrollTo(0,0));
       await page.screenshot({path:path.join(out,'S01-reference-city-'+city+'-'+width+'.png')});
     }
     await app.locator('#screen').evaluate(()=>{
