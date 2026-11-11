@@ -69,14 +69,14 @@ const cases=[];
     await page.screenshot({path:path.join(out,'S01-cabin-matched-'+width+'.png')});
     await s01.locator('.stores').screenshot({path:path.join(out,'S01-cabin-list-'+width+'.png')});
     const target=mounted[0],targetCode=target.cabinNo;
-    await app.locator('#screen').evaluate(storeId=>window.SIM_DEMO.s01R2Bridge.action('store',storeId),target.storeId);
+    await app.locator('#screen').evaluate((_,storeId)=>window.SIM_DEMO.s01R2Bridge.action('store',storeId),target.storeId);
     await app.locator('#screen.page-S02').waitFor();
     const s02=await app.locator('.unit-row[data-unit="'+target.unitId+'"] .mk-cabin-tag').first().innerText();
     assert.equal(s02,'仓号 '+targetCode);
     const s02Strong=await app.locator('.unit-row[data-unit="'+target.unitId+'"] .mk-cabin-capacity').first().innerText();
     assert.equal(s02Strong,target.volume+'m³');
     await page.screenshot({path:path.join(out,'S02-cabin-'+width+'.png')});
-    await app.locator('#screen').evaluate(id=>{
+    await app.locator('#screen').evaluate((_,id)=>{
       const b=window.SIM_DEMO,c=b.core;
       c.setRequirement(3,12,true);c.select([id]);c.requestPhone();
       c.resolvePhone('success',{phone:'13800138000',method:'local_fixture'});
@@ -90,7 +90,7 @@ const cases=[];
     await page.screenshot({path:path.join(out,'O01-cabin-'+width+'.png')});
     // Do not fabricate an order merely to show a number; verify the
     // existing receipt/output renderer uses the same fixture identity.
-    const orderName=await app.locator('#screen').evaluate(id=>{
+    const orderName=await app.locator('#screen').evaluate((_,id)=>{
       const b=window.SIM_DEMO,u=b.core.fixture.units.find(x=>x.id===id);
       return {cabin:u.demo_cabin_no,source:u.demo_cabin_source};
     },target.unitId);
