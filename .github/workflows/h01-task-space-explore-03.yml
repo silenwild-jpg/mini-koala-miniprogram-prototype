@@ -50,7 +50,25 @@ jobs:
             echo CJK_RENDERING_FONT_PRESENT=false
           fi
           npm_config_fetch_retries=1 npm_config_fetch_timeout=35000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
-      - name: Run 20 states at 375/390 and verify image / safe-area
+      - name: Install temporary CJK font for actual Chinese text screenshots
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-evidence/h01-task-space-explore-03
+          if ! fc-list :lang=zh family | grep -q .; then
+            timeout 85s sudo apt-get install -y -qq fonts-wqy-microhei || true
+          fi
+          if ! fc-list :lang=zh family | grep -q .; then
+            mkdir -p "$HOME/.local/share/fonts"
+            timeout 75s curl -fLsS --retry 1 --retry-delay 2 --max-time 65 \\
+              'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf' \\
+              -o "$HOME/.local/share/fonts/h01-temporary-cjk.otf"
+            fc-cache -f "$HOME/.local/share/fonts"
+          fi
+          fc-list :lang=zh family | sort -u | head -15 | tee release-evidence/h01-task-space-explore-03/font-families.txt
+          test -s release-evidence/h01-task-space-explore-03/font-families.txt || { echo CJK_FONT_UNAVAILABLE; exit 1; }
+      - name: Run 20 states at 375/390 with real Chinese glyphs and safe-area guard
         env:
           RC2_EXPECT_SHA: "${{ github.sha }}"
         run: node scripts/verify_h01_task_space_03_browser.cjs
