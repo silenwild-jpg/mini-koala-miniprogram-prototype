@@ -121,7 +121,7 @@ def audit_scroll(page_name,width):
  }
  js="""const doc=__DOC__;
  if(!doc)return {error:'DOCUMENT_MISSING'};
- const priority=['#scroller','#app-viewport','.screen','.app-shell','main','#app'];
+ const priority=['#scroller','#app-viewport','#scroll','.scroll','.screen','.app-shell','main','#app'];
  const candidates=[...priority.map(x=>doc.querySelector(x)),doc.scrollingElement,doc.body,doc.documentElement].filter(Boolean);
  let best=null,bestDelta=-1;
  for(const el of candidates){
@@ -152,7 +152,7 @@ def audit_scroll(page_name,width):
  assert not stats['brokenImages'],(page_name,'BROKEN_VISIBLE_IMAGES',stats['brokenImages'])
  for stop,fraction in [('top',0),('middle',0.5),('bottom',1)]:
   mutation="""const doc=__DOC__;
-   const priority=['#scroller','#app-viewport','.screen','.app-shell','main','#app'];
+   const priority=['#scroller','#app-viewport','#scroll','.scroll','.screen','.app-shell','main','#app'];
    const candidates=[...priority.map(x=>doc.querySelector(x)),doc.scrollingElement,doc.body,doc.documentElement].filter(Boolean);
    const el=candidates.reduce((x,y)=>Math.max(0,y.scrollHeight-y.clientHeight)>Math.max(0,x.scrollHeight-x.clientHeight)?y:x);
    el.scrollTop=Math.max(0,el.scrollHeight-el.clientHeight)*__FRACTION__;
