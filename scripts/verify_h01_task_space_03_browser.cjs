@@ -404,6 +404,14 @@ async function start(){
        await page.locator('body.h01-flow-business').waitFor();
        record.action='marketing→business';
      }
+     if(outcome.key!=='new'&&phase!=='active_browse'){
+       const cta=await page.locator('#h01FlowPrimary').evaluate(el=>el.getBoundingClientRect());
+       assert(cta.height>=47.5,'H01 task primary button must be at least 48px');
+       if(await page.locator('#h01FlowSecondary').isVisible()){
+         const second=await page.locator('#h01FlowSecondary').evaluate(el=>el.getBoundingClientRect());
+         assert(second.height>=47.5,'H01 task secondary button must be at least 48px');
+       }
+     }
      if(outcome.key==='new')assert.equal(outcome.modules.hero,true,'New-user master missing');
      if(outcome.key!=='new'&&phase!=='active_browse')assert.equal(outcome.modules.task,true,'Task view missing');
      assert.equal(errors.length,0,'Browser page errors '+errors.join('; '));
