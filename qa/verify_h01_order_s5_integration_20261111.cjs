@@ -1,0 +1,31 @@
+'use strict';
+/* RC2 H01 + S5 integration source-contract test. This is not a browser test. */
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo');
+const read=rel=>fs.readFileSync(path.join(root,rel),'utf8');
+let passed=0;
+function check(label,condition){assert.ok(condition,label);passed++;}
+const home=read('home.html'),main=read('app.js'),engine=read('demo-core.js');
+const policy=read('h01-state-policy-01.js'),view=read('h01-state-impl-01.js'),css=read('h01-state-impl-01.css');
+const bridge=read('br04/bridge.js'),s5=read('br04/s5/index.html'),s5css=read('br04/s5/s5-native-flow.css');
+check('H01 loads shared policy',home.includes('h01-state-policy-01.js'));
+check('H01 loads homepage adapter',home.includes('h01-state-impl-01.js'));
+check('H01 marketing master remains available',home.includes('id="storeRail"')||home.includes("id='storeRail'"));
+check('Three-hour order creation',engine.includes('PENDING_ORDER_TTL_MS=3*60*60*1000'));
+check('Five-minute quote retained',engine.includes('expiresAt:now()+5*60*1000'));
+check('Failure immediately releases existing order',engine.includes("releaseOrder(o,'payment_failed')"));
+check('Pending order resume by id implemented',engine.includes('function resumePendingOrder(orderId)'));
+check('Home directly resumes valid order in O01',view.includes('index.html?page=O01&order='));
+check('O01 restores original reservation',main.includes('core.resumePendingOrder(requestedOrderId)'));
+check('O03 resumes by selected order ID',main.includes('core.resumePendingOrder(o.id)'));
+check('S5 bridge keeps payment guards',bridge.includes("if(e.message==='QUOTE_STALE')")&&bridge.includes('core.resumePendingOrder(pending.id)'));
+check('Failed-payment sheet explicitly releases and restarts',bridge.includes('原订单已失效，预留仓位已释放')&&policy.includes('o.status==="payment_failed"?["重新选择仓位","restart"]'));
+check('No S5 compare entry in markup',!s5.includes('s5-compare')&&!s5.includes('比较仓位'));
+check('No S5 compare handler',!bridge.includes("s5-compare')")&&!bridge.includes('bridge-compare-row'));
+check('No obsolete comparison selector',!s5css.includes('#s5-compare'));
+check('Business-state marketing modules suppressed',css.includes('body.h01-flow-business .hero')&&css.includes('body.h01-flow-business .store-section'));
+check('Timed expiration displayed with single timer in H01',view.includes('h01FlowCountdown')&&view.includes('data-tone'));
+check('H01 footer remains existing bottom nav',home.includes('footer-nav'));
+console.log('H01/S5 RC2 source contracts: '+passed+'/'+passed+' PASS (static source; not runtime browser)');
