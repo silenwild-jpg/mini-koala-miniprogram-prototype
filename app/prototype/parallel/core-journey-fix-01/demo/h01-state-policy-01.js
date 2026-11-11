@@ -17,7 +17,7 @@
           records.push(row("expired","订单已超时","需重新下单",desc,[["已过期","支付状态"]],["重新选择仓位","restart"],["查看原订单","order"],17,o));
         }else{
           const pending=row("pending","订单待支付","待完成",desc,[[amount(o.payable),"首次应付"],["--:--:--","支付剩余时间"]],["继续支付","order"],["费用明细","order"],95,o);
-          pending.expiresAt=Number.isFinite(Number(o.expiresAt))?Number(o.expiresAt):null;
+          pending.expiresAt=Number.isFinite(o.expiresAt)&&o.expiresAt>0?o.expiresAt:null;
           records.push(pending);
         }
         continue;
