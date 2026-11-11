@@ -55,3 +55,5 @@ jobs:
             release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
           retention-days: 7
           if-no-files-found: warn
+
+# R2: scope service-sheet browser assertions to the H01 modal.
