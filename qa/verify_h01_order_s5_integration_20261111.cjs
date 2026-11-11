@@ -26,6 +26,6 @@ check('No S5 compare entry in markup',!s5.includes('s5-compare')&&!s5.includes('
 check('No S5 compare handler',!bridge.includes("s5-compare')")&&!bridge.includes('bridge-compare-row'));
 check('No obsolete comparison selector',!s5css.includes('#s5-compare'));
 check('Business-state marketing modules suppressed',css.includes('body.h01-flow-business .hero')&&css.includes('body.h01-flow-business .store-section'));
-check('Timed expiration displayed with single timer in H01',view.includes('h01FlowCountdown')&&view.includes('data-tone'));
+check('Timed expiration displayed with single timer in H01',view.includes('h01FlowCountdown')&&view.includes('dataset.tone'));
 check('H01 footer remains existing bottom nav',home.includes('footer-nav'));
 console.log('H01/S5 RC2 source contracts: '+passed+'/'+passed+' PASS (static source; not runtime browser)');
