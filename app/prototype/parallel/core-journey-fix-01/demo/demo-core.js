@@ -167,7 +167,7 @@
         ...completed.map(x=>({id:x.payment_id,type:'RENEWAL',amount:x.quote_total,simulated:true}))];
       return copy({order_id:id,lease_status:leaseStatus,start_date:o.start_date,end_date:end,total_months:totalMonths,
         deposit_status:l.deposit||'HELD',exit:exit||null,renewal_requests:l.renewal_requests||[],invoices:l.invoices||[],
-        payments,access_allowed:leaseStatus==='active'&&service.identity==='verified',identity_status:service.identity||'pending'});
+        payments,access_allowed:service.identity==='verified'&&(leaseStatus==='active'||(leaseStatus==='returning'&&dayNow()>=o.start_date&&dayNow()<end&&['REQUESTED','INSPECTION_FAILED'].includes(exit?.status))),identity_status:service.identity||'pending'});
     }
     function lifecycleRequestRenewal(id,months){
       if(!authorized())fail('PHONE_REQUIRED');
