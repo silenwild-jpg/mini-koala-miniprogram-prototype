@@ -36,21 +36,28 @@ const capPriceCase=async (app,s01,months)=>{
   assert(rule&&rule.factor>0&&rule.factor<1,'term price factor missing for '+months);
   const expected=Number((rule.factor*10).toFixed(1))+'折';
   const cards=await s01.locator('.store-card[data-card-kind="expanded"]').evaluateAll(els=>els.map(el=>{
-    const p=el.querySelector('.price[data-price-kind="term"]'),
+    const unit=el.querySelector('.unit'),meta=unit.querySelector('.unit-main'),
+      action=unit.querySelector('.unit-action-row'),capacity=unit.querySelector('.capacity'),
+      usage=unit.querySelector('.unit-desc'),p=unit.querySelector('.price[data-price-kind="term"]'),
       major=p.querySelector('strong'),chip=p.querySelector('.s01-term-discount'),
-      sub=p.querySelector('.price-secondary'),button=el.querySelector('.order');
+      sub=p.querySelector('.price-secondary'),button=unit.querySelector('.order');
     const rect=node=>{const r=node.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom}};
     return {
-      storeId:el.dataset.storeId,
-      unitId:el.querySelector('.unit')?.dataset.unitId,
+      storeId:el.dataset.storeId,unitId:unit.dataset.unitId,layout:unit.dataset.s01Layout,
       price:major.textContent,secondary:sub.textContent,
       chipText:chip?.textContent,chipVisible:!!chip&&!chip.hidden&&getComputedStyle(chip).display!=='none',
       chipBackground:chip?getComputedStyle(chip).backgroundColor:null,
       aria:p.getAttribute('aria-label'),
-      priceRect:rect(p),mainRect:rect(major),chipRect:rect(chip),subRect:rect(sub),
+      metaRect:rect(meta),actionRect:rect(action),capacityRect:rect(capacity),usageRect:rect(usage),
+      priceRect:rect(p),mainRect:rect(major),chipRect:rect(chip),subRect:rect(sub),button:rect(button),
+      capacityLabel:getComputedStyle(capacity,'::before').content,
+      capacityAria:capacity.getAttribute('aria-label'),
+      metaHasCapacity:capacity.parentElement===meta,metaHasUsage:usage.parentElement===meta,
+      actionHasPrice:p.parentElement===action,actionHasButton:button.parentElement===action,
+      priceAndButtonSameRow:Math.abs((p.getBoundingClientRect().top+p.getBoundingClientRect().height/2)-(button.getBoundingClientRect().top+button.getBoundingClientRect().height/2))<=2,
+      usageUnclipped:usage.scrollWidth<=usage.clientWidth+1,
       strongUnclipped:major.scrollWidth<=major.clientWidth+1,
       secondaryUnclipped:sub.scrollWidth<=sub.clientWidth+1,
-      button:rect(button),
       promo:el.querySelector('.hot')?.textContent||'',
       hasStrike:!!el.querySelector('s,del,[class*="original-price"],[style*="line-through"]'),
       hasPublicCubic:!!el.querySelector('.store-cubic-price:not([hidden])')
@@ -64,6 +71,14 @@ const capPriceCase=async (app,s01,months)=>{
     assert.equal(card.hasStrike,false,'unsupported original price has returned');
     assert.equal(card.hasPublicCubic,false,'matched price must not show cubic rate');
     assert(card.chipBackground!=='rgb(255, 0, 0)','discount chip too aggressive');
+    assert.equal(card.layout,'stacked','matched unit is not using the two-row layout');
+    assert.equal(card.capacityLabel,'"仓位"','capacity must be distinguished from user requirement');
+    assert.match(card.capacityAria,/仓位.*立方米/);
+    assert(card.metaHasCapacity&&card.metaHasUsage,'capacity and usage must share the first row');
+    assert(card.actionHasPrice&&card.actionHasButton,'price and CTA must share the second row');
+    assert(card.metaRect.bottom<=card.actionRect.y+1.5,'action row must sit below warehouse meta row');
+    assert(card.priceAndButtonSameRow,'price block and order button must align vertically');
+    assert(card.usageUnclipped,'warehouse usage text unexpectedly clipped');
     assert(card.mainRect.right<=card.chipRect.x+1.1,'discount overlaps main price');
     assert(card.chipRect.right<=card.priceRect.right+1.1,'discount runs outside price region');
     assert(card.chipRect.right<=card.button.x-5,'discount overlaps order CTA');
