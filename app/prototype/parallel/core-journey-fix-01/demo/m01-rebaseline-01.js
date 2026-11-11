@@ -2,8 +2,8 @@
   'use strict';
   // Customer-facing M01 is rendered in the central demo. No separate account data store.
   var currentView='home';
-  var allowed={home:1,orders:1,booking:1,quotes:1,recent:1,favorites:1,coupons:1,services:1,messages:1,account:1,help:1};
-  var names={orders:'我的订单',booking:'预约用仓',quotes:'我的报价',recent:'最近找仓',favorites:'我的收藏',coupons:'我的优惠券',services:'租后服务',messages:'消息',account:'个人信息',help:'帮助与保障'};
+  var allowed={home:1,assets:1,orders:1,booking:1,quotes:1,recent:1,favorites:1,coupons:1,services:1,messages:1,account:1,help:1};
+  var names={assets:'我的仓位',orders:'我的订单',booking:'预约与需求',quotes:'报价方案',recent:'最近找仓',favorites:'我的收藏',coupons:'我的优惠券',services:'租后服务',messages:'消息',account:'个人信息',help:'帮助与保障'};
   function setView(next){currentView=allowed[next]?next:'home';}
   function safeList(value){return Array.isArray(value)?value:[];}
   function readFavorites(){
@@ -14,6 +14,58 @@
   function orderLife(o,ctx){
     if(o.status!=='paid_simulated')return null;
     try{return ctx.getLife(o.id);}catch(_){return null;}
+  }
+  function assetState(o,ctx){
+    var life=orderLife(o,ctx);
+    if(!life||!['active','upcoming','returning','expired'].includes(life.lease_status))return null;
+    var status={upcoming:'待起租',active:'租用中',returning:'退租处理中',expired:'租期已到期'}[life.lease_status]||'查看订单';
+    var priority={active:4,upcoming:3,returning:2,expired:1}[life.lease_status]||0;
+    if(life.lease_status==='active'&&life.end_date){
+      var days=Math.ceil((Date.parse(life.end_date+'T00:00:00Z')-Date.now())/86400000);
+      if(days>=0&&days<=30){status='即将到期';priority=5;}
+    }
+    return {order:o,life:life,status:status,priority:priority};
+  }
+  function activeAssets(ctx){
+    return safeList(ctx.orders).map(function(o){return assetState(o,ctx);}).filter(Boolean)
+      .sort(function(a,b){return b.priority-a.priority;});
+  }
+  function unitSummary(o,ctx){
+    var details=typeof ctx.unitFacts==='function'?safeList(ctx.unitFacts(o)):[];
+    if(!details.length)return ctx.esc(ctx.unitName(o));
+    return details.map(function(u){
+      var name=String(u.code||u.name||'仓位');
+      var volume=Number(u.volume);
+      return ctx.esc(name+(Number.isFinite(volume)&&volume>0?' · '+volume+'m³':''));
+    }).join('、');
+  }
+  function assetRow(entry,ctx){
+    var o=entry.order,l=entry.life;
+    var status=ctx.esc(entry.status),details=unitSummary(o,ctx);
+    var when=l.lease_status==='upcoming'?'起租 '+ctx.esc(l.start_date||o.start_date||'待确认'):
+      (l.end_date?'至 '+ctx.esc(l.end_date):'租期查看订单');
+    return '<button type="button" class="m01-asset-row" data-action="m01Order" data-value="'+ctx.esc(o.id)+'" aria-label="'+ctx.esc(ctx.storeName(o))+'，'+status+'，查看仓位">'+
+      '<span class="m01-asset-main"><span class="m01-asset-head"><strong>'+ctx.esc(ctx.storeName(o))+'</strong><em>'+status+'</em></span>'+
+      '<span class="m01-asset-units">'+details+'</span>'+
+      '<span class="m01-asset-term">'+ctx.esc(l.total_months)+'个月 · '+when+'</span></span><span class="m01-chevron" aria-hidden="true">›</span></button>';
+  }
+  function leadRecords(s){
+    return safeList(s.leads).concat(safeList(s.enterpriseLeads)).filter(function(x){return x&&x.id;});
+  }
+  function leadName(x){return x.type==='ENTERPRISE_REQUIREMENT'?'企业用仓':
+      x.type==='ADVISOR_CONSULTATION'?'顾问咨询':'预约用仓';}
+  function demandInfo(s){
+    var r=s.requirement||{},cap=Number(r.capacity_m3);
+    if(!(Number.isFinite(cap)&&cap>0))return {has:false,active:false};
+    var orders=safeList(s.orders),selection=safeList(s.selected);
+    var independentSelection=selection.length>0&&!orders.some(function(o){
+      var ids=safeList(o.unit_ids);return ids.length===selection.length&&ids.every(function(id){return selection.includes(id);});
+    });
+    // The core stores one latest requirement; matching a completed checkout is not a new intent.
+    // A current quote, an unsubmitted selection or a first-time demand is evidence of active intent.
+    var hasQuote=!!(s.quote&&s.quote.expiresAt>Date.now());
+    var active=!orders.length||independentSelection||hasQuote;
+    return {has:true,active:active,cap:cap,term:r.term_confirmed?r.term_months:null,city:s.city||'北京'};
   }
   function sortedService(orders,ctx){
     var ranked=safeList(orders).map(function(o){
@@ -144,24 +196,30 @@
       ctx.button('go','找附近门店','S01','m01-primary-button');
   }
   function renderHome(ctx){
-    var s=ctx.state,bookings=safeList(s.leads).filter(function(x){return x.type==='SIMULATED_BOOKING_LEAD'&&x.status!=='withdrawn';});
-    var fav=readFavorites(),orders=safeList(ctx.orders),req=s.requirement||{},phone=s.account&&s.account.phone?String(s.account.phone):'';
-    var profile='<section class="m01-profile"><span class="m01-avatar" aria-hidden="true">我</span><div class="m01-profile-details"><strong>'+(phone?'我的迷你考拉':'欢迎使用迷你考拉')+'</strong><p>'+(phone?ctx.esc(phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')):'可直接浏览门店，订单操作按需验证')+'</p></div>'+
-       ctx.button('m01View','个人信息','account','m01-profile-action')+'</section>';
+    var s=ctx.state,leads=leadRecords(s),fav=readFavorites(),orders=safeList(ctx.orders),demand=demandInfo(s);
+    var assets=activeAssets(ctx),phone=s.account&&s.account.phone?String(s.account.phone):'';
+    var profile='<section class="m01-profile"><span class="m01-avatar" aria-hidden="true">我</span><div class="m01-profile-details"><strong>'+
+      (phone?'我的迷你考拉':'欢迎使用迷你考拉')+'</strong><p>'+
+      (phone?ctx.esc(phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')):'查看订单与用仓服务')+'</p></div>'+
+      ctx.button('m01View','个人信息','account','m01-profile-action')+'</section>';
+    var current=ctx.sharedTask||{},passiveActive=current.key==='active'&&assets.length>0;
+    var ended=current.key==='new'&&orders.length>0;
+    var task=passiveActive||ended?'':'<section class="m01-task" aria-label="当前服务">'+primary(ctx)+'</section>';
+    var assetBlock=assets.length?'<section class="m01-block m01-assets"><div class="m01-assets-heading"><h2>我的仓位</h2>'+
+        '<button type="button" class="m01-assets-all" data-action="m01View" data-value="assets">查看全部 '+assets.length+'处 ›</button></div>'+
+        '<div class="m01-assets-list">'+assets.slice(0,2).map(function(e){return assetRow(e,ctx);}).join('')+'</div></section>':'';
     var records=block('我的记录',
-      row('预约用仓',bookings.length?bookings.length+'条记录':'查看预约需求','m01View','booking',ctx)+
-      row('我的报价',s.quote?'查看当前方案':'暂无保存方案','m01View','quotes',ctx)+
       row('我的订单',orders.length?orders.length+'笔订单':'查看订单记录','m01View','orders',ctx)+
-      row('最近找仓',req.capacity_m3?req.capacity_m3+'m³'+(req.term_confirmed?' · '+req.term_months+'个月':' · 租期待确认'):'恢复找仓需求','m01View','recent',ctx));
+      row('预约与需求',leads.length?leads.length+'条记录':'查看已提交需求','m01View','booking',ctx)+
+      row('报价方案',s.quote?(s.quote.expiresAt>Date.now()?'当前方案有效':'当前方案需重新核价'):'暂无当前报价','m01View','quotes',ctx)+
+      row('最近找仓',demand.has?demand.cap+'m³'+(demand.term?' · '+demand.term+'个月':' · 租期待确认'):'尚无保存的需求','m01View','recent',ctx));
     var service=block('服务与权益',
       row('我的收藏','门店和仓位','m01View','favorites',ctx,fav.stores.length+fav.units.length)+
-      row('我的优惠券','查看领取与使用状态','m01View','coupons',ctx,safeList(s.coupons).filter(function(x){return x.status==='CLAIMED'||x.status==='APPLIED';}).length)+
-      row('租后服务','续租、退租、押金和发票','m01View','services',ctx)+
+      row('我的优惠券','查看可用权益','m01View','coupons',ctx,safeList(s.coupons).filter(function(x){return x.status==='CLAIMED'||x.status==='APPLIED';}).length)+
+      (orders.some(function(o){return o.status==='paid_simulated';})?row('租后服务','续租、退租、押金和发票','m01View','services',ctx):'')+
       row('消息','查看业务通知','m01View','messages',ctx,safeList(s.messages).length));
-    var help=block('更多服务',
-      row('联系客服与帮助','','m01View','help',ctx)+
-      row('个人信息','','m01View','account',ctx));
-    return profile+'<section class="m01-task" aria-label="当前服务">'+primary(ctx)+'</section>'+records+service+help;
+    var help=block('更多服务',row('联系客服与帮助','','m01View','help',ctx));
+    return profile+task+assetBlock+records+service+help;
   }
   function empty(text){return '<p class="m01-empty">'+text+'</p>';}
   function serviceRows(ctx){
@@ -180,23 +238,34 @@
   }
   function listView(ctx){
     var s=ctx.state,view=currentView,fav=readFavorites(),orders=safeList(ctx.orders);
+    if(view==='assets'){var assets=activeAssets(ctx);return assets.length?'<div class="m01-assets-list m01-assets-list-full">'+assets.map(function(e){return assetRow(e,ctx);}).join('')+'</div>':empty('暂无有效用仓仓位');}
     if(view==='orders')return orders.length?'<div class="m01-order-list">'+orders.map(ctx.orderBrief).join('')+'</div>':empty('暂无订单。可以先查看附近门店。');
     if(view==='booking'){
-      var leads=safeList(s.leads).filter(function(x){return x.type==='SIMULATED_BOOKING_LEAD';});
-      return leads.length?leads.slice().reverse().map(function(x){return '<article class="m01-info-item"><strong>预约用仓</strong>'+badge(x.status==='withdrawn'?'已撤回':'需求已记录')+
-        '<p>'+ctx.esc(x.address||'地址待补充')+'</p><small>'+ctx.esc((x.capacity_m3||'容量待确认')+(x.capacity_m3?'m³':'')+' · '+(x.term_months?x.term_months+'个月':'租期待确认'))+'</small></article>';}).join('')+
-        '<a class="m01-text-link" href="account.html?view=needs">管理已提交需求</a>':empty('暂无预约需求');
+      var leads=leadRecords(s);
+      return leads.length?leads.slice().reverse().map(function(x){
+        var details=[x.capacity_m3?x.capacity_m3+'m³':null,x.term_months?x.term_months+'个月':null].filter(Boolean).join(' · ');
+        var location=x.address||x.location||x.company||'用仓位置待补充';
+        return '<article class="m01-info-item"><strong>'+ctx.esc(leadName(x))+'</strong>'+
+          badge(x.status==='withdrawn'?'已撤回':'需求已记录')+
+          '<p>'+ctx.esc(location)+'</p>'+(details?'<small>'+ctx.esc(details)+'</small>':'')+'</article>';
+      }).join('')+'<a class="m01-text-link" href="account.html?view=needs">管理已提交需求</a>':empty('暂无预约或咨询记录');
     }
     if(view==='quotes'){
       var q=s.quote;
-      return q&&q.unit_ids&&q.unit_ids.length?'<article class="m01-info-item"><strong>'+ctx.esc(ctx.storeName(q))+'</strong>'+badge(q.expiresAt>Date.now()?'待确认':'需重新核价')+
+      return q&&q.unit_ids&&q.unit_ids.length?'<article class="m01-info-item"><strong>'+ctx.esc(ctx.storeName(q))+'</strong>'+badge(q.expiresAt>Date.now()?'当前报价':'已过期')+
         '<p>'+ctx.esc(q.term_months+'个月 · '+q.unit_ids.map(function(id){return ctx.unitName({unit_ids:[id]});}).join('、'))+'</p>'+
-        '<div class="m01-service-actions">'+ctx.button('m01Resume','重新核对方案','','m01-minor-button')+'</div></article>':empty('暂无有效的已保存报价。可以返回找仓继续选择。');
+        '<div class="m01-service-actions">'+ctx.button('m01Resume','重新核对方案','','m01-minor-button')+'</div></article>':empty('暂无当前报价方案');
     }
     if(view==='recent'){
-      var r=s.requirement||{};return r.capacity_m3?'<article class="m01-info-item"><strong>'+ctx.esc(r.capacity_m3+'m³')+'</strong>'+badge(r.term_confirmed?'需求已确认':'待补齐租期')+
-        '<p>'+ctx.esc(s.city+' · '+(r.term_confirmed?r.term_months+'个月':'租期待选择'))+'</p>'+
-        '<div class="m01-service-actions">'+ctx.button('m01Resume','继续找仓','','m01-minor-button')+'</div></article>':empty('尚无已保存找仓需求');
+      var r=demandInfo(s);
+      if(!r.has)return empty('尚无保存的找仓需求');
+      return '<article class="m01-info-item"><strong>'+ctx.esc(r.cap+'m³')+'</strong>'+
+        badge(r.active?'当前需求':'最近参考')+
+        '<p>'+ctx.esc(r.city+' · '+(r.term?r.term+'个月':'租期待选择'))+'</p>'+
+        '<div class="m01-service-actions">'+
+        (r.active?ctx.button('m01Resume','继续找仓','','m01-minor-button'):
+          ctx.button('go','按此需求重新找仓','S01','m01-minor-button'))+
+        '</div></article>';
     }
     if(view==='favorites'){
       var items=fav.stores.map(function(id){return {id:id,name:ctx.storeName({store_id:id})};}).concat(fav.units.map(function(id){return {id:null,name:ctx.unitName({unit_ids:[id]})};}));
