@@ -385,6 +385,7 @@
       state:snapshot,orders:MK_LIFECYCLE_CONTRACT_V1.history(snapshot),
       sharedTask,getLife:id=>core.lifecycleView(id),
       storeName:orderStoreName,unitName:orderUnitName,
+      unitFacts:o=>(o.unit_ids||[]).map(id=>{const u=unit(id);return u?{code:u.code||u.name,volume:u.volume}:null;}).filter(Boolean),
       esc,money,button,orderBrief,authorized:core.authorized()
     });
   }
