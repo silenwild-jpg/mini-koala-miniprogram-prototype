@@ -46,6 +46,9 @@ const cases=['two-stores','one-store','term-missing','none'];
  assert.equal(errors.length,0,'browser errors: '+errors.join(';'));
  await page.screenshot({path:path.join(out,name+'-'+w+'-viewport.png')});
  await s5.locator('#artboard').screenshot({path:path.join(out,name+'-'+w+'-fullpage.png')});
+ const scroll=await s5.locator('#app-viewport').evaluate(el=>{el.scrollTop=el.scrollHeight;return {scrollTop:el.scrollTop,clientHeight:el.clientHeight,scrollHeight:el.scrollHeight};});
+ row.scroll=scroll;
+ if(scroll.scrollTop>0){await page.waitForTimeout(100);await page.screenshot({path:path.join(out,name+'-'+w+'-scrolled-bottom.png')});}
  if(name==='two-stores'){
  await s5.locator('#change-origin').click();assert.equal(await s5.locator('#modal').isVisible(),true,'location chooser');
  }
