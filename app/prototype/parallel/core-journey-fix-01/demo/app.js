@@ -56,7 +56,7 @@
   canonicalS01Url();
   let displayedPage=null;
   const requestedOrderId=new URLSearchParams(location.search).get('order');
-  let selectedOrderId=requestedOrderId&&state().orders.some(o=>o.id===requestedOrderId)?requestedOrderId:(sessionStorage.getItem('mk_lifecycle_selected_order_v1')||null);
+  let selectedOrderId=MK_M01_ORDER_ROUTE_01.select(requestedOrderId!==null,requestedOrderId,sessionStorage.getItem('mk_lifecycle_selected_order_v1'));
   const reviewMode=new URLSearchParams(location.search).get('review')==='1';
   const lifecycleId=()=>selectedOrderId||state().orders.filter(o=>o.status==='paid_simulated').at(-1)?.id;
   let resultKind=sessionStorage.getItem('mk_sim_result_kind')||'order';
@@ -123,7 +123,7 @@
     if(next==='S01'&&page==='S5'){saveS5Origin();sessionStorage.removeItem(S01_SCROLL_KEY);}
     else if(['M01','BOOKING','QUICK'].includes(next))clearS5Origin();
     if(next==='S5')clearS5Origin();
-    page=next;displayedPage=null;notice='';modal=null;persist();const q=new URLSearchParams({page});if(next==='S01'||r2Mode())q.set('s01_r2','1');if(reviewMode)q.set('review','1');if(next==='S02'&&state().storeId)q.set('store',state().storeId);if(next==='BOOKING'&&sessionStorage.getItem('mk_advisor_context_v3'))q.set('mode','advisor');history.pushState({},'',location.pathname+'?'+q);render();}
+    page=next;displayedPage=null;notice='';modal=null;persist();const q=new URLSearchParams({page});MK_M01_ORDER_ROUTE_01.addQueryOrder(q,next,selectedOrderId,state().orders);if(next==='S01'||r2Mode())q.set('s01_r2','1');if(reviewMode)q.set('review','1');if(next==='S02'&&state().storeId)q.set('store',state().storeId);if(next==='BOOKING'&&sessionStorage.getItem('mk_advisor_context_v3'))q.set('mode','advisor');history.pushState({},'',location.pathname+'?'+q);render();}
   function button(action,label,value='',cls='btn'){return `<button ${label==='‹'?'aria-label="返回上页"':''} class="${cls}" data-action="${action}" data-value="${esc(value)}">${label}</button>`;}
   const priceCTA=()=>button('phone','验证后查看整期报价','','price-access-button');
   function price(ids){const p=presentation.price(ids);return `<div class="br03-price"><strong class="br03-price-main">${p.money}</strong>${p.kind==='term'?`<span class="br03-price-term">${p.termLabel}</span><span class="br03-price-average">${p.average}</span>`:`<span class="br03-reference">${p.termLabel}</span>${state().requirement.term_confirmed?button('phone','验证后查看整期价','','br03-price-link'):''}`}</div>`;}
@@ -521,7 +521,7 @@
   document.addEventListener('change',e=>{if(e.target.id==='start-date')act(()=>{core.setDate(e.target.value);render();});});
   $('#scenario').innerHTML=F.scenarios.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
   $('#scenario').addEventListener('change',e=>act(()=>{core.setScenario(e.target.value);resetVisualFilters();sessionStorage.removeItem('mk_br04_ui_v2');['mk_cap_draft_v3','mk_items_draft_v3','mk_entry_context_v3'].forEach(k=>sessionStorage.removeItem(k));positions={};pending=null;lastOrder=null;modal=null;go('S01',null,true);}));
-  window.addEventListener('popstate',()=>{page=new URLSearchParams(location.search).get('page')||'S01';canonicalS01Url();document.documentElement.classList.toggle('r2-product',r2Mode());const id=new URLSearchParams(location.search).get('store');act(()=>{if(id)core.setStore(id);render();});});
+  window.addEventListener('popstate',()=>{const query=new URLSearchParams(location.search);page=query.get('page')||'S01';if(MK_M01_ORDER_ROUTE_01.isOrderPage(page)){selectedOrderId=MK_M01_ORDER_ROUTE_01.select(query.has('order'),query.get('order'),sessionStorage.getItem('mk_lifecycle_selected_order_v1'));if(state().orders.some(o=>o.id===selectedOrderId))sessionStorage.setItem('mk_lifecycle_selected_order_v1',selectedOrderId);}canonicalS01Url();document.documentElement.classList.toggle('r2-product',r2Mode());const id=query.get('store');act(()=>{if(id)core.setStore(id);render();});});
   let lastStatus=state().auth.status;setInterval(()=>{const expired=core.expirePendingOrders();core.authorized();const status=state().auth.status;
     if(status!==lastStatus||expired){lastStatus=status;render();}
     else if(page==='O03'){
