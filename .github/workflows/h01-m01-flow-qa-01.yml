@@ -27,16 +27,17 @@ jobs:
           cat /tmp/m01flow-app.txt
           while IFS= read -r f; do
             case "$f" in
-              app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/index.html|app/prototype/parallel/core-journey-fix-01/demo/m01-order-route-01.js) ;;
+              app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/index.html|app/prototype/parallel/core-journey-fix-01/demo/m01-order-route-01.js|app/prototype/parallel/core-journey-fix-01/demo/demo-core.js|app/prototype/parallel/core-journey-fix-01/demo/h01-state-policy-01.js|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js) ;;
               *) echo "P0_OUT_OF_SCOPE: $f"; exit 1 ;;
             esac
           done < /tmp/m01flow-app.txt
-          for f in app/prototype/parallel/core-journey-fix-01/demo/{app,m01-order-route-01,m01-rebaseline-01,h01-state-policy-01,lifecycle-ui,demo-core}.js scripts/verify_{h01_m01_flow_qa_01,h01_m01_flow_qa_01_browser,h01_m01_contract_01_browser,m01_ia_03,m01_ia_03_browser}.cjs; do node --check "$f"; done
+          for f in app/prototype/parallel/core-journey-fix-01/demo/{app,m01-order-route-01,m01-rebaseline-01,h01-state-policy-01,lifecycle-ui,demo-core}.js scripts/verify_{h01_m01_flow_qa_01,h01_m01_business_date_01,h01_m01_flow_qa_01_browser,h01_m01_contract_01_browser,m01_ia_03,m01_ia_03_browser}.cjs; do node --check "$f"; done
           node qa/test_h01_order_payment_3h.cjs
           node qa/test_h01_state_implement_01.cjs
           node qa/test_h01_postpay_access_deposit_01.cjs
           node scripts/verify_m01_ia_03.cjs
           node scripts/verify_h01_m01_flow_qa_01.cjs
+          node scripts/verify_h01_m01_business_date_01.cjs
           if grep -q "KOALA-LOCAL" app/prototype/parallel/core-journey-fix-01/demo/account.js; then
             echo "LEGACY_FAKE_DOOR_CODE"; exit 1
           fi
