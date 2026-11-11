@@ -126,3 +126,11 @@ body.h01-flow-business #h01FlowContext[data-stage="active"] .h01-scene-image{hei
 @media(max-width:380px){
   body.h01-flow-business #h01FlowContext[data-stage="active"] .h01-scene-image{height:96px}
 }
+
+/* VIS-07: active-only CJK safe-area spacing correction. */
+body.h01-flow-business #h01FlowContext[data-stage="active"]{margin-top:9px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowServices{margin-top:8px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowServices h2{margin-bottom:4px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowOther{margin-top:3px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowHelp{margin-top:6px;padding-top:8px;padding-bottom:6px}
+/* Keep the approved photo height and primary/service actions unchanged. */
