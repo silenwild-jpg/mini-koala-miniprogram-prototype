@@ -21,6 +21,9 @@
       if(capacity!==null&&!validCapacity(capacity))fail('INVALID_CAPACITY');
       if(months!==null&&!validTerm(months))fail('INVALID_TERM');
       if(confirmed&&!validTerm(months))fail('SELECT_TERM');
+      // A confirmed demand is atomic: capacity and 1–60 month term must
+      // both be present. Unconfirmed single-field values are draft/test only.
+      if(confirmed&&!validCapacity(capacity))fail('SELECT_CAPACITY');
       s.requirement={capacity_m3:capacity,term_months:months,term_confirmed:confirmed&&validTerm(months)};s.selected=[];invalidate();
     }
     function setEstimate(payload){
@@ -35,8 +38,14 @@
       if(!Array.isArray(p.items)||!p.items.length||p.items.some(x=>typeof x.id!=='string'||typeof x.variant!=='string'||!Number.isInteger(x.quantity)||x.quantity<1||x.quantity>99)||new Set(p.items.map(x=>x.id)).size!==p.items.length)fail('INVALID_ESTIMATE');
       s.requirement={capacity_m3:p.target_volume,term_months:p.term_confirmed===true?p.term_months:null,term_confirmed:p.term_confirmed===true,source:p.source,estimated_volume:raw,items:p.items.map(x=>({id:x.id,variant:x.variant,quantity:x.quantity}))};s.selected=[];invalidate();
     }
-    function setTerm(months){if(!validTerm(months))fail('INVALID_TERM');s.requirement.term_months=months;s.requirement.term_confirmed=true;s.selected=[];invalidate();}
+    function setTerm(months){
+      if(!validTerm(months))fail('INVALID_TERM');
+      if(!validRequirementCapacity())fail('SELECT_CAPACITY');
+      s.requirement.term_months=months;s.requirement.term_confirmed=true;s.selected=[];invalidate();
+    }
     const validRequirementCapacity=()=>validCapacity(s.requirement.capacity_m3)||(s.requirement.source==='items_estimate'&&s.requirement.estimated_volume>0&&s.requirement.estimated_volume<=200&&s.requirement.capacity_m3===Math.max(.5,s.requirement.estimated_volume)&&Math.abs(s.requirement.capacity_m3*1000-Math.round(s.requirement.capacity_m3*1000))<1e-7);
+    const requirementReady=()=>validRequirementCapacity()&&
+      s.requirement.term_confirmed===true&&validTerm(s.requirement.term_months);
     function setScenario(id){
       const scene=fixture.scenarios.find(x=>x.id===id);if(!scene)fail('UNKNOWN_SCENARIO');
       const previewConsumed=s.previewConsumed;
@@ -221,7 +230,7 @@
       l.invoices.push(req);notify('模拟发票申请已提交，实际开具尚未接入',id);return copy(req);
     }
 
-    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,today,selectionValid,authorized,quote,submit,pay,recheck,
+    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,requirementReady,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,today,selectionValid,authorized,quote,submit,pay,recheck,
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
