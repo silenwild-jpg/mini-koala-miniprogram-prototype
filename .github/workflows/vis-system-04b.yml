@@ -20,7 +20,7 @@ concurrency:
 jobs:
   four-page-qa:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -62,11 +62,13 @@ jobs:
         run: |
           node -e "const a=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(a.source_sha!==process.env.GITHUB_SHA||a.source_branch!=='isolate/vis-system-04b-20261111'||a.source_pr!==119)process.exit(1);console.log('SINGLE_SOURCE',a.source_sha,a.source_pr)"
       - name: Install Chromium with Chinese fonts
+        timeout-minutes: 6
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-noto-cjk
-          npm install --no-save --no-package-lock playwright@1.56.1
-          npx playwright install chromium
+          set -euo pipefail
+          timeout 120s sudo apt-get update -qq
+          timeout 100s sudo apt-get install -y -qq fonts-noto-cjk
+          timeout 100s npm install --no-save --no-package-lock playwright@1.56.1
+          timeout 120s npx playwright install chromium
       - name: S01 reference matched-store 375 390 browser
         run: node scripts/verify_s01_user_reference_layout_02_browser.cjs
       - name: S02 latest detail 375 390 browser
