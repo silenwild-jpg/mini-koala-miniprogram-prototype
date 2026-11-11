@@ -11,7 +11,7 @@ MAN=json.loads((ROOT/'rc2-uat-version.json').read_text())
 assert MAN['source_sha']==os.environ.get('GITHUB_SHA') and MAN['source_pr']==119
 assert MAN['source_branch']=='isolate/vis-system-04b-20261111'
 BASE='http://127.0.0.1:4725'; WD='http://127.0.0.1:9517'
-COL={'promotion':'rgb(166, 87, 30)','service':'rgb(83, 110, 94)','attribute':'rgb(101, 115, 108)','rent':'rgb(10, 123, 89)'}
+COL={'promotion':'rgb(166, 87, 30)','service':'rgb(83, 110, 94)','attribute':'rgb(101, 115, 108)','rent':'rgb(17, 132, 95)'}
 class Quiet(SimpleHTTPRequestHandler):
  def log_message(self,*args):pass
 serve=ThreadingHTTPServer(('127.0.0.1',4725),lambda *a,**k:Quiet(*a,directory=str(ROOT),**k))

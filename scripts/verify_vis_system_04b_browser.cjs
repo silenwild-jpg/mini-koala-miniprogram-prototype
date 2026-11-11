@@ -11,7 +11,7 @@ const server=http.createServer((req,res)=>{
  if(!f.startsWith(root+path.sep)){res.writeHead(403).end();return;}
  fs.readFile(f,(e,b)=>e?res.writeHead(404).end('missing'):res.writeHead(200,{'Content-Type':mime[path.extname(f)]||'application/octet-stream'}).end(b));
 });
-const colors={promotion:'rgb(166, 87, 30)',service:'rgb(83, 110, 94)',attribute:'rgb(101, 115, 108)',rent:'rgb(10, 123, 89)'};
+const colors={promotion:'rgb(166, 87, 30)',service:'rgb(83, 110, 94)',attribute:'rgb(101, 115, 108)',rent:'rgb(17, 132, 95)'};
 const tags=async(loc,field)=>loc.evaluateAll((items,field)=>items.filter(x=>x.getClientRects().length).map(el=>{
  const c=getComputedStyle(el),r=el.getBoundingClientRect(),parent=el.parentElement.getBoundingClientRect();
  const value=el.dataset[field]||'attribute';

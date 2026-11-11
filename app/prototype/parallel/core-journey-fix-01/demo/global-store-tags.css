@@ -8,7 +8,7 @@
   --mk-tag-service-ink:#536e5e;
   --mk-tag-service-bg:#f3f8f4;
   --mk-tag-service-border:#dce9df;
-  --mk-price-confirmed:#0a7b59;
+  --mk-price-confirmed:#11845f;
 }
 .mk-store-tags, .store-tags:has(.mk-store-tag),
 .s5-store-services:has(.mk-store-tag){
