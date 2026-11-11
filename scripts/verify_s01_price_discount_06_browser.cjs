@@ -80,10 +80,19 @@ const capPriceCase=async (app,s01,months)=>{
     assert.match(card.cabinNo,/^[A-D](00[1-9]|0[12][0-9]|030)$/);
     assert.equal(card.cabinTag,'仓号 '+card.cabinNo);
     assert(card.capacityFont>=19&&card.capacityFont>card.cabinFont+7,'capacity not stronger than demo cabin number');
-    assert(card.metaHasCapacity&&card.metaHasUsage,'capacity and usage must share the first row');
-    assert(card.actionHasPrice&&card.actionHasButton,'price and CTA must share the second row');
-    assert(card.metaRect.bottom<=card.actionRect.y+1.5,'action row must sit below warehouse meta row');
-    assert(card.priceAndButtonSameRow,'price block and order button must align vertically');
+    assert(card.metaHasCapacity&&card.metaHasUsage,'capacity and usage must use existing DOM group');
+    assert(card.actionHasPrice&&card.actionHasButton,'price and CTA must use existing DOM group');
+    // VIS-SYSTEM-02: CSS display:contents repositions the same children into
+    // the user-approved left-capacity / middle-price / right-cabin+CTA grid.
+    // Do not require the old same-row height/center alignment.
+    assert(card.capacityRect.right<=card.priceRect.x+2,
+      'reference: capacity block must precede price column');
+    assert(card.priceRect.right<=card.button.x+2,
+      'reference: price column must precede right-side order CTA');
+    assert(card.mainRect.y<=card.button.y+2,
+      'reference: main price must be at/above the checkout button');
+    assert(card.subRect.y>card.mainRect.y,
+      'reference: monthly rent × term must be below the whole-term total');
     assert(card.usageUnclipped,'warehouse usage text unexpectedly clipped');
     assert(card.mainRect.right<=card.chipRect.x+1.1,'discount overlaps main price');
     assert(card.chipRect.right<=card.priceRect.right+1.1,'discount runs outside price region');
