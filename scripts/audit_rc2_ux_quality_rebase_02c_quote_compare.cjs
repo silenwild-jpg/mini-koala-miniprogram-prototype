@@ -58,7 +58,7 @@ async function audit(){
  const ids=(await first.getAttribute('data-unit-ids')).split(',').filter(Boolean);
  const amounts=await rootFrame.locator('#screen').evaluate(ids=>{
    const b=window.SIM_DEMO,c=b.core,s=c.state();
-   return {authorized:c.authorized(),months:s.requirement.term_months,volume:s.requirement.capacity_m3,values:c.formalAmounts(ids,s.requirement.term_months)};
+   return {authorized:c.authorized(),months:s.requirement.term_months,volume:s.requirement.capacity_m3,values:c.amounts(ids,s.requirement.term_months)};
  },ids);
  assert(amounts.authorized,'authorized phone condition not achieved');
  assert.equal(amounts.months,12);
