@@ -29,7 +29,7 @@ check('unverified paid order does not open lock',()=>{
 check('prestart sees unlock CTA but must wait for lease start',()=>{
   const x=setup('upcoming');
   const p=Policy.derive(x.api.state(),x.api,now),d=Policy.accessDecision(x.api.state(),x.api,x.order.id);
-  assert.equal(p.key,'upcoming');assert.equal(p.primary[1],'unlock');assert.equal(p.secondary[1],'navigate');
+  assert.equal(p.key,'upcoming');assert.equal(p.primary[1],'navigate');assert.equal(p.secondary[1],'unlock');
   assert.equal(d.reason,'before_start');assert.equal(d.allowed,false);
 });
 check('verified active lease allows only eligible access',()=>{
