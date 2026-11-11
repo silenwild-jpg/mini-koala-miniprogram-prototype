@@ -115,6 +115,14 @@ const report=[];
       assert(expected,'S5 store missing from fixture');
       assert.deepEqual(s5Tags[i],expected,'S5 tag order differs from H01/S01');
     }
+    const s5Formulas=await s5.locator('.s5-unit-row:not([hidden]) .s5-unit-monthly').evaluateAll(nodes=>nodes.map(el=>({
+      text:el.textContent.trim(),
+      fits:el.scrollWidth<=el.clientWidth+1,
+      display:getComputedStyle(el).display
+    })));
+    assert.equal(s5Formulas.length,2);
+    assert(s5Formulas.every(x=>/^¥[\\d,]+\\/月 × 12个月$/.test(x.text)&&x.fits&&x.display!=='none'),
+      'S5 monthly rent × term is truncated or hidden: '+JSON.stringify(s5Formulas));
     await page.screenshot({path:path.join(out,'S5-integer-tags-'+width+'.png')});
     await page.goto(host+'/prototype/parallel/core-journey-fix-01/demo/home.html',{waitUntil:'domcontentloaded'});
     await page.locator('#storeRail .store-card').first().waitFor();
