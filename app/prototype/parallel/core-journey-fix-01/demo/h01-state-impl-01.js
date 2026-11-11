@@ -18,6 +18,13 @@
   '<div class="h01-flow-facts" id="h01FlowFacts"></div><div class="h01-flow-buttons">'+
   '<button type="button" class="h01-flow-primary" data-h01="primary" id="h01FlowPrimary"></button>'+
   '<button type="button" class="h01-flow-secondary" data-h01="secondary" id="h01FlowSecondary"></button></div></article>'+
+  '<section class="h01-flow-context" id="h01FlowContext" hidden>'+
+  '<div class="h01-stage-progress" id="h01StageProgress" hidden>'+
+  '<div class="h01-stage-head">您的用仓进度</div>'+
+  '<div class="h01-stage-steps" aria-label="当前用仓进度"><span class="now">待支付</span><span>入仓准备</span><span>使用中</span></div>'+
+  '<p class="h01-stage-tip">付款完成后，可查看入仓安排和门店位置。</p></div>'+
+  '<div class="h01-scene" id="h01Scene" hidden><div class="h01-scene-head"><strong>门店环境</strong><span id="h01SceneHours"></span></div><img class="h01-scene-image" id="h01SceneImage" alt="门店环境参考" loading="eager" decoding="async"></div>'+
+  '</section>'+
   '<section class="h01-flow-services" id="h01FlowServices"><h2>仓位服务</h2><div class="h01-flow-service-grid">'+
   '<button type="button" data-h01="renew">续租</button><button type="button" data-h01="more">更多服务 ›</button></div></section>'+
   '<div class="h01-flow-other" id="h01FlowOther"><button type="button" data-h01="allorders">我的订单 <span>›</span></button></div>'+
@@ -96,6 +103,27 @@
     const service=t.key==="active"||t.key==="expiring";
     one("#h01FlowServices").hidden=!service||t.key==="expiring";
     one("#h01FlowOther").hidden=t.key!=="active"&&!(t.otherActiveCount>0);
+    // H01-TASK-SPACE-EXPLORE-03: only the area BELOW the frozen task card changes.
+    // A: compact task progress for payment; C: existing store-curated environment image
+    // for paid pre-entry and active rental. Never inject generic photos into other stores.
+    const withProgress=t.key==="pending";
+    const photoPath=actualStore?.photoDetail;
+    const curated=typeof photoPath==="string"&&
+      photoPath==="store-curated/v1/"+actualStore.id+"/hero.webp"&&
+      actualStore.photo_source==="USER_SUPPLIED_ENVIRONMENT_GENERIC_DEMO_NOT_PHYSICAL_STORE_VERIFIED";
+    const withScene=["upcoming","active"].includes(t.key)&&curated;
+    const context=one("#h01FlowContext");
+    context.hidden=!withProgress&&!withScene;
+    one("#h01StageProgress").hidden=!withProgress;
+    const scene=one("#h01Scene");
+    scene.hidden=!withScene;
+    if(withScene){
+      const picture=one("#h01SceneImage");
+      picture.onerror=()=>{scene.hidden=true;context.hidden=true;};
+      const imageUrl=new URL("assets/"+photoPath,document.baseURI).href;
+      if(picture.src!==imageUrl)picture.src=imageUrl;
+      one("#h01SceneHours").textContent=actualStore.access_hours||"24小时";
+    }
     // Top text link replaces duplicate inline browse / top tabs. Existing markup is retained for comparison only.
     one("#h01FlowBrowse").hidden=true;
     one("#h01FlowNote").textContent=t.otherActiveCount>0?"另有 "+t.otherActiveCount+" 间在租仓位，请在订单中查看。":"";
