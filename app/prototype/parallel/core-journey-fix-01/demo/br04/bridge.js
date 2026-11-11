@@ -253,7 +253,12 @@
       throw e;
     }
     if(value==='success'&&result.status!=='paid_simulated'){save();refresh();sheet('订单无法继续支付',note('请查看最新订单状态并重新选择仓位。')+act('browse','重新选择仓位'));return;}
-    clearToast();save();refresh();sheet(value==='success'?'支付流程已完成':'支付流程未完成',note('本次结果只保存在当前设备，未发生真实扣款。')+note(store(result.store_id).name+' · '+result.term_months+'个月')+act('orderDetail','查看订单记录',result.id,true)+act('browse','继续浏览门店'));},cancelPay(){close();refresh();toast('模拟订单保留为待支付，可从本页继续处理');},browse(){B.navigate('S01');}};
+    clearToast();save();refresh();
+    if(value==='failed'){
+      sheet('支付失败',note('原订单已失效，预留仓位已释放。再次支付需重新选择可用仓位并提交新订单。')+act('browse','重新选择仓位','',true)+act('orderDetail','查看原订单',result.id));
+      return;
+    }
+    sheet('支付流程已完成',note('本次结果只保存在当前设备，未发生真实扣款。')+note(store(result.store_id).name+' · '+result.term_months+'个月')+act('orderDetail','查看订单记录',result.id,true)+act('browse','继续浏览门店'));},cancelPay(){close();refresh();toast('模拟订单保留为待支付，可从本页继续处理');},browse(){B.navigate('S01');}};
   document.addEventListener('click',e=>{const b=e.target.closest('[data-bridge]');if(b){e.preventDefault();guard(()=>actions[b.dataset.bridge]?.(b.dataset.value));}});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Enter'&&e.target.matches('[data-offer]'))e.target.click();});
   for(const id of ['close-modal','modal-close','closePopup','close-sheet'])if($(id))$(id).onclick=close;
