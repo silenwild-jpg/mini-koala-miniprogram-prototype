@@ -87,7 +87,7 @@ body[data-page="s5"] .rec-heading h2{
   font-size:16px;line-height:24px;white-space:normal;
 }
 body[data-page="s5"] .rec-heading p{display:none}
-body[data-page="s5"] #s5-compare{right:0;top:0;min-width:88px;min-height:44px;padding:8px 4px}
+/* S5 comparison UI is globally disabled; obsolete selector removed. */
 /* RC2-UX-QUALITY-REBASE-03: native flat S5 cards, not legacy artboard overlays.
    Store identity/stock/price remain from the single RC2 core renderer. */
 body[data-page="s5"] .recommend-wrap .s5-store-card,
