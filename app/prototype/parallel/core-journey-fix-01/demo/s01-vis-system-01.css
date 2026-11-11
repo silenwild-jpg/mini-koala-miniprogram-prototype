@@ -432,3 +432,14 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-
     width:91px;height:99px;max-width:91px
   }
 }
+
+/* The legacy address has flex:1 (appropriate for a horizontal row).
+   In the reference's column layout that computes a zero-height address line;
+   explicitly restore one visible line before the separate distance row. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address-copy{
+  display:block;flex:0 0 17px;
+  height:17px;min-height:17px;max-height:17px;
+  width:100%;min-width:0;max-width:100%;
+  font-size:11px;line-height:17px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
