@@ -29,3 +29,15 @@
 
 ## 门禁
 待本轮单SHA Actions、375×812/390×844原生截图与全链路QA补证后更新结果。原则：产品字段、推荐顺序、业务契约冻结；S01小范围视觉精修可复审；**用户视觉终签仍PENDING，PR #99 DRAFT/HOLD，MAIN NO-MERGE，NETLIFY NO-DEPLOY**。
+
+
+## 完成后的同SHA验证与逐区审查
+- **实际运行代码 SHA**：`41a88ebe801bd0352cc877ff30c91fa77d042f8d`。
+- **GitHub Actions**：[Run #43014741666](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43014741666) `completed/success`；截图/原始JSON：[artifact #13851633962](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43014741666/artifacts/13851633962)。
+- **已通过的回归**：S01浏览及匹配态；容量/租期不同边界、促销折扣、单仓仓号身份、整元金额与共享标签、五城位置、超长用途/高额数字压力、S01→S02/O01以及既有S5/O01跨页断言。
+- **S01匹配卡两尺寸结果**：375×812和390×844无横向溢出；分别每张222px和225px；详情点击区44×44px；标签11px、地址12px、距离12px、用途12px、月租12px、弱折扣11px；仓号+容量同组，整期价和48px CTA保留。已审阅零滚动实图，未观察到已测场景价格/文字/按钮重叠。
+- **五城演示状态**：北京/上海/杭州/广州两个匹配门店，深圳一店后紧接考拉E存。不可为达到绝对第三位而造不存在的第二匹配店。截图仅反映原型 fixture。
+- **首屏密度**：375px完整看到两个主下单CTA；390px可见两卡及下方E存起始区。首屏不能作为E存必须完整露出的约束。
+- **跨页视觉审查边界**：已经具备促销先、服务后、统一整数价和仓号同源的业务/语义规则；H01仍有9px小标签局部覆盖，S02/S5保留各自主任务卡型。本轮没有对其他页面做像素级改造，不宣称四页视觉已完全统一。
+- **独立设计判断**：S01前两张展开卡达到`TECHNICAL PASS / VISUAL REVIEW PASS (INDEPENDENT)`，可以作为下一轮用户终签候选。独立审查不等于用户签收，故`USER PIXEL SIGNOFF=PENDING`。仍需继续检查未来跨分支归并后的同SHA整页截图，`PR #99 Draft/HOLD`、`main NO-MERGE`、`Netlify NO-DEPLOY`。
+- **独立经营策略与原型验收**：Issue #106仅记录演示租期折扣的跨档特征，不要求本视觉任务验证真实优惠历史、真实库存或实际地理位置。
