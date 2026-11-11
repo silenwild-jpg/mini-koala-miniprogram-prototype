@@ -62,3 +62,5 @@ jobs:
             release-evidence/rc2-h01-order-s5-uat-01/
             release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
             release-evidence/rc2-merge-prep-10/build-summary.json
+
+# R2: use actual shared-app order seed; fail fast with H01 state diagnostic.
