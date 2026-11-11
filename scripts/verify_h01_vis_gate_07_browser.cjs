@@ -101,7 +101,7 @@ async function start(){
  if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='integration/h01-single-candidate-01-20261111'||manifest.source_pr!==116)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
  fs.mkdirSync(dir,{recursive:true});
  const srv=listen();await new Promise(ok=>srv.listen(port,'127.0.0.1',ok));
- const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const browser=await chromium.launch({headless:true,channel:process.env.H01_BROWSER_CHANNEL||'chrome',args:['--no-sandbox']});
  try{
   for(const [w,h] of [[375,812],[390,844]]){
    for(const phase of phases){
