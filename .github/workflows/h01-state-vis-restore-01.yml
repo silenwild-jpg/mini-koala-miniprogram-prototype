@@ -53,3 +53,5 @@ jobs:
             release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
           retention-days: 7
           if-no-files-found: warn
+
+# R2: align failed-order primary CTA assertion with latest frozen policy.
