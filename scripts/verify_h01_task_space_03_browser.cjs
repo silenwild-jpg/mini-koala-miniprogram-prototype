@@ -36,19 +36,32 @@ async function seed(page,phase){
     c.pay(order.id,'success');
     if(!['identity','identity_verify'].includes(phase))c.identity(order.id,'success');
   }
-  if(phase==='renewal')c.lifecycleRequestRenewal(order.id,6);
-  if(['returning','refund','ended'].includes(phase)){
-    c.lifecycleRequestExit(order.id,'early',today);
-    c.lifecycleRequestInspection(order.id);
+  // Date-stable seed: successful orders are placed for today's valid date first,
+  // then the *test-only persisted snapshot* is shifted earlier to represent a
+  // lease that has already started. No production date validation is modified.
+  let overrideState=null;
+  if(['active','active_change','expiring','renewal','returning','refund','ended','active_browse'].includes(phase)){
+    const snapshot=c.state();
+    const o=snapshot.orders.find(x=>x.id===order.id);
+    const offset=phase==='expiring'?18:4;
+    o.start_date=new Date(Date.parse(today+'T00:00:00Z')-offset*86400000).toISOString().slice(0,10);
+    const rental=window.SIM_CORE.create({state:snapshot});
+    if(phase==='renewal')rental.lifecycleRequestRenewal(order.id,6);
+    if(['returning','refund','ended'].includes(phase)){
+      rental.lifecycleRequestExit(order.id,'early',rental.today());
+      rental.lifecycleRequestInspection(order.id);
+    }
+    if(['refund','ended'].includes(phase))rental.lifecycleReviewInspection(order.id,'passed',true);
+    if(phase==='ended')rental.lifecycleReviewRefund(order.id,true);
+    overrideState=rental.state();
   }
-  if(['refund','ended'].includes(phase))c.lifecycleReviewInspection(order.id,'passed',true);
-  if(phase==='ended')c.lifecycleReviewRefund(order.id,true);
   if(phase==='multi'){
     const alt=F.units.find(u=>u.id!==unit.id&&c.available(u)&&F.stores.find(v=>v.id===u.store_id)?.city===s.city);
     if(!alt)throw Error('NO_SECOND_AVAILABLE_UNIT');
     c.setRequirement(alt.volume,12,true);c.select([alt.id]);c.setDate(today);c.quote();c.submit();
   }
   window.SIM_DEMO.persist();
+  if(overrideState)sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(overrideState));
   if(phase==='lease_expired'){
     const snap=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'{}');
     snap.orders.find(x=>x.id===order.id).start_date='2026-01-01';
