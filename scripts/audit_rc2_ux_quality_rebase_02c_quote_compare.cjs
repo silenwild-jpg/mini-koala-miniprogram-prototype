@@ -63,7 +63,7 @@ async function audit(){
  await s5.locator('.s5-store-card[data-rank="0"]:not([hidden]) .s5-unit-price').first().waitFor();
  const first=s5.locator('.s5-store-card[data-rank="0"] .s5-unit-row').first();
  const ids=(await first.getAttribute('data-unit-ids')).split(',').filter(Boolean);
- const amounts=await rootFrame.locator('#screen').evaluate(ids=>{
+ const amounts=await rootFrame.locator('#screen').evaluate((_,ids)=>{
    const b=window.SIM_DEMO,c=b.core,s=c.state();
    let values=null,amountError=null;
    try{values=c.amounts(ids,s.requirement.term_months);}catch(e){amountError=e.message;}
