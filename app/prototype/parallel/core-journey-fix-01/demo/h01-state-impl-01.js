@@ -89,6 +89,9 @@
     one("#h01FlowBrowse").hidden=true;
     one("#h01FlowNote").textContent=t.otherActiveCount>0?"另有 "+t.otherActiveCount+" 间在租仓位，请在订单中查看。":"";
     const help={
+      pending:["付款帮助","关闭支付窗口不会取消订单；请在付款有效期内继续支付。"],
+      payment_failed:["重新下单说明","失败订单已释放仓位，重新下单前需确认最新仓位与费用。"],
+      expired:["超时订单说明","原订单已失效，重新选择仓位后再付款。"],
       identity:["入仓前准备","完成身份验证后，起租日可使用仓门开锁。"],
       upcoming:["首次入仓须知","起租日开放存取，提前查看门店位置和存取时间。"],
       active:["门店使用须知","存取时核对仓号，离开前请确认仓门已关好。"],
@@ -235,6 +238,9 @@
     if(kind==="deposit"){go("index.html?page=DP01&order="+encodeURIComponent(t.orderId));return}
     if(kind==="help"){
       const details={
+        pending:"关闭付款窗口不影响有效订单。单次付款失败会使该订单失效，须重新选择仓位；三小时后未支付则订单过期。",
+        payment_failed:"付款失败的旧单不能继续支付。请重新选择可用仓位，确认费用并建立新订单。",
+        expired:"已过期订单无法继续付款，预留仓位已释放；请重新选仓并创建订单。",
         identity:"准备身份材料，并确认门店存取时间。身份未核验完成前不能开锁。",
         upcoming:"到店前确认地址与起租日期，携带必要物品。起租后才开放开锁权限。",
         active:"存取前确认仓位编号；禁止存放易燃易爆等危险物品；离开前关闭仓门并检查锁具。",
