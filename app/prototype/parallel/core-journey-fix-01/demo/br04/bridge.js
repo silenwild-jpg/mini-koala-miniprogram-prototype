@@ -10,7 +10,7 @@
   const clean=()=>{if(r2())parent.S01_R2_CONTENT?.cleanCopy(document.body);};
   const core=B.core,F=core.fixture,presentation=B.presentation,$=id=>document.getElementById(id),$$=s=>Array.from(document.querySelectorAll(s));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const money=n=>'¥'+Number(n).toLocaleString('zh-CN');
+  const money=n=>'¥'+Math.trunc(Number(n)).toLocaleString('zh-CN');
   const r3Thumb=(v)=>'../../assets/unit-r3/thumb/unit-r3-'+(Number(v)<=1.5?'mini':Number(v)<=5?'small':Number(v)<=15?'medium':'large')+'-336x312.webp';
   const store=id=>F.stores.find(x=>x.id===id),unit=id=>F.units.find(x=>x.id===id);
   const cabinLabel=u=>u?.demo_cabin_no?'仓号 '+u.demo_cabin_no+' · '+u.volume+'m³':(u?.name||'仓位方案');
@@ -31,7 +31,7 @@
   function close(){if(core.state().auth.status==='pending'){core.resolvePhone('denied');save();refresh();}$(modalIds[page][0]).hidden=true;}
   function guard(fn){try{fn();save();}catch(e){save();refresh();const message=codes[e.message]||'当前操作无法完成，请检查您的选择';toast(message);if(e.message==='INVENTORY_CHANGED')alternatives(message);if(e.message==='PRICE_CHANGED'){$('agreed')&&($('agreed').checked=false);ui.agreed=false;save();}}}
   function amounts(ids){const s=core.state();return core.formalAmounts(ids,s.requirement.term_months);}
-  function moneyLines(a){return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月均约</dt><dd>${money(a.monthly_average)}</dd><dt>优惠券</dt><dd>−${money(a.coupon_discount||0)}</dd><dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
+  function moneyLines(a){return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月租</dt><dd>${money(a.monthly_average)}/月</dd><dt>优惠券</dt><dd>−${money(a.coupon_discount||0)}</dd><dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
   function phone(){return B.requestPhone('QUOTE');}
   function priceReady(){if(!core.authorized()){phone();return false;}if(!core.state().requirement.term_confirmed){toast('请选择租期');return false;}return true;}
   function applyTerm(value){const m=Number(value),s=core.state(),ids=page==='o01'?s.selected:[];core.setTerm(m);if(ids.length&&core.selectionValid(ids))core.select(ids);close();save();refresh();}
@@ -81,7 +81,7 @@
     const s=row.store,view=B.s5SharedStore?.(s.id)||s,units=s5StoreRows(row),main=rank===0;
     const term=core.state().requirement.term_months;
     s5StoreUnitRows[rank]=units;
-    const labels=[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].slice(0,2);
+    const labels=presentation.tags(s,2);
     const distance=Number.isFinite(Number(s.distance))?Number(s.distance).toFixed(1)+'km':'';
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
@@ -113,7 +113,7 @@
       '<div class="s5-store-info">'+(reason?'<div class="s5-store-reason">'+esc(reason)+'</div>':'')+
       '<div class="s5-store-title"><button type="button" class="s5-store-open" id="'+(main?'open-store-main':'open-store-secondary')+
       '" data-s5-store="'+rank+'" aria-label="查看'+storeTitle+'门店详情"><strong>'+storeTitle+'</strong><span aria-hidden="true">›</span></button></div>'+
-      '<div class="s5-store-services">'+labels.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>'+
+      '<div class="s5-store-services mk-store-tags">'+labels.map(x=>'<span class="mk-store-tag mk-tag-'+x.type+'" data-tag-type="'+x.type+'">'+esc(x.label)+'</span>').join('')+'</div>'+
       '<div class="s5-store-address"><span>'+addr+'</span>'+
       '<button type="button" class="s5-store-map" id="'+(main?'navigate-main':'navigate-secondary')+
       '" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和导航"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></button></div>'+
