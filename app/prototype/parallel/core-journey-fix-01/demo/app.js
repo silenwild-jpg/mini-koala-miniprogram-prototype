@@ -346,7 +346,7 @@
   }[status]||'办理中');
   const orderStatusTone=status=>status==='paid_simulated'?'paid':status==='pending'?'pending':'inactive';
   const leaseStatusLabel=status=>({
-    upcoming:'待起租',active:'租用中',returning:'退租处理中',ended:'已退租',
+    upcoming:'待起租',active:'租用中',returning:'退租处理中',ended:'已退租',expired:'已到期',
     not_active:'尚未起租',active_demo:'租用中'
   }[status]||'办理中');
   const depositStatusLabel=status=>({
@@ -391,11 +391,19 @@
         +orderLine('当前状态',leaseStatusLabel(v.lease_status))
         +orderLine('累计租期',v.total_months+'个月')
         +(v.end_date?orderLine('租期至',v.end_date):'')
-        +orderLine('押金进度',depositStatusLabel(v.deposit_status))+'</section>'
-        +'<section class="mk-order-services"><h3>订单服务</h3><div class="mk-order-action-grid">'
-        +button('go','续租','RN01','mk-order-action')+button('go','退租/到期','EX01','mk-order-action')
-        +button('go','押金进度','DP01','mk-order-action')+button('go','申请发票','IV01','mk-order-action')
-        +'</div></section>';
+        +orderLine('身份验证',v.identity_status==='verified'?'已通过':'待完成')
+        +orderLine('押金进度',depositStatusLabel(v.deposit_status))+'</section>';
+      let actionHtml='';
+      if(['active','upcoming'].includes(v.lease_status)){
+        actionHtml+=v.identity_status==='verified'?button('m01Access','入仓指引',o.id,'mk-order-action'):button('m01Identity','身份验证',o.id,'mk-order-action');
+      }
+      if(['active','upcoming'].includes(v.lease_status)&&v.total_months<60){
+        const waiting=(v.renewal_requests||[]).some(req=>['QUOTE_PENDING','QUOTE_READY'].includes(req.status));
+        actionHtml+=button('go',waiting?'续租进度':'续租','RN01','mk-order-action');
+      }
+      if(['active','returning'].includes(v.lease_status))actionHtml+=button('go',v.lease_status==='returning'?'退租进度':'退租/到期','EX01','mk-order-action');
+      actionHtml+=button('go','押金进度','DP01','mk-order-action')+button('go','申请发票','IV01','mk-order-action');
+      html+='<section class="mk-order-services"><h3>订单服务</h3><div class="mk-order-action-grid">'+actionHtml+'</div></section>';
     }else{
       html+='<section class="mk-order-section"><h3>订单进度</h3>';
       if(o.status==='pending')html+='<p class="mk-order-tip">完成付款后，可在这里办理续租、退租和押金等服务。</p>'+button('resumeOrder','继续支付','','mk-order-primary');
