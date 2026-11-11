@@ -38,3 +38,23 @@
 
 ## 归并结论
 `H01_OLD_STRUCTURAL_QA=PASS · H01_NEW_CJK_QA=NOT_VERIFIED · H01_VISUAL_SIGNOFF=HOLD · S5=OUT_OF_SCOPE · BLE=DEMO_ONLY · MAIN=NO_GO`
+
+
+## VIS-07 增量｜取得真实 CJK 失败证据并定向修复（2026-11-12）
+
+### 新发现：375px 正常在租 P1
+- 进一步取得 GitHub Actions [#43060457357](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43060457357) 完整日志和工件 **13872174332**，经下载及逐图查看。受测源码 SHA `7be0a223521bda159ca9536bde3556b513225a1b`。
+- 本次运行 **39/40 PASS、1 FAIL**；临时 `Noto Sans CJK SC` 字体实际安装并通过字形检查，失败项唯一为 **375px 正常在租**：帮助区尾部抵达固定导航顶部，低于至少 16px 的视觉安全要求。390px 同状态帮助区距底栏约 **19.2px**。
+- 待支付 / 待入仓在两尺寸均 PASS；旧版 40/40 没有中文字库，不能覆盖本次 P1。
+
+### 修复范围与约束
+- 在 `h01-state-impl-01.css` 添加 **只针对 `data-stage=active`** 的微调：收紧环境图区上间距、服务标题与服务区下方间距、订单/帮助区间距和帮助区内部上下 padding。
+- 保留门店环境图既定高度、原首页营销母版、主按钮 48px、门店导航/续租/更多服务/我的订单完整存在，未动支付、库存、开锁演示或 S5。
+- 修改 `.github/workflows/h01-task-space-explore-03.yml` 的 **push paths**，仅 H01 两个运行态文件、专用测试脚本或专用工作流变更才重新运行，避免因普通文档修改增加 Actions 成本。
+- 最新运行时 CSS 修复 SHA `dc5abc2bc6afbcbd7c817d2a2f68492004e2496f`；对应工作流触发 SHA `08675b29d5aabcc38699ab11e711b410378d201b`。Actions [#43104388009](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43104388009) 查询时为 **queued**，不能标为 PASS。
+- 之前 `59f935d2...` / `b2350125...` 两个候选 Actions 同样仍处于 queued，必须区分源码已提交与流水线实际完成。
+
+### 结论
+**已确认旧 CJK 版 375 在租底部遮挡 P1；已提交活跃租约页间距修复，最新运行结果待证。** 不得把旧 39/40 或无 CJK 40/40 冒称新版本通过，不能据此归并 PR #116 或 main。
+
+`H01_SOURCE_FIX=COMMITTED · LATEST_CJK_RUN=QUEUED · VIS_SIGNOFF=HOLD · S5=OUT_OF_SCOPE · MAIN=NO_GO`
