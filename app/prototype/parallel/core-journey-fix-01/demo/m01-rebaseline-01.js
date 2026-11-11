@@ -92,7 +92,7 @@
   function renderHome(ctx){
     var s=ctx.state,bookings=safeList(s.leads).filter(function(x){return x.type==='SIMULATED_BOOKING_LEAD'&&x.status!=='withdrawn';});
     var fav=readFavorites(),orders=safeList(ctx.orders),req=s.requirement||{},phone=s.account&&s.account.phone?String(s.account.phone):'';
-    var profile='<section class="m01-profile"><span class="m01-avatar" aria-hidden="true">我</span><div class="m01-profile-details"><strong>'+(phone?'我的迷你考拉':'欢迎使用迷你考拉')+'</strong><p>'+(phone?ctx.esc(phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')):'登录后可同步管理订单与服务')+'</p></div>'+
+    var profile='<section class="m01-profile"><span class="m01-avatar" aria-hidden="true">我</span><div class="m01-profile-details"><strong>'+(phone?'我的迷你考拉':'欢迎使用迷你考拉')+'</strong><p>'+(phone?ctx.esc(phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')):'可直接浏览门店，订单操作按需验证')+'</p></div>'+
        ctx.button('m01View','个人信息','account','m01-profile-action')+'</section>';
     var records=block('我的记录',
       row('预约用仓',bookings.length?bookings.length+'条记录':'查看预约需求','m01View','booking',ctx)+
@@ -119,8 +119,8 @@
       var actions='<div class="m01-service-actions">'+ctx.button('m01Order','订单详情',o.id,'m01-minor-button');
       if(l&&['active','upcoming'].includes(l.lease_status))actions+=ctx.button('m01Service','续租',o.id+'|RN01','m01-minor-button');
       if(l&&['active','returning'].includes(l.lease_status))actions+=ctx.button('m01Service','退租进度',o.id+'|EX01','m01-minor-button');
-      actions+=ctx.button('m01Service','押金',o.id+'|DP01','m01-minor-button');
-      actions+=ctx.button('m01Service','发票',o.id+'|IV01','m01-minor-button')+'</div>';
+      if(l)actions+=ctx.button('m01Service','押金',o.id+'|DP01','m01-minor-button');
+      if(l)actions+=ctx.button('m01Service','发票',o.id+'|IV01','m01-minor-button');actions+='</div>';
       return '<article class="m01-service-item" data-order-id="'+id+'">'+main+actions+'</article>';
     }).join('');
   }
