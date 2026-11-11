@@ -5,7 +5,7 @@
 .page-S02 .detail-main{margin:0;border-radius:0;padding:12px 16px 9px;box-shadow:none}
 .page-S02 .detail-head{height:auto;min-height:29px}
 .page-S02 .detail-name{white-space:normal;overflow-wrap:anywhere;line-height:26px}
-.page-S02 .detail-addr{margin:5px 0 0;line-height:19px}
+.page-S02 .detail-addr{margin:5px 0 0;line-height:20px;font-size:12px;color:#5b7067}
 /* Inventory facts are shown only with verified source data; no synthetic scarcity emphasis. */
 .page-S02 .s02-hot{
   display:flex;align-items:center;margin:0;padding:7px 16px;
@@ -13,7 +13,7 @@
 }
 .page-S02 .s02-hot-copy strong{font-size:12px;font-weight:650;line-height:18px}
 .page-S02 .s02-demand{min-height:43px;margin:0;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#f6f9f6;font-size:12px;color:#435d4d}
-.page-S02 .s02-demand a{flex:none;text-decoration:none;color:#287a54;font-weight:750;min-height:25px;padding:3px 0}
+.page-S02 .s02-demand a{flex:none;display:inline-flex;align-items:center;text-decoration:none;color:#287a54;font-weight:750;min-height:44px;padding:6px 0 6px 8px}
 .page-S02 #s02Inventory{scroll-margin-top:0}
 .page-S02 .unit-filter{padding:12px 15px 7px}
 .page-S02 .unit-row{min-height:114px}
@@ -21,7 +21,7 @@
 .page-S02 .unit-card-inner{min-width:0}
 .page-S02 .unit-bottom{gap:5px}
 .page-S02 .unit-price{min-width:0}
-.page-S02 .order-button{min-height:44px}
+.page-S02 .order-button{min-height:48px}
 .page-S02 .combo-row .scenario{color:#57776b;font-weight:600}
 .page-S02 .s02-main-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:0;margin:0 10px;border-bottom:1px solid #e8ede9;height:45px}
 .page-S02 .s02-main-tabs button{width:100%;min-width:0;height:45px;border:0;border-bottom:2px solid transparent;background:transparent;padding:5px 2px;text-align:center;color:#6e7a71;font-size:13px;font-weight:550}
@@ -51,3 +51,23 @@
 .page-S02 .s02-no-match{padding:28px 16px 30px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #edf1eb}
 .page-S02 .s02-no-match strong{font-size:14px;line-height:21px;color:#3a5949}
 .page-S02 .s02-no-match button{border:0;background:transparent;color:#267651;font-weight:750;font-size:12px;white-space:nowrap;min-height:42px}
+
+/* S02-FIX-01: scoped final S02 authority after BR03, without new global decoration. */
+.page-S02 .hero .circle-btn{width:44px;height:44px}
+.page-S02 .hero .gallery-count{min-width:44px;min-height:44px;border:0;font-size:12px;display:grid;place-items:center}
+.page-S02 .nav-ext{width:44px;height:44px;min-width:44px;padding:0;display:grid;place-items:center;background:radial-gradient(circle,#e5f4ef 0 16px,transparent 17px);border-radius:50%}
+.page-S02 .s02-service-summary{width:100%;min-height:44px;display:flex;align-items:center;gap:9px;padding:8px 16px;background:#fff;border:0;text-align:left;color:#61756a;font-size:12px;line-height:18px}
+.page-S02 .s02-service-summary strong{white-space:nowrap;font-weight:700;color:#35664c}
+.page-S02 .s02-service-summary span:not(.s02-service-more){min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page-S02 .s02-service-summary .s02-service-more{margin-left:auto;font-size:20px;color:#357a58}
+.page-S02 .unit-filter{gap:3px}
+.page-S02 .unit-filter .chip{min-height:44px;font-size:12px;padding:8px 8px;white-space:nowrap}
+.page-S02 .unit-head{min-height:32px;padding-right:36px;position:relative}
+.page-S02 .unit-name{max-width:100%;overflow-wrap:anywhere}
+.page-S02 .unit-head .fav{position:absolute;top:-6px;right:-7px;width:44px;height:44px;padding:0;display:grid;place-items:center}
+.page-S02 .order-button{min-height:48px;padding:10px 8px;font-size:13px;line-height:20px}
+.page-S02 .s02-combo-toggle{display:block;margin:6px 0 8px;padding:7px 0;min-height:44px;border:0;background:transparent;color:#287a54;font-size:13px;font-weight:700;text-align:left}
+.page-S02 .s02-travel-modes button{min-height:44px;font-size:12px}
+.page-S02 .s02-route-open{height:48px}
+.page-S02 .s02-no-match button{min-height:44px}
+@media(max-width:375px){.page-S02 .unit-filter .chip{padding-left:7px;padding-right:7px}}
