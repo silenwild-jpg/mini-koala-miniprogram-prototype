@@ -88,41 +88,58 @@
     // Exactly one best-fit scheme per recommended store; combo remains atomic.
     return [{ids:row.ids,volume:row.volume,combo:!!row.combo,near:Number(row.volume)<need}];
   }
+  // S5-FINAL-VIS-SIGNOFF-04: mirror S01 information hierarchy, not S01 page geometry.
+  // Keep existing data-s5-* hooks and business identifiers; no comparison UI.
   function s5StoreCard(row,rank){
     const s=row.store,view=B.s5SharedStore?.(s.id)||s,units=s5StoreRows(row),main=rank===0;
     const term=core.state().requirement.term_months;
-    const genuinelyCheaper=rank>0&&offerRows[0]?.ids?.length&&core.amounts(row.ids,term).rent_total<core.amounts(offerRows[0].ids,term).rent_total;
     s5StoreUnitRows[rank]=units;
     const firstPrice=presentation.price(units[0].ids);
     const labels=(presentation.tags?.(s,2)||[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].slice(0,2).map(label=>({label,type:'service'})));
     const distance=Number.isFinite(Number(s.distance))?Number(s.distance).toFixed(1)+'km':'';
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
+    const storeAction=main?'open-store-main':'open-store-secondary';
+    const mapAction=main?'navigate-main':'navigate-secondary';
     const rows=units.map((u,i)=>{
-      const p=firstPrice,shared=B.s5SharedUnit?.(u.ids);
+      const p=firstPrice,amount=p.amounts||core.amounts(u.ids,term);
       const priceId=main?'main-price':'secondary-price';
       const buyId=main?'main-buy':'secondary-buy';
       const identity=u.ids.length===1?unit(u.ids[0])?.demo_cabin_no:null;
-      const caption=u.near?'容量接近 · 需确认':u.combo?'组合仓 · '+u.ids.length+'间 · '+u.volume+'m³':
-        (identity?'仓号 '+identity+' · ':'仓位 · ')+u.volume+'m³';
+      const cabin=u.combo?'组合仓':identity?'仓号 '+identity:'仓位';
       const priceDisplay=p.kind==='term'?p.money:'查看整期价';
       const suffix=p.kind==='term'?rentFormula(p.amounts,term):'月租 '+p.money+'起';
+      // Same lease-term factor semantics as S01: not a historic struck-through price.
+      const rule=F.pricing.termRules.find(x=>term>=x.min&&term<=x.max),factor=Number(rule?.factor);
+      const expected=Number.isFinite(factor)?u.ids.reduce((v,id)=>{
+        const item=unit(id),base=core.state().prices[id]??item?.base_month;
+        return v+Math.trunc(Number(base)*factor);
+      },0):NaN;
+      const showDiscount=p.kind==='term'&&factor>0&&factor<1&&
+        Number.isFinite(expected)&&Math.abs(Number(amount?.monthly_average)-expected)<.011;
+      const discount=showDiscount?Number((factor*10).toFixed(1))+'折':'';
+      const discountMarkup=discount?'<span class="s5-term-discount" aria-label="租期优惠 '+discount+'">'+esc(discount)+'</span>':'';
+      const warning=u.near?'<span class="s5-unit-warning">容量接近 · 请确认</span>':'';
       return '<div class="s5-unit-row" data-unit-ids="'+esc(u.ids.join(','))+'">'+
-        '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+
-        (shared?.promo?'<span class="s5-promo-tag">'+esc(shared.promo)+'</span>':'')+
-        '<span class="s5-unit-fees">押金按折后月租 · 管理费¥50</span></div>'+
-        '<div class="s5-unit-terms"><span class="s5-unit-price-label">整期租金</span><button type="button" class="s5-unit-price" id="'+priceId+'" '+
-        'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+'" data-s5-price="'+rank+':'+i+'" aria-label="查看费用明细">'+esc(priceDisplay)+'</button>'+
-        '<small>'+esc(suffix)+'</small><button type="button" class="s5-unit-buy" id="'+buyId+'" data-s5-buy="'+rank+':'+i+'">'+(u.near?'查看门店':'立即下单')+'</button></div></div>';
+        '<div class="s5-unit-info"><span class="s5-cabin-tag">'+esc(cabin)+'</span>'+
+          '<strong class="s5-unit-capacity">'+esc(u.volume)+'m³</strong>'+
+          '<span class="s5-unit-use">'+esc(s5UnitUse(u.ids,u.volume))+'</span>'+warning+'</div>'+
+        '<div class="s5-unit-action"><div class="s5-unit-terms">'+
+          '<div class="s5-price-mainline"><button type="button" class="s5-unit-price" id="'+priceId+'" '+
+           'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+'" data-s5-price="'+rank+':'+i+'" aria-label="查看费用明细，整期租金'+esc(priceDisplay)+'">'+esc(priceDisplay)+'</button>'+
+           discountMarkup+'</div>'+
+          '<small>'+esc(suffix)+'</small></div>'+
+          '<button type="button" class="s5-unit-buy" id="'+buyId+'" data-s5-buy="'+rank+':'+i+'">'+(u.near?'查看门店':'立即下单')+'</button></div></div>';
     }).join('');
-    return '<div class="s5-store-photo"><img src="'+photo+'" alt="'+storeTitle+'门店环境">'+
-      '<span class="s5-store-reason">'+(row.nearCapacity?'容量接近':rank===0?'距离优先':genuinelyCheaper?'区域低价':'更多选择')+'</span></div>'+
+    return '<div class="s5-store-head">'+
+      '<button type="button" class="s5-store-photo" data-s5-store="'+rank+'" aria-label="查看'+storeTitle+'门店详情"><img src="'+photo+'" alt="'+storeTitle+'门店环境"></button>'+
       '<div class="s5-store-info"><div class="s5-store-title"><strong>'+storeTitle+'</strong>'+
-      '<button type="button" class="s5-store-open" id="'+(main?'open-store-main':'open-store-secondary')+'" data-s5-store="'+rank+'">查看门店 ›</button></div>'+
-      '<div class="s5-store-services">'+labels.map(x=>'<span class="mk-store-tag mk-tag-'+x.type+'" data-tag-type="'+x.type+'">'+esc(x.label)+'</span>').join('')+'</div>'+
-      '<div class="s5-store-address"><span>'+addr+'</span>'+
-      '<button type="button" id="'+(main?'navigate-main':'navigate-secondary')+'" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和地址">导航 ›</button></div>'+
-      '<p class="s5-store-distance">'+esc(view.district||s.district||'')+(distance?' · '+distance:'')+'</p></div>'+
+      '<button type="button" class="s5-store-open" id="'+storeAction+'" data-s5-store="'+rank+'" aria-label="查看'+storeTitle+'门店详情">›</button></div>'+
+      '<div class="s5-store-services">'+labels.map(x=>'<span class="mk-store-tag mk-tag-'+esc(x.type)+'" data-tag-type="'+esc(x.type)+'">'+esc(x.label)+'</span>').join('')+'</div>'+
+      '<div class="s5-store-address"><span>'+addr+'</span></div>'+
+      '<div class="s5-store-bottom"><p class="s5-store-distance">'+(distance?'↗ '+distance:esc(view.district||s.district||''))+'</p>'+
+      '<button type="button" class="s5-map-action" id="'+mapAction+'" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和地址">'+
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6.5-6.3 6.5-11.7a6.5 6.5 0 1 0-13 0C5.5 14.7 12 21 12 21Z"/><circle cx="12" cy="9.3" r="2.2"/></svg></button></div></div></div>'+
       '<div class="s5-unit-list">'+rows+'</div>';
   }
   // Keep full price text visible within the allocated S5 price column.
