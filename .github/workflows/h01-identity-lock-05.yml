@@ -58,3 +58,5 @@ jobs:
           if-no-files-found: warn
 
 # Latest scope: one-tap lock UI only. No BLE implementation or device ACK testing.
+
+# VIS-GATE-06: after review, swap upcoming primary navigation and secondary demo-only unlock; rerun exact-SHA H01 UI checks.
