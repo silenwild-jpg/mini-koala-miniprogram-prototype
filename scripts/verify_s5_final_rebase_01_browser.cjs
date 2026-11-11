@@ -16,8 +16,9 @@ const cases=['two-stores','one-store','term-missing','none'];
  const s5=page.frameLocator('#central-host').frameLocator('#br04-frame');await s5.locator('body.bridge-ready').waitFor({timeout:20000});
  const state=await s5.locator('body').evaluate((body,name)=>{
  const host=window.parent.SIM_DEMO,core=host.core;
- core.setRequirement(3,12,name!=='term-missing');
- const opts=host.offers();if(!opts.length&&name!=='none')throw Error('NO_FIXTURE_OFFERS');
+ core.setRequirement(3,12,true);
+ const opts=host.offers();
+ if(name==='term-missing')core.setRequirement(3,12,false);if(!opts.length&&name!=='none')throw Error('NO_FIXTURE_OFFERS');
  if(name==='one-store')host.s5Offers=()=>opts.slice(0,1);
  if(name==='two-stores')host.s5Offers=()=>opts.slice(0,2);
  if(name==='none')host.s5Offers=()=>[];
