@@ -85,8 +85,8 @@ const capPriceCase=async (app,s01,months)=>{
     // VIS-SYSTEM-02: CSS display:contents repositions the same children into
     // the user-approved left-capacity / middle-price / right-cabin+CTA grid.
     // Do not require the old same-row height/center alignment.
-    assert(card.capacityRect.right<=card.priceRect.x+2,
-      'reference: capacity block must precede price column');
+    assert(card.capacityRect.bottom<=card.priceRect.y+2,
+      'reference: capacity information precedes lower price row');
     assert(card.priceRect.right<=card.button.x+2,
       'reference: price column must precede right-side order CTA');
     assert(card.mainRect.y<=card.button.y+2,

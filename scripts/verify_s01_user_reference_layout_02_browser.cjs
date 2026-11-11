@@ -122,11 +122,13 @@ const cases=[];
         assert(r.photo.right<=r.title.x+2,'photo must precede the store title');
         assert(v.distanceVisible&&r.km.height>=17&&r.km.y>=r.addressText.bottom-1&&r.km.bottom<=r.addressContainer.bottom+1,'distance must be visible below the address without clipping');
         assert(r.list.y>=r.photo.bottom-2,'lower shelf must follow store photo');
-        assert(r.capacity.x<r.total.x-4,'capacity must be left of total');
-        assert(r.total.x<r.cabin.x-4,'total must be center left of cabin');
-        assert(r.use.y>r.capacity.y,'usage should be below capacity');
+        assert(r.cabin.right<=r.capacity.x+2,'cabin and capacity should share an adjacent group');
+        assert(Math.abs(r.cabin.y-r.capacity.y)<16,'cabin and capacity should align vertically');
+        assert(r.use.x>=r.capacity.right-2||r.use.y>=r.capacity.bottom-1,'usage follows capacity without deletion');
+        assert(r.total.y>=r.capacity.bottom-2,'price should appear beneath capacity');
+        assert(r.price.right<=r.button.x+2,'price must not overlap checkout');
         assert(r.monthly.y>r.total.y,'monthly formula should be below total');
-        assert(r.button.y>=r.cabin.y,'order action should be below cabin');
+        assert(r.button.y>=r.total.y-2,'order action aligns with price row');
         assert(r.button.height>=48,'order tap target height');
         assert(v.addressOneLine&&r.address.width>70&&r.address.height>=16&&r.address.x>=r.photo.right-2,'address must visibly appear to the right of the photo, on one line');
         assert(v.unitDisplay==='grid');
@@ -144,6 +146,62 @@ const cases=[];
       }
       results.push({months,cards:result});
     }
+
+    // Five-city and extreme-text visuals are DEMO stress checks only.
+    const cityLayouts=[];
+    for(const city of ['北京','上海','深圳','杭州','广州']){
+      await app.locator('#screen').evaluate((_,v)=>{
+        const b=window.SIM_DEMO;
+        b.core.setCity(v);b.core.setRequirement(3,12,true);b.persist();b.navigate('S01');
+      },city);
+      await s01.locator('.stores > [data-card-kind]').first().waitFor();
+      const info=await s01.locator('.stores').evaluate(el=>{
+        const children=[...el.children],expanded=children.filter(e=>e.dataset.cardKind==='expanded');
+        return {kinds:children.slice(0,4).map(x=>x.dataset.cardKind),
+          expanded:expanded.length,overflow:document.documentElement.scrollWidth-innerWidth,
+          positions:expanded.map(card=>{
+            const u=card.querySelector('.unit');
+            const chip=u.querySelector('.s01-cabin-tag').getBoundingClientRect();
+            const cap=u.querySelector('.capacity').getBoundingClientRect();
+            const desc=u.querySelector('.unit-desc');
+            const button=u.querySelector('.order').getBoundingClientRect();
+            return {grouped:chip.right<=cap.left+2&&Math.abs(chip.top-cap.top)<16,
+              usageFont:parseFloat(getComputedStyle(desc).fontSize),
+              usageVisible:desc.scrollHeight<=desc.clientHeight+1,buttonHeight:button.height};
+          })};
+      });
+      assert(info.expanded>=1,'missing demo match '+city);
+      assert.equal(info.kinds[2],'estore','third fixed E-storage missing in '+city);
+      assert(info.positions.every(x=>x.grouped&&x.usageFont>=12&&x.usageVisible&&x.buttonHeight>=48),
+        'metadata/CTA geometry problem in '+city);
+      assert(info.overflow<=2,'city horizontal overflow '+city);
+      cityLayouts.push({city,...info});
+      await page.screenshot({path:path.join(out,'S01-reference-city-'+city+'-'+width+'.png')});
+    }
+    await app.locator('#screen').evaluate(()=>{
+      const b=window.SIM_DEMO;
+      b.core.setCity('北京');b.core.setRequirement(3,12,true);b.persist();b.navigate('S01');
+    });
+    await s01.locator('.store-card[data-card-kind="expanded"]').first().evaluate(card=>{
+      card.querySelector('.unit-desc').textContent='适合搬家打包纸箱、大件家具及季节性用品';
+      card.querySelector('.price strong').textContent='¥100,000';
+      card.querySelector('.price-secondary').textContent='¥10,000/月 × 60个月';
+    });
+    const stress=await s01.locator('.store-card[data-card-kind="expanded"]').first().evaluate(card=>{
+      const d=card.querySelector('.unit-desc'),p=card.querySelector('.price'),
+        total=p.querySelector('strong'),monthly=p.querySelector('.price-secondary'),
+        button=card.querySelector('.order');
+      return {usageFont:parseFloat(getComputedStyle(d).fontSize),
+        usageComplete:d.scrollHeight<=d.clientHeight+1,
+        totalComplete:total.scrollWidth<=total.clientWidth+1,
+        monthlyComplete:monthly.scrollWidth<=monthly.clientWidth+1,
+        gap:button.getBoundingClientRect().left-p.getBoundingClientRect().right,
+        overflow:document.documentElement.scrollWidth-innerWidth};
+    });
+    assert(stress.usageFont>=12&&stress.usageComplete&&stress.totalComplete&&stress.monthlyComplete&&stress.gap>=-2&&stress.overflow<=2,
+      'long usage and term-rent stress must fit without deleting text');
+    await page.screenshot({path:path.join(out,'S01-reference-stress-'+width+'.png')});
+
     // The lower right CTA continues to select the identical concrete unit.
     await app.locator('#screen').evaluate(()=>{const b=window.SIM_DEMO;b.core.setRequirement(3,12,true);b.persist();b.navigate('S01')});
     const expectedUnit=await s01.locator('.store-card[data-card-kind="expanded"] .unit-action-row .order').first().getAttribute('data-unit-id');

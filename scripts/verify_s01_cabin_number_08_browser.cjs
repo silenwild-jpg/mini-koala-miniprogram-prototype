@@ -63,13 +63,13 @@ const cases=[];
       const row=s01Data[i],want=mounted[i];
       assert.equal(row.unitId,want.unitId);assert.equal(row.cabin,want.cabinNo);
       assert.equal(row.tag,'仓号 '+want.cabinNo);assert(row.capFont>=19&&row.capFont>row.tagFont+7);
-      // User-selected reference layout moves cabin chip from the old left
-      // margin to the top-right, and puts usage directly below capacity.
-      assert(row.tagRect.left>=row.priceRect.right-2,'right-hand cabin chip overlaps price');
-      assert(row.capRect.right<=row.priceRect.left+2,'capacity must precede center price');
-      assert(row.usageRect.top>=row.capRect.bottom-1,'usage must appear below capacity');
-      assert(row.buttonRect.left>=row.priceRect.right-2,'checkout must remain in right column');
-      assert(row.buttonRect.top>=row.tagRect.top,'checkout must follow the cabin chip');
+      // REF-VIS-FIX-04: cabin / capacity occupy one information group.
+      assert(row.tagRect.right<=row.capRect.left+2,'cabin and capacity must be grouped');
+      assert(Math.abs(row.tagRect.top-row.capRect.top)<16,'cabin must align with capacity');
+      assert(row.capRect.bottom<=row.priceRect.top+2,'price row must follow capacity');
+      assert(row.usageRect.top>=row.capRect.top-2,'usage must share capacity group');
+      assert(row.buttonRect.left>=row.priceRect.right-2,'checkout remains right of price');
+      assert(row.buttonRect.top>=row.priceRect.top-2,'checkout aligns with price row');
       assert(row.buttonRect.height>=48,'checkout action height regression');
       assert.match(row.capacity,new RegExp(String(want.volume)));
     }

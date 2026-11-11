@@ -259,3 +259,75 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-tags .mk-store-tag.mk-tag-attribute{
   color:#65736c!important;background:#fafbfa!important;border-color:#e1e6e3!important;
 }
+
+/* S01-REF-VIS-FIX-04: cabin+capacity+full usage copy share one metadata row.
+   The second row holds whole-term price and the existing 48px order action.
+   S01 matched first two physical stores only; no new card or business fields. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit{
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;
+  min-height:0;row-gap:5px;align-items:start
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit::before{
+  content:none;display:none
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main{
+  display:flex;grid-column:1;grid-row:1;
+  flex-wrap:wrap;align-items:center;align-content:center;
+  gap:3px 7px;min-height:28px;min-width:0;margin:0;padding:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-cabin-tag{
+  order:0;position:static;display:inline-flex;
+  flex:0 0 auto;align-self:center;align-items:center;justify-content:center;
+  width:auto;max-width:100%;height:20px;min-height:20px;
+  margin:0;padding:0 6px;font-size:10px;line-height:20px;
+  color:#687b70;background:#f0f3f1;border:0;border-radius:5px;
+  font-weight:620;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity{
+  order:1;display:inline-flex;flex:0 0 auto;align-self:center;justify-self:auto;
+  max-width:none;margin:0;font-size:22px;line-height:28px;
+  font-weight:820;letter-spacing:-.45px;
+  color:var(--mk-color-brand-primary,#11845f)
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-desc{
+  order:2;display:block;flex:1 1 115px;
+  min-width:0;max-width:100%;margin:0;padding:0;
+  font-size:12px;line-height:17px;height:auto;max-height:none;
+  color:#66796f;white-space:normal;overflow:visible;
+  text-overflow:clip;overflow-wrap:anywhere
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main .hot{
+  order:3;position:static;flex:0 0 auto;align-self:center;
+  max-width:100%;height:auto;min-height:17px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row{
+  display:grid;grid-column:1;grid-row:2;
+  grid-template-columns:minmax(0,1fr) 86px;grid-template-rows:minmax(48px,auto);
+  gap:0 8px;align-items:start;min-width:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  display:grid;grid-column:1;grid-row:1;
+  grid-template-columns:max-content max-content;grid-template-rows:27px 20px;
+  column-gap:5px;align-content:start;
+  width:100%;min-width:0;max-width:100%;margin:0;padding:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  font-size:21px;line-height:27px;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+  font-size:11px;line-height:20px;max-width:100%;overflow:visible;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .order{
+  display:flex;grid-column:2;grid-row:1;
+  align-self:start;justify-self:stretch;
+  width:100%;height:48px;min-height:48px;margin:0
+}
+@media(max-width:375px){
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity{font-size:21px}
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row{
+    grid-template-columns:minmax(0,1fr) 86px;column-gap:7px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+    font-size:20px
+  }
+}
