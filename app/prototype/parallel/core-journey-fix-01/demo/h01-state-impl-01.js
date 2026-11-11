@@ -14,7 +14,7 @@
   '<div class="h01-flow-market-return" id="h01FlowReturn"><button type="button" data-h01="business">‹ 返回当前任务</button></div>'+
   '<div class="h01-flow-content" id="h01FlowContent"><div class="h01-flow-kicker-row"><span class="h01-flow-kicker" id="h01FlowKicker">当前任务</span><button type="button" class="h01-flow-quick-browse" id="h01FlowQuickBrowse" data-h01="browse">找新仓 ›</button></div><article class="h01-flow-task" id="h01FlowTask">'+
   '<div class="h01-flow-title"><strong id="h01FlowTitle"></strong><span class="h01-flow-badge" id="h01FlowBadge"></span></div>'+
-  '<div class="h01-flow-store" id="h01FlowStore"></div><p class="h01-flow-sub" id="h01FlowSub"></p>'+
+  '<div class="h01-flow-store" id="h01FlowStore"></div><p class="h01-flow-sub" id="h01FlowSub"></p><p class="h01-flow-address" id="h01FlowAddress" hidden></p>'+
   '<div class="h01-flow-facts" id="h01FlowFacts"></div><div class="h01-flow-buttons">'+
   '<button type="button" class="h01-flow-primary" data-h01="primary" id="h01FlowPrimary"></button>'+
   '<button type="button" class="h01-flow-secondary" data-h01="secondary" id="h01FlowSecondary"></button></div></article>'+
@@ -70,6 +70,9 @@
     const order=t.orderId&&s.orders?.find(x=>x.id===t.orderId);
     if(order?.term_months&&["pending","identity","upcoming","active","expiring","renewal"].includes(t.key))summary+=(summary?" · ":"")+order.term_months+"个月";
     subNode.textContent=summary;subNode.hidden=!summary;
+    const address=one("#h01FlowAddress");
+    const locationText=["upcoming","active"].includes(t.key)?String(actualStore?.address||""):"";
+    address.textContent=locationText;address.hidden=!locationText;
     one("#h01FlowTask").dataset.urgent=["pending","expired","payment_failed","invalidated","refund","returning","identity","expiring"].includes(t.key)?"true":"false";
     const facts=one("#h01FlowFacts");facts.replaceChildren();
     (t.facts||[]).slice(0,3).forEach(([value,label])=>{const box=document.createElement("div");box.className="h01-flow-fact";const b=document.createElement("b");b.textContent=value;if(t.key==="pending"&&label==="支付剩余时间"){box.dataset.countdown="true";b.id="h01FlowCountdown";b.setAttribute("role","timer");b.setAttribute("aria-live","off");}const small=document.createElement("small");small.textContent=label;box.append(b,small);facts.append(box)});
@@ -114,9 +117,20 @@
       b.addEventListener("click",()=>{cover.remove();handler()});panel.append(b);
     }
     const close=document.createElement("button");close.type="button";close.className="h01-flow-cancel";close.textContent="返回";
-    close.addEventListener("click",()=>cover.remove());panel.append(close);cover.append(panel);
-    cover.addEventListener("click",e=>{if(e.target===cover)cover.remove()});
-    document.getElementById("phone").append(cover);close.focus();
+    const trigger=document.activeElement;
+    const dismiss=()=>{cover.remove();if(trigger?.isConnected&&typeof trigger.focus==="function")trigger.focus();};
+    close.addEventListener("click",dismiss);panel.append(close);cover.append(panel);
+    cover.addEventListener("click",e=>{if(e.target===cover)dismiss();});
+    cover.addEventListener("keydown",e=>{
+      if(e.key==="Escape"){e.preventDefault();dismiss();return;}
+      if(e.key!=="Tab")return;
+      const buttons=[...panel.querySelectorAll("button")];
+      const first=buttons[0],last=buttons.at(-1);
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    });
+    document.getElementById("phone").append(cover);panel.querySelector("h2").id="h01ServiceTitle";
+    panel.setAttribute("aria-labelledby","h01ServiceTitle");panel.querySelector("button")?.focus();
   }
   function act(kind){
     const t=model?.task;if(!t)return;
@@ -148,7 +162,12 @@
     if(kind==="estimate"){go("cap.html");return}
     if(kind==="navigate"){go(storeUrl());return}
     if(kind==="support"){go(t.orderId?orderUrl():"index.html?page=M01");return}
-    if(kind==="renew"){go(t.orderId?orderUrl()+"&intent=renew":"index.html?page=M01");return}
+    if(kind==="renew"){
+      if(!t.orderId){go("index.html?page=M01");return;}
+      const latest=getState().state.orders?.find(o=>o.id===t.orderId);
+      if(latest?.status!=="paid_simulated"){render();return;}
+      go("index.html?page=RN01&order="+encodeURIComponent(t.orderId));return;
+    }
     if(kind==="more"){
       showChoice("更多仓位服务","加租将创建新订单，换仓须由顾问确认。",[
         ["加租仓位",()=>{save("mk_h01_add_intent_01",{source:"H01",preferred_store_id:t.storeId||null,origin_order_id:t.orderId||null});go("index.html?page=QUICK");}],
