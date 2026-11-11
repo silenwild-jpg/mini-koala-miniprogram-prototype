@@ -1,4 +1,4 @@
-name: VIS-SYSTEM-04B four-page computed semantic CSS visual QA NO DEPLOY
+name: VIS-SYSTEM-04B exact-SHA bundle and optional browser QA NO DEPLOY
 on:
   push:
     branches: [isolate/vis-system-04b-20261111]
@@ -20,7 +20,7 @@ concurrency:
 jobs:
   four-page-qa:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,7 +61,17 @@ jobs:
       - name: Assert built evidence matches exact SHA, PR and branch
         run: |
           node -e "const a=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(a.source_sha!==process.env.GITHUB_SHA||a.source_branch!=='isolate/vis-system-04b-20261111'||a.source_pr!==119)process.exit(1);console.log('SINGLE_SOURCE',a.source_sha,a.source_pr)"
+      # Public runner software mirrors failed DNS 2026-11-11. Always preserve
+      # a byte-identical static site for local browser QA without further CI cost.
+      - name: Publish exact-SHA isolated static-site archive before network installs
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-SYSTEM-04B-isolated-site-exact-sha
+          retention-days: 3
+          if-no-files-found: error
+          path: release-evidence/rc2-merge-prep-10/MiniKoala_VIS_SYSTEM_04B.zip
       - name: Install Chromium with Chinese fonts
+        if: github.event_name == 'workflow_dispatch'
         timeout-minutes: 6
         run: |
           set -euo pipefail
@@ -70,16 +80,22 @@ jobs:
           timeout 100s npm install --no-save --no-package-lock playwright@1.56.1
           timeout 120s npx playwright install chromium
       - name: S01 reference matched-store 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
         run: node scripts/verify_s01_user_reference_layout_02_browser.cjs
       - name: S02 latest detail 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
         run: node scripts/verify_s02_fix_01_browser.cjs
       - name: S5 recommendation and integer price 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
         run: node scripts/verify_s5_final_rebase_01_browser.cjs
       - name: True cross-page S01 S02 S5 O01 identity and rent browser
+        if: github.event_name == 'workflow_dispatch'
         run: node scripts/verify_price_integer_integration_02_browser.cjs
       - name: VIS-SYSTEM-04B read-only computed styles 375 and 390 browser
+        if: github.event_name == 'workflow_dispatch'
         run: node scripts/verify_vis_system_04b_browser.cjs
       - name: H01 20 states x 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
         env:
           RC2_EXPECT_SHA: ${{ github.sha }}
         run: node scripts/verify_h01_vis_gate_07_browser.cjs
