@@ -46,10 +46,10 @@ jobs:
           sudo apt-get install -y -qq fonts-noto-cjk
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install chromium
-      - name: Existing H01-M01 cross-page 3-hour and refunds
-        run: node scripts/verify_h01_m01_contract_01_browser.cjs
       - name: M01 new asset and historical demand 375 and 390 screenshots
         run: node scripts/verify_m01_ia_03_browser.cjs
+      - name: Existing H01-M01 cross-page 3-hour and refunds
+        run: node scripts/verify_h01_m01_contract_01_browser.cjs
       - name: Preserve exact-run evidence
         if: always()
         uses: actions/upload-artifact@v4
