@@ -29,6 +29,10 @@ assert.throws(()=>future.c.enterStorage(future.order.id),/BEFORE_START/,'future 
 // A paid one-month lease must change to expired at local UTC+8 midnight, not UTC midnight.
 const oneMonth=newCore(1,'2026-11-12');
 assert.equal(oneMonth.c.lifecycleView(oneMonth.order.id).end_date,'2026-12-12');
+clock=Date.parse('2026-12-10T22:14:00Z'); // Beijing Dec 11 06:14, tomorrow is Dec 12.
+const expiring=policy.derive(oneMonth.c.state(),oneMonth.c,clock);
+assert.equal(expiring.key,'expiring');
+assert(expiring.facts.some(row=>row[0]==='1天'),'H01 must report one UTC+8 calendar day, not two');
 clock=Date.parse('2026-12-11T15:59:00Z'); // Beijing Dec 11 23:59
 assert.equal(oneMonth.c.today(),'2026-12-11');
 assert.equal(oneMonth.c.lifecycleView(oneMonth.order.id).lease_status,'active','before Beijing midnight active');
