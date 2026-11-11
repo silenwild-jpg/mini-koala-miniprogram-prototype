@@ -418,7 +418,7 @@
         const waiting=(v.renewal_requests||[]).some(req=>['QUOTE_PENDING','QUOTE_READY'].includes(req.status));
         actionHtml+=button('go',waiting?'续租进度':'续租','RN01','mk-order-action');
       }
-      if(['active','returning'].includes(v.lease_status))actionHtml+=button('go',v.lease_status==='returning'?'退租进度':'退租/到期','EX01','mk-order-action');
+      if(['active','expired','returning'].includes(v.lease_status))actionHtml+=button('go',v.lease_status==='returning'?'退租进度':'退租/到期','EX01','mk-order-action');
       actionHtml+=button('go','押金进度','DP01','mk-order-action')+button('go','申请发票','IV01','mk-order-action');
       html+='<section class="mk-order-services"><h3>订单服务</h3><div class="mk-order-action-grid">'+actionHtml+'</div></section>';
     }else{
