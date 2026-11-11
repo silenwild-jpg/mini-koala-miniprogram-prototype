@@ -47,6 +47,8 @@ jobs:
           npx playwright install chromium
       - name: S01 baseline vs two live variants 375/390 and stressed prices
         run: node scripts/verify_vis_system_01_browser.cjs
+      - name: User-reference S01 three-zone layout with exact 375/390 geometry and checkout
+        run: node scripts/verify_s01_user_reference_layout_02_browser.cjs
       - name: H01 S01 S02 S5 identical tags and integer prices
         run: node scripts/verify_global_ui_rules_01_browser.cjs
       - name: Save screenshots and all layout metrics even on failures
