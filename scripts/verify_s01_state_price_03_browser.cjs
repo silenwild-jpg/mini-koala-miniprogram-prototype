@@ -101,7 +101,7 @@ const fmt=n=>'¥'+Number(n).toLocaleString('zh-CN',{maximumFractionDigits:2});
     const prices=[];
     // Explicitly chosen legal terms at both limits. No 12-month assumption.
     for(const months of [1,60]){
-      await app.locator('#screen').evaluate(months=>{
+      await app.locator('#screen').evaluate((_,months)=>{
         const b=window.SIM_DEMO;b.core.setRequirement(3,months,true);b.persist();b.navigate('S01');
       },months);
       await s01.locator('.store-card[data-card-kind="expanded"]').first().waitFor();
@@ -133,7 +133,7 @@ const fmt=n=>'¥'+Number(n).toLocaleString('zh-CN',{maximumFractionDigits:2});
         assert.doesNotMatch(unit.breakdown,/月均约|整期租金/);
         assert.match(unit.label,/整期租金/);
         assert(unit.ctaHeight>=48);
-        const arithmetic=await app.locator('#screen').evaluate(id=>{
+        const arithmetic=await app.locator('#screen').evaluate((_,id)=>{
           const b=window.SIM_DEMO,months=b.core.state().requirement.term_months,a=b.core.amounts([id],months);
           return {rent:a.rent_total,monthly:a.monthly_average,months};
         },unit.id);
