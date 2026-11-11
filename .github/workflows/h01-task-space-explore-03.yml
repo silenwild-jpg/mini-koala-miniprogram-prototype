@@ -66,3 +66,5 @@ jobs:
           if-no-files-found: warn
 
 # R2: re-test historical paid rental states with date-stable isolated QA fixtures.
+
+# R3: final check of 375/390 bottom-safe area with reduced active photo height.
