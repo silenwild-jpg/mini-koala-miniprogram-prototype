@@ -1,0 +1,89 @@
+name: RC2-FINAL-VISUAL-REVIEW-03 four-page long-scroll CJK NO DEPLOY
+on:
+  push:
+    branches: [isolate/rc2-final-visual-review-03-20261112]
+    paths:
+      - '.github/workflows/rc2-final-visual-review-03.yml'
+      - 'scripts/verify_rc2_final_visual_review_03_browser.py'
+      - 'docs/RC2_FINAL_VISUAL_REVIEW_03_20261112.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-final-visual-review-03
+  cancel-in-progress: true
+jobs:
+  four-page-fullscroll:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Assert exact SHA and no production source changes
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          git diff --exit-code origin/isolate/vis-system-04b2-20261111...HEAD -- app/prototype/parallel/core-journey-fix-01/demo
+      - name: Compile visual audit and verify business contracts
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/verify_rc2_final_visual_review_03_browser.py
+          node scripts/verify_vis_system_04b1_tag_semantics.cjs
+          node scripts/verify_price_integer_contract_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+      - name: Build isolated exact-SHA four-page demo
+        env:
+          RC2_BUNDLE_LABEL: RC2-FINAL-VISUAL-REVIEW-03
+          RC2_BUNDLE_BRANCH: isolate/rc2-final-visual-review-03-20261112
+          RC2_BUNDLE_SOURCE_PR: '122'
+          RC2_BUNDLE_BASE_PR: '121'
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_FINAL_VISUAL_REVIEW_03.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Confirm version manifest exact identity
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_pr!==122||v.source_branch!=='isolate/rc2-final-visual-review-03-20261112')process.exit(1);console.log('AUDIT_SOURCE_OK',v.source_sha)"
+      - name: Upload isolated source archive NO DEPLOY
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-FINAL-VISUAL-REVIEW-03-exact-source
+          retention-days: 7
+          if-no-files-found: error
+          path: release-evidence/rc2-merge-prep-10/MiniKoala_RC2_FINAL_VISUAL_REVIEW_03.zip
+      - name: Install temporary Noto Sans CJK SC on runner only
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          mkdir -p release-evidence/rc2-final-visual-review-03
+          if ! fc-list :lang=zh family | grep -q .; then
+            mkdir -p "$HOME/.local/share/fonts"
+            timeout 90s curl -fLsS --retry 1 --max-time 75 \
+              'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf' \
+              -o "$HOME/.local/share/fonts/vis03-temporary-cjk.otf"
+            fc-cache -f "$HOME/.local/share/fonts"
+          fi
+          fc-list :lang=zh family | sort -u | head -12 | tee release-evidence/rc2-final-visual-review-03/font-families.txt
+          test -s release-evidence/rc2-final-visual-review-03/font-families.txt
+      - name: Four-page real-Chrome 375 390 full scroll and 37mo stress
+        timeout-minutes: 4
+        run: python3 scripts/verify_rc2_final_visual_review_03_browser.py
+      - name: Upload screenshots audit JSON and metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-FINAL-VISUAL-REVIEW-03-CJK-long-scroll-QA
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-final-visual-review-03/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
