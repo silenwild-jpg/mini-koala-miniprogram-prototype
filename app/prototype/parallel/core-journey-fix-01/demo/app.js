@@ -37,9 +37,9 @@
   const categories=['全部','迷你仓','小型仓','中型仓','大型仓'];
   const category=u=>u.volume<=1.5?'迷你仓':u.volume<=5?'小型仓':u.volume<=10?'中型仓':'大型仓';
   const unitName=u=>u.name;
-  const usage=u=>u.volume<=1.5?'适合：行李箱、文件与换季衣物':u.volume<=5?'适合：行李箱、换季衣物、纸箱':u.volume<=10?'适合：床垫、沙发等家居物品':'适合：搬家家具、装修暂存物品';
-  const serviceTags=s=>s.serviceTags.slice(0,3);
-  const money=n=>'¥'+Number(n).toLocaleString('zh-CN');
+  const usage=u=>P.describe(u,'S01').lines[0];
+  const serviceTags=s=>presentation.services(F.stores.find(x=>x.id===s.id)||s,3);
+  const money=n=>'¥'+Math.trunc(Number(n)).toLocaleString('zh-CN');
   const store=id=>r2Store(F.stores.find(s=>s.id===id)),unit=id=>F.units.find(u=>u.id===id);
   const state=()=>core.state(),persist=()=>sessionStorage.setItem(KEY,JSON.stringify(state()));
   let page=new URLSearchParams(location.search).get('page')||'S01',modal=null,pending=null,notice='',lastOrder=null;
@@ -84,7 +84,9 @@
       r2Orders[s.city]=[...REC.rank(eligible,{distanceVerified:demoDistanceEnabled,costOf:x=>presentation.cubicReference(x)?.value??Infinity}).items,...fallback].map(x=>x.id);
     }
     const v=R2.view(s,Math.max(0,r2Orders[s.city].indexOf(s.id)));const km=displayedDistanceKm(s);
-    return {...v,distance:Number.isFinite(km)?km.toFixed(1)+'km':''};
+    const tagItems=presentation.tags(s,5);
+    return {...v,services:tagItems.map(t=>t.label),tagTypes:tagItems.map(t=>t.type),
+      distance:Number.isFinite(km)?km.toFixed(1)+'km':''};
   }
   function r2Store(s){if(!s||!r2Mode()||!R2)return s;const v=r2View(s);return {...s,address:v.address,district:v.district,serviceTags:v.services,facilities:v.services,r2Photo:s.photoDetail?'assets/'+s.photoDetail:v.photo};}
   if(r2Mode()){document.documentElement.classList.add('r2-product');document.title='迷你考拉仓';}
@@ -304,7 +306,9 @@
     const fav=visual.storeFavorites.includes(s.id),status=s02Situation(s);
     const photo=photos[visual.gallery%photos.length];
     const hero='<div class="hero"><img src="'+photo+'" alt="'+esc(s.name)+'门店环境"><div class="hero-controls"><button class="circle-btn back-button" data-action="go" data-value="'+esc(state().returnPage)+'" aria-label="返回">'+I('back')+'</button><div class="hero-actions"><button class="circle-btn" data-action="storeFavorite" aria-label="'+(fav?'取消收藏门店':'收藏门店')+'" aria-pressed="'+fav+'">'+I(fav?'heartfilled':'heart')+'</button><button class="circle-btn" data-action="share" aria-label="分享门店">'+I('share')+'</button></div></div><span class="s02-hours">存取时间：'+esc(s02AccessHours(s))+'</span><button class="gallery-count" data-action="gallery" aria-label="下一张门店图片">'+(visual.gallery+1)+'/'+photos.length+'</button></div>';
-    const header='<div class="detail-main"><div class="detail-head"><b class="detail-name">'+esc(s.name)+'</b><button class="nav-ext" data-action="s02OpenMap" aria-label="地图导航">'+I('navigation')+'</button></div><p class="detail-addr">'+I('pin')+'<span>'+esc(s.address)+'</span></p></div>';
+    const s02Tags=presentation.tags(F.stores.find(x=>x.id===s.id)||s,5);
+    const tagMarkup=s02Tags.map(t=>'<span class="mk-store-tag mk-tag-'+t.type+'" data-tag-type="'+t.type+'">'+esc(t.label)+'</span>').join('');
+    const header='<div class="detail-main"><div class="detail-head"><b class="detail-name">'+esc(s.name)+'</b><button class="nav-ext" data-action="s02OpenMap" aria-label="地图导航">'+I('navigation')+'</button></div><p class="detail-addr">'+I('pin')+'<span>'+esc(s.address)+'</span></p><div class="mk-store-tags mk-s02-store-tags" aria-label="门店服务标签">'+tagMarkup+'</div></div>';
     const banner=(status==='browse'||status==='matched')?s02HotRibbon(s):'';
     const contents=status==='nomatch'?'<div class="s02-no-match"><strong>本店暂无匹配仓位</strong><button type="button" data-action="go" data-value="S01">查看其他门店 ›</button></div>':storeContent(s);
     const tabs='<div id="s02MainTabs" class="s02-main-tabs" role="tablist" aria-label="门店信息">'+[['可选仓位','可选仓位'],['服务设施','服务设施'],['交通路线','交通路线']].map(item=>'<button role="tab" type="button" aria-selected="'+(visual.tab===item[0])+'" class="'+(visual.tab===item[0]?'active':'')+'" data-action="detailTab" data-value="'+item[0]+'">'+item[1]+'</button>').join('')+'</div>';
@@ -585,7 +589,7 @@
                 priceKind:amount?'term':'unit_month',
                 secondary:amount?money(amount.monthly_average)+'/月 × '+r.term_months+'个月':publicTerm+'个月租期',
                 termDiscountLabel,termDiscountSource:termDiscountLabel?'LEASE_TERM_RULE':null,
-                usage:(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
+                usage:P.describe(u,'S01').lines[0],
                 promo:u.promo_verified===true&&typeof u.promo_label==='string'?u.promo_label:'',available:core.available(u)
               };
             })};
@@ -631,7 +635,7 @@
     const rows=ids.map(unit);
     if(!rows.length||rows.some(u=>!u))return null;
     const total=rows.reduce((n,u)=>n+Number(u.volume),0);
-    const selected=rows.length===1?P.describe(rows[0],'S01').lines[0]:P.describe({...rows[0],volume:total},'S01').lines[0];
+    const selected=rows.length===1?P.describe(rows[0],'S01').lines[0]:'多仓组合 · '+P.describe({...rows[0],volume:total},'S01').lines[0];
     const facts=rows.length===1?P.facts(rows[0]):null;
     return {ids:ids.slice(),volume:total,description:selected,
       available:rows.every(u=>core.available(u)),promo:facts?.promoLabel||'',stock:facts?.inventoryLine||''};
@@ -640,7 +644,7 @@
     const s=F.stores.find(s=>s.id===id);if(!s)return null;
     const v=r2View(s);
     return {id:s.id,name:s.name,address:v.address,district:v.district,
-      photo:v.photo,services:v.services,distance:displayedDistanceKm(s),distanceVerified:F.distanceVerified};
+      photo:v.photo,services:v.services,tagTypes:v.tagTypes,distance:displayedDistanceKm(s),distanceVerified:F.distanceVerified};
   }
   window.SIM_DEMO={s01R2Bridge,presentation,s5SharedUnit,s5SharedStore,s5AreaPreference,s5SetArea,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
   const initialStore=new URLSearchParams(location.search).get('store');act(()=>{if(initialStore)core.setStore(initialStore);render();});if(page==='O01'&&!core.authorized())phoneAuth.run('ORDER','DIRECT_O01',()=>render());
