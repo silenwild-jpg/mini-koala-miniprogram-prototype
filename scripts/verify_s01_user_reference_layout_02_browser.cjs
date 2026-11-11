@@ -62,7 +62,7 @@ const cases=[];
             title=store.querySelector('h2'),cta=card.querySelector('.s01-store-detail');
           const titleRange=document.createRange();titleRange.selectNodeContents(title);
           const addressStyle=getComputedStyle(address);
-          const R={photo:rect(photo),store:rect(store),address:rect(address),addressText:rect(address),titleText:rect({getBoundingClientRect:()=>titleRange.getBoundingClientRect()}),km:rect(km),
+          const R={photo:rect(photo),store:rect(store),address:rect(address),addressContainer:rect(card.querySelector('.address')),addressText:rect(address),titleText:rect({getBoundingClientRect:()=>titleRange.getBoundingClientRect()}),km:rect(km),
             list:rect(list),unit:rect(unit),capacity:rect(capacity),use:rect(use),
             price:rect(price),total:rect(total),discount:rect(discount),monthly:rect(monthly),
             cabin:rect(cabin),button:rect(button),title:rect(title),detail:rect(cta),card:rect(card)};
@@ -83,6 +83,7 @@ const cases=[];
               capacityPrice:overlap(R.capacity,R.price),
               detailTitle:overlap(R.detail,R.titleText)
             },
+            distanceVisible:!km.hidden&&getComputedStyle(km).visibility==='visible'&&getComputedStyle(km).display!=='none',
             addressOneLine:addressStyle.whiteSpace==='nowrap',
             addressDetail:{text:address.textContent,display:addressStyle.display,visibility:addressStyle.visibility,
               opacity:addressStyle.opacity,fontSize:addressStyle.fontSize,color:addressStyle.color,
@@ -109,7 +110,7 @@ const cases=[];
         assert.match(v.texts.total,/^¥[\d,]+$/);
         assert(v.texts.monthly.endsWith('× '+months+'个月'));
         assert(r.photo.right<=r.title.x+2,'photo must precede the store title');
-        assert(r.km.y>=r.addressText.bottom-1,'distance must be on a separate line below the address text');
+        assert(v.distanceVisible&&r.km.height>=17&&r.km.y>=r.addressText.bottom-1&&r.km.bottom<=r.addressContainer.bottom+1,'distance must be visible below the address without clipping');
         assert(r.list.y>=r.photo.bottom-2,'lower shelf must follow store photo');
         assert(r.capacity.x<r.total.x-4,'capacity must be left of total');
         assert(r.total.x<r.cabin.x-4,'total must be center left of cabin');
