@@ -55,3 +55,5 @@ jobs:
           if-no-files-found: warn
 
 # R2: align failed-order primary CTA assertion with latest frozen policy.
+
+# R3: correct browser-local future-date helper for identity and upcoming H01 states.
