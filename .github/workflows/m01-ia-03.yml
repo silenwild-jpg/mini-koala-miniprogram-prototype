@@ -1,0 +1,62 @@
+name: M01 IA 03 asset and history exact SHA QA NO DEPLOY
+on:
+  push:
+    branches: [isolate/m01-ia-03-20261112]
+    paths: [.github/workflows/m01-ia-03.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: m01-ia-03-isolated
+  cancel-in-progress: true
+jobs:
+  m01-asset-ia:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify isolated source scope, existing H01/3-hour contract, and M01 IA rules
+        shell: bash
+        run: |
+          set -eu
+          git rev-parse HEAD
+          git diff --name-only 3b74fa502a12e6772a81a62ef70018d0ebb7f3d6 HEAD -- app/ > /tmp/m01-ia3-scope.txt
+          cat /tmp/m01-ia3-scope.txt
+          while IFS= read -r f; do
+            case "$f" in
+              app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.css|app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/account.js) ;;
+              *) echo "P0_OUT_OF_SCOPE_APP_FILE $f"; exit 1 ;;
+            esac
+          done < /tmp/m01-ia3-scope.txt
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/account.js
+          node --check scripts/verify_m01_ia_03.cjs
+          node --check scripts/verify_m01_ia_03_browser.cjs
+          node scripts/verify_m01_ia_03.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+      - name: Install Chinese font and isolated Chromium driver
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Existing H01-M01 cross-page 3-hour and refunds
+        run: node scripts/verify_h01_m01_contract_01_browser.cjs
+      - name: M01 new asset and historical demand 375 and 390 screenshots
+        run: node scripts/verify_m01_ia_03_browser.cjs
+      - name: Preserve exact-run evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m01-ia-03-375-390-browser-and-contract
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/m01-ia-03/
+            release-evidence/h01-m01-contract-01/
