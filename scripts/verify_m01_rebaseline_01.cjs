@@ -8,6 +8,8 @@ const js=fs.readFileSync(path.join(root,'m01-rebaseline-01.js'),'utf8');
 const app=fs.readFileSync(path.join(root,'app.js'),'utf8');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const css=fs.readFileSync(path.join(root,'m01-rebaseline-01.css'),'utf8');
+const legacy=fs.readFileSync(path.join(root,'account.html'),'utf8');
+assert(legacy.includes('href="index.html?page=M01"'),'legacy identity/service pages must return to central M01');
 assert(html.includes('m01-rebaseline-01.js')&&html.includes('m01-rebaseline-01.css'));
 assert(html.indexOf('m01-rebaseline-01.js')<html.indexOf('app.js?v=VIS03C'),'M01 module must load first');
 assert(app.includes('M01_REBASELINE_01.render')&&app.includes('m01Order(value)')&&app.includes('m01Service(value)'),'central M01 routes missing');
