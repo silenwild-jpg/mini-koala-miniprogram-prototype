@@ -22,7 +22,7 @@ test('P03/P01 discounted MONTHLY price * term, full-term rent, one-month deposit
   const core=create();
   for(const months of [1,3,6,12,36,60]){
     const factor=F.pricing.termRules.find(r=>months>=r.min&&months<=r.max).factor;
-    const monthly=precision(a.base_month*factor),amount=core.amounts([a.id],months);
+    const monthly=Math.trunc(a.base_month*factor+1e-9),amount=core.amounts([a.id],months);
     assert.equal(amount.monthly_average,monthly);
     assert.equal(amount.rent_total,precision(monthly*months));
     assert.equal(amount.deposit,monthly);
@@ -39,10 +39,10 @@ test('C01 same-store cross-type combo, combined deposit, one fee',()=>{
   assert(pairs.length,'No available cross-size combination in fixture');
   const [left,right]=pairs[0],core=create(),months=6;
   const b=core.amounts([left.id,right.id],months);
-  const expectedMonthly=precision(precision(left.base_month*.7)+precision(right.base_month*.7));
+  const expectedMonthly=Math.trunc(left.base_month*.7+1e-9)+Math.trunc(right.base_month*.7+1e-9);
   assert.equal(b.deposit,expectedMonthly);
   assert.equal(b.monthly_average,expectedMonthly);
-  assert.equal(b.rent_total,precision(expectedMonthly*6));
+  assert.equal(b.rent_total,expectedMonthly*6);
   assert.equal(b.management_fee,50);
 });
 
