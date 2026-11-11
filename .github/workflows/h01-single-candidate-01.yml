@@ -1,4 +1,4 @@
-name: H01 SINGLE CANDIDATE 02 O03 and 20 states (NO DEPLOY)
+name: H01 SINGLE CANDIDATE 02 exact SHA O03 runtime QA (NO DEPLOY)
 on:
   push:
     branches: [integration/h01-single-candidate-01-20261111]
@@ -28,6 +28,7 @@ jobs:
           node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
           grep -F 'const deadline=source?.expiresAt??o.expiresAt' app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node -e "const s=require('fs').readFileSync('app/prototype/parallel/core-journey-fix-01/demo/app.js','utf8');const h=s.indexOf('const paymentTimeLeft=deadline');const r=s.indexOf('function render(){');if(h<0||r<0||h>r)process.exit(1);"
           node qa/test_h01_order_payment_3h.cjs
           node qa/test_h01_state_implement_01.cjs
           node qa/test_h01_postpay_access_deposit_01.cjs
