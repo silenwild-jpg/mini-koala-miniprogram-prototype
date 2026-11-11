@@ -1,4 +1,4 @@
-name: H01 SINGLE CANDIDATE 01 with O03 countdown QA (NO DEPLOY)
+name: H01 SINGLE CANDIDATE 02 O03 and 20 states (NO DEPLOY)
 on:
   push:
     branches: [integration/h01-single-candidate-01-20261111]
@@ -46,13 +46,20 @@ jobs:
           RC2_BUNDLE_LABEL: H01-SINGLE-CANDIDATE-01-ISOLATED
           RC2_BUNDLE_ARCHIVE: H01_SINGLE_CANDIDATE_01_NO_DEPLOY.zip
         run: python3 scripts/build_rc2_isolated_demo.py
-      - name: Install Chromium and Chinese font
+      - name: Reuse runner Chrome; install JS test driver only
         shell: bash
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-noto-cjk
-          npm install --no-save --no-package-lock playwright@1.56.1
-          npx playwright install chromium
+          set -euo pipefail
+          if ! command -v google-chrome >/dev/null && ! command -v google-chrome-stable >/dev/null; then
+            echo 'System Chrome unavailable; browser UAT cannot run'; exit 1
+          fi
+          google-chrome --version || google-chrome-stable --version
+          if fc-list :lang=zh 2>/dev/null | grep -q .; then
+            echo 'CJK_RENDERING_FONT_PRESENT=true'
+          else
+            echo 'CJK_RENDERING_FONT_PRESENT=false; do not grant visual font signoff'
+          fi
+          npm_config_fetch_retries=1 npm_config_fetch_timeout=35000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
       - name: Run full H01 20-state real browser QA 375 and 390
         env:
           RC2_EXPECT_SHA: ${{ github.sha }}
