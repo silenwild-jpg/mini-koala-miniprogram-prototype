@@ -52,6 +52,9 @@ const capPriceCase=async (app,s01,months)=>{
       priceRect:rect(p),mainRect:rect(major),chipRect:rect(chip),subRect:rect(sub),button:rect(button),
       capacityLabel:getComputedStyle(capacity,'::before').content,
       capacityAria:capacity.getAttribute('aria-label'),
+      cabinNo:unit.dataset.cabinNo,cabinTag:unit.querySelector('.s01-cabin-tag')?.textContent||'',
+      cabinFont:parseFloat(getComputedStyle(unit.querySelector('.s01-cabin-tag')).fontSize),
+      capacityFont:parseFloat(getComputedStyle(capacity).fontSize),
       metaHasCapacity:capacity.parentElement===meta,metaHasUsage:usage.parentElement===meta,
       actionHasPrice:p.parentElement===action,actionHasButton:button.parentElement===action,
       priceAndButtonSameRow:Math.abs((p.getBoundingClientRect().top+p.getBoundingClientRect().height/2)-(button.getBoundingClientRect().top+button.getBoundingClientRect().height/2))<=2,
@@ -72,8 +75,11 @@ const capPriceCase=async (app,s01,months)=>{
     assert.equal(card.hasPublicCubic,false,'matched price must not show cubic rate');
     assert(card.chipBackground!=='rgb(255, 0, 0)','discount chip too aggressive');
     assert.equal(card.layout,'stacked','matched unit is not using the two-row layout');
-    assert.equal(card.capacityLabel,'"仓位"','capacity must be distinguished from user requirement');
-    assert.match(card.capacityAria,/仓位.*立方米/);
+    assert.equal(card.capacityLabel,'none','capacity is now a strong number without prefix');
+    assert.match(card.capacityAria,/容量.*立方米/);
+    assert.match(card.cabinNo,/^[A-D](00[1-9]|0[12][0-9]|030)$/);
+    assert.equal(card.cabinTag,'仓号 '+card.cabinNo);
+    assert(card.capacityFont>=19&&card.capacityFont>card.cabinFont+7,'capacity not stronger than demo cabin number');
     assert(card.metaHasCapacity&&card.metaHasUsage,'capacity and usage must share the first row');
     assert(card.actionHasPrice&&card.actionHasButton,'price and CTA must share the second row');
     assert(card.metaRect.bottom<=card.actionRect.y+1.5,'action row must sit below warehouse meta row');
