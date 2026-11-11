@@ -28,7 +28,7 @@ async function seed(page,phase){
   c.select([unit.id]);
   if(phase==='selected'){window.SIM_DEMO.persist();return {id:null};}
   if(phase==='booking'){c.setContact('13800138000');c.saveLead('北京市朝阳区评审用仓地址');window.SIM_DEMO.persist();return {id:null};}
-  c.setDate((phase==='identity'||phase==='upcoming')?addDays(today,7):today);
+  c.setDate((phase==='identity'||phase==='upcoming')?new Date(Date.parse(today+'T00:00:00Z')+7*86400000).toISOString().slice(0,10):today);
   c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});
   c.quote();const order=c.submit();
   if(phase==='payment_failed')c.pay(order.id,'failed');
