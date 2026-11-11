@@ -1,4 +1,4 @@
-name: RC2-FINAL-VISUAL-REVIEW-03 four-page long-scroll CJK NO DEPLOY
+name: RC2-FINAL-VISUAL-REVIEW-03B S02 route S5 order CJK NO DEPLOY
 on:
   push:
     branches: [isolate/rc2-final-visual-review-03-20261112]
@@ -73,7 +73,7 @@ jobs:
           fi
           fc-list :lang=zh family | sort -u | head -12 | tee release-evidence/rc2-final-visual-review-03/font-families.txt
           test -s release-evidence/rc2-final-visual-review-03/font-families.txt
-      - name: Four-page real-Chrome 375 390 full scroll and 37mo stress
+      - name: S02 traffic route and S5 O01 interaction 375 390 CJK
         timeout-minutes: 4
         run: python3 scripts/verify_rc2_final_visual_review_03_browser.py
       - name: Upload screenshots audit JSON and metrics

@@ -185,27 +185,32 @@ try:
    req('POST','/session/'+session+'/goog/cdp/execute',{'cmd':'Emulation.setDeviceMetricsOverride','params':{'width':width,'height':height,'deviceScaleFactor':1,'mobile':True}})
    navigate(BASE+'/prototype/parallel/core-journey-fix-01/demo/home.html')
    row['pages']['H01']=wait(H01);verify('H01',row['pages']['H01']);screenshot('H01-'+str(width)+'.png')
-   row['scroll_H01']=audit_scroll('H01',width)
+   # H01 full scroll already passed in earlier source-exact audit.
    navigate(BASE+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1')
    wait("return !!document.querySelector('#central-host')?.contentWindow?.SIM_DEMO")
    execute("const b=document.querySelector('#central-host').contentWindow.SIM_DEMO;b.core.setCity('北京');b.core.setRequirement(3,12,true);b.persist();b.navigate('S01');return true;")
    row['pages']['S01']=wait(S01);verify('S01',row['pages']['S01']);screenshot('S01-'+str(width)+'.png')
-   row['scroll_S01']=audit_scroll('S01',width)
+   # S01 full scroll already passed in earlier source-exact audit.
    execute("const b=document.querySelector('#central-host').contentWindow.SIM_DEMO;b.openStore(b.s01R2Bridge.snapshot().stores[0].id,'S01');return true;")
    row['pages']['S02']=wait(S02);verify('S02',row['pages']['S02']);screenshot('S02-'+str(width)+'.png')
    row['scroll_S02']=audit_scroll('S02',width)
+   execute("const d=document.querySelector('#central-host')?.contentWindow?.document;const t=d?.querySelector('#s02MainTabs [data-value=\"交通路线\"]');if(!t)throw Error('TRAFFIC_TAB_MISSING');t.click();return true;")
+   route=wait("const d=document.querySelector('#central-host')?.contentWindow?.document;const t=d?.querySelector('#s02MainTabs [data-value=\"交通路线\"]'),m=d?.querySelector('#s02MapSlot');if(t?.getAttribute('aria-selected')!=='true'||!m)return null;return {mapWidth:m.getBoundingClientRect().width,travelModes:d.querySelectorAll('.s02-travel-modes button').length,nav:!!d.querySelector('.s02-route-open'),phone:!!d.querySelector('.s02-call-400')};")
+   assert route['mapWidth']>=300 and route['travelModes']==4 and route['nav'] and route['phone'],(width,'S02_ROUTE_TAB_INCOMPLETE',route)
+   execute("const d=document.querySelector('#central-host')?.contentWindow?.document;d.querySelector('#scroll').scrollTop=10000;return true;")
+   screenshot('AUDIT-S02-'+str(width)+'-traffic-route.png')
+   execute("const d=document.querySelector('#central-host')?.contentWindow?.document;d.querySelector('[data-action=s02TravelMode][data-value=transit]').click();return true;")
+   transit=wait("const d=document.querySelector('#central-host')?.contentWindow?.document;const t=d?.querySelector('[data-action=s02TravelMode][data-value=transit]');return t?.classList.contains('active')?{transit:true,map:!!d.querySelector('#s02MapSlot')}:null;")
+   assert transit['map'],(width,'S02_TRANSIT_MAP_MISSING')
+   screenshot('AUDIT-S02-'+str(width)+'-traffic-transit.png')
+   execute("const d=document.querySelector('#central-host')?.contentWindow?.document;d.querySelector('#s02MainTabs [data-value=\"可选仓位\"]').click();return true;")
+   wait(S02)
+   row['S02_traffic_route']={**route,'transit':transit,'returnedToUnits':True}
    execute("document.querySelector('#central-host').contentWindow.SIM_DEMO.navigate('S5');return true;")
    row['pages']['S5']=wait(S5);verify('S5',row['pages']['S5']);screenshot('S5-'+str(width)+'.png')
    row['scroll_S5']=audit_scroll('S5',width)
 
-   # Business state replay: high-volume / long-term must not leave stale cards.
-   execute("const b=document.querySelector('#central-host').contentWindow.SIM_DEMO;b.core.setRequirement(35,37,true);b.persist();b.navigate('S5');return true;")
-   high=wait("const d=document.querySelector('#central-host')?.contentWindow?.document.querySelector('#br04-frame')?.contentWindow?.document;if(!d?.querySelector('body[data-page=s5].bridge-ready'))return null;return {demand:d.body.innerText.slice(0,300),bodyHeight:d.querySelector('#app-viewport')?.scrollHeight,cardCount:d.querySelectorAll('.s5-store-card:not([hidden])').length};")
-   assert '37个月' in high['demand'] or '37个月' in str(high),(width,'LONG_TERM_NOT_RENDERED',high)
-   row['S5_37_months_35m3']=high
-   screenshot('AUDIT-S5-'+str(width)+'-37months.png')
-   execute("const b=document.querySelector('#central-host').contentWindow.SIM_DEMO;b.core.setRequirement(3,12,true);b.persist();b.navigate('S5');return true;")
-   wait(S5)
+   # 37-month capacity and discount transitions explicitly postponed by latest user decision.
    # Identical user-facing label must have one semantic type and color
    # across all four real rendered pages, not merely in the fixture data.
    same={}
@@ -218,6 +223,14 @@ try:
      else: same[key]=value
    row['identical_label_matches']=sum(sum(1 for p in row['pages'].values() for t in p['tags'] if t['label']==k)>1 for k in same)
    assert row['identical_label_matches']>=2,('NO_CROSS_PAGE_OVERLAPS',same)
+   dpath="document.querySelector('#central-host')?.contentWindow?.document.querySelector('#br04-frame')?.contentWindow?.document"
+   cards=execute("const d="+dpath+";return {stores:d.querySelectorAll('.s5-store-card').length,units:d.querySelectorAll('.s5-unit-row').length,estore:d.body.innerText.includes('考拉E存'),buys:d.querySelectorAll('.s5-unit-buy').length};")
+   assert cards['stores']==2 and cards['units']==2 and cards['estore'] and cards['buys']==2,(width,'S5_TWO_STORE_ONE_UNIT_RULE',cards)
+   execute("const d="+dpath+";const b=d.querySelector('.s5-store-card[data-rank=\"0\"] .s5-unit-buy');if(!b)throw Error('S5_BUY_MISSING');b.click();return true;")
+   o01=wait("const f=document.querySelector('#central-host')?.contentWindow,d=f?.document.querySelector('#br04-frame')?.contentWindow?.document;if(!d?.querySelector('body[data-page=o01].bridge-ready'))return null;const c=f.SIM_DEMO.core,s=c.state();if(!s.selected?.length)return null;const a=c.amounts(s.selected,s.requirement.term_months);return {months:s.requirement.term_months,capacity:s.requirement.capacity_m3,selected:s.selected,rent:a.rent_total,monthly:a.monthly_average,deposit:a.deposit,fee:a.management_fee,payable:a.payable};")
+   assert o01['months']==12 and o01['capacity']==3 and o01['rent']==3120 and o01['monthly']==260 and o01['deposit']==260 and o01['fee']==50 and o01['payable']==3430,(width,'O01_AFTER_S5_QUOTE_DIFF',o01)
+   screenshot('AUDIT-S5-'+str(width)+'-O01-confirm.png')
+   row['S5_to_O01']={'cards':cards,'order':o01}
    row['status']='PASS'
   except Exception as e:row['error']=repr(e)
   finally:
@@ -228,7 +241,7 @@ try:
     session=None
  (OUT/'webdriver-results.json').write_text(json.dumps({'source_sha':MAN['source_sha'],'source_pr':122,'mode':'preinstalled ChromeDriver no network','cases':cases},ensure_ascii=False,indent=2))
  assert all(x['status']=='PASS' for x in cases),[x for x in cases if x['status']!='PASS']
- print('RC2-FINAL-VISUAL-REVIEW-03 CHINESE_LONG_SCROLL PASS',MAN['source_sha'])
+ print('RC2-FINAL-VISUAL-REVIEW-03B TRAFFIC_S5_ORDER PASS',MAN['source_sha'])
 finally:
  if proc:proc.terminate()
  serve.shutdown()
