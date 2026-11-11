@@ -197,7 +197,7 @@
     function lifecycleRequestExit(id,type,date){
       if(!authorized())fail('PHONE_REQUIRED');
       if(!['expiry','early'].includes(type)||!validDate(date))fail('INVALID_EXIT_REQUEST');
-      if(lifecycleView(id).lease_status!=='active')fail('ACTIVE_ORDER_REQUIRED');
+      if(!['active','expired'].includes(lifecycleView(id).lease_status))fail('ACTIVE_ORDER_REQUIRED');
       const l=lifecycleLedger(id);
       if(l.exit)fail('EXIT_IN_PROGRESS');
       l.exit={type,date,status:'REQUESTED',requested_at:now()};notify('退租安排已记录',id);return copy(l.exit);
