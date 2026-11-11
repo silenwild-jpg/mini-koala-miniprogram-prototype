@@ -19,7 +19,7 @@
   const displayUnitName=u=>{
     const name=String(u?.name||'').trim(),cabin=String(u?.demo_cabin_no||'').trim();
     if(!cabin)return name;
-    const description=name.replace(/^[A-D]\\d{1,3}(?=\\s|[·•])/,'').replace(/^[\\s·•]+/,'').trim();
+    const description=name.replace(/^[A-D]\d{1,3}(?=\s|[·•])/,'').replace(/^[\s·•]+/,'').trim();
     return cabin+(description?' · '+description:'');
   };
   let allUI={};try{allUI=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}');}catch{}
