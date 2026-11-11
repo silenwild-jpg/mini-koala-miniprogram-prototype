@@ -38,10 +38,14 @@ function rect(el){const r=el.getBoundingClientRect();return {x:r.x,y:r.y,w:r.wid
     visibleUnitRows:[...x.querySelectorAll('.s5-unit-row')].filter(y=>!y.hidden).length,
     alternateUnits:x.querySelectorAll('.s5-alt-unit').length
    })));
-   assert(initial.every(x=>x.photo.width<=82&&x.photo.height<=82),'oversized cover photo still occupies two-store S5 screen');
+   assert(initial.every(x=>x.photo.width>=86&&x.photo.width<=90&&x.photo.height>=86&&x.photo.height<=90),'S5 list photos must match S01 style 88x88');
    assert(initial[1].rect.top<height-110,'second recommended store not visible high enough for comparison');
    assert(initial.every(x=>x.visibleUnitRows===1&&x.alternateUnits===0),'one matched unit per store is frozen');
    assert.equal(await s5.locator('#s5-compare,.s5-comparison-table,.s5-alt-toggle,.s5-alt-unit').count(),0,'forbidden comparison or alternate unit reintroduced');
+   assert.equal(await s5.locator('.s5-store-map').count(),2,'each store needs an icon-only map entry');
+   assert.equal(await s5.locator('button.s5-store-photo').count(),2,'store photos must be clickable to open details');
+   assert.equal(await s5.locator('.s5-store-open').count(),2,'store titles must be clickable');
+   assert.equal((await s5.locator('.s5-store-open').allInnerTexts()).some(t=>t.includes('查看门店')),false,'avoid redundant view-store text');
    assert.equal(await s5.locator('.estore').count(),1,'E-storage service card missing');
    const estorePosition=await s5.locator('.estore').evaluate(el=>({
      afterStoreCards:!!(el.compareDocumentPosition(document.querySelector('.recommend-wrap'))&Node.DOCUMENT_POSITION_PRECEDING),
