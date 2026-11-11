@@ -13,6 +13,7 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/s02-central.css
       - app/prototype/parallel/core-journey-fix-01/demo/br04/adapter.css
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
       - scripts/verify_s01_state_price_03_browser.cjs
       - scripts/verify_s01_vis_refine_04_browser.cjs
       - scripts/verify_s01_price_discount_06_browser.cjs
@@ -46,6 +47,7 @@ jobs:
           node --check scripts/verify_s01_cabin_number_08_browser.cjs
           node --check app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
           node scripts/verify_rc2_business_rebuild_01.cjs
       - name: Build exact isolated candidate, without deployment
         env:
