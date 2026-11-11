@@ -104,11 +104,11 @@ def verify(page,d):
  if page=='S01':assert d['discount']['color']==COL['promotion']
  if page=='S02':assert d['phone'] and len({x['label'] for x in ts})==len(ts)
  if page=='S5':assert d['ctaHeight']>=47.5
-  glyph=d['cjk']
-  assert glyph['distinct']==5,(page,'CJK_TOFU_OR_MISSING',glyph)
-  for k,g in glyph['samples'].items():assert g['pixels']>60,(page,'CJK_GLYPH_EMPTY',k,g)
-  for box in d['boxes']:
-   assert not box['clipped'] or box['overflow']=='ellipsis',(page,'UNEXPECTED_CJK_TEXT_CLIP',box)
+ glyph=d['cjk']
+ assert glyph['distinct']==5,(page,'CJK_TOFU_OR_MISSING',glyph)
+ for k,g in glyph['samples'].items():assert g['pixels']>60,(page,'CJK_GLYPH_EMPTY',k,g)
+ for box in d['boxes']:
+  assert not box['clipped'] or box['overflow']=='ellipsis',(page,'UNEXPECTED_CJK_TEXT_CLIP',box)
 
 cases=[]
 try:
