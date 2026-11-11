@@ -337,3 +337,92 @@ html[data-match-mode="browse"] .s01-compact .store-tags span{
     padding:0 4px;font-size:10px
   }
 }
+
+/* S01-UX-REFINE-06 | matched unit: warehouse identity first, price/action second.
+   Flat native list only; no nested tile, card background, or added border. */
+.store-card[data-card-kind="expanded"] .unit{
+  min-height:0;padding:6px 0 5px
+}
+.store-card[data-card-kind="expanded"] .unit-main{
+  display:flex;align-items:center;gap:7px;
+  width:100%;min-width:0;min-height:20px
+}
+.store-card[data-card-kind="expanded"] .capacity{
+  flex:0 0 auto;font-size:16px;line-height:22px;
+  font-weight:750;letter-spacing:-.2px;color:#213d33
+}
+.store-card[data-card-kind="expanded"] .capacity::before{
+  content:"仓位";display:inline-block;margin-right:4px;
+  color:#718078;font-size:12px;line-height:18px;
+  font-weight:550;letter-spacing:0;vertical-align:1px
+}
+.store-card[data-card-kind="expanded"] .unit-desc{
+  flex:1 1 auto;min-width:0;max-width:100%;
+  margin:0;max-height:18px;
+  color:#71847a;font-size:12px;line-height:18px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.store-card[data-card-kind="expanded"] .unit-main .hot{
+  flex:0 0 auto;align-self:center;margin-left:2px;
+  height:18px;line-height:18px;font-size:10px
+}
+.store-card[data-card-kind="expanded"] .unit-action-row{
+  display:flex;align-items:center;gap:10px;
+  width:100%;min-width:0;min-height:48px;margin-top:3px
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  display:grid;flex:1 1 0;min-width:0;max-width:100%;
+  grid-template-columns:max-content max-content;
+  grid-template-rows:25px 18px;
+  column-gap:6px;align-content:center;align-items:center;
+  justify-content:start;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;
+  min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+  color:#12392f;font-size:21px;line-height:25px;
+  font-weight:800;letter-spacing:-.45px;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > span:not(.s01-term-discount){
+  display:none
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > .s01-term-discount{
+  grid-column:2;grid-row:1;align-self:center;
+  display:inline-flex;align-items:center;justify-content:center;
+  height:18px;min-height:18px;padding:0 5px;
+  border:0;border-radius:4px;background:#eef6f0;color:#59846b;
+  font-size:10.5px;line-height:18px;font-weight:650;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > .s01-term-discount[hidden]{
+  display:none!important
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+  grid-column:1 / -1;grid-row:2;
+  min-width:0;max-width:100%;margin:0;
+  color:#617c6d;font-size:12px;line-height:18px;font-weight:550;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .order{
+  flex:0 0 86px;width:86px;min-width:86px;
+  height:48px;min-height:48px;margin:0;padding:0;
+  border:0;border-radius:8px;background:var(--s01-green);
+  color:#fff;font-size:13px;line-height:18px;font-weight:750;
+  white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .order:focus-visible{
+  outline:2px solid #276b52;outline-offset:2px
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .unit-main{gap:5px}
+  .store-card[data-card-kind="expanded"] .capacity{font-size:15.5px}
+  .store-card[data-card-kind="expanded"] .unit-action-row{gap:8px}
+  .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+    column-gap:4px
+  }
+  .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+    font-size:20px
+  }
+  .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > .s01-term-discount{
+    padding:0 4px;font-size:10px
+  }
+}
