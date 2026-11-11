@@ -152,3 +152,36 @@ body.s01-panel-open::before{
 @media(prefers-reduced-motion:no-preference){
   .s01-filter-anchor{transition:box-shadow .15s ease}
 }
+
+/* S01-STATE-PRICE-03: the price surface is one two-line calculation.
+   Total rent dominates, monthly × explicitly chosen months explains it.
+   No inferred 12-month term or a second store cubic price in matching mode. */
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:24px 19px;
+  min-width:0;align-items:start;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;overflow:hidden;text-overflow:ellipsis
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > span{
+  display:none
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+  grid-column:1;grid-row:2;display:block;
+  min-width:0;margin:0;color:#617c6d;
+  font-size:12px;line-height:19px;font-weight:550;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+/* All store rows are equivalent while demand is incomplete; E storage
+   stays visibly differentiated as an operating service in slot three. */
+html[data-match-mode="browse"] .s01-compact .store-body h2{
+  color:#19372e
+}
+html[data-match-mode="browse"] .s01-compact .s01-compact-side{
+  margin-top:2px
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+    font-size:11.5px
+  }
+}
