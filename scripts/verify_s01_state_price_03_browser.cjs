@@ -116,7 +116,7 @@ const fmt=n=>'¥'+Number(n).toLocaleString('zh-CN',{maximumFractionDigits:2});
         unitRows:[...el.querySelectorAll('.unit')].filter(x=>!x.hidden).map(x=>({
           id:x.dataset.unitId,
           price:x.querySelector('.price strong')?.textContent,
-          suffix:x.querySelector('.price > span')?.textContent,
+          suffix:x.querySelector('.price > span:not(.s01-term-discount)')?.textContent,
           breakdown:x.querySelector('.price-secondary')?.textContent,
           label:x.querySelector('.price')?.getAttribute('aria-label'),
           ctaHeight:x.querySelector('.order')?.getBoundingClientRect().height
