@@ -69,3 +69,5 @@ jobs:
             release-evidence/rc2-merge-prep-10/build-summary.json
 
 # R2: recheck collapsed-only units in legacy visibility test and corrected fee header/address fit.
+
+# R3: check explicit whole-term pricing label and readable comparison names after visual review.
