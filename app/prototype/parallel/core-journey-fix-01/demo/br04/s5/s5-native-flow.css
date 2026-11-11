@@ -103,8 +103,8 @@ body[data-page="s5"] .s5-store-photo>img{
   display:block;width:100%;height:100%;object-fit:cover;object-position:center;
 }
 body[data-page="s5"] .s5-store-info{
-  grid-column:2;grid-row:1;min-width:0;
-  padding:2px 0 4px;border:0;display:flex;flex-direction:column;gap:0;
+  grid-column:2;grid-row:1;min-width:0;min-height:92px;
+  padding:2px 76px 4px 0;border:0;display:flex;flex-direction:column;gap:0;
 }
 body[data-page="s5"] .s5-store-reason{
   position:static;display:block;padding:0;margin:0;
@@ -133,22 +133,22 @@ body[data-page="s5"] .s5-store-services>span{
   white-space:nowrap;text-overflow:ellipsis;overflow:hidden;
 }
 body[data-page="s5"] .s5-store-address{
-  min-height:0;display:block;color:#657c71;
+  min-height:0;height:0;display:block;overflow:visible;color:#657c71;
   font-size:12px;line-height:17px;
 }
 body[data-page="s5"] .s5-store-address>span{
-  display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  display:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 body[data-page="s5"] .s5-store-address button{
-  position:absolute;right:0;top:0;
+  position:absolute;right:0;top:2px;
   min-height:44px;min-width:44px;padding:5px;
   border:0;background:transparent;border-radius:6px;
   color:#0d785b;font-weight:750;font-size:12px;
 }
 /* Navigation shares the store title line's right-side area, not the text column. */
-body[data-page="s5"] .s5-store-info{padding-right:52px}
+body[data-page="s5"] .s5-store-info{padding-right:76px}
 body[data-page="s5"] .s5-store-open{
-  position:absolute;right:0;top:45px;min-width:67px;
+  position:absolute;right:0;top:47px;min-width:69px;
 }
 body[data-page="s5"] .s5-store-title{min-height:24px}
 body[data-page="s5"] .s5-store-distance{
@@ -239,7 +239,7 @@ body[data-page="s5"] .s5-comparison-table th:first-child{
   width:23%;text-align:left;color:#657971;font-weight:650;
 }
 body[data-page="s5"] .s5-comparison-table th:not(:first-child){
-  width:38.5%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  width:38.5%;text-align:right;white-space:normal;overflow-wrap:anywhere;line-height:17px;vertical-align:bottom;color:#193b32;font-weight:750;
 }
 body[data-page="s5"] .s5-comparison-table td{text-align:right;white-space:nowrap}
 body[data-page="s5"] .s5-comparison-table tr:last-child th,
@@ -254,6 +254,13 @@ body[data-page="s5"] .s5-comparison-actions .bridge-compare-row{
 }
 body[data-page="s5"] .s5-comparison-actions button,
 body[data-page="s5"] .s5-comparison-actions [data-bridge]{min-height:44px;width:100%}
+body[data-page="s5"] .s5-comparison-actions .bridge-compare-row:first-child [data-bridge]{
+  background:#fff;border:1px solid #b8d8c8;color:#08765b;border-radius:9px;
+}
+body[data-page="s5"] .s5-comparison-actions .bridge-compare-row:last-child [data-bridge]{
+  background:#08765b;border:1px solid #08765b;color:#fff;border-radius:9px;
+}
+
 body[data-page="s5"] #artboard > .more-units{
   height:41px!important;display:flex;justify-content:flex-end;
   align-items:center;padding:0 3px;
