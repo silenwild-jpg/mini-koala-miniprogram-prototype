@@ -146,11 +146,11 @@ async function start(){
      if(phase==='active'){
        const trigger=page.locator('#h01FlowServices [data-h01="more"]');
        await trigger.click();
-       const modal=page.locator('[role="dialog"][aria-modal="true"]');
+       const modal=page.locator('.h01-flow-modal [role="dialog"][aria-modal="true"]');
        await modal.waitFor();
        assert.equal(await modal.locator('.h01-flow-choice').count(),2,'More services should contain add and change');
        await page.keyboard.press('Escape');
-       assert.equal(await page.locator('[role="dialog"]').count(),0,'Escape must close the service sheet');
+       assert.equal(await page.locator('.h01-flow-modal').count(),0,'Escape must close the service sheet');
        assert.equal(await trigger.evaluate(el=>document.activeElement===el),true,'Focus should return to More services');
        await trigger.click();
        await page.locator('.h01-flow-choice').filter({hasText:'加租仓位'}).click();
