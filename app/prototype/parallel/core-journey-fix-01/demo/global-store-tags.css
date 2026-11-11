@@ -39,3 +39,28 @@ body[data-preview-surface="home"] .store-tags .mk-store-tag{
 .s5-store-services .mk-store-tag{
   font-size:11px;height:20px;min-height:20px;line-height:18px;padding:0 6px;
 }
+
+/* VIS-SYSTEM-01: legacy page selectors used to override typed tag colors.
+   Force shared semantic palettes across H01/S01/S02/S5, not page-specific
+   visual tokens. This only colors the existing tag, it never adds one. */
+.mk-store-tag.mk-tag-promotion,
+.store-card .store-tags .mk-store-tag.mk-tag-promotion,
+.store-card[data-card-kind] .store-tags .mk-store-tag.mk-tag-promotion,
+.mk-s02-store-tags .mk-store-tag.mk-tag-promotion,
+.s5-store-services .mk-store-tag.mk-tag-promotion{
+  color:var(--mk-color-promo-fg,#c56a25)!important;
+  background:var(--mk-color-promo-bg,#fff2e6)!important;
+  border-color:var(--mk-color-promo-border,#f3dfca)!important;
+}
+.mk-store-tag.mk-tag-service,
+.mk-store-tag.mk-tag-attribute,
+.store-card[data-card-kind] .store-tags .mk-store-tag.mk-tag-service,
+.store-card[data-card-kind] .store-tags .mk-store-tag.mk-tag-attribute,
+.mk-s02-store-tags .mk-store-tag.mk-tag-service,
+.mk-s02-store-tags .mk-store-tag.mk-tag-attribute,
+.s5-store-services .mk-store-tag.mk-tag-service,
+.s5-store-services .mk-store-tag.mk-tag-attribute{
+  color:var(--mk-color-service-fg,#65736c)!important;
+  background:var(--mk-color-service-bg,#fafbfa)!important;
+  border-color:var(--mk-color-service-border,#e1e6e3)!important;
+}
