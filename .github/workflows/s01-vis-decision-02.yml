@@ -12,6 +12,7 @@ on:
       - scripts/verify_s01_state_price_03_browser.cjs
       - scripts/verify_s01_vis_refine_04_browser.cjs
       - scripts/verify_s01_price_discount_06_browser.cjs
+      - scripts/audit_s01_discount_signoff_07.cjs
   workflow_dispatch:
 permissions:
   contents: read
@@ -36,6 +37,7 @@ jobs:
           node --check scripts/verify_s01_state_price_03_browser.cjs
           node --check scripts/verify_s01_vis_refine_04_browser.cjs
           node --check scripts/verify_s01_price_discount_06_browser.cjs
+          node --check scripts/audit_s01_discount_signoff_07.cjs
           node scripts/verify_rc2_business_rebuild_01.cjs
       - name: Build exact isolated candidate, without deployment
         env:
@@ -54,6 +56,8 @@ jobs:
         run: node scripts/verify_s01_vis_refine_04_browser.cjs
       - name: S01 discount tag and 1–60 month pricing boundaries at 375/390
         run: node scripts/verify_s01_price_discount_06_browser.cjs
+      - name: Independent all-term rent policy audit (policy HOLD evidence)
+        run: node scripts/audit_s01_discount_signoff_07.cjs
       - name: Existing S5 recommendation and O01 order flow regression
         run: |
           node scripts/verify_rc2_ux_quality_rebase_03.cjs
@@ -69,6 +73,7 @@ jobs:
             release-evidence/s01-state-price-03/
             release-evidence/s01-vis-refine-04/
             release-evidence/s01-price-discount-06/
+            release-evidence/s01-discount-signoff-07/
             release-evidence/rc2-ux-quality-rebase-03/
             release-evidence/rc2-p1-demo-close-02/
             release-evidence/rc2-merge-prep-10/build-summary.json
