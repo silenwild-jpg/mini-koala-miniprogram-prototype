@@ -138,6 +138,11 @@ const capPriceCase=async (app,s01,months)=>{
       });
       const discounted12=await capPriceCase(app,s01,12);
       assert(discounted12.cards.length===2);
+      // The relocated CTA must still invoke the original order selection path.
+      const chosenUnit=await s01.locator('.store-card[data-card-kind="expanded"] .unit-action-row .order').first().getAttribute('data-unit-id');
+      await s01.locator('.store-card[data-card-kind="expanded"] .unit-action-row .order').first().click();
+      const selectedUnits=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state().selected);
+      assert.deepEqual(selectedUnits,[chosenUnit],'moved CTA no longer selects its own warehouse unit');
       // Negative control: a non-discount term rule cannot emit a sale tag.
       const negative=await app.locator('#screen').evaluate(()=>{
         const b=window.SIM_DEMO,rule=b.core.fixture.pricing.termRules.find(r=>r.min===7);
