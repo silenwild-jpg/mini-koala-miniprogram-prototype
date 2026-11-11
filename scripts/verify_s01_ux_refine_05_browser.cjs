@@ -90,7 +90,7 @@ const almost=(a,b,tolerance=2)=>Math.abs(a-b)<=tolerance;
        for(const c of data.cards){
         assert.equal(c.units,1,'two physical stores must each show one unit');
         assert(!c.cubic,'matched card must not display public cubic price');
-        assert(c.meta.includes('仓位')&&c.meta.includes('m³')&&c.meta.includes('适合'));
+        assert(c.meta.includes('仓位')&&/m(?:3|³)/.test(c.meta)&&c.meta.includes('适合'),'meta missing label, size or usage: '+c.meta);
         assert.equal(c.actionHeight,48);assert(c.priceFont>=21,'total price not dominant');
         assert(c.priceFits,'actual whole-term price clipped');
         assert(c.secondary.includes('/月 × '+months+'个月'));
