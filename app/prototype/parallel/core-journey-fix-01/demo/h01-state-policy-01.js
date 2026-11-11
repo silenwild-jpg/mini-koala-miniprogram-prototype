@@ -54,9 +54,11 @@
       }
     }
     const req=s.requirement||{},selected=Array.isArray(s.selected)?s.selected:[];
-    if(selected.length){
+    const selectedFromOrder=selected.length>0&&all.some(o=>Array.isArray(o.unit_ids)&&o.unit_ids.length===selected.length&&o.unit_ids.every(id=>selected.includes(id))&&["paid_simulated","pending","cancelled","expired","invalidated","payment_failed"].includes(o.status));
+    const staleRequirement=all.some(o=>o.status==="paid_simulated");
+    if(selected.length&&!selectedFromOrder){
       records.push({key:"selected",title:"继续完成选仓",badge:"已选仓位",sub:storeName(s.storeId),facts:[[req.capacity_m3?req.capacity_m3+"m³":"待确认","需要容量"],[req.term_confirmed?req.term_months+"个月":"待选择","租期"]],primary:["继续下单","recommend"],secondary:["查看门店","nearby"],score:12,layout:"task",orderId:null,storeId:s.storeId||null});
-    }else if(Number(req.capacity_m3)>0){
+    }else if(Number(req.capacity_m3)>0&&!staleRequirement&&!selectedFromOrder){
       records.push({key:"estimated",title:"继续查看仓位",badge:"已保存需求",sub:"已估算用仓需求",facts:[[req.capacity_m3+"m³","预计容量"],[req.term_confirmed?req.term_months+"个月":"待选择","租期"]],primary:["查看推荐仓位","recommend"],secondary:["修改需求","estimate"],score:11,layout:"task",orderId:null,storeId:null});
     }
     const leads=[...(Array.isArray(s.leads)?s.leads:[]),...(Array.isArray(s.enterpriseLeads)?s.enterpriseLeads:[])];
