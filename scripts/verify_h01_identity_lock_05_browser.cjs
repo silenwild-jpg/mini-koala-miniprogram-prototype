@@ -139,7 +139,7 @@ async function start(){
          assert.match(controls.secondLabel,/门店导航/,'Navigation label promises wrong action');
          assert.deepEqual(controls.activeServiceButtons,['续租','更多服务 ›'],'Too many active service actions');
        }
-       if(phase==='upcoming')assert.match(controls.secondLabel,/门店导航/);
+       if(phase==='upcoming')assert.match(controls.secondLabel,/一键开锁/);
        record.controls=controls;
      }
      if(['pending','identity','identity_verify','upcoming','active','expiring','renewal','returning','refund','lease_expired'].includes(phase)){
@@ -170,8 +170,9 @@ async function start(){
          return {identity:s.services[o.id]?.identity,orderId:o.id};
        });
        assert.equal(data.identity,'verified','Prototype identity outcome not persisted');
-       assert.equal(await page.locator('#h01FlowPrimary').innerText(),'一键开锁');
-       await page.locator('#h01FlowPrimary').click();
+       assert.equal(await page.locator('#h01FlowPrimary').innerText(),'门店导航');
+       assert.equal(await page.locator('#h01FlowSecondary').innerText(),'一键开锁');
+       await page.locator('#h01FlowSecondary').click();
        assert.match(await page.locator('.h01-flow-modal').innerText(),/起租日/,'Pre-start must remain locked after identity verification');
        record.action='identity→verified→upcoming and locked-before-start';
        await page.keyboard.press('Escape');
@@ -221,10 +222,12 @@ async function start(){
        record.action='renew→RN01';
      }
      if(phase==='upcoming'){
-       await page.locator('#h01FlowPrimary').click();
+       assert.equal(await page.locator('#h01FlowPrimary').innerText(),'门店导航');
+       assert.equal(await page.locator('#h01FlowSecondary').innerText(),'一键开锁');
+       await page.locator('#h01FlowSecondary').click();
        assert.match(await page.locator('.h01-flow-modal').innerText(),/起租日/,'Prestart lock cannot claim access');
        await page.keyboard.press('Escape');
-       await page.locator('#h01FlowSecondary').click();
+       await page.locator('#h01FlowPrimary').click();
        await page.locator('.h01-flow-choice').filter({hasText:'查看门店位置'}).click();
        await page.waitForURL(/page=S02/,{timeout:7000});
        record.action='store-location→S02';
