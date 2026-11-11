@@ -70,7 +70,7 @@
       for(let i=0;i<units.length;i++)for(let j=i+1;j<units.length;j++)if(units[i].volume+units[j].volume>=target)rows.push({ids:[units[i].id,units[j].id],volume:totalVolume([units[i].id,units[j].id]),store_id:storeId});
       return rows.sort((a,b)=>a.volume-b.volume).slice(0,3);
     }
-    const currency=n=>Math.round((n+Number.EPSILON)*100)/100;
+    const currency=n=>{const value=Number(n);if(!Number.isFinite(value))fail('INVALID_PRICE');return Math.trunc(value);};
     function discountedMonth(u,months){if(!validTerm(months))fail('SELECT_TERM');const base=s.prices[u.id]??u.base_month;const rule=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max);if(!rule)fail('INVALID_TERM');return currency(base*rule.factor);}
     function rent(u,months){return currency(discountedMonth(u,months)*months);}
     function couponEligible(c,rentTotal,months,renewal=false){
