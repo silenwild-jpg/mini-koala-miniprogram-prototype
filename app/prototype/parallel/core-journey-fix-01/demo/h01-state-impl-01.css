@@ -52,3 +52,10 @@ body.h01-flow-business .below-editable{display:none!important}
 .h01-flow-dialog h2{font-size:18px;font-weight:800;margin:0 0 9px}.h01-flow-dialog p{font-size:12px;color:#697a6e;line-height:1.6;margin:0 0 16px}
 .h01-flow-choice,.h01-flow-cancel{display:block;width:100%;min-height:46px;border-radius:10px;font-weight:740;font-size:14px;margin:8px 0;border:0}
 .h01-flow-choice{background:#0b7953;color:white}.h01-flow-cancel{background:#f2f5f3;color:#597164}
+
+/* Payment window: numeric countdown is secondary to payable total. */
+.h01-flow-fact[data-countdown] b{font-variant-numeric:tabular-nums;font-feature-settings:"tnum";font-size:19px;white-space:nowrap;letter-spacing:.01em}
+.h01-flow-fact[data-countdown][data-tone="normal"] b{color:#176445}
+.h01-flow-fact[data-countdown][data-tone="warning"] b{color:#b66a14}
+.h01-flow-fact[data-countdown][data-tone="critical"] b{color:#b54133}
+.h01-flow-fact[data-countdown] small{white-space:nowrap}
