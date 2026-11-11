@@ -15,6 +15,12 @@
   const filterRow=document.querySelector('.filters');
   const filterAnchor=document.createElement('div');filterAnchor.className='s01-filter-anchor';
   filterRow.before(filterAnchor);filterAnchor.append(filterRow,panel);
+  // VIS-REFINE-04: main filters first, lightweight quick filters second,
+  // contextual capacity estimate third, then physical store list.
+  // Reparent existing nodes; never build an additional visual container.
+  const quickRow=document.querySelector('.s01-quick');
+  const demandRow=document.querySelector('.s01-context');
+  if(quickRow&&demandRow)quickRow.after(demandRow);
   let openIndex=-1;
   const serviceOptions=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];
   const esc=v=>String(v).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
@@ -138,7 +144,7 @@
     article.dataset.presentation='compact-direct';
     article.setAttribute('role','button');
     article.setAttribute('tabindex','0');
-    article.setAttribute('aria-label','查看'+s.name+'的门店详情');
+    article.setAttribute('aria-label','查看'+s.name+'的门店详情，整卡可点击');
     const photo=document.createElement('img');
     photo.className='store-photo s01-compact-photo';
     photo.src=s.photo;
@@ -152,6 +158,8 @@
     info.append(tags);
     const address=document.createElement('div');address.className='address';
     const addrText=document.createElement('span');addrText.className='address-copy';addrText.textContent=s.address||'';
+    addrText.title=s.address||'';
+    addrText.setAttribute('aria-label',s.address||'');
     address.append(addrText);
     if(s.distance){const distance=document.createElement('span');distance.className='km';distance.textContent=s.distance;distance.dataset.verified=String(!!s.distanceVerified);address.append(distance);}
     info.append(address);
@@ -164,7 +172,8 @@
       const suffix=document.createElement('small');suffix.textContent='/m³/月起';side.append(suffix);
       side.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月价格口径');
     }
-    const arrow=document.createElement('span');arrow.className='s01-compact-arrow';arrow.textContent='查看门店 ›';side.append(arrow);
+    const arrow=document.createElement('span');arrow.className='s01-compact-arrow';
+    arrow.textContent='›';arrow.setAttribute('aria-hidden','true');side.append(arrow);
     info.append(side);
     article.append(photo,info);
     return article;
