@@ -99,6 +99,10 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
     await app.locator('#screen').evaluate(()=>{const c=window.SIM_DEMO.core;c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});});
     await s5.locator('#main-buy').click();
     await app.frameLocator('#br04-frame').locator('body[data-page=o01].bridge-ready').waitFor({timeout:18000});
+    const orderCabin=await app.frameLocator('#br04-frame').locator('#unit-name').innerText();
+    const sourceCabin=state.cards[0].cabin.replace(/^仓号\s*/, '');
+    assert(orderCabin.includes(sourceCabin),'O01 user-facing cabin number differs from S01/S5: '+orderCabin+' vs '+sourceCabin);
+    row.orderCabin=orderCabin;
     const priceContract=await app.locator('#screen').evaluate(()=>{
       const c=window.SIM_DEMO.core,s=c.state(),a=c.amounts(s.selected,s.requirement.term_months);
       return {ids:s.selected,term:s.requirement.term_months,total:a.rent_total,monthly:a.monthly_average,deposit:a.deposit,fee:a.management_fee,payable:a.payable};
