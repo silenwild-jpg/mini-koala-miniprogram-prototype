@@ -117,7 +117,7 @@ const cases=[];
         assert(r.monthly.y>r.total.y,'monthly formula should be below total');
         assert(r.button.y>=r.cabin.y,'order action should be below cabin');
         assert(r.button.height>=48,'order tap target height');
-        assert(v.addressOneLine&&r.address.width>70&&r.address.x>=r.photo.right-2,'address must visibly appear to the right of the photo, on one line');
+        assert(v.addressOneLine&&r.address.width>70&&r.address.height>=16&&r.address.x>=r.photo.right-2,'address must visibly appear to the right of the photo, on one line');
         assert(v.unitDisplay==='grid');
         assert(!v.totalClipped&&!v.monthlyClipped,'normal price should never be clipped');
         assert(v.overflow<=2,'horizontal overflow');
