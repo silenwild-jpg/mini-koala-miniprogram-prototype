@@ -13,7 +13,7 @@
   visSystemStyles.href='s01-vis-system-01.css?v=VIS01';
   document.head.append(visSystemStyles);
   const requestedLayout=new URLSearchParams(window.location.search).get('vis_system');
-  if(['balanced','flow'].includes(requestedLayout))
+  if(['balanced','flow','compact'].includes(requestedLayout))
     document.documentElement.dataset.visSystem=requestedLayout;
   const bridge=window.parent!==window?window.parent.SIM_DEMO?.s01R2Bridge:null;
   if(!bridge||!stage||masters.length!==2){document.documentElement.dataset.binding='UNAVAILABLE';return;}
