@@ -53,3 +53,8 @@
 4. `RC2-CROSS-BRANCH-GATE` **统一候选隔离归并**：以明确源头提交逐页摘取，不用“把PR#99的整个旧站覆盖四页”；只有同一提交的375/390四页截屏、跨页流转、状态回归和VIS-GUARD检查通过，才提交下一次归并审议。
 
 **审计结论**：发现确定的2项文案/价格规则冲突、3项跨页样式与来源失配、1项需要产品裁定的S02结构冲突，以及其它非阻塞清理项。四页独立QA都有成功运行，但**四页视觉统一、用户终签、统一候选归并、main、Netlify全部仍为HOLD**。
+
+## VIS-SYSTEM-04A 状态更新｜2026-11-11
+- **VS03-02 H01 已完成独立定向修复**：PR#115 `a388d9321c3f59187a15f70ae1ea237d92b5b9f3` [Run #43021967606](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43021967606) 40/40 PASS；公开立方月单价用户可见整元，原推荐排序数值及首页营销DOM/CSS未改。独立源记录：[H01修复报告](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/blob/feat/h01-vis-gate-07-20261111/docs/VIS_SYSTEM_04A_H01_20261111.md)。
+- **VS03-03 S5 文案已完成独立定向修复，但经营计价仍部分不合规**：PR#101 `6d2cd1ef4bfcb7dc388b203ab89a8e8d42d6683d` [Run #43021863233](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43021863233) 10/10 PASS；S5、快捷下单、订单辅助文案不再出现“月均约”，真实月租×具体租期正确。**尚余P1：原S5 core计算了¥240.5/月、¥203.5/月等非整元租金；不允许仅显示层截断造成价款不符。**独立源记录：[S5修复报告](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/blob/isolate/s5-final-rebase-01-20261111/docs/VIS_SYSTEM_04A_S5_20261111.md)。
+- 其它VS03-01/04/05/06/07/08仍按本审计原门禁处理；**没有四页合并代码SHA或真实线上演示部署**。下一步由`PRICE-INTEGER-CONTRACT-01`（中央整元月租、总租金、券、押金同源）与`VIS-SYSTEM-04B`（语义标签统一）分拆执行。
