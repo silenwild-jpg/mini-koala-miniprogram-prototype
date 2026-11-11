@@ -19,7 +19,7 @@
     var ranked=safeList(orders).map(function(o){
       var life=orderLife(o,ctx),rank=0,ending=false;
       if(life){
-        rank=life.lease_status==='returning'?100:life.lease_status==='active'?90:life.lease_status==='upcoming'?80:life.lease_status==='expired'?25:0;
+        rank=life.lease_status==='returning'?100:life.lease_status==='active'?90:life.lease_status==='upcoming'?80:life.lease_status==='expired'?88:0;
         if(life.lease_status==='ended'&&life.deposit_status==='REFUND_PENDING')rank=85;
         if(life.identity_status!=='verified'&&['active','upcoming'].includes(life.lease_status))rank=95;
         if(life.lease_status==='active'&&life.end_date){
@@ -82,6 +82,9 @@
         '<p class="m01-primary-meta">'+ctx.esc(lead.address||'已填写用仓位置')+'</p>'+
         ctx.button('m01View','查看预约记录','booking','m01-primary-button');
     }
+    // A completed/closed lease leaves behind the last checkout's requirement snapshot.
+    // Without a fresh intent marker, do not present that snapshot as a new active search.
+    if(entry&&entry.rank===0)return '<div class="m01-primary-top">'+badge('暂无待办服务')+'</div><strong class="m01-primary-title">历史用仓记录</strong>'+ctx.button('m01View','查看我的订单','orders','m01-primary-button');
     var req=s.requirement||{};
     if(req.capacity_m3){
       return '<div class="m01-primary-top">'+badge('继续找仓')+'</div><strong class="m01-primary-title">'+ctx.esc(req.capacity_m3+'m³')+'</strong>'+
