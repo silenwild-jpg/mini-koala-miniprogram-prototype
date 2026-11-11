@@ -46,7 +46,8 @@ const rects=async(loc)=>loc.evaluateAll(nodes=>nodes.filter(e=>!!e.getClientRect
     const displayedTags=await svc.locator('.s02-tag').evaluateAll(nodes=>nodes.map(x=>({label:x.innerText,kind:x.dataset.tagKind})));
     assert(displayedTags.length>=4&&displayedTags.length<=5,'S02 must display 4–5 demo service tags');
      assert.equal(new Set(displayedTags.map(x=>x.label)).size,displayedTags.length,'S02 duplicate promotion/service tag');
-    assert.equal(displayedTags[0].kind,'promo','demo promotion tag must be first without authenticity gate');
+    assert.equal(displayedTags[0].kind,'promotion','demo promotion tag must be first without authenticity gate');
+     assert(displayedTags.every(x=>['promotion','service','attribute'].includes(x.kind)),'canonical S02 taxonomy');
     assert(displayedTags.some(x=>x.label==='到店搬运'),'moving tag visible');
     const hours=app.locator('.hero .s02-hours');
     assert.equal(await hours.count(),1,'hours should be on photo lower-left');

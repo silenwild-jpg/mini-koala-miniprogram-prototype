@@ -307,16 +307,8 @@
   // Presentation demo: promotion -> moving/transport services -> facility features.
   // Preserve the S01 source fields and ordering; promo data may be illustrative.
   function s02OrderedServiceTags(s){
-    const promo=s.operatingTag?[{label:String(s.operatingTag),kind:'promo'}]:[];
-    const raw=[...(s.serviceTags||[]),'到店搬运',...(s.facilities||[]),'装卸区域'];
-    const valid=[...new Set(raw.filter(v=>typeof v==='string'&&v.trim()).map(v=>v.trim()))]
-      .filter(v=>!/24小时|全天存取|存取时间|独立仓/.test(v)&&
-        v!==String(s.operatingTag||'').trim()&&presentation.tagType?.(v)!=='promotion');
-    const rank=v=>/搬运|取送|取件|地铁|公交|交通/.test(v)?0:1;
-    const ordered=valid.map((label,index)=>({label,index,rank:rank(label)}))
-      .sort((a,b)=>a.rank-b.rank||a.index-b.index)
-      .map(x=>({label:x.label,kind:x.rank===0?'service':'feature'}));
-    return [...promo,...ordered].slice(0,5);
+    // VIS-SYSTEM-04B1: one H01/S01/S02/S5 taxonomy from presentation-policy.js.
+    return presentation.detailTags(s,5).map(({label,type})=>({label,kind:type}));
   }
   function s02ServiceTags(s){
     return '<div class="s02-service-summary" aria-label="门店服务标签">'+s02OrderedServiceTags(s).map(x=>
