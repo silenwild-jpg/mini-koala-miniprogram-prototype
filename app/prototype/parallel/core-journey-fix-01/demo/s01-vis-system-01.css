@@ -206,3 +206,182 @@ html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-act
   html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row{gap:7px}
   html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .order{flex-basis:85px;width:85px;min-width:85px}
 }
+
+
+/* VIS-SYSTEM-02 / S01 REFERENCE | approved information grouping from user image:
+   header=photo + store/name/tags/address/distance;
+   lower shelf=capacity/use | term rent/discount/monthly formula | cabin number/CTA.
+   Applied only to first two matched physical store cards. Browser states, prices,
+   selected unit IDs, order path and service-tag ranking remain untouched. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
+  position:relative;
+  margin:0 0 11px;padding:11px 10px 10px;
+  background:var(--mk-color-bg-paper,#fff);
+  border:1px solid #edf2ee;border-radius:12px;
+  box-shadow:0 2px 9px rgba(22,70,48,.055);
+  overflow:hidden
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
+  width:92px;height:100px;max-width:92px;min-width:92px;
+  margin:0 10px 0 0;
+  border-radius:9px;object-fit:cover;
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body{
+  padding:0;min-height:100px;min-width:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>h2{
+  margin:0 0 4px;padding-right:29px;
+  font-size:15px;line-height:21px;font-weight:760;
+  color:var(--mk-color-text-strong,#173b2f)
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-tags{
+  gap:4px;min-height:19px;height:19px;max-width:100%;
+  margin:0 0 3px;overflow:hidden
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-tags .mk-store-tag{
+  height:19px;min-height:19px;line-height:17px;
+  padding:0 4px;font-size:10px;border-radius:3px;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address{
+  display:flex;flex-direction:column;align-items:flex-start;
+  min-width:0;max-width:100%;gap:1px;margin:2px 0 0;
+  font-size:11px;line-height:17px;color:#738079
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address-copy{
+  display:block;min-width:0;max-width:100%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  -webkit-line-clamp:unset;line-clamp:unset
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .km{
+  display:block;align-self:flex-start;margin:0;padding:0;
+  color:var(--mk-color-brand-primary,#11845f);
+  font-size:11px;line-height:19px;font-weight:750;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .km::before{
+  content:"↗";margin-right:4px;font-size:12px;line-height:17px;
+}
+html[data-vis-system="reference"] .s01-store-detail{
+  top:8px;right:4px;width:35px;height:36px;
+  min-width:35px;min-height:36px;font-size:23px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-cubic-price[hidden]{
+  display:none!important
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .units{
+  clear:both;display:block;position:relative;
+  margin:8px 0 0;padding:8px 0 0;
+  width:100%;border:0;border-top:1px solid #e9eeeb;
+  background:transparent;border-radius:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit{
+  display:grid;position:relative;
+  grid-template-columns:minmax(0,99px) minmax(0,1fr) 88px;
+  grid-template-rows:27px 48px;
+  column-gap:7px;row-gap:0;
+  min-width:0;width:100%;min-height:75px;
+  margin:0;padding:0;
+  border:0;border-radius:0;background:transparent;box-shadow:none;
+  align-items:start
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit::before{
+  content:"";position:absolute;left:102px;top:5px;
+  width:1px;height:48px;background:#e5ece7;pointer-events:none
+}
+/* No additional visual card: unwrap the existing two pure layout wrappers. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main,
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row{
+  display:contents
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity{
+  grid-column:1;grid-row:1;display:inline-flex;
+  flex:initial;min-width:0;max-width:100%;
+  align-self:end;justify-self:start;
+  font-size:21px;line-height:27px;font-weight:820;
+  color:var(--mk-color-brand-primary,#11845f);
+  letter-spacing:-.5px;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity sup{
+  font-size:10px;margin-top:2px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-desc{
+  grid-column:1;grid-row:2;align-self:start;
+  min-width:0;max-width:100%;margin:0;padding:0;
+  font-size:10px;line-height:18px;height:auto;max-height:18px;
+  color:var(--mk-color-text-muted,#72867a);
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-desc::before{
+  display:none;content:none
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  display:grid;grid-column:2;grid-row:1 / span 2;
+  grid-template-columns:max-content max-content;
+  grid-template-rows:27px 20px;column-gap:4px;
+  align-content:start;align-items:center;justify-content:start;
+  min-width:0;max-width:100%;margin:0;padding:0;flex:initial;
+  white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;min-width:0;max-width:100%;
+  overflow:visible;text-overflow:clip;white-space:nowrap;
+  font-size:21px;line-height:27px;font-weight:800;
+  letter-spacing:-.55px;color:var(--mk-color-brand-primary,#11845f)
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]>.s01-term-discount{
+  grid-column:2;grid-row:1;align-self:center;
+  height:17px;min-height:17px;padding:0 4px;
+  font-size:10px;line-height:17px;letter-spacing:0;
+  border:0;border-radius:4px;background:#eef6f0;color:#59846b
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]>.s01-term-discount[hidden]{display:none!important}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+  display:block;grid-column:1/-1;grid-row:2;
+  max-width:100%;width:max-content;min-width:0;margin:0;
+  font-size:11px;line-height:19px;font-weight:550;
+  color:#60746a;white-space:nowrap;overflow:visible;text-overflow:clip
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-cabin-tag{
+  grid-column:3;grid-row:1;
+  align-self:start;justify-self:end;position:static;
+  display:inline-flex;width:max-content;max-width:100%;
+  min-height:20px;height:20px;margin:0;padding:0 6px;
+  border:0;border-radius:7px;background:#f0f3f2;
+  color:#758078;font-size:10px;line-height:20px;
+  font-weight:560;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-cabin-tag[hidden]{display:none!important}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .order{
+  grid-column:3;grid-row:2;align-self:start;justify-self:stretch;
+  display:flex;align-items:center;justify-content:center;
+  flex:initial;width:100%;min-width:0;max-width:100%;
+  height:48px;min-height:48px;
+  margin:0;padding:0;border:0;border-radius:8px;
+  color:#fff;background:var(--mk-color-brand-primary,#11845f);
+  font-size:13px;font-weight:760;white-space:nowrap;
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main .hot{
+  grid-column:1;grid-row:3;justify-self:start;
+  max-width:100%;margin:0;padding:0 5px;
+  font-size:10px;line-height:17px;height:17px;min-height:17px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main .hot[hidden]{display:none!important}
+@media(max-width:375px){
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
+    padding:10px 9px 9px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
+    width:91px;max-width:91px;height:99px;margin-right:9px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit{
+    grid-template-columns:minmax(0,94px) minmax(0,1fr) 86px;column-gap:6px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit::before{left:97px}
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity,
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+    font-size:20px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+    font-size:10.5px
+  }
+}
