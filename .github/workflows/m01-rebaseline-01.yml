@@ -54,3 +54,5 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
           path: release-evidence/m01-rebaseline-01/
+
+# R2: real CJK screenshots, lower scroll, same-order payment resume and amount disclosure.
