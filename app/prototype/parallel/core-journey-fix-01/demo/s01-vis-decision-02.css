@@ -290,3 +290,12 @@ html[data-match-mode="browse"] .s01-compact .store-tags span{
     font-size:11.5px
   }
 }
+
+/* Fix inherited stronger price selector from the legacy price surface.
+   The public rate in a browse card must be the dominant scan target. */
+.store-card.s01-compact-store .s01-compact-side[aria-label] strong{
+  font-size:17px;line-height:24px;font-weight:800;color:#0c7853
+}
+.store-card.s01-compact-store .s01-compact-side[aria-label] small{
+  font-size:11px;line-height:18px;color:#75887b
+}
