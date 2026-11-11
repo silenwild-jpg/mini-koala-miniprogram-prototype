@@ -340,12 +340,15 @@ button:disabled{opacity:.42;cursor:not-allowed}
     style.id='vis-editor-preview-only';
     style.textContent='.review{display:none!important}.shell{height:100vh!important;width:100%!important;max-width:100%!important;margin:0 auto!important;box-shadow:none!important}.vis-editor-selected{outline:2px solid #176b48!important;outline-offset:2px!important}';
     inFrame.head.appendChild(style);
+    const reviewBar=inFrame.querySelector('.review');
+    if(reviewBar)reviewBar.style.setProperty('display','none','important');
+    const shell=inFrame.querySelector('.shell');
+    if(shell){shell.style.setProperty('height','100vh','important');shell.style.setProperty('width','100%','important');shell.style.setProperty('max-width','100%','important');shell.style.setProperty('margin','0 auto','important');shell.style.setProperty('box-shadow','none','important')}
     inFrame.addEventListener('click',evt=>{
       if(!editMode)return;
       const hit=TARGETS.slice().reverse().find(item=>evt.target.closest&&evt.target.closest(item.selector));
-      if(!hit)return;
       evt.preventDefault();evt.stopPropagation();evt.stopImmediatePropagation();
-      choose(hit.id);
+      if(hit)choose(hit.id);
     },true);
     observer=new MutationObserver(scheduleApply);
     observer.observe(inFrame.body,{childList:true,subtree:true});
