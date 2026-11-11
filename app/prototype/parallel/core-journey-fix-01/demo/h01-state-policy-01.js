@@ -2,7 +2,7 @@
   "use strict";
   const amount=n=>Number.isFinite(Number(n))?"¥"+Math.round(Number(n)).toLocaleString("zh-CN"):"待确认";
   const date=d=>typeof d==="string"&&/^\d{4}-\d\d-\d\d$/.test(d)?d:"待确认";
-  const dayDiff=(future,now)=>Math.ceil((Date.parse(future+"T00:00:00Z")-now)/(86400000));
+  const dayDiff=(future,now)=>{const businessDate=new Date(now+8*60*60*1000).toISOString().slice(0,10);return Math.round((Date.parse(future+"T00:00:00Z")-Date.parse(businessDate+"T00:00:00Z"))/86400000);};
   function derive(state,core,nowMs=Date.now()){
     const s=state||{}, all=Array.isArray(s.orders)?s.orders:[], services=s.services||{}, stores=core?.fixture?.stores||[], units=core?.fixture?.units||[];
     const storeName=id=>(stores.find(x=>x.id===id)||{}).name||"已选门店";
@@ -76,7 +76,10 @@
     const main=records[0]||{key:"new",layout:"marketing",title:"",badge:"",sub:"",facts:[],primary:null,secondary:null,score:0,orderId:null,storeId:null};
     const paid=all.filter(o=>o?.status==="paid_simulated");
     const activeOrders=records.filter(x=>x.key==="active"||x.key==="expiring");
-    return {...main,otherActiveCount:activeOrders.filter(x=>x.orderId!==main.orderId).length,hasRental:activeOrders.length>0,hasOrder:all.length>0,allowTab:main.key==="active"||main.key==="expiring",isMarketing:main.key==="new"};
+    const projection={...main,otherActiveCount:activeOrders.filter(x=>x.orderId!==main.orderId).length,hasRental:activeOrders.length>0,hasOrder:all.length>0,allowTab:main.key==="active"||main.key==="expiring",isMarketing:main.key==="new"};
+    // The shared priority queue is consumed by M01. Non-enumerable to preserve H01's existing snapshot contract.
+    Object.defineProperty(projection,"tasks",{value:records.slice(),enumerable:false});
+    return projection;
   }
 
   // Display-only eligibility; final BLE authorization must be verified server-side.
