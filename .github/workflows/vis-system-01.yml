@@ -60,5 +60,6 @@ jobs:
           if-no-files-found: warn
           path: |
             release-evidence/vis-system-01/
+            release-evidence/s01-user-reference-02/
             release-evidence/global-ui-rules-01/
             release-evidence/rc2-merge-prep-10/build-summary.json
