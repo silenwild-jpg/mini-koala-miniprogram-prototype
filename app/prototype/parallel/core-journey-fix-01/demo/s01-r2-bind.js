@@ -4,25 +4,30 @@
   const masters=Array.from(document.querySelectorAll('.store-card')).map(n=>n.cloneNode(true));
   const stage=document.querySelector('.stores');
   const priceCss=document.createElement('link');priceCss.rel='stylesheet';priceCss.href='s01-r2-price-surface.css';document.head.append(priceCss);
+  const visualCss=document.createElement('link');visualCss.rel='stylesheet';visualCss.href='s01-vis-decision-02.css?v=20261111';document.head.append(visualCss);
   const bridge=window.parent!==window?window.parent.SIM_DEMO?.s01R2Bridge:null;
   if(!bridge||!stage||masters.length!==2){document.documentElement.dataset.binding='UNAVAILABLE';return;}
   const setText=(el,v)=>{if(el)el.textContent=String(v??'');};
   // RESTORE: the visible search field and inline filter controls must stay in the
   // signed S01 surface, not hide behind a static phone-frame reconstruction.
   const panel=document.querySelector('#s01-inline-panel');
+  // Keep the filter row and its dropdown attached during native page scrolling.
+  const filterRow=document.querySelector('.filters');
+  const filterAnchor=document.createElement('div');filterAnchor.className='s01-filter-anchor';
+  filterRow.before(filterAnchor);filterAnchor.append(filterRow,panel);
   let openIndex=-1;
   const serviceOptions=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];
   const esc=v=>String(v).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
   const choice=(name,value,active,attr)=>'<button type="button" class="s01-choice" '+attr+'="'+esc(value)+'" aria-pressed="'+(active?'true':'false')+'">'+esc(name)+'</button>';
   function closePanel(){
-    openIndex=-1;panel.hidden=true;panel.replaceChildren();
+    openIndex=-1;panel.hidden=true;panel.replaceChildren();document.body.classList.remove('s01-panel-open');
     document.querySelectorAll('.filter').forEach(n=>n.setAttribute('aria-expanded','false'));
   }
   function renderPanel(){
     if(openIndex<0)return;
     const a=bridge.snapshot();let content='';
     if(openIndex===0){
-      content='<p class="s01-panel-note">门店排序</p><div class="s01-choice-list">'
+      content='<div class="s01-choice-list">'
         +[['recommended','综合排序'],['distance','距离优先'],['price','价格优先']].map(([v,label])=>choice(label,v,a.filterLabels[0]===label||(v==='recommended'&&a.filterLabels[0]==='排序'),'data-sort')).join('')
         +'</div>';
     }else if(openIndex===1){
@@ -30,11 +35,11 @@
       content='<p class="s01-panel-note">'+(a.distanceFilterEnabled?'选择距离范围':'暂不可筛选距离')+'</p>'
         +(items.length?'<div class="s01-choice-list">'+items.map(([v,label])=>choice(label,v,(a.maxKm===null?v===0:Number(a.maxKm)===v),'data-radius')).join('')+'</div>':'');
     }else{
-      content='<p class="s01-panel-note">可多选服务；确认后更新门店列表</p><div class="s01-choice-list">'
+      content='<div class="s01-choice-list">'
         +serviceOptions.map(v=>'<label class="s01-choice"><input type="checkbox" name="s01-service" value="'+esc(v)+'" '+(a.servicesSelected.includes(v)?'checked':'')+'> '+esc(v)+'</label>').join('')
         +'</div><div class="s01-panel-actions"><button type="button" data-clear-service>清除</button><button type="button" class="apply" data-apply-service>确认筛选</button></div>';
     }
-    panel.innerHTML=content;panel.hidden=false;
+    panel.innerHTML=content;panel.hidden=false;document.body.classList.add('s01-panel-open');
     document.querySelectorAll('.filter').forEach((n,i)=>n.setAttribute('aria-expanded',String(i===openIndex)));
   }
   function togglePanel(index){if(openIndex===index){closePanel();return;}openIndex=index;renderPanel();}
@@ -93,8 +98,12 @@
     let publicRate=card.querySelector('.store-cubic-price');
     if(!publicRate){publicRate=document.createElement('div');publicRate.className='store-cubic-price';card.querySelector('.address').after(publicRate);}
     publicRate.hidden=!s.publicCubicPrice;
-    if(s.publicCubicPrice){setText(publicRate,s.publicCubicTerm+'个月租期 · 门店低至 '+s.publicCubicPrice+'/m³/月');publicRate.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月租期');}
-    card.querySelectorAll('.unit').forEach((el,i)=>setUnit(el,s.units[i]));
+    if(s.publicCubicPrice){setText(publicRate,'门店低至 '+s.publicCubicPrice+'/m³/月');publicRate.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月租期');}
+    card.querySelectorAll('.unit').forEach((el,i)=>setUnit(el,i===0?s.units[0]:null));
+    const details=document.createElement('button');
+    details.className='s01-store-detail';details.type='button';
+    details.setAttribute('aria-label','查看'+s.name+'门店详情');details.textContent='›';
+    card.append(details);
     card.querySelector('.units').hidden=!s.units.length;
     card.classList.toggle('r2-no-available',!s.units.length);
   }
@@ -160,20 +169,26 @@
     document.documentElement.dataset.source=state.sourceNamespace;
     document.documentElement.dataset.verifiedDistance=String(state.distanceVerified);
     const nodes=[];
-    state.stores.forEach((store,i)=>{
-      if(i===2)nodes.push(estoreCard());
-      if(i<2){
-        const card=masters[i].cloneNode(true);
-        fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';card.dataset.presentation='expanded-two';
-        nodes.push(card);
-      }else nodes.push(compactStore(store,i+2));
-    });
-    // No store listings still offer the operating service, without inventing stores.
-    if(state.stores.length<=2)nodes.push(estoreCard());
-    if(!state.stores.length){
-      const empty=document.createElement('p');empty.setAttribute('role','status');
-      empty.textContent='未找到匹配门店，请调整搜索或筛选条件';
-      nodes.unshift(empty);
+    const hasAvailable=state.stores.some(store=>store.units?.length);
+    const noMatch=!state.stores.length||!hasAvailable;
+    if(noMatch){
+      const empty=document.createElement('section');
+      empty.className='s01-empty-state';empty.setAttribute('role','status');
+      const title=!state.stores.length?'暂无符合条件的门店':'当前需求暂无可租仓位';
+      empty.innerHTML='<h2>'+title+'</h2><p>顾问可协助寻找合适仓位</p>'+
+        '<button type="button" class="s01-advisor-cta" data-s01-advisor>顾问帮我找仓</button>'+
+        '<button type="button" class="s01-reset-cta" data-s01-clear>清除筛选</button>';
+      nodes.push(empty,estoreCard());
+    }else{
+      state.stores.forEach((store,i)=>{
+        if(i===2)nodes.push(estoreCard());
+        if(i<2){
+          const card=masters[i].cloneNode(true);
+          fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';card.dataset.presentation='expanded-one';
+          nodes.push(card);
+        }else nodes.push(compactStore(store,i+2));
+      });
+      if(state.stores.length<=2)nodes.push(estoreCard());
     }
     stage.replaceChildren(...nodes);
     document.querySelectorAll('.filter').forEach((n,i)=>{
@@ -190,13 +205,16 @@
     const contextualReturn=document.querySelector('.s01-return-recommend');
     if(contextualReturn)contextualReturn.hidden=!state.canReturnToS5;
     setText(document.querySelector('.s01-result-summary'),'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
-    const more=document.querySelector('#s01-more');more.hidden=!state.canLoadMore;
+    const more=document.querySelector('#s01-more');more.hidden=noMatch||!state.canLoadMore;
     document.querySelectorAll('[data-quick]').forEach(b=>b.setAttribute('aria-pressed',String(state.quickSelected.includes(b.dataset.quick))));
   }
   stage.addEventListener('click',e=>{
+    if(e.target.closest('[data-s01-advisor]')){bridge.action('advisor');return;}
+    if(e.target.closest('[data-s01-clear]')){bridge.clearFilters();return;}
     if(e.target.closest('.s01-estore-card')){bridge.action('estore');return;}
     const order=e.target.closest('.order');
     if(order){if(order.getAttribute('aria-disabled')==='true')return;bridge.action('choose',order.dataset.unitId);return;}
+    const detail=e.target.closest('.s01-store-detail');if(detail){bridge.action('store',detail.closest('.store-card').dataset.storeId);return;}
     const card=e.target.closest('.store-card');if(card)bridge.action('store',card.dataset.storeId);
   });
   stage.addEventListener('keydown',e=>{
@@ -209,19 +227,12 @@
     if(order){e.preventDefault();if(order.getAttribute('aria-disabled')!=='true')bridge.action('choose',order.dataset.unitId);}
   });
   document.querySelector('.s01-return-recommend')?.addEventListener('click',()=>bridge.action('returnRecommend'));
-  document.querySelector('.nav-target')?.addEventListener('click',()=>bridge.action('city'));
-  document.querySelector('.nav-more')?.addEventListener('click',()=>bridge.action('searchModal'));
   document.querySelectorAll('.filter').forEach((n,i)=>{
     n.setAttribute('role','button');n.tabIndex=0;
     const action=()=>togglePanel(i);
     n.addEventListener('click',action);
     n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action();}});
   });
-  for(const [selector,label] of [['.nav-target','切换城市'],['.nav-more','搜索门店']]){
-    const n=document.querySelector(selector);n.removeAttribute('aria-hidden');
-    n.setAttribute('role','button');n.setAttribute('aria-label',label);n.tabIndex=0;
-    n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();n.click();}});
-  }
   window.S01_R2_REFRESH=()=>{render();if(openIndex>=0)renderPanel();};render();
   // Re-entering a top-level tab from S02 keeps the user's list position.
   const lastScroll=Number(sessionStorage.getItem('mk_s01_scroll_top_v1'))||0;
