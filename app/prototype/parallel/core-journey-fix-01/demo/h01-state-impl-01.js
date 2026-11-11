@@ -113,6 +113,7 @@
       actualStore.photo_source==="USER_SUPPLIED_ENVIRONMENT_GENERIC_DEMO_NOT_PHYSICAL_STORE_VERIFIED";
     const withScene=["upcoming","active"].includes(t.key)&&curated;
     const context=one("#h01FlowContext");
+    context.dataset.stage=t.key;
     context.hidden=!withProgress&&!withScene;
     one("#h01StageProgress").hidden=!withProgress;
     const scene=one("#h01Scene");
