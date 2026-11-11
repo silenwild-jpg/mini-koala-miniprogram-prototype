@@ -39,7 +39,7 @@ function render(page,core,selectedId,tools){
   }else body+='<p>当前状态暂不接受新的续租申请。</p>';
  }else if(page==='EX01'){
   body+='<h3>退租安排</h3><p>退租费用与验仓结果以门店办理结果为准。</p>';
-  if(!v.exit&&v.lease_status==='active'){
+  if(!v.exit&&['active','expired'].includes(v.lease_status)){
    body+='<label>退租类型 <select id="exit-type"><option value="expiry">到期退租</option><option value="early">提前退租</option></select></label><label>计划取空日期 <input id="exit-date" type="date"></label>'+button('requestExit','提交退租安排');
   }else if(v.exit){
    body+='<p>退租：'+esc(stateLabel(v.exit.type))+' · '+esc(v.exit.date)+' · '+esc(stateLabel(v.exit.status))+'</p>';

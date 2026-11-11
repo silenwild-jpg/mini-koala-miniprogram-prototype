@@ -59,3 +59,39 @@ body.h01-flow-business .below-editable{display:none!important}
 .h01-flow-fact[data-countdown][data-tone="warning"] b{color:#b66a14}
 .h01-flow-fact[data-countdown][data-tone="critical"] b{color:#b54133}
 .h01-flow-fact[data-countdown] small{white-space:nowrap}
+
+/* H01-STATE-VIS-RESTORE-02 | business view only. The approved marketing DOM/CSS stays unchanged. */
+body.h01-flow-business .page{background:#f7faf8}
+body.h01-flow-business .h01-flow-head{min-height:67px;background:linear-gradient(105deg,#073a2e 0%,#0e5c46 100%);padding:13px 16px 9px}
+body.h01-flow-business .h01-flow-brand{color:#fff;letter-spacing:-.035em}
+body.h01-flow-business .h01-flow-city{background:#ffffff19;color:#fff;border:1px solid #ffffff3a;border-radius:9px}
+body.h01-flow-business .h01-flow-content{padding:0 16px 24px;background:linear-gradient(to bottom,#0e5c46 0px,#0e5c46 53px,#f7faf8 54px,#f7faf8 100%);min-height:360px}
+.h01-flow-kicker-row{display:flex;justify-content:space-between;align-items:center;min-height:44px;padding-top:2px;gap:10px}
+.h01-flow-kicker-row .h01-flow-kicker{color:#e5f2e9;margin:0;line-height:1.4;font-size:12px}
+.h01-flow-quick-browse{color:#e4f4eb;background:none;border:0;font-size:12px;font-weight:750;min-height:44px;min-width:65px;padding:0 2px;text-align:right}
+.h01-flow-quick-browse:focus-visible{outline:2px solid #f9e9b4;outline-offset:2px}
+body.h01-flow-business .h01-flow-task{margin-top:7px;border:0;border-radius:12px;padding:16px 15px 18px;background:#fff;box-shadow:none}
+body.h01-flow-business .h01-flow-store[hidden],body.h01-flow-business .h01-flow-sub[hidden]{display:none}
+.h01-flow-service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.h01-flow-service-grid button{min-height:46px;border-radius:0;border:0;border-bottom:1px solid #e1ebe5;background:transparent;padding:5px 6px;color:#195a40;font-size:13px}
+.h01-flow-services h2{font-size:14px;margin:0 0 7px}
+.h01-flow-other{margin-top:12px;padding-top:0}
+.h01-flow-other button{min-height:46px}
+@media(max-width:380px){body.h01-flow-business .h01-flow-task{padding:15px 13px 17px}}
+
+/* H01-VIS-RESTORE-03: one meaningful location line, not an extra card or promo area. */
+.h01-flow-address{font-size:12px;line-height:1.6;color:#6c8073;margin:5px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h01-flow-address[hidden]{display:none!important}
+.h01-flow-dialog .h01-flow-choice:focus-visible,.h01-flow-dialog .h01-flow-cancel:focus-visible{outline:2px solid #215f47;outline-offset:2px}
+
+/* H01 post-payment experience: compact contextual guidance, no extra task cards. */
+.h01-flow-help{margin:16px 2px 0;padding:12px 0 10px;border-top:1px solid #dce8df;color:#234834}
+.h01-flow-help-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.h01-flow-help-top strong{font-size:14px;font-weight:760;line-height:1.4}
+.h01-flow-help-top button{border:0;background:transparent;color:#176c4c;font-weight:700;font-size:12px;padding:0 3px;min-height:44px;white-space:nowrap}
+.h01-flow-help>p{margin:0;line-height:1.6;color:#718278;font-size:12px;max-width:100%}
+.h01-flow-promo{margin:8px 2px 0;padding:5px 0;border-top:1px solid #e3ece6;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.h01-flow-promo>span{font-size:12px;font-weight:700;color:#446b56}
+.h01-flow-promo button{border:0;background:none;color:#176b4c;font-size:12px;min-height:44px;white-space:nowrap}
+.h01-flow-promo[hidden],.h01-flow-help[hidden]{display:none!important}
+.h01-flow-modal .h01-flow-dialog{max-height:85%;overflow-y:auto}

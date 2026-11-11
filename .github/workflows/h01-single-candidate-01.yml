@@ -1,0 +1,77 @@
+name: H01 SINGLE CANDIDATE 02 exact SHA O03 runtime QA (NO DEPLOY)
+on:
+  push:
+    branches: [integration/h01-single-candidate-01-20261111]
+    paths: [.github/workflows/h01-single-candidate-01.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: h01-single-candidate-01-only
+  cancel-in-progress: true
+jobs:
+  h01-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify frozen H01 source and isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          node --check scripts/verify_h01_vis_gate_07_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-policy-01.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          grep -F 'const deadline=source?.expiresAt??o.expiresAt' app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node -e "const s=require('fs').readFileSync('app/prototype/parallel/core-journey-fix-01/demo/app.js','utf8');const h=s.indexOf('const paymentTimeLeft=deadline');const r=s.indexOf('function render(){');if(h<0||r<0||h>r)process.exit(1);"
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py
+          if grep -E 'MK_H01_LOCK_GATEWAY|requestUnlock|openBluetoothAdapter|createBLEConnection' app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js; then
+            echo 'ERROR: BLE development is forbidden in H01 prototype'; exit 1
+          fi
+          git fetch --no-tags origin feat/h01-order-payment-3h-20261111
+          if git diff --name-only origin/feat/h01-order-payment-3h-20261111 HEAD | grep -E '/br04/(s5/|bridge\.js)'; then
+            echo 'ERROR: S5 or BR04 bridge modified by H01 candidate'; exit 1
+          fi
+      - name: Build exact SHA single H01 review package
+        env:
+          RC2_BUNDLE_BRANCH: integration/h01-single-candidate-01-20261111
+          RC2_BUNDLE_SOURCE_PR: "116"
+          RC2_BUNDLE_LABEL: H01-SINGLE-CANDIDATE-01-ISOLATED
+          RC2_BUNDLE_ARCHIVE: H01_SINGLE_CANDIDATE_01_NO_DEPLOY.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Reuse runner Chrome; install JS test driver only
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v google-chrome >/dev/null && ! command -v google-chrome-stable >/dev/null; then
+            echo 'System Chrome unavailable; browser UAT cannot run'; exit 1
+          fi
+          google-chrome --version || google-chrome-stable --version
+          if fc-list :lang=zh 2>/dev/null | grep -q .; then
+            echo 'CJK_RENDERING_FONT_PRESENT=true'
+          else
+            echo 'CJK_RENDERING_FONT_PRESENT=false; do not grant visual font signoff'
+          fi
+          npm_config_fetch_retries=1 npm_config_fetch_timeout=35000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
+      - name: Run full H01 20-state real browser QA 375 and 390
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+        run: node scripts/verify_h01_vis_gate_07_browser.cjs
+      - name: Preserve versioned screenshots and test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PR116_H01_SINGLE_CANDIDATE_01_REAL_BROWSER_EVIDENCE
+          path: |
+            release-evidence/h01-single-candidate-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+          retention-days: 7
+          if-no-files-found: warn
