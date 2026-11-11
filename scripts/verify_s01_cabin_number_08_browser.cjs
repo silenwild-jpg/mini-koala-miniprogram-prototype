@@ -86,7 +86,8 @@ const cases=[];
     const o01=app.frameLocator('#br04-frame');
     await o01.locator('body.bridge-ready').waitFor({timeout:15000});
     const checkout=await o01.locator('#unit-name').innerText();
-    assert.equal(checkout,'仓号 '+targetCode+' · '+target.volume+'m³');
+    assert.equal(checkout,'仓号 '+targetCode);
+    assert.equal(await o01.locator('.summary .capacity').innerText(),target.volume+'m³','O01 capacity must appear once in the dedicated capacity row');
     await page.screenshot({path:path.join(out,'O01-cabin-'+width+'.png')});
     // Do not fabricate an order merely to show a number; verify the
     // existing receipt/output renderer uses the same fixture identity.
