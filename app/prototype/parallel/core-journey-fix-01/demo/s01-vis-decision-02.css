@@ -299,3 +299,41 @@ html[data-match-mode="browse"] .s01-compact .store-tags span{
 .store-card.s01-compact-store .s01-compact-side[aria-label] small{
   font-size:11px;line-height:18px;color:#75887b
 }
+
+/* S01-PRICE-DISCOUNT-06 | source-backed lease-term factor only.
+   No crossed-out "original price" and no second discount price stack. */
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{
+  display:grid;
+  grid-template-columns:minmax(0,max-content) max-content;
+  column-gap:6px;
+  grid-template-rows:26px 20px;
+  justify-content:start;align-items:center;min-width:0;max-width:100%
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;
+  max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > .s01-term-discount{
+  grid-column:2;grid-row:1;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:max-content;max-width:100%;
+  height:18px;min-height:18px;padding:0 5px;
+  border:0;border-radius:4px;
+  background:#eef6f0;color:#59846b;
+  font-size:10.5px;line-height:18px;font-weight:650;
+  white-space:nowrap;letter-spacing:0;align-self:center
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > .s01-term-discount[hidden]{
+  display:none!important
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+  grid-column:1 / -1;grid-row:2;max-width:100%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{column-gap:4px}
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > .s01-term-discount{
+    padding:0 4px;font-size:10px
+  }
+}
