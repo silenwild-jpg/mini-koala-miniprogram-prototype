@@ -123,7 +123,10 @@
       picture.onerror=()=>{scene.hidden=true;context.hidden=true;};
       const imageUrl=new URL("assets/"+photoPath,document.baseURI).href;
       if(picture.src!==imageUrl)picture.src=imageUrl;
-      one("#h01SceneHours").textContent=actualStore.access_hours||"24小时";
+      const sceneHours=one("#h01SceneHours");
+      sceneHours.textContent=actualStore.access_hours||"24小时";
+      // Active rentals already show access hours in the main facts: never repeat them beside the photo.
+      sceneHours.hidden=t.key==="active";
     }
     // Top text link replaces duplicate inline browse / top tabs. Existing markup is retained for comparison only.
     one("#h01FlowBrowse").hidden=true;
