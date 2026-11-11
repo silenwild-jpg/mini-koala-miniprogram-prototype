@@ -41,12 +41,19 @@ function rect(el){const r=el.getBoundingClientRect();return {x:r.x,y:r.y,w:r.wid
    assert(initial.every(x=>x.photo.width<=82&&x.photo.height<=82),'oversized cover photo still occupies two-store S5 screen');
    assert(initial[1].rect.top<height-110,'second recommended store not visible high enough for comparison');
    assert(initial.every(x=>x.visibleUnitRows===1),'alternate rows should start collapsed, preserving access via disclosure');
+   const payableTexts=await cards.locator('.s5-store-payable').allInnerTexts();
+   const expectedPayables=await app.locator('#screen').evaluate(()=>{
+      const b=window.SIM_DEMO,c=b.core,s=c.state(),rows=b.s5Offers?.()||b.offers();
+      return rows.slice(0,2).map(x=>c.amounts(x.ids,s.requirement.term_months).payable);
+   });
+   assert.equal(payableTexts.length,2,'both stores must disclose first payable');
+   for(let i=0;i<2;i++)assert(payableTexts[i].includes(expectedPayables[i].toLocaleString('zh-CN')),'first payable mismatch '+i);
    const beforePrices=await s5.locator('.s5-unit-row:not([hidden]) .s5-unit-price').evaluateAll(nodes=>nodes.map(e=>{
      const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {value:e.innerText,clip:e.scrollWidth>e.clientWidth+1,font:parseFloat(s.fontSize),rect:{w:r.width,h:r.height}};
    }));
    assert(beforePrices.length>=2);
    assert(beforePrices.every(x=>x.font>=14&&!x.clip),'readable term prices should not be clipped');
-   const controls=await s5.locator('#modify,#change-origin,#term-edit,#s5-compare,.s5-store-open,.s5-store-address button,.s5-unit-row:not([hidden]) .s5-unit-price,.s5-unit-row:not([hidden]) .s5-unit-buy,.s5-alt-toggle').evaluateAll(elements=>{
+   const controls=await s5.locator('#modify,#change-origin,#term-edit,#s5-compare,.s5-store-open,.s5-store-address button,.s5-unit-row:not([hidden]) .s5-unit-price,.s5-unit-row:not([hidden]) .s5-unit-buy,.s5-alt-toggle,.s5-store-payable').evaluateAll(elements=>{
     const visible=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden'};
     return elements.filter(visible).map(e=>({text:(e.innerText||e.getAttribute('aria-label')||'').trim(),width:Math.round(e.getBoundingClientRect().width),height:Math.round(e.getBoundingClientRect().height)}));
    });
@@ -97,7 +104,7 @@ function rect(el){const r=el.getBoundingClientRect();return {x:r.x,y:r.y,w:r.wid
    assert.equal(anonState.authorized,false);
    assert.equal(anonState.quote,false);
    assert.equal(anonState.orders,0);
-   cases.push({width,height,status:'PASS',firstCards:initial,prices:beforePrices,controls,feeRows,anonState});
+   cases.push({width,height,status:'PASS',firstCards:initial,prices:beforePrices,firstPayables:payableTexts,controls,feeRows,anonState});
    console.log('UX_REBASE_03_VIEWPORT '+JSON.stringify({width,secondTop:Math.round(initial[1].rect.top),controls:controls.length,feeRows:feeRows.length}));
    assert.deepEqual(errors,[],'browser JS error(s)');
   }finally{await context.close()}
