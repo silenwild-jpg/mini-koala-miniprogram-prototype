@@ -61,7 +61,7 @@ async function seed(page,phase){
  await page.goto(home,{waitUntil:'domcontentloaded'});
  await page.locator('body.h01-state-adapter-ready').waitFor({timeout:10000});
  if(phase==='active_browse'){
-   await page.locator('#h01FlowTabs [data-h01="browse"]').click();
+   await page.locator('#h01FlowQuickBrowse').click();
    await page.locator('body.h01-flow-marketing').waitFor();
  }
  return info;
@@ -93,7 +93,7 @@ async function photo(page,w,name){
 async function start(){
  if(!fs.existsSync(path.join(root,'prototype/parallel/core-journey-fix-01/demo/home.html')))throw Error('MISSING_BUILT_SITE');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'rc2-uat-version.json'),'utf8'));
- if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='audit/h01-state-vis-restore-01-20261111'||manifest.source_pr!==105)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
+ if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='feat/h01-state-vis-restore-02-20261111'||manifest.source_pr!==105)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
  fs.mkdirSync(dir,{recursive:true});
  const srv=listen();await new Promise(ok=>srv.listen(port,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
@@ -116,6 +116,27 @@ async function start(){
      }
      assert.equal(outcome.key,expected[phase],'derived '+phase);
      if(phase==='active_browse')assert.equal(outcome.modules.hero,true,'Browse view must reveal master');
+     if(['active','expiring','pending','booking','upcoming','identity'].includes(phase)){
+       const controls=await page.evaluate(()=>({
+         tabsHidden:document.querySelector('#h01FlowTabs').hidden,
+         compactBrowse:!document.querySelector('#h01FlowQuickBrowse').hidden,
+         inlineBrowseHidden:document.querySelector('#h01FlowBrowse').hidden,
+         storeTime:[...document.querySelectorAll('#h01FlowFacts .h01-flow-fact')].map(e=>({value:e.querySelector('b')?.textContent,label:e.querySelector('small')?.textContent})).find(e=>e.label==='存取时间')?.value,
+         storeHourExpected:(()=>{const s=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'{}');const o=s.orders?.find(x=>x.status==='paid_simulated');return SIM_FIXTURES.stores.find(y=>y.id===o?.store_id)?.access_hours||'24小时'})(),
+         secondLabel:document.querySelector('#h01FlowSecondary')?.textContent,
+         activeServiceButtons:[...document.querySelectorAll('#h01FlowServices [data-h01]')].map(x=>x.textContent.trim())
+       }));
+       assert.equal(controls.tabsHidden,true,'Permanent two tabs not removed');
+       assert.equal(controls.compactBrowse,true,'Compact browse entrance not visible');
+       assert.equal(controls.inlineBrowseHidden,true,'Duplicate inline browse entrance should be hidden');
+       if(phase==='active'){
+         assert.equal(controls.storeTime,controls.storeHourExpected,'Wrong access-hours field');
+         assert.match(controls.secondLabel,/查看门店位置/,'Navigation label promises wrong action');
+         assert.deepEqual(controls.activeServiceButtons,['续租','更多服务 ›'],'Too many active service actions');
+       }
+       if(phase==='upcoming')assert.match(controls.secondLabel,/查看门店位置/);
+       record.controls=controls;
+     }
      if(outcome.key==='new')assert.equal(outcome.modules.hero,true,'New-user master missing');
      if(outcome.key!=='new'&&phase!=='active_browse')assert.equal(outcome.modules.task,true,'Task view missing');
      assert.equal(errors.length,0,'Browser page errors '+errors.join('; '));
@@ -128,7 +149,7 @@ async function start(){
   }
  }finally{await browser.close();await new Promise(ok=>srv.close(ok))}
  const failures=rows.filter(x=>x.status!=='PASS');
- fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:105,kind:'H01_ONLY_REAL_BROWSER_LAYOUT_AUDIT_NO_UI_CODE_CHANGES',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
+ fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:105,kind:'H01_ONLY_RESTORED_TASK_UI_REAL_BROWSER_CONTRACT_NO_S5_CHANGES',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
  if(failures.length)throw Error('H01 audit failure '+failures.map(x=>x.width+'/'+x.phase).join(','));
  console.log('H01 layout capture '+rows.length+'/'+rows.length+' PASS; 0 S5 modifications');
 }
