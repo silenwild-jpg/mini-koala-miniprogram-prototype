@@ -162,6 +162,8 @@ async function start(){
          assert(variant.context?.bottom<variant.nav?.top-8,'Store photo content overlaps bottom nav');
        }
        if(shouldProgress)assert(variant.context?.bottom<variant.nav?.top-8,'Payment progress overlaps bottom nav');
+       if(phase==='active')assert(variant.help?.bottom<variant.nav?.top-16,
+         'Active help content must keep at least 16px above the bottom nav');
        record.variant=variant;
      }
      record.screenshot=await photo(page,w,phase);
