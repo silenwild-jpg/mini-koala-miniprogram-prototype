@@ -171,7 +171,7 @@ async function start(){
      const cjk=await page.evaluate(()=>{
        const canvas=document.createElement('canvas');canvas.width=160;canvas.height=55;
        const ctx=canvas.getContext('2d'), samples={};
-       for(const ch of ['仓','中','考','测','\\uE000']){
+       for(const ch of ['仓','中','考','测',String.fromCharCode(0xE000)]){
          ctx.clearRect(0,0,160,55);ctx.fillStyle='#000';ctx.font='30px sans-serif';ctx.fillText(ch,5,38);
          const d=ctx.getImageData(0,0,160,55).data;let hash=0,pixels=0;
          for(let k=3;k<d.length;k+=4)if(d[k]){pixels++;hash=(Math.imul(hash,31)+Math.floor(k/4)%173)|0;}
