@@ -172,7 +172,7 @@
       var main='<div class="m01-service-order"><h3>'+n+'</h3><p>'+ctx.esc(ctx.unitName(o))+'</p></div>';
       var actions='<div class="m01-service-actions">'+ctx.button('m01Order','订单详情',o.id,'m01-minor-button');
       if(l&&['active','upcoming'].includes(l.lease_status)&&l.total_months<60)actions+=ctx.button('m01Service',safeList(l.renewal_requests).some(x=>['QUOTE_PENDING','QUOTE_READY'].includes(x.status))?'续租进度':'续租',o.id+'|RN01','m01-minor-button');
-      if(l&&['active','returning'].includes(l.lease_status))actions+=ctx.button('m01Service',l.lease_status==='returning'?'退租进度':'退租',o.id+'|EX01','m01-minor-button');
+      if(l&&['active','expired','returning'].includes(l.lease_status))actions+=ctx.button('m01Service',l.lease_status==='returning'?'退租进度':'退租',o.id+'|EX01','m01-minor-button');
       if(l)actions+=ctx.button('m01Service','押金',o.id+'|DP01','m01-minor-button');
       if(l)actions+=ctx.button('m01Service','发票',o.id+'|IV01','m01-minor-button');actions+='</div>';
       return '<article class="m01-service-item" data-order-id="'+id+'">'+main+actions+'</article>';
