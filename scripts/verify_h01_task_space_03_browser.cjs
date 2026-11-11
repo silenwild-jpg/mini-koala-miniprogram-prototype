@@ -166,6 +166,31 @@ async function start(){
          'Active help content must keep at least 16px above the bottom nav');
        record.variant=variant;
      }
+     // Validate real fallback CJK glyphs and collect visible text clipping on the exact screenshot SHA.
+     // Font installation is confined to the GitHub runner; never bundle font files.
+     const cjk=await page.evaluate(()=>{
+       const canvas=document.createElement('canvas');canvas.width=160;canvas.height=55;
+       const ctx=canvas.getContext('2d'), samples={};
+       for(const ch of ['仓','中','考','测','\\uE000']){
+         ctx.clearRect(0,0,160,55);ctx.fillStyle='#000';ctx.font='30px sans-serif';ctx.fillText(ch,5,38);
+         const d=ctx.getImageData(0,0,160,55).data;let hash=0,pixels=0;
+         for(let k=3;k<d.length;k+=4)if(d[k]){pixels++;hash=(Math.imul(hash,31)+Math.floor(k/4)%173)|0;}
+         samples[ch]={hash,pixels};
+       }
+       const selectors=['#h01FlowKicker','#h01FlowTitle','#h01FlowHelpTitle','#h01FlowPrimary','#h01FlowSecondary','#h01FlowFacts .h01-flow-fact b'];
+       const boxes=selectors.flatMap(sel=>[...document.querySelectorAll(sel)].filter(el=>el.getClientRects().length && getComputedStyle(el).visibility!=='hidden').map(el=>{
+         const s=getComputedStyle(el),r=el.getBoundingClientRect();
+         return {selector:sel,text:el.textContent.trim().slice(0,42),width:Math.round(r.width),
+           scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,overflow:s.textOverflow,
+           clipped:el.scrollWidth>el.clientWidth+2};
+       }));
+       return {samples,distinct:new Set(Object.values(samples).map(x=>x.hash)).size,boxes};
+     });
+     record.cjk=cjk;
+     assert.equal(cjk.distinct,5,'Missing real Chinese glyphs (tofu font fallback)');
+     assert(Object.values(cjk.samples).every(x=>x.pixels>60),'Chinese glyph sample unexpectedly empty');
+     assert.deepEqual(cjk.boxes.filter(x=>x.clipped&&x.overflow!=='ellipsis'),[],
+       'H01 visible Chinese task label/button clipped without ellipsis');
      record.screenshot=await photo(page,w,phase);
      if(['new','active_browse'].includes(phase)){
       await page.locator('.scroll').evaluate(el=>{el.scrollTop=el.scrollHeight});
