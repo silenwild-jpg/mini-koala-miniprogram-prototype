@@ -1,0 +1,35 @@
+/* VIS-SYSTEM-01 candidate tokens. Shared by H01/S01/S02/S5 via global-store-tags.css.
+   Values are PROPOSED, not a new frozen visual master. No standalone layout changes. */
+:root{
+  --mk-color-brand-primary:#11845f;
+  --mk-color-brand-deep:#144b3b;
+  --mk-color-text-strong:#173b2f;
+  --mk-color-text-main:#2b4439;
+  --mk-color-text-muted:#72867a;
+  --mk-color-border-hairline:#e7ece8;
+  --mk-color-bg-paper:#ffffff;
+  --mk-color-bg-muted:#f7faf8;
+  --mk-color-promo-bg:#fff2e6;
+  --mk-color-promo-fg:#c56a25;
+  --mk-color-promo-border:#f3dfca;
+  --mk-color-service-bg:#fafbfa;
+  --mk-color-service-fg:#65736c;
+  --mk-color-service-border:#e1e6e3;
+  --mk-space-1:4px;
+  --mk-space-2:8px;
+  --mk-space-3:12px;
+  --mk-space-4:16px;
+  --mk-space-5:20px;
+  --mk-space-6:24px;
+  --mk-radius-chip:4px;
+  --mk-radius-control:8px;
+  --mk-radius-card:10px;
+  --mk-font-xs:11px;
+  --mk-font-help:12px;
+  --mk-font-body:14px;
+  --mk-font-title:16px;
+  --mk-font-capacity:22px;
+  --mk-font-money:22px;
+  --mk-control-min-height:44px;
+  --mk-cta-height:48px;
+}

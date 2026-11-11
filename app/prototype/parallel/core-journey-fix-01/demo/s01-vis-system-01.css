@@ -1,0 +1,458 @@
+/* VIS-SYSTEM-01 | S01 matched-unit layout exploration, strictly opt-in.
+   No business field additions/deletions; H01, S02, S5 layouts are unaffected.
+   Baseline remains unchanged when data-vis-system is absent or "baseline".
+   Preview candidate A: balanced hierarchy; B: price-first full-width action. */
+
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit{
+  margin-top:4px;padding:10px 0 9px;
+  min-height:0;background:transparent;border:0;border-radius:0;box-shadow:none;
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-main,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-main{
+  display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr) max-content;
+  grid-template-rows:30px 19px;
+  gap:3px 8px;align-items:center;
+  min-height:52px;width:100%;min-width:0;
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .capacity,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .capacity{
+  grid-column:1;grid-row:1;
+  width:auto;max-width:100%;font-size:var(--mk-font-capacity,22px);
+  line-height:30px;font-weight:800;letter-spacing:-.4px;
+  color:var(--mk-color-brand-deep,#144b3b);
+  white-space:nowrap
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .s01-cabin-tag,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .s01-cabin-tag{
+  grid-column:3;grid-row:1;justify-self:end;align-self:center;
+  height:21px;max-width:100%;padding:0 6px;
+  background:var(--mk-color-bg-muted,#f7faf8);
+  border:1px solid var(--mk-color-border-hairline,#e7ece8);
+  color:var(--mk-color-text-muted,#72867a);font-size:11px;
+  font-weight:580;white-space:nowrap;
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-desc,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-desc{
+  grid-column:1 / -1;grid-row:2;
+  justify-self:start;max-width:100%;min-width:0;
+  font-size:12px;line-height:19px;max-height:19px;
+  margin:0;color:var(--mk-color-text-muted,#72867a);
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-desc::before,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-desc::before{
+  content:none;display:none
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-main .hot,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-main .hot{
+  grid-column:2;grid-row:1;justify-self:start;margin:0;padding:0 5px;
+  flex:0 0 auto;min-width:0;max-width:100%;
+  font-size:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-main .hot[hidden],
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-main .hot[hidden]{
+  display:none!important
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row{
+  min-width:0;width:100%;margin-top:7px;align-items:center;
+  background:none;border:0;border-radius:0;box-shadow:none;
+}
+
+/* A — balanced: price group and independent order action share one row. */
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row{
+  display:flex;gap:12px;min-height:48px
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  display:grid;flex:1 1 auto;min-width:0;max-width:100%;
+  grid-template-columns:max-content max-content;column-gap:6px;
+  grid-template-rows:25px 20px;justify-content:start;align-items:center
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  color:var(--mk-color-brand-deep,#144b3b);
+  font-size:22px;line-height:25px;letter-spacing:-.5px
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row .order{
+  flex:0 0 88px;width:88px;min-width:88px;
+  height:var(--mk-cta-height,48px);min-height:var(--mk-cta-height,48px);
+  margin:0;border-radius:var(--mk-radius-control,8px);
+  background:var(--mk-color-brand-primary,#11845f);
+  color:#fff;font-size:13px;font-weight:750
+}
+
+/* B — price-first flow: complete price across the row, full-width order action.
+   This deliberately consumes more vertical space to test long-price resilience. */
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row{
+  display:grid;grid-template-columns:minmax(0,1fr);
+  grid-template-rows:49px 48px;gap:8px;min-height:105px;
+}
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  grid-row:1;grid-column:1;display:grid;max-width:100%;min-width:0;
+  grid-template-columns:max-content max-content;column-gap:7px;
+  grid-template-rows:28px 19px;justify-content:start;align-items:center
+}
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  color:var(--mk-color-brand-deep,#144b3b);
+  font-size:24px;line-height:28px;letter-spacing:-.55px
+}
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row .order{
+  grid-row:2;grid-column:1;display:flex;
+  width:100%;min-width:0;height:48px;min-height:48px;
+  margin:0;padding:0;border-radius:var(--mk-radius-control,8px);
+  background:var(--mk-color-brand-primary,#11845f);font-size:14px;font-weight:760
+}
+
+/* Both variations preserve the exact "¥月租/月 × N个月" phrase in full. */
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row .price .price-secondary,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row .price .price-secondary{
+  grid-column:1 / -1;grid-row:2;
+  width:max-content;min-width:0;max-width:100%;
+  font-size:12px;line-height:19px;
+  color:var(--mk-color-text-muted,#72867a);
+  text-overflow:clip;white-space:nowrap;overflow:visible
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row .price .s01-term-discount,
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row .price .s01-term-discount{
+  grid-column:2;grid-row:1;
+  display:inline-flex;height:18px;min-height:18px;
+  background:#edf6ef;border:0;border-radius:4px;color:#588269;
+  font-size:10.5px;padding:0 5px;white-space:nowrap
+}
+html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row .price .s01-term-discount[hidden],
+html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-action-row .price .s01-term-discount[hidden]{display:none!important}
+@media(max-width:375px){
+  html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row{gap:9px}
+  html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-action-row .order{flex-basis:85px;width:85px;min-width:85px}
+  html[data-vis-system="balanced"] .store-card[data-card-kind="expanded"] .unit-main,
+  html[data-vis-system="flow"] .store-card[data-card-kind="expanded"] .unit-main{column-gap:6px}
+}
+
+/* C — compact priority: reorder existing row without adding its height.
+   Capacity is the first reading anchor, use occupies the center,
+   cabin code moves to the right as auxiliary metadata.
+   Price stays directly below and the 48px CTA remains on the same row.
+   No new field, decoration or card-within-card. */
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit{
+  margin-top:0;padding:5px 0 5px;min-height:0;
+  background:transparent;border:0;border-radius:0;box-shadow:none
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-main{
+  display:grid;grid-template-columns:max-content minmax(0,1fr) max-content;
+  grid-template-rows:29px;gap:0 7px;
+  align-items:center;min-height:29px;width:100%;min-width:0
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .capacity{
+  grid-column:1;grid-row:1;max-width:100%;
+  font-size:22px;line-height:29px;font-weight:800;letter-spacing:-.35px;
+  color:var(--mk-color-brand-deep,#144b3b);white-space:nowrap
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-desc{
+  grid-column:2;grid-row:1;
+  min-width:0;max-width:100%;max-height:19px;height:auto;
+  color:var(--mk-color-text-muted,#72867a);
+  font-size:11px;line-height:19px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-desc::before{
+  content:none;display:none
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .s01-cabin-tag{
+  grid-column:3;grid-row:1;justify-self:end;margin:0;
+  min-width:0;height:20px;padding:0 5px;
+  color:var(--mk-color-text-muted,#72867a);
+  border:1px solid var(--mk-color-border-hairline,#e7ece8);
+  background:var(--mk-color-bg-muted,#f7faf8);
+  font-size:10px;line-height:18px;font-weight:550;white-space:nowrap
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-main .hot{
+  grid-column:2;grid-row:2;justify-self:start;margin:0;
+  height:17px;line-height:17px;min-width:0;max-width:100%;
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-main .hot[hidden]{display:none!important}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row{
+  display:flex;gap:10px;align-items:center;
+  margin-top:3px;min-height:48px;min-width:0;
+  background:none;border:0;box-shadow:none;
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  display:grid;flex:1 1 auto;min-width:0;max-width:100%;
+  grid-template-columns:max-content max-content;grid-template-rows:25px 19px;
+  column-gap:5px;align-items:center;justify-content:start
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;color:var(--mk-color-brand-deep,#144b3b);
+  font-size:22px;line-height:25px;letter-spacing:-.5px
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .price .price-secondary{
+  grid-column:1/-1;grid-row:2;font-size:12px;line-height:19px;
+  min-width:0;max-width:100%;width:max-content;
+  white-space:nowrap;overflow:visible;text-overflow:clip
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .price .s01-term-discount{
+  grid-column:2;grid-row:1;height:18px;padding:0 5px;
+  background:#eef6f0;color:#59846b;font-size:10px
+}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .price .s01-term-discount[hidden]{display:none!important}
+html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .order{
+  flex:0 0 87px;width:87px;min-width:87px;min-height:48px;height:48px;
+  margin:0;padding:0;border:0;border-radius:var(--mk-radius-control,8px);
+  background:var(--mk-color-brand-primary,#11845f);
+  font-size:13px;font-weight:750;color:#fff
+}
+@media(max-width:375px){
+  html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-main{column-gap:5px}
+  html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .capacity{font-size:21px}
+  html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row{gap:7px}
+  html[data-vis-system="compact"] .store-card[data-card-kind="expanded"] .unit-action-row .order{flex-basis:85px;width:85px;min-width:85px}
+}
+
+
+/* VIS-SYSTEM-02 / S01 REFERENCE | approved information grouping from user image:
+   header=photo + store/name/tags/address/distance;
+   lower shelf=capacity/use | term rent/discount/monthly formula | cabin number/CTA.
+   Applied only to first two matched physical store cards. Browser states, prices,
+   selected unit IDs, order path and service-tag ranking remain untouched. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
+  position:relative;
+  margin:0 0 11px;padding:11px 10px 10px;
+  background:var(--mk-color-bg-paper,#fff);
+  border:1px solid #edf2ee;border-radius:12px;
+  box-shadow:0 2px 9px rgba(22,70,48,.055);
+  overflow:hidden
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
+  width:92px;height:100px;max-width:92px;min-width:92px;
+  margin:0 10px 0 0;
+  border-radius:9px;object-fit:cover;
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body{
+  padding:0;min-height:100px;min-width:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>h2{
+  margin:0 0 4px;padding-right:29px;
+  font-size:15px;line-height:21px;font-weight:760;
+  color:var(--mk-color-text-strong,#173b2f)
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-tags{
+  gap:4px;min-height:19px;height:19px;max-width:100%;
+  margin:0 0 3px;overflow:hidden
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-tags .mk-store-tag{
+  height:19px;min-height:19px;line-height:17px;
+  padding:0 4px;font-size:10px;border-radius:3px;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address{
+  display:flex;flex-direction:column;align-items:flex-start;
+  min-width:0;max-width:100%;gap:1px;margin:2px 0 0;
+  font-size:11px;line-height:17px;color:#738079
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address-copy{
+  display:block;min-width:0;max-width:100%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  -webkit-line-clamp:unset;line-clamp:unset
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .km{
+  display:block;align-self:flex-start;margin:0;padding:0;
+  color:var(--mk-color-brand-primary,#11845f);
+  font-size:11px;line-height:19px;font-weight:750;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .km::before{
+  content:"↗";margin-right:4px;font-size:12px;line-height:17px;
+}
+html[data-vis-system="reference"] .s01-store-detail{
+  top:8px;right:4px;width:35px;height:36px;
+  min-width:35px;min-height:36px;font-size:23px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-cubic-price[hidden]{
+  display:none!important
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .units{
+  clear:both;display:block;position:relative;
+  margin:8px 0 0;padding:8px 0 0;
+  width:100%;border:0;border-top:1px solid #e9eeeb;
+  background:transparent;border-radius:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit{
+  display:grid;position:relative;
+  grid-template-columns:minmax(0,99px) minmax(0,1fr) 88px;
+  grid-template-rows:27px 48px;
+  column-gap:7px;row-gap:0;
+  min-width:0;width:100%;min-height:75px;
+  margin:0;padding:0;
+  border:0;border-radius:0;background:transparent;box-shadow:none;
+  align-items:start
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit::before{
+  content:"";position:absolute;left:102px;top:5px;
+  width:1px;height:48px;background:#e5ece7;pointer-events:none
+}
+/* No additional visual card: unwrap the existing two pure layout wrappers. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main,
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row{
+  display:contents
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity{
+  grid-column:1;grid-row:1;display:inline-flex;
+  flex:initial;min-width:0;max-width:100%;
+  align-self:end;justify-self:start;
+  font-size:21px;line-height:27px;font-weight:820;
+  color:var(--mk-color-brand-primary,#11845f);
+  letter-spacing:-.5px;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity sup{
+  font-size:10px;margin-top:2px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-desc{
+  grid-column:1;grid-row:2;align-self:start;
+  min-width:0;max-width:100%;margin:0;padding:0;
+  font-size:10px;line-height:18px;height:auto;max-height:18px;
+  color:var(--mk-color-text-muted,#72867a);
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-desc::before{
+  display:none;content:none
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  display:grid;grid-column:2;grid-row:1 / span 2;
+  grid-template-columns:max-content max-content;
+  grid-template-rows:27px 20px;column-gap:4px;
+  align-content:start;align-items:center;justify-content:start;
+  min-width:0;max-width:100%;margin:0;padding:0;flex:initial;
+  white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;min-width:0;max-width:100%;
+  overflow:visible;text-overflow:clip;white-space:nowrap;
+  font-size:21px;line-height:27px;font-weight:800;
+  letter-spacing:-.55px;color:var(--mk-color-brand-primary,#11845f)
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]>.s01-term-discount{
+  grid-column:2;grid-row:1;align-self:center;
+  height:17px;min-height:17px;padding:0 4px;
+  font-size:10px;line-height:17px;letter-spacing:0;
+  border:0;border-radius:4px;background:#eef6f0;color:#59846b
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]>.s01-term-discount[hidden]{display:none!important}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+  display:block;grid-column:1/-1;grid-row:2;
+  max-width:100%;width:max-content;min-width:0;margin:0;
+  font-size:11px;line-height:19px;font-weight:550;
+  color:#60746a;white-space:nowrap;overflow:visible;text-overflow:clip
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-cabin-tag{
+  grid-column:3;grid-row:1;
+  align-self:start;justify-self:end;position:static;
+  display:inline-flex;width:max-content;max-width:100%;
+  min-height:20px;height:20px;margin:0;padding:0 6px;
+  border:0;border-radius:7px;background:#f0f3f2;
+  color:#758078;font-size:10px;line-height:20px;
+  font-weight:560;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-cabin-tag[hidden]{display:none!important}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .order{
+  grid-column:3;grid-row:2;align-self:start;justify-self:stretch;
+  display:flex;align-items:center;justify-content:center;
+  flex:initial;width:100%;min-width:0;max-width:100%;
+  height:48px;min-height:48px;
+  margin:0;padding:0;border:0;border-radius:8px;
+  color:#fff;background:var(--mk-color-brand-primary,#11845f);
+  font-size:13px;font-weight:760;white-space:nowrap;
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main .hot{
+  grid-column:1;grid-row:3;justify-self:start;
+  max-width:100%;margin:0;padding:0 5px;
+  font-size:10px;line-height:17px;height:17px;min-height:17px
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main .hot[hidden]{display:none!important}
+@media(max-width:375px){
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
+    padding:10px 9px 9px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
+    width:91px;max-width:91px;height:99px;margin-right:9px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit{
+    grid-template-columns:minmax(0,94px) minmax(0,1fr) 86px;column-gap:6px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit::before{left:97px}
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .capacity,
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+    font-size:20px
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+    font-size:10.5px
+  }
+}
+
+/* Reference information layout: explicit upper photo/text grid. Previously
+   floated store text could hide the address behind the store photo. The body
+   acts only as an invisible structural wrapper; its original field nodes are
+   the grid items, so all existing click handlers continue to work. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
+  display:grid;grid-template-columns:92px minmax(0,1fr);
+  grid-template-rows:23px 23px 54px auto;
+  column-gap:10px;row-gap:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
+  grid-column:1;grid-row:1 / 4;float:none;
+  display:block;width:92px;height:100px;max-width:92px;
+  margin:0;align-self:start;justify-self:start
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body{
+  display:contents
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>h2{
+  grid-column:2;grid-row:1;align-self:start;
+  min-width:0;max-width:100%;
+  margin:0;padding-right:27px;
+  line-height:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>.store-tags{
+  grid-column:2;grid-row:2;align-self:start;
+  min-width:0;max-width:100%;margin:0
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>.address{
+  grid-column:2;grid-row:3;align-self:start;
+  min-width:0;max-width:100%;margin:0;
+  display:flex;flex-direction:column;gap:1px;
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>.units{
+  grid-column:1/-1;grid-row:4;
+  clear:none;width:100%;min-width:0;max-width:100%;
+  margin:7px 0 0;padding:8px 0 0;
+}
+@media(max-width:375px){
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
+    grid-template-columns:91px minmax(0,1fr);column-gap:9px;
+    grid-template-rows:23px 23px 53px auto
+  }
+  html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
+    width:91px;height:99px;max-width:91px
+  }
+}
+
+/* The legacy address has flex:1 (appropriate for a horizontal row).
+   In the reference's column layout that computes a zero-height address line;
+   explicitly restore one visible line before the separate distance row. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address-copy{
+  display:block;flex:0 0 17px;
+  height:17px;min-height:17px;max-height:17px;
+  width:100%;min-width:0;max-width:100%;
+  font-size:11px;line-height:17px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+
+/* The old global flat-list address was max-height:19px / overflow:hidden,
+   which cropped the second (distance) row after the reference layout split. */
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>.address{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;
+  width:100%;height:38px;min-height:38px;max-height:40px;
+  gap:1px;margin:0;padding:0;
+  overflow:visible;white-space:normal
+}
+html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .km{
+  display:block;flex:0 0 19px;min-height:19px;height:19px;max-height:19px;
+  margin:0;padding:0;color:var(--mk-color-brand-primary,#11845f)
+}
