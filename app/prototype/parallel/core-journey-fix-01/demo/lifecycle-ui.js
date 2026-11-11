@@ -22,7 +22,9 @@ function render(page,core,selectedId,tools){
  let body='<div class="detail-blank">';
  if(!match)return title(names[page]||'租后管理','O03')+body+'<p>没有可办理租后服务的订单，请从我的订单进入。</p>'+button('go','返回订单','M01','outline')+'</div>';
  const v=core.lifecycleView(id);
- body+='<p>订单号：'+esc(publicOrder(id))+'</p><p>租期：'+esc(v.total_months)+'个月 · '+esc(v.start_date)+' 至 '+esc(v.end_date)+'</p>';
+ const sourceOrder=core.state().orders.find(o=>o.id===id);
+ const cabinIds=(sourceOrder?.unit_ids||[]).map(unitId=>core.fixture.units.find(u=>u.id===unitId)?.demo_cabin_no).filter(Boolean);
+ body+='<p>订单号：'+esc(publicOrder(id))+'</p>'+(cabinIds.length?'<p>仓号：'+esc(cabinIds.join('、'))+'</p>':'')+'<p>租期：'+esc(v.total_months)+'个月 · '+esc(v.start_date)+' 至 '+esc(v.end_date)+'</p>';
  body+='<p>租赁状态：'+esc(stateLabel(v.lease_status))+'</p>';
  if(page==='RN01'){
   body+='<h3>续租报价申请</h3><p>续租价格必须单独确认，不自动沿用当前月租。续租金额经确认后生效。</p>';
@@ -39,7 +41,7 @@ function render(page,core,selectedId,tools){
   }else body+='<p>当前状态暂不接受新的续租申请。</p>';
  }else if(page==='EX01'){
   body+='<h3>退租安排</h3><p>退租费用与验仓结果以门店办理结果为准。</p>';
-  if(!v.exit&&v.lease_status==='active'){
+  if(!v.exit&&['active','expired'].includes(v.lease_status)){
    body+='<label>退租类型 <select id="exit-type"><option value="expiry">到期退租</option><option value="early">提前退租</option></select></label><label>计划取空日期 <input id="exit-date" type="date"></label>'+button('requestExit','提交退租安排');
   }else if(v.exit){
    body+='<p>退租：'+esc(stateLabel(v.exit.type))+' · '+esc(v.exit.date)+' · '+esc(stateLabel(v.exit.status))+'</p>';

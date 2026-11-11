@@ -33,6 +33,7 @@ const cases=['two-stores','one-store','term-missing','none','term-37'];
  boardW:a.getBoundingClientRect().width,docW:document.documentElement.scrollWidth,viewW:innerWidth,
  boardHeight:a.getBoundingClientRect().height,photo:rect('.s5-store-photo'),second:rect('.minor-unit'),
  priceFit:[...document.querySelectorAll('.s5-unit-price')].map(el=>({text:el.innerText,scroll:el.scrollWidth,client:el.clientWidth})),
+ cabinCaptions:[...document.querySelectorAll('.s5-unit-row .s5-unit-info>strong')].map(el=>el.textContent.trim()),
  integerRates:[...document.querySelectorAll('.s5-unit-row')].map(el=>{
   const ids=(el.dataset.unitIds||'').split(',').filter(Boolean),n=core.state().requirement.term_months;
   if(!ids.length)return null;
@@ -56,6 +57,7 @@ const cases=['two-stores','one-store','term-missing','none','term-37'];
  assert.equal(state.compare,0);assert.equal(state.estore,1);assert.equal(state.modifies,1);assert.equal(state.nav,1);assert.equal(state.fixed,false);
  assert(state.docW<=state.viewW+2,'horizontal overflow');assert(state.boardW<=state.viewW+1,'board overflow');
  assert(state.priceFit.every(p=>p.scroll<=p.client+2),'price clipping');
+ assert(state.cabinCaptions.every(x=>/^(仓号 |组合仓|容量接近|仓位)/.test(x)),'S5 single-unit cabin number absent');
  assert(state.integerRates.every(x=>x.allInts&&x.exact&&x.payable),'integer rent/total/deposit/coupon/first-pay contract');
  assert(state.integerRates.every(x=>x.suffix.includes('× '+x.months+'个月')&&!x.suffix.includes('月均')),'monthly formula text matches the source');
  assert(state.monthlyLines.every(x=>!x.text.includes('月均')&&x.text.includes('/月')),'old monthly average label visible');

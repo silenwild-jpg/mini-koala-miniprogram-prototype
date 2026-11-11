@@ -1,0 +1,88 @@
+name: PRICE-INTEGER-INTEGRATION-02 four-page exact-SHA browser QA NO DEPLOY
+on:
+  push:
+    branches: [isolate/price-integer-integration-02-20261111]
+    paths:
+      - '.github/workflows/price-integer-integration-02.yml'
+      - 'app/prototype/parallel/core-journey-fix-01/demo/**'
+      - 'scripts/verify_h01_vis_gate_07_browser.cjs'
+      - 'scripts/verify_s01_user_reference_layout_02_browser.cjs'
+      - 'scripts/verify_s02_fix_01_browser.cjs'
+      - 'scripts/verify_price_integer_integration_02_browser.cjs'
+      - 'qa/test_h01_*'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: price-integer-integration-02
+  cancel-in-progress: true
+jobs:
+  four-page-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Static syntax and contract checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          for src in app/prototype/parallel/core-journey-fix-01/demo/{app.js,demo-core.js,home-bridge.js,h01-state-impl-01.js,h01-state-policy-01.js,presentation-policy.js,br04/bridge.js,s01-r2-bind.js} scripts/{verify_h01_vis_gate_07_browser.cjs,verify_s01_user_reference_layout_02_browser.cjs,verify_s02_fix_01_browser.cjs,verify_s5_final_rebase_01_browser.cjs}; do node --check "$src"; done
+          node --check scripts/verify_price_integer_integration_02_browser.cjs
+          node scripts/verify_price_integer_contract_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+      - name: Build one single-source four-page prototype
+        env:
+          RC2_BUNDLE_LABEL: PRICE-INTEGER-INTEGRATION-02-FOUR-PAGE
+          RC2_BUNDLE_BRANCH: isolate/price-integer-integration-02-20261111
+          RC2_BUNDLE_SOURCE_PR: "118"
+          RC2_BUNDLE_BASE_PR: "117"
+          RC2_BUNDLE_ARCHIVE: MiniKoala_PRICE_INTEGER_INTEGRATION_02.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Assert built evidence matches exact SHA, PR and branch
+        run: |
+          node -e "const a=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(a.source_sha!==process.env.GITHUB_SHA||a.source_branch!=='isolate/price-integer-integration-02-20261111'||a.source_pr!==118)process.exit(1);console.log('SINGLE_SOURCE',a.source_sha,a.source_pr)"
+      - name: Install Chromium with Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: S01 reference matched-store 375 390 browser
+        run: node scripts/verify_s01_user_reference_layout_02_browser.cjs
+      - name: S02 latest detail 375 390 browser
+        run: node scripts/verify_s02_fix_01_browser.cjs
+      - name: S5 recommendation and integer price 375 390 browser
+        run: node scripts/verify_s5_final_rebase_01_browser.cjs
+      - name: True cross-page S01 S02 S5 O01 identity and rent browser
+        run: node scripts/verify_price_integer_integration_02_browser.cjs
+      - name: H01 20 states x 375 390 browser
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+        run: node scripts/verify_h01_vis_gate_07_browser.cjs
+      - name: Upload same-SHA four-page evidence (never deploy)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: PRICE-INTEGER-INTEGRATION-02-four-page-375-390-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/s01-user-reference-02/
+            release-evidence/s02-fix-01/
+            release-evidence/s5-final-rebase-01/
+            release-evidence/h01-vis-gate-07/
+            release-evidence/price-integer-integration-02/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
