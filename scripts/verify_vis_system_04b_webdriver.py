@@ -5,7 +5,7 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]/'release-evidence/rc2-merge-prep-10/site'
-OUT=Path(__file__).resolve().parents[1]/'release-evidence/vis-system-04b'
+OUT=Path(__file__).resolve().parents[1]/'release-evidence/vis-system-04b1'
 OUT.mkdir(parents=True,exist_ok=True)
 MAN=json.loads((ROOT/'rc2-uat-version.json').read_text())
 assert MAN['source_sha']==os.environ.get('GITHUB_SHA') and MAN['source_pr']==120
