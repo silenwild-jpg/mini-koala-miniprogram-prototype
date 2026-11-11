@@ -5,6 +5,7 @@ on:
       - feature/s01-vis-decision-02-20261111
     paths:
       - .github/workflows/s01-vis-decision-02.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/s01-vis-decision-02.css
   workflow_dispatch:
 permissions:
   contents: read
