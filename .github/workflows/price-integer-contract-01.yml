@@ -43,6 +43,7 @@ jobs:
           RC2_BUNDLE_LABEL: PRICE-INTEGER-CONTRACT-01-ISOLATED
           RC2_BUNDLE_BRANCH: isolate/price-integer-contract-01-20261111
           RC2_BUNDLE_SOURCE_PR: "117"
+          RC2_BUNDLE_BASE_PR: "101"
           RC2_BUNDLE_ARCHIVE: MiniKoala_PRICE_INTEGER_CONTRACT_01.zip
         run: python3 scripts/build_rc2_isolated_demo.py
       - name: Verify exact source identity in generated manifest
