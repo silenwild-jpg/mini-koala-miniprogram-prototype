@@ -32,7 +32,7 @@ async function seed(page,phase){
   c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});
   c.quote();const order=c.submit();
   if(phase==='payment_failed')c.pay(order.id,'failed');
-  if(['identity','upcoming','active','expiring','renewal','returning','refund','ended','multi','active_browse'].includes(phase)){
+  if(['identity','upcoming','active','active_change','expiring','renewal','returning','refund','ended','multi','active_browse'].includes(phase)){
     c.pay(order.id,'success');
     if(phase!=='identity')c.identity(order.id,'success');
   }
