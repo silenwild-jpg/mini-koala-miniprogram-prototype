@@ -1,0 +1,134 @@
+/* S01-UX-REFINE-05 | isolated live prototype comparison, not a master change.
+   Only loaded when s01_ux_refine=A or B is explicitly present on top URL.
+   Same underlying real store, capacity, rental term and core pricing sources. */
+html[data-s01-ux-refine="A"] .s01-context,
+html[data-s01-ux-refine="B"] .s01-context{
+  border:0;box-shadow:none;
+  gap:10px;
+}
+html[data-s01-ux-refine="A"] .s01-edit,
+html[data-s01-ux-refine="B"] .s01-edit{
+  flex:0 0 auto;min-width:68px;min-height:44px;
+  font-weight:700;font-size:12px;white-space:nowrap;
+  color:#147958;cursor:pointer;
+}
+html[data-s01-ux-refine="A"] .s01-context{
+  display:flex;align-items:center;
+  min-height:44px;height:44px;
+  background:#f8faf8;padding:0 16px;
+}
+html[data-s01-ux-refine="A"] .s01-context-text{
+  font-weight:650;color:#30483d;font-size:13px;
+  letter-spacing:-.14px;
+}
+html[data-s01-ux-refine="B"] .s01-context{
+  min-height:58px;height:58px;
+  padding:5px 16px 6px;background:#fff;
+  border-bottom:1px solid #e9eeea;
+}
+html[data-s01-ux-refine="B"] .s01-context-text{
+  display:flex;flex-direction:column;gap:2px;
+  align-items:flex-start;justify-content:center;
+  overflow:hidden;
+}
+html[data-s01-ux-refine="B"] .s01-ux-context-prefix{
+  display:block;font-size:11px;line-height:15px;
+  font-weight:500;color:#8a968d;
+}
+html[data-s01-ux-refine="B"] .s01-ux-context-value{
+  display:block;max-width:100%;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;
+  font-size:14px;line-height:20px;
+  font-weight:750;color:#1b4133;
+}
+/* Do not add another nested warehouse card; reorganize one existing unit
+   into a metadata line and a clearly grouped transaction region. */
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .units,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .units{
+  clear:both;margin:9px 0 -3px;padding:2px 0 9px;
+  border-top:1px solid #edf1ed;border-radius:0;
+  background:#fff;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .unit,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .unit{
+  margin:0;min-height:0;padding:8px 0 0;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .unit-main,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .unit-main{
+  display:grid;align-items:center;
+  min-height:0;margin:0;gap:9px 10px;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .s01-ux-unit-meta,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .s01-ux-unit-meta{
+  display:flex;align-items:baseline;min-width:0;gap:6px;
+  white-space:nowrap;overflow:hidden;grid-area:meta;
+}
+html[data-s01-ux-refine="A"] .s01-ux-unit-label,
+html[data-s01-ux-refine="B"] .s01-ux-unit-label{
+  color:#76877d;font-size:12px;line-height:23px;
+  flex:0 0 auto;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .capacity,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .capacity{
+  flex:0 0 auto;font-size:18px;line-height:24px;font-weight:780;
+  letter-spacing:-.25px;color:#1d3a30;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .unit-desc,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .unit-desc{
+  flex:1 1 auto;min-width:0;max-width:none;
+  font-size:12px;line-height:18px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:#73847a;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .hot,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .hot{
+  flex:0 0 auto;position:static;margin:0 0 0 auto;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"],
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{
+  grid-area:price;display:grid;min-width:0;max-width:none;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:28px 19px;
+  align-self:center;margin:0;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+  font-size:22px;line-height:28px;font-weight:820;
+  color:#0b7554;letter-spacing:-.4px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+  font-size:12px;line-height:19px;font-weight:550;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:#697e72;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .order,
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .order{
+  grid-area:cta;display:flex;align-items:center;justify-content:center;
+  width:100%;min-height:48px;height:48px;
+  border-radius:8px;margin:0;
+  background:#0a926b;color:white;
+  font-size:13px;font-weight:750;cursor:pointer;
+}
+html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .unit-main{
+  grid-template-columns:minmax(0,1fr) 90px;
+  grid-template-rows:25px 48px;
+  grid-template-areas:"meta meta" "price cta";
+  gap:6px 12px;
+}
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .unit-main{
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:25px 48px 48px;
+  grid-template-areas:"meta" "price" "cta";
+  gap:6px;
+}
+html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .order{
+  font-size:14px;
+}
+@media(max-width:375px){
+  html[data-s01-ux-refine="A"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong,
+  html[data-s01-ux-refine="B"] .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+    font-size:21px;
+  }
+}
