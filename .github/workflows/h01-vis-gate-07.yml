@@ -2,7 +2,10 @@ name: H01 VIS GATE 07 375 390 stage copy and density (NO DEPLOY)
 on:
   push:
     branches: [feat/h01-vis-gate-07-20261111]
-    paths: [.github/workflows/h01-vis-gate-07.yml]
+    paths:
+      - '.github/workflows/h01-vis-gate-07.yml'
+      - 'scripts/verify_h01_vis_gate_07_browser.cjs'
+      - 'app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js'
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,6 +26,7 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.sha }}"
           node --check scripts/verify_h01_vis_gate_07_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
           node qa/test_h01_postpay_access_deposit_01.cjs
           node qa/test_h01_order_payment_3h.cjs

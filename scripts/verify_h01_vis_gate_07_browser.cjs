@@ -113,6 +113,13 @@ async function start(){
      const info=await seed(page,phase);
      const outcome=await layout(page);
      record.info=info;record.layout=outcome;record.pageErrors=errors;
+     // VIS-SYSTEM-04A: display public rent in integer yuan, preserving cubic
+     // precision for ranking and all business amounts.
+     record.publicPrices=await page.locator('#storeRail .store-price b').allTextContents();
+     if(['new','active_browse'].includes(phase))
+       assert(record.publicPrices.length>=1,'H01 public-price cards unexpectedly missing');
+     for(const textValue of record.publicPrices)
+       assert(/^¥[\\d,]+$/.test(textValue),'H01 public price must truncate, not round: '+textValue);
      record.screenshot=await photo(page,w,phase);
      if(['new','active_browse'].includes(phase)){
       await page.locator('.scroll').evaluate(el=>{el.scrollTop=el.scrollHeight});
