@@ -32,7 +32,7 @@ assert.match(render(state()),/预约用仓/);
 assert.match(render(state()),/最近找仓/);
 assert.doesNotMatch(render(state()),/内部预览设置/);
 const p=sample('order-A','pending');
-assert.match(render(state(),[p]),/继续支付/);
+assert.match(render(state(),[p]),/继续支付/);assert.match(render(state(),[p]),/应付¥3250/);
 const failed=sample('order-F','payment_failed');
 assert.match(render(state(),[failed]),/重新查看可用仓位/);
 const paid=sample('order-P','paid_simulated');
