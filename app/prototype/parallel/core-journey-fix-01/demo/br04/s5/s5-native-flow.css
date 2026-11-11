@@ -6,9 +6,9 @@ body[data-page="s5"] #app-viewport{
   overscroll-behavior-y:contain;
 }
 body[data-page="s5"] #artboard{
-  display:flex;flex-direction:column;align-items:stretch;gap:10px;
+  display:flex;flex-direction:column;align-items:stretch;gap:6px;
   box-sizing:border-box;width:100%;max-width:430px;height:auto!important;
-  min-height:100%;margin:0 auto;padding:96px 13px 22px;
+  min-height:100%;margin:0 auto;padding:74px 16px 22px;
   overflow:visible;transform:none!important;
 }
 body[data-page="s5"] #artboard > .demand,
@@ -27,20 +27,20 @@ body[data-page="s5"] #artboard .surface{box-shadow:none}
 body[data-page="s5"] .status{left:35px}
 body[data-page="s5"] .nav{left:14px;width:calc(100% - 28px)}
 body[data-page="s5"] #artboard > .demand{
-  height:65px!important;background:transparent;border-radius:0;overflow:visible;
+  height:53px!important;background:transparent;border-radius:0;overflow:visible;
 }
 body[data-page="s5"] .demand-kicker{top:0;left:3px;font-size:12px;font-weight:650;color:#647a74}
-body[data-page="s5"] .capacity-row{top:22px;left:3px;height:37px}
+body[data-page="s5"] .capacity-row{top:18px;left:3px;height:34px}
 body[data-page="s5"] .capacity-row strong{font-size:28px;line-height:33px}
 body[data-page="s5"] .capacity-row strong span{font-size:15px}
 body[data-page="s5"] .modify{min-height:38px;padding:4px 8px}
 body[data-page="s5"] #artboard > .location-line{
-  height:37px!important;gap:6px;padding:0 3px;
+  height:32px!important;gap:6px;padding:0 3px;
   border-bottom:1px solid #e8efec;
 }
 body[data-page="s5"] .location-name{font-size:12px}
 body[data-page="s5"] #artboard > .term{
-  height:auto!important;min-height:44px;padding:0 3px 6px;
+  height:auto!important;min-height:39px;padding:0 3px 2px;
   background:transparent;border-radius:0;border-bottom:1px solid #e8efec;
 }
 body[data-page="s5"] .term-heading{
@@ -58,7 +58,7 @@ body[data-page="s5"] .term-options{
   position:relative;left:auto;top:auto;
   display:flex;gap:6px;flex-wrap:wrap;padding:5px 0 8px;
 }
-body[data-page="s5"] .term-options button{height:42px;width:48px}
+body[data-page="s5"] .term-options button{height:44px;width:48px}
 body[data-page="s5"] #artboard[data-term-compact="true"] .term-options{display:none}
 body[data-page="s5"] #artboard > .recommend-wrap{
   display:flex;flex-direction:column;gap:10px;
@@ -68,79 +68,192 @@ body[data-page="s5"] #artboard > .recommend-wrap{
 body[data-page="s5"] .rec-heading{
   position:relative;top:auto;left:auto;
   display:flex;align-items:center;gap:7px;
-  width:100%;height:auto;min-height:34px;padding:2px 4px;
+  width:100%;height:auto;min-height:42px;padding:2px 0;
 }
 body[data-page="s5"] .rec-heading .icon{
   position:relative;top:auto;left:auto;width:20px;flex:none;
 }
 body[data-page="s5"] .rec-heading h2{
   position:relative;top:auto;left:auto;
-  margin:0;padding-right:35px;min-width:0;
+  margin:0;padding-right:0;min-width:0;
   font-size:16px;line-height:24px;white-space:normal;
 }
 body[data-page="s5"] .rec-heading p{display:none}
-body[data-page="s5"] #s5-compare{right:2px;top:3px;min-height:29px}
+body[data-page="s5"] #s5-compare{right:0;top:0;min-width:88px;min-height:44px;padding:8px 4px}
+/* RC2-UX-QUALITY-REBASE-03: native flat S5 cards, not legacy artboard overlays.
+   Store identity/stock/price remain from the single RC2 core renderer. */
 body[data-page="s5"] .recommend-wrap .s5-store-card,
 body[data-page="s5"] .recommend-wrap .s5-store-card.minor-unit{
-  position:relative;left:auto;top:auto;
-  display:flex;flex-direction:column;
-  width:100%!important;height:auto!important;
-  border-radius:11px;border:0;background:white;box-shadow:none;
-  min-width:0;overflow:hidden;
+  position:relative;left:auto;top:auto;display:grid;
+  grid-template-columns:78px minmax(0,1fr);
+  grid-template-rows:auto auto;
+  column-gap:10px;row-gap:0;
+  width:100%!important;height:auto!important;min-height:0;
+  border:0;border-bottom:1px solid #e6ece8;border-radius:0;
+  box-shadow:none;background:#fff;overflow:visible;
+  padding:6px 0 9px;
 }
 body[data-page="s5"] .recommend-wrap .s5-store-card[hidden]{display:none!important}
-body[data-page="s5"] .s5-store-photo{width:100%;height:120px}
-body[data-page="s5"] .s5-store-photo>img{width:100%;height:100%;object-fit:cover}
-body[data-page="s5"] .s5-store-info{padding:9px 12px 8px}
-body[data-page="s5"] .s5-store-title>strong{max-width:calc(100% - 83px)}
-body[data-page="s5"] .s5-store-services{min-height:23px}
+body[data-page="s5"] .s5-store-photo{
+  position:relative;grid-column:1;grid-row:1;
+  width:78px;height:78px;margin:4px 0 0;
+  overflow:hidden;background:#edf3ef;border-radius:8px;
+}
+body[data-page="s5"] .s5-store-photo>img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+}
+body[data-page="s5"] .s5-store-info{
+  grid-column:2;grid-row:1;min-width:0;
+  padding:2px 0 4px;border:0;display:flex;flex-direction:column;gap:0;
+}
+body[data-page="s5"] .s5-store-reason{
+  position:static;display:block;padding:0;margin:0;
+  border:0;border-radius:0;background:transparent;
+  color:#117a59;font-weight:750;font-size:12px;line-height:17px;
+}
+body[data-page="s5"] .s5-store-title{
+  min-height:38px;display:flex;align-items:center;gap:4px;
+}
+body[data-page="s5"] .s5-store-title>strong{
+  min-width:0;max-width:none;flex:1;
+  font-size:15.5px;line-height:21px;font-weight:800;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+body[data-page="s5"] .s5-store-open{
+  flex:none;min-height:44px;min-width:71px;padding:4px;
+  border:0;background:transparent;border-radius:6px;
+  color:#08745e;font-weight:700;font-size:12px;white-space:nowrap;
+}
+body[data-page="s5"] .s5-store-services{
+  min-height:18px;display:flex;align-items:center;gap:5px;overflow:hidden;
+}
+body[data-page="s5"] .s5-store-services>span{
+  font-size:12px;line-height:17px;background:transparent;
+  color:#58766a;padding:0;border:0;border-radius:0;
+  white-space:nowrap;text-overflow:ellipsis;overflow:hidden;
+}
+body[data-page="s5"] .s5-store-address{
+  min-height:0;display:block;color:#657c71;
+  font-size:12px;line-height:17px;
+}
+body[data-page="s5"] .s5-store-address>span{
+  display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+body[data-page="s5"] .s5-store-address button{
+  position:absolute;right:0;top:0;
+  min-height:44px;min-width:44px;padding:5px;
+  border:0;background:transparent;border-radius:6px;
+  color:#0d785b;font-weight:750;font-size:12px;
+}
+/* Navigation shares the store title line's right-side area, not the text column. */
+body[data-page="s5"] .s5-store-info{padding-right:52px}
+body[data-page="s5"] .s5-store-open{
+  position:absolute;right:0;top:45px;min-width:67px;
+}
+body[data-page="s5"] .s5-store-title{min-height:24px}
+body[data-page="s5"] .s5-store-distance{
+  margin:0;font-size:12px;color:#667d72;line-height:17px;
+}
+body[data-page="s5"] .s5-unit-list{
+  grid-column:1/-1;grid-row:2;display:flex;flex-direction:column;
+  border:0;margin-top:1px;
+}
 body[data-page="s5"] .s5-unit-row{
-  grid-template-columns:60px minmax(0,1fr) 112px;
-  gap:7px;min-height:99px;padding:9px 10px;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(166px,49%);
+  align-items:center;gap:5px;min-height:58px;
+  padding:4px 0;border:0;
 }
-body[data-page="s5"] .s5-unit-thumb{width:60px;height:72px}
-/* At exceptional prices use full available text width, not illegibly tiny numerals. */
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]){
-  grid-template-columns:60px minmax(0,1fr);
-  grid-template-rows:auto auto;
-  row-gap:2px;
-  align-items:start;
+body[data-page="s5"] .s5-unit-row+.s5-unit-row{border-top:1px solid #eaf0ed}
+body[data-page="s5"] .s5-alt-unit[hidden]{display:none!important}
+body[data-page="s5"] .s5-unit-thumb{display:none!important}
+body[data-page="s5"] .s5-unit-info{
+  align-self:center;min-width:0;padding:0;
+  display:flex;flex-direction:column;gap:2px;
 }
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-thumb{
-  grid-row:1 / 3;width:60px;
+body[data-page="s5"] .s5-unit-info>strong{
+  display:block;font-weight:760;font-size:12.5px;line-height:17px;
+  color:#193b31;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-info{
-  grid-column:2;grid-row:1;
+body[data-page="s5"] .s5-unit-info>p{display:none}
+body[data-page="s5"] .s5-unit-price-label{display:none}
+body[data-page="s5"] .s5-unit-monthly{
+  display:block;color:#637b70;font-size:12px;line-height:17px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-terms{
-  grid-column:2;grid-row:2;display:grid;
-  grid-template-columns:minmax(0,1fr) 94px;
-  grid-template-rows:auto auto;gap:1px 7px;
-  width:100%;max-width:none;align-items:center;
+body[data-page="s5"] .s5-promo-tag{
+  margin:0;color:#d85a2c;font-size:12px;line-height:16px;
 }
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-price{
-  grid-column:1;grid-row:1;max-width:100%;
-  font-size:16px;line-height:22px;letter-spacing:-.4px;
-  overflow:visible;text-align:left;
+body[data-page="s5"] .s5-unit-terms{
+  display:grid;grid-template-columns:minmax(0,1fr) 84px;
+  gap:4px;align-items:center;
+  min-width:0;width:100%;max-width:none;
 }
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-terms>small{
-  grid-column:1;grid-row:2;text-align:left;
+body[data-page="s5"] .s5-unit-price,
+body[data-page="s5"] .s5-unit-price[data-price-length="long"],
+body[data-page="s5"] .s5-unit-price[data-price-length="extreme"]{
+  min-width:0;max-width:none;min-height:44px;
+  display:block;overflow:visible;
+  font-variant-numeric:tabular-nums;
+  font-size:clamp(14px,4.1vw,17px);line-height:23px;
+  font-weight:800;letter-spacing:-.25px;white-space:nowrap;
+  text-align:right;color:#e65b2d;border:0;background:transparent;
+  padding:0 0 0 1px;
 }
-body[data-page="s5"] .s5-unit-row:has(.s5-unit-price[data-price-length="extreme"]) .s5-unit-buy{
-  grid-column:2;grid-row:1 / span 2;
-  margin-top:0;min-width:94px;min-height:44px;
+body[data-page="s5"] .s5-unit-buy{
+  min-width:84px;min-height:44px;margin:0;padding:8px 4px;
+  font-size:13px;font-weight:750;background:#08765b;color:#fff;
+  border:0;border-radius:7px;
 }
-body[data-page="s5"] .s5-unit-info{min-width:0}
-body[data-page="s5"] .s5-unit-terms{min-width:0;width:112px;max-width:100%}
-body[data-page="s5"] .s5-unit-price{
-  display:block;max-width:100%;font-variant-numeric:tabular-nums;
-  font-size:clamp(13px,4.1vw,17px);line-height:23px;
-  letter-spacing:-.35px;white-space:nowrap;overflow:hidden;text-overflow:clip;
+body[data-page="s5"] .s5-alt-toggle{
+  align-self:flex-start;display:flex;align-items:center;
+  justify-content:space-between;gap:10px;
+  min-width:142px;min-height:44px;padding:9px 1px;
+  border:0;border-radius:0;background:transparent;
+  color:#08775d;font-size:12px;font-weight:750;text-align:left;
 }
-body[data-page="s5"] .s5-unit-price[data-price-length="long"]{font-size:14px;letter-spacing:-.5px}
-body[data-page="s5"] .s5-unit-price[data-price-length="extreme"]{font-size:16px;letter-spacing:-.4px}
-body[data-page="s5"] .s5-unit-terms>small{max-width:100%;overflow:hidden;text-overflow:ellipsis}
-body[data-page="s5"] .s5-unit-buy{min-width:94px;min-height:44px}
+body[data-page="s5"] .s5-alt-toggle>span{font-size:15px}
+body[data-page="s5"] .s5-store-open:focus-visible,
+body[data-page="s5"] .s5-store-address button:focus-visible,
+body[data-page="s5"] .s5-alt-toggle:focus-visible,
+body[data-page="s5"] .s5-unit-buy:focus-visible{outline:2px solid #08765b;outline-offset:2px}
+/* Keep all interactive targets at least 44 px in either mobile viewport. */
+body[data-page="s5"] .modify,
+body[data-page="s5"] .location-edit,
+body[data-page="s5"] #term-edit,
+body[data-page="s5"] #s5-compare,
+body[data-page="s5"] .more-units button{min-height:44px;min-width:44px}
+body[data-page="s5"] #artboard>.location-line{min-height:44px;height:44px!important}
+body[data-page="s5"] #artboard>.term{min-height:44px}
+body[data-page="s5"] #artboard>.demand{min-height:53px}
+/* Compare only actual computed term cost. It is not a binding quote. */
+body[data-page="s5"] .s5-comparison-table-wrap{width:100%;overflow-x:auto}
+body[data-page="s5"] .s5-comparison-table{
+  width:100%;table-layout:fixed;border-collapse:collapse;
+  font-size:12px;color:#193b32;font-variant-numeric:tabular-nums;
+}
+body[data-page="s5"] .s5-comparison-table th,
+body[data-page="s5"] .s5-comparison-table td{
+  border-bottom:1px solid #e9efec;padding:10px 2px;
+}
+body[data-page="s5"] .s5-comparison-table th:first-child{
+  width:23%;text-align:left;color:#657971;font-weight:650;
+}
+body[data-page="s5"] .s5-comparison-table th:not(:first-child){
+  width:38.5%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+body[data-page="s5"] .s5-comparison-table td{text-align:right;white-space:nowrap}
+body[data-page="s5"] .s5-comparison-table tr:last-child th,
+body[data-page="s5"] .s5-comparison-table tr:last-child td{
+  font-weight:800;color:#c94d24;font-size:13px;
+}
+body[data-page="s5"] .s5-comparison-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 2px;
+}
+body[data-page="s5"] .s5-comparison-actions .bridge-compare-row{
+  margin:0;padding:0;border:0;min-width:0;
+}
+body[data-page="s5"] .s5-comparison-actions button,
+body[data-page="s5"] .s5-comparison-actions [data-bridge]{min-height:44px;width:100%}
 body[data-page="s5"] #artboard > .more-units{
   height:41px!important;display:flex;justify-content:flex-end;
   align-items:center;padding:0 3px;
