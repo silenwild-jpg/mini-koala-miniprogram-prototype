@@ -77,3 +77,5 @@ jobs:
 # R5: replace former S5 comparisons and dual-unit proof with frozen two-store E-storage single-unit layout.
 
 # R6: final review of cross-page 88px card image and icon-only store/navigation with no comparison.
+
+# R7: update shared image geometry expectation to 88px and test native icon-only store entry.
