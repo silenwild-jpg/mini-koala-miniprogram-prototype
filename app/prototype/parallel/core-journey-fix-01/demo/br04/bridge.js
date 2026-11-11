@@ -100,10 +100,10 @@
         '<img class="s5-unit-thumb" src="'+s5UnitImage(u.volume)+'" alt="'+esc(u.volume+'m³仓位空间示意')+'">'+
         '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+
         (shared?.promo?'<span class="s5-promo-tag">'+esc(shared.promo)+'</span>':'')+
-        '<small class="s5-unit-monthly">'+esc(suffix)+'</small></div>'+
-        '<div class="s5-unit-terms"><span class="s5-unit-price-label">整期租金</span><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
+        '</div><div class="s5-unit-terms"><span class="s5-unit-price-label">整期租金</span><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
         'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+
         '" data-s5-price="'+rank+':'+i+'" aria-label="查看'+esc(caption)+'的费用明细">'+esc(priceDisplay)+'</button>'+
+        '<small class="s5-unit-monthly">'+esc(suffix)+'</small>'+
         '<button type="button" class="s5-unit-buy" '+(buyId?'id="'+buyId+'" ':'')+
         'data-s5-buy="'+rank+':'+i+'">'+button+'</button></div></div>';
     }).join('');
