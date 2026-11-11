@@ -14,11 +14,19 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/br04/adapter.css
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
       - app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
+      - app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
+      - app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js
+      - app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/home.html
+      - app/prototype/parallel/core-journey-fix-01/demo/index.html
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html
+      - app/prototype/parallel/core-journey-fix-01/demo/global-store-tags.css
       - scripts/verify_s01_state_price_03_browser.cjs
       - scripts/verify_s01_vis_refine_04_browser.cjs
       - scripts/verify_s01_price_discount_06_browser.cjs
       - scripts/audit_s01_discount_signoff_07.cjs
       - scripts/verify_s01_cabin_number_08_browser.cjs
+      - scripts/verify_global_ui_rules_01_browser.cjs
   workflow_dispatch:
 permissions:
   contents: read
@@ -45,6 +53,11 @@ jobs:
           node --check scripts/verify_s01_price_discount_06_browser.cjs
           node --check scripts/audit_s01_discount_signoff_07.cjs
           node --check scripts/verify_s01_cabin_number_08_browser.cjs
+          node --check scripts/verify_global_ui_rules_01_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
@@ -68,6 +81,8 @@ jobs:
         run: node scripts/verify_s01_price_discount_06_browser.cjs
       - name: S01/S02/S5/O01 stable A-D cabin identity at 375/390
         run: node scripts/verify_s01_cabin_number_08_browser.cjs
+      - name: GLOBAL-UI-RULES-01 integer rent and shared store-tag 375/390 verification
+        run: node scripts/verify_global_ui_rules_01_browser.cjs
       - name: Independent all-term rent policy audit (policy HOLD evidence)
         run: node scripts/audit_s01_discount_signoff_07.cjs
       - name: Existing S5 recommendation and O01 order flow regression
@@ -87,6 +102,7 @@ jobs:
             release-evidence/s01-price-discount-06/
             release-evidence/s01-discount-signoff-07/
             release-evidence/s01-cabin-number-08/
+            release-evidence/global-ui-rules-01/
             release-evidence/rc2-ux-quality-rebase-03/
             release-evidence/rc2-p1-demo-close-02/
             release-evidence/rc2-merge-prep-10/build-summary.json
