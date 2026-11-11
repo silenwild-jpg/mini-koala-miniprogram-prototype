@@ -79,14 +79,12 @@
   function s5StoreCard(row,rank){
     const s=row.store,view=B.s5SharedStore?.(s.id)||s,units=s5StoreRows(row),main=rank===0;
     const term=core.state().requirement.term_months;
-    const genuinelyCheaper=rank>0&&offerRows[0]?.ids?.length&&
-      core.amounts(row.ids,term).rent_total<core.amounts(offerRows[0].ids,term).rent_total;
     s5StoreUnitRows[rank]=units;
     const labels=[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].slice(0,2);
     const distance=Number.isFinite(Number(s.distance))?Number(s.distance).toFixed(1)+'km':'';
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
-    const reason=row.nearCapacity?'容量接近':rank===0?'距离最近':genuinelyCheaper?'区域低价':'更多选择';
+    const reason=row.nearCapacity?'容量接近 · 需确认':'';
     const payable=core.amounts(units[0].ids,term).payable;
     const rows=units.map((u,i)=>{
       const p=presentation.price(u.ids),primary=i===0,shared=B.s5SharedUnit?.(u.ids);
@@ -107,15 +105,15 @@
         '<button type="button" class="s5-unit-buy" '+(buyId?'id="'+buyId+'" ':'')+
         'data-s5-buy="'+rank+':'+i+'">'+button+'</button></div></div>';
     }).join('');
-    return '<div class="s5-store-photo"><img src="'+photo+'" alt="'+storeTitle+'门店环境"></div>'+
-      '<div class="s5-store-info"><div class="s5-store-reason">'+reason+'</div>'+
-      '<div class="s5-store-title"><strong>'+storeTitle+'</strong>'+
-      '<button type="button" class="s5-store-open" id="'+(main?'open-store-main':'open-store-secondary')+
-      '" data-s5-store="'+rank+'">查看门店 ›</button></div>'+
+    return '<button type="button" class="s5-store-photo" data-s5-store="'+rank+
+      '" aria-label="查看'+storeTitle+'门店详情"><img src="'+photo+'" alt="'+storeTitle+'门店环境"></button>'+
+      '<div class="s5-store-info">'+(reason?'<div class="s5-store-reason">'+esc(reason)+'</div>':'')+
+      '<div class="s5-store-title"><button type="button" class="s5-store-open" id="'+(main?'open-store-main':'open-store-secondary')+
+      '" data-s5-store="'+rank+'" aria-label="查看'+storeTitle+'门店详情"><strong>'+storeTitle+'</strong><span aria-hidden="true">›</span></button></div>'+
       '<div class="s5-store-services">'+labels.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>'+
       '<div class="s5-store-address"><span>'+addr+'</span>'+
-      '<button type="button" id="'+(main?'navigate-main':'navigate-secondary')+
-      '" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和地址">导航 ›</button></div>'+
+      '<button type="button" class="s5-store-map" id="'+(main?'navigate-main':'navigate-secondary')+
+      '" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和导航"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></button></div>'+
       '<p class="s5-store-distance">'+esc(view.district||s.district||'')+(distance?' · '+distance:'')+'</p></div>'+
       '<div class="s5-unit-list">'+rows+
       '<div class="s5-unit-footer"><span></span>'+
