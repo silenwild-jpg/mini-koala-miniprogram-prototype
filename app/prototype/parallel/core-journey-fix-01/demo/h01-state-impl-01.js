@@ -6,7 +6,7 @@
   const SOURCE="mk_independent_sim_v1", PREF="mk_h01_view_pref_01";
   const read=(key)=>{try{return JSON.parse(sessionStorage.getItem(key)||"null");}catch(_){return null}};
   const save=(key,value)=>{try{sessionStorage.setItem(key,JSON.stringify(value));}catch(_){}};
-  let model=null,view="business",unlockPending=false,identityPending=false;
+  let model=null,view="business",identityPending=false;
   const el=document.createElement("section");
   el.id="h01-flow";el.className="h01-flow-layer";
   el.innerHTML='<div class="h01-flow-head" id="h01FlowHead"><strong class="h01-flow-brand">迷你考拉仓</strong><button type="button" class="h01-flow-city" data-h01="city" id="h01FlowCity"></button></div>'+
@@ -240,42 +240,21 @@
       ]);return;
     }
     if(kind==="unlock"){
+      // H01 prototype only: display the entry and an informational sheet.
+      // No Bluetooth API, door device communication, simulated success or lock gateway.
       const current=getState();
       const decision=window.H01_STATE_POLICY.accessDecision(current.state,
         window.SIM_CORE.create({state:current.state}),t.orderId);
       if(!decision.allowed){
-        const messages={identity:"请先完成身份核验。",before_start:"起租日 "+(decision.startDate||"待确认")+" 后可以开锁。",lease_inactive:"当前租约或验仓状态不允许开锁。",not_paid:"订单未支付，暂不能开锁。"};
-        showChoice("仓门开锁",messages[decision.reason]||"请查看订单的开锁资格。",[
+        const messages={identity:"请先完成身份核验。",before_start:"起租日 "+(decision.startDate||"待确认")+" 后可以开锁。",lease_inactive:"当前租约或验仓状态暂不支持开锁。",not_paid:"订单未支付，暂不能开锁。"};
+        showChoice("仓门开锁",messages[decision.reason]||"请查看订单的用仓状态。",[
           ["查看订单",()=>go(orderUrl())],["查看门店位置",()=>go(storeUrl())]
-        ]);return;
+        ]);
+      }else{
+        showChoice("仓门开锁","当前暂未连接仓门设备。如需存取，请联系门店协助。",[
+          ["查看门店位置",()=>go(storeUrl())],["查看我的订单",()=>go(orderUrl())]
+        ]);
       }
-      const gateway=window.MK_H01_LOCK_GATEWAY;
-      if(typeof gateway?.requestUnlock==="function"){
-        if(unlockPending){
-          showChoice("开锁处理中","正在等待仓门设备回应，请勿重复操作。",[["完成",()=>render()]]);
-          return;
-        }
-        unlockPending=true;
-        const requestedOrderId=decision.orderId,requestId="H01-"+Date.now()+"-"+Math.random().toString(36).slice(2);
-        const request={requestId,orderId:decision.orderId,storeId:decision.storeId,unitIds:decision.unitIds};
-        let timeoutId=null;
-        const timeout=new Promise((_,reject)=>{timeoutId=setTimeout(()=>reject(new Error("LOCK_TIMEOUT")),10000);});
-        Promise.race([Promise.resolve().then(()=>gateway.requestUnlock(request)),timeout]).then(result=>{
-          const fresh=getState();
-          const freshDecision=window.H01_STATE_POLICY.accessDecision(fresh.state,window.SIM_CORE.create({state:fresh.state}),requestedOrderId);
-          // A completed device response is not a success unless it refers to this exact authorized order/request.
-          const match=result?.authorized===true&&result?.confirmed===true&&result?.acknowledged===true&&
-            result?.requestId===requestId&&result?.orderId===request.orderId&&result?.storeId===request.storeId&&
-            Array.isArray(result?.unitIds)&&JSON.stringify(result.unitIds)===JSON.stringify(request.unitIds);
-          if(match&&freshDecision.allowed)
-            showChoice("开锁成功","请在仓门关闭后确认锁具已锁好。",[["完成",()=>render()]]);
-          else showChoice("无法完成开锁","未收到与当前仓位匹配的授权和设备回执，请重试或联系门店。",[["查看门店",()=>go(storeUrl())]]);
-        }).catch(()=>{
-          showChoice("无法完成开锁","蓝牙连接超时或仓门授权未完成，请检查蓝牙并联系门店。",[["查看门店",()=>go(storeUrl())]]);
-        }).finally(()=>{unlockPending=false;if(timeoutId!==null)clearTimeout(timeoutId);});
-      }else showChoice("蓝牙开锁","请靠近仓门并开启手机蓝牙。仓门设备尚未绑定，暂时无法开锁。",[
-        ["查看门店位置",()=>go(storeUrl())],["查看我的订单",()=>go(orderUrl())]
-      ]);
       return;
     }
     if(kind==="exit"){go("index.html?page=EX01&order="+encodeURIComponent(t.orderId));return}
