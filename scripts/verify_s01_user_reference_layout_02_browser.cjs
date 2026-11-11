@@ -60,7 +60,7 @@ const cases=[];
             monthly=price.querySelector('.price-secondary'),
             cabin=unit.querySelector('.s01-cabin-tag'),button=unit.querySelector('.order'),
             title=store.querySelector('h2'),cta=card.querySelector('.s01-store-detail');
-          const R={photo:rect(photo),store:rect(store),address:rect(address),km:rect(km),
+          const R={photo:rect(photo),store:rect(store),address:rect(address),addressText:rect(card.querySelector('.address-copy')),km:rect(km),
             list:rect(list),unit:rect(unit),capacity:rect(capacity),use:rect(use),
             price:rect(price),total:rect(total),discount:rect(discount),monthly:rect(monthly),
             cabin:rect(cabin),button:rect(button),title:rect(title),detail:rect(cta),card:rect(card)};
@@ -100,7 +100,7 @@ const cases=[];
         assert.match(v.texts.total,/^¥[\d,]+$/);
         assert(v.texts.monthly.endsWith('× '+months+'个月'));
         assert(r.photo.right<=r.title.x+2,'photo must precede the store title');
-        assert(r.km.y>=r.address.bottom-1,'distance must be on a separate line below the address');
+        assert(r.km.y>=r.addressText.bottom-1,'distance must be on a separate line below the address text');
         assert(r.list.y>=r.photo.bottom-2,'lower shelf must follow store photo');
         assert(r.capacity.x<r.total.x-4,'capacity must be left of total');
         assert(r.total.x<r.cabin.x-4,'total must be center left of cabin');
