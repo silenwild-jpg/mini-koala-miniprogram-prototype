@@ -71,3 +71,5 @@ jobs:
 # R2: recheck collapsed-only units in legacy visibility test and corrected fee header/address fit.
 
 # R3: check explicit whole-term pricing label and readable comparison names after visual review.
+
+# R4: inline S5 first payable must match core, plus full 375/390 and O01 regression.
