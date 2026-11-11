@@ -2,6 +2,7 @@
   'use strict';
   const fixture=typeof module==='object'&&module.exports?require('./fixtures'):root.SIM_FIXTURES;
   const copy=x=>JSON.parse(JSON.stringify(x));
+  const PENDING_ORDER_TTL_MS=3*60*60*1000;
   function create(options={}) {
     const now=options.now||Date.now;
     const fail=code=>{throw new Error(code);};
@@ -112,10 +113,29 @@
       if(!s.quote||s.quote.signature!==signature()||now()>=s.quote.expiresAt){invalidate();fail('QUOTE_STALE');}
       const a=amounts(s.selected,s.requirement.term_months);
       if(Object.keys(a).some(k=>s.quote[k]!==a[k])){invalidate();fail('QUOTE_STALE');}
-      const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,status:'pending',expiresAt:now()+15*60*1000,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
+      const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,status:'pending',createdAt:now(),expiresAt:now()+PENDING_ORDER_TTL_MS,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
       s.orders.push(o);o.unit_ids.forEach(id=>s.stock[id]='reserved');if(o.coupon_id)s.coupons.find(c=>c.id===o.coupon_id).status='LOCKED';return copy(o);
     }
     function releaseOrder(o,status){o.status=status;o.unit_ids.forEach(id=>{if(s.stock[id]==='reserved')s.stock[id]=o.previous_stock[id];});const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED')c.status='CLAIMED';s.inventoryVersion++;invalidate();}
+    // Recover an existing reserved order after the user has browsed or edited another demand.
+    // A reserved unit cannot be re-selected through the normal available-stock path.
+    function resumePendingOrder(orderId){
+      const o=findOrder(orderId);
+      if(o.status!=='pending')return copy(o);
+      if(now()>=o.expiresAt){releaseOrder(o,'expired');return copy(o);}
+      const changed=o.unit_ids.some((id,i)=>s.stock[id]!=='reserved'||(s.prices[id]||unit(id)?.base_month)!==o.price_bases[i]);
+      if(changed){releaseOrder(o,'invalidated');return copy(o);}
+      const st=store(o.store_id);
+      if(!st||st.status!=='open'){releaseOrder(o,'invalidated');return copy(o);}
+      s.city=st.city;
+      s.storeId=o.store_id;
+      s.selected=[...o.unit_ids];
+      s.requirement={capacity_m3:o.capacity_m3,term_months:o.term_months,term_confirmed:true};
+      s.startDate=o.start_date;
+      s.dateConfirmed=true;
+      invalidate();
+      return copy(o);
+    }
     function pay(orderId,outcome){const o=findOrder(orderId);if(!authorized())fail('PHONE_REQUIRED');if(!['success','failed'].includes(outcome))fail('INVALID_PAYMENT_OUTCOME');if(o.status!=='pending')return copy(o);if(now()>=o.expiresAt){releaseOrder(o,'expired');fail('ORDER_EXPIRED');}if(o.unit_ids.some((id,i)=>s.stock[id]!=='reserved'||(s.prices[id]||unit(id).base_month)!==o.price_bases[i])){releaseOrder(o,'invalidated');fail('QUOTE_STALE');}if(outcome==='failed'){releaseOrder(o,'payment_failed');return copy(o);}o.status='paid_simulated';o.unit_ids.forEach(id=>s.stock[id]='occupied');const c=s.coupons.find(c=>c.id===o.coupon_id);if(c)c.status='REDEEMED';s.coupons.filter(c=>['CPN-001','CPN-002'].includes(c.id)&&c.status!=='REDEEMED').forEach(c=>c.status='INVALID');s.services[o.id]={identity:'pending',useStatus:'pending_use',renewals:[],exit:null,deposit:'held',invoices:[],transport:[],support:[]};s.messages.push({id:'MSG_'+(++s.sequence),title:'付款完成，请完成身份验证',order_id:o.id,read:false});s.inventoryVersion++;invalidate();return copy(o);}
     const findOrder=id=>{const o=s.orders.find(x=>x.id===id);if(!o)fail('ORDER_NOT_FOUND');return o;};
     const paidService=id=>{const o=findOrder(id);if(o.status!=='paid_simulated')fail('PAID_ORDER_REQUIRED');return s.services[id]||(s.services[id]={identity:'pending',useStatus:'pending_use',renewals:[],exit:null,deposit:'held',invoices:[],transport:[],support:[]});};
@@ -149,7 +169,7 @@
         ...completed.map(x=>({id:x.payment_id,type:'RENEWAL',amount:x.quote_total,simulated:true}))];
       return copy({order_id:id,lease_status:leaseStatus,start_date:o.start_date,end_date:end,total_months:totalMonths,
         deposit_status:l.deposit||'HELD',exit:exit||null,renewal_requests:l.renewal_requests||[],invoices:l.invoices||[],
-        payments,access_allowed:leaseStatus==='active'&&service.identity==='verified',identity_status:service.identity||'pending'});
+        payments,access_allowed:service.identity==='verified'&&(leaseStatus==='active'||(leaseStatus==='returning'&&dayNow()>=o.start_date&&dayNow()<end&&['REQUESTED','INSPECTION_FAILED'].includes(exit?.status))),identity_status:service.identity||'pending'});
     }
     function lifecycleRequestRenewal(id,months){
       if(!authorized())fail('PHONE_REQUIRED');
@@ -180,7 +200,7 @@
     function lifecycleRequestExit(id,type,date){
       if(!authorized())fail('PHONE_REQUIRED');
       if(!['expiry','early'].includes(type)||!validDate(date))fail('INVALID_EXIT_REQUEST');
-      if(lifecycleView(id).lease_status!=='active')fail('ACTIVE_ORDER_REQUIRED');
+      if(!['active','expired'].includes(lifecycleView(id).lease_status))fail('ACTIVE_ORDER_REQUIRED');
       const l=lifecycleLedger(id);
       if(l.exit)fail('EXIT_IN_PROGRESS');
       l.exit={type,date,status:'REQUESTED',requested_at:now()};notify('退租安排已记录',id);return copy(l.exit);
@@ -226,7 +246,7 @@
       l.invoices.push(req);notify('模拟发票申请已提交，实际开具尚未接入',id);return copy(req);
     }
 
-    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,requirementReady,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,today,selectionValid,authorized,quote,submit,pay,recheck,
+    return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,requirementReady,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,today,selectionValid,authorized,quote,submit,pay,resumePendingOrder,recheck,
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
