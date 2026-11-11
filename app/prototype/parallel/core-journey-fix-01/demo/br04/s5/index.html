@@ -5,19 +5,26 @@
 <div class="top-ambient"></div>
 <div class="status" aria-label="手机状态栏示意"><b>9:41</b><div class="status-signals" aria-hidden="true"><span class="cell-bars">▂▄▆█</span><span class="wifi">◕</span><span class="battery"><i></i></span></div></div>
 <header class="nav"><button class="back" type="button" aria-label="返回上页">‹</button><h1>租期与推荐</h1><button class="mini-menu" type="button" aria-label="更多操作"><span>•••</span><span class="round-target"><i></i></span></button></header>
-<section class="demand surface" aria-label="存储需求"><div class="demand-kicker">您的存储需求</div><div class="capacity-row"><strong id="capacity">5<span>m³</span></strong><button id="modify" class="modify" type="button"><span class="tick">✔</span> 修改</button></div></section>
+<section class="demand surface" aria-label="用仓需求">
+  <div class="demand-kicker">您的用仓需求</div>
+  <div class="capacity-row"><strong id="capacity">3m³ · 12个月</strong><button id="modify" class="modify" type="button">修改 ›</button></div>
+</section>
 
-<section class="location-line" aria-label="用仓位置"><span class="location-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7 7-12A7 7 0 1 0 5 9c0 5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg></span><span class="location-caption">用仓位置</span><span id="origin-name" class="location-name">深圳市 · 宝安区 · 宝安中心附近</span><button id="change-origin" type="button" class="location-edit">修改 ›</button></section>
-<section class="term surface" aria-labelledby="term-heading"><div class="term-heading"><span class="icon icon-person" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 20v-2c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5v2z"/></svg></span><h2 id="term-heading">选择租期</h2><span class="term-sub">租期越长，月租更划算</span></div>
-<div class="term-summary" id="term-summary" hidden><strong id="term-current">已选 12 个月</strong><button id="term-edit" type="button" aria-expanded="false">修改 ›</button></div>
-<div class="term-options" id="term-options"><button data-term="1" type="button">1个月</button><button data-term="3" type="button">3个月</button><button data-term="6" type="button">6个月</button><button data-term="12" type="button" class="recommended"><span class="recommend-flag">推荐</span>12个月</button><button data-term="24" type="button">24个月</button><button id="more-term" type="button">更多⌄</button></div></section>
-<section class="recommend-wrap surface"><header class="rec-heading"><span class="icon icon-rec" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.8 8.2 11.8 4l7.1 4.2v9l-7.1 4.1-7-4.1z"/><path d="M4.8 8.2l7 4.1 7.1-4.1M11.8 12.3v9M7.7 5.6l7.1 4.3"/></svg></span><h2>为您推荐 2 个合适的仓位</h2><p>按容量与租期为您推荐</p><button id="s5-compare" type="button" hidden>对比费用 ›</button></header>
+<button class="location-line" id="change-origin" type="button" aria-label="选择用仓位置">
+  <span class="location-pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-7 7-12A7 7 0 1 0 5 9c0 5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg></span>
+  <span class="location-caption">用仓位置</span>
+  <span id="origin-name" class="location-name">请选择用仓位置</span>
+  <span class="location-chevron" aria-hidden="true">›</span>
+</button>
+
+<section class="recommend-wrap surface"><header class="rec-heading"><span class="icon icon-rec" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.8 8.2 11.8 4l7.1 4.2v9l-7.1 4.1-7-4.1z"/><path d="M4.8 8.2l7 4.1 7.1-4.1M11.8 12.3v9M7.7 5.6l7.1 4.3"/></svg></span><h2>为您推荐 2 个合适的仓位</h2><p>按容量与租期为您推荐</p></header>
 <article class="major-unit s5-store-card" data-rank="0" aria-label="第一推荐门店"></article>
 <article class="minor-unit s5-store-card" data-rank="1" aria-label="第二推荐门店" hidden></article>
 </section>
+<section class="estore" aria-label="考拉E存独立产品推荐"><div class="estore-copy"><div class="estore-eyebrow">另一种存储方式</div><h2>考拉E存</h2><p>按需存储 · 上门取送<br><span>了解适用的服务范围与方案</span></p><button type="button" id="open-estore" aria-label="了解考拉E存服务">了解考拉E存 <span aria-hidden="true">›</span></button></div><img class="estore-photo" src="assets/estore-existing-scene.webp" alt="储物纸箱与家居物品场景参考图"></section>
 <section class="more-units" aria-label="更多可选仓位"><span class="more-units-note">还想看看其他门店或仓位？</span><button id="see-more" type="button">查看更多仓位 <span>›</span></button></section>
 <section class="s5-advisor" id="s5-advisor" aria-label="顾问协助" hidden><div class="s5-advisor-copy"><strong>大空间或长期用仓，需要帮您确认？</strong><p>协助比较仓位、费用及搬运安排</p></div><button type="button" id="s5-advisor-action">联系顾问 ›</button></section>
-<section class="estore" aria-label="考拉E存独立产品推荐"><div class="estore-copy"><div class="estore-eyebrow">另一种存储方式</div><h2>考拉E存</h2><p>按需存储 · 上门取送<br><span>了解适用的服务范围与方案</span></p><button type="button" id="open-estore" aria-label="了解考拉E存服务">了解考拉E存 <span aria-hidden="true">›</span></button></div><img class="estore-photo" src="assets/estore-existing-scene.webp" alt="储物纸箱与家居物品场景参考图"></section>
+
 <section class="no-match" id="no-match" aria-label="暂无完全匹配的仓位"><div class="nm-kicker">暂无完全匹配的仓位</div><p>您选择的位置、容量及租期组合暂时没有完全匹配的方案，可继续调整条件或查看更多门店。</p><div class="nm-actions"><button type="button" data-nm="range">扩大搜索范围 <span>›</span></button><button type="button" data-nm="capacity">调整容量需求 <span>›</span></button><button type="button" data-nm="stores">查看附近门店 <span>›</span></button><button type="button" data-nm="advisor">联系顾问 <span>›</span></button></div></section>
 </div></div>
 <div class="modal-backdrop" id="modal" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-top"><h3 id="modal-title">请选择</h3><button id="close-modal" type="button" aria-label="关闭">×</button></div><div id="modal-body" class="modal-body"></div></section></div>
