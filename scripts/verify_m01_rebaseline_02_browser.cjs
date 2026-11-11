@@ -18,7 +18,7 @@ const records=[];
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
   for(const [width,height] of [[375,812],[390,844]]){
-   const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1});
+   const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1,locale:'zh-CN',timezoneId:'Asia/Shanghai'});
    const page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
    async function shot(name){await page.screenshot({path:path.join(out,name+'-'+width+'.png'),fullPage:true});}
@@ -82,6 +82,7 @@ const records=[];
     await page.locator('.m02-service-summary').waitFor();
     assert.match(await page.locator('.m02-service-summary').innerText(),/累计租期/);
     assert.equal(await page.locator('#renew-months').inputValue(),'','no undisclosed renewal-month default');
+    assert.equal(await page.locator('#renew-months').getAttribute('max'),'48','renewal upper bound must account for paid 12 months');
     await shot('M01-RN01');
     await page.evaluate(()=>window.SIM_DEMO.navigate('EX01'));
     await page.locator('.m02-service-summary').waitFor();await shot('M01-EX01');
@@ -111,6 +112,8 @@ const records=[];
     await page.locator('.m01-task .m01-primary-button').click();
     await page.waitForURL(/account\.html\?view=identity/);
     assert.match(await page.locator('#page-title').innerText(),/身份验证/);
+    assert.match(await page.locator('#content').innerText(),/KL00000003|订单编号/,'service child should use public order number');
+    assert.equal(await page.locator('#content').getByText(/SIM_ORDER_/).count(),0,'raw fixture IDs must stay internal');
     await shot('M01-identity-child');
     await page.locator('.account-header a').click();
     await page.waitForURL(/index\.html\?page=M01/);
