@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 // VIS-SYSTEM-01: real isolated Chromium screenshots of the existing S01 UI.
-// The two layouts are opt-in only; default product candidate remains untouched.
+// Three candidate layouts are opt-in only; default product candidate remains untouched.
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
 const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'../release-evidence/rc2-merge-prep-10/site');
@@ -107,7 +107,7 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
           assert(card.button.height>=48);
           assert(!card.clipped.monthly&&!card.clipped.major,'price clipped at normal 12 months');
           assert(card.main.right<=card.discount.x+1.5,'discount overlaps main amount');
-          if(variant==='balanced')assert(card.priceLeft<card.button.x,'balanced price should be before CTA');
+          if(variant==='balanced'||variant==='compact')assert(card.priceLeft<card.button.x,'side CTA layout price should be before button');
           if(variant==='flow'){
             assert(card.button.y>=card.action.y+49,'flow CTA should occupy the lower row');
             assert(card.button.width>=card.action.width-2,'flow CTA must use available row width');
@@ -120,7 +120,7 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
       // A realistic contract-stress test uses display-only extreme values in a
       // temporary preview; it never changes prices, orders or persisted fixture data.
       const stress=[];
-      for(const variant of ['balanced','flow']){
+      for(const variant of ['compact','balanced','flow']){
         await s01.locator('html').evaluate((el,v)=>{el.dataset.visSystem=v},variant);
         const measure=await s01.locator('.store-card[data-card-kind="expanded"]').first().evaluate(el=>{
           const root=el.querySelector('.unit-action-row'),
