@@ -57,9 +57,9 @@
 .page-S02 .hero .gallery-count{min-width:44px;min-height:44px;border:0;font-size:12px;display:grid;place-items:center}
 .page-S02 .nav-ext{width:44px;height:44px;min-width:44px;padding:0;display:grid;place-items:center;background:radial-gradient(circle,#e5f4ef 0 16px,transparent 17px);border-radius:50%}
 .page-S02 .s02-service-summary{width:100%;min-height:44px;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 16px;background:#fff;border:0}
-.page-S02 .s02-tag{display:inline-flex;align-items:center;min-height:24px;max-width:100%;white-space:nowrap;font-size:12px;line-height:18px;font-weight:500;padding:3px 7px;border-radius:4px;background:#f1f7f2;color:#6b8073}
-.page-S02 .s02-tag-promo{background:#fff4e9;color:#aa6137}
-.page-S02 .s02-tag-service{background:#eef7f1;color:#366f52}
+.page-S02 .s02-tag{display:inline-flex;align-items:center;min-height:24px;max-width:100%;white-space:nowrap;font-size:11px;line-height:18px;font-weight:550;padding:3px 7px;border-radius:4px;background:#fafbfa;color:#65736c}
+.page-S02 .s02-tag-promo{background:var(--mk-tag-offer-bg,#fff2e6);color:var(--mk-tag-offer-ink,#a6571e);font-weight:690}
+.page-S02 .s02-tag-service{background:var(--mk-tag-service-bg,#f3f8f4);color:var(--mk-tag-service-ink,#536e5e)}
 .page-S02 .unit-filter{gap:3px}
 .page-S02 .unit-filter .chip{min-height:44px;min-width:44px;font-size:12px;padding:8px 8px;white-space:nowrap}
 .page-S02 .unit-head{min-height:32px;padding-right:36px;position:relative}
@@ -84,3 +84,9 @@
 .page-S02 .detail-addr .ico{flex:none;margin-top:2px}
 .page-S02 .s02-services-hours{display:none}
 .page-S02 .s02-service-item{font-size:12px;line-height:18px;color:#5b7063}
+
+/* VIS-SYSTEM-04B: a selected unit's payable-term rent has the same brand
+   emphasis as S01. H01 cubic teaser remains a distinct public reference. */
+.page-S02 .unit-price .br03-price-main{
+  color:var(--mk-price-confirmed,#11845f);
+}

@@ -1,0 +1,121 @@
+name: VIS-SYSTEM-04B exact-SHA bundle and optional browser QA NO DEPLOY
+on:
+  push:
+    branches: [isolate/vis-system-04b-20261111]
+    paths:
+      - '.github/workflows/vis-system-04b.yml'
+      - 'app/prototype/parallel/core-journey-fix-01/demo/**'
+      - 'scripts/verify_h01_vis_gate_07_browser.cjs'
+      - 'scripts/verify_s01_user_reference_layout_02_browser.cjs'
+      - 'scripts/verify_s02_fix_01_browser.cjs'
+      - 'scripts/verify_price_integer_integration_02_browser.cjs'
+      - 'scripts/verify_vis_system_04b_browser.cjs'
+      - 'scripts/verify_vis_system_04b_webdriver.py'
+      - 'qa/test_h01_*'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: vis-system-04b
+  cancel-in-progress: true
+jobs:
+  four-page-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: VIS-GUARD forbid non-CSS production file changes
+        run: |
+          set -euo pipefail
+          changed="$(git diff --name-only origin/isolate/price-integer-integration-02-20261111...HEAD -- app/prototype/parallel/core-journey-fix-01/demo)"
+          illegal="$(printf '%s\n' "$changed" | grep -Ev '\.css$|^$' || true)"
+          test -z "$illegal" || { echo "NON_CSS_RUNTIME_CHANGE: $illegal"; exit 1; }
+      - name: Static syntax and contract checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          for src in app/prototype/parallel/core-journey-fix-01/demo/{app.js,demo-core.js,home-bridge.js,h01-state-impl-01.js,h01-state-policy-01.js,presentation-policy.js,br04/bridge.js,s01-r2-bind.js} scripts/{verify_h01_vis_gate_07_browser.cjs,verify_s01_user_reference_layout_02_browser.cjs,verify_s02_fix_01_browser.cjs,verify_s5_final_rebase_01_browser.cjs}; do node --check "$src"; done
+          node --check scripts/verify_price_integer_integration_02_browser.cjs
+          node --check scripts/verify_vis_system_04b_browser.cjs
+          python3 -m py_compile scripts/verify_vis_system_04b_webdriver.py
+          node scripts/verify_price_integer_contract_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+      - name: Build one single-source four-page prototype
+        env:
+          RC2_BUNDLE_LABEL: VIS-SYSTEM-04B-FOUR-PAGE
+          RC2_BUNDLE_BRANCH: isolate/vis-system-04b-20261111
+          RC2_BUNDLE_SOURCE_PR: "119"
+          RC2_BUNDLE_BASE_PR: "118"
+          RC2_BUNDLE_ARCHIVE: MiniKoala_VIS_SYSTEM_04B.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Assert built evidence matches exact SHA, PR and branch
+        run: |
+          node -e "const a=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(a.source_sha!==process.env.GITHUB_SHA||a.source_branch!=='isolate/vis-system-04b-20261111'||a.source_pr!==119)process.exit(1);console.log('SINGLE_SOURCE',a.source_sha,a.source_pr)"
+      # Public runner software mirrors failed DNS 2026-11-11. Always preserve
+      # a byte-identical static site for local browser QA without further CI cost.
+      - name: Publish exact-SHA isolated static-site archive before network installs
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-SYSTEM-04B-isolated-site-exact-sha
+          retention-days: 3
+          if-no-files-found: error
+          path: release-evidence/rc2-merge-prep-10/MiniKoala_VIS_SYSTEM_04B.zip
+      - name: Network-free preinstalled ChromeDriver 375 390 style screenshots
+        run: python3 scripts/verify_vis_system_04b_webdriver.py
+      - name: Install Chromium with Chinese fonts
+        if: github.event_name == 'workflow_dispatch'
+        timeout-minutes: 6
+        run: |
+          set -euo pipefail
+          timeout 120s sudo apt-get update -qq
+          timeout 100s sudo apt-get install -y -qq fonts-noto-cjk
+          timeout 100s npm install --no-save --no-package-lock playwright@1.56.1
+          timeout 120s npx playwright install chromium
+      - name: S01 reference matched-store 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/verify_s01_user_reference_layout_02_browser.cjs
+      - name: S02 latest detail 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/verify_s02_fix_01_browser.cjs
+      - name: S5 recommendation and integer price 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/verify_s5_final_rebase_01_browser.cjs
+      - name: True cross-page S01 S02 S5 O01 identity and rent browser
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/verify_price_integer_integration_02_browser.cjs
+      - name: VIS-SYSTEM-04B read-only computed styles 375 and 390 browser
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/verify_vis_system_04b_browser.cjs
+      - name: H01 20 states x 375 390 browser
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+        run: node scripts/verify_h01_vis_gate_07_browser.cjs
+      - name: Upload same-SHA four-page evidence (never deploy)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VIS-SYSTEM-04B-four-page-375-390-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/s01-user-reference-02/
+            release-evidence/s02-fix-01/
+            release-evidence/s5-final-rebase-01/
+            release-evidence/h01-vis-gate-07/
+            release-evidence/price-integer-integration-02/
+            release-evidence/vis-system-04b/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
