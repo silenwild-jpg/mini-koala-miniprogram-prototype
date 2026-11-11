@@ -64,7 +64,54 @@
       '<strong class="m01-primary-title">'+ctx.esc(title)+'</strong><p class="m01-primary-meta">'+ctx.esc(info)+'</p>'+
       '<div class="m01-primary-actions">'+ctx.button(act,cta,value,'m01-primary-button')+'</div>';
   }
+
+  // Shared H01/M01 selection: a single business priority queue, distinct page presentation.
+  // The central app always provides sharedTask. Standalone legacy QA may omit it.
+  function countdown(deadline){
+    var n=Math.max(0,Math.ceil((Number(deadline)-Date.now())/1000));
+    var pad=function(x){return String(x).padStart(2,'0');};
+    return pad(Math.floor(n/3600))+':'+pad(Math.floor((n%3600)/60))+':'+pad(n%60);
+  }
+  function primaryShared(ctx,t){
+    var orders=safeList(ctx.orders),o=orders.find(function(row){return row.id===t.orderId;});
+    if(t.key==='new'){
+      return orders.length?
+        '<div class="m01-primary-top">'+badge('历史记录')+'</div><strong class="m01-primary-title">查看以往的用仓订单</strong>'+
+        '<div class="m01-primary-actions">'+ctx.button('m01View','查看我的订单','orders','m01-primary-button')+'</div>':
+        '<div class="m01-primary-top">'+badge('尚未用仓')+'</div><strong class="m01-primary-title">找一个合适的仓位</strong>'+
+        '<p class="m01-primary-meta">可从附近门店开始</p><div class="m01-primary-actions">'+ctx.button('go','找附近门店','S01','m01-primary-button')+'</div>';
+    }
+    var key=t.key,act='m01Order',value=t.orderId||'',label='查看订单';
+    var title=o?ctx.storeName(o):String(t.title||'我的用仓');
+    var info=o?ctx.unitName(o):(t.sub||'');
+    if(o&&o.term_months)info+=(info?' · ':'')+o.term_months+'个月';
+    if(key==='pending'){act='m01ContinuePay';label='继续支付';info+=(info?' · ':'')+'应付'+ctx.money(o?.payable||0);}
+    else if(key==='expired'||key==='payment_failed'){act='m01RestartOrder';label='重新选择仓位';}
+    else if(key==='identity'){act='m01Identity';label='完成身份验证';}
+    else if(key==='upcoming'){act='m01Access';label='查看入仓准备';}
+    else if(key==='refund'){act='m01Service';label='查看押金进度';value+='|DP01';}
+    else if(key==='returning'||key==='lease_expired'){act='m01Service';label=key==='lease_expired'?'办理退租及退押金':'查看退租进度';value+='|EX01';}
+    else if(key==='renewal'){act='m01Service';label='查看续租进度';value+='|RN01';}
+    else if(key==='expiring'){
+      var lease=ctx.getLife(o.id);
+      if(lease&&lease.total_months<60){act='m01Service';value+='|RN01';label='办理续租';}
+      else label='查看订单';
+    }
+    else if(key==='active'){label='查看我的仓位';}
+    else if(key==='booking'){act='m01View';value='booking';label='查看预约需求';}
+    else if(key==='selected'||key==='estimated'){act='m01Resume';value='';label='继续找仓';}
+    var urgency=['pending','payment_failed','expired','refund','returning','lease_expired','identity','expiring'].includes(key)?'attention':'';
+    var clock=key==='pending'&&Number.isFinite(Number(t.expiresAt))?
+      '<p class="m01-primary-meta m01-pay-meta">支付剩余时间 <span class="m01-pay-clock" role="timer" aria-live="off" data-expires="'+Number(t.expiresAt)+'">'+countdown(t.expiresAt)+'</span></p>':'';
+    if(key==='active'&&t.otherActiveCount>0)info+=(info?' · ':'')+'另有'+t.otherActiveCount+'处在租';
+    return '<div class="m01-primary-top">'+badge(ctx.esc(t.title||'当前服务'),urgency)+
+       '<span class="m01-primary-context">当前任务</span></div>'+
+       '<strong class="m01-primary-title">'+ctx.esc(title)+'</strong>'+
+       (info?'<p class="m01-primary-meta">'+ctx.esc(info)+'</p>':'')+clock+
+       '<div class="m01-primary-actions">'+ctx.button(act,label,value,'m01-primary-button')+'</div>';
+  }
   function primary(ctx){
+    if(ctx.sharedTask)return primaryShared(ctx,ctx.sharedTask);
     var s=ctx.state,entry=sortedService(ctx.orders,ctx);
     if(entry&&entry.rank>=60)return primaryFromOrder(entry,ctx);
     var quote=s.quote;
