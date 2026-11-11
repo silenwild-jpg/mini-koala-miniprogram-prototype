@@ -52,7 +52,11 @@
   });
   document.querySelector('.s01-city')?.addEventListener('click',()=>bridge.action('city'));
   document.querySelector('.s01-edit')?.addEventListener('click',()=>bridge.editDemand());
-  document.querySelector('#s01-search')?.addEventListener('input',e=>bridge.search(e.target.value));
+  document.querySelector('#s01-search')?.addEventListener('focus',()=>{if(openIndex>=0)closePanel();});
+  document.querySelector('#s01-search')?.addEventListener('input',e=>{
+    if(openIndex>=0)closePanel();
+    bridge.search(e.target.value);
+  });
   document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click',()=>bridge.setQuick(b.dataset.quick)));
   document.querySelector('#s01-more')?.addEventListener('click',()=>bridge.loadMore());
   document.addEventListener('click',e=>{if(openIndex>=0&&!e.target.closest('.filters, #s01-inline-panel'))closePanel();});
