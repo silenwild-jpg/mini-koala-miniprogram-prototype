@@ -62,3 +62,5 @@ jobs:
 # R2: rerun with closed-lease requirement snapshot guarded.
 
 # R3: final zh-CN evidence and readable account order IDs; renewal max follows accumulated term.
+
+# R4: identity status/action distinct rows, no change outside account.html style scope.
