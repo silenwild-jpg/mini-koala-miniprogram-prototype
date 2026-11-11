@@ -51,12 +51,12 @@
       } else if(renew.some(x=>x.status==="QUOTE_READY"||x.status==="QUOTE_PENDING")){
         records.push(row("renewal","续租申请处理中","办理中",desc,[[end?date(end):"待确认","当前租期至"],["待确认","续租报价"]],["查看续租进度","order"],["查看租约","order"],86,o));
       } else if(status==="upcoming"){
-        records.push(row("upcoming","入仓准备","已支付",desc,[[date(o.start_date),"计划起租"],["待确认","开门资格"]],["查看入仓指引","order"],["查看门店位置","navigate"],77,o));
+        records.push(row("upcoming","入仓准备","已支付",desc,[[date(o.start_date),"计划起租"],["起租日生效","入仓权限"]],["查看入仓安排","order"],["查看门店位置","navigate"],77,o));
       } else if(end&&Number.isFinite(dayDiff(end,nowMs))&&dayDiff(end,nowMs)<=30&&dayDiff(end,nowMs)>=0){
         const n=dayDiff(end,nowMs);
-        const r=row("expiring","租期即将到期","需关注",desc,[[date(end),"租期至"],[String(n)+"天","剩余租期"]],["办理续租","renew"],["查看仓位","order"],82,o);r.layout="service";records.push(r);
+        const r=row("expiring","租期即将到期","需关注",desc,[[date(end),"租期至"],[String(n)+"天","剩余租期"]],["办理续租","renew"],["查看租约","order"],82,o);r.layout="service";records.push(r);
       } else {
-        const r=row("active","我的在租仓位","租赁中",desc,[[end?date(end):"待确认","租期至"],[(stores.find(x=>x.id===o.store_id)||{}).access_hours||"24小时","存取时间"]],["查看我的仓位","order"],["查看门店位置","navigate"],20,o);r.layout="service";records.push(r);
+        const r=row("active","我的在租仓位","租赁中",desc,[[end?date(end):"待确认","租期至"],[(stores.find(x=>x.id===o.store_id)||{}).access_hours||"24小时","存取时间"]],["查看仓位与租约","order"],["查看门店位置","navigate"],20,o);r.layout="service";records.push(r);
       }
     }
     const req=s.requirement||{},selected=Array.isArray(s.selected)?s.selected:[];
