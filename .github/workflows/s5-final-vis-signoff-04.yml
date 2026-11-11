@@ -4,6 +4,9 @@ on:
     branches: [isolate/s5-final-vis-signoff-04-20261112]
     paths:
       - .github/workflows/s5-final-vis-signoff-04.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/s5-native-flow.css
+      - scripts/verify_s5_s01_vis_signoff_04_browser.cjs
   workflow_dispatch:
 permissions:
   contents: read
