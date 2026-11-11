@@ -2,6 +2,8 @@
   'use strict';
   const fixture=typeof module==='object'&&module.exports?require('./fixtures'):root.SIM_FIXTURES;
   const copy=x=>JSON.parse(JSON.stringify(x));
+  // Order payment window: 3 hours from successful creation. Pre-order quote TTL remains 5 minutes.
+  const PENDING_ORDER_TTL_MS=3*60*60*1000;
   function create(options={}) {
     const now=options.now||Date.now;
     const fail=code=>{throw new Error(code);};
@@ -108,7 +110,8 @@
       if(!s.quote||s.quote.signature!==signature()||now()>=s.quote.expiresAt){invalidate();fail('QUOTE_STALE');}
       const a=amounts(s.selected,s.requirement.term_months);
       if(Object.keys(a).some(k=>s.quote[k]!==a[k])){invalidate();fail('QUOTE_STALE');}
-      const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,status:'pending',expiresAt:now()+15*60*1000,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
+      const orderedAt=now();
+      const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,status:'pending',createdAt:orderedAt,expiresAt:orderedAt+PENDING_ORDER_TTL_MS,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
       s.orders.push(o);o.unit_ids.forEach(id=>s.stock[id]='reserved');if(o.coupon_id)s.coupons.find(c=>c.id===o.coupon_id).status='LOCKED';return copy(o);
     }
     function releaseOrder(o,status){o.status=status;o.unit_ids.forEach(id=>{if(s.stock[id]==='reserved')s.stock[id]=o.previous_stock[id];});const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED')c.status='CLAIMED';s.inventoryVersion++;invalidate();}
