@@ -22,7 +22,7 @@ const server=http.createServer((req,res)=>{
    const shot=async(name)=>page.screenshot({path:path.join(out,name+'-'+width+'.png'),fullPage:true});
    try{
     await page.goto(base+'/home.html',{waitUntil:'domcontentloaded'});
-    await page.locator('#h01FlowPrimary').waitFor();assert(await page.locator('.footer-nav').count());
+    await page.locator('#h01FlowPrimary').waitFor({state:'attached'});assert(await page.locator('.footer-nav').count());
     await shot('01-h01-home');
     await page.goto(base+'/index.html?page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
     const frame=page.frameLocator('#s01-r2-frame');await frame.locator('body').waitFor();
@@ -38,7 +38,7 @@ const server=http.createServer((req,res)=>{
       const b=window.SIM_DEMO,c=b.core;
       c.setRequirement(3,12,true);b.persist();b.navigate('S5');
     });
-    const s5=page.frameLocator('#br04-frame');await s5.locator('body').waitFor();
+    const s5=page.frameLocator('#br04-frame');await s5.locator('#artboard').waitFor();
     const s5Text=await s5.locator('body').innerText();
     assert(/用仓|推荐|仓位/.test(s5Text),'S5 entry not loaded');
     assert.equal(await s5.locator('#s5-compare').count(),0,'forbidden compare returned');
