@@ -104,6 +104,13 @@ const capPriceCase=async (app,s01,months)=>{
       for(const months of terms){
         const info=await capPriceCase(app,s01,months);termCases.push(info);
         if([1,7,12,37,60].includes(months)){
+          // The previous screenshots retained the S01 restored scroll
+          // position (typically 280px) and did not prove full first-screen
+          // hierarchy. Capture zero-scroll independently on every frame.
+          await page.evaluate(()=>window.scrollTo(0,0));
+          await app.locator('html').evaluate(()=>window.scrollTo(0,0));
+          await s01.locator('html').evaluate(()=>window.scrollTo(0,0));
+          await page.screenshot({path:path.join(out,'S01-discount-'+months+'m-top-'+width+'.png')});
           await page.screenshot({path:path.join(out,'S01-discount-'+months+'m-'+width+'.png')});
           await s01.locator('.stores').screenshot({path:path.join(out,'S01-discount-'+months+'m-list-'+width+'.png')});
         }
