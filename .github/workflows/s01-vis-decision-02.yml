@@ -46,6 +46,10 @@ jobs:
           npx playwright install chromium
       - name: S01 browse and matched card logic with explicit 1–60 months 375/390
         run: node scripts/verify_s01_state_price_03_browser.cjs
+      - name: Existing S5 recommendation and O01 order flow regression
+        run: |
+          node scripts/verify_rc2_ux_quality_rebase_03.cjs
+          node scripts/verify_rc2_p1_demo_close_02_order_ui.cjs
       - name: Preserve exact branch screenshots, JSON and failures
         if: always()
         uses: actions/upload-artifact@v4
@@ -55,4 +59,6 @@ jobs:
           if-no-files-found: warn
           path: |
             release-evidence/s01-state-price-03/
+            release-evidence/rc2-ux-quality-rebase-03/
+            release-evidence/rc2-p1-demo-close-02/
             release-evidence/rc2-merge-prep-10/build-summary.json
