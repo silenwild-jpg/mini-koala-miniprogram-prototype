@@ -148,7 +148,11 @@
     photo.dataset.assetOrigin=s.photoOrigin||'LEGACY_DEMO';
     setText(card.querySelector('h2'),s.name);card.querySelector('h2').title=s.name;
     const tags=Array.from(card.querySelectorAll('.store-tags span'));
-    tags.forEach((tag,i)=>{tag.hidden=!s.services[i];setText(tag,s.services[i]||'');});
+    tags.forEach((tag,i)=>{
+      tag.hidden=!s.services[i];setText(tag,s.services[i]||'');
+      tag.className='mk-store-tag mk-tag-'+(s.tagTypes?.[i]||'service');
+      tag.dataset.tagType=s.tagTypes?.[i]||'service';
+    });
     card.querySelector('.store-tags').style.visibility=s.services.length?'visible':'hidden';
     const address=card.querySelector('.address-copy');setText(address,s.address);address.title=s.address;
     const distance=card.querySelector('.km');setText(distance,s.distance);distance.hidden=!s.distance;distance.dataset.verified=String(!!s.distanceVerified);if(s.distance)distance.setAttribute('aria-label','距离约'+s.distance);else distance.removeAttribute('aria-label');
@@ -201,7 +205,12 @@
     const info=document.createElement('div');info.className='store-body s01-compact-info';
     const name=document.createElement('h2');name.textContent=s.name;info.append(name);
     const tags=document.createElement('div');tags.className='store-tags s01-compact-tags';
-    (s.services||[]).slice(0,2).forEach(v=>{const el=document.createElement('span');el.textContent=v;tags.append(el);});
+    (s.services||[]).slice(0,2).forEach((v,i)=>{
+      const el=document.createElement('span');
+      el.className='mk-store-tag mk-tag-'+(s.tagTypes?.[i]||'service');
+      el.dataset.tagType=s.tagTypes?.[i]||'service';
+      el.textContent=v;tags.append(el);
+    });
     info.append(tags);
     const address=document.createElement('div');address.className='address';
     const addrText=document.createElement('span');addrText.className='address-copy';addrText.textContent=s.address||'';
