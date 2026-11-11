@@ -43,9 +43,23 @@ const rects=async(loc)=>loc.evaluateAll(nodes=>nodes.filter(e=>!!e.getClientRect
    const {context,page,app,errors}=await entry(browser,width,height);
    try{
     const svc=app.locator('.s02-service-summary');await svc.waitFor();
-    assert.match(await svc.innerText(),/存取/);
-    assert.match(await svc.innerText(),/到店搬运/);
-    assert.equal(await app.locator('.hero .s02-hours').count(),0,'duplicate hours shown on hero');
+    const displayedTags=await svc.locator('.s02-tag').evaluateAll(nodes=>nodes.map(x=>({label:x.innerText,kind:x.dataset.tagKind})));
+    assert(displayedTags.length>=4&&displayedTags.length<=5,'S02 must display 4–5 demo service tags');
+    assert.equal(displayedTags[0].kind,'promo','demo promotion tag must be first without authenticity gate');
+    assert(displayedTags.some(x=>x.label==='到店搬运'),'moving tag visible');
+    const hours=app.locator('.hero .s02-hours');
+    assert.equal(await hours.count(),1,'hours should be on photo lower-left');
+    assert.match(await hours.innerText(),/存取时间/);
+    const position=await hours.evaluate(el=>{const x=el.getBoundingClientRect(),hero=el.closest('.hero').getBoundingClientRect();return {left:x.left-hero.left,bottom:hero.bottom-x.bottom}});
+    assert(position.left>=0&&position.left<28&&position.bottom>=0&&position.bottom<28,'hours placement incorrect '+JSON.stringify(position));
+    const dial=app.locator('.s02-call-400');
+    assert.match(await dial.getAttribute('href'),/^tel:400\d{7}$/,'400 mock number must launch the dialer');
+    const positions=await app.locator('.s02-detail-actions').evaluate(node=>Array.from(node.children).map(e=>e.getBoundingClientRect().left));
+    assert(positions.length===2&&positions[1]>positions[0],'telephone must sit right of navigation');
+    assert.equal(await app.locator('.s02-distance').count(),1,'distance must appear before address');
+    const addressText=await app.locator('.detail-addr').innerText();
+    assert.match(addressText,/km/);
+    assert.match(await app.locator('.s02-demand').innerText(),/不确定用多大仓？\s*立即估算/);
     assert.equal(await app.locator('.hero .gallery-count').count(),0,'non-verified 1/2 gallery must not show');
     const t={};
     for(const [name,selector] of Object.entries({
@@ -56,7 +70,7 @@ const rects=async(loc)=>loc.evaluateAll(nodes=>nodes.filter(e=>!!e.getClientRect
     }
     assert(t.buy.every(x=>x.height>=47.5),'buy CTA less than 48px');
     await page.screenshot({path:path.join(output,'s02-default-'+width+'.png')});
-    await svc.click();
+    await app.getByRole('tab',{name:'服务设施'}).click();
     await app.locator('.s02-services').waitFor();
     assert.match(await app.locator('.s02-services').innerText(),/到店搬运/);
     await page.screenshot({path:path.join(output,'s02-services-'+width+'.png')});
@@ -71,6 +85,7 @@ const rects=async(loc)=>loc.evaluateAll(nodes=>nodes.filter(e=>!!e.getClientRect
     await app.locator('.unit-row[data-unit] .order-button[data-action="s02EditCapacity"]').first().waitFor();
     const smaller=await app.locator('.unit-row[data-unit] .order-button[data-action="s02EditCapacity"]').first().innerText();
     assert.equal(smaller,'修改容量');
+    assert.match(await app.locator('.s02-demand').innerText(),/已选需求：3m³ · 12个月\s*修改需求/);
     await page.screenshot({path:path.join(output,'s02-with-demand-'+width+'.png')});
     const match=await app.locator('#screen').evaluate(()=>{
      const m=window.SIM_DEMO,fx=m.core.fixture;
@@ -92,7 +107,7 @@ const rects=async(loc)=>loc.evaluateAll(nodes=>nodes.filter(e=>!!e.getClientRect
       await page.screenshot({path:path.join(output,'s02-combo-'+width+'.png')});
     }
     assert.deepEqual(errors,[],'runtime page errors');
-    results.push({width,height,status:'PASS',touchTargets:t,smallerCapacityAction:smaller,comboCase:match,source:'same branch static app; Chromium, not live Netlify'});
+    results.push({width,height,status:'PASS',touchTargets:t,visibleDemoTags:displayedTags,demoTelHref:await dial.getAttribute('href'),smallerCapacityAction:smaller,comboCase:match,source:'same branch static app; Chromium UI-only, no business-data authenticity checks'});
    }finally{await context.close();}
   }
   fs.writeFileSync(path.join(output,'results.json'),JSON.stringify({status:'PASS',runCount:results.length,results},null,2));
