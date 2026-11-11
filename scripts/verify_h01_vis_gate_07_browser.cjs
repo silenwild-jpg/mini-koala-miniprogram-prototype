@@ -200,6 +200,24 @@ async function start(){
        await page.locator('#h01FlowHelpAction').click();
        assert.match(await page.locator('.h01-flow-modal').innerText(),/付款|支付/,'Payment help missing');
        await page.keyboard.press('Escape');
+       // O03 is backed by a lifecycle summary; must resolve the same original order expiry by ID.
+       const before=await page.evaluate(id=>{
+         const s=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'{}');
+         return s.orders.find(o=>o.id===id)?.expiresAt;
+       },info.id);
+       assert(Number.isFinite(before),'The original pending order expiry is missing');
+       await page.locator('#h01FlowSecondary').click();
+       await page.waitForURL(/page=O03/,{timeout:7000});
+       await page.locator('#mk-order-countdown').waitFor({state:'visible',timeout:7000});
+       const countdown=await page.locator('#mk-order-countdown').innerText();
+       assert.match(countdown,/^\d{2}:\d{2}:\d{2}$/,'O03 payment countdown must render HH:MM:SS');
+       const after=await page.evaluate(id=>{
+         const s=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'{}');
+         return s.orders.find(o=>o.id===id)?.expiresAt;
+       },info.id);
+       assert.equal(after,before,'O03 must not refresh or replace the original deadline');
+       record.action='pending H01 -> O03 retains original deadline';
+       record.orderDetailScreenshot=await photo(page,w,'pending-O03-clock');
      }
      if(phase==='active'){
        assert.equal(await page.locator('#h01FlowPrimary').innerText(),'一键开锁');
