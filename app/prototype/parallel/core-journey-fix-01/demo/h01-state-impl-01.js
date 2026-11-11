@@ -29,13 +29,17 @@
     const saved=read(SOURCE);
     let core=null;
     try{core=window.SIM_CORE.create(saved?{state:saved}:{});}catch(_){}
+    // Expiration is enforced by the shared order engine, then persisted before deriving the visible task.
+    if(core&&core.expirePendingOrders()>0)save(SOURCE,core.state());
     const state=core?core.state():(saved||{});
     return {state,task:window.H01_STATE_POLICY.derive(state,core)};
   }
   function render(){
     const next=getState();model=next;const t=next.task,s=next.state;
     const pref=read(PREF);
-    if(pref&&pref.key===t.key&&pref.orderId===t.orderId&&pref.view==="market")view="market";
+    // A previously remembered marketing view must not obscure a time-critical unpaid order.
+    if(t.key!=="pending"&&pref&&pref.key===t.key&&pref.orderId===t.orderId&&pref.view==="market")view="market";
+    if(t.key==="pending"&&pref?.view==="market")save(PREF,null);
     else if(pref&&(pref.key!==t.key||pref.orderId!==t.orderId)){view="business";save(PREF,null);}
     if(t.isMarketing)view="market";
     const business=!t.isMarketing&&view!=="market";
@@ -60,7 +64,8 @@
     one("#h01FlowSub").textContent=t.sub||"";
     one("#h01FlowTask").dataset.urgent=["pending","expired","payment_failed","invalidated","refund","returning","identity","expiring"].includes(t.key)?"true":"false";
     const facts=one("#h01FlowFacts");facts.replaceChildren();
-    (t.facts||[]).slice(0,3).forEach(([value,label])=>{const box=document.createElement("div");box.className="h01-flow-fact";const b=document.createElement("b");b.textContent=value;const small=document.createElement("small");small.textContent=label;box.append(b,small);facts.append(box)});
+    (t.facts||[]).slice(0,3).forEach(([value,label])=>{const box=document.createElement("div");box.className="h01-flow-fact";const b=document.createElement("b");b.textContent=value;if(t.key==="pending"&&label==="支付剩余时间"){box.dataset.countdown="true";b.id="h01FlowCountdown";b.setAttribute("role","timer");b.setAttribute("aria-live","off");}const small=document.createElement("small");small.textContent=label;box.append(b,small);facts.append(box)});
+    updateCountdown();
     one("#h01FlowPrimary").textContent=t.primary?.[0]||"查看订单";
     one("#h01FlowSecondary").textContent=t.secondary?.[0]||"浏览门店";
     const service=t.key==="active"||t.key==="expiring";
@@ -68,6 +73,20 @@
     one("#h01FlowOther").hidden=t.layout!=="service"&&!(t.otherActiveCount>0);
     one("#h01FlowBrowse").hidden=t.allowTab;
     one("#h01FlowNote").textContent=t.otherActiveCount>0?"另有 "+t.otherActiveCount+" 间在租仓位，请在订单中查看。":(t.key==="identity"?"请先完成验证，开门权限按订单资格判断。":"");
+  }
+  function countdownValue(expiresAt){
+    const remaining=Math.max(0,Math.ceil((Number(expiresAt)-Date.now())/1000));
+    const pad=n=>String(n).padStart(2,"0");
+    return {remaining,text:pad(Math.floor(remaining/3600))+":"+pad(Math.floor(remaining%3600/60))+":"+pad(remaining%60),
+      tone:remaining<=300?"critical":remaining<=1800?"warning":"normal"};
+  }
+  function updateCountdown(){
+    if(model?.task?.key!=="pending")return;
+    const info=countdownValue(model.task.expiresAt);
+    if(!Number.isFinite(model.task.expiresAt)){const timer=one("#h01FlowCountdown");if(timer)timer.textContent="以订单为准";return;}
+    if(info.remaining===0){render();return;}
+    const timer=one("#h01FlowCountdown");
+    if(timer){timer.textContent=info.text;timer.closest(".h01-flow-fact").dataset.tone=info.tone;}
   }
   function setView(v){const t=model?.task;if(!t||t.isMarketing)return;view=v;save(PREF,{view:v,key:t.key,orderId:t.orderId});render();}
   function go(path){window.location.assign(path);}
@@ -94,9 +113,25 @@
     if(kind==="business"){setView("business");return}
     if(kind==="browse"){setView("market");return}
     if(kind==="city"){const btn=document.querySelector(".hero .search");if(btn){setView("market");btn.click();}return}
+    if(kind==="primary"&&t.key==="pending"){
+      const checked=getState().task;
+      if(checked.key!=="pending"||checked.orderId!==t.orderId){render();return;}
+      go("index.html?page=O01&order="+encodeURIComponent(t.orderId));return;
+    }
     if(kind==="primary"||kind==="secondary"){act(t[kind]?.[1]||"order");return}
-    if(kind==="order"){go(orderUrl());return}
+    if(kind==="order"){
+      if(t.key==="pending"&&getState().task.key!=="pending"){render();return;}
+      go(orderUrl());return;
+    }
     if(kind==="allorders"){go("index.html?page=M01");return}
+    if(kind==="restart"){
+      const draft=read("mk_br04_ui_v2")||{};
+      // Invalidate the previous QUICK selection UI; keep capacity/term as input hints only.
+      if(draft.quick)delete draft.quick;
+      save("mk_br04_ui_v2",draft);
+      save("mk_h01_reorder_intent_01",{previous_order_id:t.orderId,source:"H01",created_at:Date.now()});
+      go("index.html?page=QUICK");return;
+    }
     if(kind==="booking"){go("account.html?view=needs");return}
     if(kind==="nearby"){go("index.html?page=S01&s01_r2=1");return}
     if(kind==="recommend"){go("index.html?page=S5");return}
@@ -118,5 +153,8 @@
   }
   el.addEventListener("click",e=>{const b=e.target.closest("[data-h01]");if(!b)return;e.preventDefault();act(b.dataset.h01)});
   window.addEventListener("pageshow",render);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)render()});
+  // Use the saved deadline, never decrement a locally stored counter.
+  window.setInterval(()=>{if(model?.task?.key==="pending")updateCountdown()},1000);
   render();
 })();
