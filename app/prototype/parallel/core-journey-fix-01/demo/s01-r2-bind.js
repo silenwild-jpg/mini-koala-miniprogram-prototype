@@ -74,7 +74,7 @@
     let secondary=priceBox.querySelector('.price-secondary');
     if(!secondary){secondary=document.createElement('small');secondary.className='price-secondary';priceBox.append(secondary);}
     setText(secondary,u.secondary);secondary.hidden=!u.secondary;
-    priceBox.setAttribute('aria-label',u.priceKind==='term'?u.price+' 整期租金，'+u.secondary:u.priceKind==='unit_month'?u.price+' 每月，'+u.secondary:u.price+' 每月起');
+    priceBox.setAttribute('aria-label',u.priceKind==='term'?'整期租金 '+u.price+'；'+u.secondary+'，押金和管理费另计':u.priceKind==='unit_month'?u.price+' 每月，'+u.secondary:u.price+' 每月起');
     setText(el.querySelector('.unit-desc'),u.usage);
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
     const btn=el.querySelector('.order');if(btn){
@@ -129,7 +129,7 @@
     photo.onerror=()=>{photo.onerror=null;photo.src='assets/brand_corridor_cropped.png';};
     return article;
   }
-  function compactStore(s,rank){
+  function compactStore(s,rank,showPublicPrice=true){
     const article=document.createElement('article');
     article.className='store-card s01-compact s01-compact-store';
     article.dataset.storeId=s.id;
@@ -156,11 +156,13 @@
     if(s.distance){const distance=document.createElement('span');distance.className='km';distance.textContent=s.distance;distance.dataset.verified=String(!!s.distanceVerified);address.append(distance);}
     info.append(address);
     const side=document.createElement('div');side.className='s01-compact-side';
-    const first=s.units?.[0];
-    if(s.publicCubicPrice||first){
-      const price=document.createElement('strong');price.textContent=s.publicCubicPrice||first.price;side.append(price);
-      const suffix=document.createElement('small');suffix.textContent=s.publicCubicPrice?'/m³/月起':(first.suffix||'');side.append(suffix);
-      if(s.publicCubicPrice)side.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月租期');
+    // In browsing mode, use the same public per-m³ source as H01.
+    // In matching mode, compact store #4+ only opens S02 and never
+    // substitutes an unrelated unit price for the first two matched offers.
+    if(showPublicPrice&&s.publicCubicPrice){
+      const price=document.createElement('strong');price.textContent=s.publicCubicPrice;side.append(price);
+      const suffix=document.createElement('small');suffix.textContent='/m³/月起';side.append(suffix);
+      side.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月价格口径');
     }
     const arrow=document.createElement('span');arrow.className='s01-compact-arrow';arrow.textContent='查看门店 ›';side.append(arrow);
     info.append(side);
@@ -172,9 +174,10 @@
     document.documentElement.dataset.binding='CENTRAL_RC1';
     document.documentElement.dataset.source=state.sourceNamespace;
     document.documentElement.dataset.verifiedDistance=String(state.distanceVerified);
+    document.documentElement.dataset.matchMode=state.matched?'matched':'browse';
     const nodes=[];
     const hasAvailable=state.stores.some(store=>store.units?.length);
-    const noMatch=!state.stores.length||!hasAvailable;
+    const noMatch=!state.stores.length||(state.matched&&!hasAvailable);
     if(noMatch){
       const empty=document.createElement('section');
       empty.className='s01-empty-state';empty.setAttribute('role','status');
@@ -186,11 +189,15 @@
     }else{
       state.stores.forEach((store,i)=>{
         if(i===2)nodes.push(estoreCard());
-        if(i<2){
+        if(state.matched&&i<2){
           const card=masters[i].cloneNode(true);
           fill(card,store);card.dataset.cardRank=String(i+1);card.dataset.cardKind='expanded';card.dataset.presentation='expanded-one';
           nodes.push(card);
-        }else nodes.push(compactStore(store,i+2));
+        }else{
+          // All physical stores share one flat compact surface when no
+          // committed capacity + term pair exists. E-storage remains slot 3.
+          nodes.push(compactStore(store,i<2?i+1:i+2,!state.matched));
+        }
       });
       if(state.stores.length<=2)nodes.push(estoreCard());
     }
@@ -204,8 +211,8 @@
     setText(document.querySelector('.s01-city'),state.city+' ▾');
     const query=document.querySelector('#s01-search');
     if(query&&document.activeElement!==query)query.value=state.keyword||'';
-    setText(document.querySelector('.s01-context-text'),state.requirement.capacity===null?'不确定用多大仓？':'已选需求：'+state.requirement.capacity+'m³ · '+(state.requirement.term?state.requirement.term+'个月':'租期待选'));
-    setText(document.querySelector('.s01-edit'),state.requirement.capacity===null?'立即估算':'修改需求');
+    setText(document.querySelector('.s01-context-text'),state.matched?'已选需求：'+state.requirement.capacity+'m³ · '+state.requirement.term+'个月':'不确定用多大仓？');
+    setText(document.querySelector('.s01-edit'),state.matched?'修改需求':'立即估算');
     const contextualReturn=document.querySelector('.s01-return-recommend');
     if(contextualReturn)contextualReturn.hidden=!state.canReturnToS5;
     setText(document.querySelector('.s01-result-summary'),'共'+state.storeCount+'家门店'+(state.storeCount>state.visibleStoreCount?' · 已显示前'+state.visibleStoreCount+'家':''));
