@@ -61,8 +61,9 @@ body[data-page=s5] .s5-store-title{
   position:relative;display:flex;align-items:center;gap:3px;
   min-width:0;min-height:23px;height:23px
 }
-body[data-page=s5] .s5-store-title>strong{
-  flex:1;min-width:0;margin:0;padding:0;
+body[data-page=s5] .s5-store-name{
+  display:flex;align-items:center;flex:1;min-width:0;min-height:44px;
+  margin:-10px 0 -11px;padding:0;border:0;background:transparent;text-align:left;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   font-size:15px;line-height:22px;font-weight:760;color:#173b2f
 }
