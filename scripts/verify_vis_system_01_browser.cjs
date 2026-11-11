@@ -115,7 +115,7 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
           assert(card.button.height>=48);
           assert(!card.clipped.monthly&&!card.clipped.major,'price clipped at normal 12 months');
           assert(card.main.right<=card.discount.x+1.5,'discount overlaps main amount');
-          if(variant==='balanced'||variant==='compact')assert(card.priceLeft<card.button.x,'side CTA layout price should be before button');
+          if(['reference','balanced','compact'].includes(variant))assert(card.priceLeft<card.button.x,'side CTA layout price should be before button');
           if(variant==='flow'){
             assert(card.button.y>=card.action.y+49,'flow CTA should occupy the lower row');
             assert(card.button.width>=card.action.width-2,'flow CTA must use available row width');
