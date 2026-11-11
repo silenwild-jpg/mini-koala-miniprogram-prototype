@@ -123,6 +123,26 @@
     ?(()=>{try{return sessionStorage.getItem('mk_active_catalog_v1')==='MK';}catch{return false;}})()
     :(typeof process==='object'&&process.env.MK_CATALOG_MODE==='MK'));
   const activeFixture=requestedLegacy?legacyFixture():data;
+  // S01-UX-REFINE-08: stable presentation-only cabin numbers.
+  // Code range per store: A001–D030. Do NOT replace unit IDs / original SKU
+  // identifiers or claim any link to actual physical stock.
+  const byCabinStore=new Map();
+  activeFixture.units.forEach(u=>{
+    const list=byCabinStore.get(u.store_id)||[];
+    list.push(u);byCabinStore.set(u.store_id,list);
+  });
+  const storeOrdinal=new Map([...new Set(activeFixture.stores.map(s=>s.id))]
+    .map((id,index)=>[id,index]));
+  byCabinStore.forEach((items,storeId)=>{
+    const base=storeOrdinal.get(storeId)||0;
+    items.sort((a,b)=>String(a.id).localeCompare(String(b.id),'en',{numeric:true}))
+      .forEach((u,i)=>{
+        if(i>=120){u.demo_cabin_no=null;return;}
+        u.demo_cabin_no='ABCD'[(base+Math.floor(i/30))%4]+
+          String(i%30+1).padStart(3,'0');
+        u.demo_cabin_source='SYNTHETIC_PRESENTATION_ONLY';
+      });
+  });
   // Store-ID-stable access schedule shared by S01/S02. Replace with verified store records when available.
   const storeSchedules=['24小时','09:00-21:00','08:00-23:00'];
   // Unify warehouse option stock counts with the stock/status contract used by order selection.
