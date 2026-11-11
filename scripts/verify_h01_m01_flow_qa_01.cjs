@@ -54,6 +54,12 @@ ok('Central app URL and popstate both use route contract',()=>{
  assert(app.includes('MK_M01_ORDER_ROUTE_01.select(query.has('));
  assert(app.includes("sessionStorage.setItem('mk_lifecycle_selected_order_v1',selectedOrderId)"));
 });
+ok('Each order owns its own detail and after-sale scroll position',()=>{
+ const app=read('app.js');
+ assert(app.includes('const positionKey=()=>MK_M01_ORDER_ROUTE_01.isOrderPage(page)?page+'));
+ assert(app.includes('positions[positionKey()]'));
+ assert(app.includes('displayedOrderId===selectedOrderId'));
+});
 ok('Multiple paid orders in M01 are separate assets with exact original order links',()=>{
  mine.setView('assets');const html=mine.render(ctx);
  for(const id of ['ORDER_A','ORDER_B'])assert(html.includes('data-action="m01Order" data-value="'+id+'"'));
