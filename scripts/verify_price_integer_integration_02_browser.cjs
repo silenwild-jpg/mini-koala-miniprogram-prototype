@@ -14,8 +14,8 @@ const server=http.createServer((req,res)=>{
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'rc2-uat-version.json'),'utf8'));
- assert.equal(manifest.source_pr,119);
- assert.equal(manifest.source_branch,'isolate/vis-system-04b-20261111');
+ assert.equal(manifest.source_pr,120);
+ assert.equal(manifest.source_branch,'isolate/vis-system-04b1-20261111');
  assert.equal(manifest.source_sha,process.env.GITHUB_SHA);
  await new Promise(ok=>server.listen(port,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']}),results=[];
@@ -87,7 +87,7 @@ const server=http.createServer((req,res)=>{
   finally{results.push(row);await ctx.close();}
  }
  }finally{await browser.close();await new Promise(ok=>server.close(ok));}
- fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({source_sha:manifest.source_sha,source_pr:119,results},null,2));
+ fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({source_sha:manifest.source_sha,source_pr:120,results},null,2));
  assert(results.every(x=>x.status==='PASS'),'cross-page S01→S02→S5→O01 FAIL '+results.filter(x=>x.status!=='PASS').map(x=>x.width+': '+x.error).join(' | '));
  console.log('PRICE-INTEGER-INTEGRATION-02 CROSS_PAGE PASS '+JSON.stringify(results.map(x=>({width:x.width,unit:x.first.unit,cabin:x.first.cabin,term:x.order.months,total:x.order.total}))));
 })().catch(e=>{console.error(e.stack||e);process.exitCode=1});

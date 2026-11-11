@@ -37,8 +37,8 @@ async function rent(loc,page){
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'rc2-uat-version.json'),'utf8'));
- assert.equal(manifest.source_sha,process.env.GITHUB_SHA);assert.equal(manifest.source_pr,119);
- assert.equal(manifest.source_branch,'isolate/vis-system-04b-20261111');
+ assert.equal(manifest.source_sha,process.env.GITHUB_SHA);assert.equal(manifest.source_pr,120);
+ assert.equal(manifest.source_branch,'isolate/vis-system-04b1-20261111');
  await new Promise(ok=>server.listen(4717,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});const results=[];
  try{for(const [w,h] of [[375,812],[390,844]]){
@@ -97,7 +97,7 @@ async function rent(loc,page){
   }catch(e){row.error=String(e.stack||e);await page.screenshot({path:path.join(out,'FAIL-'+w+'.png')}).catch(()=>{});}
   finally{results.push(row);await ctx.close();}
  }}finally{await browser.close();await new Promise(ok=>server.close(ok));}
- fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({source_sha:manifest.source_sha,source_pr:119,colors,results},null,2));
+ fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({source_sha:manifest.source_sha,source_pr:120,colors,results},null,2));
  assert(results.every(r=>r.status==='PASS'),results.filter(r=>r.status!=='PASS').map(r=>r.width+': '+r.error).join('\n'));
  console.log('VIS-SYSTEM-04B 375/390 computed tone PASS '+JSON.stringify(results.map(r=>({width:r.width,counts:Object.fromEntries(Object.entries(r.pages).map(x=>[x[0],x[1].tags.length]))}))));
 })().catch(e=>{console.error('VIS-SYSTEM-04B ERROR',e.stack||e);process.exitCode=1});

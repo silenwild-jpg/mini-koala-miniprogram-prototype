@@ -8,8 +8,8 @@ ROOT=Path(__file__).resolve().parents[1]/'release-evidence/rc2-merge-prep-10/sit
 OUT=Path(__file__).resolve().parents[1]/'release-evidence/vis-system-04b'
 OUT.mkdir(parents=True,exist_ok=True)
 MAN=json.loads((ROOT/'rc2-uat-version.json').read_text())
-assert MAN['source_sha']==os.environ.get('GITHUB_SHA') and MAN['source_pr']==119
-assert MAN['source_branch']=='isolate/vis-system-04b-20261111'
+assert MAN['source_sha']==os.environ.get('GITHUB_SHA') and MAN['source_pr']==120
+assert MAN['source_branch']=='isolate/vis-system-04b1-20261111'
 BASE='http://127.0.0.1:4725'; WD='http://127.0.0.1:9517'
 COL={'promotion':'rgb(166, 87, 30)','service':'rgb(83, 110, 94)','attribute':'rgb(101, 115, 108)','rent':'rgb(17, 132, 95)'}
 class Quiet(SimpleHTTPRequestHandler):
@@ -115,6 +115,18 @@ try:
    row['pages']['S02']=wait(S02);verify('S02',row['pages']['S02']);screenshot('S02-'+str(width)+'.png')
    execute("document.querySelector('#central-host').contentWindow.SIM_DEMO.navigate('S5');return true;")
    row['pages']['S5']=wait(S5);verify('S5',row['pages']['S5']);screenshot('S5-'+str(width)+'.png')
+   # Identical user-facing label must have one semantic type and color
+   # across all four real rendered pages, not merely in the fixture data.
+   same={}
+   for page,info in row['pages'].items():
+    for tag in info['tags']:
+     key=tag['label']
+     seen=same.get(key)
+     value=(tag['kind'],tag['color'],tag['font'])
+     if seen: assert seen==value,('CROSS_PAGE_TAG_MISMATCH',key,seen,value,page)
+     else: same[key]=value
+   row['identical_label_matches']=sum(sum(1 for p in row['pages'].values() for t in p['tags'] if t['label']==k)>1 for k in same)
+   assert row['identical_label_matches']>=2,('NO_CROSS_PAGE_OVERLAPS',same)
    row['status']='PASS'
   except Exception as e:row['error']=repr(e)
   finally:
@@ -123,7 +135,7 @@ try:
     try:req('DELETE','/session/'+session)
     except Exception:pass
     session=None
- (OUT/'webdriver-results.json').write_text(json.dumps({'source_sha':MAN['source_sha'],'source_pr':119,'mode':'preinstalled ChromeDriver no network','cases':cases},ensure_ascii=False,indent=2))
+ (OUT/'webdriver-results.json').write_text(json.dumps({'source_sha':MAN['source_sha'],'source_pr':120,'mode':'preinstalled ChromeDriver no network','cases':cases},ensure_ascii=False,indent=2))
  assert all(x['status']=='PASS' for x in cases),[x for x in cases if x['status']!='PASS']
  print('VIS-SYSTEM-04B BROWSER_375_390 PASS',MAN['source_sha'])
 finally:
