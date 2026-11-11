@@ -30,21 +30,22 @@
     return safeList(ctx.orders).map(function(o){return assetState(o,ctx);}).filter(Boolean)
       .sort(function(a,b){return b.priority-a.priority;});
   }
-  function unitSummary(o,ctx){
+  function plainUnitSummary(o,ctx){
     var details=typeof ctx.unitFacts==='function'?safeList(ctx.unitFacts(o)):[];
-    if(!details.length)return ctx.esc(ctx.unitName(o));
+    if(!details.length)return ctx.unitName(o);
     return details.map(function(u){
       var name=String(u.code||u.name||'仓位');
       var volume=Number(u.volume);
-      return ctx.esc(name+(Number.isFinite(volume)&&volume>0?' · '+volume+'m³':''));
+      return name+(Number.isFinite(volume)&&volume>0?' · '+volume+'m³':'');
     }).join('、');
   }
+  function unitSummary(o,ctx){return ctx.esc(plainUnitSummary(o,ctx));}
   function assetRow(entry,ctx){
     var o=entry.order,l=entry.life;
     var status=ctx.esc(entry.status),details=unitSummary(o,ctx);
     var when=l.lease_status==='upcoming'?'起租 '+ctx.esc(l.start_date||o.start_date||'待确认'):
       (l.end_date?'至 '+ctx.esc(l.end_date):'租期查看订单');
-    return '<button type="button" class="m01-asset-row" data-action="m01Order" data-value="'+ctx.esc(o.id)+'" aria-label="'+ctx.esc(ctx.storeName(o))+'，'+status+'，查看仓位">'+
+    return '<button type="button" class="m01-asset-row" data-action="m01Order" data-value="'+ctx.esc(o.id)+'" aria-label="'+ctx.esc(ctx.storeName(o)+'，'+plainUnitSummary(o,ctx)+'，'+entry.status+'，查看订单')+'">'+
       '<span class="m01-asset-main"><span class="m01-asset-head"><strong>'+ctx.esc(ctx.storeName(o))+'</strong><em>'+status+'</em></span>'+
       '<span class="m01-asset-units">'+details+'</span>'+
       '<span class="m01-asset-term">'+ctx.esc(l.total_months)+'个月 · '+when+'</span></span><span class="m01-chevron" aria-hidden="true">›</span></button>';
