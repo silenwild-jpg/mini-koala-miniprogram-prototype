@@ -60,3 +60,5 @@ jobs:
           path: |
             release-evidence/m01-ia-03/
             release-evidence/h01-m01-contract-01/
+
+# Final source: unified accessible asset row names; same commit QA required.
