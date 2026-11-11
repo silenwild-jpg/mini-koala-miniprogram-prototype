@@ -102,7 +102,9 @@
       const p=firstPrice,shared=B.s5SharedUnit?.(u.ids);
       const priceId=main?'main-price':'secondary-price';
       const buyId=main?'main-buy':'secondary-buy';
-      const caption=u.near?'容量接近 · 需确认':u.combo?'组合仓 · '+u.ids.length+'间 · '+u.volume+'m³':'独立仓 · '+u.volume+'m³';
+      const identity=u.ids.length===1?unit(u.ids[0])?.demo_cabin_no:null;
+      const caption=u.near?'容量接近 · 需确认':u.combo?'组合仓 · '+u.ids.length+'间 · '+u.volume+'m³':
+        (identity?'仓号 '+identity+' · ':'仓位 · ')+u.volume+'m³';
       const priceDisplay=p.kind==='term'?p.money:'查看整期价';
       const suffix=p.kind==='term'?rentFormula(p.amounts,term):'月租 '+p.money+'起';
       return '<div class="s5-unit-row" data-unit-ids="'+esc(u.ids.join(','))+'">'+
