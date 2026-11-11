@@ -41,7 +41,7 @@
     const pref=read(PREF);
     // A previously remembered marketing view must not obscure a time-critical unpaid order.
     if(t.key!=="pending"&&pref&&pref.key===t.key&&pref.orderId===t.orderId&&pref.view==="market")view="market";
-    if(t.key==="pending"&&pref?.view==="market")save(PREF,null);
+    if(t.key==="pending"){view="business";if(pref?.view==="market")save(PREF,null);}
     else if(pref&&(pref.key!==t.key||pref.orderId!==t.orderId)){view="business";save(PREF,null);}
     if(t.isMarketing)view="market";
     const business=!t.isMarketing&&view!=="market";
@@ -53,13 +53,24 @@
     one("#h01FlowReturn").hidden=business||t.isMarketing;
     // Variant B: the existing marketing H01 is one lightweight link, not permanent tabs.
     one("#h01FlowTabs").hidden=true;
-    one("#h01FlowQuickBrowse").hidden=!business;
+    // The "browse another unit" shortcut is useful for an existing rental,
+    // but duplicates the tab bar and distracts users paying or handling a refund.
+    one("#h01FlowQuickBrowse").hidden=!(business&&["active","expiring","renewal"].includes(t.key));
     const tabs=one("#h01FlowTabs").querySelectorAll("button");
     tabs[0].setAttribute("aria-selected",business?"true":"false");
     tabs[1].setAttribute("aria-selected",business?"false":"true");
     one("#h01FlowCity").textContent=(s.city||"选择城市")+" ⌄";
     if(!business)return;
-    one("#h01FlowKicker").textContent=t.layout==="service"?"我的仓位":"当前待办";
+    // Stage-aware, non-repetitive caption; "我的仓位" was already correct in active mode.
+    const kicker={
+      pending:"当前订单",payment_failed:"订单状态",expired:"订单状态",
+      cancelled:"订单状态",invalidated:"订单状态",
+      estimated:"找仓进度",selected:"找仓进度",booking:"用仓预约",
+      identity:"入仓服务",upcoming:"入仓服务",
+      active:"我的仓位",expiring:"我的仓位",renewal:"我的仓位",
+      returning:"退租服务",lease_expired:"退租服务",refund:"押金服务"
+    };
+    one("#h01FlowKicker").textContent=kicker[t.key]||"当前任务";
     one("#h01FlowTitle").textContent=t.title;
     one("#h01FlowBadge").textContent=t.badge||"";
     const actualStore=t.storeId&&window.SIM_FIXTURES?.stores?.find(x=>x.id===t.storeId);
