@@ -133,7 +133,7 @@
     }).join('');
     return '<div class="s5-store-head">'+
       '<button type="button" class="s5-store-photo" data-s5-store="'+rank+'" aria-label="查看'+storeTitle+'门店详情"><img src="'+photo+'" alt="'+storeTitle+'门店环境"></button>'+
-      '<div class="s5-store-info"><div class="s5-store-title"><strong>'+storeTitle+'</strong>'+
+      '<div class="s5-store-info"><div class="s5-store-title"><button type="button" class="s5-store-name" data-s5-store="'+rank+'">'+storeTitle+'</button>'+
       '<button type="button" class="s5-store-open" id="'+storeAction+'" data-s5-store="'+rank+'" aria-label="查看'+storeTitle+'门店详情">›</button></div>'+
       '<div class="s5-store-services">'+labels.map(x=>'<span class="mk-store-tag mk-tag-'+esc(x.type)+'" data-tag-type="'+esc(x.type)+'">'+esc(x.label)+'</span>').join('')+'</div>'+
       '<div class="s5-store-address"><span>'+addr+'</span></div>'+
