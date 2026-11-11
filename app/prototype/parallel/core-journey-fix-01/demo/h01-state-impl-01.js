@@ -83,7 +83,8 @@
   function updateCountdown(){
     if(model?.task?.key!=="pending")return;
     const info=countdownValue(model.task.expiresAt);
-    if(!Number.isFinite(model.task.expiresAt)||info.remaining===0){render();return;}
+    if(!Number.isFinite(model.task.expiresAt)){const timer=one("#h01FlowCountdown");if(timer)timer.textContent="以订单为准";return;}
+    if(info.remaining===0){render();return;}
     const timer=one("#h01FlowCountdown");
     if(timer){timer.textContent=info.text;timer.closest(".h01-flow-fact").dataset.tone=info.tone;}
   }
