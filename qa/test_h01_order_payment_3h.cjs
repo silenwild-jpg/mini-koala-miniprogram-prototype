@@ -106,4 +106,33 @@ check('legacy pending order keeps its original absolute deadline',()=>{
   const old=create({now:s.getNow,state:snapshot});
   assert.equal(old.expirePendingOrders(),1);
 });
+check('resume pending by order ID after demand was changed',()=>{
+  const s=setup();s.core.clearSelection();s.core.setRequirement(8,6,true);
+  const restored=s.core.resumePendingOrder(s.order.id);
+  assert.equal(restored.status,'pending');
+  assert.deepEqual(s.core.state().selected,[s.unit.id]);
+  assert.equal(s.core.state().requirement.term_months,12);
+  assert.equal(restored.expiresAt,s.order.expiresAt);
+});
+check('resumed valid order pays without generating a new quote',()=>{
+  const s=setup();s.core.clearSelection();s.core.resumePendingOrder(s.order.id);
+  assert.equal(s.core.pay(s.order.id,'success').status,'paid_simulated');
+  assert.equal(s.core.state().stock[s.unit.id],'occupied');
+});
+check('resuming expired order releases reserved unit, never restarts clock',()=>{
+  const s=setup();s.core.clearSelection();s.setNow(s.order.expiresAt);
+  assert.equal(s.core.resumePendingOrder(s.order.id).status,'expired');
+  assert.equal(s.core.state().stock[s.unit.id],'available');
+});
+check('resuming failed order does not recreate payment eligibility',()=>{
+  const s=setup();s.core.pay(s.order.id,'failed');
+  assert.equal(s.core.resumePendingOrder(s.order.id).status,'payment_failed');
+});
+check('price changed before resuming invalidates pending order',()=>{
+  const s=setup(),snapshot=s.core.state();
+  snapshot.prices[s.unit.id]=s.order.price_bases[0]+10;
+  const alt=create({now:s.getNow,state:snapshot});
+  assert.equal(alt.resumePendingOrder(s.order.id).status,'invalidated');
+  assert.equal(alt.state().stock[s.unit.id],'available');
+});
 console.log('H01-ORDER-3H: '+passed+'/'+passed+' shared-core regression checks PASS');
