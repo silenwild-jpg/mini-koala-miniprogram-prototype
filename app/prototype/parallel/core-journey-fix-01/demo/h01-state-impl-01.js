@@ -6,7 +6,7 @@
   const SOURCE="mk_independent_sim_v1", PREF="mk_h01_view_pref_01";
   const read=(key)=>{try{return JSON.parse(sessionStorage.getItem(key)||"null");}catch(_){return null}};
   const save=(key,value)=>{try{sessionStorage.setItem(key,JSON.stringify(value));}catch(_){}};
-  let model=null,view="business";
+  let model=null,view="business",unlockPending=false,identityPending=false;
   const el=document.createElement("section");
   el.id="h01-flow";el.className="h01-flow-layer";
   el.innerHTML='<div class="h01-flow-head" id="h01FlowHead"><strong class="h01-flow-brand">迷你考拉仓</strong><button type="button" class="h01-flow-city" data-h01="city" id="h01FlowCity"></button></div>'+
@@ -207,9 +207,36 @@
       return;
     }
     if(kind==="verify"){
-      showChoice("身份验证","完成身份核验后，起租日才可使用蓝牙开锁。",[
-        ["查看订单及资格",()=>go(orderUrl())],
-        ["联系门店",()=>go(storeUrl())]
+      const orderId=t.orderId;
+      showChoice("身份验证","完成身份核验后，将按照起租日期开放仓门使用权限。",[
+        ["完成身份验证",()=>{
+          if(identityPending)return;
+          const current=getState(),target=current.state.orders?.find(o=>o.id===orderId);
+          if(!target||target.status!=="paid_simulated"){render();return;}
+          identityPending=true;
+          const gateway=window.MK_H01_IDENTITY_GATEWAY;
+          // Product prototype: local outcome only; never collect an actual ID number here.
+          const verify=typeof gateway?.verifyIdentity==="function"
+            ?Promise.resolve().then(()=>gateway.verifyIdentity({orderId,storeId:target.store_id}))
+            :Promise.resolve({verified:true,orderId,localPrototype:true});
+          verify.then(result=>{
+            identityPending=false;
+            const fresh=getState();
+            if(result?.verified!==true||result.orderId!==orderId){
+              showChoice("验证未完成","请重新完成身份核验。",[["返回订单",()=>go(orderUrl())]]);return;
+            }
+            const valid=fresh.state.orders?.find(o=>o.id===orderId);
+            if(!valid||valid.status!=="paid_simulated"){render();return;}
+            const core=window.SIM_CORE.create({state:fresh.state});
+            core.identity(orderId,"success");
+            save(SOURCE,core.state());
+            render();
+          }).catch(()=>{
+            identityPending=false;
+            showChoice("验证未完成","身份核验暂时无法完成，请重试。",[["返回订单",()=>go(orderUrl())]]);
+          });
+        }],
+        ["查看订单及资格",()=>go(orderUrl())]
       ]);return;
     }
     if(kind==="unlock"){
@@ -224,11 +251,28 @@
       }
       const gateway=window.MK_H01_LOCK_GATEWAY;
       if(typeof gateway?.requestUnlock==="function"){
-        Promise.resolve().then(()=>gateway.requestUnlock({orderId:decision.orderId,storeId:decision.storeId,unitIds:decision.unitIds})).then(result=>{
-          if(result?.confirmed===true&&result?.acknowledged===true)
+        if(unlockPending){
+          showChoice("开锁处理中","正在等待仓门设备回应，请勿重复操作。",[["完成",()=>render()]]);
+          return;
+        }
+        unlockPending=true;
+        const requestedOrderId=decision.orderId,requestId="H01-"+Date.now()+"-"+Math.random().toString(36).slice(2);
+        const request={requestId,orderId:decision.orderId,storeId:decision.storeId,unitIds:decision.unitIds};
+        let timeoutId=null;
+        const timeout=new Promise((_,reject)=>{timeoutId=setTimeout(()=>reject(new Error("LOCK_TIMEOUT")),10000);});
+        Promise.race([Promise.resolve().then(()=>gateway.requestUnlock(request)),timeout]).then(result=>{
+          const fresh=getState();
+          const freshDecision=window.H01_STATE_POLICY.accessDecision(fresh.state,window.SIM_CORE.create({state:fresh.state}),requestedOrderId);
+          // A completed device response is not a success unless it refers to this exact authorized order/request.
+          const match=result?.authorized===true&&result?.confirmed===true&&result?.acknowledged===true&&
+            result?.requestId===requestId&&result?.orderId===request.orderId&&result?.storeId===request.storeId&&
+            Array.isArray(result?.unitIds)&&JSON.stringify(result.unitIds)===JSON.stringify(request.unitIds);
+          if(match&&freshDecision.allowed)
             showChoice("开锁成功","请在仓门关闭后确认锁具已锁好。",[["完成",()=>render()]]);
-          else showChoice("无法完成开锁","未收到仓门的开锁确认，请重试或联系门店。",[["查看门店",()=>go(storeUrl())]]);
-        }).catch(()=>showChoice("无法完成开锁","蓝牙连接或仓门授权未完成，请检查蓝牙并联系门店。",[["查看门店",()=>go(storeUrl())]]));
+          else showChoice("无法完成开锁","未收到与当前仓位匹配的授权和设备回执，请重试或联系门店。",[["查看门店",()=>go(storeUrl())]]);
+        }).catch(()=>{
+          showChoice("无法完成开锁","蓝牙连接超时或仓门授权未完成，请检查蓝牙并联系门店。",[["查看门店",()=>go(storeUrl())]]);
+        }).finally(()=>{unlockPending=false;if(timeoutId!==null)clearTimeout(timeoutId);});
       }else showChoice("蓝牙开锁","请靠近仓门并开启手机蓝牙。仓门设备尚未绑定，暂时无法开锁。",[
         ["查看门店位置",()=>go(storeUrl())],["查看我的订单",()=>go(orderUrl())]
       ]);
