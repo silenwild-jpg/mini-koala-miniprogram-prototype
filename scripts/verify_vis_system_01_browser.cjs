@@ -15,7 +15,7 @@ const server=http.createServer((req,res)=>{
  fs.readFile(file,(err,data)=>err?res.writeHead(404).end('not found'):
    res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(data));
 });
-const variants=['baseline','balanced','flow'];
+const variants=['baseline','compact','balanced','flow'];
 const all=[];
 const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
 (async()=>{
