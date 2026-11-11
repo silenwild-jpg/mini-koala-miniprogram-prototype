@@ -58,3 +58,5 @@ jobs:
           path: |
             release-evidence/m01-rebaseline-01/
             release-evidence/m01-rebaseline-02/
+
+# R2: rerun with closed-lease requirement snapshot guarded.
