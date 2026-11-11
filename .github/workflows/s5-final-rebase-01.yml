@@ -4,6 +4,8 @@ on:
     branches: [isolate/s5-final-rebase-01-20261111]
     paths:
       - '.github/workflows/s5-final-rebase-01.yml'
+      - 'scripts/verify_s5_final_rebase_01_browser.cjs'
+      - 'app/prototype/parallel/core-journey-fix-01/demo/br04/**'
   workflow_dispatch:
 permissions:
   contents: read
