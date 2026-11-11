@@ -1,0 +1,69 @@
+name: RC2 UX Rebase 03 isolated real page 375 390 NO DEPLOY
+on:
+  push:
+    branches:
+      - refactor/rc2-ux-quality-rebase-03-20261111
+    paths:
+      - .github/workflows/rc2-ux-quality-rebase-03.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-ux-quality-rebase-03
+  cancel-in-progress: true
+jobs:
+  scoped-refactor-review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Verify page-only scope, no business pricing changes
+        run: |
+          set -eux
+          node --check scripts/verify_rc2_ux_quality_rebase_03.cjs
+          git diff --name-only e435bb25eddc8a8ad4c84427ca9883d4ec3e9c16 HEAD -- app/ > /tmp/ux03_app_changed.txt
+          cat /tmp/ux03_app_changed.txt
+          while read -r file; do
+            case "$file" in
+              app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js|              app/prototype/parallel/core-journey-fix-01/demo/br04/s5/style.css|              app/prototype/parallel/core-journey-fix-01/demo/br04/s5/s5-native-flow.css|              app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html) ;;
+              *) echo "Unexpected app file changed $file"; exit 1;;
+            esac
+          done </tmp/ux03_app_changed.txt
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_rc2_merge_prep_10_order_contract.cjs
+      - name: Build isolated exact candidate without Netlify deploy
+        env:
+          RC2_BUNDLE_BRANCH: refactor/rc2-ux-quality-rebase-03-20261111
+          RC2_BUNDLE_LABEL: RC2-UX-QUALITY-REBASE-03-ISOLATED
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_UX_REBASE_03_NO_DEPLOY.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install Chromium and Chinese fonts
+        run: |
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: New 375 390 S5 interactive design contract
+        run: node scripts/verify_rc2_ux_quality_rebase_03.cjs
+      - name: Existing task, price and order regression
+        run: |
+          node scripts/verify_rc2_visual_uat_01_tasks.cjs
+          node scripts/verify_rc2_visual_decision_01_browser.cjs
+          node scripts/verify_rc2_p1_demo_close_02_order_ui.cjs
+      - name: Preserve screenshot proof and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-ux-quality-rebase-03-isolated-375-390-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-ux-quality-rebase-03/
+            release-evidence/rc2-visual-uat-01/results.json
+            release-evidence/rc2-visual-decision-01/results.json
+            release-evidence/rc2-p1-demo-close-02/results.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
