@@ -29,7 +29,7 @@ jobs:
           cat /tmp/m01_changed.txt
           while IFS= read -r file; do
             case "$file" in
-              app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/index.html|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.css) ;;
+              app/prototype/parallel/core-journey-fix-01/demo/account.html|app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/index.html|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.css) ;;
               *) echo "Out-of-scope app change: $file"; exit 1 ;;
             esac
           done < /tmp/m01_changed.txt
@@ -56,3 +56,5 @@ jobs:
           path: release-evidence/m01-rebaseline-01/
 
 # R2: real CJK screenshots, lower scroll, same-order payment resume and amount disclosure.
+
+# R3: account child deep-link return to central M01, same-order state recovery.
