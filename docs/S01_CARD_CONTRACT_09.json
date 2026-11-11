@@ -1,0 +1,302 @@
+{
+  "contract_id": "S01-CARD-BASELINE-09",
+  "date": "2026-11-11",
+  "source": {
+    "pr": 99,
+    "review_sha": "84e3d9814d6bc339a65b8dd24a5cd4c4024030c8",
+    "branch": "feature/s01-vis-decision-02-20261111",
+    "baseline_document": "docs/S01_CARD_BASELINE_09_20261111.md",
+    "ci_run": 42983499497,
+    "ci_artifact": 13838332947
+  },
+  "freeze": {
+    "information_architecture": "FIELD_CATEGORIES_AND_CONDITIONS_FROZEN",
+    "interaction": "FROZEN",
+    "main_hierarchy": "USER_SELECTED_REFERENCE_STRUCTURE_WITH_VISUAL_REFINEMENT_ALLOWED",
+    "global_visual_tokens": "PROVISIONAL",
+    "human_visual_signoff": "PENDING",
+    "pr_merge": "HOLD",
+    "deployment": "NO_DEPLOY",
+    "card_internal_layout": "USER_SELECTED_RELATIVE_GROUPS_FINAL_PIXEL_LAYOUT_OPEN",
+    "card_geometry_and_field_placement": "REFERENCE_RELATIVE_GROUPS_APPROVED_SPACING_OPEN",
+    "user_visual_signoff": "PENDING"
+  },
+  "required_ui": [
+    "city_picker",
+    "store_search",
+    "three_filters_sort_distance_service",
+    "quick_promo_moving",
+    "demand_edit_single_entry",
+    "store_list",
+    "tab_bar"
+  ],
+  "forbidden_ui": [
+    "top_back_button",
+    "independent_price_filter",
+    "compare_anywhere",
+    "retired_unit_detail_U01",
+    "repeated_view_store_text_button",
+    "legacy_four_filter_layout",
+    "only_single_unit_toggle",
+    "nested_warehouse_card"
+  ],
+  "demand": {
+    "confirmed": "valid capacity AND term_confirmed AND integer months 1..60",
+    "default_selected_term": null,
+    "incomplete": "BROWSE",
+    "only_valid_complete_is_match": true
+  },
+  "listing": {
+    "third_slot": "ESTORAGE_FIXED_S01",
+    "first_two_when_matched": "ONE_MATCHED_UNIT_EACH",
+    "from_fourth": "COMPACT_ONLY",
+    "homepage_third_slot": "FLEXIBLE_OPERATIONS_NOT_ESTORAGE_FIXED",
+    "empty": "ADVISOR_PRIMARY_PLUS_E_STORAGE_PLUS_CLEAR_FILTERS"
+  },
+  "card_browse": {
+    "all_physical_stores": "ONE_SHARED_COMPACT_LAYOUT",
+    "primary_content": [
+      "photo",
+      "name",
+      "tags",
+      "single_line_address",
+      "distance",
+      "store_min_public_cubic_price",
+      "chevron"
+    ],
+    "visible_store_tags_max": 2,
+    "unit_visible": false,
+    "cabin_visible": false,
+    "order_cta_visible": false,
+    "card_tap": "S02",
+    "public_price": "presentation.cubicReference",
+    "public_rate_reference_months": 12,
+    "reference_term_is_user_default": false
+  },
+  "card_matched": {
+    "first_two_kind": "expanded-one",
+    "other_physical_kind": "compact-direct",
+    "expanded_store_tags_max": 3,
+    "meta_row": [
+      "light_cabin_chip",
+      "strong_capacity_m3",
+      "secondary_usage"
+    ],
+    "action_row": [
+      "whole_term_rent",
+      "soft_term_discount_when_calculably_eligible",
+      "monthly_rent_times_selected_months",
+      "48px_order_cta"
+    ],
+    "store_public_cubic_visible": false,
+    "disputed_original_strikethrough_visible": false,
+    "order_action": "selected_unit_id_to_O01",
+    "store_details_action": "store_id_to_S02",
+    "later_units_exposed": false,
+    "row_labels_are_groups_not_physical_row_positions": true,
+    "placement_and_grouping": "OPEN_TO_VISUAL_REDESIGN",
+    "initial_screen_layout_is_freezeframe": false
+  },
+  "cabin": {
+    "format": "^[A-D](00[1-9]|0[12][0-9]|030)$",
+    "source": "SYNTHETIC_PRESENTATION_ONLY",
+    "stable_by_internal_unit_id": true,
+    "unique_per_store": true,
+    "persist_same_across": [
+      "S01",
+      "S02",
+      "S5",
+      "QUICK",
+      "O01",
+      "M01",
+      "O03",
+      "RESULT",
+      "RN01",
+      "EX01",
+      "DP01",
+      "IV01"
+    ]
+  },
+  "pricing": {
+    "matched_primary": "rent_total",
+    "matched_secondary": "formatted_discounted_monthly_rate + /月 × selected_months + 个月",
+    "term_discount": "factor from same lease tariff; only show when arithmetic agrees",
+    "voucher_deposit_management_fee": "separate from rent in O01",
+    "current_discount_policy": "BUSINESS_RATE_HOLD",
+    "issue": 106,
+    "whole_term": "integer_monthly_rent_times_months_exactly",
+    "currency_fraction_policy": "TRUNCATE",
+    "monthly_display": "¥integer/month × months",
+    "original_tag_policy_issue": 106
+  },
+  "screen_baseline": {
+    "sizes": [
+      [
+        375,
+        812
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "photos_px": [
+      88,
+      88
+    ],
+    "order_height_px": 48,
+    "interactive_target_min_height_px": 44,
+    "evidence_role": "REFERENCE_SNAPSHOT_NOT_APPROVED_FINAL_PIXEL_SPEC",
+    "snapshot_hashes": {
+      "browse-375.png": "4efcbe9c8353f482c4a247bbb952498396b36969c1aa81781d912e36d7054c14",
+      "browse-390.png": "78d8443644ada08952aa82a9cc32a95c66242642e16327f7b44dafed311dd3fd",
+      "matched-375.png": "8d71012f041ef2d3feb6fe993131f3b8c0f5a51df19355613972fecef63ee805",
+      "matched-390.png": "f0c2a8d3f84da8d369fb385846200d05456964d9279b526addbd2fa0ce57febe"
+    }
+  },
+  "global_visual_system": {
+    "shared": [
+      "identity_fields",
+      "semantic_type_scale",
+      "spacing_scale",
+      "tag_semantics",
+      "price_meaning",
+      "interaction_hit_area",
+      "cross_page_cabin_identity"
+    ],
+    "page_independence": {
+      "H01": "HORIZONTAL_DISCOVERY_THIRD_FLEX_SLOT",
+      "S01": "VERTICAL_FLAT_LIST_THIRD_ESTORAGE_FIXED",
+      "S02": "STORE_DETAILS_AND_UNIT_CATALOG",
+      "S5": "MATCH_DECISION_TWO_STORES_PLUS_ESTORAGE"
+    }
+  },
+  "next_stages": [
+    "S01-PAGE-UX-REVIEW",
+    "VIS-SYSTEM-01",
+    "S01-VIS-FINAL-10"
+  ],
+  "change_control": {
+    "without_evidence": "DO_NOT_CHANGE_BUSINESS_FIELDS_OR_INTERACTION_CONTRACT",
+    "exception": "EVIDENCE_BACKED_P0_P1_WITH_USER_APPROVAL_AND_CROSS_PAGE_TEST",
+    "no_main_merge_implicit": true,
+    "layout_optimization": "ALLOWED_WITHOUT_PRODUCT_SCOPE_REAPPROVAL",
+    "protected_scope": "BUSINESS_FIELDS_STATE_RULES_AND_INTERACTIONS"
+  },
+  "global_rules": {
+    "source": "docs/GLOBAL_PRICE_TAG_UNIT_COPY_20261111.md",
+    "price_currency": "CNY",
+    "price_unit": "integer_yuan",
+    "price_fraction_handling": "TRUNCATE_NOT_ROUND",
+    "price_monthly_variable": "integer_discounted_monthly_rent",
+    "price_whole_term_formula": "integer_discounted_monthly_rent * selected_term_months",
+    "price_primary_copy": "¥whole_term_rent",
+    "price_secondary_copy": "¥integer_discounted_monthly_rent/月 × N个月",
+    "price_copy_forbidden": [
+      "月均",
+      "月均约",
+      "平均每月"
+    ],
+    "display_rounding_forbidden": [
+      "round",
+      "ceil"
+    ],
+    "tag_shared_store_identity": true,
+    "tag_order": [
+      "promotion_when_eligible",
+      "service",
+      "store_attribute"
+    ],
+    "tag_promotion_visual": "warm_emphasized",
+    "tag_non_promo_visual": "neutral_grey_border",
+    "tag_page_limits": {
+      "H01": 2,
+      "S01_compact": 2,
+      "S01_expanded": 3,
+      "S02_max": 5,
+      "S5": 2
+    },
+    "tag_full_visual_token_status": "PROVISIONAL_PENDING_VIS_SYSTEM",
+    "implementation_status": "ISOLATED_CHROMIUM_375_390_PASS_NO_MAIN_MERGE",
+    "tested_source_sha": "474e64b096d88379742ae9090026a1ea66b96ad2",
+    "tested_workflow_run": 42991434545,
+    "tested_price_combinations": 8760,
+    "final_visual_signoff": "PENDING",
+    "user_flow_test_scope": [
+      "H01",
+      "S01",
+      "S02",
+      "S5",
+      "O01",
+      "QUICK",
+      "O03"
+    ],
+    "capacity_copy_s5_display": "DATA_SHARED_UI_ROW_HIDDEN_PENDING_VISUAL_CHOICE"
+  },
+  "layout_design_rights": {
+    "allowed": [
+      "fine_tune_selected_three_zone_information_groups",
+      "refine_font_weight_color_spacing_size",
+      "preserve_visible_price_and_address",
+      "keep_48px_order",
+      "adjust_height_for_real_375_390_extremes"
+    ],
+    "guardrails": [
+      "retain_all_approved_field_categories",
+      "retain_display_state_conditions",
+      "retain_ranking_third_E_and_fourth_compact",
+      "retain_integer_price_formula",
+      "retain_global_store_tag_semantics",
+      "retain_direct_store_navigation_and_order_actions",
+      "no_comparison_or_U01",
+      "no_explanatory_UI_clutter"
+    ],
+    "current_screenshots": "REFERENCE_LAYOUT_IMPLEMENTED_NOT_FINAL_PIXEL_LOCK",
+    "future_stage": "S01-REF-VIS-SIGNOFF-03"
+  },
+  "layout_selection": {
+    "status": "USER_SELECTED_IMPLEMENTED_IN_PR99",
+    "selected_source": "USER_SCREENSHOT_20261111_S01_MATCHED_STORE_CARD",
+    "selected_design_branch_pr": 111,
+    "integrated_candidate_pr": 99,
+    "integrated_tested_source_sha": "765b312a7ee0135ee60cd49dd558d4b27733d2d5",
+    "integration_test_run": 43005017677,
+    "integration_artifact_id": 13848041552,
+    "information_layout": {
+      "store_header": [
+        "left_store_photo",
+        "right_store_name",
+        "right_canonical_tags",
+        "right_single_line_address",
+        "right_distance_separate_line"
+      ],
+      "matched_unit_left": [
+        "strong_capacity",
+        "short_usage"
+      ],
+      "matched_unit_middle": [
+        "integer_whole_term_total",
+        "soft_term_discount",
+        "integer_monthly_rent_times_confirmed_months"
+      ],
+      "matched_unit_right": [
+        "light_cabin_number",
+        "direct_order_cta_48px"
+      ]
+    },
+    "applies_only_to": "S01_MATCHED_FIRST_TWO_PHYSICAL_STORES",
+    "unchanged": [
+      "browse_all_compact_cards",
+      "third_position_E_STORAGE",
+      "fourth_plus_compact_cards",
+      "direct_detail_navigation",
+      "unit_id_order",
+      "cabin_cross_page_identity",
+      "global_tag_order_and_colors",
+      "integer_yuan_money"
+    ],
+    "visual_geometry_final_signoff": "PENDING",
+    "qa_comparison_opt_out": "?vis_system=baseline",
+    "status_of_merge": "DRAFT_HOLD_NO_MAIN_NO_DEPLOY"
+  }
+}

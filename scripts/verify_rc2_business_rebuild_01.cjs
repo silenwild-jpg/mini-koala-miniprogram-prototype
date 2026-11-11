@@ -13,6 +13,7 @@ const R=require(base+'recommendation-policy.js');
 const Home=require(base+'home-recommend-policy.js');
 const Central=require(base+'central-contract.js');
 const precision=n=>Math.round((n+Number.EPSILON)*100)/100;
+const yuan=n=>Math.trunc(Number(n));
 const test=(name,fn)=>{fn();console.log('PASS',name);};
 const available=F.units.filter(u=>u.status==='available');
 const a=available[0];
@@ -22,12 +23,12 @@ test('P03/P01 discounted MONTHLY price * term, full-term rent, one-month deposit
   const core=create();
   for(const months of [1,3,6,12,36,60]){
     const factor=F.pricing.termRules.find(r=>months>=r.min&&months<=r.max).factor;
-    const monthly=precision(a.base_month*factor),amount=core.amounts([a.id],months);
+    const monthly=yuan(a.base_month*factor),amount=core.amounts([a.id],months);
     assert.equal(amount.monthly_average,monthly);
-    assert.equal(amount.rent_total,precision(monthly*months));
+    assert.equal(amount.rent_total,monthly*months);
     assert.equal(amount.deposit,monthly);
     assert.equal(amount.management_fee,50);
-    assert.equal(amount.payable,precision(amount.rent_total+monthly+50));
+    assert.equal(amount.payable,amount.rent_total+monthly+50);
   }
 });
 
@@ -39,10 +40,10 @@ test('C01 same-store cross-type combo, combined deposit, one fee',()=>{
   assert(pairs.length,'No available cross-size combination in fixture');
   const [left,right]=pairs[0],core=create(),months=6;
   const b=core.amounts([left.id,right.id],months);
-  const expectedMonthly=precision(precision(left.base_month*.7)+precision(right.base_month*.7));
+  const expectedMonthly=yuan(left.base_month*.7)+yuan(right.base_month*.7);
   assert.equal(b.deposit,expectedMonthly);
   assert.equal(b.monthly_average,expectedMonthly);
-  assert.equal(b.rent_total,precision(expectedMonthly*6));
+  assert.equal(b.rent_total,expectedMonthly*6);
   assert.equal(b.management_fee,50);
 });
 
@@ -54,7 +55,7 @@ test('P04 duration discount + cash coupon + moving benefit trace independently',
   assert.equal(b.coupon_id,'CPN-002');
   assert.equal(b.coupon_discount,300);
   assert.equal(b.moving_benefit_pending_id,'CPN-003');
-  assert.equal(b.payable,precision(b.rent_total-b.coupon_discount+b.deposit+50));
+  assert.equal(b.payable,b.rent_total-b.coupon_discount+b.deposit+50);
   assert.equal(b.deposit,b.monthly_average);
   core.setCoupon('none');
   const c=core.amounts([a.id],12);
@@ -69,12 +70,12 @@ test('P02 published per-store cubic rate uses only currently available units',()
   const rows=F.units.filter(u=>u.store_id===st.id&&core.available(u));
   const price=()=>p.cubicReference(st);
   const expected=Math.min(...rows.map(u=>core.amounts([u.id],F.pricing.homeReferenceTerm).monthly_average/u.volume));
-  assert.equal(price().value,Number(expected.toFixed(2)));
+  assert.equal(price().value,yuan(expected));
   const cheapest=rows.slice().sort((x,y)=>
     core.amounts([x.id],12).monthly_average/x.volume-core.amounts([y.id],12).monthly_average/y.volume)[0];
   core.markUnavailable(cheapest.id);
   const after=price();
-  assert(after===null||after.value>=Number(expected.toFixed(2)));
+  assert(after===null||after.value>=yuan(expected));
 });
 
 test('R01 inventory-first nearest; cheaper second may be chosen only in nearby radius',()=>{

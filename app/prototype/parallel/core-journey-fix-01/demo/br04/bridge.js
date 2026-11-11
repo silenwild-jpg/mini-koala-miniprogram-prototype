@@ -10,9 +10,10 @@
   const clean=()=>{if(r2())parent.S01_R2_CONTENT?.cleanCopy(document.body);};
   const core=B.core,F=core.fixture,presentation=B.presentation,$=id=>document.getElementById(id),$$=s=>Array.from(document.querySelectorAll(s));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const money=n=>'¥'+Number(n).toLocaleString('zh-CN');
+  const money=n=>'¥'+Math.trunc(Number(n)).toLocaleString('zh-CN');
   const r3Thumb=(v)=>'../../assets/unit-r3/thumb/unit-r3-'+(Number(v)<=1.5?'mini':Number(v)<=5?'small':Number(v)<=15?'medium':'large')+'-336x312.webp';
   const store=id=>F.stores.find(x=>x.id===id),unit=id=>F.units.find(x=>x.id===id);
+  const cabinLabel=u=>u?.demo_cabin_no?'仓号 '+u.demo_cabin_no+' · '+u.volume+'m³':(u?.name||'仓位方案');
   let allUI={};try{allUI=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}');}catch{}
   const advisorMode=page==='reserve'&&(new URLSearchParams(parent.location.search).get('mode')==='advisor'||!!sessionStorage.getItem('mk_advisor_context_v3'));
   const uiKey=advisorMode?'advisor':page,ui=allUI[uiKey]||(allUI[uiKey]={});
@@ -30,7 +31,7 @@
   function close(){if(core.state().auth.status==='pending'){core.resolvePhone('denied');save();refresh();}$(modalIds[page][0]).hidden=true;}
   function guard(fn){try{fn();save();}catch(e){save();refresh();const message=codes[e.message]||'当前操作无法完成，请检查您的选择';toast(message);if(e.message==='INVENTORY_CHANGED')alternatives(message);if(e.message==='PRICE_CHANGED'){$('agreed')&&($('agreed').checked=false);ui.agreed=false;save();}}}
   function amounts(ids){const s=core.state();return core.formalAmounts(ids,s.requirement.term_months);}
-  function moneyLines(a){return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月均约</dt><dd>${money(a.monthly_average)}</dd><dt>优惠券</dt><dd>−${money(a.coupon_discount||0)}</dd><dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
+  function moneyLines(a){return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月租</dt><dd>${money(a.monthly_average)}/月</dd><dt>优惠券</dt><dd>−${money(a.coupon_discount||0)}</dd><dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
   function phone(){return B.requestPhone('QUOTE');}
   function priceReady(){if(!core.authorized()){phone();return false;}if(!core.state().requirement.term_confirmed){toast('请选择租期');return false;}return true;}
   function applyTerm(value){const m=Number(value),s=core.state(),ids=page==='o01'?s.selected:[];core.setTerm(m);if(ids.length&&core.selectionValid(ids))core.select(ids);close();save();refresh();}
@@ -80,7 +81,7 @@
     const s=row.store,view=B.s5SharedStore?.(s.id)||s,units=s5StoreRows(row),main=rank===0;
     const term=core.state().requirement.term_months;
     s5StoreUnitRows[rank]=units;
-    const labels=[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].slice(0,2);
+    const labels=presentation.tags(s,2);
     const distance=Number.isFinite(Number(s.distance))?Number(s.distance).toFixed(1)+'km':'';
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
@@ -90,13 +91,15 @@
       const p=presentation.price(u.ids),primary=i===0,shared=B.s5SharedUnit?.(u.ids);
       const priceId=primary?(main?'main-price':'secondary-price'):'';
       const buyId=primary?(main?'main-buy':'secondary-buy'):'';
+      const cabinCodes=u.ids.map(id=>unit(id)?.demo_cabin_no).filter(Boolean);
       const caption=u.near?'容量接近 · 需确认':u.combo?'组合仓 · '+u.ids.length+'间':u.volume+'m³';
+      const cabinNote=cabinCodes.length?'仓号 '+cabinCodes.join('、'):'';
       const button=u.near?'查看门店':'立即下单';
       const priceDisplay=p.kind==='term'?p.money:'查看整期价';
       const suffix=p.kind==='term'?(p.average||''):'月租 '+p.money+'起';
       return '<div class="s5-unit-row'+(primary?'':' s5-alt-unit')+'" data-unit-ids="'+esc(u.ids.join(','))+'"'+(primary?'':' hidden')+'>'+
         '<img class="s5-unit-thumb" src="'+s5UnitImage(u.volume)+'" alt="'+esc(u.volume+'m³仓位空间示意')+'">'+
-        '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+
+        '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong>'+(cabinNote?'<small class="s5-cabin-no">'+esc(cabinNote)+'</small>':'')+'<p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+
         (shared?.promo?'<span class="s5-promo-tag">'+esc(shared.promo)+'</span>':'')+
         '</div><div class="s5-unit-terms"><span class="s5-unit-price-label">整期租金</span><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
         'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+
@@ -110,7 +113,7 @@
       '<div class="s5-store-info">'+(reason?'<div class="s5-store-reason">'+esc(reason)+'</div>':'')+
       '<div class="s5-store-title"><button type="button" class="s5-store-open" id="'+(main?'open-store-main':'open-store-secondary')+
       '" data-s5-store="'+rank+'" aria-label="查看'+storeTitle+'门店详情"><strong>'+storeTitle+'</strong><span aria-hidden="true">›</span></button></div>'+
-      '<div class="s5-store-services">'+labels.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>'+
+      '<div class="s5-store-services mk-store-tags">'+labels.map(x=>'<span class="mk-store-tag mk-tag-'+x.type+'" data-tag-type="'+x.type+'">'+esc(x.label)+'</span>').join('')+'</div>'+
       '<div class="s5-store-address"><span>'+addr+'</span>'+
       '<button type="button" class="s5-store-map" id="'+(main?'navigate-main':'navigate-secondary')+
       '" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和导航"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></button></div>'+
@@ -175,16 +178,16 @@
   function renderQuick(){const s=core.state(),q=quickState(),st=store(q.storeId),rows=q.ids.map(unit).filter(Boolean),chosen=rows.length>0,valid=chosen&&rows.every(u=>u.store_id===q.storeId)&&core.selectionValid(q.ids);
     document.querySelector('.store-row>img').alt='门店场景示意';document.querySelector('.unit-row>img').alt='仓位空间示意';text('city-text',s.city+' · 默认城市');text('store-name',st?.name||'请选择门店');text('store-address',st?.address||(F.stores.some(x=>x.city===s.city&&x.status==='open')?'选择门店后显示地址':'暂无可展示门店'));text('distance-value','');
     if(st)image('.store-row>img','../../assets/'+st.photo,'门店场景示意');
-    text('unit-name',chosen?rows.map(u=>u.name).join(' + '):'请选择仓位');text('capacity-value',chosen?rows.reduce((n,u)=>n+u.volume,0)+'m³':'选仓后显示');
+    text('unit-name',chosen?rows.map(cabinLabel).join(' + '):'请选择仓位');text('capacity-value',chosen?rows.reduce((n,u)=>n+u.volume,0)+'m³':'选仓后显示');
     if(chosen)image('.unit-row>img',r3Thumb(rows[0].volume),'仓位空间示意');
     document.querySelector('.badges').innerHTML=chosen?'<span>'+(rows.length>1?rows.length+'项组合':F.unitIdentityType==='SIZE_OPTION'?'仓型选项':'独立仓位')+'</span><span>'+(F.unitIdentityType==='SIZE_OPTION'?'门店确认':'实体门')+'</span><span>空间示意</span>':'<span>请主动选择可用仓位</span>';
     $$('[data-term]').forEach(el=>el.setAttribute('aria-pressed',String(s.requirement.term_confirmed&&Number(el.dataset.term)===s.requirement.term_months)));
     const computed=valid&&s.requirement.term_confirmed?core.amounts(q.ids,s.requirement.term_months):null;
     const allowed=core.authorized()&&!!computed,amount=computed;
     text('unit-price',!chosen?'—':!valid?'当前不可用':!computed?money(rows.reduce((n,u)=>n+u.base_month,0))+'/月起':money(computed.rent_total));
-    $('unit-price').dataset.private=String(!computed);text('price-term',computed?'/ '+s.requirement.term_months+'个月':'');text('monthly-note',computed?'月均约'+money(computed.monthly_average):'');
+    $('unit-price').dataset.private=String(!computed);text('price-term',computed?'/ '+s.requirement.term_months+'个月':'');text('monthly-note',computed?money(computed.monthly_average)+'/月 × '+s.requirement.term_months+'个月':'');
     document.querySelector('.estimate-heading').textContent='预计整期租金';
-    text('estimate-amount',amount?money(amount.rent_total):!chosen?'选择仓位后显示':!valid?'当前不可用':'请选择租期');$('estimate-amount').dataset.private=String(!computed);text('estimate-months',computed?'/ '+s.requirement.term_months+'个月':'');text('estimate-monthly',computed?'月均约'+money(computed.monthly_average):'');
+    text('estimate-amount',amount?money(amount.rent_total):!chosen?'选择仓位后显示':!valid?'当前不可用':'请选择租期');$('estimate-amount').dataset.private=String(!computed);text('estimate-months',computed?'/ '+s.requirement.term_months+'个月':'');text('estimate-monthly',computed?money(computed.monthly_average)+'/月 × '+s.requirement.term_months+'个月':'');
     $('start-date').min=core.today();$('start-date').value=s.startDate||'';text('date-label',s.startDate||'请选择用仓日期');save();
   }
   function chooseStore(){const s=core.state();sheet('更换门店',F.stores.filter(x=>x.city===s.city&&x.status==='open').map(st=>act('quickStore',st.name+' · '+st.address,st.id)).join('')||note('暂无可展示门店，可切换城市或联系顾问。'));}
@@ -202,7 +205,7 @@
   }
   function reserveChoice(key){const options={items:['日常物品','搬家家具','文件资料','暂不确定'],capacity:['1m³','3m³','5m³','8m³','暂不确定'],duration:['1个月','3个月','6个月','12个月','暂不确定']};const names={items:'存放物品',capacity:'意向容量',duration:'预计租期'};sheet(names[key],options[key].map(value=>act('reserveOption',value,key+'|'+value)).join(''));}
   function renderOrder(){const s=core.state(),rows=s.selected.map(unit).filter(Boolean),st=store(rows[0]?.store_id),pending=s.orders.find(o=>o.status==='pending'&&JSON.stringify(o.unit_ids)===JSON.stringify(s.selected)),paid=s.orders.find(o=>o.id===ui.pendingOrderId&&o.status==='paid_simulated'&&JSON.stringify(o.unit_ids)===JSON.stringify(s.selected)),authorized=core.authorized(),confirmed=s.requirement.term_confirmed,valid=!!paid||core.selectionValid()||!!(pending&&Date.now()<pending.expiresAt&&pending.unit_ids.every((id,i)=>s.stock[id]==='reserved'&&(s.prices[id]||unit(id).base_month)===pending.price_bases[i])),a=authorized?(paid||pending||(rows.length&&confirmed?amounts(s.selected):null)):null;
-    document.querySelector('.store-img').alt='门店场景示意';document.querySelector('.unit-img').alt='仓位空间示意';document.querySelector('.distance').style.visibility='hidden';text('store-name',st?.name||'尚未选择门店');text('store-address',st?.address||'请返回选择仓位');text('unit-name',rows.length?rows.map(u=>u.name).join(' + '):'尚未选择仓位');
+    document.querySelector('.store-img').alt='门店场景示意';document.querySelector('.unit-img').alt='仓位空间示意';document.querySelector('.distance').style.visibility='hidden';text('store-name',st?.name||'尚未选择门店');text('store-address',st?.address||'请返回选择仓位');text('unit-name',rows.length?rows.map(u=>u.demo_cabin_no?'仓号 '+u.demo_cabin_no:u.name).join(' + '):'尚未选择仓位');
     document.querySelector('.capacity').textContent=rows.length?rows.reduce((n,u)=>n+u.volume,0)+'m³':'待选择';
     if(st){image('.store-img','../../assets/'+st.photo,'门店场景示意');document.querySelector('.distance').textContent='';}
     if(rows.length)image('.unit-img',r3Thumb(rows[0].volume),'仓位空间示意');
@@ -213,7 +216,7 @@
     document.querySelector('.total>strong').textContent='首次应付';
     text('months-label',confirmed?s.requirement.term_months:'待选');
     ['rent','discount','deposit','service-fee','total'].forEach(id=>text(id,!authorized?'授权后可见':!confirmed?'请选择租期':!a?'选择仓位后显示':!valid?'已失效，待重新报价':money({rent:a.rent_total,discount:a.coupon_discount,deposit:a.deposit,'service-fee':a.management_fee,total:a.payable}[id])));
-    $('total').dataset.private=String(!allowed);document.querySelector('.discount-tags').innerHTML='<em>'+(!authorized?'授权后核对优惠':a?.coupon_discount?'已使用 '+esc(core.state().coupons.find(c=>c.id===a.coupon_id)?.name||'租金券'):'暂无适用优惠')+'</em>';let average=$('order-monthly');if(!average){average=document.createElement('p');average.id='order-monthly';document.querySelector('.charges .fee-row').after(average);}average.textContent=allowed&&valid?'整期租金月均约 '+money(a.monthly_average)+'/月'+(a.coupon_discount?' · 券后月均约 '+money(a.monthly_after_coupon)+'/月':''):'';
+    $('total').dataset.private=String(!allowed);document.querySelector('.discount-tags').innerHTML='<em>'+(!authorized?'授权后核对优惠':a?.coupon_discount?'已使用 '+esc(core.state().coupons.find(c=>c.id===a.coupon_id)?.name||'租金券'):'暂无适用优惠')+'</em>';let average=$('order-monthly');if(!average){average=document.createElement('p');average.id='order-monthly';document.querySelector('.charges .fee-row').after(average);}average.textContent=allowed&&valid?money(a.monthly_average)+'/月 × '+s.requirement.term_months+'个月':'';
     $('pay').innerHTML=paid?'查看支付体验记录':!valid?'选择其他匹配方案':pending?'继续处理待支付订单':!authorized?'授权手机号查看报价':!confirmed?'请选择租期':'确认订单 <span id="pay-amount">'+money(a.payable)+'</span>';
     document.querySelector('.payment-note').textContent=paid?'支付流程结果已记录在本机，未发生真实扣款。':!valid?'当前方案不可用，容量和租期已保留':'本次不会实际扣款或锁定仓位';
     if(ui.agreed===undefined)ui.agreed=false;$('agreed').checked=ui.agreed;

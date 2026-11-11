@@ -1,0 +1,114 @@
+name: S01 VIS DECISION 02 isolated 375 390 NO DEPLOY
+on:
+  push:
+    branches:
+      - feature/s01-vis-decision-02-20261111
+    paths:
+      - .github/workflows/s01-vis-decision-02.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/s01-vis-decision-02.css
+      - app/prototype/parallel/core-journey-fix-01/demo/s01-reference-layout-02.css
+      - app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
+      - app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+      - app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
+      - app/prototype/parallel/core-journey-fix-01/demo/s02-central.css
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/adapter.css
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
+      - app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
+      - app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js
+      - app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/home.html
+      - app/prototype/parallel/core-journey-fix-01/demo/index.html
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html
+      - app/prototype/parallel/core-journey-fix-01/demo/global-store-tags.css
+      - scripts/verify_s01_state_price_03_browser.cjs
+      - scripts/verify_s01_vis_refine_04_browser.cjs
+      - scripts/verify_s01_price_discount_06_browser.cjs
+      - scripts/audit_s01_discount_signoff_07.cjs
+      - scripts/verify_s01_cabin_number_08_browser.cjs
+      - scripts/verify_global_ui_rules_01_browser.cjs
+      - scripts/verify_s01_user_reference_layout_02_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: s01-vis-decision-02-review
+  cancel-in-progress: true
+jobs:
+  verify-s01:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Source syntax check
+        run: |
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
+          node --check scripts/verify_s01_state_price_03_browser.cjs
+          node --check scripts/verify_s01_vis_refine_04_browser.cjs
+          node --check scripts/verify_s01_price_discount_06_browser.cjs
+          node --check scripts/audit_s01_discount_signoff_07.cjs
+          node --check scripts/verify_s01_cabin_number_08_browser.cjs
+          node --check scripts/verify_global_ui_rules_01_browser.cjs
+          node --check scripts/verify_s01_user_reference_layout_02_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/home-bridge.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Build exact isolated candidate, without deployment
+        env:
+          RC2_BUNDLE_BRANCH: feature/s01-vis-decision-02-20261111
+          RC2_BUNDLE_LABEL: S01-VIS-DECISION-02-ISOLATED
+          RC2_BUNDLE_ARCHIVE: MiniKoala_S01_VIS_DECISION_02_NO_DEPLOY.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install Chromium and Chinese fonts
+        run: |
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: S01 browse and matched card logic with explicit 1–60 months 375/390
+        run: node scripts/verify_s01_state_price_03_browser.cjs
+      - name: S01 approved information hierarchy and interaction 375/390
+        run: node scripts/verify_s01_vis_refine_04_browser.cjs
+      - name: S01 discount tag and 1–60 month pricing boundaries at 375/390
+        run: node scripts/verify_s01_price_discount_06_browser.cjs
+      - name: S01/S02/S5/O01 stable A-D cabin identity at 375/390
+        run: node scripts/verify_s01_cabin_number_08_browser.cjs
+      - name: S01 selected reference layout 375/390 matched / browse / 1-60mo and checkout
+        run: node scripts/verify_s01_user_reference_layout_02_browser.cjs
+      - name: GLOBAL-UI-RULES-01 integer rent and shared store-tag 375/390 verification
+        run: node scripts/verify_global_ui_rules_01_browser.cjs
+      - name: Independent all-term rent policy audit (policy HOLD evidence)
+        run: node scripts/audit_s01_discount_signoff_07.cjs
+      - name: Existing S5 recommendation and O01 order flow regression
+        run: |
+          node scripts/verify_rc2_ux_quality_rebase_03.cjs
+          node scripts/verify_rc2_p1_demo_close_02_order_ui.cjs
+      - name: Preserve exact branch screenshots, JSON and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s01-vis-decision-02-browser-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/s01-state-price-03/
+            release-evidence/s01-vis-refine-04/
+            release-evidence/s01-price-discount-06/
+            release-evidence/s01-discount-signoff-07/
+            release-evidence/s01-cabin-number-08/
+            release-evidence/global-ui-rules-01/
+            release-evidence/s01-user-reference-02/
+            release-evidence/rc2-ux-quality-rebase-03/
+            release-evidence/rc2-p1-demo-close-02/
+            release-evidence/rc2-merge-prep-10/build-summary.json
