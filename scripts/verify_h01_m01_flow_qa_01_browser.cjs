@@ -69,6 +69,13 @@ const server=http.createServer((req,res)=>{
     await page.locator('.m01-asset-row[data-value="'+setup.b+'"]').click();
     await page.locator('.mk-order-details').waitFor();assert.equal(orderParam(),setup.b);
     await shot('04-O03-order-B');
+    await page.locator('.mk-order-details [data-action="go"][data-value="IV01"]').click();
+    await page.locator('.m02-service-summary').waitFor();
+    assert.equal(orderParam(),setup.b,'IV01 must retain the order B ID');
+    await shot('04b-IV01-order-B');
+    await page.goBack({waitUntil:'domcontentloaded'});
+    await page.locator('.mk-order-details').waitFor();
+    assert.equal(orderParam(),setup.b,'invoice back to order B');
     await page.locator('.mk-order-details [data-action="go"][data-value="DP01"]').click();
     await page.locator('.m02-service-summary').waitFor();assert.equal(orderParam(),setup.b);
     await shot('05-DP01-order-B');
