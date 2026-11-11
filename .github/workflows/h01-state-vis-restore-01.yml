@@ -1,0 +1,61 @@
+name: H01-only visual state audit 375/390 (NO DEPLOY)
+on:
+  push:
+    branches:
+      - audit/h01-state-vis-restore-01-20261111
+    paths:
+      - .github/workflows/h01-state-vis-restore-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: h01-state-vis-restore-01-visual-qa
+  cancel-in-progress: true
+jobs:
+  capture-h01-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify H01-only script and frozen business policies
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          node --check scripts/audit_h01_state_visual_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py
+      - name: Build PR105 H01 isolation without touching S5
+        env:
+          RC2_BUNDLE_BRANCH: audit/h01-state-vis-restore-01-20261111
+          RC2_BUNDLE_SOURCE_PR: "105"
+          RC2_BUNDLE_LABEL: H01-STATE-VIS-RESTORE-01-REVIEW-ONLY
+          RC2_BUNDLE_ARCHIVE: MiniKoala_H01_State_Visual_Audit_Only.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install Chinese fonts and browser
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Capture actual H01 states and visibility
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+        run: node scripts/audit_h01_state_visual_01.cjs
+      - name: Save screenshots and structured layout evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: H01_STATE_VIS_RESTORE_01_REAL_BROWSER_CAPTURE
+          path: |
+            release-evidence/h01-state-vis-restore-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+          retention-days: 7
+          if-no-files-found: warn
+
+# R2: align failed-order primary CTA assertion with latest frozen policy.
+
+# R3: correct browser-local future-date helper for identity and upcoming H01 states.

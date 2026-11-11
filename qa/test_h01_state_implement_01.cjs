@@ -30,7 +30,7 @@ check('estimated capacity remains actionable',()=>{const s=baseState();s.require
 check('pending is actionable while valid',()=>{const s=baseState();s.orders=[order('P','pending',{expiresAt:now+60000})];return s},'pending',x=>assert.equal(x.primary[0],'继续支付'));
 check('pending expiry not payable',()=>{const s=baseState();s.orders=[order('P','pending',{expiresAt:now-100})];return s},'expired',x=>assert.notEqual(x.primary[0],'继续支付'));
 for(const st of ['payment_failed','cancelled','invalidated','expired']){
-  check(st+' cannot retry old payment',()=>{const s=baseState();s.orders=[order('P',st)];return s},st,x=>assert.equal(x.primary[0],'查看订单'));
+  check(st+' cannot retry old payment',()=>{const s=baseState();s.orders=[order('P',st)];return s},st,x=>assert.equal(x.primary[0],['payment_failed','expired'].includes(st)?'重新选择仓位':'查看订单'));
 }
 check('completed paid order never revives its original selection',()=>{const s=baseState();s.orders=[paid('A',{start_date:'2026-01-01',term_months:1})];s.services.A={identity:'verified'};s.selected=[sampleUnit.id];s.storeId=bid;s.requirement={capacity_m3:3,term_months:1,term_confirmed:true};return s},'new');
 check('paid without identity never grants access',()=>{const s=baseState();s.orders=[paid('A')];return s},'identity');
