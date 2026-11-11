@@ -41,11 +41,11 @@ body[data-page=s5] .s5-store-photo>img{width:100%;height:100%;object-fit:cover}
 body[data-page=s5] .s5-store-reason{font-size:11px;top:8px;left:9px;border-radius:4px;padding:3px 7px}
 body[data-page=s5] .s5-store-info{padding:8px 11px 7px;border-bottom:1px solid #edf1ee}
 body[data-page=s5] .s5-store-title>strong{font-size:15px;color:#1b3830}
-body[data-page=s5] .s5-store-open{min-height:36px;min-width:69px;padding:7px 0;font-size:12px;font-weight:650}
+body[data-page=s5] .s5-store-open{min-height:44px;min-width:69px;padding:7px 0;font-size:12px;font-weight:650}
 body[data-page=s5] .s5-store-services{min-height:21px;gap:6px}
 body[data-page=s5] .s5-store-services>span{font-size:11px;padding:2px 7px}
 body[data-page=s5] .s5-store-address{font-size:12px;gap:5px;line-height:19px}
-body[data-page=s5] .s5-store-address button{min-height:36px;min-width:50px;padding:6px 0;font-size:12px;font-weight:650}
+body[data-page=s5] .s5-store-address button{min-height:44px;min-width:50px;padding:6px 0;font-size:12px;font-weight:650}
 body[data-page=s5] .s5-store-distance{font-size:12px;line-height:18px;margin:0;color:#6d817b}
 body[data-page=s5] .s5-unit-list{display:flex;flex-direction:column}
 body[data-page=s5] .s5-unit-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(115px,40%);gap:10px;padding:10px 11px 11px;min-height:111px;align-items:start;border:0}
@@ -57,7 +57,7 @@ body[data-page=s5] .s5-unit-terms{display:flex;flex-direction:column;align-items
 body[data-page=s5] .s5-unit-price-label{font-size:10px;line-height:14px;margin:0;color:#809089}
 body[data-page=s5] .s5-unit-price{display:block;border:0;background:transparent;color:#e94928;font-size:17px;line-height:24px;font-weight:850;white-space:nowrap;overflow:visible;text-overflow:clip;letter-spacing:-.3px;max-width:100%;text-align:right;padding:0}
 body[data-page=s5] .s5-unit-terms>small{font-size:11px;color:#70847d;line-height:16px;max-width:100%;white-space:nowrap}
-body[data-page=s5] .s5-unit-buy{min-width:110px;min-height:44px;font-size:12px;border-radius:7px;margin:5px 0 0;padding:8px 14px;background:var(--g);color:#fff}
+body[data-page=s5] .s5-unit-buy{min-width:110px;min-height:48px;font-size:12px;border-radius:7px;margin:5px 0 0;padding:8px 14px;background:var(--g);color:#fff}
 body[data-page=s5] .s5-unit-row:has(.s5-unit-price[data-price-length=extreme]){grid-template-columns:minmax(0,1fr);gap:8px}
 body[data-page=s5] .s5-unit-row:has(.s5-unit-price[data-price-length=extreme]) .s5-unit-terms{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:center;text-align:left}
 body[data-page=s5] .s5-unit-row:has(.s5-unit-price[data-price-length=extreme]) .s5-unit-price-label{grid-column:1 / 3}
