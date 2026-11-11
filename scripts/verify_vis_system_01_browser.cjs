@@ -38,8 +38,20 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
 
       const visitVariants=[];
       for(const variant of variants){
-        await s01.locator('html').evaluate((el,v)=>{el.dataset.visSystem=v},variant);
-        await page.waitForTimeout(70); // allow web-font/layout recalc after preview selector
+        await s01.locator('html').evaluate((el,v)=>{
+          el.dataset.visSystem=v;
+          // Screenshoting a long list scrolls the iframe into view.
+          // Each variant MUST be returned to exactly the same screen origin.
+          const doc=el.ownerDocument;
+          doc.scrollingElement.scrollTop=0;doc.body.scrollTop=0;
+          doc.defaultView.scrollTo(0,0);
+        },variant);
+        await app.locator('html').evaluate(el=>{
+          el.ownerDocument.scrollingElement.scrollTop=0;
+          el.ownerDocument.defaultView.scrollTo(0,0);
+        });
+        await page.evaluate(()=>window.scrollTo(0,0));
+        await page.waitForTimeout(90); // allow browser layout and scroll reset
         const details=await s01.locator('body').evaluate(body=>{
           const cards=[...body.querySelectorAll('.store-card[data-card-kind="expanded"]')];
           const getRect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
@@ -74,6 +86,7 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
             version:document.documentElement.dataset.visSystem||'baseline',
             screenOverflow:document.documentElement.scrollWidth-innerWidth,
             ETop:e?.getBoundingClientRect().y,
+            headerTop:body.querySelector('.statusbar')?.getBoundingClientRect().top,
             cardCount:cards.length,cards:result,
             cssToken:getComputedStyle(document.documentElement).getPropertyValue('--mk-color-brand-primary').trim()
           };
@@ -81,6 +94,7 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
         assert.equal(details.version,variant);
         assert.equal(details.cssToken,'#11845f','global token not loaded in S01');
         assert.equal(details.cardCount,2,'two matched store cards are required');
+        assert(details.headerTop>=-1&&details.headerTop<=1,'comparison screenshot was scrolled: '+details.headerTop);
         assert(details.screenOverflow<=2,'horizontal page overflow '+details.screenOverflow);
         for(const card of details.cards){
           assert.match(card.texts.cabin,/^仓号 [A-D](00[1-9]|0[12][0-9]|030)$/);
@@ -121,7 +135,11 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
             majorUnclipped:major.scrollWidth<=major.clientWidth+1,
             monthlyUnclipped:monthly.scrollWidth<=monthly.clientWidth+1,
             mainDiscountOverlap:r(major).right>r(promo).left+1,
-            discountCTAOverlap:r(promo).right>r(root.querySelector('.order')).left-4,
+            discountCTAOverlap:
+              r(promo).right>r(root.querySelector('.order')).left-4 &&
+              r(promo).left<r(root.querySelector('.order')).right+4 &&
+              r(promo).bottom>r(root.querySelector('.order')).top &&
+              r(promo).top<r(root.querySelector('.order')).bottom,
             horizontalOverflow:document.documentElement.scrollWidth-innerWidth
           };
           major.textContent=before.major;monthly.textContent=before.monthly;
