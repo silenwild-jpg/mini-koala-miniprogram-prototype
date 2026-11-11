@@ -18,7 +18,7 @@ const server=http.createServer((req,res)=>{
 });
 const terms=[1,3,4,6,7,12,13,36,37,60];
 const results=[];
-const fmt=v=>'¥'+Number(v).toLocaleString('zh-CN',{maximumFractionDigits:2});
+const fmt=v=>'¥'+Math.trunc(Number(v)).toLocaleString('zh-CN');
 const capPriceCase=async (app,s01,months)=>{
   await app.locator('#screen').evaluate((_,months)=>{
     const b=window.SIM_DEMO;
@@ -94,7 +94,7 @@ const capPriceCase=async (app,s01,months)=>{
     const row=s.fixtureUnits.find(u=>u.id===card.unitId);
     const base=s.unitPrices[card.unitId]??row?.base_month;
     assert(base>0);
-    const expectedMonthly=Math.round((Number(base)*rule.factor+Number.EPSILON)*100)/100;
+    const expectedMonthly=Math.trunc(Number(base)*rule.factor);
     const total=expectedMonthly*months;
     assert.equal(card.price,fmt(total));
     assert.equal(card.secondary,fmt(expectedMonthly)+'/月 × '+months+'个月');
