@@ -41,9 +41,9 @@
   }
   function primaryFromOrder(entry,ctx){
     var o=entry.order,l=entry.life,slabel='当前订单',title=ctx.storeName(o),info=ctx.unitName(o),cta='查看订单',act='m01Order',tone='';
-    if(o.status==='pending'){slabel='待支付';cta='继续支付';tone='attention';}
-    else if(o.status==='payment_failed'){slabel='支付未完成';cta='重新查看可用仓位';tone='attention';}
-    else if(o.status==='payment_cancelled'){slabel='支付已取消';cta='查看订单';tone='attention';}
+    if(o.status==='pending'){slabel='待支付';cta='继续支付';act='m01ContinuePay';tone='attention';info+=' · '+o.term_months+'个月 · 应付'+ctx.money(o.payable);}
+    else if(o.status==='payment_failed'){slabel='支付未完成';cta='重新查看可用仓位';act='m01Recover';tone='attention';info+=' · 请重新核对仓位和费用';}
+    else if(o.status==='payment_cancelled'){slabel='支付已取消';cta='查看订单';tone='attention';info+=' · 请核对订单状态';}
     else if(l){
       var req=safeList(l.renewal_requests).find(function(x){return x.status==='QUOTE_PENDING'||x.status==='QUOTE_READY';});
       if(l.lease_status==='returning'){slabel='退租处理中';cta='查看退租进度';act='m01Service';}
