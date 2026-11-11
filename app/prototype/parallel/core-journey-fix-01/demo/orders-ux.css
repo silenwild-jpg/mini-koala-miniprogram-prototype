@@ -44,3 +44,9 @@
 .mk-order-empty p,.mk-order-tip{font-size:13px;line-height:1.7;color:#778a81;margin:10px 0 20px}
 .mk-order-primary{display:block;width:100%;min-height:48px;background:#0d8058;color:#fff;border:0;border-radius:8px;font-weight:750;font-size:15px;padding:12px 10px;cursor:pointer}
 @media(max-width:380px){.page-M01 .mk-orders,.page-O03 .mk-orders,.page-OH01 .mk-orders{padding-left:13px;padding-right:13px}.mk-order-line span{flex-basis:80px}}
+
+/* Order-detail countdown shares the same expiresAt as H01. */
+.mk-order-clock{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 15px;font-size:13px;color:#64796d}
+.mk-order-clock strong{font-variant-numeric:tabular-nums;font-feature-settings:"tnum";font-size:19px;color:#186b4a;white-space:nowrap}
+.mk-order-clock strong[data-tone="warning"]{color:#b66a14}
+.mk-order-clock strong[data-tone="critical"]{color:#b54133}
