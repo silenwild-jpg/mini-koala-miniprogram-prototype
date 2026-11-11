@@ -11,7 +11,7 @@ const server=http.createServer((req,res)=>{
 });
 (async()=>{
  fs.mkdirSync(out,{recursive:true});await new Promise(ok=>server.listen(4696,'127.0.0.1',ok));
- const browser=await chromium.launch({headless:true,args:['--no-sandbox']}),report=[];
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.PLAYWRIGHT_CHROME_PATH?{executablePath:process.env.PLAYWRIGHT_CHROME_PATH}:{})}),report=[];
  try{
   for(const width of [375,390]){
    const context=await browser.newContext({viewport:{width,height:width===375?812:844},deviceScaleFactor:1,locale:'zh-CN',timezoneId:'Asia/Shanghai'});
