@@ -171,7 +171,9 @@ const cases=[];
           })};
       });
       assert(info.expanded>=1,'missing demo match '+city);
-      assert.equal(info.kinds[2],'estore','third fixed E-storage missing in '+city);
+      // When a city has only one eligible physical store, E-storage follows it
+      // immediately; the third-slot rule applies when two physical stores exist.
+      assert.equal(info.kinds[info.expanded],'estore','E-storage fallback missing after eligible stores in '+city);
       assert(info.positions.every(x=>x.grouped&&x.usageFont>=12&&x.usageVisible&&x.buttonHeight>=48),
         'metadata/CTA geometry problem in '+city);
       assert(info.overflow<=2,'city horizontal overflow '+city);
