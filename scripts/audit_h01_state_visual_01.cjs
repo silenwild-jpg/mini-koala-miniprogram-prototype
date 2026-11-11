@@ -8,8 +8,8 @@ const port=4689,host='http://127.0.0.1:'+port;
 const base=host+'/prototype/parallel/core-journey-fix-01/demo/';
 const home=base+'home.html',app=base+'index.html?page=S01';
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};
-const phases=['new','estimated','selected','booking','pending','payment_failed','expired','identity','upcoming','active','expiring','renewal','returning','refund','ended','multi','active_browse'];
-const expected={new:'new',estimated:'estimated',selected:'selected',booking:'booking',pending:'pending',payment_failed:'payment_failed',expired:'expired',identity:'identity',upcoming:'upcoming',active:'active',expiring:'expiring',renewal:'renewal',returning:'returning',refund:'refund',ended:'new',multi:'pending',active_browse:'active'};
+const phases=['new','estimated','selected','booking','pending','payment_failed','expired','identity','upcoming','active','active_change','expiring','renewal','returning','refund','ended','multi','active_browse'];
+const expected={new:'new',estimated:'estimated',selected:'selected',booking:'booking',pending:'pending',payment_failed:'payment_failed',expired:'expired',identity:'identity',upcoming:'upcoming',active:'active',active_change:'active',expiring:'expiring',renewal:'renewal',returning:'returning',refund:'refund',ended:'new',multi:'pending',active_browse:'active'};
 const rows=[];
 function addDays(d,n){const [y,m,day]=d.split('-').map(Number);return new Date(Date.UTC(y,m-1,day+n)).toISOString().slice(0,10)}
 function listen(){return http.createServer((req,res)=>{let file;try{file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,host).pathname))}catch{return res.writeHead(400).end()};if(!file.startsWith(root+path.sep))return res.writeHead(403).end();fs.readFile(file,(e,bytes)=>e?res.writeHead(404).end():res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(bytes))})}
@@ -93,7 +93,7 @@ async function photo(page,w,name){
 async function start(){
  if(!fs.existsSync(path.join(root,'prototype/parallel/core-journey-fix-01/demo/home.html')))throw Error('MISSING_BUILT_SITE');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'rc2-uat-version.json'),'utf8'));
- if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='feat/h01-state-vis-restore-02-20261111'||manifest.source_pr!==105)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
+ if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='feat/h01-state-vis-restore-03-20261111'||manifest.source_pr!==105)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
  fs.mkdirSync(dir,{recursive:true});
  const srv=listen();await new Promise(ok=>srv.listen(port,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
@@ -116,7 +116,7 @@ async function start(){
      }
      assert.equal(outcome.key,expected[phase],'derived '+phase);
      if(phase==='active_browse')assert.equal(outcome.modules.hero,true,'Browse view must reveal master');
-     if(['active','expiring','pending','booking','upcoming','identity'].includes(phase)){
+     if(['active','active_change','expiring','pending','booking','upcoming','identity'].includes(phase)){
        const controls=await page.evaluate(()=>({
          tabsHidden:document.querySelector('#h01FlowTabs').hidden,
          compactBrowse:!document.querySelector('#h01FlowQuickBrowse').hidden,
@@ -129,13 +129,57 @@ async function start(){
        assert.equal(controls.tabsHidden,true,'Permanent two tabs not removed');
        assert.equal(controls.compactBrowse,true,'Compact browse entrance not visible');
        assert.equal(controls.inlineBrowseHidden,true,'Duplicate inline browse entrance should be hidden');
-       if(phase==='active'){
+       if(['active','active_change'].includes(phase)){
          assert.equal(controls.storeTime,controls.storeHourExpected,'Wrong access-hours field');
          assert.match(controls.secondLabel,/查看门店位置/,'Navigation label promises wrong action');
          assert.deepEqual(controls.activeServiceButtons,['续租','更多服务 ›'],'Too many active service actions');
        }
        if(phase==='upcoming')assert.match(controls.secondLabel,/查看门店位置/);
        record.controls=controls;
+     }
+     // Task-specific action replay after the screenshot, without modifying the production state engine.
+     if(['upcoming','active','active_change'].includes(phase)){
+       const address=await page.locator('#h01FlowAddress').innerText();
+       assert(address.trim().length>4,'Real store address missing in relevant state');
+       record.address=address;
+     }
+     if(phase==='active'){
+       const trigger=page.locator('#h01FlowServices [data-h01="more"]');
+       await trigger.click();
+       const modal=page.locator('[role="dialog"][aria-modal="true"]');
+       await modal.waitFor();
+       assert.equal(await modal.locator('.h01-flow-choice').count(),2,'More services should contain add and change');
+       await page.keyboard.press('Escape');
+       assert.equal(await page.locator('[role="dialog"]').count(),0,'Escape must close the service sheet');
+       assert.equal(await trigger.evaluate(el=>document.activeElement===el),true,'Focus should return to More services');
+       await trigger.click();
+       await page.locator('.h01-flow-choice').filter({hasText:'加租仓位'}).click();
+       await page.waitForURL(/page=QUICK/,{timeout:7000});
+       await page.locator('#br04-frame').waitFor();
+       record.action='more→add→QUICK';
+     }
+     if(phase==='active_change'){
+       await page.locator('#h01FlowServices [data-h01="more"]').click();
+       await page.locator('.h01-flow-choice').filter({hasText:'换仓申请'}).click();
+       await page.waitForURL(/page=BOOKING.*mode=advisor/,{timeout:7000});
+       await page.locator('#br04-frame').waitFor();
+       record.action='more→change→advisor';
+     }
+     if(phase==='expiring'){
+       await page.locator('#h01FlowPrimary').click();
+       await page.waitForURL(/page=RN01/,{timeout:7000});
+       assert.match(await page.locator('#screen').innerText(),/续租/);
+       record.action='renew→RN01';
+     }
+     if(phase==='upcoming'){
+       await page.locator('#h01FlowSecondary').click();
+       await page.waitForURL(/page=S02/,{timeout:7000});
+       record.action='store-location→S02';
+     }
+     if(phase==='active_browse'){
+       await page.locator('#h01FlowReturn [data-h01="business"]').click();
+       await page.locator('body.h01-flow-business').waitFor();
+       record.action='marketing→business';
      }
      if(outcome.key==='new')assert.equal(outcome.modules.hero,true,'New-user master missing');
      if(outcome.key!=='new'&&phase!=='active_browse')assert.equal(outcome.modules.task,true,'Task view missing');
@@ -149,7 +193,7 @@ async function start(){
   }
  }finally{await browser.close();await new Promise(ok=>srv.close(ok))}
  const failures=rows.filter(x=>x.status!=='PASS');
- fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:105,kind:'H01_ONLY_RESTORED_TASK_UI_REAL_BROWSER_CONTRACT_NO_S5_CHANGES',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
+ fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:105,kind:'H01_03_ONLY_SERVICE_INTERACTIONS_AND_18_STATES_NO_S5_CHANGES',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
  if(failures.length)throw Error('H01 audit failure '+failures.map(x=>x.width+'/'+x.phase).join(','));
  console.log('H01 layout capture '+rows.length+'/'+rows.length+' PASS; 0 S5 modifications');
 }
