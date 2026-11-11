@@ -69,3 +69,10 @@ body[data-page="o01"] .discount-tags em{font-size:11px}
 body[data-page="quick"] .modal-sheet{max-height:calc(100% - 24px);display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box}
 body[data-page="quick"] .modal-sheet>header{flex:none}
 body[data-page="quick"] #modal-content{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+
+/* Stable demo cabin reference: do not turn the code into a promotion badge. */
+body[data-page="s5"] .s5-cabin-no{
+ display:block;margin:2px 0 0;color:#76877d;
+ font-size:10.5px;line-height:16px;font-weight:550;white-space:nowrap
+}
+body[data-page="o01"] #unit-name{font-weight:620;letter-spacing:0}
