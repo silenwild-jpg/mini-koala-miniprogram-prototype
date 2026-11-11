@@ -60,7 +60,9 @@ const cases=[];
             monthly=price.querySelector('.price-secondary'),
             cabin=unit.querySelector('.s01-cabin-tag'),button=unit.querySelector('.order'),
             title=store.querySelector('h2'),cta=card.querySelector('.s01-store-detail');
-          const R={photo:rect(photo),store:rect(store),address:rect(address),addressText:rect(card.querySelector('.address-copy')),km:rect(km),
+          const titleRange=document.createRange();titleRange.selectNodeContents(title);
+          const addressStyle=getComputedStyle(address);
+          const R={photo:rect(photo),store:rect(store),address:rect(address),addressText:rect(address),titleText:rect({getBoundingClientRect:()=>titleRange.getBoundingClientRect()}),km:rect(km),
             list:rect(list),unit:rect(unit),capacity:rect(capacity),use:rect(use),
             price:rect(price),total:rect(total),discount:rect(discount),monthly:rect(monthly),
             cabin:rect(cabin),button:rect(button),title:rect(title),detail:rect(cta),card:rect(card)};
@@ -79,9 +81,13 @@ const cases=[];
               discountCabin:overlap(R.discount,R.cabin),
               monthlyButton:overlap(R.monthly,R.button),
               capacityPrice:overlap(R.capacity,R.price),
-              detailTitle:overlap(R.detail,R.title)
+              detailTitle:overlap(R.detail,R.titleText)
             },
-            addressOneLine:getComputedStyle(address).whiteSpace==='nowrap',
+            addressOneLine:addressStyle.whiteSpace==='nowrap',
+            addressDetail:{text:address.textContent,display:addressStyle.display,visibility:addressStyle.visibility,
+              opacity:addressStyle.opacity,fontSize:addressStyle.fontSize,color:addressStyle.color,
+              width:address.clientWidth,height:address.clientHeight,scrollWidth:address.scrollWidth,
+              style:address.getAttribute('style')},
             unitDisplay:getComputedStyle(unit).display,
             boxShadow:getComputedStyle(card).boxShadow,
             cardRadius:getComputedStyle(card).borderRadius
@@ -89,6 +95,9 @@ const cases=[];
         });
       });
       assert.equal(result.length,2,'only first two stores expanded');
+      if(width===375&&months===1)console.log('S01_REFERENCE_ADDRESS_DEBUG '+JSON.stringify(result.map(v=>({
+        store:v.store,addr:v.addressDetail,R:{photo:v.R.photo,body:v.R.store,address:v.R.address,km:v.R.km,title:v.R.title,titleText:v.R.titleText}
+      }))));
       for(let i=0;i<2;i++){
         const v=result[i],want=data[i],r=v.R;
         assert.equal(v.cardKind,'expanded');
