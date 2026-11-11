@@ -80,7 +80,7 @@ const server=http.createServer((req,res)=>{
         // Legacy identity page is an interim service detail, not a second first-level Mine page.
         await page.locator('.m01-task .m01-primary-button').click();
         await page.waitForURL(/account\.html\?view=identity/);
-        assert.match(await page.locator('.account-header').innerText(),/我的/);
+        assert.match(await page.locator('.account-header').innerText(),/身份验证/);
         await page.locator('.account-header a').first().click();
         await page.waitForURL(/index\.html\?page=M01/);
         await page.locator('.m01-task').waitFor();
