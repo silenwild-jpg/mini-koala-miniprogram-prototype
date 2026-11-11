@@ -197,8 +197,8 @@ const cases=[];
     });
     await s01.locator('.store-card[data-card-kind="expanded"]').first().evaluate(card=>{
       card.querySelector('.unit-desc').textContent='适合搬家打包纸箱、大件家具及季节性用品';
-      card.querySelector('.price strong').textContent='¥100,000';
-      card.querySelector('.price-secondary').textContent='¥10,000/月 × 60个月';
+      card.querySelector('.price strong').textContent='¥99,996';
+      card.querySelector('.price-secondary').textContent='¥8,333/月 × 12个月';
     });
     const stress=await s01.locator('.store-card[data-card-kind="expanded"]').first().evaluate(card=>{
       const d=card.querySelector('.unit-desc'),p=card.querySelector('.price'),
@@ -222,7 +222,7 @@ const cases=[];
     const selected=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.core.state().selected);
     assert.deepEqual(selected,[expectedUnit],'original order action must continue selecting same unit');
     assert.deepEqual(errors,[],'javascript errors');
-    cases.push({width,height,status:'PASS',before,browse,result:results,selected});
+    cases.push({width,height,status:'PASS',before,browse,result:results,cityLayouts,selected});
    }catch(e){
     await page.screenshot({path:path.join(out,'S01-reference-FAILED-'+width+'.png')}).catch(()=>{});
     throw e;
