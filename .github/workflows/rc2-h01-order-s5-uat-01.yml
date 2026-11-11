@@ -1,0 +1,64 @@
+name: RC2 H01 Order S5 exact-SHA UAT PR107 (NO DEPLOY)
+on:
+  push:
+    branches:
+      - integration/rc2-h01-order-s5-isolated-20261111
+    paths:
+      - .github/workflows/rc2-h01-order-s5-uat-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-h01-order-s5-uat-01
+  cancel-in-progress: true
+jobs:
+  isolated-browser-uat:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin exact source and check scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          node --check scripts/verify_rc2_h01_order_s5_uat_01.cjs
+          node --check qa/test_h01_state_implement_01.cjs
+          node --check qa/test_h01_order_payment_3h.cjs
+          node --check qa/verify_h01_order_s5_integration_20261111.cjs
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/verify_h01_order_s5_integration_20261111.cjs
+      - name: Build isolated identity-stamped review package
+        env:
+          RC2_BUNDLE_BRANCH: integration/rc2-h01-order-s5-isolated-20261111
+          RC2_BUNDLE_SOURCE_PR: "107"
+          RC2_BUNDLE_LABEL: PR107-H01-ORDER-S5-ISOLATED-NO-DEPLOY
+          RC2_BUNDLE_ARCHIVE: MiniKoala_PR107_H01_Order_S5_Only_For_UAT.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install isolated Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Real-page 375 and 390 scripted payment UAT
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+        run: node scripts/verify_rc2_h01_order_s5_uat_01.cjs
+      - name: Preserve evidence on pass or fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PR107_H01_ORDER_S5_EXACT_SHA_UAT_EVIDENCE
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-h01-order-s5-uat-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
