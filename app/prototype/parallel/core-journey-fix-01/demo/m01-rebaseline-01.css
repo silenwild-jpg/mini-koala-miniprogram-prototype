@@ -46,3 +46,9 @@
 .page-M01 .m01-help-links a:last-child{border-bottom:0;}
 .page-M01 .m01-row:focus-visible,.page-M01 .m01-minor-button:focus-visible,.page-M01 .m01-primary-button:focus-visible,.page-M01 .m01-profile-action:focus-visible,.page-M01 .m01-back:focus-visible{outline:2px solid #087a51;outline-offset:2px;}
 @media(max-width:380px){.page-M01 .mk-orders.m01-surface{padding-left:16px;padding-right:16px;}}
+
+/* Shared H01 three-hour deadline, displayed as one compact account task fact. */
+.page-M01 .m01-pay-meta{margin-top:-5px;margin-bottom:15px}
+.page-M01 .m01-pay-clock{font-size:16px;font-variant-numeric:tabular-nums;font-weight:750;color:#167451;margin-left:7px}
+.page-M01 .m01-pay-clock[data-tone="warning"]{color:#b77626}
+.page-M01 .m01-pay-clock[data-tone="critical"]{color:#b84135}
