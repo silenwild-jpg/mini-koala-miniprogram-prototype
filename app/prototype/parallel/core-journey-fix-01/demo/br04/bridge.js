@@ -96,6 +96,7 @@
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
     const reason=row.nearCapacity?'容量接近':rank===0?'距离最近':genuinelyCheaper?'区域低价':'更多选择';
+    const payable=core.amounts(units[0].ids,term).payable;
     const rows=units.map((u,i)=>{
       const p=presentation.price(u.ids),primary=i===0,shared=B.s5SharedUnit?.(u.ids);
       const priceId=primary?(main?'main-price':'secondary-price'):'';
@@ -126,8 +127,10 @@
       '" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和地址">导航 ›</button></div>'+
       '<p class="s5-store-distance">'+esc(view.district||s.district||'')+(distance?' · '+distance:'')+'</p></div>'+
       '<div class="s5-unit-list">'+rows+
+      '<div class="s5-unit-footer">'+
       (units.length>1?'<button type="button" class="s5-alt-toggle" data-s5-alts="'+rank+
-       '" aria-expanded="false">另有'+(units.length-1)+'种仓位可选 <span aria-hidden="true">⌄</span></button>':'')+'</div>';
+       '" aria-expanded="false">另有'+(units.length-1)+'种仓位可选 <span aria-hidden="true">⌄</span></button>':'<span></span>')+
+      '<button type="button" class="s5-store-payable" data-s5-price="'+rank+':0">首次应付 <strong>'+esc(money(payable))+'</strong> ›</button></div></div>';
   }
   // Keep full price text visible within the allocated S5 price column.
   // Ellipsis hides the actual amount and is forbidden on the purchase surface.
