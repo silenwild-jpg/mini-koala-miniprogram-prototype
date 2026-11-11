@@ -61,7 +61,7 @@
 .page-S02 .s02-service-summary span:not(.s02-service-more){min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .page-S02 .s02-service-summary .s02-service-more{margin-left:auto;font-size:20px;color:#357a58}
 .page-S02 .unit-filter{gap:3px}
-.page-S02 .unit-filter .chip{min-height:44px;font-size:12px;padding:8px 8px;white-space:nowrap}
+.page-S02 .unit-filter .chip{min-height:44px;min-width:44px;font-size:12px;padding:8px 8px;white-space:nowrap}
 .page-S02 .unit-head{min-height:32px;padding-right:36px;position:relative}
 .page-S02 .unit-name{max-width:100%;overflow-wrap:anywhere}
 .page-S02 .unit-head .fav{position:absolute;top:-6px;right:-7px;width:44px;height:44px;padding:0;display:grid;place-items:center}
