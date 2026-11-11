@@ -16,8 +16,7 @@
         if(o.expiresAt&&nowMs>=o.expiresAt){
           records.push(row("expired","订单已超时","需重新下单",desc,[["已过期","支付状态"]],["重新选择仓位","restart"],["查看原订单","order"],17,o));
         }else{
-          const failedAttempt=o.lastPaymentAttempt?.status==="failed";
-          const pending=row("pending",failedAttempt?"支付未完成":"订单待支付",failedAttempt?"可重试":"待完成",desc,[[amount(o.payable),"首次应付"],["--:--:--","支付剩余时间"]],[failedAttempt?"重新支付":"继续支付","order"],["费用明细","order"],95,o);
+          const pending=row("pending","订单待支付","待完成",desc,[[amount(o.payable),"首次应付"],["--:--:--","支付剩余时间"]],["继续支付","order"],["费用明细","order"],95,o);
           pending.expiresAt=Number.isFinite(o.expiresAt)&&o.expiresAt>0?o.expiresAt:null;
           records.push(pending);
         }
@@ -28,7 +27,7 @@
         continue;
       }
       if(["payment_failed","cancelled","invalidated"].includes(o.status)){
-        records.push(row(o.status,"订单需重新确认","未完成",desc,[[{"payment_failed":"支付失败","cancelled":"已取消","expired":"已过期","invalidated":"报价已失效"}[o.status],"订单状态"]],["查看订单","order"],["重新找仓","browse"],17,o));
+        records.push(row(o.status,o.status==="payment_failed"?"支付失败":"订单需重新确认","未完成",desc,[[{"payment_failed":"原仓位已释放","cancelled":"已取消","invalidated":"报价已失效"}[o.status],"订单状态"]],o.status==="payment_failed"?["重新选择仓位","restart"]:["查看订单","order"],["查看原订单","order"],17,o));
         continue;
       }
       if(o.status!=="paid_simulated")continue;
