@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/s01-vis-decision-02.yml
       - app/prototype/parallel/core-journey-fix-01/demo/s01-vis-decision-02.css
+      - app/prototype/parallel/core-journey-fix-01/demo/s01-reference-layout-02.css
       - app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
@@ -27,6 +28,7 @@ on:
       - scripts/audit_s01_discount_signoff_07.cjs
       - scripts/verify_s01_cabin_number_08_browser.cjs
       - scripts/verify_global_ui_rules_01_browser.cjs
+      - scripts/verify_s01_user_reference_layout_02_browser.cjs
   workflow_dispatch:
 permissions:
   contents: read
@@ -54,6 +56,7 @@ jobs:
           node --check scripts/audit_s01_discount_signoff_07.cjs
           node --check scripts/verify_s01_cabin_number_08_browser.cjs
           node --check scripts/verify_global_ui_rules_01_browser.cjs
+          node --check scripts/verify_s01_user_reference_layout_02_browser.cjs
           node --check app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
@@ -81,6 +84,8 @@ jobs:
         run: node scripts/verify_s01_price_discount_06_browser.cjs
       - name: S01/S02/S5/O01 stable A-D cabin identity at 375/390
         run: node scripts/verify_s01_cabin_number_08_browser.cjs
+      - name: S01 selected reference layout 375/390 matched / browse / 1-60mo and checkout
+        run: node scripts/verify_s01_user_reference_layout_02_browser.cjs
       - name: GLOBAL-UI-RULES-01 integer rent and shared store-tag 375/390 verification
         run: node scripts/verify_global_ui_rules_01_browser.cjs
       - name: Independent all-term rent policy audit (policy HOLD evidence)
@@ -103,6 +108,7 @@ jobs:
             release-evidence/s01-discount-signoff-07/
             release-evidence/s01-cabin-number-08/
             release-evidence/global-ui-rules-01/
+            release-evidence/s01-user-reference-02/
             release-evidence/rc2-ux-quality-rebase-03/
             release-evidence/rc2-p1-demo-close-02/
             release-evidence/rc2-merge-prep-10/build-summary.json
