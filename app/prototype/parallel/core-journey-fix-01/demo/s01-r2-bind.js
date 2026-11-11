@@ -75,12 +75,26 @@
     setText(capacity.querySelector('sup'),'3');
     const priceBox=el.querySelector('.price');
     priceBox.dataset.priceKind=u.priceKind;
-    setText(priceBox.querySelector('strong'),u.price);
-    setText(priceBox.querySelector('span'),u.suffix);
+    const mainAmount=priceBox.querySelector('strong');
+    setText(mainAmount,u.price);
+    setText(priceBox.querySelector(':scope > span:not(.s01-term-discount)'),u.suffix);
+    // A single, low-contrast lease-term factor sits beside the total.
+    // Never synthesize a struck-through "original price".
+    let discountTag=priceBox.querySelector('.s01-term-discount');
+    if(!discountTag){
+      discountTag=document.createElement('span');
+      discountTag.className='s01-term-discount';
+      mainAmount.after(discountTag);
+    }
+    const termDiscount=u.priceKind==='term'&&u.termDiscountSource==='LEASE_TERM_RULE'?u.termDiscountLabel:null;
+    setText(discountTag,termDiscount||'');
+    discountTag.hidden=!termDiscount;
+    if(termDiscount)discountTag.setAttribute('aria-label','租期优惠 '+termDiscount);
+    else discountTag.removeAttribute('aria-label');
     let secondary=priceBox.querySelector('.price-secondary');
     if(!secondary){secondary=document.createElement('small');secondary.className='price-secondary';priceBox.append(secondary);}
     setText(secondary,u.secondary);secondary.hidden=!u.secondary;
-    priceBox.setAttribute('aria-label',u.priceKind==='term'?'整期租金 '+u.price+'；'+u.secondary+'，押金和管理费另计':u.priceKind==='unit_month'?u.price+' 每月，'+u.secondary:u.price+' 每月起');
+    priceBox.setAttribute('aria-label',u.priceKind==='term'?'整期租金 '+u.price+'；'+u.secondary+(termDiscount?'；租期优惠'+termDiscount:'')+'；押金和管理费另计':u.priceKind==='unit_month'?u.price+' 每月，'+u.secondary:u.price+' 每月起');
     setText(el.querySelector('.unit-desc'),u.usage);
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
     const btn=el.querySelector('.order');if(btn){
