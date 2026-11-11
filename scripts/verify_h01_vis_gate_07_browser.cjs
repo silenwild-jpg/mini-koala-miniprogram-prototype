@@ -216,8 +216,18 @@ async function start(){
          return s.orders.find(o=>o.id===id)?.expiresAt;
        },info.id);
        assert.equal(after,before,'O03 must not refresh or replace the original deadline');
-       record.action='pending H01 -> O03 retains original deadline';
-       record.orderDetailScreenshot=await photo(page,w,'pending-O03-clock');
+       // The O03 page has #screen rather than H01's #phone: capture the actual document.
+       const firstSec=countdown.split(':').reduce((sum,part)=>sum*60+Number(part),0);
+       await page.waitForTimeout(1350);
+       const later=await page.locator('#mk-order-countdown').innerText();
+       const laterSec=later.split(':').reduce((sum,part)=>sum*60+Number(part),0);
+       assert(laterSec<firstSec,'O03 countdown did not tick while on detail page');
+       assert.deepEqual(errors,[],'O03 browser runtime errors');
+       record.action='pending H01 -> O03 countdown ticks without extending original deadline';
+       const file=w+'-pending-O03-clock.png';
+       await page.screenshot({path:path.join(dir,file),animations:'disabled'});
+       assert(fs.statSync(path.join(dir,file)).size>6000,'O03 screenshot empty');
+       record.orderDetailScreenshot=file;
      }
      if(phase==='active'){
        assert.equal(await page.locator('#h01FlowPrimary').innerText(),'一键开锁');
