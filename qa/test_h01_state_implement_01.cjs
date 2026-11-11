@@ -32,6 +32,7 @@ check('pending expiry not payable',()=>{const s=baseState();s.orders=[order('P',
 for(const st of ['payment_failed','cancelled','invalidated','expired']){
   check(st+' cannot retry old payment',()=>{const s=baseState();s.orders=[order('P',st)];return s},st,x=>assert.equal(x.primary[0],'查看订单'));
 }
+check('completed paid order never revives its original selection',()=>{const s=baseState();s.orders=[paid('A',{start_date:'2026-01-01',term_months:1})];s.services.A={identity:'verified'};s.selected=[sampleUnit.id];s.storeId=bid;s.requirement={capacity_m3:3,term_months:1,term_confirmed:true};return s},'new');
 check('paid without identity never grants access',()=>{const s=baseState();s.orders=[paid('A')];return s},'identity');
 check('paid identity verified and active',()=>{const s=baseState();s.orders=[paid('A')];s.services.A={identity:'verified'};return s},'active');
 check('pending newer order outranks paid active',()=>{const s=baseState();s.orders=[paid('A'),order('P','pending',{expiresAt:now+60000})];s.services.A={identity:'verified'};return s},'pending',x=>assert.equal(x.hasRental,true));
