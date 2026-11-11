@@ -1,0 +1,66 @@
+name: H01 task space 03 A+C visual QA 375 and 390 (NO DEPLOY)
+on:
+  push:
+    branches: [feat/h01-task-space-explore-03-20261111]
+    paths: [.github/workflows/h01-task-space-explore-03.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: h01-task-space-explore-03
+  cancel-in-progress: true
+jobs:
+  h01-design-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify strict H01 scope and shared business gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          node --check scripts/verify_h01_task_space_03_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          if grep -E 'MK_H01_LOCK_GATEWAY|requestUnlock|openBluetoothAdapter' app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js; then exit 1; fi
+          git fetch --no-tags origin integration/h01-single-candidate-01-20261111
+          if git diff --name-only origin/integration/h01-single-candidate-01-20261111 HEAD | grep -E '/br04/(s5/|bridge\.js)|/home\.html$|/app\.js$'; then
+            echo 'ERROR: H01 visual candidate must not touch S5, marketing master or core app'; exit 1
+          fi
+      - name: Build exact SHA isolated prototype
+        env:
+          RC2_BUNDLE_BRANCH: feat/h01-task-space-explore-03-20261111
+          RC2_BUNDLE_SOURCE_PR: "123"
+          RC2_BUNDLE_LABEL: H01-TASK-SPACE-EXPLORE-03-ISOLATED
+          RC2_BUNDLE_ARCHIVE: H01_TASK_SPACE_EXPLORE_03_NO_DEPLOY.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Use installed Chrome and Playwright
+        shell: bash
+        run: |
+          set -euo pipefail
+          google-chrome --version || google-chrome-stable --version
+          if fc-list :lang=zh 2>/dev/null | grep -q .; then
+            echo CJK_RENDERING_FONT_PRESENT=true
+          else
+            echo CJK_RENDERING_FONT_PRESENT=false
+          fi
+          npm_config_fetch_retries=1 npm_config_fetch_timeout=35000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
+      - name: Run 20 states at 375/390 and verify image / safe-area
+        env:
+          RC2_EXPECT_SHA: "${{ github.sha }}"
+        run: node scripts/verify_h01_task_space_03_browser.cjs
+      - name: Preserve browser results, page screenshots and linked photo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PR123_H01_TASK_SPACE_03_REAL_375_390_EVIDENCE
+          path: |
+            release-evidence/h01-task-space-explore-03/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+          retention-days: 7
+          if-no-files-found: warn
