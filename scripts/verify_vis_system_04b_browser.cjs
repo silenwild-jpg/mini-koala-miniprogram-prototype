@@ -15,7 +15,7 @@ const colors={promotion:'rgb(166, 87, 30)',service:'rgb(83, 110, 94)',attribute:
 const tags=async(loc,field)=>loc.evaluateAll((items,field)=>items.filter(x=>x.getClientRects().length).map(el=>{
  const c=getComputedStyle(el),r=el.getBoundingClientRect(),parent=el.parentElement.getBoundingClientRect();
  const value=el.dataset[field]||'attribute';
- return {label:el.textContent.trim(),kind:value==='promo'?'promotion':value,fontSize:c.fontSize,color:c.color,
+ return {label:el.textContent.trim(),kind:value==='promo'?'promotion':value==='feature'?'attribute':value,fontSize:c.fontSize,color:c.color,
   bg:c.backgroundColor,height:r.height,right:r.right,parentRight:parent.right};
 }),field);
 function verifyTags(rows,page,max,min=1){
