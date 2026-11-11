@@ -105,10 +105,10 @@ const rect=locator=>locator.evaluate(el=>({height:el.getBoundingClientRect().hei
    await s5.locator('.s5-store-card[data-rank="0"]:not([hidden]) .s5-unit-buy').first().waitFor();
    const caps=await s5.locator('#capacity').innerText();
    assert.match(caps,/3\s*m³/);
-   const buttons=await s5.locator('.s5-store-card:not([hidden]) .s5-unit-buy').evaluateAll(elements=>
+   const buttons=await s5.locator('.s5-store-card:not([hidden]) .s5-unit-row:not([hidden]) .s5-unit-buy').evaluateAll(elements=>
      elements.map(el=>({height:el.getBoundingClientRect().height,label:el.innerText})));
    assert(buttons.length>=1&&buttons.every(b=>b.height>=44),'S5 touch targets below 44px: '+JSON.stringify(buttons));
-   const prices=await s5.locator('.s5-store-card:not([hidden]) .s5-unit-price').evaluateAll(elements=>
+   const prices=await s5.locator('.s5-store-card:not([hidden]) .s5-unit-row:not([hidden]) .s5-unit-price').evaluateAll(elements=>
      elements.map(el=>({text:el.innerText,height:el.getBoundingClientRect().height,font:parseFloat(getComputedStyle(el).fontSize),clipped:el.scrollWidth>el.clientWidth+1})));
    assert(prices.length>0&&prices.every(x=>x.font>=14&&!x.clipped),'S5 price unreadable: '+JSON.stringify(prices));
    const core=await app.locator('#screen').evaluate(()=>({authorized:window.SIM_DEMO.core.authorized(),orders:window.SIM_DEMO.core.state().orders.length}));
