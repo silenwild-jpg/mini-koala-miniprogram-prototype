@@ -137,29 +137,17 @@
       node.title=node.textContent.trim();
     });
   }
-  let s5TermEditing=false;
   function renderS5(){
     const s=core.state(),r=s.requirement,selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
     const candidates=r.capacity_m3&&r.term_confirmed?(B.s5Offers?.(selectedArea)||B.offers()):[];
     offerRows=candidates.slice(0,2);s5StoreUnitRows=[];
-    $('capacity').innerHTML=(r.capacity_m3??'—')+'<span>m³</span>';
+    $('capacity').textContent=Number(r.capacity_m3)>0&&r.term_confirmed?r.capacity_m3+'m³ · '+r.term_months+'个月':'请补充容量与租期';
     const requiresCapacity=!(Number(r.capacity_m3)>0);
     $('artboard').dataset.requiresCapacity=String(requiresCapacity);
-    document.querySelector('.term').hidden=requiresCapacity;
     document.querySelector('[data-nm="capacity"]').hidden=requiresCapacity;
 
-    text('origin-name',s.city+' · '+(selectedArea||'全城门店'));
+    text('origin-name',s.city+' · '+(selectedArea||'选择用仓位置'));
     if(selectedArea)B.s5SetArea?.(selectedArea);
-    $$('[data-term]').forEach(el=>{const selected=r.term_confirmed&&Number(el.dataset.term)===r.term_months;el.classList.toggle('active',selected);el.setAttribute('aria-pressed',String(selected));});
-    const custom=r.term_confirmed&&![1,3,6,12,24].includes(r.term_months);
-    text('more-term',custom?r.term_months+'个月⌄':'更多⌄');$('more-term').classList.toggle('active',custom);
-    const compactTerm=!!r.term_confirmed&&!s5TermEditing;
-    $('artboard').dataset.termCompact=String(compactTerm);
-    $('term-summary').hidden=!compactTerm;
-    text('term-current',r.term_confirmed?'已选 '+r.term_months+' 个月':'');
-    document.querySelector('.term-heading h2').textContent=compactTerm?'用仓租期':'选择租期';
-    $('term-edit').setAttribute('aria-expanded',String(s5TermEditing));
-
     const match=offerRows.length>0,matchState=s5MatchState(offerRows,r);
     $('artboard').dataset.match=matchState;
     $('artboard').dataset.count=String(match?offerRows.length:0);
@@ -249,9 +237,7 @@
   if(page==='s5'){
     document.querySelector('.back').onclick=()=>B.navigate('S01');document.querySelector('.mini-menu').onclick=()=>toast('内部演示导航');
     $('modify').onclick=()=>{B.editRequirement();};$('change-origin').onclick=citySheet;
-    $('term-edit').onclick=()=>{s5TermEditing=true;renderS5();};
-    document.querySelectorAll('[data-term]').forEach(el=>el.onclick=()=>guard(()=>{applyTerm(el.dataset.term);s5TermEditing=false;refresh();}));
-    $('more-term').onclick=moreTerms;
+
     document.querySelector('.recommend-wrap').addEventListener('click',e=>{
       const buy=e.target.closest('[data-s5-buy]'),price=e.target.closest('[data-s5-price]'),storeBtn=e.target.closest('[data-s5-store],[data-s5-map]');
       const key=buy?.dataset.s5Buy||price?.dataset.s5Price;
@@ -275,7 +261,7 @@
     });
     $('s5-advisor-action').onclick=()=>consult('advisor');
     $('see-more').onclick=()=>B.navigate('S01');$('open-estore').onclick=()=>sheet('考拉E存',note('上门取送服务的适用范围及方案由顾问确认；此处仍为候选服务入口。')+act('estoreBooking','联系顾问','',true));
-    $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else if(a==='range'&&$('artboard').dataset.match==='incomplete'){if($('artboard').dataset.requiresCapacity==='true')B.editRequirement();else moreTerms();}else B.navigate('S01');});
+    $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else if(a==='range'&&$('artboard').dataset.match==='incomplete'){if($('artboard').dataset.requiresCapacity==='true')B.editRequirement();else B.editRequirement();}else B.navigate('S01');});
   }
   if(page==='quick'){
     $('back-button').onclick=()=>B.navigate('S01');$('menu-button').onclick=()=>toast('内部演示导航');$('more-terms').onclick=moreTerms;
