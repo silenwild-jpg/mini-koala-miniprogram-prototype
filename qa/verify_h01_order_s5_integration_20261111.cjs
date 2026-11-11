@@ -19,6 +19,7 @@ check('Failure immediately releases existing order',engine.includes("releaseOrde
 check('Pending order resume by id implemented',engine.includes('function resumePendingOrder(orderId)'));
 check('Home directly resumes valid order in O01',view.includes('index.html?page=O01&order='));
 check('O01 restores original reservation',main.includes('core.resumePendingOrder(requestedOrderId)'));
+check('O03 timer resolves deadline from raw order',main.includes('const raw=state().orders.find(x=>x.id===o.id)')&&main.includes('const deadline=raw?.expiresAt??o.expiresAt'));
 check('O03 resumes by selected order ID',main.includes('core.resumePendingOrder(o.id)'));
 check('S5 bridge keeps payment guards',bridge.includes("if(e.message==='QUOTE_STALE')")&&bridge.includes('core.resumePendingOrder(pending.id)'));
 check('Failed-payment sheet explicitly releases and restarts',bridge.includes('原订单已失效，预留仓位已释放')&&policy.includes('o.status==="payment_failed"?["重新选择仓位","restart"]'));
