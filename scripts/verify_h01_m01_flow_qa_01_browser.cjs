@@ -64,6 +64,8 @@ const server=http.createServer((req,res)=>{
     await shot('03-RN01-order-A');
     await page.locator('.back-button[data-value="O03"]').click();
     await page.locator('.mk-order-details').waitFor();assert.equal(orderParam(),setup.a);
+    // Persist A at top before navigating away; B will deliberately use a different scroll position.
+    await page.evaluate(()=>{const e=document.querySelector('#scroll');if(e)e.scrollTop=0;});
     await page.locator('.back-button[data-value="M01"]').click();
     await waitM01();
     await page.locator('.m01-asset-row[data-value="'+setup.b+'"]').click();
@@ -76,6 +78,7 @@ const server=http.createServer((req,res)=>{
     await page.goBack({waitUntil:'domcontentloaded'});
     await page.locator('.mk-order-details').waitFor();
     assert.equal(orderParam(),setup.b,'invoice back to order B');
+    await page.evaluate(()=>{const e=document.querySelector('#scroll');if(e)e.scrollTop=e.scrollHeight;});
     await page.locator('.mk-order-details [data-action="go"][data-value="DP01"]').click();
     await page.locator('.m02-service-summary').waitFor();assert.equal(orderParam(),setup.b);
     await shot('05-DP01-order-B');
@@ -84,6 +87,8 @@ const server=http.createServer((req,res)=>{
     await page.goBack({waitUntil:'domcontentloaded'});await waitM01();
     await page.goBack({waitUntil:'domcontentloaded'});await page.locator('.mk-order-details').waitFor();
     assert.equal(orderParam(),setup.a,'browser back must restore previous A and not show B');
+    const restoredA=await page.evaluate(()=>document.querySelector('#scroll')?.scrollTop||0);
+    assert(restoredA<=10,'O03 A must not inherit order B scroll position, got '+restoredA);
     await shot('06-browser-back-O03-A');
     await page.goForward({waitUntil:'domcontentloaded'});await waitM01();
     await page.goForward({waitUntil:'domcontentloaded'});await page.locator('.mk-order-details').waitFor();
