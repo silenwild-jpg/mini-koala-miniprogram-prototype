@@ -26,12 +26,12 @@ for(const u of sample){
  let prevRent=null;
  for(let n=1;n<=60;n++){
   const amt=core.amounts([u.id],n), factor=Number(ruleFor(n).factor);
-  const discountedMonthly=Math.round((baseMonthly*factor+Number.EPSILON)*100)/100;
-  const expectedTotal=Math.round((discountedMonthly*n+Number.EPSILON)*100)/100;
+  const discountedMonthly=Math.trunc(baseMonthly*factor);
+  const expectedTotal=discountedMonthly*n;
   if(Math.abs(expectedTotal-amt.rent_total)>.011||Math.abs(amt.monthly_average-discountedMonthly)>.011)
    miscalculated.push({unitId:u.id,months:n,got:amt.rent_total,expected:expectedTotal});
   if(prevRent!==null){
-    const delta=Math.round((amt.rent_total-prevRent+Number.EPSILON)*100)/100;
+    const delta=amt.rent_total-prevRent;
     const entry={unitId:u.id,monthsBefore:n-1,monthsAfter:n,before:prevRent,after:amt.rent_total,delta,factorBefore:ruleFor(n-1).factor,factorAfter:factor};
     if(delta<-.011)declines.push(entry);
     else if(Math.abs(delta)<=.011)plateaus.push(entry);
