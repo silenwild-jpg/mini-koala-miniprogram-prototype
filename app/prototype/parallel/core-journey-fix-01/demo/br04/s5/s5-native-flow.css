@@ -292,3 +292,19 @@ body[data-page="s5"] .no-match>p{line-height:1.5;margin:7px 0 12px}
   body[data-page="s5"] .s5-unit-thumb{width:56px}
   body[data-page="s5"] .s5-unit-terms{width:108px}
 }
+
+/* GLOBAL-PRICE-INT-01 | do not ellipsize integer monthly rent × term.
+   Place the explanatory line under price AND button using existing grid rows. */
+body[data-page="s5"] .s5-unit-terms{
+  grid-template-rows:14px 44px 19px;
+}
+body[data-page="s5"] .s5-unit-terms .s5-unit-buy{
+  grid-column:2;grid-row:2;
+}
+body[data-page="s5"] .s5-unit-terms .s5-unit-monthly{
+  grid-column:1 / -1;grid-row:3;
+  min-width:0;max-width:100%;
+  text-align:right;overflow:visible;text-overflow:clip;
+  white-space:nowrap;font-size:11px;line-height:19px;
+  font-variant-numeric:tabular-nums;
+}
