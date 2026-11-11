@@ -1,0 +1,99 @@
+name: VIS-SYSTEM-04B2 CJK 375 390 actual-render QA NO DEPLOY
+on:
+  push:
+    branches: [isolate/vis-system-04b2-20261111]
+    paths:
+      - '.github/workflows/vis-system-04b2.yml'
+      - 'scripts/verify_vis_system_04b2_cjk_browser.py'
+      - 'docs/VIS_SYSTEM_04B2_20261111.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: vis-system-04b2
+  cancel-in-progress: true
+jobs:
+  chinese-layout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: VIS-GUARD no production code change against PR120
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          git diff --exit-code origin/isolate/vis-system-04b1-20261111...HEAD -- app/prototype/parallel/core-journey-fix-01/demo/
+      - name: Existing five-city label and integer-rent business contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/verify_vis_system_04b2_cjk_browser.py
+          node scripts/verify_vis_system_04b1_tag_semantics.cjs
+          node scripts/verify_price_integer_contract_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+      - name: Build original pages exactly from one source SHA
+        env:
+          RC2_BUNDLE_LABEL: VIS-SYSTEM-04B2-CHINESE-TEXT
+          RC2_BUNDLE_BRANCH: isolate/vis-system-04b2-20261111
+          RC2_BUNDLE_SOURCE_PR: '121'
+          RC2_BUNDLE_BASE_PR: '120'
+          RC2_BUNDLE_ARCHIVE: MiniKoala_VIS_SYSTEM_04B2.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Check source identity and preserve build before font installation
+        shell: bash
+        run: |
+          node -e "const x=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(x.source_sha!==process.env.GITHUB_SHA||x.source_pr!==121||x.source_branch!=='isolate/vis-system-04b2-20261111')process.exit(1);console.log('EXACT_SOURCE',x.source_sha,x.source_pr)"
+      - name: Upload unmodified source archive NO DEPLOY
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-SYSTEM-04B2-exact-source
+          retention-days: 7
+          if-no-files-found: error
+          path: release-evidence/rc2-merge-prep-10/MiniKoala_VIS_SYSTEM_04B2.zip
+      - name: Install temporary Chinese fonts on runner, never bundle fonts
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-evidence/vis-system-04b2
+          command -v fc-list
+          if ! fc-list :lang=zh family | grep -q .; then
+            echo "CJK_NOT_PREINSTALLED -- attempting lightweight Ubuntu package"
+            timeout 85s sudo apt-get install -y -qq fonts-wqy-microhei || true
+          fi
+          if ! fc-list :lang=zh family | grep -q .; then
+            echo "CJK_PACKAGE_UNAVAILABLE -- attempting public OFL Noto CJK from GitHub (runner only)"
+            mkdir -p "$HOME/.local/share/fonts"
+            timeout 75s curl -fLsS --retry 1 --retry-delay 2 --max-time 65 \
+              'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf' \
+              -o "$HOME/.local/share/fonts/vis04b2-temporary-cjk.otf"
+            fc-cache -f "$HOME/.local/share/fonts"
+          fi
+          fc-list :lang=zh family | sort -u | head -15 | tee release-evidence/vis-system-04b2/font-families.txt
+          test -s release-evidence/vis-system-04b2/font-families.txt || { echo "CJK_FONT_UNAVAILABLE - HOLD"; exit 1; }
+      - name: Real Chinese glyph and text-layout QA in Chrome 375 and 390
+        shell: bash
+        run: python3 scripts/verify_vis_system_04b2_cjk_browser.py
+      - name: Upload Chinese screenshots and exact-source QA diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-SYSTEM-04B2-375-390-CJK-QA
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/vis-system-04b2/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
