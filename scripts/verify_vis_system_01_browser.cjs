@@ -82,7 +82,13 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
             };
           });
           const e=body.querySelector('.s01-estore-card');
+          const promo=body.querySelector('.store-card[data-card-kind="expanded"] .store-tags .mk-tag-promotion');
+          const service=body.querySelector('.store-card[data-card-kind="expanded"] .store-tags .mk-tag-service');
           return {
+            firstTagStyles:{
+              promo:promo?{text:promo.textContent,color:getComputedStyle(promo).color,bg:getComputedStyle(promo).backgroundColor}:null,
+              service:service?{text:service.textContent,color:getComputedStyle(service).color,bg:getComputedStyle(service).backgroundColor}:null
+            },
             version:document.documentElement.dataset.visSystem||'baseline',
             screenOverflow:document.documentElement.scrollWidth-innerWidth,
             ETop:e?.getBoundingClientRect().y,
@@ -93,6 +99,8 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
         });
         assert.equal(details.version,variant);
         assert.equal(details.cssToken,'#11845f','global token not loaded in S01');
+        assert.equal(details.firstTagStyles.promo?.color,'rgb(197, 106, 37)','promo tag is not using the warm palette');
+        assert.equal(details.firstTagStyles.service?.color,'rgb(101, 115, 108)','service tag is not using the neutral palette');
         assert.equal(details.cardCount,2,'two matched store cards are required');
         assert(details.headerTop>=-1&&details.headerTop<=1,'comparison screenshot was scrolled: '+details.headerTop);
         assert(details.screenOverflow<=2,'horizontal page overflow '+details.screenOverflow);
