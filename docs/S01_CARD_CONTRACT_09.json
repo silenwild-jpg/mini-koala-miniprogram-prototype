@@ -10,13 +10,16 @@
     "ci_artifact": 13838332947
   },
   "freeze": {
-    "information_architecture": "FROZEN",
+    "information_architecture": "FIELD_CATEGORIES_AND_CONDITIONS_FROZEN",
     "interaction": "FROZEN",
-    "main_hierarchy": "BASELINE_FROZEN",
+    "main_hierarchy": "OPEN_REDESIGN_ALLOWED",
     "global_visual_tokens": "PROVISIONAL",
     "human_visual_signoff": "PENDING",
     "pr_merge": "HOLD",
-    "deployment": "NO_DEPLOY"
+    "deployment": "NO_DEPLOY",
+    "card_internal_layout": "OPEN",
+    "card_geometry_and_field_placement": "OPEN",
+    "user_visual_signoff": "PENDING"
   },
   "required_ui": [
     "city_picker",
@@ -89,7 +92,10 @@
     "disputed_original_strikethrough_visible": false,
     "order_action": "selected_unit_id_to_O01",
     "store_details_action": "store_id_to_S02",
-    "later_units_exposed": false
+    "later_units_exposed": false,
+    "row_labels_are_groups_not_physical_row_positions": true,
+    "placement_and_grouping": "OPEN_TO_VISUAL_REDESIGN",
+    "initial_screen_layout_is_freezeframe": false
   },
   "cabin": {
     "format": "^[A-D](00[1-9]|0[12][0-9]|030)$",
@@ -171,9 +177,11 @@
     "S01-VIS-FINAL-10"
   ],
   "change_control": {
-    "without_evidence": "DO_NOT_CHANGE_STRUCTURAL_CONTRACT",
+    "without_evidence": "DO_NOT_CHANGE_BUSINESS_FIELDS_OR_INTERACTION_CONTRACT",
     "exception": "EVIDENCE_BACKED_P0_P1_WITH_USER_APPROVAL_AND_CROSS_PAGE_TEST",
-    "no_main_merge_implicit": true
+    "no_main_merge_implicit": true,
+    "layout_optimization": "ALLOWED_WITHOUT_PRODUCT_SCOPE_REAPPROVAL",
+    "protected_scope": "BUSINESS_FIELDS_STATE_RULES_AND_INTERACTIONS"
   },
   "global_rules": {
     "source": "docs/GLOBAL_PRICE_TAG_UNIT_COPY_20261111.md",
@@ -224,5 +232,29 @@
       "O03"
     ],
     "capacity_copy_s5_display": "DATA_SHARED_UI_ROW_HIDDEN_PENDING_VISUAL_CHOICE"
+  },
+  "layout_design_rights": {
+    "allowed": [
+      "reorder_cards_internal_fields",
+      "relayout_store_photo_and_title",
+      "regroup_tags_address_distance",
+      "relayout_cabin_volume_usage",
+      "change_price_discount_secondary_hierarchy",
+      "move_order_button_to_separate_row",
+      "redistribute_whitespace_and_card_height",
+      "redesign_375_and_390_responsiveness"
+    ],
+    "guardrails": [
+      "retain_all_approved_field_categories",
+      "retain_display_state_conditions",
+      "retain_ranking_third_E_and_fourth_compact",
+      "retain_integer_price_formula",
+      "retain_global_store_tag_semantics",
+      "retain_direct_store_navigation_and_order_actions",
+      "no_comparison_or_U01",
+      "no_explanatory_UI_clutter"
+    ],
+    "current_screenshots": "REFERENCE_ONLY_NOT_FROZEN_LAYOUT",
+    "future_stage": "VIS-SYSTEM-01"
   }
 }
