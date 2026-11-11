@@ -360,8 +360,12 @@
     return {sec,label:pad(Math.floor(sec/3600))+':'+pad(Math.floor((sec%3600)/60))+':'+pad(sec%60),tone:sec<=300?'critical':sec<=1800?'warning':'normal'};
   };
   const paymentClockHtml=o=>{
-    if(o.status!=='pending'||!Number.isFinite(Number(o.expiresAt)))return '';
-    const clock=paymentTimeLeft(o.expiresAt);
+    // O03 renders a summary without expiresAt; resolve the original deadline by order ID.
+    // Reopening O03 must not reset the pending order's three-hour payment window.
+    const source=state().orders.find(x=>x.id===o.id);
+    const deadline=source?.expiresAt??o.expiresAt;
+    if(o.status!=='pending'||!Number.isFinite(Number(deadline)))return '';
+    const clock=paymentTimeLeft(deadline);
     return '<p class="mk-order-clock" role="timer" aria-live="off">支付剩余时间 <strong id="mk-order-countdown" data-tone="'+clock.tone+'">'+clock.label+'</strong></p>';
   };
   const orderStoreName=o=>store(o.store_id)?.name||'已选择门店';
