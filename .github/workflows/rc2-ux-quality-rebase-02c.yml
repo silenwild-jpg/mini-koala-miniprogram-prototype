@@ -1,0 +1,52 @@
+name: RC2 UX REBASE 02C quote gate and compare inspector NO DEPLOY
+on:
+  push:
+    branches: [audit/rc2-ux-quality-rebase-01-20261111]
+    paths:
+      - .github/workflows/rc2-ux-quality-rebase-02c.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  readonly-quote-visual-inspection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Enforce frozen business runtime and script syntax
+        run: |
+          test "$(git rev-parse HEAD:app)" = 4fbf5eefccbc9ee3e05a969b88334314263a3e79
+          git diff --exit-code e435bb25eddc8a8ad4c84427ca9883d4ec3e9c16 HEAD -- app/
+          node --check scripts/audit_rc2_ux_quality_rebase_02c_quote_compare.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Build local review bundle only
+        env:
+          RC2_BUNDLE_BRANCH: audit/rc2-ux-quality-rebase-01-20261111
+          RC2_BUNDLE_LABEL: RC2-UX-QUALITY-REBASE-02C-READONLY
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_02C_NoDeploy.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install isolated browser
+        run: |
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Check anonymous and verified quotes, fee details, touch targets
+        run: node scripts/audit_rc2_ux_quality_rebase_02c_quote_compare.cjs
+      - name: Preserve evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-ux-quality-rebase-02c-fee-auth-touch-inspection
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-ux-quality-rebase-02c/
+            release-evidence/rc2-merge-prep-10/build-summary.json
