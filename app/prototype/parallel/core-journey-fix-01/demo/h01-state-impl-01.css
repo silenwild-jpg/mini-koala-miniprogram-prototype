@@ -119,3 +119,9 @@ body.h01-flow-business .h01-flow-content{padding-bottom:max(20px, env(safe-area-
   body.h01-flow-business .h01-scene-image{height:108px}
   body.h01-flow-business .h01-stage-progress{padding-bottom:4px}
 }
+
+/* Safe-area refinement: active includes services and orders below the photo. */
+body.h01-flow-business #h01FlowContext[data-stage="active"] .h01-scene-image{height:104px}
+@media(max-width:380px){
+  body.h01-flow-business #h01FlowContext[data-stage="active"] .h01-scene-image{height:96px}
+}
