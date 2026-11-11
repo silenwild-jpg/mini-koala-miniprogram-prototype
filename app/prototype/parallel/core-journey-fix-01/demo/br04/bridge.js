@@ -108,8 +108,8 @@
         '<img class="s5-unit-thumb" src="'+s5UnitImage(u.volume)+'" alt="'+esc(u.volume+'m³仓位空间示意')+'">'+
         '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+
         (shared?.promo?'<span class="s5-promo-tag">'+esc(shared.promo)+'</span>':'')+
-        '<span class="s5-unit-price-label">整期租金</span><small class="s5-unit-monthly">'+esc(suffix)+'</small></div>'+
-        '<div class="s5-unit-terms"><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
+        '<small class="s5-unit-monthly">'+esc(suffix)+'</small></div>'+
+        '<div class="s5-unit-terms"><span class="s5-unit-price-label">整期租金</span><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
         'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+
         '" data-s5-price="'+rank+':'+i+'" aria-label="查看'+esc(caption)+'的费用明细">'+esc(priceDisplay)+'</button>'+
         '<button type="button" class="s5-unit-buy" '+(buyId?'id="'+buyId+'" ':'')+
@@ -306,7 +306,7 @@
         entries.map(x=>'<td>'+esc(fmt?fmt(x.amount):money(x.amount[key]))+'</td>').join('')+'</tr>';
       const comparison='<div class="s5-comparison-table-wrap"><table class="s5-comparison-table">'+
         '<thead><tr><th scope="col">费用</th>'+
-        entries.map(x=>'<th scope="col" title="'+esc(x.store.name)+'">'+esc(x.store.name)+'</th>').join('')+
+        entries.map(x=>'<th scope="col" title="'+esc(x.store.name)+'">'+esc(x.store.name).replace(/·/g,'·<wbr>')+'</th>').join('')+
         '</tr></thead><tbody>'+
         cells('整期租金','rent_total')+cells('月均租金','monthly_average')+
         cells('优惠券','coupon_discount',a=>(a.coupon_discount?'−'+money(a.coupon_discount):'¥0'))+
