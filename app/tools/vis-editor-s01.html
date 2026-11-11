@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>迷你考拉仓 · S01 视觉工作台 · VIS-EDITOR-01A</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:#26332d;background:#f3f5f4;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0;min-width:1060px}
+button,select,input{font:inherit}
+button{cursor:pointer}
+.topbar{height:66px;background:#fff;display:flex;align-items:center;gap:18px;padding:0 24px;border-bottom:1px solid #e4eae6}
+.brand{font-weight:750;font-size:18px;white-space:nowrap;letter-spacing:-.3px}
+.brand small{display:block;font-weight:500;font-size:11px;color:#839187;letter-spacing:0;margin-top:3px}
+.sep{width:1px;height:28px;background:#e2eae4}
+.top-controls{display:flex;align-items:center;gap:10px;flex:1}
+.top-controls label,.bottom label{font-size:12px;color:#6d8074;font-weight:600}
+select{border:1px solid #d8e2dc;background:#fff;border-radius:9px;padding:8px 29px 8px 10px;min-height:37px;color:#28382e}
+button{border:1px solid #dbe4de;background:#fff;color:#354b3d;padding:8px 13px;border-radius:9px;font-size:12px;font-weight:650;min-height:36px}
+button:hover{border-color:#9fbba7;background:#f6faf7}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #268a59;outline-offset:2px}
+button.primary{background:#176b48;border-color:#176b48;color:#fff}
+button.primary:hover{background:#105b3b}
+button:disabled{opacity:.42;cursor:not-allowed}
+.top-actions{display:flex;align-items:center;gap:8px}
+.workspace{height:calc(100vh - 113px);min-height:560px;display:grid;grid-template-columns:205px minmax(430px,1fr) 310px}
+.sidebar,.inspector{background:#fff;overflow:auto}
+.sidebar{border-right:1px solid #e1e9e4;padding:20px 12px}
+.inspector{border-left:1px solid #e1e9e4;padding:20px 18px}
+.small-title{font-size:11px;color:#8a9a90;font-weight:800;letter-spacing:1px;padding:0 11px;margin:0 0 12px}
+.target{width:100%;border:0;background:transparent;text-align:left;font-size:13px;font-weight:600;padding:12px 12px;display:flex;align-items:center;gap:10px;margin-bottom:3px;border-radius:9px;color:#53645a}
+.target::before{content:"";width:6px;height:6px;border-radius:50%;background:#bbcbc0}
+.target.active{color:#11613d;background:#ebf5ee}
+.target.active::before{background:#176b48}
+.side-hint{font-size:11px;color:#89998d;line-height:1.8;margin:20px 11px 0;border-top:1px solid #edf0ed;padding-top:16px}
+.canvas{min-width:0;display:flex;flex-direction:column;align-items:center;overflow:auto;padding:24px 24px 40px;background:radial-gradient(#dfe6df 1px,transparent 1px);background-size:16px 16px}
+.canvas-head{display:flex;align-items:center;justify-content:space-between;width:420px;max-width:100%;gap:10px;margin-bottom:15px;color:#63786a;font-size:12px;font-weight:600}
+.mode{display:flex;gap:5px;border:1px solid #dce8df;border-radius:8px;padding:3px;background:#fff}
+.mode button{min-height:26px;border:none;padding:4px 11px}
+.mode button.active{background:#e7f4e9;color:#106b43}
+.phone-wrap{border:9px solid #263d31;border-radius:28px;background:#fff;box-shadow:0 22px 45px rgba(21,39,25,.18);overflow:hidden;flex:none}
+.phone-wrap iframe{display:block;border:0;background:#fff}
+.device-caption{margin:16px auto 0;font-size:11px;color:#82948a;line-height:1.6;text-align:center}
+.inspector h2{font-size:17px;letter-spacing:-.2px;margin:3px 0 5px}
+.inspector .subtitle{font-size:11px;color:#91a096;line-height:1.6;margin-bottom:22px}
+.field{margin:0 0 23px}
+.field .field-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#5a6b60;font-weight:600;margin-bottom:10px}
+.field input[type=number]{width:75px;text-align:right;padding:6px 7px;border:1px solid #d9e3db;border-radius:7px;color:#1e5f3a;background:#f9fbf9}
+.field input[type=range]{width:100%;accent-color:#167349;cursor:pointer}
+.field .range-bounds{display:flex;justify-content:space-between;font-size:10px;color:#a1ada4;margin-top:5px}
+.field input[type=color]{height:36px;width:100%;padding:3px;border:1px solid #dbe4dc;border-radius:8px;background:#fff}
+.editor-note{background:#f4f8f5;border:1px solid #e5eee7;border-radius:9px;padding:12px 13px;font-size:11px;line-height:1.8;color:#738778;margin:16px 0}
+.inspector-actions{display:flex;gap:8px}
+.inspector-actions button{flex:1}
+.no-fields{color:#95a39a;font-size:12px;line-height:1.9;padding:18px 4px}
+.bottom{height:47px;border-top:1px solid #e1e9e4;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;color:#6d8173}
+.status{display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;background:#6da880;border-radius:50%}
+.dot.dirty{background:#df9c3a}
+.keyboard{font-size:11px;color:#93a297}
+#warning{display:none;padding:12px 15px;background:#fff3e5;color:#7b5425;border-radius:9px;font-size:12px;max-width:430px;margin:0 0 16px;line-height:1.7}
+@media(max-width:1230px){.workspace{grid-template-columns:185px minmax(400px,1fr) 275px}.topbar{gap:9px;padding:0 14px}.top-controls{gap:6px}.inspector{padding:19px 13px}.canvas{padding:18px 12px 30px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">迷你考拉仓 · UI 工作台<small>VIS-EDITOR-01A / S01 / 独立视觉沙箱</small></div>
+  <span class="sep"></span>
+  <div class="top-controls">
+    <label for="viewport">视口</label>
+    <select id="viewport"><option value="375">375 × 812</option><option value="390">390 × 844</option></select>
+    <label for="scene">页面状态</label>
+    <select id="scene">
+      <option value="browse">普通浏览</option>
+      <option value="estimated">已选需求</option>
+      <option value="unlocated">未定位</option>
+      <option value="nomatch">无匹配</option>
+      <option value="extended">扩展推荐</option>
+      <option value="far">远距离</option>
+    </select>
+    <label for="variant">方案</label>
+    <select id="variant"><option value="A">方案 A</option><option value="B">方案 B</option></select>
+  </div>
+  <div class="top-actions">
+    <button id="undo" title="撤销">撤销</button>
+    <button id="redo" title="重做">重做</button>
+    <button id="export" title="导出方案 JSON 与 CSS">导出方案</button>
+    <button id="save" class="primary">保存方案</button>
+  </div>
+</header>
+<div class="workspace">
+  <aside class="sidebar">
+    <div class="small-title">页面区块</div>
+    <div id="target-list"></div>
+    <div class="side-hint">选中区块，调整右侧属性。也可在预览页直接点击元素。修改仅影响当前视觉沙箱，不改原型源码与业务规则。</div>
+  </aside>
+  <main class="canvas">
+    <div id="warning" role="alert"></div>
+    <div class="canvas-head">
+      <span id="screen-label">S01 · 375 × 812</span>
+      <div class="mode">
+        <button id="select-mode" class="active" aria-pressed="true">选择元素</button>
+        <button id="preview-mode" aria-pressed="false">体验交互</button>
+      </div>
+    </div>
+    <div class="phone-wrap" id="phone">
+      <iframe id="preview" title="S01 原型实时预览" loading="eager"></iframe>
+    </div>
+    <div class="device-caption">原型真实页面 · 浏览器同源加载<br>样式覆盖仅存在于编辑预览中</div>
+  </main>
+  <aside class="inspector">
+    <div class="small-title" style="padding:0">视觉属性</div>
+    <h2 id="target-title">门店卡</h2>
+    <div class="subtitle" id="target-desc">支持受控调整，不允许修改文案、数据或页面路由</div>
+    <div id="fields"></div>
+    <div class="inspector-actions"><button id="reset-region">重置当前区块</button><button id="reset-all">清空当前方案</button></div>
+    <div class="editor-note">视觉更改仅在本机的当前方案中生效。导出的 CSS 是供开发审查的候选补丁；由于现有页面包含多层重要级样式，正式集成仍需检查层叠优先级与双尺寸效果。</div>
+  </aside>
+</div>
+<footer class="bottom">
+  <div class="status"><span class="dot" id="status-dot"></span><span id="status-text">未保存修改：0 项</span></div>
+  <div class="keyboard">ESC 退出元素悬停 · Ctrl+Z 撤销 · Ctrl+Shift+Z 重做</div>
+  <span>基础候选：PR #121 · 2026-11-11 · Draft/HOLD</span>
+</footer>
+<script>
+(function(){
+  'use strict';
+  const SOURCE = '../prototype/mini_storage_store_list_s01_v1_27_self_service_Visual_V2_7_4.html';
+  const STORAGE = 'mini-koala.vis-editor.s01.01a.variants';
+  const BASE_SHA = 'adc7e800e9e3d839bc0575dfc8c18f4a4cff9a6c';
+  const $ = id => document.getElementById(id);
+  const numberField = (id,label,selector,prop,min,max,step) =>
+    ({id,label,selector,prop,min,max,step:step||1,type:'number'});
+  const TARGETS = [
+    {id:'location',label:'位置与搜索',selector:'.location-unified-box',fields:[
+      numberField('height','容器高度','.location-unified-box','height',38,56,1),
+      numberField('radius','圆角','.location-unified-box','border-radius',0,18,1)]},
+    {id:'filters',label:'排序 / 距离 / 服务',selector:'.compact-filters',fields:[
+      numberField('gap','筛选间距','.compact-filters','gap',0,20,1),
+      numberField('margin','下方留白','.toolbar','margin-bottom',0,22,1)]},
+    {id:'quick',label:'快捷筛选标签',selector:'.quick-store-filters',fields:[
+      numberField('gap','标签间距','.quick-store-filters','gap',0,18,1),
+      numberField('margin','上方留白','.quick-store-filters','padding-top',0,20,1)]},
+    {id:'estimate',label:'估算入口',selector:'.estimate-strip',fields:[
+      numberField('padding','内边距','.estimate-strip','padding',6,20,1),
+      numberField('radius','圆角','.estimate-strip','border-radius',0,18,1)]},
+    {id:'store-card',label:'门店卡整体',selector:'#storeList .store',fields:[
+      numberField('padding','卡片内边距','#storeList .store','padding',6,22,1),
+      numberField('bottom','卡片间距','#storeList .store','margin-bottom',4,28,1),
+      numberField('radius','卡片圆角','#storeList .store','border-radius',0,22,1)]},
+    {id:'store-layout',label:'图文布局',selector:'#storeList .store-head',fields:[
+      {id:'photoWidth',label:'图片列宽',selector:'#storeList .store-head',type:'photoWidth',min:76,max:132,step:2},
+      numberField('gap','图文间距','#storeList .store-head','column-gap',4,22,1),
+      numberField('rowgap','分行间距','#storeList .store-head','row-gap',0,18,1)]},
+    {id:'store-image',label:'门店图片',selector:'#storeList .store-photo',fields:[
+      numberField('height','图片高度','#storeList .store-photo','height',65,126,1),
+      numberField('radius','图片圆角','#storeList .store-photo','border-radius',0,15,1)]},
+    {id:'store-name',label:'门店名称',selector:'#storeList .store .name',fields:[
+      numberField('size','名称字号','#storeList .store .name','font-size',13,22,1),
+      numberField('line','名称行高','#storeList .store .name','line-height',18,32,1)]},
+    {id:'store-tags',label:'门店服务标签',selector:'#storeList .store-demo-tags',fields:[
+      numberField('gap','标签间距','#storeList .store-demo-tags','gap',2,15,1),
+      numberField('size','标签字号','#storeList .store-demo-tags .tag','font-size',9,15,1)]},
+    {id:'capacity',label:'容量与库存',selector:'#storeList .availabilityfact',fields:[
+      numberField('size','容量数字字号','#storeList .availabilityfact strong','font-size',12,22,1),
+      numberField('label','库存标签字号','#storeList .availabilityfact .browse-stock-line span','font-size',10,17,1)]},
+    {id:'price',label:'租金价格',selector:'#storeList .pricefact',fields:[
+      numberField('size','主价格字号','#storeList .pricefact .price-number','font-size',14,27,1),
+      {id:'color',label:'价格颜色',selector:'#storeList .pricefact .price-number',prop:'color',type:'color'}]},
+    {id:'estore',label:'考拉 E 存',selector:'#estoreListCard',fields:[
+      numberField('padding','卡片内边距','#estoreListCard','padding',6,23,1),
+      numberField('radius','卡片圆角','#estoreListCard','border-radius',0,20,1)]}
+  ];
+  const TARGET_MAP = Object.fromEntries(TARGETS.map(item=>[item.id,item]));
+  const FRAME = $('preview');
+  const saved = loadSaved();
+  const drafts = {A:copy(saved.A),B:copy(saved.B)};
+  let active = 'A', selected = 'store-card', editMode=true, inFrame=null, observer=null, originals=new Map();
+  let undoHistory=[],redoHistory=[],selectionNode=null,applyScheduled=false;
+  function copy(o){return JSON.parse(JSON.stringify(o||{}))}
+  function loadSaved(){
+    try{const obj=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {A:copy(obj.A),B:copy(obj.B)}}
+    catch(e){return {A:{},B:{}}}
+  }
+  function getChanges(){return drafts[active]}
+  function totalEdits(){return Object.values(getChanges()).reduce((n,fields)=>n+Object.keys(fields).length,0)}
+  function isDirty(){return JSON.stringify(drafts[active])!==JSON.stringify(saved[active])}
+  function status(){
+    $('status-text').textContent=(isDirty()?'尚未保存':'已保存')+' · '+totalEdits()+' 项视觉修改';
+    $('status-dot').classList.toggle('dirty',isDirty());
+    $('undo').disabled=undoHistory.length===0;
+    $('redo').disabled=redoHistory.length===0;
+  }
+  function shownWarning(message){$('warning').textContent=message;$('warning').style.display=message?'block':'none'}
+  function configFor(field,val){
+    if(field.type==='photoWidth'){
+      return [
+        {selector:'#storeList .store-head',prop:'grid-template-columns',value:val+'px minmax(0, 1fr)'},
+        {selector:'#storeList .store-photo',prop:'width',value:val+'px'}
+      ];
+    }
+    return [{selector:field.selector,prop:field.prop,value:field.type==='number'?val+'px':val}];
+  }
+  function restoreInline(){
+    originals.forEach((props,el)=>{
+      props.forEach((old,prop)=>{
+        if(old.value){el.style.setProperty(prop,old.value,old.priority)}
+        else{el.style.removeProperty(prop)}
+      });
+    });
+    originals.clear();
+  }
+  function styleNode(el,prop,value){
+    if(!originals.has(el))originals.set(el,new Map());
+    const props=originals.get(el);
+    if(!props.has(prop))props.set(prop,{value:el.style.getPropertyValue(prop),priority:el.style.getPropertyPriority(prop)});
+    el.style.setProperty(prop,value,'important');
+  }
+  function apply(){
+    applyScheduled=false;
+    if(!inFrame)return;
+    restoreInline();
+    Object.entries(getChanges()).forEach(([tid,values])=>{
+      const target=TARGET_MAP[tid];if(!target)return;
+      Object.entries(values).forEach(([fieldId,value])=>{
+        const field=target.fields.find(item=>item.id===fieldId);if(!field)return;
+        configFor(field,value).forEach(rule=>{
+          inFrame.querySelectorAll(rule.selector).forEach(el=>styleNode(el,rule.prop,rule.value));
+        });
+      });
+    });
+    highlight();
+  }
+  function scheduleApply(){if(applyScheduled)return;applyScheduled=true;requestAnimationFrame(apply)}
+  function visibleNode(selector){
+    if(!inFrame)return null;
+    return Array.from(inFrame.querySelectorAll(selector)).find(el=>el.getBoundingClientRect().width>0&&el.getBoundingClientRect().height>0)||null;
+  }
+  function highlight(){
+    if(!inFrame)return;
+    if(selectionNode)selectionNode.classList.remove('vis-editor-selected');
+    selectionNode=visibleNode(TARGET_MAP[selected].selector);
+    if(editMode&&selectionNode)selectionNode.classList.add('vis-editor-selected');
+  }
+  function rgbToHex(value){
+    if(!value)return '#11845f';
+    if(value[0]==='#')return value.slice(0,7);
+    const m=value.match(/\d+/g);
+    return m&&m.length>=3?'#'+m.slice(0,3).map(n=>Number(n).toString(16).padStart(2,'0')).join(''):'#11845f';
+  }
+  function readValue(field){
+    const el=visibleNode(field.selector);
+    if(!el||!FRAME.contentWindow)return field.type==='color'?'#11845f':field.min;
+    const computed=FRAME.contentWindow.getComputedStyle(el);
+    if(field.type==='color')return rgbToHex(computed.getPropertyValue(field.prop));
+    if(field.type==='photoWidth')return Math.round(parseFloat(computed.gridTemplateColumns)||96);
+    const val=parseFloat(computed.getPropertyValue(field.prop));
+    return Number.isFinite(val)?Math.round(val):field.min;
+  }
+  function normalize(field,value){
+    if(field.type==='color'){return /^#[0-9a-fA-F]{6}$/.test(String(value))?value.toLowerCase():'#11845f'}
+    const n=Number(value);
+    return Math.max(field.min,Math.min(field.max,Number.isFinite(n)?n:field.min));
+  }
+  function changeField(tid,field,value){
+    if(!getChanges()[tid])getChanges()[tid]={};
+    getChanges()[tid][field.id]=normalize(field,value);
+    apply();status();
+  }
+  function commitEdit(previous){
+    if(JSON.stringify(previous)===JSON.stringify(getChanges()))return;
+    undoHistory.push(previous);if(undoHistory.length>70)undoHistory.shift();
+    redoHistory.length=0;status();
+  }
+  function renderFields(){
+    const target=TARGET_MAP[selected];$('target-title').textContent=target.label;
+    $('target-desc').textContent='已绑定 S01 页面节点 · 修改对同类区块统一生效';
+    const node=$('fields');node.replaceChildren();
+    if(!inFrame){node.innerHTML='<div class="no-fields">页面加载后即可编辑。请通过 HTTP 服务打开工作台。</div>';return}
+    target.fields.forEach(field=>{
+      const row=document.createElement('div');row.className='field';
+      const title=document.createElement('div');title.className='field-top';
+      const label=document.createElement('label');label.textContent=field.label;
+      const value=(getChanges()[selected]||{})[field.id] ?? readValue(field);
+      if(field.type==='color'){
+        const color=document.createElement('input');color.type='color';color.value=String(value);
+        label.setAttribute('for','field-'+field.id);color.id='field-'+field.id;
+        title.appendChild(label);row.append(title,color);
+        color.addEventListener('input',()=>{if(!color._previous)color._previous=copy(getChanges());changeField(selected,field,color.value)});
+        color.addEventListener('change',()=>{commitEdit(color._previous||copy(getChanges()));color._previous=null});
+      }else{
+        const number=document.createElement('input');number.type='number';number.min=field.min;number.max=field.max;
+        number.step=field.step;number.value=value;
+        const range=document.createElement('input');range.type='range';range.min=field.min;range.max=field.max;
+        range.step=field.step;range.value=value;
+        const bounds=document.createElement('div');bounds.className='range-bounds';
+        bounds.innerHTML='<span>'+field.min+'px</span><span>'+field.max+'px</span>';
+        title.append(label,number);row.append(title,range,bounds);
+        const update=(source,other)=>{
+          if(!source._previous)source._previous=copy(getChanges());
+          const val=normalize(field,source.value);
+          other.value=val;changeField(selected,field,val);
+        };
+        for(const [control,other] of [[number,range],[range,number]]){
+          control.addEventListener('input',()=>update(control,other));
+          control.addEventListener('change',()=>{
+            if(!control._previous)control._previous=copy(getChanges());
+            const val=normalize(field,control.value);
+            control.value=val;other.value=val;changeField(selected,field,val);
+            commitEdit(control._previous);control._previous=null;
+          });
+        }
+      }
+      node.appendChild(row);
+    });
+  }
+  function choose(id){
+    selected=id;
+    document.querySelectorAll('.target').forEach(button=>button.classList.toggle('active',button.dataset.target===id));
+    renderFields();highlight();
+  }
+  function setupTargets(){
+    const list=$('target-list');
+    TARGETS.forEach(item=>{
+      const button=document.createElement('button');button.className='target';
+      button.dataset.target=item.id;button.textContent=item.label;
+      button.addEventListener('click',()=>choose(item.id));
+      list.appendChild(button);
+    });
+    choose(selected);
+  }
+  function attachFrame(){
+    try{inFrame=FRAME.contentDocument;if(!inFrame||!inFrame.body)throw new Error('无法读取预览页面');}
+    catch(e){inFrame=null;shownWarning('无法读取预览页面。请在仓库 app 目录启动本地 HTTP 服务，不要直接双击 HTML 文件。');renderFields();return}
+    shownWarning('');
+    if(observer){observer.disconnect();observer=null}
+    originals.clear();selectionNode=null;
+    const style=inFrame.createElement('style');
+    style.id='vis-editor-preview-only';
+    style.textContent='.review{display:none!important}.shell{height:100vh!important;width:100%!important;max-width:100%!important;margin:0 auto!important;box-shadow:none!important}.vis-editor-selected{outline:2px solid #176b48!important;outline-offset:2px!important}';
+    inFrame.head.appendChild(style);
+    inFrame.addEventListener('click',evt=>{
+      if(!editMode)return;
+      const hit=TARGETS.slice().reverse().find(item=>evt.target.closest&&evt.target.closest(item.selector));
+      if(!hit)return;
+      evt.preventDefault();evt.stopPropagation();evt.stopImmediatePropagation();
+      choose(hit.id);
+    },true);
+    observer=new MutationObserver(scheduleApply);
+    observer.observe(inFrame.body,{childList:true,subtree:true});
+    apply();renderFields();
+  }
+  function urlForScene(){
+    const val=$('scene').value;
+    let q='state='+encodeURIComponent(val);
+    if(val==='browse')q+='&entry=browse_nearby';
+    if(val==='estimated'||val==='extended'||val==='far')q+='&target=3&term=12';
+    return SOURCE+'?'+q;
+  }
+  function reloadFrame(){
+    if(observer){observer.disconnect();observer=null}
+    restoreInline();inFrame=null;
+    FRAME.src=urlForScene();
+    shownWarning('');
+    renderFields();
+  }
+  function setViewport(){
+    const w=Number($('viewport').value),h=w===375?812:844;
+    FRAME.style.width=w+'px';FRAME.style.height=h+'px';
+    $('screen-label').textContent='S01 · '+w+' × '+h;
+  }
+  function setMode(edit){
+    editMode=edit;$('select-mode').classList.toggle('active',edit);
+    $('preview-mode').classList.toggle('active',!edit);
+    $('select-mode').setAttribute('aria-pressed',String(edit));
+    $('preview-mode').setAttribute('aria-pressed',String(!edit));
+    highlight();
+  }
+  function replaceDraft(next){drafts[active]=copy(next);apply();renderFields();status()}
+  function download(name,type,body){
+    const blob=new Blob([body],{type});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement('a');link.href=url;link.download=name;document.body.append(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function cssPatch(){
+    const map=new Map();
+    Object.entries(getChanges()).forEach(([tid,values])=>{
+      const target=TARGET_MAP[tid];if(!target)return;
+      Object.entries(values).forEach(([key,val])=>{
+        const field=target.fields.find(f=>f.id===key);if(!field)return;
+        configFor(field,val).forEach(r=>{
+          if(!map.has(r.selector))map.set(r.selector,new Map());
+          map.get(r.selector).set(r.prop,r.value);
+        });
+      });
+    });
+    const lines=['/* VIS-EDITOR-01A | S01 | 方案 '+active+' | 仅供人工集成 */',
+      '/* 注意：原页含 CSS @layer + !important，须先审查优先级，禁止直接覆盖生产样式。 */'];
+    map.forEach((props,selector)=>{
+      lines.push(selector+' {');
+      props.forEach((v,p)=>lines.push('  '+p+': '+v+' !important;'));
+      lines.push('}');
+    });
+    return lines.join('\n')+'\n';
+  }
+  $('viewport').addEventListener('change',setViewport);
+  $('scene').addEventListener('change',reloadFrame);
+  $('variant').addEventListener('change',()=>{
+    active=$('variant').value;undoHistory=[];redoHistory=[];apply();renderFields();status();
+  });
+  $('select-mode').addEventListener('click',()=>setMode(true));
+  $('preview-mode').addEventListener('click',()=>setMode(false));
+  $('undo').addEventListener('click',()=>{
+    if(!undoHistory.length)return;redoHistory.push(copy(getChanges()));replaceDraft(undoHistory.pop());
+  });
+  $('redo').addEventListener('click',()=>{
+    if(!redoHistory.length)return;undoHistory.push(copy(getChanges()));replaceDraft(redoHistory.pop());
+  });
+  $('save').addEventListener('click',()=>{
+    try{saved[active]=copy(getChanges());localStorage.setItem(STORAGE,JSON.stringify(saved));status();}
+    catch(e){shownWarning('浏览器无法写入本地存储。请导出方案文件保留修改。')}
+  });
+  $('export').addEventListener('click',()=>{
+    const stamp=new Date().toISOString().slice(0,10),name='S01_VIS_EDITOR_01A_'+active+'_'+stamp;
+    download(name+'.json','application/json;charset=utf-8',JSON.stringify({
+      version:'VIS-EDITOR-01A',page:'S01',baseSha:BASE_SHA,sourceBranch:'isolate/vis-system-04b2-20261111',
+      variant:active,viewport:Number($('viewport').value),scene:$('scene').value,
+      changes:getChanges(),exportedAt:new Date().toISOString()
+    },null,2));
+    download(name+'.css','text/css;charset=utf-8',cssPatch());
+  });
+  $('reset-region').addEventListener('click',()=>{
+    if(!getChanges()[selected])return;
+    const before=copy(getChanges());delete getChanges()[selected];commitEdit(before);apply();renderFields();
+  });
+  $('reset-all').addEventListener('click',()=>{
+    if(!totalEdits())return;
+    if(!confirm('确认清空当前方案 '+active+' 的所有视觉修改？保存的方案需再次点击「保存方案」才会覆盖。'))return;
+    const before=copy(getChanges());drafts[active]={};commitEdit(before);apply();renderFields();
+  });
+  document.addEventListener('keydown',evt=>{
+    if(evt.key==='Escape'){setMode(false);return}
+    if(!evt.ctrlKey&&!evt.metaKey)return;
+    if(evt.key.toLowerCase()!=='z')return;
+    if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
+    evt.preventDefault();$(evt.shiftKey?'redo':'undo').click();
+  });
+  FRAME.addEventListener('load',attachFrame);
+  if(location.protocol==='file:')shownWarning('请从 HTTP 服务访问此工作台：在仓库 app 目录执行 python -m http.server 4173，然后打开 /tools/vis-editor-s01.html');
+  setupTargets();setViewport();reloadFrame();status();
+})();
+</script>
+</body>
+</html>
