@@ -53,6 +53,7 @@ const cases=[];
         tagFont:parseFloat(getComputedStyle(tag).fontSize),capacity:capacity.textContent,
         capFont:parseFloat(getComputedStyle(capacity).fontSize),
         tagRect:r(tag),capRect:r(capacity),usageRect:r(u.querySelector('.unit-desc')),
+        priceRect:r(u.querySelector('.price strong')),buttonRect:r(u.querySelector('.order')),
         price:u.querySelector('.price strong').textContent,
         action:u.querySelector('.order').textContent
       };
@@ -62,8 +63,14 @@ const cases=[];
       const row=s01Data[i],want=mounted[i];
       assert.equal(row.unitId,want.unitId);assert.equal(row.cabin,want.cabinNo);
       assert.equal(row.tag,'仓号 '+want.cabinNo);assert(row.capFont>=19&&row.capFont>row.tagFont+7);
-      assert(row.tagRect.right<=row.capRect.left+1,'cabin chip overlaps capacity');
-      assert(row.capRect.right<=row.usageRect.left+1,'capacity overlaps usage');
+      // User-selected reference layout moves cabin chip from the old left
+      // margin to the top-right, and puts usage directly below capacity.
+      assert(row.tagRect.left>=row.priceRect.right-2,'right-hand cabin chip overlaps price');
+      assert(row.capRect.right<=row.priceRect.left+2,'capacity must precede center price');
+      assert(row.usageRect.top>=row.capRect.bottom-1,'usage must appear below capacity');
+      assert(row.buttonRect.left>=row.priceRect.right-2,'checkout must remain in right column');
+      assert(row.buttonRect.top>=row.tagRect.top,'checkout must follow the cabin chip');
+      assert(row.buttonRect.height>=48,'checkout action height regression');
       assert.match(row.capacity,new RegExp(String(want.volume)));
     }
     await page.screenshot({path:path.join(out,'S01-cabin-matched-'+width+'.png')});
