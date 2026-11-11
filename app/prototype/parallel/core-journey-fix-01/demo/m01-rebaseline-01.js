@@ -17,18 +17,19 @@
   }
   function sortedService(orders,ctx){
     var ranked=safeList(orders).map(function(o){
-      var life=orderLife(o,ctx),rank=0;
+      var life=orderLife(o,ctx),rank=0,ending=false;
       if(life){
-        rank=life.lease_status==='returning'?100:life.lease_status==='active'?90:life.lease_status==='upcoming'?80:life.lease_status==='expired'?25:15;
-        if(life.identity_status!=='verified'&&life.lease_status!=='returning'&&life.lease_status!=='ended')rank=95;
+        rank=life.lease_status==='returning'?100:life.lease_status==='active'?90:life.lease_status==='upcoming'?80:life.lease_status==='expired'?88:0;
+        if(life.lease_status==='ended'&&life.deposit_status==='REFUND_PENDING')rank=85;
+        if(life.identity_status!=='verified'&&['active','upcoming'].includes(life.lease_status))rank=95;
         if(life.lease_status==='active'&&life.end_date){
           var days=Math.ceil((Date.parse(life.end_date+'T00:00:00')-Date.now())/86400000);
-          if(days>=0&&days<=30)rank=96;
+          if(days>=0&&days<=30){rank=96;ending=true;}
         }
       }else if(o.status==='pending')rank=75;
       else if(o.status==='payment_failed')rank=70;
       else if(o.status==='payment_cancelled')rank=60;
-      return {order:o,life:life,rank:rank};
+      return {order:o,life:life,rank:rank,ending:ending};
     }).sort(function(a,b){return b.rank-a.rank;});
     return ranked.length?ranked[0]:null;
   }
@@ -47,15 +48,18 @@
     else if(l){
       var req=safeList(l.renewal_requests).find(function(x){return x.status==='QUOTE_PENDING'||x.status==='QUOTE_READY';});
       if(l.lease_status==='returning'){slabel='退租处理中';cta='查看退租进度';act='m01Service';}
+      else if(l.lease_status==='ended'&&l.deposit_status==='REFUND_PENDING'){slabel='押金处理中';cta='查看押金进度';act='m01Service';}
       else if(l.lease_status==='ended'){slabel='已结束';cta='查看历史订单';}
       else if(l.identity_status!=='verified'){slabel='待身份验证';cta='完成身份验证';act='m01Identity';tone='attention';}
       else if(l.lease_status==='upcoming'){slabel='待起租';cta='查看入仓准备';act='m01Access';}
       else if(l.lease_status==='expired'){slabel='已到期';cta='查看订单';tone='attention';}
+      else if(entry.ending){slabel='即将到期';cta=l.total_months<60?'查看续租安排':'查看订单';if(l.total_months<60)act='m01Service';}
       else {slabel='正在用仓';cta='查看我的仓位';}
       if(req&&l.lease_status!=='returning'&&l.lease_status!=='ended'){slabel=req.status==='QUOTE_READY'?'续租报价待确认':'续租申请处理中';cta='查看续租进度';act='m01Service';}
       info+=' · '+l.total_months+'个月'+(l.end_date?' · 至'+l.end_date:'');
     }
-    var value=act==='m01Service'?o.id+'|'+(l&&l.lease_status==='returning'?'EX01':'RN01'):o.id;
+    var target=l&&l.lease_status==='returning'?'EX01':l&&l.lease_status==='ended'&&l.deposit_status==='REFUND_PENDING'?'DP01':'RN01';
+    var value=act==='m01Service'?o.id+'|'+target:o.id;
     return '<div class="m01-primary-top">'+badge(slabel,tone)+'<span class="m01-primary-context">用仓服务</span></div>'+
       '<strong class="m01-primary-title">'+ctx.esc(title)+'</strong><p class="m01-primary-meta">'+ctx.esc(info)+'</p>'+
       '<div class="m01-primary-actions">'+ctx.button(act,cta,value,'m01-primary-button')+'</div>';
@@ -78,13 +82,16 @@
         '<p class="m01-primary-meta">'+ctx.esc(lead.address||'已填写用仓位置')+'</p>'+
         ctx.button('m01View','查看预约记录','booking','m01-primary-button');
     }
+    // A completed/closed lease leaves behind the last checkout's requirement snapshot.
+    // Without a fresh intent marker, do not present that snapshot as a new active search.
+    if(entry&&entry.rank===0)return '<div class="m01-primary-top">'+badge('暂无待办服务')+'</div><strong class="m01-primary-title">历史用仓记录</strong>'+ctx.button('m01View','查看我的订单','orders','m01-primary-button');
     var req=s.requirement||{};
     if(req.capacity_m3){
       return '<div class="m01-primary-top">'+badge('继续找仓')+'</div><strong class="m01-primary-title">'+ctx.esc(req.capacity_m3+'m³')+'</strong>'+
         '<p class="m01-primary-meta">'+ctx.esc(req.term_confirmed?req.term_months+'个月 · '+s.city:'租期待确认 · '+s.city)+'</p>'+
         ctx.button('m01Resume','继续找仓','','m01-primary-button');
     }
-    if(entry)return primaryFromOrder(entry,ctx);
+    if(entry)return '<div class="m01-primary-top">'+badge('暂无待办服务')+'</div><strong class="m01-primary-title">历史用仓记录</strong>'+ctx.button('m01View','查看我的订单','orders','m01-primary-button');
     return '<div class="m01-primary-top">'+badge('尚未用仓')+'</div><strong class="m01-primary-title">就近找个合适的仓位</strong>'+
       '<p class="m01-primary-meta">从附近门店开始，或先估算所需空间</p>'+
       ctx.button('go','找附近门店','S01','m01-primary-button');
@@ -117,8 +124,8 @@
       var l=orderLife(o,ctx),n=ctx.esc(ctx.storeName(o)),id=ctx.esc(o.id);
       var main='<div class="m01-service-order"><h3>'+n+'</h3><p>'+ctx.esc(ctx.unitName(o))+'</p></div>';
       var actions='<div class="m01-service-actions">'+ctx.button('m01Order','订单详情',o.id,'m01-minor-button');
-      if(l&&['active','upcoming'].includes(l.lease_status))actions+=ctx.button('m01Service','续租',o.id+'|RN01','m01-minor-button');
-      if(l&&['active','returning'].includes(l.lease_status))actions+=ctx.button('m01Service','退租进度',o.id+'|EX01','m01-minor-button');
+      if(l&&['active','upcoming'].includes(l.lease_status)&&l.total_months<60)actions+=ctx.button('m01Service',safeList(l.renewal_requests).some(x=>['QUOTE_PENDING','QUOTE_READY'].includes(x.status))?'续租进度':'续租',o.id+'|RN01','m01-minor-button');
+      if(l&&['active','returning'].includes(l.lease_status))actions+=ctx.button('m01Service',l.lease_status==='returning'?'退租进度':'退租',o.id+'|EX01','m01-minor-button');
       if(l)actions+=ctx.button('m01Service','押金',o.id+'|DP01','m01-minor-button');
       if(l)actions+=ctx.button('m01Service','发票',o.id+'|IV01','m01-minor-button');actions+='</div>';
       return '<article class="m01-service-item" data-order-id="'+id+'">'+main+actions+'</article>';
@@ -155,7 +162,7 @@
       var phone=s.account&&s.account.phone?String(s.account.phone):'';
       return '<article class="m01-info-item"><strong>手机号</strong><p>'+(phone?ctx.esc(phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')):'未验证')+'</p>'+
         '<p class="m01-secondary">浏览服务无需登录；正式报价及下单时按统一规则验证。</p>'+
-        '<a class="m01-text-link" href="account.html">查看账户与联系方式</a></article>';
+        '<a class="m01-text-link" href="account.html?view=profile">查看账户与联系方式</a></article>';
     }
     if(view==='help')return '<div class="m01-help-links"><a href="account.html?view=support">联系客服</a><a href="account.html?view=brand">品牌与保障</a>'+
       '<a href="account.html?view=referral">推荐有礼</a></div>';

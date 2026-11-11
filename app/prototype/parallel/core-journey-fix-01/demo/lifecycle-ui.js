@@ -19,13 +19,17 @@ function render(page,core,selectedId,tools){
    if(suffix)return 'KL'+suffix.padStart(8,'0');
    return 'KL'+Array.from(String(id||'')).reduce((n,ch)=>(Math.imul(n,31)+ch.charCodeAt(0))>>>0,0).toString().padStart(10,'0').slice(-10);
  };
- let body='<div class="detail-blank">';
+ let body='<div class="detail-blank m02-service-content">';
  if(!match)return title(names[page]||'租后管理','O03')+body+'<p>没有可办理租后服务的订单，请从我的订单进入。</p>'+button('go','返回订单','M01','outline')+'</div>';
- const v=core.lifecycleView(id);
- body+='<p>订单号：'+esc(publicOrder(id))+'</p><p>租期：'+esc(v.total_months)+'个月 · '+esc(v.start_date)+' 至 '+esc(v.end_date)+'</p>';
- body+='<p>租赁状态：'+esc(stateLabel(v.lease_status))+'</p>';
+ const v=core.lifecycleView(id),o=orders.find(x=>x.id===id);
+ const store=core.fixture.stores.find(x=>x.id===o.store_id),unitNames=(o.unit_ids||[]).map(x=>core.fixture.units.find(u=>u.id===x)?.name||'仓位').join('、');
+ body+='<section class="m02-service-summary"><span class="m02-service-state">'+esc(stateLabel(v.lease_status))+'</span>'+
+   '<strong class="m02-service-store">'+esc(store?.name||'用仓门店')+'</strong><p class="m02-service-unit">'+esc(unitNames)+'</p>'+
+   '<dl><dt>订单编号</dt><dd>'+esc(publicOrder(id))+'</dd><dt>累计租期</dt><dd>'+esc(v.total_months)+'个月</dd>'+
+   '<dt>起止日期</dt><dd>'+esc(v.start_date)+' 至 '+esc(v.end_date)+'</dd></dl></section>';
+ 
  if(page==='RN01'){
-  body+='<h3>续租报价申请</h3><p>续租价格必须单独确认，不自动沿用当前月租。续租金额经确认后生效。</p>';
+  body+='<p>续租价格需单独确认，不自动沿用当前月租。</p>';
   for(const r of v.renewal_requests){
    body+='<p>'+esc(r.months)+'个月 · '+esc(stateLabel(r.status))+'</p>';
    if(r.status==='QUOTE_PENDING'&&reviewMode){
@@ -35,12 +39,12 @@ function render(page,core,selectedId,tools){
    if(r.status==='COMPLETED')body+='<p>续租已完成：'+money(r.quote_total)+'</p>';
   }
   if(['active','upcoming'].includes(v.lease_status)&&v.total_months<60&&!v.renewal_requests.some(r=>['QUOTE_PENDING','QUOTE_READY'].includes(r.status))){
-   body+='<label>续租月数（1–60，累计租期不超过60） <input id="renew-months" type="number" min="1" max="60" value="'+esc(renewalDraft===null||renewalDraft===undefined?'3':String(renewalDraft))+'"></label>'+button('requestRenewal','提交续租需求');
+   body+='<label>续租月数（1–'+(60-v.total_months)+'个月） <input id="renew-months" type="number" min="1" max="'+(60-v.total_months)+'" value="'+esc(renewalDraft===null||renewalDraft===undefined?'':String(renewalDraft))+'"></label>'+button('requestRenewal','提交续租需求');
   }else body+='<p>当前状态暂不接受新的续租申请。</p>';
  }else if(page==='EX01'){
   body+='<h3>退租安排</h3><p>退租费用与验仓结果以门店办理结果为准。</p>';
   if(!v.exit&&v.lease_status==='active'){
-   body+='<label>退租类型 <select id="exit-type"><option value="expiry">到期退租</option><option value="early">提前退租</option></select></label><label>计划取空日期 <input id="exit-date" type="date"></label>'+button('requestExit','提交退租安排');
+   body+='<label>退租类型 <select id="exit-type"><option value="expiry">到期退租</option><option value="early">提前退租</option></select></label><label>计划取空日期 <input id="exit-date" type="date" min="'+core.today()+'"></label>'+button('requestExit','提交退租安排');
   }else if(v.exit){
    body+='<p>退租：'+esc(stateLabel(v.exit.type))+' · '+esc(v.exit.date)+' · '+esc(stateLabel(v.exit.status))+'</p>';
    if(['REQUESTED','INSPECTION_FAILED'].includes(v.exit.status))
@@ -50,7 +54,7 @@ function render(page,core,selectedId,tools){
    if(v.exit.status==='INSPECTION_PASSED')body+='<p>验仓已通过；订单访问资格关闭。</p>';
   }else body+='<p>当前租赁状态不能开始退租。</p>';
  }else if(page==='DP01'){
-  body+='<h3>押金进度</h3><p>状态：'+esc(stateLabel(v.deposit_status))+'</p>';
+  body+='<h3>押金进度</h3><div class="m02-deposit"><span>订单押金</span><strong>'+(core.authorized()?money(o.deposit):'—')+'</strong></div><p>状态：'+esc(stateLabel(v.deposit_status))+'</p>';
   body+='<p>押金退还金额与到账时间以实际办理结果为准。</p>';
   if(v.deposit_status==='REFUND_PENDING'&&reviewMode)body+=button('reviewRefund','评审模拟退款完成','','outline');
  }else if(page==='IV01'){
