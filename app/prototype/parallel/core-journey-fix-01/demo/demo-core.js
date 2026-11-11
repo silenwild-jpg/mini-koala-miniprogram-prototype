@@ -144,7 +144,7 @@
     function rentalPeriod(id){const o=findOrder(id),service=paidService(id),months=o.term_months+service.renewals.reduce((total,p)=>total+p.months,0);return {start_date:o.start_date,total_months:months,end_date:addCalendarMonths(o.start_date,months)};}
 
     // Isolated V2 lifecycle contract: review-only backend transitions and no inferred prices.
-    const dayNow=()=>new Date(now()).toISOString().slice(0,10);
+    const dayNow=()=>today(); // Single UTC+8 business calendar for rental lifecycle and checkout.
     const lifecycleLedger=id=>{
       const service=paidService(id);
       if(!service.lifecycle_v2)service.lifecycle_v2={renewal_requests:[],exit:null,deposit:'HELD',invoices:[]};
@@ -254,7 +254,7 @@
       cancelOrder(id){const o=findOrder(id);if(o.status!=='pending')fail('INVALID_ORDER_STATE');releaseOrder(o,'cancelled');return copy(o);},
       orderDetail(id){const o=findOrder(id);return {...copy(o),service:copy(s.services[id]||null)};},
       identity(id,outcome){const service=paidService(id);if(!['success','failed'].includes(outcome))fail('INVALID_IDENTITY');service.identity=outcome==='success'?'verified':'failed';notify(outcome==='success'?'身份验证通过':'身份验证失败，可重试',id);},
-      enterStorage(id){const service=paidService(id),o=findOrder(id);if(service.identity!=='verified')fail('IDENTITY_REQUIRED');if(o.start_date>new Date(now()).toISOString().slice(0,10))fail('BEFORE_START');if(service.exit?.status==='completed')fail('ORDER_CLOSED');if(!lifecycleView(id).access_allowed)fail('ORDER_CLOSED');service.useStatus='active';notify('已查看入仓指引',id);},
+      enterStorage(id){const service=paidService(id),o=findOrder(id);if(service.identity!=='verified')fail('IDENTITY_REQUIRED');if(o.start_date>today())fail('BEFORE_START');if(service.exit?.status==='completed')fail('ORDER_CLOSED');if(!lifecycleView(id).access_allowed)fail('ORDER_CLOSED');service.useStatus='active';notify('已查看入仓指引',id);},
       rentalPeriod,
       lifecycleView,lifecycleRequestRenewal,lifecycleReviewQuote,lifecycleConfirmRenewal,lifecycleRequestExit,lifecycleRequestInspection,lifecycleReviewInspection,lifecycleReviewRefund,lifecycleRequestInvoice,
       setRenewalMonths(id,value){const service=paidService(id);service.renewalDraft=String(value??'').slice(0,12);const months=Number(service.renewalDraft);if(!validTerm(months)||service.renewalQuote?.months!==months)delete service.renewalQuote;return service.renewalDraft;},
