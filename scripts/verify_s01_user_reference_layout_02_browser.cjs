@@ -30,7 +30,9 @@ const cases=[];
     await s01.locator('.store-card.s01-compact').first().waitFor();
     const before=await s01.locator('html').getAttribute('data-vis-system');
     assert.equal(before,'reference','reference must be default in this isolated design branch');
-    const browse=await s01.locator('.store-card').evaluateAll(rows=>rows.map(el=>({
+    // Check all direct children: the E-storage service has its own class,
+    // intentionally not 'store-card', so filtering .store-card would omit it.
+    const browse=await s01.locator('.stores').evaluate(root=>[...root.children].map(el=>({
       kind:el.dataset.cardKind,unitCount:el.querySelectorAll('.unit:not([hidden])').length
     })));
     assert(browse.filter(x=>x.kind==='expanded').length===0,'browsing must remain compact');
