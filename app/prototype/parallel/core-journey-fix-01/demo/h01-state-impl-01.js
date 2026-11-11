@@ -113,6 +113,11 @@
     if(kind==="business"){setView("business");return}
     if(kind==="browse"){setView("market");return}
     if(kind==="city"){const btn=document.querySelector(".hero .search");if(btn){setView("market");btn.click();}return}
+    if(kind==="primary"&&t.key==="pending"){
+      const checked=getState().task;
+      if(checked.key!=="pending"||checked.orderId!==t.orderId){render();return;}
+      go("index.html?page=O01&order="+encodeURIComponent(t.orderId));return;
+    }
     if(kind==="primary"||kind==="secondary"){act(t[kind]?.[1]||"order");return}
     if(kind==="order"){
       if(t.key==="pending"&&getState().task.key!=="pending"){render();return;}
