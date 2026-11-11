@@ -60,3 +60,5 @@ jobs:
             release-evidence/m01-rebaseline-02/
 
 # R2: rerun with closed-lease requirement snapshot guarded.
+
+# R3: final zh-CN evidence and readable account order IDs; renewal max follows accumulated term.
