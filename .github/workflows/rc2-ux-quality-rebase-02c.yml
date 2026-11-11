@@ -53,4 +53,5 @@ jobs:
 
 # Audit gate R2: observe anonymous price visibility; do not assume a hidden quote mandate.
 
-# R3: inspect candidate via amounts() while order-only formalAmounts() remains protected.
+
+# R3: source-proven public computed amount and binding PHONE_REQUIRED are different contracts.
