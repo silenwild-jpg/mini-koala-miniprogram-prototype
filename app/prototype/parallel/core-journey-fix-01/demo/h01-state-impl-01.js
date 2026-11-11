@@ -73,6 +73,22 @@
   function go(path){window.location.assign(path);}
   function orderUrl(){const id=model.task.orderId;return "index.html?page=O03"+(id?"&order="+encodeURIComponent(id):"")}
   function storeUrl(){const id=model.task.storeId;return id?"index.html?page=S02&store="+encodeURIComponent(id)+"&s01_r2=1":orderUrl()}
+  function showChoice(title,description,options){
+    document.querySelectorAll(".h01-flow-modal").forEach(x=>x.remove());
+    const cover=document.createElement("div");cover.className="h01-flow-modal";
+    const panel=document.createElement("section");panel.className="h01-flow-dialog";panel.setAttribute("role","dialog");panel.setAttribute("aria-modal","true");
+    const h=document.createElement("h2");h.textContent=title;
+    const p=document.createElement("p");p.textContent=description;
+    panel.append(h,p);
+    for(const [label,handler] of options){
+      const b=document.createElement("button");b.type="button";b.textContent=label;b.className="h01-flow-choice";
+      b.addEventListener("click",()=>{cover.remove();handler()});panel.append(b);
+    }
+    const close=document.createElement("button");close.type="button";close.className="h01-flow-cancel";close.textContent="返回";
+    close.addEventListener("click",()=>cover.remove());panel.append(close);cover.append(panel);
+    cover.addEventListener("click",e=>{if(e.target===cover)cover.remove()});
+    document.getElementById("phone").append(cover);close.focus();
+  }
   function act(kind){
     const t=model?.task;if(!t)return;
     if(kind==="business"){setView("business");return}
@@ -89,14 +105,15 @@
     if(kind==="support"){go(t.orderId?orderUrl():"index.html?page=M01");return}
     if(kind==="renew"){go(t.orderId?orderUrl()+"&intent=renew":"index.html?page=M01");return}
     if(kind==="add"){
-      const choose=window.confirm("加租仓位将创建新的选仓与下单流程，现有租约保持不变。\n确定后进入快捷下单。");
-      if(choose){save("mk_h01_add_intent_01",{source:"H01",preferred_store_id:t.storeId||null,origin_order_id:t.orderId||null});go("index.html?page=QUICK");}
-      return;
+      showChoice("加租仓位","将创建新的选仓和下单流程，原有租约不受影响。",[
+        ["优先当前门店",()=>{save("mk_h01_add_intent_01",{source:"H01",preferred_store_id:t.storeId||null,origin_order_id:t.orderId||null});go("index.html?page=QUICK");}],
+        ["浏览其他门店",()=>{save("mk_h01_add_intent_01",{source:"H01",preferred_store_id:null,origin_order_id:t.orderId||null});go("index.html?page=S01&s01_r2=1");}]
+      ]);return;
     }
     if(kind==="change"){
-      const choose=window.confirm("换仓需重新确认仓位、剩余租期、费用及搬运安排；当前仅提供顾问申请，不会自动修改原租约。\n是否进入咨询？");
-      if(choose){save("mk_advisor_context_v3",{service_source:"h01_change_request",store_id:t.storeId||null,order_id:t.orderId||null});go("index.html?page=BOOKING&mode=advisor");}
-      return;
+      showChoice("换仓申请","仓位迁移、剩余租金和押金需要人工确认；本入口不会修改现有租约。",[
+        ["咨询换仓方案",()=>{save("mk_advisor_context_v3",{service_source:"h01_change_request",store_id:t.storeId||null,order_id:t.orderId||null});go("index.html?page=BOOKING&mode=advisor");}]
+      ]);return;
     }
   }
   el.addEventListener("click",e=>{const b=e.target.closest("[data-h01]");if(!b)return;e.preventDefault();act(b.dataset.h01)});
