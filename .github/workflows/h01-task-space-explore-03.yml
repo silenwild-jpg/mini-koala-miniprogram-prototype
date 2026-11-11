@@ -84,3 +84,6 @@ jobs:
 # R2: re-test historical paid rental states with date-stable isolated QA fixtures.
 
 # R3: final check of 375/390 bottom-safe area with reduced active photo height.
+
+# V05: Chinese glyph / clipping + H01 active hours dedup + accessible footer scroll-tail screenshots.
+# No marketing homepage, S5, BLE, payment engine or main deployment changes.
