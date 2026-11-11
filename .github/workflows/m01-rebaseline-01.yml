@@ -38,8 +38,10 @@ jobs:
           node --check scripts/verify_m01_rebaseline_01.cjs
           node --check scripts/verify_m01_rebaseline_01_browser.cjs
           node scripts/verify_m01_rebaseline_01.cjs
-      - name: Install Chromium
+      - name: Install Chromium and Chinese fonts
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install chromium
       - name: Verify M01 running in Chromium at 375 and 390
