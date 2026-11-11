@@ -98,7 +98,7 @@ async function photo(page,w,name){
 async function start(){
  if(!fs.existsSync(path.join(root,'prototype/parallel/core-journey-fix-01/demo/home.html')))throw Error('MISSING_BUILT_SITE');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'rc2-uat-version.json'),'utf8'));
- if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='feat/h01-afterpay-ble-deposit-help-20261111'||manifest.source_pr!==105)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
+ if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='feat/h01-afterpay-ble-deposit-help-20261111'||manifest.source_pr!==113)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
  fs.mkdirSync(dir,{recursive:true});
  const srv=listen();await new Promise(ok=>srv.listen(port,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
