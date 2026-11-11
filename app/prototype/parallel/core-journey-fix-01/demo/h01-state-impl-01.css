@@ -114,7 +114,8 @@ body.h01-flow-business .h01-scene-image{display:block;width:100%;height:114px;bo
 body.h01-flow-business .h01-flow-services{margin-top:12px}
 body.h01-flow-business .h01-flow-other{margin-top:8px}
 body.h01-flow-business .h01-flow-help{margin:12px 2px 0;padding:10px 0 8px}
-body.h01-flow-business .h01-flow-content{padding-bottom:max(20px, env(safe-area-inset-bottom))}
+/* Reserve a scrollable tail at least one fixed-nav height plus 16px; longer CJK lines remain reachable. */
+body.h01-flow-business .h01-flow-content{padding-bottom:max(calc(var(--w)*76/463 + 16px),calc(20px + env(safe-area-inset-bottom)))}
 @media(max-width:380px){
   body.h01-flow-business .h01-scene-image{height:108px}
   body.h01-flow-business .h01-stage-progress{padding-bottom:4px}
