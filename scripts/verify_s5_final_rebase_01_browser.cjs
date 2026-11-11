@@ -33,6 +33,14 @@ const cases=['two-stores','one-store','term-missing','none','term-37'];
  boardW:a.getBoundingClientRect().width,docW:document.documentElement.scrollWidth,viewW:innerWidth,
  boardHeight:a.getBoundingClientRect().height,photo:rect('.s5-store-photo'),second:rect('.minor-unit'),
  priceFit:[...document.querySelectorAll('.s5-unit-price')].map(el=>({text:el.innerText,scroll:el.scrollWidth,client:el.clientWidth})),
+ integerRates:[...document.querySelectorAll('.s5-unit-row')].map(el=>{
+  const ids=(el.dataset.unitIds||'').split(',').filter(Boolean),n=core.state().requirement.term_months;
+  if(!ids.length)return null;
+  const a=core.amounts(ids,n),keys=['monthly_average','rent_total','rent_after_coupon','deposit','coupon_discount','management_fee','payable'];
+  return {allInts:keys.every(k=>Number.isInteger(a[k])),exact:a.monthly_average*n===a.rent_total,
+    payable:a.payable===a.rent_after_coupon+a.deposit+a.management_fee,
+    suffix:el.querySelector('.s5-unit-terms>small')?.textContent||'',months:n};
+ }).filter(Boolean),
  monthlyLines:[...document.querySelectorAll('.s5-unit-row')].map(el=>{
    const ids=el.dataset.unitIds?.split(',').filter(Boolean)||[];
    if(!ids.length)return null;
@@ -48,6 +56,8 @@ const cases=['two-stores','one-store','term-missing','none','term-37'];
  assert.equal(state.compare,0);assert.equal(state.estore,1);assert.equal(state.modifies,1);assert.equal(state.nav,1);assert.equal(state.fixed,false);
  assert(state.docW<=state.viewW+2,'horizontal overflow');assert(state.boardW<=state.viewW+1,'board overflow');
  assert(state.priceFit.every(p=>p.scroll<=p.client+2),'price clipping');
+ assert(state.integerRates.every(x=>x.allInts&&x.exact&&x.payable),'integer rent/total/deposit/coupon/first-pay contract');
+ assert(state.integerRates.every(x=>x.suffix.includes('× '+x.months+'个月')&&!x.suffix.includes('月均')),'monthly formula text matches the source');
  assert(state.monthlyLines.every(x=>!x.text.includes('月均')&&x.text.includes('/月')),'old monthly average label visible');
  assert(state.monthlyLines.every(x=>x.exact?x.text.includes('× '+x.months+'个月'):!x.text.includes('×')),'rent formula must match real source total');
  if(name==='two-stores'||name==='term-37'){assert.equal(state.stores,2);assert.equal(state.schemes,2);if(name==='two-stores')assert(state.second.top<810,'second store starts too late');}

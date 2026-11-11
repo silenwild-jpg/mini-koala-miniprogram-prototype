@@ -29,7 +29,7 @@ function render(page,core,selectedId,tools){
   for(const r of v.renewal_requests){
    body+='<p>'+esc(r.months)+'个月 · '+esc(stateLabel(r.status))+'</p>';
    if(r.status==='QUOTE_PENDING'&&reviewMode){
-    body+='<label>评审演示月租（¥） <input id="renew-review-price" type="number" min="0.01" step="0.01"></label>'+button('reviewRenewal','模拟审核报价',r.id,'outline');
+    body+='<label>评审演示月租（¥） <input id="renew-review-price" type="number" min="1" step="1"></label>'+button('reviewRenewal','模拟审核报价',r.id,'outline');
    }
    if(r.status==='QUOTE_READY')body+='<p>续租整期金额：'+money(r.quote_total)+' / 整期</p>'+button('confirmRenewal','确认续租',r.id);
    if(r.status==='COMPLETED')body+='<p>续租已完成：'+money(r.quote_total)+'</p>';
