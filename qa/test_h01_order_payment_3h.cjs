@@ -63,6 +63,34 @@ check('failed payment still follows existing immediate release rule',()=>{
   const s=setup();const r=s.core.pay(s.order.id,'failed');
   assert.equal(r.status,'payment_failed');assert.equal(s.core.state().stock[s.unit.id],'available');
 });
+check('failed payment ends original order immediately without waiting three hours',()=>{
+  const s=setup();
+  const failed=s.core.pay(s.order.id,'failed');
+  assert.equal(failed.status,'payment_failed');
+  assert.equal(s.core.state().stock[s.unit.id],'available');
+  assert.equal(s.core.expirePendingOrders(),0);
+  const home=policy.derive(s.core.state(),s.core,s.getNow());
+  assert.equal(home.key,'payment_failed');
+  assert.equal(home.primary[1],'restart');
+});
+check('failed order cannot be directly paid after release',()=>{
+  const s=setup();
+  s.core.pay(s.order.id,'failed');
+  const old=s.core.pay(s.order.id,'success');
+  assert.equal(old.status,'payment_failed');
+  assert.notEqual(s.core.orderDetail(s.order.id).status,'paid_simulated');
+});
+check('retry after payment failure creates a new order and new three-hour deadline',()=>{
+  const s=setup();s.core.pay(s.order.id,'failed');
+  s.setNow(start+5*60*1000);
+  s.core.setRequirement(s.unit.volume,12,true);
+  s.core.select([s.unit.id]);s.core.setDate(s.core.today());
+  const q=s.core.quote(),replacement=s.core.submit();
+  assert.notEqual(q.id,s.quote.id);assert.notEqual(replacement.id,s.order.id);
+  assert.equal(replacement.expiresAt-s.getNow(),MS);
+  assert.equal(s.core.orderDetail(s.order.id).status,'payment_failed');
+  assert.equal(s.core.state().stock[s.unit.id],'reserved');
+});
 check('expired order requires a new quote and new order identity',()=>{
   const s=setup();s.setNow(s.order.expiresAt);s.core.expirePendingOrders();s.reauth();
   s.core.setRequirement(s.unit.volume,12,true);s.core.select([s.unit.id]);s.core.setDate(s.core.today());
