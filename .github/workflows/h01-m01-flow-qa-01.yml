@@ -56,7 +56,7 @@ jobs:
           fi
           npm_config_fetch_retries=1 npm_config_fetch_timeout=45000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
           if ! command -v google-chrome >/dev/null 2>&1 && ! command -v google-chrome-stable >/dev/null 2>&1; then npx playwright install chromium; fi
-      - name: Real H01→M01→O03/RN01/EX01/DP01/IV01 browser back/forward 375/390
+      - name: Real H01→M01→O03/RN01/EX01/DP01/IV01 browser back/forward + per-order scroll 375/390
         run: node scripts/verify_h01_m01_flow_qa_01_browser.cjs
       - name: Preserve previous M01 multi-asset and record browser QA
         run: node scripts/verify_m01_ia_03_browser.cjs
