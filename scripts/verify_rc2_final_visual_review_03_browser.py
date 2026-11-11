@@ -188,7 +188,7 @@ try:
    # H01 full scroll already passed in earlier source-exact audit.
    navigate(BASE+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1')
    wait("return !!document.querySelector('#central-host')?.contentWindow?.SIM_DEMO")
-   execute("const b=document.querySelector('#central-host').contentWindow.SIM_DEMO;b.core.setCity('北京');b.core.setRequirement(3,12,true);b.persist();b.navigate('S01');return true;")
+   execute("const b=document.querySelector('#central-host').contentWindow.SIM_DEMO;b.core.setCity('北京');b.core.setRequirement(3,12,true);b.core.setDate(b.core.today());b.core.requestPhone();b.core.resolvePhone('success',{phone:'13800138000'});b.persist();b.navigate('S01');return true;")
    row['pages']['S01']=wait(S01);verify('S01',row['pages']['S01']);screenshot('S01-'+str(width)+'.png')
    # S01 full scroll already passed in earlier source-exact audit.
    execute("const b=document.querySelector('#central-host').contentWindow.SIM_DEMO;b.openStore(b.s01R2Bridge.snapshot().stores[0].id,'S01');return true;")
