@@ -20,7 +20,7 @@
       const rows=fixture.units.filter(u=>u.store_id===store.id&&core.available(u)&&Number(u.volume)>0);
       if(!rows.length)return null;
       const n=Math.min(...rows.map(u=>core.amounts([u.id],term).monthly_average/u.volume));
-      return Number.isFinite(n)&&n>0?{value:Number(n.toFixed(2)),money:money(Number(n.toFixed(2))),unit:'/m³/月起',basis:term+'个月折后最低立方月租'}:null;}
+      return Number.isFinite(n)&&n>0?{value:Number(n.toFixed(2)),money:money(Math.trunc(n)),unit:'/m³/月起',basis:term+'个月折后最低立方月租'}:null;}
     return {price,facts,services,cubicReference};
   }
   root.SIM_PRESENTATION={create};

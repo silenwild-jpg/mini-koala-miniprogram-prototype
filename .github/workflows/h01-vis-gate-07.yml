@@ -1,0 +1,61 @@
+name: H01 VIS GATE 07 375 390 stage copy and density (NO DEPLOY)
+on:
+  push:
+    branches: [feat/h01-vis-gate-07-20261111]
+    paths:
+      - '.github/workflows/h01-vis-gate-07.yml'
+      - 'scripts/verify_h01_vis_gate_07_browser.cjs'
+      - 'app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: h01-vis-gate-07
+  cancel-in-progress: true
+jobs:
+  h01-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify exact commit and business state rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          node --check scripts/verify_h01_vis_gate_07_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+      - name: Build unchanged H01 marketing master with new task-view copy
+        env:
+          RC2_BUNDLE_BRANCH: feat/h01-vis-gate-07-20261111
+          RC2_BUNDLE_SOURCE_PR: "115"
+          RC2_BUNDLE_LABEL: H01-VIS-GATE-07-SOURCE-REVIEW
+          RC2_BUNDLE_ARCHIVE: H01_VIS_GATE_07_REVIEW_ONLY.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install Chromium with Chinese fonts
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Run real H01 stage copy, action and density QA
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+        run: node scripts/verify_h01_vis_gate_07_browser.cjs
+      - name: Preserve exact SHA screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PR115_H01_VIS_GATE_07_REAL_BROWSER_EVIDENCE
+          path: |
+            release-evidence/h01-vis-gate-07/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+          retention-days: 7
+          if-no-files-found: warn
