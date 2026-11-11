@@ -6,6 +6,15 @@
   const priceCss=document.createElement('link');priceCss.rel='stylesheet';priceCss.href='s01-r2-price-surface.css';document.head.append(priceCss);
   const visualCss=document.createElement('link');visualCss.rel='stylesheet';visualCss.href='s01-vis-decision-02.css?v=20261111';document.head.append(visualCss);
   const tagCss=document.createElement('link');tagCss.rel='stylesheet';tagCss.href='global-store-tags.css?v=GLOBAL01';document.head.append(tagCss);
+  // VIS-SYSTEM-02-REF-INTEGRATE: selected reference layout is now the S01
+  // matched-card default in PR #99. '?vis_system=baseline' is QA-only opt-out;
+  // browse cards, fixed E service and 4th+ compact cards keep their own styling.
+  const layoutCss=document.createElement('link');
+  layoutCss.rel='stylesheet';
+  layoutCss.href='s01-reference-layout-02.css?v=REF02';
+  document.head.append(layoutCss);
+  const referenceParam=new URLSearchParams(window.location.search).get('vis_system');
+  document.documentElement.dataset.visSystem=referenceParam==='baseline'?'baseline':'reference';
   const bridge=window.parent!==window?window.parent.SIM_DEMO?.s01R2Bridge:null;
   if(!bridge||!stage||masters.length!==2){document.documentElement.dataset.binding='UNAVAILABLE';return;}
   const setText=(el,v)=>{if(el)el.textContent=String(v??'');};
