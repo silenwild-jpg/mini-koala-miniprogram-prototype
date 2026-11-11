@@ -1,0 +1,57 @@
+/* M01-REBASELINE-02 · visually align legacy service subpages with central M01.
+   Scope: account.html only. Never change H01/S01/S02/S5/O01 masters. */
+body{background:#f7faf8;color:#18392f;font-size:14px}
+.account-shell{max-width:430px;min-height:100dvh;padding-bottom:calc(70px + env(safe-area-inset-bottom));background:#f7faf8}
+.account-header{height:52px;padding:0 16px;display:grid;grid-template-columns:70px minmax(0,1fr) 70px;align-items:center;background:#fff;border:0;border-bottom:1px solid #e7eee9}
+.account-header a{font-size:14px;font-weight:600;color:#207952;min-height:44px;display:flex;align-items:center}
+.account-header h1{font-size:18px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.account-header-side{width:70px}
+#notice:not(:empty){margin:10px 16px 0;padding:10px 12px;border-radius:8px;background:#fff4e4;color:#996022;font-size:13px}
+#content{padding:12px 0 20px}
+#content .panel{margin:0 16px 10px;padding:16px 0;border:0;border-radius:0;background:transparent;overflow:visible}
+#content .panel>h2{font-size:17px;line-height:1.45;margin:0 0 13px;font-weight:750;color:#18392f}
+#content .panel>h2:first-child{padding:0}
+#content .panel h3{font-size:15px;line-height:1.5;margin:17px 0 8px}
+#content .panel>p,#content .panel .small{font-size:13px;line-height:1.6;color:#657d71}
+#content .panel>p{margin:8px 0}
+#content .panel .list-item{padding:13px 0;border-color:#e7eeea}
+#content .panel .list-item:first-child{border-top:0}
+#content .panel .status,#content .service-state{display:inline-block;background:#eaf5ed;color:#177750;border-radius:5px;padding:5px 8px;font-size:12px;line-height:1.4}
+#content .panel .status{margin:6px 0}
+#content .account-profile-lines{border-top:1px solid #e7eeea}
+#content .account-profile-lines>div{display:flex;justify-content:space-between;gap:12px;padding:15px 0;border-bottom:1px solid #e7eeea}
+#content .account-profile-lines span{color:#789086;font-size:13px}
+#content .account-profile-lines strong{font-size:14px;font-weight:650;overflow-wrap:anywhere;text-align:right}
+#content .account-steps{padding:3px 0 8px}
+#content .account-steps p{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.65;margin:12px 0}
+#content .account-steps b{color:#167751;font-weight:750;flex:none}
+#content .panel label{font-size:14px;font-weight:600;margin:14px 0 6px}
+#content .panel input,#content .panel textarea,#content .panel select{border:1px solid #d5e4dc;background:#fff;border-radius:8px;min-height:46px;padding:11px 12px;font-size:14px}
+#content .panel .button-row{gap:8px;display:flex;flex-wrap:wrap;margin-top:17px}
+#content .panel button,#content .panel .primary,#content .panel .outline{min-height:48px;border-radius:8px;font-size:14px;font-weight:650;flex:1;padding:11px 12px}
+#content .panel .primary,#content .panel button:not(.outline){background:#0c7852;color:#fff;border:0}
+#content .panel .outline{background:#fff;color:#167450;border:1px solid #cfe5d8}
+#content .panel dl{padding:6px 0;row-gap:12px}
+#content .panel dt,#content .panel dd{font-size:13px}
+#content .panel .notice-box{background:#edf5f0;border-radius:8px;color:#406c57;font-size:12px}
+#content .panel .menu-grid{grid-template-columns:1fr;gap:0;background:transparent}
+#content .panel .menu-grid a{background:transparent;border:0;border-bottom:1px solid #e7eee9;border-radius:0;min-height:50px;padding:13px 0;font-size:14px;font-weight:650}
+#content .panel .empty{padding:24px 0;color:#7d8f86;font-size:13px}
+.account-nav{width:100%;max-width:430px;min-height:60px;align-items:center;border-top:1px solid #e2eae5;background:#fff;padding:5px 3px max(5px,env(safe-area-inset-bottom))}
+.account-nav a{min-height:46px;justify-content:center;font-size:11px;color:#668173;line-height:1.25}
+.account-nav a[aria-current]{color:#0c7852;font-weight:650}
+.account-nav img{width:23px;height:23px;margin-bottom:3px}
+#sheet{padding:17px 16px;max-height:80dvh;max-width:calc(100vw - 32px);border-radius:14px;background:#fff}
+#sheet h2{font-size:19px;margin:6px 0 14px}
+#sheet input,#sheet textarea{width:100%;min-height:44px}
+#sheet button{min-height:44px}
+:focus-visible{outline:2px solid #0b8056;outline-offset:2px}
+
+/* Identity is a single decision: state first, then one full-width primary action. */
+body[data-service-view="identity"] #content .panel>.service-state{
+ display:block;width:100%;padding:10px 12px;margin:16px 0 12px;line-height:1.55;
+}
+body[data-service-view="identity"] #content .panel>button.primary{
+ display:flex;width:100%;min-height:48px;margin:0 0 14px;
+}
+body[data-service-view="identity"] #content .panel>.button-row{margin-top:12px;}

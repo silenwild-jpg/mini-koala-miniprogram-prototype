@@ -76,7 +76,10 @@
     const main=records[0]||{key:"new",layout:"marketing",title:"",badge:"",sub:"",facts:[],primary:null,secondary:null,score:0,orderId:null,storeId:null};
     const paid=all.filter(o=>o?.status==="paid_simulated");
     const activeOrders=records.filter(x=>x.key==="active"||x.key==="expiring");
-    return {...main,otherActiveCount:activeOrders.filter(x=>x.orderId!==main.orderId).length,hasRental:activeOrders.length>0,hasOrder:all.length>0,allowTab:main.key==="active"||main.key==="expiring",isMarketing:main.key==="new"};
+    const projection={...main,otherActiveCount:activeOrders.filter(x=>x.orderId!==main.orderId).length,hasRental:activeOrders.length>0,hasOrder:all.length>0,allowTab:main.key==="active"||main.key==="expiring",isMarketing:main.key==="new"};
+    // The shared priority queue is consumed by M01. Non-enumerable to preserve H01's existing snapshot contract.
+    Object.defineProperty(projection,"tasks",{value:records.slice(),enumerable:false});
+    return projection;
   }
 
   // Display-only eligibility; final BLE authorization must be verified server-side.
