@@ -52,3 +52,5 @@ jobs:
             release-evidence/rc2-merge-prep-10/build-summary.json
 
 # Audit gate R2: observe anonymous price visibility; do not assume a hidden quote mandate.
+
+# R3: inspect candidate via amounts() while order-only formalAmounts() remains protected.
