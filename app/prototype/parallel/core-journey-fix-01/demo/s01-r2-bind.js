@@ -75,6 +75,16 @@
     // move only its existing nodes, with no extra visual card/container.
     const metaRow=el.querySelector('.unit-main');
     const capacity=el.querySelector('.capacity');
+    let cabinTag=el.querySelector('.s01-cabin-tag');
+    if(!cabinTag){
+      cabinTag=document.createElement('span');
+      cabinTag.className='s01-cabin-tag';
+      metaRow.insertBefore(cabinTag,capacity);
+    }
+    cabinTag.textContent=u.cabinNo?'仓号 '+u.cabinNo:'';
+    cabinTag.hidden=!u.cabinNo;
+    el.dataset.cabinNo=u.cabinNo||'';
+    cabinTag.setAttribute('aria-label',u.cabinNo?'仓号 '+u.cabinNo:'');
     const description=el.querySelector('.unit-desc');
     const priceBox=el.querySelector('.price');
     const promoTag=el.querySelector('.hot');
@@ -96,7 +106,7 @@
     }
     capacity.firstChild.nodeValue=u.volume+'m';
     setText(capacity.querySelector('sup'),'3');
-    capacity.setAttribute('aria-label','仓位 '+u.volume+'立方米');
+    capacity.setAttribute('aria-label','容量 '+u.volume+'立方米');
     priceBox.dataset.priceKind=u.priceKind;
     const mainAmount=priceBox.querySelector('strong');
     setText(mainAmount,u.price);
