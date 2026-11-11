@@ -46,3 +46,12 @@ body{background:#f7faf8;color:#18392f;font-size:14px}
 #sheet input,#sheet textarea{width:100%;min-height:44px}
 #sheet button{min-height:44px}
 :focus-visible{outline:2px solid #0b8056;outline-offset:2px}
+
+/* Identity is a single decision: state first, then one full-width primary action. */
+body[data-service-view="identity"] #content .panel>.service-state{
+ display:block;width:100%;padding:10px 12px;margin:16px 0 12px;line-height:1.55;
+}
+body[data-service-view="identity"] #content .panel>button.primary{
+ display:flex;width:100%;min-height:48px;margin:0 0 14px;
+}
+body[data-service-view="identity"] #content .panel>.button-row{margin-top:12px;}
