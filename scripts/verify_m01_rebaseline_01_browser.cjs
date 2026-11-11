@@ -77,6 +77,14 @@ const server=http.createServer((req,res)=>{
         assert(!paid.error,'central payment setup: '+paid.error);
         assert.match(await page.locator('.m01-task').innerText(),/完成身份验证/);
         await page.screenshot({path:path.join(out,'M01-identity-'+width+'.png'),fullPage:true});
+        // Legacy identity page is an interim service detail, not a second first-level Mine page.
+        await page.locator('.m01-task .m01-primary-button').click();
+        await page.waitForURL(/account\.html\?view=identity/);
+        assert.match(await page.locator('.account-header').innerText(),/我的/);
+        await page.locator('.account-header a').first().click();
+        await page.waitForURL(/index\.html\?page=M01/);
+        await page.locator('.m01-task').waitFor();
+        assert.match(await page.locator('.m01-task').innerText(),/完成身份验证/);
         const geom=await page.evaluate(()=>{
           const w=document.documentElement.scrollWidth;
           const hit=[...document.querySelectorAll('.m01-surface button')].filter(e=>e.getBoundingClientRect().width>0).map(e=>({text:e.innerText,w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height}));
