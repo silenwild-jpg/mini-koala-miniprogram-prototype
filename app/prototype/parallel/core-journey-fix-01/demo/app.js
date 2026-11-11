@@ -562,12 +562,25 @@
               const amount=termVisible?core.amounts([u.id],r.term_months):null;
               // Unit rows show the actual selected unit's monthly amount, not the store-wide minimum per m³.
               const unitMonthly=termVisible?null:core.amounts([u.id],publicTerm).monthly_average;
+              // "X折" means the configured lease-term factor, not a claimed
+              // historical selling price, and never includes coupons/deposit/fees.
+              // Read the same term table and base rent used by core.amounts.
+              const termRule=termVisible?F.pricing.termRules.find(rule=>
+                r.term_months>=rule.min&&r.term_months<=rule.max):null;
+              const factor=Number(termRule?.factor);
+              const baseMonthly=state().prices[u.id]??u.base_month;
+              const expectedMonthly=Math.round((Number(baseMonthly)*factor+Number.EPSILON)*100)/100;
+              const eligibleFactor=amount&&Number.isFinite(factor)&&factor>0&&factor<1&&
+                Number.isFinite(baseMonthly)&&baseMonthly>0&&
+                Math.abs(Number(amount.monthly_average)-expectedMonthly)<=.011;
+              const termDiscountLabel=eligibleFactor?Number((factor*10).toFixed(1))+'折':null;
               return {
                 id:u.id,name:u.name,volume:u.volume,
                 price:amount?money(amount.rent_total):money(unitMonthly),
                 suffix:amount?'':'/月',
                 priceKind:amount?'term':'unit_month',
                 secondary:amount?money(amount.monthly_average)+'/月 × '+r.term_months+'个月':publicTerm+'个月租期',
+                termDiscountLabel,termDiscountSource:termDiscountLabel?'LEASE_TERM_RULE':null,
                 usage:(u.volume<=3?'适合换季衣物、箱包':u.volume<=6?'适合家庭用品':'适合家具家电'),
                 promo:u.promo_verified===true&&typeof u.promo_label==='string'?u.promo_label:'',available:core.available(u)
               };
