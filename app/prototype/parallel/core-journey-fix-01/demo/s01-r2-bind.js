@@ -6,6 +6,15 @@
   const priceCss=document.createElement('link');priceCss.rel='stylesheet';priceCss.href='s01-r2-price-surface.css';document.head.append(priceCss);
   const visualCss=document.createElement('link');visualCss.rel='stylesheet';visualCss.href='s01-vis-decision-02.css?v=20261111';document.head.append(visualCss);
   const tagCss=document.createElement('link');tagCss.rel='stylesheet';tagCss.href='global-store-tags.css?v=GLOBAL01';document.head.append(tagCss);
+  // VIS-SYSTEM-01: isolated visual layouts, deliberately not enabled by default.
+  // Selected only through explicit preview flag; freeze the business content.
+  const visSystemStyles=document.createElement('link');
+  visSystemStyles.rel='stylesheet';
+  visSystemStyles.href='s01-vis-system-01.css?v=VIS01';
+  document.head.append(visSystemStyles);
+  const requestedLayout=new URLSearchParams(window.location.search).get('vis_system');
+  if(['balanced','flow'].includes(requestedLayout))
+    document.documentElement.dataset.visSystem=requestedLayout;
   const bridge=window.parent!==window?window.parent.SIM_DEMO?.s01R2Bridge:null;
   if(!bridge||!stage||masters.length!==2){document.documentElement.dataset.binding='UNAVAILABLE';return;}
   const setText=(el,v)=>{if(el)el.textContent=String(v??'');};
