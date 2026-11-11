@@ -577,7 +577,7 @@
                 r.term_months>=rule.min&&r.term_months<=rule.max):null;
               const factor=Number(termRule?.factor);
               const baseMonthly=state().prices[u.id]??u.base_month;
-              const expectedMonthly=Math.round((Number(baseMonthly)*factor+Number.EPSILON)*100)/100;
+              const expectedMonthly=Math.trunc(Number(baseMonthly)*factor);
               const eligibleFactor=amount&&Number.isFinite(factor)&&factor>0&&factor<1&&
                 Number.isFinite(baseMonthly)&&baseMonthly>0&&
                 Math.abs(Number(amount.monthly_average)-expectedMonthly)<=.011;
