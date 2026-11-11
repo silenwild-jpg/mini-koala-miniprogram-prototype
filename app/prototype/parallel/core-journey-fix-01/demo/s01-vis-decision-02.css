@@ -426,3 +426,7 @@ html[data-match-mode="browse"] .s01-compact .store-tags span{
     padding:0 4px;font-size:10px
   }
 }
+
+.store-card[data-card-kind="expanded"] .unit-desc::before{
+  content:"·";display:inline-block;margin-right:5px;color:#a3b1aa
+}
