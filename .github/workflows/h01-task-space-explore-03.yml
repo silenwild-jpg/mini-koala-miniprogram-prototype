@@ -85,5 +85,5 @@ jobs:
 
 # R3: final check of 375/390 bottom-safe area with reduced active photo height.
 
-# V05: Chinese glyph / clipping + H01 active hours dedup + accessible footer scroll-tail screenshots.
+# V05: CJK glyph/clipping + active hours dedup + footer scroll-tail screenshots + 48px CTA.
 # No marketing homepage, S5, BLE, payment engine or main deployment changes.
