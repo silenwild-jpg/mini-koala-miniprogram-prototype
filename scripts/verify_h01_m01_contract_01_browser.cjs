@@ -11,7 +11,7 @@ const server=http.createServer((req,res)=>{
 });
 (async()=>{
  fs.mkdirSync(out,{recursive:true});await new Promise(ok=>server.listen(4696,'127.0.0.1',ok));
- const browser=await chromium.launch({headless:true,args:['--no-sandbox']}),report=[];
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.PLAYWRIGHT_CHROME_PATH?{executablePath:process.env.PLAYWRIGHT_CHROME_PATH}:{})}),report=[];
  try{
   for(const width of [375,390]){
    const context=await browser.newContext({viewport:{width,height:width===375?812:844},deviceScaleFactor:1,locale:'zh-CN',timezoneId:'Asia/Shanghai'});
@@ -103,7 +103,8 @@ const server=http.createServer((req,res)=>{
     await snap('08-M01-refund');
     await page.evaluate(id=>{const b=window.SIM_DEMO;b.core.lifecycleReviewRefund(id,true);b.persist();b.navigate('M01');},identity.id);
     assert.equal(await page.evaluate(()=>window.H01_STATE_POLICY.derive(window.SIM_DEMO.core.state(),window.SIM_DEMO.core).key),'new');
-    assert.match(await page.locator('.m01-task').innerText(),/查看以往的用仓订单/);
+    assert.equal(await page.locator('.m01-task').count(),0,'completed history must not have a redundant task card after M01-IA-03');
+    assert.match(await page.locator('.m01-row[data-value="orders"]').innerText(),/1笔订单/,'completed order stays in order history');
     await snap('09-M01-ended');
     const geom=await page.evaluate(()=>({w:document.documentElement.scrollWidth,buttons:[...document.querySelectorAll('.m01-surface button')].filter(x=>x.getBoundingClientRect().height>0).map(x=>({w:x.getBoundingClientRect().width,h:x.getBoundingClientRect().height}))}));
     assert(geom.w<=width+2,'horizontal overflow at '+width);

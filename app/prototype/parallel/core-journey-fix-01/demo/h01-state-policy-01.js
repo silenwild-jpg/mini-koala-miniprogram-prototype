@@ -2,7 +2,7 @@
   "use strict";
   const amount=n=>Number.isFinite(Number(n))?"¥"+Math.round(Number(n)).toLocaleString("zh-CN"):"待确认";
   const date=d=>typeof d==="string"&&/^\d{4}-\d\d-\d\d$/.test(d)?d:"待确认";
-  const dayDiff=(future,now)=>Math.ceil((Date.parse(future+"T00:00:00Z")-now)/(86400000));
+  const dayDiff=(future,now)=>{const businessDate=new Date(now+8*60*60*1000).toISOString().slice(0,10);return Math.round((Date.parse(future+"T00:00:00Z")-Date.parse(businessDate+"T00:00:00Z"))/86400000);};
   function derive(state,core,nowMs=Date.now()){
     const s=state||{}, all=Array.isArray(s.orders)?s.orders:[], services=s.services||{}, stores=core?.fixture?.stores||[], units=core?.fixture?.units||[];
     const storeName=id=>(stores.find(x=>x.id===id)||{}).name||"已选门店";
