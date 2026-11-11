@@ -12,15 +12,15 @@
   el.innerHTML='<div class="h01-flow-head" id="h01FlowHead"><strong class="h01-flow-brand">迷你考拉仓</strong><button type="button" class="h01-flow-city" data-h01="city" id="h01FlowCity"></button></div>'+
   '<div class="h01-flow-tabs" id="h01FlowTabs"><button type="button" data-h01="business" role="tab">我的仓位</button><button type="button" data-h01="browse" role="tab">找新仓</button></div>'+
   '<div class="h01-flow-market-return" id="h01FlowReturn"><button type="button" data-h01="business">‹ 返回当前任务</button></div>'+
-  '<div class="h01-flow-content" id="h01FlowContent"><div class="h01-flow-kicker" id="h01FlowKicker">当前任务</div><article class="h01-flow-task" id="h01FlowTask">'+
+  '<div class="h01-flow-content" id="h01FlowContent"><div class="h01-flow-kicker-row"><span class="h01-flow-kicker" id="h01FlowKicker">当前任务</span><button type="button" class="h01-flow-quick-browse" id="h01FlowQuickBrowse" data-h01="browse">找新仓 ›</button></div><article class="h01-flow-task" id="h01FlowTask">'+
   '<div class="h01-flow-title"><strong id="h01FlowTitle"></strong><span class="h01-flow-badge" id="h01FlowBadge"></span></div>'+
   '<div class="h01-flow-store" id="h01FlowStore"></div><p class="h01-flow-sub" id="h01FlowSub"></p>'+
   '<div class="h01-flow-facts" id="h01FlowFacts"></div><div class="h01-flow-buttons">'+
   '<button type="button" class="h01-flow-primary" data-h01="primary" id="h01FlowPrimary"></button>'+
   '<button type="button" class="h01-flow-secondary" data-h01="secondary" id="h01FlowSecondary"></button></div></article>'+
   '<section class="h01-flow-services" id="h01FlowServices"><h2>仓位服务</h2><div class="h01-flow-service-grid">'+
-  '<button type="button" data-h01="renew">续租</button><button type="button" data-h01="add">加租仓位</button><button type="button" data-h01="change">换仓申请</button></div></section>'+
-  '<div class="h01-flow-other" id="h01FlowOther"><button type="button" data-h01="allorders">我的订单 <span>›</span></button><button type="button" data-h01="support">存取与门店帮助 <span>›</span></button></div>'+
+  '<button type="button" data-h01="renew">续租</button><button type="button" data-h01="more">更多服务 ›</button></div></section>'+
+  '<div class="h01-flow-other" id="h01FlowOther"><button type="button" data-h01="allorders">我的订单 <span>›</span></button></div>'+
   '<button type="button" class="h01-flow-browse" id="h01FlowBrowse" data-h01="browse">浏览其他门店 ›</button>'+
   '<p class="h01-flow-note" id="h01FlowNote"></p></div>';
   root.insertBefore(el,root.firstChild);
@@ -48,8 +48,10 @@
     document.body.classList.toggle("h01-flow-marketing",!business);
     one("#h01FlowHead").hidden=!business;
     one("#h01FlowContent").hidden=!business;
-    one("#h01FlowReturn").hidden=business||t.isMarketing||t.allowTab;
-    one("#h01FlowTabs").hidden=!t.allowTab;
+    one("#h01FlowReturn").hidden=business||t.isMarketing;
+    // Variant B: the existing marketing H01 is one lightweight link, not permanent tabs.
+    one("#h01FlowTabs").hidden=true;
+    one("#h01FlowQuickBrowse").hidden=!business;
     const tabs=one("#h01FlowTabs").querySelectorAll("button");
     tabs[0].setAttribute("aria-selected",business?"true":"false");
     tabs[1].setAttribute("aria-selected",business?"false":"true");
@@ -58,20 +60,28 @@
     one("#h01FlowKicker").textContent=t.layout==="service"?"我的仓位":"当前待办";
     one("#h01FlowTitle").textContent=t.title;
     one("#h01FlowBadge").textContent=t.badge||"";
-    one("#h01FlowStore").textContent=t.sub||"";
     const actualStore=t.storeId&&window.SIM_FIXTURES?.stores?.find(x=>x.id===t.storeId);
-    if(actualStore&&actualStore.name)one("#h01FlowStore").textContent=actualStore.name;
-    one("#h01FlowSub").textContent=t.sub||"";
+    const name=actualStore?.name||"";
+    const storeNode=one("#h01FlowStore"),subNode=one("#h01FlowSub");
+    storeNode.textContent=name;storeNode.hidden=!name;
+    let summary=t.sub||"";
+    if(name&&summary.startsWith(name+" · "))summary=summary.slice(name.length+3);
+    else if(name&&summary===name)summary="";
+    const order=t.orderId&&s.orders?.find(x=>x.id===t.orderId);
+    if(order?.term_months&&["pending","identity","upcoming","active","expiring","renewal"].includes(t.key))summary+=(summary?" · ":"")+order.term_months+"个月";
+    subNode.textContent=summary;subNode.hidden=!summary;
     one("#h01FlowTask").dataset.urgent=["pending","expired","payment_failed","invalidated","refund","returning","identity","expiring"].includes(t.key)?"true":"false";
     const facts=one("#h01FlowFacts");facts.replaceChildren();
     (t.facts||[]).slice(0,3).forEach(([value,label])=>{const box=document.createElement("div");box.className="h01-flow-fact";const b=document.createElement("b");b.textContent=value;if(t.key==="pending"&&label==="支付剩余时间"){box.dataset.countdown="true";b.id="h01FlowCountdown";b.setAttribute("role","timer");b.setAttribute("aria-live","off");}const small=document.createElement("small");small.textContent=label;box.append(b,small);facts.append(box)});
     updateCountdown();
     one("#h01FlowPrimary").textContent=t.primary?.[0]||"查看订单";
-    one("#h01FlowSecondary").textContent=t.secondary?.[0]||"浏览门店";
+    one("#h01FlowSecondary").textContent=t.secondary?.[0]||"查看订单";
+    one("#h01FlowSecondary").hidden=!t.secondary||["booking","refund","returning"].includes(t.key);
     const service=t.key==="active"||t.key==="expiring";
     one("#h01FlowServices").hidden=!service||t.key==="expiring";
-    one("#h01FlowOther").hidden=t.layout!=="service"&&!(t.otherActiveCount>0);
-    one("#h01FlowBrowse").hidden=t.allowTab;
+    one("#h01FlowOther").hidden=t.key!=="active"&&!(t.otherActiveCount>0);
+    // Top text link replaces duplicate inline browse / top tabs. Existing markup is retained for comparison only.
+    one("#h01FlowBrowse").hidden=true;
     one("#h01FlowNote").textContent=t.otherActiveCount>0?"另有 "+t.otherActiveCount+" 间在租仓位，请在订单中查看。":(t.key==="identity"?"请先完成验证，开门权限按订单资格判断。":"");
   }
   function countdownValue(expiresAt){
@@ -139,6 +149,12 @@
     if(kind==="navigate"){go(storeUrl());return}
     if(kind==="support"){go(t.orderId?orderUrl():"index.html?page=M01");return}
     if(kind==="renew"){go(t.orderId?orderUrl()+"&intent=renew":"index.html?page=M01");return}
+    if(kind==="more"){
+      showChoice("更多仓位服务","加租将创建新订单，换仓须由顾问确认。",[
+        ["加租仓位",()=>{save("mk_h01_add_intent_01",{source:"H01",preferred_store_id:t.storeId||null,origin_order_id:t.orderId||null});go("index.html?page=QUICK");}],
+        ["换仓申请",()=>{save("mk_advisor_context_v3",{service_source:"h01_change_request",store_id:t.storeId||null,order_id:t.orderId||null});go("index.html?page=BOOKING&mode=advisor");}]
+      ]);return;
+    }
     if(kind==="add"){
       showChoice("加租仓位","将创建新的选仓和下单流程，原有租约不受影响。",[
         ["优先当前门店",()=>{save("mk_h01_add_intent_01",{source:"H01",preferred_store_id:t.storeId||null,origin_order_id:t.orderId||null});go("index.html?page=QUICK");}],
