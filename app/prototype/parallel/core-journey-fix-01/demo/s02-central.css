@@ -51,3 +51,10 @@
 .page-S02 .s02-no-match{padding:28px 16px 30px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #edf1eb}
 .page-S02 .s02-no-match strong{font-size:14px;line-height:21px;color:#3a5949}
 .page-S02 .s02-no-match button{border:0;background:transparent;color:#267651;font-weight:750;font-size:12px;white-space:nowrap;min-height:42px}
+
+/* S01-UX-REFINE-08 | shared demo cabin identity in S02. */
+.page-S02 .unit-head .unit-name{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;min-width:0}
+.page-S02 .mk-cabin-tag{display:inline-flex;align-items:center;height:21px;padding:0 6px;
+  border:1px solid #e7eee8;border-radius:4px;background:#f7f9f7;
+  color:#778a80;font-size:11px;line-height:19px;font-weight:550;white-space:nowrap}
+.page-S02 .mk-cabin-capacity{color:#174735;font-size:20px;line-height:26px;font-weight:800}
