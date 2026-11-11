@@ -128,7 +128,7 @@ const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.r
       // A realistic contract-stress test uses display-only extreme values in a
       // temporary preview; it never changes prices, orders or persisted fixture data.
       const stress=[];
-      for(const variant of ['compact','balanced','flow']){
+      for(const variant of ['reference','compact','balanced','flow']){
         await s01.locator('html').evaluate((el,v)=>{el.dataset.visSystem=v},variant);
         const measure=await s01.locator('.store-card[data-card-kind="expanded"]').first().evaluate(el=>{
           const root=el.querySelector('.unit-action-row'),
