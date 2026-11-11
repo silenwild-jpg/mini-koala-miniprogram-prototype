@@ -1,0 +1,60 @@
+name: M01 rebaseline 01 isolated 375 390 no deploy
+on:
+  push:
+    branches:
+      - feature/m01-rebaseline-01-20261111
+    paths:
+      - .github/workflows/m01-rebaseline-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: m01-rebaseline-01
+  cancel-in-progress: true
+jobs:
+  m01-review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate M01-only code scope and scripts
+        run: |
+          set -eu
+          git diff --name-only e435bb25eddc8a8ad4c84427ca9883d4ec3e9c16 HEAD -- app/ > /tmp/m01_changed.txt
+          cat /tmp/m01_changed.txt
+          while IFS= read -r file; do
+            case "$file" in
+              app/prototype/parallel/core-journey-fix-01/demo/account.html|app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/index.html|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.css) ;;
+              *) echo "Out-of-scope app change: $file"; exit 1 ;;
+            esac
+          done < /tmp/m01_changed.txt
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js
+          node --check scripts/verify_m01_rebaseline_01.cjs
+          node --check scripts/verify_m01_rebaseline_01_browser.cjs
+          node scripts/verify_m01_rebaseline_01.cjs
+      - name: Install Chromium and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Verify M01 running in Chromium at 375 and 390
+        run: node scripts/verify_m01_rebaseline_01_browser.cjs
+      - name: Upload isolated evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m01-rebaseline-01-375-390-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: release-evidence/m01-rebaseline-01/
+
+# R2: real CJK screenshots, lower scroll, same-order payment resume and amount disclosure.
+
+# R3: account child deep-link return to central M01, same-order state recovery.
