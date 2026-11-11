@@ -410,7 +410,7 @@
       html+='<section class="mk-order-section"><h3>订单进度</h3>';
       if(o.status==='pending')html+=paymentClockHtml(o)+'<p class="mk-order-tip">请在倒计时结束前完成支付。</p>'+button('resumeOrder','继续支付','','mk-order-primary');
       else if(o.status==='expired')html+='<p class="mk-order-tip">支付时限已结束，原订单不可继续支付。需重新确认仓位和当前价格。</p>'+button('restartExpiredOrder','重新选择仓位','','mk-order-primary');
-      else if(o.status==='payment_failed')html+='<p class="mk-order-tip">付款未完成，原仓位已释放。请重新查看可用仓位与最新费用。</p>'+button('recoverFailedOrder','重新查看可用仓位','','mk-order-primary');
+      else if(o.status==='payment_failed')html+='<p class="mk-order-tip">支付失败，原订单已失效，仓位已释放。需重新选择仓位并创建新订单。</p>'+button('restartExpiredOrder','重新选择仓位','','mk-order-primary');
       else html+='<p class="mk-order-tip">此订单不能继续支付，请返回门店重新选择。</p>';
       html+='</section>';
     }
@@ -462,7 +462,7 @@
   function choose(ids){const r=state().requirement;if(ids.length===1&&r.capacity_m3!==null&&unit(ids[0])?.volume<r.capacity_m3){modal='capacityMismatch';notice='';render();return;}if(!r.term_confirmed){pending=ids;modal='term';notice='请选择租期';render();return;}if(!r.capacity_m3)core.setRequirement(core.fixture.units.filter(u=>ids.includes(u.id)).reduce((n,u)=>n+u.volume,0),r.term_months,true);core.select(ids);persist();phoneAuth.run('ORDER','CHOOSE_UNIT',()=>go('O01'));}
   const handlers={setR2Region(v){if(v!=='all'&&!s01R2Bridge.regions().includes(v))return;r2Filters.region=v;saveR2Filters();modal=null;render();},r2Search(){modal='r2-search';render();$('#r2-search-query')?.focus();},r2EditDemand(){window.SIM_DEMO.editRequirement();},r2SearchClear(){visual.keyword='';saveVisual();render();$('#r2-search-query')?.focus();},setR2Capacity(v){if(!R2.capacities.some(x=>x[0]===v))return;const r=state().requirement;const minimum={all:null,mini:0.5,small:1,medium:3,large:6,extra:10}[v];core.setRequirement(minimum,r.term_months,r.term_confirmed);r2Filters.capacity=v;saveR2Filters();modal=null;render();},toggleStore(id){visual.expandedStoreIds=visual.expandedStoreIds.includes(id)?visual.expandedStoreIds.filter(x=>x!==id):[...visual.expandedStoreIds,id];saveVisual();render();},editCapacity(){window.SIM_DEMO.editRequirement();},mine(){go('M01');},orderDetail(id){selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},resumeOrder(){const o=state().orders.find(x=>x.id===selectedOrderId);if(!o||o.status!=='pending')throw Error('INVALID_ORDER_STATE');if(JSON.stringify(state().selected)!==JSON.stringify(o.unit_ids)||state().storeId!==o.store_id){notice='原待支付仓位选择已变化，请从门店重新选仓';go('M01');return;}go('O01');},restartExpiredOrder(){
       const o=state().orders.find(x=>x.id===selectedOrderId);
-      if(!o||o.status!=='expired'){notice='订单状态已变化，请重新查看';render();return;}
+      if(!o||!['expired','payment_failed'].includes(o.status)){notice='订单状态已变化，请重新查看';render();return;}
       let draft={};try{draft=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}')||{};}catch(_){}
       delete draft.quick;sessionStorage.setItem('mk_br04_ui_v2',JSON.stringify(draft));
       sessionStorage.setItem('mk_h01_reorder_intent_01',JSON.stringify({previous_order_id:o.id,source:'O03',created_at:Date.now()}));
