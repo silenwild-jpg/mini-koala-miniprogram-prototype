@@ -109,9 +109,33 @@ const cases=[];
       assert.equal(row.cabin,'仓号 '+codes.join('、'),'S5 has a different code for the same unit');
     }
     await page.screenshot({path:path.join(out,'S5-cabin-'+width+'.png')});
+    // A simulated paid order is local-only; no real payment or inventory
+    // reservation. It lets us test downstream order and lifecycle text.
+    const simulated=await app.locator('#screen').evaluate(()=>{
+      const B=window.SIM_DEMO,c=B.core;
+      const o=c.submit?null:null;
+      // Quote and order are core demo state-machine calls.
+      const quote=c.quote(),created=c.submit();
+      c.pay(created.id,'success');
+      B.persist();B.openOrder(created.id);
+      return {orderId:created.id,unitIds:created.unit_ids,quoteId:quote.id};
+    });
+    await app.locator('#screen.page-O03').waitFor();
+    const orderDetail=await app.locator('.mk-order-summary').innerText();
+    assert(orderDetail.includes('仓号 '+targetCode),'O03 order detail lost stable cabin identity');
+    await page.screenshot({path:path.join(out,'O03-cabin-'+width+'.png')});
+    await app.locator('#screen').evaluate(()=>window.SIM_DEMO.navigate('M01'));
+    await app.locator('#screen.page-M01').waitFor();
+    const orderList=await app.locator('.mk-order-list-main').first().innerText();
+    assert(orderList.includes('仓号 '+targetCode),'M01 order list lost cabin number');
+    await app.locator('#screen').evaluate(()=>window.SIM_DEMO.navigate('RN01'));
+    await app.locator('#screen.page-RN01').waitFor();
+    const renewal=await app.locator('#screen.page-RN01').innerText();
+    assert(renewal.includes('仓号：'+targetCode),'renewal lifecycle lost cabin number');
+    await page.screenshot({path:path.join(out,'RN01-cabin-'+width+'.png')});
     assert.deepEqual(errors,[],'browser JS errors');
     cases.push({width,height,status:'PASS',fixtureCount:inventory.rows.length,storeCount:byStore.size,
-      target,s01:s01Data,s02,o01:checkout,s5:s5Cards});
+      target,s01:s01Data,s02,o01:checkout,s5:s5Cards,simulated,orderDetail,orderList,renewal});
    }catch(e){
     await page.screenshot({path:path.join(out,'failure-'+width+'.png')}).catch(()=>{});
     throw e;
