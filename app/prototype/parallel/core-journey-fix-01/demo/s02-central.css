@@ -58,7 +58,7 @@
 .page-S02 .nav-ext{width:44px;height:44px;min-width:44px;padding:0;display:grid;place-items:center;background:radial-gradient(circle,#e5f4ef 0 16px,transparent 17px);border-radius:50%}
 .page-S02 .s02-service-summary{width:100%;min-height:44px;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 16px;background:#fff;border:0}
 .page-S02 .s02-tag{display:inline-flex;align-items:center;min-height:24px;max-width:100%;white-space:nowrap;font-size:11px;line-height:18px;font-weight:550;padding:3px 7px;border-radius:4px;background:#fafbfa;color:#65736c}
-.page-S02 .s02-tag-promo{background:var(--mk-tag-offer-bg,#fff2e6);color:var(--mk-tag-offer-ink,#a6571e);font-weight:690}
+.page-S02 .s02-tag-promotion,.page-S02 .s02-tag-promo{background:var(--mk-tag-offer-bg,#fff2e6);color:var(--mk-tag-offer-ink,#a6571e);font-weight:690}
 .page-S02 .s02-tag-service{background:var(--mk-tag-service-bg,#f3f8f4);color:var(--mk-tag-service-ink,#536e5e)}
 .page-S02 .unit-filter{gap:3px}
 .page-S02 .unit-filter .chip{min-height:44px;min-width:44px;font-size:12px;padding:8px 8px;white-space:nowrap}

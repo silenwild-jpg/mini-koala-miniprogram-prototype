@@ -1,0 +1,88 @@
+name: VIS-SYSTEM-04B1 five-city canonical tags and four-page browser QA NO DEPLOY
+on:
+  push:
+    branches: [isolate/vis-system-04b1-20261111]
+    paths:
+      - '.github/workflows/vis-system-04b1.yml'
+      - 'app/prototype/parallel/core-journey-fix-01/demo/**'
+      - 'scripts/verify_vis_system_04b1_tag_semantics.cjs'
+      - 'scripts/verify_vis_system_04b_webdriver.py'
+      - 'scripts/verify_h01_vis_gate_07_browser.cjs'
+      - 'scripts/verify_price_integer_integration_02_browser.cjs'
+      - 'scripts/verify_s02_fix_01_browser.cjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: vis-system-04b1
+  cancel-in-progress: true
+jobs:
+  four-page-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: VIS-GUARD only canonical tag strategy and S02 adapter can change
+        shell: bash
+        run: |
+          set -euo pipefail
+          files="$(git diff --name-only origin/isolate/vis-system-04b-20261111...HEAD -- app/prototype/parallel/core-journey-fix-01/demo)"
+          for file in $files; do
+            case "$file" in
+              app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js|app/prototype/parallel/core-journey-fix-01/demo/s02-central.css) ;;
+              *) echo "UNAUTHORIZED_RUNTIME_CHANGE $file"; exit 1 ;;
+            esac
+          done
+      - name: Node syntax, 5-city tag taxonomy, price and H01 business regression
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
+          node --check scripts/verify_vis_system_04b1_tag_semantics.cjs
+          python3 -m py_compile scripts/verify_vis_system_04b_webdriver.py
+          node scripts/verify_vis_system_04b1_tag_semantics.cjs
+          node scripts/verify_price_integer_contract_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+      - name: Build exact SHA four-page prototype NO DEPLOY
+        env:
+          RC2_BUNDLE_LABEL: VIS-SYSTEM-04B1
+          RC2_BUNDLE_BRANCH: isolate/vis-system-04b1-20261111
+          RC2_BUNDLE_SOURCE_PR: '120'
+          RC2_BUNDLE_BASE_PR: '119'
+          RC2_BUNDLE_ARCHIVE: MiniKoala_VIS_SYSTEM_04B1.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Assert same SHA, branch and source PR
+        run: |
+          node -e "const x=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(x.source_sha!==process.env.GITHUB_SHA||x.source_pr!==120||x.source_branch!=='isolate/vis-system-04b1-20261111')process.exit(1);console.log('VIS-04B1_SOURCE_OK',x.source_sha)"
+      - name: Publish source-exact site before browser test
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-SYSTEM-04B1-exact-site
+          retention-days: 7
+          if-no-files-found: error
+          path: release-evidence/rc2-merge-prep-10/MiniKoala_VIS_SYSTEM_04B1.zip
+      - name: Chromium 375 and 390 via preinstalled ChromeDriver NO NETWORK
+        run: python3 scripts/verify_vis_system_04b_webdriver.py
+      - name: Upload browser screenshots and semantic test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-SYSTEM-04B1-375-390-semantic-qa
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/vis-system-04b1/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json

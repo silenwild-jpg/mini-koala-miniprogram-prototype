@@ -26,6 +26,14 @@
       return sorted.filter(t=>{if(t.type!=='promotion')return true;if(usedPromo)return false;usedPromo=true;return true}).slice(0,limit)
         .map(({label,type})=>({label,type}));
     }
+    // Detail adds visible S02 service candidates but shares taxonomy,
+    // deduplication and ordering with H01, S01 and S5.
+    function detailTags(store,limit=5){
+      if(!store)return [];
+      const extras=[...(store.serviceTags||[]),'到店搬运',...(store.facilities||[]),'装卸区域']
+        .filter(v=>typeof v==='string'&&v.trim()&&!/24小时|全天存取|存取时间|独立仓/.test(v));
+      return tags({...store,serviceTags:extras},limit);
+    }
     function services(store,limit=2){return tags(store,limit).map(x=>x.label);}
     function price(ids){
       if(!Array.isArray(ids)||!ids.length||new Set(ids).size!==ids.length)throw Error('INVALID_PRESENTATION_IDS');
@@ -45,7 +53,7 @@
       if(!rows.length)return null;
       const n=Math.min(...rows.map(u=>core.amounts([u.id],term).monthly_average/u.volume));
       return Number.isFinite(n)&&n>0?{value:Number(n.toFixed(2)),money:money(n),unit:'/m³/月起',basis:term+'个月折后最低立方月租'}:null;}
-    return {price,facts,services,tags,tagType:typeOf,cubicReference,money};
+    return {price,facts,services,tags,detailTags,tagType:typeOf,cubicReference,money};
   }
   root.SIM_PRESENTATION={create};
   if(typeof module==='object'&&module.exports)module.exports={create};

@@ -98,7 +98,7 @@ async function photo(page,w,name){
 async function start(){
  if(!fs.existsSync(path.join(root,'prototype/parallel/core-journey-fix-01/demo/home.html')))throw Error('MISSING_BUILT_SITE');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'rc2-uat-version.json'),'utf8'));
- if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='isolate/vis-system-04b-20261111'||manifest.source_pr!==119)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
+ if(!process.env.RC2_EXPECT_SHA||manifest.source_sha!==process.env.RC2_EXPECT_SHA||manifest.source_branch!=='isolate/vis-system-04b1-20261111'||manifest.source_pr!==120)throw Error('H01_AUDIT_SHA_OR_PR_MISMATCH '+JSON.stringify(manifest));
  fs.mkdirSync(dir,{recursive:true});
  const srv=listen();await new Promise(ok=>srv.listen(port,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
@@ -296,7 +296,7 @@ async function start(){
   }
  }finally{await browser.close();await new Promise(ok=>srv.close(ok))}
  const failures=rows.filter(x=>x.status!=='PASS');
- fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:119,kind:'H01_VIS_GATE_07_STAGE_COPY_BROWSE_VISIBILITY_NO_BLE_NO_S5',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
+ fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:120,kind:'H01_VIS_GATE_07_STAGE_COPY_BROWSE_VISIBILITY_NO_BLE_NO_S5',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
  if(failures.length)throw Error('H01 audit failure '+failures.map(x=>x.width+'/'+x.phase).join(','));
  console.log('H01 layout capture '+rows.length+'/'+rows.length+' PASS; 0 S5 modifications');
 }
