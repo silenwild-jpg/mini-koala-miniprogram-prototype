@@ -1,0 +1,60 @@
+name: M01 Rebaseline 02 Scoped Visual Lifecycle QA NO DEPLOY
+on:
+  push:
+    branches:
+      - feature/m01-rebaseline-02-20261111
+    paths:
+      - .github/workflows/m01-rebaseline-02.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: m01-rebaseline-02
+  cancel-in-progress: true
+jobs:
+  account-lifecycle-review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify scope, syntax and unchanged core pricing rules
+        run: |
+          set -eu
+          git diff --name-only f8ed24579d8ac9d6d13ac731fce492bd03367d33 HEAD -- app/ > /tmp/m01changed.txt
+          cat /tmp/m01changed.txt
+          while IFS= read -r f; do
+            case "$f" in
+              app/prototype/parallel/core-journey-fix-01/demo/account.html|app/prototype/parallel/core-journey-fix-01/demo/account.js|app/prototype/parallel/core-journey-fix-01/demo/m01-service-shell-02.css|app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/index.html|app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js|app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js|app/prototype/parallel/core-journey-fix-01/demo/m01-lifecycle-shell-02.css) ;;
+              *) echo "OUT_OF_SCOPE_APP_FILE $f"; exit 1;;
+            esac
+          done < /tmp/m01changed.txt
+          node --check app/prototype/parallel/core-journey-fix-01/demo/account.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/lifecycle-ui.js
+          node --check scripts/verify_m01_rebaseline_02_browser.cjs
+          node scripts/verify_m01_rebaseline_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Install browser and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Previous M01 375 390 routes and payment smoke
+        run: node scripts/verify_m01_rebaseline_01_browser.cjs
+      - name: M01 real 375 390 subpages, multiple orders, renewal and refund
+        run: node scripts/verify_m01_rebaseline_02_browser.cjs
+      - name: Preserve exact-run screenshots and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m01-rebaseline-02-375-390-screenshots-and-json
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/m01-rebaseline-01/
+            release-evidence/m01-rebaseline-02/
