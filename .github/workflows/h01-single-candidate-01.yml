@@ -1,4 +1,4 @@
-name: H01 SINGLE CANDIDATE 01 exact SHA full QA (NO DEPLOY)
+name: H01 SINGLE CANDIDATE 01 with O03 countdown QA (NO DEPLOY)
 on:
   push:
     branches: [integration/h01-single-candidate-01-20261111]
@@ -26,6 +26,8 @@ jobs:
           node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-policy-01.js
           node --check app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+          grep -F 'const deadline=source?.expiresAt??o.expiresAt' app/prototype/parallel/core-journey-fix-01/demo/app.js
           node qa/test_h01_order_payment_3h.cjs
           node qa/test_h01_state_implement_01.cjs
           node qa/test_h01_postpay_access_deposit_01.cjs
