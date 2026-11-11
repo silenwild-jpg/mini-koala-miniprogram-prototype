@@ -42,8 +42,12 @@ jobs:
         env:
           RC2_BUNDLE_LABEL: PRICE-INTEGER-CONTRACT-01-ISOLATED
           RC2_BUNDLE_BRANCH: isolate/price-integer-contract-01-20261111
+          RC2_BUNDLE_SOURCE_PR: "117"
           RC2_BUNDLE_ARCHIVE: MiniKoala_PRICE_INTEGER_CONTRACT_01.zip
         run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify exact source identity in generated manifest
+        run: |
+          node -e "const p=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(p.source_sha!==process.env.GITHUB_SHA||p.source_branch!=='isolate/price-integer-contract-01-20261111'||p.source_pr!==117)process.exit(1);console.log('PRICE_IDENTITY_OK',p.source_sha,p.source_pr)"
       - name: Chromium and CJK
         run: |
           sudo apt-get update -qq
