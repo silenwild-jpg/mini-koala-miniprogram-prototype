@@ -185,3 +185,108 @@ html[data-match-mode="browse"] .s01-compact .s01-compact-side{
     font-size:11.5px
   }
 }
+
+
+/* S01-VIS-REFINE-04 | inline estimate after filters, mature-list density.
+   Keep this scoped to S01; no changes to H01/S5 master visuals. */
+.s01-quick{
+  min-height:43px;gap:10px;padding:0 16px;
+  background:#fff;
+}
+.s01-quick button{
+  min-height:44px;height:44px;padding:0 12px;
+  background:transparent;color:#718078;
+  font-size:12px;font-weight:500;
+}
+.s01-quick button::before{
+  inset:8px 0;border:1px solid #edf0ed;
+  background:#fafbfa;border-radius:15px;
+}
+.s01-quick button[aria-pressed="true"]{
+  color:#167451;font-weight:650;
+}
+.s01-quick button[aria-pressed="true"]::before{
+  border-color:#c5dfce;background:#f0f8f2;
+}
+.s01-context{
+  height:auto;min-height:44px;padding:2px 16px;
+  background:#f8faf8;color:#718078;
+  border:0;gap:10px
+}
+.s01-context-text{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s01-edit{font-size:12px;color:#157a56;font-weight:700;min-height:44px}
+.s01-return-recommend{font-size:12px}
+
+/* Long addresses are clipped by rendered width rather than by characters:
+   this protects distance and allows full text in title / accessibility. */
+.store-card .address{
+  display:flex;align-items:center;gap:6px;
+  min-width:0;min-height:19px;max-height:19px;
+  overflow:hidden;white-space:nowrap
+}
+.store-card .address-copy,
+.store-card[data-card-kind="expanded"] .address-copy,
+.store-card.s01-compact .address-copy{
+  display:block;flex:1 1 auto;min-width:0;max-width:100%;
+  height:18px;line-height:18px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+  -webkit-line-clamp:unset;line-clamp:unset;
+  -webkit-box-orient:initial
+}
+.store-card .km,
+.store-card.s01-compact .km,
+.store-card[data-card-kind="expanded"] .km{
+  flex:0 0 auto;margin:0;padding:0;white-space:nowrap;
+  height:18px;line-height:18px;font-size:12px
+}
+
+/* Remove duplicated "查看门店"; entire store remains a button-sized target.
+   A subdued chevron communicates navigation, without another CTA. */
+.store-card.s01-compact{cursor:pointer;transition:background-color .12s ease}
+.store-card.s01-compact:active{background:#f5faf7}
+.store-card.s01-compact:focus-visible{
+  outline:2px solid #0a906b;outline-offset:1px
+}
+.s01-compact-store .s01-compact-side{
+  display:flex;align-items:baseline;gap:3px;
+  margin-top:6px;min-width:0;white-space:nowrap
+}
+.s01-compact-store .s01-compact-arrow{
+  margin-left:auto;align-self:center;
+  color:#9caaa2;font-weight:450;font-size:21px;line-height:20px
+}
+.s01-compact-store .s01-compact-side strong{
+  color:#0c7853;font-weight:800;font-size:17px;
+  line-height:24px;letter-spacing:-.35px
+}
+.s01-compact-store .s01-compact-side small{
+  color:#75887b;font-weight:550;font-size:11px;
+  line-height:18px
+}
+/* Clear hierarchy: price is the key scan target in listing, but not a badge. */
+html[data-match-mode="browse"] .s01-compact .store-tags span{
+  background:#f1f7f2;color:#6b8073;
+  font-size:11.5px;font-weight:500
+}
+
+/* Matched mode: total rental price leads; monthly x term explains it.
+   Do not visually turn this into a new shaded nested card. */
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{
+  grid-template-rows:26px 20px;
+  overflow:visible
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+  font-size:20px;line-height:26px;font-weight:830;
+  color:#0b7655;letter-spacing:-.4px
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+  color:#6b7c73;font-size:12px;line-height:20px;font-weight:550
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+    font-size:19px;line-height:26px
+  }
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+    font-size:11.5px
+  }
+}
