@@ -1,0 +1,59 @@
+name: H01 03 task actions and visual regression (NO DEPLOY)
+on:
+  push:
+    branches: [feat/h01-state-vis-restore-03-20261111]
+    paths: [.github/workflows/h01-state-vis-restore-03.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: h01-state-vis-restore-03
+  cancel-in-progress: true
+jobs:
+  h01-only-real-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify H01-only source and frozen payment engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          node --check scripts/audit_h01_state_visual_01.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
+          node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-policy-01.js
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          python3 -m py_compile scripts/build_rc2_isolated_demo.py
+      - name: Build exact SHA H01-only review package
+        env:
+          RC2_BUNDLE_BRANCH: feat/h01-state-vis-restore-03-20261111
+          RC2_BUNDLE_SOURCE_PR: "105"
+          RC2_BUNDLE_LABEL: H01-STATE-VIS-RESTORE-03-REVIEW
+          RC2_BUNDLE_ARCHIVE: H01_VisRestore03_375_390_Only.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install browser and Chinese font
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: 18 lifecycle statuses and real service routes at 375/390
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+        run: node scripts/audit_h01_state_visual_01.cjs
+      - name: Preserve screenshots and audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: H01_03_REAL_BROWSER_375_390_EVIDENCE
+          path: |
+            release-evidence/h01-state-vis-restore-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+          retention-days: 7
+          if-no-files-found: warn
+
+# R2: scope service-sheet browser assertions to the H01 modal.

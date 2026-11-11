@@ -78,3 +78,8 @@ body.h01-flow-business .h01-flow-store[hidden],body.h01-flow-business .h01-flow-
 .h01-flow-other{margin-top:12px;padding-top:0}
 .h01-flow-other button{min-height:46px}
 @media(max-width:380px){body.h01-flow-business .h01-flow-task{padding:15px 13px 17px}}
+
+/* H01-VIS-RESTORE-03: one meaningful location line, not an extra card or promo area. */
+.h01-flow-address{font-size:12px;line-height:1.6;color:#6c8073;margin:5px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h01-flow-address[hidden]{display:none!important}
+.h01-flow-dialog .h01-flow-choice:focus-visible,.h01-flow-dialog .h01-flow-cancel:focus-visible{outline:2px solid #215f47;outline-offset:2px}
