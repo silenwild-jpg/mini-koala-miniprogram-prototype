@@ -88,40 +88,46 @@
   function s5StoreCard(row,rank){
     const s=row.store,view=B.s5SharedStore?.(s.id)||s,units=s5StoreRows(row),main=rank===0;
     const term=core.state().requirement.term_months;
-    const genuinelyCheaper=rank>0&&offerRows[0]?.ids?.length&&core.amounts(row.ids,term).rent_total<core.amounts(offerRows[0].ids,term).rent_total;
+    const genuinelyCheaper=rank>0&&offerRows[0]?.ids?.length&&
+      core.amounts(row.ids,term).rent_total<core.amounts(offerRows[0].ids,term).rent_total;
     s5StoreUnitRows[rank]=units;
-    const firstPrice=presentation.price(units[0].ids);
     const labels=[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].slice(0,2);
     const distance=Number.isFinite(Number(s.distance))?Number(s.distance).toFixed(1)+'km':'';
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
+    const reason=row.nearCapacity?'容量接近':rank===0?'距离最近':genuinelyCheaper?'区域低价':'更多选择';
     const rows=units.map((u,i)=>{
-      const p=i===0?firstPrice:presentation.price(u.ids),primary=i===0,shared=B.s5SharedUnit?.(u.ids);
+      const p=presentation.price(u.ids),primary=i===0,shared=B.s5SharedUnit?.(u.ids);
       const priceId=primary?(main?'main-price':'secondary-price'):'';
       const buyId=primary?(main?'main-buy':'secondary-buy'):'';
-      const caption=u.near?'容量接近 · 需确认':u.combo?'组合仓 · '+u.ids.length+'间':'独立仓 · '+u.volume+'m³';
+      const caption=u.near?'容量接近 · 需确认':u.combo?'组合仓 · '+u.ids.length+'间':u.volume+'m³独立仓';
       const button=u.near?'查看门店':'立即下单';
-      const kind='整期租金';
       const priceDisplay=p.kind==='term'?p.money:'查看整期价';
       const suffix=p.kind==='term'?(p.average||''):'月租 '+p.money+'起';
-      return '<div class="s5-unit-row" data-unit-ids="'+esc(u.ids.join(','))+'">'+
+      return '<div class="s5-unit-row'+(primary?'':' s5-alt-unit')+'" data-unit-ids="'+esc(u.ids.join(','))+'"'+(primary?'':' hidden')+'>'+
         '<img class="s5-unit-thumb" src="'+s5UnitImage(u.volume)+'" alt="'+esc(u.volume+'m³仓位空间示意')+'">'+
-        '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+ (shared?.promo?'<span class="s5-promo-tag">'+esc(shared.promo)+'</span>':'')+
-        '<span class="s5-unit-price-label">'+kind+'</span></div>'+
+        '<div class="s5-unit-info"><strong>'+esc(caption)+'</strong><p>'+esc(s5UnitUse(u.ids,u.volume))+'</p>'+
+        (shared?.promo?'<span class="s5-promo-tag">'+esc(shared.promo)+'</span>':'')+
+        '<span class="s5-unit-price-label">整期租金</span><small class="s5-unit-monthly">'+esc(suffix)+'</small></div>'+
         '<div class="s5-unit-terms"><button type="button" class="s5-unit-price" '+(priceId?'id="'+priceId+'" ':'')+
-        'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+'" data-s5-price="'+rank+':'+i+'" aria-label="查看费用明细（确认订单前需验证手机号）">'+esc(priceDisplay)+'</button>'+
-        '<small>'+esc(suffix)+'</small><button type="button" class="s5-unit-buy" '+(buyId?'id="'+buyId+'" ':'')+
+        'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+
+        '" data-s5-price="'+rank+':'+i+'" aria-label="查看'+esc(caption)+'的费用明细">'+esc(priceDisplay)+'</button>'+
+        '<button type="button" class="s5-unit-buy" '+(buyId?'id="'+buyId+'" ':'')+
         'data-s5-buy="'+rank+':'+i+'">'+button+'</button></div></div>';
     }).join('');
-    return '<div class="s5-store-photo"><img src="'+photo+'" alt="'+storeTitle+'门店环境">'+
-      '<span class="s5-store-reason">'+(row.nearCapacity?'容量接近':rank===0?'距离优先':genuinelyCheaper?'区域低价':'更多选择')+'</span></div>'+
-      '<div class="s5-store-info"><div class="s5-store-title"><strong>'+storeTitle+'</strong>'+
-      '<button type="button" class="s5-store-open" id="'+(main?'open-store-main':'open-store-secondary')+'" data-s5-store="'+rank+'">查看门店 ›</button></div>'+
+    return '<div class="s5-store-photo"><img src="'+photo+'" alt="'+storeTitle+'门店环境"></div>'+
+      '<div class="s5-store-info"><div class="s5-store-reason">'+reason+'</div>'+
+      '<div class="s5-store-title"><strong>'+storeTitle+'</strong>'+
+      '<button type="button" class="s5-store-open" id="'+(main?'open-store-main':'open-store-secondary')+
+      '" data-s5-store="'+rank+'">查看门店 ›</button></div>'+
       '<div class="s5-store-services">'+labels.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>'+
       '<div class="s5-store-address"><span>'+addr+'</span>'+
-      '<button type="button" id="'+(main?'navigate-main':'navigate-secondary')+'" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和地址">导航 ›</button></div>'+
+      '<button type="button" id="'+(main?'navigate-main':'navigate-secondary')+
+      '" data-s5-map="'+rank+'" aria-label="查看'+storeTitle+'地图和地址">导航 ›</button></div>'+
       '<p class="s5-store-distance">'+esc(view.district||s.district||'')+(distance?' · '+distance:'')+'</p></div>'+
-      '<div class="s5-unit-list">'+rows+'</div>';
+      '<div class="s5-unit-list">'+rows+
+      (units.length>1?'<button type="button" class="s5-alt-toggle" data-s5-alts="'+rank+
+       '" aria-expanded="false">另有'+(units.length-1)+'种仓位可选 <span aria-hidden="true">⌄</span></button>':'')+'</div>';
   }
   // Keep full price text visible within the allocated S5 price column.
   // Ellipsis hides the actual amount and is forbidden on the purchase surface.
@@ -256,6 +262,15 @@
     document.querySelectorAll('[data-term]').forEach(el=>el.onclick=()=>guard(()=>{applyTerm(el.dataset.term);s5TermEditing=false;refresh();}));
     $('more-term').onclick=moreTerms;
     document.querySelector('.recommend-wrap').addEventListener('click',e=>{
+      const toggle=e.target.closest('[data-s5-alts]');
+      if(toggle){
+        const expanded=toggle.getAttribute('aria-expanded')!=='true';
+        toggle.setAttribute('aria-expanded',String(expanded));
+        toggle.querySelector('span').textContent=expanded?'⌃':'⌄';
+        const list=toggle.closest('.s5-unit-list');
+        list.querySelectorAll('.s5-alt-unit').forEach(el=>el.hidden=!expanded);
+        return;
+      }
       const buy=e.target.closest('[data-s5-buy]'),price=e.target.closest('[data-s5-price]'),storeBtn=e.target.closest('[data-s5-store],[data-s5-map]');
       const key=buy?.dataset.s5Buy||price?.dataset.s5Price;
       if(key){
@@ -279,16 +294,27 @@
     $('s5-compare').onclick=()=>{
       const rows=offerRows.slice(0,2);
       if(rows.length<2)return;
-      const comparison=rows.map((row,i)=>{
+      const entries=rows.map((row,i)=>{
         const u=s5StoreUnitRows[i]?.[0];
-        if(!u)return '';
-        const display=presentation.price(u.ids),full=display.kind==='term';
-        return '<div class="bridge-compare-row"><strong>'+esc(row.store.name)+'</strong><p>'+
-          esc(row.store.district||'')+' · '+esc(u.volume+'m³')+' · '+
-          esc(full?display.money+'整期':'月租 '+display.money+'起')+'</p>'+
-          act('store','查看门店',row.store.id)+'</div>';
-      }).join('');
-      sheet('对比推荐门店',comparison);
+        if(!u)return null;
+        // Display estimate only. Formal quote and O01 still require phone verification.
+        const amount=core.amounts(u.ids,core.state().requirement.term_months);
+        return {store:row.store,unit:u,amount};
+      });
+      if(entries.some(x=>!x))return;
+      const cells=(label,key,fmt)=>'<tr><th scope="row">'+label+'</th>'+
+        entries.map(x=>'<td>'+esc(fmt?fmt(x.amount):money(x.amount[key]))+'</td>').join('')+'</tr>';
+      const comparison='<div class="s5-comparison-table-wrap"><table class="s5-comparison-table">'+
+        '<thead><tr><th scope="col">费用</th>'+
+        entries.map(x=>'<th scope="col" title="'+esc(x.store.name)+'">'+esc(x.store.name)+'</th>').join('')+
+        '</tr></thead><tbody>'+
+        cells('整期租金','rent_total')+cells('月均租金','monthly_average')+
+        cells('优惠券','coupon_discount',a=>(a.coupon_discount?'−'+money(a.coupon_discount):'¥0'))+
+        cells('押金','deposit')+cells('管理费','management_fee')+
+        cells('首次应付','payable')+
+        '</tbody></table></div><div class="s5-comparison-actions">'+
+        entries.map((x,i)=>'<div class="bridge-compare-row">'+act('store','查看第'+(i+1)+'家',x.store.id,true)+'</div>').join('')+'</div>';
+      sheet('两家门店费用对比',comparison);
     };
     $('s5-advisor-action').onclick=()=>consult('advisor');
     $('see-more').onclick=()=>B.navigate('S01');$('open-estore').onclick=()=>sheet('考拉E存',note('上门取送服务的适用范围及方案由顾问确认；此处仍为候选服务入口。')+act('estoreBooking','联系顾问','',true));
