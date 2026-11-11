@@ -1,5 +1,15 @@
-/* GLOBAL-STORE-TAG-01 | same semantic class / same visual hierarchy everywhere.
-   Only the number shown changes by page; no new card or visual container. */
+/* GLOBAL-STORE-TAG-01 / VIS-SYSTEM-04B
+   Semantic color = offer / service / attribute, NOT per-page styling.
+   No new cards, borders, shadows, or marketing text. */
+:root{
+  --mk-tag-offer-ink:#a6571e;
+  --mk-tag-offer-bg:#fff2e6;
+  --mk-tag-offer-border:#f3dfca;
+  --mk-tag-service-ink:#536e5e;
+  --mk-tag-service-bg:#f3f8f4;
+  --mk-tag-service-border:#dce9df;
+  --mk-price-confirmed:#0a7b59;
+}
 .mk-store-tags, .store-tags:has(.mk-store-tag),
 .s5-store-services:has(.mk-store-tag){
   display:flex;gap:5px;align-items:center;min-width:0;overflow:hidden;
@@ -18,14 +28,18 @@
 .mk-store-tag.mk-tag-promotion,
 .store-tags .mk-store-tag.mk-tag-promotion,
 .s5-store-services .mk-store-tag.mk-tag-promotion{
-  border-color:#f3dfca;background:#fff2e6;color:#c56a25;
+  border-color:var(--mk-tag-offer-border);background:var(--mk-tag-offer-bg);color:var(--mk-tag-offer-ink);
   font-weight:690;
 }
 .mk-store-tag.mk-tag-service,
-.mk-store-tag.mk-tag-attribute,
 .store-tags .mk-store-tag.mk-tag-service,
+.s5-store-services .mk-store-tag.mk-tag-service{
+  border-color:var(--mk-tag-service-border);
+  background:var(--mk-tag-service-bg);
+  color:var(--mk-tag-service-ink);font-weight:550;
+}
+.mk-store-tag.mk-tag-attribute,
 .store-tags .mk-store-tag.mk-tag-attribute,
-.s5-store-services .mk-store-tag.mk-tag-service,
 .s5-store-services .mk-store-tag.mk-tag-attribute{
   border-color:#e1e6e3;background:#fafbfa;color:#65736c;font-weight:550;
 }
@@ -33,7 +47,7 @@
 .mk-s02-store-tags{margin-top:6px;gap:6px;flex-wrap:wrap;overflow:visible}
 .mk-s02-store-tags .mk-store-tag{height:22px;line-height:20px}
 body[data-preview-surface="home"] .store-tags .mk-store-tag{
-  font-size:9px;height:17px;min-height:17px;line-height:15px;padding:0 4px;border-radius:3px;
+  font-size:11px;height:19px;min-height:19px;line-height:17px;padding:0 4px;border-radius:3px;
 }
 .s5-store-services .mk-store-tag{
   font-size:11px;height:20px;min-height:20px;line-height:18px;padding:0 6px;
