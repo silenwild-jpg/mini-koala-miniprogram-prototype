@@ -43,7 +43,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node scripts/verify_price_integer_contract_01.cjs
+          # PRD freeze: intentionally exclude 36→37-month transition verification.
+          # Existing 12-month price/order safeguards remain in business/H01 tests.
           node scripts/verify_rc2_business_rebuild_01.cjs
           node qa/test_h01_state_implement_01.cjs
           node qa/test_h01_order_payment_3h.cjs
