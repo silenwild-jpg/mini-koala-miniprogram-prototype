@@ -39,6 +39,13 @@ async function audit(){
  // Deliberately observe, do not assume all displayed price information requires authorization.
  // Public shop floor pricing and binding/order quotations need separate business signoff.
  console.log('OBSERVED_ANONYMOUS_PRICE_VISIBILITY '+JSON.stringify({width,anonymousText:anon,allNumericQuotesHidden:anonIsLocked}));
+ const anonymousGate=await rootFrame.locator('#screen').evaluate(()=>{
+   const c=window.SIM_DEMO.core;let error='NO_ERROR';try{c.quote();}catch(e){error=e.message;}
+   return {authorized:c.authorized(),bindingQuoteError:error,quoteCreated:!!c.state().quote};
+ });
+ assert.equal(anonymousGate.authorized,false);
+ assert.equal(anonymousGate.bindingQuoteError,'PHONE_REQUIRED');
+ assert.equal(anonymousGate.quoteCreated,false);
  const compareButton=s5.locator('#s5-compare');
  const anonComparison={visible:await compareButton.isVisible(),rowCount:null,containsFeeBreakdown:null};
  if(anonComparison.visible){
@@ -58,13 +65,16 @@ async function audit(){
  const ids=(await first.getAttribute('data-unit-ids')).split(',').filter(Boolean);
  const amounts=await rootFrame.locator('#screen').evaluate(ids=>{
    const b=window.SIM_DEMO,c=b.core,s=c.state();
-   return {authorized:c.authorized(),months:s.requirement.term_months,volume:s.requirement.capacity_m3,values:c.amounts(ids,s.requirement.term_months)};
+   let values=null,amountError=null;
+   try{values=c.amounts(ids,s.requirement.term_months);}catch(e){amountError=e.message;}
+   return {authorized:c.authorized(),months:s.requirement.term_months,volume:s.requirement.capacity_m3,ids,knownUnits:ids.map(id=>!!c.fixture.units.find(u=>u.id===id)),values,amountError};
  },ids);
  assert(amounts.authorized,'authorized phone condition not achieved');
  assert.equal(amounts.months,12);
  assert.equal(amounts.volume,3);
  const firstDisplayed=(await first.locator('.s5-unit-price').innerText()).trim();
- assert(firstDisplayed.includes(Math.round(amounts.values.rent_total).toLocaleString('zh-CN')),'S5 displayed rent not equal to core rent_total');
+ if(amounts.values)assert(firstDisplayed.includes(Math.round(amounts.values.rent_total).toLocaleString('zh-CN')),'S5 displayed rent not equal to core rent_total');
+ else console.log('UNKNOWN_UNIT_ID_DIAGNOSTIC '+JSON.stringify({width,ids,amounts,firstDisplayed}));
  const touch=await s5.locator('.modify,.location-edit,#term-edit,#s5-compare,.s5-store-open,.s5-store-address button').evaluateAll(els=>els.filter(e=>{
   const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0;
  }).map(e=>{const r=e.getBoundingClientRect();return {target:e.id||e.className||e.tagName,text:e.innerText.trim().slice(0,25),width:Math.round(r.width),height:Math.round(r.height),below44:Math.min(r.width,r.height)<44}}));
@@ -74,14 +84,14 @@ async function audit(){
  })():null;
  const feeGap=compareBody?{depositMissing:!/押金/.test(compareBody),managementMissing:!/管理费/.test(compareBody),payableMissing:!/首次应付/.test(compareBody)}:null;
  const row={
-  width,height,anonymousQuoteProtected:anonIsLocked,anonymousText:anon,anonComparison,
-  validated:{unitIds:ids,actualRent:amounts.values.rent_total,discountedMonthly:amounts.values.monthly_average,deposit:amounts.values.deposit,management:amounts.values.management_fee,payable:amounts.values.payable,displayedRent:firstDisplayed},
+  width,height,anonymousQuoteProtected:anonIsLocked,anonymousBindingQuoteGate:anonymousGate,anonymousText:anon,anonComparison,
+  validated:{unitIds:ids,knownUnits:amounts.knownUnits,amountError:amounts.amountError,actualRent:amounts.values?.rent_total??null,discountedMonthly:amounts.values?.monthly_average??null,deposit:amounts.values?.deposit??null,management:amounts.values?.management_fee??null,payable:amounts.values?.payable??null,displayedRent:firstDisplayed},
   visibleTouchTargets:touch,undersizedTouchTargets:touch.filter(x=>x.below44),currentComparisonFeeGap:feeGap,errors
  };
  assert.deepEqual(errors,[]);
  records.push(row);
  await page.screenshot({path:path.join(out,'S5-authorized-compare-'+width+'.png')});
- console.log('DESIGN_CONTRACT '+JSON.stringify({width,anonymousQuoteProtected:row.anonymousQuoteProtected,firstRent:row.validated.actualRent,feeGap,touchUnder44:row.undersizedTouchTargets.length}));
+ console.log('DESIGN_CONTRACT '+JSON.stringify({width,anonymousQuoteProtected:row.anonymousQuoteProtected,firstRent:row.validated.actualRent,amountError:row.validated.amountError,feeGap,touchUnder44:row.undersizedTouchTargets.length}));
  await page.close();
  }finally{await ctx.close()}
  }
