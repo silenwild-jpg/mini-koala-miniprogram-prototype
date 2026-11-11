@@ -70,10 +70,33 @@
   function setUnit(el,u){
     if(!u){el.hidden=true;el.dataset.unitId='';return;}
     el.hidden=false;el.dataset.unitId=u.id;
+    // S01-UX-REFINE-06: two-row matched-unit hierarchy.
+    // Keep the original unit-main node so repeated data refreshes remain safe;
+    // move only its existing nodes, with no extra visual card/container.
+    const metaRow=el.querySelector('.unit-main');
     const capacity=el.querySelector('.capacity');
+    const description=el.querySelector('.unit-desc');
+    const priceBox=el.querySelector('.price');
+    const promoTag=el.querySelector('.hot');
+    const orderButton=el.querySelector('.order');
+    let actionRow=el.querySelector('.unit-action-row');
+    if(metaRow){
+      if(capacity)metaRow.append(capacity);
+      if(description)metaRow.append(description);
+      if(promoTag)metaRow.append(promoTag);
+      if(!actionRow){
+        actionRow=document.createElement('div');
+        actionRow.className='unit-action-row';
+        actionRow.setAttribute('aria-label','仓位价格与下单');
+        metaRow.after(actionRow);
+      }
+      if(priceBox)actionRow.append(priceBox);
+      if(orderButton)actionRow.append(orderButton);
+      el.dataset.s01Layout='stacked';
+    }
     capacity.firstChild.nodeValue=u.volume+'m';
     setText(capacity.querySelector('sup'),'3');
-    const priceBox=el.querySelector('.price');
+    capacity.setAttribute('aria-label','仓位 '+u.volume+'立方米');
     priceBox.dataset.priceKind=u.priceKind;
     const mainAmount=priceBox.querySelector('strong');
     setText(mainAmount,u.price);
