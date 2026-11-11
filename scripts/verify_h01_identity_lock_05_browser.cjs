@@ -8,8 +8,8 @@ const port=4689,host='http://127.0.0.1:'+port;
 const base=host+'/prototype/parallel/core-journey-fix-01/demo/';
 const home=base+'home.html',app=base+'index.html?page=S01';
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};
-const phases=['new','estimated','selected','booking','pending','payment_failed','expired','identity','identity_verify','upcoming','active','active_change','active_lock_bad','active_lock_ack','active_lock_revoked','expiring','lease_expired','renewal','returning','refund','ended','multi','active_browse'];
-const expected={new:'new',estimated:'estimated',selected:'selected',booking:'booking',pending:'pending',payment_failed:'payment_failed',expired:'expired',identity:'identity',identity_verify:'identity',upcoming:'upcoming',active:'active',active_change:'active',active_lock_bad:'active',active_lock_ack:'active',active_lock_revoked:'active',expiring:'expiring',lease_expired:'lease_expired',renewal:'renewal',returning:'returning',refund:'refund',ended:'new',multi:'pending',active_browse:'active'};
+const phases=['new','estimated','selected','booking','pending','payment_failed','expired','identity','identity_verify','upcoming','active','active_change','expiring','lease_expired','renewal','returning','refund','ended','multi','active_browse'];
+const expected={new:'new',estimated:'estimated',selected:'selected',booking:'booking',pending:'pending',payment_failed:'payment_failed',expired:'expired',identity:'identity',identity_verify:'identity',upcoming:'upcoming',active:'active',active_change:'active',expiring:'expiring',lease_expired:'lease_expired',renewal:'renewal',returning:'returning',refund:'refund',ended:'new',multi:'pending',active_browse:'active'};
 const rows=[];
 function addDays(d,n){const [y,m,day]=d.split('-').map(Number);return new Date(Date.UTC(y,m-1,day+n)).toISOString().slice(0,10)}
 function listen(){return http.createServer((req,res)=>{let file;try{file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,host).pathname))}catch{return res.writeHead(400).end()};if(!file.startsWith(root+path.sep))return res.writeHead(403).end();fs.readFile(file,(e,bytes)=>e?res.writeHead(404).end():res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(bytes))})}
@@ -32,7 +32,7 @@ async function seed(page,phase){
   c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});
   c.quote();const order=c.submit();
   if(phase==='payment_failed')c.pay(order.id,'failed');
-  if(['identity','identity_verify','upcoming','active','active_change','active_lock_bad','active_lock_ack','active_lock_revoked','expiring','lease_expired','renewal','returning','refund','ended','multi','active_browse'].includes(phase)){
+  if(['identity','identity_verify','upcoming','active','active_change','expiring','lease_expired','renewal','returning','refund','ended','multi','active_browse'].includes(phase)){
     c.pay(order.id,'success');
     if(!['identity','identity_verify'].includes(phase))c.identity(order.id,'success');
   }
@@ -142,7 +142,7 @@ async function start(){
        if(phase==='upcoming')assert.match(controls.secondLabel,/门店导航/);
        record.controls=controls;
      }
-     if(['pending','identity','identity_verify','upcoming','active','active_lock_bad','active_lock_ack','active_lock_revoked','expiring','renewal','returning','refund','lease_expired'].includes(phase)){
+     if(['pending','identity','identity_verify','upcoming','active','expiring','renewal','returning','refund','lease_expired'].includes(phase)){
        assert.equal(await page.locator('#h01FlowHelp').isVisible(),true,'Contextual help missing');
        assert.equal(await page.locator('#h01FlowPromo').isVisible(),false,'Unapproved marketing offer must not display');
        record.help=await page.locator('#h01FlowHelpTitle').innerText();
@@ -176,30 +176,6 @@ async function start(){
        record.action='identity→verified→upcoming and locked-before-start';
        await page.keyboard.press('Escape');
      }
-     if(['active_lock_bad','active_lock_ack','active_lock_revoked'].includes(phase)){
-       await page.evaluate(phase=>{
-         window.MK_H01_LOCK_GATEWAY={
-           requestUnlock: async request=>{
-             if(phase==='active_lock_revoked'){
-               const state=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'{}');
-               state.services[request.orderId].identity='pending';
-               sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(state));
-             }
-             return {...request,requestId:phase==='active_lock_bad'?'wrong-request':request.requestId,
-               confirmed:true,acknowledged:true,authorized:true};
-           }
-         };
-       },phase);
-       await page.locator('#h01FlowPrimary').click();
-       const dialog=page.locator('.h01-flow-modal .h01-flow-dialog');
-       await dialog.waitFor();
-       await page.waitForFunction(()=>/开锁成功|无法完成开锁/.test(document.querySelector('.h01-flow-dialog h2')?.textContent||''),null,{timeout:7000});
-       const text=await dialog.innerText();
-       if(phase==='active_lock_ack')assert.match(text,/开锁成功/);
-       else assert.match(text,/无法完成开锁/,'Invalid/stale ACK must not claim success');
-       record.action='BLE ACK '+phase;
-       await page.keyboard.press('Escape');
-     }
      if(phase==='pending'){
        await page.locator('#h01FlowHelpAction').click();
        assert.match(await page.locator('.h01-flow-modal').innerText(),/付款|支付/,'Payment help missing');
@@ -208,8 +184,11 @@ async function start(){
      if(phase==='active'){
        assert.equal(await page.locator('#h01FlowPrimary').innerText(),'一键开锁');
        await page.locator('#h01FlowPrimary').click();
-       assert.match(await page.locator('.h01-flow-modal').innerText(),/蓝牙开锁|仓门设备/,'Lock setup must not claim door opened');
-       assert.doesNotMatch(await page.locator('.h01-flow-modal').innerText(),/开锁成功/,'No unconfirmed hardware success');
+       assert.match(await page.locator('.h01-flow-modal').innerText(),/仓门开锁|仓门设备|未连接/,'Lock setup must not claim door opened');
+       assert.doesNotMatch(await page.locator('.h01-flow-modal').innerText(),/开锁成功|开锁处理中/,'Demonstration entry must never claim device activity');
+       // Even if a stray legacy integration is present, the current H01 code must not call BLE.
+       const demoLabel=await page.locator('.h01-flow-modal h2').innerText();
+       assert.equal(demoLabel,'仓门开锁','Entry must remain visible as a product workflow preview');
        await page.keyboard.press('Escape');
        const trigger=page.locator('#h01FlowServices [data-h01="more"]');
        await trigger.click();
@@ -234,7 +213,7 @@ async function start(){
      }
      if(phase==='expiring'){
        await page.locator('#h01FlowPrimary').click();
-       assert.match(await page.locator('.h01-flow-modal').innerText(),/蓝牙开锁|仓门设备/);
+       assert.match(await page.locator('.h01-flow-modal').innerText(),/仓门开锁|仓门设备|未连接/);
        await page.keyboard.press('Escape');
        await page.locator('#h01FlowSecondary').click();
        await page.waitForURL(/page=RN01/,{timeout:7000});
@@ -288,7 +267,7 @@ async function start(){
   }
  }finally{await browser.close();await new Promise(ok=>srv.close(ok))}
  const failures=rows.filter(x=>x.status!=='PASS');
- fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:105,kind:'H01_05_PROTOTYPE_IDENTITY_AND_BOUND_BLE_ACK_NO_S5_CHANGES',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
+ fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({source_sha:process.env.RC2_EXPECT_SHA,source_pr:114,kind:'H01_05_IDENTITY_AND_LOCK_DEMO_ENTRY_ONLY_NO_BLE_NO_S5',rows,pass:rows.length-failures.length,fail:failures.length},null,2));
  if(failures.length)throw Error('H01 audit failure '+failures.map(x=>x.width+'/'+x.phase).join(','));
  console.log('H01 layout capture '+rows.length+'/'+rows.length+' PASS; 0 S5 modifications');
 }
