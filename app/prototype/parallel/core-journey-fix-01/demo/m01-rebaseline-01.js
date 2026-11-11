@@ -21,7 +21,8 @@
     var status={upcoming:'待起租',active:'租用中',returning:'退租处理中',expired:'租期已到期'}[life.lease_status]||'查看订单';
     var priority={active:4,upcoming:3,returning:2,expired:1}[life.lease_status]||0;
     if(life.lease_status==='active'&&life.end_date){
-      var days=Math.ceil((Date.parse(life.end_date+'T00:00:00Z')-Date.now())/86400000);
+      var localDay=new Date(Date.now()+8*60*60*1000).toISOString().slice(0,10);
+      var days=Math.round((Date.parse(life.end_date+'T00:00:00Z')-Date.parse(localDay+'T00:00:00Z'))/86400000);
       if(days>=0&&days<=30){status='即将到期';priority=5;}
     }
     return {order:o,life:life,status:status,priority:priority};
@@ -76,7 +77,8 @@
         if(life.lease_status==='ended'&&life.deposit_status==='REFUND_PENDING')rank=85;
         if(life.identity_status!=='verified'&&['active','upcoming'].includes(life.lease_status))rank=95;
         if(life.lease_status==='active'&&life.end_date){
-          var days=Math.ceil((Date.parse(life.end_date+'T00:00:00')-Date.now())/86400000);
+          var localDay=new Date(Date.now()+8*60*60*1000).toISOString().slice(0,10);
+          var days=Math.round((Date.parse(life.end_date+'T00:00:00Z')-Date.parse(localDay+'T00:00:00Z'))/86400000);
           if(days>=0&&days<=30){rank=96;ending=true;}
         }
       }else if(o.status==='pending')rank=75;
