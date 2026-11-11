@@ -12,9 +12,13 @@
   visSystemStyles.rel='stylesheet';
   visSystemStyles.href='s01-vis-system-01.css?v=VIS01';
   document.head.append(visSystemStyles);
+  // User-approved reference information layout is the default in this
+  // separate design PR only. PR #99 keeps its original default unchanged.
+  // Explicit ?vis_system=baseline remains available for exact comparisons.
   const requestedLayout=new URLSearchParams(window.location.search).get('vis_system');
-  if(['balanced','flow','compact'].includes(requestedLayout))
-    document.documentElement.dataset.visSystem=requestedLayout;
+  document.documentElement.dataset.visSystem=
+    ['baseline','compact','balanced','flow','reference'].includes(requestedLayout)
+      ?requestedLayout:'reference';
   const bridge=window.parent!==window?window.parent.SIM_DEMO?.s01R2Bridge:null;
   if(!bridge||!stage||masters.length!==2){document.documentElement.dataset.binding='UNAVAILABLE';return;}
   const setText=(el,v)=>{if(el)el.textContent=String(v??'');};
