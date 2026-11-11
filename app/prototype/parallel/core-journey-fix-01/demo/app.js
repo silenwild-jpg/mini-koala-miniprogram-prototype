@@ -620,5 +620,17 @@
       photo:v.photo,services:v.services,distance:displayedDistanceKm(s),distanceVerified:F.distanceVerified};
   }
   window.SIM_DEMO={s01R2Bridge,presentation,s5SharedUnit,s5SharedStore,s5AreaPreference,s5SetArea,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
+  // Direct H01 -> O01: validate and restore the specific pending order before rendering checkout.
+  if(page==='O01'&&requestedOrderId){
+    const target=state().orders.find(o=>o.id===requestedOrderId);
+    if(target?.status==='pending'){
+      const reopened=core.resumePendingOrder(requestedOrderId);
+      persist();
+      if(reopened.status!=='pending'){page='O03';history.replaceState({},'',location.pathname+'?page=O03&order='+encodeURIComponent(requestedOrderId));}
+    }else{
+      page=target?'O03':'M01';
+      history.replaceState({},'',location.pathname+'?page='+page+(target?'&order='+encodeURIComponent(requestedOrderId):''));
+    }
+  }
   const initialStore=new URLSearchParams(location.search).get('store');act(()=>{if(initialStore)core.setStore(initialStore);render();});if(page==='O01'&&!core.authorized())phoneAuth.run('ORDER','DIRECT_O01',()=>render());
 })();
