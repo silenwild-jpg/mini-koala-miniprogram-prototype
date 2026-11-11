@@ -121,7 +121,7 @@ const report=[];
       display:getComputedStyle(el).display
     })));
     assert.equal(s5Formulas.length,2);
-    assert(s5Formulas.every(x=>/^¥[\\d,]+\\/月 × 12个月$/.test(x.text)&&x.fits&&x.display!=='none'),
+    assert(s5Formulas.every(x=>x.text.startsWith('¥')&&x.text.endsWith('/月 × 12个月')&&x.fits&&x.display!=='none'),
       'S5 monthly rent × term is truncated or hidden: '+JSON.stringify(s5Formulas));
     await page.screenshot({path:path.join(out,'S5-integer-tags-'+width+'.png')});
     await page.goto(host+'/prototype/parallel/core-journey-fix-01/demo/home.html',{waitUntil:'domcontentloaded'});
