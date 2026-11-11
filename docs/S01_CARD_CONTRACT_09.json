@@ -117,7 +117,11 @@
     "term_discount": "factor from same lease tariff; only show when arithmetic agrees",
     "voucher_deposit_management_fee": "separate from rent in O01",
     "current_discount_policy": "BUSINESS_RATE_HOLD",
-    "issue": 106
+    "issue": 106,
+    "whole_term": "integer_monthly_rent_times_months_exactly",
+    "currency_fraction_policy": "TRUNCATE",
+    "monthly_display": "¥integer/month × months",
+    "original_tag_policy_issue": 106
   },
   "screen_baseline": {
     "sizes": [
@@ -170,5 +174,41 @@
     "without_evidence": "DO_NOT_CHANGE_STRUCTURAL_CONTRACT",
     "exception": "EVIDENCE_BACKED_P0_P1_WITH_USER_APPROVAL_AND_CROSS_PAGE_TEST",
     "no_main_merge_implicit": true
+  },
+  "global_rules": {
+    "source": "docs/GLOBAL_PRICE_TAG_UNIT_COPY_20261111.md",
+    "price_currency": "CNY",
+    "price_unit": "integer_yuan",
+    "price_fraction_handling": "TRUNCATE_NOT_ROUND",
+    "price_monthly_variable": "integer_discounted_monthly_rent",
+    "price_whole_term_formula": "integer_discounted_monthly_rent * selected_term_months",
+    "price_primary_copy": "¥whole_term_rent",
+    "price_secondary_copy": "¥integer_discounted_monthly_rent/月 × N个月",
+    "price_copy_forbidden": [
+      "月均",
+      "月均约",
+      "平均每月"
+    ],
+    "display_rounding_forbidden": [
+      "round",
+      "ceil"
+    ],
+    "tag_shared_store_identity": true,
+    "tag_order": [
+      "promotion_when_eligible",
+      "service",
+      "store_attribute"
+    ],
+    "tag_promotion_visual": "warm_emphasized",
+    "tag_non_promo_visual": "neutral_grey_border",
+    "tag_page_limits": {
+      "H01": 2,
+      "S01_compact": 2,
+      "S01_expanded": 3,
+      "S02_max": 5,
+      "S5": 2
+    },
+    "tag_full_visual_token_status": "PROVISIONAL_PENDING_VIS_SYSTEM",
+    "implementation_status": "BUSINESS_RULE_ACCEPTED_CODE_NOT_YET_REVERIFIED"
   }
 }
