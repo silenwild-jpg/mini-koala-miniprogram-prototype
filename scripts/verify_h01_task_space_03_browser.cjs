@@ -157,7 +157,10 @@ async function start(){
        assert.equal(variant.sceneVisible,shouldScene,'C photo variant visibility');
        assert(variant.scrollWidth<=w+1,'Horizontal overflow in task view');
        if(shouldScene){
-         assert(variant.imageLoaded,'Curated photo not loaded');
+         const sceneHoursVisible=await page.locator('#h01SceneHours').isVisible();
+       assert.equal(sceneHoursVisible,phase==='upcoming',
+         'Active access hours must not be repeated above the store image');
+       assert(variant.imageLoaded,'Curated photo not loaded');
          assert(variant.expectedImage&&variant.imageUrl.endsWith(variant.expectedImage),'Store ID to photo mapping mismatch');
          assert(variant.context?.bottom<variant.nav?.top-8,'Store photo content overlaps bottom nav');
        }
@@ -192,6 +195,24 @@ async function start(){
      assert.deepEqual(cjk.boxes.filter(x=>x.clipped&&x.overflow!=='ellipsis'),[],
        'H01 visible Chinese task label/button clipped without ellipsis');
      record.screenshot=await photo(page,w,phase);
+     // An initial viewport is not the whole page. Verify that CJK-wrapped help can
+     // be scrolled completely above the fixed nav, and preserve the actual bottom screenshot.
+     if(['pending','upcoming','active','active_change'].includes(phase)){
+       await page.locator('.scroll').evaluate(el=>{el.scrollTop=el.scrollHeight;});
+       await page.waitForTimeout(120);
+       const tailSafety=await page.evaluate(()=>{
+         const rect=sel=>{const e=document.querySelector(sel);return e?.getBoundingClientRect()||null;};
+         const help=rect('#h01FlowHelp'),nav=rect('.footer-nav'),scroll=document.querySelector('.scroll');
+         return {helpBottom:help?.bottom??null,navTop:nav?.top??null,
+           scrollTop:scroll?.scrollTop??null,scrollHeight:scroll?.scrollHeight??null,
+           clientHeight:scroll?.clientHeight??null};
+       });
+       if(tailSafety.helpBottom!==null&&tailSafety.navTop!==null)
+         assert(tailSafety.helpBottom<=tailSafety.navTop-15,
+           'Task help must be reachable at least 16px above fixed nav after scroll');
+       record.bottomSafety=tailSafety;
+       record.bottomScreenshot=await photo(page,w,phase+'-bottom');
+     }
      if(['new','active_browse'].includes(phase)){
       await page.locator('.scroll').evaluate(el=>{el.scrollTop=el.scrollHeight});
       await page.waitForTimeout(160);
