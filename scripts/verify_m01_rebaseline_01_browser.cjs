@@ -31,6 +31,10 @@ const server=http.createServer((req,res)=>{
         assert.equal(await page.locator('.bottom-nav').count(),1,'single app bottom nav');
         assert.equal(await page.locator('.m01-surface [class*="compare"]').count(),0,'no compare');
         await page.screenshot({path:path.join(out,'M01-empty-'+width+'.png'),fullPage:true});
+        await page.locator('#scroll').evaluate(el=>{el.scrollTop=el.scrollHeight;});
+        assert.equal(await page.locator('.m01-row[data-value="services"]').count(),1,'rent-after entry missing');
+        await page.screenshot({path:path.join(out,'M01-lower-'+width+'.png')});
+        await page.locator('#scroll').evaluate(el=>{el.scrollTop=0;});
         await page.locator('.m01-row[data-value="orders"]').click();
         await page.locator('.m01-subhead').waitFor();
         assert.match(await page.locator('.m01-subhead').innerText(),/我的订单/);
@@ -57,7 +61,13 @@ const server=http.createServer((req,res)=>{
         });
         assert(!pending.error,'central pending order setup: '+pending.error);
         assert.match(await page.locator('.m01-task').innerText(),/继续支付/);
+        assert.match(await page.locator('.m01-task').innerText(),/应付¥/);
         await page.screenshot({path:path.join(out,'M01-pending-'+width+'.png'),fullPage:true});
+        await page.locator('.m01-task .m01-primary-button').click();
+        await page.locator('#br04-frame').waitFor();
+        assert.match(await page.locator('#br04-frame').getAttribute('src'),/o01/,'continue payment must open O01 directly');
+        await page.evaluate(()=>window.SIM_DEMO.navigate('M01'));
+        await page.locator('.m01-task').waitFor();
         // Payment changes the central order and should replace the M01 primary task.
         const paid=await page.evaluate(id=>{
           const b=window.SIM_DEMO,c=b.core;
