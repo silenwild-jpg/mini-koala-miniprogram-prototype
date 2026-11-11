@@ -50,3 +50,5 @@ jobs:
           path: |
             release-evidence/rc2-ux-quality-rebase-02c/
             release-evidence/rc2-merge-prep-10/build-summary.json
+
+# Audit gate R2: observe anonymous price visibility; do not assume a hidden quote mandate.
