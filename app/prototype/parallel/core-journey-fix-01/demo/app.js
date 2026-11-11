@@ -54,7 +54,8 @@
     history.replaceState(history.state||{},'',url.pathname+url.search+url.hash);
   }
   canonicalS01Url();
-  let displayedPage=null;
+  let displayedPage=null,displayedOrderId=null;
+  const positionKey=()=>MK_M01_ORDER_ROUTE_01.isOrderPage(page)?page+'|'+(selectedOrderId||''):page;
   const requestedOrderId=new URLSearchParams(location.search).get('order');
   let selectedOrderId=MK_M01_ORDER_ROUTE_01.select(requestedOrderId!==null,requestedOrderId,sessionStorage.getItem('mk_lifecycle_selected_order_v1'));
   const reviewMode=new URLSearchParams(location.search).get('review')==='1';
@@ -94,7 +95,7 @@
   const messages={ENTER_PHONE:'请填写有效的联系电话',PHONE_REQUIRED:'请先完成手机号验证',SELECT_TERM:'请选择租期',SELECT_CAPACITY:'请填写容量',INVALID_CAPACITY:'请输入0.5–200m³的容量，最多两位小数',INVALID_TERM:'租期请选择1–60个月的整数',UNAVAILABLE:'当前仓位不可用，请选择其他匹配门店或仓位',SELECT_DATE:'请选择有效的用仓开始日期',INVENTORY_CHANGED:'库存刚刚发生变化，当前仓位不可用。已保留容量和租期，请选择其他匹配方案。',PRICE_CHANGED:'价格刚刚发生变化，请重新查看并确认报价。',QUOTE_STALE:'报价已失效，请重新获取报价',ENTER_ADDRESS:'请填写用仓地址（不超过120字）',INVALID_STORE:'该门店不存在或不属于当前城市',NO_PHONE_REQUEST:'请先点击页面内的授权入口'};
   function act(fn){try{fn();persist();}catch(e){notice=messages[e.message]||'当前操作无法完成，请检查选择';persist();render();}}
   function remember(){
-    positions[page]=$('#scroll')?.scrollTop||0;
+    positions[positionKey()]=$('#scroll')?.scrollTop||0;
     if(page==='S01'){
       try{
         const frame=$('#s01-r2-frame');
@@ -338,7 +339,7 @@
     if(page==='RN01'&&inProgressRenewal)renewalDraftByOrder[lifecycleId()]=inProgressRenewal.value;
     core.expirePendingOrders();
     if(page==='O01'&&!core.authorized())notice='请验证手机号后继续确认订单';
-    if(displayedPage===page&&$('#scroll'))positions[page]=$('#scroll').scrollTop;
+    if(displayedPage===page&&(!MK_M01_ORDER_ROUTE_01.isOrderPage(page)||displayedOrderId===selectedOrderId)&&$('#scroll'))positions[positionKey()]=$('#scroll').scrollTop;
     const was=displayedPage;core.authorized();persist();
     const framed={S5:'s5',BOOKING:'reserve',QUICK:'quick',O01:'o01'};
     function readableOrderNo(id){
@@ -454,9 +455,9 @@
       if(!f||was!==page)$('#screen').innerHTML=`<iframe id="br04-frame" class="br04-frame" title="${{S5:'租期与推荐',BOOKING:new URLSearchParams(location.search).get('mode')==='advisor'?'顾问咨询':'预约用仓',QUICK:'快捷下单',O01:'确认订单'}[page]}" src="br04/${framed[page]}/index.html?v=VA04"></iframe>`;
       else {try{f.contentWindow.BR04_REFRESH?.();}catch{}}
     } else $('#screen').innerHTML=`<div id="scroll" class="scroll demo-scroll">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${functions[page]()}</div>${page==='M01'?footer():''}`;
-    displayedPage=page;
+    displayedPage=page;displayedOrderId=MK_M01_ORDER_ROUTE_01.isOrderPage(page)?selectedOrderId:null;
     $('#overlay-root').innerHTML=modalHtml();if(r2Mode()){R2.cleanCopy($('#screen'));R2.cleanCopy($('#overlay-root'));}if(modal)$('#overlay-root').querySelector('button,input')?.focus();$('#scenario').value=state().scenario;$('#auth-state').textContent={anonymous:'未授权',pending:'待授权',verified:'本地已验证',expired:'已过期',denied:'已拒绝',failed:'接口失败'}[state().auth.status];
-    if($('#scroll'))$('#scroll').scrollTop=positions[page]||0;
+    if($('#scroll'))$('#scroll').scrollTop=positions[positionKey()]||0;
   }
   // Restore keyboard focus after an ordinary modal closes, including the S01 R2 child iframe.
   // Keep a selector rather than a DOM node: S02's content can be replaced during render().
