@@ -16,7 +16,7 @@ check(html.includes('MutationObserver(scheduleApply)'),'dynamic render observer'
 check(html.includes('375 × 812') && html.includes('390 × 844'),'supported widths');
 check(html.includes('已选需求') && html.includes('无匹配') && html.includes('未定位'),'scene options');
 check(source.includes('id="storeList"') && source.includes('function makeCard('),'source dynamic store list');
-check(source.includes('class="store') && source.includes('class="pricefact'),'source store and price markup');
+check(source.includes('class="store') && source.includes('class="fact pricefact'),'source store and price markup');
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
 check(scripts.length===1,'one editor script');
 new vm.Script(scripts[0][1],{filename:'vis-editor-s01.js'});
