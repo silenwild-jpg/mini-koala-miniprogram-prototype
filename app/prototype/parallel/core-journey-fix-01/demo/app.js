@@ -38,6 +38,12 @@
   const money=n=>'¥'+Number(n).toLocaleString('zh-CN');
   const store=id=>r2Store(F.stores.find(s=>s.id===id)),unit=id=>F.units.find(u=>u.id===id);
   const state=()=>core.state(),persist=()=>sessionStorage.setItem(KEY,JSON.stringify(state()));
+  // Shared by O03 initial render and the module-level one-second countdown updater.
+  const paymentTimeLeft=deadline=>{
+    const sec=Math.max(0,Math.ceil((Number(deadline)-Date.now())/1000));
+    const pad=n=>String(n).padStart(2,'0');
+    return {sec,label:pad(Math.floor(sec/3600))+':'+pad(Math.floor((sec%3600)/60))+':'+pad(sec%60),tone:sec<=300?'critical':sec<=1800?'warning':'normal'};
+  };
   let page=new URLSearchParams(location.search).get('page')||'S01',modal=null,pending=null,notice='',lastOrder=null;
   // RESTORE-06: normalize direct and historical S01 links before the first render.
   function canonicalS01Url(){
@@ -354,11 +360,6 @@
     REFUND_PENDING:'退款处理中',REFUNDED:'已退还',
     not_collected:'暂无押金',NOT_COLLECTED:'暂无押金'
   }[status]||'处理中');
-  const paymentTimeLeft=deadline=>{
-    const sec=Math.max(0,Math.ceil((Number(deadline)-Date.now())/1000));
-    const pad=n=>String(n).padStart(2,'0');
-    return {sec,label:pad(Math.floor(sec/3600))+':'+pad(Math.floor((sec%3600)/60))+':'+pad(sec%60),tone:sec<=300?'critical':sec<=1800?'warning':'normal'};
-  };
   const paymentClockHtml=o=>{
     // O03 renders a summary without expiresAt; resolve the original deadline by order ID.
     // Reopening O03 must not reset the pending order's three-hour payment window.
