@@ -1,7 +1,7 @@
 # S01-UX-REFINE-05｜需求状态栏与匹配仓位操作区 A/B 视觉探索评审
 
 日期：2026-11-11  
-代码基线：PR #99 head `3ce05907ba303c38fb20adb3835012ece7b`（若出现短 SHA 展示，以 GitHub PR99 当前实际 head 为准）  
+代码基线：PR #99 head `3ce05907ba303c38fb20adb1a89caba0858aab1a`（创建本次隔离分支时的冻结SHA）  
 隔离候选：PR #102（Draft/HOLD），分支 `explore/s01-ux-refine-05-20261111`  
 验证：https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/42974371219  
 截图/结果 artifact：https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/42974371219/artifacts/13834043783
