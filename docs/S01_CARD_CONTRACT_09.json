@@ -209,6 +209,20 @@
       "S5": 2
     },
     "tag_full_visual_token_status": "PROVISIONAL_PENDING_VIS_SYSTEM",
-    "implementation_status": "BUSINESS_RULE_ACCEPTED_CODE_NOT_YET_REVERIFIED"
+    "implementation_status": "ISOLATED_CHROMIUM_375_390_PASS_NO_MAIN_MERGE",
+    "tested_source_sha": "474e64b096d88379742ae9090026a1ea66b96ad2",
+    "tested_workflow_run": 42991434545,
+    "tested_price_combinations": 8760,
+    "final_visual_signoff": "PENDING",
+    "user_flow_test_scope": [
+      "H01",
+      "S01",
+      "S02",
+      "S5",
+      "O01",
+      "QUICK",
+      "O03"
+    ],
+    "capacity_copy_s5_display": "DATA_SHARED_UI_ROW_HIDDEN_PENDING_VISUAL_CHOICE"
   }
 }
