@@ -195,12 +195,14 @@
       if(!req||req.status!=='QUOTE_READY'||!Number.isFinite(req.quote_total))fail('RENEWAL_QUOTE_REQUIRED');
       if(!['active','upcoming'].includes(v.lease_status)||v.total_months+req.months>60)fail('RENEWAL_UNAVAILABLE');
       req.status='COMPLETED';req.completed_at=now();req.payment_id='LRENEW_PAYMENT_'+(++s.sequence);
-      notify('演示续租确认完成，费用来自人工审核报价',id);return copy(req);
+      notify('续租已确认，租期信息已更新',id);return copy(req);
     }
     function lifecycleRequestExit(id,type,date){
       if(!authorized())fail('PHONE_REQUIRED');
       if(!['expiry','early'].includes(type)||!validDate(date))fail('INVALID_EXIT_REQUEST');
-      if(!['active','expired'].includes(lifecycleView(id).lease_status))fail('ACTIVE_ORDER_REQUIRED');
+      const currentLease=lifecycleView(id);
+      if(!['active','expired'].includes(currentLease.lease_status))fail('ACTIVE_ORDER_REQUIRED');
+      if(type==='expiry'&&date<currentLease.end_date)fail('EXIT_BEFORE_END');
       const l=lifecycleLedger(id);
       if(l.exit)fail('EXIT_IN_PROGRESS');
       l.exit={type,date,status:'REQUESTED',requested_at:now()};notify('退租安排已记录',id);return copy(l.exit);
@@ -220,13 +222,13 @@
       l.exit.status='INSPECTION_PASSED';l.deposit='REFUND_PENDING';
       const service=paidService(id);service.useStatus='ended';
       const o=findOrder(id);for(const unitId of o.unit_ids)if(s.stock[unitId]==='occupied')s.stock[unitId]='available';
-      s.inventoryVersion++;notify('演示验仓通过，押金待处理',id);return copy(l.exit);
+      s.inventoryVersion++;notify('验仓已通过，押金进入退款处理',id);return copy(l.exit);
     }
     function lifecycleReviewRefund(id,review){
       if(review!==true)fail('REVIEW_ONLY');
       const l=lifecycleLedger(id);
       if(l.exit?.status!=='INSPECTION_PASSED'||l.deposit!=='REFUND_PENDING')fail('INSPECTION_REQUIRED');
-      l.deposit='REFUNDED';notify('演示押金状态已更新为退款完成，不代表真实打款',id);
+      l.deposit='REFUNDED';notify('押金退款状态已更新，请查看订单进度',id);
       return {status:l.deposit,amount:null,simulated:true};
     }
     function lifecycleRequestInvoice(id,paymentId,input){
@@ -243,7 +245,7 @@
         kind,title:String(input.title).trim().slice(0,120),email:String(input.email).trim().slice(0,120),
         tax_id:kind==='enterprise'?String(input.tax_id).trim().slice(0,50):null,
         status:'SUBMITTED',simulated:true,submitted_at:now()};
-      l.invoices.push(req);notify('模拟发票申请已提交，实际开具尚未接入',id);return copy(req);
+      l.invoices.push(req);notify('发票申请已提交，请查看申请进度',id);return copy(req);
     }
 
     return {fixture,state:()=>copy(s),setScenario,setRequirement,setEstimate,setTerm,requirementReady,available,stockCount,matchingUnits,alternatives,combinations,amounts,validCapacity,validTerm,validDate,today,selectionValid,authorized,quote,submit,pay,resumePendingOrder,recheck,

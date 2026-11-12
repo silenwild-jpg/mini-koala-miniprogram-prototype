@@ -102,7 +102,7 @@ const server=http.createServer((req,res)=>{
     assert.equal(await page.locator('.m01-asset-row').count(),2,'home→M01 same two leases');
     const returning=await page.evaluate(id=>{
       const b=window.SIM_DEMO,c=b.core;
-      try{c.lifecycleRequestExit(id,'expiry',c.today());b.persist();b.navigate('M01');
+      try{c.lifecycleRequestExit(id,'early',c.today());b.persist();b.navigate('M01');
        return {lease:c.lifecycleView(id).lease_status,key:window.H01_STATE_POLICY.derive(c.state(),c).key};
       }catch(e){return {error:e.message};}
     },setup.a);

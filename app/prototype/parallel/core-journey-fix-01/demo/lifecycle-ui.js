@@ -44,7 +44,8 @@ function render(page,core,selectedId,tools){
  }else if(page==='EX01'){
   body+='<h3>退租安排</h3><p>退租费用与验仓结果以门店办理结果为准。</p>';
   if(!v.exit&&['active','expired'].includes(v.lease_status)){
-   body+='<label>退租类型 <select id="exit-type"><option value="expiry">到期退租</option><option value="early">提前退租</option></select></label><label>计划取空日期 <input id="exit-date" type="date" min="'+core.today()+'"></label>'+button('requestExit','提交退租安排');
+   const expiryDate=v.end_date>=core.today()?v.end_date:core.today();
+   body+='<label>退租类型 <select id="exit-type"><option value="expiry">到期退租</option><option value="early">提前退租</option></select></label><label>计划取空日期 <input id="exit-date" type="date" min="'+esc(expiryDate)+'" value="'+esc(expiryDate)+'"></label>'+button('requestExit','提交退租安排');
   }else if(v.exit){
    body+='<p>退租：'+esc(stateLabel(v.exit.type))+' · '+esc(v.exit.date)+' · '+esc(stateLabel(v.exit.status))+'</p>';
    if(['REQUESTED','INSPECTION_FAILED'].includes(v.exit.status))
@@ -64,7 +65,7 @@ function render(page,core,selectedId,tools){
   if(available.length){
    body+='<label>付款记录 <select id="invoice-payment">'+available.map(p=>'<option value="'+esc(p.id)+'">'+esc(stateLabel(p.type))+' · '+money(p.amount)+'</option>').join('')+'</select></label>';
    body+='<label>类型 <select id="invoice-kind"><option value="personal">个人</option><option value="enterprise">企业</option></select></label>';
-   body+='<label>抬头 <input id="invoice-title" maxlength="120"></label><label>邮箱 <input id="invoice-email" type="email"></label><label>企业税号（企业时必填） <input id="invoice-tax" maxlength="50"></label>';
+   body+='<label>抬头 <input id="invoice-title" maxlength="120" required></label><label>邮箱 <input id="invoice-email" type="email" required></label><label id="invoice-tax-wrap" hidden style="display:none">企业税号 <input id="invoice-tax" maxlength="50"></label>';
    body+=button('requestInvoice','提交发票申请');
   }else body+='<p>暂无可申请的付款记录。</p>';
  }

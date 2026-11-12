@@ -371,6 +371,20 @@
     if(r2Mode()&&notice&&notice!=='请选择租期')body+='<p role="alert">'+esc(notice)+'</p>';
     return `<div class="scrim" data-action="close"></div><section class="control-sheet" role="dialog" aria-modal="true" aria-label="${modal}">${button('close','关闭','','close-button')}${body}</section>`;
   }
+  // Customer-facing inline validation keeps entered values, focus and scroll position intact.
+  const serviceFieldError=(input,message)=>{
+    if(!input)return;
+    document.querySelectorAll('.mk-service-field-error').forEach(el=>el.remove());
+    const row=input.closest('label')||input;
+    const error=document.createElement('p');
+    error.className='mk-order-tip mk-service-field-error';
+    error.setAttribute('role','alert');
+    error.textContent=message;
+    row.insertAdjacentElement('afterend',error);
+    input.setAttribute('aria-invalid','true');
+    input.focus();
+    input.scrollIntoView({block:'nearest'});
+  };
   function render(){
     // Snapshot the live value before any RN01 view replacement, including non-input-triggered refreshes.
     const inProgressRenewal=document.getElementById('renew-months');
@@ -539,7 +553,25 @@
       delete draft.quick;sessionStorage.setItem('mk_br04_ui_v2',JSON.stringify(draft));
       sessionStorage.setItem('mk_h01_reorder_intent_01',JSON.stringify({previous_order_id:o.id,source:'O03',created_at:Date.now()}));
       go('QUICK');
-    },recoverFailedOrder(){const o=state().orders.find(x=>x.id===selectedOrderId);if(!o||o.status!=='payment_failed'){notice='订单状态已更新，请从门店重新选择';render();return;}go('S01');},requestRenewal(){const input=$('#renew-months');if(!input)return;const raw=input.value.trim(),months=Number(raw),v=core.lifecycleView(lifecycleId()),max=Math.max(0,60-v.total_months);const error=message=>{let node=$('#renew-error');if(!node){node=document.createElement('p');node.id='renew-error';node.setAttribute('role','alert');node.className='mk-order-tip';input.closest('label').insertAdjacentElement('afterend',node);}node.textContent=message;input.setAttribute('aria-invalid','true');input.focus();};if(!raw||!Number.isInteger(months)||months<1||months>max){error('请输入1–'+max+'个月的整数，累计租期不得超过60个月');return;}try{core.lifecycleRequestRenewal(lifecycleId(),months);delete renewalDraftByOrder[lifecycleId()];render();}catch(e){error(e.message==='RENEWAL_ALREADY_PENDING'?'已有续租需求正在处理，请勿重复提交':'当前状态无法提交此续租申请，请检查订单和租期');}},reviewRenewal(reqId){core.lifecycleReviewQuote(lifecycleId(),reqId,Number($('#renew-review-price').value),reviewMode);render();},confirmRenewal(reqId){core.lifecycleConfirmRenewal(lifecycleId(),reqId);render();},requestExit(){core.lifecycleRequestExit(lifecycleId(),$('#exit-type').value,$('#exit-date').value);render();},requestInspection(){core.lifecycleRequestInspection(lifecycleId());render();},reviewInspectPass(){core.lifecycleReviewInspection(lifecycleId(),'passed',reviewMode);render();},reviewInspectFail(){core.lifecycleReviewInspection(lifecycleId(),'failed',reviewMode);render();},reviewRefund(){core.lifecycleReviewRefund(lifecycleId(),reviewMode);render();},requestInvoice(){core.lifecycleRequestInvoice(lifecycleId(),$('#invoice-payment').value,{kind:$('#invoice-kind').value,title:$('#invoice-title').value,email:$('#invoice-email').value,tax_id:$('#invoice-tax').value});render();},contactContinue(){core.setContact($('#contact-phone').value);modal=null;if(Array.isArray(pending)){const ids=pending;pending=null;choose(ids);}else if(state().selected.length)go('O01');else{notice='联系方式已保存，请继续选择门店与仓位';render();}},sort(){modal='sort';render();},setSort(v){if(v==='distance'&&!demoDistanceEnabled){notice='尚未取得出发位置，暂不能按距离排序';modal=null;render();return;}visual.sort=v;modal=null;saveVisual();render();},serviceFilter(){modal='serviceFilter';render();},setService(v){visual.service=v;modal=null;saveVisual();render();},clearFilters(){resetVisualFilters();r2Filters.region='all';r2Filters.capacity='all';r2Filters.maxKm=null;r2Filters.services=[];r2Filters.quick=[];r2Filters.visibleLimit=10;saveR2Filters();render();},category(v){visual.category=v;saveVisual();render();},s02EditCapacity(){window.SIM_DEMO.editRequirement();},s02ToggleCombos(){visual.s02ShowCombos=!visual.s02ShowCombos;saveVisual();render();},detailTab(v){if(!['可选仓位','服务设施','交通路线'].includes(v))return;visual.tab=v;saveVisual();render();},s02TravelMode(v){visual.travelMode=v;saveVisual();render();},s02OpenMap(){
+    },recoverFailedOrder(){const o=state().orders.find(x=>x.id===selectedOrderId);if(!o||o.status!=='payment_failed'){notice='订单状态已更新，请从门店重新选择';render();return;}go('S01');},requestRenewal(){const input=$('#renew-months');if(!input)return;const raw=input.value.trim(),months=Number(raw),v=core.lifecycleView(lifecycleId()),max=Math.max(0,60-v.total_months);const error=message=>{let node=$('#renew-error');if(!node){node=document.createElement('p');node.id='renew-error';node.setAttribute('role','alert');node.className='mk-order-tip';input.closest('label').insertAdjacentElement('afterend',node);}node.textContent=message;input.setAttribute('aria-invalid','true');input.focus();};if(!raw||!Number.isInteger(months)||months<1||months>max){error('请输入1–'+max+'个月的整数，累计租期不得超过60个月');return;}try{core.lifecycleRequestRenewal(lifecycleId(),months);delete renewalDraftByOrder[lifecycleId()];render();}catch(e){error(e.message==='RENEWAL_ALREADY_PENDING'?'已有续租需求正在处理，请勿重复提交':'当前状态无法提交此续租申请，请检查订单和租期');}},reviewRenewal(reqId){core.lifecycleReviewQuote(lifecycleId(),reqId,Number($('#renew-review-price').value),reviewMode);render();},confirmRenewal(reqId){const id=lifecycleId();core.lifecycleConfirmRenewal(id,reqId);delete renewalDraftByOrder[id];render();},requestExit(){
+      const type=$('#exit-type'),date=$('#exit-date');
+      const value=date?.value||'';
+      const lease=core.lifecycleView(lifecycleId());
+      const minimum=type.value==='expiry'&&lease.end_date>core.today()?lease.end_date:core.today();
+      if(!value||value<minimum||!/^\d{4}-\d{2}-\d{2}$/.test(value)){
+        serviceFieldError(date,type.value==='expiry'?'到期退租日期不得早于租约到期日':'请选择今天或之后的计划取空日期');
+        return;
+      }
+      core.lifecycleRequestExit(lifecycleId(),type.value,value);render();
+    },requestInspection(){core.lifecycleRequestInspection(lifecycleId());render();},reviewInspectPass(){core.lifecycleReviewInspection(lifecycleId(),'passed',reviewMode);render();},reviewInspectFail(){core.lifecycleReviewInspection(lifecycleId(),'failed',reviewMode);render();},reviewRefund(){core.lifecycleReviewRefund(lifecycleId(),reviewMode);render();},requestInvoice(){
+      const payment=$('#invoice-payment'),kind=$('#invoice-kind'),title=$('#invoice-title'),email=$('#invoice-email'),tax=$('#invoice-tax');
+      const name=title?.value.trim()||'',mail=email?.value.trim()||'';
+      if(!name){serviceFieldError(title,'请填写发票抬头');return;}
+      if(!/^\S+@\S+\.\S+$/.test(mail)){serviceFieldError(email,'请填写有效的接收邮箱');return;}
+      if(kind?.value==='enterprise'&&!tax?.value.trim()){serviceFieldError(tax,'请填写企业税号');return;}
+      core.lifecycleRequestInvoice(lifecycleId(),payment.value,{kind:kind.value,title:name,email:mail,tax_id:kind.value==='enterprise'?tax.value.trim():''});
+      render();
+    },contactContinue(){core.setContact($('#contact-phone').value);modal=null;if(Array.isArray(pending)){const ids=pending;pending=null;choose(ids);}else if(state().selected.length)go('O01');else{notice='联系方式已保存，请继续选择门店与仓位';render();}},sort(){modal='sort';render();},setSort(v){if(v==='distance'&&!demoDistanceEnabled){notice='尚未取得出发位置，暂不能按距离排序';modal=null;render();return;}visual.sort=v;modal=null;saveVisual();render();},serviceFilter(){modal='serviceFilter';render();},setService(v){visual.service=v;modal=null;saveVisual();render();},clearFilters(){resetVisualFilters();r2Filters.region='all';r2Filters.capacity='all';r2Filters.maxKm=null;r2Filters.services=[];r2Filters.quick=[];r2Filters.visibleLimit=10;saveR2Filters();render();},category(v){visual.category=v;saveVisual();render();},s02EditCapacity(){window.SIM_DEMO.editRequirement();},s02ToggleCombos(){visual.s02ShowCombos=!visual.s02ShowCombos;saveVisual();render();},detailTab(v){if(!['可选仓位','服务设施','交通路线'].includes(v))return;visual.tab=v;saveVisual();render();},s02TravelMode(v){visual.travelMode=v;saveVisual();render();},s02OpenMap(){
       const s=store(state().storeId);if(!s)return;
       const mode={transit:'bus',drive:'car',walk:'walk',bike:'ride'}[visual.travelMode]||'car';
       const coordinate=s.geo?.route_candidate?[s.geo.longitude,s.geo.latitude]:null;
@@ -573,7 +605,23 @@
   document.addEventListener('click',e=>{const edit=e.target.closest('[data-edit-demand]');if(edit){e.preventDefault();window.SIM_DEMO.editRequirement();return;}const b=e.target.closest('[data-action]');if(b){e.preventDefault();const hadModal=!!modal;act(()=>handlers[b.dataset.action]?.(b.dataset.value));if(!hadModal&&modal)modalReturnTarget={scope:'parent',action:b.dataset.action,value:b.dataset.value};return;}const c=e.target.closest('[data-store]');if(c){e.preventDefault();act(()=>handlers.store(c.dataset.store));}});
   document.addEventListener('input',e=>{if(e.target.id==='renew-months'){renewalDraftByOrder[lifecycleId()]=e.target.value;e.target.removeAttribute('aria-invalid');$('#renew-error')?.remove();return;}if(e.target.id==='r2-search-query'){visual.keyword=e.target.value.trimStart().slice(0,60);saveVisual();$('#s01-r2-frame')?.contentWindow?.S01_R2_REFRESH?.();return;}if(e.target.id!=='store-search')return;const value=e.target.value,pos=e.target.selectionStart;visual.keyword=value;saveVisual();render();const input=$('#store-search');input.focus();try{input.setSelectionRange(pos,pos);}catch{}});
   document.addEventListener('keydown',e=>{if(e.key==='Tab'&&modal){const controls=[...$('#overlay-root').querySelectorAll('button,input,a,select,textarea')].filter(x=>!x.disabled);const first=controls[0],last=controls.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}if(['ArrowLeft','ArrowRight'].includes(e.key)&&e.target.matches('[role=tab]')){e.preventDefault();const tabs=[...document.querySelectorAll('[role=tab]')],next=tabs[(tabs.indexOf(e.target)+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];handlers.detailTab(next.dataset.value);document.querySelector('[role=tab][aria-selected=true]')?.focus();}if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-store]')){e.preventDefault();act(()=>handlers.store(e.target.dataset.store));}if(e.key==='Escape'&&modal)handlers.close();});
-  document.addEventListener('change',e=>{if(e.target.id==='start-date')act(()=>{core.setDate(e.target.value);render();});});
+  document.addEventListener('change',e=>{
+    if(e.target.id==='start-date')act(()=>{core.setDate(e.target.value);render();});
+    if(e.target.id==='exit-type'){
+      const date=$('#exit-date');
+      if(date){
+        const lease=core.lifecycleView(lifecycleId()),minimum=e.target.value==='expiry'&&lease.end_date>core.today()?lease.end_date:core.today();
+        date.min=minimum;date.value=minimum;date.removeAttribute('aria-invalid');
+        document.querySelectorAll('.mk-service-field-error').forEach(el=>el.remove());
+      }
+    }
+    if(e.target.id==='invoice-kind'){
+      const enterprise=e.target.value==='enterprise',row=$('#invoice-tax-wrap'),tax=$('#invoice-tax');
+      if(row){row.hidden=!enterprise;row.style.display=enterprise?'':'none';}
+      if(tax){if(!enterprise)tax.value='';tax.removeAttribute('aria-invalid');}
+      document.querySelectorAll('.mk-service-field-error').forEach(el=>el.remove());
+    }
+  });
   $('#scenario').innerHTML=F.scenarios.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
   $('#scenario').addEventListener('change',e=>act(()=>{core.setScenario(e.target.value);resetVisualFilters();sessionStorage.removeItem('mk_br04_ui_v2');['mk_cap_draft_v3','mk_items_draft_v3','mk_entry_context_v3'].forEach(k=>sessionStorage.removeItem(k));positions={};pending=null;lastOrder=null;modal=null;go('S01',null,true);}));
   window.addEventListener('popstate',()=>{const query=new URLSearchParams(location.search);page=query.get('page')||'S01';if(MK_M01_ORDER_ROUTE_01.isOrderPage(page)){selectedOrderId=MK_M01_ORDER_ROUTE_01.select(query.has('order'),query.get('order'),sessionStorage.getItem('mk_lifecycle_selected_order_v1'));if(state().orders.some(o=>o.id===selectedOrderId))sessionStorage.setItem('mk_lifecycle_selected_order_v1',selectedOrderId);}canonicalS01Url();document.documentElement.classList.toggle('r2-product',r2Mode());const id=query.get('store');act(()=>{if(id)core.setStore(id);render();});});
