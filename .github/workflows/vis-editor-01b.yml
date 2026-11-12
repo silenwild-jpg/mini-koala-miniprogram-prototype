@@ -5,8 +5,10 @@ on:
     paths:
       - '.github/workflows/vis-editor-01b.yml'
       - 'app/tools/vis-editor-s01.html'
+      - 'app/tools/vis-editor-s01-integrated.html'
       - 'app/qa/test_vis_editor_01a.cjs'
       - 'app/qa/verify_vis_editor_01b_browser.py'
+      - 'app/qa/verify_vis_editor_01b_integrated_browser.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,14 +27,17 @@ jobs:
           test "$GITHUB_REF_NAME" = "tool/vis-editor-01a-s01-20261112"
           echo "SOURCE_SHA=$GITHUB_SHA"
           node app/qa/test_vis_editor_01a.cjs
-          python3 -m py_compile app/qa/verify_vis_editor_01b_browser.py
+          python3 -m py_compile app/qa/verify_vis_editor_01b_browser.py app/qa/verify_vis_editor_01b_integrated_browser.py
+          grep -q 'central-review-02g.html?catalog=sim&page=S01&s01_r2=1' app/tools/vis-editor-s01-integrated.html
       - name: Chromium ChromeDriver availability
         run: |
           set -euo pipefail
           command -v chromedriver || test -x "$CHROMEWEBDRIVER/chromedriver"
           command -v google-chrome || command -v chromium || command -v chromium-browser
       - name: Real HTTP browser 375/390, A/B changes, undo redo and persistence
-        run: python3 app/qa/verify_vis_editor_01b_browser.py
+        run: |
+          python3 app/qa/verify_vis_editor_01b_browser.py
+          python3 app/qa/verify_vis_editor_01b_integrated_browser.py
       - name: Save screenshots and measured results (no deploy)
         if: always()
         uses: actions/upload-artifact@v4
@@ -40,4 +45,6 @@ jobs:
           name: VIS-EDITOR-01B-browser-evidence
           retention-days: 7
           if-no-files-found: warn
-          path: release-evidence/vis-editor-01b/
+          path: |
+            release-evidence/vis-editor-01b/
+            release-evidence/vis-editor-01b-integrated/
