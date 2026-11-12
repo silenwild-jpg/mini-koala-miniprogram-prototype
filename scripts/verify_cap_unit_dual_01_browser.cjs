@@ -73,8 +73,13 @@ async function startApp(page){
         await capFrame.locator('#capacity').fill('3.33');
         await switcher.selectOption('m2');
         assert.equal(await areaInput.inputValue(),'','unrepresentable cubic size must not be silently rounded');
+        const savedDraft=await capFrame.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_cap_draft_v3')||'{}'));
+        assert.equal(savedDraft.preservedCubicDraft,'3.33','draft stores exact cubic value for return');
+        await capFrame.reload({waitUntil:'domcontentloaded'});
+        await capFrame.locator('.cap-unit-picker').waitFor({timeout:12000});
+        assert.equal(await capFrame.locator('.cap-unit-picker').inputValue(),'m2','pending area mode restored');
         await switcher.selectOption('m3');
-        assert.equal(await capFrame.locator('#capacity').inputValue(),'3.33','nonrepresentable cubic size survives switch-back');
+        assert.equal(await capFrame.locator('#capacity').inputValue(),'3.33','nonrepresentable cubic size survives draft reload');
         await switcher.selectOption('m2');
         await areaInput.fill('1.23');
         assert.equal(await capFrame.locator('#capacity').inputValue(),'','invalid area cannot become a matching volume');
