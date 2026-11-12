@@ -280,6 +280,7 @@
           const options=B.s5Offers?.('')||B.offers();
           const ranked=window.S5_LOCATION_RANKER?.rank(options,origin,row=>core.amounts(row.ids,core.state().requirement.term_months).rent_total);
           if(!ranked?.applied){toast('该位置暂不能用于门店排序，请按区域选择');s5AreaSheet();return;}
+          if(Number(ranked.rows[0]?.originDistanceKm)>150){toast('所选位置距离当前城市门店较远，请切换城市');citySheet();return;}
           ui.s5MapOrigin=origin;
           ui.s5Area='';ui.s5AreaCity=origin.city;B.s5SetArea?.('');
           ui.s5OriginLabel=String(res?.name||res?.address||'已选位置').slice(0,80);
