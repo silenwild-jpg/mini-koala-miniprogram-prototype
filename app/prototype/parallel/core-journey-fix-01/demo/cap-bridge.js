@@ -55,9 +55,26 @@
   }
   displayUnit();
   areaField.addEventListener('input',()=>putArea(areaField.value));
+  // Unit toggles must not wipe an existing, still-valid capacity. A known
+  // cubic value can be expressed as m² only when it fits the 0.1㎡ precision.
+  // For a nonrepresentable value keep the m³ draft for a safe switch-back;
+  // area mode remains blank until the user explicitly supplies an area.
+  let preservedCubicDraft='';
   unitPicker.addEventListener('change',()=>{
-    if(unitPicker.value==='m2'&&currentUnit!=='m2')areaField.value='';
-    currentUnit=unitPicker.value;displayUnit();
+    const next=unitPicker.value;
+    if(next==='m2'&&currentUnit==='m3'){
+      preservedCubicDraft=capacityField.value;
+      const cubic=Number(capacityField.value),area=cubic/2.5;
+      const exact=capacityField.value.trim()!==''&&Number.isFinite(area)&&area>=0.2&&area<=80&&
+        Math.abs(area*10-Math.round(area*10))<1e-7;
+      areaField.value=exact?String(Number(area.toFixed(1))):'';
+    }else if(next==='m3'&&currentUnit==='m2'){
+      const raw=areaField.value.trim(),n=Number(raw);
+      const valid=raw!==''&&Number.isFinite(n)&&n>=0.2&&n<=80&&
+        Math.abs(n*10-Math.round(n*10))<1e-7;
+      if(!valid&&preservedCubicDraft)capacityField.value=preservedCubicDraft;
+    }
+    currentUnit=next;displayUnit();
     saveDraft();
   });
   // The frozen minus/plus operate on canonical m³. In area mode, reflect
