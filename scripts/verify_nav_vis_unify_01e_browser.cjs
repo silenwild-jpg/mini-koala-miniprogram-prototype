@@ -63,7 +63,6 @@ const ink=async locator=>locator.evaluate(img=>{
     {tag:'03-H01-strong-readable',color:'#526579',minimum:6}
    ];
    for(const option of options){
-    await page.locator('.footer-nav').evaluate(({},{})=>{},{}).catch(()=>null); // no persistent source changes
     await page.locator('.footer-nav').evaluate((node,opts)=>{
       node.querySelectorAll('.nav01e-type-trial').forEach(n=>n.remove());
       for(let k=1;k<=3;k++){
@@ -110,7 +109,6 @@ const ink=async locator=>locator.evaluate(img=>{
     assert(source.includes('nav-current-01c/'+(route==='S01'?'stores':'mine')+'-active.svg'));
     const old=await ink(originalImage);
     const key=route==='S01'?'stores':'mine';
-    const idle=await ink(nav.locator('.bottom-item:not(.active)').filter({hasText:route==='S01'?'我的':'附近门店'}).locator('img'));
     // For optical comparison use this icon's own inactive SVG, not the other tab's inactive SVG.
     const idleData=await page.evaluate(async key=>{
       const img=new Image();img.src='assets/nav-current-01c/'+key+'-inactive.svg';await img.decode();
