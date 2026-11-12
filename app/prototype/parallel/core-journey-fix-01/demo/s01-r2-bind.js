@@ -138,7 +138,7 @@
     if(!secondary){secondary=document.createElement('small');secondary.className='price-secondary';priceBox.append(secondary);}
     setText(secondary,u.secondary);secondary.hidden=!u.secondary;
     priceBox.setAttribute('aria-label',u.priceKind==='term'?'整期租金 '+u.price+'；'+u.secondary+(termDiscount?'；租期优惠'+termDiscount:'')+'；押金和管理费另计':u.priceKind==='unit_month'?u.price+' 每月，'+u.secondary:u.price+' 每月起');
-    setText(el.querySelector('.unit-desc'),u.usage);
+    setText(el.querySelector('.unit-desc'),u.areaText?u.areaText+' · '+u.usage:u.usage);
     const promo=el.querySelector('.hot');if(promo){promo.hidden=!u.promo;setText(promo,u.promo);}
     const btn=el.querySelector('.order');if(btn){
       btn.dataset.unitId=u.id;
@@ -286,7 +286,7 @@
     setText(document.querySelector('.s01-city'),state.city+' ▾');
     const query=document.querySelector('#s01-search');
     if(query&&document.activeElement!==query)query.value=state.keyword||'';
-    setText(document.querySelector('.s01-context-text'),state.matched?'已选需求：'+state.requirement.capacity+'m³ · '+state.requirement.term+'个月':'不确定用多大仓？');
+    setText(document.querySelector('.s01-context-text'),state.matched?'已选需求：'+(state.requirement.displayCapacity||state.requirement.capacity+'m³')+' · '+state.requirement.term+'个月':'不确定用多大仓？');
     setText(document.querySelector('.s01-edit'),state.matched?'修改需求':'立即估算');
     const contextualReturn=document.querySelector('.s01-return-recommend');
     if(contextualReturn)contextualReturn.hidden=!state.canReturnToS5;
