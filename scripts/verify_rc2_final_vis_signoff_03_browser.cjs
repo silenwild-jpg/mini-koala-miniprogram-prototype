@@ -112,11 +112,22 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       assert(!remaining.includes(invoicedPayment),'submitted payment cannot be invoiced twice');
       assert(remaining.length>=1,'renewal payment should remain available for a separate invoice');
       await visit('EX01',a.id);await capture('15-EX01-active','退租安排');
+      const leaseEnd=await page.evaluate(id=>window.SIM_DEMO.core.lifecycleView(id).end_date,a.id);
+      assert.equal(await page.locator('#exit-type').inputValue(),'expiry','end-of-term exit default');
+      assert.equal(await page.locator('#exit-date').inputValue(),leaseEnd,'expiry date defaults to lease end');
+      const earlyNotExpiry=await page.evaluate(id=>{
+        const c=window.SIM_DEMO.core;
+        try{c.lifecycleRequestExit(id,'expiry',c.today());return false;}
+        catch(err){return err.message==='EXIT_BEFORE_END';}
+      },a.id);
+      assert(earlyNotExpiry,'expiry exit must not be scheduled before contract end');
+      await page.locator('#exit-date').fill('');
       await page.locator('[data-action="requestExit"]').click();
       await page.locator('.mk-service-field-error').waitFor();
-      assert.match(await page.locator('.mk-service-field-error').innerText(),/日期/);
-      await capture('16-EX01-invalid-date','请选择今天或之后');
-      await page.locator('#exit-date').fill(a.date);
+      assert.match(await page.locator('.mk-service-field-error').innerText(),/到期退租日期/);
+      await capture('16-EX01-invalid-date','到期退租日期不得早于租约到期日');
+      await page.locator('#exit-type').selectOption('early');
+      assert.equal(await page.locator('#exit-date').inputValue(),a.date,'early exit date can start today');
       await page.locator('[data-action="requestExit"]').click();
       await capture('17-EX01-requested','已提交');
       await page.locator('[data-action="requestInspection"]').click();
