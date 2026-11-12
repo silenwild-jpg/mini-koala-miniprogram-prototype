@@ -48,7 +48,7 @@ const server=http.createServer((req,res)=>{
    assert.equal(await child.locator('[data-quick="single"]').count(),0,'retired filter returned');
    await child.locator('#canvas').screenshot({path:path.join(out,'S01-'+width+'-full.png'),timeout:25000});
    await child.locator('.s01-estore-card').screenshot({path:path.join(out,'S01-'+width+'-estore.png')});
-   await child.locator('.s01-compact-store').first().screenshot({path:path.join(out,'S01-'+width+'-compact.png')});
+   await child.locator('.s01-compact-store').nth(2).screenshot({path:path.join(out,'S01-'+width+'-compact.png')});
    // Continuous actual viewport scroll evidence — do not substitute element-only screenshots.
    const scroller=await child.locator('body').evaluate(()=>{
      const candidates=[document.scrollingElement,document.documentElement,document.body,
@@ -62,7 +62,7 @@ const server=http.createServer((req,res)=>{
                          {name:'last',selector:'.s01-compact-store:last-of-type'}];
    const scrollEvidence=[];
    for(const item of slicePositions){
-     const locator=item.name==='fourth'?child.locator('.s01-compact-store').first():
+     const locator=item.name==='fourth'?child.locator('.s01-compact-store').nth(2):
        item.name==='last'?child.locator('.s01-compact-store').last():
        child.locator(item.selector);
      await locator.scrollIntoViewIfNeeded();
@@ -79,8 +79,9 @@ const server=http.createServer((req,res)=>{
    assert(scrollEvidence[0].pageHeight>scrollEvidence[0].viewport,'long list must extend below first viewport');
    rows.push({width,height,scrollEvidence,scrollMetrics:scroller});
 
+   // Browse mode has compact ranks 1, 2 and 4: rank 4 is compact index 2.
    const compactId=profile.cards[3].id;
-   await child.locator('.s01-compact-store').first().click();
+   await child.locator('.s01-compact-store').nth(2).click();
    await app.locator('.page-S02').waitFor({state:'visible',timeout:12000});
    const storeId=await app.locator('body').evaluate(()=>window.SIM_DEMO?.core?.state()?.storeId);
    assert.equal(storeId,compactId,'compact card should navigate to its actual S02 store id');
