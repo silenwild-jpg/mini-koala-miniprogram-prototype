@@ -48,6 +48,10 @@ async function startApp(page){
         assert(capFrame,'CAP frame did not open');
         const switcher=capFrame.locator('.cap-unit-picker');
         await switcher.waitFor({timeout:15000});
+        if(width===375){
+          const parentHTML=await capFrame.locator('#capacity').evaluate(e=>e.parentElement?.outerHTML.slice(0,4500));
+          console.log('CAP_UNIT_INPUT_DOM '+JSON.stringify(parentHTML));
+        }
         assert.equal(await switcher.inputValue(),'m3','m³ remains default');
         await switcher.selectOption('m2');
         const areaInput=capFrame.locator('#capacity-area');
