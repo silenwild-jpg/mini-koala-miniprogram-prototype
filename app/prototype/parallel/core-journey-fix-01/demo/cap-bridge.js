@@ -15,7 +15,8 @@
   areaField.id='capacity-area';areaField.name='capacity-area';
   areaField.classList.add('cap-unit-field');
   capacityField.classList.add('cap-unit-field');
-  areaField.type='number';areaField.min='0.2';areaField.max='80';areaField.step='0.1';
+  // The native stepper already has minus/plus; a number-field spinner would duplicate them.
+  areaField.type='text';areaField.maxLength=6;
   areaField.inputMode='decimal';areaField.setAttribute('aria-label','预计占地面积（平方米）');
   areaField.placeholder='如：2';areaField.hidden=true;
   const unitPicker=document.createElement('select');
@@ -23,8 +24,12 @@
   unitPicker.innerHTML='<option value="m3">m³</option><option value="m2">㎡</option>';
   capacityField.insertAdjacentElement('afterend',areaField);
   areaField.insertAdjacentElement('afterend',unitPicker);
+  // Retain the frozen label node for existing CAP scripts, but do not render
+  // a second m³ label beside the new switcher.
+  const legacyUnit=document.getElementById('unit');
+  if(legacyUnit){legacyUnit.hidden=true;legacyUnit.setAttribute('aria-hidden','true');}
   const unitStyle=document.createElement('style');
-  unitStyle.textContent='.cap-unit-field[hidden]{display:none!important}.cap-unit-picker{margin-left:8px;min-width:54px;height:36px;padding:0 4px;border:0;border-bottom:1px solid #bdd2c6;background:transparent;color:#185d45;font:inherit;font-weight:700}';
+  unitStyle.textContent='.cap-unit-field[hidden],.cap-unit-picker + #unit{display:none!important}.cap-unit-picker{margin-left:4px;min-width:54px;height:36px;padding:0 4px;border:0;border-bottom:1px solid #bdd2c6;background:transparent;color:#185d45;font:inherit;font-weight:700}';
   document.head.appendChild(unitStyle);
   const draftValid=draft?.signature===signature;
   let currentUnit=draftValid&&draft?.unitMode==='m2'||(!draftValid&&r.input_unit==='m2')?'m2':'m3';
@@ -55,14 +60,20 @@
     currentUnit=unitPicker.value;displayUnit();
     saveDraft();
   });
-  // Legacy m³ quick-size actions should remain usable; selecting one switches
-  // back to m³ instead of silently displaying a stale square-metre value.
-  document.addEventListener('click',()=>{
+  // The frozen minus/plus operate on canonical m³. In area mode, reflect
+  // their 0.5m³ increments back as 0.2㎡ without switching the user's unit.
+  // An explicit m³ quick-size chip, however, is a deliberate cubic selection.
+  document.addEventListener('click',event=>{
     if(currentUnit!=='m2')return;
+    const preset=/^\\s*\\d+(?:\\.\\d+)?\\s*m(?:³|3)\\s*$/.test(event.target.closest('button')?.textContent||'');
     setTimeout(()=>{
-      if(currentUnit==='m2'&&capacityField.value!==lastCanonical){
-        currentUnit='m3';displayUnit();saveDraft();
-      }
+      if(currentUnit!=='m2'||capacityField.value===lastCanonical)return;
+      if(preset){currentUnit='m3';displayUnit();saveDraft();return;}
+      const next=Number(capacityField.value)/2.5;
+      if(Number.isFinite(next)&&next>=0.2&&next<=80){
+        areaField.value=String(Number(next.toFixed(1)));
+        putArea(areaField.value);saveDraft();
+      }else{putArea(areaField.value);saveDraft();}
     },0);
   },true);
   const returnContext=sessionStorage.getItem('mk_estimate_return_v4')||'';const oldUpdate=update;update=function(){oldUpdate();const cta=document.getElementById('cta');if(cta&&!cta.disabled)cta.textContent='查看仓位报价';};update();
