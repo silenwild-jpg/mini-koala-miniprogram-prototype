@@ -25,6 +25,9 @@ const cases=[
  {key:'short-term',expected:'matched',n:1},
 ];
 const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
+// The parent iframe DOM can exist before its SIM_DEMO bridge is initialized.
+// Wait for the actual bridge rather than assuming domcontentloaded implies readiness.
+const waitForDemo=page=>page.waitForFunction(()=>Boolean(document.getElementById('central-host')?.contentWindow?.SIM_DEMO?.core?.requirementReady),null,{timeout:20000});
 (async()=>{
  fs.mkdirSync(out,{recursive:true});await new Promise(ok=>server.listen(port,'127.0.0.1',ok));
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
@@ -37,6 +40,7 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
     page.on('pageerror',e=>errors.push(e.message));
     try{
      await page.goto(host+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
+     await waitForDemo(page);
      const app=page.frameLocator('#central-host');
      await app.locator('#screen').evaluate(()=>{const B=window.SIM_DEMO;B.core.setCity('北京');B.core.setRequirement(3,12,true);B.persist();B.navigate('S5');});
      const s5=app.frameLocator('#br04-frame');
@@ -168,6 +172,7 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
         await page.goto(host+'/central-review-02g.html?catalog=sim&page=S5&s01_r2=1',{waitUntil:'domcontentloaded'});
       }else{
         await page.goto(host+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
+     await waitForDemo(page);
         await page.frameLocator('#central-host').locator('#screen').evaluate((_,mode)=>{
           const B=window.SIM_DEMO,c=B.core;
           c.setCity('北京');c.setRequirement(mode==='capacity-missing'?null:3,12,false);
@@ -199,6 +204,7 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
     page.on('pageerror',e=>errors.push(e.message));
     try{
      await page.goto(host+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
+     await waitForDemo(page);
      const app=page.frameLocator('#central-host'),s5=app.frameLocator('#br04-frame');
      await app.locator('#screen').evaluate(()=>{const b=window.SIM_DEMO;b.core.setCity('北京');b.core.setRequirement(3,12,true);b.persist();b.navigate('S5');});
      await s5.locator('body.bridge-ready').waitFor({timeout:20000});
