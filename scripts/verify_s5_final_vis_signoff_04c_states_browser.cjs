@@ -183,10 +183,24 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
        row.demand=demand;
      }else{
        await s5.locator('#modify').click();
-       await page.waitForURL(/(?:cap|items)\.html/,{timeout:14000});
-       const saved=await page.evaluate(()=>sessionStorage.getItem('mk_estimate_return_v4')||'');
+       // CAP replaces the #central-host iframe, not the top-level page URL.
+       // The former top-level waitForURL produced a false failure.
+       await app.getByText('估算存储空间',{exact:true}).first().waitFor({timeout:15000});
+       const saved=await app.locator('body').evaluate(()=>sessionStorage.getItem('mk_estimate_return_v4')||'');
        assert(saved.includes('page=S5'),'capacity editor must return to S5: '+saved);
-       row.returnPath=saved;row.editorUrl=page.url();
+       row.returnPath=saved;
+       await app.getByRole('button',{name:/8m³/}).first().click();
+       await app.getByRole('button',{name:/查看仓位报价/}).first().click();
+       await s5.locator('body[data-page="s5"].bridge-ready').waitFor({timeout:20000});
+       const after=await app.locator('#screen').evaluate(()=>{
+         const B=window.SIM_DEMO,s=B.core.state();
+         return {capacity:s.requirement.capacity_m3,months:s.requirement.term_months,confirmed:s.requirement.term_confirmed,route:location.search};
+       });
+       assert.equal(after.capacity,8,'updated capacity must return to S5');
+       assert.equal(after.months,12,'lease term must persist after capacity edit');
+       assert.equal(after.confirmed,true,'confirmed term must persist after capacity edit');
+       assert(after.route.includes('page=S5'),'CAP must return into S5');
+       row.afterEdit=after;
      }
      assert.deepEqual(errors,[],'navigation JS errors');
      await page.screenshot({path:path.join(out,'flow-'+name+'-'+w+'.png')});
