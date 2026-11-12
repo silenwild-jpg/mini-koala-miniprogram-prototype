@@ -52,7 +52,7 @@ jobs:
           if ! fc-list :lang=zh 2>/dev/null | grep -q .; then sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk; fi
           npm_config_fetch_retries=1 npm_config_fetch_timeout=45000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
           if ! command -v google-chrome >/dev/null 2>&1 && ! command -v google-chrome-stable >/dev/null 2>&1; then npx playwright install chromium; fi
-      - name: O03 RN01 EX01 DP01 IV01 33-state form and lifecycle screenshots 375 and 390
+      - name: O03 RN01 EX01 DP01 IV01 lifecycle forms plus isolated S02 thumbnails 375 and 390
         run: node scripts/verify_rc2_final_vis_signoff_03_browser.cjs
       - name: Preserve H01 M01 accurate order history and no deposit regressions
         run: node scripts/verify_h01_m01_flow_qa_01_browser.cjs
