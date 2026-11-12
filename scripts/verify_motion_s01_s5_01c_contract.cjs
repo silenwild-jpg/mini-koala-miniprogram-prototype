@@ -1,0 +1,38 @@
+/* MOTION-S01-S5-01C: isolated cross-page location contract test, no paid services. */
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const cp=require('node:child_process');
+const demo=path.resolve(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo');
+const read=p=>fs.readFileSync(path.join(demo,p),'utf8');
+const rank=require(path.join(demo,'br04/s5/location-ranker.js'));
+const app=read('app.js'),s5=read('br04/bridge.js'),index=read('index.html');
+const s01=read('s01-r2-bind.js'),motion=read('s01-motion-micro-01b.css');
+for(const p of ['app.js','br04/bridge.js','br04/s5/location-ranker.js','s01-r2-bind.js'])
+  cp.execFileSync(process.execPath,['--check',path.join(demo,p)]);
+assert.match(index,/<script src="br04\/s5\/location-ranker\.js\?v=MOTION01C"><\/script><script src="app\.js\?v=MOTION01C"><\/script>/);
+assert.match(app,/function s5OriginForS01\(\)/);
+assert.match(app,/if\(!s01OriginFromS5\(\)\)return null/);
+assert.match(app,/s5MapOrigin/);
+assert.match(app,/function s5OriginDistances\(\)/);
+assert.match(app,/originDistances=s5OriginDistances\(\)/);
+assert.match(app,/originDistances&&r2Filters\.maxKm!==null/);
+assert.match(app,/originDistances\.get\(s\.id\)\.toFixed\(1\)\+'km'/);
+assert.match(app,/S5_SELECTED_ORIGIN_PROPERTY/);
+assert.match(app,/distanceFilterEnabled:demoDistanceEnabled\|\|!!originDistances/);
+assert.match(app,/!demoDistanceEnabled&&!s5OriginDistances\(\)/);
+assert.match(s5,/ui\.s5MapOrigin=origin/);
+assert.match(s5,/ui\.s5MapOrigin=null/);
+assert.match(s01,/s01-motion-micro-01b\.css/);
+assert.match(motion,/prefers-reduced-motion:reduce/);
+assert.doesNotMatch(motion,/\.store-card\s*\{/);
+const entry=(id,lat,lng,cost)=>({store:{id,city:'北京',distance:90,geo:{latitude:lat,longitude:lng,route_candidate:true}},ids:[id],volume:3,cost});
+const origin={city:'北京',latitude:39.9,longitude:116.4};
+const input=[entry('c',39.93,116.4,100),entry('a',39.901,116.4,500),entry('b',39.92,116.4,400)];
+const result=rank.rank(input,origin,r=>r.cost);
+assert.equal(result.applied,true);
+assert.deepEqual(result.rows.slice(0,2).map(r=>r.store.id),['a','b']);
+assert.equal(input[0].store.distance,90,'No mutation of fixture distance');
+assert.equal(result.rows[0].store.distance,result.rows[0].originDistanceKm);
+assert.equal(result.rows[1].store.distance,result.rows[1].originDistanceKm);
+assert.equal(rank.rank(input,{...origin,city:'上海'},r=>r.cost).applied,false);
+console.log('MOTION-S01-S5-01C: static + location ranking contract PASS; browser QA remains separate.');
