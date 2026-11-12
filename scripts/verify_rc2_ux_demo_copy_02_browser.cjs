@@ -68,7 +68,7 @@ const srv=http.createServer((req,res)=>{
    const saved=await page.evaluate(()=>{const z=window.SIM_DEMO.core.state().leads.at(-1);return {phone:z?.phone,status:z?.status,address:z?.address}});
    assert.deepEqual(saved,{phone:'13800138000',status:'saved_locally',address:'北京市朝阳区青年路甲5号院3号楼'},'local lead payload');
    const confirmation=await lead.locator('#success').innerText();
-   assert(confirmation.includes('用仓需求已记录')&&confirmation.includes('用仓地址和需求信息已保存'),'lead confirmation copy');
+   assert(confirmation.includes('用仓需求已保存')&&confirmation.includes('资料已保存在本机，尚未发送给顾问。'),'live locally saved lead confirmation must be truthful');
    assert(!/模拟|演示/.test(confirmation),'demo-copy leak in lead result');
    await shot('04-BOOKING-recorded');
    rows.push({width,step:'04-BOOKING-recorded',result:'PASS',requiredPhoneGuard:true,savedLead:saved.status,msg:confirmation.slice(0,95)});
