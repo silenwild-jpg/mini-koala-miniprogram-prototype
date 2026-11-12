@@ -1,0 +1,90 @@
+name: RC2 S02 Photo Source 01 - hero vs card 375 390 no deploy
+on:
+  push:
+    branches: [fix/rc2-s02-photo-source-01-20261112]
+    paths:
+      - .github/workflows/rc2-s02-photo-source-01.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - docs/RC2_S02_PHOTO_SOURCE_01_20261112.md
+      - scripts/verify_rc2_s02_photo_source_01_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-s02-photo-source-01-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  photo-source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: One app file only and no rejected H01 A C
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git diff --name-only 92e0cd855b9f80d3002618fef298883143bdcf42 HEAD -- app/ >/tmp/s02-photo-diff.txt
+          test "$(wc -l </tmp/s02-photo-diff.txt)" = 1
+          grep -qx 'app/prototype/parallel/core-journey-fix-01/demo/app.js' /tmp/s02-photo-diff.txt
+          p='app/prototype/parallel/core-journey-fix-01/demo'
+          ! grep -Eq 'h01FlowContext|h01StageProgress|h01SceneImage' "$p/h01-state-impl-01.js"
+          node --check "$p/app.js"
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/test_cap_unit_dual_01.js
+          node scripts/verify_rc2_final_vis_signoff_04_contract.cjs
+  actual-browser-photo:
+    needs: photo-source-contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Build same SHA isolated candidate
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '141'
+          RC2_BUNDLE_BASE_PR: '141'
+          RC2_BUNDLE_LABEL: RC2-S02-PHOTO-SOURCE-01
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_S02_PHOTO_SOURCE_01.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify source SHA and branch
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME||v.source_pr!==141)throw Error('SOURCE_SHA_BRANCH_PR_MISMATCH');console.log(v.source_sha)"
+      - name: Install Chromium and CJK
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Assert S02 hero and H01 S01 compact card photos with actual decoded pixels
+        run: node scripts/verify_rc2_s02_photo_source_01_browser.cjs
+      - name: Confirm S02 browse and confirmed term and O01 gate
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_s02_term_state_01_browser.cjs
+      - name: Confirm CAP m² and S01 S02 S5 are unchanged
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_cap_unit_dual_01_browser.cjs
+      - name: Confirm H01 S01 S02 S5 M01 page smoke
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+      - name: Preserve evidence not release
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-S02-PHOTO-SOURCE-01-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-s02-photo-source-01/
+            release-evidence/rc2-s02-term-state-01/
+            release-evidence/cap-unit-dual-01/
+            release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
