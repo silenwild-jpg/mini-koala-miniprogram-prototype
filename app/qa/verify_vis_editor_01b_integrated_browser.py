@@ -147,7 +147,7 @@ const central=root?.querySelector('#central-host')?.contentDocument;
 const d=central?.querySelector('#s01-r2-frame')?.contentDocument;
 return d&&d.documentElement.dataset.binding==='CENTRAL_RC1'&&
 d.documentElement.dataset.matchMode==="""+json.dumps('browse' if state=='browse' else 'matched')+"""&&
-d.querySelector('.store-card')?{mode:d.documentElement.dataset.matchMode,
+d.querySelector('.store-card')&&document.querySelector('#fields input[type=number]')?{mode:d.documentElement.dataset.matchMode,
 expanded:d.querySelectorAll('.store-card[data-card-kind="expanded"]').length,compact:d.querySelectorAll('.s01-compact-store').length}:false;
 """,timeout=22),state))
         if state=='matched8': screenshot('390-matched8.png')
