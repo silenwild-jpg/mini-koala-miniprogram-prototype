@@ -44,6 +44,11 @@ const srv=http.createServer((req,res)=>{
     assert(!t.includes('内部演示'),tag+' dead toast exposed in sheet');
     const menu=sheet.locator('[data-bridge="navTo"]');assert.equal(await menu.count(),2,tag+' option count');
     assert(!(await child.locator('#toast').isVisible()),tag+' still shows dead toast');
+    if(tag==='03-BOOKING'){
+      const rect=await child.locator('#selectionMask .selection-popup').boundingBox();
+      assert(rect&&rect.y>=-2&&rect.y+rect.height<=height+2&&rect.width>=300,
+        'BOOKING popup must be physically visible; not below scrolled artboard '+JSON.stringify(rect));
+    }
     await shot(tag+'-open');
     await sheet.locator('[data-bridge="navTo"][data-value="'+dest+'"]').click();
     await page.waitForURL(new RegExp('page='+dest),{timeout:12000});
