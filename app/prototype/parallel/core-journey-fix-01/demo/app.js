@@ -253,11 +253,11 @@
   }
   function r3UnitImage(u){const n=Number(u.volume)||0;const tier=n<=1.5?'mini':n<=5?'small':n<=15?'medium':'large';return 'assets/unit-r3/thumb/unit-r3-'+tier+'-336x312.webp';}
   function s02UnitPrice(ids){
-    if(state().requirement.term_confirmed)return price(ids);
+    if(core.requirementReady())return price(ids);
     const months=F.pricing.homeReferenceTerm||12;
     const monthly=core.amounts(ids,months).monthly_average;
     // As in S01, this is the selected warehouse's own 12-month discounted rent, never the store-wide cubic teaser.
-    return '<div class="br03-price" data-price-kind="unit_month" data-reference-term="'+months+'"><strong class="br03-price-main">'+money(monthly)+'</strong><span class="br03-reference">/月 · '+months+'个月租期</span></div>';
+    return '<div class="br03-price" data-price-kind="unit_month" data-reference-term="'+months+'" aria-label="'+months+'个月参考月租，租期待确认"><strong class="br03-price-main">'+money(monthly)+'</strong><span class="br03-reference">/月 · '+months+'个月参考</span></div>';
   }
   function unitRow(u){const f=P.facts(u),description=P.describe(u,'S02'),fav=visual.favorites.includes(u.id),needsMore=f.available&&state().requirement.capacity_m3!==null&&u.volume<state().requirement.capacity_m3;return `<article class="unit-row" data-unit="${u.id}" data-promo-state="${f.state}"><img class="unit-img" src="${r3UnitImage(u)}" alt="${esc(u.name)}空间示意"><div class="unit-card-inner"><div class="unit-head"><b class="unit-name">${cabinChip(u)} <span class="mk-cabin-capacity">${esc(u.volume)}m³</span></b><button class="fav ${fav?'on':''}" data-action="favorite" data-value="${u.id}" aria-label="${fav?'取消收藏':'收藏'}${esc(u.name)}" aria-pressed="${fav}">${I(fav?'heartfilled':'heart')}</button></div><p class="unit-spec">${u.dimensions}</p><p class="scenario">${description.lines.slice(0,2).map(x=>`<span>${esc(String(x).replace(/独立仓位?/g,'').trim())}</span>`).join('')}</p><div class="unit-bottom"><div class="unit-price">${f.available?s02UnitPrice([u.id]):'<span class="unavailable">已售出 / 暂不可用</span>'}</div><button class="order-button" data-action="${needsMore?'s02EditCapacity':'choose'}" data-value="${u.id}" ${f.available?'':'disabled'}>${!f.available?'暂不可租':needsMore?'修改容量':'立即下单'}</button></div>${stateLine(f)}</div></article>`;}
   function advantages(s){return `<div class="advantages">${[['train','所在区域',s.district],...s.serviceTags.slice(0,3).map((t,i)=>[['clock','parking','shield'][i],t,{'近地铁':'交通配套','24小时存取':'全天存取','电梯直达':'楼层配套','停车便利':'停车配套','控温防潮':'环境配套','小推车':'搬运配套','全天监控':'安防配套','24小时开放':'全天存取','停车方便':'停车配套','商圈核心':'周边配套','交通便利':'交通配套'}[t]])].map(([icon,t,desc])=>`<div class="advantage"><span class="bubble"><img class="approved-adv-icon" src="assets/vis07-${icon}.png" alt=""></span><strong>${t}</strong><p>${desc}</p></div>`).join('')}</div>`;}
@@ -268,13 +268,13 @@
     const others=linked?available.filter(u=>u.volume<state().requirement.capacity_m3):[];
     const unavailable=visible.filter(u=>!core.available(u));
     const combos=visual.category==='全部'?core.combinations(s.id):[];
-    if(!catalog.some(u=>core.available(u)))return '<section class="empty-units"><h3>'+(s.status==='open'?'本店暂无可租仓位':'本店暂停服务')+'</h3><p>您的容量和租期已保留，可查看其他匹配门店。</p></section>'+alternatives(s.id)+'<details class="detail-blank"><summary>查看暂不可租仓位（最多3个）</summary>'+unavailable.slice(0,3).map(unitRow).join('')+'</details>';
+    if(!catalog.some(u=>core.available(u)))return '<section class="empty-units"><h3>'+(s.status==='open'?'本店暂无可租仓位':'本店暂停服务')+'</h3><p>可查看其他门店的仓位。</p></section>'+alternatives(s.id)+'<details class="detail-blank"><summary>查看暂不可租仓位（最多3个）</summary>'+unavailable.slice(0,3).map(unitRow).join('')+'</details>';
     const filters=`<div class="unit-filter" role="group" aria-label="仓型筛选">${categories.map(x=>`<button class="chip ${visual.category===x?'selected':''}" data-action="category" data-value="${x}" aria-pressed="${visual.category===x}">${x}</button>`).join('')}</div>`;
     const comboApplicable=linked&&combos.length&&(!matching.length||Number(state().requirement.capacity_m3)>10);
     const comboExpanded=comboApplicable&&(!matching.length||visual.s02ShowCombos);
     const comboToggle=comboApplicable&&matching.length?'<button type="button" class="s02-combo-toggle" data-action="s02ToggleCombos" aria-expanded="'+Boolean(visual.s02ShowCombos)+'">'+(visual.s02ShowCombos?'收起组合仓位':'查看组合仓位')+'</button>':'';
     const comboHtml=comboExpanded?`<h3 class="br03-group-title">组合方案</h3>${combos.map(x=>`<article class="unit-row combo-row"><div class="s02-combo-pics" aria-label="多仓组合">${x.ids.slice(0,2).map(id=>`<img src="${r3UnitImage(unit(id))}" alt="${esc(unit(id)?.name||'仓位')}" loading="lazy">`).join('')}</div><div class="unit-card-inner"><h3 class="unit-name">${x.volume}m³ · ${x.ids.length}间组合</h3><p class="scenario"><span>一笔订单 · 同一门店</span></p><div class="unit-bottom">${s02UnitPrice(x.ids)}${button('choose','立即下单',x.ids.join(','),'order-button')}</div></div></article>`).join('')}`:'';
-    return filters+`<div class="unit-list">${matching.length?matching.map(unitRow).join(''):linked&&!comboExpanded?'<p class="br03-group-note">暂无符合当前需求的单仓，您的容量和租期已保留。</p>':''}${comboToggle}${comboHtml}${others.length?'<h3 class="br03-group-title">其他可租容量</h3>'+others.map(unitRow).join(''):''}${!available.length&&!combos.length?'<p class="br03-group-note">当前仓型暂无可租仓位。</p>'+button('category','查看全部仓型','全部','outline'):''}${unavailable.length?'<details class="unavailable-units"><summary>查看暂不可租仓位</summary>'+unavailable.slice(0,3).map(unitRow).join('')+'</details>':''}${linked&&!matching.length&&!combos.length?alternatives(s.id):''}</div>`;
+    return filters+`<div class="unit-list">${matching.length?matching.map(unitRow).join(''):linked&&!comboExpanded?'<p class="br03-group-note">暂无符合所选容量的单仓。</p>':''}${comboToggle}${comboHtml}${others.length?'<h3 class="br03-group-title">其他可租容量</h3>'+others.map(unitRow).join(''):''}${!available.length&&!combos.length?'<p class="br03-group-note">当前仓型暂无可租仓位。</p>'+button('category','查看全部仓型','全部','outline'):''}${unavailable.length?'<details class="unavailable-units"><summary>查看暂不可租仓位</summary>'+unavailable.slice(0,3).map(unitRow).join('')+'</details>':''}${linked&&!matching.length&&!combos.length?alternatives(s.id):''}</div>`;
   }
   const s02HoursOptions=['24小时','09:00-21:00','08:00-23:00'];
   function s02AccessHours(s){
@@ -285,7 +285,7 @@
   function s02Situation(s){
     const r=state().requirement,units=F.units.filter(u=>u.store_id===s.id),available=units.filter(u=>core.available(u));
     if(!available.length)return 'soldout';
-    if(r.capacity_m3===null)return 'browse';
+    if(!core.requirementReady())return 'browse';
     if(available.some(u=>u.volume>=r.capacity_m3))return 'matched';
     if(core.combinations(s.id).length)return 'combo';
     const largest=Math.max(...available.map(u=>Number(u.volume)||0));
@@ -294,11 +294,13 @@
   // Shared S01 contract: a demand is complete only with both capacity and confirmed term.
   function s02Demand(){
     const r=state().requirement;
-    const ready=Number.isFinite(Number(r.capacity_m3))&&Number(r.capacity_m3)>=0.5&&r.term_confirmed===true&&
-      Number.isInteger(Number(r.term_months))&&Number(r.term_months)>=1&&Number(r.term_months)<=60;
-    return '<div class="s02-demand" data-demand-state="'+(ready?'confirmed':'browse')+'"><span class="s02-demand-text">'+
-      (ready?'已选需求：'+esc(r.capacity_m3)+'m³ · '+esc(r.term_months)+'个月':'不确定用多大仓？')+
-      '</span><a class="s02-demand-edit" data-edit-demand href="cap.html">'+(ready?'修改需求':'立即估算')+'</a></div>';
+    const hasCapacity=r.capacity_m3!==null&&core.validCapacity(r.capacity_m3),ready=core.requirementReady();
+    const status=ready?'confirmed':hasCapacity?'capacity-only':'browse';
+    const summary=ready?'已选需求：'+esc(r.capacity_m3)+'m³ · '+esc(r.term_months)+'个月':
+      hasCapacity?'已选容量：'+esc(r.capacity_m3)+'m³ · 租期待确认':'不确定用多大仓？';
+    const action=ready?'修改需求':hasCapacity?'确认租期':'立即估算';
+    return '<div class="s02-demand" data-demand-state="'+status+'"><span class="s02-demand-text">'+summary+
+      '</span><a class="s02-demand-edit" data-edit-demand href="cap.html">'+action+'</a></div>';
   }
   function s02HotRibbon(s){
     // A generated quantity is useful for selecting demo warehouse options, but cannot justify a scarcity claim.
@@ -355,7 +357,7 @@
     const chosen=options.sort((a,b)=>a.volume-b.volume)[0];
     const combos=chosen?[]:core.combinations(s.id);
     const quoteIds=chosen?[chosen.id]:(combos[0]?.ids||[]);
-    const totalRent=quoteIds.length&&req.capacity_m3!==null&&req.term_confirmed?
+    const totalRent=quoteIds.length&&core.requirementReady()?
       core.amounts(quoteIds,req.term_months).rent_total:0;
     const showAdvisor=visual.tab==='可选仓位'&&
       (Number(req.capacity_m3)>10||totalRent>2000);
