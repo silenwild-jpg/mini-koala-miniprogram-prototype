@@ -53,7 +53,7 @@ jobs:
           if ! fc-list :lang=zh 2>/dev/null | grep -q .; then sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk; fi
           npm_config_fetch_retries=1 npm_config_fetch_timeout=45000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
           if ! command -v google-chrome >/dev/null 2>&1 && ! command -v google-chrome-stable >/dev/null 2>&1; then npx playwright install chromium; fi
-      - name: New renewal payment and isolated identity customer/reviewer 375 390
+      - name: New renewal payment and isolated identity customer/reviewer 375 390 corrected account capture
         run: node scripts/verify_rc2_final_vis_signoff_04_browser.cjs
       - name: Preserve VIS03 375 390 aftersales and exceptional state screenshots
         run: node scripts/verify_rc2_final_vis_signoff_03_browser.cjs
