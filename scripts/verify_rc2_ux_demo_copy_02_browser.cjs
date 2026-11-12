@@ -45,7 +45,6 @@ const srv=http.createServer((req,res)=>{
     const menu=sheet.locator('[data-bridge="navTo"]');assert.equal(await menu.count(),2,tag+' option count');
     assert(!(await child.locator('#toast').isVisible()),tag+' still shows dead toast');
     await shot(tag+'-open');
-    await menu.filter({has:child.locator('[data-value="'+dest+'"]')}).count().catch(()=>null);
     await sheet.locator('[data-bridge="navTo"][data-value="'+dest+'"]').click();
     await page.waitForURL(new RegExp('page='+dest),{timeout:12000});
     if(dest==='M01')await page.locator('.m01-profile').waitFor({state:'visible'});
