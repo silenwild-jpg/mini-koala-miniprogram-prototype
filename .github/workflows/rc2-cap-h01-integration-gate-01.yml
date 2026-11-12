@@ -1,0 +1,102 @@
+name: RC2 CAP H01 INTEGRATION GATE 01 - joint no deploy
+on:
+  push:
+    branches: [isolate/rc2-cap-h01-integration-gate-01-20261112]
+    paths:
+      - .github/workflows/rc2-cap-h01-integration-gate-01.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
+      - app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.css
+      - scripts/verify_rc2_h01_task_vis_adapt_01_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-cap-h01-integration-gate-01-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  source-scope-and-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Guard exact two H01 app files relative to CAP and public-price head
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = 'isolate/rc2-cap-h01-integration-gate-01-20261112'
+          git diff --name-only 92e0cd855b9f80d3002618fef298883143bdcf42 HEAD -- app/ >/tmp/cap-h01-app-diff.txt
+          cat /tmp/cap-h01-app-diff.txt
+          test "$(wc -l </tmp/cap-h01-app-diff.txt)" = 2
+          for f in app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.css; do
+            grep -qx "$f" /tmp/cap-h01-app-diff.txt
+          done
+          for f in app/prototype/parallel/core-journey-fix-01/demo/{h01-state-impl-01,app,cap-bridge,demo-core,space-unit,s01-r2-bind}.js app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js scripts/{test_cap_unit_dual_01.js,verify_cap_unit_dual_01_browser.cjs,verify_rc2_h01_task_vis_adapt_01_browser.cjs}; do node --check "$f"; done
+          if grep -E 'MK_H01_LOCK_GATEWAY|openBluetoothAdapter|createBLEConnection' app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js; then echo NO_BLE; exit 1; fi
+      - name: Shared CAP H01 public price M01 order business contract
+        run: |
+          node scripts/test_cap_unit_dual_01.js
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          node scripts/verify_h01_m01_flow_qa_01.cjs
+  unified-visual-regression:
+    needs: source-scope-and-contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 42
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Build exact integrated SHA without deployment
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '141'
+          RC2_BUNDLE_BASE_PR: '141'
+          RC2_BUNDLE_LABEL: RC2-CAP-H01-INTEGRATION-GATE-01
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_CAP_H01_INTEGRATION_GATE_01.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Assert same branch and SHA for isolated candidate
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME||v.source_pr!==141)throw Error('SHA_BRANCH_SOURCE_MISMATCH');console.log(v.source_sha)"
+      - name: Install Chrome browser and CJK rendering
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+          test -n "$(fc-list :lang=zh family | head -1)"
+      - name: Test H01 task states across 20 phases and 2 viewport widths
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+          RC2_EXPECT_BRANCH: ${{ github.ref_name }}
+          RC2_EXPECT_SOURCE_PR: '141'
+          H01_BROWSER_CHANNEL: chromium
+        run: node scripts/verify_rc2_h01_task_vis_adapt_01_browser.cjs
+      - name: Test CAP area/cubic reversible state and S01 S02 S5 at 375 390
+        run: node scripts/verify_cap_unit_dual_01_browser.cjs
+      - name: Test S5 required flow and H01 M01 integrated smoke
+        run: |
+          node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+          node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+          node scripts/verify_rc2_s02_term_state_01_browser.cjs
+      - name: Upload exact source evidence; do not deploy
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-CAP-H01-GATE-01-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-h01-task-vis-adapt-01/
+            release-evidence/cap-unit-dual-01/
+            release-evidence/s5-final-vis-signoff-04c/
+            release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-s02-term-state-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
