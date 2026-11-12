@@ -114,6 +114,9 @@
     const withScene=["upcoming","active"].includes(t.key)&&curated;
     const context=one("#h01FlowContext");
     context.dataset.stage=t.key;
+    // Store-scoped photo focus avoids showing a numbered warehouse as though
+    // it were the customer's selected unit; never remap a photo to another store.
+    context.dataset.photoStore=actualStore?.id||'';
     context.hidden=!withProgress&&!withScene;
     one("#h01StageProgress").hidden=!withProgress;
     const scene=one("#h01Scene");
