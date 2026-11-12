@@ -1,0 +1,88 @@
+name: RC2 H01 active no-photo variant - 20 states 375-390 no deploy
+on:
+  push:
+    branches: [isolate/rc2-h01-active-no-photo-03-20261112]
+    paths:
+      - .github/workflows/rc2-h01-active-no-photo-03.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
+      - app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.css
+      - scripts/verify_rc2_h01_active_no_photo_03_browser.cjs
+      - docs/RC2_H01_IMAGE_VIS_03_20261112.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-h01-task-vis-adapt-01
+  cancel-in-progress: true
+jobs:
+  h01-ac-visual:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Exact SHA and VIS-GUARD two-file scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = "isolate/rc2-h01-active-no-photo-03-20261112"
+          git diff --name-only 5182f5eb88cbd5b2b2f5f583b86cb86e0f315e5e HEAD -- app/ >/tmp/rc2-h01-visual-files.txt
+          cat /tmp/rc2-h01-visual-files.txt
+          test "$(wc -l </tmp/rc2-h01-visual-files.txt)" = 1
+          grep -qx 'app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js' /tmp/rc2-h01-visual-files.txt
+          node --check app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
+          node --check scripts/verify_rc2_h01_active_no_photo_03_browser.cjs
+          if grep -E 'MK_H01_LOCK_GATEWAY|requestUnlock|openBluetoothAdapter|createBLEConnection' app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js; then echo NO_BLE; exit 1; fi
+      - name: H01 M01 and RC2 pricing business contract
+        run: |
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          node scripts/verify_h01_m01_flow_qa_01.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Build same SHA HTML prototype without deployment
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '134'
+          RC2_BUNDLE_BASE_PR: '134'
+          RC2_BUNDLE_LABEL: RC2-H01-ACTIVE-NOPHOTO-03
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_H01_TASK_VIS_ADAPT_01.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify manifest provenance
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME||v.source_pr!==134)throw Error('SOURCE_SHA_BRANCH_PR_MISMATCH');console.log(v.source_sha)"
+      - name: Chrome Playwright and CJK font
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+          test -n "$(fc-list :lang=zh family | head -1)"
+      - name: H01 A plus C 20 states times two real CJK screenshot review
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+          RC2_EXPECT_BRANCH: ${{ github.ref_name }}
+          RC2_EXPECT_SOURCE_PR: '134'
+          H01_BROWSER_CHANNEL: chromium
+        run: node scripts/verify_rc2_h01_active_no_photo_03_browser.cjs
+      - name: H01 M01 multiple orders and browser back identity at 375 390
+        run: node scripts/verify_h01_m01_flow_qa_01_browser.cjs
+      - name: Preserve H01 S01 S02 S5 M01 375 390 smoke
+        run: node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+      - name: Upload SHA pinned H01 A+C visual and flow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-H01-NOPHOTO-03-375390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-h01-active-no-photo-03/
+            release-evidence/h01-m01-flow-qa-01/
+            release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
