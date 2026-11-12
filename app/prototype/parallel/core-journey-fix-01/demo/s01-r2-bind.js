@@ -236,7 +236,7 @@
     if(showPublicPrice&&s.publicCubicPrice){
       const price=document.createElement('strong');price.textContent=s.publicCubicPrice;side.append(price);
       const suffix=document.createElement('small');suffix.textContent='/m³/月起';side.append(suffix);
-      side.setAttribute('aria-label','门店最低每立方米月租 '+s.publicCubicPrice+'，'+s.publicCubicTerm+'个月价格口径');
+      side.setAttribute('aria-label','门店每立方米月租 '+s.publicCubicPrice+' 起');
     }
     const arrow=document.createElement('span');arrow.className='s01-compact-arrow';
     arrow.textContent='›';arrow.setAttribute('aria-hidden','true');side.append(arrow);

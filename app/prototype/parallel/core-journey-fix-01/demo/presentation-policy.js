@@ -2,6 +2,13 @@
   'use strict';
   function create({core,fixture,unitPolicy}){
     const whole=n=>Math.trunc(Number(n));
+    // Public browsing uses the lowest available monthly rent under the current
+    // lease discount table, without silently selecting a lease term for the user.
+    function bestPublicTerm(){
+      const rules=(fixture.pricing?.termRules||[]).filter(r=>Number.isInteger(Number(r.min))&&Number(r.min)>=1&&Number(r.min)<=60&&Number.isFinite(Number(r.factor))&&Number(r.factor)>0);
+      const best=rules.sort((a,b)=>Number(a.factor)-Number(b.factor)||Number(a.min)-Number(b.min))[0];
+      return best?Number(best.min):(fixture.pricing.homeReferenceTerm||12);
+    }
     const money=n=>'¥'+whole(n).toLocaleString('zh-CN',{maximumFractionDigits:0});
     // One canonical store tag list for H01, S01, S02 and S5.
     // Promotion is an offer (not a service entitlement or an attribute).
@@ -41,19 +48,19 @@
       const s=core.state(),r=s.requirement,termVisible=r.term_confirmed===true;
       // The computed term price is visible before phone verification; only core.quote() issues binding quotes.
       const amount=termVisible?core.amounts(ids,r.term_months):null;
-      const value=amount?amount.rent_total:whole(rows.reduce((sum,u)=>sum+(s.prices[u.id]??u.base_month),0));
+      const value=amount?amount.rent_total:core.amounts(ids,bestPublicTerm()).monthly_average;
       return {kind:termVisible?'term':'reference',value,money:money(value),months:termVisible?r.term_months:null,caption:termVisible?'整期租金':'月租',suffix:termVisible?'/ '+r.term_months+'个月':'/月起',termLabel:termVisible?r.term_months+'个月整期':'/月起',average:amount?money(amount.monthly_average)+'/月 × '+r.term_months+'个月':'',amounts:amount};
     }
     function facts(ids){
       if(ids.length===1){const u=fixture.units.find(x=>x.id===ids[0]);if(u)return unitPolicy.facts(u);}
       return {promoLabel:'',inventoryLine:'',state:'N'};
     }
-    function cubicReference(store){const term=fixture.pricing.homeReferenceTerm||12;
+    function cubicReference(store){const term=bestPublicTerm();
       const rows=fixture.units.filter(u=>u.store_id===store.id&&core.available(u)&&Number(u.volume)>0);
       if(!rows.length)return null;
       const n=Math.min(...rows.map(u=>core.amounts([u.id],term).monthly_average/u.volume));
       return Number.isFinite(n)&&n>0?{value:Number(n.toFixed(2)),money:money(n),unit:'/m³/月起',basis:term+'个月折后最低立方月租'}:null;}
-    return {price,facts,services,tags,detailTags,tagType:typeOf,cubicReference,money};
+    return {price,facts,services,tags,detailTags,tagType:typeOf,cubicReference,bestPublicTerm,money};
   }
   root.SIM_PRESENTATION={create};
   if(typeof module==='object'&&module.exports)module.exports={create};

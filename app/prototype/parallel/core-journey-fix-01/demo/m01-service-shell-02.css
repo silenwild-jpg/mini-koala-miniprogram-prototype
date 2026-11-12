@@ -55,3 +55,12 @@ body[data-service-view="identity"] #content .panel>button.primary{
  display:flex;width:100%;min-height:48px;margin:0 0 14px;
 }
 body[data-service-view="identity"] #content .panel>.button-row{margin-top:12px;}
+
+/* Identity form: the ordinary customer view only submits for review; reviewer decisions are debug-only. */
+body[data-service-view="identity"] #sheet label{display:block;margin:13px 0 5px;font-weight:650;color:#204836}
+body[data-service-view="identity"] #sheet input{border:1px solid #d5e4dc;border-radius:8px;padding:10px 12px;font-size:14px}
+body[data-service-view="identity"] #sheet .small{font-size:12px;line-height:1.5;color:#758b7f}
+
+#sheet .mk-identity-field-error{margin:10px 0 5px;padding:7px 9px;background:#fff3ee;color:#a14330;border-radius:6px;line-height:1.5;font-size:13px}
+#sheet .mk-identity-field-error[hidden]{display:none}
+#sheet input[aria-invalid="true"]{border-color:#ba5840;outline-color:#ba5840}

@@ -1,0 +1,112 @@
+name: RC2 S5 SOURCE RECONCILE 01 - 375-390 scoped no deploy
+on:
+  push:
+    branches:
+      - isolate/rc2-s5-source-reconcile-01-20261112
+      - isolate/rc2-final-vis-signoff-04-20261112
+    paths:
+      - .github/workflows/rc2-s5-source-reconcile-01.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/**
+      - scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+      - scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-s5-source-reconcile-01
+  cancel-in-progress: true
+jobs:
+  s5-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Source freeze and JS syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          case "$GITHUB_REF_NAME" in isolate/rc2-s5-source-reconcile-01-20261112|isolate/rc2-final-vis-signoff-04-20261112) ;; *) echo "REF_NOT_ALLOWED"; exit 1;; esac
+          # File-scope quarantine applies to the isolated S5 source PR only.
+          # The integrated RC2 candidate may contain separately approved subsequent page changes.
+          if [ "$GITHUB_REF_NAME" = "isolate/rc2-s5-source-reconcile-01-20261112" ]; then
+            git diff --name-only fe023593127e321174d12518ea6cf057ba70ded7 HEAD -- app/ > /tmp/s5-source-scope.txt
+            cat /tmp/s5-source-scope.txt
+            while IFS= read -r f; do
+              case "$f" in
+                app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js|app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html|app/prototype/parallel/core-journey-fix-01/demo/br04/s5/s5-native-flow.css) ;;
+                *) echo "S5_SCOPE_VIOLATION: $f"; exit 1;;
+              esac
+            done < /tmp/s5-source-scope.txt
+          fi
+          for f in app/prototype/parallel/core-journey-fix-01/demo/{app,account,demo-core,lifecycle-ui}.js app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js scripts/verify_s5_s01_vis_signoff_04_browser.cjs scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs; do node --check "$f"; done
+      - name: Preserve RC2 pricing lifecycle and user-account contracts
+        run: |
+          node scripts/verify_rc2_final_vis_signoff_04_contract.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_vis_system_04b1_tag_semantics.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node scripts/verify_m01_ia_03.cjs
+      - name: Build the exact branch SHA without deployment
+        env:
+          RC2_BUNDLE_LABEL: RC2-S5-SOURCE-RECONCILE-01
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_S5_SOURCE_RECONCILE_01.zip
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: "134"
+          RC2_BUNDLE_BASE_PR: "134"
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Validate bundle provenance
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME)throw Error('BUNDLE_SHA_MISMATCH');console.log(v.source_sha)"
+      - name: Playwright Chromium and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: S01 S5 and O01 cross-page visual and price contract at 375 and 390
+        run: node scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+      - name: S5 16 normal 6 gate and 6 return-path cases at 375 and 390
+        run: node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+      - name: Preserve RC2 H01 S01 S02 S5 M01 smoke at 375 and 390
+        run: node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+      - name: RC2 full P0 P1 frozen lifecycle contract regression
+        run: |
+          node scripts/verify_rc2_vis_signoff_02_geometry.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          node scripts/verify_h01_m01_flow_qa_01.cjs
+          node scripts/verify_h01_m01_business_date_01.cjs
+      - name: RC2 renewal payment and identity 375 and 390
+        run: node scripts/verify_rc2_final_vis_signoff_04_browser.cjs
+      - name: RC2 existing aftersales VIS03 375 and 390
+        run: node scripts/verify_rc2_final_vis_signoff_03_browser.cjs
+      - name: RC2 H01 M01 order isolation 375 and 390
+        run: node scripts/verify_h01_m01_flow_qa_01_browser.cjs
+      - name: RC2 M01 asset and two warehouse 375 and 390
+        run: node scripts/verify_m01_ia_03_browser.cjs
+      - name: RC2 3 hour checkout and refund 375 and 390
+        run: node scripts/verify_h01_m01_contract_01_browser.cjs
+      - name: Upload 375-390 screenshots and machine results; no merge or deploy
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-S5-SOURCE-RECONCILE-01-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/s5-final-vis-signoff-04/
+            release-evidence/s5-final-vis-signoff-04c/
+            release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-final-vis-signoff-04/
+            release-evidence/rc2-final-vis-signoff-03/
+            release-evidence/h01-m01-flow-qa-01/
+            release-evidence/m01-ia-03/
+            release-evidence/h01-m01-contract-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
