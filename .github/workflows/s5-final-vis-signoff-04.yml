@@ -7,6 +7,8 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
       - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/s5-native-flow.css
       - scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+      - scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,6 +36,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
           node --check scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+          node --check scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
           node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
       - name: Build same source, no deploy
         env:
@@ -54,6 +57,8 @@ jobs:
           npx playwright install chromium
       - name: S01↔S5 component, two-store first-screen, full-page, 100k price and O01
         run: node scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+      - name: S5 04C - 20 states and six real location/list/edit flows, 375 and 390
+        run: node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
       - name: Evidence only - no merge or deploy
         if: always()
         uses: actions/upload-artifact@v4
@@ -63,5 +68,6 @@ jobs:
           if-no-files-found: warn
           path: |
             release-evidence/s5-final-vis-signoff-04/
+            release-evidence/s5-final-vis-signoff-04c/
             release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
             release-evidence/rc2-merge-prep-10/build-summary.json
