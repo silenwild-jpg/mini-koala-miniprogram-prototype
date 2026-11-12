@@ -94,7 +94,7 @@ const server=http.createServer((req,res)=>{
     await page.locator('.m01-task').waitFor();
     const refund=await page.evaluate(id=>{
       const b=window.SIM_DEMO,c=b.core;try{
-       c.identity(id,'success');c.lifecycleRequestExit(id,'expiry',c.today());c.lifecycleRequestInspection(id);c.lifecycleReviewInspection(id,'passed',true);
+       c.identity(id,'success');c.lifecycleRequestExit(id,'early',c.today());c.lifecycleRequestInspection(id);c.lifecycleReviewInspection(id,'passed',true);
        b.persist();b.navigate('M01');return {key:window.H01_STATE_POLICY.derive(c.state(),c).key};
       }catch(e){return {error:e.message};}
     },identity.id);
