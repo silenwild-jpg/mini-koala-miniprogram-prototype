@@ -1,7 +1,9 @@
 name: RC2 S5 SOURCE RECONCILE 01 - 375-390 scoped no deploy
 on:
   push:
-    branches: [isolate/rc2-s5-source-reconcile-01-20261112]
+    branches:
+      - isolate/rc2-s5-source-reconcile-01-20261112
+      - isolate/rc2-final-vis-signoff-04-20261112
     paths:
       - .github/workflows/rc2-s5-source-reconcile-01.yml
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
@@ -31,6 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          case "$GITHUB_REF_NAME" in isolate/rc2-s5-source-reconcile-01-20261112|isolate/rc2-final-vis-signoff-04-20261112) ;; *) echo "REF_NOT_ALLOWED"; exit 1;; esac
           git diff --name-only fe023593127e321174d12518ea6cf057ba70ded7 HEAD -- app/ > /tmp/s5-source-scope.txt
           cat /tmp/s5-source-scope.txt
           while IFS= read -r f; do
@@ -51,13 +54,13 @@ jobs:
         env:
           RC2_BUNDLE_LABEL: RC2-S5-SOURCE-RECONCILE-01
           RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_S5_SOURCE_RECONCILE_01.zip
-          RC2_BUNDLE_BRANCH: isolate/rc2-s5-source-reconcile-01-20261112
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
           RC2_BUNDLE_SOURCE_PR: "134"
           RC2_BUNDLE_BASE_PR: "134"
         run: python3 scripts/build_rc2_isolated_demo.py
       - name: Validate bundle provenance
         run: |
-          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!=='isolate/rc2-s5-source-reconcile-01-20261112')throw Error('BUNDLE_SHA_MISMATCH');console.log(v.source_sha)"
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME)throw Error('BUNDLE_SHA_MISMATCH');console.log(v.source_sha)"
       - name: Playwright Chromium and Chinese fonts
         run: |
           sudo apt-get update -qq
