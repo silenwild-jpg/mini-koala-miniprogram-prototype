@@ -39,7 +39,7 @@ jobs:
           ! grep -Fq '模拟订单保留为待支付' app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
           p='app/prototype/parallel/core-journey-fix-01/demo'
           test "$(git hash-object "$p/h01-state-impl-01.js")" = ed1a5369aaa4dbc415aa62390107c91a732d2fe2
-          test "$(git hash-object "$p/h01-state-impl-01.css")" = 72ce269f5a3f25631d38c78e4925c6d9430eb1e8
+          test "$(git hash-object "$p/h01-state-impl-01.css")" = 713c418185549bd888e02d918e0723c2c12247d8
           ! grep -Eq 'h01FlowContext|h01StageProgress|h01SceneImage|h01-scene-image|h01-stage-progress' "$p/h01-state-impl-01.js" "$p/h01-state-impl-01.css" || { echo 'REJECTED_AC_VISUAL_REINTRODUCED'; exit 1; }
           grep -Fq 'const detail=s.photoDetail?' "$p/app.js" || { echo 'S02_HERO_FIX_LOST'; exit 1; }
           for f in "$p"/{app,demo-core,cap-bridge,space-unit,s01-r2-bind,h01-state-impl-01}.js scripts/{test_cap_unit_dual_01.js,verify_cap_unit_dual_01_browser.cjs,verify_rc2_single_candidate_03_h01_browser.cjs,verify_rc2_single_candidate_03_s01_browser.cjs,verify_rc2_s02_photo_source_01_browser.cjs}; do node --check "$f"; done
