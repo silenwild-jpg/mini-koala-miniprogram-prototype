@@ -18,11 +18,18 @@
     const validCapacity=c=>typeof c==='number'&&Number.isFinite(c)&&c>=.5&&c<=200&&Math.abs(c*100-Math.round(c*100))<1e-7;
     const authorized=()=>{if(s.auth.status==='verified'&&now()>=s.auth.expiresAt){s.auth.status='expired';s.quote=null;}return s.auth.status==='verified';};
     const invalidate=()=>{s.quote=null;};
-    function setRequirement(capacity,months,confirmed=false){
+    function setRequirement(capacity,months,confirmed=false,input=null){
       if(capacity!==null&&!validCapacity(capacity))fail('INVALID_CAPACITY');
       if(months!==null&&!validTerm(months))fail('INVALID_TERM');
       if(confirmed&&!validTerm(months))fail('SELECT_TERM');if(confirmed&&!validCapacity(capacity))fail('SELECT_CAPACITY');
-      s.requirement={capacity_m3:capacity,term_months:months,term_confirmed:confirmed&&validTerm(months)};s.selected=[];invalidate();
+      // A square-metre input is display intent, not a new pricing or order unit.
+      // Reject inconsistent metadata rather than trusting an arbitrary URL/draft.
+      const area=input?.input_unit==='m2'?Number(input.input_value):null;
+      if(area!==null&&(!Number.isFinite(area)||area<0.2||area>80||
+        Math.abs(area*10-Math.round(area*10))>1e-7||Math.abs(area*2.5-capacity)>1e-7))
+        fail('INVALID_CAPACITY');
+      s.requirement={capacity_m3:capacity,term_months:months,term_confirmed:confirmed&&validTerm(months),
+        ...(area===null?{}:{input_unit:'m2',input_value:area})};s.selected=[];invalidate();
     }
     function setEstimate(payload){
       const p=payload||{},raw=p.estimated_volume;

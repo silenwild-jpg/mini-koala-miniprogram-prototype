@@ -1,0 +1,37 @@
+'use strict';
+const assert=require('node:assert/strict');
+const U=require('../app/prototype/parallel/core-journey-fix-01/demo/space-unit.js');
+assert.equal(U.cubicFromArea(2),5);
+assert.equal(U.cubicFromArea(.2),.5);
+assert.equal(U.cubicFromArea(80),200);
+for(const n of [-1,0,.15,80.1,1.23,NaN,Infinity])assert.equal(U.cubicFromArea(n),null);
+assert.equal(U.areaForUnit({volume:2,dimensions_m:[1,1,2],area:1}),1);
+assert.equal(U.areaForUnit({volume:5,dimensions_m:[2,1,2.5],area:2}),2);
+assert.equal(U.areaForUnit({volume:5,dimensions_m:null,area:null}),null);
+assert.equal(U.unitAreaSuffix({dimensions_m:null,area:null}),'');
+assert.equal(U.demandCapacity({capacity_m3:5,input_unit:'m2',input_value:2}),'2㎡ · 5m³');
+assert.equal(U.demandCapacity({capacity_m3:5,input_unit:'m3'}),'5m³');
+assert.equal(U.demandCapacity({capacity_m3:5,input_unit:'m2',input_value:4}),'5m³');
+console.log('CAP-UNIT-DUAL-01 unit contract PASS');
+
+const F=require('../app/prototype/parallel/core-journey-fix-01/demo/fixtures.js');
+const {create}=require('../app/prototype/parallel/core-journey-fix-01/demo/demo-core.js');
+const baseline=create(),dual=create(),area=2,months=12;
+baseline.setRequirement(U.cubicFromArea(area),months,true);
+dual.setRequirement(U.cubicFromArea(area),months,true,{input_unit:'m2',input_value:area});
+assert.equal(baseline.requirementReady(),true);
+assert.equal(dual.requirementReady(),true);
+assert.equal(dual.state().requirement.input_unit,'m2');
+assert.equal(dual.state().requirement.input_value,2);
+assert.equal(dual.state().requirement.capacity_m3,5);
+assert.equal(baseline.state().requirement.input_unit,undefined);
+const row=F.units.find(u=>u.volume>=5&&u.status==='available'&&F.stores.some(s=>s.id===u.store_id&&s.city===F.defaultCity&&s.status==='open'));
+assert.ok(row,'fixture has a suitable open warehouse');
+assert.deepEqual(dual.amounts([row.id],months),baseline.amounts([row.id],months),
+  'area expression must not change formal pricing');
+assert.throws(()=>dual.setRequirement(5,12,true,{input_unit:'m2',input_value:3}),/INVALID_CAPACITY/);
+assert.equal(dual.state().requirement.input_value,2,'invalid metadata cannot overwrite a confirmed requirement');
+const incomplete=create();
+incomplete.setRequirement(5,null,false,{input_unit:'m2',input_value:2});
+assert.equal(incomplete.requirementReady(),false,'area entry must not bypass term selection');
+console.log('CAP-UNIT-DUAL-01 central requirement and pricing PASS');

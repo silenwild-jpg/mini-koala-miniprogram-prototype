@@ -170,7 +170,7 @@
     const s=core.state(),r=s.requirement,selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
     const candidates=B.s5Offers?.(selectedArea)||B.offers();
     offerRows=candidates.slice(0,2);s5StoreUnitRows=[];
-    $('capacity').innerHTML=r.capacity_m3+'<span>m³</span>';
+    $('capacity').innerHTML=r.input_unit==='m2'&&parent.SIM_SPACE_UNIT?.demandCapacity(r).includes('㎡')?esc(r.input_value)+'<span>㎡ · '+esc(r.capacity_m3)+'m³</span>':esc(r.capacity_m3)+'<span>m³</span>';
     text('demand-term',r.term_months+'个月');
     text('origin-name',ui.s5OriginLabel||s.city+' · '+(selectedArea||'全城门店'));
     if(selectedArea)B.s5SetArea?.(selectedArea);
