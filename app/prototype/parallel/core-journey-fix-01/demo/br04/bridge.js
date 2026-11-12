@@ -173,10 +173,13 @@
     if(!core.requirementReady()){B.editRequirement();return;}
     const s=core.state(),r=s.requirement,selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
     const candidates=B.s5Offers?.(selectedArea)||B.offers();
-    offerRows=candidates.slice(0,2);s5StoreUnitRows=[];
+    const origin=ui.s5MapOrigin?.city===s.city?ui.s5MapOrigin:null;
+    const ranked=window.S5_LOCATION_RANKER?.rank(candidates,origin,row=>core.amounts(row.ids,r.term_months).rent_total);
+    offerRows=(ranked?.applied?ranked.rows:candidates).slice(0,2);
+    ui.s5OriginApplied=!!ranked?.applied;s5StoreUnitRows=[];
     $('capacity').innerHTML=r.input_unit==='m2'&&parent.SIM_SPACE_UNIT?.demandCapacity(r).includes('㎡')?esc(r.input_value)+'<span>㎡ · '+esc(r.capacity_m3)+'m³</span>':esc(r.capacity_m3)+'<span>m³</span>';
     text('demand-term',r.term_months+'个月');
-    text('origin-name',ui.s5OriginLabel||s.city+' · '+(selectedArea||'全城门店'));
+    text('origin-name',ui.s5OriginApplied&&ui.s5OriginLabel?ui.s5OriginLabel:s.city+' · '+(selectedArea||'全城门店'));
     if(selectedArea)B.s5SetArea?.(selectedArea);
 
     const match=offerRows.length>0,matchState=s5MatchState(offerRows,r);
@@ -261,14 +264,31 @@
       const address=row.store.address||'';
       if(navigator.clipboard?.writeText){navigator.clipboard.writeText(address).then(()=>toast('地址已复制')).catch(()=>sheet(row.store.name,note(address)+act('store','查看门店',row.store.id,true)));}
       else sheet(row.store.name,note(address)+act('store','查看门店',row.store.id,true));
-    },estoreBooking(){const s=core.state();sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({service_source:'estore',capacity_hint:s.requirement.capacity_m3?s.requirement.capacity_m3+'m³':'',term_hint:s.requirement.term_confirmed?s.requirement.term_months+'个月':''}));B.navigate('BOOKING');},locatedAddress(){ui.reserve.address=$('located-address').value.trim();close();save();refresh();},coupon(id){core.setCoupon(id);close();save();refresh();},orderDetail(id){B.openOrder(id);},phoneResult(value){core.resolvePhone(value);close();save();refresh();if(value!=='success')toast(value==='denied'?'未授权，您仍可继续浏览':'授权暂时失败，可继续浏览并稍后重试');},term:applyTerm,customTerm(){applyTerm($('custom-months').value);},city(value){core.setCity(value);ui.quick=null;if(page==='s5'){ui.s5Area='';ui.s5AreaCity=value;ui.s5OriginLabel='';B.s5SetArea?.('');}close();save();refresh();if(page==='s5')s5AreaSheet();},s5ChooseArea(){close();s5AreaSheet();},s5ChooseCity(){close();citySheet();},s5Area(value){const city=core.state().city;const valid=new Set(F.stores.filter(s=>s.city===city&&s.status==='open').map(s=>s.district));if(value&&!valid.has(value)){toast('区域暂不可选');return;}ui.s5Area=value;ui.s5AreaCity=city;ui.s5OriginLabel='';B.s5SetArea?.(value);close();save();refresh();},store(id){close();B.openStore(id,pageIds[page]);},booking(){consult();},quickStore(id){const s=core.state();core.clearSelection();core.setStore(id);ui.quick={storeId:id,ids:[]};close();save();refresh();},quickUnit(value){ui.quick.ids=value.split(',');close();save();refresh();},otherStores(){close();B.navigate('S01');},reserveOption(value){const [key,item]=value.split('|');ui.reserve[{items:'items',capacity:'capacity_hint',duration:'term_hint'}[key]]=item;close();save();refresh();},payResult(value){if(!core.authorized()){phone();return;}const order=selectedOrder||core.state().orders.at(-1);if(!order){toast('暂无待支付的本机订单记录');return;}const result=core.pay(order.id,value);clearToast();save();refresh();sheet(value==='success'?'支付流程已完成':'支付流程未完成',note('本次结果只保存在当前设备，未发生真实扣款。')+note(store(result.store_id).name+' · '+result.term_months+'个月')+act('orderDetail','查看订单记录',result.id,true)+act('browse','继续浏览门店'));},cancelPay(){close();refresh();toast('订单仍处于待支付状态，可从本页继续处理');},browse(){B.navigate('S01');}};
+    },estoreBooking(){const s=core.state();sessionStorage.setItem('mk_advisor_context_v3',JSON.stringify({service_source:'estore',capacity_hint:s.requirement.capacity_m3?s.requirement.capacity_m3+'m³':'',term_hint:s.requirement.term_confirmed?s.requirement.term_months+'个月':''}));B.navigate('BOOKING');},locatedAddress(){ui.reserve.address=$('located-address').value.trim();close();save();refresh();},coupon(id){core.setCoupon(id);close();save();refresh();},orderDetail(id){B.openOrder(id);},phoneResult(value){core.resolvePhone(value);close();save();refresh();if(value!=='success')toast(value==='denied'?'未授权，您仍可继续浏览':'授权暂时失败，可继续浏览并稍后重试');},term:applyTerm,customTerm(){applyTerm($('custom-months').value);},city(value){core.setCity(value);ui.quick=null;if(page==='s5'){ui.s5Area='';ui.s5AreaCity=value;ui.s5OriginLabel='';ui.s5MapOrigin=null;B.s5SetArea?.('');}close();save();refresh();if(page==='s5')s5AreaSheet();},s5ChooseArea(){close();s5AreaSheet();},s5ChooseCity(){close();citySheet();},s5Area(value){const city=core.state().city;const valid=new Set(F.stores.filter(s=>s.city===city&&s.status==='open').map(s=>s.district));if(value&&!valid.has(value)){toast('区域暂不可选');return;}ui.s5Area=value;ui.s5AreaCity=city;ui.s5OriginLabel='';ui.s5MapOrigin=null;B.s5SetArea?.(value);close();save();refresh();},store(id){close();B.openStore(id,pageIds[page]);},booking(){consult();},quickStore(id){const s=core.state();core.clearSelection();core.setStore(id);ui.quick={storeId:id,ids:[]};close();save();refresh();},quickUnit(value){ui.quick.ids=value.split(',');close();save();refresh();},otherStores(){close();B.navigate('S01');},reserveOption(value){const [key,item]=value.split('|');ui.reserve[{items:'items',capacity:'capacity_hint',duration:'term_hint'}[key]]=item;close();save();refresh();},payResult(value){if(!core.authorized()){phone();return;}const order=selectedOrder||core.state().orders.at(-1);if(!order){toast('暂无待支付的本机订单记录');return;}const result=core.pay(order.id,value);clearToast();save();refresh();sheet(value==='success'?'支付流程已完成':'支付流程未完成',note('本次结果只保存在当前设备，未发生真实扣款。')+note(store(result.store_id).name+' · '+result.term_months+'个月')+act('orderDetail','查看订单记录',result.id,true)+act('browse','继续浏览门店'));},cancelPay(){close();refresh();toast('订单仍处于待支付状态，可从本页继续处理');},browse(){B.navigate('S01');}};
   document.addEventListener('click',e=>{const b=e.target.closest('[data-bridge]');if(b){e.preventDefault();guard(()=>actions[b.dataset.bridge]?.(b.dataset.value));}});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Enter'&&e.target.matches('[data-offer]'))e.target.click();});
   for(const id of ['close-modal','modal-close','closePopup','close-sheet'])if($(id))$(id).onclick=close;
   if($('modal-shade'))$('modal-shade').onclick=close;
   if(page==='s5'){
     document.querySelector('.back').onclick=()=>B.navigate('S01');document.querySelector('.mini-menu').onclick=moreMenu;
-    $('modify').onclick=()=>{B.editRequirement();};$('change-origin').onclick=()=>{if(typeof parent.wx?.chooseLocation==='function'){parent.wx.chooseLocation({success:res=>{ui.s5OriginLabel=res?.name||res?.address||'';save();refresh();},fail:()=>s5AreaSheet()});}else s5AreaSheet();};
+    $('modify').onclick=()=>{B.editRequirement();};
+    $('change-origin').onclick=()=>{
+      if(typeof parent.wx?.chooseLocation!=='function'){s5AreaSheet();return;}
+      parent.wx.chooseLocation({
+        success:res=>{
+          const origin={city:core.state().city,latitude:Number(res?.latitude),longitude:Number(res?.longitude)};
+          const options=B.s5Offers?.('')||B.offers();
+          const ranked=window.S5_LOCATION_RANKER?.rank(options,origin,row=>core.amounts(row.ids,core.state().requirement.term_months).rent_total);
+          if(!ranked?.applied){toast('该位置暂不能用于门店排序，请按区域选择');s5AreaSheet();return;}
+          if(Number(ranked.rows[0]?.originDistanceKm)>150){toast('所选位置距离当前城市门店较远，请切换城市');citySheet();return;}
+          ui.s5MapOrigin=origin;
+          ui.s5Area='';ui.s5AreaCity=origin.city;B.s5SetArea?.('');
+          ui.s5OriginLabel=String(res?.name||res?.address||'已选位置').slice(0,80);
+          save();refresh();
+        },
+        fail:()=>s5AreaSheet()
+      });
+    };
 
 
 

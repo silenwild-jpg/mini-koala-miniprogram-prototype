@@ -6,6 +6,7 @@
   const priceCss=document.createElement('link');priceCss.rel='stylesheet';priceCss.href='s01-r2-price-surface.css';document.head.append(priceCss);
   const visualCss=document.createElement('link');visualCss.rel='stylesheet';visualCss.href='s01-vis-decision-02.css?v=20261111';document.head.append(visualCss);
   const tagCss=document.createElement('link');tagCss.rel='stylesheet';tagCss.href='global-store-tags.css?v=GLOBAL01';document.head.append(tagCss);
+  const motionCss=document.createElement('link');motionCss.rel='stylesheet';motionCss.href='s01-motion-micro-01b.css?v=MOTION01B';document.head.append(motionCss);
   // VIS-SYSTEM-02-REF-INTEGRATE: selected reference layout is now the S01
   // matched-card default in PR #99. '?vis_system=baseline' is QA-only opt-out;
   // browse cards, fixed E service and 4th+ compact cards keep their own styling.
