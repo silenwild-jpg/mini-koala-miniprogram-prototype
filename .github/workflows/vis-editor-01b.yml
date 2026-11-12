@@ -1,0 +1,43 @@
+name: VIS-EDITOR-01B S01 browser QA NO DEPLOY
+on:
+  push:
+    branches: [tool/vis-editor-01a-s01-20261112]
+    paths:
+      - '.github/workflows/vis-editor-01b.yml'
+      - 'app/tools/vis-editor-s01.html'
+      - 'app/qa/test_vis_editor_01a.cjs'
+      - 'app/qa/verify_vis_editor_01b_browser.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: vis-editor-01b
+  cancel-in-progress: true
+jobs:
+  isolated-editor-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm independent editor branch and static contract
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "tool/vis-editor-01a-s01-20261112"
+          echo "SOURCE_SHA=$GITHUB_SHA"
+          node app/qa/test_vis_editor_01a.cjs
+          python3 -m py_compile app/qa/verify_vis_editor_01b_browser.py
+      - name: Chromium ChromeDriver availability
+        run: |
+          set -euo pipefail
+          command -v chromedriver || test -x "$CHROMEWEBDRIVER/chromedriver"
+          command -v google-chrome || command -v chromium || command -v chromium-browser
+      - name: Real HTTP browser 375/390, A/B changes, undo redo and persistence
+        run: python3 app/qa/verify_vis_editor_01b_browser.py
+      - name: Save screenshots and measured results (no deploy)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VIS-EDITOR-01B-browser-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: release-evidence/vis-editor-01b/
