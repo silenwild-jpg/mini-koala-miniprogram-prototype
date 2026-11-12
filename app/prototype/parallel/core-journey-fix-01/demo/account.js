@@ -3,6 +3,16 @@
   const KEY='mk_independent_sim_v1',read=k=>{try{return JSON.parse(sessionStorage.getItem(k)||'null');}catch{return null;}};
   const core=SIM_CORE.create({state:read(KEY)}),F=SIM_FIXTURES,$=id=>document.getElementById(id);
   const query=new URLSearchParams(location.search);let view=query.get('view')||'profile',id=query.get('id')||'';
+  // All customer-facing order and after-sales flows use the canonical central contracts.
+  // Old account deep links remain valid but must not revive the retired 15-minute payment text.
+  const centralPage={orders:'M01',order:'O03',renew:'RN01',exit:'EX01',deposit:'DP01',invoice:'IV01'};
+  if(Object.prototype.hasOwnProperty.call(centralPage,view)&&query.get('debug')!=='1'){
+    const url=new URL('index.html',location.href);
+    url.searchParams.set('page',centralPage[view]);
+    if(id)url.searchParams.set('order',id);
+    location.replace(url.href);
+    return;
+  }
   if(view==='mine'&&query.get('debug')!=='1')view='profile';
   const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money=n=>'¥'+Number(n).toLocaleString('zh-CN'),store=id=>F.stores.find(s=>s.id===id),unit=id=>F.units.find(u=>u.id===id),state=()=>core.state();
