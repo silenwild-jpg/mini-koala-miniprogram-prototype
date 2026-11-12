@@ -199,7 +199,7 @@ body[data-page=s5] #artboard>.s5-advisor[hidden]{display:none!important}
 body[data-page=s5] .s5-advisor-copy strong{font-size:13px}
 body[data-page=s5] .s5-advisor-copy p{font-size:11px}
 body[data-page=s5] .s5-advisor button{min-width:98px;min-height:44px;border-radius:7px;padding:8px 12px;background:var(--g);color:#fff;font-size:12px;border:0}
-body[data-page=s5] #artboard>.no-match{order:3;display:none!important;min-height:250px;padding:22px 18px;background:#fff;border-radius:11px}
+body[data-page=s5] #artboard>.no-match{order:3;display:none!important;min-height:0;padding:18px 16px 13px;background:#fff;border-radius:11px}
 body[data-page=s5] #artboard[data-match=none]>.recommend-wrap,body[data-page=s5] #artboard[data-match=none]>.more-units,body[data-page=s5] #artboard[data-match=incomplete]>.recommend-wrap,body[data-page=s5] #artboard[data-match=incomplete]>.more-units,body[data-page=s5] #artboard[data-match=large][data-count="0"]>.recommend-wrap,body[data-page=s5] #artboard[data-match=large][data-count="0"]>.more-units{display:none!important}
 body[data-page=s5] #artboard[data-match=none]>.no-match,body[data-page=s5] #artboard[data-match=incomplete]>.no-match,body[data-page=s5] #artboard[data-match=large][data-count="0"]>.no-match{display:block!important}
 body[data-page=s5] #artboard[data-requires-capacity=true]>.term,body[data-page=s5] #artboard>.term[hidden]{display:none!important}
