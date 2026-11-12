@@ -189,7 +189,7 @@
     })[matchState];
     document.querySelector('.nm-kicker').textContent=matchState==='large'&&!match?'大空间需求，顾问协助选仓':'暂无完全匹配的仓位';
     document.querySelector('.no-match>p').textContent='可调整条件、查看更多门店或联系顾问。';
-    const cards=$('.s5-store-card');
+    const cards=$$('.s5-store-card');
     cards.forEach((el,i)=>{el.hidden=i>=offerRows.length;el.dataset.storeId=offerRows[i]?.store.id||'';if(offerRows[i])el.innerHTML=s5StoreCard(offerRows[i],i);else el.innerHTML='';});
     // RC2-CANDIDATE-DELTA-02: native document flow handles one/two/zero store cards.
     // Avoid pixel offsets, transforms and persisted artboard heights.
@@ -291,7 +291,7 @@
     });
     $('s5-advisor-action').onclick=()=>consult('advisor');
     $('see-more').onclick=()=>B.navigate('S01');$('open-estore').onclick=()=>sheet('考拉E存',note('上门取送服务的适用范围及方案由顾问确认；此处仍为候选服务入口。')+act('estoreBooking','联系顾问','',true));
-    $('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else B.navigate('S01');});
+    $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else B.navigate('S01');});
   }
   if(page==='quick'){
     $('back-button').onclick=()=>B.navigate('S01');$('menu-button').onclick=()=>toast('内部演示导航');$('more-terms').onclick=moreTerms;
