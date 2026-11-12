@@ -57,7 +57,7 @@ const delay=ms=>new Promise(ok=>setTimeout(ok,ms));
         assert(snapshot.canReturnToS5,'return to S5 must retain demand context');
         assert.deepEqual(snapshot.stores.slice(0,2).map(x=>x.id),after.ids.slice(0,2).map(x=>x.id),'first two matched store IDs preserve selected-origin ranking');
         for(let i=0;i<2;i++)
-          assert.equal(snapshot.stores[i].distance,after.ids[i].distance.trim().replace(/^↗\\s*/,''),'same distance in S5 and S01');
+          assert.equal(snapshot.stores[i].distance,after.ids[i].distance.replace('↗','').trim(),'same distance in S5 and S01');
         const panel=s01.locator('.filter').first();await panel.click();
         await s01.locator('#s01-inline-panel').waitFor({state:'visible'});
         const state=await s01.locator('.filter').first().evaluate(el=>({expanded:el.getAttribute('aria-expanded'),label:el.textContent}));
@@ -69,6 +69,11 @@ const delay=ms=>new Promise(ok=>setTimeout(ok,ms));
         const overflow=await s01.locator('body').evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
         assert(!overflow,'S01 horizontally overflows the device width');
         await s01.locator('#s01-inline-panel').locator('[data-sort="recommended"]').click();
+        const search=s01.locator('#s01-search');
+        await search.fill('望京');
+        assert.equal(await search.evaluate(el=>document.activeElement===el),true,
+          'S01 search retains keyboard focus after result rebuild');
+        await search.fill('');
         await s01.locator('.s01-return-recommend').click();
         s5=app.frameLocator('#br04-frame');
         await s5.locator('body[data-page="s5"].bridge-ready').waitFor({timeout:15000});
