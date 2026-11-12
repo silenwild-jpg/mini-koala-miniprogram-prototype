@@ -31,7 +31,7 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test "$GITHUB_REF_NAME" = 'isolate/rc2-single-candidate-05-20261112'
-          git diff --name-only b9f28bcd332e116e6cebc1c359771b7d5c1d276c HEAD -- app/ | sort > /tmp/rc2-04-delta
+          git diff --name-only b7f5fcdc7c4739ac8d255e2c0133af9c389325b4 HEAD -- app/ | sort > /tmp/rc2-04-delta
           printf '%s\n' app/prototype/parallel/core-journey-fix-01/demo/app.js > /tmp/rc2-04-expected
           diff -u /tmp/rc2-04-expected /tmp/rc2-04-delta || { echo UNAUTHORIZED_RUNTIME_DELTA; exit 1; }
           grep -Fq '.h01-flow-buttons button{min-height:48px;' app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.css
