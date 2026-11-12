@@ -175,7 +175,7 @@ expanded:d.querySelectorAll('.store-card[data-card-kind="expanded"]').length,com
     js("document.getElementById('export').click();return true;")
     def exported():
         j=list(OUT.glob('S01_VIS_EDITOR_01B_B_*.json'))
-        c=list(OUT.glob('S01_VIS_EDITOR_01A_B_*.css'))
+        c=list(OUT.glob('S01_VIS_EDITOR_01B_B_*.css'))
         return {'json':j[0].name,'css':c[0].name} if j and c and j[0].stat().st_size>0 and c[0].stat().st_size>0 else False
     end=time.monotonic()+12
     export_files=None
