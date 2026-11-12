@@ -108,3 +108,6 @@ body.br04-mode .demo-settings summary{font-size:9px;line-height:14px;height:14px
 body.br04-mode .demo-settings[open] .demo-toolbar{top:17px;width:350px;left:50%;right:auto;transform:translateX(-50%);background:#f2f8f4}
 body.br04-mode .app-shell{height:100dvh;margin-top:0}
 @media(min-width:700px){body.br04-mode .app-shell{height:844px;margin-top:8px}}
+
+/* NAV-VIS-UNIFY-01C: new dual-state SVGs carry their own active/idle colors. */
+.bottom-nav .nav-01c-icon,.bottom-nav .bottom-item:not(.active) .nav-01c-icon{width:26px!important;height:26px!important;filter:none!important}
