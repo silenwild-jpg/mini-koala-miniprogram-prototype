@@ -68,10 +68,10 @@ test('P02 published per-store cubic rate uses only currently available units',()
   assert(st,'Need store with >=2 available units');
   const rows=F.units.filter(u=>u.store_id===st.id&&core.available(u));
   const price=()=>p.cubicReference(st);
-  const expected=Math.min(...rows.map(u=>core.amounts([u.id],F.pricing.homeReferenceTerm).monthly_average/u.volume));
+  const expected=Math.min(...rows.map(u=>core.amounts([u.id],p.bestPublicTerm()).monthly_average/u.volume));
   assert.equal(price().value,Number(expected.toFixed(2)));
   const cheapest=rows.slice().sort((x,y)=>
-    core.amounts([x.id],12).monthly_average/x.volume-core.amounts([y.id],12).monthly_average/y.volume)[0];
+    core.amounts([x.id],p.bestPublicTerm()).monthly_average/x.volume-core.amounts([y.id],p.bestPublicTerm()).monthly_average/y.volume)[0];
   core.markUnavailable(cheapest.id);
   const after=price();
   assert(after===null||after.value>=Number(expected.toFixed(2)));
