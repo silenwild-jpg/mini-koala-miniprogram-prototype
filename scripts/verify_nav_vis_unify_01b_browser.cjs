@@ -43,9 +43,9 @@ async function run(){
    await page.locator('.footer-nav').evaluate((node,label)=>{
      const cover=document.createElement('span');cover.className='nav-01b-label-trial';
      cover.textContent=label;cover.style.cssText=[
-       'position:absolute','left:50%','width:25%','top:61%','height:27%',
+       'position:absolute','left:50%','width:25%','top:43%','height:27%',
        'display:flex','align-items:center','justify-content:center',
-       'background:#fff','color:#8799a6','font-size:11px','font-weight:500',
+       'background:#fff','color:#8799a6','font-size:10px','font-weight:500',
        'letter-spacing:0','line-height:1','pointer-events:none','z-index:1',
        'white-space:nowrap'
      ].join(';');
@@ -54,7 +54,9 @@ async function run(){
    const corrected=await page.locator('.nav-01b-label-trial').innerText();
    assert.equal(corrected,label,'H01 preview label text');
    const after=await page.locator('.footer-nav').boundingBox();
+   const coverBox=await page.locator('.nav-01b-label-trial').boundingBox();
    assert(before&&after&&Math.abs(before.height-after.height)<.1&&Math.abs(before.width-after.width)<.1,'H01 container geometry changed');
+   assert(coverBox&&coverBox.y<=before.y+before.height*.47&&coverBox.y+coverBox.height>=before.y+before.height*.69,'H01 original label zone must be entirely occluded');
    await shot('02-H01-label-candidate');
    evidence.push({width,screen:'H01',original,originalNav:before,candidateLabel:corrected,navGeometryPreserved:true});
    for(const target of ['S01','M01']){
