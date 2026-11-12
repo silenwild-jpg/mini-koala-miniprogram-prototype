@@ -1,0 +1,95 @@
+name: NAV VIS UNIFY 01D - final current-SHA visual review HOLD
+on:
+  push:
+    branches: [isolate/nav-vis-unify-01d-20261112]
+    paths:
+      - .github/workflows/nav-vis-unify-01d.yml
+      - scripts/verify_nav_vis_unify_01d_browser.cjs
+      - scripts/verify_nav_vis_unify_01d_optics.cjs
+      - scripts/verify_nav_vis_unify_01d_pixel.py
+      - docs/NAV_VIS_UNIFY_01D_20261112.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: nav-vis-unify-01d-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  immutable-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Prove zero runtime and asset changes from PR158
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = 'isolate/nav-vis-unify-01d-20261112'
+          test -z "$(git diff --name-only e8ea4bd82777fdacd953ec2d3b9c3617c6508e9a HEAD -- app/)" || { echo NAV_01D_UNAUTHORIZED_RUNTIME_DELTA; exit 1; }
+          d=app/prototype/parallel/core-journey-fix-01/demo
+          grep -Fq 'nav-current-01c/' "$d/app.js"
+          grep -Fq 'footer-nav::after{content:"预约订单"' "$d/home.html"
+          test "$(git hash-object "$d/h01-state-impl-01.js")" = ed1a5369aaa4dbc415aa62390107c91a732d2fe2
+          test "$(git hash-object "$d/h01-state-impl-01.css")" = 713c418185549bd888e02d918e0723c2c12247d8
+          ! grep -Eq 'h01FlowContext|h01StageProgress|h01SceneImage|h01-scene-image|h01-stage-progress' "$d/h01-state-impl-01.js" "$d/h01-state-impl-01.css"
+          for f in scripts/verify_nav_vis_unify_01d_browser.cjs scripts/verify_nav_vis_unify_01d_optics.cjs; do node --check "$f"; done
+  final-browser-audit:
+    needs: immutable-source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Build same SHA HTML prototype package
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '158'
+          RC2_BUNDLE_BASE_PR: '158'
+          RC2_BUNDLE_LABEL: NAV-VIS-UNIFY-01D-FINAL-REVIEW
+          RC2_BUNDLE_ARCHIVE: MiniKoala_NAV_VIS_UNIFY_01D.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify SHA/branch/source PR identity
+        run: |
+          node -e "const m=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(m.source_sha!==process.env.GITHUB_SHA||m.source_branch!==process.env.GITHUB_REF_NAME||m.source_pr!==158)throw Error('NAV_01D_SOURCE_MISMATCH');console.log(m)"
+      - name: Install browser and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+          test -n "$(fc-list :lang=zh family | head -1)"
+      - name: Fresh real H01 S01 M01 screenshots and route audit at 375 and 390
+        run: node scripts/verify_nav_vis_unify_01d_browser.cjs
+      - name: Independent caption pixel-only damage scan
+        run: |
+          python3 -m pip install --quiet Pillow
+          python3 scripts/verify_nav_vis_unify_01d_pixel.py
+      - name: Calculate icon ink footprints and text contrast from live rendered pages
+        run: node scripts/verify_nav_vis_unify_01d_optics.cjs
+      - name: H01 twenty business states both viewports anti-drift
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+          RC2_EXPECT_BRANCH: ${{ github.ref_name }}
+          RC2_EXPECT_SOURCE_PR: '158'
+          H01_BROWSER_CHANNEL: chromium
+        run: node scripts/verify_rc2_single_candidate_03_h01_browser.cjs
+      - name: Preserve evidence only and do not publish
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NAV-VIS-UNIFY-01D-FINAL-REVIEW-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/nav-vis-unify-01d/
+            release-evidence/nav-vis-unify-01d-optics/
+            release-evidence/rc2-single-candidate-03-h01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
