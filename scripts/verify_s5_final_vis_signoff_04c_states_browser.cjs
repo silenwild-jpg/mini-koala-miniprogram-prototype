@@ -18,8 +18,6 @@ const cases=[
  {key:'two-stores',expected:'matched',n:2},
  {key:'one-store',expected:'matched',n:1},
  {key:'no-match',expected:'none',n:0},
- {key:'term-missing',expected:'incomplete',n:0},
- {key:'capacity-missing',expected:'incomplete',n:0},
  {key:'near-capacity',expected:'near',n:1},
  {key:'combo',expected:'combo',n:1},
  {key:'expanded',expected:'expanded',n:1},
@@ -38,8 +36,10 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
     const page=await ctx.newPage(),errors=[],record={width:w,height:h,scenario:tc.key,status:'FAIL'};
     page.on('pageerror',e=>errors.push(e.message));
     try{
-     await page.goto(host+'/central-review-02g.html?catalog=sim&page=S5&s01_r2=1',{waitUntil:'domcontentloaded'});
-     const s5=page.frameLocator('#central-host').frameLocator('#br04-frame');
+     await page.goto(host+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
+     const app=page.frameLocator('#central-host');
+     await app.locator('#screen').evaluate(()=>{const B=window.SIM_DEMO;B.core.setCity('北京');B.core.setRequirement(3,12,true);B.persist();B.navigate('S5');});
+     const s5=app.frameLocator('#br04-frame');
      await s5.locator('body[data-page="s5"].bridge-ready').waitFor({timeout:20000});
      const pre=await s5.locator('body').evaluate((_,key)=>{
        const B=window.parent.SIM_DEMO,c=B.core,F=c.fixture;
@@ -49,8 +49,6 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
        let sample=offers[0],target=[sample],capacity=3,months=12,confirmed=true;
        if(key==='two-stores')target=offers.slice(0,2);
        if(key==='no-match'||key==='large-no-match')target=[];
-       if(key==='term-missing'){target=[];confirmed=false;}
-       if(key==='capacity-missing'){target=[];capacity=null;confirmed=false;}
        if(key==='near-capacity'){capacity=Math.min(50,Math.max(5,Math.ceil((sample.volume+0.5)*2)/2));target=[sample];}
        if(key==='expanded')target=[{...sample,expandedSearch:true}];
        if(key==='combo'){
@@ -115,7 +113,8 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
      assert(actual.scroll.artboard.width<=w+1,'artboard width');
      assert.equal(actual.estore,true,'E-store must stay available');
      assert.equal(actual.originVisible,true,'location chooser');
-     assert.equal(actual.termOptions,!pre.months||tc.key==='term-missing','term options visibility');
+     assert(!actual.compareMarkup,'no S5 compare');
+     assert.equal(actual.termOptions,false,'no S5 local lease picker');
      if(tc.n===0){
        assert(actual.noMatch,'no-match guidance required');
        assert(actual.actionAdvisor&&actual.actionRange,'empty fallback links missing');
@@ -147,8 +146,6 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
      if(tc.key==='near-capacity'){assert.equal(actual.cards[0].buyLabel,'查看门店');assert(actual.cards[0].warning,'near-capacity warning');}
      if(tc.key==='combo'){assert.equal(actual.cards[0].ids.length,2,'atomic two-unit combo');assert.equal(actual.cards[0].cabin,'组合仓');assert(actual.cards[0].usage.startsWith('适合'),'combo should not repeat the grouping label');}
      if(tc.key==='two-stores'){assert(actual.cards[1].buyRect.bottom<=h+2,'second CTA still beyond first viewport');}
-     if(tc.key==='term-missing'){assert.match(actual.noMatchText,/租期/);}
-     if(tc.key==='capacity-missing'){assert.match(actual.noMatchText,/容量/);}
      if(tc.key==='large-no-match'){assert.match(actual.noMatchText,/大空间/);}
      assert.deepEqual(errors,[],'page errors');
      await page.screenshot({path:path.join(out,tc.key+'-'+w+'-top.png')});
@@ -165,10 +162,10 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
     const page=await ctx.newPage(),row={width:w,name,status:'FAIL'},errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     try{
-     await page.goto(host+'/central-review-02g.html?catalog=sim&page=S5&s01_r2=1',{waitUntil:'domcontentloaded'});
+     await page.goto(host+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
      const app=page.frameLocator('#central-host'),s5=app.frameLocator('#br04-frame');
-     await s5.locator('body.bridge-ready').waitFor({timeout:20000});
      await app.locator('#screen').evaluate(()=>{const b=window.SIM_DEMO;b.core.setCity('北京');b.core.setRequirement(3,12,true);b.persist();b.navigate('S5');});
+     await s5.locator('body.bridge-ready').waitFor({timeout:20000});
      await s5.locator('#main-buy').waitFor({timeout:15000});
      if(name==='location'){
        await s5.locator('#change-origin').click();
