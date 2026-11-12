@@ -253,9 +253,9 @@ button:disabled{opacity:.42;cursor:not-allowed}
   function readValue(field){
     const el=visibleNode(field.selector);
     if(!el||!FRAME.contentWindow)return field.type==='color'?'#11845f':field.min;
-    const computed=FRAME.contentWindow.getComputedStyle(el);
+    const computed=el.ownerDocument.defaultView.getComputedStyle(el);
     if(field.type==='color')return rgbToHex(computed.getPropertyValue(field.prop));
-    if(field.type==='photoWidth')return Math.round(parseFloat(computed.gridTemplateColumns)||96);
+    if(field.type==='photoWidth')return Math.round(parseFloat(computed.width)||92);
     const val=parseFloat(computed.getPropertyValue(field.prop));
     return Number.isFinite(val)?Math.round(val):field.min;
   }
