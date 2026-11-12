@@ -48,10 +48,6 @@ async function startApp(page){
         assert(capFrame,'CAP frame did not open');
         const switcher=capFrame.locator('.cap-unit-picker');
         await switcher.waitFor({timeout:15000});
-        if(width===375){
-          const parentHTML=await capFrame.locator('#capacity').evaluate(e=>e.parentElement?.outerHTML.slice(0,4500));
-          console.log('CAP_UNIT_INPUT_DOM '+JSON.stringify(parentHTML));
-        }
         assert.equal(await switcher.inputValue(),'m3','m³ remains default');
         await switcher.selectOption('m2');
         const areaInput=capFrame.locator('#capacity-area');
@@ -60,7 +56,25 @@ async function startApp(page){
         const canonical=await capFrame.locator('#capacity').inputValue();
         assert.equal(canonical,'5','2㎡ converts to 5m³');
         assert(!await capFrame.locator('#capacity').isVisible(),'m³ input hidden while area mode');
-        row.checks.push('CAP ㎡ switch and conversion');
+        assert.equal(await areaInput.getAttribute('type'),'text','area uses frozen plus/minus not browser spinners');
+        assert(await capFrame.locator('#unit').isHidden(),'legacy fixed m³ label hidden');
+        await areaInput.fill('1.23');
+        assert.equal(await capFrame.locator('#capacity').inputValue(),'','invalid area cannot become a matching volume');
+        await areaInput.fill('2');
+        // The existing m³ step controls change canonical capacity. Keep the area
+        // presentation in sync rather than unexpectedly switching the user's mode.
+        await capFrame.evaluate(()=>{
+          document.getElementById('capacity').value='5.5';
+          document.querySelector('.inputwrap')?.dispatchEvent(new MouseEvent('click',{bubbles:true}));
+        });
+        await capFrame.waitForFunction(()=>document.getElementById('capacity-area').value==='2.2',{timeout:2000});
+        assert.equal(await switcher.inputValue(),'m2','area mode preserved on step');
+        await capFrame.getByRole('button',{name:/8m³/}).first().click();
+        await capFrame.waitForFunction(()=>document.querySelector('.cap-unit-picker')?.value==='m3',{timeout:2000});
+        assert.equal(await capFrame.locator('#capacity').inputValue(),'8','cubic preset sets cubic volume');
+        await switcher.selectOption('m2');
+        await areaInput.fill('2');
+        row.checks.push('CAP ㎡ switch, invalid input, stepper, preset and conversion');
         await capFrame.locator('body').screenshot({path:path.join(output,'CAP-2sqm-'+width+'.png')});
         // Return editing an already confirmed demand: preserve the existing lease term.
         await capFrame.locator('#cta').click();
