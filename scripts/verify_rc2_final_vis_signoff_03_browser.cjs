@@ -65,6 +65,13 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       const a=await fresh();
       await capture('01-O03-active-top','订单详情');
       await capture('02-O03-active-bottom','订单服务',true);
+      const o03Grid=await page.locator('.mk-order-action-grid').evaluate(el=>({
+        count:el.querySelectorAll('button.mk-order-action').length,
+        pseudoBackground:getComputedStyle(el,'::after').backgroundColor,
+        pseudoContent:getComputedStyle(el,'::after').content
+      }));
+      assert.equal(o03Grid.count,5,'O03 standard paid contract exposes five service actions');
+      assert.equal(o03Grid.pseudoBackground,'rgb(255, 255, 255)','odd service grid must have white blank cell, not grey');
       await visit('DP01',a.id);await capture('03-DP01-held','押金进度');
       await visit('RN01',a.id);await capture('04-RN01-active','续租申请');
       await page.locator('#renew-months').fill('0');
