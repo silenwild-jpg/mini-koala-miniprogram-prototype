@@ -134,3 +134,8 @@ body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowServices h
 body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowOther{margin-top:3px}
 body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowHelp{margin-top:6px;padding-top:8px;padding-bottom:6px}
 /* Keep the approved photo height and primary/service actions unchanged. */
+
+/* H01-VIS-SIGNOFF-02: SIM_BJ01 original environment photo contains a readable
+   A001 warehouse label outside this public environment crop. Keep the photo
+   sourced to the correct store; adjust only the focal position, not card size. */
+body.h01-flow-business #h01FlowContext[data-photo-store="SIM_BJ01"] .h01-scene-image{object-position:50% 74%}
