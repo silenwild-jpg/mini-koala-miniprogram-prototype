@@ -108,7 +108,7 @@ const server=http.createServer((req,res)=>{
    const match=await matchedFrame.locator('.stores').evaluate(node=>{
      const entries=[...node.children].filter(el=>el.matches('.store-card,.s01-estore-card'));
      return entries.map(el=>({kind:el.dataset.cardKind,rank:Number(el.dataset.cardRank),id:el.dataset.storeId||null,
-       units:el.querySelectorAll('.unit').length,priceText:el.textContent.slice(0,220)}));
+       units:[...el.querySelectorAll('.unit')].filter(u=>!u.hidden&&!!u.dataset.unitId).length,priceText:el.textContent.slice(0,220)}));
    });
    assert(match.length>=4,'confirmed scenario has two expanded stores and E-storage plus compact later store');
    assert.deepEqual(match.slice(0,4).map(x=>x.kind),['expanded','expanded','estore','compact'],'confirmed requirement must expand first two only');
