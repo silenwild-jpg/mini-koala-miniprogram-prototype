@@ -63,6 +63,8 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       await page.locator('.m01-profile').waitFor();
       await page.evaluate(()=>{const b=window.SIM_DEMO;b.core.setScenario('normal');b.core.requestPhone();b.core.resolvePhone('success',{phone:'13800138000'});b.persist();});
       const a=await fresh();
+      // Browser fixture edits auth directly; let the central 1s session-status observer settle before filling IV01.
+      await page.waitForTimeout(1250);
       await capture('01-O03-active-top','订单详情');
       await capture('02-O03-active-bottom','订单服务',true);
       const o03Grid=await page.locator('.mk-order-action-grid').evaluate(el=>({
