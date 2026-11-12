@@ -1,0 +1,73 @@
+name: S5-FINAL-VIS-SIGNOFF-04 S01-aligned 375-390 Chromium NO DEPLOY
+on:
+  push:
+    branches: [isolate/s5-final-vis-signoff-04-20261112]
+    paths:
+      - .github/workflows/s5-final-vis-signoff-04.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/s5-native-flow.css
+      - scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+      - scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: s5-final-vis-signoff-04
+  cancel-in-progress: true
+jobs:
+  visual-and-price-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Immutable source and JS checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+          node --check scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+          node --check app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - name: Build same source, no deploy
+        env:
+          RC2_BUNDLE_LABEL: S5-FINAL-VIS-SIGNOFF-04-ISOLATED
+          RC2_BUNDLE_ARCHIVE: MiniKoala_S5_FINAL_VIS_SIGNOFF_04.zip
+          RC2_BUNDLE_BRANCH: isolate/s5-final-vis-signoff-04-20261112
+          RC2_BUNDLE_SOURCE_PR: "127"
+          RC2_BUNDLE_BASE_PR: "122"
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify built SHA
+        run: |
+          node -e "const fs=require('fs'),v=JSON.parse(fs.readFileSync('release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json'));if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!=='isolate/s5-final-vis-signoff-04-20261112'||v.source_pr!==127)throw Error('S5_SOURCE_IDENTITY_MISMATCH');console.log('MATCHED_BUILD_SHA',v.source_sha)"
+      - name: Chromium and Simplified Chinese font
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: S01↔S5 component, two-store first-screen, full-page, 100k price and O01
+        run: node scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+      - name: S5 04C - 20 states and six real location/list/edit flows, 375 and 390
+        run: node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+      - name: Evidence only - no merge or deploy
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: S5-FINAL-VIS-SIGNOFF-04-S01-CROSSPAGE-CJK-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/s5-final-vis-signoff-04/
+            release-evidence/s5-final-vis-signoff-04c/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
