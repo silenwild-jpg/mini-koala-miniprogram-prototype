@@ -73,6 +73,7 @@ jobs:
           npx playwright install chromium
           test -n "$(fc-list :lang=zh family | head -1)"
       - name: H01 no A C 20 states times two widths with quick order and bottom nav
+        if: ${{ !cancelled() }}
         env:
           RC2_EXPECT_SHA: ${{ github.sha }}
           RC2_EXPECT_BRANCH: ${{ github.ref_name }}
@@ -80,20 +81,28 @@ jobs:
           H01_BROWSER_CHANNEL: chromium
         run: node scripts/verify_rc2_single_candidate_03_h01_browser.cjs
       - name: CAP square metres / cubic metres, term and S01 S02 S5 regression
+        if: ${{ !cancelled() }}
         run: node scripts/verify_cap_unit_dual_01_browser.cjs
       - name: S5 16 states 6 guarded entries and 6 flow return checks
+        if: ${{ !cancelled() }}
         run: node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
       - name: S01 recommendation and E storage state checks
+        if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_single_candidate_03_s01_browser.cjs
       - name: S02 browse/confirmed term and order gate
+        if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_s02_term_state_01_browser.cjs
       - name: H01 S01 S02 S5 M01 dual-width page smoke
+        if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
       - name: O01 renewal identity and payment lifecycle in two viewports
+        if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_final_vis_signoff_04_browser.cjs
       - name: CAP and ITEMS entry to S5
+        if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_merge_prep_04_cap_items_browser.cjs
       - name: Cross-page user-provided store photos
+        if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_store_image_map_01_browser.cjs
       - name: Upload no-deploy proof only
         if: always()
