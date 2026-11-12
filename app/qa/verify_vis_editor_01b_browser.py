@@ -111,9 +111,10 @@ try:
     else:raise RuntimeError('CHROMEDRIVER_NOT_READY')
     capabilities={'capabilities':{'alwaysMatch':{'browserName':'chrome','goog:chromeOptions':{
       'args':['--headless=new','--no-sandbox','--disable-dev-shm-usage','--window-size=1440,1000'],
-      'prefs':{'download.default_directory':str(OUT),'download.prompt_for_download':False,'download.directory_upgrade':True}
+      'prefs':{'download.default_directory':str(OUT),'download.prompt_for_download':False,'download.directory_upgrade':True,'profile.default_content_setting_values.automatic_downloads':1}
     }}}}
     session=request('POST','/session',capabilities)['sessionId']
+    request('POST','/session/'+session+'/goog/cdp/execute',{'cmd':'Browser.setDownloadBehavior','params':{'behavior':'allow','downloadPath':str(OUT),'eventsEnabled':True}})
     navigate(SOURCE_URL)
     first=step('real_S01_load',editor_ready)
     step('origin_unmodified',lambda:check('附近门店' in first['title'] and first['count']>0,first))
@@ -157,7 +158,7 @@ cardCount:d.querySelectorAll('#storeList .store').length}:false;""",timeout=20),
         export_files=exported()
         if export_files:break
         time.sleep(.25)
-    step('export_JSON_CSS',lambda:check(export_files,export_files))
+    step('export_JSON_CSS',lambda:check(export_files,{'files':sorted(x.name for x in OUT.iterdir()),'expected':export_files}))
     j=json.loads((OUT/export_files['json']).read_text(encoding='utf-8'))
     step('export_exact_source',lambda:check(j['sourceBranch']=='isolate/vis-system-04b2-20261111' and j['changes']['store-card']['padding']==20 and j['variant']=='B',j['baseSha']))
     results['status']='PASS'
