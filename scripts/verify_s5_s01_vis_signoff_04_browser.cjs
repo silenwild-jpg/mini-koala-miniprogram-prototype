@@ -112,7 +112,29 @@ const server=http.createServer((req,res)=>{let fp;try{fp=path.resolve(root,'.'+d
     assert.equal(errors.length,0,'uncaught JS');
     await page.screenshot({path:path.join(out,'S5-O01-'+w+'.png')});
     row.status='PASS';row.state=state;row.reference=reference;row.order=priceContract;row.pricePressure=extra;
-   }catch(e){row.error=String(e.stack||e);await page.screenshot({path:path.join(out,'FAIL-'+w+'.png')}).catch(()=>{});}
+   }catch(e){
+      row.error=String(e.stack||e);
+      // Record the navigation and nested-frame state before concluding a timeout.
+      row.debug={
+        pageUrl:page.url(),
+        frameUrls:page.frames().map(f=>({name:f.name(),url:f.url()})),
+        errors:errors.slice(),
+        screen:await app.locator('#screen').evaluate(el=>({
+          html:el.innerHTML.slice(0,1100),
+          text:el.innerText.slice(0,500),
+          parentUrl:location.href,
+          pageReady:window.SIM_DEMO?.core?.requirementReady(),
+          requirement:window.SIM_DEMO?.core?.state()?.requirement
+        })).catch(x=>({error:String(x)})),
+        br04:await app.frameLocator('#br04-frame').locator('body').evaluate(el=>({
+          bodyClass:el.className,bodyPage:el.dataset.page,
+          html:el.outerHTML.slice(0,900),
+          bridge:typeof window.BR04_REFRESH
+        })).catch(x=>({error:String(x)}))
+      };
+      console.log('S5_DIAGNOSTIC',JSON.stringify({width:w,debug:row.debug}));
+      await page.screenshot({path:path.join(out,'FAIL-'+w+'.png')}).catch(()=>{});
+    }
    result.push(row);console.log('S5_VIS_04',JSON.stringify(row));
    await context.close();
   }
