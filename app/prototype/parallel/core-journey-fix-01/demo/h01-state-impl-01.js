@@ -111,7 +111,10 @@
     const curated=typeof photoPath==="string"&&
       photoPath==="store-curated/v1/"+actualStore.id+"/hero.webp"&&
       actualStore.photo_source==="USER_SUPPLIED_ENVIRONMENT_GENERIC_DEMO_NOT_PHYSICAL_STORE_VERIFIED";
-    const withScene=["upcoming","active"].includes(t.key)&&curated;
+    // Active rental prioritizes unlock, navigation and aftersales. The available
+    // demo-only photo cannot truthfully identify a customer\'s specific unit and
+    // pushes the useful actions down; keep the store scene only for pre-entry.
+    const withScene=t.key==="upcoming"&&curated;
     const context=one("#h01FlowContext");
     context.dataset.stage=t.key;
     // Store-scoped photo focus avoids showing a numbered warehouse as though
