@@ -73,6 +73,22 @@ jobs:
         run: node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
       - name: Preserve RC2 H01 S01 S02 S5 M01 smoke at 375 and 390
         run: node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+      - name: RC2 full P0 P1 frozen lifecycle contract regression
+        run: |
+          node scripts/verify_rc2_vis_signoff_02_geometry.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          node scripts/verify_h01_m01_flow_qa_01.cjs
+          node scripts/verify_h01_m01_business_date_01.cjs
+      - name: RC2 renewal payment and identity 375 and 390
+        run: node scripts/verify_rc2_final_vis_signoff_04_browser.cjs
+      - name: RC2 existing aftersales VIS03 375 and 390
+        run: node scripts/verify_rc2_final_vis_signoff_03_browser.cjs
+      - name: RC2 H01 M01 order isolation 375 and 390
+        run: node scripts/verify_h01_m01_flow_qa_01_browser.cjs
+      - name: RC2 M01 asset and two warehouse 375 and 390
+        run: node scripts/verify_m01_ia_03_browser.cjs
+      - name: RC2 3 hour checkout and refund 375 and 390
+        run: node scripts/verify_h01_m01_contract_01_browser.cjs
       - name: Upload 375-390 screenshots and machine results; no merge or deploy
         if: always()
         uses: actions/upload-artifact@v4
@@ -84,4 +100,9 @@ jobs:
             release-evidence/s5-final-vis-signoff-04/
             release-evidence/s5-final-vis-signoff-04c/
             release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-final-vis-signoff-04/
+            release-evidence/rc2-final-vis-signoff-03/
+            release-evidence/h01-m01-flow-qa-01/
+            release-evidence/m01-ia-03/
+            release-evidence/h01-m01-contract-01/
             release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
