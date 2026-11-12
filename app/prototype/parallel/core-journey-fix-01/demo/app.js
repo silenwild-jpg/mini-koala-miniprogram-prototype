@@ -371,6 +371,20 @@
     if(r2Mode()&&notice&&notice!=='请选择租期')body+='<p role="alert">'+esc(notice)+'</p>';
     return `<div class="scrim" data-action="close"></div><section class="control-sheet" role="dialog" aria-modal="true" aria-label="${modal}">${button('close','关闭','','close-button')}${body}</section>`;
   }
+  // Customer-facing inline validation keeps entered values, focus and scroll position intact.
+  const serviceFieldError=(input,message)=>{
+    if(!input)return;
+    document.querySelectorAll('.mk-service-field-error').forEach(el=>el.remove());
+    const row=input.closest('label')||input;
+    const error=document.createElement('p');
+    error.className='mk-order-tip mk-service-field-error';
+    error.setAttribute('role','alert');
+    error.textContent=message;
+    row.insertAdjacentElement('afterend',error);
+    input.setAttribute('aria-invalid','true');
+    input.focus();
+    input.scrollIntoView({block:'nearest'});
+  };
   function render(){
     // Snapshot the live value before any RN01 view replacement, including non-input-triggered refreshes.
     const inProgressRenewal=document.getElementById('renew-months');
@@ -479,20 +493,6 @@
         :'<div class="mk-order-empty"><b>暂无订单记录</b><p>先去附近门店看看可用仓位。</p>'+button('go','去附近门店','S01','mk-order-primary')+'</div>')
       +'<div class="mk-order-bottom">'+button('go','返回我的订单','M01','mk-order-text-button')+'</div></div>';
   }
-  // Customer-facing inline validation keeps entered values, focus and scroll position intact.
-  const serviceFieldError=(input,message)=>{
-    if(!input)return;
-    document.querySelectorAll('.mk-service-field-error').forEach(el=>el.remove());
-    const row=input.closest('label')||input;
-    const error=document.createElement('p');
-    error.className='mk-order-tip mk-service-field-error';
-    error.setAttribute('role','alert');
-    error.textContent=message;
-    row.insertAdjacentElement('afterend',error);
-    input.setAttribute('aria-invalid','true');
-    input.focus();
-    input.scrollIntoView({block:'nearest'});
-  };
   // Preserve the in-progress renewal field across harmless screen re-renders (auth/status refresh).
   function renderLifecycle(page){const id=lifecycleId();return MK_LIFECYCLE_UI_V1.render(page,core,id,{esc,button,title,money,reviewMode,renewalDraft:renewalDraftByOrder[id]??null});}
   const functions={S01:renderS01,S02:renderS02,RESULT:renderResult,M01:renderM01,O03:renderO03,OH01:renderOH01,RN01:()=>renderLifecycle('RN01'),EX01:()=>renderLifecycle('EX01'),DP01:()=>renderLifecycle('DP01'),IV01:()=>renderLifecycle('IV01')};
