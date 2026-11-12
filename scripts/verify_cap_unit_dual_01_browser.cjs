@@ -49,12 +49,23 @@ async function startApp(page){
         const switcher=capFrame.locator('.cap-unit-picker');
         await switcher.waitFor({timeout:15000});
         assert.equal(await switcher.inputValue(),'m3','m³ remains default');
+        // This page opens from a previously confirmed 3m³ demand. Switching
+        // units must preserve equivalent values and the selected 12-month term.
         await switcher.selectOption('m2');
         const areaInput=capFrame.locator('#capacity-area');
+        assert.equal(await areaInput.inputValue(),'1.2','3m³ converts exactly to 1.2㎡');
+        await switcher.selectOption('m3');
+        assert.equal(await capFrame.locator('#capacity').inputValue(),'3','first round-trip preserves original volume');
+        await switcher.selectOption('m2');
+        assert.equal(await areaInput.inputValue(),'1.2','second toggle restores equivalent area');
         assert(await areaInput.isVisible(),'m² input visible');
         await areaInput.fill('2');
         const canonical=await capFrame.locator('#capacity').inputValue();
         assert.equal(canonical,'5','2㎡ converts to 5m³');
+        await switcher.selectOption('m3');
+        assert.equal(await capFrame.locator('#capacity').inputValue(),'5','2㎡ to m³ preserves 5m³');
+        await switcher.selectOption('m2');
+        assert.equal(await areaInput.inputValue(),'2','back to m² preserves input without re-entry');
         assert(!await capFrame.locator('#capacity').isVisible(),'m³ input hidden while area mode');
         assert.equal(await areaInput.getAttribute('type'),'text','area uses frozen plus/minus not browser spinners');
         assert(await capFrame.locator('#unit').isHidden(),'legacy fixed m³ label hidden');
