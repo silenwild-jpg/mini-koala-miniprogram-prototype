@@ -89,6 +89,9 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       await page.locator('[data-action="confirmRenewal"]').waitFor();
       await capture('07-RN01-quote-ready','待确认续租');
       await page.locator('[data-action="confirmRenewal"]').click();
+      await page.locator('[data-action="payRenewalSuccess"]').waitFor();
+      assert.equal(await page.evaluate(id=>window.SIM_DEMO.core.lifecycleView(id).total_months,a.id),12,'quote confirmation cannot extend lease before payment');
+      await page.locator('[data-action="payRenewalSuccess"]').click();
       assert.equal(await page.locator('#renew-months').inputValue(),'','finished renewal must not prefill a second request');
       await capture('08-RN01-completed','已完成');
       await visit('IV01',a.id);
