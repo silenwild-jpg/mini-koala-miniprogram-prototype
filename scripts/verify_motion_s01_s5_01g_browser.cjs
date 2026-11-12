@@ -24,8 +24,6 @@ const scenarios=[
   {name:'no-match',count:0,match:'none'},
   {name:'large-no-match',count:0,match:'large'}
 ];
-const rect=el=>{const r=el.getBoundingClientRect();return {
-  left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};};
 (async()=>{
   if(!fs.existsSync(path.join(root,'central-review-02g.html')))throw Error('MISSING_BUILT_SITE');
   fs.mkdirSync(out,{recursive:true});
@@ -64,6 +62,8 @@ const rect=el=>{const r=el.getBoundingClientRect();return {
           },scenario.name);
           await s5.locator('#artboard').waitFor({state:'visible'});
           const state=await s5.locator('body').evaluate(()=>{
+            const rect=el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,
+              top:r.top,bottom:r.bottom,width:r.width,height:r.height};};
             const board=document.querySelector('#artboard'),viewport=document.querySelector('#app-viewport');
             const visible=el=>!!el&&!el.hidden&&getComputedStyle(el).display!=='none'
               &&getComputedStyle(el).visibility!=='hidden';
