@@ -321,7 +321,10 @@
   function s02PhotoList(s){
     const supplied=[...new Set((Array.isArray(s.gallery_photos)?s.gallery_photos:[]).filter(Boolean))];
     if(supplied.length>1)return supplied.slice(0,4);
-    return [supplied[0]||s.r2Photo||'assets/'+(s.photo==='store_jingan.jpg'?'store_jingan_hero_clean.jpg':s.photo)];
+    // Store fixtures expose separate card.webp and hero.webp assets.
+    // S02 is a detail hero: prefer photoDetail rather than recycling the list thumbnail.
+    const detail=s.photoDetail?'assets/'+s.photoDetail:null;
+    return [supplied[0]||detail||s.r2Photo||'assets/'+(s.photo==='store_jingan.jpg'?'store_jingan_hero_clean.jpg':s.photo)];
   }
   // Presentation demo: promotion -> moving/transport services -> facility features.
   // Preserve the S01 source fields and ordering; promo data may be illustrative.
