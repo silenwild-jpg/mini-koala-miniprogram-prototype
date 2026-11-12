@@ -107,7 +107,7 @@ const server=http.createServer((req,res)=>{
     await page.locator('#sheet [data-act="identityResult"][data-value="failed"]').click();
     await page.goto(host+'/account.html?view=identity&id='+encodeURIComponent(ids.b),{waitUntil:'domcontentloaded'});
     await page.getByText('未通过',{exact:false}).first().waitFor();
-    await capture('13-Identity-failed-retry');
+    await capture('13-Identity-failed-retry','#content');
     await page.locator('[data-act="identitySheet"]').click();
     await page.locator('#identity-name').fill('示例用户');
     await page.locator('#identity-number').fill('11010119900101123X');
@@ -117,11 +117,11 @@ const server=http.createServer((req,res)=>{
     await page.locator('#sheet [data-act="identityResult"][data-value="success"]').click();
     await page.goto(host+'/account.html?view=identity&id='+encodeURIComponent(ids.b),{waitUntil:'domcontentloaded'});
     await page.getByText('验证状态：已通过').waitFor();
-    await capture('14-Identity-verified');
+    await capture('14-Identity-verified','#content');
     await page.goto(host+'/account.html?view=access&id='+encodeURIComponent(ids.b),{waitUntil:'domcontentloaded'});
     await page.getByText('尚未到起租时间',{exact:false}).first().waitFor();
     assert.equal(await page.locator('[data-act="enter"]').count(),0,'future start must forbid access after identity');
-    await capture('15-Access-upcoming-still-closed');
+    await capture('15-Access-upcoming-still-closed','#content');
     assert.deepEqual(errors,[],'browser page errors');
    }finally{await ctx.close();}
   }
