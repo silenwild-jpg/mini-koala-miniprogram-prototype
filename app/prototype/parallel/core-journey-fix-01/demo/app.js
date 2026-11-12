@@ -368,7 +368,35 @@
     return hero+banner+header+(visual.tab==='服务设施'?'':s02ServiceTags(s))+s02Demand()+tabs+content+advisor;
   }
   function amountLines(a){return `<dl class="amount-lines"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月租</dt><dd>${money(a.monthly_average)}/月 × ${a.term_months??state().requirement.term_months}个月</dd><dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd><strong>${money(a.payable)}</strong></dd></dl>`;}
-  function renderResult(){const o=resultKind==='order'?(state().orders.find(o=>o.id===lastOrder)||state().orders.at(-1)):null;return `${title('模拟结果')}<div class="detail-blank">${o?`<h3>${o.status==='paid_simulated'?'模拟支付成功':o.status==='payment_failed'?'模拟支付失败，仓位已释放':'模拟订单已创建，待支付'}</h3><p>${o.id}</p><p>${store(o.store_id).name} · ${o.unit_ids.map(id=>cabinLabel(unit(id))).join('、')} · ${o.term_months}个月</p>${core.authorized()?amountLines(o):priceCTA()}${o.status==='pending'?button('paySuccess','模拟支付成功')+button('payFailed','模拟支付失败','','outline'):''}`:'<h3>预约需求已模拟提交</h3><p>已记录用仓地址，后续由顾问跟进；没有创建租仓订单。</p>'}${o&&o.status==='paid_simulated'?button('orderDetail','查看订单详情',o.id,'outline'):''}${button('go','继续浏览门店','S01','outline')}</div>`;}
+  function renderResult(){
+    // Legacy RESULT may still be opened by a direct link. Never imply a lead
+    // was submitted or permit payment state changes without a matching record.
+    const data=state(),o=resultKind==='order'?(data.orders.find(row=>row.id===lastOrder)||data.orders.at(-1)):null;
+    const lead=resultKind==='lead'?data.leads.at(-1):null;
+    let body='';
+    if(o){
+      const status={
+        pending:'订单待支付',paid_simulated:'付款流程已记录',
+        payment_failed:'支付未完成',payment_cancelled:'支付已取消',
+        cancelled:'订单已取消',expired:'订单已过期'
+      }[o.status]||'订单状态已更新';
+      const label=o.status==='paid_simulated'
+        ?'付款流程结果已保存在当前设备，未发生实际扣款。'
+        :'请在我的订单中查看状态并继续处理。';
+      body='<h3>'+esc(status)+'</h3><p>'+esc(o.id)+'</p><p>'
+        +esc(store(o.store_id)?.name||'已选门店')+' · '
+        +o.unit_ids.map(id=>esc(cabinLabel(unit(id)))).join('、')+' · '
+        +esc(o.term_months)+'个月</p><p>'+esc(label)+'</p>'
+        +(core.authorized()?amountLines(o):'')
+        +button('orderDetail','查看订单详情',o.id,'outline');
+    }else if(lead){
+      body='<h3>用仓需求已保存</h3><p>资料已保存在本机，尚未发送给顾问。</p>';
+    }else{
+      body='<h3>暂无可查看的提交记录</h3><p>可以返回附近门店，继续选择用仓服务。</p>';
+    }
+    return title('处理结果')+'<div class="detail-blank">'+body
+      +button('go','继续浏览门店','S01','outline')+'</div>';
+  }
   function modalHtml(){if(!modal)return'';let body='';if(modal==='contact')body=`<h3>请提供联系电话</h3><p>填写号码仅保存联系方式；进入订单前，请完成微信或短信验证并注册登录。月租价格可直接浏览。</p><label for="contact-phone">手机号</label><input id="contact-phone" class="field" type="tel" autocomplete="tel" value="${esc(state().contactPhone)}">${button('contactContinue','确认手机号并继续')}${button('phone','使用微信手机号授权','','outline')}`;if(modal==='phone')body=`<h3>手机号授权演示</h3><p>验证手机号后可下单；门店和月租价格无需验证即可浏览。</p><p class="context-note">这里只模拟微信结果，不获取真实手机号。</p>${button('phoneSuccess','模拟同意并查看')}${button('phoneDenied','暂不授权，继续浏览','','outline')}${button('phoneFailed','模拟接口失败','','outline')}`;
     if(modal==='capacityMismatch')body=`<h3>当前仓位不满足已选容量</h3><p>已保留您的容量和租期。可以修改需求，或继续查看其他匹配门店。</p>${button('editCapacity','修改容量需求')}${button('go','查看其他匹配门店','S01','outline')}`;
     if(modal==='term')body=`<h3>请选择租期</h3><div class="chip-row">${[1,3,6,12,24,36,60].map(m=>button('setTerm',m+'个月',String(m),'chip')).join('')}</div><label for="custom-term">自定义租期（1–60个月）</label><input id="custom-term" class="field" type="number" min="1" max="60">${button('customTerm','确认租期')}`;
