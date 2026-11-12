@@ -276,7 +276,7 @@
       if(typeof parent.wx?.chooseLocation!=='function'){s5AreaSheet();return;}
       parent.wx.chooseLocation({
         success:res=>{
-          const origin={city:core.state().city,latitude:Number(res?.latitude),longitude:Number(res?.longitude)};
+          const origin={city:core.state().city,latitude:res?.latitude,longitude:res?.longitude};
           const options=B.s5Offers?.('')||B.offers();
           const ranked=window.S5_LOCATION_RANKER?.rank(options,origin,row=>core.amounts(row.ids,core.state().requirement.term_months).rent_total);
           if(!ranked?.applied){toast('该位置暂不能用于门店排序，请按区域选择');s5AreaSheet();return;}
