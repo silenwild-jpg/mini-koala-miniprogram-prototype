@@ -132,7 +132,7 @@
       return '<div class="s5-unit-row" data-unit-ids="'+esc(u.ids.join(','))+'">'+
         '<div class="s5-unit-info"><span class="s5-cabin-tag">'+esc(cabin)+'</span>'+
           '<strong class="s5-unit-capacity">'+esc(u.volume)+'m³</strong>'+
-          '<span class="s5-unit-use">'+esc(s5UnitUse(u.ids,u.volume))+'</span>'+warning+'</div>'+
+          '<span class="s5-unit-use">'+esc(u.combo?s5UnitUse(u.ids,u.volume).replace(/^多仓组合\s*·\s*/,''):s5UnitUse(u.ids,u.volume))+'</span>'+warning+'</div>'+
         '<div class="s5-unit-action"><div class="s5-unit-terms">'+
           '<div class="s5-price-mainline"><button type="button" class="s5-unit-price" id="'+priceId+'" '+
            'data-price-length="'+(priceDisplay.length>10?'extreme':priceDisplay.length>7?'long':'normal')+'" data-s5-price="'+rank+':'+i+'" aria-label="查看费用明细，整期租金'+esc(priceDisplay)+'">'+esc(priceDisplay)+'</button>'+
