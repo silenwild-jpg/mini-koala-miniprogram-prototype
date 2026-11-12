@@ -7,6 +7,7 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.js
       - app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.css
       - scripts/verify_rc2_h01_task_vis_adapt_01_browser.cjs
+      - docs/RC2_CAP_H01_INTEGRATION_GATE_01_20261112.md
   workflow_dispatch:
 permissions:
   contents: read
