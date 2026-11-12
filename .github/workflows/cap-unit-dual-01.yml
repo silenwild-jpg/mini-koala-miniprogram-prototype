@@ -16,6 +16,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: cap-unit-dual-01-${{ github.ref_name }}
+  cancel-in-progress: true
 jobs:
   fast-contract:
     runs-on: ubuntu-24.04
