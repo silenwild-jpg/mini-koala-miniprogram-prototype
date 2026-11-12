@@ -12,6 +12,7 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
       - scripts/test_cap_unit_dual_01.js
+      - scripts/verify_cap_unit_dual_01_browser.cjs
   workflow_dispatch:
 permissions:
   contents: read
@@ -27,10 +28,35 @@ jobs:
       - name: Syntax and dual-unit contract
         run: |
           set -euo pipefail
-          for f in app/prototype/parallel/core-journey-fix-01/demo/{app,cap-bridge,demo-core,space-unit,s01-r2-bind}.js app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js scripts/test_cap_unit_dual_01.js; do
+          for f in app/prototype/parallel/core-journey-fix-01/demo/{app,cap-bridge,demo-core,space-unit,s01-r2-bind}.js app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js scripts/test_cap_unit_dual_01.js scripts/verify_cap_unit_dual_01_browser.cjs; do
             node --check "$f"
           done
           node scripts/test_cap_unit_dual_01.js
       - name: Preserve public-price and term-gate business logic
         run: |
           node scripts/verify_rc2_business_rebuild_01.cjs
+  browser-375-390:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    needs: fast-contract
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Capture CAP S5 S01 S02 dual-unit path at 375 390
+        run: node scripts/verify_cap_unit_dual_01_browser.cjs
+      - name: Upload isolated test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: CAP-UNIT-DUAL-01-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: release-evidence/cap-unit-dual-01/
