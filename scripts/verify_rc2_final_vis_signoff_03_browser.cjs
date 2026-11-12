@@ -142,6 +142,26 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       await page.goto(host+'/index.html?page=RN01&order=UNKNOWN_ID',{waitUntil:'domcontentloaded'});
       await page.locator('#screen').getByText('没有可办理租后服务的订单').waitFor();
       await capture('29-RN01-invalid-order','没有可办理租后服务的订单');
+      // The legacy account order/after-sale URLs must redirect to the latest central order policy.
+      for(const [legacy,canonical] of [['orders','M01'],['order','O03'],['renew','RN01'],['exit','EX01'],['deposit','DP01'],['invoice','IV01']]){
+        await page.goto(host+'/account.html?view='+legacy+'&id='+encodeURIComponent(d.id),{waitUntil:'domcontentloaded'});
+        await page.waitForURL(u=>new URL(u).searchParams.get('page')===canonical);
+        if(canonical==='O03'){
+          await page.locator('#mk-order-countdown').waitFor();
+          assert(!(await page.locator('#screen').innerText()).includes('15分钟'),'legacy 15-minute notice resurfaced');
+          await capture('30-legacy-account-order-3h','继续支付');
+        }
+      }
+      await page.goto(host+'/account.html?view=identity&id='+encodeURIComponent(b.id),{waitUntil:'domcontentloaded'});
+      await page.locator('#content').waitFor();
+      assert(page.url().includes('/account.html?view=identity'),'identity must retain its native account page');
+      await page.screenshot({path:path.join(out,'31-identity-unverified-'+width+'.png')});
+      records.push({name:'31-identity-unverified',width,url:page.url(),pageWidth:await page.evaluate(()=>document.documentElement.scrollWidth)});
+      await page.goto(host+'/account.html?view=access&id='+encodeURIComponent(c.id),{waitUntil:'domcontentloaded'});
+      await page.locator('#content').waitFor();
+      assert.match(await page.locator('#content').innerText(),/尚未到起租时间/);
+      await page.screenshot({path:path.join(out,'32-access-upcoming-'+width+'.png')});
+      records.push({name:'32-access-upcoming',width,url:page.url(),pageWidth:await page.evaluate(()=>document.documentElement.scrollWidth)});
       // Four tier thumb visual audit: check legible images; identical image within a capacity class is logged, not treated as exact-unit photo.
       await page.goto(host+'/index.html?page=S02',{waitUntil:'domcontentloaded'});
       const storeId=await page.evaluate(()=>{
@@ -163,7 +183,7 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       });
       assert(imageSet.every(x=>x.naturalWidth>=300),'warehouse thumbnail must load at 336px base');
       assert.notEqual(imageSet[0].src,imageSet[1].src,'mini and small category should be visually distinct');
-      await capture('30-S02-thumbnails','可选仓位');
+      await capture('33-S02-thumbnails','可选仓位');
       records.push({name:'S02-thumbnail-audit',width,storeId,images:imageSet});
       assert.deepEqual(errors,[],'browser JS errors');
     }finally{await context.close();}
