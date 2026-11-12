@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
-// S02 browsing without a confirmed term is not an S5-compatible demand.
-// The 12-month public unit reference must not imply a user-confirmed term.
+// Browse S02 without a demand or with an incomplete legacy snapshot.
+// The public monthly 起 price uses the best configured discount tier, not a selected term.
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http');
 const {chromium}=require('playwright');
@@ -32,7 +32,7 @@ async function snapshot(app){
   return await app.locator('#screen').evaluate(screen=>{
     const demand=screen.querySelector('.s02-demand'),inventory=screen.querySelector('#s02Inventory');
     const prices=[...screen.querySelectorAll('.unit-row[data-unit] .br03-price')].map(el=>({
-      kind:el.dataset.priceKind||(el.querySelector('.br03-price-term')?'term':'unknown'),term:el.dataset.referenceTerm||null,
+      kind:el.dataset.priceKind||(el.querySelector('.br03-price-term')?'term':'unknown'),term:el.dataset.publicTerm||null,
       value:(el.querySelector('strong')?.textContent||'').trim(),
       suffix:(el.querySelector('.br03-reference')?.textContent||'').trim(),
       full:(el.textContent||'').trim()
@@ -62,22 +62,23 @@ async function snapshot(app){
         assert.equal(browse.situation,'browse');
         assert.match(browse.summary,/不确定用多大仓？\s*立即估算/);
         assert.equal(browse.ready,false);
-        assert(browse.prices.length>0,'Public warehouse reference prices missing');
-        assert(browse.prices.every(p=>p.kind==='unit_month'&&p.term==='12'&&p.suffix==='/月 · 12个月参考'),'Public unit prices must be qualified as reference');
+        assert(browse.prices.length>0,'Public warehouse prices missing');
+        const publicTerm=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.presentation.bestPublicTerm());
+        assert(browse.prices.every(p=>p.kind==='unit_month'&&p.term===String(publicTerm)&&p.suffix==='/月起'&&!p.full.includes('参考')),'Public unit must show best-discount monthly 起');
         assert(!browse.overflow&&browse.compare===0);
         await page.screenshot({path:path.join(out,'S02-browse-'+width+'.png')});
         await app.locator('#screen').evaluate(()=>{
           const m=window.SIM_DEMO;m.core.setRequirement(3,null,false);m.navigate('S02',m.state().storeId);
         });
         const capacity=await snapshot(app);
-        assert.equal(capacity.status,'capacity-only');
+        assert.equal(capacity.status,'browse','Incomplete legacy snapshot must remain ordinary browse');
         assert.equal(capacity.situation,'browse','Incomplete demand cannot be tagged matched');
         assert.equal(capacity.ready,false);
-        assert.match(capacity.summary,/已选容量：3m³ · 租期待确认\s*确认租期/);
-        assert.equal(capacity.action,'确认租期');
-        assert(capacity.prices.length>0&&capacity.prices.every(p=>p.kind==='unit_month'&&p.suffix.endsWith('个月参考')));
+        assert.match(capacity.summary,/不确定用多大仓？\s*立即估算/);
+        assert.equal(capacity.action,'立即估算');
+        assert(capacity.prices.length>0&&capacity.prices.every(p=>p.kind==='unit_month'&&p.suffix==='/月起'&&!p.full.includes('参考')));
         assert(!capacity.overflow&&capacity.compare===0);
-        await page.screenshot({path:path.join(out,'S02-capacity-only-'+width+'.png')});
+        await page.screenshot({path:path.join(out,'S02-incomplete-legacy-browse-'+width+'.png')});
         await app.locator('#screen').evaluate(()=>{
           const m=window.SIM_DEMO;m.core.setRequirement(3,12,true);m.navigate('S02',m.state().storeId);
         });
