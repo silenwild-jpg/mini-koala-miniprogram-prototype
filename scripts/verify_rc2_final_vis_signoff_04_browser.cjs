@@ -92,7 +92,9 @@ const server=http.createServer((req,res)=>{
     await page.locator('#identity-name').fill('示例用户');
     await page.locator('#identity-number').fill('123');
     await page.locator('[data-act="identitySubmit"]').click();
-    assert.match(await page.locator('#notice').innerText(),/18位证件号码/);
+    await page.locator('#sheet #mk-identity-error').waitFor({state:'visible'});
+    assert.match(await page.locator('#sheet #mk-identity-error').innerText(),/18位证件号码/);
+    assert.equal(await page.locator('#identity-number').getAttribute('aria-invalid'),'true');
     await capture('10-Identity-input-error','#sheet');
     await page.locator('#identity-number').fill('11010119900101123X');
     await page.locator('[data-act="identitySubmit"]').click();

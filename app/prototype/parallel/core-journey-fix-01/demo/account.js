@@ -65,12 +65,14 @@
       if(serviceOrder().service.identity==='reviewing'||serviceOrder().service.identity==='verified')return;
       sheet('提交身份资料','<label for="identity-name">姓名</label><input id="identity-name" type="text" maxlength="30" autocomplete="off" placeholder="请填写姓名">'
         +'<label for="identity-number">证件号码</label><input id="identity-number" type="text" maxlength="18" autocomplete="off" placeholder="请填写身份证号码">'
-        +'<p class="small">核验结果将显示在本页面。</p>'+button('identitySubmit','提交核验'));
+        +'<p id="mk-identity-error" class="mk-identity-field-error" role="alert" hidden></p>'+button('identitySubmit','提交核验'));
     },identitySubmit(){
       const name=$('identity-name')?.value.trim()||'',number=$('identity-number')?.value.trim()||'';
       // Input is checked locally for this prototype, then discarded immediately; no identity values enter state or storage.
-      if(name.length<2||name.length>30){notify('请填写有效姓名');$('identity-name')?.focus();return;}
-      if(!/^\d{17}[\dXx]$/.test(number)){notify('请填写18位证件号码');$('identity-number')?.focus();return;}
+      const error=$('mk-identity-error');
+      const invalid=(input,message)=>{if(error){error.hidden=false;error.textContent=message;}input?.setAttribute('aria-invalid','true');input?.focus();};
+      if(name.length<2||name.length>30){invalid($('identity-name'),'请填写有效姓名');return;}
+      if(!/^\d{17}[\dXx]$/.test(number)){invalid($('identity-number'),'请填写18位证件号码');return;}
       core.requestIdentityVerification(id);$('sheet-body').innerHTML='';$('sheet').close();render();
     },identityResult(value){
       if(query.get('debug')!=='1'||serviceOrder().service.identity!=='reviewing')return;
