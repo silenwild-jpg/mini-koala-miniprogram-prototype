@@ -52,6 +52,14 @@ const delay=ms=>new Promise(ok=>setTimeout(ok,ms));
         await s5.locator('#see-more').click();
         const s01=app.frameLocator('#s01-r2-frame');
         await s01.locator('.stores').waitFor({state:'visible',timeout:15000});
+        await s01.locator('.store-card[data-card-kind="expanded"]').first().waitFor({state:'visible',timeout:12000});
+        const cards=await s01.locator('.stores').evaluate(el=>[...el.children]
+          .filter(x=>x.matches('.store-card,.s01-estore-card'))
+          .map(x=>({kind:x.dataset.cardKind,rank:x.dataset.cardRank,id:x.dataset.storeId||''})));
+        assert.deepEqual(cards.slice(0,4).map(x=>x.kind),
+          ['expanded','expanded','estore','compact'],
+          'S01 frozen matched layout must keep two expanded stores, E slot 3 and compact store 4');
+        await page.screenshot({path:path.join(out,'S01-'+width+'-matched.png'),fullPage:false});
         const snapshot=await app.locator('#screen').evaluate(()=>window.SIM_DEMO.s01R2Bridge.snapshot());
         assert.equal(snapshot.distanceSortSource,'S5_SELECTED_ORIGIN_PROPERTY','S01 must inherit the same map location');
         assert(snapshot.canReturnToS5,'return to S5 must retain demand context');
@@ -69,6 +77,11 @@ const delay=ms=>new Promise(ok=>setTimeout(ok,ms));
         const overflow=await s01.locator('body').evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
         assert(!overflow,'S01 horizontally overflows the device width');
         await s01.locator('#s01-inline-panel').locator('[data-sort="recommended"]').click();
+        await s01.locator('.s01-compact-store').last().scrollIntoViewIfNeeded();
+        const longScroll=await s01.locator('body').evaluate(
+          ()=>({scrollY:scrollY,total:document.documentElement.scrollHeight,viewport:innerHeight}));
+        assert(longScroll.total>longScroll.viewport,'long-list remains scrollable');
+        await page.screenshot({path:path.join(out,'S01-'+width+'-long-list.png'),fullPage:false});
         const search=s01.locator('#s01-search');
         await search.fill('望京');
         assert.equal(await search.evaluate(el=>document.activeElement===el),true,
