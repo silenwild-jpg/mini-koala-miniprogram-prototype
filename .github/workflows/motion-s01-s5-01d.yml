@@ -1,0 +1,60 @@
+name: MOTION S01 S5 01D - isolated dual-width browser QA
+on:
+  push:
+    branches:
+      - isolate/motion-s01-s5-01d-20261113
+    paths:
+      - .github/workflows/motion-s01-s5-01d.yml
+      - scripts/verify_motion_s01_s5_01b.cjs
+      - scripts/verify_motion_s01_s5_01c_contract.cjs
+      - scripts/verify_motion_s01_s5_01c_browser.cjs
+      - app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - app/prototype/parallel/core-journey-fix-01/demo/index.html
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: motion-s01-s5-01d-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  location-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Pin source and run low-cost contract checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = "isolate/motion-s01-s5-01d-20261113"
+          test -z "$(git diff --name-only 74279a5cfb6f5a0c12cb8cac16cb467ab4ef20b5 HEAD -- app/)"
+          node --check scripts/verify_motion_s01_s5_01c_browser.cjs
+          node --check scripts/verify_motion_s01_s5_01c_contract.cjs
+          node scripts/verify_motion_s01_s5_01b.cjs
+          node scripts/verify_motion_s01_s5_01c_contract.cjs
+      - name: Build isolated same-commit RC2 web demo, never deploy
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Install Chromium and Chinese UI fonts
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Run two-device S5 to S01 browser flow
+        run: node scripts/verify_motion_s01_s5_01c_browser.cjs
+      - name: Preserve failure and screenshot evidence for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MOTION-S01-S5-01D-375-390
+          path: release-evidence/motion-s01-s5-01c/
+          if-no-files-found: warn
+          retention-days: 3
