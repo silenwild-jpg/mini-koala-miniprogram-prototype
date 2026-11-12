@@ -94,7 +94,14 @@ async function main(){
    const legal=orderFrame.locator('#scrim');
    await legal.waitFor({state:'visible'});
    const legalText=await legal.innerText();
-   assert(legalText.includes('不签署正式协议'),'must not silently invent legal binding terms');
+   // The R2 copy-normalizer replaces the old internal text with a generic
+   // “confirm order details” sentence. It is still not a readable agreement.
+   const originalLegal=fs.readFileSync(path.resolve(__dirname,
+     '../app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js'),'utf8');
+   assert(originalLegal.includes('这里只展示内部模拟条款说明'),'legal source must stay marked placeholder until legal provides documents');
+   assert(legalText.includes('请确认所选门店、仓位、租期与费用')||
+     legalText.includes('内部模拟条款说明'),'unexpected legal source render');
+   assert(legalText.length<260,'original legal modal unexpectedly replaced by full legal document; re-audit source');
    await orderPage.screenshot({path:path.join(out,width+'-05-legal-placeholder.png')});
    rows.push({width,step:'O01-legal',result:'REQUIRES_DOCUMENT',reviewOnly:true});
    await oc.close();
