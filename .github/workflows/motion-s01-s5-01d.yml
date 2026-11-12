@@ -1,6 +1,7 @@
-name: MOTION S01 S5 01D - isolated dual-width browser QA
+name: MOTION S01 S5 01E - coordinate guard and dual-width browser QA
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - isolate/motion-s01-s5-01d-20261113
     paths:
@@ -8,13 +9,13 @@ on:
       - scripts/verify_motion_s01_s5_01b.cjs
       - scripts/verify_motion_s01_s5_01c_contract.cjs
       - scripts/verify_motion_s01_s5_01c_browser.cjs
+      - scripts/verify_motion_s01_s5_01e_coordinate.cjs
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - app/prototype/parallel/core-journey-fix-01/demo/index.html
-  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: motion-s01-s5-01d-${{ github.ref_name }}
+  group: motion-s01-s5-01e-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 jobs:
   location-qa:
@@ -32,14 +33,38 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$GITHUB_REF_NAME" = "isolate/motion-s01-s5-01d-20261113"
-          test -z "$(git diff --name-only 74279a5cfb6f5a0c12cb8cac16cb467ab4ef20b5 HEAD -- app/)"
+          test "$GITHUB_EVENT_NAME" = "pull_request"
+          test "$GITHUB_HEAD_REF" = "isolate/motion-s01-s5-01e-20261113"
+          test "$GITHUB_BASE_REF" = "isolate/motion-s01-s5-01d-20261113"
+          git diff --name-only bd0f58526b89cb2028fa8f74beb51ed2116556af HEAD -- app/ | sort > /tmp/motion-01e-actual
+          printf "%s\n" \
+            app/prototype/parallel/core-journey-fix-01/demo/app.js \
+            app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js \
+            app/prototype/parallel/core-journey-fix-01/demo/br04/s5/location-ranker.js | sort > /tmp/motion-01e-expected
+          diff -u /tmp/motion-01e-expected /tmp/motion-01e-actual
           node --check scripts/verify_motion_s01_s5_01c_browser.cjs
           node --check scripts/verify_motion_s01_s5_01c_contract.cjs
           node scripts/verify_motion_s01_s5_01b.cjs
           node scripts/verify_motion_s01_s5_01c_contract.cjs
+          node scripts/verify_motion_s01_s5_01e_coordinate.cjs
       - name: Build isolated same-commit RC2 web demo, never deploy
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.head_ref }}
+          RC2_BUNDLE_SOURCE_PR: '167'
+          RC2_BUNDLE_BASE_PR: '166'
+          RC2_BUNDLE_LABEL: MOTION-S01-S5-01F-LOCATION-375-390-QA
+          RC2_BUNDLE_ARCHIVE: MiniKoala_MOTION_S01_S5_01F.zip
         run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify rendered source identity and exact runtime bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_HEAD_REF||v.source_pr!==167)throw Error('QA_BUILD_SOURCE_IDENTITY_MISMATCH');console.log('MOTION-01F SOURCE_SHA_OK',v.source_sha,v.source_branch,v.source_pr)"
+          live=app/prototype/parallel/core-journey-fix-01/demo
+          built=release-evidence/rc2-merge-prep-10/site/prototype/parallel/core-journey-fix-01/demo
+          for f in app.js br04/bridge.js br04/s5/location-ranker.js s01-r2-bind.js s01-motion-micro-01b.css; do
+            cmp "$live/$f" "$built/$f" || { echo "MOTION-01F_RUNTIME_MISMATCH: $f"; exit 1; }
+          done
       - name: Install Chromium and Chinese UI fonts
         shell: bash
         run: |
@@ -54,7 +79,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: MOTION-S01-S5-01D-375-390
-          path: release-evidence/motion-s01-s5-01c/
+          name: MOTION-S01-S5-01E-375-390
+          path: |
+            release-evidence/motion-s01-s5-01c/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
           if-no-files-found: warn
           retention-days: 3
