@@ -6,7 +6,7 @@
   // RC1-P1: S5 edit-demand must resolve relative to central runtime, not nested BR04 iframe.
   const CENTRAL_DEMO_BASE=new URL('.',document.currentScript.src);
   let saved;try{saved=JSON.parse(sessionStorage.getItem(KEY)||'null');}catch{}
-  const core=SIM_CORE.create({state:saved}),F=SIM_FIXTURES;
+  const core=SIM_CORE.create({state:saved}),F=SIM_FIXTURES,space=SIM_SPACE_UNIT;
   const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const I=window.SIM_ICON;
   // Stable presentation identity. Keep real internal unit_id / SKU unchanged.
@@ -145,10 +145,10 @@
   const priceCTA=()=>button('phone','验证后查看整期报价','','price-access-button');
   function price(ids){const p=presentation.price(ids);return `<div class="br03-price"><strong class="br03-price-main">${p.money}</strong>${p.kind==='term'?`<span class="br03-price-term">${p.termLabel}</span><span class="br03-price-average">${p.average}</span>`:`<span class="br03-reference">${p.termLabel}</span>${state().requirement.term_confirmed?button('phone','验证后查看整期价','','br03-price-link'):''}`}</div>`;}
   function stateLine(f){return `<div class="br03-state-line">${f.promoLabel?`<span class="br03-promo">${esc(f.promoLabel)}</span>`:''}${f.inventoryLine?`<span class="br03-stock">${esc(f.inventoryLine)}</span>`:''}</div>`;}
-  function demand(){const r=state().requirement;return `<div class="demand"><span class="summary">${r.capacity_m3===null?'普通浏览':r.capacity_m3+'m³'} · ${r.term_confirmed?r.term_months+'个月':'租期待选'}</span><a data-edit-demand href="${state().requirement.source==='items_estimate'||state().requirement.source==='known_capacity_in_items_flow'?'items.html':'cap.html'}">修改需求 ›</a></div>`;}
+  function demand(){const r=state().requirement;return `<div class="demand"><span class="summary">${r.capacity_m3===null?'普通浏览':space.demandCapacity(r)} · ${r.term_confirmed?r.term_months+'个月':'租期待选'}</span><a data-edit-demand href="${state().requirement.source==='items_estimate'||state().requirement.source==='known_capacity_in_items_flow'?'items.html':'cap.html'}">修改需求 ›</a></div>`;}
   function title(text,back='S01'){return `<div class="view-title">${button('go','‹',back,'back-button')}<strong>${text}</strong></div>`;}
   function footer(){return `<nav class="bottom-nav" aria-label="底部导航">${[['home','首页','home'],['go','附近门店','stores','S01'],['navBooking','预约订单','calendar'],['mine','我的','user']].map(([action,label,icon,value])=>`<button class="bottom-item ${((page==='S01'&&label==='附近门店')||(page==='M01'&&label==='我的'))?'active':''}" data-action="${action}" data-value="${value||''}" ${action==='navBooking'?'aria-haspopup="dialog"':''}><img class="approved-nav-icon" src="assets/vis07-nav-${icon}.png" alt=""><span>${label}</span></button>`).join('')}</nav>`;}
-  function visualDemand(){const r=state().requirement;return `<div class="demand ${r.capacity_m3===null?'demand-empty':''}"><span class="roundicon">${I('cube')}</span><span class="summary">${r.capacity_m3===null?'未选需求，可直接浏览门店':'已选需求：'+r.capacity_m3+'m³ · '+(r.term_confirmed?r.term_months+'个月':'租期待选')}</span><a data-edit-demand href="${state().requirement.source==='items_estimate'||state().requirement.source==='known_capacity_in_items_flow'?'items.html':'cap.html'}">${r.capacity_m3===null?'填写需求':'修改'} ${I('chevron')}</a></div>`;}
+  function visualDemand(){const r=state().requirement;return `<div class="demand ${r.capacity_m3===null?'demand-empty':''}"><span class="roundicon">${I('cube')}</span><span class="summary">${r.capacity_m3===null?'未选需求，可直接浏览门店':'已选需求：'+space.demandCapacity(r)+' · '+(r.term_confirmed?r.term_months+'个月':'租期待选')}</span><a data-edit-demand href="${state().requirement.source==='items_estimate'||state().requirement.source==='known_capacity_in_items_flow'?'items.html':'cap.html'}">${r.capacity_m3===null?'填写需求':'修改'} ${I('chevron')}</a></div>`;}
   function resetVisualFilters(){visual.keyword='';visual.sort='recommended';visual.price='all';visual.service='all';visual.category='全部';visual.tab='可选仓位';visual.gallery=0;saveVisual();}
   function storeOffer(s){const single=core.matchingUnits(s.id).sort((a,b)=>core.amounts([a.id],state().requirement.term_months||1).rent_total-core.amounts([b.id],state().requirement.term_months||1).rent_total)[0];return single?[single.id]:core.combinations(s.id)[0]?.ids;}
   function storeAmount(s){const ids=storeOffer(s);return ids?core.amounts(ids,state().requirement.term_months||1).rent_total:Infinity;}
@@ -260,7 +260,7 @@
     // The discount term is a price-source condition, not a user-selected term.
     return '<div class="br03-price" data-price-kind="unit_month" data-public-term="'+months+'" aria-label="月租'+money(monthly)+'起"><strong class="br03-price-main">'+money(monthly)+'</strong><span class="br03-reference">/月起</span></div>';
   }
-  function unitRow(u){const f=P.facts(u),description=P.describe(u,'S02'),fav=visual.favorites.includes(u.id),needsMore=f.available&&core.requirementReady()&&u.volume<state().requirement.capacity_m3;return `<article class="unit-row" data-unit="${u.id}" data-promo-state="${f.state}"><img class="unit-img" src="${r3UnitImage(u)}" alt="${esc(u.name)}空间示意"><div class="unit-card-inner"><div class="unit-head"><b class="unit-name">${cabinChip(u)} <span class="mk-cabin-capacity">${esc(u.volume)}m³</span></b><button class="fav ${fav?'on':''}" data-action="favorite" data-value="${u.id}" aria-label="${fav?'取消收藏':'收藏'}${esc(u.name)}" aria-pressed="${fav}">${I(fav?'heartfilled':'heart')}</button></div><p class="unit-spec">${u.dimensions}</p><p class="scenario">${description.lines.slice(0,2).map(x=>`<span>${esc(String(x).replace(/独立仓位?/g,'').trim())}</span>`).join('')}</p><div class="unit-bottom"><div class="unit-price">${f.available?s02UnitPrice([u.id]):'<span class="unavailable">已售出 / 暂不可用</span>'}</div><button class="order-button" data-action="${needsMore?'s02EditCapacity':'choose'}" data-value="${u.id}" ${f.available?'':'disabled'}>${!f.available?'暂不可租':needsMore?'修改容量':'立即下单'}</button></div>${stateLine(f)}</div></article>`;}
+  function unitRow(u){const f=P.facts(u),description=P.describe(u,'S02'),fav=visual.favorites.includes(u.id),needsMore=f.available&&core.requirementReady()&&u.volume<state().requirement.capacity_m3;return `<article class="unit-row" data-unit="${u.id}" data-promo-state="${f.state}"><img class="unit-img" src="${r3UnitImage(u)}" alt="${esc(u.name)}空间示意"><div class="unit-card-inner"><div class="unit-head"><b class="unit-name">${cabinChip(u)} <span class="mk-cabin-capacity">${esc(u.volume)}m³</span></b><button class="fav ${fav?'on':''}" data-action="favorite" data-value="${u.id}" aria-label="${fav?'取消收藏':'收藏'}${esc(u.name)}" aria-pressed="${fav}">${I(fav?'heartfilled':'heart')}</button></div><p class="unit-spec">${esc(u.dimensions)}${space.unitAreaSuffix(u)?' · '+esc(space.unitAreaSuffix(u)):''}</p><p class="scenario">${description.lines.slice(0,2).map(x=>`<span>${esc(String(x).replace(/独立仓位?/g,'').trim())}</span>`).join('')}</p><div class="unit-bottom"><div class="unit-price">${f.available?s02UnitPrice([u.id]):'<span class="unavailable">已售出 / 暂不可用</span>'}</div><button class="order-button" data-action="${needsMore?'s02EditCapacity':'choose'}" data-value="${u.id}" ${f.available?'':'disabled'}>${!f.available?'暂不可租':needsMore?'修改容量':'立即下单'}</button></div>${stateLine(f)}</div></article>`;}
   function advantages(s){return `<div class="advantages">${[['train','所在区域',s.district],...s.serviceTags.slice(0,3).map((t,i)=>[['clock','parking','shield'][i],t,{'近地铁':'交通配套','24小时存取':'全天存取','电梯直达':'楼层配套','停车便利':'停车配套','控温防潮':'环境配套','小推车':'搬运配套','全天监控':'安防配套','24小时开放':'全天存取','停车方便':'停车配套','商圈核心':'周边配套','交通便利':'交通配套'}[t]])].map(([icon,t,desc])=>`<div class="advantage"><span class="bubble"><img class="approved-adv-icon" src="assets/vis07-${icon}.png" alt=""></span><strong>${t}</strong><p>${desc}</p></div>`).join('')}</div>`;}
   function storeContent(s){if(visual.tab==='服务设施')return `<section class="detail-blank" aria-label="服务设施"><div class="facility-grid">${s.facilities.map((t,i)=>`<div class="facility-item">${I(['clock','shield','parking','user'][i])}<b>${t}</b></div>`).join('')}</div></section>`;
     const catalog=F.units.filter(u=>u.store_id===s.id),visible=catalog.filter(u=>visual.category==='全部'||category(u)===visual.category);
@@ -297,7 +297,7 @@
     const r=state().requirement;
     const ready=core.requirementReady();
     const status=ready?'confirmed':'browse';
-    const summary=ready?'已选需求：'+esc(r.capacity_m3)+'m³ · '+esc(r.term_months)+'个月':'不确定用多大仓？';
+    const summary=ready?'已选需求：'+esc(space.demandCapacity(r))+' · '+esc(r.term_months)+'个月':'不确定用多大仓？';
     const action=ready?'修改需求':'立即估算';
     return '<div class="s02-demand" data-demand-state="'+status+'"><span class="s02-demand-text">'+summary+
       '</span><a class="s02-demand-edit" data-edit-demand href="cap.html">'+action+'</a></div>';
@@ -689,7 +689,7 @@
         keyword:visual.keyword,storeCount:stores.length,filters:{...r2Filters},
         filterLabels:[visual.sort==='price'?'价格优先':visual.sort==='distance'?'距离优先':'排序',r2Filters.maxKm!==null?r2Filters.maxKm+'km内':'距离',r2Filters.services.length?'已选服务':'服务'],filterActive:[visual.sort!=='recommended',r2Filters.maxKm!==null,r2Filters.services.length>0],
         servicesSelected:[...r2Filters.services],maxKm:r2Filters.maxKm,quickSelected:[...r2Filters.quick],
-        requirement:{capacity:matched?r.capacity_m3:null,term:matched?r.term_months:null,complete:matched},canReturnToS5:s01OriginFromS5(),distanceFilterEnabled:demoDistanceEnabled,
+        requirement:{capacity:matched?r.capacity_m3:null,displayCapacity:matched?space.demandCapacity(r):null,term:matched?r.term_months:null,complete:matched},canReturnToS5:s01OriginFromS5(),distanceFilterEnabled:demoDistanceEnabled,
         visibleStoreCount:Math.min(stores.length,Math.max(2,Math.min(50,r2Filters.visibleLimit))),canLoadMore:stores.length>Math.max(2,Math.min(50,r2Filters.visibleLimit)),
         stores:stores.slice(0,Math.max(2,Math.min(50,r2Filters.visibleLimit))).map((s,rank)=>{
           const v=r2View(s);
@@ -719,7 +719,7 @@
                 Math.abs(Number(amount.monthly_average)-expectedMonthly)<=.011;
               const termDiscountLabel=eligibleFactor?Number((factor*10).toFixed(1))+'折':null;
               return {
-                id:u.id,name:u.name,volume:u.volume,cabinNo:cabinNo(u),
+                id:u.id,name:u.name,volume:u.volume,areaText:space.unitAreaSuffix(u),cabinNo:cabinNo(u),
                 price:amount?money(amount.rent_total):money(unitMonthly),
                 suffix:amount?'':'/月',
                 priceKind:amount?'term':'unit_month',
