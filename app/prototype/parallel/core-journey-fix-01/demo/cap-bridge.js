@@ -65,7 +65,7 @@
   // An explicit m³ quick-size chip, however, is a deliberate cubic selection.
   document.addEventListener('click',event=>{
     if(currentUnit!=='m2')return;
-    const preset=/^\\s*\\d+(?:\\.\\d+)?\\s*m(?:³|3)\\s*$/.test(event.target.closest('button')?.textContent||'');
+    const preset=/^\s*\d+(?:\.\d+)?\s*m(?:³|3)\s*$/.test(event.target.closest('button')?.textContent||'');
     setTimeout(()=>{
       if(currentUnit!=='m2'||capacityField.value===lastCanonical)return;
       if(preset){currentUnit='m3';displayUnit();saveDraft();return;}
