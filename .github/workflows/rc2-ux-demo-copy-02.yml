@@ -8,9 +8,10 @@ on:
       - scripts/verify_rc2_single_candidate_03_s01_browser.cjs
       - docs/RC2_UX_DEMO_COPY_02_20261112.md
       - scripts/verify_rc2_ux_demo_copy_02_browser.cjs
+      - scripts/verify_rc2_ux_demo_copy_02_navcopy_browser.cjs
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
       - app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/index.html
-      - scripts/verify_rc2_single_candidate_05_navcopy_browser.cjs
+      - scripts/verify_rc2_ux_demo_copy_02_navcopy_browser.cjs
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - scripts/verify_rc2_s02_photo_source_01_browser.cjs
   workflow_dispatch:
@@ -51,7 +52,7 @@ jobs:
           test "$(git hash-object "$p/h01-state-impl-01.css")" = 713c418185549bd888e02d918e0723c2c12247d8
           ! grep -Eq 'h01FlowContext|h01StageProgress|h01SceneImage|h01-scene-image|h01-stage-progress' "$p/h01-state-impl-01.js" "$p/h01-state-impl-01.css" || { echo 'REJECTED_AC_VISUAL_REINTRODUCED'; exit 1; }
           grep -Fq 'const detail=s.photoDetail?' "$p/app.js" || { echo 'S02_HERO_FIX_LOST'; exit 1; }
-          for f in "$p"/{app,demo-core,cap-bridge,space-unit,s01-r2-bind,h01-state-impl-01}.js scripts/{test_cap_unit_dual_01.js,verify_cap_unit_dual_01_browser.cjs,verify_rc2_single_candidate_03_h01_browser.cjs,verify_rc2_single_candidate_03_s01_browser.cjs,verify_rc2_s02_photo_source_01_browser.cjs,verify_rc2_single_candidate_05_navcopy_browser.cjs,verify_rc2_ux_demo_copy_02_browser.cjs}; do node --check "$f"; done
+          for f in "$p"/{app,demo-core,cap-bridge,space-unit,s01-r2-bind,h01-state-impl-01}.js scripts/{test_cap_unit_dual_01.js,verify_cap_unit_dual_01_browser.cjs,verify_rc2_single_candidate_03_h01_browser.cjs,verify_rc2_single_candidate_03_s01_browser.cjs,verify_rc2_s02_photo_source_01_browser.cjs,verify_rc2_ux_demo_copy_02_navcopy_browser.cjs,verify_rc2_ux_demo_copy_02_browser.cjs}; do node --check "$f"; done
       - name: Shared business rule, order, identity and lease contracts
         run: |
           node scripts/test_cap_unit_dual_01.js
@@ -124,7 +125,7 @@ jobs:
         run: node scripts/verify_rc2_s02_photo_source_01_browser.cjs
       - name: Real two-width nav source and concise booking menu route audit
         if: ${{ !cancelled() }}
-        run: node scripts/verify_rc2_single_candidate_05_navcopy_browser.cjs
+        run: node scripts/verify_rc2_ux_demo_copy_02_navcopy_browser.cjs
       - name: Real S5 QUICK BOOKING top-menu and lead-confirmation screenshots
         if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_ux_demo_copy_02_browser.cjs
