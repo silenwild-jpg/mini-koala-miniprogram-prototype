@@ -6,6 +6,7 @@ on:
       - .github/workflows/rc2-s02-photo-source-01.yml
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - docs/RC2_S02_PHOTO_SOURCE_01_20261112.md
+      - scripts/verify_rc2_s02_photo_source_01_browser.cjs
   workflow_dispatch:
 permissions:
   contents: read
@@ -64,7 +65,7 @@ jobs:
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install chromium
       - name: Assert S02 hero and H01 S01 compact card photos with actual decoded pixels
-        run: node scripts/verify_rc2_store_image_map_01_browser.cjs
+        run: node scripts/verify_rc2_s02_photo_source_01_browser.cjs
       - name: Confirm S02 browse and confirmed term and O01 gate
         if: ${{ !cancelled() }}
         run: node scripts/verify_rc2_s02_term_state_01_browser.cjs
@@ -82,7 +83,7 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
           path: |
-            release-evidence/rc2-store-image-map-01/
+            release-evidence/rc2-s02-photo-source-01/
             release-evidence/rc2-s02-term-state-01/
             release-evidence/cap-unit-dual-01/
             release-evidence/rc2-h01-m01-integration-01/
