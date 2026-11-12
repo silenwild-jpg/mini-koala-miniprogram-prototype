@@ -1,7 +1,9 @@
 name: RC2 S02 TERM STATE 01 - 375-390 no deploy
 on:
   push:
-    branches: [isolate/rc2-s02-term-state-01-20261112]
+    branches:
+      - isolate/rc2-s02-term-state-01-20261112
+      - isolate/rc2-final-vis-signoff-04-20261112
     paths:
       - .github/workflows/rc2-s02-term-state-01.yml
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
@@ -29,7 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$GITHUB_REF_NAME" = "isolate/rc2-s02-term-state-01-20261112"
+          case "$GITHUB_REF_NAME" in isolate/rc2-s02-term-state-01-20261112|isolate/rc2-final-vis-signoff-04-20261112) ;; *) echo REF_NOT_ALLOWED; exit 1;; esac
           git diff --name-only 338eaa6436bcbef37399eda4bc44c1a01177f74d HEAD -- app/ > /tmp/s02-source-scope.txt
           cat /tmp/s02-source-scope.txt
           test "$(wc -l </tmp/s02-source-scope.txt)" = 1
@@ -47,7 +49,7 @@ jobs:
         env:
           RC2_BUNDLE_LABEL: RC2-S02-TERM-STATE-01
           RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_S02_TERM_STATE_01.zip
-          RC2_BUNDLE_BRANCH: isolate/rc2-s02-term-state-01-20261112
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
           RC2_BUNDLE_SOURCE_PR: '134'
           RC2_BUNDLE_BASE_PR: '134'
         run: python3 scripts/build_rc2_isolated_demo.py
