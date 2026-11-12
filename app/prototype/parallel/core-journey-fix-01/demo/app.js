@@ -233,7 +233,7 @@
     if(visual.sort==='price'){
       // Public S01 browsing/sorting never requires phone verification. Use the
       // same visible price basis as the first matched unit in the store list.
-      const publicMonths=F.pricing.homeReferenceTerm||12;
+      const publicMonths=presentation.bestPublicTerm();
       const visiblePrice=s=>{
         if(!matched)return presentation.cubicReference(s)?.value??Infinity;
         const first=core.matchingUnits(s.id)
@@ -254,16 +254,17 @@
   function r3UnitImage(u){const n=Number(u.volume)||0;const tier=n<=1.5?'mini':n<=5?'small':n<=15?'medium':'large';return 'assets/unit-r3/thumb/unit-r3-'+tier+'-336x312.webp';}
   function s02UnitPrice(ids){
     if(core.requirementReady())return price(ids);
-    const months=F.pricing.homeReferenceTerm||12;
+    const months=presentation.bestPublicTerm();
     const monthly=core.amounts(ids,months).monthly_average;
-    // As in S01, this is the selected warehouse's own 12-month discounted rent, never the store-wide cubic teaser.
-    return '<div class="br03-price" data-price-kind="unit_month" data-reference-term="'+months+'" aria-label="'+months+'个月参考月租，租期待确认"><strong class="br03-price-main">'+money(monthly)+'</strong><span class="br03-reference">/月 · '+months+'个月参考</span></div>';
+    // Each unit's own lowest discounted monthly price, not a store-wide per-m³ teaser.
+    // The discount term is a price-source condition, not a user-selected term.
+    return '<div class="br03-price" data-price-kind="unit_month" data-public-term="'+months+'" aria-label="月租'+money(monthly)+'起"><strong class="br03-price-main">'+money(monthly)+'</strong><span class="br03-reference">/月起</span></div>';
   }
-  function unitRow(u){const f=P.facts(u),description=P.describe(u,'S02'),fav=visual.favorites.includes(u.id),needsMore=f.available&&state().requirement.capacity_m3!==null&&u.volume<state().requirement.capacity_m3;return `<article class="unit-row" data-unit="${u.id}" data-promo-state="${f.state}"><img class="unit-img" src="${r3UnitImage(u)}" alt="${esc(u.name)}空间示意"><div class="unit-card-inner"><div class="unit-head"><b class="unit-name">${cabinChip(u)} <span class="mk-cabin-capacity">${esc(u.volume)}m³</span></b><button class="fav ${fav?'on':''}" data-action="favorite" data-value="${u.id}" aria-label="${fav?'取消收藏':'收藏'}${esc(u.name)}" aria-pressed="${fav}">${I(fav?'heartfilled':'heart')}</button></div><p class="unit-spec">${u.dimensions}</p><p class="scenario">${description.lines.slice(0,2).map(x=>`<span>${esc(String(x).replace(/独立仓位?/g,'').trim())}</span>`).join('')}</p><div class="unit-bottom"><div class="unit-price">${f.available?s02UnitPrice([u.id]):'<span class="unavailable">已售出 / 暂不可用</span>'}</div><button class="order-button" data-action="${needsMore?'s02EditCapacity':'choose'}" data-value="${u.id}" ${f.available?'':'disabled'}>${!f.available?'暂不可租':needsMore?'修改容量':'立即下单'}</button></div>${stateLine(f)}</div></article>`;}
+  function unitRow(u){const f=P.facts(u),description=P.describe(u,'S02'),fav=visual.favorites.includes(u.id),needsMore=f.available&&core.requirementReady()&&u.volume<state().requirement.capacity_m3;return `<article class="unit-row" data-unit="${u.id}" data-promo-state="${f.state}"><img class="unit-img" src="${r3UnitImage(u)}" alt="${esc(u.name)}空间示意"><div class="unit-card-inner"><div class="unit-head"><b class="unit-name">${cabinChip(u)} <span class="mk-cabin-capacity">${esc(u.volume)}m³</span></b><button class="fav ${fav?'on':''}" data-action="favorite" data-value="${u.id}" aria-label="${fav?'取消收藏':'收藏'}${esc(u.name)}" aria-pressed="${fav}">${I(fav?'heartfilled':'heart')}</button></div><p class="unit-spec">${u.dimensions}</p><p class="scenario">${description.lines.slice(0,2).map(x=>`<span>${esc(String(x).replace(/独立仓位?/g,'').trim())}</span>`).join('')}</p><div class="unit-bottom"><div class="unit-price">${f.available?s02UnitPrice([u.id]):'<span class="unavailable">已售出 / 暂不可用</span>'}</div><button class="order-button" data-action="${needsMore?'s02EditCapacity':'choose'}" data-value="${u.id}" ${f.available?'':'disabled'}>${!f.available?'暂不可租':needsMore?'修改容量':'立即下单'}</button></div>${stateLine(f)}</div></article>`;}
   function advantages(s){return `<div class="advantages">${[['train','所在区域',s.district],...s.serviceTags.slice(0,3).map((t,i)=>[['clock','parking','shield'][i],t,{'近地铁':'交通配套','24小时存取':'全天存取','电梯直达':'楼层配套','停车便利':'停车配套','控温防潮':'环境配套','小推车':'搬运配套','全天监控':'安防配套','24小时开放':'全天存取','停车方便':'停车配套','商圈核心':'周边配套','交通便利':'交通配套'}[t]])].map(([icon,t,desc])=>`<div class="advantage"><span class="bubble"><img class="approved-adv-icon" src="assets/vis07-${icon}.png" alt=""></span><strong>${t}</strong><p>${desc}</p></div>`).join('')}</div>`;}
   function storeContent(s){if(visual.tab==='服务设施')return `<section class="detail-blank" aria-label="服务设施"><div class="facility-grid">${s.facilities.map((t,i)=>`<div class="facility-item">${I(['clock','shield','parking','user'][i])}<b>${t}</b></div>`).join('')}</div></section>`;
     const catalog=F.units.filter(u=>u.store_id===s.id),visible=catalog.filter(u=>visual.category==='全部'||category(u)===visual.category);
-    const available=visible.filter(u=>core.available(u)).sort((a,b)=>a.volume-b.volume),linked=state().requirement.capacity_m3!==null;
+    const available=visible.filter(u=>core.available(u)).sort((a,b)=>a.volume-b.volume),linked=core.requirementReady();
     const matching=linked?available.filter(u=>u.volume>=state().requirement.capacity_m3):available;
     const others=linked?available.filter(u=>u.volume<state().requirement.capacity_m3):[];
     const unavailable=visible.filter(u=>!core.available(u));
@@ -294,11 +295,10 @@
   // Shared S01 contract: a demand is complete only with both capacity and confirmed term.
   function s02Demand(){
     const r=state().requirement;
-    const hasCapacity=r.capacity_m3!==null&&core.validCapacity(r.capacity_m3),ready=core.requirementReady();
-    const status=ready?'confirmed':hasCapacity?'capacity-only':'browse';
-    const summary=ready?'已选需求：'+esc(r.capacity_m3)+'m³ · '+esc(r.term_months)+'个月':
-      hasCapacity?'已选容量：'+esc(r.capacity_m3)+'m³ · 租期待确认':'不确定用多大仓？';
-    const action=ready?'修改需求':hasCapacity?'确认租期':'立即估算';
+    const ready=core.requirementReady();
+    const status=ready?'confirmed':'browse';
+    const summary=ready?'已选需求：'+esc(r.capacity_m3)+'m³ · '+esc(r.term_months)+'个月':'不确定用多大仓？';
+    const action=ready?'修改需求':'立即估算';
     return '<div class="s02-demand" data-demand-state="'+status+'"><span class="s02-demand-text">'+summary+
       '</span><a class="s02-demand-edit" data-edit-demand href="cap.html">'+action+'</a></div>';
   }
@@ -353,7 +353,7 @@
     const content=visual.tab==='交通路线'?s02Route(s):visual.tab==='服务设施'?s02Services(s):'<section id="s02Inventory" data-s02-status="'+status+'">'+contents+'</section>';
     const req=state().requirement;
     const options=F.units.filter(u=>u.store_id===s.id&&core.available(u)&&
-      (req.capacity_m3===null||u.volume>=req.capacity_m3));
+      (!core.requirementReady()||u.volume>=req.capacity_m3));
     const chosen=options.sort((a,b)=>a.volume-b.volume)[0];
     const combos=chosen?[]:core.combinations(s.id);
     const quoteIds=chosen?[chosen.id]:(combos[0]?.ids||[]);
@@ -696,7 +696,7 @@
           const hasVerifiedDistance=!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
           const termVisible=matched;
           const publicCubic=!matched?presentation.cubicReference(s):null;
-          const publicTerm=F.pricing.homeReferenceTerm||12;
+          const publicTerm=presentation.bestPublicTerm();
           return {id:s.id,name:s.name,...v,
             publicCubicPrice:publicCubic?.money||null,publicCubicTerm:publicTerm,
             distance:v.distance,
@@ -723,7 +723,7 @@
                 price:amount?money(amount.rent_total):money(unitMonthly),
                 suffix:amount?'':'/月',
                 priceKind:amount?'term':'unit_month',
-                secondary:amount?money(amount.monthly_average)+'/月 × '+r.term_months+'个月':publicTerm+'个月租期',
+                secondary:amount?money(amount.monthly_average)+'/月 × '+r.term_months+'个月':'',
                 termDiscountLabel,termDiscountSource:termDiscountLabel?'LEASE_TERM_RULE':null,
                 usage:P.describe(u,'S01').lines[0],
                 promo:u.promo_verified===true&&typeof u.promo_label==='string'?u.promo_label:'',available:core.available(u)
