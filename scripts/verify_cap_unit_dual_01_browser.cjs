@@ -57,7 +57,7 @@ async function startApp(page){
         assert.equal(canonical,'5','2㎡ converts to 5m³');
         assert(!await capFrame.locator('#capacity').isVisible(),'m³ input hidden while area mode');
         row.checks.push('CAP ㎡ switch and conversion');
-        await capFrame.screenshot({path:path.join(output,'CAP-2sqm-'+width+'.png')});
+        await capFrame.locator('body').screenshot({path:path.join(output,'CAP-2sqm-'+width+'.png')});
         // Return editing an already confirmed demand: preserve the existing lease term.
         await capFrame.locator('#cta').click();
         await s5.locator('body.bridge-ready').waitFor({timeout:20000});
