@@ -1,8 +1,9 @@
 name: MOTION S01 S5 01E - coordinate guard and dual-width browser QA
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
     branches:
-      - isolate/motion-s01-s5-01e-20261113
+      - isolate/motion-s01-s5-01d-20261113
     paths:
       - .github/workflows/motion-s01-s5-01d.yml
       - scripts/verify_motion_s01_s5_01b.cjs
@@ -11,11 +12,10 @@ on:
       - scripts/verify_motion_s01_s5_01e_coordinate.cjs
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - app/prototype/parallel/core-journey-fix-01/demo/index.html
-  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: motion-s01-s5-01d-${{ github.ref_name }}
+  group: motion-s01-s5-01e-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 jobs:
   location-qa:
@@ -33,7 +33,9 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$GITHUB_REF_NAME" = "isolate/motion-s01-s5-01e-20261113"
+          test "$GITHUB_EVENT_NAME" = "pull_request"
+          test "$GITHUB_HEAD_REF" = "isolate/motion-s01-s5-01e-20261113"
+          test "$GITHUB_BASE_REF" = "isolate/motion-s01-s5-01d-20261113"
           git diff --name-only bd0f58526b89cb2028fa8f74beb51ed2116556af HEAD -- app/ | sort > /tmp/motion-01e-actual
           printf "%s\n" \
             app/prototype/parallel/core-journey-fix-01/demo/app.js \
