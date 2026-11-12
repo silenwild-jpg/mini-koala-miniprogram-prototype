@@ -179,12 +179,13 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       // Four tier thumb visual audit: check legible images; identical image within a capacity class is logged, not treated as exact-unit photo.
       await page.goto(host+'/index.html?page=S02',{waitUntil:'domcontentloaded'});
       const storeId=await page.evaluate(()=>{
-        const c=window.SIM_DEMO.core;
+        const b=window.SIM_DEMO,c=b.core;
         const s=c.fixture.stores.find(st=>st.status==='open'&&[0.8,3.5,5].every(v=>c.fixture.units.some(u=>u.store_id===st.id&&u.volume===v)));
         if(!s)throw Error('S02_STORES_NO_SIZE_SET');
-        window.SIM_DEMO.navigate('S02',s.id);return s.id;
+        // Use a fresh browsing fixture for thumbnail signoff; the previous lifecycle steps deliberately occupied many units.
+        c.setScenario('normal');b.persist();b.navigate('S02',s.id);return s.id;
       });
-      await page.locator('.unit-row').first().waitFor();
+      await page.locator('.unit-row').first().waitFor({timeout:15000});
       const imageSet=await page.evaluate(()=>{
         const c=window.SIM_DEMO.core;
         const s=c.state().storeId,volumes=[0.8,3.5,5];
