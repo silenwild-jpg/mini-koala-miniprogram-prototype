@@ -32,7 +32,7 @@ async function snapshot(app){
   return await app.locator('#screen').evaluate(screen=>{
     const demand=screen.querySelector('.s02-demand'),inventory=screen.querySelector('#s02Inventory');
     const prices=[...screen.querySelectorAll('.unit-row[data-unit] .br03-price')].map(el=>({
-      kind:el.dataset.priceKind,term:el.dataset.referenceTerm||null,
+      kind:el.dataset.priceKind||(el.querySelector('.br03-price-term')?'term':'unknown'),term:el.dataset.referenceTerm||null,
       value:(el.querySelector('strong')?.textContent||'').trim(),
       suffix:(el.querySelector('.br03-reference')?.textContent||'').trim(),
       full:(el.textContent||'').trim()
