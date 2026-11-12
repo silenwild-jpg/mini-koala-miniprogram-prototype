@@ -68,7 +68,7 @@
   // S5-UX-REVIEW-02: one rendering contract for seven user-facing match states.
   // Search expansion is not inferred from an untrusted distance label.
   function s5MatchState(rows,requirement){
-    if(!(Number(requirement.capacity_m3)>0)||!requirement.term_confirmed)return 'incomplete';
+    if(!core.requirementReady())throw Error('S5_REQUIREMENT_INCOMPLETE');
     if(!rows.length)return Number(requirement.capacity_m3)>50?'large':'none';
     const first=rows[0];
     if(Number(requirement.capacity_m3)>50)return 'large';
@@ -167,29 +167,15 @@
       node.title=node.textContent.trim();
     });
   }
-  let s5TermEditing=false;
   function renderS5(){
+    if(!core.requirementReady()){B.editRequirement();return;}
     const s=core.state(),r=s.requirement,selectedArea=ui.s5AreaCity===s.city?ui.s5Area:'';
-    const candidates=r.capacity_m3&&r.term_confirmed?(B.s5Offers?.(selectedArea)||B.offers()):[];
+    const candidates=B.s5Offers?.(selectedArea)||B.offers();
     offerRows=candidates.slice(0,2);s5StoreUnitRows=[];
-    $('capacity').innerHTML=(r.capacity_m3??'—')+'<span>m³</span>';
-    text('demand-term',r.term_confirmed?r.term_months+'个月':'待选租期');
-    const requiresCapacity=!(Number(r.capacity_m3)>0);
-    $('artboard').dataset.requiresCapacity=String(requiresCapacity);
-    document.querySelector('.term').hidden=requiresCapacity||!!r.term_confirmed;
-    document.querySelector('[data-nm="capacity"]').hidden=requiresCapacity;
-
+    $('capacity').innerHTML=r.capacity_m3+'<span>m³</span>';
+    text('demand-term',r.term_months+'个月');
     text('origin-name',ui.s5OriginLabel||s.city+' · '+(selectedArea||'全城门店'));
     if(selectedArea)B.s5SetArea?.(selectedArea);
-    $$('[data-term]').forEach(el=>{const selected=r.term_confirmed&&Number(el.dataset.term)===r.term_months;el.classList.toggle('active',selected);el.setAttribute('aria-pressed',String(selected));});
-    const custom=r.term_confirmed&&![1,3,6,12,24].includes(r.term_months);
-    text('more-term',custom?r.term_months+'个月⌄':'更多⌄');$('more-term').classList.toggle('active',custom);
-    const compactTerm=!!r.term_confirmed&&!s5TermEditing;
-    $('artboard').dataset.termCompact=String(compactTerm);
-    $('term-summary').hidden=!compactTerm;
-    text('term-current',r.term_confirmed?'已选 '+r.term_months+' 个月':'');
-    document.querySelector('.term-heading h2').textContent=compactTerm?'用仓租期':'选择租期';
-    $('term-edit').setAttribute('aria-expanded',String(s5TermEditing));
 
     const match=offerRows.length>0,matchState=s5MatchState(offerRows,r);
     $('artboard').dataset.match=matchState;
@@ -201,10 +187,10 @@
 
     document.querySelector('.rec-heading p').textContent=({
       matched:'按您的容量和租期匹配',near:'容量接近，可查看其他仓位',
-      expanded:'已扩大范围',combo:'支持组合仓位',large:'大容量可联系顾问',none:'',incomplete:''
+      expanded:'已扩大范围',combo:'支持组合仓位',large:'大容量可联系顾问',none:''
     })[matchState];
-    document.querySelector('.nm-kicker').textContent=matchState==='incomplete'?(r.capacity_m3?'请先确认租期':'先填写容量，再查看推荐'):matchState==='large'&&!match?'大空间需求，顾问协助选仓':'暂无完全匹配的仓位';
-    document.querySelector('.no-match>p').textContent=matchState==='incomplete'?(r.capacity_m3?'请选择租期后查看仓位推荐。':'请先填写容量并确认租期。'):'可调整条件、查看更多门店或联系顾问。';
+    document.querySelector('.nm-kicker').textContent=matchState==='large'&&!match?'大空间需求，顾问协助选仓':'暂无完全匹配的仓位';
+    document.querySelector('.no-match>p').textContent='可调整条件、查看更多门店或联系顾问。';
     const cards=$$('.s5-store-card');
     cards.forEach((el,i)=>{el.hidden=i>=offerRows.length;el.dataset.storeId=offerRows[i]?.store.id||'';if(offerRows[i])el.innerHTML=s5StoreCard(offerRows[i],i);else el.innerHTML='';});
     // RC2-CANDIDATE-DELTA-02: native document flow handles one/two/zero store cards.
@@ -214,7 +200,7 @@
       for(const prop of ['top','height','margin-bottom'])node.style.removeProperty(prop);
     }
     $('artboard').removeAttribute('data-design-height');
-    document.querySelector('[data-nm="range"]').innerHTML=matchState==='incomplete'?(requiresCapacity?'先确定容量 <span>›</span>':'选择租期 <span>›</span>'):'查看全城门店 <span>›</span>';
+    document.querySelector('[data-nm="range"]').innerHTML='查看全城门店 <span>›</span>';
     fit();
   }
   function quickState(){const s=core.state();if(!ui.quick)ui.quick={storeId:null,ids:[]};if(ui.quick.storeId&&store(ui.quick.storeId)?.city!==s.city)ui.quick={storeId:null,ids:[]};return ui.quick;}
@@ -281,9 +267,9 @@
   if(page==='s5'){
     document.querySelector('.back').onclick=()=>B.navigate('S01');document.querySelector('.mini-menu').onclick=()=>toast('内部演示导航');
     $('modify').onclick=()=>{B.editRequirement();};$('change-origin').onclick=()=>{if(typeof parent.wx?.chooseLocation==='function'){parent.wx.chooseLocation({success:res=>{ui.s5OriginLabel=res?.name||res?.address||'';save();refresh();},fail:()=>s5AreaSheet()});}else s5AreaSheet();};
-    $('term-edit').onclick=()=>{s5TermEditing=true;renderS5();};
-    document.querySelectorAll('[data-term]').forEach(el=>el.onclick=()=>guard(()=>{applyTerm(el.dataset.term);s5TermEditing=false;refresh();}));
-    $('more-term').onclick=moreTerms;
+
+
+
     document.querySelector('.recommend-wrap').addEventListener('click',e=>{
       const buy=e.target.closest('[data-s5-buy]'),price=e.target.closest('[data-s5-price]'),storeBtn=e.target.closest('[data-s5-store],[data-s5-map]');
       const key=buy?.dataset.s5Buy||price?.dataset.s5Price;
@@ -307,7 +293,7 @@
     });
     $('s5-advisor-action').onclick=()=>consult('advisor');
     $('see-more').onclick=()=>B.navigate('S01');$('open-estore').onclick=()=>sheet('考拉E存',note('上门取送服务的适用范围及方案由顾问确认；此处仍为候选服务入口。')+act('estoreBooking','联系顾问','',true));
-    $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else if(a==='range'&&$('artboard').dataset.match==='incomplete'){if($('artboard').dataset.requiresCapacity==='true')B.editRequirement();else moreTerms();}else B.navigate('S01');});
+    $$('[data-nm]').forEach(el=>el.onclick=()=>{const a=el.dataset.nm;if(a==='capacity')B.editRequirement();else if(a==='advisor')consult();else B.navigate('S01');});
   }
   if(page==='quick'){
     $('back-button').onclick=()=>B.navigate('S01');$('menu-button').onclick=()=>toast('内部演示导航');$('more-terms').onclick=moreTerms;
