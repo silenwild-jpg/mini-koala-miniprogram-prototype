@@ -64,7 +64,7 @@ function render(page,core,selectedId,tools){
   if(available.length){
    body+='<label>付款记录 <select id="invoice-payment">'+available.map(p=>'<option value="'+esc(p.id)+'">'+esc(stateLabel(p.type))+' · '+money(p.amount)+'</option>').join('')+'</select></label>';
    body+='<label>类型 <select id="invoice-kind"><option value="personal">个人</option><option value="enterprise">企业</option></select></label>';
-   body+='<label>抬头 <input id="invoice-title" maxlength="120"></label><label>邮箱 <input id="invoice-email" type="email"></label><label>企业税号（企业时必填） <input id="invoice-tax" maxlength="50"></label>';
+   body+='<label>抬头 <input id="invoice-title" maxlength="120" required></label><label>邮箱 <input id="invoice-email" type="email" required></label><label id="invoice-tax-wrap" hidden style="display:none">企业税号 <input id="invoice-tax" maxlength="50"></label>';
    body+=button('requestInvoice','提交发票申请');
   }else body+='<p>暂无可申请的付款记录。</p>';
  }
