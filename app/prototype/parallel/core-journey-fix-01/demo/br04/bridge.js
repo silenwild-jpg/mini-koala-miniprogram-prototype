@@ -311,7 +311,7 @@
     $$('[data-term]').forEach(el=>el.onclick=()=>{ui.reserve.start_hint=el.dataset.term;ui.reserve.preferred_date='';save();refresh();});
     $('dateInput').onchange=e=>guard(()=>{if(e.target.value&&!core.validDate(e.target.value))throw new Error('SELECT_DATE');ui.reserve.preferred_date=e.target.value;ui.reserve.start_hint='';save();refresh();});
     $$('[data-choice]').forEach(el=>el.onclick=()=>reserveChoice(el.dataset.choice));
-    $('reserveForm').onsubmit=e=>{e.preventDefault();guard(()=>{if(ui.reserve.receipt)return;let lead;if(advisorMode)lead=core.saveAdvisorLead(ui.reserve);else{core.setContact(ui.reserve.phone||'');lead=core.saveLead(ui.reserve.address,ui.reserve);}ui.reserve.receipt=lead.id;save();refresh();});};
+    $('reserveForm').onsubmit=e=>{e.preventDefault();guard(()=>{if(ui.reserve.receipt)return;let lead;if(advisorMode)lead=core.saveAdvisorLead(ui.reserve);else{core.setContact(ui.reserve.phone||'');lead=core.saveLead(ui.reserve.address,ui.reserve);}ui.reserve.receipt=lead.id;clearToast();save();refresh();});};
     $('again').onclick=()=>{ui.reserve.receipt=null;save();refresh();};
   }
   if(page==='o01'){
