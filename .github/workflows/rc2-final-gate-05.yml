@@ -1,0 +1,56 @@
+name: RC2 FINAL GATE 05 four-tier assets and S5 source evidence NO DEPLOY
+on:
+  push:
+    branches: [isolate/rc2-final-gate-05-20261112]
+    paths: [.github/workflows/rc2-final-gate-05.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-final-gate-05-only
+  cancel-in-progress: true
+jobs:
+  audit-evidence-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Exact source guard and audit script syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git diff --exit-code fe023593127e321174d12518ea6cf057ba70ded7 HEAD -- app/
+          node --check scripts/verify_rc2_final_gate_05_browser.cjs
+          echo 'RC2 Gate05 is documentation and evidence only; business/visual app files unchanged.'
+      - name: Chromium and Chinese glyphs
+        shell: bash
+        run: |
+          set -euo pipefail
+          if command -v google-chrome >/dev/null 2>&1; then
+            echo "PLAYWRIGHT_CHROME_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
+          elif command -v google-chrome-stable >/dev/null 2>&1; then
+            echo "PLAYWRIGHT_CHROME_PATH=$(command -v google-chrome-stable)" >> "$GITHUB_ENV"
+          fi
+          if ! fc-list :lang=zh 2>/dev/null | grep -q .; then sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk; fi
+          npm_config_fetch_retries=1 npm_config_fetch_timeout=45000 npm install --no-save --no-package-lock --prefer-offline playwright@1.56.1
+          if ! command -v google-chrome >/dev/null 2>&1 && ! command -v google-chrome-stable >/dev/null 2>&1; then npx playwright install chromium; fi
+      - name: S02 images and S5 missing-input actual browser audit 375 390 980
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/verify_rc2_final_gate_05_browser.cjs
+          test -s release-evidence/rc2-final-gate-05/gate.json
+          grep -q '"releaseDecision": "HOLD"' release-evidence/rc2-final-gate-05/gate.json
+          grep -q 'S5_DEEP_LINK_NOT_ROUTED_TO_CAPACITY_FOR_MISSING_REQUIRED_INPUTS' release-evidence/rc2-final-gate-05/gate.json
+      - name: Upload real screenshot and source findings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-FINAL-GATE-05-375-390-4-TIER-S5-EVIDENCE
+          retention-days: 7
+          if-no-files-found: warn
+          path: release-evidence/rc2-final-gate-05/
