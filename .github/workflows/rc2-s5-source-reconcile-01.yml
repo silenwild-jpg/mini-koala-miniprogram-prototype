@@ -34,14 +34,18 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           case "$GITHUB_REF_NAME" in isolate/rc2-s5-source-reconcile-01-20261112|isolate/rc2-final-vis-signoff-04-20261112) ;; *) echo "REF_NOT_ALLOWED"; exit 1;; esac
-          git diff --name-only fe023593127e321174d12518ea6cf057ba70ded7 HEAD -- app/ > /tmp/s5-source-scope.txt
-          cat /tmp/s5-source-scope.txt
-          while IFS= read -r f; do
-            case "$f" in
-              app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js|app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html|app/prototype/parallel/core-journey-fix-01/demo/br04/s5/s5-native-flow.css) ;;
-              *) echo "S5_SCOPE_VIOLATION: $f"; exit 1;;
-            esac
-          done < /tmp/s5-source-scope.txt
+          # File-scope quarantine applies to the isolated S5 source PR only.
+          # The integrated RC2 candidate may contain separately approved subsequent page changes.
+          if [ "$GITHUB_REF_NAME" = "isolate/rc2-s5-source-reconcile-01-20261112" ]; then
+            git diff --name-only fe023593127e321174d12518ea6cf057ba70ded7 HEAD -- app/ > /tmp/s5-source-scope.txt
+            cat /tmp/s5-source-scope.txt
+            while IFS= read -r f; do
+              case "$f" in
+                app/prototype/parallel/core-journey-fix-01/demo/app.js|app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js|app/prototype/parallel/core-journey-fix-01/demo/br04/s5/index.html|app/prototype/parallel/core-journey-fix-01/demo/br04/s5/s5-native-flow.css) ;;
+                *) echo "S5_SCOPE_VIOLATION: $f"; exit 1;;
+              esac
+            done < /tmp/s5-source-scope.txt
+          fi
           for f in app/prototype/parallel/core-journey-fix-01/demo/{app,account,demo-core,lifecycle-ui}.js app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js scripts/verify_s5_s01_vis_signoff_04_browser.cjs scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs; do node --check "$f"; done
       - name: Preserve RC2 pricing lifecycle and user-account contracts
         run: |
