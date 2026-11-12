@@ -75,7 +75,7 @@ async function startApp(page){
         assert.equal(await areaInput.inputValue(),'','unrepresentable cubic size must not be silently rounded');
         const savedDraft=await capFrame.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_cap_draft_v3')||'{}'));
         assert.equal(savedDraft.preservedCubicDraft,'3.33','draft stores exact cubic value for return');
-        await capFrame.reload({waitUntil:'domcontentloaded'});
+        await capFrame.goto(capFrame.url(),{waitUntil:'domcontentloaded'});
         await capFrame.locator('.cap-unit-picker').waitFor({timeout:12000});
         assert.equal(await capFrame.locator('.cap-unit-picker').inputValue(),'m2','pending area mode restored');
         await switcher.selectOption('m3');
