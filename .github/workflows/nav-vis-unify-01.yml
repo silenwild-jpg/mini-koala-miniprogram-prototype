@@ -1,0 +1,86 @@
+name: NAV VIS UNIFY 01 - source and navigation capture 375 390 no deploy
+on:
+  push:
+    branches: [isolate/nav-vis-unify-01-20261112]
+    paths:
+      - .github/workflows/nav-vis-unify-01.yml
+      - scripts/verify_nav_vis_unify_01_browser.cjs
+      - docs/NAV_VIS_UNIFY_01_20261112.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: nav-vis-unify-01-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: No runtime change from approved source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = 'isolate/nav-vis-unify-01-20261112'
+          test -z "$(git diff --name-only aed3de90df25a6a413b4ee7f523577f4a4714b06 HEAD -- app/)" || { echo UNAUTHORIZED_APP_DELTA; exit 1; }
+          d=app/prototype/parallel/core-journey-fix-01/demo
+          grep -Fq 'nav_original_${suffix}.png' "$d/home-bridge.js"
+          grep -Fq 'vis07-nav-${icon}.png' "$d/app.js"
+          grep -Fq "'navBooking','预约订单','calendar'" "$d/app.js"
+          ! grep -Eq 'h01FlowContext|h01StageProgress|h01SceneImage' "$d/h01-state-impl-01.js"
+          test "$(git hash-object "$d/h01-state-impl-01.js")" = ed1a5369aaa4dbc415aa62390107c91a732d2fe2
+          test "$(git hash-object "$d/h01-state-impl-01.css")" = 713c418185549bd888e02d918e0723c2c12247d8
+          node --check scripts/verify_nav_vis_unify_01_browser.cjs
+  browser-nav-capture:
+    needs: source-contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Build isolated same SHA review package
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '154'
+          RC2_BUNDLE_BASE_PR: '154'
+          RC2_BUNDLE_LABEL: NAV-VIS-UNIFY-01-READONLY
+          RC2_BUNDLE_ARCHIVE: MiniKoala_NAV_VIS_UNIFY_01.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Validate current bundle identity
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME||v.source_pr!==154)throw Error('NAV_SOURCE_MISMATCH');console.log(v)"
+      - name: Install Chinese fonts and headless Chromium
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: H01 marketing S01 M01 4-tab geometry interaction and screenshots
+        run: node scripts/verify_nav_vis_unify_01_browser.cjs
+      - name: H01 new and business 20 states dual viewport same SHA visual snapshots
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+          RC2_EXPECT_BRANCH: ${{ github.ref_name }}
+          RC2_EXPECT_SOURCE_PR: '154'
+          H01_BROWSER_CHANNEL: chromium
+        run: node scripts/verify_rc2_single_candidate_03_h01_browser.cjs
+      - name: Preserve audit only no release
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NAV-VIS-UNIFY-01-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/nav-vis-unify-01/
+            release-evidence/rc2-single-candidate-03-h01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
