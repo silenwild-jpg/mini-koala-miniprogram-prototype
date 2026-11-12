@@ -35,6 +35,9 @@
   function toast(t){text('toast',t);$('toast').hidden=false;clean();clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4200);}
   function clearToast(){clearTimeout(toastTimer);if($('toast'))$('toast').hidden=true;}
   const modalIds={s5:['modal','modal-title','modal-body'],quick:['modal','modal-title','modal-content'],reserve:['selectionMask','popupTitle','popupOptions'],o01:['scrim','sheet-title','sheet-content']};
+  // Reserve's 872px scaled artboard is taller than the mobile viewport. The existing
+  // modal must escape that transformed scrolling canvas or it opens offscreen.
+  if(page==='reserve'){const mask=$('selectionMask');if(mask&&mask.parentElement!==document.body){document.body.appendChild(mask);mask.style.position='fixed';}}
   function sheet(title,html){const [root,head,body]=modalIds[page];text(head,title);$(body).innerHTML=html;$(root).dataset.hasPrice=String(/¥/.test(html));$(root).hidden=false;clean();}
   function moreMenu(){sheet('更多操作',act('navTo','附近门店','S01')+act('navTo','我的订单','M01'));}
   function close(){if(core.state().auth.status==='pending'){core.resolvePhone('denied');save();refresh();}$(modalIds[page][0]).hidden=true;}
