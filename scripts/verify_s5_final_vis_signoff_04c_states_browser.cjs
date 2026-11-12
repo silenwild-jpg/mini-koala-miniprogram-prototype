@@ -78,7 +78,7 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
        const B=window.parent.SIM_DEMO,c=B.core,F=c.fixture,n=c.state().requirement.term_months;
        return {match:board.dataset.match,advisor:visible(document.getElementById('s5-advisor')),
          advisorRect:box(document.getElementById('s5-advisor')),
-         noMatch:visible(document.getElementById('no-match')),termOptions:visible(document.querySelector('.term')),
+         noMatch:visible(document.getElementById('no-match')),noMatchBox:box(document.getElementById('no-match')),duplicateStoreAction:document.querySelectorAll('[data-nm=stores]').length,termOptions:visible(document.querySelector('.term')),
          noMatchText:document.querySelector('.nm-kicker')?.textContent,
          capacityText:document.getElementById('capacity')?.textContent,monthsText:document.getElementById('demand-term')?.textContent,
          estore:visible(document.querySelector('.estore')),estoreRect:box(document.querySelector('.estore')),
@@ -120,6 +120,8 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
        assert(actual.noMatch,'no-match guidance required');
        assert(actual.actionAdvisor&&actual.actionRange,'empty fallback links missing');
        assert(!actual.more,'no stores should not show more units in cards block');
+       assert.equal(actual.duplicateStoreAction,0,'no duplicate S01 navigation in empty state');
+       assert(actual.noMatchBox.height<230,'empty state should not reserve a huge blank card');
      }else{
        assert(!actual.noMatch,'recommendations should hide no-match');
        assert(actual.more,'more stores entry should exist');
@@ -143,7 +145,7 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
      const shouldAdvisor=tc.n>0&&(pre.requiredCapacity>10||actual.cards[0].money.total>2000);
      assert.equal(actual.advisor,shouldAdvisor,'advisor trigger boundary');
      if(tc.key==='near-capacity'){assert.equal(actual.cards[0].buyLabel,'查看门店');assert(actual.cards[0].warning,'near-capacity warning');}
-     if(tc.key==='combo'){assert.equal(actual.cards[0].ids.length,2,'atomic two-unit combo');assert.equal(actual.cards[0].cabin,'组合仓');}
+     if(tc.key==='combo'){assert.equal(actual.cards[0].ids.length,2,'atomic two-unit combo');assert.equal(actual.cards[0].cabin,'组合仓');assert(actual.cards[0].usage.startsWith('适合'),'combo should not repeat the grouping label');}
      if(tc.key==='two-stores'){assert(actual.cards[1].buyRect.bottom<=h+2,'second CTA still beyond first viewport');}
      if(tc.key==='term-missing'){assert.match(actual.noMatchText,/租期/);}
      if(tc.key==='capacity-missing'){assert.match(actual.noMatchText,/容量/);}
