@@ -204,11 +204,11 @@ async function start(){
      // Buttons must be measured on the H01 task BEFORE scenario actions navigate to O03/S02/QUICK/other pages.
      if(outcome.key!=='new'&&phase!=='active_browse'){
        const primaryHeight=await page.locator('#h01FlowPrimary').evaluate(el=>el.getBoundingClientRect().height);
-       assert(primaryHeight>=45.5,'Existing H01 primary must remain operable; 48px is separate UX target');
+       assert(primaryHeight>=47.5,'H01 primary button must meet the 48px design baseline');
        const secondaryVisible=await page.locator('#h01FlowSecondary').isVisible();
        const secondaryHeight=secondaryVisible
          ?await page.locator('#h01FlowSecondary').evaluate(el=>el.getBoundingClientRect().height):null;
-       if(secondaryVisible)assert(secondaryHeight>=45.5,'Existing H01 secondary must remain operable');
+       if(secondaryVisible)assert(secondaryHeight>=47.5,'H01 secondary button must meet the 48px design baseline');
        record.ctaSizes={primary:primaryHeight,secondary:secondaryHeight};
      }
      record.screenshot=await photo(page,w,phase);
