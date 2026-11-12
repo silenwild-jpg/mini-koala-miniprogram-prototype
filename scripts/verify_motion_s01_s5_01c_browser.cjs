@@ -95,9 +95,19 @@ const delay=ms=>new Promise(ok=>setTimeout(ok,ms));
         assert.deepEqual(errors,[],'No JS page errors');
         results.push({width,height,before,origin:after.label,stores:after.ids,returned:backLabel,
           filterExpanded:state.expanded,reducedMotion:transition,status:'PASS'});
+      }catch(err){
+        const failure={width,height,status:'FAIL',error:String(err?.stack||err),url:page.url()};
+        results.push(failure);
+        try{
+          await page.screenshot({path:path.join(out,'FAIL-'+width+'.png'),fullPage:false,timeout:5000});
+        }catch(screenError){failure.screenshotError=String(screenError);}
+        throw err;
       }finally{await context.close();}
     }
-    fs.writeFileSync(path.join(out,'result.json'),JSON.stringify(results,null,2));
     console.log(JSON.stringify({status:'PASS',checks:results},null,2));
-  }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
+  }finally{
+    // Always leave a machine-readable report even if the first viewport fails.
+    fs.writeFileSync(path.join(out,'result.json'),JSON.stringify(results,null,2));
+    await browser.close();await new Promise(resolve=>server.close(resolve));
+  }
 })().catch(e=>{console.error(e);process.exitCode=1;});
