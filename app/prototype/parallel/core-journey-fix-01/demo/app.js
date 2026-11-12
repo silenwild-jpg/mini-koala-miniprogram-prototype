@@ -119,7 +119,18 @@
   }
   function clearS5Origin(){sessionStorage.removeItem(S01_ORIGIN_KEY);}
 
-  function go(next,storeId,reset=false){if(next==='O01'&&!core.authorized()){phoneAuth.run('ORDER','OPEN_O01',()=>go(next,storeId,reset));return;}if(next==='O01'&&page!=='O01')sessionStorage.setItem('mk_order_return_v2',page);remember();if(reset)positions={};if(storeId&&storeId!==state().storeId){positions.S02=0;visual.tab='可选仓位';visual.category='全部';visual.gallery=0;saveVisual();}if(storeId)core.setStore(storeId);
+  // S5 is a post-selection recommendation page. Both capacity and the lease
+  // term must be confirmed in the upstream flow; missing fields go to the
+  // existing capacity editor, not to a second incomplete S5 visual state.
+  function openRequirementEditor(returnPage=page,forceCapacityStep=false){
+    persist();
+    const from='index.html?page='+returnPage+(returnPage==='S02'&&state().storeId?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':'');
+    sessionStorage.setItem('mk_estimate_return_v4',from);
+    const itemsFlow=!forceCapacityStep&&['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);
+    if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',from);
+    window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);
+  }
+  function go(next,storeId,reset=false){if(next==='S5'&&!core.requirementReady()){openRequirementEditor('S5',true);return;}if(next==='O01'&&!core.authorized()){phoneAuth.run('ORDER','OPEN_O01',()=>go(next,storeId,reset));return;}if(next==='O01'&&page!=='O01')sessionStorage.setItem('mk_order_return_v2',page);remember();if(reset)positions={};if(storeId&&storeId!==state().storeId){positions.S02=0;visual.tab='可选仓位';visual.category='全部';visual.gallery=0;saveVisual();}if(storeId)core.setStore(storeId);
     if(next==='S01'&&page==='S5'){saveS5Origin();sessionStorage.removeItem(S01_SCROLL_KEY);}
     else if(['M01','BOOKING','QUICK'].includes(next))clearS5Origin();
     if(next==='S5')clearS5Origin();
@@ -370,6 +381,7 @@
     const inProgressRenewal=document.getElementById('renew-months');
     if(page==='RN01'&&inProgressRenewal)renewalDraftByOrder[lifecycleId()]=inProgressRenewal.value;
     core.expirePendingOrders();
+    if(page==='S5'&&!core.requirementReady()){openRequirementEditor('S5',true);return;}
     if(page==='O01'&&!core.authorized())notice='请验证手机号后继续确认订单';
     if(displayedPage===page&&$('#scroll'))positions[page]=$('#scroll').scrollTop;
     const was=displayedPage;core.authorized();persist();
@@ -665,6 +677,6 @@
     return {id:s.id,name:s.name,address:v.address,district:v.district,
       photo:v.photo,services:v.services,tagTypes:v.tagTypes,distance:displayedDistanceKm(s),distanceVerified:F.distanceVerified};
   }
-  window.SIM_DEMO={s01R2Bridge,presentation,s5SharedUnit,s5SharedStore,s5AreaPreference,s5SetArea,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
+  window.SIM_DEMO={s01R2Bridge,presentation,s5SharedUnit,s5SharedStore,s5AreaPreference,s5SetArea,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){openRequirementEditor();},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
   const initialStore=new URLSearchParams(location.search).get('store');act(()=>{if(initialStore)core.setStore(initialStore);render();});if(page==='O01'&&!core.authorized())phoneAuth.run('ORDER','DIRECT_O01',()=>render());
 })();
