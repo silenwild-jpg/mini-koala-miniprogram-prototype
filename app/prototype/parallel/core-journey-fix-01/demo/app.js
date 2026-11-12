@@ -125,8 +125,12 @@
     if(!s01OriginFromS5())return null;
     try{
       const value=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}')?.s5?.s5MapOrigin;
-      const lat=Number(value?.latitude),lng=Number(value?.longitude);
-      return value&&value.city===state().city&&Number.isFinite(lat)&&Number.isFinite(lng)
+      // Avoid restoring a legacy/null map selection as a fake 0° coordinate.
+      const complete=value?.latitude!==null&&value?.latitude!==undefined&&
+        value?.longitude!==null&&value?.longitude!==undefined&&
+        String(value.latitude).trim()!==''&&String(value.longitude).trim()!=='';
+      const lat=complete?Number(value.latitude):NaN,lng=complete?Number(value.longitude):NaN;
+      return complete&&value.city===state().city&&Number.isFinite(lat)&&Number.isFinite(lng)
         ?{city:value.city,latitude:lat,longitude:lng}:null;
     }catch{return null;}
   }
