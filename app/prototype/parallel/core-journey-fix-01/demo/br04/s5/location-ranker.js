@@ -3,6 +3,10 @@
   'use strict';
   const RAD=Math.PI/180;
   const earthKm=6371.0088;
+  // Number(null) and Number('') would silently become zero: these are missing
+  // coordinates, not the equator or Greenwich meridian.
+  const coord=value=>value===null||value===undefined||
+    (typeof value==='string'&&!value.trim())?NaN:Number(value);
   const valid=(lat,lng)=>Number.isFinite(lat)&&Number.isFinite(lng)&&lat>=-90&&lat<=90&&lng>=-180&&lng<=180&&!(lat===0&&lng===0);
   function distanceKm(a,b){
     const dLat=(b.latitude-a.latitude)*RAD,dLng=(b.longitude-a.longitude)*RAD;
@@ -14,12 +18,12 @@
   }
   function rank(input,origin,costOf=()=>Infinity){
     const initial=Array.isArray(input)?input.slice():[];
-    const latitude=Number(origin?.latitude),longitude=Number(origin?.longitude);
+    const latitude=coord(origin?.latitude),longitude=coord(origin?.longitude);
     if(!origin||!valid(latitude,longitude)||!origin.city)return {rows:initial,applied:false,supported:0};
     const located=[],unlocated=[];
     for(const row of initial){
       const s=row?.store||{},g=s.geo||{};
-      const lat=Number(g.latitude),lng=Number(g.longitude);
+      const lat=coord(g.latitude),lng=coord(g.longitude);
       if(s.city!==origin.city||!g.route_candidate||!valid(lat,lng)){
         unlocated.push(row);
         continue;
