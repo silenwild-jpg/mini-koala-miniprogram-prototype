@@ -35,6 +35,7 @@
   let currentUnit=draftValid&&draft?.unitMode==='m2'||(!draftValid&&r.input_unit==='m2')?'m2':'m3';
   let savedArea=draftValid?draft?.area:r.input_value;
   let lastCanonical=originalCapacity;
+  let preservedCubicDraft=draftValid&&typeof draft?.preservedCubicDraft==='string'?draft.preservedCubicDraft:'';
   function putArea(value){
     const raw=String(value??'').trim(),num=Number(raw);
     const valid=raw!==''&&Number.isFinite(num)&&num>=0.2&&num<=80&&Math.abs(num*10-Math.round(num*10))<1e-7;
@@ -59,7 +60,6 @@
   // cubic value can be expressed as m² only when it fits the 0.1㎡ precision.
   // For a nonrepresentable value keep the m³ draft for a safe switch-back;
   // area mode remains blank until the user explicitly supplies an area.
-  let preservedCubicDraft='';
   unitPicker.addEventListener('change',()=>{
     const next=unitPicker.value;
     if(next==='m2'&&currentUnit==='m3'){
@@ -95,7 +95,7 @@
   },true);
   const returnContext=sessionStorage.getItem('mk_estimate_return_v4')||'';const oldUpdate=update;update=function(){oldUpdate();const cta=document.getElementById('cta');if(cta&&!cta.disabled)cta.textContent='查看仓位报价';};update();
   const large=document.createElement('section');large.className='large-demand-advice';large.hidden=true;large.innerHTML='<strong>大空间需求建议联系顾问</strong><p>50m³及以上可由顾问核对空间、搬运和服务范围；运输资格需另行确认。</p><button type="button" id="large-advisor">请顾问协助</button>';document.getElementById('cta').parentNode.insertBefore(large,document.getElementById('cta'));document.getElementById('large-advisor').onclick=()=>window.openIndependentFlow('顾问');const largeUpdate=()=>{large.hidden=Number(document.getElementById('capacity').value)<50;};document.getElementById('capacity').addEventListener('input',largeUpdate);largeUpdate();
-  function saveDraft(){sessionStorage.setItem(DRAFT,JSON.stringify({signature,capacity:document.getElementById('capacity').value,term:chosenMonth,unitMode:currentUnit,area:areaField.value}));}
+  function saveDraft(){sessionStorage.setItem(DRAFT,JSON.stringify({signature,capacity:document.getElementById('capacity').value,term:chosenMonth,unitMode:currentUnit,area:areaField.value,preservedCubicDraft}));}
   function navigate(url){saveDraft();location.href=url;}
   document.querySelector('.nav .back').onclick=()=>{navigate(sessionStorage.getItem('mk_estimate_return_v4')||'home.html');};
   document.getElementById('cta').addEventListener('click',()=>{
