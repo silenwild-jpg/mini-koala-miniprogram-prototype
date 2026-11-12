@@ -16,7 +16,7 @@
       <form id="reserveForm" novalidate>
         <label class="section-title contact-title" for="booking-address">用仓地址 <span class="required">*</span></label>
         <div class="phone-line"><div class="phone-entry address-entry"><input id="booking-address" type="text" maxlength="120" autocomplete="off" required placeholder="填写用仓地址，如：城市、街道和楼栋"></div></div>
-        <p class="privacy-help">填写地址即可提交；以下时间和需求信息可选。</p>
+        <p class="privacy-help">用仓地址、联系电话必填；其他信息可选。</p>
         <h2 class="section-title time-title">预计用仓时间 <span class="not-required">（可选）</span></h2>
         <div class="term-pills" role="group" aria-label="预计用仓时间">
           <button type="button" data-term="尽快" aria-pressed="false">尽快</button>
@@ -37,7 +37,7 @@
         <button type="submit" class="submit" id="submit">提交用仓需求</button>
         <p class="under-submit">提交后将由我们的顾问尽快与您联系，暂不产生订单</p>
       </form>
-      <section class="success-state" id="success" hidden aria-live="polite"><span class="ok">✓</span><h2>用仓需求已模拟提交</h2><p>顾问将根据您的需求联系确认。<br>这是一条演示销售线索，不会产生正式订单。</p><button type="button" id="again">返回填写页面</button></section>
+      <section class="success-state" id="success" hidden aria-live="polite"><span class="ok">✓</span><h2>用仓需求已记录</h2><p>用仓地址和需求信息已保存。</p><button type="button" id="again">返回填写页面</button></section>
     </section>
     <div class="selection-mask" id="selectionMask" hidden><div class="selection-popup"><div class="popup-head"><b id="popupTitle">请选择</b><button type="button" id="closePopup" aria-label="关闭">×</button></div><div class="popup-options" id="popupOptions"></div></div></div>
     <div role="status" class="toast" id="toast" hidden></div>
