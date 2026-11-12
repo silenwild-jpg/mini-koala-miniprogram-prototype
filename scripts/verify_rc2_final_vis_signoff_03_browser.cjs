@@ -171,6 +171,11 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       assert(page.url().includes('/account.html?view=identity'),'identity must retain its native account page');
       await page.screenshot({path:path.join(out,'31-identity-unverified-'+width+'.png')});
       records.push({name:'31-identity-unverified',width,url:page.url(),pageWidth:await page.evaluate(()=>document.documentElement.scrollWidth)});
+      await page.locator('[data-act="identitySheet"]').click();
+      await page.locator('#sheet[open]').waitFor();
+      assert(!/本地|演示|模拟/.test(await page.locator('#sheet').innerText()),'customer identity dialog cannot show debug wording');
+      await page.screenshot({path:path.join(out,'31b-identity-dialog-'+width+'.png')});
+      records.push({name:'31b-identity-dialog',width,url:page.url(),pageWidth:await page.evaluate(()=>document.documentElement.scrollWidth)});
       await page.goto(host+'/account.html?view=access&id='+encodeURIComponent(c.id),{waitUntil:'domcontentloaded'});
       await page.locator('#content').waitFor();
       assert.match(await page.locator('#content').innerText(),/尚未到起租时间/);
