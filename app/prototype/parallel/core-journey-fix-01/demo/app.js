@@ -556,8 +556,10 @@
     },recoverFailedOrder(){const o=state().orders.find(x=>x.id===selectedOrderId);if(!o||o.status!=='payment_failed'){notice='订单状态已更新，请从门店重新选择';render();return;}go('S01');},requestRenewal(){const input=$('#renew-months');if(!input)return;const raw=input.value.trim(),months=Number(raw),v=core.lifecycleView(lifecycleId()),max=Math.max(0,60-v.total_months);const error=message=>{let node=$('#renew-error');if(!node){node=document.createElement('p');node.id='renew-error';node.setAttribute('role','alert');node.className='mk-order-tip';input.closest('label').insertAdjacentElement('afterend',node);}node.textContent=message;input.setAttribute('aria-invalid','true');input.focus();};if(!raw||!Number.isInteger(months)||months<1||months>max){error('请输入1–'+max+'个月的整数，累计租期不得超过60个月');return;}try{core.lifecycleRequestRenewal(lifecycleId(),months);delete renewalDraftByOrder[lifecycleId()];render();}catch(e){error(e.message==='RENEWAL_ALREADY_PENDING'?'已有续租需求正在处理，请勿重复提交':'当前状态无法提交此续租申请，请检查订单和租期');}},reviewRenewal(reqId){core.lifecycleReviewQuote(lifecycleId(),reqId,Number($('#renew-review-price').value),reviewMode);render();},confirmRenewal(reqId){core.lifecycleConfirmRenewal(lifecycleId(),reqId);render();},requestExit(){
       const type=$('#exit-type'),date=$('#exit-date');
       const value=date?.value||'';
-      if(!value||value<core.today()||!/^\d{4}-\d{2}-\d{2}$/.test(value)){
-        serviceFieldError(date,'请选择今天或之后的计划取空日期');
+      const lease=core.lifecycleView(lifecycleId());
+      const minimum=type.value==='expiry'&&lease.end_date>core.today()?lease.end_date:core.today();
+      if(!value||value<minimum||!/^\d{4}-\d{2}-\d{2}$/.test(value)){
+        serviceFieldError(date,type.value==='expiry'?'到期退租日期不得早于租约到期日':'请选择今天或之后的计划取空日期');
         return;
       }
       core.lifecycleRequestExit(lifecycleId(),type.value,value);render();
@@ -605,6 +607,14 @@
   document.addEventListener('keydown',e=>{if(e.key==='Tab'&&modal){const controls=[...$('#overlay-root').querySelectorAll('button,input,a,select,textarea')].filter(x=>!x.disabled);const first=controls[0],last=controls.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}if(['ArrowLeft','ArrowRight'].includes(e.key)&&e.target.matches('[role=tab]')){e.preventDefault();const tabs=[...document.querySelectorAll('[role=tab]')],next=tabs[(tabs.indexOf(e.target)+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];handlers.detailTab(next.dataset.value);document.querySelector('[role=tab][aria-selected=true]')?.focus();}if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-store]')){e.preventDefault();act(()=>handlers.store(e.target.dataset.store));}if(e.key==='Escape'&&modal)handlers.close();});
   document.addEventListener('change',e=>{
     if(e.target.id==='start-date')act(()=>{core.setDate(e.target.value);render();});
+    if(e.target.id==='exit-type'){
+      const date=$('#exit-date');
+      if(date){
+        const lease=core.lifecycleView(lifecycleId()),minimum=e.target.value==='expiry'&&lease.end_date>core.today()?lease.end_date:core.today();
+        date.min=minimum;date.value=minimum;date.removeAttribute('aria-invalid');
+        document.querySelectorAll('.mk-service-field-error').forEach(el=>el.remove());
+      }
+    }
     if(e.target.id==='invoice-kind'){
       const enterprise=e.target.value==='enterprise',row=$('#invoice-tax-wrap'),tax=$('#invoice-tax');
       if(row){row.hidden=!enterprise;row.style.display=enterprise?'':'none';}
