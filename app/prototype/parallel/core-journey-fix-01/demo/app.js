@@ -380,7 +380,7 @@
     if(modal==='sort')body=`<h3>门店排序</h3><div class="chip-row">${[['recommended','综合排序'],['distance','距离优先'],['price','价格优先']].map(([value,label])=>button('setSort',label,value,'chip')).join('')}</div>`;
 
     if(modal==='serviceFilter')body=`<h3>服务筛选</h3><div class="chip-row">${[['all','不限'],...['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'].map(x=>[x,x])].map(([value,label])=>button('setService',label,value,'chip')).join('')}</div>`;
-    if(modal==='navBooking')body=`<h3>预约与下单</h3><p>预约只需用仓地址；立即下单先选合适的仓位。</p>${button('go','预约用仓','BOOKING')}${button('go','立即下单','QUICK','outline')}`;
+    if(modal==='navBooking')body=`<h3>预约与下单</h3>${button('go','预约用仓','BOOKING')}${button('go','立即下单','QUICK','outline')}`;
     if(modal==='navigation')body=`<h3>地图导航</h3><p>${esc(store(state().storeId)?.address)}</p><p>地址来自门店资料；路线导航服务尚未接入，可按地址在地图中查找。</p>`;
     if(modal==='share')body=`<h3>分享门店</h3><p>复制后可在本机打开该门店。</p><input class="field" aria-label="门店链接" readonly value="${esc(location.href)}">${button('copyShare','复制链接')}`;
     if(modal==='saved')body=`<h3>我的收藏</h3>${visual.storeFavorites.map(id=>store(id)).filter(Boolean).map(s=>button('store',s.name,s.id,'outline')).join('')}${visual.favorites.map(id=>unit(id)).filter(Boolean).map(u=>`<p>${store(u.store_id).name} · ${unitName(u)}${button('store','查看',u.store_id,'outline')}</p>`).join('')}${!visual.storeFavorites.length&&!visual.favorites.length?'<p>暂无收藏，可在门店详情收藏门店或仓位。</p>':''}`;
