@@ -220,7 +220,7 @@ button:disabled{opacity:.42;cursor:not-allowed}
   }
   function apply(){
     applyScheduled=false;
-    if(!inFrame)return;
+    if(!ensureActiveDocument())return;
     restoreInline();
     Object.entries(getChanges()).forEach(([tid,values])=>{
       const target=TARGET_MAP[tid];if(!target)return;
@@ -349,6 +349,29 @@ button:disabled{opacity:.42;cursor:not-allowed}
     b.persist();b.navigate('S01');
     return true;
   }
+  function ensureActiveDocument(){
+    const current=frameDocs().inner;
+    if(!current||current.readyState!=='complete'||current.documentElement.dataset.binding!=='CENTRAL_RC1')return false;
+    if(current===inFrame)return true;
+    if(observer){observer.disconnect();observer=null}
+    restoreInline();
+    inFrame=current;originals.clear();selectionNode=null;
+    if(!inFrame.getElementById('vis-editor-integrated-preview-only')){
+      const style=inFrame.createElement('style');
+      style.id='vis-editor-integrated-preview-only';
+      style.textContent='.vis-editor-selected{outline:2px solid #176b48!important;outline-offset:2px!important}';
+      inFrame.head.appendChild(style);
+      inFrame.addEventListener('click',evt=>{
+        if(!editMode)return;
+        evt.preventDefault();evt.stopPropagation();evt.stopImmediatePropagation();
+        const hit=TARGETS.slice().reverse().find(item=>evt.target.closest&&evt.target.closest(item.selector));
+        if(hit)choose(hit.id);
+      },true);
+    }
+    observer=new MutationObserver(scheduleApply);
+    observer.observe(inFrame.body,{childList:true,subtree:true});
+    return true;
+  }
   function attachFrame(){
     if(framePollTimer){clearTimeout(framePollTimer);framePollTimer=null}
     const parts=frameDocs();
@@ -363,21 +386,8 @@ button:disabled{opacity:.42;cursor:not-allowed}
       shownWarning('未能载入中央同源 S01。请检查本地 HTTP 服务和中央页面桥接，当前没有使用旧 HTML 回退。');
       inFrame=null;renderFields();return;
     }
-    inFrame=doc;shownWarning('');
-    if(observer){observer.disconnect();observer=null}
-    originals.clear();selectionNode=null;
-    const style=inFrame.createElement('style');
-    style.id='vis-editor-integrated-preview-only';
-    style.textContent='.vis-editor-selected{outline:2px solid #176b48!important;outline-offset:2px!important}';
-    inFrame.head.appendChild(style);
-    inFrame.addEventListener('click',evt=>{
-      if(!editMode)return;
-      evt.preventDefault();evt.stopPropagation();evt.stopImmediatePropagation();
-      const hit=TARGETS.slice().reverse().find(item=>evt.target.closest&&evt.target.closest(item.selector));
-      if(hit)choose(hit.id);
-    },true);
-    observer=new MutationObserver(scheduleApply);
-    observer.observe(inFrame.body,{childList:true,subtree:true});
+    shownWarning('');
+    ensureActiveDocument();
     apply();renderFields();
   }
   function urlForScene(){
@@ -476,6 +486,12 @@ button:disabled{opacity:.42;cursor:not-allowed}
   FRAME.addEventListener('load',attachFrame);
   if(location.protocol==='file:')shownWarning('请从 HTTP 服务访问此工作台：在仓库 app 目录执行 python -m http.server 4173，然后打开 /tools/vis-editor-s01.html');
   setupTargets();setViewport();reloadFrame();status();
+  // The central app may replace its own S01 iframe after the outer iframe loaded.
+  // Keep the live document identity synchronized; never edit a detached stale page.
+  setInterval(()=>{
+    const current=frameDocs().inner;
+    if(current&&current!==inFrame&&ensureActiveDocument()){apply();renderFields();}
+  },250);
 })();
 </script>
 </body>
