@@ -9,7 +9,7 @@ function render(page,core,selectedId,tools){
  const stateLabel=s=>({
    upcoming:'待起租',active:'租用中',returning:'退租办理中',ended:'已退租',
    HELD:'押金保管中',held:'押金保管中',REFUND_PENDING:'退款处理中',REFUNDED:'已退还',
-   QUOTE_PENDING:'报价确认中',QUOTE_READY:'待确认续租',COMPLETED:'已完成',
+   QUOTE_PENDING:'报价确认中',QUOTE_READY:'待确认续租',PAYMENT_PENDING:'待支付续租费用',PAYMENT_FAILED:'付款未完成',PAYMENT_CANCELLED:'已暂缓支付',COMPLETED:'已完成',
    REQUESTED:'已提交',WAITING_INSPECTION:'待验仓',INSPECTION_FAILED:'需重新验仓',INSPECTION_PASSED:'验仓通过',
    SUBMITTED:'已提交',personal:'个人',enterprise:'企业',INITIAL:'首期租金',RENEWAL:'续租费用',
    expiry:'到期退租',early:'提前退租'
@@ -35,10 +35,18 @@ function render(page,core,selectedId,tools){
    if(r.status==='QUOTE_PENDING'&&reviewMode){
     body+='<label>评审演示月租（¥） <input id="renew-review-price" type="number" min="1" step="1"></label>'+button('reviewRenewal','模拟审核报价',r.id,'outline');
    }
-   if(r.status==='QUOTE_READY')body+='<p>续租整期金额：'+money(r.quote_total)+' / 整期</p>'+button('confirmRenewal','确认续租',r.id);
-   if(r.status==='COMPLETED')body+='<p>续租已完成：'+money(r.quote_total)+'</p>';
+   if(r.status==='QUOTE_READY')body+='<p>续租整期金额：'+money(r.quote_total)+' / 整期</p>'+button('confirmRenewal','确认续租方案',r.id);
+   if(r.status==='PAYMENT_PENDING'){
+    body+='<p class="m02-renew-pay-due">本次续租应付 <strong>'+money(r.quote_total)+'</strong></p>'
+      +'<p>付款完成后，新租期才会生效。</p>'
+      +'<div class="m02-renew-pay-actions">'+button('payRenewalSuccess','立即付款',r.id)
+      +button('payRenewalCancel','稍后支付',r.id,'outline')
+      +(reviewMode?button('payRenewalFailed','付款失败（评审）',r.id,'outline'):'')+'</div>';
+   }
+   if(['PAYMENT_FAILED','PAYMENT_CANCELLED'].includes(r.status))body+='<p>续租整期金额：'+money(r.quote_total)+' / 整期</p>'+button('confirmRenewal','继续付款',r.id);
+   if(r.status==='COMPLETED')body+='<p>续租已生效 · '+money(r.quote_total)+'</p>';
   }
-  if(['active','upcoming'].includes(v.lease_status)&&v.total_months<60&&!v.renewal_requests.some(r=>['QUOTE_PENDING','QUOTE_READY'].includes(r.status))){
+  if(['active','upcoming'].includes(v.lease_status)&&v.total_months<60&&!v.renewal_requests.some(r=>['QUOTE_PENDING','QUOTE_READY','PAYMENT_PENDING','PAYMENT_FAILED','PAYMENT_CANCELLED'].includes(r.status))){
    body+='<label>续租月数（1–'+(60-v.total_months)+'个月） <input id="renew-months" type="number" min="1" max="'+(60-v.total_months)+'" value="'+esc(renewalDraft===null||renewalDraft===undefined?'':String(renewalDraft))+'"></label>'+button('requestRenewal','提交续租需求');
   }else body+='<p>当前状态暂不接受新的续租申请。</p>';
  }else if(page==='EX01'){

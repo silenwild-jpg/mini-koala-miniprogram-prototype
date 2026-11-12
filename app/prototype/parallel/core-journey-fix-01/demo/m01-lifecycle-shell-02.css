@@ -24,3 +24,9 @@
 .m02-service-content .m02-deposit span{color:#7c9185;font-size:13px}
 .m02-service-content .m02-deposit strong{font-size:23px;font-weight:750;line-height:1.4;color:#c67336}
 .m02-service-content input:focus-visible,.m02-service-content select:focus-visible,.m02-service-content button:focus-visible{outline:2px solid #14774d;outline-offset:2px}
+
+/* RN01 two-step renewal: review is not payment; actions are flat, touch-safe and scoped. */
+.page-RN01 .m02-renew-pay-due{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e6eee8;color:#657d71}
+.page-RN01 .m02-renew-pay-due strong{font-size:22px;line-height:1.4;color:#c67336;font-weight:750}
+.page-RN01 .m02-renew-pay-actions{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.page-RN01 .m02-renew-pay-actions button{flex:1 1 130px;margin:0}
