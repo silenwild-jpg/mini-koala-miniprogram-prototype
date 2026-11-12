@@ -86,6 +86,7 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       await visit('IV01',a.id);
       assert.equal(await page.locator('#invoice-tax-wrap').isVisible(),false,'personal tax field must be hidden');
       await capture('09-IV01-personal','发票申请');
+      const invoicedPayment=await page.locator('#invoice-payment').inputValue();
       await page.locator('[data-action="requestInvoice"]').click();
       await page.locator('.mk-service-field-error').waitFor();
       assert.match(await page.locator('.mk-service-field-error').innerText(),/发票抬头/);
@@ -106,8 +107,10 @@ const todayOffset=(date,days)=>{const [y,m,d]=date.split('-').map(Number);return
       await capture('13-IV01-blank-tax','请填写企业税号');
       await page.locator('#invoice-tax').fill('913100000000000000');
       await page.locator('[data-action="requestInvoice"]').click();
-      await capture('14-IV01-submitted','暂无可申请的付款记录');
-      assert.equal(await page.locator('#invoice-kind').count(),0,'duplicate invoice for same payment blocked');
+      await capture('14-IV01-submitted','发票申请 · 已提交');
+      const remaining=await page.locator('#invoice-payment option').evaluateAll(nodes=>nodes.map(n=>n.value));
+      assert(!remaining.includes(invoicedPayment),'submitted payment cannot be invoiced twice');
+      assert(remaining.length>=1,'renewal payment should remain available for a separate invoice');
       await visit('EX01',a.id);await capture('15-EX01-active','退租安排');
       await page.locator('[data-action="requestExit"]').click();
       await page.locator('.mk-service-field-error').waitFor();
