@@ -158,7 +158,11 @@ expanded:d.querySelectorAll('.store-card[data-card-kind="expanded"]').length,com
     screenshot('375-card-padding-18.png')
     select_dropdown('variant','B')
     step('variant_B_isolated',lambda:check(measure_card()['padding']!='18px','B has no A change'))
-    step('variant_B_edit',lambda:check(set_number('store-card',20)['padding']=='20px','B padding 20px'))
+    def test_B_edit():
+        d=set_number('store-card',20)
+        print('VIS_EDITOR_INTEGRATED_B_DIAG',json.dumps(d,ensure_ascii=False),flush=True)
+        return check(d['padding']=='20px',d)
+    step('variant_B_edit',test_B_edit)
     js("document.getElementById('save').click();return true;")
     select_dropdown('variant','A')
     step('variant_A_restored',lambda:check(measure_card()['padding']=='18px','A padding 18px'))
