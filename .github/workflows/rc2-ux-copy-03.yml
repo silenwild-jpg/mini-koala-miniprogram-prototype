@@ -1,0 +1,157 @@
+name: RC2 UX COPY 03 - legacy result truth and legal evidence
+on:
+  push:
+    branches: [isolate/rc2-ux-copy-03-20261112]
+    paths:
+      - .github/workflows/rc2-ux-copy-03.yml
+      - scripts/verify_rc2_single_candidate_03_h01_browser.cjs
+      - scripts/verify_rc2_single_candidate_03_s01_browser.cjs
+      - docs/RC2_UX_COPY_03_20261112.md
+      - scripts/verify_rc2_ux_copy_03_browser.cjs
+      - scripts/verify_rc2_ux_copy_03_menu_browser.cjs
+      - scripts/verify_rc2_ux_copy_03_navcopy_browser.cjs
+      - scripts/verify_rc2_ux_copy_03_navcopy_browser.cjs
+      - app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - scripts/verify_rc2_s02_photo_source_01_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-ux-copy-03-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  source-rule-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Pin immutable approved source and exclude rejected H01 A C
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = 'isolate/rc2-ux-copy-03-20261112'
+          git diff --name-only 12aa87649ed493864fd0e215a5fe3656efa8a395 HEAD -- app/ | sort > /tmp/rc2-04-delta
+          printf '%s\n' app/prototype/parallel/core-journey-fix-01/demo/app.js > /tmp/rc2-04-expected
+          diff -u /tmp/rc2-04-expected /tmp/rc2-04-delta || { echo UNAUTHORIZED_RUNTIME_DELTA; exit 1; }
+          grep -Fq '.h01-flow-buttons button{min-height:48px;' app/prototype/parallel/core-journey-fix-01/demo/h01-state-impl-01.css
+          grep -Fq '订单仍处于待支付状态，可从本页继续处理' app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          ! grep -Fq '预约只需用仓地址；立即下单先选合适的仓位。' app/prototype/parallel/core-journey-fix-01/demo/app.js
+          grep -Fq "if(modal==='navBooking')" app/prototype/parallel/core-journey-fix-01/demo/app.js
+          ! grep -Fq "内部演示导航" app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          grep -Fq "const actions={navTo(target)" app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          grep -Fq '用仓需求已记录' app/prototype/parallel/core-journey-fix-01/demo/br04/reserve/index.html
+          grep -Fq '验证手机号后可下单；门店和月租价格无需验证即可浏览。' app/prototype/parallel/core-journey-fix-01/demo/app.js
+          grep -Fq '暂无可查看的提交记录' app/prototype/parallel/core-journey-fix-01/demo/app.js
+          ! grep -Fq "title('模拟结果')" app/prototype/parallel/core-journey-fix-01/demo/app.js
+          ! grep -Fq "button('paySuccess','模拟支付成功')" app/prototype/parallel/core-journey-fix-01/demo/app.js
+          ! grep -Fq '模拟订单保留为待支付' app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          p='app/prototype/parallel/core-journey-fix-01/demo'
+          test "$(git hash-object "$p/h01-state-impl-01.js")" = ed1a5369aaa4dbc415aa62390107c91a732d2fe2
+          test "$(git hash-object "$p/h01-state-impl-01.css")" = 713c418185549bd888e02d918e0723c2c12247d8
+          ! grep -Eq 'h01FlowContext|h01StageProgress|h01SceneImage|h01-scene-image|h01-stage-progress' "$p/h01-state-impl-01.js" "$p/h01-state-impl-01.css" || { echo 'REJECTED_AC_VISUAL_REINTRODUCED'; exit 1; }
+          grep -Fq 'const detail=s.photoDetail?' "$p/app.js" || { echo 'S02_HERO_FIX_LOST'; exit 1; }
+          for f in "$p"/{app,demo-core,cap-bridge,space-unit,s01-r2-bind,h01-state-impl-01}.js scripts/{test_cap_unit_dual_01.js,verify_cap_unit_dual_01_browser.cjs,verify_rc2_single_candidate_03_h01_browser.cjs,verify_rc2_single_candidate_03_s01_browser.cjs,verify_rc2_s02_photo_source_01_browser.cjs,verify_rc2_ux_copy_03_navcopy_browser.cjs,verify_rc2_ux_copy_03_menu_browser.cjs,verify_rc2_ux_copy_03_browser.cjs}; do node --check "$f"; done
+      - name: Shared business rule, order, identity and lease contracts
+        run: |
+          node scripts/test_cap_unit_dual_01.js
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_rc2_final_vis_signoff_04_contract.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          node scripts/verify_h01_m01_flow_qa_01.cjs
+  browser-same-sha:
+    needs: source-rule-gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Build exact same SHA isolated HTML review package
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '153'
+          RC2_BUNDLE_BASE_PR: '153'
+          RC2_BUNDLE_LABEL: RC2-UX-DEMO-COPY-02-NAV-COPY
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_UX_COPY_03.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify same SHA, branch and selected source
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME||v.source_pr!==153)throw Error('SOURCE_SHA_BRANCH_PR_MISMATCH');console.log(JSON.stringify(v))"
+      - name: Install browser with Chinese glyphs
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+          test -n "$(fc-list :lang=zh family | head -1)"
+      - name: H01 no A C 20 states times two widths with quick order and bottom nav
+        if: ${{ !cancelled() }}
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+          RC2_EXPECT_BRANCH: ${{ github.ref_name }}
+          RC2_EXPECT_SOURCE_PR: '153'
+          H01_BROWSER_CHANNEL: chromium
+        run: node scripts/verify_rc2_single_candidate_03_h01_browser.cjs
+      - name: CAP square metres / cubic metres, term and S01 S02 S5 regression
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_cap_unit_dual_01_browser.cjs
+      - name: S5 16 states 6 guarded entries and 6 flow return checks
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+      - name: S01 recommendation and E storage state checks
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_single_candidate_03_s01_browser.cjs
+      - name: S02 browse/confirmed term and order gate
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_s02_term_state_01_browser.cjs
+      - name: H01 S01 S02 S5 M01 dual-width page smoke
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+      - name: O01 renewal identity and payment lifecycle in two viewports
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_final_vis_signoff_04_browser.cjs
+      - name: CAP and ITEMS entry to S5
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_merge_prep_04_cap_items_browser.cjs
+      - name: Cross-page user-provided store photos
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_s02_photo_source_01_browser.cjs
+      - name: Real two-width nav source and concise booking menu route audit
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_ux_copy_03_navcopy_browser.cjs
+      - name: Real S5 QUICK BOOKING top-menu and lead-confirmation screenshots
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_ux_copy_03_menu_browser.cjs
+      - name: Direct legacy RESULT, live O01 legal and customer phone gate with screenshots
+        if: ${{ !cancelled() }}
+        run: node scripts/verify_rc2_ux_copy_03_browser.cjs
+      - name: Upload no-deploy proof only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-UX-COPY-03-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-single-candidate-03-h01/
+            release-evidence/rc2-ux-copy-03-navcopy/
+            release-evidence/rc2-ux-copy-03-menu/
+            release-evidence/rc2-ux-copy-03/
+            release-evidence/cap-unit-dual-01/
+            release-evidence/s5-final-vis-signoff-04c/
+            release-evidence/rc2-single-candidate-03-s01/
+            release-evidence/rc2-s02-term-state-01/
+            release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-final-vis-signoff-04/
+            release-evidence/rc2-merge-prep-04/
+            release-evidence/rc2-s02-photo-source-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
