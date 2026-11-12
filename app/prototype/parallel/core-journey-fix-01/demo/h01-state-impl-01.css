@@ -34,7 +34,7 @@ body.h01-flow-business .below-editable{display:none!important}
 .h01-flow-fact b{font-size:17px;font-weight:780;white-space:normal;overflow-wrap:anywhere;color:#184631}
 .h01-flow-fact small{font-size:11.5px;color:#7b897f}
 .h01-flow-buttons{display:flex;align-items:stretch;gap:9px}
-.h01-flow-buttons button{min-height:46px;border-radius:9px;font-weight:750;font-size:14px;padding:0 12px;min-width:0}
+.h01-flow-buttons button{min-height:48px;border-radius:9px;font-weight:750;font-size:14px;padding:0 12px;min-width:0}
 .h01-flow-primary{flex:1;border:0;background:#08774e;color:white}
 .h01-flow-secondary{flex:0 1 38%;background:white;color:#20704e;border:1px solid #cfe2d4}
 .h01-flow-services{margin-top:19px}
@@ -95,3 +95,47 @@ body.h01-flow-business .h01-flow-store[hidden],body.h01-flow-business .h01-flow-
 .h01-flow-promo button{border:0;background:none;color:#176b4c;font-size:12px;min-height:44px;white-space:nowrap}
 .h01-flow-promo[hidden],.h01-flow-help[hidden]{display:none!important}
 .h01-flow-modal .h01-flow-dialog{max-height:85%;overflow-y:auto}
+
+/* H01-TASK-SPACE-EXPLORE-03: A/C context below frozen task card only. */
+body.h01-flow-business .h01-flow-context{margin:13px 1px 0}
+body.h01-flow-business .h01-stage-progress{padding:1px 0 7px}
+body.h01-flow-business .h01-stage-head{font-size:14px;font-weight:750;color:#194c38;margin-bottom:13px}
+body.h01-flow-business .h01-stage-steps{position:relative;display:flex;align-items:flex-start;justify-content:space-between;min-height:46px;gap:4px;color:#84938a;font-size:11px;font-weight:650}
+body.h01-flow-business .h01-stage-steps::before{content:"";position:absolute;left:9%;right:9%;top:6px;height:2px;background:#d2dfd6;z-index:0}
+body.h01-flow-business .h01-stage-steps span{display:flex;align-items:center;flex-direction:column;position:relative;min-width:65px;flex:1;gap:8px;z-index:1}
+body.h01-flow-business .h01-stage-steps span::before{content:"";display:block;width:13px;height:13px;border-radius:50%;background:#fff;border:2px solid #bacdc0;box-sizing:border-box}
+body.h01-flow-business .h01-stage-steps .now{color:#08774e;font-weight:800}
+body.h01-flow-business .h01-stage-steps .now::before{border-color:#0b744e;background:#0b744e}
+body.h01-flow-business .h01-stage-tip{font-size:12px;line-height:1.5;margin:0;color:#617969}
+body.h01-flow-business .h01-scene-head{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;padding:0 1px;margin:0 0 8px}
+body.h01-flow-business .h01-scene-head strong{font-size:14px;font-weight:760;color:#164935}
+body.h01-flow-business #h01SceneHours{font-size:12px;color:#6c8073;white-space:nowrap}
+body.h01-flow-business .h01-scene-image{display:block;width:100%;height:114px;border-radius:9px;object-fit:cover;object-position:50% 48%;background:#e5efe7}
+body.h01-flow-business .h01-flow-services{margin-top:12px}
+body.h01-flow-business .h01-flow-other{margin-top:8px}
+body.h01-flow-business .h01-flow-help{margin:12px 2px 0;padding:10px 0 8px}
+/* Reserve a scrollable tail at least one fixed-nav height plus 16px; longer CJK lines remain reachable. */
+body.h01-flow-business .h01-flow-content{padding-bottom:max(calc(var(--w)*76/463 + 16px),calc(20px + env(safe-area-inset-bottom)))}
+@media(max-width:380px){
+  body.h01-flow-business .h01-scene-image{height:108px}
+  body.h01-flow-business .h01-stage-progress{padding-bottom:4px}
+}
+
+/* Safe-area refinement: active includes services and orders below the photo. */
+body.h01-flow-business #h01FlowContext[data-stage="active"] .h01-scene-image{height:104px}
+@media(max-width:380px){
+  body.h01-flow-business #h01FlowContext[data-stage="active"] .h01-scene-image{height:96px}
+}
+
+/* VIS-07: active-only CJK safe-area spacing correction. */
+body.h01-flow-business #h01FlowContext[data-stage="active"]{margin-top:9px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowServices{margin-top:8px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowServices h2{margin-bottom:4px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowOther{margin-top:3px}
+body.h01-flow-business #h01FlowContext[data-stage="active"] ~ #h01FlowHelp{margin-top:6px;padding-top:8px;padding-bottom:6px}
+/* Keep the approved photo height and primary/service actions unchanged. */
+
+/* H01-VIS-SIGNOFF-02: SIM_BJ01 original environment photo contains a readable
+   A001 warehouse label outside this public environment crop. Keep the photo
+   sourced to the correct store; adjust only the focal position, not card size. */
+body.h01-flow-business #h01FlowContext[data-photo-store="SIM_BJ01"] .h01-scene-image{object-position:50% 74%}
