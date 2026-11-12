@@ -119,6 +119,26 @@
         context.termConfirmed===r.term_confirmed&&context.term===r.term_months;
     }catch{return false;}
   }
+  // Reuse the S5 map origin only for the same S5 -> S01 demand and city.
+  // This is separate from the default synthetic city-distance fallback.
+  function s5OriginForS01(){
+    if(!s01OriginFromS5())return null;
+    try{
+      const value=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}')?.s5?.s5MapOrigin;
+      const lat=Number(value?.latitude),lng=Number(value?.longitude);
+      return value&&value.city===state().city&&Number.isFinite(lat)&&Number.isFinite(lng)
+        ?{city:value.city,latitude:lat,longitude:lng}:null;
+    }catch{return null;}
+  }
+  function s5OriginDistances(){
+    const origin=s5OriginForS01(),ranker=window.S5_LOCATION_RANKER;
+    if(!origin||!ranker)return null;
+    const cityStores=F.stores.filter(s=>s.city===origin.city&&s.status==='open');
+    const result=ranker.rank(cityStores.map(store=>({store})),origin,()=>Infinity);
+    if(!result.applied)return null;
+    return new Map(result.rows.filter(row=>row.distanceFromOrigin)
+      .map(row=>[row.store.id,row.originDistanceKm]));
+  }
   function saveS5Origin(){const r=state().requirement;
     sessionStorage.setItem(S01_ORIGIN_KEY,JSON.stringify({source:'S5',city:state().city,
       capacity:r.capacity_m3,termConfirmed:r.term_confirmed,term:r.term_months,at:Date.now()}));
@@ -220,7 +240,8 @@
     if(visual.service!=='all')stores=stores.filter(s=>s.serviceTags.includes(visual.service));
     if(r2Mode()){
       if(r2Filters.services.length)stores=stores.filter(s=>r2Filters.services.every(v=>(s.serviceTags||[]).includes(v)));
-      if(r2Filters.maxKm!==null&&demoDistanceEnabled)stores=stores.filter(s=>displayedDistanceKm(s)<=Number(r2Filters.maxKm));
+      if(r2Filters.maxKm!==null&&demoDistanceEnabled&&!s5OriginDistances())
+          stores=stores.filter(s=>displayedDistanceKm(s)<=Number(r2Filters.maxKm));
       if(r2Filters.quick.includes('promo'))stores=stores.filter(s=>s.operatingTag==='特价仓'||s.operatingTag==='双11大促');
       if(r2Filters.quick.includes('moving'))stores=stores.filter(s=>s.operatingTag==='免费搬运');
     }
@@ -691,8 +712,11 @@
     storeView(id){const s=F.stores.find(x=>x.id===id);return s?r2View(s):null;},
     regions(){return [...new Set(F.stores.filter(s=>s.city===state().city).map(s=>r2View(s).district))].filter(Boolean);},
     snapshot(){
-      const r=state().requirement,matched=core.requirementReady();
+      const r=state().requirement,matched=core.requirementReady(),originDistances=s5OriginDistances();
       let stores=visibleS01Stores().filter(s=>r2Filters.region==='all'||r2View(s).district===r2Filters.region);
+      // An S5 map-based radius must not be filtered against city-default distances.
+      if(originDistances&&r2Filters.maxKm!==null)
+        stores=stores.filter(s=>originDistances.has(s.id)&&originDistances.get(s.id)<=Number(r2Filters.maxKm));
       const rowsFor=s=>(matched?core.matchingUnits(s.id):F.units.filter(u=>u.store_id===s.id)).filter(u=>core.available(u)&&s.status==='open'&&R2.matches(u.volume,r2Filters.capacity)).sort((a,b)=>a.volume-b.volume);
       if(r2Filters.capacity!=='all')stores=stores.filter(s=>rowsFor(s).length);
       // For unconfigured demand, apply the shared recommendation policy only to stores
@@ -704,10 +728,19 @@
         // In the isolated demo, presentation ranking follows the same per-store
         // seeded kilometers shown to users; this must not mark core location verified.
         const demoDistanceReady=!!F.synthetic; // Stable demonstration distances may rank, while location verification remains false.
-        stores=[...REC.rank(eligible,{distanceVerified:F.distanceVerified||demoDistanceReady,costOf:s=>matched?storeAmount(s):(presentation.cubicReference(s)?.value??Infinity)}).items,...unavailable];
+        if(originDistances){
+          const located=eligible.filter(s=>originDistances.has(s.id))
+            .map(s=>({...s,distance:originDistances.get(s.id)}));
+          const withoutLocation=eligible.filter(s=>!originDistances.has(s.id));
+          const rank=REC.rank(located,{distanceVerified:located.length>0,
+            costOf:s=>matched?storeAmount(s):(presentation.cubicReference(s)?.value??Infinity)});
+          stores=[...rank.items,...withoutLocation,...unavailable];
+        }else{
+          stores=[...REC.rank(eligible,{distanceVerified:F.distanceVerified||demoDistanceReady,costOf:s=>matched?storeAmount(s):(presentation.cubicReference(s)?.value??Infinity)}).items,...unavailable];
+        }
       }
-      if(visual.sort==='distance'&&demoDistanceEnabled){
-        const kilometers=s=>displayedDistanceKm(s);
+      if(visual.sort==='distance'&&(demoDistanceEnabled||originDistances)){
+        const kilometers=s=>originDistances?(originDistances.get(s.id)??Infinity):displayedDistanceKm(s);
         const byKm=(a,b)=>kilometers(a)-kilometers(b)||String(a.id).localeCompare(String(b.id));
         const available=stores.filter(s=>rowsFor(s).length>0);
         const unavailable=stores.filter(s=>!rowsFor(s).length);
@@ -721,23 +754,24 @@
           ...stores.filter(s=>!(r2View(s).district===preferredDistrict&&rowsFor(s).length))];
       }
       return {city:state().city,sourceNamespace:F.sourceNamespace||'SIM',
-        distanceSortSource:F.distanceVerified?'VERIFIED_LOCATION':F.synthetic?'SYNTHETIC_FIXED':'DISABLED',
+        distanceSortSource:originDistances?'S5_SELECTED_ORIGIN_PROPERTY':F.distanceVerified?'VERIFIED_LOCATION':F.synthetic?'SYNTHETIC_FIXED':'DISABLED',
         distanceVerified:!!F.distanceVerified,
         authorized:core.authorized(),termConfirmed:matched,termMonths:matched?r.term_months:null,matched,
         keyword:visual.keyword,storeCount:stores.length,filters:{...r2Filters},
         filterLabels:[visual.sort==='price'?'价格优先':visual.sort==='distance'?'距离优先':'排序',r2Filters.maxKm!==null?r2Filters.maxKm+'km内':'距离',r2Filters.services.length?'已选服务':'服务'],filterActive:[visual.sort!=='recommended',r2Filters.maxKm!==null,r2Filters.services.length>0],
         servicesSelected:[...r2Filters.services],maxKm:r2Filters.maxKm,quickSelected:[...r2Filters.quick],
-        requirement:{capacity:matched?r.capacity_m3:null,displayCapacity:matched?space.demandCapacity(r):null,term:matched?r.term_months:null,complete:matched},canReturnToS5:s01OriginFromS5(),distanceFilterEnabled:demoDistanceEnabled,
+        requirement:{capacity:matched?r.capacity_m3:null,displayCapacity:matched?space.demandCapacity(r):null,term:matched?r.term_months:null,complete:matched},canReturnToS5:s01OriginFromS5(),distanceFilterEnabled:demoDistanceEnabled||!!originDistances,
         visibleStoreCount:Math.min(stores.length,Math.max(2,Math.min(50,r2Filters.visibleLimit))),canLoadMore:stores.length>Math.max(2,Math.min(50,r2Filters.visibleLimit)),
         stores:stores.slice(0,Math.max(2,Math.min(50,r2Filters.visibleLimit))).map((s,rank)=>{
           const v=r2View(s);
-          const hasVerifiedDistance=!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
+          const hasVerifiedDistance=!originDistances&&!!F.distanceVerified&&Number.isFinite(Number(s.distance))&&Number(s.distance)>=0;
+          const visibleDistance=originDistances?(originDistances.has(s.id)?originDistances.get(s.id).toFixed(1)+'km':''):v.distance;
           const termVisible=matched;
           const publicCubic=!matched?presentation.cubicReference(s):null;
           const publicTerm=presentation.bestPublicTerm();
           return {id:s.id,name:s.name,...v,
             publicCubicPrice:publicCubic?.money||null,publicCubicTerm:publicTerm,
-            distance:v.distance,
+            distance:visibleDistance,
             distanceVerified:hasVerifiedDistance,
             units:(matched?rowsFor(s).slice(0,1):[]).map((u,i)=>{
               // Only the O01-equivalent central calculation may produce formal, whole-term rent.
@@ -788,7 +822,7 @@
     },
     search(text){visual.keyword=String(text||'').trimStart().slice(0,60);r2Filters.visibleLimit=10;saveR2Filters();saveVisual();act(()=>render());},
     setSort(value){if(!['recommended','distance','price'].includes(value))return;act(()=>handlers.setSort(value));},
-    setRadius(value){const km=value===null?null:Number(value);if(km!==null&&(![1,3,5,10].includes(km)||!demoDistanceEnabled))return false;r2Filters.maxKm=km;r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());return true;},
+    setRadius(value){const km=value===null?null:Number(value);if(km!==null&&(![1,3,5,10].includes(km)||(!demoDistanceEnabled&&!s5OriginDistances())))return false;r2Filters.maxKm=km;r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());return true;},
     setServices(values){const allowed=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];r2Filters.services=Array.isArray(values)?[...new Set(values)].filter(v=>allowed.includes(v)):[];visual.service='all';r2Filters.visibleLimit=10;saveVisual();saveR2Filters();act(()=>render());},
     setQuick(value){if(!['promo','moving'].includes(value))return;r2Filters.quick=r2Filters.quick.includes(value)?r2Filters.quick.filter(v=>v!==value):[...r2Filters.quick,value];r2Filters.visibleLimit=10;saveR2Filters();act(()=>render());},
     clearFilters(){act(()=>handlers.clearFilters());},
