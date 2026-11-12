@@ -125,7 +125,18 @@
   }
   function clearS5Origin(){sessionStorage.removeItem(S01_ORIGIN_KEY);}
 
-  function go(next,storeId,reset=false){if(next==='O01'&&!core.authorized()){phoneAuth.run('ORDER','OPEN_O01',()=>go(next,storeId,reset));return;}if(next==='O01'&&page!=='O01')sessionStorage.setItem('mk_order_return_v2',page);remember();if(reset)positions={};if(storeId&&storeId!==state().storeId){positions.S02=0;visual.tab='可选仓位';visual.category='全部';visual.gallery=0;saveVisual();}if(storeId)core.setStore(storeId);
+  // S5 is a post-selection recommendation page. Both capacity and the lease
+  // term must be confirmed in the upstream flow; missing fields go to the
+  // existing capacity editor, not to a second incomplete S5 visual state.
+  function openRequirementEditor(returnPage=page,forceCapacityStep=false){
+    persist();
+    const from='index.html?page='+returnPage+(returnPage==='S02'&&state().storeId?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':'');
+    sessionStorage.setItem('mk_estimate_return_v4',from);
+    const itemsFlow=!forceCapacityStep&&['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);
+    if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',from);
+    window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);
+  }
+  function go(next,storeId,reset=false){if(next==='S5'&&!core.requirementReady()){openRequirementEditor('S5',true);return;}if(next==='O01'&&!core.authorized()){phoneAuth.run('ORDER','OPEN_O01',()=>go(next,storeId,reset));return;}if(next==='O01'&&page!=='O01')sessionStorage.setItem('mk_order_return_v2',page);remember();if(reset)positions={};if(storeId&&storeId!==state().storeId){positions.S02=0;visual.tab='可选仓位';visual.category='全部';visual.gallery=0;saveVisual();}if(storeId)core.setStore(storeId);
     if(next==='S01'&&page==='S5'){saveS5Origin();sessionStorage.removeItem(S01_SCROLL_KEY);}
     else if(['M01','BOOKING','QUICK'].includes(next))clearS5Origin();
     if(next==='S5')clearS5Origin();
@@ -390,6 +401,7 @@
     const inProgressRenewal=document.getElementById('renew-months');
     if(page==='RN01'&&inProgressRenewal)renewalDraftByOrder[lifecycleId()]=inProgressRenewal.value;
     core.expirePendingOrders();
+    if(page==='S5'&&!core.requirementReady()){openRequirementEditor('S5',true);return;}
     if(page==='O01'&&!core.authorized())notice='请验证手机号后继续确认订单';
     if(displayedPage===page&&(!MK_M01_ORDER_ROUTE_01.isOrderPage(page)||displayedOrderId===selectedOrderId)&&$('#scroll'))positions[positionKey()]=$('#scroll').scrollTop;
     const was=displayedPage;core.authorized();persist();
@@ -504,7 +516,7 @@
       else {try{f.contentWindow.S01_R2_REFRESH?.();}catch{}}
     }else if(page==='O01'&&!core.authorized()){$('#screen').innerHTML=`<section class="phone-route-lock"><h2>确认订单</h2><p>验证手机号后继续，您的容量、租期和仓位已保留。</p>${button('phoneOrder','验证并继续')}${button('go','返回选择','QUICK','outline')}</section>`;}else if(framed[page]){
       const f=$('#br04-frame');
-      if(!f||was!==page)$('#screen').innerHTML=`<iframe id="br04-frame" class="br04-frame" title="${{S5:'租期与推荐',BOOKING:new URLSearchParams(location.search).get('mode')==='advisor'?'顾问咨询':'预约用仓',QUICK:'快捷下单',O01:'确认订单'}[page]}" src="br04/${framed[page]}/index.html?v=VA04"></iframe>`;
+      if(!f||was!==page)$('#screen').innerHTML=`<iframe id="br04-frame" class="br04-frame" title="${{S5:'仓位推荐',BOOKING:new URLSearchParams(location.search).get('mode')==='advisor'?'顾问咨询':'预约用仓',QUICK:'快捷下单',O01:'确认订单'}[page]}" src="br04/${framed[page]}/index.html?v=VA04"></iframe>`;
       else {try{f.contentWindow.BR04_REFRESH?.();}catch{}}
     } else $('#screen').innerHTML=`<div id="scroll" class="scroll demo-scroll">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${functions[page]()}</div>${page==='M01'?footer():''}`;
     displayedPage=page;displayedOrderId=MK_M01_ORDER_ROUTE_01.isOrderPage(page)?selectedOrderId:null;
@@ -768,7 +780,7 @@
     return {id:s.id,name:s.name,address:v.address,district:v.district,
       photo:v.photo,services:v.services,tagTypes:v.tagTypes,distance:displayedDistanceKm(s),distanceVerified:F.distanceVerified};
   }
-  window.SIM_DEMO={s01R2Bridge,presentation,s5SharedUnit,s5SharedStore,s5AreaPreference,s5SetArea,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){persist();sessionStorage.setItem('mk_estimate_return_v4','index.html?page='+page+(page==='S02'?'&store='+encodeURIComponent(state().storeId):'')+(r2Mode()?'&s01_r2=1':''));const itemsFlow=['items_estimate','known_capacity_in_items_flow'].includes(state().requirement.source);if(itemsFlow)sessionStorage.setItem('mk_items_back_v1',sessionStorage.getItem('mk_estimate_return_v4'));window.location.assign(new URL(itemsFlow?'items.html':'cap.html',CENTRAL_DEMO_BASE).href);},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
+  window.SIM_DEMO={s01R2Bridge,presentation,s5SharedUnit,s5SharedStore,s5AreaPreference,s5SetArea,state:()=>core.state(),core,persist,navigate:go,order:choose,offers:candidateList,s5Offers:s5CandidateList,openStore(id,from){core.setReturn(from);go('S02',id);},openOrder(id){if(!state().orders.some(o=>o.id===id))throw Error('ORDER_NOT_FOUND');selectedOrderId=id;sessionStorage.setItem('mk_lifecycle_selected_order_v1',id);go('O03');},editRequirement(){openRequirementEditor();},requestPhone,phoneAuth,guarded:(intent,key,action)=>phoneAuth.run(intent,key,action)};
   // Direct H01 -> O01: validate and restore the specific pending order before rendering checkout.
   if(page==='O01'&&requestedOrderId){
     const target=state().orders.find(o=>o.id===requestedOrderId);
