@@ -185,12 +185,20 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
        await s5.locator('#modify').click();
        // CAP replaces the #central-host iframe, not the top-level page URL.
        // The former top-level waitForURL produced a false failure.
-       await app.getByText('估算存储空间',{exact:true}).first().waitFor({timeout:15000});
-       const saved=await app.locator('body').evaluate(()=>sessionStorage.getItem('mk_estimate_return_v4')||'');
+       // The CAP interface may be reached inside a nested frame; inspect the
+       // actual frame navigation and its visible CTA rather than guessing an h1.
+       await page.waitForTimeout(650);
+       const capFrame=page.frames().find(frame=>/(?:\/cap\.html|\/items\.html)(?:\?|$)/.test(frame.url()));
+       row.frameUrls=page.frames().map(frame=>frame.url());
+       assert(capFrame,'CAP editor frame was not opened: '+JSON.stringify(row.frameUrls));
+       row.editorUrl=capFrame.url();
+       const bodyText=await capFrame.locator('body').innerText();
+       assert(bodyText.includes('查看仓位报价'),'CAP editor lacks return CTA: '+bodyText.slice(0,200));
+       const saved=await capFrame.evaluate(()=>sessionStorage.getItem('mk_estimate_return_v4')||'');
        assert(saved.includes('page=S5'),'capacity editor must return to S5: '+saved);
        row.returnPath=saved;
-       await app.getByRole('button',{name:/8m³/}).first().click();
-       await app.getByRole('button',{name:/查看仓位报价/}).first().click();
+       await capFrame.getByRole('button',{name:/8m³/}).first().click();
+       await capFrame.getByRole('button',{name:/查看仓位报价/}).first().click();
        await s5.locator('body[data-page="s5"].bridge-ready').waitFor({timeout:20000});
        const after=await app.locator('#screen').evaluate(()=>{
          const B=window.SIM_DEMO,s=B.core.state();
