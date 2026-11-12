@@ -8,6 +8,7 @@ on:
       - .github/workflows/rc2-s02-term-state-01.yml
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - scripts/verify_rc2_s02_term_state_01_browser.cjs
+      - scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
       - docs/RC2_S02_TERM_STATE_01_20261112.md
   workflow_dispatch:
 permissions:
