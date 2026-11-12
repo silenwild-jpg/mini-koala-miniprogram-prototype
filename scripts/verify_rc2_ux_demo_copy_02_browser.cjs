@@ -55,13 +55,23 @@ const srv=http.createServer((req,res)=>{
    const reserve=await open('BOOKING');await checkMenu(reserve,'#menu','#selectionMask','更多操作','03-BOOKING','S01');
    const lead=await open('BOOKING');
    await lead.locator('#booking-address').fill('北京市朝阳区青年路甲5号院3号楼');
+   assert((await lead.locator('.privacy-help').innerText()).includes('用仓地址、联系电话必填'),'mandatory phone text missing');
+   await lead.locator('#reserveForm button[type="submit"]').click();
+   await lead.locator('#toast').waitFor({state:'visible',timeout:6000});
+   assert((await lead.locator('#toast').innerText()).includes('请填写有效联系电话'),'missing phone should yield clear error');
+   assert(!(await lead.locator('#success').isVisible()),'lead must not be accepted without valid contact');
+   await shot('04-BOOKING-phone-required');
+   await lead.locator('#reserve-contact').fill('13800138000');
    await lead.locator('#reserveForm button[type="submit"]').click();
    await lead.locator('#success').waitFor({state:'visible',timeout:10000});
+   assert(!(await lead.locator('#toast').isVisible()),'prior field error must clear on valid submission');
+   const saved=await page.evaluate(()=>{const z=window.SIM_DEMO.core.state().leads.at(-1);return {phone:z?.phone,status:z?.status,address:z?.address}});
+   assert.deepEqual(saved,{phone:'13800138000',status:'saved_locally',address:'北京市朝阳区青年路甲5号院3号楼'},'local lead payload');
    const confirmation=await lead.locator('#success').innerText();
    assert(confirmation.includes('用仓需求已记录')&&confirmation.includes('用仓地址和需求信息已保存'),'lead confirmation copy');
    assert(!/模拟|演示/.test(confirmation),'demo-copy leak in lead result');
    await shot('04-BOOKING-recorded');
-   rows.push({width,step:'04-BOOKING-recorded',result:'PASS',msg:confirmation.slice(0,95)});
+   rows.push({width,step:'04-BOOKING-recorded',result:'PASS',requiredPhoneGuard:true,savedLead:saved.status,msg:confirmation.slice(0,95)});
    assert.deepEqual(errors,[],'runtime JS errors');
    await context.close();
   }
