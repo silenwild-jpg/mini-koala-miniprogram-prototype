@@ -159,9 +159,9 @@ expanded:d.querySelectorAll('.store-card[data-card-kind="expanded"]').length,com
     select_dropdown('variant','B')
     step('variant_B_isolated',lambda:check(measure_card()['padding']!='18px','B has no A change'))
     def test_B_edit():
-        d=set_number('store-card',20)
+        d=set_number('store-card',16)
         print('VIS_EDITOR_INTEGRATED_B_DIAG',json.dumps(d,ensure_ascii=False),flush=True)
-        return check(d['padding']=='20px',d)
+        return check(d['padding']=='16px',d)
     step('variant_B_edit',test_B_edit)
     js("document.getElementById('save').click();return true;")
     select_dropdown('variant','A')
@@ -171,7 +171,7 @@ expanded:d.querySelectorAll('.store-card[data-card-kind="expanded"]').length,com
     editor_ready()
     step('persistent_A_after_reload',lambda:check(measure_card()['padding']=='18px','A persisted in localStorage'))
     select_dropdown('variant','B')
-    step('persistent_B_after_reload',lambda:check(measure_card()['padding']=='20px','B persisted in localStorage'))
+    step('persistent_B_after_reload',lambda:check(measure_card()['padding']=='16px','B persisted in localStorage'))
     js("document.getElementById('export').click();return true;")
     def exported():
         j=list(OUT.glob('S01_VIS_EDITOR_01B_B_*.json'))
@@ -185,7 +185,7 @@ expanded:d.querySelectorAll('.store-card[data-card-kind="expanded"]').length,com
         time.sleep(.25)
     step('export_JSON_CSS',lambda:check(export_files,{'files':sorted(x.name for x in OUT.iterdir()),'expected':export_files}))
     j=json.loads((OUT/export_files['json']).read_text(encoding='utf-8'))
-    step('export_exact_source',lambda:check(j['sourceBranch']=='isolate/vis-system-04b2-20261111' and 'central-review-02g.html' in j['sourceRoute'] and j['changes']['store-card']['padding']==20 and j['variant']=='B',j['baseSha']))
+    step('export_exact_source',lambda:check(j['sourceBranch']=='isolate/vis-system-04b2-20261111' and 'central-review-02g.html' in j['sourceRoute'] and j['changes']['store-card']['padding']==16 and j['variant']=='B',j['baseSha']))
     results['status']='PASS'
 except Exception as e:
     results['error']=repr(e)
