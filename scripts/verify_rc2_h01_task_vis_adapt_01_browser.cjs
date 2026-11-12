@@ -148,6 +148,9 @@ async function start(){
            imageUrl:photo?.getAttribute('src')||'',
            imageLoaded:!!(photo?.complete&&photo.naturalWidth>0),
            expectedImage:store?.photoDetail||null,
+           photoStore:document.querySelector('#h01FlowContext')?.dataset.photoStore||'',
+           expectedPhotoStore:store?.id||'',
+           photoFocus:photo?getComputedStyle(photo).objectPosition:null,
            context:rect('#h01FlowContext'),task:rect('#h01FlowTask'),
            nav:rect('.footer-nav'),help:rect('#h01FlowHelp'),
            viewportWidth:window.innerWidth,scrollWidth:document.querySelector('#phone')?.scrollWidth
@@ -162,6 +165,9 @@ async function start(){
          'Active access hours must not be repeated above the store image');
        assert(variant.imageLoaded,'Curated photo not loaded');
          assert(variant.expectedImage&&variant.imageUrl.endsWith(variant.expectedImage),'Store ID to photo mapping mismatch');
+         assert.equal(variant.photoStore,variant.expectedPhotoStore,'Photo focal CSS scoped to wrong store');
+         if(variant.photoStore==='SIM_BJ01')assert.equal(variant.photoFocus,'50% 74%',
+           'Known A001 label must be excluded with the store-specific focal crop');
          assert(variant.context?.bottom<variant.nav?.top-8,'Store photo content overlaps bottom nav');
        }
        if(shouldProgress)assert(variant.context?.bottom<variant.nav?.top-8,'Payment progress overlaps bottom nav');
