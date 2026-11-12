@@ -89,7 +89,9 @@ const root=document.getElementById('preview').contentDocument;
 const d=root.querySelector('#central-host').contentDocument.querySelector('#s01-r2-frame').contentDocument;
 const el=d.querySelector('.store-card[data-card-kind="expanded"]');
 return {padding:el&&el.ownerDocument.defaultView.getComputedStyle(el).paddingTop,
-current:n.value,edits:document.getElementById('status-text').textContent};
+inline:el&&el.getAttribute('style'),current:n.value,edits:document.getElementById('status-text').textContent,
+sourceConnected:!!el&&el.isConnected,frameState:d.documentElement.dataset.matchMode,
+targetName:document.getElementById('target-title').textContent};
 """)
 
 def measure_card():
@@ -146,7 +148,11 @@ expanded:d.querySelectorAll('.store-card[data-card-kind="expanded"]').length,com
 """,timeout=22),state))
         if state=='matched8': screenshot('390-matched8.png')
     select_dropdown('viewport','375')
-    a=step('visual_change',lambda:check(set_number('store-card',18)['padding']=='18px','card padding 18px'))
+    def test_visual_change():
+        d=set_number('store-card',18)
+        print('VIS_EDITOR_INTEGRATED_DIAG',json.dumps(d,ensure_ascii=False),flush=True)
+        return check(d['padding']=='18px',d)
+    a=step('visual_change',test_visual_change)
     step('undo_revert',lambda:check((js("document.getElementById('undo').click();return true;") and measure_card()['padding']!='18px'),'undo restored baseline'))
     step('redo_reapply',lambda:check((js("document.getElementById('redo').click();return true;") and measure_card()['padding']=='18px'),'redo padding 18px'))
     screenshot('375-card-padding-18.png')
