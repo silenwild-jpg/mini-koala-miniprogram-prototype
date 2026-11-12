@@ -69,6 +69,13 @@ async function startApp(page){
         assert(!await capFrame.locator('#capacity').isVisible(),'m³ input hidden while area mode');
         assert.equal(await areaInput.getAttribute('type'),'text','area uses frozen plus/minus not browser spinners');
         assert(await capFrame.locator('#unit').isHidden(),'legacy fixed m³ label hidden');
+        await switcher.selectOption('m3');
+        await capFrame.locator('#capacity').fill('3.33');
+        await switcher.selectOption('m2');
+        assert.equal(await areaInput.inputValue(),'','unrepresentable cubic size must not be silently rounded');
+        await switcher.selectOption('m3');
+        assert.equal(await capFrame.locator('#capacity').inputValue(),'3.33','nonrepresentable cubic size survives switch-back');
+        await switcher.selectOption('m2');
         await areaInput.fill('1.23');
         assert.equal(await capFrame.locator('#capacity').inputValue(),'','invalid area cannot become a matching volume');
         await areaInput.fill('2');
