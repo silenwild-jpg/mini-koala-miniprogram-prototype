@@ -8,6 +8,7 @@ import subprocess
 import threading
 import time
 import urllib.request
+import urllib.error
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 
@@ -38,8 +39,11 @@ def step(name,fn):
 def request(method,route,body=None):
     payload=None if body is None else json.dumps(body).encode('utf-8')
     req=urllib.request.Request(WD+route,data=payload,method=method,headers={'Content-Type':'application/json'})
-    with urllib.request.urlopen(req,timeout=25) as r:
-        result=json.loads(r.read().decode('utf-8'))['value']
+    try:
+        with urllib.request.urlopen(req,timeout=25) as r:
+            result=json.loads(r.read().decode('utf-8'))['value']
+    except urllib.error.HTTPError as e:
+        raise RuntimeError('WEBDRIVER_HTTP_'+str(e.code)+' '+e.read().decode('utf-8','replace')[:1100]) from e
     if isinstance(result,dict) and result.get('error'):
         raise RuntimeError('WEBDRIVER '+str(result)[:600])
     return result
