@@ -1,0 +1,92 @@
+name: RC2 PUBLIC PRICE 01 H01 S01 S02 lowest month 起 - 375-390 no deploy
+on:
+  push:
+    branches:
+      - isolate/rc2-public-price-01-20261112
+      - isolate/rc2-final-vis-signoff-04-20261112
+    paths:
+      - .github/workflows/rc2-public-price-01.yml
+      - app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
+      - app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js
+      - scripts/verify_rc2_business_rebuild_01.cjs
+      - scripts/verify_rc2_s02_term_state_01_browser.cjs
+      - docs/RC2_PUBLIC_PRICE_01_20261112.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-public-price-01-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  public-price-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Pin real SHA and isolated source scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          case "$GITHUB_REF_NAME" in isolate/rc2-public-price-01-20261112|isolate/rc2-final-vis-signoff-04-20261112) ;; *) echo UNEXPECTED_BRANCH; exit 1;; esac
+          if [ "$GITHUB_REF_NAME" = "isolate/rc2-public-price-01-20261112" ]; then
+            git diff --name-only 18829344cb597fd33309ab339a34684148680b10 HEAD -- app/ > /tmp/public-price-scope.txt
+            cat /tmp/public-price-scope.txt
+            test "$(wc -l </tmp/public-price-scope.txt)" = 3
+            for f in app/prototype/parallel/core-journey-fix-01/demo/app.js app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js app/prototype/parallel/core-journey-fix-01/demo/s01-r2-bind.js; do grep -qx "$f" /tmp/public-price-scope.txt; done
+          fi
+          for f in app/prototype/parallel/core-journey-fix-01/demo/{app,presentation-policy,s01-r2-bind,demo-core}.js scripts/verify_rc2_business_rebuild_01.cjs scripts/verify_rc2_s02_term_state_01_browser.cjs; do node --check "$f"; done
+      - name: Check public price and RC2 lifecycle logic
+        run: |
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_rc2_final_vis_signoff_04_contract.cjs
+          node scripts/verify_vis_system_04b1_tag_semantics.cjs
+          node scripts/verify_rc2_vis_signoff_02_geometry.cjs
+          node qa/test_h01_order_payment_3h.cjs
+      - name: Build exact public-price candidate without deployment
+        env:
+          RC2_BUNDLE_LABEL: RC2-PUBLIC-PRICE-01
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_PUBLIC_PRICE_01.zip
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '134'
+          RC2_BUNDLE_BASE_PR: '134'
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify bundle source provenance
+        run: |
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_branch!==process.env.GITHUB_REF_NAME)throw Error('BUNDLE_SHA_MISMATCH');console.log(v.source_sha)"
+      - name: Install Chromium and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: H01 S01 public per-m3 and S02 per-unit monthly 起 at 375 390
+        run: node scripts/verify_rc2_s02_term_state_01_browser.cjs
+      - name: Keep S02 approved services, phone, route, touch targets
+        run: node scripts/verify_s02_fix_01_browser.cjs
+      - name: Preserve matched S01 S5 O01 price and unit identity 375 390
+        run: node scripts/verify_s5_s01_vis_signoff_04_browser.cjs
+      - name: Preserve S5 mandatory estimate and return states 375 390
+        run: node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+      - name: Preserve H01 S01 S02 S5 M01 full page smoke 375 390
+        run: node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+      - name: Upload same SHA test JSON and PNG
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-PUBLIC-PRICE-01-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-s02-term-state-01/
+            release-evidence/s02-fix-01/
+            release-evidence/s5-final-vis-signoff-04/
+            release-evidence/s5-final-vis-signoff-04c/
+            release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
