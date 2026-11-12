@@ -76,7 +76,7 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
        const B=window.parent.SIM_DEMO,c=B.core,F=c.fixture,n=c.state().requirement.term_months;
        return {match:board.dataset.match,advisor:visible(document.getElementById('s5-advisor')),
          advisorRect:box(document.getElementById('s5-advisor')),
-         noMatch:visible(document.getElementById('no-match')),noMatchBox:box(document.getElementById('no-match')),duplicateStoreAction:document.querySelectorAll('[data-nm=stores]').length,termOptions:visible(document.querySelector('.term')),
+         noMatch:visible(document.getElementById('no-match')),noMatchBox:box(document.getElementById('no-match')),duplicateStoreAction:document.querySelectorAll('[data-nm=stores]').length,localLeaseControls:document.querySelectorAll('.term,#term-options,#term-edit,[data-term]').length,termOptions:visible(document.querySelector('.term')),
          noMatchText:document.querySelector('.nm-kicker')?.textContent,
          capacityText:document.getElementById('capacity')?.textContent,monthsText:document.getElementById('demand-term')?.textContent,
          estore:visible(document.querySelector('.estore')),estoreRect:box(document.querySelector('.estore')),
@@ -115,6 +115,7 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
      assert.equal(actual.originVisible,true,'location chooser');
      assert(!actual.compareMarkup,'no S5 compare');
      assert.equal(actual.termOptions,false,'no S5 local lease picker');
+     assert.equal(actual.localLeaseControls,0,'obsolete S5 lease controls must be physically absent');
      if(tc.n===0){
        assert(actual.noMatch,'no-match guidance required');
        assert(actual.actionAdvisor&&actual.actionRange,'empty fallback links missing');
@@ -154,6 +155,41 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
      record.status='PASS';
     }catch(e){record.error=String(e.stack||e);await page.screenshot({path:path.join(out,'FAIL-'+tc.key+'-'+w+'.png')}).catch(()=>{});}
     results.push(record);console.log('S5_04C_CASE',JSON.stringify({name:tc.key,width:w,status:record.status,error:record.error,match:record.actual?.match,advisor:record.actual?.advisor}));
+    await ctx.close();
+   }
+   // Incomplete capacity/term is not an S5 display state. Verify both
+   // internal route attempts and direct deep links are intercepted upstream.
+   for(const name of ['capacity-missing','term-missing','direct-link']){
+    const ctx=await browser.newContext({viewport:{width:w,height:h},deviceScaleFactor:1});
+    const page=await ctx.newPage(),errors=[],row={width:w,name:'gate-'+name,status:'FAIL'};
+    page.on('pageerror',e=>errors.push(e.message));
+    try{
+      if(name==='direct-link'){
+        await page.goto(host+'/central-review-02g.html?catalog=sim&page=S5&s01_r2=1',{waitUntil:'domcontentloaded'});
+      }else{
+        await page.goto(host+'/central-review-02g.html?catalog=sim&page=S01&s01_r2=1',{waitUntil:'domcontentloaded'});
+        await page.frameLocator('#central-host').locator('#screen').evaluate((_,mode)=>{
+          const B=window.SIM_DEMO,c=B.core;
+          c.setCity('北京');c.setRequirement(mode==='capacity-missing'?null:3,12,false);
+          B.persist();B.navigate('S5');
+        },name);
+      }
+      await page.waitForTimeout(850);
+      const cap=page.frames().find(frame=>/\/cap\.html(?:\?|$)/.test(frame.url()));
+      row.frameUrls=page.frames().map(frame=>frame.url());
+      assert(cap,'incomplete demand entered S5 instead of capacity/lease editor: '+JSON.stringify(row.frameUrls));
+      const back=await cap.evaluate(()=>sessionStorage.getItem('mk_estimate_return_v4')||'');
+      assert(back.includes('page=S5'),'missing safe return path to S5: '+back);
+      const visibleText=await cap.locator('body').innerText();
+      assert(visibleText.includes('查看仓位报价'),'CAP editor CTA missing');
+      row.returnPath=back;
+      const internal=await cap.evaluate(()=>document.querySelector('#br04-frame')!==null);
+      assert.equal(internal,false,'S5 iframe must not be exposed when requirement is missing');
+      assert.deepEqual(errors,[],'entry gate errors');
+      await page.screenshot({path:path.join(out,row.name+'-'+w+'.png')});
+      row.status='PASS';
+    }catch(e){row.error=String(e.stack||e);await page.screenshot({path:path.join(out,'FAIL-gate-'+name+'-'+w+'.png')}).catch(()=>{});}
+    paths.push(row);console.log('S5_GATE',JSON.stringify({name,width:w,status:row.status,error:row.error}));
     await ctx.close();
    }
    // Real navigation contract checks from unmodified public click handlers.
@@ -221,5 +257,5 @@ const formatted=n=>'¥'+Number(n).toLocaleString('zh-CN');
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({source_sha:process.env.GITHUB_SHA||'',widths:[375,390],cases:results,flows:paths},null,2));
  const bad=[...results,...paths].filter(x=>x.status!=='PASS');
  assert(!bad.length,'S5 04C failed: '+bad.map(x=>x.width+':'+(x.scenario||x.name)+' '+x.error).join(' | '));
- console.log('S5_04C_20_STATES_6_FLOWS_PASS');
+ console.log('S5_ENTRY_GATE_16_VALID_STATES_6_INCOMPLETE_ENTRIES_6_FLOWS_PASS');
 })().catch(e=>{console.error(e.stack||e);process.exitCode=1});
