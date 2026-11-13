@@ -80,8 +80,13 @@ function couponFlow(){
   core.claimCoupons();
   const q=core.quote();
   assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'SELECTED','quote selects but does not redeem coupon');
+  assert.equal(q.benefit_snapshot.pricing.term_months,12,'quote snapshots selected term');
+  assert.equal(q.benefit_snapshot.coupon.status,'SELECTED','quote snapshots selected coupon');
+  assert.equal(q.benefit_snapshot.gift_term.financial_effect,'PENDING_BUSINESS_CONFIRMATION','gift financial rules remain unassumed');
   const o=core.submit();
   assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'LOCKED','order submission locks coupon');
+  assert.equal(o.benefit_snapshot.coupon.status,'SELECTED','order preserves quote-time coupon snapshot');
+  assert.equal(o.benefit_snapshot.pricing.rent_before_coupon,q.rent_total,'order preserves quote-time rent');
   core.cancelOrder(o.id);
   assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'CLAIMED','cancel releases coupon');
   const q2=core.quote(),o2=core.submit();
