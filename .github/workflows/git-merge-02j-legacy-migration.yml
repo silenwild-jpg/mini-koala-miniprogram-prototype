@@ -1,8 +1,5 @@
 name: GIT-MERGE-02J original MK stores and size-options migration
 on:
-  push:
-    branches:
-      - feature/git-merge-02j-legacy-store-intake-20261027
   workflow_dispatch:
 permissions:
   contents: read

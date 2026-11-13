@@ -1,8 +1,5 @@
 name: GIT-MERGE-02G canonical demo runtime
 on:
-  push:
-    branches:
-      - feature/git-merge-02g-central-ssot-20261027
   workflow_dispatch:
 permissions:
   contents: read

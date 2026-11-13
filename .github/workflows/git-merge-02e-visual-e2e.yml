@@ -1,8 +1,5 @@
 name: GIT-MERGE-02E visual freeze and actual user journey
 on:
-  push:
-    branches:
-      - feature/git-merge-02e-visual-e2e-20261027
   workflow_dispatch:
 permissions:
   contents: read
