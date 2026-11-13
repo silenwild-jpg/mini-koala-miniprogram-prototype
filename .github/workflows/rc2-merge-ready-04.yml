@@ -26,7 +26,7 @@ jobs:
           node --check scripts/verify_rc2_merge_ready_04_browser.cjs
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test "$GITHUB_REF_NAME" = "isolate/rc2-merge-ready-04-evidence-20261113"
-          test "$(git diff --name-only fd7836cb41400ac34003840d49e714c68d72db0f HEAD -- app | wc -l)" = "0"
+          test "$(git rev-parse HEAD:app)" = "7364b3b8811f22690389ae5c1f94d986d2ddc158"
       - name: Install Chromium and Chinese fonts
         run: |
           sudo apt-get update -qq
