@@ -16,6 +16,7 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js
       - app/prototype/parallel/core-journey-fix-01/demo/index.html
       - app/prototype/parallel/core-journey-fix-01/demo/m01-rebaseline-01.js
+      - app/prototype/parallel/core-journey-fix-01/demo/lifecycle-contract.js
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
       - scripts/test_promo_source_01.js
       - scripts/test_promo_demo_scenarios_01.js
