@@ -171,7 +171,7 @@ main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本
 
 - PR #176 保持 Draft/HOLD，目标为 `main`，未合并。
 - 旧工作流 `SITE-ACCESS-03C` 在RC1完整性白名单断言处失败：它只允许 `demo/app.js` 与专用QA脚本变更，而本分支按计划包含99项RC2 app变更；该工作流未进入其浏览器回归步骤。此项属于旧RC1工作流与RC2集成分支的检查范围冲突，不计作RC2干净迁移回归失败。
-- Netlify状态检查指向旧项目 `mini-koala-internal-rc1-review` 并返回失败。当前没有部署；该检查的具体失败根因尚未确认，不能把它解释为新评审包已部署。
+- Netlify自动Deploy Preview指向旧项目 `mini-koala-internal-rc1-review`，Deploy ID `6af695e2bb8e16bf65e7a985`，状态 `error`；Netlify返回 `Failed during stage 'building site': Build script returned non-zero exit code: 2`，`published_at=null`、`deploy_time=null`。没有成功部署；更深层构建失败原因尚未从现有部署信息确认。
 - 不隐藏上述失败，也不修改旧工作流来规避检查；后续需单独裁定旧CI/Netlify配置如何与RC2分支隔离。
 
 ## 尚未解除的门禁
