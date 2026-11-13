@@ -12,6 +12,8 @@ on:
       - scripts/verify_rc2_merge_ready_08_nav_pixel.py
       - scripts/build_rc2_isolated_demo.py
       - scripts/verify_rc2_clean_migration_01.cjs
+      - scripts/verify_m01_ia_03.cjs
+      - scripts/verify_m01_ia_03_browser.cjs
       - docs/RC2_MERGE_PREP_02_SOURCE_GATE.json
   workflow_dispatch:
 permissions:
