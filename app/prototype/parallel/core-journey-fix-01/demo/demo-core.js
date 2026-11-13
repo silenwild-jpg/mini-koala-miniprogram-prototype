@@ -128,14 +128,14 @@
       const base=Number(s.prices[u.id]??u.base_month),todayValue=String(fixture.demoToday||today());
       for(const campaign of (promoConfig.campaigns||[]).filter(x=>x?.unitId===u.id&&x?.storeId===u.store_id)){
         const result=promotionPolicy.evaluateCampaign(campaign,{today:todayValue,unit:u,store:store(u.store_id),available:available(u),termMonths:months});
-        if(result.eligible&&Number.isFinite(Number(campaign.specialMonth))&&Number(campaign.specialMonth)>0&&Number.isFinite(Number(campaign.baseMonth))&&base===Number(campaign.baseMonth))return campaign;
+        if(result.eligible&&Number.isFinite(Number(campaign.baseMonth))&&Number(campaign.baseMonth)>0)return campaign;
       }
       return null;
     }
     function unitPricing(u,months){
       if(!validTerm(months))fail('SELECT_TERM');
       const base=Number(s.prices[u.id]??u.base_month),campaign=campaignForUnit(u,months);
-      if(campaign)return {unit_id:u.id,base_month:base,unit_special_price:Number(campaign.specialMonth),monthly_rent:Math.trunc(Number(campaign.specialMonth)),term_factor:null,term_discount_monthly:0,campaign_id:campaign.id,pricing_mode:'DEMO_EXCLUSIVE_SPECIAL_PRICE',stacking_status:'NEEDS_CONFIRMATION'};
+      if(campaign)return {unit_id:u.id,base_month:base,unit_special_price:Number(campaign.baseMonth),monthly_rent:Math.trunc(Number(campaign.baseMonth)),term_factor:null,term_discount_monthly:0,campaign_id:campaign.id,pricing_mode:'DEMO_EXCLUSIVE_SPECIAL_PRICE',stacking_status:'NEEDS_CONFIRMATION'};
       const rule=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max);if(!rule)fail('INVALID_TERM');
       const monthly=Math.trunc(base*rule.factor+1e-9);
       return {unit_id:u.id,base_month:base,unit_special_price:0,monthly_rent:monthly,term_factor:rule.factor,term_discount_monthly:Math.max(0,base-monthly),campaign_id:null,pricing_mode:'TERM_DISCOUNT',stacking_status:'NOT_APPLICABLE'};
@@ -194,7 +194,7 @@
         coupon_stack_status:couponStack.status,moving_stack_status:movingStack.status,
         calculation_trace:calculationTrace,payable:rentAfterCoupon+(opts.renewal?0:deposit+fixture.pricing.managementFee)};
     }
-    function signature(){return JSON.stringify({fixture:fixture.version,inventory:s.inventoryVersion,requirement:s.requirement,city:s.city,selected:s.selected,startDate:s.startDate,couponChoice:s.couponChoice,coupons:s.coupons.map(c=>[c.id,c.status]),serviceBenefits:s.serviceBenefits.map(b=>[b.id,b.status]),giftTerms:s.giftTerms.map(g=>[g.id,g.status,g.approval_id,g.gift_months]),campaigns:(promoConfig.campaigns||[]).map(c=>[c.id,c.active,c.catalogRevision,c.baseMonth,c.specialMonth,c.from,c.until]),prices:s.selected.map(id=>s.prices[id]||unit(id)?.base_month)});}
+    function signature(){return JSON.stringify({fixture:fixture.version,inventory:s.inventoryVersion,requirement:s.requirement,city:s.city,selected:s.selected,startDate:s.startDate,couponChoice:s.couponChoice,coupons:s.coupons.map(c=>[c.id,c.status]),serviceBenefits:s.serviceBenefits.map(b=>[b.id,b.status]),giftTerms:s.giftTerms.map(g=>[g.id,g.status,g.approval_id,g.gift_months]),campaigns:(promoConfig.campaigns||[]).map(c=>[c.id,c.active,c.catalogRevision,c.baseMonth,c.from,c.until]),prices:s.selected.map(id=>s.prices[id]||unit(id)?.base_month)});}
     function assertReady(){
       if(!authorized())fail('PHONE_REQUIRED');
       if(!s.requirement.term_confirmed||!validTerm(s.requirement.term_months))fail('SELECT_TERM');
