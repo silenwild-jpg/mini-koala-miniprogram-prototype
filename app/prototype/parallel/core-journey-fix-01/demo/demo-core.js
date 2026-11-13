@@ -146,8 +146,8 @@
         if(g.active===false)reasons.push('INACTIVE');
         if(g.expires_at&&String(fixture.demoToday||today())>g.expires_at)reasons.push('ENDED');
         if(g.source_type==='SALES_CASE'&&(!g.approval_id||!g.approved_by))reasons.push('APPROVAL_METADATA_REQUIRED');
-        const unique=[...new Set(reasons)];
-        return {...giftPolicy.display(g),id:g.id||null,source_type:g.source_type,status:g.status,gift_months:g.gift_months,eligible:unique.length===0,reasons:unique,reason:unique.length?unique.join('、'):''};
+        const unique=[...new Set(reasons)],stacking=promotionPolicy.stacking(g.source_type==='CAMPAIGN'?'CAMPAIGN_FREE_TERM':'SALES_FREE_TERM',unitPricing(u,months).campaign_id?'UNIT_SPECIAL_PRICE':'TERM_DISCOUNT');
+        return {...giftPolicy.display(g),id:g.id||null,source_type:g.source_type,status:g.status,gift_months:g.gift_months,eligible:unique.length===0,stacking_status:stacking.status,display_only_demo:true,reasons:unique,reason:unique.length?unique.join('、'):''};
       });
     }
     function discountedMonth(u,months){return unitPricing(u,months).monthly_rent;}
@@ -213,7 +213,7 @@
       const attachedGifts=[];
       if(giftOptions.length===1){
         const gift=s.giftTerms.find(g=>g.id===giftOptions[0].id);
-        if(gift){Object.assign(gift,giftPolicy.transition(gift,'ATTACHED_TO_QUOTE',{quote_id:quoteId}));attachedGifts.push(giftPolicy.snapshot(gift));}
+        if(gift){Object.assign(gift,giftPolicy.transition(gift,'ATTACHED_TO_QUOTE',{quote_id:quoteId}));attachedGifts.push({...giftPolicy.snapshot(gift),stacking_status:giftOptions[0].stacking_status,display_only_demo:true});}
       }
       const benefitSnapshot={
         schema_version:1,quote_id:quoteId,created_at:now(),campaign_ids:a.campaign_ids,
@@ -225,7 +225,7 @@
         coupon:a.coupon_id?{coupon_id:a.coupon_id,discount:a.coupon_discount,status:'SELECTED'}:null,
         service_benefits:copy(a.service_benefits||[]),gift_terms:attachedGifts,
         gift_term:attachedGifts[0]||{status:giftOptions.length>1?'NEEDS_CONFIRMATION':'NOT_ATTACHED',gift_months:null,financial_effect:'PENDING_BUSINESS_CONFIRMATION'},
-        calculation_trace:copy(a.calculation_trace),eligibility_result:{coupon_stack:a.coupon_stack_status,moving_stack:a.moving_stack_status}
+        calculation_trace:copy(a.calculation_trace),eligibility_result:{coupon_stack:a.coupon_stack_status,moving_stack:a.moving_stack_status,gift_term_stack:giftOptions[0]?.stacking_status||null}
       };
       s.quote={id:quoteId,signature:signature(),unit_ids:[...s.selected],store_id:unit(s.selected[0]).store_id,
         start_date:s.startDate,term_months:s.requirement.term_months,capacity_m3:s.requirement.capacity_m3,
