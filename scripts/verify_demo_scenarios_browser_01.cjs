@@ -42,7 +42,7 @@ const results=[];
     const lifecycle=[
      ['lifeIdentity','identity','入仓前需完成验证'],
      ['lifeUpcoming','upcoming','入仓准备'],
-     ['lifeActive','active','我的在租仓位'],
+     ['lifeActive','active','我的仓位'],
      ['lifeRenewalQuote','renewal','续租申请处理中'],
      ['lifeReturning','returning','退租处理中'],
      ['lifeInspection','inspection','退租处理中'],
