@@ -1,5 +1,7 @@
 # QA-LEGACY-COVERAGE-02｜五条历史QA来源与已签收RC2覆盖差异
 
+> **晚于初次审计的补证结果（2026-11-13）：** 原文对S5缺需求冷启动深链标记“尚未得到独立浏览器断言”，现已由独立QA [PR #187](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/187) 在签收运行时不变的前提下补证。双尺寸共6条真实浏览器测试全部PASS，证据见[QA-S5-DEEPLINK-01](QA_S5_DEEPLINK_01_RESULT_20261113.md)。下文保留当时审计判断作为历史快照，**当前不再把S5冷启动当作未补证的缺口**。
+
 **审计日期：** 2026-11-13。对象是已签收的[PR #176](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)，冻结SHA `41a8a079eb48049e1060512bddf71c226bfd3738`，及其同SHA [RC2 Actions #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)（SUCCESS）。补充的[QA-LEGACY-RETAIN-01](QA_LEGACY_RETAIN_01_RESULT_20261113.md)已独立完成19/19 PASS。  
 **审计方法：** 逐一对照#124/#135/#145/#122/#109的原始脚本路径、精确Git Blob SHA与RC2冻结树；检查现有同SHA工作流中实际执行的同类断言。**路径缺失/Blob不同不等于功能缺失；旧视觉断言也不能自动成为当前母版。**
 
