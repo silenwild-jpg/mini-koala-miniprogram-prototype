@@ -75,16 +75,16 @@
 ## 6. PR / 分支治理快照
 
 截至2026-11-13 GitHub API：
-- 最新实查快照（2026-11-13、main SHA `ab222867fe27...`）：**Open PR 124，全部Draft，以main为base 8条**。此前用户分别批准关闭#22/#24/#50和#67/#84/#86/#89（共7条），全部Not merged、原分支保留。[最初130条PR分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)仍保留当时快照，不反向篡改。
+- 最新实查快照（2026-11-13、main SHA `6ee8f014436965ccbd24513d634d55e2347439c2`）：**Open PR 125，全部Draft，以main为base 8条**。此前用户分别批准关闭#22/#24/#50和#67/#84/#86/#89（共7条），全部Not merged、原分支保留。[最初130条PR分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)仍保留当时快照，不反向篡改。
 - Open Issue：8（含本项目总控#177；原有9个产品/技术Issue中，#148普通用户路径文案未复现、#93历史Runner故障不再复现，已关闭，剩余7个）。
 - 最新实查快照：**185条分支**，其中**65条**未被当前Open PR的head/base引用；44条关联已关闭PR的head、15条未关联已关闭PR的head。这不是可删除名单。[最初180条分支全量分类](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)仍供历史对照。
-- 原48条历史未引用分支的ahead/behind比较属于旧main快照；最新59条包括另11条由历史PR关闭/治理PR Squash合并后转为未引用的来源分支，**尚不得继承旧48条的可删判断**。见[清理资格第三批](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)。
+- 原48条历史未引用分支的ahead/behind比较属于旧main快照；最新65条未被Open PR直接引用，其中包括近期QA/治理工作包完成后不再被开放PR直接引用的来源分支，**尚不得继承旧48条的可删判断**。见[清理资格第三批](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)。
 - P1-A2已对10条main目标历史PR与签收RC2和main做**同路径blob SHA**对照；10条均有独有历史资产/内容差异，**目前未裁定任何可不经资料保全即直接关闭的PR**。详见[P1-A2主线PR差异](PROJECT_OPS_P1A2_MAIN_PR_DELTA_20261113.md)。
 - P1-B2对49条历史非开放PR引用分支复核closed PR/文件路径及Netlify依赖，其中35条关联已关闭PR；`uat/rc2-pr96-20261110`仍对应Netlify已发布部署，不能误删。详见[P1-B2分支风险](PROJECT_OPS_P1B2_BRANCH_RISK_20261113.md)。
 - P1-A3已完成旧PR #50规则冲突标注、#30 CloudBase、#28 Netlify旧站安全知识提取及#35/#36/#47旧QA与当前RC2断言覆盖差异审查，详见[P1-A3知识保全](PROJECT_OPS_P1A3_LEGACY_RULE_DEPLOY_QA_HANDOFF_20261113.md)。
 - P1-B3已对`feature/br03-s01-s02`的23份独立资产及`br01-h01-connect-03-isolated`的3份旧桥接文件留存精确blob SHA；旧上海4门店、35容量选项仅为历史演示数据，不直接接入签收RC2，详见[P1-B3旧门店与素材保全](PROJECT_OPS_P1B3_LEGACY_STORE_ASSET_HANDOFF_20261113.md)。
 - 当前以main为base的8条Open PR：#176、#47、#36、#35、#33、#30、#28、#26；均为Draft。#22/#24/#50已按用户逐条授权Close（未Merge、源分支保留）。
-- **main保护已实际生效**：`protected=true`，Ruleset [`main-protection-demo-first`](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/rules/27195923) `active`，仅保护main，要求PR、禁止强推/删除、要求视觉契约检查。仍有两个配置优化：同名检查存在重复项、`strict_required_status_checks_policy=true`造成main更新后重复回归；当前GitHub连接器无法写Ruleset，详见[#177](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)。
+- **main保护已实际生效**：`protected=true`，Ruleset [`main-protection-demo-first`](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/rules/27195923) `active`，仅保护main，要求PR、禁止强推/删除；必需检查只保留绑定GitHub Actions（`integration_id=15368`）的 `Visual contract and evidence guard`，`strict_required_status_checks_policy=false`。管理员已于2026-11-13修改并经API复读确认。
 
 ### 主线PR分类
 - #176：当前RC2候选，保留。
@@ -129,7 +129,7 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - P1-B3独立门店/素材源：[BR03旧上海门店与23份资产](PROJECT_OPS_P1B3_LEGACY_STORE_ASSET_HANDOFF_20261113.md)
 - QA-LEGACY-RETAIN-01：[19项历史高风险断言独立PASS](QA_LEGACY_RETAIN_01_RESULT_20261113.md)（同签收运行时、仅QA分支追加脚本）
 - 清理资格第二批：[历史审计PR #67/#84/#86/#89](PROJECT_OPS_CLEAN_ELIGIBILITY_02_20261113.md)（用户已批准，4条均Closed/Not merged，原分支保留）
-- 清理资格第三批：[当前124条开放PR、59条未引用分支与下游依赖及部署核查](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)（本次仅审计，不额外关闭或删除）
+- 清理资格第三批：[当前125条开放PR、65条未引用分支与下游依赖及部署核查](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)（本次仅审计，不额外关闭或删除）
 - 历史QA覆盖对照：[QA-LEGACY-COVERAGE-02](QA_LEGACY_COVERAGE_02_20261113.md)（#124/#135/#145/#122/#109，已覆盖与待补证分离，不重新冻结历史视觉参数）
 - QA-S5-DEEPLINK-01：[S5首次/部分/完整需求375/390共6条浏览器PASS](QA_S5_DEEPLINK_01_RESULT_20261113.md)（独立QA [PR #187](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/187)，签收业务运行时未变）
 - 旧Netlify RC1预览隔离：[SITE-PREVIEW-ISOLATION-01](SITE_PREVIEW_ISOLATION_01_20261113.md)（旧RC1严格白名单与当前main多出promotion-policy.js不相容；外部站点配置未更改）
