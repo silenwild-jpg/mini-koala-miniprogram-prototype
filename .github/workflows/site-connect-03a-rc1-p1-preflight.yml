@@ -18,6 +18,8 @@ permissions:
 
 jobs:
   private-rc1-p1:
+    # RC2 candidates use independent gates, not the frozen RC1 validation path.
+    if: ${{ github.event_name != 'pull_request' || !startsWith(github.head_ref, 'integration/rc2-') }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
