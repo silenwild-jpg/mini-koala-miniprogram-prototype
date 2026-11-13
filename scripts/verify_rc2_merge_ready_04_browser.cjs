@@ -129,7 +129,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     const date=await page.evaluate(()=>window.SIM_DEMO.core.today());
     await child.locator('#start-date').fill(date);
     await page.evaluate(()=>{
-     const b=window.SIM_DEMO;b.core.requestPhone();b.core.resolvePhone('success',{phone:'13800138000'});b.persist();
+     const b=window.SIM_DEMO;if(!b.core.authorized()){if(!b.core.requestPhone())throw Error('PHONE_REQUEST_NOT_STARTED');b.core.resolvePhone('success',{phone:'13800138000'});}b.persist();
     });
     await child.locator('#next-button').click();
     await page.waitForURL(/page=O01/,{timeout:10000});
@@ -258,7 +258,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
      await child.locator('[data-term="12"]').click();
      const date=await page.evaluate(()=>window.SIM_DEMO.core.today());
      await child.locator('#start-date').fill(date);
-     await page.evaluate(()=>{const b=window.SIM_DEMO;b.core.requestPhone();b.core.resolvePhone('success',{phone:'13800138000'});b.persist();});
+     await page.evaluate(()=>{const b=window.SIM_DEMO;if(!b.core.authorized()){if(!b.core.requestPhone())throw Error('PHONE_REQUEST_NOT_STARTED');b.core.resolvePhone('success',{phone:'13800138000'});}b.persist();});
      await child.locator('#next-button').click();
      await page.waitForURL(/page=O01/,{timeout:10000});
      await child.locator('body.bridge-ready').waitFor();
