@@ -46,8 +46,8 @@
       let promoLabel='',inventoryLine='',inventoryCount=null,campaignId=null;
       if(available){
         const offer=(config.campaigns||[]).find(x=>x.unitId===u.id&&x.storeId===u.store_id&&x.active&&x.catalogRevision===u.revision&&x.baseMonth===snapshot.base_month&&x.from<=fixture.demoToday&&x.until>=fixture.demoToday&&s.requirement.term_confirmed&&term>=x.minMonths&&term<=x.maxMonths);
-        if(offer&&core.authorized()){
-          const a=core.formalAmounts([u.id],term);
+        if(offer){
+          const a=core.amounts([u.id],term);
           if(Number.isFinite(a.rent_total)&&a.rent_total>0){promoLabel='特价仓';campaignId=offer.id;snapshot.rent_total=a.rent_total;}
         }
         const group=(config.inventoryGroups||[]).find(g=>g.complete&&g.storeId===u.store_id&&g.volume===u.volume&&g.unitIds.includes(u.id));
