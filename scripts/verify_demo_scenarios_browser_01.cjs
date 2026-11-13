@@ -74,10 +74,13 @@ const results=[];
     await seed('promoSpecial','S01');
     await page.frameLocator('#s01-r2-frame').locator('body').waitFor();
     const special=await page.evaluate(()=>{
-      const b=window.SIM_DEMO,st=b.core.fixture.stores.find(x=>x.id==='SIM_BJ01');
-      return {tag:b.presentation.storePromotionTag(st),city:b.state().city};
+      const b=window.SIM_DEMO,st=b.core.fixture.stores.find(x=>x.id==='SIM_BJ01'),u=b.core.fixture.units.find(x=>x.id==='SIM_BJ01_U04');
+      return {tag:b.presentation.storePromotionTag(st),city:b.state().city,amount:b.core.amounts([u.id],6)};
     });
     assert.equal(special.tag,'特价仓','campaign tag must come from the explicit valid unit campaign');
+    assert(special.amount.campaign_ids.length===1,'special campaign must be present in the shared quote calculation');
+    assert.equal(special.amount.monthly_average,520,'campaign baseMonth must replace the normal term price in the demo quote');
+    assert.equal(special.amount.term_discount_total,0,'special price must not silently stack with term discount');
     const s01Text=await page.frameLocator('#s01-r2-frame').locator('body').innerText();
     assert(s01Text.includes('特价仓'),'S01 list must expose the active special warehouse tag');
     await shot('promoSpecial-S01');
@@ -88,7 +91,7 @@ const results=[];
     await page.waitForFunction(()=>!!window.SIM_DEMO);
     await seed('promoLongTerm','S5');
     const term=await page.evaluate(()=>{
-      const c=window.SIM_DEMO.core,u=c.matchingUnits()[0];
+      const c=window.SIM_DEMO.core,u=c.matchingUnits().find(x=>!c.amounts([x.id],6).campaign_ids.length);
       if(!u)throw Error('NO_LONG_TERM_UNIT');
       return {unit:u.id,at6:c.amounts([u.id],6),at12:c.amounts([u.id],12)};
     });
@@ -104,7 +107,7 @@ const results=[];
       await page.evaluate(id=>{
         const c=window.SIM_DEMO.core;
         c.setScenario(id);c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});
-        const u=c.matchingUnits()[0];if(!u)throw Error('NO_UNIT_FOR_'+id);
+        const u=c.matchingUnits().find(x=>!c.amounts([x.id],c.state().requirement.term_months).campaign_ids.length);if(!u)throw Error('NO_NON_CAMPAIGN_UNIT_FOR_'+id);
         c.select([u.id]);c.setDate(c.today());
       },id);
       const amounts=await page.evaluate(()=>{const c=window.SIM_DEMO.core,s=c.state();return c.amounts(s.selected,s.requirement.term_months);});
@@ -139,6 +142,45 @@ const results=[];
       await shot(id+'-O01-payment-sheet');
       results.push({width,height,type:'promotion',scenario:id,couponDiscount:amounts.coupon_discount,movingBenefit:amounts.moving_benefit_pending_id||null,visible:true});
     }
+
+    // Gift-term benefits appear in S5 and O01, then persist as an immutable M01 order snapshot.
+    await page.goto(base+'/index.html?page=M01',{waitUntil:'domcontentloaded'});
+    await page.waitForFunction(()=>!!window.SIM_DEMO);
+    await seed('promoCampaignGift','S5');
+    await page.frameLocator('#br04-frame').locator('body[data-page="s5"]').waitFor();
+    const giftAvailable=await page.evaluate(()=>window.SIM_DEMO.core.giftTermOptions(['SIM_BJ01_U04'],6).find(x=>x.eligible));
+    assert.equal(giftAvailable.gift_months,1,'approved campaign gift must be available for the matching warehouse');
+    const s5GiftText=await page.frameLocator('#br04-frame').locator('body').innerText();
+    assert(s5GiftText.includes('赠送1个月'),'S5 must surface the approved gift-term benefit');
+    await shot('promoCampaignGift-S5');
+
+    await page.evaluate(()=>{
+      const b=window.SIM_DEMO,c=b.core;
+      c.setScenario('promoCampaignGift');c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});
+      c.select(['SIM_BJ01_U04']);c.setDate(c.today());b.navigate('O01');
+    });
+    const giftFrame=page.frameLocator('#br04-frame');
+    const giftRow=giftFrame.locator('#gift-term-row');
+    await giftRow.waitFor({state:'visible'});
+    assert((await giftRow.innerText()).includes('赠送1个月'),'O01 must show the gift-term line without changing paid or contract months');
+    await giftFrame.locator('#agreed').check();
+    await giftFrame.locator('#pay').click();
+    await giftFrame.locator('#scrim:not([hidden])').waitFor();
+    const giftPaymentText=await giftFrame.locator('#sheet-content').innerText();
+    assert(giftPaymentText.includes('赠送1个月'),'payment confirmation must preserve the gift-term snapshot');
+    const giftOrder=await page.evaluate(()=>window.SIM_DEMO.state().orders.at(-1));
+    assert.equal(giftOrder.benefit_snapshot.gift_terms[0].status,'LOCKED_TO_ORDER');
+    await giftFrame.locator('[data-bridge="payResult"][data-value="success"]').click();
+    await giftFrame.locator('[data-bridge="orderDetail"]').waitFor();
+    await giftFrame.locator('[data-bridge="orderDetail"]').click();
+    await page.locator('#screen .mk-order-entitlements').waitFor();
+    const orderGiftText=await page.locator('#screen .mk-order-entitlements').innerText();
+    assert(orderGiftText.includes('赠送1个月'),'M01 order details must show the persisted gift-term snapshot');
+    const granted=await page.evaluate(id=>window.SIM_DEMO.core.orderDetail(id).benefit_snapshot.gift_terms[0].status,giftOrder.id);
+    assert.equal(granted,'GRANTED','successful demo payment must advance the gift entitlement lifecycle');
+    await shot('promoCampaignGift-M01');
+    results.push({width,height,type:'promotion',scenario:'promoCampaignGift',giftMonths:1,orderSnapshot:'GRANTED',visible:true});
+
     assert.deepEqual(errors,[],'JavaScript page errors');
     await context.close();
    }catch(err){await context.close();throw err;}
