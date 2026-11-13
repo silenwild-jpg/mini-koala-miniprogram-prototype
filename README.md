@@ -17,8 +17,11 @@
 - RC2候选：[PR #176](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)
 - 自动化验收 SHA：`41a8a079eb48049e1060512bddf71c226bfd3738`
 - 375/390全站自动化门禁：PASS
-- 人工视觉/UAT：HOLD
-- main合并、正式部署：未授权、未执行
+- 人工视觉/UAT：PASS（用户于2026-11-13对该SHA签收）
+- 演示版本：DEMO READY（仅限已签收SHA）
+- 在线演示部署：尚未核实对应版本的可访问URL
+- 业务代码PR #176合并main：未授权、未执行
+- 正式生产上线：不在当前原型验收范围
 
 实时状态以项目控制中心和 GitHub PR/Actions 为准，不以本段快照替代实时读取。
 
