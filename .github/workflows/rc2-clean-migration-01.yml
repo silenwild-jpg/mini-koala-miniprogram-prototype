@@ -17,7 +17,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: rc2-merge-ready-08-${{ github.ref }}
+  group: rc2-clean-migration-01-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   integrated-375-390:
