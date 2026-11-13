@@ -8,7 +8,7 @@ function normalize(coreState){
   const paid=PAID.has(o.status);
   const service=services[o.id]||{},life=service.lifecycle_v2||null,exit=life?.exit||service.exit||null;
   const completed=(life?.renewal_requests||[]).filter(x=>x.status==='COMPLETED');
-  return {id:o.id,source:'SIMULATED_ORDER',status:o.status,store_id:o.store_id,unit_ids:[...(o.unit_ids||[])],term_months:o.term_months,start_date:o.start_date,payable:o.payable,deposit:o.deposit,
+  return {id:o.id,source:'SIMULATED_ORDER',status:o.status,store_id:o.store_id,unit_ids:[...(o.unit_ids||[])],term_months:o.term_months,start_date:o.start_date,payable:o.payable,deposit:o.deposit,benefit_snapshot:o.benefit_snapshot?JSON.parse(JSON.stringify(o.benefit_snapshot)):null,
    lease_status:!paid?'not_active':exit?.status==='INSPECTION_PASSED'||exit?.status==='completed'?'ended':exit?'returning':'active_demo',
    deposit_status:paid?(life?.deposit||service.deposit||'held'):'not_collected',
    identity_status:paid?(service.identity||'pending'):'not_applicable',
