@@ -42,10 +42,12 @@ const server=http.createServer((req,res)=>{
       unit.base_month=9999999;
       const originalStore=B.s5SharedStore;
       const longName='迷你考拉仓北京核心城区超长展示名称极限内容适配专项极限门店';
+      const longService='支持大型家具搬运与上门装卸预约及特殊尺寸物品协助服务';
+      row.store.operatingTag='特价仓';row.store.serviceTags=[longService,'到店搬运'];
       B.s5SharedStore=storeId=>({...originalStore(storeId),name:longName});
       B.s5Offers=()=>[row];
       window.BR04_REFRESH();
-      return {unitId:id,originalPrice,extremeBasePrice:unit.base_month,longName,storeId:row.store.id};
+      return {unitId:id,originalPrice,extremeBasePrice:unit.base_month,longName,longService,storeId:row.store.id};
     });
     await s5.locator('.s5-store-card:not([hidden])').first().waitFor();
     const geometry=await s5.locator('body').evaluate(()=>{
@@ -54,6 +56,7 @@ const server=http.createServer((req,res)=>{
       const name=card?.querySelector('.s5-store-name');
       const price=card?.querySelector('.s5-unit-price');
       const formula=card?.querySelector('.s5-unit-terms>small');
+      const tags=[...card?.querySelectorAll('.s5-store-services>.mk-store-tag')||[]].map(e=>({text:e.textContent,box:box(e),scroll:e.scrollWidth,client:e.clientWidth,overflow:getComputedStyle(e).overflow,textOverflow:getComputedStyle(e).textOverflow}));
       const buy=card?.querySelector('.s5-unit-buy');
       const info=card?.querySelector('.s5-unit-terms');
       return {viewport:innerWidth,documentWidth:document.documentElement.scrollWidth,
@@ -61,10 +64,16 @@ const server=http.createServer((req,res)=>{
         priceText:price?.textContent,priceLength:price?.dataset.priceLength,priceFits:price?.dataset.priceFits,
         price:box(price),priceScroll:price?.scrollWidth,priceClient:price?.clientWidth,
         formulaText:formula?.textContent,formula:box(formula),formulaScroll:formula?.scrollWidth,formulaClient:formula?.clientWidth,
-        terms:box(info),buy:box(buy),card:box(card),
+        tags,terms:box(info),buy:box(buy),card:box(card),
         buttonVisible:!!buy&&buy.getBoundingClientRect().width>0&&buy.getBoundingClientRect().height>=47};
     });
     assert.equal(geometry.nameText,injected.longName,'full store title must remain in DOM/accessibility text');
+    assert.equal(geometry.tags.length,2,'store tag row must respect the two-tag limit');
+    assert.equal(geometry.tags[0].text,'特价仓','promotion tag must precede service tags');
+    assert.equal(geometry.tags[1].text,injected.longService,'long service tag must retain its full DOM text');
+    assert(geometry.tags[1].scroll>geometry.tags[1].client,'long service tag must use visual truncation rather than widening the card');
+    assert.equal(geometry.tags[1].textOverflow,'ellipsis','long service tag must ellipsize');
+    assert(geometry.tags.every(t=>t.box.right<=width+1),'store tags must stay inside the viewport');
     assert(geometry.name.right<=width+1,'long store title must not escape viewport');
     assert(geometry.documentWidth<=width+2,'long title / large price must not cause page horizontal overflow');
     assert.equal(geometry.priceLength,'extreme','large amount must trigger extreme-price treatment');
