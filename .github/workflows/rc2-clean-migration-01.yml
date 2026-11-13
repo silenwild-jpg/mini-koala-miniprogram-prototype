@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$GITHUB_REF_NAME" = "integration/rc2-clean-migration-01-20261113"
+          test "$GITHUB_REF_NAME" = "integration/rc2-mainline-integration-01-20261113"
           source=app/prototype/parallel/core-journey-fix-01/demo
           test "$(git rev-parse "HEAD:$source/home.html")" = "4de8b9619684d48929a973b219f47c63af15331f"
           test "$(git rev-parse "HEAD:$source/assets/nav_original_375.png")" = "3ca6f9d2d6ccd799c764bd472b65a3e11b3d4da7"
