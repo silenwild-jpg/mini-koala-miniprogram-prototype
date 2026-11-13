@@ -7,6 +7,12 @@ on:
   pull_request:
     branches:
       - main
+    # RC2-CLEAN-MIGRATION-02A: RC1-only changes; RC2 uses its own independent gate.
+    paths:
+      - .github/workflows/site-access-03c-s5-route-qa.yml
+      - scripts/verify_demo_rc1_p1.cjs
+      - scripts/build_rc1_private_site.py
+      - app/prototype/parallel/core-journey-fix-01/qa/test_site_access_03c_browser.cjs
   workflow_dispatch:
 permissions:
   contents: read
