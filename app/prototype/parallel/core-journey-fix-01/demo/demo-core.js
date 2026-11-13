@@ -287,8 +287,10 @@
       if(now()>=o.expiresAt){releaseOrder(o,'expired');fail('ORDER_EXPIRED');}
       if(o.unit_ids.some((id,i)=>s.stock[id]!=='reserved'||(s.prices[id]||unit(id).base_month)!==o.price_bases[i])){releaseOrder(o,'invalidated');fail('QUOTE_STALE');}
       if(outcome==='failed'){releaseOrder(o,'payment_failed');return copy(o);}
+      const firstPaidOrder=!s.orders.some(x=>x.status==='paid_simulated');
       o.status='paid_simulated';o.unit_ids.forEach(id=>s.stock[id]='occupied');
       const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED')transitionCoupon(c,'REDEEMED');
+      if(firstPaidOrder)s.coupons.filter(x=>['CPN-001','CPN-002'].includes(x.id)&&x.id!==o.coupon_id&&['AVAILABLE','SELECTED'].includes(x.status)).forEach(x=>transitionCoupon(x,'INVALID'));
       if(o.benefit_snapshot?.coupon)o.benefit_snapshot.coupon.status='REDEEMED';
       s.giftTerms.forEach(g=>{if(g.status==='LOCKED_TO_ORDER'&&g.order_id===o.id)Object.assign(g,giftPolicy.transition(g,'GRANTED',{granted_at:today()}));});
       if(o.benefit_snapshot?.gift_terms?.length)o.benefit_snapshot.gift_terms=o.benefit_snapshot.gift_terms.map(g=>({...g,status:'GRANTED',granted_at:today()}));
@@ -433,8 +435,8 @@
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
-      claimCoupons(){expireCoupons();for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:'AVAILABLE'});if(!s.serviceBenefits.some(b=>b.id==='CPN-003'))s.serviceBenefits.push({id:'CPN-003',name:'基础搬运权益',type:'MOVING_SERVICE',source_type:'CAMPAIGN',source_id:'MOVING_6M_DEMO',status:'ELIGIBILITY_PENDING'});invalidate();},
-      couponOptions(ids,months){expireCoupons();const a=amounts(ids,months),cash=s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months,false,a.unit_pricing),reason:c.status==='EXPIRED'?'已过期':!['AVAILABLE','SELECTED'].includes(c.status)?'已锁定或已使用':a.unit_pricing.some(x=>x.campaign_id)?'特价仓与租金券叠加规则待确认':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));const services=s.serviceBenefits.map(b=>({...copy(b),amount:0,eligible:false,reason:months<6?'租期需满6个月':'租期符合；服务范围与距离资格待确认，不抵扣租金'}));return [...cash,...services];},
+      claimCoupons(){expireCoupons();const firstOrderAlreadyPaid=s.orders.some(o=>o.status==='paid_simulated');for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:firstOrderAlreadyPaid?'INVALID':'AVAILABLE'});if(!s.serviceBenefits.some(b=>b.id==='CPN-003'))s.serviceBenefits.push({id:'CPN-003',name:'基础搬运权益',type:'MOVING_SERVICE',source_type:'CAMPAIGN',source_id:'MOVING_6M_DEMO',status:'ELIGIBILITY_PENDING'});invalidate();},
+      couponOptions(ids,months){expireCoupons();const a=amounts(ids,months),cash=s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months,false,a.unit_pricing),reason:c.status==='EXPIRED'?'已过期':c.status==='INVALID'?'仅限首次租仓，已失效':!['AVAILABLE','SELECTED'].includes(c.status)?'已锁定或已使用':a.unit_pricing.some(x=>x.campaign_id)?'特价仓与租金券叠加规则待确认':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));const services=s.serviceBenefits.map(b=>({...copy(b),amount:0,eligible:false,reason:months<6?'租期需满6个月':'租期符合；服务范围与距离资格待确认，不抵扣租金'}));return [...cash,...services];},
       giftTermOptions,
       setCoupon(id){if(!['auto','none'].includes(id)&&!s.coupons.some(c=>c.id===id))fail('INVALID_COUPON');s.couponChoice=id;invalidate();},
       expirePendingOrders(){let count=0;s.orders.filter(o=>o.status==='pending'&&now()>=o.expiresAt).forEach(o=>{releaseOrder(o,'expired');count++;});return count;},
