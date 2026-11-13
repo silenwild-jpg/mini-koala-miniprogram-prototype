@@ -70,12 +70,14 @@ jobs:
           node scripts/verify_motion_s01_s5_01b.cjs
           node scripts/verify_motion_s01_s5_01c_contract.cjs
           node scripts/verify_motion_s01_s5_01e_coordinate.cjs
-      - name: Verify capacity and promotion entitlement models
-        run: |
-          node scripts/test_cap_unit_dual_01.js
-          node scripts/test_promo_source_01.js
-          node scripts/test_promo_entitlement_model_01.js
-          node scripts/test_promo_demo_scenarios_01.js
+      - name: Verify capacity unit model
+        run: node scripts/test_cap_unit_dual_01.js
+      - name: Verify explicit promotion source tags
+        run: node scripts/test_promo_source_01.js
+      - name: Verify canonical promotion entitlement policy
+        run: node scripts/test_promo_entitlement_model_01.js
+      - name: Verify integrated promotion and lifecycle scenarios
+        run: node scripts/test_promo_demo_scenarios_01.js
       - name: Build review package from exact HEAD without deployment
         env:
           RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
