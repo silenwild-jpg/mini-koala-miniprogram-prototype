@@ -1,8 +1,5 @@
 name: GIT-MERGE-02D isolated review
 on:
-  push:
-    branches:
-      - feature/git-merge-02c-targeted-20261027
   workflow_dispatch:
 permissions:
   contents: read
