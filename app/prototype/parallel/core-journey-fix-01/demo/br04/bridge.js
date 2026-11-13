@@ -106,7 +106,11 @@
     const term=core.state().requirement.term_months;
     s5StoreUnitRows[rank]=units;
     const firstPrice=presentation.price(units[0].ids);
-    const labels=(presentation.tags?.(s,5)||[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].map(label=>({label,type:'service'}))).filter(x=>x.type!=='promotion').slice(0,2);
+    const allLabels=presentation.tags?.(s,5)||[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].map(label=>({label,type:'service'}));
+    const matchedUnitHasPromotion=units.some(u=>core.amounts(u.ids,term).campaign_ids?.length);
+    const promotionLabel=matchedUnitHasPromotion?allLabels.find(x=>x.type==='promotion'):null;
+    const serviceLabels=allLabels.filter(x=>x.type!=='promotion').slice(0,promotionLabel?1:2);
+    const labels=[...(promotionLabel?[promotionLabel]:[]),...serviceLabels];
     const distance=Number.isFinite(Number(s.distance))?Number(s.distance).toFixed(1)+'km':'';
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
@@ -130,12 +134,11 @@
         Number.isFinite(expected)&&Math.abs(Number(amount?.monthly_average)-expected)<.011;
       const discount=showDiscount?Number((factor*10).toFixed(1))+'折':'';
       const discountMarkup=discount?'<span class="s5-term-discount" aria-label="租期优惠 '+discount+'">'+esc(discount)+'</span>':'';
-      const specialMarkup=amount?.campaign_ids?.length?'<span class="s5-promo-tag s5-promo-tag--special">特价仓</span>':'';
       const gift=core.giftTermOptions?.(u.ids,term)?.find(x=>x.eligible);
       const giftMarkup=gift?'<span class="s5-promo-tag s5-promo-tag--gift">赠送'+esc(gift.gift_months)+'个月</span>':'';
       const warning=u.near?'<span class="s5-unit-warning">容量接近 · 请确认</span>':'';
       return '<div class="s5-unit-row" data-unit-ids="'+esc(u.ids.join(','))+'">'+
-        '<div class="s5-unit-info"><span class="s5-cabin-tag">'+esc(cabin)+'</span>'+specialMarkup+giftMarkup+
+        '<div class="s5-unit-info"><span class="s5-cabin-tag">'+esc(cabin)+'</span>'+giftMarkup+
           '<strong class="s5-unit-capacity">'+esc(u.volume)+'m³</strong>'+
           '<span class="s5-unit-use">'+esc(u.combo?s5UnitUse(u.ids,u.volume).replace(/^多仓组合\s*·\s*/,''):s5UnitUse(u.ids,u.volume))+'</span>'+warning+'</div>'+
         '<div class="s5-unit-action"><div class="s5-unit-terms">'+
