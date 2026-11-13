@@ -130,9 +130,9 @@
         Number.isFinite(expected)&&Math.abs(Number(amount?.monthly_average)-expected)<.011;
       const discount=showDiscount?Number((factor*10).toFixed(1))+'折':'';
       const discountMarkup=discount?'<span class="s5-term-discount" aria-label="租期优惠 '+discount+'">'+esc(discount)+'</span>':'';
-      const specialMarkup=amount?.campaign_ids?.length?'<span class="mk-store-tag mk-tag-promotion">特价仓</span>':'';
+      const specialMarkup=amount?.campaign_ids?.length?'<span class="s5-promo-tag">特价仓</span>':'';
       const gift=core.giftTermOptions?.(u.ids,term)?.find(x=>x.eligible);
-      const giftMarkup=gift?'<span class="mk-store-tag mk-tag-service">赠送'+esc(gift.gift_months)+'个月</span>':'';
+      const giftMarkup=gift?'<span class="s5-promo-tag">赠送'+esc(gift.gift_months)+'个月</span>':'';
       const warning=u.near?'<span class="s5-unit-warning">容量接近 · 请确认</span>':'';
       return '<div class="s5-unit-row" data-unit-ids="'+esc(u.ids.join(','))+'">'+
         '<div class="s5-unit-info"><span class="s5-cabin-tag">'+esc(cabin)+'</span>'+specialMarkup+giftMarkup+
