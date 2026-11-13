@@ -111,3 +111,48 @@ body.br04-mode .app-shell{height:100dvh;margin-top:0}
 
 /* NAV-VIS-UNIFY-01C: new dual-state SVGs carry their own active/idle colors. */
 .bottom-nav .nav-01c-icon,.bottom-nav .bottom-item:not(.active) .nav-01c-icon{width:26px!important;height:26px!important;filter:none!important}
+
+/* RC2-MERGE-READY-07: align S01/M01 nav geometry to frozen H01 photo.
+ * H01 home.html/nav_original_{375,390}.png are intentionally untouched.
+ * Preserve existing SVG glyph source pending explicit icon-master signoff. */
+.screen.page-S01,.screen.page-M01{
+  --mk-h01-tabbar-height:clamp(0px,16.4146868vw,64.016px);
+}
+.screen.page-S01 .bottom-nav,.screen.page-M01 .bottom-nav{
+  height:var(--mk-h01-tabbar-height);
+  padding:4px 0 0;
+  border-top:0;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  align-items:stretch;
+  justify-content:initial;
+  box-shadow:none;
+}
+.screen.page-S01 .bottom-item,.screen.page-M01 .bottom-item{
+  width:100%;
+  min-width:0;
+  min-height:44px;
+  height:100%;
+  padding:0;
+  gap:1px;
+  justify-content:flex-start;
+  flex:none;
+  font-size:10px;
+  font-weight:500;
+  line-height:12px;
+  color:#526579;
+}
+.screen.page-S01 .bottom-item.active,.screen.page-M01 .bottom-item.active{
+  font-weight:700;
+  color:#087d67;
+}
+.screen.page-S01 .s01-r2-frame{
+  height:calc(100% - var(--mk-h01-tabbar-height))!important;
+}
+.screen.page-M01 .demo-scroll{
+  height:calc(100% - var(--mk-h01-tabbar-height));
+}
+.screen.page-S01 .bottom-item:focus-visible,.screen.page-M01 .bottom-item:focus-visible{
+  outline:2px solid #087d67;
+  outline-offset:-3px;
+}
