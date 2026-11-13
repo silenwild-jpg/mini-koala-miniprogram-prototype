@@ -25,7 +25,7 @@
         const u=catalog.find(x=>x.id===c.unitId&&x.store_id===store.id);
         if(!u||!core.available(u)||u.revision!==c.catalogRevision)return false;
         const base=prices[u.id]??u.base_month;
-        return Number.isFinite(Number(base))&&Number(base)===Number(c.baseMonth);
+        return Number.isFinite(Number(base))&&Number.isFinite(Number(c.baseMonth))&&Number(c.baseMonth)>0&&Number(base)>Number(c.baseMonth);
       });
       return eligible?'特价仓':'';
     }
@@ -45,7 +45,7 @@
       const snapshot={unit_id:u.id,store_id:u.store_id,catalog_revision:u.revision,inventory_version:s.inventoryVersion,term_months:s.requirement.term_confirmed?term:null,base_month:s.prices[u.id]||u.base_month};
       let promoLabel='',inventoryLine='',inventoryCount=null,campaignId=null;
       if(available){
-        const offer=(config.campaigns||[]).find(x=>x.unitId===u.id&&x.storeId===u.store_id&&x.active&&x.catalogRevision===u.revision&&x.baseMonth===snapshot.base_month&&x.from<=fixture.demoToday&&x.until>=fixture.demoToday&&s.requirement.term_confirmed&&term>=x.minMonths&&term<=x.maxMonths);
+        const offer=(config.campaigns||[]).find(x=>x.unitId===u.id&&x.storeId===u.store_id&&x.active&&x.catalogRevision===u.revision&&Number.isFinite(Number(x.baseMonth))&&Number(x.baseMonth)>0&&Number(snapshot.base_month)>Number(x.baseMonth)&&x.from<=fixture.demoToday&&x.until>=fixture.demoToday&&s.requirement.term_confirmed&&term>=x.minMonths&&term<=x.maxMonths);
         if(offer){
           const a=core.amounts([u.id],term);
           if(Number.isFinite(a.rent_total)&&a.rent_total>0){promoLabel='特价仓';campaignId=offer.id;snapshot.rent_total=a.rent_total;}
