@@ -56,6 +56,24 @@
       s.nextRecheck=scene.nextRecheck||null;
       if(Array.isArray(scene.coupons))s.coupons=copy(scene.coupons);
       if(scene.couponChoice)s.couponChoice=scene.couponChoice;
+      if(scene.lifecycle){
+        const orderId='SIM_REVIEW_ORDER_'+scene.id;
+        const reviewUnit=fixture.units.find(u=>store(u.store_id)?.city===scene.city&&store(u.store_id)?.status==='open'&&Number(u.volume)>=3&&u.status==='available')
+          ||fixture.units.find(u=>store(u.store_id)?.status==='open'&&Number(u.volume)>=3&&u.status==='available');
+        if(!reviewUnit)fail('LIFECYCLE_REVIEW_UNIT_MISSING');
+        const storeId=reviewUnit.store_id,unitId=reviewUnit.id,lifecycle=scene.lifecycle;
+        const startDate=lifecycle==='upcoming'?addCalendarMonths(today(),1):lifecycle==='expired'?addCalendarMonths(today(),-13):addCalendarMonths(today(),-1);
+        const exit=lifecycle==='returning'?{type:'early',date:today(),status:'REQUESTED'}:
+          lifecycle==='inspection'?{type:'early',date:today(),status:'WAITING_INSPECTION'}:
+          ['refund','ended'].includes(lifecycle)?{type:'expiry',date:today(),status:'INSPECTION_PASSED'}:null;
+        const deposit=lifecycle==='refund'?'REFUND_PENDING':lifecycle==='ended'?'REFUNDED':lifecycle==='inspection'?'WAITING_INSPECTION':'HELD';
+        const renewalRequests=lifecycle==='renewal'?[{id:'SIM_REVIEW_RENEWAL',months:6,status:'QUOTE_READY',quote_monthly:260,quote_total:1560,review_simulated:true}]:[];
+        s.auth={status:'verified',expiresAt:now()+24*60*60*1000,phone:'13800138000',method:'review_fixture'};
+        s.contactPhone='13800138000';
+        s.orders=[{id:orderId,kind:'SIMULATED_ORDER',store_id:storeId,unit_ids:[unitId],capacity_m3:reviewUnit.volume,term_months:12,start_date:startDate,rent_total:3600,monthly_average:300,rent_after_coupon:3600,monthly_after_coupon:300,deposit:300,management_fee:50,coupon_id:null,coupon_discount:0,moving_benefit_pending_id:null,payable:3950,status:'paid_simulated',createdAt:now()-86400000,expiresAt:now()+86400000}];
+        s.stock[unitId]='occupied';
+        s.services[orderId]={identity:lifecycle==='identityPending'?'pending':'verified',useStatus:lifecycle==='active'?'active':'pending_use',renewals:[],exit,deposit,invoices:[],transport:[],support:[],lifecycle_v2:{renewal_requests:renewalRequests,exit,deposit,invoices:[]}};
+      }
       if(scene.auth)s.auth.status=scene.auth;
     }
     const totalVolume=ids=>Number(ids.reduce((n,id)=>n+(unit(id)?.volume||0),0).toFixed(3));
