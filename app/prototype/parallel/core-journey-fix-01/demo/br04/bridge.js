@@ -54,7 +54,7 @@
     const monthText=money(m),matches=Number.isFinite(total)&&Math.abs(m*n-total)<.011;
     return monthText+'/月'+(matches?' × '+n+'个月':'');
   }
-  function moneyLines(a){const gifts=Array.isArray(a?.benefit_snapshot?.gift_terms)?a.benefit_snapshot.gift_terms:[];const giftRows=gifts.map(g=>'<dt>赠送租期</dt><dd>赠送'+esc(g.gift_months)+'个月 · '+'期限规则待确认'+'</dd>').join('');const specialRows=(a?.unit_pricing||a?.benefit_snapshot?.pricing?.unit_pricing||[]).filter(x=>x.campaign_id);const specialLine=specialRows.length?'<dt>特价仓</dt><dd>'+specialRows.map(x=>money(x.unit_special_price)+'/月').join('、')+'</dd>':'';return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月租</dt><dd>${rentFormula(a,core.state().requirement.term_months)}</dd>${specialLine}<dt>优惠券</dt><dd>−${money(a.coupon_discount||0)}</dd>${a.moving_benefit_pending_id?'<dt>服务权益</dt><dd>基础搬运权益 · 资格待确认</dd>':''}${giftRows}<dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
+  function moneyLines(a){const gifts=Array.isArray(a?.benefit_snapshot?.gift_terms)?a.benefit_snapshot.gift_terms:[];const giftRows=gifts.map(g=>'<dt>赠送租期</dt><dd>赠送'+esc(g.gift_months)+'个月 · '+'期限规则待确认'+'</dd>').join('');const specialRows=(a?.unit_pricing||a?.benefit_snapshot?.pricing?.unit_pricing||[]).filter(x=>x.campaign_id);const specialLine=specialRows.length?'<dt>特价仓</dt><dd>'+specialRows.map(x=>money(x.unit_special_price)+'/月').join('、')+'</dd>':'';const couponLine=a?.coupon_id&&Number(a.coupon_discount)>0?'<dt>优惠券</dt><dd>−'+money(a.coupon_discount)+'</dd>':'';return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月租</dt><dd>${rentFormula(a,core.state().requirement.term_months)}</dd>${specialLine}${couponLine}${a.moving_benefit_pending_id?'<dt>服务权益</dt><dd>基础搬运权益 · 资格待确认</dd>':''}${giftRows}<dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
   function phone(){return B.requestPhone('QUOTE');}
   function priceReady(){if(!core.authorized()){phone();return false;}if(!core.state().requirement.term_confirmed){toast('请选择租期');return false;}return true;}
   function applyTerm(value){const m=Number(value),s=core.state(),ids=page==='o01'?s.selected:[];core.setTerm(m);if(ids.length&&core.selectionValid(ids))core.select(ids);clearToast();close();save();refresh();}
@@ -106,7 +106,7 @@
     const term=core.state().requirement.term_months;
     s5StoreUnitRows[rank]=units;
     const firstPrice=presentation.price(units[0].ids);
-    const labels=(presentation.tags?.(s,2)||[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].slice(0,2).map(label=>({label,type:'service'})));
+    const labels=(presentation.tags?.(s,5)||[...new Set((view.services||s.serviceTags||[]).filter(Boolean))].map(label=>({label,type:'service'}))).filter(x=>x.type!=='promotion').slice(0,2);
     const distance=Number.isFinite(Number(s.distance))?Number(s.distance).toFixed(1)+'km':'';
     const photo=esc('../../'+String(view.photo||'assets/'+s.photo).replace(/^\.\.\//,''));
     const storeTitle=esc(view.name||s.name),addr=esc(view.address||s.address||'');
