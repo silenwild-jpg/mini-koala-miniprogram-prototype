@@ -57,7 +57,7 @@
 ### 新整合候选当前状态
 - `AUTOMATED QA PASS`：新SHA `d5a4ff63...` 已通过Run #43452015757；QA截图稳定性P1修复并核验通过。
 - `MERGE_PREPARATION`：已批准，main业务合并仍HOLD，Netlify旧RC1部署预览隔离尚未核实。
-- `HUMAN VISUAL`：新SHA仍待人工签收；旧SHA截图与新版存在11项拍摄状态差异，不作为视觉回退的事实证据。
+- `HUMAN VISUAL`：**PASS / USER SIGNED**，用户明确签收当前完整SHA `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`；旧SHA截图与新版存在11项拍摄状态差异，不作为视觉回退的事实证据。
 - `VIS_SIGNED`：**PASS**，用户2026-11-13明确签收完整SHA `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`。
 - `MERGED`：仅PR #195合入整合分支；尚未合入main。
 - `DEPLOYED`：未部署。
