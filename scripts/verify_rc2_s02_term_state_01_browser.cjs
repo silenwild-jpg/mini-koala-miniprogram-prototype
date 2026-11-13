@@ -118,6 +118,26 @@ async function snapshot(app){
         assert(confirmed.prices.length>0&&confirmed.prices.every(p=>p.kind==='term'));
         assert(!confirmed.overflow&&confirmed.compare===0);
         await page.screenshot({path:path.join(out,'S02-confirmed-'+width+'.png')});
+
+        // Verify the approved S02 traffic-route tab and its interaction panel.
+        const routeTab=app.locator('#s02MainTabs [role="tab"]').filter({hasText:'交通路线'});
+        assert.equal(await routeTab.count(),1,'S02 traffic-route tab must remain available');
+        await routeTab.click();
+        const routePanel=app.locator('.s02-route');
+        await routePanel.waitFor();
+        assert.equal(await app.locator('#s02MapSlot').count(),1,'Route panel map placeholder missing');
+        assert.equal(await app.locator('.s02-travel-modes [data-action="s02TravelMode"]').count(),4,'All four travel modes must be available');
+        for(const mode of ['transit','drive','walk','bike']){
+          const button=app.locator('.s02-travel-modes [data-action="s02TravelMode"][data-value="'+mode+'"]');
+          await button.click();
+          assert((await button.getAttribute('class')||'').includes('active'),'Selected travel mode must be visibly active: '+mode);
+        }
+        await page.evaluate(()=>{window.__openedMapUrl='';window.__oldOpen=window.open;window.open=(url)=>{window.__openedMapUrl=String(url);return {closed:false};};});
+        await app.locator('.s02-route-open[data-action="s02OpenMap"]').click();
+        const mapUrl=await page.evaluate(()=>window.__openedMapUrl);
+        assert.match(mapUrl,/^https:\/\/uri\.amap\.com\/(navigation|search)\?/,'Route navigation should open an Amap destination URL');
+        await page.evaluate(()=>{if(window.__oldOpen)window.open=window.__oldOpen;});
+        await page.screenshot({path:path.join(out,'S02-route-expanded-'+width+'.png')});
         // A partial requirement is not a binding order; the existing lease-term gate remains.
         await app.locator('#screen').evaluate(()=>{
           const m=window.SIM_DEMO;m.core.setRequirement(3,null,false);m.navigate('S02',m.state().storeId);
