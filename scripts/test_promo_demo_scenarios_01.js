@@ -46,7 +46,24 @@ assert.match(below.couponOptions([unitId],3).find(x=>x.id==='CPN-003').reason,/�
 
 assert(bridge.includes('基础搬运权益 · 资格待确认'),'O01 must show the service benefit separately from cash discounts');
 assert(bridge.includes('a.moving_benefit_pending_id?'),'service benefit line must be conditional');
-require('./test_promo_entitlement_model_01');
+
+const promotionPolicy=require('../app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js').createPromotionPolicy();
+assert.equal(promotionPolicy.stacking('TERM_DISCOUNT','RENT_CASH_COUPON').status,'ALLOWED');
+assert.equal(promotionPolicy.stacking('TERM_DISCOUNT','MOVING_SERVICE').status,'ALLOWED');
+assert.equal(promotionPolicy.stacking('RENT_CASH_COUPON','MOVING_SERVICE').status,'ALLOWED');
+assert.equal(promotionPolicy.stacking('UNIT_SPECIAL_PRICE','TERM_DISCOUNT').status,'NEEDS_CONFIRMATION');
+assert.equal(promotionPolicy.stacking('UNIT_SPECIAL_PRICE','RENT_CASH_COUPON').status,'NEEDS_CONFIRMATION');
+assert.equal(promotionPolicy.stacking('CAMPAIGN_FREE_TERM','TERM_DISCOUNT').status,'NEEDS_CONFIRMATION');
+const sampleCampaign={id:'C1',unitId:'U1',storeId:'S1',active:true,catalogRevision:1,baseMonth:520,minMonths:6,maxMonths:12,from:'2026-10-01',until:'2026-11-30'};
+const sampleUnit={id:'U1',store_id:'S1',revision:1},sampleStore={id:'S1'};
+assert.equal(promotionPolicy.evaluateCampaign(sampleCampaign,{today:'2026-11-13',unit:sampleUnit,store:sampleStore,available:true,termMonths:6}).status,'ELIGIBLE');
+assert.equal(promotionPolicy.evaluateCampaign(sampleCampaign,{today:'2026-11-13',unit:sampleUnit,store:sampleStore,available:true,termMonths:3}).status,'INELIGIBLE');
+assert(promotionPolicy.evaluateCampaign({...sampleCampaign,until:'2020-01-01'},{today:'2026-11-13',unit:sampleUnit,store:sampleStore,available:true,termMonths:6}).reasons.includes('ENDED'));
+let coupon={id:'C1',status:'AVAILABLE'};
+for(const state of ['SELECTED','LOCKED','AVAILABLE','SELECTED','LOCKED','REDEEMED'])coupon=promotionPolicy.transitionCoupon(coupon,state);
+assert.equal(coupon.status,'REDEEMED');
+assert.throws(()=>promotionPolicy.transitionCoupon(coupon,'AVAILABLE'),/INVALID_COUPON_TRANSITION/);
+
 console.log('PROMO-DEMO-SCENARIOS-01 PASS: 5 review scenarios, term gate, coupon separation, campaign tag and O01 benefit line');
 
 const lifecycleCases=[
