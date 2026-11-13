@@ -15,7 +15,7 @@ const regularUnitId=regularUnit.id;
 const giftTerm=require('../app/prototype/parallel/core-journey-fix-01/demo/gift-term-policy.js').create();
 
 const scenarios=new Set(F.scenarios.map(x=>x.id));
-for(const id of ['promoSpecial','promoLongTerm','promoCouponCash','promoMoving','promoMovingIneligible'])
+for(const id of ['promoSpecial','promoLongTerm','promoCouponCash','promoMoving','promoMovingIneligible','promoCampaignGift','promoSalesGiftPending','promoSalesGiftApproved'])
   assert(scenarios.has(id),'missing review scenario: '+id);
 
 const special=makeCore();special.setScenario('promoSpecial');
@@ -99,7 +99,6 @@ function couponFlow(){
   const o=core.submit();
   assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'LOCKED','order submission locks coupon');
   assert.equal(o.benefit_snapshot.coupon.status,'LOCKED','order snapshot records the locked coupon state');
-  assert.equal(o.benefit_snapshot.coupon.status,'SELECTED','order preserves quote-time coupon snapshot');
   assert.equal(o.benefit_snapshot.pricing.rent_before_coupon,q.rent_total,'order preserves quote-time rent');
   core.cancelOrder(o.id);
   assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'AVAILABLE','cancel releases coupon');
