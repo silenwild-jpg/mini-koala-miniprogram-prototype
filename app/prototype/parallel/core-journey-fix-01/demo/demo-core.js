@@ -128,7 +128,7 @@
       const base=Number(s.prices[u.id]??u.base_month),todayValue=String(fixture.demoToday||today());
       for(const campaign of (promoConfig.campaigns||[]).filter(x=>x?.unitId===u.id&&x?.storeId===u.store_id)){
         const result=promotionPolicy.evaluateCampaign(campaign,{today:todayValue,unit:u,store:store(u.store_id),available:available(u),termMonths:months});
-        if(result.eligible&&Number.isFinite(Number(campaign.baseMonth))&&Number(campaign.baseMonth)>0)return campaign;
+        if(result.eligible&&Number.isFinite(Number(campaign.baseMonth))&&Number(campaign.baseMonth)>0&&Number(base)>Number(campaign.baseMonth))return campaign;
       }
       return null;
     }
