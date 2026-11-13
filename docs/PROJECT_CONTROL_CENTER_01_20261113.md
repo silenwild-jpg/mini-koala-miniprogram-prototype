@@ -4,14 +4,14 @@
 **用途：** 本文件是项目任务、版本、规则与验收状态的唯一入口；详细页面规则和历史证据保留在专业子文档中，不在多个清单重复维护。  
 **当前阶段：** Web/HTML 产品原型验证、功能演示与视觉签收；不是微信原生生产上线验收。
 
-## 1. 当前唯一 RC2 候选
+## 1. 原RC2签收来源与当前主线整合候选
 
 | 项目 | 当前事实 |
 |---|---|
 | 主候选 PR | [#176 RC2-CLEAN-MIGRATION-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176) |
 | 候选分支 | `integration/rc2-clean-migration-01-20261113` |
 | 已通过自动化验收的 SHA | `41a8a079eb48049e1060512bddf71c226bfd3738` |
-| main最新已核实治理SHA（2026-11-13） | `11afd40a005933ff4a48d8b8f89dbb66ef995103`（PR #192已归并；后续main以GitHub实时为准） |
+| main最新已核实治理SHA（2026-11-13） | `b370957eab9a6dbccc50cc26e4618972151fe569`（PR #193已归并） |
 | PR API 当前报告的 base SHA | `274c5110aa18af7ed71d92533ab126ebbbd11f75` |
 | PR 状态 | Draft / MAIN MERGE HOLD，演示版本已签收但未合并 |
 | 自动化门禁 | PASS（375/390、浏览器、促销/生命周期、预约/快捷下单/O01） |
@@ -19,13 +19,19 @@
 | 在线演示部署 | NOT VERIFIED；未核实可访问的对应版本站点 |
 | 生产小程序准入 | HOLD；微信原生/后端/真实支付与法务尚未验收 |
 | 人工视觉/UAT | PASS（用户于2026-11-13明确签收此SHA） |
+| 新整合候选分支 | `integration/rc2-mainline-integration-01-20261113` |
+| 新整合候选SHA | `281b3deab14a715fb61d20c50f6e1a5aedd5de0c` |
+| 新整合候选自动化验收 | PASS；[Run #43446189232](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232) |
+| 新整合候选人工视觉/UAT | HOLD；原签收不自动转移到新SHA |
 | 主线合并/正式部署 | 未授权、未执行 |
 
-**重要：** PR #176 的自动化 PASS 只对 SHA `41a8a079...` 有效。任何新提交都会使该验收证据不再代表最新 HEAD，必须重新运行同 SHA 门禁。当前候选不可在验收冻结期间被其他开发端继续推送。
+**重要：** PR #176 的自动化与人工签收只对 SHA `41a8a079...` 有效。新整合候选SHA `281b3de...` 已有独立Actions PASS，但尚未获得新SHA人工视觉/UAT签收。两者必须分别记录；不得把原签收迁移到新SHA。原PR #176及原分支保持冻结。
 
 ## 2. 最新验收证据
 
-- [RC2 Actions Run #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)：Success，head SHA 与候选分支一致。
+- [原RC2 Actions Run #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)：原签收SHA `41a8a079...` 的历史验收。
+- [新整合候选 Actions Run #43446189232](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232)：Success，head SHA `281b3de...`，覆盖375/390与促销/生命周期回归。
+- [新整合候选审计记录](RC2_MAINLINE_INTEGRATION_01_AUDIT_20261113.md)：main治理并入、促销策略单一事实源、冲突处理和新SHA验收边界。
 - [375/390 QA Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14026423639)：374项证据文件所在包。
 - [Review Bundle Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14027316228)：隔离评审构建包。
 
@@ -42,6 +48,12 @@
 2026-11-13用户随后明确批准本SHA作为正式演示版本（[PR #176 签收记录](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)）；当前准确状态为 **AUTOMATED QA PASS / VIS-UAT PASS / DEMO READY**。早于签收生成的构建身份文件仍带有 `human_uat_signed_off=false`，这是构建时历史快照，不能覆写原Artifact；以用户后续签收记录作为补充证据。`backend_crm_wechat_verified=false`、`main_merge_allowed=false`、`deployment_allowed=false` 仍有效：未验证线上演示站部署，未完成生产/微信原生条件，也未授权将业务PR #176合并main。
 
 ## 3. 当前阶段门禁
+
+### 新整合候选当前状态
+- `AUTOMATED QA PASS`：新SHA `281b3de...` 已通过Run #43446189232。
+- `VIS_SIGNED`：HOLD，等待用户对新SHA视觉/UAT复核。
+- `MERGED`：仅PR #195合入整合分支；尚未合入main。
+- `DEPLOYED`：未部署。
 
 ### DEMO READY
 需要：
