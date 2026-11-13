@@ -9,3 +9,9 @@
   NODE_VERSION = "22"
   PYTHON_VERSION = "3.13"
   MK_REVIEW_VERSION = "DEMO-MK-RC1-P1-20261029"
+
+# Private S01 A/R2 candidate: preview-only; production RC1-P1 lock remains unchanged.
+[context.deploy-preview]
+  command = "node scripts/verify_s01_r2_preview.cjs && python3 scripts/build_rc1_private_site.py"
+[context.deploy-preview.environment]
+  MK_REVIEW_VERSION = "DEMO-MK-S01-R2-CANDIDATE-20261030"
