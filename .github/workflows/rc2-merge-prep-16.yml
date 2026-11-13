@@ -1,0 +1,73 @@
+name: RC2-GATE-READY-02 isolated main-candidate 375-390 QA
+on:
+  push:
+    branches:
+      - isolate/rc2-merge-prep-14-s01-hit-targets-20261102
+      - isolate/rc2-gate-ready-02-main-candidate-20261102
+  pull_request:
+    branches:
+      - isolate/rc2-merge-prep-10-order-review-hifi-gate-20261102
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  packed-s01:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify exact PR HEAD provenance
+        env:
+          RC2_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$RC2_EXPECTED_HEAD"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check original S01 interaction tests and package source
+        run: |
+          node --check scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+          node scripts/verify_rc2_merge_prep_09_source.cjs
+      - name: Build RC2 GateReady02 main-candidate package (never deploy)
+        env:
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_GateReady02_MainCandidate_20261102.zip
+          RC2_BUNDLE_LABEL: RC2-GATE-READY02-MAIN-CANDIDATE-20261102
+          RC2_BUNDLE_BRANCH: isolate/rc2-gate-ready-02-main-candidate-20261102
+        run: |
+          python3 scripts/build_rc2_isolated_demo.py
+          python3 -c "import hashlib,json;from pathlib import Path;from zipfile import ZipFile;p=Path('release-evidence/rc2-merge-prep-10');s=json.loads((p/'build-summary.json').read_text());z=p/s['archive_name'];assert z.name=='MiniKoala_RC2_GateReady02_MainCandidate_20261102.zip';assert s['archive_sha256']==hashlib.sha256(z.read_bytes()).hexdigest();assert ZipFile(z).testzip() is None;assert s['main_merge_allowed'] is False and s['deployment_allowed'] is False;print('RC2_UX_BATCH03_ZIP_AND_HOLD_PASS',len(ZipFile(z).namelist()))"
+      - name: Install browser
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Verify S01 sheet close, sort, service, price, and payment at 375-390
+        run: node scripts/verify_rc2_merge_prep_02_browser.cjs
+      - name: Verify CAP and ITEMS scenario variants and S5 return at 375-390
+        run: node scripts/verify_rc2_merge_prep_05_browser.cjs
+      - name: Verify S01 S02 demand editing, stock limits and return at 375-390
+        run: node scripts/verify_rc2_merge_prep_06_browser.cjs
+      - name: Verify standalone PR35-sourced aftercare lifecycle at 375-390
+        run: node scripts/verify_rc2_rule_fix_01c_browser.cjs
+      - name: Verify phone gate, O01 payment results, single-order recovery, S5 and aftercare at 375-390
+        run: node scripts/verify_rc2_rule_fix_01d_browser.cjs
+      - name: Check packaged S01/MK/CAP/ITEMS/M01 at 375-390
+        run: node scripts/verify_rc2_merge_prep_09_bundle_browser.cjs
+      - name: Upload private evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc2-gate-ready02-main-candidate-zip-qa
+          path: |
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_GateReady02_MainCandidate_20261102.zip
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/manifest.json
+            release-evidence/rc2-merge-prep-10/isolated-bundle-smoke.json
+            release-evidence/rc2-merge-prep-10/isolated-S01-distance-*.png
+            release-evidence/rc2-merge-prep-02/*.png
+            release-evidence/rc2-merge-prep-02/results.json
+            release-evidence/rc2-merge-prep-05/
+            release-evidence/rc2-merge-prep-06/
+            release-evidence/rc2-fix-01c/
+            release-evidence/rc2-fix-01d/
+          if-no-files-found: warn

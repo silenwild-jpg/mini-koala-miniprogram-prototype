@@ -1,0 +1,68 @@
+{
+  "task": "RC2-MERGE-PREP-10",
+  "date": "2026-11-02",
+  "baseline_pr": 36,
+  "baseline_commit": "33174a2d35e350a587c2128c86dda944f75df7e7",
+  "h01": {
+    "status": "HIFI06_ABANDONED",
+    "decision": "User explicitly discontinued H01 HIFI-06; do not request, accept, render or reuse this version",
+    "retired_source_names": [
+      "BR01_H01_HIFI_06.zip",
+      "BR01_H01_CONNECT_05.zip"
+    ],
+    "retired_prs": [
+      34,
+      38
+    ],
+    "effective_h01_visual": "VIS11J_USER_APPROVED_FINAL_VISUAL_20261102",
+    "next_final_visual": "VIS-11J",
+    "visual_gate": "APPROVED_OLD_HOME_VIS11J_NO_UNAUTHORIZED_VISUAL_REDESIGN",
+    "final_signoff": "VISUAL_APPROVED_IMPLEMENTATION_375_390_SOURCE_COMPARISON_PENDING",
+    "source_pr_contains_hifi": false,
+    "approved_master_size_px": [
+      1024,
+      1536
+    ],
+    "master_select_date": "2026-11-02",
+    "master_receipt": "APPROVED_IMAGE_PIXEL_HASH_VERIFIED_AND_IDENTICAL_GITHUB_BLOB",
+    "source_zip": null,
+    "implementation_candidate": "EXISTING_RC2_H01_HOME_HTML_VIS11J",
+    "physical_source_received": true,
+    "implementation_signed_off": false,
+    "approved_master_name": "OLD_VIS_11J_NOT_LATEST.png",
+    "approved_master_sha256": "30749d1700c025423a4d54fb3e34e99e9516bf299fac2a2cf073a9e1b0560660",
+    "approved_visual_embedded_in_repo": true,
+    "decision_note": "User selected legacy VIS-11J dark corridor homepage. Source image exact byte match in approved sandbox evidence and GitHub app/assets/branch01. Existing H01 runtime uses VIS-11J slices. Runtime screenshot fidelity at 375/390 still requires confirmation; retired HIFI-06 remains abandoned.",
+    "approved_master_repo_path": "app/assets/branch01/VIS-11J_用户批准唯一视觉母版.png",
+    "approved_master_git_blob": "ba9995b7ca50079549d3e69ffde2bb3bdb7e4ee3"
+  },
+  "s01": {
+    "approved_change": "Replace search strip and area/capacity/term triad with four sort/distance/price/service filters",
+    "search_relocated_to": "navbar-more",
+    "filter_count": 4,
+    "legacy_invisible_region_capacity": "RESET",
+    "distance_requires_verified_source": false,
+    "pricing_requires_phone_gate": true,
+    "visual_state": "ISOLATED_CANDIDATE_NOT_FINAL_SIGNOFF",
+    "distance_sort_demo_allowed_without_verified_location": true,
+    "verified_location_required_in_live_mode": true,
+    "distance_display_source": "STORE_STABLE_DEMO_DISTANCE",
+    "technical_visual_review": "375_390_TECHNICAL_SCREENSHOTS_PASS_NOT_FINAL_MASTER_SIGNOFF"
+  },
+  "release": {
+    "candidate_version": "RC2-ISOLATED-DEMO-CANDIDATE-10-20261102",
+    "premerge_candidate_ref": "isolate/rc2-merge-prep-10-order-review-hifi-gate-20261102",
+    "postdeploy_commit_sha": null,
+    "old_rc1_freeze_unchanged": true,
+    "allow_isolated_business_qa": true,
+    "allow_merge_main": false,
+    "allow_deploy": false,
+    "isolated_bundle_allow": true,
+    "isolated_bundle_access_model": "LOCAL_ONLY_OR_SSO_PRIVATE_REVIEW",
+    "isolated_bundle_is_public_release": false,
+    "main_merge_gate": "HOLD_VISUAL_AND_AUTHORIZATION",
+    "orders_visual_scope": "M01_O03_OH01_AND_AFTERCARE_STATUS_COPY",
+    "h01_master_status": "VIS11J_OLD_HOME_FINAL_VISUAL_APPROVED_IMPLEMENTATION_SIGNOFF_PENDING_HIFI06_ABANDONED"
+  },
+  "decision_date": "2026-11-02"
+}
