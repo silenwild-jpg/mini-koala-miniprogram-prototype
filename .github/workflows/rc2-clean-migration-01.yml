@@ -11,7 +11,6 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
       - app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
       - app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
-      - app/prototype/parallel/core-journey-fix-01/demo/promotion-policy.js
       - app/prototype/parallel/core-journey-fix-01/demo/gift-term-policy.js
       - app/prototype/parallel/core-journey-fix-01/demo/br03-demo-snapshots.js
       - app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js
