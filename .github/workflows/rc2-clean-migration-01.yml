@@ -16,6 +16,7 @@ on:
       - scripts/verify_m01_ia_03.cjs
       - scripts/verify_m01_ia_03_browser.cjs
       - scripts/verify_rc2_s02_term_state_01_browser.cjs
+      - scripts/verify_s5_extreme_content_01_browser.cjs
       - docs/RC2_MERGE_PREP_02_SOURCE_GATE.json
   workflow_dispatch:
 permissions:
@@ -136,6 +137,7 @@ jobs:
       - name: S5 ranking and cross-page map origin
         run: |
           node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+          node scripts/verify_s5_extreme_content_01_browser.cjs
           node scripts/verify_motion_s01_s5_01c_browser.cjs
           node scripts/verify_motion_s01_s5_01g_browser.cjs
       - name: H01 S01 S02 S5 M01 and order lifecycle
