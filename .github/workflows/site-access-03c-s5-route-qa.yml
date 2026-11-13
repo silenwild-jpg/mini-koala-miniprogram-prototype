@@ -1,25 +1,13 @@
 name: SITE-ACCESS-03C S5 iframe navigation and dual-viewport regression
+# Legacy frozen RC1-P1 regression: available for explicit historical rechecks only.
+# Current RC2 changes are validated by the dedicated RC2 CLEAN MIGRATION gate.
+# Do not run the obsolete RC1-only changed-file allowlist on every PR or main push.
 on:
-  push:
-    branches:
-      - fix/site-access-03c-s5-iframe-route-20261029
-      - main
-  pull_request:
-    branches:
-      - main
-    # RC2-CLEAN-MIGRATION-02A: RC1-only changes; RC2 uses its own independent gate.
-    paths:
-      - .github/workflows/site-access-03c-s5-route-qa.yml
-      - scripts/verify_demo_rc1_p1.cjs
-      - scripts/build_rc1_private_site.py
-      - app/prototype/parallel/core-journey-fix-01/qa/test_site_access_03c_browser.cjs
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   s5-isolated-regression:
-    # RC2 candidates use independent gates, not the frozen RC1 validation path.
-    if: ${{ github.event_name != 'pull_request' || !startsWith(github.head_ref, 'integration/rc2-') }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
