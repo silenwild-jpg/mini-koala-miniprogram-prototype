@@ -176,7 +176,7 @@
       ['navBooking','预约订单','calendar'],['mine','我的','mine']];
     return `<nav class="bottom-nav" aria-label="底部导航">${entries.map(([action,label,icon,value])=>{
       const active=(page==='S01'&&label==='附近门店')||(page==='M01'&&label==='我的');
-      return `<button class="bottom-item ${active?'active':''}" data-action="${action}" data-value="${value||''}" ${action==='navBooking'?'aria-haspopup="dialog"':''}><img class="approved-nav-icon nav-01c-icon" src="assets/nav-current-01c/${icon}-${active?'active':'inactive'}.svg" alt=""><span>${label}</span></button>`;
+      return `<button class="bottom-item ${active?'active':''}" data-action="${action}" data-value="${value||''}" ${active?'aria-current="page"':''} ${action==='navBooking'?'aria-haspopup="dialog"':''}><img class="approved-nav-icon nav-01c-icon" src="assets/nav-current-01c/${icon}-${active?'active':'inactive'}.svg" alt=""><span>${label}</span></button>`;
     }).join('')}</nav>`;
   }
   function visualDemand(){const r=state().requirement;return `<div class="demand ${r.capacity_m3===null?'demand-empty':''}"><span class="roundicon">${I('cube')}</span><span class="summary">${r.capacity_m3===null?'未选需求，可直接浏览门店':'已选需求：'+space.demandCapacity(r)+' · '+(r.term_confirmed?r.term_months+'个月':'租期待选')}</span><a data-edit-demand href="${state().requirement.source==='items_estimate'||state().requirement.source==='known_capacity_in_items_flow'?'items.html':'cap.html'}">${r.capacity_m3===null?'填写需求':'修改'} ${I('chevron')}</a></div>`;}
