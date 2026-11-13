@@ -33,15 +33,15 @@ assert.equal(cashAmounts.moving_benefit_pending_id,null,'cash coupon scenario do
 const moving=makeCore();moving.setScenario('promoMoving');
 const movingAmounts=moving.amounts([unitId],6);
 assert.equal(movingAmounts.coupon_discount,0,'moving benefit is not a cash rent discount');
-assert.equal(movingAmounts.moving_benefit_pending_id,'BEN-MOVING-01');
-const movingOption=moving.couponOptions([unitId],6).find(x=>x.id==='BEN-MOVING-01');
+assert.equal(movingAmounts.moving_benefit_pending_id,'CPN-003');
+const movingOption=moving.couponOptions([unitId],6).find(x=>x.id==='CPN-003');
 assert.equal(movingOption.eligible,false,'service benefit is not selectable as a cash coupon');
 assert.match(movingOption.reason,/服务范围与距离资格待确认/);
 
 const below=makeCore();below.setScenario('promoMovingIneligible');
 assert.equal(below.state().requirement.term_months,3);
 assert.equal(below.amounts([unitId],3).moving_benefit_pending_id,null,'less than six months does not receive the moving benefit');
-assert.match(below.couponOptions([unitId],3).find(x=>x.id==='BEN-MOVING-01').reason,/租期需满6个月/);
+assert.match(below.couponOptions([unitId],3).find(x=>x.id==='CPN-003').reason,/租期需满6个月/);
 
 assert(bridge.includes('基础搬运权益 · 资格待确认'),'O01 must show the service benefit separately from cash discounts');
 assert(bridge.includes('a.moving_benefit_pending_id?'),'service benefit line must be conditional');
