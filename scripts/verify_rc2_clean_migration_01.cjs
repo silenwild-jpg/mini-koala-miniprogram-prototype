@@ -22,7 +22,7 @@ for(const tier of ['mini','small','medium','large']){assert.ok(exists(demo+'/ass
 const ids=['SIM_BJ01','SIM_BJ02','SIM_BJ03','SIM_BJ04','SIM_BJ05','SIM_BJ06','SIM_BJ07','SIM_BJ08','SIM_BJ09','SIM_SH01','SIM_SH02','SIM_SZ01'];
 for(const id of ids){assert.ok(exists(demo+'/assets/store-curated/v1/'+id+'/card.webp'),'STORE_CARD_MISSING '+id);assert.ok(exists(demo+'/assets/store-curated/v1/'+id+'/hero.webp'),'STORE_HERO_MISSING '+id);}
 const index=read(demo+'/index.html'),app=read(demo+'/app.js'),fixtures=read(demo+'/fixtures.js'),home=read(demo+'/home.html');
-for(const token of ['store-geo.js','space-unit.js','lifecycle-contract.js','lifecycle-ui.js','s01-r2-content.js','app.js'])assert.ok(index.includes(token),'INDEX_SCRIPT_NOT_WIRED '+token);
+for(const token of ['gift-term-policy.js','store-geo.js','space-unit.js','lifecycle-contract.js','lifecycle-ui.js','s01-r2-content.js','app.js'])assert.ok(index.includes(token),'INDEX_SCRIPT_NOT_WIRED '+token);
 for(const token of ['nav-current-01c/','unit-r3/thumb/','s01-r2-live.html','M01'])assert.ok(app.includes(token),'APP_RUNTIME_CONTRACT_MISSING '+token);
 assert.ok(index.includes('location-ranker.js'),'S5_RANKER_NOT_WIRED');
 for(const token of ['store-curated/v1/','card.webp','hero.webp'])assert.ok(fixtures.includes(token),'CURATED_FIXTURE_MAPPING_MISSING '+token);
