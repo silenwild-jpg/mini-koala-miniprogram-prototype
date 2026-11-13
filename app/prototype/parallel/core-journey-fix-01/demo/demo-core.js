@@ -1,14 +1,34 @@
 (function(root){
   'use strict';
   const fixture=typeof module==='object'&&module.exports?require('./fixtures'):root.SIM_FIXTURES;
+  const promotionConfig=typeof module==='object'&&module.exports?require('./br03-demo-snapshots'):root.SIM_BR03_DATA;
+  const presentationModule=typeof module==='object'&&module.exports?require('./presentation-policy'):root.SIM_PRESENTATION;
+  const giftTermModule=typeof module==='object'&&module.exports?require('./gift-term-policy'):root.SIM_GIFT_TERM_POLICY;
   const copy=x=>JSON.parse(JSON.stringify(x));
   const PENDING_ORDER_TTL_MS=3*60*60*1000;
   function create(options={}) {
     const now=options.now||Date.now;
     const fail=code=>{throw new Error(code);};
-    const initial=()=>({schema:1,fixtureVersion:fixture.version,scenario:'noDemand',city:fixture.defaultCity,locationAuthorized:false,requirement:{capacity_m3:null,term_months:null,term_confirmed:false},storeId:null,selected:[],startDate:null,dateConfirmed:false,auth:{status:'anonymous',expiresAt:0},account:null,contactPhone:'',coupons:[],couponChoice:'auto',services:{},messages:[],previewConsumed:false,inventoryVersion:1,stock:{},prices:{},quote:null,orders:[],leads:[],enterpriseLeads:[],nextRecheck:null,sequence:0,returnPage:'S01'});
+    const promoConfig=options.promotionConfig||promotionConfig||{campaigns:[]};
+    const promotionPolicy=presentationModule?.createPromotionPolicy?.();
+    const giftPolicy=giftTermModule?.create?.();
+    const initial=()=>({schema:1,fixtureVersion:fixture.version,scenario:'noDemand',city:fixture.defaultCity,locationAuthorized:false,requirement:{capacity_m3:null,term_months:null,term_confirmed:false},storeId:null,selected:[],startDate:null,dateConfirmed:false,auth:{status:'anonymous',expiresAt:0},account:null,contactPhone:'',coupons:[],serviceBenefits:[],giftTerms:[],couponChoice:'auto',services:{},messages:[],previewConsumed:false,inventoryVersion:1,stock:{},prices:{},quote:null,orders:[],leads:[],enterpriseLeads:[],nextRecheck:null,sequence:0,returnPage:'S01'});
     let s=initial();
     if(options.state&&options.state.fixtureVersion===fixture.version&&options.state.schema===1)s={...s,...copy(options.state)};
+    function normalizePromotionState(){
+      const legacyBenefits=(Array.isArray(s.coupons)?s.coupons:[]).filter(c=>c?.type==='SERVICE_BENEFIT');
+      s.coupons=(Array.isArray(s.coupons)?s.coupons:[]).filter(c=>c?.type!=='SERVICE_BENEFIT').map(c=>({...c,status:c.status==='CLAIMED'?'AVAILABLE':c.status==='APPLIED'?'SELECTED':c.status}));
+      const benefitMap=new Map();
+      [...(Array.isArray(s.serviceBenefits)?s.serviceBenefits:[]),...legacyBenefits.map(c=>({...c,type:'MOVING_SERVICE',source_type:c.source_type||'CAMPAIGN',status:c.status==='CLAIMED'?'ELIGIBILITY_PENDING':c.status||'ELIGIBILITY_PENDING'}))].forEach(b=>{if(b?.id)benefitMap.set(b.id,b);});
+      s.serviceBenefits=[...benefitMap.values()];
+      s.giftTerms=Array.isArray(s.giftTerms)?s.giftTerms:[];
+    }
+    normalizePromotionState();
+    function transitionCoupon(coupon,next){
+      if(!coupon||coupon.status===next)return coupon;
+      const updated=promotionPolicy.transitionCoupon(coupon,next);
+      Object.assign(coupon,updated);return coupon;
+    }
     const store=id=>fixture.stores.find(x=>x.id===id);
     const unit=id=>fixture.units.find(x=>x.id===id);
     const available=u=>!!u&&store(u.store_id)?.status==='open'&&(s.stock[u.id]||u.status)==='available';
@@ -17,7 +37,12 @@
     const validTerm=m=>Number.isInteger(m)&&m>=1&&m<=60;
     const validCapacity=c=>typeof c==='number'&&Number.isFinite(c)&&c>=.5&&c<=200&&Math.abs(c*100-Math.round(c*100))<1e-7;
     const authorized=()=>{if(s.auth.status==='verified'&&now()>=s.auth.expiresAt){s.auth.status='expired';s.quote=null;}return s.auth.status==='verified';};
-    const invalidate=()=>{s.quote=null;};
+    const invalidate=()=>{
+      const previous=s.quote;
+      if(previous?.coupon_id){const c=s.coupons.find(x=>x.id===previous.coupon_id);if(c?.status==='SELECTED')transitionCoupon(c,'AVAILABLE');}
+      (previous?.benefit_snapshot?.gift_terms||[]).forEach(snapshot=>{const g=s.giftTerms.find(x=>x.id===snapshot.benefit_id);if(g?.status==='ATTACHED_TO_QUOTE')Object.assign(g,giftPolicy.transition(g,'APPROVED'));});
+      s.quote=null;
+    };
     function setRequirement(capacity,months,confirmed=false,input=null){
       if(capacity!==null&&!validCapacity(capacity))fail('INVALID_CAPACITY');
       if(months!==null&&!validTerm(months))fail('INVALID_TERM');
@@ -55,6 +80,9 @@
       if(scene.soldStores)fixture.units.filter(u=>scene.soldStores.includes(u.store_id)).forEach(u=>s.stock[u.id]='soldout');
       s.nextRecheck=scene.nextRecheck||null;
       if(Array.isArray(scene.coupons))s.coupons=copy(scene.coupons);
+      if(Array.isArray(scene.serviceBenefits))s.serviceBenefits=copy(scene.serviceBenefits);
+      if(Array.isArray(scene.giftTerms))s.giftTerms=copy(scene.giftTerms);
+      normalizePromotionState();
       if(scene.couponChoice)s.couponChoice=scene.couponChoice;
       if(scene.lifecycle){
         const orderId='SIM_REVIEW_ORDER_'+scene.id;
@@ -91,31 +119,77 @@
       return rows.sort((a,b)=>a.volume-b.volume).slice(0,3);
     }
     const currency=n=>Math.round((n+Number.EPSILON)*100)/100;
-    function discountedMonth(u,months){if(!validTerm(months))fail('SELECT_TERM');const base=s.prices[u.id]??u.base_month;const rule=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max);if(!rule)fail('INVALID_TERM');return Math.trunc(Number(base)*rule.factor+1e-9);}
+    function campaignForUnit(u,months){
+      const base=Number(s.prices[u.id]??u.base_month),todayValue=String(fixture.demoToday||today());
+      for(const campaign of (promoConfig.campaigns||[]).filter(x=>x?.unitId===u.id&&x?.storeId===u.store_id)){
+        const result=promotionPolicy.evaluateCampaign(campaign,{today:todayValue,unit:u,store:store(u.store_id),available:available(u),termMonths:months});
+        if(result.eligible&&Number.isFinite(Number(campaign.baseMonth))&&Number(campaign.baseMonth)>0&&base===Number(campaign.baseMonth))return campaign;
+      }
+      return null;
+    }
+    function unitPricing(u,months){
+      if(!validTerm(months))fail('SELECT_TERM');
+      const base=Number(s.prices[u.id]??u.base_month),campaign=campaignForUnit(u,months);
+      if(campaign)return {unit_id:u.id,base_month:base,unit_special_price:Number(campaign.baseMonth),monthly_rent:Math.trunc(Number(campaign.baseMonth)),term_factor:null,term_discount_monthly:0,campaign_id:campaign.id,pricing_mode:'DEMO_EXCLUSIVE_SPECIAL_PRICE',stacking_status:'NEEDS_CONFIRMATION'};
+      const rule=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max);if(!rule)fail('INVALID_TERM');
+      const monthly=Math.trunc(base*rule.factor+1e-9);
+      return {unit_id:u.id,base_month:base,unit_special_price:0,monthly_rent:monthly,term_factor:rule.factor,term_discount_monthly:Math.max(0,base-monthly),campaign_id:null,pricing_mode:'TERM_DISCOUNT',stacking_status:'NOT_APPLICABLE'};
+    }
+    function giftTermOptions(ids,months){
+      const selected=Array.isArray(ids)?ids:[];
+      return s.giftTerms.filter(g=>selected.includes(g.unit_id)).map(g=>{
+        const check=giftPolicy.validate(g),reasons=[...check.reasons],u=unit(g.unit_id);
+        if(!u||u.store_id!==g.store_id)reasons.push('SCOPE_MISMATCH');
+        if(g.status!=='APPROVED')reasons.push(g.status==='SUBMITTED'?'APPROVAL_PENDING':'NOT_APPROVED');
+        if(g.min_months!==undefined&&Number(months)<Number(g.min_months))reasons.push('TERM_INELIGIBLE');
+        if(g.max_months!==undefined&&Number(months)>Number(g.max_months))reasons.push('TERM_INELIGIBLE');
+        if(g.active===false)reasons.push('INACTIVE');
+        if(g.expires_at&&String(fixture.demoToday||today())>g.expires_at)reasons.push('ENDED');
+        if(g.source_type==='SALES_CASE'&&(!g.approval_id||!g.approved_by))reasons.push('APPROVAL_METADATA_REQUIRED');
+        const unique=[...new Set(reasons)];
+        return {...giftPolicy.display(g),id:g.id||null,source_type:g.source_type,status:g.status,gift_months:g.gift_months,eligible:unique.length===0,reasons:unique,reason:unique.length?unique.join('、'):''};
+      });
+    }
+    function discountedMonth(u,months){return unitPricing(u,months).monthly_rent;}
     function rent(u,months){return discountedMonth(u,months)*months;}
-    function couponEligible(c,rentTotal,months,renewal=false){
-      if(!['CLAIMED','AVAILABLE','SELECTED','APPLIED'].includes(c.status))return false;
+    function couponEligible(c,rentTotal,months,renewal=false,unitRows=[]){
+      if(!['AVAILABLE','SELECTED'].includes(c.status))return false;
       if(c.id==='CPN-004')return renewal&&months>=6;
-      if(renewal||s.orders.some(o=>o.status==='paid_simulated'))return false;
+      if(renewal||c.type!=='RENT_CASH'||s.orders.some(o=>o.status==='paid_simulated'))return false;
+      if(unitRows.some(x=>x.campaign_id)&&!promotionPolicy.stacking('UNIT_SPECIAL_PRICE','RENT_CASH_COUPON').allowed)return false;
+      if(c.expires_at&&String(fixture.demoToday||today())>c.expires_at)return false;
       return c.id==='CPN-001'?rentTotal>=2000:c.id==='CPN-002'?months>=12:false;
     }
     function amounts(ids,months,opts={}){
       if(!ids.length||ids.some(id=>!unit(id)))fail('INVALID_SELECTION');
-      // Integer source of truth: truncate each unit's discounted month rent,
-      // combine monthly rents, then multiply by the exact term.
-      const deposit=ids.reduce((n,id)=>n+discountedMonth(unit(id),months),0);
-      const rentTotal=deposit*months;
-      const eligible=s.coupons.filter(c=>couponEligible(c,rentTotal,months,!!opts.renewal));
+      const unitRows=ids.map(id=>unitPricing(unit(id),months));
+      const monthlyRent=unitRows.reduce((n,row)=>n+row.monthly_rent,0);
+      const deposit=monthlyRent,rentTotal=monthlyRent*months;
+      const hasSpecial=unitRows.some(row=>!!row.campaign_id);
+      const couponStack=hasSpecial?promotionPolicy.stacking('UNIT_SPECIAL_PRICE','RENT_CASH_COUPON'):{status:'ALLOWED',allowed:true,reason:null};
+      const movingStack=hasSpecial?promotionPolicy.stacking('UNIT_SPECIAL_PRICE','MOVING_SERVICE'):{status:'ALLOWED',allowed:true,reason:null};
+      const eligible=s.coupons.filter(c=>couponEligible(c,rentTotal,months,!!opts.renewal,unitRows));
       const coupon=opts.renewal?eligible.find(c=>c.id==='CPN-004'):s.couponChoice==='none'?null:s.couponChoice==='auto'?eligible.sort((a,b)=>b.amount-a.amount)[0]:eligible.find(c=>c.id===s.couponChoice);
-      const discount=coupon?Math.min(coupon.amount,rentTotal):0;
-      // A moving/service entitlement is tracked separately, and does not subtract rent.
-      const moving=!opts.renewal&&Number(months)>=6?s.coupons.find(c=>c.type==='SERVICE_BENEFIT'&&c.status==='CLAIMED'&&!s.orders.some(o=>o.status==='paid_simulated'&&o.moving_benefit_pending_id===c.id)):null;
+      const discount=coupon?Math.min(Number(coupon.amount)||0,rentTotal):0;
+      const serviceBenefit=s.serviceBenefits.find(b=>b.type==='MOVING_SERVICE'&&!['INELIGIBLE','FULFILLED'].includes(b.status)&&!s.orders.some(o=>o.status==='paid_simulated'&&o.moving_benefit_pending_id===b.id));
+      const moving=!opts.renewal&&months>=6&&serviceBenefit&&movingStack.allowed?serviceBenefit:null;
       const rentAfterCoupon=rentTotal-discount;
-      return {rent_total:rentTotal,monthly_average:deposit,rent_after_coupon:rentAfterCoupon,// Backward-compatible analytic field: a cash coupon can make term
-        // price non-divisible by months. Do not present it as monthly rent.
-        monthly_after_coupon:currency(rentAfterCoupon/months),deposit:opts.renewal?0:deposit,management_fee:opts.renewal?0:fixture.pricing.managementFee,coupon_id:coupon?.id||null,coupon_discount:discount,moving_benefit_pending_id:opts.renewal?null:(moving?.id||null),payable:rentAfterCoupon+(opts.renewal?0:deposit+fixture.pricing.managementFee)};
+      const termDiscountMonthly=unitRows.reduce((n,row)=>n+row.term_discount_monthly,0);
+      const unitSpecialPrice=unitRows.reduce((n,row)=>n+row.unit_special_price,0);
+      const termRule=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max);
+      const serviceBenefits=moving?[{benefit_id:moving.id,type:'MOVING_SERVICE',status:'ELIGIBILITY_PENDING',rent_discount:0,reason:'服务范围与距离资格待确认'}]:[];
+      const calculationTrace={source:'DEMO_PROMOTION_POLICY',unit_calculations:unitRows.map(row=>({...row})),stacking:{special_price_coupon:couponStack,special_price_moving:movingStack},deposit_basis:'DEMO_MONTHLY_RENT_AFTER_PRICE_POLICY',deposit_basis_status:'PENDING_BUSINESS_CONFIRMATION'};
+      return {rent_total:rentTotal,monthly_average:monthlyRent,rent_after_coupon:rentAfterCoupon,
+        monthly_after_coupon:currency(rentAfterCoupon/months),deposit:opts.renewal?0:deposit,
+        management_fee:opts.renewal?0:fixture.pricing.managementFee,coupon_id:coupon?.id||null,
+        coupon_discount:discount,moving_benefit_pending_id:opts.renewal?null:(moving?.id||null),
+        service_benefits:opts.renewal?[]:serviceBenefits,campaign_ids:[...new Set(unitRows.map(x=>x.campaign_id).filter(Boolean))],
+        unit_pricing:unitRows,unit_special_price:unitSpecialPrice,term_discount_monthly:termDiscountMonthly,
+        term_discount_total:termDiscountMonthly*months,term_factor:hasSpecial?null:(termRule?.factor??null),
+        coupon_stack_status:couponStack.status,moving_stack_status:movingStack.status,
+        calculation_trace:calculationTrace,payable:rentAfterCoupon+(opts.renewal?0:deposit+fixture.pricing.managementFee)};
     }
-    function signature(){return JSON.stringify({fixture:fixture.version,inventory:s.inventoryVersion,requirement:s.requirement,city:s.city,selected:s.selected,startDate:s.startDate,couponChoice:s.couponChoice,coupons:s.coupons.map(c=>[c.id,c.status]),prices:s.selected.map(id=>s.prices[id]||unit(id)?.base_month)});}
+    function signature(){return JSON.stringify({fixture:fixture.version,inventory:s.inventoryVersion,requirement:s.requirement,city:s.city,selected:s.selected,startDate:s.startDate,couponChoice:s.couponChoice,coupons:s.coupons.map(c=>[c.id,c.status]),serviceBenefits:s.serviceBenefits.map(b=>[b.id,b.status]),giftTerms:s.giftTerms.map(g=>[g.id,g.status,g.approval_id,g.gift_months]),campaigns:(promoConfig.campaigns||[]).map(c=>[c.id,c.active,c.catalogRevision,c.baseMonth,c.from,c.until]),prices:s.selected.map(id=>s.prices[id]||unit(id)?.base_month)});}
     function assertReady(){
       if(!authorized())fail('PHONE_REQUIRED');
       if(!s.requirement.term_confirmed||!validTerm(s.requirement.term_months))fail('SELECT_TERM');
@@ -131,16 +205,34 @@
       if(reason==='inventory')s.stock[s.selected[0]]='soldout';else s.prices[s.selected[0]]=Math.round((s.prices[s.selected[0]]||unit(s.selected[0]).base_month)*1.1/10)*10;
       s.inventoryVersion++;invalidate();return reason;
     }
-    function quote(){assertReady();const a=amounts(s.selected,s.requirement.term_months);if(s.quote?.coupon_id&&s.quote.coupon_id!==a.coupon_id){const previous=s.coupons.find(c=>c.id===s.quote.coupon_id);if(previous?.status==='SELECTED')previous.status='CLAIMED';}
-      if(a.coupon_id){const selectedCoupon=s.coupons.find(c=>c.id===a.coupon_id);if(selectedCoupon)selectedCoupon.status='SELECTED';}
-      const termRule=fixture.pricing.termRules.find(x=>s.requirement.term_months>=x.min&&s.requirement.term_months<=x.max);
+    function quote(){
+      assertReady();invalidate();
+      const a=amounts(s.selected,s.requirement.term_months),quoteId='SIM_QUOTE_'+(++s.sequence);
+      if(a.coupon_id){const selectedCoupon=s.coupons.find(c=>c.id===a.coupon_id);if(selectedCoupon)transitionCoupon(selectedCoupon,'SELECTED');}
+      const giftOptions=giftTermOptions(s.selected,s.requirement.term_months).filter(g=>g.eligible);
+      const attachedGifts=[];
+      if(giftOptions.length===1){
+        const gift=s.giftTerms.find(g=>g.id===giftOptions[0].id);
+        if(gift){Object.assign(gift,giftPolicy.transition(gift,'ATTACHED_TO_QUOTE',{quote_id:quoteId}));attachedGifts.push(giftPolicy.snapshot(gift));}
+      }
       const benefitSnapshot={
-        pricing:{base_months:s.selected.map(id=>({unit_id:id,base_month:s.prices[id]??unit(id).base_month})),term_factor:termRule?.factor??null,term_months:s.requirement.term_months,rent_before_coupon:a.rent_total,coupon_discount:a.coupon_discount,rent_after_coupon:a.rent_after_coupon},
+        schema_version:1,quote_id:quoteId,created_at:now(),campaign_ids:a.campaign_ids,
+        pricing:{base_months:a.unit_pricing.map(x=>({unit_id:x.unit_id,base_month:x.base_month})),unit_pricing:copy(a.unit_pricing),
+          unit_special_price:a.unit_special_price,term_factor:a.term_factor,term_discount_monthly:a.term_discount_monthly,
+          term_discount_total:a.term_discount_total,term_months:s.requirement.term_months,
+          rent_before_coupon:a.rent_total,coupon_discount:a.coupon_discount,rent_after_coupon:a.rent_after_coupon,
+          deposit_basis:'DEMO_MONTHLY_RENT_AFTER_PRICE_POLICY',deposit_basis_status:'PENDING_BUSINESS_CONFIRMATION'},
         coupon:a.coupon_id?{coupon_id:a.coupon_id,discount:a.coupon_discount,status:'SELECTED'}:null,
-        service:a.moving_benefit_pending_id?{benefit_id:a.moving_benefit_pending_id,type:'MOVING_SERVICE',status:'ELIGIBILITY_PENDING',rent_discount:0}:null,
-        gift_term:{status:'NOT_ATTACHED',gift_months:null,financial_effect:'PENDING_BUSINESS_CONFIRMATION'}
+        service_benefits:copy(a.service_benefits||[]),gift_terms:attachedGifts,
+        gift_term:attachedGifts[0]||{status:giftOptions.length>1?'NEEDS_CONFIRMATION':'NOT_ATTACHED',gift_months:null,financial_effect:'PENDING_BUSINESS_CONFIRMATION'},
+        calculation_trace:copy(a.calculation_trace),eligibility_result:{coupon_stack:a.coupon_stack_status,moving_stack:a.moving_stack_status}
       };
-      s.quote={id:'SIM_QUOTE_'+(++s.sequence),signature:signature(),unit_ids:[...s.selected],store_id:unit(s.selected[0]).store_id,start_date:s.startDate,term_months:s.requirement.term_months,capacity_m3:s.requirement.capacity_m3,...a,benefit_snapshot:benefitSnapshot,expiresAt:now()+5*60*1000,kind:'SIMULATED_QUOTE'};return copy(s.quote);}
+      s.quote={id:quoteId,signature:signature(),unit_ids:[...s.selected],store_id:unit(s.selected[0]).store_id,
+        start_date:s.startDate,term_months:s.requirement.term_months,capacity_m3:s.requirement.capacity_m3,
+        ...a,benefit_snapshot:benefitSnapshot,quote_snapshot:copy(benefitSnapshot),
+        expiresAt:now()+5*60*1000,kind:'SIMULATED_QUOTE'};
+      return copy(s.quote);
+    }
     function submit(){
       if(!authorized())fail('PHONE_REQUIRED');
       if(s.quote){const existing=s.orders.find(o=>o.quote_id===s.quote.id);if(existing)return copy(existing);}
@@ -150,9 +242,20 @@
       const a=amounts(s.selected,s.requirement.term_months);
       if(Object.keys(a).some(k=>s.quote[k]!==a[k])){invalidate();fail('QUOTE_STALE');}
       const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,benefit_snapshot:copy(s.quote.benefit_snapshot||null),status:'pending',createdAt:now(),expiresAt:now()+PENDING_ORDER_TTL_MS,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
-      s.orders.push(o);o.unit_ids.forEach(id=>s.stock[id]='reserved');if(o.coupon_id)s.coupons.find(c=>c.id===o.coupon_id).status='LOCKED';return copy(o);
+      o.quote_snapshot=copy(o.benefit_snapshot);
+      s.orders.push(o);o.unit_ids.forEach(id=>s.stock[id]='reserved');
+      if(o.coupon_id){const coupon=s.coupons.find(c=>c.id===o.coupon_id);if(coupon)transitionCoupon(coupon,'LOCKED');if(o.benefit_snapshot?.coupon)o.benefit_snapshot.coupon.status='LOCKED';}
+      s.giftTerms.forEach(g=>{if(g.status==='ATTACHED_TO_QUOTE'&&g.quote_id===s.quote.id){Object.assign(g,giftPolicy.transition(g,'LOCKED_TO_ORDER',{order_id:o.id}));}});
+      if(o.benefit_snapshot?.gift_terms?.length)o.benefit_snapshot.gift_terms=o.benefit_snapshot.gift_terms.map(g=>({...g,status:'LOCKED_TO_ORDER',order_id:o.id}));
+      o.quote_snapshot=copy(o.benefit_snapshot);return copy(o);
     }
-    function releaseOrder(o,status){o.status=status;o.unit_ids.forEach(id=>{if(s.stock[id]==='reserved')s.stock[id]=o.previous_stock[id];});const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED')c.status='CLAIMED';s.inventoryVersion++;invalidate();}
+    function releaseOrder(o,status){
+      o.status=status;o.unit_ids.forEach(id=>{if(s.stock[id]==='reserved')s.stock[id]=o.previous_stock[id];});
+      const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED'){transitionCoupon(c,'AVAILABLE');if(o.benefit_snapshot?.coupon)o.benefit_snapshot.coupon.status='AVAILABLE';}
+      s.giftTerms.forEach(g=>{if(g.status==='LOCKED_TO_ORDER'&&g.order_id===o.id)Object.assign(g,giftPolicy.transition(g,'APPROVED'));});
+      if(o.benefit_snapshot?.gift_terms?.length)o.benefit_snapshot.gift_terms=o.benefit_snapshot.gift_terms.map(g=>({...g,status:'APPROVED',order_id:null}));
+      o.quote_snapshot=copy(o.benefit_snapshot);s.inventoryVersion++;invalidate();
+    }
     // Recover an existing reserved order after the user has browsed or edited another demand.
     // A reserved unit cannot be re-selected through the normal available-stock path.
     function resumePendingOrder(orderId){
@@ -172,7 +275,23 @@
       invalidate();
       return copy(o);
     }
-    function pay(orderId,outcome){const o=findOrder(orderId);if(!authorized())fail('PHONE_REQUIRED');if(!['success','failed'].includes(outcome))fail('INVALID_PAYMENT_OUTCOME');if(o.status!=='pending')return copy(o);if(now()>=o.expiresAt){releaseOrder(o,'expired');fail('ORDER_EXPIRED');}if(o.unit_ids.some((id,i)=>s.stock[id]!=='reserved'||(s.prices[id]||unit(id).base_month)!==o.price_bases[i])){releaseOrder(o,'invalidated');fail('QUOTE_STALE');}if(outcome==='failed'){releaseOrder(o,'payment_failed');return copy(o);}o.status='paid_simulated';o.unit_ids.forEach(id=>s.stock[id]='occupied');const c=s.coupons.find(c=>c.id===o.coupon_id);if(c)c.status='REDEEMED';s.coupons.filter(c=>['CPN-001','CPN-002'].includes(c.id)&&c.status!=='REDEEMED').forEach(c=>c.status='INVALID');s.services[o.id]={identity:'pending',useStatus:'pending_use',renewals:[],exit:null,deposit:'held',invoices:[],transport:[],support:[]};s.messages.push({id:'MSG_'+(++s.sequence),title:'付款完成，请完成身份验证',order_id:o.id,read:false});s.inventoryVersion++;invalidate();return copy(o);}
+    function pay(orderId,outcome){
+      const o=findOrder(orderId);if(!authorized())fail('PHONE_REQUIRED');
+      if(!['success','failed'].includes(outcome))fail('INVALID_PAYMENT_OUTCOME');
+      if(o.status!=='pending')return copy(o);
+      if(now()>=o.expiresAt){releaseOrder(o,'expired');fail('ORDER_EXPIRED');}
+      if(o.unit_ids.some((id,i)=>s.stock[id]!=='reserved'||(s.prices[id]||unit(id).base_month)!==o.price_bases[i])){releaseOrder(o,'invalidated');fail('QUOTE_STALE');}
+      if(outcome==='failed'){releaseOrder(o,'payment_failed');return copy(o);}
+      o.status='paid_simulated';o.unit_ids.forEach(id=>s.stock[id]='occupied');
+      const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED')transitionCoupon(c,'REDEEMED');
+      if(o.benefit_snapshot?.coupon)o.benefit_snapshot.coupon.status='REDEEMED';
+      s.giftTerms.forEach(g=>{if(g.status==='LOCKED_TO_ORDER'&&g.order_id===o.id)Object.assign(g,giftPolicy.transition(g,'GRANTED',{granted_at:today()}));});
+      if(o.benefit_snapshot?.gift_terms?.length)o.benefit_snapshot.gift_terms=o.benefit_snapshot.gift_terms.map(g=>({...g,status:'GRANTED',granted_at:today()}));
+      o.quote_snapshot=copy(o.benefit_snapshot);
+      s.services[o.id]={identity:'pending',useStatus:'pending_use',renewals:[],exit:null,deposit:'held',invoices:[],transport:[],support:[]};
+      s.messages.push({id:'MSG_'+(++s.sequence),title:'付款完成，请完成身份验证',order_id:o.id,read:false});
+      s.inventoryVersion++;invalidate();return copy(o);
+    }
     const findOrder=id=>{const o=s.orders.find(x=>x.id===id);if(!o)fail('ORDER_NOT_FOUND');return o;};
     const paidService=id=>{const o=findOrder(id);if(o.status!=='paid_simulated')fail('PAID_ORDER_REQUIRED');return s.services[id]||(s.services[id]={identity:'pending',useStatus:'pending_use',renewals:[],exit:null,deposit:'held',invoices:[],transport:[],support:[]});};
     const validPhone=p=>/^1[3-9]\d{9}$/.test(p)||/^\+[1-9]\d{7,14}$/.test(p);
@@ -307,9 +426,10 @@
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
-      claimCoupons(){for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH'],['CPN-003','基础搬运权益',200,'SERVICE_BENEFIT']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:s.orders.some(o=>o.status==='paid_simulated')&&type==='RENT_CASH'?'INVALID':'CLAIMED'});invalidate();},
-      couponOptions(ids,months){const a=amounts(ids,months);return s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months),reason:c.type==='SERVICE_BENEFIT'?(months<6?'租期需满6个月':'租期符合；服务范围与距离资格待确认，不抵扣租金'):!['CLAIMED','AVAILABLE','SELECTED','APPLIED'].includes(c.status)?'已锁定、使用或失效':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));},
-      setCoupon(id){if(!['auto','none'].includes(id)&&!s.coupons.some(c=>c.id===id))fail('INVALID_COUPON');if(s.quote?.coupon_id){const previous=s.coupons.find(c=>c.id===s.quote.coupon_id);if(previous?.status==='SELECTED')previous.status='CLAIMED';}s.couponChoice=id;invalidate();},
+      claimCoupons(){for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:'AVAILABLE'});if(!s.serviceBenefits.some(b=>b.id==='CPN-003'))s.serviceBenefits.push({id:'CPN-003',name:'基础搬运权益',type:'MOVING_SERVICE',source_type:'CAMPAIGN',source_id:'MOVING_6M_DEMO',status:'ELIGIBILITY_PENDING'});invalidate();},
+      couponOptions(ids,months){const a=amounts(ids,months),cash=s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months,false,a.unit_pricing),reason:c.status==='EXPIRED'?'已过期':!['AVAILABLE','SELECTED'].includes(c.status)?'已锁定或已使用':a.unit_pricing.some(x=>x.campaign_id)?'特价仓与租金券叠加规则待确认':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));const services=s.serviceBenefits.map(b=>({...copy(b),amount:0,eligible:false,reason:months<6?'租期需满6个月':'租期符合；服务范围与距离资格待确认，不抵扣租金'}));return [...cash,...services];},
+      giftTermOptions,
+      setCoupon(id){if(!['auto','none'].includes(id)&&!s.coupons.some(c=>c.id===id))fail('INVALID_COUPON');s.couponChoice=id;invalidate();},
       expirePendingOrders(){let count=0;s.orders.filter(o=>o.status==='pending'&&now()>=o.expiresAt).forEach(o=>{releaseOrder(o,'expired');count++;});return count;},
       cancelOrder(id){const o=findOrder(id);if(o.status!=='pending')fail('INVALID_ORDER_STATE');releaseOrder(o,'cancelled');return copy(o);},
       orderDetail(id){const o=findOrder(id);return {...copy(o),service:copy(s.services[id]||null)};},
@@ -319,8 +439,8 @@
       rentalPeriod,
       lifecycleView,lifecycleRequestRenewal,lifecycleReviewQuote,lifecycleConfirmRenewal,lifecyclePayRenewal,lifecycleRequestExit,lifecycleRequestInspection,lifecycleReviewInspection,lifecycleReviewRefund,lifecycleRequestInvoice,
       setRenewalMonths(id,value){const service=paidService(id);service.renewalDraft=String(value??'').slice(0,12);const months=Number(service.renewalDraft);if(!validTerm(months)||service.renewalQuote?.months!==months)delete service.renewalQuote;return service.renewalDraft;},
-      renewalQuote(id,months){const service=paidService(id);if(service.exit)fail('EXIT_IN_PROGRESS');if(!validTerm(months))fail('SELECT_TERM');if(!authorized())fail('PHONE_REQUIRED');if(!s.coupons.some(c=>c.id==='CPN-004'))s.coupons.push({id:'CPN-004',name:'续租券',amount:150,type:'RENEWAL_CASH',status:'CLAIMED'});const a=amounts(findOrder(id).unit_ids,months,{renewal:true}),period=rentalPeriod(id);service.renewalDraft=String(months);service.renewalQuote={...a,quote_id:'RENEW_QUOTE_'+(++s.sequence),months,previous_end_date:period.end_date,new_end_date:addCalendarMonths(period.start_date,period.total_months+months),expiresAt:now()+5*60*1000,base:findOrder(id).unit_ids.map(x=>s.prices[x]||unit(x).base_month)};return copy(service.renewalQuote);},
-      payRenewal(id,expectedMonths){const service=paidService(id),o=findOrder(id),q=service.renewalQuote;if(!authorized())fail('PHONE_REQUIRED');if(service.exit)fail('EXIT_IN_PROGRESS');const draft=Number(service.renewalDraft??q?.months),stale=()=>{delete service.renewalQuote;fail('QUOTE_STALE');};if(!q||!validTerm(draft)||q.months!==draft||(expectedMonths!==undefined&&(!validTerm(expectedMonths)||expectedMonths!==q.months))||q.expiresAt<=now()||q.previous_end_date!==rentalPeriod(id).end_date||q.new_end_date!==addCalendarMonths(o.start_date,rentalPeriod(id).total_months+q.months)||o.unit_ids.some((u,i)=>(s.prices[u]||unit(u).base_month)!==q.base[i]))stale();const fresh=amounts(o.unit_ids,q.months,{renewal:true});if(Object.keys(fresh).some(k=>fresh[k]!==q[k]))stale();const payment={...q,id:'RENEW_'+(++s.sequence),paid_at:now(),kind:'RENEWAL'};service.renewals.push(payment);if(q.coupon_id)s.coupons.find(c=>c.id===q.coupon_id).status='REDEEMED';delete service.renewalQuote;service.renewalDraft='';notify('续租付款已记录',id);return copy(payment);},
+      renewalQuote(id,months){const service=paidService(id);if(service.exit)fail('EXIT_IN_PROGRESS');if(!validTerm(months))fail('SELECT_TERM');if(!authorized())fail('PHONE_REQUIRED');if(!s.coupons.some(c=>c.id==='CPN-004'))s.coupons.push({id:'CPN-004',name:'续租券',amount:150,type:'RENEWAL_CASH',status:'AVAILABLE'});const a=amounts(findOrder(id).unit_ids,months,{renewal:true}),period=rentalPeriod(id);if(a.coupon_id){const c=s.coupons.find(x=>x.id===a.coupon_id);if(c&&c.status==='AVAILABLE')transitionCoupon(c,'SELECTED');}service.renewalDraft=String(months);service.renewalQuote={...a,quote_id:'RENEW_QUOTE_'+(++s.sequence),months,previous_end_date:period.end_date,new_end_date:addCalendarMonths(period.start_date,period.total_months+months),expiresAt:now()+5*60*1000,base:findOrder(id).unit_ids.map(x=>s.prices[x]||unit(x).base_month)};return copy(service.renewalQuote);},
+      payRenewal(id,expectedMonths){const service=paidService(id),o=findOrder(id),q=service.renewalQuote;if(!authorized())fail('PHONE_REQUIRED');if(service.exit)fail('EXIT_IN_PROGRESS');const draft=Number(service.renewalDraft??q?.months),stale=()=>{delete service.renewalQuote;fail('QUOTE_STALE');};if(!q||!validTerm(draft)||q.months!==draft||(expectedMonths!==undefined&&(!validTerm(expectedMonths)||expectedMonths!==q.months))||q.expiresAt<=now()||q.previous_end_date!==rentalPeriod(id).end_date||q.new_end_date!==addCalendarMonths(o.start_date,rentalPeriod(id).total_months+q.months)||o.unit_ids.some((u,i)=>(s.prices[u]||unit(u).base_month)!==q.base[i]))stale();const fresh=amounts(o.unit_ids,q.months,{renewal:true});if(Object.keys(fresh).some(k=>fresh[k]!==q[k]))stale();const payment={...q,id:'RENEW_'+(++s.sequence),paid_at:now(),kind:'RENEWAL'};service.renewals.push(payment);if(q.coupon_id){const c=s.coupons.find(x=>x.id===q.coupon_id);if(c?.status==='SELECTED')transitionCoupon(c,'REDEEMED');}delete service.renewalQuote;service.renewalDraft='';notify('续租付款已记录',id);return copy(payment);},
       requestExit(id,date,empty){const service=paidService(id);if(service.exit)fail('EXIT_IN_PROGRESS');if(service.useStatus!=='active')fail('ACTIVE_ORDER_REQUIRED');if(!validDate(date)||date<findOrder(id).start_date)fail('SELECT_DATE');if(empty!==true)fail('EMPTY_REQUIRED');service.exit={date,status:'awaiting_inspection'};service.deposit='awaiting_inspection';notify('退租申请已记录，等待验仓',id);},
       inspectExit(id,outcome){const service=paidService(id);if(service.exit?.status!=='awaiting_inspection')fail('INVALID_EXIT_STATE');if(!['passed','failed'].includes(outcome))fail('INVALID_INSPECTION');if(outcome==='failed'){service.exit.status='inspection_failed';notify('验仓未通过，请联系顾问',id);return;}service.exit.status='completed';service.useStatus='ended';service.deposit='processing';findOrder(id).unit_ids.forEach(u=>s.stock[u]='available');s.inventoryVersion++;notify('验仓通过，押金退款处理中',id);},
       retryExit(id){const service=paidService(id);if(service.exit?.status!=='inspection_failed')fail('INVALID_EXIT_STATE');service.exit.status='awaiting_inspection';},
