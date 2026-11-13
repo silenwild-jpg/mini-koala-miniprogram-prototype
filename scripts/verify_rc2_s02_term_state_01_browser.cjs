@@ -138,6 +138,7 @@ async function snapshot(app){
         assert.match(mapUrl,/^https:\/\/uri\.amap\.com\/(navigation|search)\?/,'Route navigation should open an Amap destination URL');
         await page.evaluate(()=>{if(window.__oldOpen)window.open=window.__oldOpen;});
         await page.screenshot({path:path.join(out,'S02-route-expanded-'+width+'.png')});
+        await app.locator('#s02MainTabs [role="tab"]').filter({hasText:'可选仓位'}).click();
         // A partial requirement is not a binding order; the existing lease-term gate remains.
         await app.locator('#screen').evaluate(()=>{
           const m=window.SIM_DEMO;m.core.setRequirement(3,null,false);m.navigate('S02',m.state().storeId);
