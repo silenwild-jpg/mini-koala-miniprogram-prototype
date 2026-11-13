@@ -26,8 +26,10 @@ assert.equal(policy.storePromotionTag(F.stores.find(s=>s.id==='SIM_BJ01')),'็นไ
 assert(special.matchingUnits('SIM_BJ01').some(u=>u.id===unitId),'special warehouse sample remains selectable');
 const specialCampaign=config.campaigns.find(x=>x.unitId===unitId);
 const specialAmount=special.amounts([unitId],6);
-assert.equal(specialAmount.unit_special_price,specialCampaign.baseMonth,'campaign baseMonth must feed the actual quote price');
-assert.equal(specialAmount.monthly_average,specialCampaign.baseMonth,'special price replaces the standard term-discount basis in the demo policy');
+assert.equal(specialAmount.unit_pricing[0].base_month,specialCampaign.baseMonth,'campaign must match the catalog monthly price snapshot');
+assert.equal(specialAmount.unit_special_price,specialCampaign.specialMonth,'campaign specialMonth must feed the actual quote price');
+assert.equal(specialAmount.monthly_average,specialCampaign.specialMonth,'special price replaces the standard term-discount basis in the demo policy');
+assert(specialAmount.unit_special_price<specialAmount.unit_pricing[0].base_month,'special price fixture must demonstrate a real reduction from catalog rent');
 assert.equal(specialAmount.term_discount_total,0,'unapproved special-price/term-discount stacking must not be silently applied');
 special.claimCoupons();special.setCoupon('CPN-002');
 const specialWithCoupon=special.amounts([unitId],12);
