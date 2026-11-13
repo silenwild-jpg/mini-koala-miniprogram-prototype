@@ -155,7 +155,7 @@ const results=[];
     const s5GiftText=await page.frameLocator('#br04-frame').locator('body').innerText();
     assert(s5GiftText.includes('赠送1个月'),'S5 must surface the approved gift-term benefit');
     const promoTagStyle=await page.frameLocator('#br04-frame').locator('.s5-promo-tag').first().evaluate(el=>({display:getComputedStyle(el).display,background:getComputedStyle(el).backgroundColor}));
-    assert.equal(promoTagStyle.display,'inline-flex','S5 promotion tags must use the approved compact tag style');
+    assert(['flex','inline-flex'].includes(promoTagStyle.display),'S5 promotion tags must use the approved compact tag style (inline-flex is blockified inside the flex row)');
     assert.notEqual(promoTagStyle.background,'rgba(0, 0, 0, 0)','S5 promotion tags must have a visible semantic background');
     await shot('promoCampaignGift-S5');
 
