@@ -11,7 +11,7 @@
 | 主候选 PR | [#176 RC2-CLEAN-MIGRATION-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176) |
 | 候选分支 | `integration/rc2-clean-migration-01-20261113` |
 | 已通过自动化验收的 SHA | `41a8a079eb48049e1060512bddf71c226bfd3738` |
-| main当前治理SHA（2026-11-13审计） | `165e521cca6e9453a691c6660d04110538f7fdec`（PR #68及#178均已归并；实际main以GitHub实时为准） |
+| main当前治理SHA（2026-11-13审计） | `aa29e33a23ba6a37a6e2fd3843e4001d6d0524fb`（PR #68、#178、#179已归并；实际main以GitHub实时为准） |
 | PR API 当前报告的 base SHA | `274c5110aa18af7ed71d92533ab126ebbbd11f75` |
 | PR 状态 | Draft / MAIN MERGE HOLD，演示版本已签收但未合并 |
 | 自动化门禁 | PASS（375/390、浏览器、促销/生命周期、预约/快捷下单/O01） |
@@ -79,6 +79,8 @@
 - Open Issue：8（含本项目总控#177；原有9个产品/技术Issue中，#148普通用户路径文案未复现、#93历史Runner故障不再复现，已关闭，剩余7个）。
 - P1-B审计快照：Branch **180**（其中1条本次审计新增分支）；`isolate/*` **101**；[180条分支全量分类](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)。
 - 其中48条历史分支未被当前Open PR引用（不含本次新建审计分支）；逐条与main比较：21条无独有提交、27条存在独有历史。比较结果不等于可删除，须独立核查原始用途和授权。
+- P1-A2已对10条main目标历史PR与签收RC2和main做**同路径blob SHA**对照；10条均有独有历史资产/内容差异，**目前未裁定任何可不经资料保全即直接关闭的PR**。详见[P1-A2主线PR差异](PROJECT_OPS_P1A2_MAIN_PR_DELTA_20261113.md)。
+- P1-B2对49条历史非开放PR引用分支复核closed PR/文件路径及Netlify依赖，其中35条关联已关闭PR；`uat/rc2-pr96-20261110`仍对应Netlify已发布部署，不能误删。详见[P1-B2分支风险](PROJECT_OPS_P1B2_BRANCH_RISK_20261113.md)。
 - 以main为base的11条Open PR：#176、#50、#47、#36、#35、#33、#30、#28、#26、#24、#22；均为Draft。
 - **main保护已实际生效**：`protected=true`，Ruleset [`main-protection-demo-first`](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/rules/27195923) `active`，仅保护main，要求PR、禁止强推/删除、要求视觉契约检查。仍有两个配置优化：同名检查存在重复项、`strict_required_status_checks_policy=true`造成main更新后重复回归；当前GitHub连接器无法写Ruleset，详见[#177](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)。
 
@@ -117,10 +119,12 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - 当前自动化验收：[Run #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)
 - P1-A PR全量审计：[130条PR分类清单](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)
 - P1-B 分支全量审计：[180条分支分类清单](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)
+- P1-A2历史main目标PR独有内容：[10条逐项核对报告](PROJECT_OPS_P1A2_MAIN_PR_DELTA_20261113.md)
+- P1-B2未被Open PR引用分支：[49条风险与部署依赖清单](PROJECT_OPS_P1B2_BRANCH_RISK_20261113.md)
 
 ### 当前下一步
 1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
 2. 复核#171、#132、#148、#152、#164等Issue在当前候选中的实际状态并更新证据。
-3. P1-A/P1-B全量分类已形成；下一步核实旧PR/分支的独有增量和部署依赖，随后提出逐项可归档/可关闭清单；当前不批量关闭或删除。
+3. P1-A2/P1-B2文件级差异、已关闭PR关联和Netlify依赖已完成首轮核对；下一批P1-A3/P1-B3针对PR #50旧规则、#30 CloudBase、#35/#36/#47旧QA及S01/S02独立素材做知识与证据留存，再提交具体拟归档/拟关闭清单。任何关闭/删除须逐条获得授权。
 4. main保护已生效；管理员可对重复必需检查和严格基线更新做低成本优化，不影响现有保护有效性。
 5. 最后才进行PR归并准入评审；不自动合并、不部署。
