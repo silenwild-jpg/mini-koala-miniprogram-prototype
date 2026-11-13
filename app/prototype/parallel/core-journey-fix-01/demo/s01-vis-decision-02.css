@@ -1,0 +1,462 @@
+/* S01-VIS-DECISION-02 | Approved visual constraints, scoped to the live S01 iframe.
+   Flat information hierarchy, native widths, fixed 88px store images.
+   No changes to the H01 master or the S5 recommendation layout. */
+:root{--s01-green:#0a926b;--s01-ink:#19372e;--s01-sub:#677e73;--s01-hair:#e9efeb}
+/* Overflow-x:hidden on the old html/body created a non-scrolling sticky ancestor.
+   clip avoids generating a scroll container while preserving horizontal clipping. */
+html,body{overflow-x:clip;overflow-y:visible}
+.navbar{height:45px}
+.navbar .nav-more,.navbar .nav-target{display:none!important}
+.searchbar{height:55px;gap:9px}
+.s01-city{min-height:44px;flex-basis:70px;font-size:14px}
+.search-pill{height:42px;border-color:#eef2ef;background:#f5f7f5}
+.search-pill input{font-size:14px}
+.s01-context{min-height:40px;height:auto;gap:8px;padding-top:4px;padding-bottom:4px}
+.s01-context-text{font-size:12px}
+.s01-edit,.s01-return-recommend{min-height:44px}
+.s01-filter-anchor{position:sticky;top:0;z-index:40;background:#fff;isolation:isolate}
+.filters{height:49px;background:#fff;border-bottom:1px solid var(--s01-hair)}
+.filter{height:48px;min-height:44px;font-size:14px;font-weight:650}
+.filter[aria-pressed="true"]{color:#0b815a;font-weight:750}
+.filter .chevron{margin-top:-2px}
+.s01-inline-panel{
+  position:absolute;top:100%;left:0;right:0;z-index:1;
+  max-height:min(58vh,460px);overflow-y:auto;overscroll-behavior:contain;
+  padding:15px 16px 20px;border-top:0;border-bottom:1px solid #dfe9e2;
+  box-shadow:0 13px 19px rgba(24,57,42,.14);background:#fff
+}
+body.s01-panel-open::before{
+  position:fixed;inset:0;z-index:30;content:"";background:rgba(15,36,28,.19)
+}
+.s01-choice-list{gap:10px}
+.s01-choice{min-height:44px;padding:10px 14px;font-size:13px;border-radius:22px}
+.s01-choice input{accent-color:#108661;min-width:18px;min-height:18px}
+.s01-panel-note{font-size:12px}
+.s01-panel-actions{margin-top:12px}
+.s01-panel-actions button{min-height:44px;height:44px;padding:0 16px;font-size:13px}
+.s01-quick{min-height:49px;padding:0 16px;gap:7px}
+.s01-quick button{
+  position:relative;isolation:isolate;min-height:44px;height:44px;
+  padding:0 13px;border:0;border-radius:0;background:transparent;
+  color:#5f7568;font-size:12px
+}
+.s01-quick button::before{
+  content:"";position:absolute;inset:6px 0;z-index:-1;
+  border:1px solid #e5ece7;background:#f7f9f7;border-radius:18px
+}
+.s01-quick button[aria-pressed="true"]{background:transparent;border:0;color:#087d56;font-weight:700}
+.s01-quick button[aria-pressed="true"]::before{background:#e7f4ec;border-color:#a3d0b6}
+.stores{padding:4px 16px 14px}
+.store-card[data-card-kind="expanded"]{
+  position:relative;margin:0 0 12px;padding:0 0 2px;
+  border:0;border-bottom:1px solid var(--s01-hair);
+  border-radius:0;box-shadow:none;background:#fff
+}
+.store-card[data-card-kind="expanded"]>.store-photo{
+  width:88px;height:88px;max-width:88px;margin:8px 12px 0 0;
+  border-radius:7px;object-fit:cover
+}
+.store-card[data-card-kind="expanded"]>.store-body{padding:8px 0 5px;min-width:0}
+.store-card[data-card-kind="expanded"]>.store-body>h2{
+  margin:0 0 4px;padding-right:30px;
+  color:var(--s01-ink);font-size:16px;line-height:22px;font-weight:750;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.s01-store-detail{
+  position:absolute;top:2px;right:0;width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  border:0;background:transparent;color:#738a7e;
+  font-size:25px;line-height:1;cursor:pointer
+}
+.s01-store-detail:focus-visible{outline:2px solid #0b865e;outline-offset:-3px}
+.store-card[data-card-kind="expanded"] .store-tags{height:auto;min-height:20px;gap:5px}
+.store-card[data-card-kind="expanded"] .store-tags span{
+  height:20px;line-height:20px;max-width:100%;padding:0 5px;
+  color:#197a58;background:#edf7f1;font-size:12px;border-radius:3px
+}
+.store-card[data-card-kind="expanded"] .address{
+  margin-top:5px;gap:6px;min-height:18px;
+  font-size:12px;line-height:18px;color:#63776d
+}
+.store-card[data-card-kind="expanded"] .address-copy{
+  -webkit-line-clamp:2;line-clamp:2;line-height:18px
+}
+.store-card[data-card-kind="expanded"] .km{
+  font-size:12px;line-height:18px;color:#0c8964;font-weight:700
+}
+.store-card[data-card-kind="expanded"] .store-cubic-price{
+  margin:3px 0 0 100px;color:#43826b;font-size:12px;line-height:18px;font-weight:600
+}
+.store-card[data-card-kind="expanded"] .units{
+  clear:both;margin:10px 0 -5px;padding:3px 0 7px;
+  border-top:1px solid #edf1ed;background:#fff
+}
+.store-card[data-card-kind="expanded"] .unit{min-height:76px;padding:9px 0 6px}
+.store-card[data-card-kind="expanded"] .unit-main{min-height:48px;gap:6px}
+.store-card[data-card-kind="expanded"] .capacity{flex-basis:59px;font-size:19px;line-height:26px}
+.store-card[data-card-kind="expanded"] .price{
+  grid-template-columns:max-content minmax(0,1fr);
+  grid-template-rows:24px 18px;white-space:normal
+}
+.store-card[data-card-kind="expanded"] .price strong{
+  color:#12392f;font-size:18px;line-height:24px;white-space:nowrap;letter-spacing:-.55px
+}
+.store-card[data-card-kind="expanded"] .price span{
+  color:#64786f;font-size:12px;line-height:19px;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .price .price-secondary{
+  font-size:12px;line-height:18px;max-width:100%;text-overflow:ellipsis
+}
+.store-card[data-card-kind="expanded"] .order{
+  flex:0 0 87px;min-height:48px;height:48px;margin-left:0;border-radius:8px;
+  background:var(--s01-green);color:#fff;font-size:13px;font-weight:750
+}
+.store-card[data-card-kind="expanded"] .unit-desc{
+  margin-top:0;font-size:12px;line-height:18px;color:#71847a
+}
+.store-card.s01-compact,.s01-estore-card{
+  border:0;border-bottom:1px solid var(--s01-hair);
+  border-radius:0;box-shadow:none;margin-bottom:7px;background:#fff
+}
+.store-card.s01-compact{grid-template-columns:88px minmax(0,1fr);gap:12px;min-height:105px;padding:8px 0}
+.s01-compact .store-photo,.s01-compact .store-photo.first-photo,
+.s01-compact .store-photo.second-photo{width:88px;height:88px;border-radius:7px}
+.s01-compact .store-body h2{font-size:15px;line-height:21px;margin-bottom:4px}
+.s01-compact .store-tags{min-height:20px;height:auto;margin-bottom:3px}
+.s01-compact .store-tags span{font-size:12px;line-height:20px;height:20px}
+.s01-compact .address-copy,.s01-compact .km{font-size:12px;line-height:18px}
+.s01-compact-store .s01-compact-side strong{font-size:13px}
+.s01-compact-store .s01-compact-side small,.s01-compact-store .s01-compact-arrow{font-size:12px}
+.s01-estore-card{grid-template-columns:88px minmax(0,1fr);gap:12px;min-height:104px;padding:8px 0}
+.s01-estore-photo{width:88px;height:88px;border-radius:7px}
+.s01-estore-kicker,.s01-estore-cta{font-size:12px}
+.s01-estore-cta{min-height:44px;padding:0;display:inline-flex;align-items:center}
+.s01-empty-state{padding:28px 1px 22px;text-align:center}
+.s01-empty-state h2{margin:0 0 8px;font-size:17px;line-height:24px;color:#213d33;font-weight:750}
+.s01-empty-state p{margin:0 0 18px;font-size:13px;line-height:19px;color:#667c70}
+.s01-advisor-cta{
+  display:block;width:100%;max-width:288px;height:48px;margin:0 auto 7px;
+  border:0;border-radius:9px;background:var(--s01-green);
+  color:#fff;font-size:15px;font-weight:750
+}
+.s01-reset-cta{
+  display:block;min-width:116px;min-height:44px;margin:auto;
+  border:0;background:transparent;color:#137b5a;font-size:13px;font-weight:650
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .capacity{flex-basis:57px}
+  .store-card[data-card-kind="expanded"] .order{flex-basis:82px}
+  .store-card[data-card-kind="expanded"] .unit-main{gap:4px}
+  .store-card[data-card-kind="expanded"] .price strong{font-size:17px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .s01-filter-anchor{transition:box-shadow .15s ease}
+}
+
+/* S01-STATE-PRICE-03: the price surface is one two-line calculation.
+   Total rent dominates, monthly × explicitly chosen months explains it.
+   No inferred 12-month term or a second store cubic price in matching mode. */
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:24px 19px;
+  min-width:0;align-items:start;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;overflow:hidden;text-overflow:ellipsis
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > span{
+  display:none
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+  grid-column:1;grid-row:2;display:block;
+  min-width:0;margin:0;color:#617c6d;
+  font-size:12px;line-height:19px;font-weight:550;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+/* All store rows are equivalent while demand is incomplete; E storage
+   stays visibly differentiated as an operating service in slot three. */
+html[data-match-mode="browse"] .s01-compact .store-body h2{
+  color:#19372e
+}
+html[data-match-mode="browse"] .s01-compact .s01-compact-side{
+  margin-top:2px
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+    font-size:11.5px
+  }
+}
+
+
+/* S01-VIS-REFINE-04 | inline estimate after filters, mature-list density.
+   Keep this scoped to S01; no changes to H01/S5 master visuals. */
+.s01-quick{
+  min-height:43px;gap:10px;padding:0 16px;
+  background:#fff;
+}
+.s01-quick button{
+  min-height:44px;height:44px;padding:0 12px;
+  background:transparent;color:#718078;
+  font-size:12px;font-weight:500;
+}
+.s01-quick button::before{
+  inset:8px 0;border:1px solid #edf0ed;
+  background:#fafbfa;border-radius:15px;
+}
+.s01-quick button[aria-pressed="true"]{
+  color:#167451;font-weight:650;
+}
+.s01-quick button[aria-pressed="true"]::before{
+  border-color:#c5dfce;background:#f0f8f2;
+}
+.s01-context{
+  height:auto;min-height:44px;padding:2px 16px;
+  background:#f8faf8;color:#718078;
+  border:0;gap:10px
+}
+.s01-context-text{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s01-edit{font-size:12px;color:#157a56;font-weight:700;min-height:44px}
+.s01-return-recommend{font-size:12px}
+
+/* Long addresses are clipped by rendered width rather than by characters:
+   this protects distance and allows full text in title / accessibility. */
+.store-card .address{
+  display:flex;align-items:center;gap:6px;
+  min-width:0;min-height:19px;max-height:19px;
+  overflow:hidden;white-space:nowrap
+}
+.store-card .address-copy,
+.store-card[data-card-kind="expanded"] .address-copy,
+.store-card.s01-compact .address-copy{
+  display:block;flex:1 1 auto;min-width:0;max-width:100%;
+  height:18px;line-height:18px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+  -webkit-line-clamp:unset;line-clamp:unset;
+  -webkit-box-orient:initial
+}
+.store-card .km,
+.store-card.s01-compact .km,
+.store-card[data-card-kind="expanded"] .km{
+  flex:0 0 auto;margin:0;padding:0;white-space:nowrap;
+  height:18px;line-height:18px;font-size:12px
+}
+
+/* Remove duplicated "查看门店"; entire store remains a button-sized target.
+   A subdued chevron communicates navigation, without another CTA. */
+.store-card.s01-compact{cursor:pointer;transition:background-color .12s ease}
+.store-card.s01-compact:active{background:#f5faf7}
+.store-card.s01-compact:focus-visible{
+  outline:2px solid #0a906b;outline-offset:1px
+}
+.s01-compact-store .s01-compact-side{
+  display:flex;align-items:baseline;gap:3px;
+  margin-top:6px;min-width:0;white-space:nowrap
+}
+.s01-compact-store .s01-compact-arrow{
+  margin-left:auto;align-self:center;
+  color:#9caaa2;font-weight:450;font-size:21px;line-height:20px
+}
+.s01-compact-store .s01-compact-side strong{
+  color:#0c7853;font-weight:800;font-size:17px;
+  line-height:24px;letter-spacing:-.35px
+}
+.s01-compact-store .s01-compact-side small{
+  color:#75887b;font-weight:550;font-size:11px;
+  line-height:18px
+}
+/* Clear hierarchy: price is the key scan target in listing, but not a badge. */
+html[data-match-mode="browse"] .s01-compact .store-tags span{
+  background:#f1f7f2;color:#6b8073;
+  font-size:11.5px;font-weight:500
+}
+
+/* Matched mode: total rental price leads; monthly x term explains it.
+   Do not visually turn this into a new shaded nested card. */
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{
+  grid-template-rows:26px 20px;
+  overflow:visible
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+  font-size:20px;line-height:26px;font-weight:830;
+  color:#0b7655;letter-spacing:-.4px
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+  color:#6b7c73;font-size:12px;line-height:20px;font-weight:550
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+    font-size:19px;line-height:26px
+  }
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+    font-size:11.5px
+  }
+}
+
+/* Fix inherited stronger price selector from the legacy price surface.
+   The public rate in a browse card must be the dominant scan target. */
+.store-card.s01-compact-store .s01-compact-side[aria-label] strong{
+  font-size:17px;line-height:24px;font-weight:800;color:#0c7853
+}
+.store-card.s01-compact-store .s01-compact-side[aria-label] small{
+  font-size:11px;line-height:18px;color:#75887b
+}
+
+/* S01-PRICE-DISCOUNT-06 | source-backed lease-term factor only.
+   No crossed-out "original price" and no second discount price stack. */
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{
+  display:grid;
+  grid-template-columns:minmax(0,max-content) max-content;
+  column-gap:6px;
+  grid-template-rows:26px 20px;
+  justify-content:start;align-items:center;min-width:0;max-width:100%
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;
+  max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > .s01-term-discount{
+  grid-column:2;grid-row:1;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:max-content;max-width:100%;
+  height:18px;min-height:18px;padding:0 5px;
+  border:0;border-radius:4px;
+  background:var(--mk-tag-offer-bg);color:var(--mk-tag-offer-ink);
+  font-size:10.5px;line-height:18px;font-weight:650;
+  white-space:nowrap;letter-spacing:0;align-self:center
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > .s01-term-discount[hidden]{
+  display:none!important
+}
+.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] .price-secondary{
+  grid-column:1 / -1;grid-row:2;max-width:100%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"]{column-gap:4px}
+  .store-card[data-card-kind="expanded"] .price[data-price-kind="term"] > .s01-term-discount{
+    padding:0 4px;font-size:10px
+  }
+}
+
+/* S01-UX-REFINE-06 | matched unit: warehouse identity first, price/action second.
+   Flat native list only; no nested tile, card background, or added border. */
+.store-card[data-card-kind="expanded"] .unit{
+  min-height:0;padding:6px 0 5px
+}
+.store-card[data-card-kind="expanded"] .unit-main{
+  display:flex;align-items:center;gap:7px;
+  width:100%;min-width:0;min-height:20px
+}
+.store-card[data-card-kind="expanded"] .capacity{
+  flex:0 0 auto;font-size:16px;line-height:22px;
+  font-weight:750;letter-spacing:-.2px;color:#213d33
+}
+.store-card[data-card-kind="expanded"] .capacity::before{
+  content:"仓位";display:inline-block;margin-right:4px;
+  color:#718078;font-size:12px;line-height:18px;
+  font-weight:550;letter-spacing:0;vertical-align:1px
+}
+.store-card[data-card-kind="expanded"] .unit-desc{
+  flex:1 1 auto;min-width:0;max-width:100%;
+  margin:0;max-height:18px;
+  color:#71847a;font-size:12px;line-height:18px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.store-card[data-card-kind="expanded"] .unit-main .hot{
+  flex:0 0 auto;align-self:center;margin-left:2px;
+  height:18px;line-height:18px;font-size:10px
+}
+.store-card[data-card-kind="expanded"] .unit-action-row{
+  display:flex;align-items:center;gap:10px;
+  width:100%;min-width:0;min-height:48px;margin-top:3px
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  display:grid;flex:1 1 0;min-width:0;max-width:100%;
+  grid-template-columns:max-content max-content;
+  grid-template-rows:25px 18px;
+  column-gap:6px;align-content:center;align-items:center;
+  justify-content:start;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  grid-column:1;grid-row:1;
+  min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+  color:#12392f;font-size:21px;line-height:25px;
+  font-weight:800;letter-spacing:-.45px;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > span:not(.s01-term-discount){
+  display:none
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > .s01-term-discount{
+  grid-column:2;grid-row:1;align-self:center;
+  display:inline-flex;align-items:center;justify-content:center;
+  height:18px;min-height:18px;padding:0 5px;
+  border:0;border-radius:4px;background:var(--mk-tag-offer-bg);color:var(--mk-tag-offer-ink);
+  font-size:10.5px;line-height:18px;font-weight:650;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > .s01-term-discount[hidden]{
+  display:none!important
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+  grid-column:1 / -1;grid-row:2;
+  min-width:0;max-width:100%;margin:0;
+  color:#617c6d;font-size:12px;line-height:18px;font-weight:550;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .order{
+  flex:0 0 86px;width:86px;min-width:86px;
+  height:48px;min-height:48px;margin:0;padding:0;
+  border:0;border-radius:8px;background:var(--s01-green);
+  color:#fff;font-size:13px;line-height:18px;font-weight:750;
+  white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .unit-action-row .order:focus-visible{
+  outline:2px solid #276b52;outline-offset:2px
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .unit-main{gap:5px}
+  .store-card[data-card-kind="expanded"] .capacity{font-size:15.5px}
+  .store-card[data-card-kind="expanded"] .unit-action-row{gap:8px}
+  .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+    column-gap:4px
+  }
+  .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+    font-size:20px
+  }
+  .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] > .s01-term-discount{
+    padding:0 4px;font-size:10px
+  }
+}
+
+.store-card[data-card-kind="expanded"] .unit-desc::before{
+  content:"·";display:inline-block;margin-right:5px;color:#a3b1aa
+}
+
+/* S01-UX-REFINE-08 | light stable demo cabin code and capacity emphasis. */
+.store-card[data-card-kind="expanded"] .unit-main{
+  gap:7px;min-height:28px
+}
+.store-card[data-card-kind="expanded"] .s01-cabin-tag{
+  display:inline-flex;flex:0 0 auto;align-items:center;
+  height:21px;padding:0 6px;
+  border:1px solid #e7eee8;border-radius:4px;
+  background:#f7f9f7;color:#778a80;
+  font-size:11px;line-height:19px;font-weight:560;white-space:nowrap
+}
+.store-card[data-card-kind="expanded"] .s01-cabin-tag[hidden]{display:none!important}
+.store-card[data-card-kind="expanded"] .capacity{
+  flex:0 0 auto;color:#184837;font-size:20px;line-height:28px;
+  font-weight:800;letter-spacing:-.3px
+}
+.store-card[data-card-kind="expanded"] .capacity::before{content:none;display:none}
+.store-card[data-card-kind="expanded"] .capacity sup{font-size:11px}
+.store-card[data-card-kind="expanded"] .unit-desc{
+  font-size:11.5px;line-height:18px;min-width:0;
+}
+@media(max-width:375px){
+  .store-card[data-card-kind="expanded"] .unit-main{gap:6px}
+  .store-card[data-card-kind="expanded"] .s01-cabin-tag{
+    padding:0 5px;font-size:10.5px
+  }
+  .store-card[data-card-kind="expanded"] .capacity{font-size:19px}
+  .store-card[data-card-kind="expanded"] .unit-desc{font-size:11px}
+}

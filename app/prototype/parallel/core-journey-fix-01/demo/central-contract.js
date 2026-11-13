@@ -8,6 +8,7 @@
   const VERSION='CENTRAL_DEMO_02G_SIM_SOURCE_1';
   const fail=(reason)=>{throw new Error('CENTRAL_CONTRACT_'+reason);};
   const values=['rent_total','monthly_average','rent_after_coupon','monthly_after_coupon','deposit','management_fee','coupon_discount','payable'];
+  const cents=value=>Math.round(Number(value)*100); // Avoid float equality errors on ¥0.01 units.
   function source(fixture){
     if(!fixture||fixture.synthetic!==true||!fixture.version||!Array.isArray(fixture.stores)||!Array.isArray(fixture.units))
       fail('FIXTURE_NOT_AUTHORIZED');
@@ -55,9 +56,10 @@
     if(!Number.isFinite(q.expiresAt)||q.expiresAt<=Date.now())fail('QUOTE_EXPIRED');
     const amount=core.formalAmounts(intent.unit_ids,intent.term_months);
     for(const k of values)if(q[k]!==amount[k])fail('QUOTE_AMOUNT_MISMATCH_'+k);
-    if(q.coupon_id!==amount.coupon_id||q.payable!==q.rent_after_coupon+q.deposit+q.management_fee)
+    if(q.coupon_id!==amount.coupon_id||q.moving_benefit_pending_id!==amount.moving_benefit_pending_id||
+      cents(q.payable)!==cents(q.rent_after_coupon)+cents(q.deposit)+cents(q.management_fee))
       fail('QUOTE_COMPONENT_MISMATCH');
-    return {...intent,quote_id:q.id,amounts:Object.fromEntries(values.map(k=>[k,q[k]])),coupon_id:q.coupon_id};
+    return {...intent,quote_id:q.id,amounts:Object.fromEntries(values.map(k=>[k,q[k]])),coupon_id:q.coupon_id,moving_benefit_pending_id:q.moving_benefit_pending_id};
   }
   function order(core,o,snap){
     // Uses the certified pre-submit snapshot: submit() legitimately reserves inventory.
@@ -67,12 +69,13 @@
       ||JSON.stringify(o.unit_ids)!==JSON.stringify(snap.unit_ids)||o.term_months!==snap.term_months
       ||o.start_date!==snap.start_date)fail('ORDER_SNAPSHOT_MISMATCH');
     for(const k of values)if(o[k]!==snap.amounts[k])fail('ORDER_AMOUNT_MISMATCH_'+k);
+    if(o.moving_benefit_pending_id!==snap.moving_benefit_pending_id)fail('ORDER_SERVICE_BENEFIT_MISMATCH');
     return {...snap,order_id:o.id,status:o.status};
   }
   const allowedRoutes={H01:'home.html',CAP:'cap.html',ITEMS:'items.html',
     S01:'index.html?page=S01',S02:'index.html?page=S02',
     S5:'index.html?page=S5',BOOKING:'index.html?page=BOOKING',
-    QUICK:'index.html?page=QUICK',O01:'index.html?page=O01'};
+    QUICK:'index.html?page=QUICK',O01:'index.html?page=O01',M01:'index.html?page=M01',O03:'index.html?page=O03',OH01:'index.html?page=OH01',RN01:'index.html?page=RN01',EX01:'index.html?page=EX01',DP01:'index.html?page=DP01',IV01:'index.html?page=IV01'};
   function route(fixture,options={}){
     const p=String(options.page||'H01').toUpperCase();
     if(!Object.prototype.hasOwnProperty.call(allowedRoutes,p))fail('ROUTE_UNKNOWN');

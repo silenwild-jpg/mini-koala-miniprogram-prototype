@@ -1,0 +1,84 @@
+(function(root){
+'use strict';
+function render(page,core,selectedId,tools){
+ const {esc,button,title,money,reviewMode,renewalDraft}=tools;
+ const orders=core.state().orders.filter(o=>o.status==='paid_simulated');
+ const id=selectedId||orders.at(-1)?.id;
+ const match=orders.some(o=>o.id===id);
+ const names={RN01:'续租申请',EX01:'退租与到期',DP01:'押金处理',IV01:'发票申请'};
+ const stateLabel=s=>({
+   upcoming:'待起租',active:'租用中',returning:'退租办理中',ended:'已退租',
+   HELD:'押金保管中',held:'押金保管中',REFUND_PENDING:'退款处理中',REFUNDED:'已退还',
+   QUOTE_PENDING:'报价确认中',QUOTE_READY:'待确认续租',PAYMENT_PENDING:'待支付续租费用',PAYMENT_FAILED:'付款未完成',PAYMENT_CANCELLED:'已暂缓支付',COMPLETED:'已完成',
+   REQUESTED:'已提交',WAITING_INSPECTION:'待验仓',INSPECTION_FAILED:'需重新验仓',INSPECTION_PASSED:'验仓通过',
+   SUBMITTED:'已提交',personal:'个人',enterprise:'企业',INITIAL:'首期租金',RENEWAL:'续租费用',
+   expiry:'到期退租',early:'提前退租'
+ }[s]||'办理中');
+ const publicOrder=id=>{
+   const suffix=String(id||'').match(/[0-9]+$/)?.[0];
+   if(suffix)return 'KL'+suffix.padStart(8,'0');
+   return 'KL'+Array.from(String(id||'')).reduce((n,ch)=>(Math.imul(n,31)+ch.charCodeAt(0))>>>0,0).toString().padStart(10,'0').slice(-10);
+ };
+ let body='<div class="detail-blank m02-service-content">';
+ if(!match)return title(names[page]||'租后管理','O03')+body+'<p>没有可办理租后服务的订单，请从我的订单进入。</p>'+button('go','返回订单','M01','outline')+'</div>';
+ const v=core.lifecycleView(id),o=orders.find(x=>x.id===id);
+ const store=core.fixture.stores.find(x=>x.id===o.store_id),unitNames=(o.unit_ids||[]).map(x=>(()=>{const u=core.fixture.units.find(u=>u.id===x);return u?.demo_cabin_no?'仓号 '+u.demo_cabin_no+' · '+u.volume+'m³':u?.name||'仓位'})()).join('、');
+ body+='<section class="m02-service-summary"><span class="m02-service-state">'+esc(stateLabel(v.lease_status))+'</span>'+
+   '<strong class="m02-service-store">'+esc(store?.name||'用仓门店')+'</strong><p class="m02-service-unit">'+esc(unitNames)+'</p>'+
+   '<dl><dt>订单编号</dt><dd>'+esc(publicOrder(id))+'</dd><dt>累计租期</dt><dd>'+esc(v.total_months)+'个月</dd>'+
+   '<dt>起止日期</dt><dd>'+esc(v.start_date)+' 至 '+esc(v.end_date)+'</dd></dl></section>';
+ 
+ if(page==='RN01'){
+  body+='<p>续租价格需单独确认，不自动沿用当前月租。</p>';
+  for(const r of v.renewal_requests){
+   body+='<p>'+esc(r.months)+'个月 · '+esc(stateLabel(r.status))+'</p>';
+   if(r.status==='QUOTE_PENDING'&&reviewMode){
+    body+='<label>评审演示月租（¥） <input id="renew-review-price" type="number" min="1" step="1"></label>'+button('reviewRenewal','模拟审核报价',r.id,'outline');
+   }
+   if(r.status==='QUOTE_READY')body+='<p>续租整期金额：'+money(r.quote_total)+' / 整期</p>'+button('confirmRenewal','确认续租方案',r.id);
+   if(r.status==='PAYMENT_PENDING'){
+    body+='<p class="m02-renew-pay-due">本次续租应付 <strong>'+money(r.quote_total)+'</strong></p>'
+      +'<p>付款完成后，新租期才会生效。</p>'
+      +'<div class="m02-renew-pay-actions">'+button('payRenewalSuccess','立即付款',r.id)
+      +button('payRenewalCancel','稍后支付',r.id,'outline')
+      +(reviewMode?button('payRenewalFailed','付款失败（评审）',r.id,'outline'):'')+'</div>';
+   }
+   if(['PAYMENT_FAILED','PAYMENT_CANCELLED'].includes(r.status))body+='<p>续租整期金额：'+money(r.quote_total)+' / 整期</p>'+button('confirmRenewal','继续付款',r.id);
+   if(r.status==='COMPLETED')body+='<p>续租已生效 · '+money(r.quote_total)+'</p>';
+  }
+  if(['active','upcoming'].includes(v.lease_status)&&v.total_months<60&&!v.renewal_requests.some(r=>['QUOTE_PENDING','QUOTE_READY','PAYMENT_PENDING','PAYMENT_FAILED','PAYMENT_CANCELLED'].includes(r.status))){
+   body+='<label>续租月数（1–'+(60-v.total_months)+'个月） <input id="renew-months" type="number" min="1" max="'+(60-v.total_months)+'" value="'+esc(renewalDraft===null||renewalDraft===undefined?'':String(renewalDraft))+'"></label>'+button('requestRenewal','提交续租需求');
+  }else body+='<p>当前状态暂不接受新的续租申请。</p>';
+ }else if(page==='EX01'){
+  body+='<h3>退租安排</h3><p>退租费用与验仓结果以门店办理结果为准。</p>';
+  if(!v.exit&&['active','expired'].includes(v.lease_status)){
+   const expiryDate=v.end_date>=core.today()?v.end_date:core.today();
+   body+='<label>退租类型 <select id="exit-type"><option value="expiry">到期退租</option><option value="early">提前退租</option></select></label><label>计划取空日期 <input id="exit-date" type="date" min="'+esc(expiryDate)+'" value="'+esc(expiryDate)+'"></label>'+button('requestExit','提交退租安排');
+  }else if(v.exit){
+   body+='<p>退租：'+esc(stateLabel(v.exit.type))+' · '+esc(v.exit.date)+' · '+esc(stateLabel(v.exit.status))+'</p>';
+   if(['REQUESTED','INSPECTION_FAILED'].includes(v.exit.status))
+    body+='<p>请确认物品全部取出、仓位清空并锁好。</p>'+button('requestInspection','确认清空并申请验仓');
+   if(v.exit.status==='WAITING_INSPECTION')
+    body+='<p>等待门店验仓；用户不能自行确认验仓通过。</p>'+(reviewMode?button('reviewInspectPass','评审模拟验仓通过','','outline')+button('reviewInspectFail','评审模拟验仓不通过','','outline'):'');
+   if(v.exit.status==='INSPECTION_PASSED')body+='<p>验仓已通过；订单访问资格关闭。</p>';
+  }else body+='<p>当前租赁状态不能开始退租。</p>';
+ }else if(page==='DP01'){
+  body+='<h3>押金进度</h3><div class="m02-deposit"><span>订单押金</span><strong>'+(core.authorized()?money(o.deposit):'—')+'</strong></div><p>状态：'+esc(stateLabel(v.deposit_status))+'</p>';
+  body+='<p>押金退还金额与到账时间以实际办理结果为准。</p>';
+  if(v.deposit_status==='REFUND_PENDING'&&reviewMode)body+=button('reviewRefund','评审模拟退款完成','','outline');
+ }else if(page==='IV01'){
+  body+='<h3>发票申请</h3><p>选择对应的付款记录填写开票信息。</p>';
+  for(const inv of v.invoices)body+='<p>'+'发票申请 · '+esc(stateLabel(inv.status))+'</p>';
+  const available=v.payments.filter(p=>!v.invoices.some(i=>i.payment_id===p.id));
+  if(available.length){
+   body+='<label>付款记录 <select id="invoice-payment">'+available.map(p=>'<option value="'+esc(p.id)+'">'+esc(stateLabel(p.type))+' · '+money(p.amount)+'</option>').join('')+'</select></label>';
+   body+='<label>类型 <select id="invoice-kind"><option value="personal">个人</option><option value="enterprise">企业</option></select></label>';
+   body+='<label>抬头 <input id="invoice-title" maxlength="120" required></label><label>邮箱 <input id="invoice-email" type="email" required></label><label id="invoice-tax-wrap" hidden style="display:none">企业税号 <input id="invoice-tax" maxlength="50"></label>';
+   body+=button('requestInvoice','提交发票申请');
+  }else body+='<p>暂无可申请的付款记录。</p>';
+ }
+ body+=button('go','返回订单详情','O03','outline')+'</div>';
+ return title(names[page]||'租后管理','O03')+body;
+}
+root.MK_LIFECYCLE_UI_V1={render};
+})(typeof window==='object'?window:globalThis);

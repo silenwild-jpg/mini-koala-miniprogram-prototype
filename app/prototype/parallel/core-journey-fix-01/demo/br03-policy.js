@@ -3,17 +3,26 @@
   function create({core,fixture,config}){
     const catalog=fixture.units;
     const names=config.itemNames||{};
-    function generic(volume,page){
-      const words=volume<1?['换季衣物、箱包','换季衣物、箱包与小件收纳']:volume<3?['行李箱、纸箱、衣物','行李箱、纸箱和日常闲置']:volume<6?['纸箱、行李箱、小件家具','纸箱、行李箱和小件家具']:volume<10?['家电、折叠家具、收纳箱','小家电、折叠家具和收纳箱']:volume<20?['家具、家电、搬家物品','家庭家具、家电和搬家物品']:volume<50?['成组家具、家电、纸箱','多件家庭家具、家电及纸箱']:['大体量家庭物品、商家物资','大量家庭物品及商家物资'];
-      return words[page==='S01'?0:1];
+    // One capacity-to-use short sentence across S01, S02, S5 and CAP.
+    // Descriptive examples only; a particular oversized item is not guaranteed to fit.
+    function generic(volume){
+      const v=Number(volume);
+      return v<=1.5?'行李箱、换季衣物':
+        v<=5?'纸箱、小件家具':
+        v<=10?'小件家具、家电':
+        v<=25?'沙发、家庭家具':
+        v<=50?'大件家具、家电':'大量家具、物资';
     }
     function describe(u,page){
-      const r=core.state().requirement,linked=r.capacity_m3!==null,matches=linked&&u.volume>=r.capacity_m3;
-      const selected=r.source==='items_estimate'&&Array.isArray(r.items)?[...new Set(r.items.map(x=>names[x.id]).filter(Boolean))].slice(0,2):[];
-      const use=selected.length?'您选择：'+selected.join('、'):generic(u.volume,page);
-      if(!linked)return {matches:false,lines:['适合'+generic(u.volume,page)]};
-      if(!matches)return {matches:false,lines:['其他可租容量', '常见存放：'+generic(u.volume,page)]};
-      return {matches:true,lines:page==='S01'?['容量匹配 · '+use]:['符合您约'+r.capacity_m3+'m³的容量需求',selected.length?use:'常见存放：'+use]};
+      const r=core.state().requirement,linked=core.requirementReady(),
+        matches=linked&&u.volume>=r.capacity_m3;
+      const selected=r.source==='items_estimate'&&Array.isArray(r.items)?
+        [...new Set(r.items.map(x=>names[x.id]).filter(Boolean))].slice(0,2):[];
+      const words='适合'+generic(u.volume);
+      // The first line is deliberately identical on every page; an S02
+      // detail can separately expand the user's selected list if requested.
+      const extra=page==='S02'&&selected.length?'您选择：'+selected.join('、'):null;
+      return {matches,lines:extra?[words,extra]:[words],category:generic(u.volume)};
     }
     function facts(u){
       const s=core.state(),available=core.available(u),term=s.requirement.term_months;
