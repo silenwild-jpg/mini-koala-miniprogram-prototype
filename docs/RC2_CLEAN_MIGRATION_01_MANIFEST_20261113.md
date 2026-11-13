@@ -167,6 +167,13 @@ main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本
 - 证据包：`RC2-CLEAN-MIGRATION-01-UNIFIED-375-390`（Artifact ID `14010822125`）；内部评审包 `RC2-CLEAN-MIGRATION-01-REVIEW-BUNDLE`（Artifact ID `14011450466`）。
 - 构建包：`MiniKoala_RC2_CLEAN_MIGRATION_01.zip`，SHA-256 `9e10f5e632bc7cf4b452f76fdde690eaa382b5a7f7c2a785faf92b1dc601478a`。
 
+## PR#176 外部状态检查说明
+
+- PR #176 保持 Draft/HOLD，目标为 `main`，未合并。
+- 旧工作流 `SITE-ACCESS-03C` 在RC1完整性白名单断言处失败：它只允许 `demo/app.js` 与专用QA脚本变更，而本分支按计划包含99项RC2 app变更；该工作流未进入其浏览器回归步骤。此项属于旧RC1工作流与RC2集成分支的检查范围冲突，不计作RC2干净迁移回归失败。
+- Netlify状态检查指向旧项目 `mini-koala-internal-rc1-review` 并返回失败。当前没有部署；该检查的具体失败根因尚未确认，不能把它解释为新评审包已部署。
+- 不隐藏上述失败，也不修改旧工作流来规避检查；后续需单独裁定旧CI/Netlify配置如何与RC2分支隔离。
+
 ## 尚未解除的门禁
 
 1. 导航激活态图标仍需人工视觉签收；自动化只证明尺寸、颜色、资源加载、点击语义和像素范围，不替代设计负责人确认图形是否符合最终品牌规范。
