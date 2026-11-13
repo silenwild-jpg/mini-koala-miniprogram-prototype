@@ -1,3 +1,4 @@
+# RC2-CLEAN-MIGRATION-02H: S02 route tab interaction is part of the 375/390 gate.
 name: RC2 CLEAN MIGRATION 01 - clean main 375 390 gate
 on:
   push:
