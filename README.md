@@ -1,20 +1,36 @@
-# 迷你考拉仓｜小程序原型 Git 仓库
+# 迷你考拉仓｜小程序原型项目
 
-项目定位：**产品验证、功能演示、视觉探索**；不是生产小程序代码验收。
+**当前定位：** 产品验证、真实用户路径演示与视觉探索；当前仓库包含 HTML/Web 原型，不等同于微信原生小程序生产代码。
 
-> GIT-SETUP-01：`main` 首次保存的是只读历史业务源码基线 `PROTO-PARALLEL-01/CURRENT_CANDIDATE.zip`，不表示该版本通过内部视觉签收，更不代表已上线。`release_gate=HOLD`。
+## 唯一项目入口
 
-## 工作结构
-- `app/`：按原 ZIP 结构逐文件解压的原型源码；不改名、不预先重构。
-- `docs/`：基线、视觉签收索引、页面归属、集成门禁。
-- `AGENTS.md`：Codex/AI 工作规则。
-- `integration/proto-merge-01f`：隔离集成任务分支，不自动包含 01B/01F 候选源码。
-- `feature/br01-home`、`feature/br02-capacity`、`feature/br03-store-unit`、`feature/br04-recommend`：从**同一初始基线**创建的四分支，初始内容一致，均未默认迁入分支交付包。
+开始任何项目任务前，先阅读：
 
-## 工作流程
-1. 在独立 Worktree 中只处理一个任务，先核对已批准视觉原图与当前规则。
-2. 修改局部源码并留存双尺寸、关键状态、真实 HTTP 交互验证。
-3. 先提交本分支，再提 PR 到 `integration/proto-merge-01f`；中央归并只做定向移植，禁止用整个 ZIP 覆盖。
-4. 集成测试通过后才能考虑 PR 到 `main`；当前 Release Gate 仍 HOLD。
+- [项目控制中心｜当前版本、验收、规则、待办与治理状态](docs/PROJECT_CONTROL_CENTER_01_20261113.md)
+- [AI/WorkBuddy/Codex执行规则](AGENTS.md)
+- [项目总控任务 PROJECT-OPS-RESET-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)
 
-本仓库的原始 ZIP、高清探索素材以及业务数据不得未经检查直接上传。请阅读 `docs/SOURCE_RECEIPT.md` 与 `docs/MERGE_GATES.md`。
+控制中心记录当前唯一候选、精确 SHA、技术/视觉门禁、页面规则来源、待业务/后端确认事项和下一任务。历史登记表保留追溯用途；如与最新用户批准结论或控制中心冲突，不得直接沿用旧记录。
+
+## 当前候选状态（2026-11-13快照）
+
+- RC2候选：[PR #176](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)
+- 自动化验收 SHA：`41a8a079eb48049e1060512bddf71c226bfd3738`
+- 375/390全站自动化门禁：PASS
+- 人工视觉/UAT：PASS（用户于2026-11-13对该SHA签收）
+- 演示版本：DEMO READY（仅限已签收SHA）
+- 在线演示部署：尚未核实对应版本的可访问URL
+- 业务代码PR #176合并main：未授权、未执行
+- 正式生产上线：不在当前原型验收范围
+
+实时状态以项目控制中心和 GitHub PR/Actions 为准，不以本段快照替代实时读取。
+
+## 工作原则
+
+1. 综合任务按任务包批量执行：盘点→规则裁定→实施→测试→回归→文档和证据。
+2. 只在产品决策冲突、冻结视觉方向变更、必要权限缺失或不可逆操作时请求人工确认；一个阻断项不停止无关任务。
+3. 所有测试绑定精确 SHA；新提交后需重新验证。G-TECH PASS 不等于 G-VIS 人工签收。
+4. 不自动合并 main、不部署、不批量关闭 PR 或删除分支；这些操作须有明确授权。
+5. 演示数据可使用稳定、可替换的受控配置；不得将临时规则描述为正式生产政策。
+
+详细历史基线、页面证据、来源链与迁移记录保留在 `docs/` 下，以控制中心标注的当前有效来源为准。
