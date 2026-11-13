@@ -48,7 +48,7 @@ const results=[];
      ['lifeInspection','inspection','退租处理中'],
      ['lifeRefund','refund','押金处理中'],
      ['lifeExpired','lease_expired','租期已到期'],
-     ['lifeEnded','new','找一个合适的仓位']
+     ['lifeEnded','new','1笔订单']
     ];
     for(const [id,key,visible] of lifecycle){
       await page.goto(base+'/index.html?page=M01',{waitUntil:'domcontentloaded'});
@@ -57,6 +57,10 @@ const results=[];
       await page.locator('#screen .m01-profile').waitFor();
       const body=await page.locator('#screen').innerText();
       assert(body.includes(visible),id+' expected visible M01 state "'+visible+'"; got '+body.slice(0,500));
+      if(id==='lifeEnded'){
+        assert.equal(await page.locator('#screen .m01-assets-heading').count(),0,'ended rental must not remain an active asset');
+        assert.equal(await page.locator('#screen .m01-task').count(),0,'ended rental must not create a live task card');
+      }
       const state=await page.evaluate(()=>{const b=window.SIM_DEMO,s=b.state(),o=s.orders[0];return {scenario:s.scenario,orderId:o?.id,life:o?b.core.lifecycleView(o.id):null};});
       assert.equal(state.scenario,id);
       assert.equal(state.orderId,'SIM_REVIEW_ORDER_'+id);
