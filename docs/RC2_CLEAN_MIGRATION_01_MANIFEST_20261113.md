@@ -8,7 +8,7 @@
 
 ## 移植范围裁定
 
-main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本批移植99项：
+main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本批移植100项（原始99项基线 + 本轮经记录批准的促销赠期策略模块1项）：
 
 | 类型 | 数量 |
 |---|---:|
@@ -20,7 +20,8 @@ main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本
 | images | 34 |
 | svg | 8 |
 | other | 0 |
-| 合计 | 99 |
+| PROMO-02D赠期策略模块 | 1 |
+| 合计 | 100 |
 
 明确排除13项：10个未引用的导航探索资产（`app/assets/nav/current-four-01b/` 8项、`app/assets/nav/nav01e-candidates/` 2项）和3个 `qa/` 目录下的视觉重建工具。当前运行时实际引用 `demo/assets/nav-current-01c/` 下的8个双态SVG，因此这些图标属于本批99项。
 
@@ -37,6 +38,8 @@ main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本
 9. 动态资产路径（`assets/${store.photo}`、`assets/unit-r3/thumb/unit-r3-${tier}-336x312.webp`、`assets/nav-current-01c/${icon}-${state}.svg`）按fixtures/模板映射核对，不把字符串扫描中未展开的模板占位误判为缺失文件。
 
 ## 运行时文件清单
+
+| ADD | `app/prototype/parallel/core-journey-fix-01/demo/gift-term-policy.js` | 本轮PROMO-02D新增 | 约2.5KB |
 
 | 动作 | 路径 | 来源blob SHA | 字节 |
 |---|---|---|---:|
