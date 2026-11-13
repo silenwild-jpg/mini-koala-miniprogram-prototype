@@ -1,0 +1,54 @@
+name: QA LEGACY RETAIN 01 - frozen RC2 boundary checks
+on:
+  push:
+    branches:
+      - qa/legacy-retain-01-20261113
+    paths:
+      - scripts/test_qa_legacy_retain_01.cjs
+      - .github/workflows/qa-legacy-retain-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: qa-legacy-retain-01-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  frozen-rc2-boundaries:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prove QA branch derives from the signed RC2 and preserves business runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          signed=41a8a079eb48049e1060512bddf71c226bfd3738
+          git merge-base --is-ancestor "$signed" HEAD
+          for f in \
+            app/prototype/parallel/core-journey-fix-01/demo/demo-core.js \
+            app/prototype/parallel/core-journey-fix-01/demo/fixtures.js \
+            app/prototype/parallel/core-journey-fix-01/demo/lifecycle-contract.js \
+            app/assets/branch01/VIS-11J_用户批准唯一视觉母版.png \
+            docs/RC2_MERGE_PREP_02_SOURCE_GATE.json
+          do
+            test "$(git rev-parse "HEAD:$f")" = "$(git rev-parse "$signed:$f")" || {
+              echo "FROZEN_RUNTIME_DRIFT:$f"
+              exit 1
+            }
+          done
+          node --check scripts/test_qa_legacy_retain_01.cjs
+      - name: Execute recovered order, invoice, renewal cap and VIS11J boundary checks
+        run: node scripts/test_qa_legacy_retain_01.cjs
+      - name: Upload exact SHA QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: QA-LEGACY-RETAIN-01-BOUNDARY-EVIDENCE
+          retention-days: 7
+          if-no-files-found: warn
+          path: release-evidence/qa-legacy-retain-01/result.json
