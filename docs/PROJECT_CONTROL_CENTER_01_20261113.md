@@ -11,7 +11,7 @@
 | 主候选 PR | [#176 RC2-CLEAN-MIGRATION-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176) |
 | 候选分支 | `integration/rc2-clean-migration-01-20261113` |
 | 已通过自动化验收的 SHA | `41a8a079eb48049e1060512bddf71c226bfd3738` |
-| main SHA（2026-11-13审计） | `bcac173d760f1c515c07e19c582c3fa185ab428a` |
+| main治理归并SHA（2026-11-13） | `0c78de7720451692bbd44be8854259b8b6a20dbd`（PR #68 Squash合并；之后实时main SHA以GitHub为准） |
 | PR API 当前报告的 base SHA | `274c5110aa18af7ed71d92533ab126ebbbd11f75` |
 | PR 状态 | Draft / MAIN MERGE HOLD，演示版本已签收但未合并 |
 | 自动化门禁 | PASS（375/390、浏览器、促销/生命周期、预约/快捷下单/O01） |
@@ -75,16 +75,16 @@
 ## 6. PR / 分支治理快照
 
 截至2026-11-13 GitHub API：
-- Open PR：131；Draft：130；非 Draft：1（#68治理评审）。
+- #68合并前审计快照：Open PR 131、Draft 130、非Draft 1；2026-11-13 #68已合并，当前实时数量以GitHub为准。
 - Open Issue：8（含本项目总控#177；原有9个产品/技术Issue中，#148普通用户路径文案未复现、#93历史Runner故障不再复现，已关闭，剩余7个）。
 - Branch：178；`isolate/*`：101。
 - 46条分支未被当前Open PR head/base引用；不等于废弃分支，不可批量删除。
-- 以main为base的Open PR：#176、#68、#50、#47、#36、#35、#33、#30、#28、#26、#24、#22。
-- main分支元数据报告 `protected=false`，Rulesets查询为空；当前连接权限无法读取完整Branch Protection详情。需仓库管理员确认。
+- #68合并前以main为base的12条Open PR：#176、#68、#50、#47、#36、#35、#33、#30、#28、#26、#24、#22；#68现已归并，不再计入Open。
+- 2026-11-13用户已授权main保护，但当前分支元数据仍为 `protected=false`、Rulesets查询为空；连接器缺少Administration配置能力。管理员需按 [MAIN-PROTECTION-01](MAIN_PROTECTION_01_20261113.md) 在GitHub网页启用，然后核验`protected=true`。
 
 ### 主线PR分类
 - #176：当前RC2候选，保留。
-- #68：治理资产候选，保留；本控制中心加入该PR分支，尚未合并生效。
+- #68：**已合并main**，Squash commit `0c78de7720451692bbd44be8854259b8b6a20dbd`。其中项目控制中心、README、AGENTS、VIS-GUARD机器检查与PR模板已生效；旧RC1专用自动工作流改为仅手动触发。
 - #50：旧PRD文档候选；与11月13日PRD/决策/验收材料比对后归档。
 - #47：旧私有预览候选；只保留访问/部署历史证据。
 - #36/#35/#33：旧RC2/生命周期/S01来源链；只核查未迁移的独有变更，不整PR合并。
@@ -112,12 +112,13 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 
 - 项目总控：[PROJECT-OPS-RESET-01 #177](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)
 - 当前候选：[PR #176](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)
-- 治理候选：[PR #68](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/68)
+- 治理归并：[PR #68（已合并）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/68)
+- main保护配置：[MAIN-PROTECTION-01](MAIN_PROTECTION_01_20261113.md)（授权已取得，管理员操作尚未完成）
 - 当前自动化验收：[Run #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)
 
 ### 当前下一步
 1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
 2. 复核#171、#132、#148、#152、#164等Issue在当前候选中的实际状态并更新证据。
 3. 完成PR/分支分类矩阵；先出可关闭/可归档建议，不批量关闭或删除。
-4. 由仓库管理员确认是否启用main保护与required checks；未经确认不更改。
+4. 用户已授权启用main保护；由仓库管理员按 [MAIN-PROTECTION-01](MAIN_PROTECTION_01_20261113.md) 设置Ruleset并复核生效（当前连接器无法进行Administration写入）。
 5. 最后才进行PR归并准入评审；不自动合并、不部署。

@@ -9,6 +9,7 @@
 - [项目控制中心｜当前版本、验收、规则、待办与治理状态](docs/PROJECT_CONTROL_CENTER_01_20261113.md)
 - [AI/WorkBuddy/Codex执行规则](AGENTS.md)
 - [项目总控任务 PROJECT-OPS-RESET-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)
+- [main保护设置清单（需仓库管理员执行）](docs/MAIN_PROTECTION_01_20261113.md)
 
 控制中心记录当前唯一候选、精确 SHA、技术/视觉门禁、页面规则来源、待业务/后端确认事项和下一任务。历史登记表保留追溯用途；如与最新用户批准结论或控制中心冲突，不得直接沿用旧记录。
 
@@ -22,6 +23,8 @@
 - 在线演示部署：尚未核实对应版本的可访问URL
 - 业务代码PR #176合并main：未授权、未执行
 - 正式生产上线：不在当前原型验收范围
+- 治理PR #68：已合并main（`0c78de7720451692bbd44be8854259b8b6a20dbd`）
+- main分支保护：已获用户授权，尚未启用；当前GitHub集成无Administration配置权限
 
 实时状态以项目控制中心和 GitHub PR/Actions 为准，不以本段快照替代实时读取。
 
