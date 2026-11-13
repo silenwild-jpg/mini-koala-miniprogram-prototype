@@ -75,10 +75,10 @@
 ## 6. PR / 分支治理快照
 
 截至2026-11-13 GitHub API：
-- P1-A历史审计快照：Open PR 130、全部Draft、以main为base 11条（审计日期当时）。2026-11-13本轮实时核验：**Open PR 128、全部Draft、以main为base 8条**；用户授权关闭旧#22/#24/#50，且新增独立QA证据PR#182，均有可追溯记录。[原130条PR全量分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)仍保留原审计快照，不回写篡改。
+- 最新实查快照（2026-11-13、main SHA `ab222867fe27...`）：**Open PR 124，全部Draft，以main为base 8条**。此前用户分别批准关闭#22/#24/#50和#67/#84/#86/#89（共7条），全部Not merged、原分支保留。[最初130条PR分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)仍保留当时快照，不反向篡改。
 - Open Issue：8（含本项目总控#177；原有9个产品/技术Issue中，#148普通用户路径文案未复现、#93历史Runner故障不再复现，已关闭，剩余7个）。
-- P1-B审计快照：Branch **180**（其中1条本次审计新增分支）；`isolate/*` **101**；[180条分支全量分类](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)。
-- 其中48条历史分支未被当前Open PR引用（不含本次新建审计分支）；逐条与main比较：21条无独有提交、27条存在独有历史。比较结果不等于可删除，须独立核查原始用途和授权。
+- 最新实查快照：**185条分支**，其中**59条**未被当前Open PR的head/base引用；44条关联已关闭PR的head、15条未关联已关闭PR的head。这不是可删除名单。[最初180条分支全量分类](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)仍供历史对照。
+- 原48条历史未引用分支的ahead/behind比较属于旧main快照；最新59条包括另11条由历史PR关闭/治理PR Squash合并后转为未引用的来源分支，**尚不得继承旧48条的可删判断**。见[清理资格第三批](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)。
 - P1-A2已对10条main目标历史PR与签收RC2和main做**同路径blob SHA**对照；10条均有独有历史资产/内容差异，**目前未裁定任何可不经资料保全即直接关闭的PR**。详见[P1-A2主线PR差异](PROJECT_OPS_P1A2_MAIN_PR_DELTA_20261113.md)。
 - P1-B2对49条历史非开放PR引用分支复核closed PR/文件路径及Netlify依赖，其中35条关联已关闭PR；`uat/rc2-pr96-20261110`仍对应Netlify已发布部署，不能误删。详见[P1-B2分支风险](PROJECT_OPS_P1B2_BRANCH_RISK_20261113.md)。
 - P1-A3已完成旧PR #50规则冲突标注、#30 CloudBase、#28 Netlify旧站安全知识提取及#35/#36/#47旧QA与当前RC2断言覆盖差异审查，详见[P1-A3知识保全](PROJECT_OPS_P1A3_LEGACY_RULE_DEPLOY_QA_HANDOFF_20261113.md)。
@@ -126,11 +126,12 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - P1-A3旧规则/部署/QA知识保全：[规则与测试覆盖差异](PROJECT_OPS_P1A3_LEGACY_RULE_DEPLOY_QA_HANDOFF_20261113.md)
 - P1-B3独立门店/素材源：[BR03旧上海门店与23份资产](PROJECT_OPS_P1B3_LEGACY_STORE_ASSET_HANDOFF_20261113.md)
 - QA-LEGACY-RETAIN-01：[19项历史高风险断言独立PASS](QA_LEGACY_RETAIN_01_RESULT_20261113.md)（同签收运行时、仅QA分支追加脚本）
-- 清理资格第二批：[旧审计PR #67/#84/#86/#89关闭候选及证据](PROJECT_OPS_CLEAN_ELIGIBILITY_02_20261113.md)（仅提案、未Close，需逐组批准）
+- 清理资格第二批：[历史审计PR #67/#84/#86/#89](PROJECT_OPS_CLEAN_ELIGIBILITY_02_20261113.md)（用户已批准，4条均Closed/Not merged，原分支保留）
+- 清理资格第三批：[当前124条开放PR、59条未引用分支与下游依赖及部署核查](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)（本次仅审计，不额外关闭或删除）
 
 ### 当前下一步
 1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
-2. 复核#171、#132、#148、#152、#164等Issue在当前候选中的实际状态并更新证据。
-3. P1-A2/B2及P1-A3/B3已归并；`QA-LEGACY-RETAIN-01` 19项同SHA PASS。`PROJECT-OPS-CLEAN-ELIGIBILITY-01`首批#22/#24/#50已按用户确认实际Close，原分支保留。**下一批是[PROJECT-OPS-CLEAN-ELIGIBILITY-02](PROJECT_OPS_CLEAN_ELIGIBILITY_02_20261113.md)：建议关闭4条纯历史审计PR #67/#84/#86/#89，仍等待用户对这一具体名单确认；#87保留在线部署与SSO问题证据。** 未经确认不进一步关闭PR或删分支。
+2. Issue #148/#93此前已按证据关闭；#171/#132/#152/#164保留原签收/来源证据与后端待确认项，针对关闭或代码迁移仍须独立裁定。
+3. P1-A2/B2、A3/B3、QA-LEGACY-RETAIN-01已归档；CLEAN-ELIGIBILITY-01/02两批7条历史PR已按用户明确名单Close，原分支保留。[CLEAN-ELIGIBILITY-03](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)已确认**已关闭PR #24的head仍被开放PR #25用作base**、已合并PR #140的head仍被开放PR #141用作base，故禁止按已关闭/已合并状态删除来源分支。下一步优先补旧QA脚本覆盖、历史站点依赖/部署版本核验；没有新PR关闭授权不扩展清理范围。
 4. main保护已生效；管理员可对重复必需检查和严格基线更新做低成本优化，不影响现有保护有效性。
 5. 最后才进行PR归并准入评审；不自动合并、不部署。
