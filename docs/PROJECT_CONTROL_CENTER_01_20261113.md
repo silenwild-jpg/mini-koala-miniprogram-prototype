@@ -73,7 +73,7 @@
 
 截至2026-11-13 GitHub API：
 - Open PR：131；Draft：130；非 Draft：1（#68治理评审）。
-- Open Issue：9。
+- Open Issue：7（本轮关闭#148普通用户路径文案未复现、#93历史Runner故障不再复现）。
 - Branch：178；`isolate/*`：101。
 - 46条分支未被当前Open PR head/base引用；不等于废弃分支，不可批量删除。
 - 以main为base的Open PR：#176、#68、#50、#47、#36、#35、#33、#30、#28、#26、#24、#22。
