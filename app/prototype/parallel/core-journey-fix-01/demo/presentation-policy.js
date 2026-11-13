@@ -100,7 +100,7 @@
       return {status:reasons.length?'INELIGIBLE':'ELIGIBLE',eligible:reasons.length===0,campaign_id:campaign?.id||null,reasons};
     }
     function transitionCoupon(coupon,next){
-      const transitions={AVAILABLE:['SELECTED','EXPIRED'],SELECTED:['AVAILABLE','LOCKED','EXPIRED'],LOCKED:['AVAILABLE','REDEEMED'],REDEEMED:[],EXPIRED:[]};
+      const transitions={AVAILABLE:['SELECTED','EXPIRED','INVALID'],SELECTED:['AVAILABLE','LOCKED','EXPIRED','INVALID'],LOCKED:['AVAILABLE','REDEEMED','INVALID'],REDEEMED:[],EXPIRED:[],INVALID:[]};
       if(!coupon||!transitions[coupon.status]||!transitions[coupon.status].includes(next))throw Error('INVALID_COUPON_TRANSITION');
       return {...coupon,status:next};
     }
