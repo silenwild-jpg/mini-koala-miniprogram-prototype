@@ -154,7 +154,8 @@ const results=[];
     assert.equal(giftAvailable.gift_months,1,'approved campaign gift must be available for the matching warehouse');
     const s5GiftText=await page.frameLocator('#br04-frame').locator('body').innerText();
     assert(s5GiftText.includes('赠送1个月'),'S5 must surface the approved gift-term benefit');
-    const s5HeaderTags=await page.frameLocator('#br04-frame').locator('.s5-store-services').innerText();
+    // The first matched store card is the selected campaign warehouse; S5 renders one service-tag row per recommended store.
+    const s5HeaderTags=await page.frameLocator('#br04-frame').locator('.s5-store-services').first().innerText();
     const s5UnitInfo=await page.frameLocator('#br04-frame').locator('.s5-unit-info').first().innerText();
     assert(s5HeaderTags.startsWith('特价仓'),'S5 header must lead with the special-price tag when its matched warehouse is special');
     assert(!s5UnitInfo.includes('特价仓'),'S5 must not duplicate the special-price tag inside the unit row');
