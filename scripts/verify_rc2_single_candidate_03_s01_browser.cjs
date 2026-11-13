@@ -115,9 +115,31 @@ const server=http.createServer((req,res)=>{
    assert.deepEqual(match.slice(0,4).map(x=>x.rank),[1,2,3,4]);
    assert(match[0].units===1&&match[1].units===1,'first two matching stores must show exactly one warehouse each');
    assert(match.slice(3).every(x=>x.kind==='compact'&&x.units===0),'fourth+ stores must remain compact');
+   // Normalize all nested scroll roots after long-list navigation.
+   // This keeps the matched screenshot anchored to the top, not a restored scroll offset.
+   await page.evaluate(()=>window.scrollTo(0,0));
+   await matchedApp.locator('body').evaluate(body=>{
+     const doc=body.ownerDocument;
+     for(const root of [doc.scrollingElement,doc.documentElement,body,doc.querySelector('#screen')]){
+       if(root){root.scrollTop=0;root.scrollLeft=0;}
+     }
+     doc.defaultView.scrollTo(0,0);
+   });
+   const matchedScroll=await matchedFrame.locator('#canvas').evaluate(async canvas=>{
+     const doc=canvas.ownerDocument;
+     const roots=[doc.scrollingElement,doc.documentElement,doc.body,doc.querySelector('#stage'),canvas].filter(Boolean);
+     for(const root of roots){root.scrollTop=0;root.scrollLeft=0;}
+     doc.defaultView.scrollTo(0,0);
+     await doc.fonts.ready;
+     await Promise.all([...canvas.querySelectorAll('img')].filter(img=>img.currentSrc).map(img=>img.decode()));
+     await new Promise(resolve=>doc.defaultView.requestAnimationFrame(()=>doc.defaultView.requestAnimationFrame(resolve)));
+     return {top:doc.defaultView.scrollY,roots:roots.map(root=>({id:root.id||root.tagName,scrollTop:root.scrollTop,scrollLeft:root.scrollLeft}))};
+   });
+   assert.equal(matchedScroll.top,0,'S01 matched state window must start at scrollY=0');
+   assert(matchedScroll.roots.every(root=>root.scrollTop===0&&root.scrollLeft===0),'S01 matched screenshot retains a scroll offset: '+JSON.stringify(matchedScroll));
    await matchedFrame.locator('#canvas').screenshot({path:path.join(out,'S01-'+width+'-matched.png'),timeout:25000});
    rows.push({width,height,cardCount:profile.cards.length,browseFirstFour:profile.cards.slice(0,4),
-     matchedFirstFour:match.slice(0,4),compactStoreId:compactId,estoreRoute:pageUrl,overflow:false});
+     matchedFirstFour:match.slice(0,4),matchedScroll,compactStoreId:compactId,estoreRoute:pageUrl,overflow:false});
    await context.close();
   }
   fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({status:'PASS',cases:rows.length,rows},null,2));

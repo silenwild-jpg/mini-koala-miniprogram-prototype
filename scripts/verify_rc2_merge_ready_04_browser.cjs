@@ -14,7 +14,7 @@ const server=http.createServer((req,res)=>{
  if(!file.startsWith(root+path.sep))return res.writeHead(403).end();
  fs.readFile(file,(err,buf)=>err?res.writeHead(404).end('not found'):res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(buf));
 });
-const report={head_sha:process.env.GITHUB_SHA||'',runtime_source:process.env.GITHUB_SHA||'',mode:'WEB_PROTOTYPE_ONLY',rule:'QUICK_CAPACITY_FROM_SELECTED_UNIT_TERM_MANUAL_BOOKING_OPTIONAL',results:[],blockers:[]};
+const report={head_sha:process.env.GITHUB_SHA||'',runtime_source:process.env.GITHUB_SHA||'',mode:'WEB_PROTOTYPE_ONLY',rule:'QUICK_CAPACITY_FROM_SELECTED_UNIT_TERM_MANUAL_BOOKING_OPTIONAL',results:[],imageChecks:[],blockers:[]};
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
@@ -26,6 +26,31 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    const page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
    const shot=async(name)=>page.screenshot({path:path.join(out,width+'-'+name+'.png'),animations:'disabled'});
+   // Snapshot contract: validate the actual selected-unit image before every QUICK capture.
+   // A bridge-ready state does not guarantee that the asynchronous image has loaded.
+   const quickShot=async(child,name)=>{
+    const selected=await page.evaluate(()=>{
+     const core=window.SIM_DEMO.core;
+     const quick=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick?.quick||{};
+     const ids=Array.isArray(quick.ids)?quick.ids:[];
+     const unit=ids.length?core.fixture.units.find(u=>u.id===ids[0]):null;
+     return {unitId:unit?.id||null,volume:unit?.volume??null,ids};
+    });
+    assert(!selected.ids.length||selected.unitId,'QUICK selected unit must resolve to a fixture');
+    const v=Number(selected.volume);
+    const tier=v<=1.5?'mini':v<=5?'small':v<=15?'medium':'large';
+    const expected=selected.unitId?'unit-r3-'+tier+'-336x312.webp':'unit-photo.png';
+    const target=child.locator('.unit-row > img');
+    await child.locator('.unit-row > img[src$="'+expected+'"]').waitFor({state:'visible',timeout:12000});
+    const imageState=await target.evaluate(async img=>{
+     await img.decode();
+     return {src:img.getAttribute('src'),complete:img.complete,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight};
+    });
+    assert(imageState.src?.endsWith(expected),'QUICK image does not match chosen unit: '+JSON.stringify({name,expected,imageState}));
+    assert(imageState.complete&&imageState.naturalWidth>0&&imageState.naturalHeight>0,'QUICK image is not fully loaded: '+name);
+    report.imageChecks.push({width,name,selectedUnitId:selected.unitId,expected,loaded:true});
+    await shot(name);
+   };
    const open=async(which)=>{
     await page.goto(host+prefix+which+'&s01_r2=1',{waitUntil:'domcontentloaded'});
     const child=page.frameLocator('#br04-frame');
@@ -81,11 +106,11 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     const child=await open('QUICK');
     const initiallyEmpty=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement.capacity_m3===null);
     assert(initiallyEmpty,'QUICK cold entry expected no capacity');
-    await shot('04-QUICK-cold');
+    await quickShot(child,'04-QUICK-cold');
     await child.locator('[data-term="12"]').click();
     await child.locator('#toast:not([hidden])').waitFor();
     assert.match(await child.locator('#toast').innerText(),/容量/,'Term must not be confirmed before a unit derives capacity');
-    await shot('05-QUICK-before-select');
+    await quickShot(child,'05-QUICK-before-select');
     assert.equal(await child.locator('[data-choice="capacity"]').count(),0,'No redundant mandatory capacity picker');
     await child.locator('[data-choice="store"]').click();
     await child.locator('#modal [data-bridge="quickStore"]').first().waitFor();
@@ -103,14 +128,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     },firstUnitId);
     assert.equal(demand.capacity_m3,Number(offeredVolume.toFixed(2)),'Capacity must derive from selected unit');
     assert.equal(demand.term_confirmed,false,'Unit selection must not auto-confirm term');
-    await shot('06-QUICK-capacity-auto-from-unit');
+    await quickShot(child,'06-QUICK-capacity-auto-from-unit');
     await child.locator('[data-term="12"]').click();
     assert.equal(await child.locator('#toast').isVisible(),false,'Stale capacity warning must stay hidden after successful term selection');
     let term=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
     assert.equal(term.capacity_m3,demand.capacity_m3);
     assert.equal(term.term_confirmed,true);
     assert.equal(term.term_months,12);
-    await shot('07-QUICK-term-explicitly-selected');
+    await quickShot(child,'07-QUICK-term-explicitly-selected');
     await child.locator('[data-choice="unit"]').click();
     const secondOption=child.locator('#modal [data-bridge="quickUnit"]').nth(1);
     if(await child.locator('#modal [data-bridge="quickUnit"]').count()>1){
@@ -125,7 +150,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       assert.equal(term.term_months,12,'Explicit term must survive unit change');
       assert.equal(term.term_confirmed,true);
     }else await child.locator('#modal-close').click();
-    await shot('08-QUICK-unit-change');
+    await quickShot(child,'08-QUICK-unit-change');
     const date=await page.evaluate(()=>window.SIM_DEMO.core.today());
     await child.locator('#start-date').fill(date);
     await page.evaluate(()=>{
@@ -197,7 +222,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
      assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
      let ui=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick?.quick||{storeId:null,ids:[]});
      assert.equal(ui.ids.length,1);
-     await shot('10-QUICK-explicit-demand-first-store');
+     await quickShot(child,'10-QUICK-explicit-demand-first-store');
      await child.locator('[data-choice="store"]').click();
      await child.locator('#modal [data-bridge="quickStore"][data-value="'+stores[1]+'"]').click();
      ui=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick?.quick||{storeId:null,ids:[]});
@@ -208,7 +233,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
      await child.locator('#modal [data-bridge="quickUnit"]').first().click();
      demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
      assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
-     await shot('11-QUICK-explicit-demand-store-switch');
+     await quickShot(child,'11-QUICK-explicit-demand-store-switch');
      await page.evaluate(()=>{const b=window.SIM_DEMO;b.core.setCity('上海');b.persist();});
      child=await open('QUICK');
      ui=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick?.quick||{storeId:null,ids:[]});
@@ -227,7 +252,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
      await child.locator('#modal [data-bridge="quickUnit"]').first().click();
      demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
      assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
-     await shot('12-QUICK-explicit-demand-city-switch');
+     await quickShot(child,'12-QUICK-explicit-demand-city-switch');
      record('QUICK','explicit CAP/ITEMS-style capacity+term preserved through store and city changes','PASS',{capacity:3.5,term:12,from:'北京',to:'上海',storeSwitchClearedUnit:true,citySwitchClearedStore:true});
     });
     await section('05-QUICK-COMBO-TO-O01',async()=>{
@@ -254,7 +279,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
      });
      assert.equal(selected.ids.length,2);assert.equal(selected.requirement.capacity_m3,9);
      assert.equal(selected.requirement.term_confirmed,false);assert.ok(selected.volume>=9);
-     await shot('13-QUICK-combo-selected');
+     await quickShot(child,'13-QUICK-combo-selected');
      await child.locator('[data-term="12"]').click();
      const date=await page.evaluate(()=>window.SIM_DEMO.core.today());
      await child.locator('#start-date').fill(date);
