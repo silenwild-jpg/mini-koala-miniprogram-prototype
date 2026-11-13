@@ -19,6 +19,9 @@
   // RC2-FINAL-VIS-SIGNOFF-02: use 2.5m demo warehouse height from 3m³ upward; preserve each unit's volume.
   const dimensionMap={0.8:[.8,.5,2],1:[1,.5,2],1.5:[1,.75,2],2:[1,1,2],3:[1.2,1,2.5],3.5:[1.4,1,2.5],4:[1.6,1,2.5],5:[2,1,2.5],6:[2,1.2,2.5],7:[2,1.4,2.5],8:[2,1.6,2.5],9:[2.4,1.5,2.5],10:[2,2,2.5],12:[3,1.6,2.5],14:[2.8,2,2.5],16:[3.2,2,2.5]};
   stores.forEach((s,i)=>(i<5?capacitySets[i]:s.city!=='北京'?capacitySets[{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id]]:[[.8,1.5,3,5],[1,2,4,8],[1.5,3.5,6,12],[2,4,10,16],[1,3,5,9]][(i-5)%5]).forEach((volume,j)=>units.push({id:s.id+'_U'+String(j+1).padStart(2,'0'),store_id:s.id,code:'A'+String(j+1).padStart(2,'0'),name:'A'+String(j+1).padStart(2,'0')+' · '+volume+'m³独立仓',volume,area:Number((volume/dimensionMap[volume][2]).toFixed(2)),dimensions:dimensionMap[volume].join(' × ')+'m',dimensions_m:dimensionMap[volume],base_month:Math.round((110+volume*(82+(s.city==='北京'?i:{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id])*3))/10)*10,status:(i===0&&j===1)?'soldout':s.status==='closed'?'unavailable':'available',photo:volume<4?'unit_small1.jpg':'unit_medium.jpg',revision:1})));
+  // PROMO-02: catalog monthly rents for the two campaign warehouses are intentionally above their configured campaign.baseMonth; all values are illustrative demo fixtures.
+  const campaignCatalogPriceOverrides={SIM_BJ01_U04:620,SIM_BJ02_U04:720};
+  units.forEach(u=>{if(Number.isFinite(campaignCatalogPriceOverrides[u.id]))u.base_month=campaignCatalogPriceOverrides[u.id];});
   // RC2-S5-FINAL-01: explicitly synthetic stores for natural five-city demo flows.
   // They use existing photos only; names, positions, stock and prices are illustrative.
   const supplementalDemoStores=[
