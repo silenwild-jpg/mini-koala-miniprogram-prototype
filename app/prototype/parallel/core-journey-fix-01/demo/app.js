@@ -246,8 +246,10 @@
       if(r2Filters.services.length)stores=stores.filter(s=>r2Filters.services.every(v=>(s.serviceTags||[]).includes(v)));
       if(r2Filters.maxKm!==null&&demoDistanceEnabled&&!s5OriginDistances())
           stores=stores.filter(s=>displayedDistanceKm(s)<=Number(r2Filters.maxKm));
-      if(r2Filters.quick.includes('promo'))stores=stores.filter(s=>s.operatingTag==='特价仓'||s.operatingTag==='双11大促');
-      if(r2Filters.quick.includes('moving'))stores=stores.filter(s=>s.operatingTag==='免费搬运');
+      if(r2Filters.quick.includes('promo'))stores=stores.filter(s=>P.storePromotionTag(s)==='特价仓');
+      // Moving eligibility depends on a confirmed term and a user-origin distance.
+      // No store-level free-moving claim is shown until an explicit eligible campaign exists.
+      if(r2Filters.quick.includes('moving'))stores=stores.filter(s=>s.moving_campaign_eligible===true);
     }
 
     if(visual.sort==='recommended'&&!matched){
