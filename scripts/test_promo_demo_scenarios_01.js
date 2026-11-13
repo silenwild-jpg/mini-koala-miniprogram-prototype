@@ -63,7 +63,7 @@ assert.match(below.couponOptions([regularUnitId],3).find(x=>x.id==='CPN-003').re
 assert(bridge.includes('基础搬运权益 · 资格待确认'),'O01 must show the service benefit separately from cash discounts');
 assert(bridge.includes('a.moving_benefit_pending_id?'),'service benefit line must be conditional');
 
-const promotionPolicy=require('../app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js').createPromotionPolicy();
+const promotionPolicy=require('../app/prototype/parallel/core-journey-fix-01/demo/promotion-policy.js').create({fixture:F,config});
 assert.equal(promotionPolicy.stacking('TERM_DISCOUNT','RENT_CASH_COUPON').status,'ALLOWED');
 assert.equal(promotionPolicy.stacking('TERM_DISCOUNT','MOVING_SERVICE').status,'ALLOWED');
 assert.equal(promotionPolicy.stacking('RENT_CASH_COUPON','MOVING_SERVICE').status,'ALLOWED');
