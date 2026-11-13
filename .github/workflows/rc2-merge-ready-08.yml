@@ -10,6 +10,7 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/visual-align.css
       - scripts/verify_rc2_merge_ready_08_nav_browser.cjs
       - scripts/verify_rc2_merge_ready_08_nav_pixel.py
+      - scripts/build_rc2_isolated_demo.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -58,6 +59,23 @@ jobs:
           RC2_BUNDLE_LABEL: RC2-MERGE-READY-08-SAME-SHA-REVIEW
           RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_MERGE_READY_08.zip
         run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify build summary lineage and hold flags
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          p='release-evidence/rc2-merge-prep-10/build-summary.json'
+          s=json.load(open(p,encoding='utf-8'))
+          assert s['source_chain_prs']==[156,157,158,159,160,161,163,165,166,167,168,169,172,173,174,175],s['source_chain_prs']
+          assert s['runtime_source_prs']==[158,161,163,165,167,172,173,174,175]
+          assert s['qa_only_prs_in_chain']==[156,159,166,168,169]
+          assert s['candidate_asset_only_prs']==[157,160]
+          assert s['additional_qa_only_prs']==[162,170]
+          assert s['source_pr']==175 and s['base_pr']==174
+          assert 'ACTIVE_ICON_RECOMMENDED_HUMAN_SIGNOFF_PENDING' in s['visual_signoff']
+          assert s['main_merge_allowed'] is False and s['deployment_allowed'] is False
+          print('RC2_BUILD_LINEAGE_AND_HOLD_FLAGS_PASS',s['uat_source_sha'])
+          PY
       - name: Verify source equal to built file bytes and source identity
         shell: bash
         run: |
