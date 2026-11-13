@@ -14,7 +14,7 @@ const server=http.createServer((req,res)=>{
  if(!file.startsWith(root+path.sep))return res.writeHead(403).end();
  fs.readFile(file,(err,buf)=>err?res.writeHead(404).end('not found'):res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(buf));
 });
-const report={head_sha:process.env.GITHUB_SHA||'',runtime_source:process.env.GITHUB_SHA||'',mode:'WEB_PROTOTYPE_ONLY',rule:'QUICK_CAPACITY_AND_TERM_REQUIRED_BOOKING_OPTIONAL',results:[],blockers:[]};
+const report={head_sha:process.env.GITHUB_SHA||'',runtime_source:process.env.GITHUB_SHA||'',mode:'WEB_PROTOTYPE_ONLY',rule:'QUICK_CAPACITY_FROM_SELECTED_UNIT_TERM_MANUAL_BOOKING_OPTIONAL',results:[],blockers:[]};
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
@@ -69,27 +69,46 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await shot('04-QUICK-cold');
     await child.locator('[data-term="12"]').click();
     await child.locator('#toast:not([hidden])').waitFor();
-    assert.match(await child.locator('#toast').innerText(),/容量/,'Missing capacity must not silently confirm term');
-    await shot('05-QUICK-requires-capacity');
-    await child.locator('[data-choice="capacity"]').click();
-    await child.locator('#modal [data-bridge="quickCapacity"][data-value="1"]').click();
-    const demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
-    assert.equal(demand.capacity_m3,1,'Capacity must be deliberately selected');
-    assert.equal(demand.term_confirmed,false,'Capacity selection cannot auto-confirm term');
-    await shot('06-QUICK-capacity-selected');
+    assert.match(await child.locator('#toast').innerText(),/容量/,'Term must not be confirmed before a unit derives capacity');
+    await shot('05-QUICK-before-select');
+    assert.equal(await child.locator('[data-choice="capacity"]').count(),0,'No redundant mandatory capacity picker');
     await child.locator('[data-choice="store"]').click();
     await child.locator('#modal [data-bridge="quickStore"]').first().waitFor();
     await child.locator('#modal [data-bridge="quickStore"]').first().click();
     await child.locator('[data-choice="unit"]').click();
-    await child.locator('#modal [data-bridge="quickUnit"]').first().waitFor();
-    await child.locator('#modal [data-bridge="quickUnit"]').first().click();
-    await shot('07-QUICK-unit-selected');
+    const firstOption=child.locator('#modal [data-bridge="quickUnit"]').first();
+    await firstOption.waitFor();
+    const firstUnitId=await firstOption.getAttribute('data-value');
+    await firstOption.click();
+    const demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+    const offeredVolume=await page.evaluate(ids=>{
+      const core=window.SIM_DEMO.core;
+      return ids.split(',').reduce((n,id)=>n+core.fixture.units.find(u=>u.id===id).volume,0);
+    },firstUnitId);
+    assert.equal(demand.capacity_m3,Number(offeredVolume.toFixed(2)),'Capacity must derive from selected unit');
+    assert.equal(demand.term_confirmed,false,'Unit selection must not auto-confirm term');
+    await shot('06-QUICK-capacity-auto-from-unit');
     await child.locator('[data-term="12"]').click();
-    const term=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
-    assert.equal(term.capacity_m3,1);
+    let term=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+    assert.equal(term.capacity_m3,demand.capacity_m3);
     assert.equal(term.term_confirmed,true);
     assert.equal(term.term_months,12);
-    await shot('08-QUICK-term-selected');
+    await shot('07-QUICK-term-explicitly-selected');
+    await child.locator('[data-choice="unit"]').click();
+    const secondOption=child.locator('#modal [data-bridge="quickUnit"]').nth(1);
+    if(await child.locator('#modal [data-bridge="quickUnit"]').count()>1){
+      const secondUnitId=await secondOption.getAttribute('data-value');
+      await secondOption.click();
+      term=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+      const secondVolume=await page.evaluate(ids=>{
+        const core=window.SIM_DEMO.core;
+        return ids.split(',').reduce((n,id)=>n+core.fixture.units.find(u=>u.id===id).volume,0);
+      },secondUnitId);
+      assert.equal(term.capacity_m3,Number(secondVolume.toFixed(2)),'Changing an automatically selected unit must update capacity');
+      assert.equal(term.term_months,12,'Explicit term must survive unit change');
+      assert.equal(term.term_confirmed,true);
+    }else await child.locator('#modal-close').click();
+    await shot('08-QUICK-unit-change');
     const date=await page.evaluate(()=>window.SIM_DEMO.core.today());
     await child.locator('#start-date').fill(date);
     await page.evaluate(()=>{
@@ -100,7 +119,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await child.locator('body.bridge-ready').waitFor();
     assert.match(await child.locator('#rent').innerText(),/¥/,'O01 must inherit confirmed capacity+term');
     await shot('09-QUICK-to-O01');
-    record('QUICK','cold capacity + store + unit + term + date -> O01','PASS',{capacity:term.capacity_m3,term:term.term_months});
+    record('QUICK','cold store + unit-derived capacity + explicit term + date -> O01','PASS',{capacity:term.capacity_m3,term:term.term_months});
    });
    await section('03-O01',async()=>{
     await page.goto(host+prefix+'S01&s01_r2=1',{waitUntil:'domcontentloaded'});
