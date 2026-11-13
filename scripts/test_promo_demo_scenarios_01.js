@@ -133,7 +133,7 @@ assert.throws(()=>giftTerm.transition(grantedGift,'APPROVED'),/INVALID_GIFT_TERM
 
 function giftTermOrderFlow(){
   let clock=Date.UTC(2026,10,13,4,0,0);
-  const gift={id:'GIFT-C1',source_type:'CAMPAIGN',source_id:'GIFT_CAMPAIGN_BJ01',store_id:'SIM_BJ01',unit_id, gift_months:1,status:'APPROVED',created_at:'2026-10-01',expires_at:'2026-11-30',min_months:6,max_months:12,active:true};
+  const gift={id:'GIFT-C1',source_type:'CAMPAIGN',source_id:'GIFT_CAMPAIGN_BJ01',store_id:'SIM_BJ01',unit_id:unitId, gift_months:1,status:'APPROVED',created_at:'2026-10-01',expires_at:'2026-11-30',min_months:6,max_months:12,active:true};
   const core=makeCore({now:()=>clock,state:{
     schema:1,fixtureVersion:F.version,scenario:'promoCampaignGift',city:'北京',
     requirement:{capacity_m3:5,term_months:6,term_confirmed:true},
@@ -158,7 +158,7 @@ const pendingGiftCore=makeCore({state:{
   schema:1,fixtureVersion:F.version,scenario:'promoSalesGiftPending',city:'北京',
   requirement:{capacity_m3:5,term_months:6,term_confirmed:true},selected:[unitId],
   auth:{status:'verified',expiresAt:Date.now()+86400000,phone:'13800138000'},
-  giftTerms:[{id:'GIFT-S1',source_type:'SALES_CASE',source_id:'SALES_CASE_DEMO_01',store_id:'SIM_BJ01',unit_id,gift_months:1,status:'SUBMITTED',requested_by:'advisor-demo',reason:'客户续租沟通演示'}]
+  giftTerms:[{id:'GIFT-S1',source_type:'SALES_CASE',source_id:'SALES_CASE_DEMO_01',store_id:'SIM_BJ01',unit_id:unitId,gift_months:1,status:'SUBMITTED',requested_by:'advisor-demo',reason:'客户续租沟通演示'}]
 }});
 assert.equal(pendingGiftCore.giftTermOptions([unitId],6)[0].eligible,false,'unapproved sales gift must not attach to quote');
 
