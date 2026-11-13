@@ -19,7 +19,7 @@
 
 ## 3. 统一数据对象建议
 ### Campaign（活动事实）
-id、name、type、status；city_ids、store_ids、unit_ids；channel_scope、customer_scope；starts_at、ends_at、timezone；eligible_term_min/max；stack_policy_id；priority、display_label；source、revision、updated_at。
+id、name、type、status；city_ids、store_ids、unit_ids；channel_scope、customer_scope；starts_at、ends_at、timezone；eligible_term_min/max；stack_policy_id；priority、display_label；source、revision、updated_at。仓位价格样本区分目录月租快照`baseMonth`与活动月租`specialMonth`，不得复用同一字段表达两种价格。
 活动范围必须显式绑定。特价仓绑定仓位，不能把单仓促销解释成整店全部仓位特价。活动过期、停用、仓位版本变化或仓位不可用时，不得继续输出有效促销标签。
 
 ### Benefit（权益实例）
@@ -124,7 +124,8 @@ DRAFT → SUBMITTED → APPROVED/REJECTED → ATTACHED_TO_QUOTE → LOCKED_TO_OR
 - 特价活动校验活动时间、门店、仓位、仓位版本、库存可用性和适用租期。
 
 ### 02B｜特价仓报价接入
-- `demo-core.js`的`unitPricing()`现读取活动`baseMonth`进入统一报价；S01/S02/S5/O01消费同一报价结果。
+- `demo-core.js`的`unitPricing()`现以`baseMonth`核对仓位目录月租快照，以`specialMonth`作为实际活动月租进入统一报价；S01/S02/S5/O01消费同一报价结果。
+- 当前演示样本：BJ01 A04目录月租520元、活动月租420元；BJ02 A04目录月租620元、活动月租480元。以上金额仅为前端演示数据，不是实际运营价格或业务批准价。
 - 由于“特价价是否再叠加租期折扣”尚未获业务批准，演示暂采用显式`DEMO_EXCLUSIVE_SPECIAL_PRICE`：活动月租替代常规租期折扣结果，不叠加租期折扣。
 - 特价仓与租金券、基础搬运的叠加结果为`NEEDS_CONFIRMATION`，不静默叠加。
 - 押金继续按演示口径取活动计价后的一个月月租；报价快照明确标记`deposit_basis_status=PENDING_BUSINESS_CONFIRMATION`。该口径不得视为已批准的生产财务规则。
@@ -149,7 +150,7 @@ QuoteSnapshot/订单`benefit_snapshot`现保存：活动ID、逐仓计价基数�
 
 ### 02F｜验收与未关闭事项
 自动化覆盖范围扩展为：活动价进入报价、特价与未批准权益组合不叠加、券领取/选择/锁定/释放/核销/过期、固定活动赠期、销售赠期审批、O01支付快照和M01订单快照，以及375/390浏览器场景。
-仍需以最新Actions结果为准；单元测试或浏览器测试通过不等于业务规则已获批准。
+当前统一候选`e400d65ab293a6dd9080328b90ad564535709bcc`的RC2 CLEAN MIGRATION 01 Actions #43398263905已完成PASS；QA Artifact #14024555027包含375/390双尺寸截图。单元测试或浏览器测试通过不等于业务规则已获批准。
 
 **必须保留的业务待确认项：** 特价仓与租期折扣/优惠券/搬运的正式叠加矩阵；押金真实计算基数；赠期对付费月份、合同期限、退款、续租、搬运资格和60个月上限的影响；搬运距离/服务范围/成本承担方；真实优惠券有效期与互斥规则。
 
