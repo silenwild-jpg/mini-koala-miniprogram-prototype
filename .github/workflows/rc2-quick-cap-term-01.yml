@@ -1,0 +1,49 @@
+name: RC2 QUICK CAP TERM 01 - unit-derived capacity and manual term
+on:
+  push:
+    branches:
+      - isolate/rc2-quick-cap-term-01-20261113
+    paths:
+      - .github/workflows/rc2-quick-cap-term-01.yml
+      - scripts/verify_rc2_merge_ready_04_browser.cjs
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/quick/index.html
+      - app/prototype/parallel/core-journey-fix-01/demo/br04/quick/style.css
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-quick-cap-term-01-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  explicit-capacity-term:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and central pricing smoke
+        run: |
+          set -euo pipefail
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check scripts/verify_rc2_merge_ready_04_browser.cjs
+          node scripts/verify_motion_s01_s5_01b.cjs
+          node scripts/verify_rc2_business_rebuild_01.cjs
+      - name: Install browser and CJK fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Confirm 375 and 390 QUICK unit-derived capacity manual term and BOOKING optional
+        run: node scripts/verify_rc2_merge_ready_04_browser.cjs
+      - name: Upload QA screenshots on pass or fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-QUICK-CAP-TERM-01-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: release-evidence/rc2-merge-ready-04/
