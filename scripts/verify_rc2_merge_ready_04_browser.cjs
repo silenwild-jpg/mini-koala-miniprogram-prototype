@@ -127,6 +127,6 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await browser.close();await new Promise(done=>server.close(done));
  }
  const unexpected=report.blockers.length>0;
- console.log('RC2_MERGE_READY_04',JSON.stringify({screenshots:report.results.length*2,blocks:report.blockers.length,flows:report.results}));
+ console.log('RC2_MERGE_READY_04',JSON.stringify({screenshots:fs.readdirSync(out).filter(n=>n.endsWith('.png')).length,blocks:report.blockers.length,flows:report.results}));
  if(unexpected){console.error('RC2_MERGE_READY_04_HOLD',JSON.stringify(report.blockers));process.exitCode=1;}
 })().catch(e=>{console.error(e.stack||String(e));process.exitCode=1;server.close();});
