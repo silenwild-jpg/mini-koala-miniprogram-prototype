@@ -2,11 +2,11 @@
 
 日期：2026-11-13  
 PR：#176（Draft / HOLD）  
-候选 SHA：`eef39a776420d9e788f54c413a2f64b5ca016688`
+本轮已验证代码 SHA：`0ca9914d76a1c42a74ce7508167000d18d6dc4f0`（随后仅有文档更新提交；未改动被测运行时代码）
 
 ## 1. 统一回归结果
 
-GitHub Actions：[RC2 CLEAN MIGRATION 01 #43376187856](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43376187856)
+GitHub Actions：[RC2 CLEAN MIGRATION 01 #43376661491](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43376661491)
 
 - workflow conclusion：`success`
 - job：`integrated-375-390` — `success`
@@ -29,6 +29,8 @@ GitHub Actions：[RC2 CLEAN MIGRATION 01 #43376187856](https://github.com/silenw
 | 测试 | 375px | 390px |
 |---|---|---|
 | 超长门店名称保留完整 DOM 文本 | PASS | PASS |
+| 超长服务标签保留完整 DOM 文本并视觉省略 | PASS | PASS |
+| 促销标签优先于服务标签、标签总数不超过 2 | PASS | PASS |
 | 极大整期价格触发 extreme 自适应字号 | PASS | PASS |
 | 价格无裁切 | PASS | PASS |
 | 价格与购买 CTA 不重叠 | PASS | PASS |
@@ -39,14 +41,14 @@ GitHub Actions：[RC2 CLEAN MIGRATION 01 #43376187856](https://github.com/silenw
 运行日志明确输出：
 - `S5_EXTREME_CONTENT_PASS {"width":375,...}`
 - `S5_EXTREME_CONTENT_PASS {"width":390,...}`
-- `S5_EXTREME_CONTENT_375_390_PASS`
+- `S5_EXTREME_CONTENT_375_390_PASS`（包含长门店名、长服务标签与极大整期价格）
 
-说明：长促销标签/服务标签的专门极值组合尚未单独构造；当前已验证的是长门店名和大额价格，不将其外推为所有文案极值均通过。
+说明：已补充长服务标签与促销标签排序/数量组合；长促销标签本身并非现行运营标签类型（当前促销标签为固定短枚举），因此没有构造不存在的长促销文案。此结论不外推为所有其他页面文案均通过。
 
 ## 3. 测试异常与处置
 
 - 前一版极值测试因原型清理机制从测试字符串中移除了“测试”二字，导致测试期望值与实际 DOM 文本不一致。该异常是 fixture 文本被清理，不是产品布局缺陷。
-- 将 fixture 改为不含清理保留词的长名称后，375/390 极值测试通过。
+- 将 fixture 改为不含清理保留词的长名称后，375/390 极值测试通过。后续再加入长服务标签、促销标签优先级与两标签上限断言，并在 #43376661491 中通过。
 - 另一次测试代码将 `window.open` stub 放在外层页面，未覆盖应用 iframe；已将 stub 和 URL 读取移入正确的 app iframe，S02 路线交互在本轮统一回归通过。
 - 较早的失败/取消 run 不作为本轮候选结论；以本文件所列成功 SHA 与 run 为准。
 
@@ -61,7 +63,7 @@ GitHub Actions：[RC2 CLEAN MIGRATION 01 #43376187856](https://github.com/silenw
 ## 5. 当前门禁裁定
 
 - 自动化 375/390 回归：`PASS`
-- S5 长名称/大额价格极值测试：`PASS`
+- S5 长门店名/长服务标签/大额价格极值测试：`PASS`
 - 全站人工视觉终签：`NOT_SIGNED`
 - 内部 UAT：`NOT_ADMITTED`
 - 部署授权：`NOT_GRANTED`
@@ -73,6 +75,6 @@ GitHub Actions：[RC2 CLEAN MIGRATION 01 #43376187856](https://github.com/silenw
 ## 6. 下一步
 
 1. 人工逐屏复核统一评审包，重点检查 S02 交通路线区域、S5 超长标题与价格、M01 续租/退租详情、O01 费用和协议区域。
-2. 补做长促销标签与多标签组合的压力样本；如通过，记录为独立 QA 证据。
+2. 当前 S5 极值样本已覆盖长服务标签、促销优先级及双标签上限；如后续运营引入新的促销标签类型，再按真实标签词表补测。
 3. 由产品负责人明确是否授权内部 UAT。授权前不发布候选包。
 4. UAT 应核验线上 `rc2-uat-version.json` 的 SHA/manifest 与本候选完全一致，且确认受邀用户登录及未授权访问阻断。
