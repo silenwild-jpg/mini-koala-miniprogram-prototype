@@ -223,10 +223,10 @@ body.br04-mode .app-shell{height:100dvh;margin-top:0}
   content:"";
   position:absolute;
   z-index:3;
-  top:2px;
-  left:calc(50% - 18px);
-  width:36px;
-  height:30px;
+  top:-4px;
+  left:calc(50% - 21px);
+  width:42px;
+  height:38px;
   background:#fff;
   pointer-events:none;
 }
