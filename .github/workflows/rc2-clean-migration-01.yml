@@ -165,3 +165,15 @@ jobs:
             release-evidence/rc2-final-vis-signoff-04/
             release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
             release-evidence/rc2-merge-prep-10/build-summary.json
+      - name: Upload isolated internal review bundle
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-CLEAN-MIGRATION-01-REVIEW-BUNDLE
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            release-evidence/rc2-merge-prep-10/MiniKoala_RC2_CLEAN_MIGRATION_01.zip
+            release-evidence/rc2-merge-prep-10/manifest.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
