@@ -62,7 +62,7 @@
       const low=inventoryCount!==null&&inventoryCount<=2;
       return {available,promoLabel,inventoryLine,inventoryCount,campaignId,snapshot,state:!available?'UNAVAILABLE':promoLabel?(low?'PL':'P'):(low?'L':'N')};
     }
-    return {describe,facts,generic};
+    return {describe,facts,generic,storePromotionTag};
   }
   root.SIM_BR03_POLICY={create};
   if(typeof module==='object'&&module.exports)module.exports={create};
