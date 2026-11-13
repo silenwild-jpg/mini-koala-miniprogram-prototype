@@ -17,7 +17,7 @@
     const typeOf=label=>promotionNames.has(label)?'promotion':attributeNames.has(label)?'attribute':'service';
     function tags(store,limit=Infinity){
       if(!store)return [];
-      const values=[store.operatingTag,...(store.serviceTags||[])]
+      const values=[unitPolicy?.storePromotionTag?.(store),...(store.serviceTags||[])]
         .filter(t=>typeof t==='string'&&t.trim()).map(t=>t.trim());
       const seen=new Set(),arr=[];
       for(const label of values){
@@ -60,7 +60,8 @@
       if(!rows.length)return null;
       const n=Math.min(...rows.map(u=>core.amounts([u.id],term).monthly_average/u.volume));
       return Number.isFinite(n)&&n>0?{value:Number(n.toFixed(2)),money:money(n),unit:'/m³/月起',basis:term+'个月折后最低立方月租'}:null;}
-    return {price,facts,services,tags,detailTags,tagType:typeOf,cubicReference,bestPublicTerm,money};
+    return {price,facts,services,tags,detailTags,tagType:typeOf,cubicReference,bestPublicTerm,money,
+      storePromotionTag:store=>unitPolicy?.storePromotionTag?.(store)||''};
   }
   root.SIM_PRESENTATION={create};
   if(typeof module==='object'&&module.exports)module.exports={create};
