@@ -6,6 +6,7 @@ const F=require('../app/prototype/parallel/core-journey-fix-01/demo/fixtures.js'
 const config=require('../app/prototype/parallel/core-journey-fix-01/demo/br03-demo-snapshots.js');
 const {create:makeCore}=require('../app/prototype/parallel/core-journey-fix-01/demo/demo-core.js');
 const {create:makeUnitPolicy}=require('../app/prototype/parallel/core-journey-fix-01/demo/br03-policy.js');
+const H01=require('../app/prototype/parallel/core-journey-fix-01/demo/h01-state-policy-01.js');
 const bridge=fs.readFileSync(path.join(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js'),'utf8');
 const unitId='SIM_BJ01_U04';
 const scenarios=new Set(F.scenarios.map(x=>x.id));
@@ -46,3 +47,28 @@ assert.match(below.couponOptions([unitId],3).find(x=>x.id==='CPN-003').reason,/�
 assert(bridge.includes('基础搬运权益 · 资格待确认'),'O01 must show the service benefit separately from cash discounts');
 assert(bridge.includes('a.moving_benefit_pending_id?'),'service benefit line must be conditional');
 console.log('PROMO-DEMO-SCENARIOS-01 PASS: 5 review scenarios, term gate, coupon separation, campaign tag and O01 benefit line');
+
+const lifecycleCases=[
+  ['lifeIdentity','identity','active','pending'],
+  ['lifeUpcoming','upcoming','upcoming','verified'],
+  ['lifeActive','active','active','verified'],
+  ['lifeRenewalQuote','renewal','active','verified'],
+  ['lifeReturning','returning','returning','verified'],
+  ['lifeInspection','returning','returning','verified'],
+  ['lifeRefund','refund','ended','verified'],
+  ['lifeExpired','lease_expired','expired','verified'],
+  ['lifeEnded','new','ended','verified']
+];
+for(const [scenario,key,lease,identity] of lifecycleCases){
+  const core=makeCore();core.setScenario(scenario);
+  const state=core.state(),order=state.orders[0];
+  assert(order&&order.status==='paid_simulated','scenario seeds one paid demo order: '+scenario);
+  const life=core.lifecycleView(order.id);
+  assert.equal(life.lease_status,lease,scenario+' lease state');
+  assert.equal(life.identity_status,identity,scenario+' identity state');
+  assert.equal(H01.derive(state,core).key,key,scenario+' H01 task projection');
+  assert.equal(order.id,'SIM_REVIEW_ORDER_'+scenario,'scenario order identity is stable');
+}
+assert.equal(F.scenarios.filter(x=>x.lifecycle).length,9,'all nine lifecycle demo scenarios are available to the existing internal selector');
+console.log('LIFECYCLE-DEMO-SCENARIOS-01 PASS: identity, upcoming, active, renewal, return, inspection, refund, expired and ended');
+
