@@ -2,7 +2,7 @@
   'use strict';
   const fixture=typeof module==='object'&&module.exports?require('./fixtures'):root.SIM_FIXTURES;
   const promotionConfig=typeof module==='object'&&module.exports?require('./br03-demo-snapshots'):root.SIM_BR03_DATA;
-  const presentationModule=typeof module==='object'&&module.exports?require('./presentation-policy'):root.SIM_PRESENTATION;
+  const promotionPolicyModule=typeof module==='object'&&module.exports?require('./promotion-policy'):root.SIM_PROMOTION_POLICY;
   const giftTermModule=typeof module==='object'&&module.exports?require('./gift-term-policy'):root.SIM_GIFT_TERM_POLICY;
   const copy=x=>JSON.parse(JSON.stringify(x));
   const PENDING_ORDER_TTL_MS=3*60*60*1000;
@@ -10,7 +10,7 @@
     const now=options.now||Date.now;
     const fail=code=>{throw new Error(code);};
     const promoConfig=options.promotionConfig||promotionConfig||{campaigns:[]};
-    const promotionPolicy=presentationModule?.createPromotionPolicy?.();
+    const promotionPolicy=promotionPolicyModule?.create?.({fixture,config:promoConfig,now:()=>String(fixture.demoToday||new Date(now()).toISOString().slice(0,10))});
     const giftPolicy=giftTermModule?.create?.();
     const initial=()=>({schema:1,fixtureVersion:fixture.version,scenario:'noDemand',city:fixture.defaultCity,locationAuthorized:false,requirement:{capacity_m3:null,term_months:null,term_confirmed:false},storeId:null,selected:[],startDate:null,dateConfirmed:false,auth:{status:'anonymous',expiresAt:0},account:null,contactPhone:'',coupons:[],serviceBenefits:[],giftTerms:[],couponChoice:'auto',services:{},messages:[],previewConsumed:false,inventoryVersion:1,stock:{},prices:{},quote:null,orders:[],leads:[],enterpriseLeads:[],nextRecheck:null,sequence:0,returnPage:'S01'});
     let s=initial();
