@@ -41,7 +41,7 @@ const server=http.createServer((req,res)=>{
       const originalPrice=unit.base_month;
       unit.base_month=9999999;
       const originalStore=B.s5SharedStore;
-      const longName='迷你考拉仓北京核心城区超长展示名称极限内容适配专项测试门店';
+      const longName='迷你考拉仓北京核心城区超长展示名称极限内容适配专项极限门店';
       B.s5SharedStore=storeId=>({...originalStore(storeId),name:longName});
       B.s5Offers=()=>[row];
       window.BR04_REFRESH();
