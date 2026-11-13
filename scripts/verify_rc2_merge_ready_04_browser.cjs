@@ -128,8 +128,10 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       const b=window.SIM_DEMO,c=b.core;
       const unit=c.fixture.units.find(u=>u.status==='available'&&u.volume>=3&&c.fixture.stores.some(s=>s.id===u.store_id&&s.city===c.state().city&&s.status==='open'));
       if(!unit)throw Error('NO_AVAILABLE_UNIT');
-      c.requestPhone();
-      c.resolvePhone('success',{phone:'13800138000'});
+      if(!c.authorized()){
+        c.requestPhone();
+        c.resolvePhone('success',{phone:'13800138000'});
+      }
       c.setRequirement(unit.volume,12,true);
       c.select([unit.id]);
       c.setDate(c.today());
