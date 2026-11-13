@@ -1,0 +1,50 @@
+name: QA S5 DEEPLINK 01 - frozen signed RC2
+on:
+  push:
+    branches:
+      - qa/rc2-s5-cold-deeplink-01-20261113
+    paths:
+      - scripts/verify_qa_s5_cold_deeplink_01.cjs
+      - .github/workflows/qa-s5-deeplink-01.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: qa-s5-deeplink-01-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  s5-deeplink-375-390:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify signed runtime tree has not changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          signed=41a8a079eb48049e1060512bddf71c226bfd3738
+          git merge-base --is-ancestor "$signed" HEAD
+          test -z "$(git diff --name-only "$signed"...HEAD -- app/)" || {
+            echo 'QA_BRANCH_CHANGED_APPROVED_RUNTIME'
+            exit 1
+          }
+          node --check scripts/verify_qa_s5_cold_deeplink_01.cjs
+      - name: Install only Chromium used by this isolated two-width QA
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Test cold S5 entry and upstream capacity-term decision contract
+        run: node scripts/verify_qa_s5_cold_deeplink_01.cjs
+      - name: Upload bounded evidence regardless of PASS/FAIL
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: QA-S5-DEEPLINK-01-375-390-EVIDENCE
+          retention-days: 7
+          if-no-files-found: warn
+          path: release-evidence/qa-s5-deeplink-01/
