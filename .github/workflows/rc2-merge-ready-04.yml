@@ -1,0 +1,45 @@
+name: RC2 MERGE READY 04 - checkout booking quick visual evidence
+on:
+  push:
+    branches:
+      - isolate/rc2-merge-ready-04-evidence-20261113
+    paths:
+      - .github/workflows/rc2-merge-ready-04.yml
+      - scripts/verify_rc2_merge_ready_04_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-merge-ready-04-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checkout-booking-quick:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preserve frozen runtime and syntax
+        run: |
+          node --check scripts/verify_rc2_merge_ready_04_browser.cjs
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = "isolate/rc2-merge-ready-04-evidence-20261113"
+          test "$(git rev-parse HEAD:app)" = "7364b3b8811f22690389ae5c1f94d986d2ddc158"
+      - name: Install Chromium and Chinese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+      - name: Capture O01 BOOKING QUICK and report blockers
+        run: node scripts/verify_rc2_merge_ready_04_browser.cjs
+      - name: Upload evidence even on failed flow
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-MERGE-READY-04-375-390-UNCOVERED-FLOWS
+          if-no-files-found: warn
+          retention-days: 7
+          path: release-evidence/rc2-merge-ready-04/
