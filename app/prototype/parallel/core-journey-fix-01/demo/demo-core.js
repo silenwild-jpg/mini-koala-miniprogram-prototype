@@ -133,7 +133,14 @@
     }
     function quote(){assertReady();const a=amounts(s.selected,s.requirement.term_months);if(s.quote?.coupon_id&&s.quote.coupon_id!==a.coupon_id){const previous=s.coupons.find(c=>c.id===s.quote.coupon_id);if(previous?.status==='SELECTED')previous.status='CLAIMED';}
       if(a.coupon_id){const selectedCoupon=s.coupons.find(c=>c.id===a.coupon_id);if(selectedCoupon)selectedCoupon.status='SELECTED';}
-      s.quote={id:'SIM_QUOTE_'+(++s.sequence),signature:signature(),unit_ids:[...s.selected],store_id:unit(s.selected[0]).store_id,start_date:s.startDate,term_months:s.requirement.term_months,capacity_m3:s.requirement.capacity_m3,...a,expiresAt:now()+5*60*1000,kind:'SIMULATED_QUOTE'};return copy(s.quote);}
+      const termRule=fixture.pricing.termRules.find(x=>s.requirement.term_months>=x.min&&s.requirement.term_months<=x.max);
+      const benefitSnapshot={
+        pricing:{base_months:s.selected.map(id=>({unit_id:id,base_month:s.prices[id]??unit(id).base_month})),term_factor:termRule?.factor??null,term_months:s.requirement.term_months,rent_before_coupon:a.rent_total,coupon_discount:a.coupon_discount,rent_after_coupon:a.rent_after_coupon},
+        coupon:a.coupon_id?{coupon_id:a.coupon_id,discount:a.coupon_discount,status:'SELECTED'}:null,
+        service:a.moving_benefit_pending_id?{benefit_id:a.moving_benefit_pending_id,type:'MOVING_SERVICE',status:'ELIGIBILITY_PENDING',rent_discount:0}:null,
+        gift_term:{status:'NOT_ATTACHED',gift_months:null,financial_effect:'PENDING_BUSINESS_CONFIRMATION'}
+      };
+      s.quote={id:'SIM_QUOTE_'+(++s.sequence),signature:signature(),unit_ids:[...s.selected],store_id:unit(s.selected[0]).store_id,start_date:s.startDate,term_months:s.requirement.term_months,capacity_m3:s.requirement.capacity_m3,...a,benefit_snapshot:benefitSnapshot,expiresAt:now()+5*60*1000,kind:'SIMULATED_QUOTE'};return copy(s.quote);}
     function submit(){
       if(!authorized())fail('PHONE_REQUIRED');
       if(s.quote){const existing=s.orders.find(o=>o.quote_id===s.quote.id);if(existing)return copy(existing);}
@@ -142,7 +149,7 @@
       if(!s.quote||s.quote.signature!==signature()||now()>=s.quote.expiresAt){invalidate();fail('QUOTE_STALE');}
       const a=amounts(s.selected,s.requirement.term_months);
       if(Object.keys(a).some(k=>s.quote[k]!==a[k])){invalidate();fail('QUOTE_STALE');}
-      const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,status:'pending',createdAt:now(),expiresAt:now()+PENDING_ORDER_TTL_MS,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
+      const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,benefit_snapshot:copy(s.quote.benefit_snapshot||null),status:'pending',createdAt:now(),expiresAt:now()+PENDING_ORDER_TTL_MS,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
       s.orders.push(o);o.unit_ids.forEach(id=>s.stock[id]='reserved');if(o.coupon_id)s.coupons.find(c=>c.id===o.coupon_id).status='LOCKED';return copy(o);
     }
     function releaseOrder(o,status){o.status=status;o.unit_ids.forEach(id=>{if(s.stock[id]==='reserved')s.stock[id]=o.previous_stock[id];});const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED')c.status='CLAIMED';s.inventoryVersion++;invalidate();}
