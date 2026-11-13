@@ -35,11 +35,14 @@ const server=http.createServer((req,res)=>{
       const B=window.parent.SIM_DEMO,c=B.core;
       const offers=B.offers();
       if(!offers.length||!offers[0].ids?.length)throw Error('NO_S5_EXTREME_PRICE_UNIT');
-      const row=offers[0],id=row.ids[0];
-      const unit=c.fixture.units.find(u=>u.id===id);
-      if(!unit)throw Error('S5_EXTREME_UNIT_NOT_FOUND');
-      const originalPrice=unit.base_month;
-      unit.base_month=9999999;
+      const row=offers[0];
+      const campaign=window.SIM_BR03_DATA?.campaigns?.find(x=>x.unitId==='SIM_BJ01_U04');
+      const unit=c.fixture.units.find(u=>u.id===campaign?.unitId);
+      const store=c.fixture.stores.find(s=>s.id===campaign?.storeId);
+      if(!campaign||!unit||!store)throw Error('S5_EXTREME_SPECIAL_UNIT_NOT_FOUND');
+      const id=unit.id,originalPrice=unit.base_month,originalCampaignPrice=campaign.baseMonth;
+      row.store=store;row.ids=[id];
+      unit.base_month=9999999;campaign.baseMonth=9999998;
       const originalStore=B.s5SharedStore;
       const longName='迷你考拉仓北京核心城区超长展示名称极限内容适配专项极限门店';
       const longService='支持大型家具搬运与上门装卸预约及特殊尺寸物品协助服务';
@@ -47,7 +50,7 @@ const server=http.createServer((req,res)=>{
       B.s5SharedStore=storeId=>({...originalStore(storeId),name:longName});
       B.s5Offers=()=>[row];
       window.BR04_REFRESH();
-      return {unitId:id,originalPrice,extremeBasePrice:unit.base_month,longName,longService,storeId:row.store.id};
+      return {unitId:id,originalPrice,originalCampaignPrice,extremeBasePrice:unit.base_month,extremeCampaignPrice:campaign.baseMonth,longName,longService,storeId:row.store.id};
     });
     await s5.locator('.s5-store-card:not([hidden])').first().waitFor();
     const geometry=await s5.locator('body').evaluate(()=>{
