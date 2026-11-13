@@ -132,11 +132,11 @@ async function snapshot(app){
           await button.click();
           assert((await button.getAttribute('class')||'').includes('active'),'Selected travel mode must be visibly active: '+mode);
         }
-        await page.evaluate(()=>{window.__openedMapUrl='';window.__oldOpen=window.open;window.open=(url)=>{window.__openedMapUrl=String(url);return {closed:false};};});
+        await app.locator('#screen').evaluate(()=>{window.__openedMapUrl='';window.__oldOpen=window.open;window.open=(url)=>{window.__openedMapUrl=String(url);return {closed:false};};});
         await app.locator('.s02-route-open[data-action="s02OpenMap"]').click();
-        const mapUrl=await page.evaluate(()=>window.__openedMapUrl);
+        const mapUrl=await app.locator('#screen').evaluate(()=>window.__openedMapUrl);
         assert.match(mapUrl,/^https:\/\/uri\.amap\.com\/(navigation|search)\?/,'Route navigation should open an Amap destination URL');
-        await page.evaluate(()=>{if(window.__oldOpen)window.open=window.__oldOpen;});
+        await app.locator('#screen').evaluate(()=>{if(window.__oldOpen)window.open=window.__oldOpen;});
         await page.screenshot({path:path.join(out,'S02-route-expanded-'+width+'.png')});
         await app.locator('#s02MainTabs [role="tab"]').filter({hasText:'可选仓位'}).click();
         // A partial requirement is not a binding order; the existing lease-term gate remains.
