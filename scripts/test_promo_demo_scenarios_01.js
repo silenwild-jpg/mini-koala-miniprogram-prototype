@@ -145,6 +145,8 @@ function giftTermOrderFlow(){
   const quote=core.quote();
   assert.equal(quote.benefit_snapshot.gift_terms[0].status,'ATTACHED_TO_QUOTE');
   assert.equal(quote.benefit_snapshot.gift_terms[0].financial_effect,'PENDING_BUSINESS_CONFIRMATION');
+  assert.equal(quote.benefit_snapshot.gift_terms[0].stacking_status,'NEEDS_CONFIRMATION','gift stacking remains visibly unresolved');
+  assert.equal(quote.benefit_snapshot.gift_terms[0].display_only_demo,true,'gift is display-only in the prototype');
   assert.equal(quote.benefit_snapshot.gift_terms[0].contract_months,null);
   const order=core.submit();
   assert.equal(core.state().giftTerms[0].status,'LOCKED_TO_ORDER');
@@ -154,6 +156,16 @@ function giftTermOrderFlow(){
   assert.equal(core.orderDetail(order.id).benefit_snapshot.gift_terms[0].status,'GRANTED');
 }
 giftTermOrderFlow();
+const approvedSalesGiftCore=makeCore({state:{
+  schema:1,fixtureVersion:F.version,scenario:'promoSalesGiftApproved',city:'北京',
+  requirement:{capacity_m3:5,term_months:6,term_confirmed:true},selected:[unitId],
+  giftTerms:[{id:'GIFT-S2',source_type:'SALES_CASE',source_id:'SALES_CASE_DEMO_02',store_id:'SIM_BJ01',unit_id:unitId,gift_months:1,status:'APPROVED',requested_by:'advisor-demo',reason:'客户续租沟通演示',approval_id:'APPROVAL-DEMO-02',approved_by:'manager-demo'}]
+}});
+assert.equal(approvedSalesGiftCore.giftTermOptions([unitId],6)[0].eligible,true,'approved sales gift with audit metadata may attach');
+const expiredCouponCore=makeCore({state:{
+  schema:1,fixtureVersion:F.version,coupons:[{id:'CPN-001',name:'新客租仓券',amount:200,type:'RENT_CASH',status:'AVAILABLE',expires_at:'2026-10-24'}]
+}});
+assert.equal(expiredCouponCore.state().coupons[0].status,'EXPIRED','expired coupon transitions out of AVAILABLE');
 const pendingGiftCore=makeCore({state:{
   schema:1,fixtureVersion:F.version,scenario:'promoSalesGiftPending',city:'北京',
   requirement:{capacity_m3:5,term_months:6,term_confirmed:true},selected:[unitId],
@@ -163,7 +175,7 @@ const pendingGiftCore=makeCore({state:{
 assert.equal(pendingGiftCore.giftTermOptions([unitId],6)[0].eligible,false,'unapproved sales gift must not attach to quote');
 
 
-console.log('PROMO-DEMO-SCENARIOS-01 PASS: 5 review scenarios, term gate, coupon separation, campaign tag and O01 benefit line');
+console.log('PROMO-DEMO-SCENARIOS-01 PASS: special price, term discount, coupon lifecycle, moving separation and gift-term order snapshots');
 
 const lifecycleCases=[
   ['lifeIdentity','identity','active','pending'],
