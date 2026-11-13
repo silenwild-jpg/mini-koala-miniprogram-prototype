@@ -110,6 +110,9 @@ function couponFlow(){
   const q3=core.quote(),o3=core.submit();
   core.pay(o3.id,'success');
   assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'REDEEMED','successful payment redeems coupon');
+  assert.equal(core.state().coupons.find(c=>c.id==='CPN-001').status,'INVALID','unused first-order coupon is invalidated after the first successful order');
+  assert.equal(core.couponOptions([regularUnitId],12).find(c=>c.id==='CPN-001').eligible,false,'invalidated first-order coupon cannot be reused');
+  assert.match(core.couponOptions([regularUnitId],12).find(c=>c.id==='CPN-001').reason,/仅限首次租仓/);
   assert(q.id&&q2.id&&q3.id);
 }
 couponFlow();
