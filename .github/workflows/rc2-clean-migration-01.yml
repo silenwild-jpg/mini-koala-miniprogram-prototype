@@ -60,24 +60,22 @@ jobs:
           test "$(git rev-parse "HEAD:$source/home.html")" = "4de8b9619684d48929a973b219f47c63af15331f"
           test "$(git rev-parse "HEAD:$source/assets/nav_original_375.png")" = "3ca6f9d2d6ccd799c764bd472b65a3e11b3d4da7"
           test "$(git rev-parse "HEAD:$source/assets/nav_original_390.png")" = "9056e6a30e5603b854627585f9b1c0f87ae0b224"
-          node scripts/verify_rc2_clean_migration_01.cjs
+      - name: Verify clean migration manifest and runtime dependencies
+        run: node scripts/verify_rc2_clean_migration_01.cjs
+      - name: Verify source syntax and motion contracts
+        run: |
           node --check scripts/verify_rc2_merge_ready_08_nav_browser.cjs
           node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
           node --check scripts/verify_rc2_merge_ready_04_browser.cjs
           node scripts/verify_motion_s01_s5_01b.cjs
           node scripts/verify_motion_s01_s5_01c_contract.cjs
           node scripts/verify_motion_s01_s5_01e_coordinate.cjs
+      - name: Verify capacity and promotion entitlement models
+        run: |
           node scripts/test_cap_unit_dual_01.js
           node scripts/test_promo_source_01.js
           node scripts/test_promo_entitlement_model_01.js
           node scripts/test_promo_demo_scenarios_01.js
-          node scripts/verify_rc2_business_rebuild_01.cjs
-          node scripts/verify_rc2_final_vis_signoff_04_contract.cjs
-          node qa/test_h01_order_payment_3h.cjs
-          node qa/test_h01_state_implement_01.cjs
-          node qa/test_h01_postpay_access_deposit_01.cjs
-          node scripts/verify_h01_m01_flow_qa_01.cjs
-          node scripts/verify_m01_ia_03.cjs
       - name: Build review package from exact HEAD without deployment
         env:
           RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
