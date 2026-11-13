@@ -128,10 +128,14 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - QA-LEGACY-RETAIN-01：[19项历史高风险断言独立PASS](QA_LEGACY_RETAIN_01_RESULT_20261113.md)（同签收运行时、仅QA分支追加脚本）
 - 清理资格第二批：[历史审计PR #67/#84/#86/#89](PROJECT_OPS_CLEAN_ELIGIBILITY_02_20261113.md)（用户已批准，4条均Closed/Not merged，原分支保留）
 - 清理资格第三批：[当前124条开放PR、59条未引用分支与下游依赖及部署核查](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)（本次仅审计，不额外关闭或删除）
+- 历史QA覆盖对照：[QA-LEGACY-COVERAGE-02](QA_LEGACY_COVERAGE_02_20261113.md)（#124/#135/#145/#122/#109，已覆盖与待补证分离，不重新冻结历史视觉参数）
+- 旧Netlify RC1预览隔离：[SITE-PREVIEW-ISOLATION-01](SITE_PREVIEW_ISOLATION_01_20261113.md)（旧RC1严格白名单与当前main多出promotion-policy.js不相容；外部站点配置未更改）
 
 ### 当前下一步
 1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
 2. Issue #148/#93此前已按证据关闭；#171/#132/#152/#164保留原签收/来源证据与后端待确认项，针对关闭或代码迁移仍须独立裁定。
 3. P1-A2/B2、A3/B3、QA-LEGACY-RETAIN-01已归档；CLEAN-ELIGIBILITY-01/02两批7条历史PR已按用户明确名单Close，原分支保留。[CLEAN-ELIGIBILITY-03](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)已确认**已关闭PR #24的head仍被开放PR #25用作base**、已合并PR #140的head仍被开放PR #141用作base，故禁止按已关闭/已合并状态删除来源分支。下一步优先补旧QA脚本覆盖、历史站点依赖/部署版本核验；没有新PR关闭授权不扩展清理范围。
-4. main保护已生效；管理员可对重复必需检查和严格基线更新做低成本优化，不影响现有保护有效性。
-5. 最后才进行PR归并准入评审；不自动合并、不部署。
+4. `QA-LEGACY-COVERAGE-02`已对5个旧QA来源逐条比对当前签收RC2；当前未确认S5冷启动直链独立浏览器断言等价，作为可选QA补证，不当作已发生的产品缺陷。旧Netlify RC1站仍对治理PR触发不适用的冻结RC1白名单；现仅给出隔离方案，等待站点管理员单独配置授权。
+5. main保护已生效，但同名Visual guard重复和严格分支更新要求仍在；管理员可按低成本方案调整，不影响现有必需检查。
+6. 所有业务代码PR#176归并、历史PR批量关闭/分支删除、Netlify部署设置修改均保持独立准入，不自动执行。
+
