@@ -36,14 +36,16 @@ const server=http.createServer((req,res)=>{
       const offers=B.offers();
       if(!offers.length||!offers[0].ids?.length)throw Error('NO_S5_EXTREME_PRICE_UNIT');
       const row=offers[0],id=row.ids[0];
-      const originalPrice=c.state().prices[id]??c.fixture.units.find(u=>u.id===id)?.base_month;
-      c.state().prices[id]=9999999;
+      const unit=c.fixture.units.find(u=>u.id===id);
+      if(!unit)throw Error('S5_EXTREME_UNIT_NOT_FOUND');
+      const originalPrice=unit.base_month;
+      unit.base_month=9999999;
       const originalStore=B.s5SharedStore;
       const longName='迷你考拉仓北京核心城区超长展示名称极限内容适配专项测试门店';
       B.s5SharedStore=storeId=>({...originalStore(storeId),name:longName});
       B.s5Offers=()=>[row];
       window.BR04_REFRESH();
-      return {unitId:id,originalPrice,extremeBasePrice:c.state().prices[id],longName,storeId:row.store.id};
+      return {unitId:id,originalPrice,extremeBasePrice:unit.base_month,longName,storeId:row.store.id};
     });
     await s5.locator('.s5-store-card:not([hidden])').first().waitFor();
     const geometry=await s5.locator('body').evaluate(()=>{
