@@ -4,6 +4,15 @@
 **只读业务运行时来源**：PR #169 HEAD `fd7836cb41400ac34003840d49e714c68d72db0f`，产品源码仍继承PR #168 HEAD `725add5970fb865cc88c661caf64d6a541d1946e`。  
 **本分支范围**：只允许新增 QA 脚本、工作流、报告，`app/` **零改动**。没有正式归并 main、没有 Netlify 部署，也没有把 HTML/Web 原型冒称微信原生实现。
 
+## 2026-11-13 最新覆盖裁定（以此为准）
+
+**注意：下面早期任务包中“QUICK新增独立容量必填框”和“不能由所选仓位自动确认容量”的建议已作废。**
+
+- QUICK必须确定容量和租期：**用户选中有效仓位（单仓/组合仓）后，系统自动以该仓位容量/组合总仓容确认中央需求容量**，不再添加独立的容量输入控件；**租期仍由用户主动选择**。
+- 已经由CAP/ITEMS输入的容量应优先继承；QUICK自动容量在换仓时同步变更，已主动选中的租期保留。缺仓位/缺租期仍阻断O01。
+- BOOKING预约用仓：容量、租期均为选填；地址、手机号必填。
+- 实际修复请看 [PR #172](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/172) 和 [Issue #171最新补充裁定](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/171#issuecomment-6840816590)，按PR #172最新同SHA QA结果签收；这里的旧计划仅保留审计历史，不再作为工作指令。
+
 ## 证据入口
 
 - 既有全站同源 CI：Actions #43331842888；PR #169 技术回归成功。
