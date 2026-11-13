@@ -156,6 +156,19 @@ main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本
 - `app/prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03b.cjs`
 - `app/prototype/parallel/core-journey-fix-01/qa/test_vis_rebuild_03c.cjs`
 
-## 验收边界
+## 干净分支 CI 验证结果（2026-11-13）
 
-来源候选 #175 在SHA `e7e60f110f13b2d2f2eab3ba484ac50418e54211` 的同SHA Actions 375/390全站回归已PASS；但这不是本干净迁移分支的验收结果。移植后必须重新运行本分支自己的静态依赖、构建、375/390浏览器及核心业务链路测试。未完成前，不创建面向main的合并PR，不部署，不宣称干净分支已通过UAT。
+- GitHub Actions：Run `43366861599`，结论 `success`。
+- 被测提交：`345ee13fe0aa576ce0a5fedd2ced682dbedf40ed`。
+- main 基线仍为：`274c5110aa18af7ed71d92533ab126ebbbd11f75`，未发生变更。
+- 静态迁移核验：99项 app 变更与清单一致；12个页面入口、114条HTML本地依赖、32份CSS、4条CSS本地资源、26份JS语法、12组门店图片、4档仓型图片、8个导航SVG通过。
+- 浏览器回归：H01 20状态×2尺寸（40/40）；CAP/ITEMS 4条链路；S01 4组浏览状态；S02 6组门店图片状态及租期状态；S5 16个状态、12条流程；H01/S01/S02/S5/M01双尺寸冒烟无JS错误及横向溢出；BOOKING/QUICK/O01六组双尺寸流程通过。
+- 视觉与导航证据：30张最终视觉回归截图；导航12张截图、8项语义/路由检查、4项底部像素对照通过；导航自动化结果无阻断项。
+- 证据包：`RC2-CLEAN-MIGRATION-01-UNIFIED-375-390`（Artifact ID `14010822125`）；内部评审包 `RC2-CLEAN-MIGRATION-01-REVIEW-BUNDLE`（Artifact ID `14011450466`）。
+- 构建包：`MiniKoala_RC2_CLEAN_MIGRATION_01.zip`，SHA-256 `9e10f5e632bc7cf4b452f76fdde690eaa382b5a7f7c2a785faf92b1dc601478a`。
+
+## 尚未解除的门禁
+
+1. 导航激活态图标仍需人工视觉签收；自动化只证明尺寸、颜色、资源加载、点击语义和像素范围，不替代设计负责人确认图形是否符合最终品牌规范。
+2. 当前为 HTML/Web 原型，不是微信原生小程序包；微信原生底栏、真机、VoiceOver/无障碍、后端/CRM、真实支付及生产数据均未验证。
+3. UAT 尚未签收，`main_merge_allowed=false`，`deployment_allowed=false`。本分支仅供内部评审，不创建面向 main 的合并 PR，不部署，不宣称可上线。
