@@ -1,8 +1,5 @@
 name: GIT-MERGE-02H source candidates and same-state visual
 on:
-  push:
-    branches:
-      - feature/git-merge-02h-source-and-visual-20261027
   workflow_dispatch:
 permissions:
   contents: read
