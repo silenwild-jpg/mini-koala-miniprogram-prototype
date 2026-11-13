@@ -1,4 +1,5 @@
 'use strict';
+// RC2-MAINLINE-INTEGRATION-01: allow one canonical promotion policy overlay from current main.
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
 const root=path.resolve(__dirname,'..'),base='274c5110aa18af7ed71d92533ab126ebbbd11f75';
 const demo='app/prototype/parallel/core-journey-fix-01/demo';
