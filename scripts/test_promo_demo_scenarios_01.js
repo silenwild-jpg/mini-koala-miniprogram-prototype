@@ -64,6 +64,34 @@ for(const state of ['SELECTED','LOCKED','AVAILABLE','SELECTED','LOCKED','REDEEME
 assert.equal(coupon.status,'REDEEMED');
 assert.throws(()=>promotionPolicy.transitionCoupon(coupon,'AVAILABLE'),/INVALID_COUPON_TRANSITION/);
 
+
+function couponFlow(){
+  let clock=Date.UTC(2026,10,13,4,0,0);
+  const core=makeCore({now:()=>clock,state:{
+    schema:1,fixtureVersion:F.version,scenario:'promoCouponCash',city:'北京',
+    requirement:{capacity_m3:5,term_months:12,term_confirmed:true},
+    selected:[unitId],startDate:'2026-11-13',dateConfirmed:true,
+    auth:{status:'verified',expiresAt:clock+86400000,phone:'13800138000'},
+    coupons:[{id:'CPN-002',name:'12个月长租券',amount:300,type:'RENT_CASH',status:'CLAIMED'}],
+    couponChoice:'CPN-002',stock:{},prices:{},orders:[],services:{},inventoryVersion:1,sequence:0
+  }});
+  core.claimCoupons();
+  const q=core.quote();
+  assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'SELECTED','quote selects but does not redeem coupon');
+  const o=core.submit();
+  assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'LOCKED','order submission locks coupon');
+  core.cancelOrder(o.id);
+  assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'CLAIMED','cancel releases coupon');
+  const q2=core.quote(),o2=core.submit();
+  assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'LOCKED');
+  core.pay(o2.id,'failed');
+  assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'CLAIMED','failed payment releases coupon');
+  const q3=core.quote(),o3=core.submit();
+  core.pay(o3.id,'success');
+  assert.equal(core.state().coupons.find(c=>c.id==='CPN-002').status,'REDEEMED','successful payment redeems coupon');
+  assert(q.id&&q2.id&&q3.id);
+}
+couponFlow();
 console.log('PROMO-DEMO-SCENARIOS-01 PASS: 5 review scenarios, term gate, coupon separation, campaign tag and O01 benefit line');
 
 const lifecycleCases=[
