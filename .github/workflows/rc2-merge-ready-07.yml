@@ -1,0 +1,136 @@
+name: RC2 MERGE READY 07 - unified same SHA 375 390 gate
+on:
+  push:
+    branches:
+      - isolate/rc2-merge-ready-07-nav-h01-align-20261113
+    paths:
+      - .github/workflows/rc2-merge-ready-07.yml
+      - scripts/verify_rc2_merge_ready_04_browser.cjs
+      - app/prototype/parallel/core-journey-fix-01/demo/app.js
+      - app/prototype/parallel/core-journey-fix-01/demo/visual-align.css
+      - scripts/verify_rc2_merge_ready_07_nav_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rc2-merge-ready-07-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  integrated-375-390:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Freeze source identity and cross-module contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF_NAME" = "isolate/rc2-merge-ready-07-nav-h01-align-20261113"
+          node --check app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
+          node --check scripts/verify_rc2_merge_ready_04_browser.cjs
+          node scripts/verify_motion_s01_s5_01b.cjs
+          node scripts/verify_motion_s01_s5_01c_contract.cjs
+          node scripts/verify_motion_s01_s5_01e_coordinate.cjs
+          node scripts/test_cap_unit_dual_01.js
+          node scripts/verify_rc2_business_rebuild_01.cjs
+          node scripts/verify_rc2_final_vis_signoff_04_contract.cjs
+          node qa/test_h01_order_payment_3h.cjs
+          node qa/test_h01_state_implement_01.cjs
+          node qa/test_h01_postpay_access_deposit_01.cjs
+          node scripts/verify_h01_m01_flow_qa_01.cjs
+      - name: Build review package from exact HEAD without deployment
+        env:
+          RC2_BUNDLE_BRANCH: ${{ github.ref_name }}
+          RC2_BUNDLE_SOURCE_PR: '174'
+          RC2_BUNDLE_BASE_PR: '173'
+          RC2_BUNDLE_LABEL: RC2-MERGE-READY-07-SAME-SHA-REVIEW
+          RC2_BUNDLE_ARCHIVE: MiniKoala_RC2_MERGE_READY_07.zip
+        run: python3 scripts/build_rc2_isolated_demo.py
+      - name: Verify source equal to built file bytes and source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "const v=require('./release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json');if(v.source_sha!==process.env.GITHUB_SHA||v.source_pr!==174||v.source_branch!==process.env.GITHUB_REF_NAME)throw Error('RC2_UNIFIED_SOURCE_IDENTITY_MISMATCH');console.log('VERSION_SHA_OK',v.source_sha)"
+          live=app/prototype/parallel/core-journey-fix-01/demo
+          built=release-evidence/rc2-merge-prep-10/site/prototype/parallel/core-journey-fix-01/demo
+          for f in app.js home.html visual-align.css demo-core.js br04/bridge.js br04/reserve/index.html br04/quick/index.html br04/s5/location-ranker.js s01-r2-bind.js s01-motion-micro-01b.css; do
+            cmp "$live/$f" "$built/$f" || { echo "SOURCE_RUNTIME_MISMATCH:$f"; exit 1; }
+          done
+      - name: Install Chromium and CJK fonts
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+          test -n "$(fc-list :lang=zh family | head -1)"
+      - name: H01 states and bottom navigation across 375 and 390
+        env:
+          RC2_EXPECT_SHA: ${{ github.sha }}
+          RC2_EXPECT_BRANCH: ${{ github.ref_name }}
+          RC2_EXPECT_SOURCE_PR: '174'
+          H01_BROWSER_CHANNEL: chromium
+        run: |
+          node scripts/verify_rc2_single_candidate_03_h01_browser.cjs
+          node scripts/verify_rc2_motion_merge_gate_01_nav_browser.cjs
+          node scripts/verify_rc2_motion_merge_gate_01_nav_capture.cjs
+          node scripts/verify_rc2_motion_merge_gate_01_nav_optics.cjs
+      - name: NAV H01/S01/M01 same-height tap semantic and route gate
+        env:
+          RC2_EXPECT_SOURCE_PR: '174'
+        run: node scripts/verify_rc2_merge_ready_07_nav_browser.cjs
+      - name: Optical regression outside approved H01 caption regions
+        run: |
+          python3 -m pip install --quiet Pillow
+          python3 scripts/verify_rc2_motion_merge_gate_01_nav_pixel.py
+      - name: CAP ITEMS S01 S02 375 and 390
+        run: |
+          node scripts/verify_cap_unit_dual_01_browser.cjs
+          node scripts/verify_rc2_merge_prep_04_cap_items_browser.cjs
+          node scripts/verify_rc2_single_candidate_03_s01_browser.cjs
+          node scripts/verify_rc2_s02_term_state_01_browser.cjs
+          node scripts/verify_rc2_s02_photo_source_01_browser.cjs
+      - name: S5 ranking and cross-page map origin
+        run: |
+          node scripts/verify_s5_final_vis_signoff_04c_states_browser.cjs
+          node scripts/verify_motion_s01_s5_01c_browser.cjs
+          node scripts/verify_motion_s01_s5_01g_browser.cjs
+      - name: H01 S01 S02 S5 M01 and order lifecycle
+        run: |
+          node scripts/verify_rc2_h01_m01_integration_01_browser.cjs
+          node scripts/verify_rc2_final_vis_signoff_04_browser.cjs
+      - name: BOOKING four time choices QUICK auto-capacity O01
+        run: node scripts/verify_rc2_merge_ready_04_browser.cjs
+      - name: Upload same SHA 375 390 QA evidence, even if blocked
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC2-MERGE-READY-07-UNIFIED-375-390
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            release-evidence/rc2-merge-ready-04/
+            release-evidence/rc2-merge-ready-07-nav/
+            release-evidence/rc2-single-candidate-03-h01/
+            release-evidence/rc2-motion-merge-gate-01-nav/
+            release-evidence/rc2-motion-merge-gate-01-nav-final/
+            release-evidence/rc2-motion-merge-gate-01-nav-optics/
+            release-evidence/cap-unit-dual-01/
+            release-evidence/rc2-merge-prep-04/
+            release-evidence/rc2-single-candidate-03-s01/
+            release-evidence/rc2-s02-term-state-01/
+            release-evidence/rc2-s02-photo-source-01/
+            release-evidence/s5-final-vis-signoff-04c/
+            release-evidence/motion-s01-s5-01c/
+            release-evidence/motion-s01-s5-01g/
+            release-evidence/rc2-h01-m01-integration-01/
+            release-evidence/rc2-final-vis-signoff-04/
+            release-evidence/rc2-merge-prep-10/site/rc2-uat-version.json
+            release-evidence/rc2-merge-prep-10/build-summary.json
