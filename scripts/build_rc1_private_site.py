@@ -15,8 +15,9 @@ APP = REPO / "app"
 OUTPUT = REPO / "release-evidence" / "merge02n"
 SITE = OUTPUT / "site"
 REVIEW_VERSION = os.environ.get("MK_REVIEW_VERSION", "DEMO-MK-RC1-20261027")
-assert REVIEW_VERSION in {"DEMO-MK-RC1-20261027", "DEMO-MK-RC1-P1-20261029"}
-ARCHIVE = OUTPUT / ("DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip" if REVIEW_VERSION.endswith("P1-20261029") else "DEMO_MK_RC1_Protected_Internal_Site_20261027.zip")
+R2_PREVIEW_VERSION = "DEMO-MK-S01-R2-CANDIDATE-20261030"
+assert REVIEW_VERSION in {"DEMO-MK-RC1-20261027", "DEMO-MK-RC1-P1-20261029", R2_PREVIEW_VERSION}
+ARCHIVE = OUTPUT / ("DEMO_MK_S01_R2_Candidate_Private_Preview_20261030.zip" if REVIEW_VERSION == R2_PREVIEW_VERSION else ("DEMO_MK_RC1_P1_Protected_Internal_Site_20261029.zip" if REVIEW_VERSION.endswith("P1-20261029") else "DEMO_MK_RC1_Protected_Internal_Site_20261027.zip"))
 VALID_ASSET = {".png", ".jpg", ".jpeg", ".webp", ".avif", ".svg", ".gif", ".ico", ".woff", ".woff2", ".ttf", ".otf"}
 VALID_RUNTIME = VALID_ASSET | {".html", ".css", ".js", ".json"}
 forbidden = {"qa", "evidence", "node_modules", ".git", ".netlify", "__pycache__"}
@@ -93,6 +94,9 @@ hr{border:0;border-top:1px solid #d9e4df;margin:26px 0}</style></head>
 landing = landing.replace("DEMO-MK-RC1-20261027", REVIEW_VERSION)
 if REVIEW_VERSION.endswith("P1-20261029"):
     landing = landing.replace("固定 GitHub RC1 基线", "受控 GitHub RC1-P1 基线")
+if REVIEW_VERSION == R2_PREVIEW_VERSION:
+    landing = landing.replace("固定 GitHub RC1 基线", "S01 A/R2 隔离候选（未签收，不代表 RC1-P1 生产）")
+    landing = landing.replace("</nav><p class=\"small\">确认订单", "<a class=\"secondary\" href=\"/central-review-02g.html?catalog=mk&page=S01&s01_r2=1\">S01 A/R2 隔离视觉预览（待签收）</a></nav><p class=\"small\">确认订单")
 (SITE / "index.html").write_text(landing, encoding="utf-8")
 (SITE / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
 (SITE / "_headers").write_text(
@@ -130,7 +134,7 @@ payload = [
 ]
 summary = {
     "version": REVIEW_VERSION,
-    "source_commit": (check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip() if REVIEW_VERSION.endswith("P1-20261029") else "285ff1529a0f756662d3f57a7f29ddab3afb07ee"),
+    "source_commit": (check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip() if REVIEW_VERSION.endswith("P1-20261029") or REVIEW_VERSION == R2_PREVIEW_VERSION else "285ff1529a0f756662d3f57a7f29ddab3afb07ee"),
     "site_visibility_required": "SSO_TEAM_LOGIN_FOR_ALL_DEPLOYS",
     "site_is_private_only_if_netlify_sso_is_active": True,
     "screens_not_reauthored": True,
