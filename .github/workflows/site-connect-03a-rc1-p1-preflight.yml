@@ -1,16 +1,9 @@
 name: SITE-CONNECT-03A RC1-P1 private CD preflight
+# Historical frozen RC1-P1 preflight. Run explicitly on its original source
+# when reviewing archived RC1. New RC2 uses dedicated signed-SHA CI; running
+# the obsolete two-file RC1 allowlist on current PRs creates false failures.
+# This edit changes only triggers: all original RC1 assertions remain intact.
 on:
-  push:
-    branches:
-      - ops/site-connect-03a-rc1-p1-cd-20261029
-  pull_request:
-    branches:
-      - main
-    paths:
-      - netlify.toml
-      - scripts/build_rc1_private_site.py
-      - scripts/verify_demo_rc1_p1.cjs
-      - .github/workflows/site-connect-03a-rc1-p1-preflight.yml
   workflow_dispatch:
 
 permissions:
