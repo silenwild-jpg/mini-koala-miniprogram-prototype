@@ -54,7 +54,7 @@
     const monthText=money(m),matches=Number.isFinite(total)&&Math.abs(m*n-total)<.011;
     return monthText+'/月'+(matches?' × '+n+'个月':'');
   }
-  function moneyLines(a){return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月租</dt><dd>${rentFormula(a,core.state().requirement.term_months)}</dd><dt>优惠券</dt><dd>−${money(a.coupon_discount||0)}</dd><dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
+  function moneyLines(a){return `<dl class="bridge-fees"><dt>整期租金</dt><dd>${money(a.rent_total)}</dd><dt>月租</dt><dd>${rentFormula(a,core.state().requirement.term_months)}</dd><dt>优惠券</dt><dd>−${money(a.coupon_discount||0)}</dd>${a.moving_benefit_pending_id?'<dt>服务权益</dt><dd>基础搬运权益 · 资格待确认</dd>':''}<dt>押金</dt><dd>${money(a.deposit)}</dd><dt>整单管理费</dt><dd>${money(a.management_fee)}</dd><dt>首次应付</dt><dd>${money(a.payable)}</dd></dl>`;}
   function phone(){return B.requestPhone('QUOTE');}
   function priceReady(){if(!core.authorized()){phone();return false;}if(!core.state().requirement.term_confirmed){toast('请选择租期');return false;}return true;}
   function applyTerm(value){const m=Number(value),s=core.state(),ids=page==='o01'?s.selected:[];core.setTerm(m);if(ids.length&&core.selectionValid(ids))core.select(ids);clearToast();close();save();refresh();}
