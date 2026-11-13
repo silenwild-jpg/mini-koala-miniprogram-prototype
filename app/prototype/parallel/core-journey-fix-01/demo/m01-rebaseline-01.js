@@ -218,7 +218,7 @@
       row('最近找仓',demand.has?demand.cap+'m³'+(demand.term?' · '+demand.term+'个月':' · 租期待确认'):'尚无保存的需求','m01View','recent',ctx));
     var service=block('服务与权益',
       row('我的收藏','门店和仓位','m01View','favorites',ctx,fav.stores.length+fav.units.length)+
-      row('我的优惠券','查看可用权益','m01View','coupons',ctx,safeList(s.coupons).filter(function(x){return x.status==='CLAIMED'||x.status==='APPLIED';}).length)+
+      row('优惠与权益','查看可用权益','m01View','coupons',ctx,safeList(s.coupons).filter(function(x){return x.status==='AVAILABLE'||x.status==='SELECTED';}).length+safeList(s.serviceBenefits).length+safeList(s.giftTerms).filter(function(x){return x.status==='APPROVED';}).length)+
       (orders.some(function(o){return o.status==='paid_simulated';})?row('租后服务','续租、退租、押金和发票','m01View','services',ctx):'')+
       row('消息','查看业务通知','m01View','messages',ctx,safeList(s.messages).length));
     var help=block('更多服务',row('联系客服与帮助','','m01View','help',ctx));
@@ -274,7 +274,7 @@
       var items=fav.stores.map(function(id){return {id:id,name:ctx.storeName({store_id:id})};}).concat(fav.units.map(function(id){return {id:null,name:ctx.unitName({unit_ids:[id]})};}));
       return items.length?items.map(function(x){return '<article class="m01-info-item"><strong>'+ctx.esc(x.name)+'</strong>'+(x.id?'<div class="m01-service-actions">'+ctx.button('m01Store','查看门店',x.id,'m01-minor-button')+'</div>':'')+'</article>';}).join(''):empty('还没有收藏门店或仓位');
     }
-    if(view==='coupons')return safeList(s.coupons).length?s.coupons.map(function(c){return '<article class="m01-info-item"><strong>'+ctx.esc(c.name||'优惠权益')+'</strong>'+badge(ctx.esc(({CLAIMED:'可使用',APPLIED:'已选择',REDEEMED:'已使用',LOCKED:'已锁定',INVALID:'不可用'})[c.status]||c.status))+'</article>';}).join(''):empty('暂无可查看的优惠券');
+    if(view==='coupons'){var items=safeList(s.coupons).map(function(c){return '<article class="m01-info-item"><strong>'+ctx.esc(c.name||'优惠券')+'</strong>'+badge(ctx.esc(({AVAILABLE:'可使用',SELECTED:'已选择',REDEEMED:'已使用',LOCKED:'已锁定',EXPIRED:'已过期',INVALID:'不可用'})[c.status]||c.status))+'</article>';}).concat(safeList(s.serviceBenefits).map(function(b){return '<article class="m01-info-item"><strong>'+ctx.esc(b.name||'服务权益')+'</strong>'+badge(ctx.esc(({ELIGIBILITY_PENDING:'资格待确认',ELIGIBLE:'可使用',RESERVED:'已锁定',FULFILLED:'已履约',INELIGIBLE:'不适用'})[b.status]||b.status))+'</article>'; })).concat(safeList(s.giftTerms).map(function(g){return '<article class="m01-info-item"><strong>赠送'+ctx.esc(g.gift_months)+'个月</strong>'+badge(ctx.esc(({SUBMITTED:'待审批',APPROVED:'已批准',ATTACHED_TO_QUOTE:'已加入报价',LOCKED_TO_ORDER:'已锁定',GRANTED:'已赠送',REJECTED:'未通过'})[g.status]||g.status))+'</article>'; }));return items.length?items.join(''):empty('暂无可查看的优惠与权益');}
     if(view==='services')return serviceRows(ctx);
     if(view==='messages')return safeList(s.messages).length?s.messages.slice().reverse().map(function(m){return '<article class="m01-info-item"><strong>'+ctx.esc(m.title||'消息')+'</strong><p>'+ctx.esc(m.text||'')+'</p>'+(m.order_id?ctx.button('m01Order','关联订单',m.order_id,'m01-minor-button'):'')+'</article>';}).join(''):empty('暂无新消息');
     if(view==='account'){
