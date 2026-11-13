@@ -54,6 +54,8 @@
       if(scene.soldStore)fixture.units.filter(u=>u.store_id===scene.soldStore).forEach(u=>s.stock[u.id]='soldout');
       if(scene.soldStores)fixture.units.filter(u=>scene.soldStores.includes(u.store_id)).forEach(u=>s.stock[u.id]='soldout');
       s.nextRecheck=scene.nextRecheck||null;
+      if(Array.isArray(scene.coupons))s.coupons=copy(scene.coupons);
+      if(scene.couponChoice)s.couponChoice=scene.couponChoice;
       if(scene.auth)s.auth.status=scene.auth;
     }
     const totalVolume=ids=>Number(ids.reduce((n,id)=>n+(unit(id)?.volume||0),0).toFixed(3));
@@ -89,7 +91,7 @@
       const coupon=opts.renewal?eligible.find(c=>c.id==='CPN-004'):s.couponChoice==='none'?null:s.couponChoice==='auto'?eligible.sort((a,b)=>b.amount-a.amount)[0]:eligible.find(c=>c.id===s.couponChoice);
       const discount=coupon?Math.min(coupon.amount,rentTotal):0;
       // A moving/service entitlement is tracked separately, and does not subtract rent.
-      const moving=s.coupons.find(c=>c.type==='SERVICE_BENEFIT'&&c.status==='CLAIMED'&&!s.orders.some(o=>o.status==='paid_simulated'&&o.moving_benefit_pending_id===c.id));
+      const moving=!opts.renewal&&Number(s.requirement.term_months)>=6?s.coupons.find(c=>c.type==='SERVICE_BENEFIT'&&c.status==='CLAIMED'&&!s.orders.some(o=>o.status==='paid_simulated'&&o.moving_benefit_pending_id===c.id)):null;
       const rentAfterCoupon=rentTotal-discount;
       return {rent_total:rentTotal,monthly_average:deposit,rent_after_coupon:rentAfterCoupon,// Backward-compatible analytic field: a cash coupon can make term
         // price non-divisible by months. Do not present it as monthly rent.
@@ -278,8 +280,8 @@
       hasContact(){return authorized()||validPhone(s.contactPhone);},
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
-      claimCoupons(){for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH'],['CPN-003','搬运补贴',200,'SERVICE_BENEFIT']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:s.orders.some(o=>o.status==='paid_simulated')&&type==='RENT_CASH'?'INVALID':'CLAIMED'});invalidate();},
-      couponOptions(ids,months){const a=amounts(ids,months);return s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months),reason:c.type==='SERVICE_BENEFIT'?'服务权益，由顾问核定，不抵扣租金':!['CLAIMED','APPLIED'].includes(c.status)?'已锁定、使用或失效':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));},
+      claimCoupons(){for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH'],['BEN-MOVING-01','基础搬运权益',0,'SERVICE_BENEFIT']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:s.orders.some(o=>o.status==='paid_simulated')&&type==='RENT_CASH'?'INVALID':'CLAIMED'});invalidate();},
+      couponOptions(ids,months){const a=amounts(ids,months);return s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months),reason:c.type==='SERVICE_BENEFIT'?(months<6?'租期需满6个月':'租期符合；服务范围与距离资格待确认，不抵扣租金'):!['CLAIMED','APPLIED'].includes(c.status)?'已锁定、使用或失效':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));},
       setCoupon(id){if(!['auto','none'].includes(id)&&!s.coupons.some(c=>c.id===id))fail('INVALID_COUPON');s.couponChoice=id;invalidate();},
       expirePendingOrders(){let count=0;s.orders.filter(o=>o.status==='pending'&&now()>=o.expiresAt).forEach(o=>{releaseOrder(o,'expired');count++;});return count;},
       cancelOrder(id){const o=findOrder(id);if(o.status!=='pending')fail('INVALID_ORDER_STATE');releaseOrder(o,'cancelled');return copy(o);},
