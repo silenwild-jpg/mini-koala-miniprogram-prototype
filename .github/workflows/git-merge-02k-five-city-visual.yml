@@ -1,8 +1,5 @@
 name: GIT-MERGE-02K old-store 5-city visual admission
 on:
-  push:
-    branches:
-      - feature/git-merge-02k-legacy-visual-gate-20261027
   workflow_dispatch:
 permissions:
   contents: read

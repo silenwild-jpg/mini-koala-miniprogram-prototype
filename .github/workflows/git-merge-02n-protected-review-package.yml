@@ -1,8 +1,5 @@
 name: GIT-MERGE-02N private RC1 review site package
 on:
-  push:
-    branches:
-      - feature/git-merge-02n-protected-review-package-20261027
   workflow_dispatch:
 permissions:
   contents: read
