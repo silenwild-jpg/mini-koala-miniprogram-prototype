@@ -53,7 +53,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       await button.click();
       assert.equal(await button.getAttribute('aria-pressed'),'true','selected shortcut aria state '+label);
       assert.equal(await child.locator('.term-pills [aria-pressed="true"]').count(),1,'exactly one shortcut is active');
-      const value=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').reserve?.start_hint);
+      const value=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').reserve?.reserve?.start_hint);
       assert.equal(value,label,'BOOKING preference persisted: '+label);
     }
     await child.locator('.term-pills [data-term="明天"]').click();
