@@ -212,7 +212,7 @@
   function renderQuick(){const s=core.state(),q=quickState(),st=store(q.storeId),rows=q.ids.map(unit).filter(Boolean),chosen=rows.length>0,valid=chosen&&rows.every(u=>u.store_id===q.storeId)&&core.selectionValid(q.ids);
     const cap=s.requirement.capacity_m3,area=s.requirement.input_unit==='m2'?s.requirement.input_value:null;
     text('quick-capacity',Number.isFinite(cap)?(Number.isFinite(area)?area+'㎡ · 约'+cap+'m³':cap+'m³'):'请选择容量');
-    $('quick-capacity').setAttribute('aria-label',Number.isFinite(cap)?'需求容量 '+cap+'立方米，点击修改':'选择需求容量，必选');
+    $('quick-capacity-picker').setAttribute('aria-label',Number.isFinite(cap)?'需求容量 '+cap+'立方米，点击修改':'选择需求容量，必选');
     document.querySelector('.store-row>img').alt='门店场景示意';document.querySelector('.unit-row>img').alt='仓位空间示意';text('city-text',s.city+' · 默认城市');text('store-name',st?.name||'请选择门店');text('store-address',st?.address||(F.stores.some(x=>x.city===s.city&&x.status==='open')?'选择门店后显示地址':'暂无可展示门店'));text('distance-value','');
     if(st)image('.store-row>img','../../assets/'+st.photo,'门店场景示意');
     text('unit-name',chosen?rows.map(displayUnitName).join(' + '):'请选择仓位');text('capacity-value',chosen?rows.reduce((n,u)=>n+u.volume,0)+'m³':'选仓后显示');
