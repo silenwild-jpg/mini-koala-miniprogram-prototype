@@ -46,6 +46,7 @@ assert.match(below.couponOptions([unitId],3).find(x=>x.id==='CPN-003').reason,/�
 
 assert(bridge.includes('基础搬运权益 · 资格待确认'),'O01 must show the service benefit separately from cash discounts');
 assert(bridge.includes('a.moving_benefit_pending_id?'),'service benefit line must be conditional');
+require('./test_promo_entitlement_model_01');
 console.log('PROMO-DEMO-SCENARIOS-01 PASS: 5 review scenarios, term gate, coupon separation, campaign tag and O01 benefit line');
 
 const lifecycleCases=[
