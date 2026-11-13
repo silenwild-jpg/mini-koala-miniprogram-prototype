@@ -11,7 +11,7 @@
 | 主候选 PR | [#176 RC2-CLEAN-MIGRATION-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176) |
 | 候选分支 | `integration/rc2-clean-migration-01-20261113` |
 | 已通过自动化验收的 SHA | `41a8a079eb48049e1060512bddf71c226bfd3738` |
-| main最新已核实治理SHA（2026-11-13） | `6ee8f014436965ccbd24513d634d55e2347439c2`（PR #190已归并；后续main以GitHub实时为准） |
+| main最新已核实治理SHA（2026-11-13） | `da0dd6f89cf8952719ffe546a8a49b4f9d448f8d`（PR #191已归并；后续main以GitHub实时为准） |
 | PR API 当前报告的 base SHA | `274c5110aa18af7ed71d92533ab126ebbbd11f75` |
 | PR 状态 | Draft / MAIN MERGE HOLD，演示版本已签收但未合并 |
 | 自动化门禁 | PASS（375/390、浏览器、促销/生命周期、预约/快捷下单/O01） |
@@ -135,6 +135,7 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - 旧Netlify RC1预览隔离：[SITE-PREVIEW-ISOLATION-01](SITE_PREVIEW_ISOLATION_01_20261113.md)（旧RC1严格白名单与当前main多出promotion-policy.js不相容；外部站点配置未更改）
 
 ### 当前下一步
+- 批量工作包协议：[PROJECT-WORK-PACKAGE-PROTOCOL-01](PROJECT_WORK_PACKAGE_PROTOCOL_01_20261113.md)；Issue模板已同步，作为后续任务包默认模板。
 1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
 2. Issue #148/#93此前已按证据关闭；#171/#132/#152/#164保留原签收/来源证据与后端待确认项，针对关闭或代码迁移仍须独立裁定。
 3. P1-A2/B2、A3/B3、QA-LEGACY-RETAIN-01及P1-E-02已归档；CLEAN-ELIGIBILITY-01/02两批7条历史PR已按用户明确名单Close，原分支保留。[CLEAN-ELIGIBILITY-03](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)已确认**已关闭PR #24的head仍被开放PR #25用作base**、已合并PR #140的head仍被开放PR #141用作base，故禁止按已关闭/已合并状态删除来源分支。下一步优先补旧QA脚本覆盖、历史站点依赖/部署版本核验；没有新PR关闭授权不扩展清理范围。
