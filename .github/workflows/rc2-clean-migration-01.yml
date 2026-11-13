@@ -10,6 +10,7 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
       - app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+      - app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
       - scripts/test_promo_demo_scenarios_01.js
       - scripts/verify_demo_scenarios_browser_01.cjs
