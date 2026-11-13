@@ -119,7 +119,7 @@ const results=[];
       if(id==='promoMoving'){
         const row=frame.locator('#moving-benefit-row');
         await row.waitFor({state:'visible'});
-        assert.match(await row.innerText(),/服务权益.*基础搬运权益.*资格待确认/);
+        assert.match((await row.innerText()).replace(/\\s+/g,' '),/服务权益 基础搬运权益 · 资格待确认/);
         await shot(id+'-O01-confirmation');
       }else assert.equal(await frame.locator('#moving-benefit-row').count(),0,'ineligible or cash-only promotion must not add a service-benefit row');
       await frame.locator('#agreed').check();
