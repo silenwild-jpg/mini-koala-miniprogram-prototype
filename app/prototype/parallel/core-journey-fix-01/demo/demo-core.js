@@ -240,7 +240,7 @@
       assertReady();
       if(!s.quote||s.quote.signature!==signature()||now()>=s.quote.expiresAt){invalidate();fail('QUOTE_STALE');}
       const a=amounts(s.selected,s.requirement.term_months);
-      if(Object.keys(a).some(k=>s.quote[k]!==a[k])){invalidate();fail('QUOTE_STALE');}
+      if(Object.keys(a).some(k=>JSON.stringify(s.quote[k])!==JSON.stringify(a[k]))){invalidate();fail('QUOTE_STALE');}
       const o={id:'SIM_ORDER_'+(++s.sequence),quote_id:s.quote.id,kind:'SIMULATED_ORDER',store_id:s.quote.store_id,unit_ids:[...s.selected],capacity_m3:s.quote.capacity_m3,term_months:s.quote.term_months,start_date:s.quote.start_date,...a,benefit_snapshot:copy(s.quote.benefit_snapshot||null),status:'pending',createdAt:now(),expiresAt:now()+PENDING_ORDER_TTL_MS,price_bases:s.selected.map(id=>s.prices[id]||unit(id).base_month),previous_stock:Object.fromEntries(s.selected.map(id=>[id,s.stock[id]||unit(id).status]))};
       o.quote_snapshot=copy(o.benefit_snapshot);
       s.orders.push(o);o.unit_ids.forEach(id=>s.stock[id]='reserved');
