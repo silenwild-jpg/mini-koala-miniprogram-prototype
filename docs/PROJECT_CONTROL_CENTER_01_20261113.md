@@ -13,9 +13,12 @@
 | 已通过自动化验收的 SHA | `41a8a079eb48049e1060512bddf71c226bfd3738` |
 | main SHA（2026-11-13审计） | `bcac173d760f1c515c07e19c582c3fa185ab428a` |
 | PR API 当前报告的 base SHA | `274c5110aa18af7ed71d92533ab126ebbbd11f75` |
-| PR 状态 | Draft/HOLD，未合并 |
+| PR 状态 | Draft / MAIN MERGE HOLD，演示版本已签收但未合并 |
 | 自动化门禁 | PASS（375/390、浏览器、促销/生命周期、预约/快捷下单/O01） |
-| 人工视觉/UAT | HOLD，尚未签收 |
+| 正式演示准入 | DEMO READY（仅限SHA `41a8a079...`） |
+| 在线演示部署 | NOT VERIFIED；未核实可访问的对应版本站点 |
+| 生产小程序准入 | HOLD；微信原生/后端/真实支付与法务尚未验收 |
+| 人工视觉/UAT | PASS（用户于2026-11-13明确签收此SHA） |
 | 主线合并/正式部署 | 未授权、未执行 |
 
 **重要：** PR #176 的自动化 PASS 只对 SHA `41a8a079...` 有效。任何新提交都会使该验收证据不再代表最新 HEAD，必须重新运行同 SHA 门禁。当前候选不可在验收冻结期间被其他开发端继续推送。
@@ -34,9 +37,9 @@
 - O01费用、主动协议勾选、待支付状态通过。
 - 促销特价仓、租期折扣、现金券、搬运权益、赠送租期在两种视口均通过。
 - S5 16种有效状态、6种不完整入口及6条流程检查通过。
-- 导航几何、375/390像素曲线检查通过；底栏活动图标最终视觉仍需人工签收。
+- 导航几何、375/390像素曲线检查通过。用户已认可当前候选为正式演示版本；后续底栏活动态图标进一步视觉精修可另起下一版，不反向推翻本SHA整体签收。
 
-构建身份文件仍标记 `human_uat_signed_off=false`、`backend_crm_wechat_verified=false`、`main_merge_allowed=false`、`deployment_allowed=false`。因此状态应写作 **RC2 AUTOMATED QA PASS / HUMAN UAT HOLD**，不能写作“正式发布”或“全部验收完成”。
+2026-11-13用户随后明确批准本SHA作为正式演示版本（[PR #176 签收记录](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)）；当前准确状态为 **AUTOMATED QA PASS / VIS-UAT PASS / DEMO READY**。早于签收生成的构建身份文件仍带有 `human_uat_signed_off=false`，这是构建时历史快照，不能覆写原Artifact；以用户后续签收记录作为补充证据。`backend_crm_wechat_verified=false`、`main_merge_allowed=false`、`deployment_allowed=false` 仍有效：未验证线上演示站部署，未完成生产/微信原生条件，也未授权将业务PR #176合并main。
 
 ## 3. 当前阶段门禁
 
@@ -50,7 +53,7 @@
 ### PRODUCTION READY
 另需真实微信原生能力、后端库存/价格/订单、CRM、真实支付/身份、法务协议、隐私与安全等正式条件。不得与 DEMO READY 混为一谈。
 
-## 4. 人工签收待办
+## 4. 演示版本签收后的后续视觉优化清单（不阻断已批准SHA）
 
 1. H01获批母版及首页多状态：检查主视觉、双任务卡、推荐卡、底栏活动态。
 2. S01：三筛选、快捷标签、门店卡排序、考拉E存固定运营位、长列表。
@@ -113,7 +116,7 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - 当前自动化验收：[Run #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)
 
 ### 当前下一步
-1. 完成上方人工视觉/UAT签收。
+1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
 2. 复核#171、#132、#148、#152、#164等Issue在当前候选中的实际状态并更新证据。
 3. 完成PR/分支分类矩阵；先出可关闭/可归档建议，不批量关闭或删除。
 4. 由仓库管理员确认是否启用main保护与required checks；未经确认不更改。
