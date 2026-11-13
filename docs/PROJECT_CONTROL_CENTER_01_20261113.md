@@ -11,7 +11,7 @@
 | 主候选 PR | [#176 RC2-CLEAN-MIGRATION-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176) |
 | 候选分支 | `integration/rc2-clean-migration-01-20261113` |
 | 已通过自动化验收的 SHA | `41a8a079eb48049e1060512bddf71c226bfd3738` |
-| main最新已核实治理SHA（2026-11-13） | `b370957eab9a6dbccc50cc26e4618972151fe569`（PR #193已归并） |
+| 本轮审计前main治理SHA（2026-11-13） | `bc6f577d827ae4257370c763625f52e0e2fd02c9`（PR #198已归并；后续以GitHub实时main为准） |
 | PR API 当前报告的 base SHA | `274c5110aa18af7ed71d92533ab126ebbbd11f75` |
 | PR 状态 | Draft / MAIN MERGE HOLD，演示版本已签收但未合并 |
 | 自动化门禁 | PASS（375/390、浏览器、促销/生命周期、预约/快捷下单/O01） |
@@ -20,21 +20,23 @@
 | 生产小程序准入 | HOLD；微信原生/后端/真实支付与法务尚未验收 |
 | 人工视觉/UAT | PASS（用户于2026-11-13明确签收此SHA） |
 | 新整合候选分支 | `integration/rc2-mainline-integration-01-20261113` |
-| 新整合候选SHA | `281b3deab14a715fb61d20c50f6e1a5aedd5de0c` |
-| 新整合候选自动化验收 | PASS；[Run #43446189232](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232) |
+| 新整合候选SHA | `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`（PR #200 QA稳定性修复） |
+| 新整合候选自动化验收 | PASS；[Run #43452015757](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43452015757)；QUICK图片18/18、S01滚动双尺寸0偏移 |
 | 新整合候选人工视觉/UAT | HOLD；原签收不自动转移到新SHA |
 | 主线合并/正式部署 | 未授权、未执行 |
 
-**重要：** PR #176 的自动化与人工签收只对 SHA `41a8a079...` 有效。新整合候选SHA `281b3de...` 已有独立Actions PASS，但尚未获得新SHA人工视觉/UAT签收。两者必须分别记录；不得把原签收迁移到新SHA。原PR #176及原分支保持冻结。
+**重要：** PR #176 的自动化与人工签收只对 SHA `41a8a079...` 有效。新整合候选SHA `d5a4ff63...` 已有独立Actions PASS，但尚未获得新SHA人工视觉/UAT签收。两者必须分别记录；不得把原签收迁移到新SHA。原PR #176及原分支保持冻结。
 
 ## 2. 最新验收证据
 
 - [原RC2 Actions Run #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)：原签收SHA `41a8a079...` 的历史验收。
 - [新整合候选 Actions Run #43446189232](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232)：Success，head SHA `281b3de...`，覆盖375/390与促销/生命周期回归。
 - [新整合候选审计记录](RC2_MAINLINE_INTEGRATION_01_AUDIT_20261113.md)：main治理并入、促销策略单一事实源、冲突处理和新SHA验收边界。
+- [RC2-UAT-P1-FIX-01截图稳定性审计](RC2_UAT_P1_FIX_01_EVIDENCE_20261113.md)：已下载真实ZIP，18/18 QUICK图片、S01滚动归零、修复前后11张重点截图一致。
 - [375/390 QA Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14026423639)：374项证据文件所在包。
 - [Review Bundle Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14027316228)：隔离评审构建包。
-- [新整合候选375/390 QA Artifact（ID 14048525517）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232/artifacts/14048525517)：新SHA `281b3de...`。
+- [上阶段整合候选375/390 QA Artifact（ID 14048525517）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232/artifacts/14048525517)：历史整合SHA `281b3de...`。
+- [当前新整合候选375/390 QA Artifact（ID 14052280343）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43452015757/artifacts/14052280343)：当前SHA `d5a4ff63...`，全流程PASS。
 - [新整合候选Review Bundle（ID 14048590522）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232/artifacts/14048590522)：新SHA构建包，未部署。
 
 覆盖范围：H01、CAP、ITEMS、S01、S02、S5、M01、BOOKING、QUICK、O01、促销资格/权益、订单生命周期、375×812与390×844。
@@ -52,7 +54,8 @@
 ## 3. 当前阶段门禁
 
 ### 新整合候选当前状态
-- `AUTOMATED QA PASS`：新SHA `281b3de...` 已通过Run #43446189232。
+- `AUTOMATED QA PASS`：新SHA `d5a4ff63...` 已通过Run #43452015757；QA截图稳定性P1修复并核验通过。
+- `HUMAN VISUAL`：新SHA仍待人工签收；旧SHA截图与新版存在11项拍摄状态差异，不作为视觉回退的事实证据。
 - `VIS_SIGNED`：HOLD，等待用户对新SHA视觉/UAT复核。
 - `MERGED`：仅PR #195合入整合分支；尚未合入main。
 - `DEPLOYED`：未部署。
