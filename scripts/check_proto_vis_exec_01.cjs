@@ -10,7 +10,10 @@ function git(args){return cp.execFileSync('git',args,{cwd:root,encoding:'utf8'})
 function changePaths(){
  if(process.env.VIS_GUARD_CHANGED_FILES)return process.env.VIS_GUARD_CHANGED_FILES.split(/\r?\n/).filter(Boolean);
  const base=process.env.VIS_GUARD_BASE_SHA||event.pull_request?.base?.sha;
- if(base){try{return git(['diff','--name-only',base+'...HEAD']).split(/\r?\n/).filter(Boolean)}catch{}}
+ // On pull_request Actions checks out a synthetic merge commit. Compare the actual PR
+ // head against its base so independent changes already on main are not misattributed.
+ const head=process.env.VIS_GUARD_HEAD_SHA||event.pull_request?.head?.sha||'HEAD';
+ if(base){try{return git(['diff','--name-only',base+'...'+head]).split(/\r?\n/).filter(Boolean)}catch{}}
  try{return git(['diff','--name-only','HEAD~1','HEAD']).split(/\r?\n/).filter(Boolean)}catch{return []}
 }
 function isVisualFile(file){
@@ -139,7 +142,9 @@ if(visual.length){
  warnings.push('视觉人工签收尚不能由 CI 推断；需独立审核视觉原图 SHA 与状态截图。');
 }
 const report={
- task:'PROTO-VIS-EXEC-01',base:event.pull_request?.base?.sha||null,head:process.env.GITHUB_SHA||null,
+ task:'PROTO-VIS-EXEC-01',base:event.pull_request?.base?.sha||null,
+ head:event.pull_request?.head?.sha||process.env.GITHUB_SHA||null,
+ checkout_head:process.env.GITHUB_SHA||null,
  changed_files:changed,visual_files:visual,
  technical_contract:issues.length?'FAIL':'PASS',
  visual_signoff:'NOT_AUTOMATABLE',deployment_provenance:'NOT_AUTOMATABLE',
