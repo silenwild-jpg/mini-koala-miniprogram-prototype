@@ -77,7 +77,7 @@
 截至2026-11-13 GitHub API：
 - 最新实查快照（2026-11-13、main SHA `6ee8f014436965ccbd24513d634d55e2347439c2`）：**Open PR 125，全部Draft，以main为base 8条**。此前用户分别批准关闭#22/#24/#50和#67/#84/#86/#89（共7条），全部Not merged、原分支保留。[最初130条PR分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)仍保留当时快照，不反向篡改。
 - Open Issue：8（含本项目总控#177；原有9个产品/技术Issue中，#148普通用户路径文案未复现、#93历史Runner故障不再复现，已关闭，剩余7个）。
-- 最新实查快照：**185条分支**，其中**65条**未被当前Open PR的head/base引用；44条关联已关闭PR的head、15条未关联已关闭PR的head。这不是可删除名单。[最初180条分支全量分类](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)仍供历史对照。
+- 最新实查快照：**185条分支**，其中**65条**未被当前Open PR的head/base引用；closed PR、Tag、Actions手动运行和外部部署依赖仍须逐条复核，不能据此删除。这不是可删除名单。[最初180条分支全量分类](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)仍供历史对照。
 - 原48条历史未引用分支的ahead/behind比较属于旧main快照；最新65条未被Open PR直接引用，其中包括近期QA/治理工作包完成后不再被开放PR直接引用的来源分支，**尚不得继承旧48条的可删判断**。见[清理资格第三批](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)。
 - P1-A2已对10条main目标历史PR与签收RC2和main做**同路径blob SHA**对照；10条均有独有历史资产/内容差异，**目前未裁定任何可不经资料保全即直接关闭的PR**。详见[P1-A2主线PR差异](PROJECT_OPS_P1A2_MAIN_PR_DELTA_20261113.md)。
 - P1-B2对49条历史非开放PR引用分支复核closed PR/文件路径及Netlify依赖，其中35条关联已关闭PR；`uat/rc2-pr96-20261110`仍对应Netlify已发布部署，不能误删。详见[P1-B2分支风险](PROJECT_OPS_P1B2_BRANCH_RISK_20261113.md)。
