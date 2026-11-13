@@ -75,7 +75,7 @@
 ## 6. PR / 分支治理快照
 
 截至2026-11-13 GitHub API：
-- P1-A审计快照：Open PR **130**，全部Draft；以main为base 11条；[130条PR全量分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)。
+- P1-A历史审计快照：Open PR 130、全部Draft、以main为base 11条（审计日期当时）。2026-11-13本轮实时核验：**Open PR 128、全部Draft、以main为base 8条**；用户授权关闭旧#22/#24/#50，且新增独立QA证据PR#182，均有可追溯记录。[原130条PR全量分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)仍保留原审计快照，不回写篡改。
 - Open Issue：8（含本项目总控#177；原有9个产品/技术Issue中，#148普通用户路径文案未复现、#93历史Runner故障不再复现，已关闭，剩余7个）。
 - P1-B审计快照：Branch **180**（其中1条本次审计新增分支）；`isolate/*` **101**；[180条分支全量分类](PROJECT_OPS_P1B_BRANCH_INVENTORY_20261113.md)。
 - 其中48条历史分支未被当前Open PR引用（不含本次新建审计分支）；逐条与main比较：21条无独有提交、27条存在独有历史。比较结果不等于可删除，须独立核查原始用途和授权。
@@ -83,17 +83,17 @@
 - P1-B2对49条历史非开放PR引用分支复核closed PR/文件路径及Netlify依赖，其中35条关联已关闭PR；`uat/rc2-pr96-20261110`仍对应Netlify已发布部署，不能误删。详见[P1-B2分支风险](PROJECT_OPS_P1B2_BRANCH_RISK_20261113.md)。
 - P1-A3已完成旧PR #50规则冲突标注、#30 CloudBase、#28 Netlify旧站安全知识提取及#35/#36/#47旧QA与当前RC2断言覆盖差异审查，详见[P1-A3知识保全](PROJECT_OPS_P1A3_LEGACY_RULE_DEPLOY_QA_HANDOFF_20261113.md)。
 - P1-B3已对`feature/br03-s01-s02`的23份独立资产及`br01-h01-connect-03-isolated`的3份旧桥接文件留存精确blob SHA；旧上海4门店、35容量选项仅为历史演示数据，不直接接入签收RC2，详见[P1-B3旧门店与素材保全](PROJECT_OPS_P1B3_LEGACY_STORE_ASSET_HANDOFF_20261113.md)。
-- 以main为base的11条Open PR：#176、#50、#47、#36、#35、#33、#30、#28、#26、#24、#22；均为Draft。
+- 当前以main为base的8条Open PR：#176、#47、#36、#35、#33、#30、#28、#26；均为Draft。#22/#24/#50已按用户逐条授权Close（未Merge、源分支保留）。
 - **main保护已实际生效**：`protected=true`，Ruleset [`main-protection-demo-first`](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/rules/27195923) `active`，仅保护main，要求PR、禁止强推/删除、要求视觉契约检查。仍有两个配置优化：同名检查存在重复项、`strict_required_status_checks_policy=true`造成main更新后重复回归；当前GitHub连接器无法写Ruleset，详见[#177](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)。
 
 ### 主线PR分类
 - #176：当前RC2候选，保留。
 - #68：**已合并main**，Squash commit `0c78de7720451692bbd44be8854259b8b6a20dbd`。其中项目控制中心、README、AGENTS、VIS-GUARD机器检查与PR模板已生效；旧RC1专用自动工作流改为仅手动触发。
-- #50：旧PRD文档候选；与11月13日PRD/决策/验收材料比对后归档。
+- #50：旧PRD文档已完成差异审计和历史知识保全；2026-11-13经用户明确确认已Close，未Merge、原分支保留。
 - #47：旧私有预览候选；只保留访问/部署历史证据。
 - #36/#35/#33：旧RC2/生命周期/S01来源链；只核查未迁移的独有变更，不整PR合并。
 - #30/#28：CloudBase迁移与旧Git CD预检；后续部署架构专题。
-- #26/#24/#22：旧S01视觉探索；历史决策证据，不作为当前母版。
+- #26：旧S01视觉/业务接线仍保留开放、待独有增量复核。#24/#22：旧视觉纯探索已按用户确认Close、保留源分支，不作为当前母版。
 
 ### 当前候选来源链（以构建manifest为准）
 来源PR：#156、#157、#158、#159、#160、#161、#163、#165、#166、#167、#168、#169、#172、#173、#174、#175。  
@@ -126,10 +126,11 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - P1-A3旧规则/部署/QA知识保全：[规则与测试覆盖差异](PROJECT_OPS_P1A3_LEGACY_RULE_DEPLOY_QA_HANDOFF_20261113.md)
 - P1-B3独立门店/素材源：[BR03旧上海门店与23份资产](PROJECT_OPS_P1B3_LEGACY_STORE_ASSET_HANDOFF_20261113.md)
 - QA-LEGACY-RETAIN-01：[19项历史高风险断言独立PASS](QA_LEGACY_RETAIN_01_RESULT_20261113.md)（同签收运行时、仅QA分支追加脚本）
+- 清理资格第二批：[旧审计PR #67/#84/#86/#89关闭候选及证据](PROJECT_OPS_CLEAN_ELIGIBILITY_02_20261113.md)（仅提案、未Close，需逐组批准）
 
 ### 当前下一步
 1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
 2. 复核#171、#132、#148、#152、#164等Issue在当前候选中的实际状态并更新证据。
-3. P1-A2/B2及P1-A3/B3来源审计和知识保全已归并；`QA-LEGACY-RETAIN-01`已针对冻结RC2运行时完成19项真实GitHub Actions检查（Run #43426100394 PASS）。下一批执行`PROJECT-OPS-CLEAN-ELIGIBILITY-01`：提出逐PR/分支保留、知识交接、可关闭与待复核的证据清单。关闭PR、删分支仍须对具体清单单独授权，不可用泛化的整包指令替代。
+3. P1-A2/B2及P1-A3/B3已归并；`QA-LEGACY-RETAIN-01` 19项同SHA PASS。`PROJECT-OPS-CLEAN-ELIGIBILITY-01`首批#22/#24/#50已按用户确认实际Close，原分支保留。**下一批是[PROJECT-OPS-CLEAN-ELIGIBILITY-02](PROJECT_OPS_CLEAN_ELIGIBILITY_02_20261113.md)：建议关闭4条纯历史审计PR #67/#84/#86/#89，仍等待用户对这一具体名单确认；#87保留在线部署与SSO问题证据。** 未经确认不进一步关闭PR或删分支。
 4. main保护已生效；管理员可对重复必需检查和严格基线更新做低成本优化，不影响现有保护有效性。
 5. 最后才进行PR归并准入评审；不自动合并、不部署。
