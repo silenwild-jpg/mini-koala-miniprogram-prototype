@@ -177,6 +177,101 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await shot('10-O01-payment-pending');
     record('O01','selected/fees/agreement/payment','PASS',{unit:selected.unit,firstPayable:total,legal_source:'placeholder_prelaunch_hold',order:orders.at(-1).id});
    });
+    await section('04-QUICK-EXPLICIT-DEMAND-STORE-CITY',async()=>{
+     await page.evaluate(()=>{
+      const b=window.SIM_DEMO,c=b.core;
+      c.setCity('北京');c.setRequirement(3.5,12,true);c.clearSelection();
+      sessionStorage.removeItem('mk_br04_ui_v2');b.persist();
+     });
+     let child=await open('QUICK');
+     const stores=await page.evaluate(()=>{
+      const c=window.SIM_DEMO.core;
+      return c.fixture.stores.filter(s=>s.city==='北京'&&s.status==='open'&&c.matchingUnits(s.id).length).map(s=>s.id).slice(0,2);
+     });
+     assert.equal(stores.length,2,'Need two Beijing stores with units matching explicit 3.5m3 demand');
+     await child.locator('[data-choice="store"]').click();
+     await child.locator('#modal [data-bridge="quickStore"][data-value="'+stores[0]+'"]').click();
+     await child.locator('[data-choice="unit"]').click();
+     await child.locator('#modal [data-bridge="quickUnit"]').first().click();
+     let demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+     assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
+     let ui=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick);
+     assert.equal(ui.ids.length,1);
+     await shot('10-QUICK-explicit-demand-first-store');
+     await child.locator('[data-choice="store"]').click();
+     await child.locator('#modal [data-bridge="quickStore"][data-value="'+stores[1]+'"]').click();
+     ui=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick);
+     assert.equal(ui.ids.length,0,'Changing store must clear the previous selected unit');
+     demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+     assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
+     await child.locator('[data-choice="unit"]').click();
+     await child.locator('#modal [data-bridge="quickUnit"]').first().click();
+     demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+     assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
+     await shot('11-QUICK-explicit-demand-store-switch');
+     await page.evaluate(()=>{const b=window.SIM_DEMO;b.core.setCity('上海');b.persist();});
+     child=await open('QUICK');
+     ui=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick);
+     demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+     assert.equal(ui.storeId,null,'City switch must clear stale store selection');
+     assert.deepEqual(ui.ids,[],'City switch must clear stale unit selection');
+     assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
+     const shanghaiStore=await page.evaluate(()=>{
+      const c=window.SIM_DEMO.core;
+      return c.fixture.stores.find(s=>s.city==='上海'&&s.status==='open'&&c.matchingUnits(s.id).length)?.id||null;
+     });
+     assert.ok(shanghaiStore,'Need a Shanghai store with units matching the preserved demand');
+     await child.locator('[data-choice="store"]').click();
+     await child.locator('#modal [data-bridge="quickStore"][data-value="'+shanghaiStore+'"]').click();
+     await child.locator('[data-choice="unit"]').click();
+     await child.locator('#modal [data-bridge="quickUnit"]').first().click();
+     demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
+     assert.equal(demand.capacity_m3,3.5);assert.equal(demand.term_months,12);assert.equal(demand.term_confirmed,true);
+     await shot('12-QUICK-explicit-demand-city-switch');
+     record('QUICK','explicit CAP/ITEMS-style capacity+term preserved through store and city changes','PASS',{capacity:3.5,term:12,from:'北京',to:'上海',storeSwitchClearedUnit:true,citySwitchClearedStore:true});
+    });
+    await section('05-QUICK-COMBO-TO-O01',async()=>{
+     await page.evaluate(()=>{
+      const b=window.SIM_DEMO,c=b.core;
+      c.setCity('北京');c.setRequirement(9,null,false);c.clearSelection();
+      sessionStorage.removeItem('mk_br04_ui_v2');b.persist();
+     });
+     const child=await open('QUICK');
+     const storeId=await page.evaluate(()=>{
+      const c=window.SIM_DEMO.core;
+      return c.fixture.stores.find(s=>s.city==='北京'&&s.status==='open'&&c.combinations(s.id).length)?.id||null;
+     });
+     assert.ok(storeId,'No Beijing store offers a valid two-unit combination for 9m3');
+     await child.locator('[data-choice="store"]').click();
+     await child.locator('#modal [data-bridge="quickStore"][data-value="'+storeId+'"]').click();
+     await child.locator('[data-choice="unit"]').click();
+     const comboValue=await child.locator('#modal [data-bridge="quickUnit"]').evaluateAll(els=>els.map(e=>e.getAttribute('data-value')).find(v=>v&&v.includes(','))||null);
+     assert.ok(comboValue,'QUICK must expose a two-unit combination for the explicit capacity');
+     await child.locator('#modal [data-bridge="quickUnit"][data-value="'+comboValue+'"]').click();
+     let selected=await page.evaluate(()=>{
+      const b=window.SIM_DEMO,c=b.core,ui=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').quick;
+      return {requirement:c.state().requirement,ids:ui.ids,volume:ui.ids.reduce((n,id)=>n+c.fixture.units.find(u=>u.id===id).volume,0)};
+     });
+     assert.equal(selected.ids.length,2);assert.equal(selected.requirement.capacity_m3,9);
+     assert.equal(selected.requirement.term_confirmed,false);assert.ok(selected.volume>=9);
+     await shot('13-QUICK-combo-selected');
+     await child.locator('[data-term="12"]').click();
+     const date=await page.evaluate(()=>window.SIM_DEMO.core.today());
+     await child.locator('#start-date').fill(date);
+     await page.evaluate(()=>{const b=window.SIM_DEMO;b.core.requestPhone();b.core.resolvePhone('success',{phone:'13800138000'});b.persist();});
+     await child.locator('#next-button').click();
+     await page.waitForURL(/page=O01/,{timeout:10000});
+     await child.locator('body.bridge-ready').waitFor();
+     selected=await page.evaluate(()=>{
+      const c=window.SIM_DEMO.core.state();
+      return {ids:c.selected,capacity:c.requirement.capacity_m3,term:c.requirement.term_months,confirmed:c.requirement.term_confirmed,valid:window.SIM_DEMO.core.selectionValid(c.selected)};
+     });
+     assert.equal(selected.ids.length,2);assert.equal(selected.capacity,9);assert.equal(selected.term,12);
+     assert.equal(selected.confirmed,true);assert.equal(selected.valid,true);
+     assert.match(await child.locator('#rent').innerText(),/¥/);
+     await shot('14-QUICK-combo-to-O01');
+     record('QUICK','explicit capacity → two-unit combination → O01','PASS',{capacity:selected.capacity,term:selected.term,selectedUnits:selected.ids.length,store:storeId});
+    });
    if(errors.length)report.blockers.push({width,flow:'browser_runtime',severity:'JS_ERROR',errors});
    await context.close();
   }
