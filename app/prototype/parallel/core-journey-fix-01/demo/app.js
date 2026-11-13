@@ -540,7 +540,7 @@
     if(specialRows.length)benefitRows.push('<p><span>特价仓</span> · '+specialRows.map(x=>money(x.unit_special_price)+'/月').join('、')+'</p>');
     if(Number(pricing.term_discount_total)>0)benefitRows.push('<p><span>租期优惠</span> · '+money(pricing.term_discount_total)+'</p>');
     if(entitlement.coupon)benefitRows.push('<p><span>租金优惠券</span> · −'+money(entitlement.coupon.discount||0)+' · '+esc(entitlement.coupon.status==='REDEEMED'?'已核销':entitlement.coupon.status==='LOCKED'?'已锁定':'报价已选')+'</p>');
-    (entitlement.gift_terms||[]).forEach(g=>benefitRows.push('<p><span>赠送租期</span> · 赠送'+esc(g.gift_months)+'个月 · '+esc(g.status==='GRANTED'?'已赠送':g.status==='LOCKED_TO_ORDER'?'已锁定':'待确认')+'</p>'));
+    (entitlement.gift_terms||[]).forEach(g=>benefitRows.push('<p><span>赠送租期</span> · 赠送'+esc(g.gift_months)+'个月 · '+esc('期限规则待确认')+'</p>'));
     (entitlement.service_benefits||[]).forEach(()=>benefitRows.push('<p><span>基础搬运权益</span> · 资格待确认</p>'));
     if(benefitRows.length)html+='<section class="mk-order-section mk-order-entitlements"><h3>优惠与权益</h3>'+benefitRows.join('')+'</section>';
     if(o.status==='paid_simulated'){
