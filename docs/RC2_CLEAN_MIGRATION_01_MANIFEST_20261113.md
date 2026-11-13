@@ -182,3 +182,33 @@ main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本
 1. 导航激活态图标仍需人工视觉签收；自动化只证明尺寸、颜色、资源加载、点击语义和像素范围，不替代设计负责人确认图形是否符合最终品牌规范。
 2. 当前为 HTML/Web 原型，不是微信原生小程序包；微信原生底栏、真机、VoiceOver/无障碍、后端/CRM、真实支付及生产数据均未验证。
 3. UAT 尚未签收，`main_merge_allowed=false`，`deployment_allowed=false`。本分支仅供内部评审，不创建面向 main 的合并 PR，不部署，不宣称可上线。
+
+
+---
+
+## RC2-MAINLINE-INTEGRATION-01｜主线整合增量（2026-11-13）
+
+**整合基线：** main `b370957eab9a6dbccc50cc26e4618972151fe569`  
+**原始签收来源：** `41a8a079eb48049e1060512bddf71c226bfd3738`  
+**新整合分支：** `integration/rc2-mainline-integration-01-20261113`
+
+### main治理并入
+- 通过PR #195将当前main的19个治理提交合入新整合分支；原签收RC2分支未修改。
+- 两条RC1历史工作流以main版本覆盖：`site-access-03c-s5-route-qa.yml`、`site-connect-03a-rc1-p1-preflight.yml`，均只保留 `workflow_dispatch`。
+- 保留main上的Ruleset文档、项目控制中心、PR/Issue模板、VIS-GUARD、历史PR/分支审计和9条旧工作流手动触发治理。
+- main的独立 `promotion-policy.js` 作为促销资格、叠加与优惠券状态的唯一策略模块；RC2页面展示继续由 `presentation-policy.js` 负责。
+
+### 促销策略统一
+- `demo-core.js` 从 `SIM_PROMOTION_POLICY` 加载唯一策略，不再从 `SIM_PRESENTATION` 取得内嵌策略工厂。
+- `presentation-policy.js` 删除重复的 `createPromotionPolicy()`，只保留展示职责。
+- `index.html` 在 `demo-core.js` 前加载 `promotion-policy.js`。
+- 统一策略同时兼容演示上下文显式日期、fixture日期和测试时钟；优惠券终态 `INVALID` 保留首单券失效行为。
+- 原有100项RC2 app迁移清单不改写历史来源；新增1个mainline治理策略模块作为明确的整合覆盖，因此整合验证器预期app路径总数为101（100项原始清单 + 1项主线策略模块）。
+
+### 同SHA回归入口
+- `scripts/test_promo_entitlement_model_01.js`：main原有促销策略单元测试。
+- `scripts/test_promo_source_01.js`：特价活动标签事实源测试。
+- `scripts/test_promo_demo_scenarios_01.js`：促销场景、券生命周期、赠期和跨页面演示测试。
+- `.github/workflows/rc2-clean-migration-01.yml` 已改为监听新整合分支，并纳入canonical policy文件及策略单测。
+
+**本节仅记录代码整合，不代表新SHA已通过自动化/视觉/UAT，也不授权合并main或部署。**
