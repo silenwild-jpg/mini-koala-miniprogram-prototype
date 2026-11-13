@@ -29,9 +29,12 @@ for width in (375,390):
         # The new SVGs do not paint before y=8, so y=0..6 must be clear white.
         active=1 if page=="S01" else 3
         ghost=[]
+        # Element screenshots may include one scanline from the preceding
+        # iframe when the navbar top is fractional (390px: y=779.984).
+        # y=1..7 are inside the navbar and must remain ghost-free.
         for col in (0,active):
             center=round((col+.5)*w/4)
-            for y in range(min(7,hh)):
+            for y in range(1,min(8,hh)):
                 for x in range(center-20,center+21):
                     if min(c.getpixel((x,y)))<225:
                         ghost.append((col,x,y,c.getpixel((x,y))))
