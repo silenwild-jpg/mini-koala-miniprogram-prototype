@@ -29,11 +29,11 @@ main 与来源候选的 `app/` 树差异为112项（新增83、修改29）。本
 1. 中央入口 `app/central-review-02g.html` 依赖 `demo/fixtures.js`、`demo/central-contract.js`，并按路由加载 H01/CAP/ITEMS/S01/S02/S5/BOOKING/QUICK/O01/M01 等页面。
 2. 统一运行时入口 `demo/index.html` 加载共享样式、`fixtures.js`、`demo-core.js`、手机号验证、门店地理、容量单位、生命周期、推荐策略、S01 R2内容及 `app.js`。
 3. H01 由 `home.html`、`home-bridge.js`、`home-recommend-policy.js`、H01状态策略/实现文件及相应CSS组成。
-4. CAP/ITEMS的1.67MB/1.26MB页面含内嵌素材，均与main字节一致，不重复移植；它们继续依赖本批的 `cap-bridge.js`、`items-bridge.js`、共享 `demo-core.js`、`fixtures.js` 和新增unit-r3图片。
+4. CAP/ITEMS的1.67MB/1.26MB页面本身也是来源候选中的修改文件，已纳入本批99项移植；保留页面内嵌素材，来源blob分别锁定为 `a1496aa6e4e778da0224b0456ef534c081f9260c` 与 `8bd6d0b32036b97e3a3f337d159cf8e8cb2588c2`。它们继续依赖本批的 `cap-bridge.js`、`items-bridge.js`、共享 `demo-core.js`、`fixtures.js` 和新增unit-r3图片。
 5. S01 R2由 `s01-r2-live.html`、`s01-r2-bind.js`、`s01-r2-content.js`、R2样式及新增2张WebP素材组成；S5通过 `br04/s5/location-ranker.js` 与共享 `br04/bridge.js` 联动。
 6. S02使用 `app.js`、`s02-central.css`、unit-r3缩略图；门店卡片/详情环境图由fixtures映射到 `assets/store-curated/v1/{storeId}/card.webp` 与 `hero.webp`。
 7. M01/订单生命周期由 `account.html/js`、`lifecycle-contract.js`、`lifecycle-ui.js`、`m01-*`、`orders-ux.css` 等共同组成。
-8. 已核对关键未修改依赖在main中存在：`cap.html`、`items.html`、`business.html`、`br04/quick/index.html`、`br04/adapter.css`、历史仓型图、S5 E存场景图、H01品牌走廊图及S01 R2绑定素材。
+8. 已核对关键未修改依赖在main中存在：`business.html`、`br04/quick/index.html`、`br04/adapter.css`、基础样式与手机号验证资源、历史仓型图；CAP/ITEMS属于本批迁移文件，不作为未修改依赖处理。
 9. 动态资产路径（`assets/${store.photo}`、`assets/unit-r3/thumb/unit-r3-${tier}-336x312.webp`、`assets/nav-current-01c/${icon}-${state}.svg`）按fixtures/模板映射核对，不把字符串扫描中未展开的模板占位误判为缺失文件。
 
 ## 运行时文件清单
