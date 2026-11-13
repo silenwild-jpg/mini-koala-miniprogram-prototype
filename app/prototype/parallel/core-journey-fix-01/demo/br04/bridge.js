@@ -256,7 +256,14 @@
     document.querySelector('.total>strong').textContent='首次应付';
     text('months-label',confirmed?s.requirement.term_months:'待选');
     ['rent','discount','deposit','service-fee','total'].forEach(id=>text(id,!authorized?'授权后可见':!confirmed?'请选择租期':!a?'选择仓位后显示':!valid?'已失效，待重新报价':money({rent:a.rent_total,discount:a.coupon_discount,deposit:a.deposit,'service-fee':a.management_fee,total:a.payable}[id])));
-    $('total').dataset.private=String(!allowed);document.querySelector('.discount-tags').innerHTML='<em>'+(!authorized?'授权后核对优惠':a?.coupon_discount?'已使用 '+esc(core.state().coupons.find(c=>c.id===a.coupon_id)?.name||'租金券'):'暂无适用优惠')+'</em>';let average=$('order-monthly');if(!average){average=document.createElement('p');average.id='order-monthly';document.querySelector('.charges .fee-row').after(average);}average.textContent=allowed&&valid?'月租 '+rentFormula(a,s.requirement.term_months)+(a.coupon_discount?' · 券后整期租金 '+money(a.rent_after_coupon):''):'';
+    $('total').dataset.private=String(!allowed);document.querySelector('.discount-tags').innerHTML='<em>'+(!authorized?'授权后核对优惠':a?.coupon_discount?'已使用 '+esc(core.state().coupons.find(c=>c.id===a.coupon_id)?.name||'租金券'):'暂无适用优惠')+'</em>';
+    let movingBenefitRow=$('moving-benefit-row');
+    if(a?.moving_benefit_pending_id){
+      if(!movingBenefitRow){movingBenefitRow=document.createElement('div');movingBenefitRow.id='moving-benefit-row';movingBenefitRow.className='fee-row moving-benefit-row';document.querySelector('.discount-row').insertAdjacentElement('afterend',movingBenefitRow);}
+      movingBenefitRow.innerHTML='<span>服务权益</span><b>基础搬运权益 · 资格待确认</b>';
+      movingBenefitRow.hidden=!allowed;
+    }else if(movingBenefitRow)movingBenefitRow.hidden=true;
+    let average=$('order-monthly');if(!average){average=document.createElement('p');average.id='order-monthly';document.querySelector('.charges .fee-row').after(average);}average.textContent=allowed&&valid?'月租 '+rentFormula(a,s.requirement.term_months)+(a.coupon_discount?' · 券后整期租金 '+money(a.rent_after_coupon):''):'';
     $('pay').innerHTML=paid?'查看支付体验记录':!valid?'选择其他匹配方案':pending?'继续处理待支付订单':!authorized?'授权手机号查看报价':!confirmed?'请选择租期':'确认订单 <span id="pay-amount">'+money(a.payable)+'</span>';
     document.querySelector('.payment-note').textContent=paid?'支付流程结果已记录在本机，未发生真实扣款。':!valid?'当前方案不可用，容量和租期已保留':'本次不会实际扣款或锁定仓位';
     if(ui.agreed===undefined)ui.agreed=false;$('agreed').checked=ui.agreed;
