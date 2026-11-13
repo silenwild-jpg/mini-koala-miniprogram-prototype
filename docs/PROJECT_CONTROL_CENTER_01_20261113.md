@@ -34,6 +34,8 @@
 - [新整合候选审计记录](RC2_MAINLINE_INTEGRATION_01_AUDIT_20261113.md)：main治理并入、促销策略单一事实源、冲突处理和新SHA验收边界。
 - [375/390 QA Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14026423639)：374项证据文件所在包。
 - [Review Bundle Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14027316228)：隔离评审构建包。
+- [新整合候选375/390 QA Artifact（ID 14048525517）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232/artifacts/14048525517)：新SHA `281b3de...`。
+- [新整合候选Review Bundle（ID 14048590522）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232/artifacts/14048590522)：新SHA构建包，未部署。
 
 覆盖范围：H01、CAP、ITEMS、S01、S02、S5、M01、BOOKING、QUICK、O01、促销资格/权益、订单生命周期、375×812与390×844。
 
