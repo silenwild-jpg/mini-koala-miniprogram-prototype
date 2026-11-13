@@ -116,6 +116,12 @@ const results=[];
       if(id==='promoMovingIneligible')assert.equal(amounts.moving_benefit_pending_id,null,'three-month lease is below the six-month moving threshold');
       await page.evaluate(()=>window.SIM_DEMO.navigate('O01'));
       const frame=page.frameLocator('#br04-frame');
+      if(id==='promoMoving'){
+        const row=frame.locator('#moving-benefit-row');
+        await row.waitFor({state:'visible'});
+        assert.match(await row.innerText(),/服务权益.*基础搬运权益.*资格待确认/);
+        await shot(id+'-O01-confirmation');
+      }else assert.equal(await frame.locator('#moving-benefit-row').count(),0,'ineligible or cash-only promotion must not add a service-benefit row');
       await frame.locator('#agreed').check();
       await frame.locator('#pay').click();
       await frame.locator('#scrim:not([hidden])').waitFor();
