@@ -110,7 +110,8 @@ const summary=[];
        c.setScenario('normal');c.setRequirement(3,12,true);c.requestPhone();c.resolvePhone('success',{phone:'13800138000'});
        const u=c.matchingUnits().find(x=>x.volume>=3);c.select([u.id]);c.setDate(c.today());c.quote();
        const o=c.submit();c.pay(o.id,'success');c.identity(o.id,'success');
-       c.lifecycleRequestExit(o.id,'expiry',c.today());c.lifecycleRequestInspection(o.id);
+       // Test an early exit explicitly; expiry exit requires a date on/after the 12-month end.
+       c.lifecycleRequestExit(o.id,'early',c.today());c.lifecycleRequestInspection(o.id);
        c.lifecycleReviewInspection(o.id,'passed',true);c.lifecycleReviewRefund(o.id,true);
        b.persist();b.navigate('M01');return {id:o.id};
       }catch(err){return {error:err.message};}
