@@ -2,7 +2,7 @@
 
 审计日期：2026-11-13  
 审计候选：PR #176 / integration/rc2-clean-migration-01-20261113  
-审计HEAD：d78748117fe0302e2008668b7f9d882748adc97d  
+审计HEAD：77efdff91946e5f1a63b8e5b06ece0183f2874f4  
 方法：静态读取页面入口、共享状态、核心业务函数、状态策略和自动化脚本；并执行RC2同SHA 375/390全站浏览器回归及新增促销/生命周期场景逐态浏览器回放。自动化PASS不等同于产品负责人最终视觉签收。
 
 ## 1. 总体结论
@@ -115,10 +115,10 @@
 
 ## 8. DEMO-SCENARIOS-01｜新增场景浏览器验收
 
-- Actions运行：<https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43385185518>
+- Actions运行：<https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43386305303>
 - 验收SHA：`d78748117fe0302e2008668b7f9d882748adc97d>
 - 结果：SUCCESS；工作流全部步骤通过。
-- 新增场景证据包：Artifact ID `14018097835`（`RC2-CLEAN-MIGRATION-01-UNIFIED-375-390`）。
+- 新增场景证据包：Artifact ID `14018831921`（`RC2-CLEAN-MIGRATION-01-UNIFIED-375-390`）。
 - 截图：9个生命周期状态 × 2尺寸 + 5个促销状态 × 2尺寸 = 28张逐态截图；结果JSON记录场景、尺寸、租赁状态、身份状态、折扣金额及服务权益。
 
 ### 逐态结果
@@ -144,7 +144,7 @@
 
 - M01九种状态的主任务卡、仓位卡和订单记录层级符合各状态预期；已结束订单不再显示为在租资产。
 - S01特价仓标签在门店列表可见；S5长租折扣金额与租期对应。
-- O01支付流程费用明细能区分租金现金优惠与基础搬运服务权益。
+- O01主确认页已在租金优惠之后增加独立的服务权益行；在支付流程明细中继续保留同一权益说明。权益不抵租金、不改变首次应付金额。
 - 两种尺寸均未触发浏览器脚本异常或页面横向溢出断言。
 
 ### 尚未纳入本轮PASS的内容
