@@ -13,6 +13,22 @@
         v<=25?'沙发、家庭家具':
         v<=50?'大件家具、家电':'大量家具、物资';
     }
+    // Store-level promotion labels must be derived from an explicit, currently valid
+    // unit campaign. Never infer a promotion from store position or rotating demo tags.
+    function storePromotionTag(store){
+      if(!store||store.status!=='open')return '';
+      const today=String(fixture.demoToday||'');
+      const prices=core.state().prices||{};
+      const eligible=(config.campaigns||[]).some(c=>{
+        if(!c||c.active!==true||c.storeId!==store.id||!c.unitId||
+          !c.from||!c.until||c.from>today||c.until<today)return false;
+        const u=catalog.find(x=>x.id===c.unitId&&x.store_id===store.id);
+        if(!u||!core.available(u)||u.revision!==c.catalogRevision)return false;
+        const base=prices[u.id]??u.base_month;
+        return Number.isFinite(Number(base))&&Number(base)===Number(c.baseMonth);
+      });
+      return eligible?'特价仓':'';
+    }
     function describe(u,page){
       const r=core.state().requirement,linked=core.requirementReady(),
         matches=linked&&u.volume>=r.capacity_m3;
