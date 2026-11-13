@@ -1,8 +1,5 @@
 name: GIT-MERGE-02F premerge directed regression
 on:
-  push:
-    branches:
-      - feature/git-merge-02f-premerge-gates-20261027
   workflow_dispatch:
 permissions:
   contents: read
