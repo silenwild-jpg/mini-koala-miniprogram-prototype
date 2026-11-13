@@ -12,6 +12,7 @@ on:
       - app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
       - app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js
       - scripts/test_promo_demo_scenarios_01.js
+      - scripts/verify_demo_scenarios_browser_01.cjs
       - app/prototype/parallel/core-journey-fix-01/demo/visual-align.css
       - scripts/verify_rc2_merge_ready_08_nav_browser.cjs
       - scripts/verify_rc2_merge_ready_08_nav_pixel.py
