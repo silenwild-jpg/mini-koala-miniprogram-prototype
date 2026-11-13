@@ -125,10 +125,11 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - P1-B2未被Open PR引用分支：[49条风险与部署依赖清单](PROJECT_OPS_P1B2_BRANCH_RISK_20261113.md)
 - P1-A3旧规则/部署/QA知识保全：[规则与测试覆盖差异](PROJECT_OPS_P1A3_LEGACY_RULE_DEPLOY_QA_HANDOFF_20261113.md)
 - P1-B3独立门店/素材源：[BR03旧上海门店与23份资产](PROJECT_OPS_P1B3_LEGACY_STORE_ASSET_HANDOFF_20261113.md)
+- QA-LEGACY-RETAIN-01：[19项历史高风险断言独立PASS](QA_LEGACY_RETAIN_01_RESULT_20261113.md)（同签收运行时、仅QA分支追加脚本）
 
 ### 当前下一步
 1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
 2. 复核#171、#132、#148、#152、#164等Issue在当前候选中的实际状态并更新证据。
-3. P1-A3/P1-B3已完成旧规则、部署安全、QA覆盖及独立S01/S02素材的知识保全。下一批执行`QA-LEGACY-RETAIN-01`高风险断言补证，以及逐PR/分支有证据的归档建议；关闭PR、删分支仍须逐条明确授权，不能用整包概括授权。
+3. P1-A2/B2及P1-A3/B3来源审计和知识保全已归并；`QA-LEGACY-RETAIN-01`已针对冻结RC2运行时完成19项真实GitHub Actions检查（Run #43426100394 PASS）。下一批执行`PROJECT-OPS-CLEAN-ELIGIBILITY-01`：提出逐PR/分支保留、知识交接、可关闭与待复核的证据清单。关闭PR、删分支仍须对具体清单单独授权，不可用泛化的整包指令替代。
 4. main保护已生效；管理员可对重复必需检查和严格基线更新做低成本优化，不影响现有保护有效性。
 5. 最后才进行PR归并准入评审；不自动合并、不部署。
