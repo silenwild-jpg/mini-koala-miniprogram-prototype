@@ -1,4 +1,4 @@
-name: RC2 QUICK CAP TERM 01 - explicit capacity and term confirmation
+name: RC2 QUICK CAP TERM 01 - unit-derived capacity and manual term
 on:
   push:
     branches:
@@ -37,7 +37,7 @@ jobs:
           sudo apt-get install -y -qq fonts-noto-cjk
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install chromium
-      - name: Confirm 375 and 390 QUICK mandatory inputs and BOOKING optional
+      - name: Confirm 375 and 390 QUICK unit-derived capacity manual term and BOOKING optional
         run: node scripts/verify_rc2_merge_ready_04_browser.cjs
       - name: Upload QA screenshots on pass or fail
         if: always()
