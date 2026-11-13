@@ -80,6 +80,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await firstOption.waitFor();
     const firstUnitId=await firstOption.getAttribute('data-value');
     await firstOption.click();
+    assert.equal(await child.locator('#toast').isVisible(),false,'Stale capacity warning must disappear after selecting a valid unit');
     const demand=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
     const offeredVolume=await page.evaluate(ids=>{
       const core=window.SIM_DEMO.core;
@@ -89,6 +90,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     assert.equal(demand.term_confirmed,false,'Unit selection must not auto-confirm term');
     await shot('06-QUICK-capacity-auto-from-unit');
     await child.locator('[data-term="12"]').click();
+    assert.equal(await child.locator('#toast').isVisible(),false,'Stale capacity warning must stay hidden after successful term selection');
     let term=await page.evaluate(()=>window.SIM_DEMO.core.state().requirement);
     assert.equal(term.capacity_m3,demand.capacity_m3);
     assert.equal(term.term_confirmed,true);
