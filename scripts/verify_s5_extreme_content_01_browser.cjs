@@ -36,7 +36,7 @@ const server=http.createServer((req,res)=>{
       const offers=B.offers();
       if(!offers.length||!offers[0].ids?.length)throw Error('NO_S5_EXTREME_PRICE_UNIT');
       const row=offers[0];
-      const campaign=window.SIM_BR03_DATA?.campaigns?.find(x=>x.unitId==='SIM_BJ01_U04');
+      const campaign=window.parent.SIM_BR03_DATA?.campaigns?.find(x=>x.unitId==='SIM_BJ01_U04');
       const unit=c.fixture.units.find(u=>u.id===campaign?.unitId);
       const store=c.fixture.stores.find(s=>s.id===campaign?.storeId);
       if(!campaign||!unit||!store)throw Error('S5_EXTREME_SPECIAL_UNIT_NOT_FOUND');
