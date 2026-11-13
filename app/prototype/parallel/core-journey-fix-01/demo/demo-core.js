@@ -94,7 +94,7 @@
     function discountedMonth(u,months){if(!validTerm(months))fail('SELECT_TERM');const base=s.prices[u.id]??u.base_month;const rule=fixture.pricing.termRules.find(x=>months>=x.min&&months<=x.max);if(!rule)fail('INVALID_TERM');return Math.trunc(Number(base)*rule.factor+1e-9);}
     function rent(u,months){return discountedMonth(u,months)*months;}
     function couponEligible(c,rentTotal,months,renewal=false){
-      if(!['CLAIMED','APPLIED'].includes(c.status))return false;
+      if(!['CLAIMED','AVAILABLE','SELECTED','APPLIED'].includes(c.status))return false;
       if(c.id==='CPN-004')return renewal&&months>=6;
       if(renewal||s.orders.some(o=>o.status==='paid_simulated'))return false;
       return c.id==='CPN-001'?rentTotal>=2000:c.id==='CPN-002'?months>=12:false;
@@ -131,7 +131,9 @@
       if(reason==='inventory')s.stock[s.selected[0]]='soldout';else s.prices[s.selected[0]]=Math.round((s.prices[s.selected[0]]||unit(s.selected[0]).base_month)*1.1/10)*10;
       s.inventoryVersion++;invalidate();return reason;
     }
-    function quote(){assertReady();const a=amounts(s.selected,s.requirement.term_months);if(a.coupon_id)s.coupons.find(c=>c.id===a.coupon_id).status='APPLIED';s.quote={id:'SIM_QUOTE_'+(++s.sequence),signature:signature(),unit_ids:[...s.selected],store_id:unit(s.selected[0]).store_id,start_date:s.startDate,term_months:s.requirement.term_months,capacity_m3:s.requirement.capacity_m3,...a,expiresAt:now()+5*60*1000,kind:'SIMULATED_QUOTE'};return copy(s.quote);}
+    function quote(){assertReady();const a=amounts(s.selected,s.requirement.term_months);if(s.quote?.coupon_id&&s.quote.coupon_id!==a.coupon_id){const previous=s.coupons.find(c=>c.id===s.quote.coupon_id);if(previous?.status==='SELECTED')previous.status='CLAIMED';}
+      if(a.coupon_id){const selectedCoupon=s.coupons.find(c=>c.id===a.coupon_id);if(selectedCoupon)selectedCoupon.status='SELECTED';}
+      s.quote={id:'SIM_QUOTE_'+(++s.sequence),signature:signature(),unit_ids:[...s.selected],store_id:unit(s.selected[0]).store_id,start_date:s.startDate,term_months:s.requirement.term_months,capacity_m3:s.requirement.capacity_m3,...a,expiresAt:now()+5*60*1000,kind:'SIMULATED_QUOTE'};return copy(s.quote);}
     function submit(){
       if(!authorized())fail('PHONE_REQUIRED');
       if(s.quote){const existing=s.orders.find(o=>o.quote_id===s.quote.id);if(existing)return copy(existing);}
@@ -299,8 +301,8 @@
       formalAmounts(ids,months){if(!authorized())fail('PHONE_REQUIRED');if(!s.requirement.term_confirmed||months!==s.requirement.term_months)fail('SELECT_TERM');return amounts(ids,months);},
       setContact(phone){const p=String(phone).replace(/[\s-]/g,'');if(!validPhone(p))fail('ENTER_PHONE');s.contactPhone=p;},
       claimCoupons(){for(const [id,name,amount,type] of [['CPN-001','新客租仓券',200,'RENT_CASH'],['CPN-002','12个月长租券',300,'RENT_CASH'],['CPN-003','基础搬运权益',200,'SERVICE_BENEFIT']])if(!s.coupons.some(c=>c.id===id))s.coupons.push({id,name,amount,type,status:s.orders.some(o=>o.status==='paid_simulated')&&type==='RENT_CASH'?'INVALID':'CLAIMED'});invalidate();},
-      couponOptions(ids,months){const a=amounts(ids,months);return s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months),reason:c.type==='SERVICE_BENEFIT'?(months<6?'租期需满6个月':'租期符合；服务范围与距离资格待确认，不抵扣租金'):!['CLAIMED','APPLIED'].includes(c.status)?'已锁定、使用或失效':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));},
-      setCoupon(id){if(!['auto','none'].includes(id)&&!s.coupons.some(c=>c.id===id))fail('INVALID_COUPON');s.couponChoice=id;invalidate();},
+      couponOptions(ids,months){const a=amounts(ids,months);return s.coupons.map(c=>({...copy(c),eligible:couponEligible(c,a.rent_total,months),reason:c.type==='SERVICE_BENEFIT'?(months<6?'租期需满6个月':'租期符合；服务范围与距离资格待确认，不抵扣租金'):!['CLAIMED','AVAILABLE','SELECTED','APPLIED'].includes(c.status)?'已锁定、使用或失效':s.orders.some(o=>o.status==='paid_simulated')?'仅限首次租仓':c.id==='CPN-001'&&a.rent_total<2000?'整期租金需满2000元':c.id==='CPN-002'&&months<12?'租期需满12个月':''}));},
+      setCoupon(id){if(!['auto','none'].includes(id)&&!s.coupons.some(c=>c.id===id))fail('INVALID_COUPON');if(s.quote?.coupon_id){const previous=s.coupons.find(c=>c.id===s.quote.coupon_id);if(previous?.status==='SELECTED')previous.status='CLAIMED';}s.couponChoice=id;invalidate();},
       expirePendingOrders(){let count=0;s.orders.filter(o=>o.status==='pending'&&now()>=o.expiresAt).forEach(o=>{releaseOrder(o,'expired');count++;});return count;},
       cancelOrder(id){const o=findOrder(id);if(o.status!=='pending')fail('INVALID_ORDER_STATE');releaseOrder(o,'cancelled');return copy(o);},
       orderDetail(id){const o=findOrder(id);return {...copy(o),service:copy(s.services[id]||null)};},
