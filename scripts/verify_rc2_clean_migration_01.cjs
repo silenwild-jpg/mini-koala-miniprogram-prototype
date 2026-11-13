@@ -28,13 +28,13 @@ assert.ok(index.includes('location-ranker.js'),'S5_RANKER_NOT_WIRED');
 for(const token of ['store-curated/v1/','card.webp','hero.webp'])assert.ok(fixtures.includes(token),'CURATED_FIXTURE_MAPPING_MISSING '+token);
 for(const token of ['home-bridge.js','home-recommend-policy.js','h01-state-policy-01.js','h01-state-impl-01.js'])assert.ok(home.includes(token),'H01_SCRIPT_NOT_WIRED '+token);
 const manifest=read('docs/RC2_CLEAN_MIGRATION_01_MANIFEST_20261113.md');
-assert.equal((manifest.match(/^\| (?:ADD|UPDATE) \|/gm)||[]).length,99,'MIGRATION_MANIFEST_ROW_COUNT');
+assert.equal((manifest.match(/^\| (?:ADD|UPDATE) \|/gm)||[]).length,100,'MIGRATION_MANIFEST_ROW_COUNT');
 const changed=cp.execFileSync('git',['diff','--name-only',base+'...HEAD'],{cwd:root,encoding:'utf8'}).trim().split(/\r?\n/).filter(Boolean),appChanged=changed.filter(p=>p.startsWith('app/'));
-assert.equal(appChanged.length,99,'APP_DIFF_NOT_EXACTLY_99');
+assert.equal(appChanged.length,100,'APP_DIFF_NOT_EXACTLY_100');
 for(const p of appChanged)assert.ok(manifest.includes(p),'APP_DIFF_NOT_IN_MANIFEST '+p);
 for(const p of changed)assert.ok(!p.startsWith('app/assets/nav/current-four-01b/')&&!p.startsWith('app/assets/nav/nav01e-candidates/')&&!p.startsWith('app/prototype/parallel/core-journey-fix-01/qa/'),'EXCLUDED_FILE '+p);
 for(const p of [demo+'/business.html',demo+'/br04/quick/index.html',demo+'/br04/adapter.css']){const old=cp.execFileSync('git',['rev-parse',base+':'+p],{cwd:root,encoding:'utf8'}).trim(),now=cp.execFileSync('git',['rev-parse','HEAD:'+p],{cwd:root,encoding:'utf8'}).trim();assert.equal(now,old,'BASELINE_SHARED_FILE_CHANGED '+p);}
 for(const [p,expected] of [[demo+'/cap.html','a1496aa6e4e778da0224b0456ef534c081f9260c'],[demo+'/items.html','8bd6d0b32036b97e3a3f337d159cf8e8cb2588c2']])assert.equal(cp.execFileSync('git',['rev-parse','HEAD:'+p],{cwd:root,encoding:'utf8'}).trim(),expected,'MIGRATED_CAPACITY_PAGE_SOURCE_MISMATCH '+p);
 const jsChanged=appChanged.filter(p=>p.endsWith('.js'));for(const p of jsChanged){const r=cp.spawnSync(process.execPath,['--check',p],{cwd:root,encoding:'utf8'});assert.equal(r.status,0,'JS_SYNTAX_FAIL '+p+'\n'+(r.stderr||''));}
 assert.ok(!read(demo+'/central-contract.js').includes('U01'),'RETIRED_U01_ROUTE_RETURNED');
-console.log(JSON.stringify({status:'PASS',base_sha:base,app_runtime_changes:appChanged.length,manifest_rows:99,entry_pages:pages.length,html_local_refs:htmlRefs,css_local_refs:cssRefs,css_files_checked:css.size,js_syntax_checked:jsChanged.length,curated_store_pairs:ids.length,unit_tiers:4,nav_icons:8,migrated_large_pages:['cap.html','items.html']},null,2));
+console.log(JSON.stringify({status:'PASS',base_sha:base,app_runtime_changes:appChanged.length,manifest_rows:100,entry_pages:pages.length,html_local_refs:htmlRefs,css_local_refs:cssRefs,css_files_checked:css.size,js_syntax_checked:jsChanged.length,curated_store_pairs:ids.length,unit_tiers:4,nav_icons:8,migrated_large_pages:['cap.html','items.html']},null,2));
