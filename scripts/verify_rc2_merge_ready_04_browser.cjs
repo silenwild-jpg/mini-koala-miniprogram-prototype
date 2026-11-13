@@ -45,6 +45,19 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     assert.equal(await child.locator('#booking-address').getAttribute('required'),'');
     assert.equal(await child.locator('#reserve-contact').getAttribute('required'),'');
     await shot('01-BOOKING-empty');
+    const expectedShortcuts=['尽快','明天','近一周','暂不确定'];
+    const shortcutButtons=child.locator('.term-pills [data-term]');
+    assert.deepEqual((await shortcutButtons.allTextContents()).map(x=>x.trim()),expectedShortcuts,'BOOKING quick time choices must match latest rule');
+    for(const label of expectedShortcuts){
+      const button=child.locator('.term-pills [data-term="'+label+'"]');
+      await button.click();
+      assert.equal(await button.getAttribute('aria-pressed'),'true','selected shortcut aria state '+label);
+      assert.equal(await child.locator('.term-pills [aria-pressed="true"]').count(),1,'exactly one shortcut is active');
+      const value=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}').reserve?.start_hint);
+      assert.equal(value,label,'BOOKING preference persisted: '+label);
+    }
+    await child.locator('.term-pills [data-term="明天"]').click();
+    await shot('01b-BOOKING-tomorrow-selected');
     await child.locator('#booking-address').fill('北京市朝阳区青年路甲5号院');
     await child.locator('#reserveForm button[type="submit"]').click();
     await child.locator('#toast:not([hidden])').waitFor({timeout:5000});
@@ -57,6 +70,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     const saved=await page.evaluate(()=>window.SIM_DEMO.core.state().leads.at(-1));
     assert.equal(saved.phone,'13800138000');
     assert.equal(saved.status,'saved_locally');
+    assert.equal(saved.start_hint,'明天','Relative booking preference must be stored verbatim');
+    assert.equal(saved.preferred_date,undefined,'Selecting tomorrow shortcut must not invent an exact date');
     assert.equal(saved.capacity_m3,null,'BOOKING capacity is optional');
     assert.equal(saved.term_months,null,'BOOKING term is optional');
     await shot('03-BOOKING-saved-locally');
