@@ -9,6 +9,8 @@ const {create:makeUnitPolicy}=require('../app/prototype/parallel/core-journey-fi
 const H01=require('../app/prototype/parallel/core-journey-fix-01/demo/h01-state-policy-01.js');
 const bridge=fs.readFileSync(path.join(__dirname,'../app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js'),'utf8');
 const unitId='SIM_BJ01_U04';
+const giftTerm=require('../app/prototype/parallel/core-journey-fix-01/demo/gift-term-policy.js').create();
+
 const scenarios=new Set(F.scenarios.map(x=>x.id));
 for(const id of ['promoSpecial','promoLongTerm','promoCouponCash','promoMoving','promoMovingIneligible'])
   assert(scenarios.has(id),'missing review scenario: '+id);
@@ -92,6 +94,25 @@ function couponFlow(){
   assert(q.id&&q2.id&&q3.id);
 }
 couponFlow();
+
+const campaignGift={id:'GIFT-C1',source_type:'CAMPAIGN',source_id:'C1',store_id:'SIM_BJ01',unit_id:'SIM_BJ01_U04',gift_months:1,status:'APPROVED',created_at:'2026-11-01',expires_at:'2026-12-01'};
+assert.equal(giftTerm.validate(campaignGift).valid,true);
+const giftView=giftTerm.display(campaignGift);
+assert.equal(giftView.label,'赠送1个月');
+assert.equal(giftView.financial_effect,'PENDING_BUSINESS_CONFIRMATION');
+assert.equal(giftView.contract_months,null);
+assert.equal(giftView.paid_months,null);
+const salesGift={...campaignGift,id:'GIFT-S1',source_type:'SALES_CASE',requested_by:'advisor-demo',reason:'演示个案赠期',status:'SUBMITTED'};
+assert(giftTerm.validate(salesGift).reasons.includes('APPROVAL_REQUIRED'));
+assert.throws(()=>giftTerm.transition(salesGift,'APPROVED'),/APPROVAL_METADATA_REQUIRED/);
+const approvedGift=giftTerm.transition(salesGift,'APPROVED',{approval_id:'APPROVAL-DEMO-01',approved_by:'manager-demo'});
+const attachedGift=giftTerm.transition(approvedGift,'ATTACHED_TO_QUOTE',{quote_id:'SIM_QUOTE_GIFT_01'});
+const lockedGift=giftTerm.transition(attachedGift,'LOCKED_TO_ORDER',{order_id:'SIM_ORDER_GIFT_01'});
+const grantedGift=giftTerm.transition(lockedGift,'GRANTED',{granted_at:'2026-11-13'});
+assert.equal(grantedGift.status,'GRANTED');
+assert.equal(giftTerm.snapshot(grantedGift).contract_months,null);
+assert.throws(()=>giftTerm.transition(grantedGift,'APPROVED'),/INVALID_GIFT_TERM_TRANSITION/);
+
 console.log('PROMO-DEMO-SCENARIOS-01 PASS: 5 review scenarios, term gate, coupon separation, campaign tag and O01 benefit line');
 
 const lifecycleCases=[
