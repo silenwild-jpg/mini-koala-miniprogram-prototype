@@ -156,3 +156,93 @@ body.br04-mode .app-shell{height:100dvh;margin-top:0}
   outline:2px solid #087d67;
   outline-offset:-3px;
 }
+
+/* RC2-MERGE-READY-08: experimental S01/M01 nav uses approved H01 raster unchanged.
+ * Keep H01 home.html and its original PNGs completely untouched.
+ * Current-tab interactive overlays are isolated here pending human VIS-GUARD signoff. */
+.screen.page-S01 .bottom-nav,.screen.page-M01 .bottom-nav{
+  isolation:isolate;
+  overflow:hidden;
+  background:#fff;
+}
+.screen.page-S01 .bottom-nav::before,.screen.page-M01 .bottom-nav::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:url("assets/nav_original_375.png") center/100% 100% no-repeat;
+}
+@media(min-width:383px){
+  .screen.page-S01 .bottom-nav::before,.screen.page-M01 .bottom-nav::before{
+    background-image:url("assets/nav_original_390.png");
+  }
+}
+/* The photo's H01-only caption colors and historic captions are replaced by
+ * semantic live text, without cropping/repainting the original photo file. */
+.screen.page-S01 .bottom-nav::after,.screen.page-M01 .bottom-nav::after{
+  content:"";
+  position:absolute;
+  z-index:1;
+  left:0;
+  right:0;
+  top:43%;
+  height:29%;
+  background:#fff;
+  pointer-events:none;
+}
+.screen.page-S01 .bottom-item,.screen.page-M01 .bottom-item{
+  position:relative;
+  z-index:2;
+  overflow:visible;
+}
+.screen.page-S01 .bottom-item span,.screen.page-M01 .bottom-item span{
+  position:absolute;
+  top:43%;
+  left:0;
+  width:100%;
+  height:29%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-size:10px;
+  line-height:12px;
+  z-index:4;
+}
+/* Reuse the original source's inactive store/calendar/profile glyphs.
+ * Override only the H01-specific active home and the new active tab.
+ * Current active SVGs are explicitly a visual candidate, not a frozen icon master. */
+.screen.page-S01 .bottom-item img,.screen.page-M01 .bottom-item img{
+  visibility:hidden;
+}
+.screen.page-S01 .bottom-item:first-child::before,
+.screen.page-M01 .bottom-item:first-child::before,
+.screen.page-S01 .bottom-item.active::before,
+.screen.page-M01 .bottom-item.active::before{
+  content:"";
+  position:absolute;
+  z-index:3;
+  top:-4px;
+  left:calc(50% - 21px);
+  width:42px;
+  height:38px;
+  background:#fff;
+  pointer-events:none;
+}
+.screen.page-S01 .bottom-item:first-child img,
+.screen.page-M01 .bottom-item:first-child img,
+.screen.page-S01 .bottom-item.active img,
+.screen.page-M01 .bottom-item.active img{
+  visibility:visible;
+  position:absolute;
+  z-index:4;
+  top:4px;
+  left:50%;
+  transform:translateX(-50%);
+  width:26px!important;
+  height:26px!important;
+}
+.screen.page-S01 .bottom-item.active,.screen.page-M01 .bottom-item.active{
+  color:#006e54;
+}
