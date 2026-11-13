@@ -22,10 +22,10 @@
 | 新整合候选分支 | `integration/rc2-mainline-integration-01-20261113` |
 | 新整合候选SHA | `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`（PR #200 QA稳定性修复） |
 | 新整合候选自动化验收 | PASS；[Run #43452015757](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43452015757)；QUICK图片18/18、S01滚动双尺寸0偏移 |
-| 新整合候选人工视觉/UAT | HOLD；原签收不自动转移到新SHA |
-| 主线合并/正式部署 | 未授权、未执行 |
+| 新整合候选人工视觉/UAT | **PASS / USER SIGNED**：2026-11-13用户明确签收 `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`；仅限演示用途 |
+| 主线合并/正式部署 | **合并准备已授权，实际业务合并和部署仍未授权、未执行**；Netlify旧RC1预览隔离待核实 |
 
-**重要：** PR #176 的自动化与人工签收只对 SHA `41a8a079...` 有效。新整合候选SHA `d5a4ff63...` 已有独立Actions PASS，但尚未获得新SHA人工视觉/UAT签收。两者必须分别记录；不得把原签收迁移到新SHA。原PR #176及原分支保持冻结。
+**重要：** PR #176 的自动化与人工签收只对 SHA `41a8a079...` 有效。新整合候选SHA `d5a4ff63...` 已有独立Actions PASS，用户于2026-11-13对该精确SHA明确人工签收；原RC2的旧SHA签收记录仍保留。任何后续新SHA均需独立处理签收范围。原PR #176及原分支保持冻结。
 
 ## 2. 最新验收证据
 
@@ -33,6 +33,7 @@
 - [新整合候选 Actions Run #43446189232](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232)：Success，head SHA `281b3de...`，覆盖375/390与促销/生命周期回归。
 - [新整合候选审计记录](RC2_MAINLINE_INTEGRATION_01_AUDIT_20261113.md)：main治理并入、促销策略单一事实源、冲突处理和新SHA验收边界。
 - [RC2-UAT-P1-FIX-01截图稳定性审计](RC2_UAT_P1_FIX_01_EVIDENCE_20261113.md)：已下载真实ZIP，18/18 QUICK图片、S01滚动归零、修复前后11张重点截图一致。
+- [RC2-MAINLINE-MERGE-PREP-01](RC2_MAINLINE_MERGE_PREP_01_20261113.md)：新SHA用户签收、main分叉171路径分类、旧RC1 Netlify预览隔离阻断与Draft业务PR准入条件。
 - [375/390 QA Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14026423639)：374项证据文件所在包。
 - [Review Bundle Artifact](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410/artifacts/14027316228)：隔离评审构建包。
 - [上阶段整合候选375/390 QA Artifact（ID 14048525517）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43446189232/artifacts/14048525517)：历史整合SHA `281b3de...`。
@@ -55,8 +56,9 @@
 
 ### 新整合候选当前状态
 - `AUTOMATED QA PASS`：新SHA `d5a4ff63...` 已通过Run #43452015757；QA截图稳定性P1修复并核验通过。
-- `HUMAN VISUAL`：新SHA仍待人工签收；旧SHA截图与新版存在11项拍摄状态差异，不作为视觉回退的事实证据。
-- `VIS_SIGNED`：HOLD，等待用户对新SHA视觉/UAT复核。
+- `MERGE_PREPARATION`：已批准，main业务合并仍HOLD，Netlify旧RC1部署预览隔离尚未核实。
+- `HUMAN VISUAL`：**PASS / USER SIGNED**，用户明确签收当前完整SHA `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`；旧SHA截图与新版存在11项拍摄状态差异，不作为视觉回退的事实证据。
+- `VIS_SIGNED`：**PASS**，用户2026-11-13明确签收完整SHA `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`。
 - `MERGED`：仅PR #195合入整合分支；尚未合入main。
 - `DEPLOYED`：未部署。
 
