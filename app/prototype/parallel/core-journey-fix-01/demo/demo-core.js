@@ -91,7 +91,7 @@
       const coupon=opts.renewal?eligible.find(c=>c.id==='CPN-004'):s.couponChoice==='none'?null:s.couponChoice==='auto'?eligible.sort((a,b)=>b.amount-a.amount)[0]:eligible.find(c=>c.id===s.couponChoice);
       const discount=coupon?Math.min(coupon.amount,rentTotal):0;
       // A moving/service entitlement is tracked separately, and does not subtract rent.
-      const moving=!opts.renewal&&Number(s.requirement.term_months)>=6?s.coupons.find(c=>c.type==='SERVICE_BENEFIT'&&c.status==='CLAIMED'&&!s.orders.some(o=>o.status==='paid_simulated'&&o.moving_benefit_pending_id===c.id)):null;
+      const moving=!opts.renewal&&Number(months)>=6?s.coupons.find(c=>c.type==='SERVICE_BENEFIT'&&c.status==='CLAIMED'&&!s.orders.some(o=>o.status==='paid_simulated'&&o.moving_benefit_pending_id===c.id)):null;
       const rentAfterCoupon=rentTotal-discount;
       return {rent_total:rentTotal,monthly_average:deposit,rent_after_coupon:rentAfterCoupon,// Backward-compatible analytic field: a cash coupon can make term
         // price non-divisible by months. Do not present it as monthly rent.
