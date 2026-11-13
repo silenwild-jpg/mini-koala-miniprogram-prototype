@@ -63,7 +63,16 @@
     {id:'promoLongTerm',name:'促销演示 · 长租折扣',capacity:3.5,term:12,city:'北京'},
     {id:'promoCouponCash',name:'促销演示 · 租金券可用',capacity:3.5,term:12,city:'北京',coupons:[{id:'CPN-001',name:'新客租仓券',amount:200,type:'RENT_CASH',status:'CLAIMED'},{id:'CPN-002',name:'12个月长租券',amount:300,type:'RENT_CASH',status:'CLAIMED'}]},
     {id:'promoMoving',name:'促销演示 · 基础搬运权益',capacity:3.5,term:6,city:'北京',coupons:[{id:'CPN-003',name:'基础搬运权益',amount:200,type:'SERVICE_BENEFIT',status:'CLAIMED'}]},
-    {id:'promoMovingIneligible',name:'促销演示 · 搬运租期未达标',capacity:3.5,term:3,city:'北京',coupons:[{id:'CPN-003',name:'基础搬运权益',amount:0,type:'SERVICE_BENEFIT',status:'CLAIMED'}]}
+    {id:'promoMovingIneligible',name:'促销演示 · 搬运租期未达标',capacity:3.5,term:3,city:'北京',coupons:[{id:'CPN-003',name:'基础搬运权益',amount:0,type:'SERVICE_BENEFIT',status:'CLAIMED'}]},
+    {id:'lifeIdentity',name:'租后演示 · 已支付待身份验证',capacity:3,term:12,city:'北京',lifecycle:'identityPending'},
+    {id:'lifeUpcoming',name:'租后演示 · 待起租',capacity:3,term:12,city:'北京',lifecycle:'upcoming'},
+    {id:'lifeActive',name:'租后演示 · 正常在租',capacity:3,term:12,city:'北京',lifecycle:'active'},
+    {id:'lifeRenewalQuote',name:'租后演示 · 续租报价待确认',capacity:3,term:12,city:'北京',lifecycle:'renewal'},
+    {id:'lifeReturning',name:'租后演示 · 退租处理中',capacity:3,term:12,city:'北京',lifecycle:'returning'},
+    {id:'lifeInspection',name:'租后演示 · 等待验仓',capacity:3,term:12,city:'北京',lifecycle:'inspection'},
+    {id:'lifeRefund',name:'租后演示 · 押金处理中',capacity:3,term:12,city:'北京',lifecycle:'refund'},
+    {id:'lifeExpired',name:'租后演示 · 租期已到期',capacity:3,term:12,city:'北京',lifecycle:'expired'},
+    {id:'lifeEnded',name:'租后演示 · 已结束历史订单',capacity:3,term:12,city:'北京',lifecycle:'ended'}
   ];
   stores.forEach(s=>{const candidates=units.filter(u=>u.store_id===s.id&&u.status==='available');s.teaserCubicPrice=candidates.length?Number(Math.min(...candidates.map(u=>(Math.round(u.base_month*12*.65/10)*10)/12/u.volume)).toFixed(2)):null;});
   const data={version:'STORE_FIXTURE_03_BJ30_20261025',synthetic:true,distanceVerified:false,defaultCity:'北京',demoToday:'2026-10-25',defaultStart:'2026-11-01',stores,units,scenarios,pricing:{managementFee:50,homeReferenceTerm:12,termRules:[{min:1,max:3,factor:.75},{min:4,max:6,factor:.70},{min:7,max:12,factor:.65},{min:13,max:36,factor:.60},{min:37,max:60,factor:.55}],roundRentTo:10},notice:'门店名称与地址摘自用户表格；仓位、照片关联、价格和库存为内部测试配置，未接入实时系统。'};
