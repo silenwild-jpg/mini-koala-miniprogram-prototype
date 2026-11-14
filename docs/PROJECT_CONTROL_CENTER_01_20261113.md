@@ -1,10 +1,26 @@
 # 迷你考拉仓｜项目控制中心
 
-**版本日期：2026-11-13**  
-**用途：** 本文件是项目任务、版本、规则与验收状态的唯一入口；详细页面规则和历史证据保留在专业子文档中，不在多个清单重复维护。  
-**当前阶段：** Web/HTML 产品原型验证、功能演示与视觉签收；不是微信原生生产上线验收。
+**最近状态核验：2026-11-14**  
+**用途：** 唯一项目控制入口；历史页面规则、旧分支审计和证据保留在原专业文件。  
+**当前阶段：** **RC2 Web演示原型已合并main、375/390自动化通过；WorkBuddy交接与下一迭代准备；未部署、非微信原生上线验收。**
 
-## 1. 原RC2签收来源与当前主线整合候选
+## 0. 当前唯一有效主线状态（覆盖本文件下方2026-11-13历史快照）
+
+| 项目 | 当前经核验状态 |
+|---|---|
+| main业务已验收基线 | `7f4231826cb9b86ee62d2b8337d609d194f42c4a`；[PR #203](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/203) **Merged** |
+| main自身375/390全站QA | [GitHub Actions #43541417405](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43541417405) **SUCCESS**；head_sha与main SHA一致 |
+| 真实截图与评审构建 | [QA Artifact #14091129750](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43541417405/artifacts/14091129750) / [Review Bundle #14091733330](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43541417405/artifacts/14091733330)；证据包属于GitHub临时保留内容 |
+| 用户人工视觉/UAT签收源 | `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`，原备用SHA `41a8a079...` 继续保留 |
+| 当前部署状态 | **NOT DEPLOYED**：本次main业务合并没有执行站点部署；微信原生/真实后端/支付仍未进入生产验收 |
+| 下一个开发流程 | [WorkBuddy交接与完整代码入口](RC2_MAINLINE_HANDOFF_01_20261114.md) / [业务后端待确认表](BACKEND_DECISION_REGISTER_01_20261114.md) |
+| 工程规则 | 现有`AGENTS.md`、`DEMO_FIRST_DEVELOPMENT_STANDARD_01_20261113.md`、VIS-GUARD、main必需CI继续生效；新业务PR遵守授权、双尺寸QA与回滚 |
+
+**事实层级：** `7f423182...` 已真实合并并通过main专属回归；后续治理文档如果合并main将形成更新的main SHA，但不构成业务Web运行时的新签收。下方在2026-11-13以前生成的“main未归并/候选Draft/HOLD”等内容是**历史时点事实，不是当前状态**。
+
+---
+
+## 1. 2026-11-13历史签收与整合快照（已被第0节当前状态覆盖）
 
 | 项目 | 当前事实 |
 |---|---|
@@ -23,7 +39,7 @@
 | 新整合候选SHA | `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`（PR #200 QA稳定性修复） |
 | 新整合候选自动化验收 | PASS；[Run #43452015757](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43452015757)；QUICK图片18/18、S01滚动双尺寸0偏移 |
 | 新整合候选人工视觉/UAT | **PASS / USER SIGNED**：2026-11-13用户明确签收 `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`；仅限演示用途 |
-| 主线合并/正式部署 | **合并准备已授权，实际业务合并和部署仍未授权、未执行**；Netlify旧RC1预览隔离待核实 |
+| 主线合并/正式部署 | **业务PR #203已于2026-11-14合并main，随后main回归PASS；未部署**（最新以第0节为准） |
 
 **重要：** PR #176 的自动化与人工签收只对 SHA `41a8a079...` 有效。新整合候选SHA `d5a4ff63...` 已有独立Actions PASS，用户于2026-11-13对该精确SHA明确人工签收；原RC2的旧SHA签收记录仍保留。任何后续新SHA均需独立处理签收范围。原PR #176及原分支保持冻结。
 
@@ -50,17 +66,16 @@
 - S5 16种有效状态、6种不完整入口及6条流程检查通过。
 - 导航几何、375/390像素曲线检查通过。用户已认可当前候选为正式演示版本；后续底栏活动态图标进一步视觉精修可另起下一版，不反向推翻本SHA整体签收。
 
-2026-11-13用户随后明确批准本SHA作为正式演示版本（[PR #176 签收记录](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)）；当前准确状态为 **AUTOMATED QA PASS / VIS-UAT PASS / DEMO READY**。早于签收生成的构建身份文件仍带有 `human_uat_signed_off=false`，这是构建时历史快照，不能覆写原Artifact；以用户后续签收记录作为补充证据。`backend_crm_wechat_verified=false`、`main_merge_allowed=false`、`deployment_allowed=false` 仍有效：未验证线上演示站部署，未完成生产/微信原生条件，也未授权将业务PR #176合并main。
+【2026-11-13历史记录，非当前main状态】2026-11-13用户随后明确批准该旧SHA作为正式演示版本（[PR #176 签收记录](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)）；当前准确状态为 **AUTOMATED QA PASS / VIS-UAT PASS / DEMO READY**。早于签收生成的构建身份文件仍带有 `human_uat_signed_off=false`，这是构建时历史快照，不能覆写原Artifact；以用户后续签收记录作为补充证据。`backend_crm_wechat_verified=false`、`main_merge_allowed=false`、`deployment_allowed=false` 是旧构建生成时的门禁快照；当前main业务已按授权真实归并，新版本仍未部署、未做生产微信/后端验收。
 
 ## 3. 当前阶段门禁
 
-### 新整合候选当前状态
-- `AUTOMATED QA PASS`：新SHA `d5a4ff63...` 已通过Run #43452015757；QA截图稳定性P1修复并核验通过。
-- `MERGE_PREPARATION`：已批准，main业务合并仍HOLD，Netlify旧RC1部署预览隔离尚未核实。
-- `HUMAN VISUAL`：**PASS / USER SIGNED**，用户明确签收当前完整SHA `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`；旧SHA截图与新版存在11项拍摄状态差异，不作为视觉回退的事实证据。
-- `VIS_SIGNED`：**PASS**，用户2026-11-13明确签收完整SHA `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`。
-- `MERGED`：仅PR #195合入整合分支；尚未合入main。
-- `DEPLOYED`：未部署。
+### 最新main状态（2026-11-14）
+- `MAIN MERGED`：用户明确批准PR #203合并main，GitHub返回合并SHA `7f4231826cb9b86ee62d2b8337d609d194f42c4a`。
+- `G-TECH PASS`：main同SHA GitHub Actions #43541417405全套375/390成功。
+- `G-VIS`：用户已签收业务源SHA `d5a4ff63...`；main合并结果与该业务源相比只有治理文档及main QA工作流差异，未改变业务页面与视觉素材。
+- `NOT DEPLOYED`：无本次Netlify新部署；尚未授权小程序原生生产、真实支付和后端上线。
+- `NEXT`：WB-BASELINE-01；后续新增代码须新分支、范围验收，不能自动继承旧SHA的QA签收。
 
 ### DEMO READY
 需要：
@@ -91,7 +106,7 @@
 | [#132](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/132) | 续租支付契约、身份审核权限 | 以候选当前实现复核；真实服务后端后置 |
 | [#137](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/137) | 12/14m³独立房间素材 | 用户已暂缓，不进入当前执行队列 |
 
-## 6. PR / 分支治理快照
+## 6. 2026-11-13 PR / 分支治理快照（历史，不是最新开放PR清单）
 
 截至2026-11-13 GitHub API：
 - 最新实查快照（2026-11-13、main SHA `11afd40a005933ff4a48d8b8f89dbb66ef995103`）：**Open PR 125，全部Draft，以main为base 8条**。此前用户分别批准关闭#22/#24/#50和#67/#84/#86/#89（共7条），全部Not merged、原分支保留。[最初130条PR分类](PROJECT_OPS_P1A_PR_INVENTORY_20261113.md)仍保留当时快照，不反向篡改。
@@ -138,7 +153,7 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 ## 8. 关键入口
 
 - 项目总控：[PROJECT-OPS-RESET-01 #177](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)
-- 当前候选：[PR #176](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)
+- 当前正式业务基线：[PR #203 已合并main](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/203)；原备用签收版本：[PR #176](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)（历史保留）
 - 治理归并：[PR #68（已合并）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/68)
 - main保护：[Ruleset已生效](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/rules/27195923)；[管理员配置与核验](MAIN_PROTECTION_01_20261113.md)
 - 当前自动化验收：[Run #43405346410](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43405346410)
@@ -155,12 +170,9 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 - QA-S5-DEEPLINK-01：[S5首次/部分/完整需求375/390共6条浏览器PASS](QA_S5_DEEPLINK_01_RESULT_20261113.md)（独立QA [PR #187](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/187)，签收业务运行时未变）
 - 旧Netlify RC1预览隔离：[SITE-PREVIEW-ISOLATION-01](SITE_PREVIEW_ISOLATION_01_20261113.md)（旧RC1严格白名单与当前main多出promotion-policy.js不相容；外部站点配置未更改）
 
-### 当前下一步
-- 批量工作包协议：[PROJECT-WORK-PACKAGE-PROTOCOL-01](PROJECT_WORK_PACKAGE_PROTOCOL_01_20261113.md)；Issue模板已同步，PR #192已合并，作为后续任务包默认模板。
-1. 视觉/UAT签收已完成；保留后续精修清单，不改变本SHA批准状态。
-2. Issue #148/#93此前已按证据关闭；#171/#132/#152/#164保留原签收/来源证据与后端待确认项，针对关闭或代码迁移仍须独立裁定。
-3. P1-A2/B2、A3/B3、QA-LEGACY-RETAIN-01及P1-E-02已归档；CLEAN-ELIGIBILITY-01/02两批7条历史PR已按用户明确名单Close，原分支保留。[CLEAN-ELIGIBILITY-03](PROJECT_OPS_CLEAN_ELIGIBILITY_03_20261113.md)已确认**已关闭PR #24的head仍被开放PR #25用作base**、已合并PR #140的head仍被开放PR #141用作base，故禁止按已关闭/已合并状态删除来源分支。下一步优先补旧QA脚本覆盖、历史站点依赖/部署版本核验；没有新PR关闭授权不扩展清理范围。
-4. `QA-LEGACY-COVERAGE-02`五项历史QA来源对照已完成；后续独立`QA-S5-DEEPLINK-01`已针对**签收SHA不变的运行时**执行6/6真实375/390浏览器测试并生成截图（Run #43435644089 PASS）。旧Netlify RC1仍对治理PR触发不适用的冻结RC1白名单（当前main多出promotion-policy.js），仅记录静态证据与隔离方案，Netlify站点配置未修改。
-5. main保护已生效；重复检查已去重、严格分支更新要求已关闭，必需Visual guard仍保留。旧RC1 Netlify预览的失败/待处理状态与GitHub Actions必需检查分开记录，未修改站点配置。
-6. 所有业务代码PR#176归并、历史PR批量关闭/分支删除、Netlify部署设置修改均保持独立准入，不自动执行。
+### 当前下一步（2026-11-14）
 
+1. **WB-BASELINE-01**：WorkBuddy基于 `7f423182...` 的main已验收Web原型做只读代码入口、页面状态、实测375/390与演示数据审计；不直接重写微信原生工程。
+2. **WB-DEMO-P1-01**：有证据再处理fixture演示日期、㎡/m³状态及实际仓高契约、S5/M01与促销展示边界；保持已冻结视觉结构，必要变更新SHA重验。
+3. **WB-NATIVE-ARCH-01**：另行规划微信小程序原生层、共享状态、mock adapter、地图/手机号/支付接口；真实财务政策与用户隐私进入[后端登记表](BACKEND_DECISION_REGISTER_01_20261114.md)。
+4. 已通过main自动化的PR #203与已关闭Issue #202只用于审计追溯；**不执行Netlify部署或生产微信发布**。所有新的业务main合并/上线遵循当前用户授权。
