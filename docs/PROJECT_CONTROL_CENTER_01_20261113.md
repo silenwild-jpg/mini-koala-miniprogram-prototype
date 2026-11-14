@@ -16,6 +16,8 @@
 | 下一个开发流程 | [WorkBuddy交接与完整代码入口](RC2_MAINLINE_HANDOFF_01_20261114.md) / [业务后端待确认表](BACKEND_DECISION_REGISTER_01_20261114.md) |
 | 工程规则 | 现有`AGENTS.md`、`DEMO_FIRST_DEVELOPMENT_STANDARD_01_20261113.md`、VIS-GUARD、main必需CI继续生效；新业务PR遵守授权、双尺寸QA与回滚 |
 
+**独立复审（2026-11-14）：** [全站截图/代码/规则审计](RC2_POSTMERGE_INDEPENDENT_AUDIT_01_20261114.md)；[唯一现行页面规则与状态索引](RC2_POSTMERGE_RULE_BASELINE_01_20261114.md)；[WorkBuddy批量修复工作包](WB_POSTAUDIT_FIX_BATCH_01_20261114.md)。结论为**没有本次可实证的新P0阻断、3项已确认P1演示一致性风险（价格倒挂/双单位仓高/演示时钟）**；没有授权更改签收母版、业务代码或部署。用户当前优先目标仍是演示路径，真实财务/接口问题后置业务与后端。
+
 **事实层级：** `7f423182...` 已真实合并并通过main专属回归；后续治理文档如果合并main将形成更新的main SHA，但不构成业务Web运行时的新签收。下方在2026-11-13以前生成的“main未归并/候选Draft/HOLD”等内容是**历史时点事实，不是当前状态**。
 
 ---
@@ -172,6 +174,7 @@ QA-only来源：#156、#159、#166、#168、#169；附加QA：#162、#170。
 
 ### 当前下一步（2026-11-14）
 
+0. **RC2-POSTMERGE-INDEPENDENT-AUDIT-01**：独立复审与规则索引已完成；后续先按`WB_POSTAUDIT_FIX_BATCH_01_20261114.md`证据优先执行问题分拣，不推翻已签收的整个界面。
 1. **WB-BASELINE-01**：WorkBuddy基于 `7f423182...` 的main已验收Web原型做只读代码入口、页面状态、实测375/390与演示数据审计；不直接重写微信原生工程。
 2. **WB-DEMO-P1-01**：有证据再处理fixture演示日期、㎡/m³状态及实际仓高契约、S5/M01与促销展示边界；保持已冻结视觉结构，必要变更新SHA重验。
 3. **WB-NATIVE-ARCH-01**：另行规划微信小程序原生层、共享状态、mock adapter、地图/手机号/支付接口；真实财务政策与用户隐私进入[后端登记表](BACKEND_DECISION_REGISTER_01_20261114.md)。
