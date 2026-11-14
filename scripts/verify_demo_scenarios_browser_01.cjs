@@ -191,7 +191,7 @@ const results=[];
     await page.locator('#screen .mk-order-entitlements').waitFor();
     const orderGiftText=await page.locator('#screen .mk-order-entitlements').innerText();
     assert(orderGiftText.includes('赠送1个月'),'M01 order details must show the persisted gift-term snapshot');
-    assert(orderGiftText.includes('¥520/月'),'M01 order details must preserve the special monthly price snapshot');
+    assert(orderGiftText.includes('¥'+configuredGiftSpecial+'/月'),'M01 order details must preserve current campaign special monthly price snapshot');
     const granted=await page.evaluate(id=>window.SIM_DEMO.core.orderDetail(id).benefit_snapshot.gift_terms[0].status,giftOrder.id);
     assert.equal(granted,'GRANTED','successful demo payment must advance the gift entitlement lifecycle');
     await shot('promoCampaignGift-M01');
