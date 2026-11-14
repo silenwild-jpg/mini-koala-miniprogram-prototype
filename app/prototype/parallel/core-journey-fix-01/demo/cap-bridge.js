@@ -36,10 +36,11 @@
   let savedArea=draftValid?draft?.area:r.input_value;
   let lastCanonical=originalCapacity;
   let preservedCubicDraft=draftValid&&typeof draft?.preservedCubicDraft==='string'?draft.preservedCubicDraft:'';
+  const AREA_ESTIMATE_HEIGHT=2.5; // For unknown warehouse only; the selected unit uses its real dimensions.
   function putArea(value){
     const raw=String(value??'').trim(),num=Number(raw);
     const valid=raw!==''&&Number.isFinite(num)&&num>=0.2&&num<=80&&Math.abs(num*10-Math.round(num*10))<1e-7;
-    const m3=valid?Number((num*2.5).toFixed(2)):null;
+    const m3=valid?Number((num*AREA_ESTIMATE_HEIGHT).toFixed(2)):null;
     capacityField.value=m3===null?'':String(m3);
     lastCanonical=capacityField.value;
     capacityField.dispatchEvent(new Event('input',{bubbles:true}));
@@ -64,7 +65,7 @@
     const next=unitPicker.value;
     if(next==='m2'&&currentUnit==='m3'){
       preservedCubicDraft=capacityField.value;
-      const cubic=Number(capacityField.value),area=cubic/2.5;
+      const cubic=Number(capacityField.value),area=cubic/AREA_ESTIMATE_HEIGHT;
       const exact=capacityField.value.trim()!==''&&Number.isFinite(area)&&area>=0.2&&area<=80&&
         Math.abs(area*10-Math.round(area*10))<1e-7;
       areaField.value=exact?String(Number(area.toFixed(1))):'';
@@ -86,7 +87,7 @@
     setTimeout(()=>{
       if(currentUnit!=='m2'||capacityField.value===lastCanonical)return;
       if(preset){currentUnit='m3';displayUnit();saveDraft();return;}
-      const next=Number(capacityField.value)/2.5;
+      const next=Number(capacityField.value)/AREA_ESTIMATE_HEIGHT;
       if(Number.isFinite(next)&&next>=0.2&&next<=80){
         areaField.value=String(Number(next.toFixed(1)));
         putArea(areaField.value);saveDraft();
@@ -104,10 +105,10 @@
       const area=Number(areaField.value);
       if(!areaField.value.trim()||!Number.isFinite(area)||area<0.2||area>80||
         Math.abs(area*10-Math.round(area*10))>1e-7||
-        Math.abs(p.target_volume-area*2.5)>1e-7)return;
+        Math.abs(p.target_volume-area*AREA_ESTIMATE_HEIGHT)>1e-7)return;
     }
     core.setRequirement(p.target_volume,p.term_months,p.term_confirmed,
-      currentUnit==='m2'?{input_unit:'m2',input_value:Number(areaField.value)}:null);
+      currentUnit==='m2'?{input_unit:'m2',input_value:Number(areaField.value),conversion_basis:'STANDARD_HEIGHT_ESTIMATE',assumed_height_m:AREA_ESTIMATE_HEIGHT}:null);
     sessionStorage.setItem(KEY,JSON.stringify(core.state()));sessionStorage.removeItem(DRAFT);sessionStorage.removeItem('mk_items_draft_v3');
     core.claimCoupons();sessionStorage.setItem(KEY,JSON.stringify(core.state()));const target=sessionStorage.getItem('mk_estimate_return_v4')||'index.html?page=S5';sessionStorage.removeItem('mk_estimate_return_v4');location.href=target;
   });
