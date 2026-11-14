@@ -9,24 +9,22 @@
 - [项目控制中心｜当前版本、验收、规则、待办与治理状态](docs/PROJECT_CONTROL_CENTER_01_20261113.md)
 - [AI/WorkBuddy/Codex执行规则](AGENTS.md)
 - [项目总控任务 PROJECT-OPS-RESET-01](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/issues/177)
+- [WorkBuddy交接、页面代码入口与开发流程](docs/RC2_MAINLINE_HANDOFF_01_20261114.md)
+- [后端待确认/原生接入决策登记表](docs/BACKEND_DECISION_REGISTER_01_20261114.md)
 - [main保护设置清单（需仓库管理员执行）](docs/MAIN_PROTECTION_01_20261113.md)
 
 控制中心记录当前唯一候选、精确 SHA、技术/视觉门禁、页面规则来源、待业务/后端确认事项和下一任务。历史登记表保留追溯用途；如与最新用户批准结论或控制中心冲突，不得直接沿用旧记录。
 
-## 当前候选状态（2026-11-13快照）
+## 当前业务基线（2026-11-14，已核验）
 
-- RC2候选：[PR #176](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/176)
-- 自动化验收 SHA：`41a8a079eb48049e1060512bddf71c226bfd3738`
-- 375/390全站自动化门禁：PASS
-- 人工视觉/UAT：PASS（用户于2026-11-13对该SHA签收）
-- 演示版本：DEMO READY（仅限已签收SHA）
-- 在线演示部署：尚未核实对应版本的可访问URL
-- 业务代码PR #176合并main：未授权、未执行
-- 正式生产上线：不在当前原型验收范围
-- 治理PR #68：已合并main（`0c78de7720451692bbd44be8854259b8b6a20dbd`）
-- main分支保护：已获用户授权，尚未启用；当前GitHub集成无Administration配置权限
+- **正式演示代码主线：** `main` 的 `7f4231826cb9b86ee62d2b8337d609d194f42c4a`；[业务PR #203](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/203) 已合并。
+- **main自身375/390回归：** [Actions #43541417405](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43541417405) **SUCCESS**；[375/390证据包](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43541417405/artifacts/14091129750)。
+- **人工视觉/UAT签收源：** `d5a4ff63e2b0cdcffb2e5be4c4e710b61497ae95`；原签收备用PR #176保留，不回退覆盖。
+- **版本属性：** Web/HTML演示原型，**非微信原生小程序上线代码**；本轮合并**未部署**；生产身份/交易/支付/后端未验收。
+- **main分支治理：** GitHub必需检查`Visual contract and evidence guard`有效；`strict_required_status_checks_policy=false`；不能绕过受控归并。
+- **下一工作包：** [WorkBuddy接手交接及迁移入口](docs/RC2_MAINLINE_HANDOFF_01_20261114.md) → WB-BASELINE-01；[后端确认清单](docs/BACKEND_DECISION_REGISTER_01_20261114.md)。
 
-实时状态以项目控制中心和 GitHub PR/Actions 为准，不以本段快照替代实时读取。
+旧版快照、历史PR和构建包可能保留过时的main合并或生产门禁字段；以当前main精确SHA、最新PR/Actions证据以及项目控制中心顶部最新状态为准。
 
 ## 工作原则
 
