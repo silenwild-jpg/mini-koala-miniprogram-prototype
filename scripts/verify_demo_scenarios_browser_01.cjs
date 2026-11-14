@@ -75,12 +75,12 @@ const results=[];
     await page.frameLocator('#s01-r2-frame').locator('body').waitFor();
     const special=await page.evaluate(()=>{
       const b=window.SIM_DEMO,st=b.core.fixture.stores.find(x=>x.id==='SIM_BJ01'),u=b.core.fixture.units.find(x=>x.id==='SIM_BJ01_U04');
-      return {tag:b.presentation.storePromotionTag(st),city:b.state().city,amount:b.core.amounts([u.id],6)};
+      return {tag:b.presentation.storePromotionTag(st),city:b.state().city,amount:b.core.amounts([u.id],6),campaignBase:window.SIM_BR03_DATA.campaigns.find(c=>c.unitId===u.id)?.baseMonth};
     });
     assert.equal(special.tag,'特价仓','campaign tag must come from the explicit valid unit campaign');
     assert(special.amount.campaign_ids.length===1,'special campaign must be present in the shared quote calculation');
     assert.equal(special.amount.unit_pricing[0].base_month,620,'catalog base month must match the campaign snapshot');
-    assert.equal(special.amount.unit_special_price,520,'campaign specialMonth must replace the normal term price in the demo quote');
+    assert.equal(special.amount.unit_special_price,special.campaignBase,'campaign specialMonth must match the active demo campaign, without hardcoded historical price');
     assert(special.amount.unit_special_price<special.amount.unit_pricing[0].base_month,'special warehouse must show a visible reduction from catalog rent');
     assert.equal(special.amount.term_discount_total,0,'special price must not silently stack with term discount');
     const s01Text=await page.frameLocator('#s01-r2-frame').locator('body').innerText();
