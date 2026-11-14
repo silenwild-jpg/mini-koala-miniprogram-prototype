@@ -25,10 +25,10 @@ for(const store of F.stores.filter(s=>!campaigns.some(c=>c.storeId===s.id))){
   assert.ok(presentation.tags(store,5).every(t=>t.type!=='promotion'));
 }
 const store=F.stores.find(s=>s.id===campaigns[0].storeId);
-const originalDate=F.demoToday,originalActive=campaigns[0].active;
-F.demoToday='2026-12-01';
-assert.equal(unitPolicy.storePromotionTag(store),'','expired campaign is not surfaced');
-F.demoToday=originalDate;
+const originalActive=campaigns[0].active;
+const expiredCore=makeCore({now:()=>Date.parse('2026-12-01T06:00:00Z')});
+const expiredPolicy=makeUnitPolicy({core:expiredCore,fixture:F,config});
+assert.equal(expiredPolicy.storePromotionTag(store),'','expired campaign is not surfaced');
 campaigns[0].active=false;
 assert.equal(unitPolicy.storePromotionTag(store),'','inactive campaign is not surfaced');
 campaigns[0].active=originalActive;
