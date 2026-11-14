@@ -1,6 +1,7 @@
 'use strict';
 const assert=require('node:assert/strict');
 const U=require('../app/prototype/parallel/core-journey-fix-01/demo/space-unit.js');
+assert.equal(U.ESTIMATE_BASIS,'STANDARD_HEIGHT_ESTIMATE');
 assert.equal(U.cubicFromArea(2),5);
 assert.equal(U.cubicFromArea(.2),.5);
 assert.equal(U.cubicFromArea(80),200);
@@ -9,7 +10,7 @@ assert.equal(U.areaForUnit({volume:2,dimensions_m:[1,1,2],area:1}),1);
 assert.equal(U.areaForUnit({volume:5,dimensions_m:[2,1,2.5],area:2}),2);
 assert.equal(U.areaForUnit({volume:5,dimensions_m:null,area:null}),null);
 assert.equal(U.unitAreaSuffix({dimensions_m:null,area:null}),'');
-assert.equal(U.demandCapacity({capacity_m3:5,input_unit:'m2',input_value:2}),'2㎡ · 5m³');
+assert.equal(U.demandCapacity({capacity_m3:5,input_unit:'m2',input_value:2}),'2㎡ · 约5m³');
 assert.equal(U.demandCapacity({capacity_m3:5,input_unit:'m3'}),'5m³');
 assert.equal(U.demandCapacity({capacity_m3:5,input_unit:'m2',input_value:4}),'5m³');
 console.log('CAP-UNIT-DUAL-01 unit contract PASS');
