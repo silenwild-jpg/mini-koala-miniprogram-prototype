@@ -10,7 +10,7 @@
     const now=options.now||Date.now;
     const fail=code=>{throw new Error(code);};
     const promoConfig=options.promotionConfig||promotionConfig||{campaigns:[]};
-    const promotionPolicy=promotionPolicyModule?.create?.({fixture,config:promoConfig,now:()=>String(fixture.demoToday||new Date(now()).toISOString().slice(0,10))});
+    const promotionPolicy=promotionPolicyModule?.create?.({fixture,config:promoConfig,now:()=>today()});
     const giftPolicy=giftTermModule?.create?.();
     const initial=()=>({schema:1,fixtureVersion:fixture.version,scenario:'noDemand',city:fixture.defaultCity,locationAuthorized:false,requirement:{capacity_m3:null,term_months:null,term_confirmed:false},storeId:null,selected:[],startDate:null,dateConfirmed:false,auth:{status:'anonymous',expiresAt:0},account:null,contactPhone:'',coupons:[],serviceBenefits:[],giftTerms:[],couponChoice:'auto',services:{},messages:[],previewConsumed:false,inventoryVersion:1,stock:{},prices:{},quote:null,orders:[],leads:[],enterpriseLeads:[],nextRecheck:null,sequence:0,returnPage:'S01'});
     let s=initial();
@@ -44,10 +44,11 @@
       s.quote=null;
     };
     function expireCoupons(){
-      const todayValue=String(fixture.demoToday||today());let changed=false;
+      const todayValue=today();let changed=false;
       s.coupons.forEach(c=>{if(c.expires_at&&c.expires_at<todayValue&&['AVAILABLE','SELECTED'].includes(c.status)){transitionCoupon(c,'EXPIRED');changed=true;}});
       if(changed&&s.quote)invalidate();
     }
+    const AREA_ESTIMATE_HEIGHT=2.5; // Only before unit selection, not a real-unit dimension.
     function setRequirement(capacity,months,confirmed=false,input=null){
       if(capacity!==null&&!validCapacity(capacity))fail('INVALID_CAPACITY');
       if(months!==null&&!validTerm(months))fail('INVALID_TERM');
@@ -56,10 +57,12 @@
       // Reject inconsistent metadata rather than trusting an arbitrary URL/draft.
       const area=input?.input_unit==='m2'?Number(input.input_value):null;
       if(area!==null&&(!Number.isFinite(area)||area<0.2||area>80||
-        Math.abs(area*10-Math.round(area*10))>1e-7||Math.abs(area*2.5-capacity)>1e-7))
+        Math.abs(area*10-Math.round(area*10))>1e-7||Math.abs(area*AREA_ESTIMATE_HEIGHT-capacity)>1e-7||
+        (input?.conversion_basis&&input.conversion_basis!=='STANDARD_HEIGHT_ESTIMATE')||
+        (input?.assumed_height_m!==undefined&&input.assumed_height_m!==AREA_ESTIMATE_HEIGHT)))
         fail('INVALID_CAPACITY');
       s.requirement={capacity_m3:capacity,term_months:months,term_confirmed:confirmed&&validTerm(months),
-        ...(area===null?{}:{input_unit:'m2',input_value:area})};s.selected=[];invalidate();
+        ...(area===null?{}:{input_unit:'m2',input_value:area,conversion_basis:'STANDARD_HEIGHT_ESTIMATE',assumed_height_m:AREA_ESTIMATE_HEIGHT})};s.selected=[];invalidate();
     }
     function setEstimate(payload){
       const p=payload||{},raw=p.estimated_volume;
@@ -125,7 +128,7 @@
     }
     const currency=n=>Math.round((n+Number.EPSILON)*100)/100;
     function campaignForUnit(u,months){
-      const base=Number(s.prices[u.id]??u.base_month),todayValue=String(fixture.demoToday||today());
+      const base=Number(s.prices[u.id]??u.base_month),todayValue=today();
       for(const campaign of (promoConfig.campaigns||[]).filter(x=>x?.unitId===u.id&&x?.storeId===u.store_id)){
         const result=promotionPolicy.evaluateCampaign(campaign,{today:todayValue,unit:u,store:store(u.store_id),available:available(u),termMonths:months});
         if(result.eligible&&Number.isFinite(Number(campaign.baseMonth))&&Number(campaign.baseMonth)>0&&Number(base)>Number(campaign.baseMonth))return campaign;
@@ -149,7 +152,7 @@
         if(g.min_months!==undefined&&Number(months)<Number(g.min_months))reasons.push('TERM_INELIGIBLE');
         if(g.max_months!==undefined&&Number(months)>Number(g.max_months))reasons.push('TERM_INELIGIBLE');
         if(g.active===false)reasons.push('INACTIVE');
-        if(g.expires_at&&String(fixture.demoToday||today())>g.expires_at)reasons.push('ENDED');
+        if(g.expires_at&&today()>g.expires_at)reasons.push('ENDED');
         if(g.source_type==='SALES_CASE'&&(!g.approval_id||!g.approved_by))reasons.push('APPROVAL_METADATA_REQUIRED');
         const unique=[...new Set(reasons)],stacking=u?promotionPolicy.stacking(g.source_type==='CAMPAIGN'?'CAMPAIGN_FREE_TERM':'SALES_FREE_TERM',unitPricing(u,months).campaign_id?'UNIT_SPECIAL_PRICE':'TERM_DISCOUNT'):{status:'NEEDS_CONFIRMATION',allowed:false,reason:'UNIT_NOT_FOUND'};
         return {...giftPolicy.display(g),id:g.id||null,source_type:g.source_type,status:g.status,gift_months:g.gift_months,eligible:unique.length===0,stacking_status:stacking.status,display_only_demo:true,reasons:unique,reason:unique.length?unique.join('、'):''};
@@ -162,7 +165,7 @@
       if(c.id==='CPN-004')return renewal&&months>=6;
       if(renewal||c.type!=='RENT_CASH'||s.orders.some(o=>o.status==='paid_simulated'))return false;
       if(unitRows.some(x=>x.campaign_id)&&!promotionPolicy.stacking('UNIT_SPECIAL_PRICE','RENT_CASH_COUPON').allowed)return false;
-      if(c.expires_at&&String(fixture.demoToday||today())>c.expires_at)return false;
+      if(c.expires_at&&today()>c.expires_at)return false;
       return c.id==='CPN-001'?rentTotal>=2000:c.id==='CPN-002'?months>=12:false;
     }
     function amounts(ids,months,opts={}){
