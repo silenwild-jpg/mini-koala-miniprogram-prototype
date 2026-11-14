@@ -6,6 +6,7 @@ on:
       - fix/wb-demo-consistency-01-20261114
     paths:
       - scripts/test_wb_demo_consistency_01.js
+      - scripts/test_cap_unit_dual_01.js
       - .github/workflows/wb-demo-consistency-01.yml
       - scripts/verify_rc2_merge_ready_04_browser.cjs
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
