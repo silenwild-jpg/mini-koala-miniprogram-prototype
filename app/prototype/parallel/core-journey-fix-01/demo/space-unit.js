@@ -1,7 +1,8 @@
 /* CAP-UNIT-DUAL-01: input display only; prices and IDs remain m³-based. */
 (function(root){
   'use strict';
-  const HEIGHT=2.5;
+  const HEIGHT=2.5; // Standard-height estimate before unit selection, not a universal warehouse height.
+  const ESTIMATE_BASIS='STANDARD_HEIGHT_ESTIMATE';
   function validArea(value){
     return typeof value==='number'&&Number.isFinite(value)&&value>=0.2&&value<=80&&
       Math.abs(value*10-Math.round(value*10))<1e-7;
@@ -26,14 +27,14 @@
     if(!Number.isFinite(volume)||volume<=0)return '';
     if(r.input_unit==='m2'&&validArea(Number(r.input_value))&&
       Math.abs(cubicFromArea(Number(r.input_value))-volume)<0.001)
-      return pretty(r.input_value)+'㎡ · '+pretty(volume)+'m³';
+      return pretty(r.input_value)+'㎡ · 约'+pretty(volume)+'m³';
     return pretty(volume)+'m³';
   }
   function unitAreaSuffix(unit){
     const area=areaForUnit(unit);
     return area===null?'':'约'+pretty(area)+'㎡';
   }
-  const API={HEIGHT,validArea,cubicFromArea,areaForUnit,demandCapacity,unitAreaSuffix};
+  const API={HEIGHT,ESTIMATE_BASIS,validArea,cubicFromArea,areaForUnit,demandCapacity,unitAreaSuffix};
   root.SIM_SPACE_UNIT=API;
   if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof window==='object'?window:globalThis);
