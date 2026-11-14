@@ -183,7 +183,7 @@
     const ranked=window.S5_LOCATION_RANKER?.rank(candidates,origin,row=>core.amounts(row.ids,r.term_months).rent_total);
     offerRows=(ranked?.applied?ranked.rows:candidates).slice(0,2);
     ui.s5OriginApplied=!!ranked?.applied;s5StoreUnitRows=[];
-    $('capacity').innerHTML=r.input_unit==='m2'&&parent.SIM_SPACE_UNIT?.demandCapacity(r).includes('㎡')?esc(r.input_value)+'<span>㎡ · '+esc(r.capacity_m3)+'m³</span>':esc(r.capacity_m3)+'<span>m³</span>';
+    $('capacity').innerHTML=r.input_unit==='m2'&&parent.SIM_SPACE_UNIT?.demandCapacity(r).includes('㎡')?esc(r.input_value)+'<span>㎡ · 约'+esc(r.capacity_m3)+'m³</span>':esc(r.capacity_m3)+'<span>m³</span>';
     text('demand-term',r.term_months+'个月');
     text('origin-name',ui.s5OriginApplied&&ui.s5OriginLabel?ui.s5OriginLabel:s.city+' · '+(selectedArea||'全城门店'));
     if(selectedArea)B.s5SetArea?.(selectedArea);
