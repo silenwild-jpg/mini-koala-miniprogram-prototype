@@ -17,7 +17,7 @@
     // unit campaign. Never infer a promotion from store position or rotating demo tags.
     function storePromotionTag(store){
       if(!store||store.status!=='open')return '';
-      const today=String(fixture.demoToday||'');
+      const today=String(core.today());
       const prices=core.state().prices||{};
       const eligible=(config.campaigns||[]).some(c=>{
         if(!c||c.active!==true||c.storeId!==store.id||!c.unitId||
@@ -45,7 +45,7 @@
       const snapshot={unit_id:u.id,store_id:u.store_id,catalog_revision:u.revision,inventory_version:s.inventoryVersion,term_months:s.requirement.term_confirmed?term:null,base_month:s.prices[u.id]||u.base_month};
       let promoLabel='',inventoryLine='',inventoryCount=null,campaignId=null;
       if(available){
-        const offer=(config.campaigns||[]).find(x=>x.unitId===u.id&&x.storeId===u.store_id&&x.active&&x.catalogRevision===u.revision&&Number.isFinite(Number(x.baseMonth))&&Number(x.baseMonth)>0&&Number(snapshot.base_month)>Number(x.baseMonth)&&x.from<=fixture.demoToday&&x.until>=fixture.demoToday&&s.requirement.term_confirmed&&term>=x.minMonths&&term<=x.maxMonths);
+        const offer=(config.campaigns||[]).find(x=>x.unitId===u.id&&x.storeId===u.store_id&&x.active&&x.catalogRevision===u.revision&&Number.isFinite(Number(x.baseMonth))&&Number(x.baseMonth)>0&&Number(snapshot.base_month)>Number(x.baseMonth)&&x.from<=core.today()&&x.until>=core.today()&&s.requirement.term_confirmed&&term>=x.minMonths&&term<=x.maxMonths);
         if(offer){
           const a=core.amounts([u.id],term);
           if(Number.isFinite(a.rent_total)&&a.rent_total>0){promoLabel='特价仓';campaignId=offer.id;snapshot.rent_total=a.rent_total;}
