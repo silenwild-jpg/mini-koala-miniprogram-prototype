@@ -108,15 +108,16 @@ async function startApp(page){
         assert.equal(req.term_confirmed,true);
         assert.equal(req.input_unit,'m2');
         assert.equal(req.input_value,2);
+        assert.equal(req.conversion_basis,'STANDARD_HEIGHT_ESTIMATE','pre-unit area must remain an estimate');
         row.checks.push('CAP → S5 with both required fields');
         const capText=await s5.locator('#capacity').innerText();
-        assert.match(capText,/2㎡/);assert.match(capText,/5m³/);
+        assert.match(capText,/2㎡/);assert.match(capText,/约5m³/,'S5 must identify standard-height estimated cubic capacity');
         await page.screenshot({path:path.join(output,'S5-area-'+width+'.png')});
         await app.locator('#screen').evaluate(()=>window.SIM_DEMO.navigate('S01'));
         const s01=app.frameLocator('#s01-r2-frame');
         await s01.locator('.s01-context-text').waitFor({timeout:15000});
         const s01Demand=await s01.locator('.s01-context-text').innerText();
-        assert.match(s01Demand,/2㎡/);assert.match(s01Demand,/5m³/);assert.match(s01Demand,/12个月/);
+        assert.match(s01Demand,/2㎡/);assert.match(s01Demand,/约5m³/);assert.match(s01Demand,/12个月/);
         row.checks.push('S01 retains original area input');
         await page.screenshot({path:path.join(output,'S01-area-'+width+'.png')});
         await app.locator('#screen').evaluate(()=>{
@@ -126,7 +127,7 @@ async function startApp(page){
         });
         await app.locator('#screen.page-S02').waitFor({timeout:15000});
         const s02Text=await app.locator('.s02-demand-text').innerText();
-        assert.match(s02Text,/2㎡/);assert.match(s02Text,/5m³/);
+        assert.match(s02Text,/2㎡/);assert.match(s02Text,/约5m³/);
         const geo=await app.locator('.unit-spec').allInnerTexts();
         assert(geo.some(x=>/约\d+(?:\.\d+)?㎡/.test(x)),'S02 has known dimension-derived area');
         row.checks.push('S02 demand and known unit dimensions');
