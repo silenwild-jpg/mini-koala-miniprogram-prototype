@@ -1,23 +1,27 @@
 (function(root){
   'use strict';
-  const ALLOWED=new Set(['TERM_DISCOUNT|RENT_CASH_COUPON','TERM_DISCOUNT|MOVING_SERVICE','RENT_CASH_COUPON|MOVING_SERVICE']);
+  const ALLOWED=new Set(['RENT_CASH_COUPON|TERM_DISCOUNT','MOVING_SERVICE|TERM_DISCOUNT','MOVING_SERVICE|RENT_CASH_COUPON']);
   const UNRESOLVED=new Set([
     'TERM_DISCOUNT|UNIT_SPECIAL_PRICE','RENT_CASH_COUPON|UNIT_SPECIAL_PRICE',
     'CAMPAIGN_FREE_TERM|RENT_CASH_COUPON','CAMPAIGN_FREE_TERM|TERM_DISCOUNT',
-    'SALES_FREE_TERM|RENT_CASH_COUPON','SALES_FREE_TERM|TERM_DISCOUNT',
+    'RENT_CASH_COUPON|SALES_FREE_TERM','SALES_FREE_TERM|TERM_DISCOUNT',
     'CAMPAIGN_FREE_TERM|UNIT_SPECIAL_PRICE','SALES_FREE_TERM|UNIT_SPECIAL_PRICE'
   ]);
-  const pair=(a,b)=>[a,b].sort().join('|');
+  const pair=(a,b)=>[String(a),String(b)].sort().join('|');
   function create({fixture,config,now}={}){
     const today=()=>typeof now==='function'?String(now()):String(fixture?.demoToday||'');
     function evaluateCampaign(campaign,context={}){
       const reasons=[],u=context.unit,store=context.store;
+      const currentDate=String(context.today||today());
       if(!campaign||campaign.active!==true)reasons.push('INACTIVE');
-      if(campaign?.from&&campaign.from>today())reasons.push('NOT_STARTED');
-      if(campaign?.until&&campaign.until<today())reasons.push('ENDED');
+      if(!currentDate||!campaign?.from||!campaign?.until)reasons.push('DATE_CONTEXT_MISSING');
+      else {
+        if(campaign.from>currentDate)reasons.push('NOT_STARTED');
+        if(campaign.until<currentDate)reasons.push('ENDED');
+      }
       if(!u||u.id!==campaign?.unitId)reasons.push('UNIT_MISMATCH');
       if(!store||store.id!==campaign?.storeId||u?.store_id!==store?.id)reasons.push('STORE_MISMATCH');
-      if(u&&campaign?.catalogRevision!==u.revision)reasons.push('CATALOG_REVISION_MISMATCH');
+      if(u&&Number(u.revision)!==Number(campaign?.catalogRevision))reasons.push('CATALOG_REVISION_MISMATCH');
       if(context.available!==true)reasons.push('UNIT_UNAVAILABLE');
       const months=Number(context.termMonths);
       if(!Number.isInteger(months)||months<1||months>60)reasons.push('TERM_REQUIRED');
@@ -27,18 +31,19 @@
     }
     function stacking(a,b){
       const k=pair(a,b);
-      if(a===b)return {status:'BLOCKED',allowed:false,reason:'DUPLICATE_BENEFIT_TYPE'};
+      if(String(a)===String(b))return {status:'BLOCKED',allowed:false,reason:'DUPLICATE_BENEFIT_TYPE'};
       if(ALLOWED.has(k))return {status:'ALLOWED',allowed:true,reason:null};
       if(UNRESOLVED.has(k))return {status:'NEEDS_CONFIRMATION',allowed:false,reason:'BUSINESS_STACK_POLICY_UNCONFIRMED'};
       return {status:'NEEDS_CONFIRMATION',allowed:false,reason:'NO_APPROVED_STACK_POLICY'};
     }
     function transitionCoupon(coupon,next){
       const allowed={
-        AVAILABLE:['SELECTED','EXPIRED'],
-        SELECTED:['AVAILABLE','LOCKED','EXPIRED'],
-        LOCKED:['AVAILABLE','REDEEMED'],
+        AVAILABLE:['SELECTED','EXPIRED','INVALID'],
+        SELECTED:['AVAILABLE','LOCKED','EXPIRED','INVALID'],
+        LOCKED:['AVAILABLE','REDEEMED','INVALID'],
         REDEEMED:[],
-        EXPIRED:[]
+        EXPIRED:[],
+        INVALID:[]
       };
       if(!coupon||!allowed[coupon.status]||!allowed[coupon.status].includes(next))
         throw new Error('INVALID_COUPON_TRANSITION');

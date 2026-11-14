@@ -4,6 +4,9 @@
 [build]
   command = "node scripts/verify_demo_rc1_p1.cjs && python3 scripts/build_rc1_private_site.py"
   publish = "release-evidence/merge02n/site"
+  # RC2-CLEAN-MIGRATION-02A: RC1 site must not build PR #176 or this RC2 candidate branch.
+  # Netlify ignore exit 0 = skip, exit 1 = build normally; retain RC1 behavior.
+  ignore = "if [ \"$REVIEW_ID\" = \"176\" ] || [ \"$BRANCH\" = \"integration/rc2-clean-migration-01-20261113\" ]; then exit 0; else exit 1; fi"
 
 [build.environment]
   NODE_VERSION = "22"

@@ -6,15 +6,15 @@
 })(typeof window==='object'?window:globalThis,function(){
   'use strict';
   const value=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0?x:null;
-  function rank(rows,{distanceVerified=false}={}){
+  function rank(rows,{distanceVerified=false,allowDemoDistance=false}={}){
     const eligible=(Array.isArray(rows)?rows:[]).filter(x=>x&&x.status==='open');
     let firstTwo;
-    if(distanceVerified&&eligible.every(x=>value(x.distance)!==null)){
+    if((distanceVerified||allowDemoDistance)&&eligible.every(x=>value(x.distance)!==null)){
       const sorted=eligible.slice().sort((a,b)=>a.distance-b.distance||String(a.id).localeCompare(String(b.id)));
       const first=sorted[0],rest=sorted.slice(1),primaryPrice=value(first?.teaserCubicPrice);
       let second=null;
       if(primaryPrice!==null){
-        for(const radius of [3,5,10,Infinity]){
+        for(const radius of [3,5,10]){
           const cheaper=rest.filter(x=>x.distance<=radius&&value(x.teaserCubicPrice)!==null&&x.teaserCubicPrice<primaryPrice)
             .sort((a,b)=>a.teaserCubicPrice-b.teaserCubicPrice||a.distance-b.distance);
           if(cheaper.length){second=cheaper[0];break;}

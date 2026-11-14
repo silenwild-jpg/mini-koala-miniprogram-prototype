@@ -1,0 +1,25 @@
+/* MOTION-S01-S5-01B: interaction-state feedback only; no card geometry or layout changes. */
+.filters .filter{
+  transition:color 160ms ease,background-color 160ms ease;
+}
+.filters .filter .chevron{
+  transition:transform 160ms ease,border-color 160ms ease;
+}
+.filters .filter[aria-expanded="true"] .chevron{
+  transform:rotate(225deg);
+  margin-top:3px;
+}
+.s01-inline-panel .s01-choice,
+.s01-quick [data-quick]{
+  transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;
+}
+.s01-inline-panel .s01-choice:active,
+.s01-quick [data-quick]:active{
+  opacity:.88;
+}
+@media (prefers-reduced-motion:reduce){
+  .filters .filter,
+  .filters .filter .chevron,
+  .s01-inline-panel .s01-choice,
+  .s01-quick [data-quick]{transition:none!important}
+}

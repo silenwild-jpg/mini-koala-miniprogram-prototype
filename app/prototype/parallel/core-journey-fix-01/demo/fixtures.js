@@ -16,8 +16,34 @@
   stores.forEach(s=>s.community=sourceCommunities[s.id]);
   const capacitySets=[[.8,2,3.5,5,8],[1,2,4,6],[1.5,3,5,12],[2,4,10,16],[1,3.5,6],[1,3,5,9],[2,4,8,14],[1,3.5,7,12]];
   const units=[];
-  const dimensionMap={0.8:[.8,.5,2],1:[1,.5,2],1.5:[1,.75,2],2:[1,1,2],3:[1.5,1,2],3.5:[1.25,1.4,2],4:[2,1,2],5:[1.25,2,2],6:[2,1.5,2],7:[1.75,2,2],8:[2,2,2],9:[3,1.5,2],10:[2.5,2,2],12:[3,2,2],14:[3.5,2,2],16:[4,2,2]};
-  stores.forEach((s,i)=>(i<5?capacitySets[i]:s.city!=='北京'?capacitySets[{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id]]:[[.8,1.5,3,5],[1,2,4,8],[1.5,3.5,6,12],[2,4,10,16],[1,3,5,9]][(i-5)%5]).forEach((volume,j)=>units.push({id:s.id+'_U'+String(j+1).padStart(2,'0'),store_id:s.id,code:'A'+String(j+1).padStart(2,'0'),name:'A'+String(j+1).padStart(2,'0')+' · '+volume+'m³独立仓',volume,area:Number((volume/2).toFixed(2)),dimensions:dimensionMap[volume].join(' × ')+'m',dimensions_m:dimensionMap[volume],base_month:Math.round((110+volume*(82+(s.city==='北京'?i:{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id])*3))/10)*10,status:(i===0&&j===1)?'soldout':s.status==='closed'?'unavailable':'available',photo:volume<4?'unit_small1.jpg':'unit_medium.jpg',revision:1})));
+  // RC2-FINAL-VIS-SIGNOFF-02: use 2.5m demo warehouse height from 3m³ upward; preserve each unit's volume.
+  const dimensionMap={0.8:[.8,.5,2],1:[1,.5,2],1.5:[1,.75,2],2:[1,1,2],3:[1.2,1,2.5],3.5:[1.4,1,2.5],4:[1.6,1,2.5],5:[2,1,2.5],6:[2,1.2,2.5],7:[2,1.4,2.5],8:[2,1.6,2.5],9:[2.4,1.5,2.5],10:[2,2,2.5],12:[3,1.6,2.5],14:[2.8,2,2.5],16:[3.2,2,2.5]};
+  stores.forEach((s,i)=>(i<5?capacitySets[i]:s.city!=='北京'?capacitySets[{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id]]:[[.8,1.5,3,5],[1,2,4,8],[1.5,3.5,6,12],[2,4,10,16],[1,3,5,9]][(i-5)%5]).forEach((volume,j)=>units.push({id:s.id+'_U'+String(j+1).padStart(2,'0'),store_id:s.id,code:'A'+String(j+1).padStart(2,'0'),name:'A'+String(j+1).padStart(2,'0')+' · '+volume+'m³独立仓',volume,area:Number((volume/dimensionMap[volume][2]).toFixed(2)),dimensions:dimensionMap[volume].join(' × ')+'m',dimensions_m:dimensionMap[volume],base_month:Math.round((110+volume*(82+(s.city==='北京'?i:{SIM_SH01:5,SIM_SH02:6,SIM_SZ01:7}[s.id])*3))/10)*10,status:(i===0&&j===1)?'soldout':s.status==='closed'?'unavailable':'available',photo:volume<4?'unit_small1.jpg':'unit_medium.jpg',revision:1})));
+  // PROMO-02: catalog monthly rents for the two campaign warehouses are intentionally above their configured campaign.baseMonth; all values are illustrative demo fixtures.
+  const campaignCatalogPriceOverrides={SIM_BJ01_U04:620,SIM_BJ02_U04:720};
+  units.forEach(u=>{if(Number.isFinite(campaignCatalogPriceOverrides[u.id]))u.base_month=campaignCatalogPriceOverrides[u.id];});
+  // RC2-S5-FINAL-01: explicitly synthetic stores for natural five-city demo flows.
+  // They use existing photos only; names, positions, stock and prices are illustrative.
+  const supplementalDemoStores=[
+    ['SIM_HZ01','杭州','西湖·文三路店','西湖区','杭州市西湖区文三路附近',2.2,[.8,3.5,8,15]],
+    ['SIM_HZ02','杭州','滨江·江南大道店','滨江区','杭州市滨江区江南大道附近',5.4,[1,5,12]],
+    ['SIM_GZ01','广州','天河·体育西店','天河区','广州市天河区体育西路附近',1.8,[1,3.5,8,15]],
+    ['SIM_GZ02','广州','海珠·江南西店','海珠区','广州市海珠区江南西路附近',4.6,[.8,5,12]]
+  ];
+  const supplementalDimensions={'0.8':[.8,.5,2],'1':[1,.5,2],'3.5':[1.4,1,2.5],'5':[2,1,2.5],'8':[2,1.6,2.5],'12':[2.4,2,2.5],'15':[3,2,2.5]};
+  supplementalDemoStores.forEach(([id,city,name,district,address,distance,volumes],i)=>{
+    stores.push({id,city,name,district,address,distance,photo:i%2?'store_changning.jpg':'store_xuhui.jpg',
+      rating:4.7,review:86+i*17,status:'open',tags:['24小时','独立安防'],
+      facilities:['24小时存取','独立安防','装卸区域','顾问协助'],synthetic:true});
+    volumes.forEach((volume,j)=>{
+      const dimensions=supplementalDimensions[volume];
+      units.push({id:id+'_U'+String(j+1).padStart(2,'0'),store_id:id,code:'A'+String(j+1).padStart(2,'0'),
+        name:'A'+String(j+1).padStart(2,'0')+' · '+volume+'m³独立仓',volume,
+        area:Number((volume/dimensions[2]).toFixed(2)),dimensions:dimensions.join(' × ')+'m',dimensions_m:dimensions,
+        base_month:Math.round((155+volume*(83+i*2))/10)*10,status:'available',
+        photo:volume<4?'unit_small1.jpg':'unit_medium.jpg',revision:1,synthetic:true});
+    });
+  });
   const sampleProfiles={SIM_BJ06:'soldout',SIM_BJ07:'reserved',SIM_BJ08:'maintenance',SIM_BJ09:'occupied',SIM_BJ10:'mixed'};
   units.forEach(u=>{const p=sampleProfiles[u.store_id];if(p==='mixed'){if(u.code==='A01')u.status='soldout';if(u.code==='A02')u.status='reserved';}else if(p)u.status=p==='maintenance'?'unavailable':p;});
   stores.forEach(s=>s.sample_profile=sampleProfiles[s.id]||(s.status==='closed'?'service_paused':'available'));
@@ -31,18 +57,47 @@
     {id:'combo',name:'组合仓方案',capacity:9,term:6,city:'北京'},
     {id:'inventoryChanged',name:'下单前库存变化',capacity:3.5,term:6,city:'北京',nextRecheck:'inventory'},
     {id:'priceChanged',name:'下单前价格变化',capacity:3.5,term:6,city:'北京',nextRecheck:'price'},
-    {id:'emptyCity',name:'城市暂无门店',capacity:3.5,term:6,city:'广州'},
+    {id:'emptyCity',name:'城市暂无门店',capacity:3.5,term:6,city:'广州',soldStores:['SIM_GZ01','SIM_GZ02']},
     {id:'shanghai',name:'切换城市 · 上海',capacity:3.5,term:6,city:'上海'},
     {id:'phoneDenied',name:'拒绝手机号授权',capacity:3.5,term:6,city:'北京',auth:'denied'},
     {id:'phoneFailed',name:'手机号接口失败',capacity:3.5,term:6,city:'北京',auth:'failed'},
-    {id:'phoneExpired',name:'手机号授权过期',capacity:3.5,term:6,city:'北京',auth:'expired'}
+    {id:'phoneExpired',name:'手机号授权过期',capacity:3.5,term:6,city:'北京',auth:'expired'},
+    {id:'promoSpecial',name:'促销演示 · 特价仓',capacity:5,term:6,city:'北京'},
+    {id:'promoLongTerm',name:'促销演示 · 长租折扣',capacity:3.5,term:12,city:'北京'},
+    {id:'promoCouponCash',name:'促销演示 · 租金券可用',capacity:3.5,term:12,city:'北京',coupons:[{id:'CPN-001',name:'新客租仓券',amount:200,type:'RENT_CASH',status:'CLAIMED'},{id:'CPN-002',name:'12个月长租券',amount:300,type:'RENT_CASH',status:'CLAIMED'}]},
+    {id:'promoMoving',name:'促销演示 · 基础搬运权益',capacity:3.5,term:6,city:'北京',serviceBenefits:[{id:'CPN-003',name:'基础搬运权益',type:'MOVING_SERVICE',source_type:'CAMPAIGN',source_id:'MOVING_6M_DEMO',status:'ELIGIBILITY_PENDING'}]},
+    {id:'promoMovingIneligible',name:'促销演示 · 搬运租期未达标',capacity:3.5,term:3,city:'北京',serviceBenefits:[{id:'CPN-003',name:'基础搬运权益',type:'MOVING_SERVICE',source_type:'CAMPAIGN',source_id:'MOVING_6M_DEMO',status:'ELIGIBILITY_PENDING'}]},
+    {id:'promoCampaignGift',name:'促销演示 · 固定活动赠期',capacity:5,term:6,city:'北京',giftTerms:[{id:'GIFT-C1',source_type:'CAMPAIGN',source_id:'GIFT_CAMPAIGN_BJ01',store_id:'SIM_BJ01',unit_id:'SIM_BJ01_U04',gift_months:1,status:'APPROVED',created_at:'2026-10-01',expires_at:'2026-11-30',min_months:6,max_months:12,active:true}]},
+    {id:'promoSalesGiftPending',name:'促销演示 · 销售个案赠期待审批',capacity:5,term:6,city:'北京',giftTerms:[{id:'GIFT-S1',source_type:'SALES_CASE',source_id:'SALES_CASE_DEMO_01',store_id:'SIM_BJ01',unit_id:'SIM_BJ01_U04',gift_months:1,status:'SUBMITTED',requested_by:'advisor-demo',reason:'客户续租沟通演示',created_at:'2026-10-01',expires_at:'2026-11-30',min_months:6,max_months:12}]},
+    {id:'promoSalesGiftApproved',name:'促销演示 · 销售个案赠期已审批',capacity:5,term:6,city:'北京',giftTerms:[{id:'GIFT-S2',source_type:'SALES_CASE',source_id:'SALES_CASE_DEMO_02',store_id:'SIM_BJ01',unit_id:'SIM_BJ01_U04',gift_months:1,status:'APPROVED',requested_by:'advisor-demo',reason:'客户续租沟通演示',approval_id:'APPROVAL-DEMO-02',approved_by:'manager-demo',created_at:'2026-10-01',expires_at:'2026-11-30',min_months:6,max_months:12}]},
+    {id:'lifeIdentity',name:'租后演示 · 已支付待身份验证',capacity:3,term:12,city:'北京',lifecycle:'identityPending'},
+    {id:'lifeUpcoming',name:'租后演示 · 待起租',capacity:3,term:12,city:'北京',lifecycle:'upcoming'},
+    {id:'lifeActive',name:'租后演示 · 正常在租',capacity:3,term:12,city:'北京',lifecycle:'active'},
+    {id:'lifeRenewalQuote',name:'租后演示 · 续租报价待确认',capacity:3,term:12,city:'北京',lifecycle:'renewal'},
+    {id:'lifeReturning',name:'租后演示 · 退租处理中',capacity:3,term:12,city:'北京',lifecycle:'returning'},
+    {id:'lifeInspection',name:'租后演示 · 等待验仓',capacity:3,term:12,city:'北京',lifecycle:'inspection'},
+    {id:'lifeRefund',name:'租后演示 · 押金处理中',capacity:3,term:12,city:'北京',lifecycle:'refund'},
+    {id:'lifeExpired',name:'租后演示 · 租期已到期',capacity:3,term:12,city:'北京',lifecycle:'expired'},
+    {id:'lifeEnded',name:'租后演示 · 已结束历史订单',capacity:3,term:12,city:'北京',lifecycle:'ended'}
   ];
   stores.forEach(s=>{const candidates=units.filter(u=>u.store_id===s.id&&u.status==='available');s.teaserCubicPrice=candidates.length?Number(Math.min(...candidates.map(u=>(Math.round(u.base_month*12*.65/10)*10)/12/u.volume)).toFixed(2)):null;});
   const data={version:'STORE_FIXTURE_03_BJ30_20261025',synthetic:true,distanceVerified:false,defaultCity:'北京',demoToday:'2026-10-25',defaultStart:'2026-11-01',stores,units,scenarios,pricing:{managementFee:50,homeReferenceTerm:12,termRules:[{min:1,max:3,factor:.75},{min:4,max:6,factor:.70},{min:7,max:12,factor:.65},{min:13,max:36,factor:.60},{min:37,max:60,factor:.55}],roundRentTo:10},notice:'门店名称与地址摘自用户表格；仓位、照片关联、价格和库存为内部测试配置，未接入实时系统。'};
   const districts={"SIM_BJ01": "朝阳区", "SIM_BJ02": "朝阳区", "SIM_BJ03": "朝阳区", "SIM_BJ04": "朝阳区", "SIM_BJ05": "朝阳区", "SIM_BJ06": "西城区", "SIM_BJ07": "东城区", "SIM_BJ08": "朝阳区", "SIM_BJ09": "丰台区", "SIM_BJ10": "朝阳区", "SIM_BJ11": "海淀区", "SIM_BJ12": "昌平区", "SIM_BJ13": "通州区", "SIM_BJ14": "石景山区", "SIM_BJ15": "西城区", "SIM_BJ16": "东城区", "SIM_BJ17": "朝阳区", "SIM_BJ18": "丰台区", "SIM_BJ19": "朝阳区", "SIM_BJ20": "海淀区", "SIM_BJ21": "昌平区", "SIM_BJ22": "通州区", "SIM_BJ23": "西城区", "SIM_BJ24": "东城区", "SIM_BJ25": "朝阳区", "SIM_BJ26": "丰台区", "SIM_BJ27": "海淀区", "SIM_BJ28": "昌平区", "SIM_BJ29": "通州区", "SIM_BJ30": "西城区", "SIM_SH01": "长宁区", "SIM_SH02": "长宁区", "SIM_SZ01": "宝安区"};
-  const operating=['特价仓','新开门店','双11大促','免费搬运'];
   const services=['近地铁','24小时存取','电梯直达','停车便利','控温防潮','小推车','全天监控'];
-  stores.forEach((s,i)=>{s.source_address=s.address;s.address=s.address.replace('北京市北京朝阳区','北京市朝阳区').replace('+J41:J59','');s.district=districts[s.id]||s.city;s.operatingTag=operating[i%operating.length];s.serviceTags=[services[i%7],services[(i+2)%7],services[(i+4)%7]];s.tags=[s.operatingTag,...s.serviceTags];s.facilities=[...s.serviceTags];});
+  stores.forEach((s,i)=>{s.source_address=s.address;s.address=s.address.replace('北京市北京朝阳区','北京市朝阳区').replace('+J41:J59','');s.district=districts[s.id]||s.district||s.city;delete s.operatingTag;s.serviceTags=[services[i%7],services[(i+2)%7],services[(i+4)%7]];s.tags=[...s.serviceTags];s.facilities=[...s.serviceTags];});
+
+  const curatedDemoPhotoById={"SIM_BJ01":"store-curated/v1/SIM_BJ01","SIM_BJ02":"store-curated/v1/SIM_BJ02","SIM_BJ03":"store-curated/v1/SIM_BJ03","SIM_BJ04":"store-curated/v1/SIM_BJ04","SIM_BJ05":"store-curated/v1/SIM_BJ05","SIM_BJ06":"store-curated/v1/SIM_BJ06","SIM_BJ07":"store-curated/v1/SIM_BJ07","SIM_BJ08":"store-curated/v1/SIM_BJ08","SIM_BJ09":"store-curated/v1/SIM_BJ09","SIM_SH01":"store-curated/v1/SIM_SH01","SIM_SH02":"store-curated/v1/SIM_SH02","SIM_SZ01":"store-curated/v1/SIM_SZ01"};
+  function attachCuratedDemoPhotos(s){
+    const dir=curatedDemoPhotoById[s.id];
+    if(!dir)return;
+    s.photoLegacy=s.photo;
+    s.photo=dir+'/card.webp';
+    s.photoDetail=dir+'/hero.webp';
+    s.photoGallery=[s.photoDetail];
+    s.photo_source='USER_SUPPLIED_ENVIRONMENT_GENERIC_DEMO_NOT_PHYSICAL_STORE_VERIFIED';
+    s.photo_identity_verified=false;
+  }
+  stores.forEach(attachCuratedDemoPhotos);
   data.version='STORE_FIXTURE_04_DECISIONS_20261026';
 
   // 02J: imported original September 29 catalog from app/data/{store_master.json,mini_koala_data.js}.
@@ -88,6 +143,67 @@
     ?(()=>{try{return sessionStorage.getItem('mk_active_catalog_v1')==='MK';}catch{return false;}})()
     :(typeof process==='object'&&process.env.MK_CATALOG_MODE==='MK'));
   const activeFixture=requestedLegacy?legacyFixture():data;
+  // S01-UX-REFINE-08: stable presentation-only cabin numbers.
+  // Code range per store: A001–D030. Do NOT replace unit IDs / original SKU
+  // identifiers or claim any link to actual physical stock.
+  const byCabinStore=new Map();
+  activeFixture.units.forEach(u=>{
+    const list=byCabinStore.get(u.store_id)||[];
+    list.push(u);byCabinStore.set(u.store_id,list);
+  });
+  const storeOrdinal=new Map([...new Set(activeFixture.stores.map(s=>s.id))]
+    .map((id,index)=>[id,index]));
+  byCabinStore.forEach((items,storeId)=>{
+    const base=storeOrdinal.get(storeId)||0;
+    items.sort((a,b)=>String(a.id).localeCompare(String(b.id),'en',{numeric:true}))
+      .forEach((u,i)=>{
+        if(i>=120){u.demo_cabin_no=null;return;}
+        u.demo_cabin_no='ABCD'[(base+Math.floor(i/30))%4]+
+          String(i%30+1).padStart(3,'0');
+        u.demo_cabin_source='SYNTHETIC_PRESENTATION_ONLY';
+      });
+  });
+  // Store-ID-stable access schedule shared by S01/S02. Replace with verified store records when available.
+  const storeSchedules=['24小时','09:00-21:00','08:00-23:00'];
+  // Unify warehouse option stock counts with the stock/status contract used by order selection.
+  // Existing counts from source records take precedence; missing prototype counts are stable per unit ID.
+  activeFixture.units.forEach(u=>{
+    const eligible=u.status==='available';
+    const reported=Number(u.available_count);
+    if(!eligible){u.available_count=0;return;}
+    if(Number.isInteger(reported)&&reported>0)return;
+    let h=2166136261;
+    for(const ch of String(u.id)){h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0}
+    u.available_count=[1,2,4,6,8][h%5];
+  });
+  // All store IDs have a destination lookup record. Coordinates require map-provider POI verification.
+  activeFixture.stores.forEach(s=>{
+    const source=root.SIM_STORE_GEO?.get(s.id)||null;
+    const explicit=Number.isFinite(Number(s.longitude))&&Number.isFinite(Number(s.latitude))&&
+      Number(s.longitude)>70&&Number(s.longitude)<140&&Number(s.latitude)>15&&Number(s.latitude)<55&&
+      s.coordinate_verified===true;
+    const resolved=explicit||!!source;
+    s.geo={
+      provider:'amap',store_id:s.id,address:s.address,city:s.city,
+      verified:explicit,route_candidate:resolved,
+      longitude:explicit?Number(s.longitude):resolved?source.amap_gcj02[0]:null,
+      latitude:explicit?Number(s.latitude):resolved?source.amap_gcj02[1]:null,
+      source_store_code:source?.source_store_code||null,
+      source_date:source?.source_date||null,
+      needs_review:false,was_multi_candidate:!!source?.was_multi_candidate,coordinate_scope:source?.coordinate_scope||'unverified',
+      destination_query:[s.name,s.address].filter(Boolean).join(' ')
+    };
+  });
+  activeFixture.stores.forEach(s=>{
+    let hash=2166136261;
+    for(const char of String(s.id)){hash=Math.imul(hash^char.charCodeAt(0),16777619)>>>0}
+    s.access_hours=s.access_hours||storeSchedules[hash%storeSchedules.length];
+    if(s.access_hours!=='24小时'){
+      for(const key of ['serviceTags','facilities','tags']){
+        if(Array.isArray(s[key]))s[key]=s[key].filter(v=>!/24小时|全天存取/.test(String(v)));
+      }
+    }
+  });
   root.SIM_FIXTURES=activeFixture;
   if(typeof module==='object'&&module.exports)module.exports=activeFixture;
 })(typeof window==='object'?window:globalThis);

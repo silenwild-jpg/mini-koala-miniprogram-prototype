@@ -15,8 +15,9 @@
 .page-S01 .summary{font-size:12px;letter-spacing:-.3px}
 .page-S01 .demand a{display:flex;align-items:center;font-size:11px;text-decoration:none}
 .page-S01 .demand a .ico{width:14px}
-.page-S01 .filter-bar{height:45px;padding:0 17px;border:0}
-.page-S01 .filter-btn{font-size:13px;min-height:39px;display:flex;gap:4px;align-items:center}
+.page-S01 .filter-bar{height:45px;padding:0 17px;border:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.page-S01 .filter-btn{font-size:13px;min-height:39px;display:flex;gap:4px;align-items:center;justify-content:center;min-width:0}
+.page-S01 .filter-btn:not(:last-child){border-right:1px solid #e7ecea}
 .page-S01 .filter-btn .ico{width:14px;height:14px}
 .page-S01 .list-body{padding:0 15px 12px}
 .page-S01 .store-row{margin:0;padding:11px 0 14px;gap:12px;min-height:156px;border-color:#f0f2f4;outline-offset:2px}
@@ -107,3 +108,141 @@ body.br04-mode .demo-settings summary{font-size:9px;line-height:14px;height:14px
 body.br04-mode .demo-settings[open] .demo-toolbar{top:17px;width:350px;left:50%;right:auto;transform:translateX(-50%);background:#f2f8f4}
 body.br04-mode .app-shell{height:100dvh;margin-top:0}
 @media(min-width:700px){body.br04-mode .app-shell{height:844px;margin-top:8px}}
+
+/* NAV-VIS-UNIFY-01C: new dual-state SVGs carry their own active/idle colors. */
+.bottom-nav .nav-01c-icon,.bottom-nav .bottom-item:not(.active) .nav-01c-icon{width:26px!important;height:26px!important;filter:none!important}
+
+/* RC2-MERGE-READY-07: align S01/M01 nav geometry to frozen H01 photo.
+ * H01 home.html/nav_original_{375,390}.png are intentionally untouched.
+ * Preserve existing SVG glyph source pending explicit icon-master signoff. */
+.screen.page-S01,.screen.page-M01{
+  --mk-h01-tabbar-height:clamp(0px,16.4146868vw,64.016px);
+}
+.screen.page-S01 .bottom-nav,.screen.page-M01 .bottom-nav{
+  height:var(--mk-h01-tabbar-height);
+  padding:4px 0 0;
+  border-top:0;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  align-items:stretch;
+  justify-content:initial;
+  box-shadow:none;
+}
+.screen.page-S01 .bottom-item,.screen.page-M01 .bottom-item{
+  width:100%;
+  min-width:0;
+  min-height:44px;
+  height:100%;
+  padding:0;
+  gap:1px;
+  justify-content:flex-start;
+  flex:none;
+  font-size:10px;
+  font-weight:500;
+  line-height:12px;
+  color:#526579;
+}
+.screen.page-S01 .bottom-item.active,.screen.page-M01 .bottom-item.active{
+  font-weight:700;
+  color:#087d67;
+}
+.screen.page-S01 .s01-r2-frame{
+  height:calc(100% - var(--mk-h01-tabbar-height))!important;
+}
+.screen.page-M01 .demo-scroll{
+  height:calc(100% - var(--mk-h01-tabbar-height));
+}
+.screen.page-S01 .bottom-item:focus-visible,.screen.page-M01 .bottom-item:focus-visible{
+  outline:2px solid #087d67;
+  outline-offset:-3px;
+}
+
+/* RC2-MERGE-READY-08: experimental S01/M01 nav uses approved H01 raster unchanged.
+ * Keep H01 home.html and its original PNGs completely untouched.
+ * Current-tab interactive overlays are isolated here pending human VIS-GUARD signoff. */
+.screen.page-S01 .bottom-nav,.screen.page-M01 .bottom-nav{
+  isolation:isolate;
+  overflow:hidden;
+  background:#fff;
+}
+.screen.page-S01 .bottom-nav::before,.screen.page-M01 .bottom-nav::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:url("assets/nav_original_375.png") center/100% 100% no-repeat;
+}
+@media(min-width:383px){
+  .screen.page-S01 .bottom-nav::before,.screen.page-M01 .bottom-nav::before{
+    background-image:url("assets/nav_original_390.png");
+  }
+}
+/* The photo's H01-only caption colors and historic captions are replaced by
+ * semantic live text, without cropping/repainting the original photo file. */
+.screen.page-S01 .bottom-nav::after,.screen.page-M01 .bottom-nav::after{
+  content:"";
+  position:absolute;
+  z-index:1;
+  left:0;
+  right:0;
+  top:43%;
+  height:29%;
+  background:#fff;
+  pointer-events:none;
+}
+.screen.page-S01 .bottom-item,.screen.page-M01 .bottom-item{
+  position:relative;
+  z-index:2;
+  overflow:visible;
+}
+.screen.page-S01 .bottom-item span,.screen.page-M01 .bottom-item span{
+  position:absolute;
+  top:43%;
+  left:0;
+  width:100%;
+  height:29%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-size:10px;
+  line-height:12px;
+  z-index:4;
+}
+/* Reuse the original source's inactive store/calendar/profile glyphs.
+ * Override only the H01-specific active home and the new active tab.
+ * Current active SVGs are explicitly a visual candidate, not a frozen icon master. */
+.screen.page-S01 .bottom-item img,.screen.page-M01 .bottom-item img{
+  visibility:hidden;
+}
+.screen.page-S01 .bottom-item:first-child::before,
+.screen.page-M01 .bottom-item:first-child::before,
+.screen.page-S01 .bottom-item.active::before,
+.screen.page-M01 .bottom-item.active::before{
+  content:"";
+  position:absolute;
+  z-index:3;
+  top:-4px;
+  left:calc(50% - 21px);
+  width:42px;
+  height:38px;
+  background:#fff;
+  pointer-events:none;
+}
+.screen.page-S01 .bottom-item:first-child img,
+.screen.page-M01 .bottom-item:first-child img,
+.screen.page-S01 .bottom-item.active img,
+.screen.page-M01 .bottom-item.active img{
+  visibility:visible;
+  position:absolute;
+  z-index:4;
+  top:4px;
+  left:50%;
+  transform:translateX(-50%);
+  width:26px!important;
+  height:26px!important;
+}
+.screen.page-S01 .bottom-item.active,.screen.page-M01 .bottom-item.active{
+  color:#006e54;
+}

@@ -1,0 +1,605 @@
+{
+  "version": "RC2-STORE-IMAGE-MAP-01",
+  "date": "2026-11-03",
+  "identity_statement": "User supplied Mini Koala environment photos, but no physical-store identity was verified; binding to SIM_* IDs is a DEMO VISUAL SLOT ONLY, not a statement that the image was photographed at that named store.",
+  "no_production_store_claim": true,
+  "sim_store_mappings": {
+    "SIM_BJ01": {
+      "source": "IMG_20250317_143728_1.jpg",
+      "source_sha256": "524d50da7bfbe41295338775b3c9cf9c83719c24a592a087bacca61daa0112bf",
+      "origin_dimensions": [
+        3120,
+        3120
+      ],
+      "family": "white_signed_A001",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.55,
+        0.53
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ01/card.webp",
+          "bytes": 16744,
+          "sha256": "ee920a0cef88ad2091819f9ef715c644d22963c2b05add382c7897c74a80062a",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            0,
+            0,
+            3120,
+            3120
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ01/hero.webp",
+          "bytes": 42750,
+          "sha256": "298d9a986ced952b8d7fdf5511ad48eed511ed13765c17557057863fc2e9b57e",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            679,
+            3120,
+            2629
+          ]
+        }
+      }
+    },
+    "SIM_BJ02": {
+      "source": "IMG_20250425_112052.jpg",
+      "source_sha256": "6b0814fbbc7cdb40ea87c27d0c95b7c8209c10b75d71a0d43403a62e05e5163a",
+      "origin_dimensions": [
+        3120,
+        3120
+      ],
+      "family": "white_B025",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.49,
+        0.55
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ02/card.webp",
+          "bytes": 17196,
+          "sha256": "f5c5673d8d6864ac5492156506d68354dc8df068f94f8fc85e2b11f6fb79a1b6",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            0,
+            0,
+            3120,
+            3120
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ02/hero.webp",
+          "bytes": 41974,
+          "sha256": "4b6d2e61f41554e62e5a4a04c020f7a601145d24ec41f6651cce97801541fdd9",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            741,
+            3120,
+            2691
+          ]
+        }
+      }
+    },
+    "SIM_BJ03": {
+      "source": "bf6aceb3119df8365395dcd4590c88b.jpg",
+      "source_sha256": "70a358c64c51079facb8e11d68879153fe7015645b83b0f867771d53f2d941e8",
+      "origin_dimensions": [
+        4032,
+        3024
+      ],
+      "family": "white_green_wayfinding",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.51,
+        0.56
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ03/card.webp",
+          "bytes": 23060,
+          "sha256": "d7a9ed046158e28b26659d560a1fec0c1a09208d682c54f1f58fb46ec0841140",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            544,
+            0,
+            3568,
+            3024
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ03/hero.webp",
+          "bytes": 59218,
+          "sha256": "befce96f262ac21262db54ec7979f18f549195a0838570fa7a8ef87835a1b727",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            433,
+            4032,
+            2953
+          ]
+        }
+      }
+    },
+    "SIM_BJ04": {
+      "source": "IMG20250820112534.jpg",
+      "source_sha256": "ef1fc2dc7e015f3d15de368fc5b73da4dd4012b4461ca2bd7c3a284565d1690d",
+      "origin_dimensions": [
+        4096,
+        3072
+      ],
+      "family": "green_B033",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.54,
+        0.52
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ04/card.webp",
+          "bytes": 15574,
+          "sha256": "27d480a23966033a6de5c4405113ffad96728f718fbf519174432082b23d86c1",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            676,
+            0,
+            3748,
+            3072
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ04/hero.webp",
+          "bytes": 38166,
+          "sha256": "1c0adc9b41245efb07d1e9ccd92f1c117a2f7686f129b8cf206135eaffd1cc67",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            317,
+            4096,
+            2877
+          ]
+        }
+      }
+    },
+    "SIM_BJ05": {
+      "source": "IMG_20250331_155646_1.jpg",
+      "source_sha256": "6a28b228551c2b36349f31cccda6892af9d9dc111deb70cec7dd541c1bc1ed3d",
+      "origin_dimensions": [
+        3120,
+        3120
+      ],
+      "family": "white_A012",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.49,
+        0.51
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ05/card.webp",
+          "bytes": 14640,
+          "sha256": "084398e7e461c949e81d29583ab5c15f30677ed79f2193622aa8610b067a4219",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            0,
+            0,
+            3120,
+            3120
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ05/hero.webp",
+          "bytes": 36000,
+          "sha256": "7c35e3941d5a859c09b9157d26ba0dd99cc410c8b2a13e80a6fc0737fc67625a",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            616,
+            3120,
+            2566
+          ]
+        }
+      }
+    },
+    "SIM_BJ06": {
+      "source": "e2c8c0b6d140e20634548136f8e8c3f.jpg",
+      "source_sha256": "0e14c7fc7c879d1c0fa36cf6c3c4ba51f7d8af3d4db0b6753d68df98bafb501b",
+      "origin_dimensions": [
+        4032,
+        3024
+      ],
+      "family": "white_B029",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.49,
+        0.54
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ06/card.webp",
+          "bytes": 15634,
+          "sha256": "a56aedd1ada9b5e9092c3f43f730c42a9b5c702dc962ca4daf7a31c000a1aa81",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            464,
+            0,
+            3488,
+            3024
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ06/hero.webp",
+          "bytes": 43948,
+          "sha256": "dc0da096d46e84df535af4d496229f111a6e6038c93038cb47083ccafde26a7a",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            373,
+            4032,
+            2893
+          ]
+        }
+      }
+    },
+    "SIM_BJ07": {
+      "source": "#U5fae#U4fe1#U56fe#U7247_20211013141401.jpg",
+      "source_sha256": "dfca1a00279240fcc497fc2644316ea344f1ae31e9f27d989ad21d66afede787",
+      "origin_dimensions": [
+        1280,
+        960
+      ],
+      "family": "white_A02x",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.54,
+        0.52
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ07/card.webp",
+          "bytes": 20462,
+          "sha256": "03a288c265584f8b9d0e20f779039e10b84a85870fe845b1e403a059d978129f",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            211,
+            0,
+            1171,
+            960
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ07/hero.webp",
+          "bytes": 50250,
+          "sha256": "4d57624b3d70ea3238b44ef6ea613d0f9bdc743490c961eff42298a49dd79cef",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            99,
+            1280,
+            899
+          ]
+        }
+      }
+    },
+    "SIM_BJ08": {
+      "source": "#U534e#U6da6-#U6da6#U7269#U4ed3#U5185.jpg",
+      "source_sha256": "20568a4b8f739f44a8f449a116d48ed72316d44237315d10eecd2e1a124efd01",
+      "origin_dimensions": [
+        4961,
+        3508
+      ],
+      "family": "white_A022",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.48,
+        0.53
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ08/card.webp",
+          "bytes": 19508,
+          "sha256": "ccd0f04a3f65145dd7b466475fda25aa2eb3458fc40039e6791b0e81719e67f8",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            627,
+            0,
+            4135,
+            3508
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ08/hero.webp",
+          "bytes": 56882,
+          "sha256": "5e953229111cad509bab954ae0f7b49ab9f5298189099680d1b02919bb3c626c",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            309,
+            4961,
+            3410
+          ]
+        }
+      }
+    },
+    "SIM_BJ09": {
+      "source": "zzz.jpg",
+      "source_sha256": "6ddb193ad2c34c0dd291b126c02908ec0e4f17c4f4ef47e7424374aba763a379",
+      "origin_dimensions": [
+        960,
+        1280
+      ],
+      "family": "green_E020",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.47,
+        0.54
+      ],
+      "brightness_factor": 1.0,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_BJ09/card.webp",
+          "bytes": 21694,
+          "sha256": "75465290e5747f63b6fce7a3fe0df7da69debf1886b4d5ebf689fc4a6f881049",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            0,
+            211,
+            960,
+            1171
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_BJ09/hero.webp",
+          "bytes": 50834,
+          "sha256": "1cbe1d7688df7f22525510cfd37334215a3a6c051446f0969977f5ae4a4b9e44",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            391,
+            960,
+            991
+          ]
+        }
+      }
+    },
+    "SIM_SH01": {
+      "source": "IMG20250820114503.jpg",
+      "source_sha256": "e179232b934268e2594e086d9c2c7e067d0001933dc0c6d9c7b0e16e8e7192eb",
+      "origin_dimensions": [
+        4624,
+        3468
+      ],
+      "family": "green_central_hall",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.5,
+        0.51
+      ],
+      "brightness_factor": 1.12,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_SH01/card.webp",
+          "bytes": 29650,
+          "sha256": "db014c243b7df8e2db1d6289a86c82f22a1bcc73dd381f9b02375d8929fb024f",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            578,
+            0,
+            4046,
+            3468
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_SH01/hero.webp",
+          "bytes": 85870,
+          "sha256": "91ef5bb1f2cf3b0f39ce1b349a2eb9702e79b327eeeed0879bfab6f8eca9257b",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            324,
+            4624,
+            3214
+          ]
+        }
+      }
+    },
+    "SIM_SH02": {
+      "source": "_K080785.jpg",
+      "source_sha256": "e9e942371b250b0feb8d963161e1ff49eff8d5b52470fb1fc34a1249a1aa1e70",
+      "origin_dimensions": [
+        6720,
+        4480
+      ],
+      "family": "green_gloss_corridor",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.51,
+        0.48
+      ],
+      "brightness_factor": 1.12,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_SH02/card.webp",
+          "bytes": 21732,
+          "sha256": "9c3e7ebc4fb38ab6aeba43ad22f768650c0f215b64138d11d66a2ef5b1b750db",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            1187,
+            0,
+            5667,
+            4480
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_SH02/hero.webp",
+          "bytes": 52542,
+          "sha256": "90f7d93a416aeb00757e58f4b9f2f293fa8c5fbff51c179bfdca89ac7fe08de5",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            50,
+            6720,
+            4250
+          ]
+        }
+      }
+    },
+    "SIM_SZ01": {
+      "source": "lADPD4BhxWyQp37NC9DND8A_4032_3024.jpg",
+      "source_sha256": "831f39d6ff45ec67e21e3798f6a5b9fb9967619d8e57900b45402574db9e0b5f",
+      "origin_dimensions": [
+        4032,
+        3024
+      ],
+      "family": "black_gold",
+      "identity_verified": false,
+      "role": "GENERIC_BRAND_WAREHOUSE_ENVIRONMENT_DEMO",
+      "focal": [
+        0.51,
+        0.57
+      ],
+      "brightness_factor": 1.051,
+      "variants": {
+        "card": {
+          "relative": "assets/store-curated/v1/SIM_SZ01/card.webp",
+          "bytes": 29500,
+          "sha256": "2cb27ed0fb34ac771ee8a4ef5ed76472e2265a503af543afed6fa22394f2c912",
+          "dimensions": [
+            512,
+            512
+          ],
+          "crop_in_original": [
+            544,
+            0,
+            3568,
+            3024
+          ]
+        },
+        "hero": {
+          "relative": "assets/store-curated/v1/SIM_SZ01/hero.webp",
+          "bytes": 71676,
+          "sha256": "2477bba9d88971394322dbdf54f05134009d999aead1d907758518e62369fceb",
+          "dimensions": [
+            1152,
+            720
+          ],
+          "crop_in_original": [
+            0,
+            464,
+            4032,
+            2984
+          ]
+        }
+      }
+    }
+  },
+  "reserved_sources": [
+    {
+      "source": "#U9f99#U6e56#U4ed3#U51852_2.jpg",
+      "reason": "near_duplicate_or_visible_watermark"
+    },
+    {
+      "source": "#U9f99#U6e56#U4ed3#U51851-#U6c34#U5370#U7248.jpg",
+      "reason": "near_duplicate_or_visible_watermark"
+    }
+  ],
+  "scope": [
+    "H01 store rail",
+    "S01 R2 cards",
+    "S02 detail hero"
+  ],
+  "not_modified": [
+    "H01 VIS-11J frozen panorama",
+    "CAP unit illustrations",
+    "S01 approved full page source",
+    "store name/address/pricing/ranking/inventory/order data"
+  ]
+}

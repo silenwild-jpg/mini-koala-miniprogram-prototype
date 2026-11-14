@@ -2,3 +2,6 @@
 html.mk-review-clean .demo-settings,
 html.mk-review-clean .mk-auth-settings {display:none!important;}
 @media(max-width:699px){html.mk-review-clean .app-shell{height:100dvh;margin-top:0}}
+
+/* VIS03C: product surface never exposes diagnostic controls, including debug URLs. */
+html.r2-product .demo-settings,html.r2-product .mk-auth-settings{display:none!important}
