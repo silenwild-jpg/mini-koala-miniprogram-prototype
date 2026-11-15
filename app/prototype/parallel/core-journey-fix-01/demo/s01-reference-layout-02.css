@@ -365,3 +365,140 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-st
   top:2px;right:0;width:44px;height:44px;
   min-width:44px;min-height:44px
 }
+
+
+/* S01-VIS-REFINE-01 | 2026-11-15 screenshot-led information rhythm.
+ * STRICT CONTENT LOCK: CSS ONLY. Do not change visible words, field existence,
+ * business state, unit matching, calculated prices, or click destinations.
+ * Keep the first two matched store cards, E storage at position 3, compact
+ * later rows, source store photography, and 48px CTA.
+ */
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"]{
+  grid-template-columns:92px minmax(0,1fr);
+  grid-template-rows:25px 24px minmax(58px,auto) auto;
+  column-gap:11px;
+  padding:11px 11px 12px;
+  margin-bottom:11px;
+  border-color:#e6ece8;
+  border-radius:12px;
+  box-shadow:0 1px 5px rgba(22,70,48,.045)
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"]>.store-photo{
+  width:92px;max-width:92px;height:103px;
+  border-radius:8px
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"]>.store-body>h2{
+  font-size:16px;line-height:23px;font-weight:760;
+  color:#193d2f;letter-spacing:-.2px;
+  padding-right:32px
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"]>.store-body>.store-tags{
+  height:21px;min-height:21px;gap:5px
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .store-tags .mk-store-tag{
+  height:20px;min-height:20px;line-height:18px;
+  font-size:11px;padding:0 5px
+}
+/* IMPORTANT: full address remains the existing data-bound string; wrapping
+ * restores its visibility rather than replacing it with district-only copy. */
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"]>.store-body>.address{
+  display:flex;flex-direction:column;align-items:flex-start;
+  height:auto;min-height:55px;max-height:none;
+  margin:0;padding:0;gap:2px;
+  overflow:visible;white-space:normal
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .address-copy{
+  display:block;flex:0 0 auto;
+  width:100%;height:auto;min-height:17px;max-height:none;
+  font-size:12px;line-height:17px;
+  white-space:normal;overflow:visible;text-overflow:clip;
+  overflow-wrap:anywhere;
+  -webkit-line-clamp:unset;line-clamp:unset
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .km{
+  flex:0 0 19px;min-height:19px;height:19px;
+  font-size:12px;line-height:19px
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"]>.store-body>.units{
+  margin-top:6px;padding-top:9px;border-color:#e8eeea
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit{
+  grid-template-rows:auto auto;row-gap:7px
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit-main{
+  gap:4px 8px;min-height:28px;align-items:center
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .s01-cabin-tag{
+  min-height:20px;height:20px;font-size:11px;
+  padding:0 6px;line-height:20px
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .capacity{
+  font-size:22px;line-height:28px;letter-spacing:-.35px
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit-desc{
+  flex:1 1 115px;
+  font-size:12px;line-height:18px;
+  color:#677d71;max-height:none;overflow:visible;
+  white-space:normal;overflow-wrap:anywhere
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit-action-row{
+  grid-template-columns:minmax(0,1fr) 86px;
+  column-gap:9px;align-items:center
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"]{
+  grid-template-rows:27px 20px;align-content:center
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+  color:#0c7955;font-size:21px;line-height:27px;
+  letter-spacing:-.4px;font-weight:800
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] .price-secondary{
+  font-size:12px;line-height:20px;color:#64796d;
+  text-overflow:clip;overflow:visible
+}
+html[data-vis-system="reference"][data-match-mode="matched"]
+.store-card[data-card-kind="expanded"] .unit-action-row .order{
+  height:48px;min-height:48px;align-self:center;
+  border-radius:8px
+}
+@media(max-width:375px){
+  html[data-vis-system="reference"][data-match-mode="matched"]
+  .store-card[data-card-kind="expanded"]{
+    grid-template-columns:91px minmax(0,1fr);
+    column-gap:9px;padding:10px 9px 11px
+  }
+  html[data-vis-system="reference"][data-match-mode="matched"]
+  .store-card[data-card-kind="expanded"]>.store-photo{
+    width:91px;max-width:91px;height:102px
+  }
+  html[data-vis-system="reference"][data-match-mode="matched"]
+  .store-card[data-card-kind="expanded"] .unit-main{
+    gap:4px 6px
+  }
+  html[data-vis-system="reference"][data-match-mode="matched"]
+  .store-card[data-card-kind="expanded"] .unit-action-row{
+    column-gap:7px
+  }
+  html[data-vis-system="reference"][data-match-mode="matched"]
+  .store-card[data-card-kind="expanded"] .unit-action-row .price[data-price-kind="term"] strong{
+    font-size:20px
+  }
+}
