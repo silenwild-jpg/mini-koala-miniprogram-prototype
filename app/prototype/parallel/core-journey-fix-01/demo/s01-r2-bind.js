@@ -12,7 +12,7 @@
   // browse cards, fixed E service and 4th+ compact cards keep their own styling.
   const layoutCss=document.createElement('link');
   layoutCss.rel='stylesheet';
-  layoutCss.href='s01-reference-layout-02.css?v=REF04';
+  layoutCss.href='s01-rebuild-01.css?v=REBUILD01';
   document.head.append(layoutCss);
   const referenceParam=new URLSearchParams(window.location.search).get('vis_system');
   document.documentElement.dataset.visSystem=referenceParam==='baseline'?'baseline':'reference';
