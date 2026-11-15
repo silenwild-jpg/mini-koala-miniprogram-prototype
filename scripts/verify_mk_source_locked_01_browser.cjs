@@ -66,6 +66,24 @@ assert(c.layout.orderHeight>=47,'existing order button must stay 48px high');
 assert(c.layout.priceRight<=c.layout.orderLeft+2,'total price must not overlap the order button');
 assert(c.layout.descriptionScrollHeight<=c.layout.descriptionClientHeight+2,'unit usage copy must not be clipped');
 }
+// Check that the second visible CTA is not hidden behind the fixed bottom nav
+// in the user's initial 375/390 screenshot, even if DOM text and prices are valid.
+const fold=await p.evaluate(()=>{
+ const shell=document.getElementById('source').contentDocument;
+ const nav=shell?.querySelector('.bottom-nav');
+ const innerFrame=shell?.querySelector('#s01-r2-frame');
+ const cardDoc=innerFrame?.contentDocument;
+ const buttons=[...(cardDoc?.querySelectorAll('.store-card[data-card-kind="expanded"] .unit-action-row .order')||[])];
+ if(!nav||!innerFrame||buttons.length<2)return null;
+ const frameRect=innerFrame.getBoundingClientRect();
+ return {navTop:nav.getBoundingClientRect().top,
+  secondCTAEnd:frameRect.top+buttons[1].getBoundingClientRect().bottom,
+  firstCTAEnd:frameRect.top+buttons[0].getBoundingClientRect().bottom};
+});
+assert(fold,'bottom-nav and both matched CTAs are required');
+assert(fold.secondCTAEnd+3<=fold.navTop,
+  'second original order CTA must remain fully visible before bottom nav: '+JSON.stringify(fold));
+for(let k=0;k<0;k++){/* no-op: retain source signature for existing QA */}
 for(const variant of ['A','B']){
  await p.locator('[data-variant="'+variant+'"]').click();
  const snap=await readS01();
