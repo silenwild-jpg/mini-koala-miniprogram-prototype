@@ -19,14 +19,14 @@ aside strong{color:#183c2b}aside p{margin:8px 0 12px}aside h2{font-size:16px;mar
 </style></head><body>
 <header><div><h1>迷你考拉仓 · 原始内容冻结视觉探索</h1><small>签收业务候选同源运行时 · 不重新编写页面文案或卡片 DOM</small></div>
 <div class="controls">
-<div class="group" aria-label="设计方向"><button data-variant="A" aria-pressed="true">A · 轻量高效</button><button data-variant="B" aria-pressed="false">B · 亲和质感</button></div>
+<div class="group" aria-label="设计方向"><button data-variant="A" aria-pressed="true">A · 中性价格</button><button data-variant="B" aria-pressed="false">B · 橙色价格</button></div>
 <div class="group" aria-label="页面"><button data-page="H01" aria-pressed="false">H01</button><button data-page="S01" aria-pressed="true">S01</button><button data-page="S5" aria-pressed="false">S5</button></div>
 <div class="group" aria-label="宽度"><button data-width="375" aria-pressed="true">375</button><button data-width="390" aria-pressed="false">390</button></div>
 </div></header>
 <main><div class="device-area"><div class="device" id="device"><iframe id="source" title="未改写原始业务文案的迷你考拉仓页面"></iframe></div></div>
 <aside><h2>只改视觉，不改内容</h2>
 <p><strong>页面来源：</strong><code>app/prototype/parallel/core-journey-fix-01/demo</code> 中现行 H01、S01、S5 运行时。</p>
-<p><strong>视觉选项：</strong>仅对原始DOM叠加CSS，不生成新页面文案、仓位说明、导航文字或业务逻辑。</p>
+<p><strong>视觉选项：</strong>A 使用中性深色主价，B 对比V0.2建议深橙；仅变更已有视觉样式，不生成业务文字、仓位说明或导航。</p>
 <p><strong>S01：</strong>原版携带需求状态，保留完整地址、仓位容量、仓号、价格与已批准操作。第三位考拉E存不变。</p>
 <p><strong>运行：</strong><span id="status">正在加载业务版...</span></p>
 <p>对照页本身不验证真实支付，也不重新计算价格。</p></aside>
@@ -37,8 +37,8 @@ aside strong{color:#183c2b}aside p{margin:8px 0 12px}aside h2{font-size:16px;mar
 var root='../prototype/parallel/core-journey-fix-01/demo/index.html';
 var frame=document.getElementById('source'),device=document.getElementById('device'),msg=document.getElementById('status');
 var state={page:'S01',width:375,variant:'A'};
-var cssA='/* 原始重构样式，完全不叠加卡片规则 */';
-var cssB='/* 风格检查：仅调整原有实景摄影色彩，不改卡片结构 */.store-photo{filter:saturate(.92) contrast(1.01)!important}';
+var cssA='/* V0.3-04: default neutral-price visual. Do not alter source contents. */';
+var cssB='/* V0.3-04: compare V0.2 proposed price accent on same DOM */html{--s01-r-price:#A64612!important}';
 function report(text){msg.textContent=text;}
 function app(){try{return frame.contentWindow.SIM_DEMO}catch(e){return null}}
 function stylize(d){
