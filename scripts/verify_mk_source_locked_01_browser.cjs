@@ -150,6 +150,62 @@ for(const variant of ['A','B']){
  await p.locator('#device').screenshot({path:path.join(OUT,image)});
  result.push({width,variant,page:'S01',screenshot:image,cards:snap.cards.map(c=>({id:c.id,address:c.address,matched_units:c.unitCount}))});
 }
+// Stress-only (temporary DOM), not business copy or a fixture update.
+await p.locator('[data-variant="A"]').click();
+const stress=await p.evaluate(()=>{
+ const d=window.MK_SOURCE_LOCKED.getS01Frame(),records=[];
+ const cards=[...d.querySelectorAll('.store-card[data-card-kind="expanded"]')].slice(0,2);
+ const remember=el=>records.push({el,text:el.textContent,style:el.getAttribute('style')});
+ cards.forEach((c,i)=>{
+  const addr=c.querySelector('.address-copy'),desc=c.querySelector('.unit-desc');
+  const total=c.querySelector('.price[data-price-kind="term"] strong');
+  for(const el of [addr,desc,total])remember(el);
+  addr.textContent=addr.textContent+'大厦三层东区仓储服务入口地下停车场西侧通道';
+  desc.textContent=desc.textContent+'，装修换季家庭大型家具及多箱日用品';
+  total.textContent=i===0?'¥99,999':'¥88,888';
+  for(const el of [addr,desc,total]){
+   const size=parseFloat(getComputedStyle(el).fontSize);
+   el.style.setProperty('font-size',Math.round(size*1.25)+'px','important');
+  }
+ });
+ const metric={
+  scrollWidth:d.documentElement.scrollWidth,clientWidth:d.documentElement.clientWidth,
+  cards:cards.map(c=>{
+   const addr=c.querySelector('.address-copy'),desc=c.querySelector('.unit-desc');
+   const total=c.querySelector('.price[data-price-kind="term"] strong').getBoundingClientRect();
+   const action=c.querySelector('.unit-action-row .order').getBoundingClientRect();
+   return {addrVisible:addr.clientHeight>0&&addr.scrollHeight<=addr.clientHeight+2,
+    descVisible:desc.clientHeight>0&&desc.scrollHeight<=desc.clientHeight+2,
+    priceVsAction:total.right<=action.left-1,priceWidth:total.width,
+    buttonHeight:action.height,cardHeight:c.getBoundingClientRect().height,
+    addrLines:Math.ceil(addr.scrollHeight/parseFloat(getComputedStyle(addr).lineHeight))};
+  })
+ };
+ window.__mkS01StressRestore=()=>{
+  records.forEach(({el,text,style})=>{
+   el.textContent=text;
+   if(style===null)el.removeAttribute('style');else el.setAttribute('style',style);
+  });
+  delete window.__mkS01StressRestore;
+ };
+ return metric;
+});
+assert(stress.scrollWidth<=stress.clientWidth+1,'synthetic long copy must not make horizontal scroll: '+JSON.stringify(stress));
+for(const row of stress.cards){
+ assert(row.addrVisible,'synthetic long address must stay fully visible with 125% text');
+ assert(row.descVisible,'synthetic longer suitability text must stay visible with 125% text');
+ assert(row.priceVsAction,'synthetic 5-digit price must not overlap the CTA');
+ assert(row.buttonHeight>=47,'synthetic quote must preserve 48px CTA');
+}
+const stressFile='S01-STRESS-125-LONG-PRICE-'+width+'.png';
+await p.locator('#device').screenshot({path:path.join(OUT,stressFile)});
+result.push({width,page:'S01_STRESS_TEST_ONLY',screenshot:stressFile,stress,
+ note:'Only ephemeral synthetic long text/price and 125% chosen text sizes. Business data restored immediately.'});
+await p.evaluate(()=>window.MK_SOURCE_LOCKED.getS01Frame().defaultView.__mkS01StressRestore());
+const restored=await readS01();
+assert.deepEqual(restored.cards.map(c=>c.visibleContent),baseline.cards.map(c=>c.visibleContent),
+ 'test-only stress values must be restored to signed originals');
+
 // S01 browse-state regression: no new matching copy, existing third E-storage,
 // and original fourth+ compact store cards must remain.
 await p.evaluate(()=>{
