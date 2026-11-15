@@ -90,12 +90,13 @@ const palette=await p.evaluate(()=>{
 });
 const WHITE='rgb(255, 255, 255)',BRAND='rgb(0, 108, 84)',INK='rgb(32, 37, 34)',
  MUTED='rgb(92, 98, 95)',PRICE='rgb(166, 70, 18)';
-for(const field of ['stage','canvas','stores','context','quick','expanded'])
+for(const field of ['stage','canvas','stores','quick','expanded'])
  assert.equal(palette[field].bg,WHITE,'V0.3 white page background: '+field);
+assert.equal(palette.context.bg,'rgb(246, 247, 248)','V0.3 limited neutral read-only demand surface');
 assert.equal(palette.name.color,INK,'V0.3 text-primary on store title');
 assert.equal(palette.capacity.color,INK,'V0.3 text-primary on capacity');
 assert.equal(palette.address.color,MUTED,'V0.3 secondary text on full address');
-assert.equal(palette.price.color,PRICE,'V0.3 proposed candidate key price (NOT USER SIGNED)');
+assert.equal(palette.price.color,INK,'V0.3-04 A candidate uses neutral ink for the primary rent (NOT USER SIGNED)');
 assert.equal(palette.order.bg,BRAND,'V0.3 proposed candidate primary button green');
 result.push({width,page:'S01_V03_COMPUTED',palette});
 // Check that the second visible CTA is not hidden behind the fixed bottom nav
@@ -142,6 +143,12 @@ if(reachable.error||!reachable.insideFrame||reachable.bottom>reachable.navTop+2|
 result.push({width,page:'S01_SCROLL_REACHABILITY',reachable,fold});
 for(const variant of ['A','B']){
  await p.locator('[data-variant="'+variant+'"]').click();
+ const actualPriceColor=await p.evaluate(()=>{
+  const d=window.MK_SOURCE_LOCKED.getS01Frame();
+  return getComputedStyle(d.querySelector('.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong')).color;
+ });
+ assert.equal(actualPriceColor,variant==='A'?INK:PRICE,
+  'A/B price color needs to differ without changing underlying price text');
  const snap=await readS01();
  assert.deepEqual(snap.cards.map(c=>({id:c.id,address:c.address,unit:c.unitContent,copy:c.visibleContent})),
  baseline.cards.map(c=>({id:c.id,address:c.address,unit:c.unitContent,copy:c.visibleContent})),
@@ -235,8 +242,8 @@ assert(browse.compactCount>=2,'browse list should show compact stores');
 assert.equal(browse.eStoreRank,3,'E-storage remains fixed third');
 assert.equal(browse.matchedCards,0,'browse must not show matched-card layout');
 assert.equal(browse.explicitUnitRows,0,'browse must not manufacture unit offers');
-assert.deepEqual(browse.publicPriceColors,['rgb(166, 70, 18)','rgb(166, 70, 18)'],
- 'V0.3 proposed browse store prices use same price accent as matched total');
+assert.deepEqual(browse.publicPriceColors,['rgb(32, 37, 34)','rgb(32, 37, 34)'],
+ 'V0.3-04 A browse store prices use neutral ink same as matched total');
 const browseFile='S01-BROWSE-'+width+'.png';
 await p.locator('#device').screenshot({path:path.join(OUT,browseFile)});
 result.push({width,page:'S01_BROWSE',screenshot:browseFile,browse});
