@@ -23,6 +23,14 @@ await p.goto(url,{waitUntil:'domcontentloaded'});
 await p.click('[data-width="'+width+'"]');
 assert.equal(await p.locator('#device').evaluate(e=>Math.round(e.getBoundingClientRect().width)),width,'device width');
 await p.click('[data-page="S01"]');
+// Current user instruction outranks conflicting historical S01 variants.
+// Search results display STORES, not embedded matched unit/cabin/term offers.
+assert.equal(await p.locator('#viewS01 .unit-row').count(),0,'S01 must not show matching unit rows');
+assert.equal(await p.locator('#viewS01 .store-row').count(),2,'S01 keeps two primary store rows');
+const s01Copy=await p.locator('#viewS01').innerText();
+assert(!/(匹配仓位|推荐仓位|仓号|查看匹配方案|整期租金)/.test(s01Copy),
+  'S01 search results must not resurrect unit-specific information');
+assert(s01Copy.includes('考拉E存'),'S01 permanent third E-storage slot retained');
 await p.click('[data-chip="special"]');
 assert.equal(await p.locator('#viewS01 .store-row:visible').count(),1,'special chip filter');
 await p.click('[data-chip="special"]');
