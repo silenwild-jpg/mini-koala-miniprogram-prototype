@@ -124,10 +124,15 @@ const reachable=await p.evaluate(()=>{
  if(!nav||!frame||!d||!btn)return {error:'missing frame, button or nav'};
  const scrolling=d.scrollingElement||d.documentElement;
  const initial={scroll:scrolling.scrollTop,scrollHeight:scrolling.scrollHeight,clientHeight:scrolling.clientHeight};
- // Test the native scrolling behavior; do not hide or move the fixed nav.
- scrolling.scrollTop=Math.max(0,scrolling.scrollHeight-scrolling.clientHeight);
+ // Scroll JUST ENOUGH to reveal the second button safely above the fixed bottom tab.
+ // Scrolling to max would move the second CTA off the top edge: false failure.
+ const initialRect=btn.getBoundingClientRect(),frameRect=frame.getBoundingClientRect(),navRect=nav.getBoundingClientRect();
+ const initialBottom=frameRect.top+initialRect.bottom;
+ const needed=Math.max(0,initialBottom-navRect.top+16);
+ const maxScroll=Math.max(0,scrolling.scrollHeight-scrolling.clientHeight);
+ scrolling.scrollTop=Math.min(maxScroll,needed);
  const scrollAfter=scrolling.scrollTop;
- const btnRect=btn.getBoundingClientRect(),frameRect=frame.getBoundingClientRect(),navRect=nav.getBoundingClientRect();
+ const btnRect=btn.getBoundingClientRect();
  const top=frameRect.top+btnRect.top,bottom=frameRect.top+btnRect.bottom;
  const result={top,bottom,navTop:navRect.top,scrollAfter,initial,insideFrame:btnRect.top>=-2&&btnRect.bottom<=frameRect.height+2};
  scrolling.scrollTop=initial.scroll;
