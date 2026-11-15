@@ -17,7 +17,7 @@ let browser;
 try{
 browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const ctx=await browser.newContext({viewport:{width:1200,height:920},deviceScaleFactor:1,locale:'zh-CN',timezoneId:'Asia/Shanghai'});
-const p=await ctx.newPage(),errors=[],result=[];
+const p=await ctx.newPage(),errors=[],result=[],foldFailures=[];
 p.on('pageerror',e=>errors.push(e.message));
 await p.goto(HOST+'/design-exploration/mk-design-direction-source-locked-01.html',{waitUntil:'domcontentloaded'});
 await p.waitForFunction(()=>document.getElementById('status').textContent.includes('原版已载入'),{timeout:25000});
@@ -81,8 +81,7 @@ const fold=await p.evaluate(()=>{
   firstCTAEnd:frameRect.top+buttons[0].getBoundingClientRect().bottom};
 });
 assert(fold,'bottom-nav and both matched CTAs are required');
-assert(fold.secondCTAEnd+3<=fold.navTop,
-  'second original order CTA must remain fully visible before bottom nav: '+JSON.stringify(fold));
+if(fold.secondCTAEnd+3>fold.navTop)foldFailures.push({width,fold});
 for(let k=0;k<0;k++){/* no-op: retain source signature for existing QA */}
 for(const variant of ['A','B']){
  await p.locator('[data-variant="'+variant+'"]').click();
@@ -95,8 +94,9 @@ for(const variant of ['A','B']){
  result.push({width,variant,page:'S01',screenshot:image,cards:snap.cards.map(c=>({id:c.id,address:c.address,matched_units:c.unitCount}))});
 }
 }
+fs.writeFileSync(path.join(OUT,'source-lock-report.json'),JSON.stringify({sha:process.env.GITHUB_SHA,results:result,errors,foldFailures},null,2));
 assert.deepEqual(errors,[],'no browser errors');
-fs.writeFileSync(path.join(OUT,'source-lock-report.json'),JSON.stringify({sha:process.env.GITHUB_SHA,results:result,errors},null,2));
+assert.equal(foldFailures.length,0,'second original CTA covered by navigation: '+JSON.stringify(foldFailures));
 console.log('SOURCE_LOCKED_S01_PASS',process.env.GITHUB_SHA,result.length);
 await ctx.close();
 }finally{if(browser)await browser.close();await new Promise(ok=>server.close(ok));}
