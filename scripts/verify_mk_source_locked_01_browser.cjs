@@ -145,7 +145,8 @@ const browse=await p.evaluate(()=>{
   eStoreRank:nodes.findIndex(n=>n.matches('.s01-estore-card'))+1,
   matchedCards:nodes.filter(n=>n.matches('[data-card-kind="expanded"]')).length,
   explicitUnitRows:compact.reduce((n,c)=>n+c.querySelectorAll('.unit').length,0),
-  addresses:compact.slice(0,2).map(n=>n.querySelector('.address-copy')?.textContent||'')
+  addresses:compact.slice(0,2).map(n=>n.querySelector('.address-copy')?.textContent||''),
+  publicPriceColors:compact.slice(0,2).map(n=>getComputedStyle(n.querySelector('.s01-compact-side strong')).color)
  };
 });
 assert.equal(browse.matched,'browse','no-demand browsing state');
@@ -153,6 +154,8 @@ assert(browse.compactCount>=2,'browse list should show compact stores');
 assert.equal(browse.eStoreRank,3,'E-storage remains fixed third');
 assert.equal(browse.matchedCards,0,'browse must not show matched-card layout');
 assert.equal(browse.explicitUnitRows,0,'browse must not manufacture unit offers');
+assert.deepEqual(browse.publicPriceColors,['rgb(166, 70, 18)','rgb(166, 70, 18)'],
+ 'V0.3 proposed browse store prices use same price accent as matched total');
 const browseFile='S01-BROWSE-'+width+'.png';
 await p.locator('#device').screenshot({path:path.join(OUT,browseFile)});
 result.push({width,page:'S01_BROWSE',screenshot:browseFile,browse});
