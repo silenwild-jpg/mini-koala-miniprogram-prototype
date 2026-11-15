@@ -376,9 +376,9 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .s01-st
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"]{
   grid-template-columns:92px minmax(0,1fr);
-  grid-template-rows:25px 24px minmax(58px,auto) auto;
+  grid-template-rows:24px 23px minmax(52px,auto) auto;
   column-gap:11px;
-  padding:11px 11px 12px;
+  padding:10px 11px 10px;
   margin-bottom:11px;
   border-color:#e6ece8;
   border-radius:12px;
@@ -386,7 +386,7 @@ html[data-vis-system="reference"][data-match-mode="matched"]
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"]>.store-photo{
-  width:92px;max-width:92px;height:103px;
+  width:92px;max-width:92px;height:99px;
   border-radius:8px
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
@@ -397,7 +397,7 @@ html[data-vis-system="reference"][data-match-mode="matched"]
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"]>.store-body>.store-tags{
-  height:21px;min-height:21px;gap:5px
+  height:21px;min-height:21px;gap:4px
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"] .store-tags .mk-store-tag{
@@ -409,8 +409,8 @@ html[data-vis-system="reference"][data-match-mode="matched"]
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"]>.store-body>.address{
   display:flex;flex-direction:column;align-items:flex-start;
-  height:auto;min-height:55px;max-height:none;
-  margin:0;padding:0;gap:2px;
+  height:auto;min-height:40px;max-height:none;
+  margin:0;padding:0;gap:1px;
   overflow:visible;white-space:normal
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
@@ -429,11 +429,11 @@ html[data-vis-system="reference"][data-match-mode="matched"]
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"]>.store-body>.units{
-  margin-top:6px;padding-top:9px;border-color:#e8eeea
+  margin-top:4px;padding-top:8px;border-color:#e8eeea
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"] .unit{
-  grid-template-rows:auto auto;row-gap:7px
+  grid-template-rows:auto auto;row-gap:5px
 }
 html[data-vis-system="reference"][data-match-mode="matched"]
 .store-card[data-card-kind="expanded"] .unit-main{
@@ -483,11 +483,11 @@ html[data-vis-system="reference"][data-match-mode="matched"]
   html[data-vis-system="reference"][data-match-mode="matched"]
   .store-card[data-card-kind="expanded"]{
     grid-template-columns:91px minmax(0,1fr);
-    column-gap:9px;padding:10px 9px 11px
+    column-gap:9px;padding:10px 9px 9px
   }
   html[data-vis-system="reference"][data-match-mode="matched"]
   .store-card[data-card-kind="expanded"]>.store-photo{
-    width:91px;max-width:91px;height:102px
+    width:91px;max-width:91px;height:99px
   }
   html[data-vis-system="reference"][data-match-mode="matched"]
   .store-card[data-card-kind="expanded"] .unit-main{
