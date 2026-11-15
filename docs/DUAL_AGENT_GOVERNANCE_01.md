@@ -57,16 +57,31 @@
 - 不以“代码已存在”“旧 PR 曾通过”或“实现成本较低”为理由覆盖用户最新决定；
 - 不阻塞与该冲突无依赖关系的其他已批准工作。
 
+### 4.1 规则解释权与争议裁决（DISPUTE）
+
+- ChatGPT 可以检索、解释和比较项目规则，并提出最合理的执行解释；这属于分析意见，不构成规则修改或最终裁定。
+- WorkBuddy 可以指出规则冲突、技术不可行性、实现副作用或证据不足；不得自行选择会改变产品含义的解释。
+- 用户对产品规则、业务口径、视觉冻结、任务范围、合并与部署拥有最终裁决权。若用户尚未裁定，任何一方不得把自己的解释标记为已批准规则。
+- 当双方对规则含义、验收标准、实现是否符合规则或证据是否充分存在实质分歧时，必须进入 `DISPUTE`，暂停争议部分及其依赖工作；不受影响的已批准任务可继续。
+- `DISPUTE` 提交材料必须包括：争议问题；双方各自引用的规则原文及来源/日期；涉及的页面、状态和用户流程；基线 SHA 与当前 HEAD SHA；当前实现/截图/测试证据；双方建议方案、影响范围及风险；需要用户回答的单一裁定问题。
+- 用户裁定后记录为 `USER_DECISION`，明确选择、适用范围、生效时间及是否需要更新规则文档。随后状态转为 `RESUME`（按裁定继续）或 `REQUEST_CHANGES`（按裁定修改并重新评审）。
+- 若缺少足以判断的证据，状态保持 `DISPUTE / BLOCKED`，不得通过投票、默认采纳 ChatGPT 意见或先合并后补证据来消除争议。
+
 ## 5. 标准任务流
 
 `PROPOSED → USER_APPROVED → IMPLEMENTING → PR_OPEN → TECH_CHECKED → INDEPENDENT_REVIEW → USER_ACCEPTED → MERGED`
+
+争议分支：`INDEPENDENT_REVIEW → DISPUTE → USER_DECISION → RESUME / REQUEST_CHANGES → TECH_CHECKED（必要时）→ INDEPENDENT_REVIEW`
 
 - PROPOSED：提出方案，尚无实施授权。
 - USER_APPROVED：用户批准明确范围、基线和验收要求。
 - IMPLEMENTING：WorkBuddy 在独立分支实施。
 - PR_OPEN：提交可审查的 PR，保留完整 diff。
 - TECH_CHECKED：对应 SHA 的自动化/人工技术测试已执行并记录。
-- INDEPENDENT_REVIEW：ChatGPT 完成独立规则、代码和证据评审。
+- INDEPENDENT_REVIEW：ChatGPT 完成独立规则、代码和证据评审；评审结论是建议，不替代用户裁定。
+- DISPUTE：对规则解释、实现符合性或证据充分性存在实质分歧，争议范围暂停。
+- USER_DECISION：用户明确裁定争议事项，并记录适用范围。
+- RESUME：按用户裁定恢复执行。
 - USER_ACCEPTED：用户批准该变更进入主线。
 - MERGED：GitHub 确认已合并。
 
@@ -133,6 +148,6 @@
 
 ## 10. 本规则的生效方式
 
-本文件当前为 Draft 提案。只有在用户审阅并明确批准后，才可通过 PR 合并 main 并成为项目治理规则。合并前，既有 README、AGENTS.md、项目控制中心及 main 保护规则继续有效；本文件不得被 WorkBuddy 当作已生效授权。
+本文件当前为 Draft 提案。只有在用户审阅并明确批准后，才可通过 PR 合并 main 并成为项目治理规则。ChatGPT 的评审结论、WorkBuddy 的自测结论或 GitHub 自动检查均不能单独替代用户批准。合并前，既有 README、AGENTS.md、项目控制中心及 main 保护规则继续有效；本文件不得被 WorkBuddy 当作已生效授权。
 
 后续若需调整本规则，应提交单独 PR，列明变更原因、影响和兼容性，不得在业务 PR 中隐式改写协作权限。
