@@ -66,6 +66,38 @@ assert(c.layout.orderHeight>=47,'existing order button must stay 48px high');
 assert(c.layout.priceRight<=c.layout.orderLeft+2,'total price must not overlap the order button');
 assert(c.layout.descriptionScrollHeight<=c.layout.descriptionClientHeight+2,'unit usage copy must not be clipped');
 }
+// V0.3 candidate visual contract: validates COMPUTED values in the actual same-source S01 frame.
+const palette=await p.evaluate(()=>{
+ const d=window.MK_SOURCE_LOCKED.getS01Frame();
+ const style=selector=>{
+  const e=d.querySelector(selector);
+  if(!e)throw Error('Missing candidate visual selector '+selector);
+  const s=getComputedStyle(e);
+  return {bg:s.backgroundColor,color:s.color,border:s.borderBottomColor,fontSize:s.fontSize};
+ };
+ const root=getComputedStyle(d.documentElement);
+ return {
+  vars:['--s01-r-ink','--s01-r-muted','--s01-r-green','--s01-r-hair','--s01-r-surface','--s01-r-price'].map(n=>[n,root.getPropertyValue(n).trim()]),
+  stage:style('.stage'),canvas:style('.canvas'),stores:style('.stores'),
+  context:style('.s01-context'),quick:style('.s01-quick'),
+  expanded:style('.store-card[data-card-kind="expanded"]'),
+  name:style('.store-card[data-card-kind="expanded"] .store-body h2'),
+  address:style('.store-card[data-card-kind="expanded"] .address-copy'),
+  capacity:style('.store-card[data-card-kind="expanded"] .capacity'),
+  price:style('.store-card[data-card-kind="expanded"] .price[data-price-kind="term"] strong'),
+  order:style('.store-card[data-card-kind="expanded"] .order')
+ };
+});
+const WHITE='rgb(255, 255, 255)',BRAND='rgb(0, 108, 84)',INK='rgb(32, 37, 34)',
+ MUTED='rgb(92, 98, 95)',PRICE='rgb(166, 70, 18)';
+for(const field of ['stage','canvas','stores','context','quick','expanded'])
+ assert.equal(palette[field].bg,WHITE,'V0.3 white page background: '+field);
+assert.equal(palette.name.color,INK,'V0.3 text-primary on store title');
+assert.equal(palette.capacity.color,INK,'V0.3 text-primary on capacity');
+assert.equal(palette.address.color,MUTED,'V0.3 secondary text on full address');
+assert.equal(palette.price.color,PRICE,'V0.3 proposed candidate key price (NOT USER SIGNED)');
+assert.equal(palette.order.bg,BRAND,'V0.3 proposed candidate primary button green');
+result.push({width,page:'S01_V03_COMPUTED',palette});
 // Check that the second visible CTA is not hidden behind the fixed bottom nav
 // in the user's initial 375/390 screenshot, even if DOM text and prices are valid.
 const fold=await p.evaluate(()=>{
