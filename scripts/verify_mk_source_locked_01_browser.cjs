@@ -93,6 +93,42 @@ for(const variant of ['A','B']){
  await p.locator('#device').screenshot({path:path.join(OUT,image)});
  result.push({width,variant,page:'S01',screenshot:image,cards:snap.cards.map(c=>({id:c.id,address:c.address,matched_units:c.unitCount}))});
 }
+// S01 browse-state regression: no new matching copy, existing third E-storage,
+// and original fourth+ compact store cards must remain.
+await p.evaluate(()=>{
+ const app=window.MK_SOURCE_LOCKED.getApp();
+ app.core.setScenario('noDemand');app.navigate('S01');
+});
+await p.waitForFunction(()=>{
+ const doc=window.MK_SOURCE_LOCKED.getS01Frame();
+ return doc?.documentElement?.dataset.matchMode==='browse';
+},{timeout:15000});
+const browse=await p.evaluate(()=>{
+ const doc=window.MK_SOURCE_LOCKED.getS01Frame();
+ const nodes=[...doc.querySelector('.stores').children];
+ const compact=nodes.filter(n=>n.matches('.s01-compact-store'));
+ return {
+  matched:doc.documentElement.dataset.matchMode,
+  compactCount:compact.length,
+  eStoreRank:nodes.findIndex(n=>n.matches('.s01-estore-card'))+1,
+  matchedCards:nodes.filter(n=>n.matches('[data-card-kind="expanded"]')).length,
+  explicitUnitRows:compact.reduce((n,c)=>n+c.querySelectorAll('.unit').length,0),
+  addresses:compact.slice(0,2).map(n=>n.querySelector('.address-copy')?.textContent||'')
+ };
+});
+assert.equal(browse.matched,'browse','no-demand browsing state');
+assert(browse.compactCount>=2,'browse list should show compact stores');
+assert.equal(browse.eStoreRank,3,'E-storage remains fixed third');
+assert.equal(browse.matchedCards,0,'browse must not show matched-card layout');
+assert.equal(browse.explicitUnitRows,0,'browse must not manufacture unit offers');
+const browseFile='S01-BROWSE-'+width+'.png';
+await p.locator('#device').screenshot({path:path.join(OUT,browseFile)});
+result.push({width,page:'S01_BROWSE',screenshot:browseFile,browse});
+await p.evaluate(()=>{
+ const app=window.MK_SOURCE_LOCKED.getApp();
+ app.core.setScenario('promoSpecial');app.navigate('S01');
+});
+await p.waitForFunction(()=>window.MK_SOURCE_LOCKED.getS01Frame()?.documentElement?.dataset.matchMode==='matched');
 }
 fs.writeFileSync(path.join(OUT,'source-lock-report.json'),JSON.stringify({sha:process.env.GITHUB_SHA,results:result,errors,foldFailures},null,2));
 assert.deepEqual(errors,[],'no browser errors');
