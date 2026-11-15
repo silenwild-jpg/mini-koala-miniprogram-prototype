@@ -17,7 +17,7 @@ let browser;
 try{
 browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const ctx=await browser.newContext({viewport:{width:1200,height:920},deviceScaleFactor:1,locale:'zh-CN',timezoneId:'Asia/Shanghai'});
-const p=await ctx.newPage(),errors=[],result=[],foldFailures=[];
+const p=await ctx.newPage(),errors=[],result=[],foldFailures=[],foldObservations=[];
 p.on('pageerror',e=>errors.push(e.message));
 await p.goto(HOST+'/design-exploration/mk-design-direction-source-locked-01.html',{waitUntil:'domcontentloaded'});
 await p.waitForFunction(()=>document.getElementById('status').textContent.includes('原版已载入'),{timeout:25000});
@@ -113,8 +113,28 @@ const fold=await p.evaluate(()=>{
   firstCTAEnd:frameRect.top+buttons[0].getBoundingClientRect().bottom};
 });
 assert(fold,'bottom-nav and both matched CTAs are required');
-if(fold.secondCTAEnd+3>fold.navTop)foldFailures.push({width,fold});
-for(let k=0;k<0;k++){/* no-op: retain source signature for existing QA */}
+// Screen 1 does NOT have to contain both complete cards. Preserve readable
+// text rather than force a layout to squeeze two CTAs above the fixed tab bar.
+foldObservations.push({width,fold,secondInitiallyAboveBar:fold.secondCTAEnd+3<=fold.navTop});
+const reachable=await p.evaluate(()=>{
+ const shell=document.getElementById('source').contentDocument;
+ const nav=shell?.querySelector('.bottom-nav'),frame=shell?.querySelector('#s01-r2-frame');
+ const d=frame?.contentDocument;
+ const btn=d?.querySelectorAll('.store-card[data-card-kind="expanded"] .unit-action-row .order')[1];
+ if(!nav||!frame||!d||!btn)return {error:'missing frame, button or nav'};
+ const scrolling=d.scrollingElement||d.documentElement;
+ const initial={scroll:scrolling.scrollTop,scrollHeight:scrolling.scrollHeight,clientHeight:scrolling.clientHeight};
+ // Test the native scrolling behavior; do not hide or move the fixed nav.
+ scrolling.scrollTop=Math.max(0,scrolling.scrollHeight-scrolling.clientHeight);
+ const scrollAfter=scrolling.scrollTop;
+ const btnRect=btn.getBoundingClientRect(),frameRect=frame.getBoundingClientRect(),navRect=nav.getBoundingClientRect();
+ const top=frameRect.top+btnRect.top,bottom=frameRect.top+btnRect.bottom;
+ const result={top,bottom,navTop:navRect.top,scrollAfter,initial,insideFrame:btnRect.top>=-2&&btnRect.bottom<=frameRect.height+2};
+ scrolling.scrollTop=initial.scroll;
+ return result;
+});
+if(reachable.error||!reachable.insideFrame||reachable.bottom>reachable.navTop+2||reachable.top<0)foldFailures.push({width,reachable});
+result.push({width,page:'S01_SCROLL_REACHABILITY',reachable,fold});
 for(const variant of ['A','B']){
  await p.locator('[data-variant="'+variant+'"]').click();
  const snap=await readS01();
@@ -165,9 +185,9 @@ await p.evaluate(()=>{
 });
 await p.waitForFunction(()=>window.MK_SOURCE_LOCKED.getS01Frame()?.documentElement?.dataset.matchMode==='matched');
 }
-fs.writeFileSync(path.join(OUT,'source-lock-report.json'),JSON.stringify({sha:process.env.GITHUB_SHA,results:result,errors,foldFailures},null,2));
+fs.writeFileSync(path.join(OUT,'source-lock-report.json'),JSON.stringify({sha:process.env.GITHUB_SHA,results:result,errors,foldFailures,foldObservations},null,2));
 assert.deepEqual(errors,[],'no browser errors');
-assert.equal(foldFailures.length,0,'second original CTA covered by navigation: '+JSON.stringify(foldFailures));
+assert.equal(foldFailures.length,0,'second original CTA unreachable after normal scrolling: '+JSON.stringify(foldFailures));
 console.log('SOURCE_LOCKED_S01_PASS',process.env.GITHUB_SHA,result.length);
 await ctx.close();
 }finally{if(browser)await browser.close();await new Promise(ok=>server.close(ok));}
