@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>迷你考拉仓｜原版内容冻结视觉对照</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#edf1ee;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:#18372a}
+header{background:#19382c;color:#fff;padding:13px 20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+h1{font-size:16px;margin:0}header small{font-size:11px;color:#c2d5c9;display:block;margin-top:4px}
+.controls{display:flex;gap:9px;flex-wrap:wrap}.group{display:flex;gap:3px;background:#35584a;padding:4px;border-radius:10px}
+.group button{color:#dcece3;border:0;background:transparent;border-radius:7px;min-height:34px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:650}
+.group button[aria-pressed=true]{background:white;color:#16432d}
+main{display:grid;grid-template-columns:minmax(0,1fr) 315px;gap:28px;padding:28px 20px;max-width:1150px;margin:auto}
+.device-area{display:flex;justify-content:center}.device{width:375px;height:812px;flex:none;border-radius:26px;overflow:hidden;background:white;border:6px solid #18382b;box-shadow:0 20px 45px #183a271f}
+.device.is390{width:390px;height:844px}iframe{width:100%;height:100%;display:block;border:0;background:white}
+aside{background:white;border-radius:14px;padding:21px;font-size:12px;line-height:1.9;color:#46594c}
+aside strong{color:#183c2b}aside p{margin:8px 0 12px}aside h2{font-size:16px;margin:0 0 8px}
+#status{font-weight:700;color:#19583a}code{font-size:11px;overflow-wrap:anywhere}
+@media(max-width:800px){main{grid-template-columns:1fr;padding:12px 0}.device{border:0;border-radius:0;box-shadow:none;max-width:100%}.device-area{width:100%;justify-content:center}aside{border-radius:0}header{padding:12px}}
+</style></head><body>
+<header><div><h1>迷你考拉仓 · 原始内容冻结视觉探索</h1><small>签收业务候选同源运行时 · 不重新编写页面文案或卡片 DOM</small></div>
+<div class="controls">
+<div class="group" aria-label="设计方向"><button data-variant="A" aria-pressed="true">A · 轻量高效</button><button data-variant="B" aria-pressed="false">B · 亲和质感</button></div>
+<div class="group" aria-label="页面"><button data-page="H01" aria-pressed="false">H01</button><button data-page="S01" aria-pressed="true">S01</button><button data-page="S5" aria-pressed="false">S5</button></div>
+<div class="group" aria-label="宽度"><button data-width="375" aria-pressed="true">375</button><button data-width="390" aria-pressed="false">390</button></div>
+</div></header>
+<main><div class="device-area"><div class="device" id="device"><iframe id="source" title="未改写原始业务文案的迷你考拉仓页面"></iframe></div></div>
+<aside><h2>只改视觉，不改内容</h2>
+<p><strong>页面来源：</strong><code>app/prototype/parallel/core-journey-fix-01/demo</code> 中现行 H01、S01、S5 运行时。</p>
+<p><strong>视觉选项：</strong>仅对原始DOM叠加CSS，不生成新页面文案、仓位说明、导航文字或业务逻辑。</p>
+<p><strong>S01：</strong>原版携带需求状态，保留完整地址、仓位容量、仓号、价格与已批准操作。第三位考拉E存不变。</p>
+<p><strong>运行：</strong><span id="status">正在加载业务版...</span></p>
+<p>对照页本身不验证真实支付，也不重新计算价格。</p></aside>
+</main>
+<script>
+(function(){
+'use strict';
+var root='../prototype/parallel/core-journey-fix-01/demo/index.html';
+var frame=document.getElementById('source'),device=document.getElementById('device'),msg=document.getElementById('status');
+var state={page:'S01',width:375,variant:'A'};
+var cssA='html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif!important}.store-card{box-shadow:none!important;border-color:#e7eee9!important}.store-body h2{letter-spacing:-.015em!important}';
+var cssB='html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif!important}.store-card{box-shadow:0 3px 12px rgba(20,65,42,.08)!important;border-color:#edf0e8!important}.store-photo{filter:saturate(.92) contrast(1.02)!important}';
+function report(text){msg.textContent=text;}
+function app(){try{return frame.contentWindow.SIM_DEMO}catch(e){return null}}
+function stylize(d){
+ if(!d||!d.head)return;
+ var st=d.getElementById('mk-visual-source-locked');
+ if(!st){st=d.createElement('style');st.id='mk-visual-source-locked';d.head.appendChild(st)}
+ st.textContent=state.variant==='A'?cssA:cssB;
+ Array.from(d.querySelectorAll('iframe')).forEach(function(f){try{if(f.contentDocument){stylize(f.contentDocument);f.addEventListener('load',function(){stylize(f.contentDocument)},{once:true})}}catch(e){}});
+}
+function selectState(){
+ var a=app();if(!a){report('业务脚本尚未准备好');return}
+ try{
+  a.core.setScenario(state.page==='S01'?'promoSpecial':state.page==='S5'?'promoLongTerm':'noDemand');
+  a.navigate(state.page);
+  report('原版已载入 · '+state.page+' · '+state.variant);
+  [0,180,600].forEach(function(t){setTimeout(function(){try{stylize(frame.contentDocument)}catch(e){}},t)});
+ }catch(e){report('原版状态加载异常：'+e.message)}
+}
+function changePage(){
+ report('加载原始页面...');
+ frame.onload=function(){var n=0;function tick(){if(app()){selectState()}else if(++n<55){setTimeout(tick,80)}else{report('业务页加载失败')}}tick()};
+ frame.src=root+'?page='+state.page+(state.page==='S01'?'&s01_r2=1':'');
+}
+function update(){
+ document.querySelectorAll('[data-variant]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.variant===state.variant)});
+ document.querySelectorAll('[data-page]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.page===state.page)});
+ document.querySelectorAll('[data-width]').forEach(function(b){b.setAttribute('aria-pressed',Number(b.dataset.width)===state.width)});
+ device.classList.toggle('is390',state.width===390);
+}
+document.addEventListener('click',function(e){
+ var b=e.target.closest('button');if(!b)return;
+ if(b.dataset.variant){state.variant=b.dataset.variant;update();try{stylize(frame.contentDocument)}catch(e){}return}
+ if(b.dataset.width){state.width=Number(b.dataset.width);update();return}
+ if(b.dataset.page){state.page=b.dataset.page;update();changePage()}
+});
+window.MK_SOURCE_LOCKED={getApp:app,getS01Frame:function(){try{return frame.contentDocument.querySelector('#s01-r2-frame')?.contentDocument||null}catch(e){return null}},currentState:function(){return {...state}}};
+update();changePage();
+})();
+</script></body></html>
