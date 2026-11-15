@@ -61,15 +61,15 @@ body.s01-panel-open::before{position:fixed;inset:0;z-index:30;content:"";backgro
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
   display:grid;position:relative;
   grid-template-columns:92px minmax(0,1fr);
-  grid-template-rows:27px 23px minmax(61px,auto) auto;
-  gap:0 11px;margin:0 0 11px;padding:12px;
+  grid-template-rows:25px 22px minmax(54px,auto) auto;
+  gap:0 10px;margin:0 0 10px;padding:10px 11px;
   border:1px solid #e9eeea;border-radius:13px;background:#fff;
   box-shadow:0 1px 3px rgba(28,58,40,.024);
   overflow:hidden
 }
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
   display:block;float:none;grid-column:1;grid-row:1/4;
-  width:92px;height:110px;min-width:92px;max-width:92px;margin:0;
+  width:92px;height:101px;min-width:92px;max-width:92px;margin:0;
   border-radius:8px;object-fit:cover;object-position:center
 }
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body{display:contents}
@@ -106,7 +106,7 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-
   display:flex;grid-column:2;grid-row:3;flex-direction:column;
   align-items:flex-start;justify-content:flex-start;gap:3px;
   min-width:0;max-width:100%;width:100%;
-  height:auto;min-height:61px;max-height:none;margin:0;padding:0;
+  height:auto;min-height:54px;max-height:none;margin:0;padding:0;
   white-space:normal;overflow:visible
 }
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .address-copy{
@@ -132,12 +132,12 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .store-
    The source DOM is unchanged; text/amount/ID are not re-computed here. */
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-body>.units{
   display:block;grid-column:1/-1;grid-row:4;clear:none;min-width:0;width:100%;
-  margin:9px 0 0;padding:10px 0 0;
+  margin:7px 0 0;padding:9px 0 0;
   border:0;border-top:1px solid var(--s01-r-hair);background:transparent
 }
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit{
   display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;
-  row-gap:6px;min-width:0;width:100%;min-height:0;margin:0;padding:0;
+  row-gap:5px;min-width:0;width:100%;min-height:0;margin:0;padding:0;
   background:transparent;border:0;border-radius:0;box-shadow:none
 }
 html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit::before{content:none;display:none}
@@ -224,11 +224,11 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-a
 @media(max-width:375px){
   html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]{
     grid-template-columns:88px minmax(0,1fr);
-    grid-template-rows:27px 23px minmax(61px,auto) auto;
-    column-gap:9px;padding:11px 10px
+    grid-template-rows:25px 22px minmax(54px,auto) auto;
+    column-gap:9px;padding:10px 10px
   }
   html[data-vis-system="reference"] .store-card[data-card-kind="expanded"]>.store-photo{
-    width:88px;max-width:88px;min-width:88px;height:107px
+    width:88px;max-width:88px;min-width:88px;height:101px
   }
   html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-main{gap:3px 7px}
   html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-action-row{
