@@ -252,7 +252,7 @@ html[data-vis-system="reference"] .store-card[data-card-kind="expanded"] .unit-a
 .s01-compact .store-tags span{font-size:11px}
 .s01-compact .address-copy,.s01-compact .km{font-size:12px;line-height:18px}
 .s01-compact-store .s01-compact-side{display:flex;gap:3px;align-items:baseline;white-space:nowrap}
-.s01-compact-store .s01-compact-side strong{color:var(--s01-r-ink);font-size:16px}
+.s01-compact-store .s01-compact-side strong{color:var(--s01-r-price)!important;font-size:16px}
 .s01-compact-store .s01-compact-side small{color:var(--s01-r-muted);font-size:11px}
 .s01-compact-store .s01-compact-arrow{margin-left:auto;color:var(--s01-r-muted);font-size:20px}
 .s01-estore-card{grid-template-columns:88px minmax(0,1fr);gap:11px;padding:9px 0;min-height:105px}
