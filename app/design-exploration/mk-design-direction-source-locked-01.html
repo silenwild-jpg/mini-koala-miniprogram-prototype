@@ -37,8 +37,8 @@ aside strong{color:#183c2b}aside p{margin:8px 0 12px}aside h2{font-size:16px;mar
 var root='../prototype/parallel/core-journey-fix-01/demo/index.html';
 var frame=document.getElementById('source'),device=document.getElementById('device'),msg=document.getElementById('status');
 var state={page:'S01',width:375,variant:'A'};
-var cssA='html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif!important}.store-card{box-shadow:none!important;border-color:#e7eee9!important}.store-body h2{letter-spacing:-.015em!important}';
-var cssB='html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif!important}.store-card{box-shadow:0 3px 12px rgba(20,65,42,.08)!important;border-color:#edf0e8!important}.store-photo{filter:saturate(.92) contrast(1.02)!important}';
+var cssA='/* 原始重构样式，完全不叠加卡片规则 */';
+var cssB='/* 风格检查：仅调整原有实景摄影色彩，不改卡片结构 */.store-photo{filter:saturate(.92) contrast(1.01)!important}';
 function report(text){msg.textContent=text;}
 function app(){try{return frame.contentWindow.SIM_DEMO}catch(e){return null}}
 function stylize(d){
