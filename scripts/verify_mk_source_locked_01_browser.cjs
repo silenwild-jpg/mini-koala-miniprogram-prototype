@@ -29,7 +29,18 @@ return {appReady:!!app,matched:!!app.s01R2Bridge?.snapshot()?.matched,
  cards:cards.map(c=>({id:c.dataset.storeId,address:c.querySelector('.address-copy')?.textContent||'',addressTitle:c.querySelector('.address-copy')?.title||'',
   unitCount:[...c.querySelectorAll('.unit')].filter(u=>!u.hidden).length,
   unitContent:[...c.querySelectorAll('.unit')].filter(u=>!u.hidden).map(u=>u.innerText).join('|'),
-  visibleContent:c.innerText})),
+  visibleContent:c.innerText,
+  layout:(()=>{
+   const address=c.querySelector('.address-copy'),price=c.querySelector('.unit-action-row .price'),
+    order=c.querySelector('.unit-action-row .order'),desc=c.querySelector('.unit-desc');
+   const pa=price?.getBoundingClientRect(),ba=order?.getBoundingClientRect();
+   return {addressDisplay:address?getComputedStyle(address).display:'',
+     addressWhiteSpace:address?getComputedStyle(address).whiteSpace:'',
+     addressClientHeight:address?.clientHeight||0,addressScrollHeight:address?.scrollHeight||0,
+     priceRight:pa?.right||0,orderLeft:ba?.left||0,orderHeight:ba?.height||0,
+     descriptionClientHeight:desc?.clientHeight||0,descriptionScrollHeight:desc?.scrollHeight||0};
+  })()
+ })),
  fixtureAddresses:cards.map(c=>app.core.fixture.stores.find(s=>s.id===c.dataset.storeId)?.address||'')}
 });
 for(const width of [375,390]){
@@ -48,6 +59,12 @@ assert(c.unitCount>0,'must retain current matched unit offer '+c.id);
 assert(!c.visibleContent.includes('匹配仓位'),'do not add phrase 匹配仓位');
 assert(!c.visibleContent.includes('6个月示例'),'do not add phrase 6个月示例');
 assert(!c.visibleContent.includes('到店导航'),'do not invent navigation copy');
+assert.equal(c.layout.addressWhiteSpace,'normal','full original address must wrap rather than truncate');
+assert(c.layout.addressClientHeight>=17,'detailed address must have visible height');
+assert(c.layout.addressScrollHeight<=c.layout.addressClientHeight+2,'detailed address must not be clipped');
+assert(c.layout.orderHeight>=47,'existing order button must stay 48px high');
+assert(c.layout.priceRight<=c.layout.orderLeft+2,'total price must not overlap the order button');
+assert(c.layout.descriptionScrollHeight<=c.layout.descriptionClientHeight+2,'unit usage copy must not be clipped');
 }
 for(const variant of ['A','B']){
  await p.locator('[data-variant="'+variant+'"]').click();
