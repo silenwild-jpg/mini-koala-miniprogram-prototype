@@ -201,7 +201,7 @@ const stressFile='S01-STRESS-125-LONG-PRICE-'+width+'.png';
 await p.locator('#device').screenshot({path:path.join(OUT,stressFile)});
 result.push({width,page:'S01_STRESS_TEST_ONLY',screenshot:stressFile,stress,
  note:'Only ephemeral synthetic long text/price and 125% chosen text sizes. Business data restored immediately.'});
-await p.evaluate(()=>window.MK_SOURCE_LOCKED.getS01Frame().defaultView.__mkS01StressRestore());
+await p.evaluate(()=>window.__mkS01StressRestore());
 const restored=await readS01();
 assert.deepEqual(restored.cards.map(c=>c.visibleContent),baseline.cards.map(c=>c.visibleContent),
  'test-only stress values must be restored to signed originals');
