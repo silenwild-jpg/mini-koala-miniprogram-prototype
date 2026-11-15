@@ -1,0 +1,37 @@
+name: MK SOURCE-LOCKED 01 - S01 visual copy contract
+on:
+  push:
+    branches:
+      - work/mk-demo-quality-reset-01-20261115
+    paths:
+      - .github/workflows/mk-source-locked-01.yml
+      - app/design-exploration/mk-design-direction-source-locked-01.html
+      - scripts/verify_mk_source_locked_01_browser.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-locked-s01:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser and CJK fonts
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+      - name: S01 exact source copy and 375/390 visual invariant
+        run: node scripts/verify_mk_source_locked_01_browser.cjs
+      - name: Upload source-locked screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk-source-locked-01-${{ github.sha }}
+          path: release-evidence/mk-source-locked-01/
+          retention-days: 7
+          if-no-files-found: warn
