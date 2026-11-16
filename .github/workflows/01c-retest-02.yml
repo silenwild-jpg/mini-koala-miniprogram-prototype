@@ -1,0 +1,58 @@
+name: 01C RETEST 02 - H T26-T30 and G1
+
+on:
+  push:
+    branches:
+      - test/01c-retest-02-runner-20261116
+    paths:
+      - scripts/01c_retest_02_runner.cjs
+      - docs/01C_RETEST_02_CASE_LIST.md
+      - .github/workflows/01c-retest-02.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: 01c-retest-02
+  cancel-in-progress: false
+
+jobs:
+  retest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Chromium, Playwright and Chinese fonts
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Verify runner syntax
+        run: node --check scripts/01c_retest_02_runner.cjs
+
+      - name: Execute 34 isolated runs on the exact baseline
+        env:
+          RETEST_BASELINE_SHA: f2fccf9301a54f00be9ab089a6426fae8f848242
+        run: node scripts/01c_retest_02_runner.cjs
+
+      - name: Upload screenshots, traces, snapshots and report even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 01C-RETEST-02
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            release-evidence/01c-retest-02/
