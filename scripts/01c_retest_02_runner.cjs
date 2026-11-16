@@ -163,8 +163,9 @@ async function runG1(browser,id,viewport){
       if(id==='G1-02')checks.expectedView= (await page.locator('body').innerText()).includes('优惠');
       if(id==='G1-03')checks.expectedView= (await page.locator('body').innerText()).includes('运输');
     }else if(id==='G1-04'){
-      checks.noLegacyPhoneNodes=await page.locator('[id*="phone"],[class*="phone"]').count().then(n=>n===0);
-      checks.noOldLayer=await page.locator('.mk-auth-sheet').count().then(n=>n<=1);
+      checks.noLegacyPhoneNodes=await page.locator('#overlay-root .phone-modal, #overlay-root .phone-layer, #overlay-root .legacy-phone-auth').count().then(n=>n===0);
+      checks.noDuplicateAuthLayer=await page.locator('.mk-auth-sheet').count().then(n=>n===0);
+      checks.unifiedAuthComponentAvailable=await page.evaluate(()=>typeof window.SIM_PHONE_AUTH==='object');
     }else if(id==='G1-05'||id==='G1-06'){
       const field=id==='G1-05'?'region':'capacity';
       checks.noFilterTrigger=await page.locator('[data-action*="'+field+'"],[data-action*="setR2'+(field==='region'?'Region':'Capacity')+'"]').count().then(n=>n===0);
@@ -176,7 +177,8 @@ async function runG1(browser,id,viewport){
       await page.waitForFunction(()=>new URLSearchParams(location.search).get('page')==='S01');
       checks.persistedValueReset=await page.evaluate(field=>JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}')[field]==='all',field);
     }else if(id==='G1-07'){
-      checks.formalRoutes=await page.evaluate(()=>Object.keys(window.SIM_CENTRAL_CONTRACT_V1?{H01:1,CAP:1,ITEMS:1,S01:1,S02:1,S5:1,BOOKING:1,QUICK:1,O01:1,M01:1,O03:1,OH01:1,RN01:1,EX01:1,DP01:1,IV01:1}:{}).length);
+      checks.formalRoutes=await page.evaluate(()=>{const names=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'];const c=window.SIM_CENTRAL_CONTRACT_V1,f=window.SIM_DEMO.core.fixture;return names.filter(page=>{try{c.route(f,{page});return true;}catch{return false;}}).length;});
+      checks.expectedRouteCount=checks.formalRoutes===16;
       await page.goto(BASE+'/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
       checks.centralRejected=await page.locator('#screen').innerText().then(t=>!t.includes('处理结果'));
       await page.goto(BASE+'/demo/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
