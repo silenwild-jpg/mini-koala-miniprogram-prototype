@@ -52,6 +52,7 @@ node scripts/01c_retest_02_runner.cjs
 - `RETEST02_SUMMARY.json`：34次运行汇总及逐项断言
 - `RETEST02_RUNS.csv`：逐次运行索引
 - `shots/`：页面截图
+- `traces/`：每次运行独立 Playwright Trace ZIP
 
 ## 4. 运行隔离与证据
 
@@ -82,7 +83,7 @@ T28 只以 O03 普通用户界面是否存在取消入口判定；不得使用 d
 ## 7. 通过门槛
 
 - 34次运行全部有明确结果：PASS / FAIL / BLOCKED。
-- 每次运行有对应截图和 Trace（当前初稿已生成截图与逐项结果；Trace 接入仍待补齐）。
+- 每次运行必须有对应截图和独立 Playwright Trace ZIP；Trace 使用 `context.tracing.start/stop` 记录 DOM snapshot、截图和源码。
 - 任何异常均保留完整错误信息，不得将 toast 当作业务成功。
 - 375与390业务状态一致。
 - G1-03 的遗留能力与正式路由边界分别报告。
