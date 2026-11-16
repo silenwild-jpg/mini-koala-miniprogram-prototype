@@ -24,7 +24,7 @@
     }
     function transition(item,next,meta={}){
       if(!item||!transitions[item.status]||!transitions[item.status].includes(next))throw Error('INVALID_GIFT_TERM_TRANSITION');
-      if(next==='APPROVED'&&(!meta.approval_id||!meta.approved_by))throw Error('APPROVAL_METADATA_REQUIRED');
+      if(next==='APPROVED'&&item.status==='SUBMITTED'&&(!meta.approval_id||!meta.approved_by))throw Error('APPROVAL_METADATA_REQUIRED');
       if(next==='ATTACHED_TO_QUOTE'&&!meta.quote_id)throw Error('QUOTE_REQUIRED');
       if(next==='LOCKED_TO_ORDER'&&!meta.order_id)throw Error('ORDER_REQUIRED');
       return {...copy(item),...copy(meta),status:next};
