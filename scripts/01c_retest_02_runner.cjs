@@ -112,7 +112,7 @@ async function runH(browser,caseId,source,viewport){
         checks.quoteRecreated=!!afterRequote.quote&&afterRequote.quote.id!==before.order?.quote_id;
         checks.giftReleased=afterFail.gift?.status==='APPROVED';
         checks.giftStatusAfterFailure=afterFail.gift?.status||'MISSING';
-        checks.giftApprovalMetadataPresent=!!afterFail.gift?.approval_id&&!!afterFail.gift?.approved_by;
+        checks.giftApprovalMetadataPreserved=source.suffix==='CAM'?(!afterFail.gift?.approval_id&&!afterFail.gift?.approved_by):(afterFail.gift?.approval_id==='APPROVAL-DEMO-02'&&afterFail.gift?.approved_by==='manager-demo');
         checks.giftReattached=afterRequote.gift?.status==='ATTACHED_TO_QUOTE';
         checks.giftStatusAfterRequote=afterRequote.gift?.status||'MISSING';
       }else if(caseId==='H-T28'){
@@ -141,6 +141,7 @@ async function runH(browser,caseId,source,viewport){
         const after=await snapshot(page);
         checks.failedOrderReleased=failedState.order?.status==='payment_failed'&&failedState.gift?.status==='APPROVED';
         checks.giftStatusAfterFailure=failedState.gift?.status||'MISSING';
+        checks.giftApprovalMetadataPreserved=source.suffix==='CAM'?(!after.gift?.approval_id&&!after.gift?.approved_by):(after.gift?.approval_id==='APPROVAL-DEMO-02'&&after.gift?.approved_by==='manager-demo');
         checks.retryOrderPaid=after.order?.status==='paid_simulated';
         checks.giftGranted=after.gift?.status==='GRANTED';
         checks.giftStatusAfterRetryPayment=after.gift?.status||'MISSING';
@@ -148,8 +149,8 @@ async function runH(browser,caseId,source,viewport){
         checks.newOrderId=retryBefore.order?.id!==before.order?.id;
       }
       await shot(page,caseId+'-'+source.suffix,width);
-      const expectedKeys=Object.keys(checks);
-      const pass=expectedKeys.length>0&&expectedKeys.every(k=>checks[k]===true);
+      const assertions=Object.entries(checks).filter(([,value])=>typeof value==='boolean');
+      const pass=assertions.length>0&&assertions.every(([,value])=>value===true);
       record(caseId+'-'+source.suffix,width,source.scenario,pass?'PASS':'FAIL',checks,{pageErrors:errors,before});
     }
     if(errors.length)results.at(-1).result='FAIL';
