@@ -141,7 +141,8 @@ async function runOne(browser,spec,viewport){
    await page.addInitScript(()=>sessionStorage.setItem('mk_visual_align_ui_v1',JSON.stringify({storeFavorites:['SIM_BJ01'],favorites:['SIM_BJ01_U04']})));
    const app=await openCentral('M01');await app.locator('#screen [data-action="m01View"][data-value="favorites"]').click();
    const current=await app.locator('#screen .m01-subcontent').innerText();
-   check('G1_01_NORMAL_ENTRY',current.includes('SIM_BJ01')||current.includes('收藏'),'favorites list through M01',current);await shot('g1-01-m01-favorites');
+   const expectedFavorite=await app.evaluate(()=>{const f=window.SIM_DEMO.core.fixture;return {store:f.stores.find(s=>s.id==='SIM_BJ01')?.name||'',unit:f.units.find(u=>u.id==='SIM_BJ01_U04')?.demo_cabin_no||''};});
+   check('G1_01_NORMAL_ENTRY',Boolean(expectedFavorite.store)&&current.includes(expectedFavorite.store),'M01 favorites shows the seeded store',{expectedFavorite,current});await shot('g1-01-m01-favorites');
    const before=await app.evaluate(()=>sessionStorage.getItem('mk_visual_align_ui_v1'));
    await app.goto(BASE+'/'+DEMO+'account.html?view=favorites');let old=await accountFrame();
    const oldText=await old.locator('#content').innerText(),linkCount=await old.locator('a[href*="page=S02&store=SIM_BJ01"]').count();
@@ -251,7 +252,7 @@ function reports(results,baseline){
 (async()=>{
  mkdirs();const server=createServer();await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(PORT,'127.0.0.1',resolve);});
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']}),results=[],baseline=process.env.RETEST_BASELINE_SHA||'f2fccf9301a54f00be9ab089a6426fae8f848242';
- try{for(const spec of CASES)for(const viewport of VIEWPORTS){process.stdout.write('START '+spec.id+' @'+viewport.width+'\n');const r=await runOne(browser,spec,viewport);results.push(r);process.stdout.write('DONE '+spec.id+' @'+viewport.width+' '+r.status+' failures='+r.assertions.filter(x=>x.status==='FAIL').length+'\n');}}
+ try{for(const spec of CASES)for(const viewport of VIEWPORTS){process.stdout.write('START '+spec.id+' @'+viewport.width+'\n');const r=await runOne(browser,spec,viewport);results.push(r);const failed=r.assertions.filter(x=>x.status==='FAIL').map(x=>({name:x.name,expected:x.expected,actual:x.actual}));process.stdout.write('DONE '+spec.id+' @'+viewport.width+' '+r.status+' failures='+failed.length+(failed.length?' detail='+JSON.stringify(failed).slice(0,1800):'')+(r.execution_error?' execution_error='+JSON.stringify(r.execution_error).slice(0,1200):'')+'\n');}}
  finally{await browser.close();await new Promise(r=>server.close(r));}
  const summary=reports(results,baseline);process.stdout.write('01C-RETEST-02 SUMMARY '+JSON.stringify(summary.counts)+' runs='+summary.actual_runs+'\n');
  if(summary.actual_runs!==34||summary.counts.BLOCKED>0||summary.counts.FAIL>0)process.exitCode=1;
