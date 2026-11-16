@@ -27,7 +27,13 @@
       if(next==='APPROVED'&&item.status==='SUBMITTED'&&(!meta.approval_id||!meta.approved_by))throw Error('APPROVAL_METADATA_REQUIRED');
       if(next==='ATTACHED_TO_QUOTE'&&!meta.quote_id)throw Error('QUOTE_REQUIRED');
       if(next==='LOCKED_TO_ORDER'&&!meta.order_id)throw Error('ORDER_REQUIRED');
-      return {...copy(item),...copy(meta),status:next};
+      const updated={...copy(item),...copy(meta),status:next};
+      // Returning an already-approved benefit releases its previous quote/order binding.
+      if(next==='APPROVED'&&['ATTACHED_TO_QUOTE','LOCKED_TO_ORDER'].includes(item.status)){
+        updated.quote_id=null;
+        updated.order_id=null;
+      }
+      return updated;
     }
     function display(item){
       const check=validate(item);
