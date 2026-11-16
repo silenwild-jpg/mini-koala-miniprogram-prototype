@@ -37,12 +37,24 @@
     const validTerm=m=>Number.isInteger(m)&&m>=1&&m<=60;
     const validCapacity=c=>typeof c==='number'&&Number.isFinite(c)&&c>=.5&&c<=200&&Math.abs(c*100-Math.round(c*100))<1e-7;
     const authorized=()=>{if(s.auth.status==='verified'&&now()>=s.auth.expiresAt){s.auth.status='expired';s.quote=null;}return s.auth.status==='verified';};
-    const invalidate=()=>{
-      const previous=s.quote;
-      if(previous?.coupon_id){const c=s.coupons.find(x=>x.id===previous.coupon_id);if(c?.status==='SELECTED')transitionCoupon(c,'AVAILABLE');}
-      (previous?.benefit_snapshot?.gift_terms||[]).forEach(snapshot=>{const g=s.giftTerms.find(x=>x.id===snapshot.benefit_id);if(g?.status==='ATTACHED_TO_QUOTE')Object.assign(g,giftPolicy.transition(g,'APPROVED'));});
-      s.quote=null;
+    const prepareInvalidation=()=>{
+      const previous=s.quote,couponUpdates=[],giftUpdates=[];
+      if(previous?.coupon_id){
+        const coupon=s.coupons.find(x=>x.id===previous.coupon_id);
+        if(coupon?.status==='SELECTED')couponUpdates.push({target:coupon,next:promotionPolicy.transitionCoupon(coupon,'AVAILABLE')});
+      }
+      (previous?.benefit_snapshot?.gift_terms||[]).forEach(snapshot=>{
+        const gift=s.giftTerms.find(x=>x.id===snapshot.benefit_id);
+        if(gift?.status==='ATTACHED_TO_QUOTE')giftUpdates.push({target:gift,next:giftPolicy.transition(gift,'APPROVED')});
+      });
+      return {couponUpdates,giftUpdates,clearQuote:!!previous};
     };
+    const applyInvalidation=plan=>{
+      plan.couponUpdates.forEach(({target,next})=>Object.assign(target,next));
+      plan.giftUpdates.forEach(({target,next})=>Object.assign(target,next));
+      if(plan.clearQuote)s.quote=null;
+    };
+    const invalidate=()=>applyInvalidation(prepareInvalidation());
     function expireCoupons(){
       const todayValue=today();let changed=false;
       s.coupons.forEach(c=>{if(c.expires_at&&c.expires_at<todayValue&&['AVAILABLE','SELECTED'].includes(c.status)){transitionCoupon(c,'EXPIRED');changed=true;}});
@@ -258,11 +270,27 @@
       o.quote_snapshot=copy(o.benefit_snapshot);return copy(o);
     }
     function releaseOrder(o,status){
-      o.status=status;o.unit_ids.forEach(id=>{if(s.stock[id]==='reserved')s.stock[id]=o.previous_stock[id];});
-      const c=s.coupons.find(c=>c.id===o.coupon_id);if(c?.status==='LOCKED'){transitionCoupon(c,'AVAILABLE');if(o.benefit_snapshot?.coupon)o.benefit_snapshot.coupon.status='AVAILABLE';}
-      s.giftTerms.forEach(g=>{if(g.status==='LOCKED_TO_ORDER'&&g.order_id===o.id)Object.assign(g,giftPolicy.transition(g,'APPROVED'));});
-      if(o.benefit_snapshot?.gift_terms?.length)o.benefit_snapshot.gift_terms=o.benefit_snapshot.gift_terms.map(g=>({...g,status:'APPROVED',order_id:null}));
-      o.quote_snapshot=copy(o.benefit_snapshot);s.inventoryVersion++;invalidate();
+      // Preflight every benefit transition before changing the order or reserved inventory.
+      const giftUpdates=s.giftTerms
+        .filter(g=>g.status==='LOCKED_TO_ORDER'&&g.order_id===o.id)
+        .map(g=>({target:g,next:giftPolicy.transition(g,'APPROVED')}));
+      const coupon=s.coupons.find(c=>c.id===o.coupon_id);
+      const couponUpdate=coupon?.status==='LOCKED'?promotionPolicy.transitionCoupon(coupon,'AVAILABLE'):null;
+      const nextBenefitSnapshot=o.benefit_snapshot?copy(o.benefit_snapshot):null;
+      if(couponUpdate&&nextBenefitSnapshot?.coupon)nextBenefitSnapshot.coupon.status='AVAILABLE';
+      if(nextBenefitSnapshot?.gift_terms?.length)
+        nextBenefitSnapshot.gift_terms=nextBenefitSnapshot.gift_terms.map(g=>({...g,status:'APPROVED',order_id:null}));
+      const invalidation=prepareInvalidation();
+
+      // Commit only after all transitions above have passed validation.
+      o.status=status;
+      o.unit_ids.forEach(id=>{if(s.stock[id]==='reserved')s.stock[id]=o.previous_stock[id];});
+      if(couponUpdate)Object.assign(coupon,couponUpdate);
+      giftUpdates.forEach(({target,next})=>Object.assign(target,next));
+      if(nextBenefitSnapshot)o.benefit_snapshot=nextBenefitSnapshot;
+      o.quote_snapshot=copy(o.benefit_snapshot);
+      s.inventoryVersion++;
+      applyInvalidation(invalidation);
     }
     // Recover an existing reserved order after the user has browsed or edited another demand.
     // A reserved unit cannot be re-selected through the normal available-stock path.
