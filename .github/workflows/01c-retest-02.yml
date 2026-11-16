@@ -7,6 +7,11 @@ on:
     paths:
       - 'scripts/01c_retest_02_runner.cjs'
       - 'scripts/01c_defect_fix_01_unit.cjs'
+      - 'scripts/test_promo_entitlement_model_01.js'
+      - 'scripts/test_promo_source_01.js'
+      - 'scripts/test_promo_demo_scenarios_01.js'
+      - 'scripts/test_wb_demo_consistency_01.js'
+      - 'scripts/verify_demo_scenarios_browser_01.cjs'
       - 'docs/01C_RETEST_02_CASE_LIST.md'
       - 'app/prototype/parallel/core-journey-fix-01/demo/**'
       - '.github/workflows/01c-retest-02.yml'
@@ -21,7 +26,7 @@ concurrency:
 
 jobs:
   isolated-browser-regression:
-    name: 01C-DEFECT-FIX-01 / unit + 34 browser runs
+    name: 01C-DEFECT-FIX-01 / unit + core + 34 browser runs
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
@@ -47,6 +52,21 @@ jobs:
       - name: Run gift-term transition unit tests
         run: node scripts/01c_defect_fix_01_unit.cjs
 
+      - name: Run promotion entitlement model tests
+        run: node scripts/test_promo_entitlement_model_01.js
+
+      - name: Run promotion source and campaign visibility tests
+        run: node scripts/test_promo_source_01.js
+
+      - name: Run demo promotion and lifecycle scenario tests
+        run: node scripts/test_promo_demo_scenarios_01.js
+
+      - name: Run demo pricing and requirement consistency tests
+        run: node scripts/test_wb_demo_consistency_01.js
+
+      - name: Run full demo scenario browser verification
+        run: node scripts/verify_demo_scenarios_browser_01.cjs
+
       - name: Execute 34 isolated browser runs
         run: node scripts/01c_retest_02_runner.cjs
 
@@ -65,6 +85,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 01C-DEFECT-FIX-01-${{ github.run_id }}
-          path: release-evidence/01c-retest-02/
+          path: |
+            release-evidence/01c-retest-02/
+            release-evidence/demo-scenarios-01/
           if-no-files-found: warn
           retention-days: 14
