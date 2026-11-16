@@ -82,7 +82,7 @@ async function runH(browser,caseId,source,viewport){
   const context=await makeContext(browser,viewport),page=await context.newPage(),errors=[];
   await context.tracing.start({screenshots:true,snapshots:true,sources:true});
   page.on('pageerror',e=>errors.push(e.message));
-  const width=viewport.width,checks={};
+  const width=viewport.width,checks={},additionalScreenshots=[];
   try{
     const frame=await boot(page,source.scenario,'O01');
     if(caseId==='H-T26'){
@@ -98,8 +98,10 @@ async function runH(browser,caseId,source,viewport){
       checks.depositLabelStable=await frame.locator('#deposit').evaluate(el=>el.closest('.fee-row')?.querySelector('span')?.textContent.includes('押金（1个月月租）')===true);
       checks.giftRowLabelText=(await frame.locator('#gift-term-row span').textContent()||'').trim();
       checks.giftRowLabelStable=checks.giftRowLabelText==='赠送租期';
+      await shot(page,caseId+'-'+source.suffix+'-term6',width);
+      additionalScreenshots.push('shots/'+caseId+'-'+source.suffix+'-term6-'+width+'.png');
       const failed=!(checks.giftRowHidden&&checks.giftRowDisplay==='none'&&checks.noGiftCopy&&checks.giftRestored&&checks.depositLabelStable&&checks.giftRowLabelStable);
-      record(caseId+'-'+source.suffix,width,source.scenario,failed?'FAIL':'PASS',checks,{pageErrors:errors});
+      record(caseId+'-'+source.suffix,width,source.scenario,failed?'FAIL':'PASS',checks,{pageErrors:errors,additionalScreenshots});
     }else{
       await createPending(frame);
       let before=await snapshot(page);
@@ -111,9 +113,12 @@ async function runH(browser,caseId,source,viewport){
         checks.orderTerminated=afterFail.order?.status==='payment_failed';
         checks.quoteRecreated=!!afterRequote.quote&&afterRequote.quote.id!==before.order?.quote_id;
         checks.giftReleased=afterFail.gift?.status==='APPROVED';
+        checks.releasedBindingsCleared=afterFail.gift?.quote_id===null&&afterFail.gift?.order_id===null;
         checks.giftStatusAfterFailure=afterFail.gift?.status||'MISSING';
         checks.giftApprovalMetadataPreserved=source.suffix==='CAM'?(!afterFail.gift?.approval_id&&!afterFail.gift?.approved_by):(afterFail.gift?.approval_id==='APPROVAL-DEMO-02'&&afterFail.gift?.approved_by==='manager-demo');
         checks.giftReattached=afterRequote.gift?.status==='ATTACHED_TO_QUOTE';
+        checks.requoteUsesNewQuote=!!afterRequote.gift?.quote_id&&afterRequote.gift?.quote_id===afterRequote.quote?.id&&afterRequote.gift?.quote_id!==before.order?.quote_id;
+        checks.orderBindingStillClear=afterRequote.gift?.order_id===null;
         checks.giftStatusAfterRequote=afterRequote.gift?.status||'MISSING';
       }else if(caseId==='H-T28'){
         await page.evaluate(()=>window.SIM_DEMO.openOrder(window.SIM_DEMO.core.state().orders.at(-1).id));
@@ -129,6 +134,7 @@ async function runH(browser,caseId,source,viewport){
         checks.orderExpired=after.order?.status==='expired';
         checks.inventoryReleased=after.stock.every(x=>x.status!=='reserved');
         checks.giftReleased=after.gift?.status==='APPROVED';
+        checks.giftBindingsCleared=after.gift?.quote_id===null&&after.gift?.order_id===null;
         checks.quoteInvalidated=after.quote===null;
       }else if(caseId==='H-T30'){
         await clickBridge(frame,'payResult','failed');
@@ -140,13 +146,29 @@ async function runH(browser,caseId,source,viewport){
         await clickBridge(retry,'payResult','success');
         const after=await snapshot(page);
         checks.failedOrderReleased=failedState.order?.status==='payment_failed'&&failedState.gift?.status==='APPROVED';
+        checks.failedGiftBindingsCleared=failedState.gift?.quote_id===null&&failedState.gift?.order_id===null;
         checks.giftStatusAfterFailure=failedState.gift?.status||'MISSING';
-        checks.giftApprovalMetadataPreserved=source.suffix==='CAM'?(!after.gift?.approval_id&&!after.gift?.approved_by):(after.gift?.approval_id==='APPROVAL-DEMO-02'&&after.gift?.approved_by==='manager-demo');
+        checks.giftApprovalMetadataPreserved=source.suffix==='CAM'?(!failedState.gift?.approval_id&&!failedState.gift?.approved_by):(failedState.gift?.approval_id==='APPROVAL-DEMO-02'&&failedState.gift?.approved_by==='manager-demo');
+        checks.giftApprovalMetadataPreservedAfterGrant=source.suffix==='CAM'?(!after.gift?.approval_id&&!after.gift?.approved_by):(after.gift?.approval_id==='APPROVAL-DEMO-02'&&after.gift?.approved_by==='manager-demo');
+        checks.giftBoundToPaidOrder=after.gift?.order_id===after.order?.id&&after.gift?.quote_id===after.order?.quote_id;
         checks.retryOrderPaid=after.order?.status==='paid_simulated';
         checks.giftGranted=after.gift?.status==='GRANTED';
         checks.giftStatusAfterRetryPayment=after.gift?.status||'MISSING';
-        checks.singleGrant=after.gift?.status==='GRANTED';
+        const duplicatePayment=await page.evaluate(orderId=>{
+          const c=window.SIM_DEMO.core,beforeState=c.state(),beforeMessages=beforeState.messages.length,beforeVersion=beforeState.inventoryVersion;
+          const result=c.pay(orderId,'success'),afterState=c.state();
+          return {grantedCount:afterState.giftTerms.filter(g=>g.status==='GRANTED').length,
+            versionStable:afterState.inventoryVersion===beforeVersion,messagesStable:afterState.messages.length===beforeMessages,
+            orderStatus:afterState.orders.find(o=>o.id===orderId)?.status,returnedStatus:result.status};
+        },after.order.id);
+        checks.singleGrant=duplicatePayment.grantedCount===1&&duplicatePayment.versionStable&&duplicatePayment.messagesStable&&duplicatePayment.orderStatus==='paid_simulated'&&duplicatePayment.returnedStatus==='paid_simulated';
         checks.newOrderId=retryBefore.order?.id!==before.order?.id;
+      }
+      if(caseId==='H-T27'||caseId==='H-T30'){
+        const close=frame.locator('#close-sheet');
+        if(await close.isVisible().catch(()=>false))await close.click();
+        await frame.locator('#scrim[hidden]').waitFor({timeout:3000}).catch(()=>{});
+        await frame.evaluate(()=>window.BR04_REFRESH?.());
       }
       await shot(page,caseId+'-'+source.suffix,width);
       const assertions=Object.entries(checks).filter(([,value])=>typeof value==='boolean');
@@ -171,7 +193,7 @@ async function runH(browser,caseId,source,viewport){
   }finally{await context.tracing.stop({path:path.join(OUT,'traces',caseId+'-'+source.suffix+'-'+width+'.zip')});await context.close();}
 }
 async function runG1(browser,id,viewport){
-  const context=await makeContext(browser,viewport),page=await context.newPage(),checks={};
+  const context=await makeContext(browser,viewport),page=await context.newPage(),checks={},additionalScreenshots=[];
   await context.tracing.start({screenshots:true,snapshots:true,sources:true});
   try{
     await page.goto(BASE+'/index.html?page=M01',{waitUntil:'domcontentloaded'});
@@ -198,22 +220,41 @@ async function runG1(browser,id,viewport){
       checks.savedState=await page.evaluate(id=>{const raw=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'null');const state=window.SIM_CORE.create({state:raw}).state(),t=state.services[id]?.transport||[];return t.some(x=>x.address==='北京市朝阳区演示地址 1 号'&&x.status==='awaiting_advisor');},seeded.orderId);
       checks.centralRouteRejected=centralRouteRejected;
     }else if(id==='G1-04'){
-      checks.noLegacyPhoneNodes=await page.locator('#overlay-root .phone-modal, #overlay-root .phone-layer, #overlay-root .legacy-phone-auth').count().then(n=>n===0);
-      checks.noDuplicateAuthLayer=await page.locator('.mk-auth-sheet').count().then(n=>n===0);
       checks.unifiedAuthComponentAvailable=await page.evaluate(()=>typeof window.SIM_PHONE_AUTH==='object');
+      await page.evaluate(()=>{window.SIM_DEMO.core.revokePhone();void window.SIM_DEMO.phoneAuth.run('QUOTE','G1_04_AUTH_LAYER',()=>{});});
+      await page.locator('.mk-auth-overlay .mk-auth-sheet').waitFor({timeout:5000});
+      checks.noLegacyPhoneNodes=await page.locator('#overlay-root .phone-modal, #overlay-root .phone-layer, #overlay-root .legacy-phone-auth, #overlay-root .control-sheet[aria-label="phone"]').count().then(n=>n===0);
+      checks.activeAuthOverlayCount=await page.locator('.mk-auth-overlay').count().then(n=>n===1);
+      checks.activeAuthSheetCount=await page.locator('.mk-auth-overlay .mk-auth-sheet').count().then(n=>n===1);
+      await shot(page,'G1-04-auth',viewport.width);
+      additionalScreenshots.push('shots/G1-04-auth-'+viewport.width+'.png');
+      await page.locator('.mk-auth-close').click();
     }else if(id==='G1-05'||id==='G1-06'){
       const field=id==='G1-05'?'region':'capacity';
-      checks.noFilterTrigger=await page.locator('[data-action*="'+field+'"],[data-action*="setR2'+(field==='region'?'Region':'Capacity')+'"]').count().then(n=>n===0);
       checks.sessionReset=await page.evaluate(field=>{
         const key='mk_s01_r2_filters_v1',v={region:'all',capacity:'all'};v[field]=field==='region'?'朝阳':'5m³';
         sessionStorage.setItem(key,JSON.stringify(v));location.href='/index.html?page=S01&s01_r2=1';
         return true;
       },field);
       await page.waitForFunction(()=>new URLSearchParams(location.search).get('page')==='S01');
+      const s01=page.frameLocator('iframe');
+      await s01.locator('.filters').waitFor({timeout:10000});
+      checks.noFilterTrigger=await s01.locator('.filters').evaluate(el=>{
+        const labels=[...el.querySelectorAll('button')].map(x=>x.textContent.trim()).filter(Boolean);
+        return labels.length===3&&!labels.some(x=>/区域|容量/.test(x))&&!el.querySelector('[data-region],[data-capacity],[data-filter="region"],[data-filter="capacity"]');
+      });
+      checks.expectedFilterSet=await s01.locator('.filters').evaluate(el=>JSON.stringify([...el.querySelectorAll('button')].map(x=>x.textContent.trim()).filter(Boolean))===JSON.stringify(['排序','距离','服务']));
       checks.persistedValueReset=await page.evaluate(field=>JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}')[field]==='all',field);
     }else if(id==='G1-07'){
-      checks.formalRoutes=await page.evaluate(()=>{const names=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'];const c=window.SIM_CENTRAL_CONTRACT_V1,f=window.SIM_DEMO.core.fixture;return names.filter(page=>{try{c.route(f,{page,hasEligibleOrderContext:page==='O01'});return true;}catch{return false;}}).length;});
-      checks.expectedRouteCount=checks.formalRoutes===16;
+      checks.formalRoutes=await page.evaluate(async()=>{
+        const source=await fetch('central-contract.js').then(r=>r.text());
+        const match=source.match(/const allowedRoutes=\\{([\\s\\S]*?)\\};/);
+        return match?[...match[1].matchAll(/([A-Z0-9_]+)\\s*:/g)].map(x=>x[1]):[];
+      });
+      const expectedRoutes=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'];
+      checks.expectedRouteCount=checks.formalRoutes.length===16;
+      checks.expectedRouteSet=JSON.stringify([...checks.formalRoutes].sort())===JSON.stringify([...expectedRoutes].sort());
+      checks.formalRoutes=checks.formalRoutes.length;
       checks.centralContractRejectsResult=await page.evaluate(()=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:'RESULT'});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}});
       await page.goto(BASE+'/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
       const resultText=await page.locator('#screen').innerText();
@@ -222,7 +263,7 @@ async function runG1(browser,id,viewport){
     }
     await shot(page,id,viewport.width);
     const pass=Object.keys(checks).length>0&&Object.values(checks).every(v=>v===true||typeof v==='number');
-    record(id,viewport.width,'G1',pass?'PASS':'FAIL',checks);
+    record(id,viewport.width,'G1',pass?'PASS':'FAIL',checks,{additionalScreenshots});
   }catch(e){record(id,viewport.width,'G1','BLOCKED',checks,{error:String(e)});}
   finally{await context.tracing.stop({path:path.join(OUT,'traces',id+'-'+viewport.width+'.zip')});await context.close();}
 }
