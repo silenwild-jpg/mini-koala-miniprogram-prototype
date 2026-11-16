@@ -56,12 +56,12 @@
 
 基线代码证据：
 - [o01/styles.css L5–L6](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/blob/f2fccf9301a54f00be9ab089a6426fae8f848242/app/prototype/parallel/core-journey-fix-01/demo/br04/o01/styles.css#L5-L6)
-- [bridge.js L258、L273–L280](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/blob/f2fccf9301a54f00be9ab089a6426fae8f848242/app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js#L258-L280)
+- [bridge.js L273–L280](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/blob/f2fccf9301a54f00be9ab089a6426fae8f848242/app/prototype/parallel/core-journey-fix-01/demo/br04/bridge.js#L273-L280)
 
 **已确认事实**
 1. 从6个月切换到3个月后，赠期行的 DOM `hidden` 属性为 `true`，但计算后的 `display` 仍为 `flex`。
 2. 费用区仍可见“赠送1个月 · 期限规则待确认”，不满足租期门槛时未能从视觉上隐藏。
-3. 恢复6个月后，赠期行可重新显示；押金金额本身在两个视口中保持一致。
+3. 恢复6个月后，赠期行可重新显示；押金金额本身在两个视口中保持一致，赠期行自身的 DOM 标签为“赠送租期”。
 4. 当前样式仅对 `.scrim[hidden]` 和 `.toast[hidden]` 设置隐藏规则，普通 `.fee-row` 仍声明 `display:flex`，没有覆盖该费用行的隐藏状态。
 
 **影响**
@@ -70,7 +70,7 @@
 **建议修复方向**
 - 为所有需要隐藏的费用行提供可靠的通用隐藏样式，避免 `display:flex` 覆盖 `hidden`。
 - 赠期行仅在资格成立时参与费用区展示；不满足门槛时不应留有可见文案。
-- 保留独立语义标识，不通过费用行数组下标定位或改写押金标签。
+- 保留赠期与押金各自的独立语义标识，后续布局调整不得使两类费用行互相覆盖。
 
 ## 3. 其他用例结果
 
