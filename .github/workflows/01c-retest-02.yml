@@ -1,0 +1,77 @@
+name: 01C RETEST-02 Isolated Browser Regression
+
+on:
+  push:
+    branches:
+      - qa/01c-retest-02-runner-20261116
+    paths:
+      - 'scripts/01c_retest_02_runner.cjs'
+      - 'docs/01C_RETEST_02_CASE_LIST.md'
+      - 'app/prototype/parallel/core-journey-fix-01/demo/**'
+      - '.github/workflows/01c-retest-02.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: 01c-retest-02-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  isolated-browser-regression:
+    name: H-T26–H-T30 and G1-01–G1-07 / 375+390
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout isolated QA branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate runner syntax
+        run: node --check scripts/01c_retest_02_runner.cjs
+
+      - name: Install isolated Playwright dependency
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Execute 34 isolated browser runs
+        run: node scripts/01c_retest_02_runner.cjs
+
+      - name: Add regression summary to workflow report
+        if: always()
+        run: |
+          if [ -f release-evidence/01c-retest-02/RETEST02_SUMMARY.json ]; then
+            node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+            const s = require('./release-evidence/01c-retest-02/RETEST02_SUMMARY.json');
+            console.log('## 01C RETEST-02');
+            console.log('');
+            console.log('| Total | PASS | FAIL | BLOCKED |');
+            console.log('|---:|---:|---:|---:|');
+            console.log('| '+s.total+' | '+s.pass+' | '+s.fail+' | '+s.blocked+' |');
+            console.log('');
+            console.log('| Case | Viewport | Scenario | Result |');
+            console.log('|---|---:|---|---|');
+            for (const r of s.results) console.log('| '+r.case_id+' | '+r.viewport+' | '+r.scenario+' | '+r.result+' |');
+            NODE
+          else
+            echo '## 01C RETEST-02' >> "$GITHUB_STEP_SUMMARY"
+            echo 'Runner ended before summary creation; inspect job logs and partial evidence.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload screenshots, traces and machine-readable results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 01C-RETEST-02-${{ github.run_id }}
+          path: release-evidence/01c-retest-02/
+          if-no-files-found: warn
+          retention-days: 14
