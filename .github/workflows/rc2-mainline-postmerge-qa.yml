@@ -7,9 +7,12 @@ on:
     paths:
       - .github/workflows/rc2-mainline-postmerge-qa.yml
       - scripts/verify_rc2_merge_ready_04_browser.cjs
+      - scripts/test_cap_unit_dual_01.js
+      - scripts/test_wb_demo_consistency_01.js
       - app/prototype/parallel/core-journey-fix-01/demo/app.js
       - app/prototype/parallel/core-journey-fix-01/demo/fixtures.js
       - app/prototype/parallel/core-journey-fix-01/demo/demo-core.js
+      - app/prototype/parallel/core-journey-fix-01/demo/space-unit.js
       - app/prototype/parallel/core-journey-fix-01/demo/presentation-policy.js
       - app/prototype/parallel/core-journey-fix-01/demo/promotion-policy.js
       - app/prototype/parallel/core-journey-fix-01/demo/gift-term-policy.js
@@ -41,7 +44,6 @@ concurrency:
   cancel-in-progress: true
 jobs:
   integrated-375-390:
-    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[RC2-MAINLINE-QA]') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
@@ -73,6 +75,15 @@ jobs:
           node scripts/verify_motion_s01_s5_01e_coordinate.cjs
       - name: Verify capacity unit model
         run: node scripts/test_cap_unit_dual_01.js
+      - name: Verify WB demo pricing, area-basis and UTC+8 time contract when candidate is present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f scripts/test_wb_demo_consistency_01.js ]; then
+            node scripts/test_wb_demo_consistency_01.js
+          else
+            echo 'WB demo consistency test is not present on this main SHA; skip until its source candidate is merged.'
+          fi
       - name: Verify explicit promotion source tags
         run: node scripts/test_promo_source_01.js
       - name: Verify canonical promotion entitlement policy
