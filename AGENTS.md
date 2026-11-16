@@ -1,8 +1,8 @@
 # AGENTS.md｜Codex 执行守则（GIT-SETUP-01）
 
 1. 当前目标为产品验证、内部演示、视觉探索；**不是**上线开发、后端接入或微信真机验收。可使用受控演示数据。
-2. 执行前检查 `git status`, `git branch --show-current`, `git rev-parse HEAD`，读取 `docs/BRANCH_REGISTER.md`、`docs/VISUAL_MANIFEST.md`、`docs/CURRENT_RULES.md`。
-3. 首次 Git 基线来自 `PROTO-PARALLEL-01/CURRENT_CANDIDATE.zip`；后续批准的业务、视觉规则覆盖旧原型中已废止的方案。不得认为历史 HTML 代表最新批准方案。
+2. 执行前检查 `git status --short`、`git branch --show-current`、`git rev-parse HEAD`，并核验GitHub当前main及相关PR的精确SHA；默认读取根目录`README.md`、`AGENTS.md`、`docs/current/INDEX.md`及项目控制中心最新有效部分。旧`BRANCH_REGISTER.md`、`CURRENT_RULES.md`只在冲突追溯时读取；视觉任务按需读取`VISUAL_MANIFEST.md`。
+3. 历史首次 Git 基线来自 `PROTO-PARALLEL-01/CURRENT_CANDIDATE.zip`；后续批准的业务、视觉规则覆盖旧原型中已废止的方案。不得认为历史 HTML 代表最新批准方案。
 4. 严格遵守 VIS-GUARD：已批准视觉图片高于旧 CSS；未经授权不可添加卡片、边框、阴影、大背景或改变布局；禁止全局组件统一导致不同分支视觉同质化。
 5. 严格遵守 PROTO-PROGRESS-01：区分 **批准 / 产出 / 已测试 / 已归并 / 已冻结**，每项任务报告当前阶段、完成、遗漏、归并状态、下一任务编号。
 6. 只修改本分支页面/资源；CAP 和 S5 可能位于同一个 HTML，必须定向修改，禁止整文件跨分支覆盖。公共状态、门店ID、租期、报价及订单快照由中央集成分支裁定。
@@ -16,6 +16,15 @@
 13. 视觉修改必须有唯一 Commit/活动入口、G-TECH 与 G-VIS 两套独立结论。代码测试 PASS 不代表视觉 PASS；原图哈希或部署同源性未知必须 HOLD。PR 机器门禁见 `scripts/check_proto_vis_exec_01.cjs`。
 14. 中央 S02 的三个同级选项卡为“可选仓位 / 服务设施 / 交通路线”；热门仓型横幅不得新增“查看仓位”按钮。PR 先比对 `docs/visual-evidence/README.md`，不以旧 S02 HTML 的 PASS 冒充中央页面签收。
 
+
+## REPO-SLIM-01E1｜最小上下文读取协议
+
+- **L0 每次任务：** 当前工作区、main与PR的SHA，根README与AGENTS，`docs/current/INDEX.md`，控制中心最新有效部分。文档中的固定SHA是历史记录，不能冒充实时main。
+- **L1 业务/视觉：** 仅读涉及页面的现行规则、已批准视觉与同SHA证据。业务缺口独立记录，不能用历史版本推断。
+- **L2 实施/QA：** 仅读活动源码、相关共享模块、测试及工作流。每轮证据绑定候选精确SHA。
+- **L3 历史追溯：** 旧登记表、`app/README_CURRENT.md`、`app/docs/`、`app/source-reference/`、`evidence/`仅因冲突或来源核验按需读取。
+- **L4 生产准备：** 微信原生、财务、法务、CRM、后端与支付规则从待确认清单按需读取；不得把Web演示政策当作正式生产规则。
+- **安全边界：** 不自动合并main、部署、删除历史或调整Ruleset。物理目录迁移与当前视觉、业务签收各自独立授权；CI路径与哈希依赖未经核验不得移动。
 
 ## 2026-11-13 当前项目控制与批量执行规则（优先级高于历史登记表）
 
