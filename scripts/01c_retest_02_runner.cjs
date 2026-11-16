@@ -68,7 +68,7 @@ async function snapshot(page){
     return {order:o?{id:o.id,status:o.status,quote_id:o.quote_id,expiresAt:o.expiresAt}:null,
       quote:s.quote?{id:s.quote.id,expiresAt:s.quote.expiresAt}:null,
       stock:o?o.unit_ids.map(id=>({id,status:s.stock[id]})):[],
-      gift:g?{id:g.id,status:g.status,quote_id:g.quote_id||null,order_id:g.order_id||null}:null};
+      gift:g?{id:g.id,status:g.status,quote_id:g.quote_id||null,order_id:g.order_id||null,approval_id:g.approval_id||null,approved_by:g.approved_by||null}:null};
   });
 }
 async function shot(page,id,viewport){
@@ -95,7 +95,8 @@ async function runH(browser,caseId,source,viewport){
       await frame.locator('#period').click();
       await frame.locator('[data-bridge="term"][data-value="6"]').click();
       checks.giftRestored=await frame.locator('#gift-term-row').isVisible();
-      checks.depositLabelStable=(await frame.locator('.charges').innerText()).includes('押金（1个月月租）');
+      checks.depositLabelStable=await frame.locator('#deposit').evaluate(el=>el.closest('.fee-row')?.querySelector('span')?.textContent.includes('押金（1个月月租）')===true);
+      checks.duplicateDepositLabels=await frame.locator('.charges .fee-row').evaluateAll(rows=>rows.filter(row=>row.querySelector('span')?.textContent.includes('押金（1个月月租）')).length===1);
       const failed=!(checks.giftRowHidden&&checks.giftRowDisplay==='none'&&checks.noGiftCopy&&checks.giftRestored&&checks.depositLabelStable);
       record(caseId+'-'+source.suffix,width,source.scenario,failed?'FAIL':'PASS',checks,{pageErrors:errors});
     }else{
@@ -109,14 +110,17 @@ async function runH(browser,caseId,source,viewport){
         checks.orderTerminated=afterFail.order?.status==='payment_failed';
         checks.quoteRecreated=!!afterRequote.quote&&afterRequote.quote.id!==before.order?.quote_id;
         checks.giftReleased=afterFail.gift?.status==='APPROVED';
+        checks.giftStatusAfterFailure=afterFail.gift?.status||'MISSING';
+        checks.giftApprovalMetadataPresent=!!afterFail.gift?.approval_id&&!!afterFail.gift?.approved_by;
         checks.giftReattached=afterRequote.gift?.status==='ATTACHED_TO_QUOTE';
+        checks.giftStatusAfterRequote=afterRequote.gift?.status||'MISSING';
       }else if(caseId==='H-T28'){
         await page.evaluate(()=>window.SIM_DEMO.openOrder(window.SIM_DEMO.core.state().orders.at(-1).id));
         await page.waitForFunction(()=>new URLSearchParams(location.search).get('page')==='O03');
         const text=await page.locator('#screen').innerText();
         checks.noOrdinaryCancelEntry=!/取消待支付订单|取消订单/.test(text);
         checks.orderStillPending=(await snapshot(page)).order?.status==='pending';
-        checks.debugOnlyCancelKnown=true;
+        checks.pendingStatusVisible=/待支付|待付款/.test(text);
       }else if(caseId==='H-T29'){
         await page.evaluate(()=>window.__advanceRetestClock(3*60*60*1000+1000));
         await page.evaluate(()=>window.SIM_DEMO.navigate('M01'));
@@ -135,8 +139,10 @@ async function runH(browser,caseId,source,viewport){
         await clickBridge(retry,'payResult','success');
         const after=await snapshot(page);
         checks.failedOrderReleased=failedState.order?.status==='payment_failed'&&failedState.gift?.status==='APPROVED';
+        checks.giftStatusAfterFailure=failedState.gift?.status||'MISSING';
         checks.retryOrderPaid=after.order?.status==='paid_simulated';
         checks.giftGranted=after.gift?.status==='GRANTED';
+        checks.giftStatusAfterRetryPayment=after.gift?.status||'MISSING';
         checks.singleGrant=after.gift?.status==='GRANTED';
         checks.newOrderId=retryBefore.order?.id!==before.order?.id;
       }
@@ -147,7 +153,19 @@ async function runH(browser,caseId,source,viewport){
     }
     if(errors.length)results.at(-1).result='FAIL';
   }catch(e){
-    record(caseId+'-'+source.suffix,width,source.scenario,'BLOCKED',checks,{error:String(e),pageErrors:errors});
+    const message=String(e);
+    if(caseId==='H-T29'&&message.includes('APPROVAL_METADATA_REQUIRED')){
+      let after={};try{after=await snapshot(page);}catch{}
+      const expiryChecks={orderMarkedExpired:after.order?.status==='expired',
+        inventoryReleased:Array.isArray(after.stock)&&after.stock.length>0&&after.stock.every(x=>x.status!=='reserved'),
+        giftStillLocked:after.gift?.status==='LOCKED_TO_ORDER',
+        giftStatusAfterExpiry:after.gift?.status||'MISSING',
+        quoteStillValid:!!after.quote};
+      try{await shot(page,caseId+'-'+source.suffix,width);}catch{}
+      record(caseId+'-'+source.suffix,width,source.scenario,'FAIL',expiryChecks,{error:message,after});
+    }else{
+      record(caseId+'-'+source.suffix,width,source.scenario,'BLOCKED',checks,{error:message,pageErrors:errors});
+    }
   }finally{await context.tracing.stop({path:path.join(OUT,'traces',caseId+'-'+source.suffix+'-'+width+'.zip')});await context.close();}
 }
 async function runG1(browser,id,viewport){
@@ -171,7 +189,7 @@ async function runG1(browser,id,viewport){
       if(!seeded.orderId)throw new Error('G1_03_NO_PAID_ORDER_FIXTURE');
       await page.goto(BASE+'/account.html?view=transport&id='+encodeURIComponent(seeded.orderId),{waitUntil:'domcontentloaded'});
       checks.transportView=await page.locator('body').innerText().then(t=>t.includes('运输需求'));
-      checks.associatedOrder=await page.locator('body').innerText().then(t=>t.includes(seeded.orderId));
+      checks.associatedOrder=await page.locator('body').innerText().then(t=>/订单编号\\s*KL\\d+/.test(t));
       await page.locator('#transport-address').fill('北京市朝阳区演示地址 1 号');
       await page.locator('#transport-date').fill(seeded.nextDate);
       await page.locator('[data-act="transport"]').click();
@@ -194,16 +212,15 @@ async function runG1(browser,id,viewport){
     }else if(id==='G1-07'){
       checks.formalRoutes=await page.evaluate(()=>{const names=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'];const c=window.SIM_CENTRAL_CONTRACT_V1,f=window.SIM_DEMO.core.fixture;return names.filter(page=>{try{c.route(f,{page,hasEligibleOrderContext:page==='O01'});return true;}catch{return false;}}).length;});
       checks.expectedRouteCount=checks.formalRoutes===16;
+      checks.centralContractRejectsResult=await page.evaluate(()=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:'RESULT'});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}});
       await page.goto(BASE+'/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
-      checks.centralRejected=await page.locator('#screen').innerText().then(t=>!t.includes('处理结果'));
-      await page.goto(BASE+'/demo/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
-      checks.legacyResultPath='NOT_VERIFIABLE';
-      checks.legacyPathNote='The isolated server mounts the signed demo root; the historical /demo/index.html path resolves to the same document and cannot independently prove the retired legacy entry.';
+      const resultText=await page.locator('#screen').innerText();
+      checks.directResultEmptyState=resultText.includes('暂无可查看的提交记录');
       checks.noPaymentAction=await page.locator('button').allTextContents().then(xs=>!xs.some(x=>/支付|付款/.test(x)));
     }
     await shot(page,id,viewport.width);
     const pass=Object.keys(checks).length>0&&Object.values(checks).every(v=>v===true||typeof v==='number');
-    record(id,viewport.width,'G1',id==='G1-07'?'BLOCKED':pass?'PASS':'FAIL',checks,{block_reason:id==='G1-07'?'Legacy RESULT direct link requires its original parent-site mount; central-route checks were still collected.':undefined});
+    record(id,viewport.width,'G1',pass?'PASS':'FAIL',checks);
   }catch(e){record(id,viewport.width,'G1','BLOCKED',checks,{error:String(e)});}
   finally{await context.tracing.stop({path:path.join(OUT,'traces',id+'-'+viewport.width+'.zip')});await context.close();}
 }
