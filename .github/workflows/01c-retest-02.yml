@@ -3,9 +3,10 @@ name: 01C DEFECT FIX-01 Isolated Browser Regression
 on:
   push:
     branches:
-      - qa/01c-defect-fix-01-validation-20261116
+      - qa/01c-defect-fix-01-validation-v2-20261116
     paths:
       - 'scripts/01c_retest_02_runner.cjs'
+      - 'scripts/01c_defect_fix_01_unit.cjs'
       - 'docs/01C_RETEST_02_CASE_LIST.md'
       - 'app/prototype/parallel/core-journey-fix-01/demo/**'
       - '.github/workflows/01c-retest-02.yml'
