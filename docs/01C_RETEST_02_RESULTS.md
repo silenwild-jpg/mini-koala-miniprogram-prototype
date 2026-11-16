@@ -5,11 +5,11 @@
 - 执行状态：真实 Chromium 浏览器运行完成；回归门禁 FAIL（由产品断言失败导致，不是环境安装失败）。
 - 基线版本：`f2fccf9301a54f00be9ab089a6426fae8f848242`
 - 测试分支：`qa/01c-retest-02-runner-20261116`
-- 本轮测试脚本 HEAD：`868647d54270bcfcbdb955a272e76be9268f14d3`
+- 本轮测试脚本 HEAD：`868647d54270bcfcbdb955a272e76be9268f14d3`（结果报告与用例文档更新后，使用同一脚本再次复跑）
 - 视口：375×812、390×844
 - 运行环境：GitHub Actions / Ubuntu 24.04 / Node.js 22 / Chromium（Playwright 1.56.1）
-- 运行记录：[GitHub Actions #9](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43829076579)
-- 证据包：[34次运行截图、Trace、JSON、CSV](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43829076579/artifacts/14207712017)
+- 运行记录：[GitHub Actions #11（最终复跑）](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43829780007)
+- 证据包：[34次运行截图、Trace、JSON、CSV](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43829780007/artifacts/14208520768)
 
 | 结果 | 数量 |
 |---|---:|
@@ -18,7 +18,7 @@
 | BLOCKED | 0 |
 | 合计 | 34 |
 
-证据完整性：34张截图、34份独立 Playwright Trace ZIP、1份 JSON 汇总、1份 CSV 索引。所有用例均有明确结果。
+证据完整性：最终复跑仍为34张截图、34份独立 Playwright Trace ZIP、1份 JSON 汇总、1份 CSV 索引。所有用例均有明确结果；两轮正式复跑结果一致（18 PASS / 16 FAIL / 0 BLOCKED）。
 
 ## 2. 缺陷裁定
 
