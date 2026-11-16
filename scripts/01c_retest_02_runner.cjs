@@ -77,6 +77,7 @@ async function shot(page,id,viewport){
 }
 async function runH(browser,caseId,source,viewport){
   const context=await makeContext(browser,viewport),page=await context.newPage(),errors=[];
+  await context.tracing.start({screenshots:true,snapshots:true,sources:true});
   page.on('pageerror',e=>errors.push(e.message));
   const width=viewport.width,checks={};
   try{
@@ -144,10 +145,11 @@ async function runH(browser,caseId,source,viewport){
     if(errors.length)results.at(-1).result='FAIL';
   }catch(e){
     record(caseId+'-'+source.suffix,width,source.scenario,'BLOCKED',checks,{error:String(e),pageErrors:errors});
-  }finally{await context.close();}
+  }finally{await context.tracing.stop({path:path.join(OUT,'traces',caseId+'-'+source.suffix+'-'+width+'.zip')});await context.close();}
 }
 async function runG1(browser,id,viewport){
   const context=await makeContext(browser,viewport),page=await context.newPage(),checks={};
+  await context.tracing.start({screenshots:true,snapshots:true,sources:true});
   try{
     await page.goto(BASE+'/index.html?page=M01',{waitUntil:'domcontentloaded'});
     await page.waitForFunction(()=>!!window.SIM_DEMO?.core);
@@ -197,10 +199,11 @@ async function runG1(browser,id,viewport){
     const pass=Object.keys(checks).length>0&&Object.values(checks).every(v=>v===true||typeof v==='number');
     record(id,viewport.width,'G1',pass?'PASS':'FAIL',checks);
   }catch(e){record(id,viewport.width,'G1','BLOCKED',checks,{error:String(e)});}
-  finally{await context.close();}
+  finally{await context.tracing.stop({path:path.join(OUT,'traces',id+'-'+viewport.width+'.zip')});await context.close();}
 }
 (async()=>{
   fs.mkdirSync(path.join(OUT,'shots'),{recursive:true});
+  fs.mkdirSync(path.join(OUT,'traces'),{recursive:true});
   await new Promise(ok=>server.listen(PORT,HOST,ok));
   const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
   try{
