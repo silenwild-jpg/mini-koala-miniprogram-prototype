@@ -240,10 +240,10 @@ async function runG1(browser,id,viewport){
       const s01=page.frameLocator('iframe');
       await s01.locator('.filters').waitFor({timeout:10000});
       checks.noFilterTrigger=await s01.locator('.filters').evaluate(el=>{
-        const labels=[...el.querySelectorAll('.filter')].map(x=>x.textContent.replace(/\\s+/g,'').trim()).filter(Boolean);
+        const labels=[...el.querySelectorAll('.filter')].map(x=>x.textContent.replace(/\s+/g,'').trim()).filter(Boolean);
         return labels.length===3&&!labels.some(x=>/区域|容量/.test(x))&&!el.querySelector('[data-region],[data-capacity],[data-filter="region"],[data-filter="capacity"]');
       });
-      checks.expectedFilterSet=await s01.locator('.filters').evaluate(el=>JSON.stringify([...el.querySelectorAll('.filter')].map(x=>x.textContent.replace(/\\s+/g,'').trim()).filter(Boolean))===JSON.stringify(['排序','距离','服务']));
+      checks.expectedFilterSet=await s01.locator('.filters').evaluate(el=>JSON.stringify([...el.querySelectorAll('.filter')].map(x=>x.textContent.replace(/\s+/g,'').trim()).filter(Boolean))===JSON.stringify(['排序','距离','服务']));
       checks.persistedValueReset=await page.evaluate(field=>JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}')[field]==='all',field);
     }else if(id==='G1-07'){
       checks.formalRoutes=await page.evaluate(async()=>{
