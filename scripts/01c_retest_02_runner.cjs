@@ -22,7 +22,8 @@ const server=http.createServer((req,res)=>{
   fs.readFile(file,(err,bytes)=>err?res.writeHead(404).end('not found'):res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(bytes));
 });
 function record(id,viewport,scenario,status,checks,extra={}){
-  results.push({case_id:id,viewport,scenario,result:status,checks,...extra});
+  const shotStem=id.startsWith('H-T26')?id+'-term3-':id+'-';
+  results.push({case_id:id,viewport,scenario,result:status,checks,evidence:{screenshot:'shots/'+shotStem+viewport+'.png',trace:'traces/'+id+'-'+viewport+'.zip'},...extra});
 }
 async function makeContext(browser,viewport){
   const context=await browser.newContext({viewport,deviceScaleFactor:1,locale:'zh-CN',timezoneId:'Asia/Shanghai'});
@@ -192,12 +193,13 @@ async function runG1(browser,id,viewport){
       await page.goto(BASE+'/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
       checks.centralRejected=await page.locator('#screen').innerText().then(t=>!t.includes('处理结果'));
       await page.goto(BASE+'/demo/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
-      checks.legacyResultPage=await page.locator('body').innerText().then(t=>t.includes('处理结果'));
+      checks.legacyResultPath='NOT_VERIFIABLE';
+      checks.legacyPathNote='The isolated server mounts the signed demo root; the historical /demo/index.html path resolves to the same document and cannot independently prove the retired legacy entry.';
       checks.noPaymentAction=await page.locator('button').allTextContents().then(xs=>!xs.some(x=>/支付|付款/.test(x)));
     }
     await shot(page,id,viewport.width);
     const pass=Object.keys(checks).length>0&&Object.values(checks).every(v=>v===true||typeof v==='number');
-    record(id,viewport.width,'G1',pass?'PASS':'FAIL',checks);
+    record(id,viewport.width,'G1',id==='G1-07'?'BLOCKED':pass?'PASS':'FAIL',checks,{block_reason:id==='G1-07'?'Legacy RESULT direct link requires its original parent-site mount; central-route checks were still collected.':undefined});
   }catch(e){record(id,viewport.width,'G1','BLOCKED',checks,{error:String(e)});}
   finally{await context.tracing.stop({path:path.join(OUT,'traces',id+'-'+viewport.width+'.zip')});await context.close();}
 }
@@ -219,4 +221,5 @@ async function runG1(browser,id,viewport){
   fs.writeFileSync(path.join(OUT,'RETEST02_RUNS.csv'),['case_id,viewport,scenario,result,checks,error',...results.map(x=>[x.case_id,x.viewport,x.scenario,x.result,JSON.stringify(x.checks||{}),JSON.stringify(x.error||'')].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','))].join('\n'));
   console.log(JSON.stringify({total:summary.total,pass:summary.pass,fail:summary.fail,blocked:summary.blocked,output:OUT},null,2));
   if(summary.total!==34)process.exitCode=2;
+  else if(summary.fail||summary.blocked)process.exitCode=1;
 })().catch(e=>{console.error(e);process.exitCode=1;});
