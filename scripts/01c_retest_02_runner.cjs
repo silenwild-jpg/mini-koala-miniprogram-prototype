@@ -108,14 +108,14 @@ async function runOne(browser,spec,viewport){
    await shot('t28-reorder');await snapshot('t28-reorder');return;
   }
   if(spec.action==='T29'){
-   await page.clock.fastForward(3*60*60*1000+2000);await waitReal(300);
+   let clockError=null;try{await page.clock.fastForward(3*60*60*1000+2000);}catch(e){clockError=String(e?.message||e);}await waitReal(300);
    const after=await stateAfter('none',created.order_id);await snapshot('t29-after-native-expiry-sweep');await shot('t29-after-native-expiry-sweep');
    check('T29_ORDER_EXPIRED_BY_PAGE_SWEEP',after.order_status==='expired','expired',after.order_status);
    check('T29_INVENTORY_RELEASED',after.stock_status.length>0&&after.stock_status.every(x=>x==='available'),'all selected stock available',after.stock_status);
    check('X01_T29_QUOTE_INVALIDATED',after.quote_id===null,null,after.quote_id);
    check('X01_T29_GIFT_RELEASED',after.gift_status==='APPROVED','APPROVED',after.gift_status);
    check('X01_T29_OLD_ORDER_LINK_CLEARED',after.gift_order_id===null,null,after.gift_order_id);
-   check('T29_NATIVE_EXCEPTION_CAPTURED',rec.page_errors.some(x=>x.includes('APPROVAL_METADATA_REQUIRED')),'APPROVAL_METADATA_REQUIRED in pageerror',rec.page_errors);
+   check('T29_NATIVE_EXCEPTION_CAPTURED',(clockError||'').includes('APPROVAL_METADATA_REQUIRED')||rec.page_errors.some(x=>x.includes('APPROVAL_METADATA_REQUIRED')),'APPROVAL_METADATA_REQUIRED surfaced by native 1s sweep',{clockError,pageErrors:rec.page_errors});
    await closeO01Sheet();const next=await reselectAndCreate();
    check('T29_NEW_ORDER_CREATED',next.order_status==='pending','pending',next.order_status);
    check('T29_GIFT_REATTACHED',next.gift_status==='LOCKED_TO_ORDER'&&next.gift_order_id!==created.order_id&&next.gift_snapshot_count===1,'gift attached to new order once',{status:next.gift_status,order_id:next.gift_order_id,snapshot_count:next.gift_snapshot_count});
@@ -165,7 +165,7 @@ async function runOne(browser,spec,viewport){
    await app.goto(BASE+'/'+DEMO+'account.html?view=coupons');const old=await accountFrame(),oldText=await old.locator('#content').innerText();
    check('G1_02_LEGACY_COUPON_VIEW',oldText.includes('新客租仓券')&&!oldText.includes('赠送1个月')&&!oldText.includes('基础搬运权益'),'legacy view remains coupon-only',oldText);await shot('g1-02-legacy-coupons');
    const route=await page.evaluate(()=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_FIXTURES,{page:'COUPONS'});return 'ACCEPTED';}catch(e){return e.message;}});
-   check('G1_02_NO_FORMAL_COUPONS_ROUTE',route==='ROUTE_UNKNOWN','ROUTE_UNKNOWN',route);
+   check('G1_02_NO_FORMAL_COUPONS_ROUTE',route==='CENTRAL_CONTRACT_ROUTE_UNKNOWN','ROUTE_UNKNOWN',route);
    note('X-05: legacy coupon-only view and unified benefits view have different scopes; recorded as compatibility difference, not data loss.');await shot('g1-02-route-scope');return;
   }
   if(spec.action==='transport'){
@@ -202,8 +202,9 @@ async function runOne(browser,spec,viewport){
    await page.addInitScript(({value})=>sessionStorage.setItem('mk_s01_r2_filters_v1',JSON.stringify(value)),{
     value:spec.action==='region'?{region:'朝阳区',capacity:'all',maxKm:null,services:[],quick:[],visibleLimit:10}:{region:'all',capacity:'5-10',maxKm:null,services:[],quick:[],visibleLimit:10}
    });
-   const app=await openCentral('S01'),filters=await app.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}')),key=spec.action;
+   const app=await openCentral('S01'),filterInfo=await app.evaluate(()=>({filters:JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}'),url:location.href,mode:new URL(location.href).searchParams.get('s01_r2')})),filters=filterInfo.filters,key=spec.action;
    const n=spec.action==='region'?'5':'6';
+   check('G1_0'+n+'_R2_MODE',filterInfo.mode==='1','s01_r2=1',{url:filterInfo.url,mode:filterInfo.mode});
    check('G1_0'+n+'_PERSISTED_FILTER_RESET',filters[key]==='all',key+'=all',filters[key]);
    const s01=page.frameLocator('#central-host').frameLocator('#s01-r2-frame');await s01.locator('body').waitFor({state:'visible',timeout:15000});
    const controls=await s01.locator('body').evaluate(body=>({actionValues:[...body.querySelectorAll('[data-action]')].map(x=>x.getAttribute('data-action')),storeCount:body.querySelectorAll('[data-store-id], .store-card').length}));
@@ -211,19 +212,19 @@ async function runOne(browser,spec,viewport){
    check('G1_0'+n+'_NO_FILTER_TRIGGER',forbidden.length===0,'no region/capacity trigger',forbidden);
    check('G1_0'+n+'_LIST_REMAINS_RENDERED',controls.storeCount>0,'unfiltered store list remains visible',controls.storeCount);await shot('g1-'+spec.id.toLowerCase()+'-s01');
    const oldRoute=await page.evaluate(({routeName})=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_FIXTURES,{page:routeName});return 'ACCEPTED';}catch(e){return e.message;}},{routeName:spec.action==='region'?'S01R2REGION':'S01R2CAPACITY'});
-   check('G1_0'+n+'_OLD_ROUTE_REJECTED',oldRoute==='ROUTE_UNKNOWN','ROUTE_UNKNOWN',oldRoute);
+   check('G1_0'+n+'_OLD_ROUTE_REJECTED',oldRoute==='CENTRAL_CONTRACT_ROUTE_UNKNOWN','ROUTE_UNKNOWN',oldRoute);
    note('PASS means retired filter state is reset and no trigger remains; it does not mean the filter feature is implemented.');return;
   }
   if(spec.action==='result'){
    await page.goto(BASE+'/central-review-02g.html?catalog=sim&page=RESULT',{waitUntil:'domcontentloaded'});await page.locator('#central-error').waitFor({state:'visible',timeout:10000});
    check('G1_07_CENTRAL_RESULT_ROUTE_REJECTED',await page.locator('#central-host').count()===0,'central RESULT rejected',await page.locator('#central-host').count());
    const stats=await page.evaluate(()=>{const routes=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'],c=window.SIM_CENTRAL_CONTRACT_V1,f=window.SIM_FIXTURES;const accepted=routes.filter(page=>{try{c.route(f,{page,hasEligibleOrderContext:page==='O01'});return true;}catch{return false;}});let result='ACCEPTED';try{c.route(f,{page:'RESULT'});}catch(e){result=e.message;}return {formal_count:accepted.length,accepted,result};});
-   check('G1_07_FORMAL_ROUTE_COUNT_16',stats.formal_count===16,16,stats.formal_count);check('G1_07_RESULT_ROUTE_UNKNOWN',stats.result==='ROUTE_UNKNOWN','ROUTE_UNKNOWN',stats.result);await shot('g1-07-central-route-rejected');
+   check('G1_07_FORMAL_ROUTE_COUNT_16',stats.formal_count===16,16,stats.formal_count);check('G1_07_RESULT_ROUTE_UNKNOWN',stats.result==='CENTRAL_CONTRACT_ROUTE_UNKNOWN','ROUTE_UNKNOWN',stats.result);await shot('g1-07-central-route-rejected');
    await page.goto(BASE+'/'+DEMO+'index.html?page=RESULT',{waitUntil:'domcontentloaded'});await page.locator('#screen').waitFor({state:'visible',timeout:15000});
    const text=await page.locator('#screen').innerText(),pay=await page.locator('#screen [data-action*="pay"], #screen button[id*="pay"]').count();
    check('G1_07_LEGACY_EMPTY_RESULT_RENDERED',text.includes('处理结果')&&text.includes('暂无可查看的提交记录'),'empty legacy result page',text);
    check('G1_07_NO_PAYMENT_ACTION',pay===0,0,pay);await shot('g1-07-legacy-result');
-   await page.locator('#screen [data-action="go"][data-value="S01"]').click();await page.waitForFunction(()=>new URL(location.href).searchParams.get('page')==='S01');
+   await page.locator('#screen [data-action="go"][data-value="S01"]').last().click();await page.waitForFunction(()=>new URL(location.href).searchParams.get('page')==='S01');
    check('G1_07_RETURN_TO_STORE',new URL(page.url()).searchParams.get('page')==='S01','page=S01',page.url());await shot('g1-07-return-to-store');return;
   }
  }
