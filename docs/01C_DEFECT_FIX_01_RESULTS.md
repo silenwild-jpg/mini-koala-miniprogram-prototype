@@ -4,7 +4,7 @@
 
 - 修复基线：`f2fccf9301a54f00be9ab089a6426fae8f848242`（PR #210 当前签收HEAD）
 - 修复分支：`fix/01c-defect-fix-01-20261116`
-- 修复代码HEAD：`015f6c0af85ffb73c9d071f982d0034b6955135d`
+- 修复代码HEAD：`acf1f799d46f8a9bded65c24f9b77763048c900c`（含R-01后续收口）
 - 仅修改4个产品源文件：赠期策略、演示核心状态机、O01费用行定位、O01隐藏样式。
 - 没有修改页面文案、业务优惠门槛、金额计算、页面结构或图片素材。
 
@@ -18,6 +18,7 @@
 3. 销售个案原有审批编号和审批人信息随状态转换保留；活动赠期不被错误要求提供销售审批字段。
 4. 订单释放前，先预检赠期、优惠券和报价失效所需的状态转换；全部通过后才提交订单状态、库存释放、权益更新、库存版本递增及报价清理。
 5. 通用报价失效也改为先预检权益回退，再统一提交，避免失效流程自身出现部分更新。
+6. 已审批赠期从 `ATTACHED_TO_QUOTE` / `LOCKED_TO_ORDER` 回退到 `APPROVED` 时，清空实时权益对象上的旧 `quote_id` / `order_id`；销售审批元数据继续保留。
 
 ### X-02｜赠期隐藏与费用标签错位
 
@@ -28,17 +29,18 @@
 
 ## 3. 自动化验证
 
-最终运行：[GitHub Actions #43831369604](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43831369604)
+最终运行：[GitHub Actions #43835069127](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43835069127)
 
-验证分支：`qa/01c-defect-fix-01-validation-20261116`
+验证分支：`qa/01c-defect-fix-01-validation-v2-20261116`
 
-验证分支从修复代码HEAD `015f6c0af85ffb73c9d071f982d0034b6955135d` 创建；只额外包含测试运行器、独立单元测试和隔离工作流。最终运行所验证的产品代码与修复分支产品代码一致。
+验证分支从修复代码HEAD `acf1f799d46f8a9bded65c24f9b77763048c900c` 创建；只额外包含测试运行器、独立单元测试和隔离工作流。最终运行所验证的产品代码与修复分支产品代码一致。
 
 ### 单元测试
 
 - 活动赠期：订单锁定后释放回 `APPROVED`，无需伪造审批元数据。
 - 销售赠期：释放后保留原 `approval_id`、`approved_by`。
 - 首次销售审批：缺少审批编号或审批人时仍拒绝通过。
+- 赠期释放：从已绑定报价或订单状态回退时，`quote_id` / `order_id` 均清空。
 
 结果：全部通过。
 
@@ -51,13 +53,15 @@
 | H-T28 | PASS | PASS | 待支付订单状态与倒计时 |
 | H-T29 | PASS | PASS | 订单过期、库存释放、赠期恢复、报价失效 |
 | H-T30 | PASS | PASS | 失败后重新下单支付、赠期正常发放 |
-| G1-01～G1-07 | PASS | PASS | 账号旧视图、运输需求、统一手机号授权、筛选状态、正式路由边界 |
+| G1-01～G1-07 | PASS | PASS | 账号旧视图、实际触发手机号授权、S01筛选状态、中央正式路由白名单及遗留路由边界 |
 
 汇总：34 PASS / 0 FAIL / 0 BLOCKED。
 
-证据包：[截图、Playwright Trace、JSON汇总、CSV索引](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43831369604/artifacts/14208139618)
+证据完整性：40张截图（含T26三个月/六个月状态、G1-04真实手机号授权弹层及干净费用页）、34份Playwright Trace、1份JSON汇总、1份CSV索引。
 
-首次复跑曾出现8项测试误判，原因是测试断言错误地要求活动赠期具有销售审批字段，并把诊断字符串计入布尔断言。修正测试断言后重新执行，最终34项全部通过。该次修正仅发生在验证分支，没有修改产品源代码。
+证据包：[40张截图、34份Playwright Trace、JSON汇总、CSV索引](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43835069127/artifacts/14210432993)
+
+前序测试审计还发现G1-04未触发授权层、G1-05/06在错误页面检查筛选、G1-07未穷举路由集合、H-T30单次发放断言重复等覆盖缺口。已修正测试运行器：触发真实手机号授权、在S01 iframe中检查实际筛选项、从中央契约读取完整路由集合、验证释放后的关联ID及重复支付回调幂等性；单元测试变更也已纳入Actions触发路径。最终34项全部通过。
 
 ## 4. 影响与限制
 
