@@ -96,7 +96,8 @@ async function runH(browser,caseId,source,viewport){
       await frame.locator('[data-bridge="term"][data-value="6"]').click();
       checks.giftRestored=await frame.locator('#gift-term-row').isVisible();
       checks.depositLabelStable=await frame.locator('#deposit').evaluate(el=>el.closest('.fee-row')?.querySelector('span')?.textContent.includes('押金（1个月月租）')===true);
-      checks.duplicateDepositLabels=await frame.locator('.charges .fee-row').evaluateAll(rows=>rows.filter(row=>row.querySelector('span')?.textContent.includes('押金（1个月月租）')).length===1);
+      checks.depositLabelCount=await frame.locator('.charges').evaluate(el=>(el.innerText.match(/押金（1个月月租）/g)||[]).length);
+      checks.duplicateDepositLabels=checks.depositLabelCount===1;
       const failed=!(checks.giftRowHidden&&checks.giftRowDisplay==='none'&&checks.noGiftCopy&&checks.giftRestored&&checks.depositLabelStable&&checks.duplicateDepositLabels);
       record(caseId+'-'+source.suffix,width,source.scenario,failed?'FAIL':'PASS',checks,{pageErrors:errors});
     }else{
