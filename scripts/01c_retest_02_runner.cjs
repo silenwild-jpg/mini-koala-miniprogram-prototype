@@ -248,8 +248,8 @@ async function runG1(browser,id,viewport){
     }else if(id==='G1-07'){
       checks.formalRoutes=await page.evaluate(async()=>{
         const source=await fetch('central-contract.js').then(r=>r.text());
-        const match=source.match(/const allowedRoutes=\\{([\\s\\S]*?)\\};/);
-        return match?[...match[1].matchAll(/([A-Z0-9_]+)\\s*:/g)].map(x=>x[1]):[];
+        const match=source.match(/const allowedRoutes=\{([\s\S]*?)\};/);
+        return match?[...match[1].matchAll(/([A-Z0-9_]+)\s*:/g)].map(x=>x[1]):[];
       });
       const expectedRoutes=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'];
       checks.expectedRouteCount=checks.formalRoutes.length===16;
