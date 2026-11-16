@@ -72,8 +72,10 @@ async function snapshot(page){
   });
 }
 async function shot(page,id,viewport){
-  const dims=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,innerWidth}));
+  const dims=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,innerWidth,
+    frames:[...document.querySelectorAll('iframe')].map(f=>{try{return {src:f.getAttribute('src'),clientWidth:f.clientWidth,scrollWidth:f.contentDocument.documentElement.scrollWidth};}catch{return {src:f.getAttribute('src'),clientWidth:f.clientWidth,scrollWidth:null};}})}));
   assert(dims.scrollWidth<=dims.innerWidth+2,'horizontal overflow '+JSON.stringify(dims));
+  for(const frame of dims.frames)if(frame.scrollWidth!==null)assert(frame.scrollWidth<=frame.clientWidth+2,'iframe horizontal overflow '+JSON.stringify(frame));
   await page.screenshot({path:path.join(OUT,'shots',id+'-'+viewport+'.png'),fullPage:true});
 }
 async function runH(browser,caseId,source,viewport){
@@ -156,23 +158,25 @@ async function runG1(browser,id,viewport){
     await page.waitForFunction(()=>!!window.SIM_DEMO?.core);
     if(id==='G1-01'||id==='G1-02'){
       const view=id==='G1-01'?'favorites':'coupons';
+      const centralRouteRejected=await page.evaluate(v=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:v.toUpperCase()});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}},view);
       await page.goto(BASE+'/account.html?view='+view,{waitUntil:'domcontentloaded'});
       checks.legacyViewRendered=await page.locator('body').innerText().then(t=>t.trim().length>0);
-      checks.centralRouteRejected=await page.evaluate(v=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:v.toUpperCase()});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}},view);
+      checks.centralRouteRejected=centralRouteRejected;
       if(id==='G1-01')checks.expectedView=(await page.locator('body').innerText()).includes('收藏');
       if(id==='G1-02')checks.expectedView=(await page.locator('body').innerText()).includes('优惠');
     }else if(id==='G1-03'){
+      const centralRouteRejected=await page.evaluate(()=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:'TRANSPORT'});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}});
       await page.evaluate(()=>{window.SIM_DEMO.core.setScenario('lifeActive');window.SIM_DEMO.persist();});
-      const orderId=await page.evaluate(()=>window.SIM_DEMO.core.state().orders[0]?.id);
-      if(!orderId)throw new Error('G1_03_NO_PAID_ORDER_FIXTURE');
-      await page.goto(BASE+'/account.html?view=transport&id='+encodeURIComponent(orderId),{waitUntil:'domcontentloaded'});
+      const seeded=await page.evaluate(()=>{const c=window.SIM_DEMO.core,s=c.state(),next=new Date(Date.parse(c.today()+'T00:00:00Z')+86400000).toISOString().slice(0,10);return {orderId:s.orders[0]?.id,nextDate:next};});
+      if(!seeded.orderId)throw new Error('G1_03_NO_PAID_ORDER_FIXTURE');
+      await page.goto(BASE+'/account.html?view=transport&id='+encodeURIComponent(seeded.orderId),{waitUntil:'domcontentloaded'});
       checks.transportView=await page.locator('body').innerText().then(t=>t.includes('运输需求'));
-      checks.associatedOrder=await page.locator('body').innerText().then(t=>t.includes(orderId));
+      checks.associatedOrder=await page.locator('body').innerText().then(t=>t.includes(seeded.orderId));
       await page.locator('#transport-address').fill('北京市朝阳区演示地址 1 号');
-      await page.locator('#transport-date').fill('2026-11-18');
+      await page.locator('#transport-date').fill(seeded.nextDate);
       await page.locator('[data-act="transport"]').click();
-      checks.savedState=await page.evaluate(id=>{const t=window.SIM_DEMO.core.state().services[id]?.transport||[];return t.some(x=>x.address==='北京市朝阳区演示地址 1 号'&&x.status==='awaiting_advisor');},orderId);
-      checks.centralRouteRejected=await page.evaluate(()=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:'TRANSPORT'});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}});
+      checks.savedState=await page.evaluate(id=>{const raw=JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')||'null');const state=window.SIM_CORE.create({state:raw}).state(),t=state.services[id]?.transport||[];return t.some(x=>x.address==='北京市朝阳区演示地址 1 号'&&x.status==='awaiting_advisor');},seeded.orderId);
+      checks.centralRouteRejected=centralRouteRejected;
     }else if(id==='G1-04'){
       checks.noLegacyPhoneNodes=await page.locator('#overlay-root .phone-modal, #overlay-root .phone-layer, #overlay-root .legacy-phone-auth').count().then(n=>n===0);
       checks.noDuplicateAuthLayer=await page.locator('.mk-auth-sheet').count().then(n=>n===0);
@@ -188,7 +192,7 @@ async function runG1(browser,id,viewport){
       await page.waitForFunction(()=>new URLSearchParams(location.search).get('page')==='S01');
       checks.persistedValueReset=await page.evaluate(field=>JSON.parse(sessionStorage.getItem('mk_s01_r2_filters_v1')||'{}')[field]==='all',field);
     }else if(id==='G1-07'){
-      checks.formalRoutes=await page.evaluate(()=>{const names=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'];const c=window.SIM_CENTRAL_CONTRACT_V1,f=window.SIM_DEMO.core.fixture;return names.filter(page=>{try{c.route(f,{page});return true;}catch{return false;}}).length;});
+      checks.formalRoutes=await page.evaluate(()=>{const names=['H01','CAP','ITEMS','S01','S02','S5','BOOKING','QUICK','O01','M01','O03','OH01','RN01','EX01','DP01','IV01'];const c=window.SIM_CENTRAL_CONTRACT_V1,f=window.SIM_DEMO.core.fixture;return names.filter(page=>{try{c.route(f,{page,hasEligibleOrderContext:page==='O01'});return true;}catch{return false;}}).length;});
       checks.expectedRouteCount=checks.formalRoutes===16;
       await page.goto(BASE+'/index.html?page=RESULT',{waitUntil:'domcontentloaded'});
       checks.centralRejected=await page.locator('#screen').innerText().then(t=>!t.includes('处理结果'));
