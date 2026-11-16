@@ -22,6 +22,8 @@ const campaignLocked=policy.transition(
 );
 const campaignReleased=policy.transition(campaignLocked,'APPROVED');
 assert.equal(campaignReleased.status,'APPROVED');
+assert.equal(campaignReleased.quote_id,null);
+assert.equal(campaignReleased.order_id,null);
 assert.equal(campaignReleased.source_type,'CAMPAIGN');
 assert.equal(policy.validate(campaignReleased).valid,true);
 
@@ -31,9 +33,16 @@ const salesLocked=policy.transition(
 );
 const salesReleased=policy.transition(salesLocked,'APPROVED');
 assert.equal(salesReleased.status,'APPROVED');
+assert.equal(salesReleased.quote_id,null);
+assert.equal(salesReleased.order_id,null);
 assert.equal(salesReleased.approval_id,'APPROVAL-DEMO');
 assert.equal(salesReleased.approved_by,'manager-demo');
 assert.equal(policy.validate(salesReleased).valid,true);
+
+const quoteOnly={...approvedCampaign(),status:'ATTACHED_TO_QUOTE',quote_id:'Q-OLD'};
+const quoteReleased=policy.transition(quoteOnly,'APPROVED');
+assert.equal(quoteReleased.quote_id,null);
+assert.equal(quoteReleased.order_id,null);
 
 const submittedSales={...approvedSales(),status:'SUBMITTED'};
 assert.throws(()=>policy.transition(submittedSales,'APPROVED'),/APPROVAL_METADATA_REQUIRED/);
@@ -48,3 +57,4 @@ assert.equal(policy.validate(newlyApproved).valid,true);
 console.log('PASS: campaign gift can be released from order lock without invented approval metadata');
 console.log('PASS: sales gift can be released while preserving its original approval metadata');
 console.log('PASS: initial sales approval still requires approval_id and approved_by');
+console.log('PASS: quote/order bindings are cleared when an approved benefit is released');
