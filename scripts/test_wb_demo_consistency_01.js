@@ -1,3 +1,4 @@
+// 01C-FAST-TRACK-01-MERGE-01: run exact-branch 375/390 UAT on the post-merge candidate SHA; no test behavior change.
 /* WB-DEMO-CONSISTENCY-01: demo-only, exact-commit contract QA.
  * Price examples are NOT approved production finance policies. */
 'use strict';
