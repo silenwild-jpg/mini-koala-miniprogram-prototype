@@ -16,7 +16,7 @@ const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json
 const results=[];
 const server=http.createServer((req,res)=>{
   let file;
-  try{file=path.resolve(ROOT,'.'+decodeURIComponent(new URL(req.url,BASE).pathname));}
+  try{let pathname=decodeURIComponent(new URL(req.url,BASE).pathname);if(pathname.startsWith('/demo/'))pathname=pathname.slice(5);file=path.resolve(ROOT,'.'+pathname);}
   catch{res.writeHead(400).end();return;}
   if(file!==ROOT&&!file.startsWith(ROOT+path.sep)){res.writeHead(403).end();return;}
   fs.readFile(file,(err,bytes)=>err?res.writeHead(404).end('not found'):res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'}).end(bytes));
@@ -151,17 +151,25 @@ async function runG1(browser,id,viewport){
   try{
     await page.goto(BASE+'/index.html?page=M01',{waitUntil:'domcontentloaded'});
     await page.waitForFunction(()=>!!window.SIM_DEMO?.core);
-    if(id==='G1-01'||id==='G1-02'||id==='G1-03'){
-      const view=id==='G1-01'?'favorites':id==='G1-02'?'coupons':'transport';
+    if(id==='G1-01'||id==='G1-02'){
+      const view=id==='G1-01'?'favorites':'coupons';
       await page.goto(BASE+'/account.html?view='+view,{waitUntil:'domcontentloaded'});
       checks.legacyViewRendered=await page.locator('body').innerText().then(t=>t.trim().length>0);
-      checks.centralRouteRejected=await page.evaluate(v=>{
-        const routes=window.SIM_CENTRAL_CONTRACT_V1;
-        try{routes.route(window.SIM_DEMO.core.fixture,{page:v.toUpperCase()});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}
-      },view);
-      if(id==='G1-01')checks.expectedView= (await page.locator('body').innerText()).includes('收藏');
-      if(id==='G1-02')checks.expectedView= (await page.locator('body').innerText()).includes('优惠');
-      if(id==='G1-03')checks.expectedView= (await page.locator('body').innerText()).includes('运输');
+      checks.centralRouteRejected=await page.evaluate(v=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:v.toUpperCase()});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}},view);
+      if(id==='G1-01')checks.expectedView=(await page.locator('body').innerText()).includes('收藏');
+      if(id==='G1-02')checks.expectedView=(await page.locator('body').innerText()).includes('优惠');
+    }else if(id==='G1-03'){
+      await page.evaluate(()=>window.SIM_DEMO.core.setScenario('lifeActive'));
+      const orderId=await page.evaluate(()=>window.SIM_DEMO.core.state().orders[0]?.id);
+      if(!orderId)throw new Error('G1_03_NO_PAID_ORDER_FIXTURE');
+      await page.goto(BASE+'/account.html?view=transport&id='+encodeURIComponent(orderId),{waitUntil:'domcontentloaded'});
+      checks.transportView=await page.locator('body').innerText().then(t=>t.includes('运输需求'));
+      checks.associatedOrder=await page.locator('body').innerText().then(t=>t.includes(orderId));
+      await page.locator('#transport-address').fill('北京市朝阳区演示地址 1 号');
+      await page.locator('#transport-date').fill('2026-11-18');
+      await page.locator('[data-act="transport"]').click();
+      checks.savedState=await page.evaluate(id=>{const t=window.SIM_DEMO.core.state().services[id]?.transport||[];return t.some(x=>x.address==='北京市朝阳区演示地址 1 号'&&x.status==='awaiting_advisor');},orderId);
+      checks.centralRouteRejected=await page.evaluate(()=>{try{window.SIM_CENTRAL_CONTRACT_V1.route(window.SIM_DEMO.core.fixture,{page:'TRANSPORT'});return false;}catch(e){return e.message==='CENTRAL_CONTRACT_ROUTE_UNKNOWN';}});
     }else if(id==='G1-04'){
       checks.noLegacyPhoneNodes=await page.locator('#overlay-root .phone-modal, #overlay-root .phone-layer, #overlay-root .legacy-phone-auth').count().then(n=>n===0);
       checks.noDuplicateAuthLayer=await page.locator('.mk-auth-sheet').count().then(n=>n===0);
