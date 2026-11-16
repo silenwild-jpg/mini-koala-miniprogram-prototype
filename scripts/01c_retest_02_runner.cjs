@@ -159,7 +159,7 @@ async function runG1(browser,id,viewport){
       if(id==='G1-01')checks.expectedView=(await page.locator('body').innerText()).includes('收藏');
       if(id==='G1-02')checks.expectedView=(await page.locator('body').innerText()).includes('优惠');
     }else if(id==='G1-03'){
-      await page.evaluate(()=>window.SIM_DEMO.core.setScenario('lifeActive'));
+      await page.evaluate(()=>{window.SIM_DEMO.core.setScenario('lifeActive');window.SIM_DEMO.persist();});
       const orderId=await page.evaluate(()=>window.SIM_DEMO.core.state().orders[0]?.id);
       if(!orderId)throw new Error('G1_03_NO_PAID_ORDER_FIXTURE');
       await page.goto(BASE+'/account.html?view=transport&id='+encodeURIComponent(orderId),{waitUntil:'domcontentloaded'});
