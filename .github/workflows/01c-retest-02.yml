@@ -21,7 +21,7 @@ concurrency:
 jobs:
   isolated-browser-regression:
     name: H-T26–H-T30 and G1-01–G1-07 / 375+390
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
       - name: Checkout isolated QA branch
@@ -50,18 +50,7 @@ jobs:
         if: always()
         run: |
           if [ -f release-evidence/01c-retest-02/RETEST02_SUMMARY.json ]; then
-            node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
-            const s = require('./release-evidence/01c-retest-02/RETEST02_SUMMARY.json');
-            console.log('## 01C RETEST-02');
-            console.log('');
-            console.log('| Total | PASS | FAIL | BLOCKED |');
-            console.log('|---:|---:|---:|---:|');
-            console.log('| '+s.total+' | '+s.pass+' | '+s.fail+' | '+s.blocked+' |');
-            console.log('');
-            console.log('| Case | Viewport | Scenario | Result |');
-            console.log('|---|---:|---|---|');
-            for (const r of s.results) console.log('| '+r.case_id+' | '+r.viewport+' | '+r.scenario+' | '+r.result+' |');
-            NODE
+            node -e 'const s=require("./release-evidence/01c-retest-02/RETEST02_SUMMARY.json"); const lines=["## 01C RETEST-02","","| Total | PASS | FAIL | BLOCKED |","|---:|---:|---:|---:|","| "+s.total+" | "+s.pass+" | "+s.fail+" | "+s.blocked+" |","","| Case | Viewport | Scenario | Result |","|---|---:|---|---|",...s.results.map(r=>"| "+r.case_id+" | "+r.viewport+" | "+r.scenario+" | "+r.result+" |")]; console.log(lines.join("\\n"));' >> "$GITHUB_STEP_SUMMARY"
           else
             echo '## 01C RETEST-02' >> "$GITHUB_STEP_SUMMARY"
             echo 'Runner ended before summary creation; inspect job logs and partial evidence.' >> "$GITHUB_STEP_SUMMARY"
