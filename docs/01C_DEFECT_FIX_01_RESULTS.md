@@ -29,9 +29,9 @@
 
 ## 3. 自动化验证
 
-最终运行：[GitHub Actions #43835069127](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43835069127)
+最终综合运行：[GitHub Actions #43835840377](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43835840377)
 
-验证分支：`qa/01c-defect-fix-01-validation-v2-20261116`
+验证分支：`qa/01c-defect-fix-01-validation-v2-20261116`（最终验证提交 `6ec1c0c9d648c7e3e67637ba4160e0b84c9537fa`）
 
 验证分支从修复代码HEAD `acf1f799d46f8a9bded65c24f9b77763048c900c` 创建；只额外包含测试运行器、独立单元测试和隔离工作流。最终运行所验证的产品代码与修复分支产品代码一致。
 
@@ -43,6 +43,16 @@
 - 赠期释放：从已绑定报价或订单状态回退时，`quote_id` / `order_id` 均清空。
 
 结果：全部通过。
+
+### 核心演示回归
+
+以下现有仓库测试直接使用 `core-journey-fix-01/demo`，用于补充H/G1专项回归：
+
+- `test_promo_entitlement_model_01.js`：PASS。
+- `test_promo_source_01.js`：PASS。
+- `test_promo_demo_scenarios_01.js`：PASS，覆盖8类促销/权益场景及9类订单生命周期场景。
+- `test_wb_demo_consistency_01.js`：PASS，覆盖146个演示仓位、1–60个月报价一致性及面积/容量需求规则。
+- `verify_demo_scenarios_browser_01.cjs`：PASS，30次浏览器场景运行（375/390各15次），包括18次生命周期状态展示和12次促销展示；36张截图，无页面异常、无横向溢出。
 
 ### 34项浏览器回归
 
@@ -57,11 +67,11 @@
 
 汇总：34 PASS / 0 FAIL / 0 BLOCKED。
 
-证据完整性：40张截图（含T26三个月/六个月状态、G1-04真实手机号授权弹层及干净费用页）、34份Playwright Trace、1份JSON汇总、1份CSV索引。
+证据完整性：专项回归40张截图、34份Playwright Trace、1份JSON汇总、1份CSV索引；核心演示回归另有36张截图和30条结构化场景结果。合计64次浏览器视口场景执行（34项H/G1 + 30项核心演示），另有5组Node单元/静态业务测试全部通过。
 
-证据包：[40张截图、34份Playwright Trace、JSON汇总、CSV索引](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43835069127/artifacts/14210432993)
+证据包：[完整回归证据：64次浏览器场景、76张截图、34份Playwright Trace、JSON/CSV](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/43835840377/artifacts/14210896791)
 
-前序测试审计还发现G1-04未触发授权层、G1-05/06在错误页面检查筛选、G1-07未穷举路由集合、H-T30单次发放断言重复等覆盖缺口。已修正测试运行器：触发真实手机号授权、在S01 iframe中检查实际筛选项、从中央契约读取完整路由集合、验证释放后的关联ID及重复支付回调幂等性；单元测试变更也已纳入Actions触发路径。最终34项全部通过。
+前序测试审计还发现G1-04未触发授权层、G1-05/06在错误页面检查筛选、G1-07未穷举路由集合、H-T30单次发放断言重复等覆盖缺口。已修正测试运行器：触发真实手机号授权、在S01 iframe中检查实际筛选项、从中央契约读取完整路由集合、验证释放后的关联ID及重复支付回调幂等性；单元测试变更也已纳入Actions触发路径。最终34项全部通过。补充核心演示回归后，促销模型、促销场景、146×60价格一致性及30项生命周期/促销浏览器场景也全部通过。
 
 ## 4. 影响与限制
 
