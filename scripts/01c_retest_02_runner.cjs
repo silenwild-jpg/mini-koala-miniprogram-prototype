@@ -96,9 +96,9 @@ async function runH(browser,caseId,source,viewport){
       await frame.locator('[data-bridge="term"][data-value="6"]').click();
       checks.giftRestored=await frame.locator('#gift-term-row').isVisible();
       checks.depositLabelStable=await frame.locator('#deposit').evaluate(el=>el.closest('.fee-row')?.querySelector('span')?.textContent.includes('押金（1个月月租）')===true);
-      checks.depositLabelCount=await frame.locator('.charges').evaluate(el=>(el.innerText.match(/押金（1个月月租）/g)||[]).length);
-      checks.duplicateDepositLabels=checks.depositLabelCount===1;
-      const failed=!(checks.giftRowHidden&&checks.giftRowDisplay==='none'&&checks.noGiftCopy&&checks.giftRestored&&checks.depositLabelStable&&checks.duplicateDepositLabels);
+      checks.giftRowLabelText=(await frame.locator('#gift-term-row span').textContent()||'').trim();
+      checks.giftRowLabelStable=checks.giftRowLabelText==='赠送租期';
+      const failed=!(checks.giftRowHidden&&checks.giftRowDisplay==='none'&&checks.noGiftCopy&&checks.giftRestored&&checks.depositLabelStable&&checks.giftRowLabelStable);
       record(caseId+'-'+source.suffix,width,source.scenario,failed?'FAIL':'PASS',checks,{pageErrors:errors});
     }else{
       await createPending(frame);
