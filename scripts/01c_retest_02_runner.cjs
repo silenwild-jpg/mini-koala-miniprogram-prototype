@@ -97,7 +97,7 @@ async function runH(browser,caseId,source,viewport){
       checks.giftRestored=await frame.locator('#gift-term-row').isVisible();
       checks.depositLabelStable=await frame.locator('#deposit').evaluate(el=>el.closest('.fee-row')?.querySelector('span')?.textContent.includes('押金（1个月月租）')===true);
       checks.duplicateDepositLabels=await frame.locator('.charges .fee-row').evaluateAll(rows=>rows.filter(row=>row.querySelector('span')?.textContent.includes('押金（1个月月租）')).length===1);
-      const failed=!(checks.giftRowHidden&&checks.giftRowDisplay==='none'&&checks.noGiftCopy&&checks.giftRestored&&checks.depositLabelStable);
+      const failed=!(checks.giftRowHidden&&checks.giftRowDisplay==='none'&&checks.noGiftCopy&&checks.giftRestored&&checks.depositLabelStable&&checks.duplicateDepositLabels);
       record(caseId+'-'+source.suffix,width,source.scenario,failed?'FAIL':'PASS',checks,{pageErrors:errors});
     }else{
       await createPending(frame);
@@ -189,7 +189,7 @@ async function runG1(browser,id,viewport){
       if(!seeded.orderId)throw new Error('G1_03_NO_PAID_ORDER_FIXTURE');
       await page.goto(BASE+'/account.html?view=transport&id='+encodeURIComponent(seeded.orderId),{waitUntil:'domcontentloaded'});
       checks.transportView=await page.locator('body').innerText().then(t=>t.includes('运输需求'));
-      checks.associatedOrder=await page.locator('body').innerText().then(t=>/订单编号\\s*KL\\d+/.test(t));
+      checks.associatedOrder=await page.locator('body').innerText().then(t=>/订单编号\s*KL\d+/.test(t));
       await page.locator('#transport-address').fill('北京市朝阳区演示地址 1 号');
       await page.locator('#transport-date').fill(seeded.nextDate);
       await page.locator('[data-act="transport"]').click();
