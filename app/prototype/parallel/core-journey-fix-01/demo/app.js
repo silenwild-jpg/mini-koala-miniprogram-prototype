@@ -583,20 +583,6 @@
   }
   // Preserve the in-progress renewal field across harmless screen re-renders (auth/status refresh).
   function renderLifecycle(page){const id=lifecycleId();return MK_LIFECYCLE_UI_V1.render(page,core,id,{esc,button,title,money,reviewMode,renewalDraft:renewalDraftByOrder[id]??null});}
-  // Demo outcomes remain reviewer-only; customer retry changes the existing application.
-  document.addEventListener('click',e=>{
-    const el=e.target.closest('[data-action]');if(!el)return;
-    const action=el.dataset.action,id=el.dataset.value;
-    if(!['refundProgress','demoRefundFail','demoRefundResume','demoInvoiceProcessing','demoInvoiceFail','retryInvoice'].includes(action))return;
-    e.preventDefault();
-    try{
-      if(action==='refundProgress'){notice='当前为本机演示进度；退款由门店处理，未发起真实资金操作。';}
-      else if(action==='demoRefundFail'||action==='demoRefundResume')core.lifecycleDemoRefund(lifecycleId(),action==='demoRefundFail'?'failed':'processing',reviewMode);
-      else if(action==='demoInvoiceProcessing'||action==='demoInvoiceFail')core.lifecycleDemoInvoice(lifecycleId(),id,action==='demoInvoiceFail'?'failed':'processing',reviewMode);
-      else core.lifecycleRetryInvoice(lifecycleId(),id,{title:document.getElementById('retry-title-'+id)?.value,email:document.getElementById('retry-email-'+id)?.value,tax_id:document.getElementById('retry-tax-'+id)?.value});
-      persist();render();
-    }catch{notice='当前操作未完成，请核对资料与处理权限。';render();}
-  });
   const functions={S01:renderS01,S02:renderS02,RESULT:renderResult,M01:renderM01,O03:renderO03,OH01:renderOH01,RN01:()=>renderLifecycle('RN01'),EX01:()=>renderLifecycle('EX01'),DP01:()=>renderLifecycle('DP01'),IV01:()=>renderLifecycle('IV01')};
     if(!functions[page]&&!framed[page])page='S01';
     document.body.classList.toggle('br04-mode',!!framed[page]);$('#screen').className='screen page-'+page;
@@ -616,6 +602,21 @@
   // Restore keyboard focus after an ordinary modal closes, including the S01 R2 child iframe.
   // Keep a selector rather than a DOM node: S02's content can be replaced during render().
   let modalReturnTarget=null;
+  // Register once, outside render(): each click must produce one state transition.
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('[data-action]');if(!el)return;
+    const action=el.dataset.action,id=el.dataset.value;
+    if(!['refundProgress','demoRefundFail','demoRefundResume','demoInvoiceProcessing','demoInvoiceFail','retryInvoice'].includes(action))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    try{
+      notice='';
+      if(action==='refundProgress')notice='当前为本机演示进度；退款由门店处理，未发起真实资金操作。';
+      else if(action==='demoRefundFail'||action==='demoRefundResume')core.lifecycleDemoRefund(lifecycleId(),action==='demoRefundFail'?'failed':'processing',reviewMode);
+      else if(action==='demoInvoiceProcessing'||action==='demoInvoiceFail')core.lifecycleDemoInvoice(lifecycleId(),id,action==='demoInvoiceFail'?'failed':'processing',reviewMode);
+      else core.lifecycleRetryInvoice(lifecycleId(),id,{title:document.getElementById('retry-title-'+id)?.value,email:document.getElementById('retry-email-'+id)?.value,tax_id:document.getElementById('retry-tax-'+id)?.value});
+      persist();render();
+    }catch{notice='当前操作未完成，请核对资料与处理权限。';render();}
+  });
   function restoreModalFocus(){
     const target=modalReturnTarget;modalReturnTarget=null;
     if(!target)return;
