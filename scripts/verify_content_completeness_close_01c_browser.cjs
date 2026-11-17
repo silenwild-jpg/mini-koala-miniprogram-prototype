@@ -65,7 +65,10 @@ const results=[],url='http://127.0.0.1:4817/prototype/parallel/core-journey-fix-
    await p.locator('[data-step="1"]').first().click();await p.locator('[data-step="-1"]').first().click();const state=await p.evaluate(()=>demo.getState());assert(state.volume>0);assert.equal(state.selected[0].quantity,1);await shot('estimate');
    await p.locator('.back').click();await p.waitForURL(/cap.html/);await shot('cap-return');await p.goBack();assert.deepEqual((await p.evaluate(()=>demo.getState())).selected,state.selected);
    await p.locator('#footerBtn').click();await p.locator('[data-term="6"]').click();await p.locator('#footerBtn').click();await p.waitForURL(/page=S5/);const req=await p.evaluate(()=>SIM_DEMO.core.state().requirement);assert.equal(req.term_months,6);assert.equal(req.term_confirmed,true);assert.deepEqual(req.items,state.selected);assert.equal(req.capacity_m3,Math.max(.5,state.volume));await shot('s5-consistent');
-   await p.frameLocator('iframe').locator('#modify').click();await p.waitForURL(/cap.html/);assert.equal(Number(await p.locator('#capacity').inputValue()),req.capacity_m3);await shot('cap-filled');assert.match(await p.locator('#summary').innerText(),/6/);
+   // The approved S5 editor follows the original ITEMS source. Check that route,
+   // then inspect CAP directly to verify its shared-demand refill independently.
+   await p.frameLocator('iframe').locator('#modify').click();await p.waitForURL(/items.html/);assert.deepEqual((await p.evaluate(()=>demo.getState())).selected,state.selected);
+   await p.goto(url+'cap.html');assert.equal(Number(await p.locator('#capacity').inputValue()),req.capacity_m3);assert.match(await p.locator('#summary').innerText(),/6/);await shot('cap-filled');
   });
  }}finally{await browser.close();}
 })().catch(e=>{console.error(e);results.push({status:'ERROR',error:e.stack});}).finally(()=>{fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({sha,dirty,browser:'actual HTTP Chromium',nativeWechat:'NOT TESTED',results},null,2));console.log(JSON.stringify(results));if(results.some(x=>x.status!=='PASS'))process.exitCode=1;server.close();});
