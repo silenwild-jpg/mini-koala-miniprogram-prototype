@@ -1,5 +1,6 @@
 (function(){
   'use strict';
+  const sessionStorage=MK_LEAD_FLOW.shellStorage();
   const KEY='mk_independent_sim_v1',UIKEY='mk_independent_sim_ui_v1';
   const S01_ORIGIN_KEY='mk_s01_origin_s5_v1',S01_SCROLL_KEY='mk_s01_scroll_top_v1';
   const renewalDraftByOrder=Object.create(null);
@@ -62,6 +63,7 @@
   const requestedOrderId=new URLSearchParams(location.search).get('order');
   let selectedOrderId=MK_M01_ORDER_ROUTE_01.select(requestedOrderId!==null,requestedOrderId,sessionStorage.getItem('mk_lifecycle_selected_order_v1'));
   const reviewMode=new URLSearchParams(location.search).get('review')==='1';
+  document.querySelector('.demo-settings').style.display=reviewMode?'':'none';
   const lifecycleId=()=>selectedOrderId||state().orders.filter(o=>o.status==='paid_simulated').at(-1)?.id;
   let resultKind=sessionStorage.getItem('mk_sim_result_kind')||'order';
   let positions={};try{positions=JSON.parse(sessionStorage.getItem(UIKEY)||'{}');}catch{}
@@ -489,7 +491,7 @@
   }[status]||'办理中');
   const depositStatusLabel=status=>({
     HELD:'押金保管中',held:'押金保管中',
-    REFUND_PENDING:'退款处理中',REFUNDED:'已退还',
+    REFUND_PENDING:'退款处理中',REFUND_FAILED:reviewMode?'退款处理失败':'退款处理暂未完成',REFUNDED:'已退还',
     not_collected:'暂无押金',NOT_COLLECTED:'暂无押金'
   }[status]||'处理中');
   const paymentClockHtml=o=>{
@@ -601,6 +603,21 @@
   // Restore keyboard focus after an ordinary modal closes, including the S01 R2 child iframe.
   // Keep a selector rather than a DOM node: S02's content can be replaced during render().
   let modalReturnTarget=null;
+  // Register once, outside render(): each click must produce one state transition.
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('[data-action]');if(!el)return;
+    const action=el.dataset.action,id=el.dataset.value;
+    if(!['refundProgress','demoRefundFail','demoRefundResume','demoInvoiceProcessing','demoInvoiceFail','retryInvoice'].includes(action))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    try{
+      notice='';
+      if(action==='refundProgress')notice=reviewMode?'评审模式：本机模拟进度，未发起真实退款。':core.lifecycleView(lifecycleId()).deposit_status==='REFUND_FAILED'?'退款处理暂未完成，请查看后续进度。':'退款处理中，请查看后续进度。';
+      else if(action==='demoRefundFail'||action==='demoRefundResume')core.lifecycleDemoRefund(lifecycleId(),action==='demoRefundFail'?'failed':'processing',reviewMode);
+      else if(action==='demoInvoiceProcessing'||action==='demoInvoiceFail')core.lifecycleDemoInvoice(lifecycleId(),id,action==='demoInvoiceFail'?'failed':'processing',reviewMode);
+      else core.lifecycleRetryInvoice(lifecycleId(),id,{title:document.getElementById('retry-title-'+id)?.value,email:document.getElementById('retry-email-'+id)?.value,tax_id:document.getElementById('retry-tax-'+id)?.value});
+      persist();render();
+    }catch{notice='当前操作未完成，请核对资料与处理权限。';render();}
+  });
   function restoreModalFocus(){
     const target=modalReturnTarget;modalReturnTarget=null;
     if(!target)return;

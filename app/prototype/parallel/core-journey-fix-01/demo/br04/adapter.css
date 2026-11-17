@@ -59,6 +59,10 @@ body[data-page="reserve"] .option-list{top:402px}
 body[data-page="reserve"] .note-field{top:528px}
 body[data-page="reserve"] .submit{top:637px}
 body[data-page="reserve"] .under-submit{top:692px}
+body[data-page="reserve"] .lead-flow-status{position:absolute;top:716px;left:19px;right:19px;font-size:13px;line-height:1.6;color:#345f52}
+body[data-page="reserve"] .lead-flow-status button{min-height:44px;padding:8px 16px;border:1px solid #b4d7c8;border-radius:8px;background:#fff;color:#006e56}
+body[data-page="reserve"] .lead-flow-status label{display:block;margin-top:10px}
+body[data-page="reserve"] .lead-flow-status select{max-width:100%;padding:8px}
 
 /* Calibration: preserve card silhouettes; only qualified facts and readable price context. */
 body[data-page="o01"] .payment-note{font-size:12px;color:#64758a}

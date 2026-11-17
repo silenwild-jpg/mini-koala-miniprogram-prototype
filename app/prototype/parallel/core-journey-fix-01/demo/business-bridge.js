@@ -1,6 +1,7 @@
 (function(){
   'use strict';
   const KEY='mk_independent_sim_v1',DRAFT='mk_business_draft_v4';
+  const reviewMode=new URLSearchParams(location.search).get('review')==='1';
   const read=k=>{try{return JSON.parse(sessionStorage.getItem(k)||'null');}catch{return null;}};
   const core=SIM_CORE.create({state:read(KEY)}),r=core.state().requirement,$=id=>document.getElementById(id);
   const fresh=()=>({lead_id:null,lead_updated_at:null,size:null,band:'',custom:false,term:null,types:[],move:'待确认',location:'',contact_name:'',company:'',phone:'',expected_start_date:'',notes:'',storage_type_other:'',requirementSignature:JSON.stringify(r)});
@@ -16,9 +17,22 @@
   const fields={businessAddress:'location',contactName:'contact_name',company:'company',phone:'phone',expectedDate:'expected_start_date',notes:'notes',otherTypeInput:'storage_type_other'};
   for(const [id,key] of Object.entries(fields))$(id).value=form[key]||'';
   const editContext=document.createElement('div');editContext.className='enterprise-edit-context';editContext.innerHTML='<p id="enterprise-edit-status" role="status"></p><button type="button" id="new-enterprise">新建企业需求</button><a href="account.html?view=needs">查看我的需求</a>';$('businessAddress').closest('.field').before(editContext);
-  function updateEditContext(){const existing=form.lead_id?core.state().enterpriseLeads.find(l=>l.id===form.lead_id):null,blocked=invalidRequested||!!form.lead_id&&(!existing||existing.status==='withdrawn');$('enterprise-edit-status').textContent=blocked?'原需求不存在或已撤回；可明确新建另一条需求。':form.lead_id?'正在补充企业需求 '+form.lead_id+'；保存后更新原记录。':'新企业需求；首次保存后可继续补充。';$('submit').disabled=blocked;$('submit').textContent=form.lead_id?'保存企业需求更新':'邀请顾问协助';}
-  $('new-enterprise').onclick=()=>{form={...fresh(),size:r.capacity_m3,term:r.term_confirmed?r.term_months:null,custom:r.capacity_m3!==null,phone:core.state().contactPhone||''};invalidRequested=false;for(const [id,key] of Object.entries(fields))$(id).value=form[key]||'';history.replaceState({},'',location.pathname);result.hidden=true;refresh();};
-  function persist(){sessionStorage.setItem(DRAFT,JSON.stringify({version:1,value:form}));sessionStorage.setItem(KEY,JSON.stringify(core.state()));}
+  function updateEditContext(){const existing=form.lead_id?core.state().enterpriseLeads.find(l=>l.id===form.lead_id):null,blocked=invalidRequested||!!form.lead_id&&(!existing||existing.status==='withdrawn');$('enterprise-edit-status').textContent=blocked?'原需求不存在或已撤回；可明确新建另一条需求。':form.lead_id?'正在补充已有企业需求'+(reviewMode?' '+form.lead_id:'')+'，保存后将更新这条需求。':'新企业需求；首次保存后可继续补充。';const locked=['SUBMITTING','UNKNOWN_RESULT'].includes(form.leadRequest?.status);$('submit').disabled=blocked||locked;$('new-enterprise').disabled=locked;document.querySelectorAll('.field input,.field textarea,#sizeChips button,#termChips button,#typeChips button,#moveChips button').forEach(el=>el.disabled=locked);$('submit').textContent=form.lead_id?'保存企业需求更新':'邀请顾问协助';}
+  $('new-enterprise').onclick=()=>{form={...fresh(),size:r.capacity_m3,term:r.term_confirmed?r.term_months:null,custom:r.capacity_m3!==null,phone:core.state().contactPhone||''};invalidRequested=false;for(const [id,key] of Object.entries(fields))$(id).value=form[key]||'';history.replaceState({},'',location.pathname+(reviewMode?'?review=1':''));result.hidden=true;refresh();};
+  const packet=form.leadRequest||(form.leadRequest={status:draft?'RETURN_RESTORE':'EDITING'});
+  if(draft&&packet.status==='EDITING')packet.status='RETURN_RESTORE';
+  let leadStatus;
+  function persistLead(){sessionStorage.setItem(DRAFT,JSON.stringify({version:1,value:form}));sessionStorage.setItem(KEY,JSON.stringify(core.state()));}
+  function persist(){try{persistLead();return true;}catch{packet.status='STORAGE_ERROR';leadStatus?.render(packet);return false;}}
+  const leadFlow=MK_LEAD_FLOW.create({core,kind:'enterprise',packet,persist:persistLead,onChange:()=>{
+    if(packet.status==='SUCCESS'&&packet.result){const copy=MK_LEAD_FLOW.successCopy('enterprise',!!packet.input?.lead_id);form.lead_id=packet.result.id;form.lead_updated_at=packet.result.updated_at;persist();$('business-result-title').textContent=copy.title;$('business-result-text').textContent=copy.detail;result.hidden=false;}
+    updateEditContext();leadStatus?.render(packet);
+    const locked=['SUBMITTING','UNKNOWN_RESULT'].includes(packet.status);
+    document.querySelectorAll('.field input,.field textarea,#sizeChips button,#termChips button,#typeChips button,#moveChips button').forEach(el=>el.disabled=locked);
+    $('submit').disabled=locked||invalidRequested;$('new-enterprise').disabled=locked;
+    if(packet.status==='SUBMITTING')$('submit').textContent='正在保存…';
+    if(['SUBMITTING','FAILED_RETRYABLE','UNKNOWN_RESULT','STORAGE_ERROR'].includes(packet.status))leadStatus?.element.scrollIntoView({block:'center'});
+  }});
   function notify(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(notify.timer);notify.timer=setTimeout(()=>$('toast').style.display='none',3200);}
   function validDraft(){
     const size=$('sizeInput').value.trim(),term=$('termInput').value.trim();
@@ -57,12 +71,19 @@
     try{const current=core.state().requirement;if(current.source==='items_estimate'&&current.capacity_m3===form.size)core.setTerm(form.term);else core.setRequirement(form.size,form.term,true);form.requirementSignature=JSON.stringify(core.state().requirement);persist();location.href='index.html?page=S5';}
     catch{notify('请核对所需空间与租期');}
   };
-  const result=document.createElement('div');result.className='business-result';result.hidden=true;result.innerHTML='<section role="dialog" aria-modal="true" aria-labelledby="business-result-title"><h2 id="business-result-title">企业需求已保存</h2><p id="business-result-text"></p><p>当前为内部预览，尚未向顾问发送。</p><button type="button" id="business-result-close">继续查看需求</button></section>';document.body.appendChild(result);
+  const result=document.createElement('div');result.className='business-result';result.hidden=true;result.innerHTML='<section role="dialog" aria-modal="true" aria-labelledby="business-result-title"><h2 id="business-result-title">企业需求已保存</h2><p id="business-result-text"></p><p id="business-review-note" hidden>评审模式：需求保存在当前设备，尚未发送至顾问服务。</p><button type="button" id="business-result-close">继续查看需求</button></section>';document.body.appendChild(result);$('business-review-note').hidden=!reviewMode;
   $('business-result-close').onclick=()=>result.hidden=true;
-  $('submit').onclick=()=>{
+  leadStatus=MK_LEAD_FLOW.controls(document,editContext,leadFlow,reviewMode);
+  const originalNew=$('new-enterprise').onclick;
+  $('new-enterprise').onclick=()=>{if(!leadFlow.reset())return;originalNew();form.leadRequest=packet;persist();};
+  function edited(){if(packet.status==='SUCCESS')leadFlow.reset();leadFlow.edited();persist();}
+  document.addEventListener('input',edited);
+  document.addEventListener('click',e=>{if(e.target.closest('#sizeChips,#termChips,#typeChips,#moveChips,#termMinus,#termPlus'))edited();});
+  $('submit').onclick=async()=>{
     if(!validDraft())return;
-    try{const updating=!!form.lead_id;const lead=core.saveEnterpriseLead({lead_id:form.lead_id||undefined,phone:form.phone,location:form.location,contact_name:form.contact_name,company:form.company,capacity_m3:form.size,capacity_band:form.band,term_months:form.term,storage_types:form.types,storage_type_other:form.storage_type_other,moving_support:form.move,expected_start_date:form.expected_start_date,notes:form.notes});form.lead_id=lead.id;form.lead_updated_at=lead.updated_at;persist();updateEditContext();$('business-result-title').textContent=updating?'企业需求已更新':'企业需求已保存';$('business-result-text').textContent=(updating?'已更新原需求 ':'需求编号 ')+lead.id+'，继续补充仍使用同一编号。';result.hidden=false;}
+    try{if(invalidRequested)return;await leadFlow.submit({lead_id:form.lead_id||undefined,phone:form.phone,location:form.location,contact_name:form.contact_name,company:form.company,capacity_m3:form.size,capacity_band:form.band,term_months:form.term,storage_types:form.types,storage_type_other:form.storage_type_other,moving_support:form.move,expected_start_date:form.expected_start_date,notes:form.notes});}
     catch(e){const messages={LEAD_NOT_FOUND:'原需求不存在，请从我的需求打开或明确新建',LEAD_WITHDRAWN:'该需求已撤回，可明确新建其他需求',ENTER_BUSINESS_PHONE:'请填写有效的联系电话，国际号码请带国家区号',INVALID_TERM:'租期请选择1–60个月的整数',SELECT_DATE:'请选择有效的预计用仓日期',INVALID_CAPACITY:'请填写0.5–200m³的有效容量'};notify(messages[e.message]||'请检查已填写的信息');if(e.message==='ENTER_BUSINESS_PHONE')$('phone').focus();}
   };
-  window.addEventListener('pagehide',persist);refresh();
+  leadStatus.retry.onclick=()=>$('submit').onclick();
+  window.addEventListener('pagehide',persist);refresh();leadStatus.render(packet);
 })();

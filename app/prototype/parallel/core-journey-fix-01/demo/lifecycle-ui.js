@@ -8,7 +8,7 @@ function render(page,core,selectedId,tools){
  const names={RN01:'续租申请',EX01:'退租与到期',DP01:'押金处理',IV01:'发票申请'};
  const stateLabel=s=>({
    upcoming:'待起租',active:'租用中',returning:'退租办理中',ended:'已退租',
-   HELD:'押金保管中',held:'押金保管中',REFUND_PENDING:'退款处理中',REFUNDED:'已退还',
+   HELD:'押金保管中',held:'押金保管中',REFUND_PENDING:'退款处理中',REFUND_FAILED:reviewMode?'退款处理失败':'退款处理暂未完成',REFUNDED:'已退还',PROCESSING:'申请处理中',ISSUE_FAILED:reviewMode?'开票失败':'开票暂未成功',
    QUOTE_PENDING:'报价确认中',QUOTE_READY:'待确认续租',PAYMENT_PENDING:'待支付续租费用',PAYMENT_FAILED:'付款未完成',PAYMENT_CANCELLED:'已暂缓支付',COMPLETED:'已完成',
    REQUESTED:'已提交',WAITING_INSPECTION:'待验仓',INSPECTION_FAILED:'需重新验仓',INSPECTION_PASSED:'验仓通过',
    SUBMITTED:'已提交',personal:'个人',enterprise:'企业',INITIAL:'首期租金',RENEWAL:'续租费用',
@@ -66,9 +66,26 @@ function render(page,core,selectedId,tools){
   body+='<h3>押金进度</h3><div class="m02-deposit"><span>订单押金</span><strong>'+(core.authorized()?money(o.deposit):'—')+'</strong></div><p>状态：'+esc(stateLabel(v.deposit_status))+'</p>';
   body+='<p>押金退还金额与到账时间以实际办理结果为准。</p>';
   if(v.deposit_status==='REFUND_PENDING'&&reviewMode)body+=button('reviewRefund','评审模拟退款完成','','outline');
+  if(['REFUND_PENDING','REFUND_FAILED'].includes(v.deposit_status)){
+   if(reviewMode)body+='<p>评审模式 · '+esc(v.deposit_status)+'：演示状态候选，待产品签收；未发起真实退款。</p>';
+   body+=button('refundProgress','查看处理进度','','outline');
+   if(v.deposit_status==='REFUND_FAILED')body+='<p>退款处理暂未完成，请查看后续进度。</p>';
+   if(reviewMode)body+=v.deposit_status==='REFUND_PENDING'?button('demoRefundFail','评审模拟退款失败','','outline'):button('demoRefundResume','评审模拟恢复处理','','outline');
+  }
  }else if(page==='IV01'){
   body+='<h3>发票申请</h3><p>选择对应的付款记录填写开票信息。</p>';
-  for(const inv of v.invoices)body+='<p>'+'发票申请 · '+esc(stateLabel(inv.status))+'</p>';
+  for(const inv of v.invoices){
+   body+='<p>发票申请'+(reviewMode?' '+esc(inv.id):'')+' · '+esc(stateLabel(inv.status))+'</p><p>'+esc(inv.title)+' · '+esc(inv.email)+'</p>';
+   if(inv.status==='ISSUE_FAILED'){
+    body+='<p>开票暂未成功，请核对资料后重试。原申请记录已保留。</p>'+
+      '<label>抬头 <input id="retry-title-'+esc(inv.id)+'" maxlength="120" value="'+esc(inv.title)+'"></label>'+
+      '<label>邮箱 <input id="retry-email-'+esc(inv.id)+'" type="email" value="'+esc(inv.email)+'"></label>'+
+      (inv.kind==='enterprise'?'<label>企业税号 <input id="retry-tax-'+esc(inv.id)+'" value="'+esc(inv.tax_id)+'"></label>':'')+
+      button('retryInvoice','更正资料后重新提交',inv.id);
+   }
+   if(reviewMode&&['SUBMITTED','PROCESSING'].includes(inv.status))body+=button('demoInvoiceProcessing','评审模拟申请处理中',inv.id,'outline')+button('demoInvoiceFail','评审模拟开票失败',inv.id,'outline');
+  }
+  if(reviewMode&&v.invoices.some(i=>['PROCESSING','ISSUE_FAILED'].includes(i.status)))body+='<p>评审模式：以上为待签收演示状态，真实开票由服务端办理。</p>';
   const available=v.payments.filter(p=>!v.invoices.some(i=>i.payment_id===p.id));
   if(available.length){
    body+='<label>付款记录 <select id="invoice-payment">'+available.map(p=>'<option value="'+esc(p.id)+'">'+esc(stateLabel(p.type))+' · '+money(p.amount)+'</option>').join('')+'</select></label>';
