@@ -17,7 +17,7 @@ const results=[],url='http://127.0.0.1:4817/prototype/parallel/core-journey-fix-
   for(const kind of ['booking','advisor'])await run(kind,async(p,shot)=>{
    await p.goto(url+'index.html?page=BOOKING&review=1'+(kind==='advisor'?'&mode=advisor':''));const f=p.frameLocator('iframe');
    await f.locator('#reserve-contact').fill('13800000001');if(kind==='booking')await f.locator('#booking-address').fill('合成测试地址01');
-   await f.locator('#note').fill('合成输入保留');await f.locator('[data-lead-scenario]').selectOption('fail_once');
+   await f.locator('#note').fill('合成输入保留');await p.reload();await f.locator('[data-state="RETURN_RESTORE"]').waitFor();assert.equal(await f.locator('#note').inputValue(),'合成输入保留');await shot('restored');await f.locator('[data-lead-scenario]').selectOption('fail_once');
    await f.locator('#submit').click();await f.locator('[data-state="SUBMITTING"]').waitFor();await shot('submitting');
    await f.locator('[data-state="FAILED_RETRYABLE"]').waitFor();assert.equal(await f.locator('#note').inputValue(),'合成输入保留');await shot('failed');
    const key=await p.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_br04_ui_v2'))[new URLSearchParams(location.search).get('mode')==='advisor'?'advisor':'reserve'].leadRequest.key);
@@ -39,8 +39,16 @@ const results=[],url='http://127.0.0.1:4817/prototype/parallel/core-journey-fix-
    await p.goto(url+'index.html?page=BOOKING');const f=p.frameLocator('iframe');await f.locator('#reserve-contact').fill('13800000001');await f.locator('#booking-address').fill('合成地址');await f.locator('#submit').click();await f.locator('[data-state="STORAGE_ERROR"]').waitFor();await f.locator('[data-state="STORAGE_ERROR"]').scrollIntoViewIfNeeded();await shot('booking');assert.equal(await p.evaluate(()=>SIM_DEMO.core.state().leads.length),0);
    await p.goto(url+'business.html');await p.locator('#phone').fill('13800000001');await p.locator('#submit').click();await p.locator('[data-state="STORAGE_ERROR"]').waitFor();await p.locator('[data-state="STORAGE_ERROR"]').scrollIntoViewIfNeeded();await shot('enterprise');
   });
+  await run('storage-denied',async(p,shot)=>{
+   await p.addInitScript(()=>{Object.defineProperty(window,'sessionStorage',{get(){throw new DOMException('synthetic denied storage','SecurityError');}});});
+   for(const kind of ['booking','advisor','enterprise']){
+    await p.goto(url+(kind==='enterprise'?'business.html':'index.html?page=BOOKING'+(kind==='advisor'?'&mode=advisor':'')));
+    const surface=kind==='enterprise'?p:p.frameLocator('iframe');await surface.locator(kind==='enterprise'?'#phone':'#reserve-contact').fill('13800000001');
+    if(kind==='booking')await surface.locator('#booking-address').fill('合成地址');await surface.locator('#submit').click();await surface.locator('[data-state="STORAGE_ERROR"]').waitFor();await surface.locator('[data-state="STORAGE_ERROR"]').scrollIntoViewIfNeeded();await shot(kind);
+   }
+  });
   await run('enterprise',async(p,shot)=>{
-   await p.goto(url+'business.html?review=1');await p.locator('#phone').fill('13800000001');await p.locator('#notes').fill('企业合成需求');
+   await p.goto(url+'business.html?review=1');await p.locator('#phone').fill('13800000001');await p.locator('#notes').fill('企业合成需求');await p.reload();await p.locator('[data-state="RETURN_RESTORE"]').waitFor();await shot('editing-restored');
    await p.locator('[data-lead-scenario]').selectOption('fail_once');await p.locator('#submit').click();await p.locator('[data-state="FAILED_RETRYABLE"]').waitFor();await shot('failed');
    await p.locator('#notes').fill('失败后修改');await p.locator('#submit').evaluate(el=>{el.click();el.click();});await p.locator('.business-result:not([hidden])').waitFor();await shot('success');
    const read=()=>p.evaluate(()=>JSON.parse(sessionStorage.getItem('mk_independent_sim_v1')).enterpriseLeads);const id=(await read())[0].id;assert.equal((await read()).length,1);

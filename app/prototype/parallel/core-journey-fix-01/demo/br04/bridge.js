@@ -23,7 +23,8 @@
     return cabin+(description?' · '+description:'');
   };
   let allUI={};try{allUI=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}');}catch{}
-  const advisorMode=page==='reserve'&&(new URLSearchParams(parent.location.search).get('mode')==='advisor'||!!sessionStorage.getItem('mk_advisor_context_v3'));
+  let advisorContext=null;try{advisorContext=sessionStorage.getItem('mk_advisor_context_v3');}catch{}
+  const advisorMode=page==='reserve'&&(new URLSearchParams(parent.location.search).get('mode')==='advisor'||!!advisorContext);
   const uiKey=advisorMode?'advisor':page,ui=allUI[uiKey]||(allUI[uiKey]={});
   let leadFlow,leadStatus;
   const persistLead=()=>{sessionStorage.setItem('mk_br04_ui_v2',JSON.stringify(allUI));sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(core.state()));};

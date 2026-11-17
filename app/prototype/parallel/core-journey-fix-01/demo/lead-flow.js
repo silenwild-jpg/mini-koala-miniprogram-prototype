@@ -39,7 +39,7 @@
         }catch(e){packet.status='STORAGE_ERROR';packet.error=e.message;emit();}
         finally{busy=false;}
       },
-      edited(){if(!busy&&!['SUCCESS','UNKNOWN_RESULT'].includes(packet.status)){packet.status='EDITING';emit();}},
+      edited(){if(!busy&&!['EDITING','SUCCESS','UNKNOWN_RESULT'].includes(packet.status)){packet.status='EDITING';emit();}},
       saved:write
     };
   }
