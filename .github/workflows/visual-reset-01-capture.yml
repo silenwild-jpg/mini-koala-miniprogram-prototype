@@ -1,0 +1,44 @@
+name: VISUAL RESET 01 isolated baseline capture
+on:
+  push:
+    branches: [visual/visual-reset-01-20261117]
+    paths:
+      - scripts/capture_visual_reset_01.cjs
+      - .github/workflows/visual-reset-01-capture.yml
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify unchanged product source
+        run: |
+          test -z "$(git diff 0a687932d3daef8b559101e5c5df387ada388fbd HEAD -- app/)"
+          test "$GITHUB_REF_NAME" = 'visual/visual-reset-01-20261117'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install existing project browser test dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Capture route and auxiliary page states
+        run: node scripts/capture_visual_reset_01.cjs
+      - name: Exercise existing booking quick-order and checkout paths
+        if: always()
+        run: node scripts/verify_rc2_merge_ready_04_browser.cjs
+      - name: Save screenshots and actual results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VISUAL-RESET-01-current-baseline
+          retention-days: 14
+          path: |
+            release-evidence/visual-reset-01/
+            release-evidence/rc2-merge-ready-04/
