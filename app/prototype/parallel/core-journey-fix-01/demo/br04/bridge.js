@@ -1,6 +1,7 @@
 (function(){
   'use strict';
   const page=document.body.dataset.page;
+  const reviewMode=new URLSearchParams(parent.location.search).get('review')==='1';
   const pageIds={s5:'S5',reserve:'BOOKING',quick:'QUICK',o01:'O01'};
 
   const B=parent.SIM_DEMO;
@@ -246,12 +247,12 @@
   function renderReserve(){const s=core.state();if(!ui.reserve)ui.reserve={address:'',start_hint:'',preferred_date:s.dateConfirmed?s.startDate:'',items:'',capacity_hint:s.requirement.capacity_m3?s.requirement.capacity_m3+'m³':'',term_hint:s.requirement.term_confirmed?s.requirement.term_months+'个月':'',note:''};const v=ui.reserve;if(v.receipt&&s.leads.find(l=>l.id===v.receipt)?.status==='withdrawn')v.receipt=null;const reqSig=JSON.stringify(s.requirement);if(v.requirementSignature!==reqSig){v.capacity_hint=s.requirement.capacity_m3?s.requirement.capacity_m3+'m³':v.capacity_hint;v.term_hint=s.requirement.term_confirmed?s.requirement.term_months+'个月':v.term_hint;v.requirementSignature=reqSig;}if(v.phone===undefined)v.phone=s.contactPhone||'';
     let advisor;try{advisor=JSON.parse(sessionStorage.getItem('mk_advisor_context_v3')||'null');}catch{}
     if(advisor){for(const key of ['items','capacity_hint','term_hint','note','service_source'])if(typeof advisor[key]==='string')v[key]=advisor[key].slice(0,200);v.receipt=null;v.returnTo=['cap.html','items.html','home.html'].includes(advisor._return)?advisor._return:null;sessionStorage.removeItem('mk_advisor_context_v3');}
-    document.title=advisorMode?'顾问咨询':'预约用仓';$('artboard').setAttribute('aria-label',advisorMode?'顾问咨询':'预约用仓');document.querySelector('.form-sheet').setAttribute('aria-label',advisorMode?'顾问咨询表单':'预约用仓表单');document.querySelector('.contact-title').innerHTML=advisorMode?'用仓地址 <span class="not-required">（选填）</span>':'用仓地址 <span class="required">*</span>';$('booking-address').required=!advisorMode;document.querySelector('.privacy-help').textContent=advisorMode?'留下联系电话，顾问将协助核对需求；用仓地址和以下信息可选。':'用仓地址、联系电话必填；其他信息可选。';document.querySelector('.reserve-contact-field').firstChild.textContent='联系电话（必填）';$('reserve-contact').required=true;text('submit',advisorMode?'提交咨询需求':'提交用仓需求');document.querySelector('.under-submit').textContent='资料仅保存在当前设备';$('booking-address').value=v.address;const phoneInput=$('reserve-contact');if(phoneInput)phoneInput.value=v.phone||'';$('note').value=v.note;text('counter',v.note.length+'/200');
+    document.title=advisorMode?'顾问咨询':'预约用仓';$('artboard').setAttribute('aria-label',advisorMode?'顾问咨询':'预约用仓');document.querySelector('.form-sheet').setAttribute('aria-label',advisorMode?'顾问咨询表单':'预约用仓表单');document.querySelector('.contact-title').innerHTML=advisorMode?'用仓地址 <span class="not-required">（选填）</span>':'用仓地址 <span class="required">*</span>';$('booking-address').required=!advisorMode;document.querySelector('.privacy-help').textContent=advisorMode?'联系电话必填；用仓地址和以下信息可选。':'用仓地址、联系电话必填；其他信息可选。';document.querySelector('.reserve-contact-field').firstChild.textContent='联系电话（必填）';$('reserve-contact').required=true;text('submit',advisorMode?'提交咨询需求':'提交用仓需求');document.querySelector('.under-submit').textContent=reviewMode?'评审模式：资料仅保存在当前设备':'保存后可在“我的需求”中查看';$('booking-address').value=v.address;const phoneInput=$('reserve-contact');if(phoneInput)phoneInput.value=v.phone||'';$('note').value=v.note;text('counter',v.note.length+'/200');
     text('itemsValue',v.items||'请选择');text('capacityValue',v.capacity_hint||'请选择');text('durationValue',v.term_hint||'请选择');
     $$('[data-term]').forEach(el=>{const selected=v.start_hint===el.dataset.term;el.classList.toggle('selected',selected);el.setAttribute('aria-pressed',String(selected));});
     $('dateInput').min=core.today();$('dateInput').value=v.preferred_date||'';text('dateText',v.preferred_date||'选择日期');
     if(leadFlow?.packet.status==='SUCCESS'&&leadFlow.packet.result)v.receipt=leadFlow.packet.result.id;
-    if(v.receipt){clearTimeout(toastTimer);$('toast').hidden=true;}if(v.receipt&&!$('my-needs')){const needs=document.createElement('button');needs.id='my-needs';needs.type='button';needs.textContent='查看我的需求';needs.onclick=()=>parent.location.href=new URL('../../account.html?view=needs',location.href).href;$('success').appendChild(needs);}if(v.receipt){$('success').querySelector('h2').textContent=advisorMode?'咨询需求已保存':'用仓需求已保存';$('success').querySelector('p').textContent='资料已保存在本机，尚未发送给顾问。';}$('reserveForm').hidden=!!v.receipt;$('success').hidden=!v.receipt;
+    if(v.receipt){clearTimeout(toastTimer);$('toast').hidden=true;}if(v.receipt&&!$('my-needs')){const needs=document.createElement('button');needs.id='my-needs';needs.type='button';needs.textContent='查看我的需求';needs.onclick=()=>parent.location.href=new URL('../../account.html?view=needs',location.href).href;$('success').appendChild(needs);}if(v.receipt){const copy=parent.MK_LEAD_FLOW.successCopy(advisorMode?'advisor':'booking');$('success').querySelector('h2').textContent=copy.title;$('success').querySelector('p').textContent=copy.detail;}$('reserveForm').hidden=!!v.receipt;$('success').hidden=!v.receipt;
     const locked=['SUBMITTING','UNKNOWN_RESULT'].includes(leadFlow?.packet.status);
     $('reserveForm').querySelectorAll('input,textarea,button').forEach(el=>el.disabled=locked);
     if(leadFlow?.packet.status==='SUBMITTING')text('submit','正在提交…');
@@ -381,7 +382,7 @@
     const packet=ui.leadRequest||(ui.leadRequest={status:ui.reserve?.address||ui.reserve?.phone?'RETURN_RESTORE':'EDITING'});
     if(packet.status==='EDITING'&&(ui.reserve?.address||ui.reserve?.phone))packet.status='RETURN_RESTORE';
     leadFlow=parent.MK_LEAD_FLOW.create({core,kind:advisorMode?'advisor':'booking',packet,persist:persistLead,onChange:()=>{leadStatus?.render(packet);renderReserve();}});
-    leadStatus=parent.MK_LEAD_FLOW.controls(document,$('reserveForm').parentElement,leadFlow,new URLSearchParams(parent.location.search).get('review')==='1');
+    leadStatus=parent.MK_LEAD_FLOW.controls(document,$('reserveForm').parentElement,leadFlow,reviewMode);
     const submitLead=()=>{if(ui.reserve.receipt)return;leadFlow.submit(ui.reserve).catch(e=>toast(codes[e.message]||'请检查已填写的信息'));};
     $('reserveForm').onsubmit=e=>{e.preventDefault();submitLead();};leadStatus.retry.onclick=submitLead;
     $('reserveForm').addEventListener('input',()=>leadFlow.edited());

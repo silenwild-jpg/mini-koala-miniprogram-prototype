@@ -1,6 +1,9 @@
 (function(root){
   'use strict';
-  const messages={EDITING:'',SUBMITTING:'正在提交，请稍候。',FAILED_RETRYABLE:'本次模拟提交未完成，输入已保留，可重试或返回修改。',UNKNOWN_RESULT:'尚未取得确认结果，请核对结果；不会另建一条需求。',SUCCESS:'需求已保存在本机演示记录，尚未发送给顾问。',STORAGE_ERROR:'本机保存失败。输入仅保留在当前页面，刷新或离开后可能无法恢复，请先重试保存。',RETURN_RESTORE:'已恢复上次输入，请核对后继续。'};
+  const messages={EDITING:'',SUBMITTING:'正在提交，请稍候。',FAILED_RETRYABLE:'暂时无法提交，请重试或返回修改。',UNKNOWN_RESULT:'提交结果暂未确认，请勿重复提交。',SUCCESS:'需求已保存。',STORAGE_ERROR:'暂时无法保存，请保留已填写内容并重试。刷新或离开页面可能丢失内容。',RETURN_RESTORE:'已恢复上次填写的信息，请核对后继续。'};
+  function successCopy(kind,updated=false){
+    return {title:kind==='enterprise'?(updated?'企业需求已更新':'企业需求已保存'):kind==='advisor'?'咨询需求已保存':'预约需求已保存',detail:kind==='enterprise'?(updated?'本次修改已保存，可继续查看需求。':'可继续补充信息，或查看已保存的需求。'):'可在“我的需求”中查看。'};
+  }
   function create({core,kind,packet={},persist,onChange=()=>{},delay=350}){
     let busy=false,scenario='success',attempts=0;
     if(packet.status==='SUBMITTING')packet.status='UNKNOWN_RESULT';
@@ -48,8 +51,9 @@
     const status=doc.createElement('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
     const retry=doc.createElement('button');retry.type='button';retry.textContent='重试提交';retry.dataset.leadRetry='';
     wrap.append(status,retry);host.append(wrap);
-    if(review){const label=doc.createElement('label');label.textContent='受控模拟（文案待签收）';const select=doc.createElement('select');select.dataset.leadScenario='';for(const [v,t] of [['success','正常保存'],['fail_once','首次失败再成功'],['timeout_saved','已保存但回执超时'],['duplicate_success','重复成功回调']]){const option=doc.createElement('option');option.value=v;option.textContent=t;select.append(option);}select.onchange=()=>flow.scenario(select.value);label.append(select);wrap.append(label);}
-    return {retry,element:wrap,render(packet){status.textContent=messages[packet.status]||'';wrap.dataset.state=packet.status||'EDITING';retry.hidden=!['FAILED_RETRYABLE','UNKNOWN_RESULT','STORAGE_ERROR'].includes(packet.status);retry.textContent=packet.status==='UNKNOWN_RESULT'?'核对提交结果':'重试提交';}};
+    let reviewText;
+    if(review){const label=doc.createElement('label');reviewText=doc.createTextNode('');label.append(reviewText);const select=doc.createElement('select');select.dataset.leadScenario='';for(const [v,t] of [['success','正常保存'],['fail_once','首次失败再成功'],['timeout_saved','已保存但回执超时'],['duplicate_success','重复成功回调']]){const option=doc.createElement('option');option.value=v;option.textContent=t;select.append(option);}select.onchange=()=>flow.scenario(select.value);label.append(select);wrap.append(label);}
+    return {retry,element:wrap,render(packet){status.textContent=messages[packet.status]||'';wrap.dataset.state=packet.status||'EDITING';if(reviewText)reviewText.textContent='评审模式 · '+(packet.status||'EDITING')+'：本机模拟，未发送至顾问服务。';retry.hidden=!['FAILED_RETRYABLE','UNKNOWN_RESULT','STORAGE_ERROR'].includes(packet.status);retry.textContent=packet.status==='UNKNOWN_RESULT'?'核对提交结果':'重试提交';}};
   }
   // Keep the shell usable when writes are denied. Lead acknowledgement still
   // uses raw storage and reports STORAGE_ERROR; this memory is never durable.
@@ -58,6 +62,6 @@
     setItem(key,value){memory.set(key,String(value));try{root.sessionStorage.setItem(key,value);}catch{}},
     removeItem(key){memory.set(key,null);try{root.sessionStorage.removeItem(key);}catch{}}
   };}
-  root.MK_LEAD_FLOW={create,controls,messages,shellStorage};
+  root.MK_LEAD_FLOW={create,controls,messages,successCopy,shellStorage};
   if(typeof module==='object'&&module.exports)module.exports=root.MK_LEAD_FLOW;
 })(typeof window==='object'?window:globalThis);
