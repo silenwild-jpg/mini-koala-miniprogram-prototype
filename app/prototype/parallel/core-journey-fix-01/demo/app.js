@@ -1,5 +1,6 @@
 (function(){
   'use strict';
+  const sessionStorage=MK_LEAD_FLOW.shellStorage();
   const KEY='mk_independent_sim_v1',UIKEY='mk_independent_sim_ui_v1';
   const S01_ORIGIN_KEY='mk_s01_origin_s5_v1',S01_SCROLL_KEY='mk_s01_scroll_top_v1';
   const renewalDraftByOrder=Object.create(null);
@@ -489,7 +490,7 @@
   }[status]||'办理中');
   const depositStatusLabel=status=>({
     HELD:'押金保管中',held:'押金保管中',
-    REFUND_PENDING:'退款处理中',REFUNDED:'已退还',
+    REFUND_PENDING:'退款处理中',REFUND_FAILED:'退款处理失败',REFUNDED:'已退还',
     not_collected:'暂无押金',NOT_COLLECTED:'暂无押金'
   }[status]||'处理中');
   const paymentClockHtml=o=>{
@@ -582,6 +583,20 @@
   }
   // Preserve the in-progress renewal field across harmless screen re-renders (auth/status refresh).
   function renderLifecycle(page){const id=lifecycleId();return MK_LIFECYCLE_UI_V1.render(page,core,id,{esc,button,title,money,reviewMode,renewalDraft:renewalDraftByOrder[id]??null});}
+  // Demo outcomes remain reviewer-only; customer retry changes the existing application.
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('[data-action]');if(!el)return;
+    const action=el.dataset.action,id=el.dataset.value;
+    if(!['refundProgress','demoRefundFail','demoRefundResume','demoInvoiceProcessing','demoInvoiceFail','retryInvoice'].includes(action))return;
+    e.preventDefault();
+    try{
+      if(action==='refundProgress'){notice='当前为本机演示进度；退款由门店处理，未发起真实资金操作。';}
+      else if(action==='demoRefundFail'||action==='demoRefundResume')core.lifecycleDemoRefund(lifecycleId(),action==='demoRefundFail'?'failed':'processing',reviewMode);
+      else if(action==='demoInvoiceProcessing'||action==='demoInvoiceFail')core.lifecycleDemoInvoice(lifecycleId(),id,action==='demoInvoiceFail'?'failed':'processing',reviewMode);
+      else core.lifecycleRetryInvoice(lifecycleId(),id,{title:document.getElementById('retry-title-'+id)?.value,email:document.getElementById('retry-email-'+id)?.value,tax_id:document.getElementById('retry-tax-'+id)?.value});
+      persist();render();
+    }catch{notice='当前操作未完成，请核对资料与处理权限。';render();}
+  });
   const functions={S01:renderS01,S02:renderS02,RESULT:renderResult,M01:renderM01,O03:renderO03,OH01:renderOH01,RN01:()=>renderLifecycle('RN01'),EX01:()=>renderLifecycle('EX01'),DP01:()=>renderLifecycle('DP01'),IV01:()=>renderLifecycle('IV01')};
     if(!functions[page]&&!framed[page])page='S01';
     document.body.classList.toggle('br04-mode',!!framed[page]);$('#screen').className='screen page-'+page;

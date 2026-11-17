@@ -25,7 +25,9 @@
   let allUI={};try{allUI=JSON.parse(sessionStorage.getItem('mk_br04_ui_v2')||'{}');}catch{}
   const advisorMode=page==='reserve'&&(new URLSearchParams(parent.location.search).get('mode')==='advisor'||!!sessionStorage.getItem('mk_advisor_context_v3'));
   const uiKey=advisorMode?'advisor':page,ui=allUI[uiKey]||(allUI[uiKey]={});
-  const save=()=>{sessionStorage.setItem('mk_br04_ui_v2',JSON.stringify(allUI));B.persist();};
+  let leadFlow,leadStatus;
+  const persistLead=()=>{sessionStorage.setItem('mk_br04_ui_v2',JSON.stringify(allUI));sessionStorage.setItem('mk_independent_sim_v1',JSON.stringify(core.state()));};
+  const save=()=>{try{persistLead();return true;}catch(e){if(page!=='reserve')throw e;if(leadFlow){leadFlow.packet.status='STORAGE_ERROR';leadStatus?.render(leadFlow.packet);}return false;}};
   const text=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
   const image=(selector,url,alt)=>{const el=document.querySelector(selector);if(el){el.src=url;if(alt)el.alt=alt;}};
   const act=(name,label,value='',primary=false)=>`<button type="button" class="${primary?'bridge-primary':'bridge-option'}" data-bridge="${name}" data-value="${esc(value)}">${esc(label)}</button>`;
@@ -67,7 +69,7 @@
   }
   function fit(){
     if(page==='s5'){const board=$('artboard');for(const property of ['transform','width','height','min-height','margin-bottom'])board.style.removeProperty(property);fitS5VisiblePrices();}
-    if(page==='reserve'){const v=$('screenViewport'),scale=v.clientWidth/366; $('artboard').style.transform=`scale(${scale})`;$('artboardHolder').style.height=976*scale+'px';}
+    if(page==='reserve'){const v=$('screenViewport'),scale=v.clientWidth/366; $('artboard').style.transform=`scale(${scale})`;const extra=leadStatus?180:0;$('artboard').style.height=(976+extra)+'px';$('artboardHolder').style.height=(976+extra)*scale+'px';}
   }
   // S5-UX-REVIEW-02: one rendering contract for seven user-facing match states.
   // Search expansion is not inferred from an untrusted distance label.
@@ -247,7 +249,12 @@
     text('itemsValue',v.items||'请选择');text('capacityValue',v.capacity_hint||'请选择');text('durationValue',v.term_hint||'请选择');
     $$('[data-term]').forEach(el=>{const selected=v.start_hint===el.dataset.term;el.classList.toggle('selected',selected);el.setAttribute('aria-pressed',String(selected));});
     $('dateInput').min=core.today();$('dateInput').value=v.preferred_date||'';text('dateText',v.preferred_date||'选择日期');
-    if(v.receipt){clearTimeout(toastTimer);$('toast').hidden=true;}if(v.receipt&&!$('my-needs')){const needs=document.createElement('button');needs.id='my-needs';needs.type='button';needs.textContent='查看我的需求';needs.onclick=()=>parent.location.href=new URL('../../account.html?view=needs',location.href).href;$('success').appendChild(needs);}if(v.receipt){$('success').querySelector('h2').textContent=advisorMode?'咨询需求已保存':'用仓需求已保存';$('success').querySelector('p').textContent='资料已保存在本机，尚未发送给顾问。';}$('reserveForm').hidden=!!v.receipt;$('success').hidden=!v.receipt;fit();save();
+    if(leadFlow?.packet.status==='SUCCESS'&&leadFlow.packet.result)v.receipt=leadFlow.packet.result.id;
+    if(v.receipt){clearTimeout(toastTimer);$('toast').hidden=true;}if(v.receipt&&!$('my-needs')){const needs=document.createElement('button');needs.id='my-needs';needs.type='button';needs.textContent='查看我的需求';needs.onclick=()=>parent.location.href=new URL('../../account.html?view=needs',location.href).href;$('success').appendChild(needs);}if(v.receipt){$('success').querySelector('h2').textContent=advisorMode?'咨询需求已保存':'用仓需求已保存';$('success').querySelector('p').textContent='资料已保存在本机，尚未发送给顾问。';}$('reserveForm').hidden=!!v.receipt;$('success').hidden=!v.receipt;
+    const locked=['SUBMITTING','UNKNOWN_RESULT'].includes(leadFlow?.packet.status);
+    $('reserveForm').querySelectorAll('input,textarea,button').forEach(el=>el.disabled=locked);
+    if(leadFlow?.packet.status==='SUBMITTING')text('submit','正在提交…');
+    leadStatus?.render(leadFlow.packet);fit();save();
   }
   function reserveChoice(key){const options={items:['日常物品','搬家家具','文件资料','暂不确定'],capacity:['1m³','3m³','5m³','8m³','暂不确定'],duration:['1个月','3个月','6个月','12个月','暂不确定']};const names={items:'存放物品',capacity:'意向容量',duration:'预计租期'};sheet(names[key],options[key].map(value=>act('reserveOption',value,key+'|'+value)).join(''));}
   function renderOrder(){const s=core.state(),rows=s.selected.map(unit).filter(Boolean),st=store(rows[0]?.store_id),pending=s.orders.find(o=>o.status==='pending'&&JSON.stringify(o.unit_ids)===JSON.stringify(s.selected)),paid=s.orders.find(o=>o.id===ui.pendingOrderId&&o.status==='paid_simulated'&&JSON.stringify(o.unit_ids)===JSON.stringify(s.selected)),authorized=core.authorized(),confirmed=s.requirement.term_confirmed,valid=!!paid||core.selectionValid()||!!(pending&&Date.now()<pending.expiresAt&&pending.unit_ids.every((id,i)=>s.stock[id]==='reserved'&&(s.prices[id]||unit(id).base_month)===pending.price_bases[i])),a=authorized?(paid||pending||(rows.length&&confirmed?amounts(s.selected):null)):null;
@@ -370,8 +377,14 @@
     $$('[data-term]').forEach(el=>el.onclick=()=>{ui.reserve.start_hint=el.dataset.term;ui.reserve.preferred_date='';save();refresh();});
     $('dateInput').onchange=e=>guard(()=>{if(e.target.value&&!core.validDate(e.target.value))throw new Error('SELECT_DATE');ui.reserve.preferred_date=e.target.value;ui.reserve.start_hint='';save();refresh();});
     $$('[data-choice]').forEach(el=>el.onclick=()=>reserveChoice(el.dataset.choice));
-    $('reserveForm').onsubmit=e=>{e.preventDefault();guard(()=>{if(ui.reserve.receipt)return;let lead;if(advisorMode)lead=core.saveAdvisorLead(ui.reserve);else{core.setContact(ui.reserve.phone||'');lead=core.saveLead(ui.reserve.address,ui.reserve);}ui.reserve.receipt=lead.id;clearToast();save();refresh();});};
-    $('again').onclick=()=>{ui.reserve.receipt=null;save();refresh();};
+    const packet=ui.leadRequest||(ui.leadRequest={status:ui.reserve?.address||ui.reserve?.phone?'RETURN_RESTORE':'EDITING'});
+    if(packet.status==='EDITING'&&(ui.reserve?.address||ui.reserve?.phone))packet.status='RETURN_RESTORE';
+    leadFlow=parent.MK_LEAD_FLOW.create({core,kind:advisorMode?'advisor':'booking',packet,persist:persistLead,onChange:()=>{leadStatus?.render(packet);renderReserve();}});
+    leadStatus=parent.MK_LEAD_FLOW.controls(document,$('reserveForm').parentElement,leadFlow,new URLSearchParams(parent.location.search).get('review')==='1');
+    const submitLead=()=>{if(ui.reserve.receipt)return;leadFlow.submit(ui.reserve).catch(e=>toast(codes[e.message]||'请检查已填写的信息'));};
+    $('reserveForm').onsubmit=e=>{e.preventDefault();submitLead();};leadStatus.retry.onclick=submitLead;
+    $('reserveForm').addEventListener('input',()=>leadFlow.edited());
+    $('again').onclick=()=>{if(!leadFlow.reset())return;ui.reserve.receipt=null;save();refresh();};
   }
   if(page==='o01'){
     ui.agreed=false;

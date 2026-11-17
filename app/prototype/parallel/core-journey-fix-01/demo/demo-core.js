@@ -443,6 +443,27 @@
       l.deposit='REFUNDED';notify('押金退款状态已更新，请查看订单进度',id);
       return {status:l.deposit,amount:null,simulated:true};
     }
+    function lifecycleDemoRefund(id,outcome,review){
+      if(review!==true)fail('REVIEW_ONLY');
+      const l=lifecycleLedger(id);
+      if(l.exit?.status!=='INSPECTION_PASSED'||!['REFUND_PENDING','REFUND_FAILED'].includes(l.deposit))fail('INSPECTION_REQUIRED');
+      if(!['failed','processing'].includes(outcome))fail('INVALID_OUTCOME');
+      l.deposit=outcome==='failed'?'REFUND_FAILED':'REFUND_PENDING';return copy(l);
+    }
+    function lifecycleDemoInvoice(id,invoiceId,outcome,review){
+      if(review!==true)fail('REVIEW_ONLY');
+      const inv=lifecycleLedger(id).invoices.find(x=>x.id===invoiceId);
+      if(!inv||!['SUBMITTED','PROCESSING'].includes(inv.status)||!['failed','processing'].includes(outcome))fail('INVALID_INVOICE_STATE');
+      inv.status=outcome==='failed'?'ISSUE_FAILED':'PROCESSING';return copy(inv);
+    }
+    function lifecycleRetryInvoice(id,invoiceId,input){
+      if(!authorized())fail('PHONE_REQUIRED');
+      const inv=lifecycleLedger(id).invoices.find(x=>x.id===invoiceId);
+      if(!inv||inv.status!=='ISSUE_FAILED')fail('INVALID_INVOICE_STATE');
+      if(!input.title?.trim()||!/^\S+@\S+\.\S+$/.test(input.email||'')||(inv.kind==='enterprise'&&!input.tax_id?.trim()))fail('INVOICE_FIELDS');
+      inv.title=input.title.trim().slice(0,120);inv.email=input.email.trim().slice(0,120);inv.tax_id=inv.kind==='enterprise'?input.tax_id.trim().slice(0,50):null;
+      inv.status='PROCESSING';inv.retried_at=now();return copy(inv);
+    }
     function lifecycleRequestInvoice(id,paymentId,input){
       if(!authorized())fail('PHONE_REQUIRED');
       const v=lifecycleView(id),p=v.payments.find(x=>x.id===paymentId);
@@ -477,7 +498,7 @@
       identity(id,outcome){const service=paidService(id);if(!['success','failed'].includes(outcome))fail('INVALID_IDENTITY');service.identity=outcome==='success'?'verified':'failed';notify(outcome==='success'?'身份验证通过':'身份验证失败，可重试',id);},
       enterStorage(id){const service=paidService(id),o=findOrder(id);if(service.identity!=='verified')fail('IDENTITY_REQUIRED');if(o.start_date>today())fail('BEFORE_START');if(service.exit?.status==='completed')fail('ORDER_CLOSED');if(!lifecycleView(id).access_allowed)fail('ORDER_CLOSED');service.useStatus='active';notify('已查看入仓指引',id);},
       rentalPeriod,
-      lifecycleView,lifecycleRequestRenewal,lifecycleReviewQuote,lifecycleConfirmRenewal,lifecyclePayRenewal,lifecycleRequestExit,lifecycleRequestInspection,lifecycleReviewInspection,lifecycleReviewRefund,lifecycleRequestInvoice,
+      lifecycleView,lifecycleRequestRenewal,lifecycleReviewQuote,lifecycleConfirmRenewal,lifecyclePayRenewal,lifecycleRequestExit,lifecycleRequestInspection,lifecycleReviewInspection,lifecycleReviewRefund,lifecycleRequestInvoice,lifecycleDemoRefund,lifecycleDemoInvoice,lifecycleRetryInvoice,
       setRenewalMonths(id,value){const service=paidService(id);service.renewalDraft=String(value??'').slice(0,12);const months=Number(service.renewalDraft);if(!validTerm(months)||service.renewalQuote?.months!==months)releaseRenewalQuote(service);return service.renewalDraft;},
       renewalQuote(id,months){const service=paidService(id);if(service.exit)fail('EXIT_IN_PROGRESS');if(!validTerm(months))fail('SELECT_TERM');if(!authorized())fail('PHONE_REQUIRED');releaseRenewalQuote(service);if(!s.coupons.some(c=>c.id==='CPN-004'))s.coupons.push({id:'CPN-004',name:'续租券',amount:150,type:'RENEWAL_CASH',status:'AVAILABLE'});const a=amounts(findOrder(id).unit_ids,months,{renewal:true}),period=rentalPeriod(id);if(a.coupon_id){const c=s.coupons.find(x=>x.id===a.coupon_id);if(c&&c.status==='AVAILABLE')transitionCoupon(c,'SELECTED');}service.renewalDraft=String(months);service.renewalQuote={...a,quote_id:'RENEW_QUOTE_'+(++s.sequence),months,previous_end_date:period.end_date,new_end_date:addCalendarMonths(period.start_date,period.total_months+months),expiresAt:now()+5*60*1000,base:findOrder(id).unit_ids.map(x=>s.prices[x]||unit(x).base_month)};return copy(service.renewalQuote);},
       payRenewal(id,expectedMonths){const service=paidService(id),o=findOrder(id),q=service.renewalQuote;if(!authorized())fail('PHONE_REQUIRED');if(service.exit)fail('EXIT_IN_PROGRESS');const draft=Number(service.renewalDraft??q?.months),stale=()=>{releaseRenewalQuote(service);fail('QUOTE_STALE');};if(!q||!validTerm(draft)||q.months!==draft||(expectedMonths!==undefined&&(!validTerm(expectedMonths)||expectedMonths!==q.months))||q.expiresAt<=now()||q.previous_end_date!==rentalPeriod(id).end_date||q.new_end_date!==addCalendarMonths(o.start_date,rentalPeriod(id).total_months+q.months)||o.unit_ids.some((u,i)=>(s.prices[u]||unit(u).base_month)!==q.base[i]))stale();const fresh=amounts(o.unit_ids,q.months,{renewal:true});if(Object.keys(fresh).some(k=>JSON.stringify(fresh[k])!==JSON.stringify(q[k])))stale();const payment={...q,id:'RENEW_'+(++s.sequence),paid_at:now(),kind:'RENEWAL'};service.renewals.push(payment);if(q.coupon_id){const c=s.coupons.find(x=>x.id===q.coupon_id);if(c?.status==='SELECTED')transitionCoupon(c,'REDEEMED');}delete service.renewalQuote;service.renewalDraft='';notify('续租付款已记录',id);return copy(payment);},
@@ -502,6 +523,18 @@
       resolvePhone(result,details={}){if(s.auth.status!=='pending')fail('NO_PHONE_REQUEST');if(!['success','denied','failed'].includes(result))fail('INVALID_PHONE_OUTCOME');const phone=String(details.phone||'').replace(/[\s-]/g,'');if(result==='success'&&details.phone&&!validPhone(phone))fail('ENTER_PHONE');s.auth={status:result==='success'?'verified':result,expiresAt:result==='success'?now()+30*60*1000:0};if(result==='success'){s.auth.method=details.method||'local_fixture';s.auth.phone=phone||null;if(phone){s.contactPhone=phone;if(!s.account||s.account.phone!==phone)s.account={id:'LOCAL_ACCOUNT_'+(++s.sequence),phone,createdAt:now(),methods:[]};s.account.lastLoginAt=now();s.account.methods=[...new Set([...s.account.methods,s.auth.method])];}}else invalidate();},
       revokePhone(){s.auth={status:'anonymous',expiresAt:0};invalidate();},
       markUnavailable(id){if(!unit(id))fail('INVALID_UNIT');s.stock[id]='soldout';s.inventoryVersion++;invalidate();},
+      // Local mock transaction only. The request ledger and lead are persisted together.
+      submitLeadRequest(key,kind,input,persist){
+        if(!key||!['booking','advisor','enterprise'].includes(kind))fail('INVALID_LEAD_REQUEST');
+        if(s.leadRequestResults?.[key])return copy(s.leadRequestResults[key]);
+        const before=copy(s);
+        try{
+          const api=create({state:s,now});
+          const lead=kind==='enterprise'?api.saveEnterpriseLead(input):kind==='advisor'?api.saveAdvisorLead(input):api.saveLead(input.address,input);
+          s=api.state();s.leadRequestResults={...s.leadRequestResults,[key]:lead};
+          persist(copy(s));return copy(lead);
+        }catch(e){s=before;throw e;}
+      },
       saveEnterpriseLead(input={}){
         const requestedId=input.lead_id;let index=-1,existing=null;
         if(requestedId!==undefined&&requestedId!==null&&requestedId!==''){index=s.enterpriseLeads.findIndex(l=>l.id===requestedId);if(index<0)fail('LEAD_NOT_FOUND');existing=s.enterpriseLeads[index];if(existing.status==='withdrawn')fail('LEAD_WITHDRAWN');input={...existing,...input};}
