@@ -1,7 +1,5 @@
 /* 消息页 */
 .ms-top { padding-top: var(--mk-space-3); }
-.ms-empty { display: flex; flex-direction: column; align-items: center; padding: var(--mk-space-10) var(--mk-space-5); }
-.ms-empty-ico { width: 96rpx; height: 96rpx; margin-bottom: var(--mk-space-3); }
 .ms-row { display: flex; align-items: flex-start; padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); }
 .ms-row:first-child { border-top: 0; padding-top: 0; }
 .ms-row:last-child { padding-bottom: 0; }

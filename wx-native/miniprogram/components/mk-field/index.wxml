@@ -1,0 +1,6 @@
+<view class="fld">
+  <view wx:if="{{label}}" class="fld-l"><text>{{label}}</text><text wx:if="{{mark}}" class="fld-m {{markTone === 'req' ? 'fld-m--req' : ''}}">{{mark}}</text></view>
+  <slot />
+  <text wx:if="{{error}}" class="mk-error fld-e">{{error}}</text>
+  <text wx:elif="{{hint}}" class="mk-t-hint fld-e">{{hint}}</text>
+</view>

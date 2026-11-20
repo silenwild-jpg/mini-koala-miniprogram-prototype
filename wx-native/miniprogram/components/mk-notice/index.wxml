@@ -1,0 +1,8 @@
+<view class="ntc {{plain ? 'ntc--plain' : ''}} {{tone ? 'ntc--' + tone : ''}}">
+  <text wx:if="{{title}}" class="ntc-t">{{title}}</text>
+  <view wx:if="{{text}}" class="ntc-s">
+    <text>{{text}}</text>
+    <text wx:if="{{link}}" class="ntc-link" bindtap="onLink" aria-role="link">{{link}}</text>
+  </view>
+  <slot></slot>
+</view>

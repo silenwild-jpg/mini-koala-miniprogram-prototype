@@ -4,8 +4,8 @@
     <text class="mk-title acd-title">{{title}}</text>
     <text class="mk-sub acd-desc">{{desc}}</text>
     <view class="acd-acts">
-      <button wx:if="{{cancelText}}" class="mk-btn mk-btn--ghost mk-btn--md acd-btn" hover-class="none" bindtap="onCancel">{{cancelText}}</button>
-      <button class="mk-btn mk-btn--md acd-btn {{danger ? 'acd-danger' : ''}}" hover-class="none" bindtap="onConfirm">{{confirmText}}</button>
+      <button wx:if="{{cancelText}}" class="mk-btn mk-btn--ghost mk-btn--md acd-btn" hover-class="mk-btn--ghostHover" bindtap="onCancel">{{cancelText}}</button>
+      <button class="mk-btn mk-btn--md acd-btn {{danger ? 'acd-danger' : ''}}" hover-class="mk-btn--dimHover" bindtap="onConfirm">{{confirmText}}</button>
     </view>
   </view>
 </view>

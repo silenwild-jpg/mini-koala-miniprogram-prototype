@@ -1,0 +1,6 @@
+:host { display: block; }
+.emp { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--mk-space-10) var(--mk-space-5); }
+.emp--card { padding-top: var(--mk-space-8); padding-bottom: var(--mk-space-6); }
+.emp-pic { width: 112rpx; height: 112rpx; border-radius: 50%; background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; margin-bottom: var(--mk-space-3); }
+.emp-sub { margin-top: var(--mk-space-1); }
+.emp-acts { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: var(--mk-space-4); }

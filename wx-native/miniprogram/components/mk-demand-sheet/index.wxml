@@ -5,17 +5,17 @@
       <input class="ds-input mk-grow mk-num" type="digit" maxlength="-1" value="{{raw}}" bindinput="onInput" />
       <text class="mk-sub">{{unit === 'm3' ? T.m3 : T.m2}}</text>
     </view>
-    <view class="ds-unit {{unit === 'm3' ? 'ds-on' : ''}}" data-u="m3" bindtap="onUnit" aria-role="button">{{T.m3}}</view>
-    <view class="ds-unit {{unit === 'm2' ? 'ds-on' : ''}}" data-u="m2" bindtap="onUnit" aria-role="button">{{T.m2}}</view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ds-unit {{unit === 'm3' ? 'ds-on' : ''}}" data-u="m3" bindtap="onUnit" aria-role="button">{{T.m3}}</view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ds-unit {{unit === 'm2' ? 'ds-on' : ''}}" data-u="m2" bindtap="onUnit" aria-role="button">{{T.m2}}</view>
   </view>
   <text wx:if="{{error}}" class="mk-error ds-line">{{error}}</text>
   <text wx:if="{{approx}}" class="mk-sub ds-line">{{approx}}</text>
   <text class="mk-mute ds-line">{{note}}</text>
-  <view wx:if="{{cold}}" class="mk-link ds-est" bindtap="onEstimate" aria-role="button">{{T.toEstimate}} ›</view>
+  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{cold}}" class="mk-link ds-est" bindtap="onEstimate" aria-role="button">{{T.toEstimate}} ›</view>
   <text class="mk-sub ds-label ds-term">{{T.termLabel}}</text>
   <mk-term-seg value="{{term}}" hint="{{hint}}" inline="{{true}}" bind:change="onTerm" />
   <view class="ds-acts">
-    <button class="mk-btn mk-btn--ghost ds-btn" hover-class="none" bindtap="onClose">{{T.cancel}}</button>
+    <button class="mk-btn mk-btn--ghost ds-btn" hover-class="mk-btn--ghostHover" bindtap="onClose">{{T.cancel}}</button>
     <button class="mk-btn ds-btn" hover-class="mk-btn--hover" bindtap="onSubmit">{{submitText}}</button>
   </view>
 </mk-sheet>

@@ -18,7 +18,7 @@
         <view class="mk-grow"><text class="ac-step-t {{item.tcls}}">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-mute">{{item.s}}</text></view>
       </view>
     </view>
-    <view wx:if="{{status === 'failed'}}" class="ac-notice ac-notice--err ec-gap"><text class="ac-notice-t">{{reason}}</text><text class="ac-notice-s">{{T.c.reasonSub}}</text></view>
+    <mk-notice wx:if="{{status === 'failed'}}" class="ec-gap" plain="{{true}}" tone="err" title="{{reason}}" text="{{T.c.reasonSub}}" />
     <view class="mk-card ec-gap">
       <text class="ac-sec">{{T.c.info}}</text>
       <view class="ac-kv"><text class="ac-k">{{T.c.name}}</text><text class="ac-v">{{company.name}}</text></view>
@@ -27,45 +27,39 @@
     </view>
     <view wx:if="{{status === 'verified'}}" class="mk-card">
       <text class="ac-sec">{{T.c.services}}</text>
-      <view class="ac-lrow" bindtap="onTitles" aria-role="button"><text class="mk-grow">{{T.c.toTitles}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
-      <view class="ac-lrow" bindtap="onBatch" aria-role="button"><text class="mk-grow">{{T.c.toBatch}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+      <mk-cell title="{{T.c.toTitles}}" bindtap="onTitles" />
+      <mk-cell title="{{T.c.toBatch}}" divider="{{true}}" bindtap="onBatch" />
     </view>
     <view wx:if="{{status === 'failed'}}" class="mk-bottom-bar">
       <button class="mk-btn ac-bar-btn" hover-class="mk-btn--hover" bindtap="onFix">{{T.c.retry}}</button>
-      <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="none" bindtap="onAdvisor">{{T.common.contactAdvisor}}</button>
+      <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="mk-btn--ghostHover" bindtap="onAdvisor">{{T.common.contactAdvisor}}</button>
     </view>
   </view>
   <view wx:else class="ac-wrap ac-wrap--bar">
-    <view class="ac-notice"><text class="ac-notice-t">{{T.c.noticeTitle}}</text><text class="ac-notice-s">{{T.c.noticeSub}}</text></view>
+    <mk-notice plain="{{true}}" title="{{T.c.noticeTitle}}" text="{{T.c.noticeSub}}" />
     <view class="mk-card">
       <text class="ac-sec">{{T.c.section}}</text>
-      <view class="ac-field">
-        <text class="ac-label">{{T.c.name}}</text>
+      <mk-field label="{{T.c.name}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="60" placeholder="{{T.c.namePh}}" placeholder-class="ac-ph" value="{{form.name}}" data-f="name" bindinput="onField" /></view>
-      </view>
-      <view class="ac-field">
-        <text class="ac-label">{{T.c.tax}}</text>
+      </mk-field>
+      <mk-field label="{{T.c.tax}}" error="{{taxError}}">
         <view class="ac-input {{taxError ? 'ac-input--err' : ''}}"><input class="ac-inp" type="text" maxlength="18" placeholder="{{T.c.taxPh}}" placeholder-class="ac-ph" value="{{form.tax}}" data-f="tax" bindinput="onField" bindblur="onTaxBlur" /></view>
-        <text wx:if="{{taxError}}" class="mk-error ac-ferr">{{taxError}}</text>
-      </view>
-      <view class="ac-field">
-        <text class="ac-label">{{T.c.license}}</text>
+      </mk-field>
+      <mk-field label="{{T.c.license}}">
         <view class="ec-upload {{form.licenseCount > 0 ? 'ec-upload--done' : ''}}" bindtap="onUpload" aria-role="button">
           <image class="mk-icon mk-icon--md" src="{{form.licenseCount > 0 ? '/assets/icons/check-brand.svg' : '/assets/icons/cam-ink.svg'}}" />
           <text class="ec-upload-t">{{uploadText}}</text>
         </view>
-      </view>
+      </mk-field>
     </view>
     <view class="mk-card">
       <text class="ac-sec">{{T.c.contactSection}}</text>
-      <view class="ac-field">
-        <text class="ac-label">{{T.c.contact}}</text>
+      <mk-field label="{{T.c.contact}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="20" placeholder="{{T.c.contactPh}}" placeholder-class="ac-ph" value="{{form.contact}}" data-f="contact" bindinput="onField" /></view>
-      </view>
-      <view class="ac-field">
-        <text class="ac-label">{{T.c.phone}}</text>
+      </mk-field>
+      <mk-field label="{{T.c.phone}}">
         <view class="ac-input"><input class="ac-inp" type="number" maxlength="11" placeholder="{{T.c.phonePh}}" placeholder-class="ac-ph" value="{{form.phone}}" data-f="phone" bindinput="onField" /></view>
-      </view>
+      </mk-field>
     </view>
     <view class="mk-bottom-bar">
       <text wx:if="{{need && !busy}}" class="mk-sub ac-bar-need">{{need}}</text>

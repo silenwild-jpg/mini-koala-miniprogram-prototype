@@ -1,16 +1,13 @@
 <view class="mk-page">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <block wx:else>
-    <view wx:if="{{orders.length === 0}}" class="ol-empty">
-      <image class="ol-pic" src="/assets/icons/order-sub.svg" />
-      <text class="mk-title">{{T.empty}}</text>
-      <text class="mk-sub ol-s">{{loggedIn ? T.emptySub : T.loginTip}}</text>
+    <mk-empty wx:if="{{orders.length === 0}}" icon="/assets/icons/order-sub.svg" title="{{T.empty}}" sub="{{loggedIn ? T.emptySub : T.loginTip}}">
       <button wx:if="{{loggedIn}}" class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onGoStores">{{T.goStores}}</button>
       <button wx:else class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onLogin">{{T.login}}</button>
-    </view>
+    </mk-empty>
     <view wx:else class="mk-gutter ol-list">
       <view class="mk-between ol-head"><text class="mk-title">{{T.all}}</text><text class="mk-sub">{{T.sort}}</text></view>
-      <view wx:for="{{orders}}" wx:key="id" data-id="{{item.id}}" bindtap="onOrder" aria-role="button">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{orders}}" wx:key="id" data-id="{{item.id}}" bindtap="onOrder" aria-role="button">
         <mk-order-card order="{{item}}" variant="list" />
       </view>
     </view>

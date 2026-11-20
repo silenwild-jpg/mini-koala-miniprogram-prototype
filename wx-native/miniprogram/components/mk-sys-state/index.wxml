@@ -10,6 +10,6 @@
   <block wx:else>
     <text class="mk-title">{{type === 'offline' ? T.sys.offline.title : T.sys.failed.title}}</text>
     <text class="mk-sub ss-desc">{{type === 'offline' ? T.sys.offline.desc : T.sys.failed.desc}}</text>
-    <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="none" bindtap="onRetry">{{T.retry}}</button>
+    <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="mk-btn--ghostHover" bindtap="onRetry">{{T.retry}}</button>
   </block>
 </view>

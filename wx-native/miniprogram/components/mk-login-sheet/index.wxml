@@ -2,7 +2,7 @@
   <block wx:if="{{mode === 'conflict'}}">
     <text class="mk-sub lg-desc">{{conflictDesc}}</text>
     <view class="lg-two">
-      <button class="mk-btn mk-btn--ghost lg-half" hover-class="none" bindtap="onConflictService">{{T.conflictService}}</button>
+      <button class="mk-btn mk-btn--ghost lg-half" hover-class="mk-btn--ghostHover" bindtap="onConflictService">{{T.conflictService}}</button>
       <button class="mk-btn lg-half" hover-class="mk-btn--hover" bindtap="onConflictChange">{{T.conflictChange}}</button>
     </view>
   </block>
@@ -16,8 +16,8 @@
         <button wx:elif="{{agreed}}" class="mk-btn" hover-class="mk-btn--hover" open-type="getPhoneNumber|agreePrivacyAuthorization" bindgetphonenumber="onGetPhone" bindagreeprivacyauthorization="onAgreePrivacy">{{T.wechat}}</button>
         <button wx:else class="mk-btn" hover-class="mk-btn--hover" bindtap="onNeedAgree">{{T.wechat}}</button>
       </block>
-      <button class="mk-btn {{wechatOk ? 'mk-btn--ghost' : ''}} lg-other" hover-class="none" bindtap="onOther">{{T.other}}</button>
-      <view wx:if="{{note}}" class="mk-link lg-skip" bindtap="onClose" aria-role="button">{{T.skip}}</view>
+      <button class="mk-btn {{wechatOk ? 'mk-btn--ghost' : ''}} lg-other" hover-class="mk-btn--ghostHover" bindtap="onOther">{{T.other}}</button>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{note}}" class="mk-link lg-skip" bindtap="onClose" aria-role="button">{{T.skip}}</view>
     </block>
     <block wx:else>
       <text class="mk-sub lg-label">{{T.phoneLabel}}</text>
@@ -30,12 +30,12 @@
       <text wx:if="{{hint}}" class="mk-sub lg-hint">{{hint}}</text>
       <text wx:if="{{error}}" class="mk-error lg-err">{{error}}</text>
       <button class="mk-btn {{ready ? '' : 'mk-btn--disabled'}} lg-submit" hover-class="none" loading="{{busy}}" bindtap="onSubmitSms">{{T.submit}}</button>
-      <view wx:if="{{wechatOk}}" class="mk-link lg-skip" bindtap="onUseWechat" aria-role="button">{{T.useWechat}}</view>
-      <view wx:elif="{{note}}" class="mk-link lg-skip" bindtap="onClose" aria-role="button">{{T.skip}}</view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{wechatOk}}" class="mk-link lg-skip" bindtap="onUseWechat" aria-role="button">{{T.useWechat}}</view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:elif="{{note}}" class="mk-link lg-skip" bindtap="onClose" aria-role="button">{{T.skip}}</view>
     </block>
     <text wx:if="{{error && mode === 'entry'}}" class="mk-error lg-err">{{error}}</text>
     <view class="lg-agree mk-row">
-      <view class="lg-hit" bindtap="onToggleAgree" aria-role="checkbox" aria-checked="{{agreed}}"><view class="lg-box {{agreed ? 'lg-on' : ''}}"><image wx:if="{{agreed}}" class="lg-tick" src="/assets/icons/check-white.svg" /></view></view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lg-hit" bindtap="onToggleAgree" aria-role="checkbox" aria-checked="{{agreed}}"><view class="lg-box {{agreed ? 'lg-on' : ''}}"><image wx:if="{{agreed}}" class="lg-tick" src="/assets/icons/check-white.svg" /></view></view>
       <view class="mk-grow mk-sub"><text bindtap="onToggleAgree">{{T.agreePrefix}}</text><text class="mk-link" bindtap="onAgreement">{{agreement}}</text></view>
     </view>
     <text class="mk-mute lg-purpose">{{T.purpose}}</text>

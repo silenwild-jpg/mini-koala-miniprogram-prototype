@@ -1,0 +1,6 @@
+:host { display: block; }
+.fld { margin-top: var(--mk-space-3); }
+.fld-l { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--mk-space-2); font-weight: var(--mk-font-weight-medium); }
+.fld-m { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-regular); }
+.fld-m--req { color: var(--mk-color-status-errorText); }
+.fld-e { display: block; margin-top: var(--mk-space-1); }

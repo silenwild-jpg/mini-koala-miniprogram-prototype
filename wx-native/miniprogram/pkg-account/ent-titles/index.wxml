@@ -9,42 +9,33 @@
   <view wx:elif="{{mode === 'form'}}" class="ac-wrap ac-wrap--bar">
     <view class="mk-card">
       <text class="ac-sec">{{T.t.formSection}}</text>
-      <view class="ac-field">
-        <text class="ac-label">{{T.t.type}}</text>
+      <mk-field label="{{T.t.type}}">
         <view class="et-seg">
-          <view class="et-seg-i {{form.type === 'company' ? 'et-seg-i--on' : ''}}" data-v="company" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'company'}}">{{T.t.typeCompany}}</view>
-          <view class="et-seg-i {{form.type === 'person' ? 'et-seg-i--on' : ''}}" data-v="person" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'person'}}">{{T.t.typePerson}}</view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i {{form.type === 'company' ? 'et-seg-i--on' : ''}}" data-v="company" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'company'}}">{{T.t.typeCompany}}</view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i {{form.type === 'person' ? 'et-seg-i--on' : ''}}" data-v="person" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'person'}}">{{T.t.typePerson}}</view>
         </view>
-      </view>
-      <view class="ac-field">
-        <text class="ac-label">{{form.type === 'person' ? T.t.personName : T.t.name}}</text>
+      </mk-field>
+      <mk-field label="{{form.type === 'person' ? T.t.personName : T.t.name}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="60" placeholder="{{form.type === 'person' ? T.t.personNamePh : T.t.namePh}}" placeholder-class="ac-ph" value="{{form.name}}" data-f="name" bindinput="onField" /></view>
-      </view>
-      <view wx:if="{{form.type !== 'person'}}" class="ac-field">
-        <text class="ac-label">{{T.t.tax}}</text>
+      </mk-field>
+      <mk-field wx:if="{{form.type !== 'person'}}" label="{{T.t.tax}}" error="{{taxError}}">
         <view class="ac-input {{taxError ? 'ac-input--err' : ''}}"><input class="ac-inp" type="text" maxlength="20" placeholder="{{T.t.taxPh}}" placeholder-class="ac-ph" value="{{form.tax}}" data-f="tax" bindinput="onField" bindblur="onTaxBlur" /></view>
-        <text wx:if="{{taxError}}" class="mk-error ac-ferr">{{taxError}}</text>
-      </view>
-      <view class="ac-field">
-        <text class="ac-label">{{T.t.email}}</text>
+      </mk-field>
+      <mk-field label="{{T.t.email}}" error="{{emailError}}">
         <view class="ac-input {{emailError ? 'ac-input--err' : ''}}"><input class="ac-inp" type="text" maxlength="60" placeholder="{{T.t.emailPh}}" placeholder-class="ac-ph" value="{{form.email}}" data-f="email" bindinput="onField" bindblur="onEmailBlur" /></view>
-        <text wx:if="{{emailError}}" class="mk-error ac-ferr">{{emailError}}</text>
-      </view>
+      </mk-field>
     </view>
     <view wx:if="{{form.type !== 'person'}}" class="mk-card">
       <text class="ac-sec">{{T.t.vatSection}}</text>
-      <view class="ac-field">
-        <view class="ac-label"><text>{{T.t.bank}}</text><text class="ac-soft">{{T.common.optional}}</text></view>
+      <mk-field label="{{T.t.bank}}" mark="{{T.common.optional}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="60" placeholder="{{T.t.bankPh}}" placeholder-class="ac-ph" value="{{form.bank}}" data-f="bank" bindinput="onField" /></view>
-      </view>
-      <view class="ac-field">
-        <view class="ac-label"><text>{{T.t.account}}</text><text class="ac-soft">{{T.common.optional}}</text></view>
+      </mk-field>
+      <mk-field label="{{T.t.account}}" mark="{{T.common.optional}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="40" placeholder="{{T.t.accountPh}}" placeholder-class="ac-ph" value="{{form.account}}" data-f="account" bindinput="onField" /></view>
-      </view>
-      <view class="ac-field">
-        <view class="ac-label"><text>{{T.t.addr}}</text><text class="ac-soft">{{T.common.optional}}</text></view>
+      </mk-field>
+      <mk-field label="{{T.t.addr}}" mark="{{T.common.optional}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="100" placeholder="{{T.t.addrPh}}" placeholder-class="ac-ph" value="{{form.addr}}" data-f="addr" bindinput="onField" /></view>
-      </view>
+      </mk-field>
       <text class="ac-fine">{{T.t.vatFine}}</text>
     </view>
     <view class="mk-card">
@@ -52,16 +43,13 @@
     </view>
     <view class="mk-bottom-bar">
       <button class="mk-btn ac-bar-btn {{ready ? '' : 'mk-btn--disabled'}}" hover-class="none" loading="{{busy}}" bindtap="onSave">{{T.t.save}}</button>
-      <button wx:if="{{isEdit}}" class="mk-btn mk-btn--ghost ac-bar-btn et-danger" hover-class="none" bindtap="onRemove">{{T.t.remove}}</button>
+      <button wx:if="{{isEdit}}" class="mk-btn mk-btn--ghost ac-bar-btn et-danger" hover-class="mk-btn--ghostHover" bindtap="onRemove">{{T.t.remove}}</button>
     </view>
   </view>
   <view wx:elif="{{rows.length === 0}}" class="ac-wrap">
-    <view class="mk-card ac-empty">
-      <view class="ac-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/ticket-ink.svg" /></view>
-      <text class="mk-title">{{T.t.emptyTitle}}</text>
-      <text class="mk-sub ac-empty-sub">{{T.t.emptySub}}</text>
-      <button class="mk-btn mk-btn--md ac-empty-btn" hover-class="mk-btn--hover" bindtap="onAdd">{{T.t.add}}</button>
-    </view>
+    <mk-empty icon="/assets/icons/ticket-ink.svg" title="{{T.t.emptyTitle}}" sub="{{T.t.emptySub}}" card="{{true}}">
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdd">{{T.t.add}}</button>
+    </mk-empty>
   </view>
   <view wx:else class="ac-wrap ac-wrap--bar">
     <view wx:for="{{rows}}" wx:key="id" class="mk-card">
@@ -69,8 +57,8 @@
       <text class="mk-sub et-line">{{item.line}}</text>
       <text class="mk-sub et-line">{{item.email}}</text>
       <view class="et-acts">
-        <button class="mk-btn mk-btn--ghost mk-btn--md et-neutral" hover-class="none" data-id="{{item.id}}" bindtap="onEdit">{{T.t.edit}}</button>
-        <button wx:if="{{!item.isDefault}}" class="mk-btn mk-btn--ghost mk-btn--md et-neutral" hover-class="none" data-id="{{item.id}}" bindtap="onSetDefault">{{T.t.setDefault}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md et-neutral" hover-class="mk-btn--ghostHover" data-id="{{item.id}}" bindtap="onEdit">{{T.t.edit}}</button>
+        <button wx:if="{{!item.isDefault}}" class="mk-btn mk-btn--ghost mk-btn--md et-neutral" hover-class="mk-btn--ghostHover" data-id="{{item.id}}" bindtap="onSetDefault">{{T.t.setDefault}}</button>
       </view>
     </view>
     <view class="mk-bottom-bar">

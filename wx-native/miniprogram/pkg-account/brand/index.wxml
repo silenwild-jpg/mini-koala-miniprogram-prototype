@@ -26,7 +26,7 @@
       <text class="ac-para">{{T.servicePara}}</text>
       <view class="ac-acts br-acts">
         <button class="mk-btn mk-btn--md ac-act" hover-class="mk-btn--hover" bindtap="onStores">{{T.viewStores}}</button>
-        <button class="mk-btn mk-btn--ghost mk-btn--md ac-act" hover-class="none" bindtap="onContact">{{T.contact}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md ac-act" hover-class="mk-btn--ghostHover" bindtap="onContact">{{T.contact}}</button>
       </view>
     </view>
   </view>

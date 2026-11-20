@@ -7,10 +7,10 @@
           <view class="mt-sep"></view>
           <text>租 </text><text class="mk-num mt-big">{{term}}</text><text class="mt-u">{{T.month}}</text>
         </view>
-        <view class="mk-link mt-mod" bindtap="onModify" aria-role="button">{{T.m.modify}} ›</view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-link mt-mod" bindtap="onModify" aria-role="button">{{T.m.modify}} ›</view>
       </view>
     </view>
-    <view class="mk-between mk-gutter mt-loc" bindtap="onLocation" aria-role="button">
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-between mk-gutter mt-loc" bindtap="onLocation" aria-role="button">
       <view class="mk-row mk-grow"><image class="mk-icon" src="/assets/icons/pin-brand.svg" /><text class="mk-sub mt-lk">{{T.m.origin}}</text><text class="mk-ellipsis mk-grow">{{locText}}</text></view>
       <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
     </view>
@@ -27,7 +27,7 @@
       <text class="mk-title">{{T.m.salesTitle}}</text><text class="mk-sub mt-es">{{T.m.salesSub}}</text>
       <view class="mt-acts">
         <button class="mk-btn mk-btn--md mt-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.cta.toAdvisor}}</button>
-        <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="none" bindtap="onModify">{{T.m.modifyCap}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.m.modifyCap}}</button>
       </view>
     </view>
     <block wx:elif="{{mode === 'none'}}">
@@ -35,7 +35,7 @@
         <text class="mk-title">{{T.m.noneTitle}}</text><text class="mk-sub mt-es">{{noneSub}}</text><button class="mk-bare mk-link cp-contact" open-type="contact">立即咨询</button>
         <view class="mt-acts">
           <button class="mk-btn mk-btn--md mt-btn" hover-class="mk-btn--hover" bindtap="onMoreStores">{{T.m.allCity}}</button>
-          <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="none" bindtap="onModify">{{T.m.modifyCap}}</button>
+          <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.m.modifyCap}}</button>
         </view>
       </view>
       <mk-advisor-card wx:if="{{advisor}}" title="{{advisor.title}}" sub="{{advisor.sub}}" />
@@ -43,7 +43,7 @@
     <block wx:else>
       <view class="mt-hd"><text class="mk-h2">{{title}}</text><text wx:if="{{sub}}" class="mk-sub">{{sub}}</text></view>
       <mk-store-card wx:for="{{cards}}" wx:key="id" card="{{item}}" variant="match" bind:store="onStore" bind:action="onAction" bind:fees="onFees" />
-      <view class="mt-more" bindtap="onMoreStores" aria-role="button" aria-label="更多仓位"><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mt-more" bindtap="onMoreStores" aria-role="button" aria-label="更多仓位"><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
       <mk-advisor-card wx:if="{{advisor}}" title="{{advisor.title}}" sub="{{advisor.sub}}" />
     </block>
     <view class="mt-estore"><mk-estore-card variant="match" /></view>

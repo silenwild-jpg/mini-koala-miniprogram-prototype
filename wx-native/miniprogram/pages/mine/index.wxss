@@ -19,10 +19,4 @@
 .mn-tag--ok { background: var(--mk-color-status-successFill); color: var(--mk-color-status-successText); }
 .mn-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .mn-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
-.mn-row { min-height: 104rpx; }
-.mn-row + .mn-row { border-top: var(--mk-border-hairline); }
-.mn-ic { margin-right: var(--mk-space-3); }
-.mn-t { flex: none; font-weight: var(--mk-font-weight-medium); }
-.mn-s { text-align: right; margin: 0 var(--mk-space-2) 0 var(--mk-space-3); }
-.mn-badge { flex: none; min-width: 36rpx; height: 36rpx; line-height: 36rpx; padding: 0 10rpx; box-sizing: border-box; border-radius: 18rpx; text-align: center; background: var(--mk-color-status-errorStrong); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-xs); margin-right: var(--mk-space-1); }
 .mn-demo { display: flex; align-items: center; justify-content: center; min-height: var(--mk-size-tapMin); margin: var(--mk-space-4) var(--mk-space-pageGutter) 0; border-radius: var(--mk-radius-control); }

@@ -3,9 +3,6 @@
 .af-pad { padding-bottom: calc(220rpx + env(safe-area-inset-bottom)); }
 .af-sec { display: block; margin-bottom: var(--mk-space-2); }
 .af-gap { margin-bottom: var(--mk-space-cardGap); }
-.af-empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--mk-space-10) var(--mk-space-5); }
-.af-empty-ico { width: 96rpx; height: 96rpx; margin-bottom: var(--mk-space-3); }
-.af-empty-sub { margin: var(--mk-space-2) 0 var(--mk-space-5); }
 .af-rule { display: block; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); margin-top: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); }
 .af-bar { display: flex; align-items: center; }
 .af-bar-info { flex: 1; min-width: 0; margin-right: var(--mk-space-3); display: flex; flex-direction: column; }
@@ -19,8 +16,6 @@
 .af-acts { margin-top: var(--mk-space-4); }
 .af-acts .mk-btn { width: 100%; }
 .af-acts .mk-btn + .mk-btn { margin-top: var(--mk-space-2); }
-.af-field { margin-top: var(--mk-space-3); }
-.af-label { display: block; margin-bottom: var(--mk-space-2); font-weight: var(--mk-font-weight-medium); }
 .af-input { display: flex; align-items: center; justify-content: space-between; height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); box-sizing: border-box; }
 .af-input--err { border: var(--mk-border-error); }
 .af-input-el { flex: 1; min-width: 0; height: 100%; font-size: var(--mk-font-size-lg); }

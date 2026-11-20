@@ -1,14 +1,11 @@
 <view class="mk-page {{bar ? 'af-pad' : ''}}">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
-  <view wx:elif="{{empty}}" class="af-empty">
-    <image class="af-empty-ico" src="/assets/icons/id-ink.svg" />
-    <text class="mk-title">{{T.i.emptyTitle}}</text>
-    <text class="mk-sub af-empty-sub">{{T.i.emptySub}}</text>
-    <button class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onOrders">{{T.i.viewOrders}}</button>
-  </view>
+  <mk-empty wx:elif="{{empty}}" icon="/assets/icons/id-ink.svg" title="{{T.i.emptyTitle}}" sub="{{T.i.emptySub}}">
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.i.viewOrders}}</button>
+  </mk-empty>
   <block wx:else>
     <view class="af-body id-top">
-      <mk-after-note wx:if="{{note}}" text="{{note}}" tone="warn" />
+      <mk-notice wx:if="{{note}}" text="{{note}}" tone="warn" />
       <mk-order-card order="{{order}}" />
       <view class="mk-card af-gap id-card">
         <view class="mk-row id-headrow"><text class="mk-title id-title">{{T.i.title}}</text><mk-after-tag text="{{tag}}" tone="{{tone}}" /></view>
@@ -19,16 +16,14 @@
       <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn" hover-class="mk-btn--hover" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
     </view>
     <mk-sheet visible="{{sheet}}" title="{{T.i.sheet}}" bind:close="onSheetClose">
-      <view class="af-field">
-        <text class="af-label">{{T.i.name}}</text>
+      <mk-field label="{{T.i.name}}">
         <view class="af-input {{nameErr ? 'af-input--err' : ''}}"><input class="af-input-el" value="{{name}}" placeholder="{{T.i.namePh}}" placeholder-class="af-ph" maxlength="20" bindinput="onName" /></view>
         <text wx:if="{{nameErr}}" class="mk-error id-err">{{T.i.nameErr}}</text>
-      </view>
-      <view class="af-field">
-        <text class="af-label">{{T.i.idNo}}</text>
+      </mk-field>
+      <mk-field label="{{T.i.idNo}}">
         <view class="af-input {{idErr ? 'af-input--err' : ''}}"><input class="af-input-el" type="idcard" value="{{idNo}}" placeholder="{{T.i.idPh}}" placeholder-class="af-ph" maxlength="18" bindinput="onIdNo" /></view>
         <text wx:if="{{idErr}}" class="mk-error id-err">{{T.i.idErr}}</text>
-      </view>
+      </mk-field>
       <view class="af-acts"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSubmit">{{T.i.submit}}</button></view>
     </mk-sheet>
   </block>

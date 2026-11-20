@@ -4,14 +4,14 @@
   <text class="lph-mod" bindtap="onModify" aria-role="button">{{T.modify}}</text>
 </view>
 <block wx:else>
-  <button class="mk-btn lph-wx {{error ? 'lph-box--err' : ''}}" hover-class="none" bindtap="onUseWechat">{{T.useWechat}}</button>
+  <button class="mk-btn lph-wx {{error ? 'lph-box--err' : ''}}" hover-class="mk-btn--plainHover" bindtap="onUseWechat">{{T.useWechat}}</button>
   <text class="lph-hint">{{T.hint}}</text>
 </block>
 <text wx:if="{{error}}" class="mk-error lph-err">{{error}}</text>
 <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
 <mk-sheet visible="{{sheet}}" title="{{T.sheetTitle}}" bind:close="onSheetClose">
   <text class="mk-sub lph-note">{{sheetNote}}</text>
-  <view class="lph-row" bindtap="onPickLogin" aria-role="button">
+  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lph-row" bindtap="onPickLogin" aria-role="button">
     <view class="mk-grow"><text class="mk-num {{other ? '' : 'lph-on'}}">{{loginMasked}}</text><text class="mk-sub lph-sub">{{T.wechatPhone}}</text></view>
     <image wx:if="{{!other}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
   </view>
@@ -19,7 +19,7 @@
     <view class="mk-grow"><text class="mk-num lph-on">{{otherMasked}}</text><text class="mk-sub lph-sub">{{T.otherPhone}}</text></view>
     <image class="mk-icon" src="/assets/icons/check-brand.svg" />
   </view>
-  <view class="lph-row" bindtap="onPickOther" aria-role="button">
+  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lph-row" bindtap="onPickOther" aria-role="button">
     <view class="mk-grow"><text>{{T.other}}</text><text class="mk-sub lph-sub">{{T.otherSub}}</text></view>
     <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
   </view>

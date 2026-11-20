@@ -1,0 +1,9 @@
+:host { display: block; }
+.cel { display: flex; align-items: center; min-height: 104rpx; }
+.cel--line { border-top: var(--mk-border-hairline); }
+.cel-ic { margin-right: var(--mk-space-3); }
+.cel-t { flex: none; max-width: 70%; font-weight: var(--mk-font-weight-medium); }
+.cel-t--strong { font-weight: var(--mk-font-weight-semibold); }
+.cel-v { flex: 1; min-width: 0; text-align: right; margin-left: var(--mk-space-3); }
+.cel-badge { flex: none; min-width: 36rpx; height: 36rpx; line-height: 36rpx; padding: 0 10rpx; box-sizing: border-box; border-radius: 18rpx; text-align: center; background: var(--mk-color-status-errorStrong); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-xs); margin-left: var(--mk-space-2); }
+.cel-arrow { margin-left: var(--mk-space-1); }

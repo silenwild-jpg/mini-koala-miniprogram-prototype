@@ -1,4 +1,4 @@
-<view class="mk-card ec-card" bindtap="onTap" aria-role="button">
+<view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card ec-card" bindtap="onTap" aria-role="button">
   <text class="ec-k">{{kicker}}</text>
   <text class="mk-title ec-t">{{name}}</text>
   <text wx:if="{{sub}}" class="mk-sub ec-s">{{sub}}</text>

@@ -25,3 +25,5 @@
 .lab-ic { width: 25%; padding: var(--mk-space-3) var(--mk-space-1) 0 0; box-sizing: border-box; }
 .lab-icbox { display: flex; align-items: center; justify-content: center; height: 80rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); }
 .lab-icbox .mk-icon { margin: 0 var(--mk-space-1); }
+
+.lab-input--flat { margin-top: 0; }

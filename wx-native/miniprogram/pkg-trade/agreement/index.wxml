@@ -6,12 +6,12 @@
   </view>
   <view wx:if="{{pending}}" class="mk-card ag-notice">
     <view class="mk-title">{{T.pendingTitle}}</view>
-    <view class="mk-sub ag-noticedesc" bindtap="onService" aria-role="button">{{T.pendingDesc}}</view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-sub ag-noticedesc" bindtap="onService" aria-role="button">{{T.pendingDesc}}</view>
   </view>
   <block wx:else>
     <view wx:if="{{toc.length}}" class="mk-card">
       <view class="mk-title ag-sectitle">{{T.toc}}</view>
-      <view wx:for="{{toc}}" wx:key="id" class="ag-toc" data-id="{{item.id}}" bindtap="onToc" aria-role="button">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{toc}}" wx:key="id" class="ag-toc" data-id="{{item.id}}" bindtap="onToc" aria-role="button">
         <text class="mk-num ag-tocn">{{item.n}}</text><view class="mk-grow mk-ellipsis">{{item.t}}</view><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
       </view>
     </view>
@@ -25,6 +25,6 @@
         </block>
       </view>
     </view>
-    <view class="mk-mute ag-fine" bindtap="onService" aria-role="button">{{T.fine}}</view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-mute ag-fine" bindtap="onService" aria-role="button">{{T.fine}}</view>
   </block>
 </view>

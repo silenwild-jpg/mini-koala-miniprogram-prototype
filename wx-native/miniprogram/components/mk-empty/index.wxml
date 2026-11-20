@@ -1,0 +1,6 @@
+<view class="emp {{card ? 'mk-card emp--card' : ''}}">
+  <view wx:if="{{icon}}" class="emp-pic"><image class="mk-icon mk-icon--md" src="{{icon}}" /></view>
+  <text class="mk-title">{{title}}</text>
+  <text wx:if="{{sub}}" class="mk-sub emp-sub">{{sub}}</text>
+  <view wx:if="{{hasAction}}" class="emp-acts"><slot /></view>
+</view>

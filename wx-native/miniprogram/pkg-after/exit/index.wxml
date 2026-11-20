@@ -1,15 +1,12 @@
 <view class="mk-page {{bar ? 'af-pad' : ''}}">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
-  <view wx:elif="{{empty}}" class="af-empty">
-    <image class="af-empty-ico" src="/assets/icons/order-sub.svg" />
-    <text class="mk-title">{{T.c.emptyTitle}}</text>
-    <text class="mk-sub af-empty-sub">{{T.c.emptySub}}</text>
-    <button class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
-  </view>
+  <mk-empty wx:elif="{{empty}}" icon="/assets/icons/order-sub.svg" title="{{T.c.emptyTitle}}" sub="{{T.c.emptySub}}">
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
+  </mk-empty>
   <block wx:else>
     <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
     <view class="af-body">
-      <mk-after-note wx:if="{{note}}" title="{{note.title}}" text="{{note.text}}" tone="{{note.tone}}" link="{{note.link}}" bind:link="onAgreement" />
+      <mk-notice wx:if="{{note}}" title="{{note.title}}" text="{{note.text}}" tone="{{note.tone}}" link="{{note.link}}" bind:link="onAgreement" />
       <mk-order-card order="{{order}}" />
       <view class="ex-top"></view>
       <view wx:if="{{cancel}}" class="mk-card af-gap">
@@ -23,19 +20,17 @@
       </view>
       <view wx:if="{{form}}" class="mk-card af-gap">
         <text class="mk-title af-sec">{{T.x.arrange}}</text>
-        <view class="af-field">
-          <text class="af-label">{{T.x.typeLabel}}</text>
+        <mk-field label="{{T.x.typeLabel}}">
           <view wx:if="{{form.canEarly}}" class="af-seg">
-            <view wx:for="{{form.types}}" wx:key="v" class="af-seg-item {{item.on ? 'af-seg-item--on' : ''}}" data-v="{{item.v}}" bindtap="onType" aria-role="button">{{item.t}}</view>
+            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{form.types}}" wx:key="v" class="af-seg-item {{item.on ? 'af-seg-item--on' : ''}}" data-v="{{item.v}}" bindtap="onType" aria-role="button">{{item.t}}</view>
           </view>
           <view wx:else class="af-input"><text>{{form.typeText}}</text></view>
-        </view>
-        <view class="af-field">
-          <text class="af-label">{{T.x.dateLabel}}</text>
+        </mk-field>
+        <mk-field label="{{T.x.dateLabel}}">
           <picker mode="date" value="{{form.date}}" start="{{form.min}}" end="{{form.max}}" bindchange="onDate">
             <view class="af-input"><text class="{{form.date ? '' : 'af-ph'}}">{{form.date || T.x.datePlaceholder}}</text><image class="mk-icon" src="/assets/icons/cal-ink.svg" /></view>
           </picker>
-        </view>
+        </mk-field>
         <text class="af-rule">{{form.rule}}</text>
       </view>
       <view wx:if="{{depositRows.length}}" class="mk-card af-gap"><mk-after-kv rows="{{depositRows}}" /></view>
@@ -48,27 +43,27 @@
         <text class="mk-title af-sec">{{T.x.beforeInspect}}</text>
         <text>{{T.x.beforeInspectText}}</text>
       </view>
-      <mk-after-note wx:if="{{waitNote}}" text="{{waitNote}}">
+      <mk-notice wx:if="{{waitNote}}" text="{{waitNote}}">
         <view wx:if="{{sub}}" class="ex-sub">
           <image wx:if="{{sub.ok}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
           <text class="mk-sub mk-grow">{{sub.text}}</text>
           <text wx:if="{{!sub.ok}}" class="mk-link ex-subbtn" bindtap="onSubAsk" aria-role="button">{{T.c.subOn}}</text>
         </view>
-      </mk-after-note>
+      </mk-notice>
     </view>
   <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
     <view wx:if="{{bar.lab}}" class="af-bar-info">
       <text class="mk-mute">{{bar.lab}}</text>
       <text class="mk-num af-bar-amt {{bar.muted ? 'af-bar-amt--muted' : ''}}">{{bar.amt}}</text>
     </view>
-    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="none" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
+    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="mk-btn--ghostHover" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
   </view>
     <mk-sheet visible="{{confirm}}" title="{{T.x.confirmTitle}}" bind:close="onConfirmClose">
       <mk-after-kv rows="{{confirmRows}}" bind:link="onAgreement" />
       <text class="af-rule ex-confirm">{{T.x.confirmText}}</text>
       <view class="ex-acts">
-        <button class="mk-btn af-btn--neutral ex-act" hover-class="none" bindtap="onConfirmClose">{{T.x.think}}</button>
-        <button class="mk-btn af-btn--danger ex-act" hover-class="none" bindtap="onConfirm">{{T.x.confirm}}</button>
+        <button class="mk-btn af-btn--neutral ex-act" hover-class="mk-btn--plainHover" bindtap="onConfirmClose">{{T.x.think}}</button>
+        <button class="mk-btn af-btn--danger ex-act" hover-class="mk-btn--dimHover" bindtap="onConfirm">{{T.x.confirm}}</button>
       </view>
     </mk-sheet>
   </block>

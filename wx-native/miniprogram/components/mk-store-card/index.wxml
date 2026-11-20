@@ -1,5 +1,5 @@
 <view class="mk-card sc-card {{variant === 'compact' ? 'sc-card--compact' : ''}}">
-  <view class="sc-head" bindtap="onStore" aria-role="button" aria-label="{{card.name}}，查看门店和全部仓位">
+  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sc-head" bindtap="onStore" aria-role="button" aria-label="{{card.name}}，查看门店和全部仓位">
     <image wx:if="{{card.photo}}" class="sc-photo" src="{{card.photo}}" mode="aspectFill" />
     <view class="mk-grow">
       <text class="mk-title mk-ellipsis sc-name">{{card.name}}</text>

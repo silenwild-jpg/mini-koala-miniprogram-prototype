@@ -1,0 +1,9 @@
+:host { display: block; }
+.ntc { background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-card); padding: var(--mk-space-3) var(--mk-space-cardPad); box-shadow: var(--mk-elevation-card); border-left: 8rpx solid var(--mk-color-brand-fill); margin-bottom: var(--mk-space-cardGap); }
+.ntc--plain { background: transparent; border-radius: 0; box-shadow: none; padding: var(--mk-space-1) var(--mk-space-3); margin-bottom: var(--mk-space-3); }
+.ntc--warn { border-left-color: var(--mk-color-accent-promoIcon); }
+.ntc--err { border-left-color: var(--mk-color-status-errorStrong); }
+.ntc-t { display: block; font-weight: var(--mk-font-weight-semibold); margin-bottom: var(--mk-space-1); }
+.ntc--plain .ntc-t { margin-bottom: 0; }
+.ntc-s { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
+.ntc-link { display: inline-block; padding: var(--mk-space-2) 0 var(--mk-space-2) var(--mk-space-2); color: var(--mk-color-ink-primary); }

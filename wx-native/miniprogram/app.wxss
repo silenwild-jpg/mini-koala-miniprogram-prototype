@@ -49,8 +49,16 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-t-hint { font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-hint); }
 .mk-t-off { color: var(--mk-color-ink-tertiary); }
 /* v2 按压反馈：可点的行、卡片、图标按钮统一用 hover-class="mk-tap--hover"；幽灵按钮用 mk-btn--ghostHover */
-.mk-tap--hover { background: var(--mk-color-state-pressed); }
-.mk-btn--ghostHover { background: var(--mk-color-brand-tint); }
+.mk-tap--hover.mk-tap--hover { background: var(--mk-color-state-pressed); }
+/* 按钮按压态写成四个类名：页面里给按钮定底色的规则最多三个类名（.mk-btn.mk-btn.xx），按压态要压过它，且不依赖样式表加载顺序。
+   主按钮 mk-btn--hover；幽灵按钮 mk-btn--ghostHover；白底描边的中性按钮 mk-btn--plainHover；文字型按钮 mk-bare--hover；其它底色的按钮（如危险操作）mk-btn--dimHover。
+   只有禁用态的按钮才允许 hover-class="none"（tools/static_check.py 会拦）。 */
+.mk-btn.mk-btn.mk-btn.mk-btn--ghostHover { background: var(--mk-color-brand-tint); }
+.mk-btn.mk-btn.mk-btn.mk-btn--plainHover { background: var(--mk-color-canvas-sunken); }
+.mk-btn.mk-btn--dimHover, .mk-bare.mk-bare--hover { opacity: var(--mk-opacity-pressed); }
+/* 空态里的按钮（mk-empty 插槽）：统一最小宽度，两个按钮并排时留间距 */
+.mk-empty-btn { min-width: 280rpx; }
+.mk-empty-btn + .mk-btn.mk-btn.mk-empty-btn { margin-left: var(--mk-space-3); }
 /* v2 图标按钮：图标尺寸不变，命中区撑到 44px */
 .mk-iconbtn { display: flex; align-items: center; justify-content: center; min-width: var(--mk-size-tapMin); min-height: var(--mk-size-tapMin); flex: none; }
 .mk-tag--error { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }

@@ -102,6 +102,7 @@ page {
      ink-hint：正常要读的说明小字，白底 5.07:1；ink-tertiary 3.13:1 只留给占位、禁用、划线价和装饰图标。 */
   --mk-color-state-pressed: rgba(31,42,36,0.06);
   --mk-opacity-disabled: 0.45;
+  --mk-opacity-pressed: 0.6;
   --mk-radius-pill: 999rpx;
   --mk-size-tapMin: 44px;
   --mk-z-bar: 20;

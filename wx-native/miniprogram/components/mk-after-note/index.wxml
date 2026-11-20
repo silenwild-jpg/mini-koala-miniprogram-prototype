@@ -1,8 +1,0 @@
-<view class="afn-note afn-note--{{tone}}">
-  <text wx:if="{{title}}" class="afn-t">{{title}}</text>
-  <view wx:if="{{text}}" class="afn-s">
-    <text>{{text}}</text>
-    <text wx:if="{{link}}" class="afn-link" bindtap="onLink" aria-role="link">{{link}}</text>
-  </view>
-  <slot></slot>
-</view>

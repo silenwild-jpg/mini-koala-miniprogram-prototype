@@ -7,21 +7,15 @@
     </view>
   </view>
   <view wx:elif="{{view === 'gate'}}" class="ac-wrap">
-    <view class="mk-card ac-empty">
-      <view class="ac-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/shield-ink.svg" /></view>
-      <text class="mk-title">{{T.b.gateTitle}}</text>
-      <text class="mk-sub ac-empty-sub">{{T.b.gateSub}}</text>
-      <button class="mk-btn mk-btn--md ac-empty-btn" hover-class="mk-btn--hover" bindtap="onCert">{{T.b.toCert}}</button>
-    </view>
+    <mk-empty icon="/assets/icons/shield-ink.svg" title="{{T.b.gateTitle}}" sub="{{T.b.gateSub}}" card="{{true}}">
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onCert">{{T.b.toCert}}</button>
+    </mk-empty>
     <text class="ac-fine">{{T.b.gateFine}}</text>
   </view>
   <view wx:elif="{{view === 'empty'}}" class="ac-wrap">
-    <view class="mk-card ac-empty">
-      <view class="ac-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/ticket-ink.svg" /></view>
-      <text class="mk-title">{{T.b.emptyTitle}}</text>
-      <text class="mk-sub ac-empty-sub">{{T.b.emptySub}}</text>
-      <button class="mk-btn mk-btn--ghost mk-btn--md ac-empty-btn" hover-class="none" bindtap="onOrders">{{T.common.viewOrders}}</button>
-    </view>
+    <mk-empty icon="/assets/icons/ticket-ink.svg" title="{{T.b.emptyTitle}}" sub="{{T.b.emptySub}}" card="{{true}}">
+      <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onOrders">{{T.common.viewOrders}}</button>
+    </mk-empty>
   </view>
   <view wx:elif="{{view === 'result'}}" class="ac-wrap ac-wrap--bar">
     <view class="ac-head">
@@ -35,7 +29,7 @@
         <view class="mk-grow"><text class="ac-step-t {{item.tcls}}">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-mute">{{item.s}}</text></view>
       </view>
     </view>
-    <view wx:if="{{result.status === 'failed'}}" class="ac-notice ac-notice--err eb-gap"><text class="ac-notice-t">{{result.reason}}</text><text class="ac-notice-s">{{T.b.reasonSub}}</text></view>
+    <mk-notice wx:if="{{result.status === 'failed'}}" class="eb-gap" plain="{{true}}" tone="err" title="{{result.reason}}" text="{{T.b.reasonSub}}" />
     <view class="mk-card eb-gap">
       <text class="ac-sec">{{T.b.content}}</text>
       <view class="ac-kv"><text class="ac-k">{{T.b.contentTitle}}</text><text class="ac-v">{{result.titleName}}</text></view>
@@ -46,23 +40,19 @@
     <view class="mk-bottom-bar">
       <block wx:if="{{result.status === 'failed'}}">
         <button class="mk-btn ac-bar-btn" hover-class="mk-btn--hover" bindtap="onResubmit">{{T.b.retry}}</button>
-        <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="none" bindtap="onAdvisor">{{T.common.contactAdvisor}}</button>
+        <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="mk-btn--ghostHover" bindtap="onAdvisor">{{T.common.contactAdvisor}}</button>
       </block>
       <block wx:elif="{{result.status === 'issued'}}">
         <button class="mk-btn ac-bar-btn" hover-class="mk-btn--hover" bindtap="onDownload">{{T.b.download}}</button>
-        <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="none" bindtap="onResend">{{T.b.resend}}</button>
+        <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="mk-btn--ghostHover" bindtap="onResend">{{T.b.resend}}</button>
       </block>
-      <button wx:else class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="none" bindtap="onOrders">{{T.common.backOrders}}</button>
+      <button wx:else class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="mk-btn--ghostHover" bindtap="onOrders">{{T.common.backOrders}}</button>
     </view>
   </view>
   <view wx:elif="{{view === 'confirm'}}" class="ac-wrap ac-wrap--bar">
     <view class="mk-card">
       <text class="ac-sec">{{T.b.titleSection}}</text>
-      <view class="ac-lrow" bindtap="onChangeTitle" aria-role="button">
-        <text class="mk-grow eb-b">{{title ? title.name : T.b.noTitle}}</text>
-        <text wx:if="{{title}}" class="mk-sub">{{T.b.change}}</text>
-        <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
-      </view>
+      <mk-cell title="{{title ? title.name : T.b.noTitle}}" value="{{title ? T.b.change : ''}}" strong="{{true}}" bindtap="onChangeTitle" />
       <block wx:if="{{title}}">
         <view wx:if="{{title.tax}}" class="ac-kv eb-top"><text class="ac-k">{{T.b.taxId}}</text><text class="ac-v mk-num">{{title.tax}}</text></view>
         <view class="ac-kv eb-top"><text class="ac-k">{{T.b.email}}</text><text class="ac-v">{{title.email}}</text></view>
@@ -86,13 +76,13 @@
     </view>
   </view>
   <view wx:else class="ac-wrap ac-wrap--bar">
-    <view class="ac-notice"><text class="ac-notice-t">{{T.b.noticeTitle}}</text><text class="ac-notice-s">{{T.b.noticeSub}}</text></view>
+    <mk-notice plain="{{true}}" title="{{T.b.noticeTitle}}" text="{{T.b.noticeSub}}" />
     <view class="mk-card">
-      <view class="eb-ord eb-all" bindtap="onToggleAll" aria-role="checkbox" aria-checked="{{allOn}}">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="eb-ord eb-all" bindtap="onToggleAll" aria-role="checkbox" aria-checked="{{allOn}}">
         <view class="eb-box {{allOn ? 'eb-box--on' : ''}}"><image wx:if="{{allOn}}" class="eb-tick" src="/assets/icons/check-white.svg" /></view>
         <text class="mk-grow">{{allText}}</text>
       </view>
-      <view wx:for="{{rows}}" wx:key="id" class="eb-ord" data-id="{{item.id}}" bindtap="onToggle" aria-role="checkbox" aria-checked="{{item.on}}">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{rows}}" wx:key="id" class="eb-ord" data-id="{{item.id}}" bindtap="onToggle" aria-role="checkbox" aria-checked="{{item.on}}">
         <view class="eb-box {{item.on ? 'eb-box--on' : ''}}"><image wx:if="{{item.on}}" class="eb-tick" src="/assets/icons/check-white.svg" /></view>
         <view class="mk-grow">
           <text class="eb-t">{{item.store}}</text>

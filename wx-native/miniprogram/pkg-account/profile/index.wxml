@@ -13,19 +13,19 @@
       <view class="ac-kv"><text class="ac-k">{{T.p.loginPhone}}</text><text class="ac-v mk-num {{loginPhone ? '' : 'ac-soft'}}">{{loginPhone || T.p.notLoggedIn}}</text></view>
       <view class="ac-kv"><text class="ac-k">{{T.p.contactPhone}}</text><text class="ac-v mk-num {{contact ? '' : 'ac-soft'}}">{{contact || T.p.contactEmpty}}</text></view>
       <view class="ac-acts">
-        <button class="mk-btn mk-btn--ghost mk-btn--md ac-act pf-neutral" hover-class="none" bindtap="onEditContact">{{T.p.editContact}}</button>
-        <button wx:if="{{loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-act pf-neutral" hover-class="none" bindtap="onChangePhone">{{T.p.changePhone}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md ac-act pf-neutral" hover-class="mk-btn--ghostHover" bindtap="onEditContact">{{T.p.editContact}}</button>
+        <button wx:if="{{loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-act pf-neutral" hover-class="mk-btn--ghostHover" bindtap="onChangePhone">{{T.p.changePhone}}</button>
         <button wx:else class="mk-btn mk-btn--md ac-act" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
       </view>
     </view>
-    <view class="ac-notice pf-note"><text class="ac-notice-s">{{loggedIn ? T.p.noteSigned : T.p.noteGuest}}</text></view>
+    <mk-notice class="pf-note" plain="{{true}}" text="{{loggedIn ? T.p.noteSigned : T.p.noteGuest}}" />
     <block wx:if="{{loggedIn}}">
       <view class="mk-card">
         <text class="ac-sec">{{T.p.privacySection}}</text>
-        <view class="ac-lrow" bindtap="onPrivacy" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/shield-ink.svg" /><text class="mk-grow">{{T.p.privacy}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
-        <view class="ac-lrow" bindtap="onDelete" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/user-ink.svg" /><text class="mk-grow">{{T.p.deleteAccount}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <mk-cell icon="/assets/icons/shield-ink.svg" title="{{T.p.privacy}}" bindtap="onPrivacy" />
+        <mk-cell icon="/assets/icons/user-ink.svg" title="{{T.p.deleteAccount}}" divider="{{true}}" bindtap="onDelete" />
       </view>
-      <button class="mk-btn mk-btn--ghost mk-btn--md pf-neutral pf-logout" hover-class="none" bindtap="onLogout">{{T.p.logout}}</button>
+      <button class="mk-btn mk-btn--ghost mk-btn--md pf-neutral pf-logout" hover-class="mk-btn--ghostHover" bindtap="onLogout">{{T.p.logout}}</button>
     </block>
   </view>
 
@@ -57,9 +57,9 @@
     <view class="ac-kv"><text class="ac-k">{{T.p.privacySheet.location}}</text><view class="mk-row"><text>{{locationText}}</text><text class="mk-link pf-set" bindtap="onToSetting" aria-role="button">{{T.p.privacySheet.toSetting}}</text></view></view>
     <view class="ac-kv"><text class="ac-k">{{T.p.privacySheet.phone}}</text><text class="ac-v">{{T.p.privacySheet.granted}}</text></view>
     <view class="ac-kv"><text class="ac-k">{{T.p.privacySheet.identity}}</text><text class="ac-v">{{identityText}}</text></view>
-    <view class="ac-kv" bindtap="onPrivacyContract" aria-role="button"><text class="mk-link">{{T.p.privacySheet.contract}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ac-kv" bindtap="onPrivacyContract" aria-role="button"><text class="mk-link">{{T.p.privacySheet.contract}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
     <text class="ac-fine">{{T.p.privacySheet.fine}}</text>
-    <button class="mk-btn mk-btn--ghost pf-neutral ac-block" hover-class="none" bindtap="onWithdraw">{{T.p.privacySheet.withdraw}}</button>
+    <button class="mk-btn mk-btn--ghost pf-neutral ac-block" hover-class="mk-btn--ghostHover" bindtap="onWithdraw">{{T.p.privacySheet.withdraw}}</button>
   </mk-sheet>
 
   <mk-sheet visible="{{deleteVisible}}" title="{{T.p.deleteSheet.title}}" bind:close="onDeleteClose">
@@ -67,7 +67,7 @@
     <view wx:for="{{T.p.deleteSheet.conditions}}" wx:key="*this" class="pf-cond mk-row"><view class="pf-bullet"></view><text>{{item}}</text></view>
     <text class="ac-fine">{{T.p.deleteSheet.fine}}</text>
     <view class="ac-acts">
-      <button class="mk-btn mk-btn--ghost pf-neutral ac-act" hover-class="none" bindtap="onDeleteClose">{{T.p.deleteSheet.cancel}}</button>
+      <button class="mk-btn mk-btn--ghost pf-neutral ac-act" hover-class="mk-btn--ghostHover" bindtap="onDeleteClose">{{T.p.deleteSheet.cancel}}</button>
       <button class="mk-btn ac-act" hover-class="mk-btn--hover" loading="{{deleteBusy}}" bindtap="onDeleteConfirm">{{T.p.deleteSheet.confirm}}</button>
     </view>
   </mk-sheet>

@@ -1,14 +1,12 @@
 <view class="mk-page">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:else class="ac-wrap">
-    <view wx:if="{{empty}}" class="mk-card ac-empty">
-      <view class="ac-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/heartfill-brand.svg" /></view>
-      <text class="mk-title">{{T.empty}}</text>
-      <button class="mk-btn mk-btn--md ac-empty-btn" hover-class="mk-btn--hover" bindtap="onFindStores">{{T.findStores}}</button>
-    </view>
+    <mk-empty wx:if="{{empty}}" icon="/assets/icons/heartfill-brand.svg" title="{{T.empty}}" card="{{true}}">
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onFindStores">{{T.findStores}}</button>
+    </mk-empty>
     <view wx:if="{{stores.length}}" class="mk-card">
       <text class="ac-sec">{{T.stores}}</text>
-      <view wx:for="{{stores}}" wx:key="id" class="ac-lrow fv-row" data-id="{{item.id}}" data-gone="{{item.gone}}" bindtap="onStore" aria-role="button">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{stores}}" wx:key="id" class="ac-lrow fv-row" data-id="{{item.id}}" data-gone="{{item.gone}}" bindtap="onStore" aria-role="button">
         <image wx:if="{{item.photo}}" class="fv-ph" mode="aspectFill" src="{{item.photo}}" />
         <view class="mk-grow">
           <view class="mk-row"><text class="fv-n mk-ellipsis">{{item.name}}</text><text wx:if="{{item.gone}}" class="ac-tag">{{T.storeGone}}</text></view>
@@ -19,7 +17,7 @@
     </view>
     <view wx:if="{{units.length}}" class="mk-card">
       <text class="ac-sec">{{T.units}}</text>
-      <view wx:for="{{units}}" wx:key="id" class="ac-lrow fv-row" data-store="{{item.storeId}}" bindtap="onUnit" aria-role="button">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{units}}" wx:key="id" class="ac-lrow fv-row" data-store="{{item.storeId}}" bindtap="onUnit" aria-role="button">
         <view class="mk-grow">
           <view class="mk-row"><text class="fv-n mk-ellipsis">{{item.name}}</text><text wx:if="{{item.gone}}" class="ac-tag">{{T.unitGone}}</text></view>
           <text class="mk-sub fv-sub">{{item.sub}}</text>

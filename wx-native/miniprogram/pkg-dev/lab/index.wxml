@@ -23,7 +23,7 @@
     <button wx:for="{{L.btns}}" wx:key="t" class="mk-btn {{item.m}} lab-gap" data-calib="btn-full-{{index}}">{{item.t}}</button>
     <view class="mk-row lab-gap">
       <button wx:for="{{L.btnRow}}" wx:key="t" class="mk-btn {{item.m}} lab-inl" data-calib="btn-row-{{index}}">{{item.t}}</button>
-      <button class="mk-bare mk-link" hover-class="none" data-calib="btn-bare">{{L.bare}}</button>
+      <button class="mk-bare mk-link" hover-class="mk-bare--hover" data-calib="btn-bare">{{L.bare}}</button>
     </view>
   </view>
   <view class="mk-card" id="calib-tag">
@@ -41,6 +41,21 @@
     <input class="lab-input" placeholder="{{L.placeholder}}" placeholder-class="mk-t-off" type="number" maxlength="11" />
     <text class="mk-error">{{L.error}}</text>
   </view>
+  <view class="mk-card" id="calib-comp">
+    <text class="mk-t-hint lab-sec">{{L.comp}}</text>
+    <mk-cell icon="/assets/icons/shield-ink.svg" title="{{L.cell.a}}" value="{{L.cell.av}}" data-calib="cell-0" />
+    <mk-cell icon="/assets/icons/msg-ink.svg" title="{{L.cell.b}}" badge="{{3}}" divider="{{true}}" data-calib="cell-1" />
+    <mk-cell title="{{L.cell.c}}" arrow="{{false}}" divider="{{true}}" data-calib="cell-2"><text class="mk-tag mk-tag--brand">{{L.cell.ct}}</text></mk-cell>
+    <mk-field label="{{L.field.label}}" mark="{{L.field.mark}}" error="{{L.error}}"><input class="lab-input lab-input--flat" placeholder="{{L.placeholder}}" placeholder-class="mk-t-off" type="number" maxlength="11" /></mk-field>
+    <mk-field label="{{L.field.label2}}" mark="{{L.field.req}}" mark-tone="req" hint="{{L.field.hint}}"><input class="lab-input lab-input--flat" placeholder="{{L.placeholder}}" placeholder-class="mk-t-off" /></mk-field>
+  </view>
+  <mk-notice title="{{L.notice.t}}" text="{{L.notice.s}}" link="{{L.notice.l}}" data-calib="notice-card" />
+  <mk-notice tone="warn" text="{{L.notice.w}}" />
+  <mk-notice plain="{{true}}" tone="err" title="{{L.notice.e}}" text="{{L.notice.es}}" />
+  <mk-empty icon="/assets/icons/order-sub.svg" title="{{L.empty.t}}" sub="{{L.empty.s}}" card="{{true}}" data-calib="empty-card">
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" data-calib="empty-btn-0">{{L.empty.a}}</button>
+    <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" data-calib="empty-btn-1">{{L.empty.b}}</button>
+  </mk-empty>
   <view class="mk-card" id="calib-color">
     <text class="mk-t-hint lab-sec">{{L.color}}</text>
     <view class="lab-grid"><view wx:for="{{colors}}" wx:key="k" class="lab-sw"><view class="lab-chip" style="{{item.bg}}"></view><text class="mk-t-hint lab-k">{{item.k}}</text><text class="mk-t-hint mk-t-off">{{item.hex}}</text></view></view>

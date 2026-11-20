@@ -7,6 +7,8 @@ const L = {
   sceneTitle: '演示场景', sceneTip: '切换后登录态、定位、需求和订单一起重置，只影响本机演示数据。', netTitle: '网络档位', calibTitle: '组件校准',
   goHome: '回首页查看', applied: '已切换：', on: '当前',
   btn: '按钮', tag: '标签与选项', text: '文字角色', color: '颜色', icon: '图标', form: '输入框',
+  comp: '公共组件', cell: { a: '带说明的行', av: '右侧说明', b: '带角标的行', c: '只读行', ct: '标签' }, field: { label: '表单项', mark: '选填', label2: '必填项', req: '必填', hint: '提示文字在输入框下方' },
+  notice: { t: '提示条标题', s: '提示条说明文字，可带一个链接。', l: '查看', w: '警示色提示条，只有一句说明。', e: '不带卡片底的报错提示', es: '用在表单上方。' }, empty: { t: '空态标题', s: '一句说明，告诉用户接下来能做什么', a: '主操作', b: '次操作' },
   btns: [{ m: '', t: '主按钮 通栏' }, { m: 'mk-btn--ghost', t: '次按钮 通栏' }, { m: 'mk-btn--disabled', t: '不可用' }],
   btnRow: [{ m: 'mk-btn--md', t: '中按钮' }, { m: 'mk-btn--sm', t: '小按钮' }, { m: 'mk-btn--sm mk-btn--ghost', t: '小次按钮' }],
   bare: '文字按钮',

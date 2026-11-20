@@ -27,7 +27,7 @@ function render(nodes, scope, base, slot) {
       if (n.tag === 'slot') return slot || '';
       const map = comps(base);
       if (map[n.tag]) {
-        const cbase = map[n.tag].replace(/^\//, ''); used.add(cbase);
+        const cbase = map[n.tag][0] === '/' ? map[n.tag].slice(1) : path.join(path.dirname(base), map[n.tag]); used.add(cbase); // 相对路径的分包内组件按引用方目录解析
         const props = {}; for (const k of Object.keys(a)) if (!/^(wx:|bind|catch|class|style)/.test(k)) props[camel(k)] = interp(a[k], sc);
         const inst = env.newComponent(cbase, props); inst.setData(props);
         return '<div class="' + esc(n.tag) + '" style="display:block">' + render(AST[cbase], inst.data, cbase, render(n.c, sc, base, slot)) + '</div>';
@@ -93,5 +93,10 @@ const NEED = { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months
   const SC = require(path.join(root, 'mock/scenarios')).LIST.map((x) => x.id);
   for (const id of SC) for (const pg of [['home', 'pages/home/index'], ['orders', 'pages/orders/index'], ['mine', 'pages/mine/index']]) done.push(await shot('sc_' + id + '__' + pg[0], pg[1], { scenario: id }));
   done.push(await shot('20_demo_lab', 'pkg-dev/lab/index', { scenario: 'member_active' }));
+  // 公共组件层迁移后的页面：空态、列表行、提示条、表单项
+  for (const pg of [['c01_orders_empty', 'pages/orders/index', { login: true, scenario: 'member_new' }], ['c02_order_missing', 'pkg-trade/order/index', { login: true, query: { id: 'NOPE' } }], ['c03_messages', 'pkg-account/messages/index', { scenario: 'member_new' }],
+    ['c04_favorites', 'pkg-account/favorites/index', { scenario: 'member_new' }], ['c05_coupons', 'pkg-account/coupons/index', { scenario: 'member_active' }], ['c06_profile', 'pkg-account/profile/index', { scenario: 'member_active' }],
+    ['c07_ent_cert', 'pkg-account/ent-cert/index', { scenario: 'member_active' }], ['c08_ent_titles', 'pkg-account/ent-titles/index', { scenario: 'member_active' }], ['c09_invoice', 'pkg-after/invoice/index', { scenario: 'member_active' }],
+    ['c10_renew_empty', 'pkg-after/renew/index', { login: true, query: { id: 'NOPE' } }], ['c11_progress', 'pkg-account/progress/index', { scenario: 'member_new' }], ['c12_needs', 'pkg-account/needs/index', { scenario: 'member_new' }], ['c13_access', 'pkg-after/access/index', { scenario: 'member_active' }]]) done.push(await shot(pg[0], pg[1], pg[2]));
   console.log(done.join(' '));
 })();

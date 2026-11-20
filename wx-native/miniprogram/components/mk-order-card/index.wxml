@@ -29,14 +29,14 @@
         <view class="mk-sub oc-line2">{{v.unitSub}}</view>
         <text wx:if="{{v.comboTag}}" class="mk-tag oc-combo">{{v.comboTag}}</text>
       </view>
-      <view wx:if="{{swap}}" class="mk-link oc-swap" bindtap="onSwap" aria-role="button">{{swap}}</view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{swap}}" class="mk-link oc-swap" bindtap="onSwap" aria-role="button">{{swap}}</view>
     </view>
     <view class="oc-kv mk-between">
       <text class="mk-sub">{{T.term}}</text>
       <view wx:if="{{editable}}" class="oc-stepper">
-        <view class="oc-step {{canMinus ? '' : 'oc-step--off'}}" bindtap="onMinus" aria-role="button" aria-label="减少">−</view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="oc-step {{canMinus ? '' : 'oc-step--off'}}" bindtap="onMinus" aria-role="button" aria-label="减少">−</view>
         <text class="oc-stepval">{{v.termText}}</text>
-        <view class="oc-step {{canPlus ? '' : 'oc-step--off'}}" bindtap="onPlus" aria-role="button" aria-label="增加">+</view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="oc-step {{canPlus ? '' : 'oc-step--off'}}" bindtap="onPlus" aria-role="button" aria-label="增加">+</view>
       </view>
       <text wx:else class="oc-val">{{v.termText}}</text>
     </view>

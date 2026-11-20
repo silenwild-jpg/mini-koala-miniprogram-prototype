@@ -1,5 +1,5 @@
 <view class="phd-ph">
   <text class="mk-h2">{{title}}</text>
   <text class="mk-sub phd-d">{{T.desc}}</text>
-  <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="none" bindtap="onBack">{{T.back}}</button>
+  <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="mk-btn--ghostHover" bindtap="onBack">{{T.back}}</button>
 </view>

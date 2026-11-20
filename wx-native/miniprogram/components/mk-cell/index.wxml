@@ -1,0 +1,8 @@
+<view class="cel {{divider ? 'cel--line' : ''}}" hover-class="{{arrow ? 'mk-tap--hover' : 'none'}}" hover-stop-propagation="{{true}}" aria-role="{{arrow ? 'button' : 'text'}}">
+  <image wx:if="{{icon}}" class="mk-icon mk-icon--md cel-ic" src="{{icon}}" />
+  <text class="cel-t {{strong ? 'cel-t--strong' : ''}}">{{title}}</text>
+  <text class="mk-sub mk-ellipsis cel-v">{{value}}</text>
+  <slot />
+  <text wx:if="{{badge > 0}}" class="mk-num cel-badge">{{badge}}</text>
+  <image wx:if="{{arrow}}" class="mk-icon cel-arrow" src="/assets/icons/chev-mute.svg" />
+</view>

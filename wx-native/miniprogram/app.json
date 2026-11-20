@@ -135,7 +135,11 @@
     "mk-sys-state": "/components/mk-sys-state/index",
     "mk-price": "/components/mk-price/index",
     "mk-advisor-card": "/components/mk-advisor-card/index",
-    "mk-placeholder": "/components/mk-placeholder/index"
+    "mk-placeholder": "/components/mk-placeholder/index",
+    "mk-empty": "/components/mk-empty/index",
+    "mk-cell": "/components/mk-cell/index",
+    "mk-notice": "/components/mk-notice/index",
+    "mk-field": "/components/mk-field/index"
   },
   "permission": {
     "scope.userLocation": {

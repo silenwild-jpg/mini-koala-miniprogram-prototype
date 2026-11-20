@@ -3,7 +3,7 @@
   <view class="sh-panel">
     <view class="sh-head mk-between">
       <text class="mk-title">{{title}}</text>
-      <view class="sh-close" bindtap="onClose" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sh-close" bindtap="onClose" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
     </view>
     <view class="sh-body"><slot></slot></view>
   </view>

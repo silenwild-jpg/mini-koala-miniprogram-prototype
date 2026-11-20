@@ -120,6 +120,22 @@ for dp, _, fs in os.walk(root):
                 if '::' in last or not (lc & btn_cls) or lc & {'mk-btn', 'mk-bare'} and len(re.findall(r'\.[\w-]+', sel)) >= 3: continue
                 if not (lc - {'mk-btn', 'mk-bare'}) <= btn_cls: continue
                 errs.append('%s 的 %s 给按钮写了宽度或左右外边距，但权重不够（应写成 .mk-btn.mk-btn.xx 或 .mk-bare.mk-bare.xx）' % (rel, sel))
+PENDING_HANDWRITTEN = {'mt-empty', 'sd-empty', 'sl-empty', 'ag-notice', 'cf-notice', 'lnd-notice', 'ldf-notice'}  # 找仓域、交易域的专用空态和提示，留到逐域批次迁移；这里只拦新增
+# 按压反馈约定（app.wxss「v2 按压反馈」）：1) 带 bindtap 且标了 aria-role 的可点 view 必须有 hover-class；
+# 2) 按钮只有禁用态才允许 hover-class="none"；3) 空态、提示条不许再逐页手写（用 mk-empty / mk-notice）。
+for dp, _, fs in os.walk(root):
+    for f in fs:
+        if not f.endswith('.wxml'): continue
+        p = os.path.join(dp, f); rel = os.path.relpath(p, root); w = open(p, encoding='utf-8').read()
+        for m in re.finditer(r'<(view|button)\b([^>]*)>', w, flags=re.S):
+            t = m.group(2); ln = w[:m.start()].count('\n') + 1
+            if m.group(1) == 'view' and 'bindtap' in t and re.search(r'aria-role="(button|checkbox|radio|tab|link|switch)"', t) and 'hover-class' not in t:
+                errs.append('%s:%d 可点的 view 没有 hover-class（用 mk-tap--hover）' % (rel, ln))
+            if m.group(1) == 'button' and 'hover-class="none"' in t and 'mk-btn--disabled' not in t and 'mk-btn' in t and 'data-calib' not in t:
+                errs.append('%s:%d 按钮 hover-class="none"，没有按压反馈' % (rel, ln))
+        if not rel.startswith('components' + os.sep):
+            for m in re.finditer(r'class="(?:[^"]* )?(?!mk-)([a-z]+-(?:empty|notice))(?![\w-])[^"]*"', w):
+                if m.group(1) not in PENDING_HANDWRITTEN: errs.append('%s:%d 手写了空态或提示条 %s，应改用 mk-empty / mk-notice' % (rel, w[:m.start()].count('\n') + 1, m.group(1)))
 for it in app['tabBar']['list']:
     for k in ('iconPath', 'selectedIconPath'):
         if not ex(it[k]): errs.append('tabBar 图标不存在 ' + it[k])

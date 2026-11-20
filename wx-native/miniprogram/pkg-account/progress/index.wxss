@@ -14,9 +14,5 @@
 .lpg-kv + .lpg-kv { margin-top: 0; }
 .lpg-sub + .lpg-kv { margin-top: var(--mk-space-2); }
 .lpg-amt { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); }
-.lpg-empty { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: var(--mk-space-cardGap); }
-.lpg-pic { display: flex; align-items: center; justify-content: center; width: 144rpx; height: 144rpx; margin: var(--mk-space-2) 0 var(--mk-space-3); border-radius: 50%; background: var(--mk-color-brand-tint); }
-.lpg-eacts { display: flex; margin: var(--mk-space-4) 0 var(--mk-space-2); }
-.lpg-ebtn { padding: 0 var(--mk-space-4); }
-.mk-btn.mk-btn.lpg-ebtn--r { margin-left: var(--mk-space-3); }
+.lpg-emptywrap { display: block; margin-top: var(--mk-space-cardGap); }
 .lpg-neutral { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }

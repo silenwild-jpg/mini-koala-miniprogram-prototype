@@ -1,9 +1,6 @@
 <view class="mk-page">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
-  <view wx:elif="{{empty}}" class="ms-empty">
-    <image class="ms-empty-ico" src="/assets/icons/msg-ink.svg" />
-    <text class="mk-title">{{T.m.empty}}</text>
-  </view>
+  <mk-empty wx:elif="{{empty}}" icon="/assets/icons/msg-ink.svg" title="{{T.m.empty}}" has-action="{{false}}" />
   <view wx:else class="mk-gutter ms-top">
     <view class="mk-card">
       <view wx:for="{{list}}" wx:key="id" class="ms-row" data-i="{{index}}" bindtap="onLink">

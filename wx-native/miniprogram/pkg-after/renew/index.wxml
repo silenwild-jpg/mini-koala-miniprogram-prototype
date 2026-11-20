@@ -1,40 +1,37 @@
 <view class="mk-page {{bar ? 'af-pad' : ''}}">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
-  <view wx:elif="{{empty}}" class="af-empty">
-    <image class="af-empty-ico" src="/assets/icons/order-sub.svg" />
-    <text class="mk-title">{{T.c.emptyTitle}}</text>
-    <text class="mk-sub af-empty-sub">{{T.c.emptySub}}</text>
-    <button class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
-  </view>
+  <mk-empty wx:elif="{{empty}}" icon="/assets/icons/order-sub.svg" title="{{T.c.emptyTitle}}" sub="{{T.c.emptySub}}">
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
+  </mk-empty>
   <block wx:else>
     <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
     <view class="af-body">
-      <mk-after-note wx:if="{{note && st === 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}" />
+      <mk-notice wx:if="{{note && st === 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}" />
       <mk-order-card order="{{order}}" />
       <view wx:if="{{steps.length}}" class="mk-card af-gap rn-top">
         <text class="mk-title af-sec">{{T.r.progress}}</text>
         <mk-after-steps steps="{{steps}}" />
       </view>
       <view wx:else class="rn-top"></view>
-      <mk-after-note wx:if="{{note && st !== 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}">
+      <mk-notice wx:if="{{note && st !== 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}">
         <view wx:if="{{sub}}" class="rn-sub">
           <image wx:if="{{sub.ok}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
           <text class="mk-sub">{{sub.text}}</text>
           <text wx:if="{{!sub.ok}}" class="mk-link rn-subbtn" bindtap="onSubAsk" aria-role="button">{{T.c.subOn}}</text>
         </view>
-      </mk-after-note>
+      </mk-notice>
       <view wx:if="{{form}}" class="mk-card af-gap">
         <text class="mk-title af-sec">{{T.r.monthsTitle}}</text>
         <view class="mk-between">
           <text class="mk-sub">{{T.r.monthsLabel}}</text>
           <view class="rn-stepper">
-            <view class="rn-step {{form.canMinus ? '' : 'rn-step--off'}}" bindtap="onMinus" aria-role="button" aria-label="减少">−</view>
+            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="rn-step {{form.canMinus ? '' : 'rn-step--off'}}" bindtap="onMinus" aria-role="button" aria-label="减少">−</view>
             <text class="rn-stepval">{{form.monthsText}}</text>
-            <view class="rn-step {{form.canPlus ? '' : 'rn-step--off'}}" bindtap="onPlus" aria-role="button" aria-label="增加">+</view>
+            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="rn-step {{form.canPlus ? '' : 'rn-step--off'}}" bindtap="onPlus" aria-role="button" aria-label="增加">+</view>
           </view>
         </view>
         <view class="rn-chips">
-          <view wx:for="{{form.chips}}" wx:key="m" class="mk-chip rn-chip {{item.on ? 'mk-chip--on' : ''}}" data-m="{{item.m}}" bindtap="onChip" aria-role="button">{{item.label}}</view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{form.chips}}" wx:key="m" class="mk-chip rn-chip {{item.on ? 'mk-chip--on' : ''}}" data-m="{{item.m}}" bindtap="onChip" aria-role="button">{{item.label}}</view>
         </view>
         <text wx:if="{{form.hint}}" class="rn-hint">{{form.hint}}</text>
         <text class="af-rule">{{form.rule}}</text>
@@ -65,7 +62,7 @@
       <text class="mk-mute">{{bar.lab}}</text>
       <text class="mk-num af-bar-amt {{bar.muted ? 'af-bar-amt--muted' : ''}}">{{bar.amt}}</text>
     </view>
-    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="none" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
+    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="mk-btn--ghostHover" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
   </view>
     <mk-sheet visible="{{paySheet}}" title="{{T.r.paySheet}}" bind:close="onSheetClose">
       <view wx:if="{{pay}}">
@@ -76,7 +73,7 @@
         <view class="af-total"><text>{{T.r.payable}}</text><text class="mk-num af-total-amt">{{pay.amt}}</text></view>
         <view class="af-acts">
           <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onPayConfirm">{{T.r.payConfirm}}</button>
-          <button class="mk-btn af-btn--neutral" hover-class="none" bindtap="onPayLater">{{T.r.payLater}}</button>
+          <button class="mk-btn af-btn--neutral" hover-class="mk-btn--plainHover" bindtap="onPayLater">{{T.r.payLater}}</button>
         </view>
       </view>
     </mk-sheet>

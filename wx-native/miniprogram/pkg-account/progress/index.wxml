@@ -23,14 +23,10 @@
       <view class="lpg-kv"><text class="mk-sub">{{T.payable}}</text><text class="mk-num lpg-amt">{{quote.payable}}</text></view>
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onConfirm">{{quote.cta}}</button>
     </view>
-    <view wx:if="{{empty}}" class="mk-card lpg-empty">
-      <view class="lpg-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/flag-ink.svg" /></view>
-      <text class="mk-title">{{T.emptyTitle}}</text>
-      <view class="lpg-eacts">
-        <button class="mk-btn mk-btn--md lpg-ebtn" hover-class="mk-btn--hover" bindtap="onEstimate">{{T.estimate}}</button>
-        <button class="mk-btn mk-btn--md lpg-neutral lpg-ebtn lpg-ebtn--r" hover-class="none" bindtap="onStores">{{T.findStores}}</button>
-      </view>
-    </view>
+    <mk-empty wx:if="{{empty}}" class="lpg-emptywrap" icon="/assets/icons/flag-ink.svg" title="{{T.emptyTitle}}" card="{{true}}">
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onEstimate">{{T.estimate}}</button>
+      <button class="mk-btn mk-btn--md lpg-neutral mk-empty-btn" hover-class="mk-btn--plainHover" bindtap="onStores">{{T.findStores}}</button>
+    </mk-empty>
   </view>
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
 </view>

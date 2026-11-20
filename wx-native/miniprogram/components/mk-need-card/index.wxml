@@ -1,5 +1,5 @@
 <block wx:if="{{has && mode !== 'hidden'}}">
-  <view wx:if="{{mode === 'strip'}}" class="mk-card nc-strip mk-row" bindtap="onView" aria-role="button">
+  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{mode === 'strip'}}" class="mk-card nc-strip mk-row" bindtap="onView" aria-role="button">
     <text class="mk-mute nc-sk">{{T.kicker}}</text><text class="mk-grow mk-ellipsis">{{stripText}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
   </view>
   <view wx:else class="mk-card nc-card">
@@ -13,7 +13,7 @@
       <view class="nc-fact"><view><text class="mk-num nc-num">{{termNum}}</text><text class="nc-u">{{termUnit}}</text></view><text class="mk-sub">{{T.termLabel}}</text></view>
     </view>
     <view class="nc-acts">
-      <button class="mk-btn mk-btn--ghost mk-btn--md nc-btn" hover-class="none" bindtap="onModify">{{T.modify}}</button>
+      <button class="mk-btn mk-btn--ghost mk-btn--md nc-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.modify}}</button>
       <button class="mk-btn mk-btn--md nc-btn" hover-class="mk-btn--hover" bindtap="onView">{{T.view}}</button>
     </view>
   </view>

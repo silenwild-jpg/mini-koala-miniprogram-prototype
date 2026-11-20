@@ -1,5 +1,5 @@
 <view class="adv-adv mk-between">
   <image class="mk-icon mk-icon--md" src="/assets/icons/headset-brand.svg" />
   <view class="mk-grow adv-txt"><text class="mk-title adv-t">{{title}}</text><text class="mk-sub">{{sub}}</text></view>
-  <button class="mk-bare mk-link adv-contact" hover-class="none" open-type="contact">立即咨询</button>
+  <button class="mk-bare mk-link adv-contact" hover-class="mk-bare--hover" open-type="contact">立即咨询</button>
 </view>

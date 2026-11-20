@@ -11,8 +11,8 @@
       <view wx:if="{{sub === 'accepted'}}" class="lbk-sub mk-row"><image class="mk-icon" src="/assets/icons/check-brand.svg" /><text class="lbk-subok">{{T.b.subOk}}</text></view>
       <view wx:elif="{{sub === 'declined'}}" class="lbk-sub lbk-sub--col"><text class="mk-sub">{{T.b.subNo}}</text><text class="lbk-subask" bindtap="onSubAsk" aria-role="button">{{T.b.subAsk}}</text></view>
       <view class="ldf-acts lbk-acts">
-        <button class="mk-btn mk-btn--ghost" hover-class="none" bindtap="onNeeds">{{T.c.viewNeeds}}</button>
-        <button class="mk-btn ldf-neutral" hover-class="none" bindtap="onFind">{{T.c.goFind}}</button>
+        <button class="mk-btn mk-btn--ghost" hover-class="mk-btn--ghostHover" bindtap="onNeeds">{{T.c.viewNeeds}}</button>
+        <button class="mk-btn ldf-neutral" hover-class="mk-btn--plainHover" bindtap="onFind">{{T.c.goFind}}</button>
       </view>
     </view>
     <view class="mk-card ldf-cardgap">
@@ -23,7 +23,7 @@
   <block wx:else>
     <view wx:if="{{status === 'failed' || status === 'unknown'}}" class="ldf-status ldf-status--err">
       <view class="mk-grow"><text class="ldf-status-t">{{statusTitle}}</text><text class="ldf-status-s">{{statusMsg}}</text></view>
-      <button class="mk-btn mk-btn--ghost mk-btn--md ldf-status-btn" hover-class="none" bindtap="onRetrySubmit">{{statusBtn}}</button>
+      <button class="mk-btn mk-btn--ghost mk-btn--md ldf-status-btn" hover-class="mk-btn--ghostHover" bindtap="onRetrySubmit">{{statusBtn}}</button>
     </view>
     <view class="ldf-ptitle"><text class="ldf-h1">{{M.h1}}</text><text class="ldf-p">{{M.p}}</text></view>
     <view wx:if="{{mode === 'business'}}" class="lbk-tobiz mk-sub"><text>{{T.b.toBusinessTip}}</text><text class="mk-link" bindtap="onToBusiness" aria-role="button">{{T.b.toBusiness}}</text></view>
@@ -36,7 +36,7 @@
         <view class="ldf-label"><text>{{T.b.address}}</text><text wx:if="{{advisor}}" class="ldf-opt">{{T.c.optionalFill}}</text><text wx:else class="ldf-req">{{T.c.required}}</text></view>
         <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" placeholder="{{T.b.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
         <text wx:if="{{errAddress}}" class="ldf-err">{{errAddress}}</text>
-        <view class="ldf-helprow"><text class="mk-sub mk-grow lbk-help">{{help}}</text><view class="ldf-textbtn" bindtap="onLocate" aria-role="button"><image class="mk-icon" src="/assets/icons/locate-ink.svg" /><text>{{T.b.locate}}</text></view></view>
+        <view class="ldf-helprow"><text class="mk-sub mk-grow lbk-help">{{help}}</text><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onLocate" aria-role="button"><image class="mk-icon" src="/assets/icons/locate-ink.svg" /><text>{{T.b.locate}}</text></view></view>
       </view>
       <view class="ldf-field">
         <view class="ldf-label"><text>{{T.phoneLabel}}</text><text class="ldf-req">{{T.c.required}}</text></view>
@@ -46,16 +46,16 @@
       <view class="ldf-field">
         <view class="ldf-label"><text>{{T.b.when}}</text><text class="ldf-opt">{{T.c.optional}}</text></view>
         <view class="ldf-chips">
-          <view wx:for="{{hints}}" wx:key="t" class="ldf-chip ldf-chip--line {{item.on ? 'ldf-chip--on' : ''}}" data-i="{{index}}" bindtap="onHint" aria-role="button"><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /><text>{{item.t}}</text></view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{hints}}" wx:key="t" class="ldf-chip ldf-chip--line {{item.on ? 'ldf-chip--on' : ''}}" data-i="{{index}}" bindtap="onHint" aria-role="button"><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /><text>{{item.t}}</text></view>
         </view>
-        <view class="ldf-input" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-input" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
       </view>
       <view class="ldf-field">
         <view class="ldf-label"><text>{{T.b.need}}</text><text class="ldf-opt">{{T.c.optional}}</text></view>
         <view class="mk-card lbk-rows">
-          <view class="lbk-row" bindtap="onOpenItems" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/user-ink.svg" /><text class="mk-grow">{{T.b.items}}</text><text class="{{items ? '' : 'ldf-ph'}}">{{items || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
-          <view class="lbk-row" bindtap="onOpenCapacity" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cube-ink.svg" /><text class="mk-grow">{{T.b.capacity}}</text><text class="{{capHint ? '' : 'ldf-ph'}}">{{capHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
-          <view class="lbk-row lbk-row--last" bindtap="onOpenDuration" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow">{{T.b.duration}}</text><text class="{{termHint ? '' : 'ldf-ph'}}">{{termHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row" bindtap="onOpenItems" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/user-ink.svg" /><text class="mk-grow">{{T.b.items}}</text><text class="{{items ? '' : 'ldf-ph'}}">{{items || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row" bindtap="onOpenCapacity" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cube-ink.svg" /><text class="mk-grow">{{T.b.capacity}}</text><text class="{{capHint ? '' : 'ldf-ph'}}">{{capHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row lbk-row--last" bindtap="onOpenDuration" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow">{{T.b.duration}}</text><text class="{{termHint ? '' : 'ldf-ph'}}">{{termHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
         </view>
         <text wx:if="{{salesCap}}" class="ldf-help">{{T.b.salesNote}}</text>
       </view>
@@ -68,25 +68,25 @@
     <view class="mk-bottom-bar"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{status === 'submitting'}}" bindtap="onSubmit">{{status === 'submitting' ? T.b.submitting : M.submit}}</button></view>
   </block>
   <mk-sheet visible="{{sheet === 'items'}}" title="{{T.b.items}}" bind:close="onSheetClose">
-    <view wx:for="{{itemOptions}}" wx:key="t" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickItem" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{itemOptions}}" wx:key="t" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickItem" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'capacity'}}" title="{{T.b.capacity}}" bind:close="onSheetClose">
     <view class="ldf-input {{capErr ? 'ldf-input--err' : ''}}">
       <input class="ldf-native" type="digit" value="{{capRaw}}" placeholder="{{T.b.capPh}}" placeholder-class="ldf-ph" bindinput="onCapInput" />
-      <view class="lbk-unit {{capUnit === 'm3' ? 'lbk-unit--on' : ''}}" data-u="m3" bindtap="onCapUnit" aria-role="button">{{T.c.m3}}</view>
-      <view class="lbk-unit {{capUnit === 'm2' ? 'lbk-unit--on' : ''}}" data-u="m2" bindtap="onCapUnit" aria-role="button">{{T.c.m2}}</view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-unit {{capUnit === 'm3' ? 'lbk-unit--on' : ''}}" data-u="m3" bindtap="onCapUnit" aria-role="button">{{T.c.m3}}</view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-unit {{capUnit === 'm2' ? 'lbk-unit--on' : ''}}" data-u="m2" bindtap="onCapUnit" aria-role="button">{{T.c.m2}}</view>
     </view>
     <text wx:if="{{capErr}}" class="ldf-err">{{capErr}}</text>
-    <view class="ldf-chips lbk-quick"><view wx:for="{{capQuick}}" wx:key="t" class="ldf-chip {{item.on ? 'ldf-chip--on' : ''}}" data-i="{{index}}" bindtap="onCapQuick" aria-role="button">{{item.t}}</view></view>
+    <view class="ldf-chips lbk-quick"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{capQuick}}" wx:key="t" class="ldf-chip {{item.on ? 'ldf-chip--on' : ''}}" data-i="{{index}}" bindtap="onCapQuick" aria-role="button">{{item.t}}</view></view>
     <text class="mk-sub">{{T.b.capNote}}</text>
-    <view class="ldf-sheetacts"><button class="mk-btn ldf-neutral" hover-class="none" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onCapOk">{{T.c.confirm}}</button></view>
+    <view class="ldf-sheetacts"><button class="mk-btn ldf-neutral" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onCapOk">{{T.c.confirm}}</button></view>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'duration'}}" title="{{T.b.duration}}" bind:close="onSheetClose">
     <view class="lbk-term"><mk-term-seg value="{{termDraft}}" allow-unsure="{{true}}" bind:change="onTermDraft" /></view>
-    <view class="ldf-sheetacts"><button class="mk-btn ldf-neutral" hover-class="none" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDurationOk">{{T.c.confirm}}</button></view>
+    <view class="ldf-sheetacts"><button class="mk-btn ldf-neutral" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDurationOk">{{T.c.confirm}}</button></view>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'date'}}" title="{{T.c.dateSheet}}" bind:close="onSheetClose">
-    <view wx:for="{{dateOptions}}" wx:key="d" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickDate" aria-role="button"><text class="mk-num">{{item.d}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
-    <view class="ldf-sheetacts"><button class="mk-btn ldf-neutral" hover-class="none" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDateOk">{{T.c.confirm}}</button></view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{dateOptions}}" wx:key="d" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickDate" aria-role="button"><text class="mk-num">{{item.d}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
+    <view class="ldf-sheetacts"><button class="mk-btn ldf-neutral" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDateOk">{{T.c.confirm}}</button></view>
   </mk-sheet>
 </view>

@@ -1,5 +1,5 @@
 <view class="mk-page">
-  <view class="mn-head mk-gutter mk-row" bindtap="onHead" aria-role="button">
+  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mn-head mk-gutter mk-row" bindtap="onHead" aria-role="button">
     <view class="mn-avatar"><image class="mk-icon mk-icon--md" src="/assets/icons/user-sub.svg" /></view>
     <view class="mk-grow">
       <text class="mk-h2 mn-nm">{{headTitle}}</text>
@@ -23,9 +23,9 @@
     <view wx:if="{{assets.length}}" class="mk-card mn-card">
       <view class="mk-between mn-gt">
         <text class="mk-title">{{T.mine.assets.title}}</text>
-        <view wx:if="{{assetsAll}}" class="mk-row mn-all" bindtap="onAssetsAll" aria-role="button"><text class="mk-link">{{assetsAll}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{assetsAll}}" class="mk-row mn-all" bindtap="onAssetsAll" aria-role="button"><text class="mk-link">{{assetsAll}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
       </view>
-      <view wx:for="{{assets}}" wx:key="id" class="mn-asset mk-row" data-id="{{item.id}}" bindtap="onAsset" aria-role="button">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{assets}}" wx:key="id" class="mn-asset mk-row" data-id="{{item.id}}" bindtap="onAsset" aria-role="button">
         <view class="mk-grow">
           <view class="mk-row"><text class="mn-an mk-ellipsis">{{item.store}}</text><text class="mn-tag mn-tag--{{item.tone}}">{{item.tag}}</text></view>
           <text class="mk-sub mn-block">{{item.unit}}</text>
@@ -36,13 +36,7 @@
     </view>
     <view wx:for="{{groups}}" wx:key="key" class="mk-card mn-card">
       <text class="mk-title mn-gt mn-block">{{item.title}}</text>
-      <view wx:for="{{item.items}}" wx:for-item="it" wx:key="k" class="mn-row mk-row" data-k="{{it.k}}" bindtap="onItem" aria-role="button">
-        <image class="mk-icon mk-icon--md mn-ic" src="{{it.icon}}" />
-        <text class="mn-t">{{it.t}}</text>
-        <text class="mk-grow mk-sub mn-s mk-ellipsis">{{it.s}}</text>
-        <text wx:if="{{it.count > 0}}" class="mn-badge mk-num">{{it.count}}</text>
-        <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
-      </view>
+      <mk-cell wx:for="{{item.items}}" wx:for-item="it" wx:for-index="ix" wx:key="k" icon="{{it.icon}}" title="{{it.t}}" value="{{it.s}}" badge="{{it.count || 0}}" divider="{{ix > 0}}" data-k="{{it.k}}" bindtap="onItem" />
     </view>
   </view>
   <view wx:if="{{demoLabel}}" class="mk-t-hint mn-demo" hover-class="mk-tap--hover" bindtap="onDemo" aria-role="button">{{demoLabel}}</view>

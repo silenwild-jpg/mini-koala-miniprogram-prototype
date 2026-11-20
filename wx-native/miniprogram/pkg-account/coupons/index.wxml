@@ -1,12 +1,10 @@
 <view class="mk-page">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:else class="ac-wrap">
-    <view class="ac-notice"><text class="ac-notice-s">{{T.notice}}</text></view>
-    <view wx:if="{{empty}}" class="mk-card ac-empty">
-      <view class="ac-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/ticket-ink.svg" /></view>
-      <text class="mk-title">{{T.empty}}</text>
-      <button class="mk-btn mk-btn--md ac-empty-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onClaim">{{T.claim}}</button>
-    </view>
+    <mk-notice plain="{{true}}" text="{{T.notice}}" />
+    <mk-empty wx:if="{{empty}}" icon="/assets/icons/ticket-ink.svg" title="{{T.empty}}" card="{{true}}">
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onClaim">{{T.claim}}</button>
+    </mk-empty>
     <view wx:else class="mk-card">
       <text class="ac-sec">{{T.coupons}}</text>
       <view wx:for="{{coupons}}" wx:key="id" class="cp-card {{item.off ? 'cp-off' : ''}}">
@@ -19,19 +17,15 @@
           <text wx:if="{{item.condition}}" class="mk-sub cp-cond">{{item.condition}}</text>
           <view wx:if="{{item.valid || item.canUse}}" class="mk-between cp-line">
             <text class="mk-mute">{{item.valid}}</text>
-            <view wx:if="{{item.canUse}}" class="mk-row cp-use" bindtap="onUse" aria-role="button"><text class="mk-link">{{T.use}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.canUse}}" class="mk-row cp-use" bindtap="onUse" aria-role="button"><text class="mk-link">{{T.use}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
           </view>
         </view>
       </view>
-      <button wx:if="{{!loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="none" bindtap="onLogin">{{T.gateAmount}}</button>
+      <button wx:if="{{!loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="mk-btn--ghostHover" bindtap="onLogin">{{T.gateAmount}}</button>
     </view>
     <view wx:if="{{benefits.length}}" class="mk-card">
       <text class="ac-sec">{{T.benefits}}</text>
-      <view wx:for="{{benefits}}" wx:key="id" class="ac-lrow">
-        <image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/truck-ink.svg" />
-        <text class="mk-grow">{{item.name}}</text>
-        <text class="ac-tag ac-tag--{{item.tone}}">{{item.tag}}</text>
-      </view>
+      <mk-cell wx:for="{{benefits}}" wx:key="id" icon="/assets/icons/truck-ink.svg" title="{{item.name}}" arrow="{{false}}" divider="{{index > 0}}"><text class="ac-tag ac-tag--{{item.tone}}">{{item.tag}}</text></mk-cell>
     </view>
   </view>
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />

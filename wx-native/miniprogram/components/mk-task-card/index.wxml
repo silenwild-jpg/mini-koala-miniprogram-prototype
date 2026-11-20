@@ -14,27 +14,27 @@
       <view wx:for="{{main.facts}}" wx:key="l" class="tk-fact"><text class="mk-num tk-fv">{{item.v}}</text><text class="mk-mute">{{item.l}}</text></view>
     </view>
     <view class="tk-acts">
-      <button wx:if="{{main.secondary}}" class="mk-btn mk-btn--ghost mk-btn--md tk-btn" hover-class="none" data-a="{{main.secondary.a}}" bindtap="onAction">{{main.secondary.t}}</button>
+      <button wx:if="{{main.secondary}}" class="mk-btn mk-btn--ghost mk-btn--md tk-btn" hover-class="mk-btn--ghostHover" data-a="{{main.secondary.a}}" bindtap="onAction">{{main.secondary.t}}</button>
       <button class="mk-btn mk-btn--md tk-btn" hover-class="mk-btn--hover" data-a="{{main.primary.a}}" bindtap="onAction">{{main.primary.t}}</button>
     </view>
     <view wx:if="{{main.svc}}" class="tk-svc">
-      <view class="tk-svcitem" data-a="renew" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/renew-ink.svg" /><text class="tk-svct">{{T.svc.renew}}</text></view>
-      <view class="tk-svcitem" data-a="add" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/plus-ink.svg" /><text class="tk-svct">{{T.svc.add}}</text></view>
-      <view class="tk-svcitem" data-a="more" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/grid-ink.svg" /><text class="tk-svct">{{T.svc.more}}</text></view>
-      <view class="tk-svcitem" data-a="notice" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/info-ink.svg" /><text class="tk-svct">{{T.svc.notice}}</text></view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="tk-svcitem" data-a="renew" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/renew-ink.svg" /><text class="tk-svct">{{T.svc.renew}}</text></view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="tk-svcitem" data-a="add" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/plus-ink.svg" /><text class="tk-svct">{{T.svc.add}}</text></view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="tk-svcitem" data-a="more" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/grid-ink.svg" /><text class="tk-svct">{{T.svc.more}}</text></view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="tk-svcitem" data-a="notice" bindtap="onAction" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/info-ink.svg" /><text class="tk-svct">{{T.svc.notice}}</text></view>
     </view>
     <view wx:if="{{main.helpTitle}}" class="tk-note">
       <view class="mk-grow tk-notetext"><text class="tk-noteb">{{main.helpTitle}} </text><text>{{main.helpText}}</text></view>
-      <view class="mk-link tk-notelink" data-a="notice" bindtap="onAction" aria-role="button">{{T.viewNotice}}</view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-link tk-notelink" data-a="notice" bindtap="onAction" aria-role="button">{{T.viewNotice}}</view>
     </view>
     <view wx:if="{{main.othersText}}" class="tk-note"><text class="tk-notetext">{{main.othersText}}</text></view>
   </view>
   <view wx:if="{{todos.length}}" class="mk-card tk-strip" aria-label="待办">
-    <view wx:for="{{todos}}" wx:key="id" class="tk-todo" data-i="{{index}}" bindtap="onTodo" aria-role="button">
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{todos}}" wx:key="id" class="tk-todo" data-i="{{index}}" bindtap="onTodo" aria-role="button">
       <text class="tk-todok">{{item.k}}</text>
       <view class="tk-todot mk-ellipsis mk-grow">{{item.t}}</view>
       <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
     </view>
-    <view wx:if="{{moreText}}" class="tk-todo mk-link" bindtap="onMore" aria-role="button">{{moreText}}</view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{moreText}}" class="tk-todo mk-link" bindtap="onMore" aria-role="button">{{moreText}}</view>
   </view>
 </view>
