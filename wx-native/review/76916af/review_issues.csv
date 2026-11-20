@@ -1,0 +1,9 @@
+issue_id,severity,type,page_id,scene_id,file_or_shot,现象,依据,建议
+R76-01,P1,技术回归,S02,,miniprogram/pages/store/detail.wxss:81,`.sd-demo` 使用裸色值 #fff 与 rgba(0,0,0,.65)；static_check.py 报 2 条错误。该行自 1fa17b4 起存在，之后又有 3 个运行时提交，01B 的 G_TECH 未包含静态检查,tools/static_check.py（errors 须为 0）,改用令牌或登记新令牌后引用；从下一批起 G_TECH 固定包含静态检查并附原始输出
+R76-02,P2,排版可读性,S02,,target-store-header-375.png,门店头部地址栏在 375 宽度下地址列只有约 5 个字宽，显示为「北京市朝阳／区富仁名…」，在「朝阳区」中间断行；390 下同样两行截断,截图实测；未对照冻结稿,地址占满一行剩余宽度，「预约看仓」固定宽度靠右或另起一行；改后 375/390 重截
+R76-03,P2,排版可读性,S02,,target-store-header-375.png;target-store-header-390.png,「存取时间：09:00-21:00」在两种宽度下都在时间段中间折行（09:00- ／ 21:00）,截图实测；未对照冻结稿,时间段不换行（white-space:nowrap），与收藏、分享分两行或缩窄右侧操作
+R76-04,P2,交互,S02 看仓弹层,,target-visit-validation-375.png;target-visit-validation-390.png,手机号填 123 后，错误提示「请填写有效手机号，或使用微信手机号」出现在提交按钮上方，与出错的输入框隔了看仓时间、意向仓位两个区块；输入框本身没有错误态,截图实测,错误提示放在手机号输入框正下方，输入框加错误态；提交时滚动到首个出错字段
+R76-05,P2,证据不足,全部,,COMPONENT-PILOT-01B-FINAL/f125158…/target-*-375.png,标称 375 的截图实际为 345×748 像素，390 的为 359×777 像素，约为 92% 缩放，证据里没有记录缩放比和 DPR；无法与设计稿做像素级比对,截图文件实测尺寸,模拟器缩放设为 100%，截图宽度等于逻辑宽度 × DPR，并在 shots.csv 记录 DPR
+R76-06,P2,证据不足,mk-sheet,,metrics-geometry-receipts.json,弹层关闭区扩到 48×48 只有尺寸测量，边缘点击因工具接口不支持未验证（Codex 已自述 NOT_VERIFIED）,docs/component-pilot-01b-20261120/G_VIS.md,列入真机必测项；真机验证前不把 A03 记为完成
+R76-07,P3,设计债,多页,,mk-login-sheet/index.wxss;mk-visit-sheet/index.wxss;pages/match/index.wxss;pkg-trade/confirm/index.wxss;pkg-trade/quick/index.wxss,说明文字提亮是用 5 处页面级选择器逐个覆盖 `.mk-mute` 的颜色，没有收敛成一个语义类；01D 分域推广会继续增加这类覆盖,代码差异 582a653..76916af,01D 之前在组件约定里定一个「正常说明文字」语义类（如 .mk-note）并登记令牌，各页改为引用它
+R76-08,P2,流程,mk-sheet,,components/mk-sheet/index.wxss,共享弹层改动（影响 28 页）在独立评审之前已落地；本单为追溯评审，且 24 张最终图只覆盖了 6 个页面的弹层状态,docs/component-pilot-01b-20261120/COMPONENT_CONTRACT.md,后续改共享组件前先把约定交评审；01C 补其余调用方的弹层截图（至少租期、需求修改、登录三类各一）
