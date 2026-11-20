@@ -1,0 +1,475 @@
+[
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){wx.removeStorageSync('mk_state_v1');return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "simulator_refresh",
+    "parameters": [],
+    "receipt": {
+      "ok": true,
+      "tool": "simulator_refresh",
+      "clientName": "codex",
+      "result": {
+        "success": true
+      }
+    }
+  },
+  {
+    "tool": "automation_navigate",
+    "parameters": [
+      "--action",
+      "reLaunch",
+      "--url",
+      "/pkg-trade/quick/index?store=SIM_BJ01",
+      "--wait",
+      "2"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_navigate",
+      "clientName": "codex",
+      "result": {
+        "success": true
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var p=getCurrentPages().slice(-1)[0];p.onPickUnit({currentTarget:{dataset:{id:'SIM_BJ01_U03'}}});p.onDate({detail:{value:'2026-12-01'}});return p.route;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": "pkg-trade/quick/index"
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_page_action",
+    "parameters": [
+      "--action",
+      "getData",
+      "--data-path",
+      "btnDisabled",
+      "--wait",
+      "1"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_page_action",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "data": false
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){getCurrentPages().slice(-1)[0].onNext();return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_page_action",
+    "parameters": [
+      "--action",
+      "getData",
+      "--data-path",
+      "loginVisible",
+      "--wait",
+      "1"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_page_action",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "data": true
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var c=getCurrentPages().slice(-1)[0].selectComponent('#login-sheet');c.onGetPhone({detail:{errMsg:'getPhoneNumber:fail',errno:1400001}});return c.data.mode;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": "sms"
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var c=getCurrentPages().slice(-1)[0].selectComponent('#login-sheet');if(c.data.mode!=='sms')throw Error('NO_SMS_FALLBACK');c.onGetPhone({detail:{code:'local-demo'}});return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_page_action",
+    "parameters": [
+      "--action",
+      "getData",
+      "--data-path",
+      "btnText",
+      "--wait",
+      "1"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_page_action",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "data": "下一步：确认订单"
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){getCurrentPages().slice(-1)[0].onNext();return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_page_action",
+    "parameters": [
+      "--action",
+      "getData",
+      "--data-path",
+      "mode",
+      "--wait",
+      "1"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_page_action",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "data": "compose"
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var p=getCurrentPages().slice(-1)[0];p.onIdv();p.onIdvName({detail:{value:'张明'}});p.onIdvNo({detail:{value:'110101199001010012'}});p.onIdvSubmit();return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_page_action",
+    "parameters": [
+      "--action",
+      "getData",
+      "--data-path",
+      "idv.verified",
+      "--wait",
+      "1"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_page_action",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "data": true
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var p=getCurrentPages().slice(-1)[0];p.onAgree();p.onSign();p.onSignConfirm();return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_page_action",
+    "parameters": [
+      "--action",
+      "getData",
+      "--data-path",
+      "phase",
+      "--wait",
+      "1"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_page_action",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "data": "pending"
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var p=getCurrentPages().slice(-1)[0];p.onPayLater();return p.data.cardOrder.id;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": "MK202611200006"
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_wx_api",
+    "parameters": [
+      "--action",
+      "mock",
+      "--method",
+      "showModal",
+      "--result-file",
+      "C:\\Users\\EDY\\Documents\\ChatGPT\\迷你考拉仓—统一项目\\.delivery\\wx-native-exec-20261120\\wx-native\\evidence\\20261120\\functional\\confirm.json"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_wx_api",
+      "clientName": "codex",
+      "result": {
+        "success": true
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){getCurrentPages().slice(-1)[0].onCancel();return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_page_action",
+    "parameters": [
+      "--action",
+      "getData",
+      "--data-path",
+      "phase",
+      "--wait",
+      "1"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_page_action",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "data": "cancelled"
+      }
+    }
+  },
+  {
+    "tool": "automation_wx_api",
+    "parameters": [
+      "--action",
+      "restore",
+      "--method",
+      "showModal"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_wx_api",
+      "clientName": "codex",
+      "result": {
+        "success": true
+      }
+    }
+  },
+  {
+    "tool": "automation_navigate",
+    "parameters": [
+      "--action",
+      "navigateTo",
+      "--url",
+      "/pages/store/detail?id=SIM_BJ01"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_navigate",
+      "clientName": "codex",
+      "result": {
+        "success": true
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){getCurrentPages().slice(-1)[0].onBooking();return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var c=getCurrentPages().slice(-1)[0].selectComponent('#visit-sheet');c.onCapacity({detail:{value:'3.01'}});c.onSubmit();return true;}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": true
+        }
+      }
+    }
+  },
+  {
+    "tool": "automation_evaluate",
+    "parameters": [
+      "--fn-source",
+      "function(){var c=getCurrentPages().slice(-1)[0].selectComponent('#visit-sheet');if(!c.data.success)throw Error(c.data.error||'NO_VISIT_RECEIPT');return {submitted:true};}"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "automation_evaluate",
+      "clientName": "codex",
+      "result": {
+        "success": true,
+        "result": {
+          "result": {
+            "submitted": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "tool": "get_simulator_console",
+    "parameters": [
+      "--command",
+      "grep -i error"
+    ],
+    "receipt": {
+      "ok": true,
+      "tool": "get_simulator_console",
+      "clientName": "codex",
+      "result": ""
+    }
+  }
+]

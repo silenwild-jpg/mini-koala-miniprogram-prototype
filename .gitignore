@@ -14,3 +14,7 @@ Thumbs.db
 playwright-report/
 test-results/
 .tmp/
+# 本机原生验收过程与导出包；最终验收证据单独入库。
+/deliverables/
+/wx-native/evidence/20261120/round1/
+/wx-native/evidence/20261120/wxml-compiled.js

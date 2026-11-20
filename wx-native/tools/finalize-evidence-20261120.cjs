@@ -1,0 +1,28 @@
+const fs=require('fs'),path=require('path'),cp=require('child_process'),crypto=require('crypto'),assert=require('assert/strict');
+const native=path.resolve(__dirname,'..'),evidence=path.join(native,'evidence/20261120');
+const sha=cp.execFileSync('git',['rev-parse','HEAD'],{cwd:native,encoding:'utf8'}).trim();
+cp.execFileSync('git',['diff','--exit-code','--','wx-native/miniprogram'],{cwd:native});
+const read=p=>fs.readFileSync(path.join(evidence,p),'utf8');
+const json=p=>JSON.parse(read(p));
+const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+const lastJson=p=>JSON.parse(read(p).trim().split(/\r?\n/).filter(l=>l.startsWith('{')).at(-1));
+const testText=read('node-tests.txt'),tests=Number(testText.match(/ℹ tests (\d+)/)[1]),passed=Number(testText.match(/ℹ pass (\d+)/)[1]),failed=Number(testText.match(/ℹ fail (\d+)/)[1]);
+assert.equal(failed,0);assert.equal(passed,tests);
+const pages=lastJson('smoke-pages.txt'),orders=lastJson('smoke-orders.txt');assert.equal(pages.errors,0);assert.equal(orders.errors,0);
+const wxml=json('wxml-result.json'),stat=json('static-result.json');assert.equal(wxml.exit_code,0);assert.equal(stat.errors.length,0);assert.equal(stat.source_sha,sha);
+const round=json('round2/receipts.json'),flow=json('functional/receipts.json');
+for(const r of [...round,...flow]){assert.equal(r.receipt.ok,true);assert.notEqual(r.receipt.result?.success,false);}
+assert.ok(flow.some(r=>r.tool==='automation_page_action'&&r.receipt.result.data==='cancelled'));
+assert.ok(flow.some(r=>{ if(r.tool!=='automation_evaluate')return false;let v=r.receipt.result;while(v&&typeof v==='object'&&'result' in v)v=v.result;return v&&v.submitted===true; }));
+const consoleLog=round.findLast(r=>r.tool==='get_simulator_console').receipt.result;
+assert.ok(!/\[error\]/i.test(consoleLog));
+const screens=round.filter(r=>r.tool==='simulator_screenshot').map(r=>({file:path.basename(r.receipt.result.path),image_width:r.receipt.result.imageWidth,image_height:r.receipt.result.imageHeight,sha256:hash(path.join(evidence,'round2',path.basename(r.receipt.result.path)))}));
+assert.equal(screens.length,18);
+const devices=round.filter(r=>r.tool==='automation_runtime_info').map(r=>r.receipt.result.systemInfo.result).map(r=>({model:r.model,width:r.screenWidth,height:r.screenHeight,sdk:r.SDKVersion}));
+assert.deepEqual(devices.map(d=>d.width).sort(),[375,390]);
+const verification={source_sha:sha,miniprogram_tree:cp.execFileSync('git',['rev-parse','HEAD:wx-native/miniprogram'],{cwd:native,encoding:'utf8'}).trim(),date_shanghai:'2026-11-20',branch:'codex/wx-native-exec-20261120',node:{tests,passed,failed},pages_smoke:pages,orders_smoke:orders,static:stat,wxml,devices,native_functional:'PASS: local mock authentication, identity, signature, cancellation and visit submission',native_console_errors:0,native_console_warnings:['Global custom components may affect lazy code injection'],screenshots:screens,visual_acceptance:'NOT_SIGNED',ios_android_real_devices:'NOT_TESTED',real_identity_sms_payment_crm_customer_service:'NOT_TESTED',experience_upload:'NOT_UPLOADED',main_merge:'NOT_MERGED',frozen_design_and_clickable_web:'PRESERVED_SOURCE; not updated to new rules'};
+fs.writeFileSync(path.join(evidence,'verification.json'),JSON.stringify(verification,null,2));
+const cases=[['home','首页'],['cap-normal','容量填写'],['cap-large','大容量仍可自助'],['match-normal','仓位推荐'],['match-large','容量接近'],['store','门店详情'],['visit','预约看仓'],['quick','快捷下单（未登录已选齐）'],['confirm','确认订单（演示登录）']];
+const html=`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>迷你考拉仓｜微信原生候选</title><style>body{font:16px/1.6 system-ui,sans-serif;color:#1f2a24;background:#f5f7f6;margin:0}main{max-width:960px;margin:auto;padding:36px 20px}h1{font-size:28px}h2{margin-top:40px;font-size:21px}.meta{padding:20px;background:white;border-radius:12px}.pair{display:flex;gap:24px;flex-wrap:wrap}figure{margin:0;background:white;padding:16px;border-radius:12px;flex:1;min-width:260px}img{display:block;width:100%;max-width:390px;height:auto;margin:auto}figcaption{font-size:14px;margin-bottom:14px}code{overflow-wrap:anywhere}a{color:#0b7a48}</style><main><h1>微信原生实施候选</h1><div class="meta"><p>源码 <code>${sha}</code></p><p>${tests}项测试通过 · 35页模拟运行零异常 · ${wxml.template_count}个WXML模板编译成功</p><p>以下为微信开发者工具原生模拟器截图，375×812／390×844两种机型。截图本身受模拟器缩放影响，逻辑尺寸以工具回执为准。</p><p>取号、实名、支付、线索为本地演示；未上传体验版，未做真机及全状态人工视觉签收。</p><a href="verification.json">完整验收记录</a> · <a href="../../docs/implementation-20261120/CHANGE_MATRIX.csv">40条修改对照</a></div>${cases.map(([key,label])=>`<section><h2>${label}</h2><div class="pair">${[375,390].map(w=>`<figure><figcaption>${w}逻辑宽度</figcaption><a href="round2/${key}-${w}.png"><img src="round2/${key}-${w}.png" alt="${label}，${w}宽度" loading="lazy"></a></figure>`).join('')}</div></section>`).join('')}</main></html>`;
+fs.writeFileSync(path.join(evidence,'review.html'),html);
+console.log(JSON.stringify({source_sha:sha,tests,passed,screenshots:screens.length,complete:true}));

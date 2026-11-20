@@ -1,0 +1,175 @@
+{
+  "source_sha": "be7369231b57698ffa7136e3bb0fa78cc8e6542a",
+  "miniprogram_tree": "f4c912b65de28d808b9904fcb000f994e6e5c882",
+  "date_shanghai": "2026-11-20",
+  "branch": "codex/wx-native-exec-20261120",
+  "node": {
+    "tests": 160,
+    "passed": 160,
+    "failed": 0
+  },
+  "pages_smoke": {
+    "pages": 35,
+    "components": 22,
+    "handler_calls": 6618,
+    "errors": 0
+  },
+  "orders_smoke": {
+    "orders": 6,
+    "page_loads": 54,
+    "handler_calls": 960,
+    "new_order": [
+      "MK202611200006",
+      "paid_before_start",
+      2780
+    ],
+    "errors": 0
+  },
+  "static": {
+    "source_sha": "be7369231b57698ffa7136e3bb0fa78cc8e6542a",
+    "js_files": 110,
+    "total_files": 421,
+    "total_bytes": 2033289,
+    "errors": []
+  },
+  "wxml": {
+    "template_count": 60,
+    "exit_code": 0,
+    "compiler": "C:\\Program Files (x86)\\Tencent\\微信web开发者工具\\resources\\app.asar.unpacked\\node_modules\\wcc-exec\\wcc.exe"
+  },
+  "devices": [
+    {
+      "model": "iPhone 12/13 (Pro)",
+      "width": 390,
+      "height": 844,
+      "sdk": "3.5.8"
+    },
+    {
+      "model": "iPhone 12/13 mini",
+      "width": 375,
+      "height": 812,
+      "sdk": "3.5.8"
+    }
+  ],
+  "native_functional": "PASS: local mock authentication, identity, signature, cancellation and visit submission",
+  "native_console_errors": 0,
+  "native_console_warnings": [
+    "Global custom components may affect lazy code injection"
+  ],
+  "screenshots": [
+    {
+      "file": "home-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "2fa1904571217de74afc0ce1e752500bcb2234c2ab1debcd00dfb1ca4e31fa1e"
+    },
+    {
+      "file": "cap-normal-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "4f109e4d9abd4e3d2e605b0835079c3555019aa47e5356b0ff4567d93067f1d8"
+    },
+    {
+      "file": "match-normal-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "5f301105f7bcc86de09f19bd2399262bef94b1f4bbff4d76d21a3ec0297b75bf"
+    },
+    {
+      "file": "cap-large-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "eeab52f89b3cb8cdeb8a6534c0a9bb3f6cdbd7f3a02b7253a044752d6c80863b"
+    },
+    {
+      "file": "match-large-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "b42b410e737e75b225e561d9654a4d15f73723ead124c557e4b13a0efc45b800"
+    },
+    {
+      "file": "store-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "0dd2f5fcb994f2d4cd230680968dd1fae88da6c5e58cc1f6e43d8db9082cd743"
+    },
+    {
+      "file": "visit-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "fff40fae4e3ded240d00365893d99dc23818d95fe4b328598e52231b7b4637ee"
+    },
+    {
+      "file": "quick-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "ffe841cd7d7e7a15e3ca918fbdab25e7467c2053932ddcf5245ebeffd4eba5e0"
+    },
+    {
+      "file": "home-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "afaec751a20497dd1806773a5934ea92fa6f1049df0d49e343d6210885ee64b9"
+    },
+    {
+      "file": "cap-normal-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "a18e1902e854409440c19e57dc21375b5baecf7c708a273459931da40e179892"
+    },
+    {
+      "file": "match-normal-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "dd0483fa1a5f32addecb4bec4eade24435cac902c0ae44f439853f5d7932bef1"
+    },
+    {
+      "file": "cap-large-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "7cff7139352b01fcdeed439aca777ec6c42411c3dab93f3f7054091159516d81"
+    },
+    {
+      "file": "match-large-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "880ba0508cfe1b767bc27346a7f72922a188374b6bde7c4eef9e742d1dc428e2"
+    },
+    {
+      "file": "store-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "57024e0fa74148e98883e96911facf2e3d8fe7fa3a754dccba7b6ab200815760"
+    },
+    {
+      "file": "visit-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "595d60c8f44077fcb40b245771e06f0c099ef67d31aa2d1aa9eb68f7cc853d8d"
+    },
+    {
+      "file": "quick-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "834bc55945850ca82e8be18a5c61de363c50d66ab1ac95467489e2dcd0197ff5"
+    },
+    {
+      "file": "confirm-375.png",
+      "image_width": 312,
+      "image_height": 674,
+      "sha256": "93605a2e49f218de757f1b4c3f2979d57051ba18a2fd406e91d144c3a80bc41c"
+    },
+    {
+      "file": "confirm-390.png",
+      "image_width": 309,
+      "image_height": 667,
+      "sha256": "c47f955859f39ca15410d2f43bb6fc9d9acd0ac64441e7b61d19350ff985a651"
+    }
+  ],
+  "visual_acceptance": "NOT_SIGNED",
+  "ios_android_real_devices": "NOT_TESTED",
+  "real_identity_sms_payment_crm_customer_service": "NOT_TESTED",
+  "experience_upload": "NOT_UPLOADED",
+  "main_merge": "NOT_MERGED",
+  "frozen_design_and_clickable_web": "PRESERVED_SOURCE; not updated to new rules"
+}
