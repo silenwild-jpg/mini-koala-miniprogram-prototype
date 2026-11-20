@@ -79,7 +79,7 @@ Page({
     const miss = !d.store ? T.missStore : !d.unit ? T.missUnit : d.gone ? T.missSwap : !d.startDate ? T.missDate : '';
     const quote = !miss && !loggedIn; // 未登录且已选齐：主按钮是「查看报价」，点击打开登录层
     this.setData({
-      barLabel: d.est ? T.estimate : T.need, barAmount: d.est ? d.est.amount : miss, barMuted: !d.est, barNeed: d.est && miss ? T.need + miss : '',
+      barLabel: quote ? T.loginToQuote : d.est ? T.estimate : T.need, barAmount: d.est ? d.est.amount : miss, barMuted: !d.est, barNeed: d.est && miss ? T.need + miss : '',
       btnText: quote ? T.quote : T.next, btnDisabled: !!miss
     });
   },

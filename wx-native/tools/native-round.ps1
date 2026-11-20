@@ -20,8 +20,8 @@ Invoke-Wx 'simulator_refresh' @() | Out-Null
 foreach ($width in @(390,375)) {
   $device = if ($width -eq 390) { 'iPhone 12/13 (Pro)' } else { 'iPhone 12/13 mini' }
   Invoke-Wx 'simulator_set_device' @('--device',$device) | Out-Null
-  Invoke-Wx 'automation_runtime_info' @('--action','systemInfo') | Out-Null
   Invoke-Wx 'automation_navigate' @('--action','switchTab','--url','/pages/home/index','--wait','2') | Out-Null
+  Invoke-Wx 'automation_runtime_info' @('--action','systemInfo') | Out-Null
   Shot "home-$width"
   Invoke-Wx 'automation_navigate' @('--action','reLaunch','--url','/pages/estimate/capacity','--wait','2') | Out-Null
   Invoke-Wx 'automation_element_action' @('--selector','.cp-input','--action','input','--value','3.01') | Out-Null

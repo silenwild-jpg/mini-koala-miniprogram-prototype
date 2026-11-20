@@ -59,6 +59,10 @@ test('快捷下单来源守卫回快捷下单；订单页会话失效立即隐�
  const pg=env.newPage('pkg-trade/quick/index',{login:'1'});assert.equal(pg.data.loginVisible,true);
  fresh(true);const confirm=env.newPage('pkg-trade/confirm/index',{unit:'SIM_BJ01_U03',term:'6'});await tick();state.logout();env.nav.length=0;confirm.onShow();assert.equal(confirm.data.cardOrder,null);assert.equal(confirm.data.showBar,false);confirm.onUnload();
 });
+test('快捷下单未登录选齐后提示登录报价，不再显示空的还需状态',async()=>{
+ fresh();const pg=env.newPage('pkg-trade/quick/index',{store:'SIM_BJ01',unit:'SIM_BJ01_U03'});await tick();pg.onDate({detail:{value:'2026-12-01'}});pg.bar();
+ assert.equal(pg.data.btnDisabled,false);assert.equal(pg.data.btnText,'查看报价');assert.equal(pg.data.barLabel,'登录后查看整期报价');assert.equal(pg.data.barAmount,'');assert.equal(pg.data.est,null);
+});
 test('预约用仓成功不等订阅；顾问允许手填电话且不登录',async()=>{
  fresh();const c=env.newPage('pkg-lead/booking/index',{mode:'advisor'});await tick();c.onManualPhone({detail:{value:'13800008000'}});let asked=0;const original=wx.requestSubscribeMessage;wx.requestSubscribeMessage=()=>{asked++};
  await c.onSubmit();wx.requestSubscribeMessage=original;assert.equal(c.data.status,'success');assert.equal(asked,0);assert.equal(state.get().session.loggedIn,false);assert.equal(db.leads[0].type,'advisor');
