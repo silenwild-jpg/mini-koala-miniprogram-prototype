@@ -14,7 +14,6 @@
     <view wx:if="{{showNew}}" class="mk-card mn-card mn-new">
       <text class="mn-kicker">{{T.mine.newCard.kicker}}</text>
       <text class="mk-title mn-block">{{T.mine.newCard.title}}</text>
-      <text class="mk-sub mn-block">{{T.mine.newCard.sub}}</text>
       <button class="mk-btn mk-btn--md mn-cta" hover-class="mk-btn--hover" bindtap="onNewCta">{{T.mine.newCard.cta}}</button>
     </view>
   </view>

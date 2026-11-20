@@ -4,6 +4,7 @@
 .ex-sub { display: flex; align-items: center; margin-top: var(--mk-space-2); }
 .ex-subbtn { flex: none; padding: var(--mk-space-2) 0 var(--mk-space-2) var(--mk-space-3); font-size: var(--mk-font-size-md); }
 .ex-confirm { text-align: center; }
+.ex-early { margin: 0 0 var(--mk-space-2); }
 .ex-acts { display: flex; margin-top: var(--mk-space-4); }
 .mk-btn.mk-btn.ex-act { flex: 1; min-width: 0; width: auto; }
 .ex-act + .mk-btn.mk-btn.ex-act { margin-left: var(--mk-space-3); }

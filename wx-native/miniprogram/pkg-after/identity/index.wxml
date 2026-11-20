@@ -6,7 +6,7 @@
   </mk-empty>
   <block wx:else>
     <view class="af-body id-top">
-      <mk-notice wx:if="{{note}}" text="{{note}}" tone="warn" />
+      <mk-notice wx:if="{{note}}" text="{{note}}" tone="{{noteTone}}" />
       <mk-order-card order="{{order}}" />
       <view class="mk-card af-gap id-card">
         <view class="mk-row id-headrow"><text class="mk-title id-title">{{T.i.title}}</text><mk-after-tag text="{{tag}}" tone="{{tone}}" /></view>
@@ -16,14 +16,15 @@
     <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
       <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn" hover-class="mk-btn--hover" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
     </view>
-    <mk-sheet visible="{{sheet}}" title="{{T.i.sheet}}" bind:close="onSheetClose">
-      <mk-field label="{{T.i.name}}" error="{{nameErr ? T.i.nameErr : ''}}">
-        <view class="af-input {{nameErr ? 'af-input--err' : ''}}"><input class="af-input-el" value="{{name}}" placeholder="{{T.i.namePh}}" placeholder-class="af-ph" maxlength="20" bindinput="onName" /></view>
+    <mk-sheet visible="{{sheet}}" title="{{T.v.title}}" bind:close="onSheetClose">
+      <mk-field label="{{T.v.name}}" error="{{nameErr ? T.v.nameInvalid : ''}}">
+        <view class="af-input {{nameErr ? 'af-input--err' : ''}}"><input class="af-input-el" value="{{name}}" placeholder="{{T.v.namePh}}" placeholder-class="af-ph" maxlength="20" bindinput="onName" /></view>
       </mk-field>
-      <mk-field label="{{T.i.idNo}}" error="{{idErr ? T.i.idErr : ''}}">
-        <view class="af-input {{idErr ? 'af-input--err' : ''}}"><input class="af-input-el" type="idcard" value="{{idNo}}" placeholder="{{T.i.idPh}}" placeholder-class="af-ph" maxlength="18" bindinput="onIdNo" /></view>
+      <mk-field label="{{T.v.no}}" error="{{idErr ? T.v.noInvalid : ''}}">
+        <view class="af-input {{idErr ? 'af-input--err' : ''}}"><input class="af-input-el" type="idcard" value="{{idNo}}" placeholder="{{T.v.noPh}}" placeholder-class="af-ph" maxlength="18" bindinput="onIdNo" /></view>
       </mk-field>
-      <view class="af-acts"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSubmit">{{T.i.submit}}</button></view>
+      <text class="af-rule">{{T.v.fine}}</text>
+      <view class="af-acts"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSubmit">{{T.v.submit}}</button></view>
     </mk-sheet>
   </block>
 </view>

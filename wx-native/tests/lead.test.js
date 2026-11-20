@@ -76,12 +76,12 @@ test('预约页：未登录点提交 → 报「请填写有效联系电话」，
   pg.onSubmit(); await tick();
   assert.equal(pg.data.errPhone, '请填写有效联系电话'); assert.equal(pg.data.errAddress, '请填写用仓位置（不超过120字）'); assert.equal(db.leads.length, 0); assert.equal(pg.data.status, 'editing');
 });
-test('预约页：按面积填的需求带入「2㎡ · 约4.8m³」；?cap=31 带入并提示 30m³ 及以上由顾问配仓', async () => {
+test('预约页：按面积填的需求带入「2㎡ · 约4.8m³」；?cap=31 带入并提示可联系专属配仓顾问（只提示，不拦）', async () => {
   fresh({ capacity_m3: 4.8, input_unit: 'm2', input_value: 2, term_months: 12 }, true);
   let pg = env.newPage(base(routes.BOOKING), {}); await tick(); assert.equal(pg.data.capHint, '2㎡ · 约4.8m³'); assert.equal(pg.data.salesCap, false);
   fresh(null, true); pg = env.newPage(base(routes.BOOKING), { mode: 'advisor', cap: '31' }); await tick();
-  assert.equal(pg.data.capHint, '31m³'); assert.equal(pg.data.salesCap, false); assert.equal(pg.data.termHint, '', '预约页不设默认租期');
-  assert.equal(state.get().requirement, null, '30m³ 及以上不写入全局需求');
+  assert.equal(pg.data.capHint, '31m³'); assert.equal(pg.data.salesCap, true, '达到 30m³ 出大容量提示（FIX-01 E-10）'); assert.equal(pg.data.termHint, '', '预约页不设默认租期');
+  assert.equal(state.get().requirement, null, '?cap 只带到表单，不写入全局需求');
 });
 test('预约页意向容量弹层：m³ / ㎡ 用全站同一份校验；常用项「30m³ 及以上」', async () => {
   fresh(null, true); const pg = env.newPage(base(routes.BOOKING), {}); await tick();
@@ -108,11 +108,11 @@ test('订阅消息（D-187）：点「预约用仓」时请求；取消后仍提
   fresh(NEED, true); C.subscribeTemplates.booking = ['TPL_BOOKING']; env.mode = 'fail'; // 假环境：fail = 用户取消订阅
   let pg = env.newPage(base(routes.BOOKING), {}); await tick();
   pg.onAddress(input('北京市朝阳区')); await pg.onSubmit(); await tick();
-  assert.equal(pg.data.status, 'success'); assert.equal(db.leads.length, 1, '取消订阅不拦提交'); assert.equal(pg.data.sub, '');
+  assert.equal(pg.data.status, 'success'); assert.equal(db.leads.length, 1, '取消订阅不拦提交'); assert.equal(pg.data.sub, 'declined', '取消后结果页留「开启通知」（FIX-01 E-11）');
   env.mode = 'ok'; pg.onSubAsk(); await tick(); assert.equal(pg.data.sub, 'accepted', '点「开启通知」再次请求');
   fresh(NEED, true); C.subscribeTemplates.booking = ['TPL_BOOKING'];
   pg = env.newPage(base(routes.BOOKING), {}); await tick(); pg.onAddress(input('北京市朝阳区')); await pg.onSubmit(); await tick();
-  assert.equal(pg.data.sub, ''); assert.equal(db.leads.length, 1);
+  assert.equal(pg.data.sub, 'accepted'); assert.equal(db.leads.length, 1);
   // 顾问咨询不请求订阅
   fresh(NEED, true); C.subscribeTemplates.booking = ['TPL_BOOKING']; let asked = 0; const orig = wx.requestSubscribeMessage; wx.requestSubscribeMessage = (o) => { asked++; orig(o); };
   pg = env.newPage(base(routes.BOOKING), { mode: 'advisor' }); await tick(); await pg.onSubmit(); await tick();
@@ -121,7 +121,7 @@ test('订阅消息（D-187）：点「预约用仓」时请求；取消后仍提
 });
 test('顾问模式：按钮「提交咨询需求」不并名；位置选填；考拉E存入口带来源', async () => {
   fresh(null, true); let pg = env.newPage(base(routes.BOOKING), { mode: 'advisor', source: 'estore' }); await tick();
-  assert.equal(pg.data.M.submit, '提交咨询需求'); assert.equal(pg.data.M.title, '顾问咨询'); assert.equal(pg.data.help, '联系电话必填；用仓位置和以下信息可选。');
+  assert.equal(pg.data.M.submit, '提交咨询需求'); assert.equal(pg.data.M.title, '考拉E存咨询', '考拉E存入口的表单带来源标题（FIX-01 E-21）'); assert.equal(env.newPage(base(routes.BOOKING), { mode: 'advisor' }).data.M.title, '顾问咨询'); assert.equal(pg.data.help, '联系电话必填；用仓位置和以下信息可选。');
   await pg.onSubmit(); await tick(); assert.equal(pg.data.status, 'success'); assert.equal(db.leads[0].type, 'advisor'); assert.equal(db.leads[0].source, 'estore');
   assert.equal(pg.data.result.notLock, '');
   pg = env.newPage(base(routes.BOOKING), { mode: 'business' }); assert.equal(pg.data.M.title, '企业用仓咨询'); assert.equal(pg.data.M.submit, '提交咨询需求');
@@ -141,12 +141,12 @@ test('提交失败可重试、回执超时可核对：同一个 request_key 只�
 });
 test('企业容量：区间上限与大容量均能带入，自定义沿用归一',()=>{
  assert.equal(lead.bizCapacity({band:'15-30'}).match,30);assert.equal(lead.bizCapacity({band:'30+'}).match,30);
- const c=lead.bizCapacity({custom:true,sizeRaw:'30.01'});assert.equal(c.sales,false);assert.equal(c.match,30.1);
+ const c=lead.bizCapacity({custom:true,sizeRaw:'30.01'});assert.equal(c.large,true);assert.equal(c.match,30.1);assert.equal(lead.bizCapacity({band:'30+'}).large,true);assert.equal(lead.bizCapacity({band:'15-30'}).large,false);
  assert.equal(lead.bizCapacity({custom:true,sizeRaw:'0.11'}).match,0.5);
 });
 
 test('企业页：大容量主引导顾问，同时保留自助找仓',async()=>{
- fresh(null,true);const pg=env.newPage(base(routes.BUSINESS),{});await tick();pg.onBand({currentTarget:{dataset:{k:'custom'}}});pg.onSize(input('48'));assert.equal(pg.data.salesOnly,false);
+ fresh(null,true);const pg=env.newPage(base(routes.BUSINESS),{});await tick();pg.onBand({currentTarget:{dataset:{k:'custom'}}});pg.onSize(input('48'));assert.equal(pg.data.sizeNote,T.business.salesNote);
  pg.onTerm({detail:{months:12}});env.nav.length=0;pg.onBrowse();assert.equal(state.get().requirement.capacity_m3,48);assert.equal(env.nav[0].url,routes.STORES);
 });
 
@@ -160,7 +160,7 @@ test('企业页：两步提交，线索存区间容量与其他用仓区域；�
   assert.equal(db.leads.length, 1); const l = db.leads[0];
   assert.equal(l.type, 'enterprise'); assert.equal(l.capacity_band, '5–15m³'); assert.equal(l.capacity_m3, null); assert.deepEqual(l.other_areas, ['海淀区', '丰台区']);
   assert.equal(l.address, '北京市朝阳区安贞西里三区 12 号楼；其他区域：海淀区、丰台区'); assert.deepEqual(l.storage_types, ['库存', '样品']); assert.equal(l.term_months, 12); assert.equal(l.company, '安贞商贸有限公司');
-  assert.equal(pg.data.dialog.title, '已提交'); assert.equal(pg.data.dialog.no, '需求编号 0001'); assert.equal(pg.data.dialog.sales, false); assert.equal(pg.data.primary, '保存企业需求更新');
+  assert.equal(pg.data.dialog.title, '已提交'); assert.equal(pg.data.dialog.no, '需求编号 0001'); assert.equal(pg.data.primary, '保存企业需求更新');
   assert.equal(state.get().requirement, null, '提交企业需求不写全局需求'); assert.equal(state.get().bizDraft, null, '提交后清掉草稿');
   pg.onDialogClose(); pg.onNotes(input('新增：需要周末入仓。')); await pg.onSubmit(); await tick();
   assert.equal(db.leads.length, 1, '再次保存是更新同一条'); assert.equal(db.leads[0].note, '新增：需要周末入仓。'); assert.equal(pg.data.dialog.title, '企业需求已更新');
@@ -220,8 +220,9 @@ test('联系顾问：空内容报错；未登录提交先登录；提交后给�
   login(); pg.onLoginSuccess(); pg.onType({ currentTarget: { dataset: { k: 'moving' } } }); await pg.onSubmit(); await tick();
   assert.equal(pg.data.saved.typeText, '搬运服务'); assert.equal(db.leads[0].type, 'support'); assert.equal(db.leads[0].text, '想了解朝阳区 3m³ 左右的仓位和月租');
   env.mode = 'fail'; pg.onCall(); env.mode = 'ok'; pg.onCall(); // 两个分支都不抛错
-  env.nav.length = 0; pg.onPersonal(); pg.onEnterprise(); pg.onNeeds(); pg.onMine();
-  assert.deepEqual(env.nav.map((n) => n.url), [routes.BOOKING, routes.BUSINESS, routes.NEEDS, routes.MINE]);
+  assert.equal(pg.data.nextBtn, T.common.goFind, '留言不进预约记录，结果卡不给「查看预约记录」（FIX-01 E-05）');
+  env.nav.length = 0; pg.onPersonal(); pg.onEnterprise(); pg.onNext(); pg.onMine();
+  assert.deepEqual(env.nav.map((n) => n.url), [routes.BOOKING, routes.BUSINESS, routes.STORES, routes.MINE]);
 });
 test('改本次联系电话（D-126）：短信验证其他手机号，只用于这条线索，不换登录手机号', async () => {
   fresh(null, true);
@@ -243,6 +244,7 @@ test('找仓进度：没有需求和订单是空态；有订单没有需求给�
   assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes.CAPACITY }, { kind: 'switchTab', url: routes.STORES }]);
   fresh(NEED, false); pg = env.newPage(base(routes.PROGRESS), {}); await tick(); assert.equal(pg.data.hasNeed, true); assert.equal(pg.data.empty, false); assert.equal(pg.data.reference, null);
   const sel = { store_id: 'SIM_BJ01', store_name: '安贞·富仁名苑店', unit_ids: ['SIM_BJ01_U03'], unit_name: 'A003 · 3.5m³', term_months: 6 };
+  const held = db.orders.splice(0), seeded = db.seeded; db.seeded = true; // 这一段不带演示订单：A003 被演示订单占用时不可租、取不到报价（FIX-01 A-08）
   state.set('selection', sel); pg = env.newPage(base(routes.PROGRESS), {}); await tick();
   assert.equal(pg.data.quote, null, '未登录不显示金额'); assert.equal(pg.data.selected.line, '6个月 · A003 · 3.5m³');
   env.nav.length = 0; pg.onConfirm(); assert.equal(env.nav.length, 0, '未登录去确认订单 → 打开登录层'); assert.equal(pg.data.loginVisible, true);
@@ -250,6 +252,7 @@ test('找仓进度：没有需求和订单是空态；有订单没有需求给�
   assert.equal(pg.data.quote.valid, true); assert.equal(pg.data.quote.rent, '¥1,680'); assert.equal(pg.data.quote.cta, '去确认订单');
   state.set('selection', Object.assign({ quoted_at: Date.now() - (C.timers.quoteTtlHours * 3600e3 + 1000) }, sel)); pg = env.newPage(base(routes.PROGRESS), {}); await tick();
   assert.equal(pg.data.quote.valid, false); assert.equal(pg.data.quote.tag, '已过期'); assert.equal(pg.data.quote.cta, '重新报价');
+  db.orders.push(...held); db.seeded = seeded;
   if (C.DEMO_SEED_ORDERS) {
     fresh(null, true); pg = env.newPage(base(routes.PROGRESS), {}); await tick();
     assert.ok(pg.data.reference); pg.onRefind(); assert.equal(state.get().requirement.capacity_m3, pg.data.reference.cap);

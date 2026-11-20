@@ -5,6 +5,8 @@
 // 「一键开锁」点击只提示暂未开通（D-151、D-175）。
 // 未做：sub=ask（微信订阅授权框是微信原生界面）；arrival=simple 里的到店资料摘要两行（门店到店资料未入库，只保留「到店与进仓指引」入口行）。
 // 门店导航：演示门店数据没有坐标，现在是复制地址（services/order-actions.js）。
+// FIX-01：阶段内单列的几种情况（押金退款未成功、验仓未通过、退仓待清空、实名未通过、续租待支付 / 付款未成功）各有状态头、说明和主按钮（order-view.variant）；
+//   订单服务「退仓进度」按退仓状态四种文字；开票未成功、退款未成功高亮；带 paid=1 进入时显示「支付成功，已付 ¥X」；支付失败态显示失败原因（R-07）；下拉刷新。
 const TT = require('../../i18n/trade');
 const C = require('../../core/config');
 const api = require('../../services/api');
@@ -22,46 +24,64 @@ const BAR = { // 阶段 → [主按钮文字键, 动作, 次按钮文字键, 动
   identity: ['btnIdentity', 'identity', 'navigate', 'navigate'], upcoming: ['navigate', 'navigate', 'access', 'access'], active: ['unlock', 'unlock', 'navigate', 'navigate'],
   expiring: ['btnRenew', 'renew', 'unlock', 'unlock'], renewal: ['btnRenewQuote', 'renew', 'unlock', 'unlock'], renewal_pending: ['btnRenewProgress', 'renew', 'unlock', 'unlock'],
   returning: ['btnExitProgress', 'exit', 'navigate', 'navigate'], inspection: ['btnInspect', 'exit', '', ''], refund: ['btnDeposit', 'deposit', '', ''],
-  expired_lease: ['btnRenew', 'renew', 'btnExit', 'exit'], ended: ['btnAgain', 'restart', '', ''], expired: ['btnRestart', 'restart', '', ''], cancelled: ['btnRestart', 'restart', '', '']
+  expired_lease: ['btnRenew', 'renew', 'btnExit', 'exit'], ended: ['btnAgain', 'restart', '', ''], expired: ['btnRestart', 'restart', '', ''], cancelled: ['btnRestart', 'restart', '', ''],
+  // 阶段内单列的情况（键同 order-view.variant）
+  identity_mismatch: ['btnIdentityRetry', 'identity', 'navigate', 'navigate'], exit_clearing: ['btnToInspect', 'exit', 'navigate', 'navigate'], inspect_failed: ['btnReinspect', 'exit', 'navigate', 'navigate'],
+  refund_failed: ['btnDeposit', 'deposit', 'btnCall', 'call'], renewal_pay: ['btnRenewPay', 'renew', 'unlock', 'unlock'], renewal_pay_failed: ['btnRenewPay', 'renew', 'unlock', 'unlock']
 };
+BAR.inspection = ['btnInspect', 'exit', 'btnCall', 'call']; // C-13：门店还没验仓，按钮写「查看验仓进度」，并给联系门店
+const EXIT_TEXT = { requested: 'exitSubmitted', waiting: 'exitInspect', failed: 'exitFailed', passed: 'exitPassed' };
 function depositLabel(o, p) {
   const st = o.deposit && o.deposit.status, L = T.depositLabel;
   if (p === 'inspection') return L.inspect;
   return L[st] || '';
 }
 function build(o, now, sub) {
-  const h = view.head(o, now), p = h.phase, paid = view.isPaid(p), lk = LEASE[o.stage] || '';
-  const idv = o.identity_status === 'verified', left = view.daysLeft(o, now);
+  const h = view.head(o, now), p = h.phase, key = h.variant || p, paid = view.isPaid(p);
+  const lk = p === 'expired_lease' ? 'expired' : (LEASE[o.stage] || ''); // 阶段滞后但到期日已过的，按已到期显示（C-14）
+  const idv = o.identity_status === 'verified', left = view.daysLeft(o, now), x = o.exit || null;
+  const leftText = left === 0 ? T.leftToday : T.leftPrefix + left + T.leftSuffix; // 到期日当天仍在租期内（R-04）
   const subs = [T.orderNo + o.no, T.orderedAt + view.ymd(o.created_at)];
-  if (p === 'expiring' && left !== null) subs.push(T.leftPrefix + left + T.leftSuffix);
+  if (p === 'expiring' && left !== null && left >= 0) subs.push(leftText);
+  if (p === 'expired_lease' && left !== null && left < 0) subs.push(T.overduePrefix + (-left) + T.leftSuffix);
   if (p === 'upcoming' || p === 'identity') subs.push(T.startPlan + view.ymd(o.lease.start));
+  if ((p === 'returning' || p === 'inspection') && x && x.date) subs.push(T.clearPlan + x.date);
+  const pf = (TT.payFail || {})[o.pay && o.pay.fail_reason], why = (r) => (r ? { title: '', text: T.reasonPrefix + r, tone: 'err' } : null);
   const NOTE = {
-    payment_failed: { title: '', text: T.noteFailed[0] + view.ymdhm(o.pay.expires_at) + T.noteFailed[1], tone: 'err' },
+    payment_failed: { title: '', text: (pf && pf[0] ? pf[0] + '。' : '') + T.noteFailed[0] + view.ymdhm(o.pay.expires_at) + T.noteFailed[1], tone: 'err' },
     expired: { title: '', text: T.noteExpired, tone: '' }, cancelled: { title: '', text: T.noteCancelled, tone: '' },
-    identity: { title: '', text: T.noteIdentity, tone: 'warn' }, expired_lease: { title: T.noteOverdueTitle, text: T.noteOverdue, tone: 'warn' },
-    renewal: { title: '', text: T.noteRenewal, tone: 'warn' }
+    identity: { title: '', text: T.noteIdentity, tone: 'warn' }, identity_mismatch: { title: '', text: T.noteIdentityMismatch, tone: 'err' },
+    expired_lease: { title: '', text: T.noteOverdue[0] + view.ymd(o.lease.end) + T.noteOverdue[1], tone: 'warn' },
+    renewal: { title: '', text: T.noteRenewal, tone: 'warn' }, renewal_pay: { title: '', text: T.noteRenewPay, tone: 'warn' }, renewal_pay_failed: { title: '', text: T.noteRenewPayFailed, tone: 'err' },
+    refund_failed: why(o.deposit && o.deposit.fail_reason), inspect_failed: why(x && x.fail_reason)
   };
-  const d = { head: h, subs, note: NOTE[p] || null, order: o, paid, phase: p, clock: '', subLine: paid && (sub === 'accepted' || sub === 'declined') ? sub : '' };
+  const d = { head: h, subs, note: NOTE[key] || null, order: o, paid, phase: p, clock: '', subLine: paid && (sub === 'accepted' || sub === 'declined') ? sub : '' };
   d.storeSvc = paid && p !== 'ended'; d.withUnlock = ['active', 'expiring', 'renewal', 'renewal_pending'].indexOf(p) >= 0;
   d.progress = []; d.services = [];
   if (paid) {
     d.progress.push({ k: T.totalTerm, v: fmt.termText(o.months) }, { k: T.leaseEnd, v: view.ymd(o.lease.end) });
-    if (p === 'expiring' && left !== null) d.progress.push({ k: T.leftTerm, v: left + T.leftSuffix });
+    if (p === 'expiring' && left !== null && left >= 0) d.progress.push({ k: T.leftTerm, v: left === 0 ? T.leftToday : left + T.leftSuffix });
     if (!idv) d.progress.push({ k: T.identity, v: T.todo, soft: true });
-    d.progress.push({ k: T.deposit, v: depositLabel(o, p) || T.depositLabel.holding });
+    d.progress.push({ k: T.deposit, v: depositLabel(o, p) || T.depositLabel.holding, warn: key === 'refund_failed' });
     const rows = d.services, row = (a, icon, k, v, on) => rows.push({ a, icon, k, v: v || '', on: !!on });
     row('contract', 'shield-ink', T.econtract, o.contract && o.contract.signed ? T.signed : '');
     if (lk === 'active' || lk === 'upcoming') { if (idv) row('access', 'door-ink', T.access, ''); else row('identity', 'id-ink', T.identity, T.todo, true); }
     const ren = o.renew && (o.renew.status === 'submitted' || o.renew.status === 'quoted') ? o.renew : null;
     if ((lk === 'active' || lk === 'upcoming') && o.months < C.requirement.termMax) row('renew', 'renew-ink', ren ? T.renewProgress : T.renew, ren ? (ren.status === 'quoted' ? T.renewQuoted : T.renewSubmitted) : T.canApply, !!ren);
-    if (lk === 'expired') row('renew', 'renew-ink', T.renew, T.canApply, true);
-    if (lk === 'active' || lk === 'expired' || lk === 'returning') row('exit', 'cal-ink', lk === 'returning' ? T.exitProgress : T.exit, o.exit ? (p === 'inspection' ? T.exitInspect : T.exitSubmitted) : '', !!o.exit);
+    if (lk === 'expired') row('renew', 'renew-ink', ren ? T.renewProgress : T.renew, ren ? (ren.status === 'quoted' ? T.renewQuoted : T.renewSubmitted) : T.canApply, true); // 已到期也按续租申请状态显示（C-17）
+    // 退仓进度按退仓状态四种文字：已提交 / 待验仓 / 需重新验仓 / 验仓通过（C-03）
+    if (lk === 'active' || lk === 'expired' || lk === 'returning') row('exit', 'cal-ink', lk === 'returning' ? T.exitProgress : T.exit, x ? T[EXIT_TEXT[x.status]] || T.exitSubmitted : '', !!x);
+    if (lk === 'ended' && x && x.status === 'passed') row('exit', 'cal-ink', T.exitProgress, T.exitPassed);
     if (lk === 'upcoming') row('exit', 'cal-ink', T.unsubscribe, '');
-    row('deposit', 'ticket-ink', T.depositProgress, p === 'inspection' ? T.depositLabel.inspect : (o.deposit.status !== 'holding' ? depositLabel(o, p) : ''), o.deposit.status === 'refunding');
-    row('invoice', 'note-ink', T.invoice, o.invoice.status === 'issued' ? T.invoiceIssued : o.invoice.status === 'applying' ? T.invoiceApplying : T.canApply);
+    row('deposit', 'ticket-ink', T.depositProgress, p === 'inspection' ? T.depositLabel.inspect : (o.deposit.status !== 'holding' ? depositLabel(o, p) : ''), o.deposit.status === 'refunding' || o.deposit.status === 'failed');
+    const invFailed = ((o.invoice && o.invoice.records) || []).some((r) => r.status === 'failed'); // 开票未成功要用户更正资料（C-08）
+    row('invoice', 'note-ink', T.invoice, invFailed ? T.invoiceFailed : o.invoice.status === 'issued' ? T.invoiceIssued : o.invoice.status === 'applying' ? T.invoiceApplying : T.canApply, invFailed);
   }
   d.cancelable = p === 'pending' || p === 'payment_failed';
-  const b = BAR[p], txt = (k) => T[k] || '';
+  let b = BAR[key] || BAR[p];
+  if (p === 'expired_lease' && o.renew && o.renew.status === 'quoted') b = [o.renew.pay ? 'btnRenewPay' : 'btnRenewQuote', 'renew', 'btnExit', 'exit']; // 已到期且续租在办：主按钮跟续租进度走（C-17）
+  else if (p === 'expired_lease' && o.renew && o.renew.status === 'submitted') b = ['btnRenewProgress', 'renew', 'btnExit', 'exit'];
+  const txt = (k) => T[k] || '';
   if (d.cancelable) d.bar = { mode: 'pay', amount: view.yuan(o.quote.payable), primary: { t: T.btnPay, a: 'pay' }, secondary: null };
   else if (b) d.bar = { mode: b[2] ? 'two' : 'one', amount: '', primary: { t: txt(b[0]), a: b[1] }, secondary: b[2] ? { t: txt(b[2]), a: b[3] } : null };
   else d.bar = { mode: 'none', amount: '', primary: null, secondary: null };
@@ -69,9 +89,10 @@ function build(o, now, sub) {
   return d;
 }
 Page(auth.guarded(routes.ORDER_DETAIL, {
-  data: { T, sys: 'loading', empty: false, paying: false, head: null, subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
-  onLoad(q) { this._id = (q && q.id) || ''; this._sub = (q && q.sub) || ''; if (q && q.paid === '1') this.setData({ paying: true }); },
+  data: { T, sys: 'loading', empty: false, paying: false, paidLine: '', head: null, subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
+  onLoad(q) { this._id = (q && q.id) || ''; this._sub = (q && q.sub) || ''; this._justPaid = !!(q && q.paid === '1'); if (this._justPaid) this.setData({ paying: true }); },
   onShow() { this.refresh(); },
+  onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   onHide() { this.stop(); },
   onUnload() { this.stop(); },
   refresh() {
@@ -79,7 +100,9 @@ Page(auth.guarded(routes.ORDER_DETAIL, {
     const p = api.getOrder({ id: this._id }).catch((err) => (err && err.code === 'NOT_FOUND' ? null : Promise.reject(err)));
     return pd.load(this, p, (o) => {
       if (!o) { this.stop(); this.setData({ empty: true, paying: false, order: null, showBar: false }); return; }
-      this.setData(Object.assign({ empty: false, paying: false }, build(o, Date.now(), this._sub)));
+      const d = build(o, Date.now(), this._sub);
+      d.paidLine = this._justPaid && d.paid ? T.paidOk + view.yuan(o.quote.payable) : ''; // 从确认订单支付成功跳来：确认一句「支付成功，已付 ¥X」（B-15）
+      this.setData(Object.assign({ empty: false, paying: false }, d));
       this.tick();
       if (this.data.cancelable && !this._t) this._t = actions.every(() => this.tick(), 1000);
       if (!this.data.cancelable) this.stop();

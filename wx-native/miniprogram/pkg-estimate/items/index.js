@@ -21,6 +21,8 @@ const api = require('../../services/api');
 const auth = require('../../services/auth');
 const routes = require('../../services/routes');
 const pd = require('../../services/page-data');
+const flow = require('../../services/estimate-flow');
+const share = require('../../services/share');
 const R = C.requirement, I = T.items;
 const CAT_ICON = { all: 'grid-ink', suitcase: 'bag-ink', furniture: 'sofa-ink', electric: 'plug-ink', organize: 'box-ink', hobby: 'star-ink', business: 'store-ink', office: 'office-ink', other: 'tag-ink' };
 const SCENE_ICON = { moving: 'sofa-ink', home: 'box-ink', luggage: 'bag-ink', hobby: 'star-ink', business: 'store-ink', office: 'office-ink' };
@@ -139,6 +141,7 @@ Page(auth.guarded(routes.ITEMS, {
   onToCap() { const pages = getCurrentPages(); if (pages.length > 1 && '/' + pages[pages.length - 2].route === routes.CAPACITY) wx.navigateBack(); else wx.navigateTo({ url: routes.CAPACITY }); },
   onAdvisor() { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor' }); },
   onAi() { pd.toast(I.aiToast); }, // AI 估算保留占位，不实现（D-133）
+  onShareAppMessage() { return share.message(routes.ITEMS); },
   onBusiness() { wx.navigateTo({ url: routes.BUSINESS }); },
   onSubmit() {
     const s = this.summary();
@@ -148,6 +151,7 @@ Page(auth.guarded(routes.ITEMS, {
     if (requirement.itemsReminder(s.rec, bulky.length > 0) && this._noticeKey !== noticeKey) { this._noticeKey = noticeKey; this.setData({ advisoryVisible: true }); return; }
     const cap = Math.max(R.capacityMinM3, s.rec); // 不足 0.5m³ 按 0.5m³ 匹配，不拦截
     state.setRequirement({ capacity_m3: cap, input_unit: 'm3', input_value: cap, source: 'items', term_months: this.data.term, est: this._est });
+    if (flow.finish()) return; // 从附近门店 / 门店详情来估算：回到出发页（FIX-01 R-19）
     const pages = getCurrentPages();
     if (pages.length > 1 && '/' + pages[pages.length - 2].route === routes.MATCH) wx.navigateBack(); else wx.navigateTo({ url: routes.MATCH });
   },

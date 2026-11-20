@@ -5,7 +5,7 @@ module.exports = {
   // 仓位用途短句（冻结稿 runtime/br03-policy.js）：与 core/config-find.js usageBandsM3 一一对应，最后一项是超出最大档
   usage: { prefix: '适合', bands: ['行李箱、换季衣物', '纸箱、小件家具', '小件家具、家电', '沙发、家庭家具', '大件家具、家电', '大量家具、物资'] },
   unitCategories: { all: '全部', mini: '迷你仓', small: '小型仓', medium: '中型仓', large: '大型仓' },
-  price: { fromMonth: '/月起', month: '/月', cubicFrom: '/m³/月起', special: '特价仓', totalPrefix: '整期 ', fullOff: '满额减 ', none: '暂无价格' },
+  price: { fromMonth: '/月起', month: '/月', cubicFrom: '/m³/月起', special: '特价仓', totalPrefix: '整期 ', fullOff: '满额减 ', fullOffShort: '-', none: '暂无价格' },
   // 库存紧张提示（自写，PR-40 待裁）：按本店可租仓位总数
   stock: { low: (n) => '仅剩 ' + n + ' 个可租' },
   cta: { order: '立即下单', quote: '查看报价', viewUnits: '查看仓位', viewStore: '查看门店', moreUnits: '查看更多仓位', advisor: '预约顾问', toAdvisor: '提交给顾问' },
@@ -20,7 +20,7 @@ module.exports = {
   },
   advisor: {
     normal: { title: '需要顾问帮您确认方案？', sub: '协助确认仓位、费用及搬运安排' },
-    big: { title: '可申请专属方案', sub: (cap, yuan) => cap + 'm³ 以上或整期满 ' + yuan + '，由顾问确认方案与价格' },
+    big: { title: '您的用仓需求有专属配仓方案哦', sub: () => '' }, // FIX-01 R-20：换标题句，删条件说明句
     leave: { title: '留下用仓需求', sub: '顾问电话与您确认可行的方案' },
     capHint: (cap) => '超过 ' + cap + 'm³ 可预约顾问协助，不影响自助找仓。'
   },
@@ -39,7 +39,7 @@ module.exports = {
   demand: {
     title: '修改需求', coldTitle: '填写需求', capLabel: '预计容量', termLabel: '租期',
     note: '估算值，以实际仓位为准', rangeNote: '可填 0.5m³–200㎡，估算值，以实际仓位为准',
-    approx: (v) => '约 ' + v + ' m³', toEstimate: '不确定大小？去估算',
+    approx: (v) => '约 ' + v + ' m³', toEstimate: '不确定大小？去估算', byItems: '按物品估算', ai: 'AI 估算', aiOff: '暂未开放', aiToast: 'AI 估算暂未开放，可按物品估算或直接填写容量',
     cancel: '取消', update: '更新推荐', view: '查看推荐', viewStores: '查看门店',
     errCap: '请输入有效容量', errArea: '面积不能超过200㎡'
   },
@@ -56,6 +56,7 @@ module.exports = {
     estoreSub: '上门取送，不需要到店', leave: '留下用仓需求', leaveSub: '顾问电话与您确认可行的方案',
     moveNote: '搬家用仓：搬出地、搬入地都可以查。先选一处，另一处会留在「最近使用」，可随时切换对比。',
     transportNote: '免费运输按用仓位置到门店的距离判断，请先选择用仓位置。',
+    distanceNote: '按距离查看需要先选择用仓位置。', // 自写（A-04）
     near: (district, area) => district + (area ? ' ' + area + '附近' : ''), allCity: '全城门店'
   },
   locate: {
@@ -72,7 +73,7 @@ module.exports = {
     search: '搜索门店、商圈或区域',
     heroTitle: '让城市生活更轻松', heroSub: '家具、行李、闲置物品，找到附近适合的存储空间',
     findStores: '找附近门店', findSub: '查看门店与仓位', findLink: '查看门店 ›',
-    estimate: '估大小算价格', estimateSub: '不知道租多大？', estimatedSub: '已估算用仓需求', estimateLink: '开始估算 ›',
+    estimate: '估大小算价格', estimateSub: '不知道租多大？', estimatedSub: '已估算用仓需求', estimateLink: '开始估算 ›', estimatedLink: '修改需求 ›',
     recommend: '为您推荐', allStores: '查看全部门店 ›', expand: '展开', collapse: '收起',
     scenes: '常见存储场景', sceneList: ['搬家过渡', '装修暂存', '行李寄存', '换季收纳', '兴趣收藏', '闲置物品'],
     // 场景图与 sceneList 一一对应（冻结稿 H01，D-11：沿用现有透明底切图）
@@ -86,12 +87,15 @@ module.exports = {
     distance: '距离', within: (km) => km + 'km内', anyDistance: '不限距离',
     services: '服务', servicesOn: '已选服务', clearServices: '清空',
     promo: '特价仓', freeTransport: '免费运输',
+    groupOffer: '优惠', groupService: '服务设施', reset: '重置', // FIX-01 R-17 / R-18：特价仓、免费运输并入「服务」下拉
+    svcCount: (n) => '服务 · ' + n,
     cancel: '取消', confirm: '确定',
-    demandPrefix: '', modify: '修改 ›', unsure: '拿不准要多大空间？', estimateNow: '估算大小 ›',
-    total: (n) => '共' + n + '家门店', shown: (n) => ' · 已显示前' + n + '家', inArea: (a) => a + ' · ',
+    demandPrefix: '', modify: '修改 ›', modifyNeed: '修改需求', unsure: '拿不准要多大空间？', estimateNow: '估算大小 ›',
+    expanded: '附近门店暂无合适仓位，已扩大范围', // 自写（A-22）
+    largeTitle: '大容量需求建议联系专属配仓顾问', largeSub: '预计 10 分钟内联系您。', consult: '立即咨询', // W37 #22（A-14）
     more: '查看更多门店', allStores: '查看全部门店',
-    emptyTitle: '当前需求暂无可租仓位', emptySub: '可调整容量或租期，或由顾问协助寻找合适仓位',
-    clearFilters: '清除筛选', helpFind: '顾问帮我找仓', browseFirst: '可先浏览附近门店', nearbyTitle: '附近门店',
+    emptyTitle: '暂无匹配的仓位', emptySub: '当前没有满足容量的可用方案。', // W37 #23：三页同一句（A-14）；「可联系顾问协助」与按钮同义，删（R-21）
+    clearFilters: '清除筛选', nearbyTitle: '附近门店',
     salesTitle: '30m³ 及以上的需求由顾问为您配置方案', salesCta: '提交给顾问',
     salesSub: (inHours) => '顾问会按物品与租期组合仓位并确认费用。提交后' + inHours,
     salesHours: (note, off) => note + '；非服务时段提交的：' + off,
@@ -108,9 +112,10 @@ module.exports = {
     nearTitle: '容量接近的仓位', smallTitle: '比需求小的仓位', rematch: (v) => '按 ' + v + 'm³ 重新匹配',
     soldFold: '查看已租出的仓位', soldOut: '已租出', notRentable: '暂不可租',
     catEmpty: '当前仓型暂无可租仓位。', allCats: '查看全部仓型',
-    noMatchTitle: '本店暂无匹配仓位', noStockTitle: '本店暂无可租仓位', otherSub: '可查看其他门店的仓位', otherStores: '查看其他门店',
+    noMatchTitle: '本店暂无匹配仓位', noStockTitle: '本店暂无可租仓位', otherStores: '查看其他门店', // FIX-01 R-21：删「可查看其他门店的仓位」，与按钮同义
+    overTitle: '更大的仓位', // 自写（FIX-01 R-11）：超过需求 130% 的可租仓
     salesTitle: '30m³ 及以上的需求由顾问为您配仓', salesSub: (inHours) => '提交后' + inHours + '。', modifyCap: '修改容量',
-    altTitle: '其他匹配门店和仓位', altCombo: ' · 组合方案', altView: '查看匹配方案', altNone: '当前没有满足容量的可用方案。可联系顾问协助',
+    altTitle: '其他匹配门店和仓位', altCombo: ' · 组合方案', altView: '查看匹配方案', altNone: '当前没有满足容量的可用方案。', // R-21：紧邻「立即咨询」，删「可联系顾问协助」
     svc: {
       access: '存取与安防', hours: '存取时间', daily: '，每日', entry: '进门方式', entryText: '一键开锁（暂未开通），租后在「我的仓位」操作',
       security: '安防', securityText: '全天监控，独立门锁', env: '仓内环境', climate: '控温防潮', climateText: '仓区恒温除湿',
@@ -135,7 +140,7 @@ module.exports = {
     fromItems: (net, rec) => '按物品估算：物品约 ' + net + 'm³，留出码放空隙后建议 ' + rec + 'm³。下方是不小于 ' + rec + 'm³ 的仓位。',
     fromItemsTiny: (net) => '按物品估算：物品约 ' + net + 'm³，小于最小仓位，按 0.5m³ 为您匹配。', // 由物品页同句改写：冻结稿只在物品页画了这一句
     longNote: (names) => '清单含长件（' + names + '），请对照仓位的长宽高。',
-    noneTitle: '暂无匹配的仓位', noneSub: () => '当前没有满足容量的可用方案。可联系顾问协助',
+    noneTitle: '暂无匹配的仓位', noneSub: () => '当前没有满足容量的可用方案。', // R-21：下方顾问卡已有「立即咨询」
     allCity: '查看全城门店', modifyCap: '修改容量',
     goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。', consult: '立即咨询',
     salesTitle: '30m³ 及以上的需求由顾问为您配仓',

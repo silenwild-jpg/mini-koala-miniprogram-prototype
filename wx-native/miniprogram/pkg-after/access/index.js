@@ -3,6 +3,7 @@
 //   已结束 / 不可入仓（当前状态）；「到店与进仓」卡与门店详情读同一份到店资料（api.getStoreArrival，D-124），没有资料的字段整行不显示；
 //   下单时已实名的订单入仓步骤 3 步，未实名的 4 步；三态。
 // 未做：到店照片（没有核验过的门店实拍）；门店没有坐标或地图打不开时，「到店导航」改为复制地址。
+// FIX-01 C-06：租期已到期时写明入仓信息暂不开放，给「联系门店」和「办理续租 / 办理退仓」两个去向；开门信息弹窗加「联系门店」，不再只有「知道了」。
 const T = require('../../i18n/after');
 const api = require('../../services/api');
 const routes = require('../../services/routes');
@@ -21,11 +22,13 @@ function render(page, o, now) {
   const subs = [hours].concat(verified ? [] : [X.stepIdentitySub], [st === 'before_start' ? fill(X.stepStartDay, { d: after.ymd(o.lease.start) }) : st === 'allowed' ? X.stepOpen : '', '']);
   // 当前步：未实名停在「完成实名认证」；已实名且未起租 / 可入仓停在「起租后查看入仓信息」；其余停在最后一步（与冻结稿 w6-render.js 一致）
   const cur = !verified ? 2 : st === 'inactive' ? 3 : 2;
+  const overdue = st === 'inactive' && v.lease === 'expired';
   page.setData({
+    overdue: overdue ? X.overdueNote : '',
     empty: false, st, order: o, steps: cm.steps(titles, subs, cur, 0), showArrival: st !== 'inactive',
     note: st === 'identity_required' ? T.identity.note : '', before: st === 'before_start',
     lease: st === 'inactive' ? { text: X.lease[v.lease], tone: LEASE_TONE[v.lease] } : null,
-    bar: st === 'allowed' ? { btns: [{ text: X.viewOpen, act: 'open' }] } : st === 'identity_required' ? { btns: [{ text: X.doIdentity, act: 'identity' }] } : null
+    bar: st === 'allowed' ? { btns: [{ text: X.viewOpen, act: 'open' }] } : st === 'identity_required' ? { btns: [{ text: X.doIdentity, act: 'identity' }] } : overdue ? { btns: [{ text: X.exit, act: 'exit', kind: 'ghost' }, { text: X.renew, act: 'renew' }] } : null
   });
   if (st !== 'inactive') loadArrival(page, o);
 }
@@ -42,15 +45,17 @@ function loadArrival(page, o) {
 }
 
 Page(auth.guarded(routes.ACCESS, {
-  data: { T: { c: CT, x: X }, sys: 'loading', empty: false, st: '', order: null, steps: [], showArrival: false, arr: null, note: '', before: false, lease: null, bar: null, loginVisible: false },
+  data: { T: { c: CT, x: X }, sys: 'loading', empty: false, st: '', order: null, steps: [], showArrival: false, arr: null, note: '', overdue: '', before: false, lease: null, bar: null, loginVisible: false },
   onLoad(q) { this._id = (q && q.id) || ''; },
   onShow() { this.refresh(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() { return cm.load(this, 'access', (o, now) => render(this, o, now)); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
-  onBar(e) { const a = e && e.currentTarget && e.currentTarget.dataset.act; if (a === 'open') this.onOpen(); else if (a === 'identity') this.onIdentity(); },
+  onBar(e) { const a = e && e.currentTarget && e.currentTarget.dataset.act; if (a === 'open') this.onOpen(); else if (a === 'identity') this.onIdentity(); else if (a === 'renew' || a === 'exit') this.onAfter(a); },
+  onAfter(a) { if (this._id) auth.navigate(this, (a === 'renew' ? routes.RENEW : routes.EXIT) + '?id=' + this._id); },
+  onCall() { cm.callStore(this._order); },
   // 查看仓位开门信息：开锁设备未接入，只提示（D-151、D-175）
-  onOpen() { if (this._st === 'allowed') wx.showModal({ title: X.unlockTitle, content: X.unlockText, showCancel: false, confirmText: CT.known }); },
+  onOpen() { if (this._st === 'allowed') wx.showModal({ title: X.unlockTitle, content: X.unlockText, cancelText: CT.known, confirmText: CT.callStore, success: (res) => { if (res.confirm) this.onCall(); }, fail() {} }); },
   onIdentity() { if (this._id) auth.navigate(this, routes.IDENTITY + '?id=' + this._id); },
   onStoreGuide() { const o = this._order; if (o) wx.navigateTo({ url: routes.STORE_DETAIL + '?id=' + o.store.id + '&tab=2' }); }, // 门店到店指引
   onNavigate() { // 到店导航：有坐标打开地图；没有坐标或打开失败改为复制地址

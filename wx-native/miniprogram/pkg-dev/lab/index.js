@@ -1,10 +1,15 @@
 // 演示工具（仅演示数据下可达，正式提审前由 config.DEMO_TOOLS 关闭）：
 // 1) 切换演示场景：一键变成某类用户；2) 切换网络档位：让加载态、失败态真实出现；
 // 3) 组件校准：把按钮、标签、文字角色、颜色、图标集中在一页，供微信开发者工具和真机一次截图核对。
+// FIX-01 D-15 / D-16：开关关闭时不渲染内容，能返回就返回、没有上一页就回首页；顶部加分区跳转和「网络、库存、事件恢复默认」；
+//    切场景不重置网络、库存和事件，切完提示还开着几项；从未选过场景时写明「未选择」。
 const demo = require('../../services/demo');
 const ICONS = require('./icons');
+const routes = require('../../services/routes');
 const L = {
-  sceneTitle: '演示场景', sceneTip: '切换后登录态、定位、需求和订单一起重置，只影响本机演示数据。', netTitle: '网络档位', stockTitle: '库存档位', stockTip: '改变各门店仓位的可租状态，用来看售罄、容量接近、扩大范围等找仓状态。', eventTitle: '交易事件', eventTip: '打开后照常走下单流程，到对应步骤时自动出现。', afterTitle: '租后事件', afterTip: '打开后照常办理续租、退仓、发票，到对应步骤时自动出现；配合「续租报价待确认」「退仓待清空」等演示场景使用。', leadTitle: '留资与账户事件', leadTip: '打开后照常提交预约、咨询、运输、看仓需求，或办理企业认证、批量开票，到对应步骤时自动出现。', once: '（触发一次后自动关闭）', armed: '已打开', off: '未打开', calibTitle: '组件校准',
+  jump: [{ id: 'sec-scene', t: '场景' }, { id: 'sec-net', t: '网络' }, { id: 'sec-stock', t: '库存' }, { id: 'sec-event', t: '交易事件' }, { id: 'sec-after', t: '租后事件' }, { id: 'sec-lead', t: '留资与账户事件' }, { id: 'calib', t: '组件校准' }],
+  reset: '网络、库存、事件恢复默认', resetDone: '已恢复默认', stillOnPrefix: '；仍开着 ', stillOnSuffix: ' 项网络 / 库存 / 事件开关', noScene: '当前没有选场景（本机原始状态）。',
+  sceneTitle: '演示场景', sceneTip: '切换后登录态、定位、需求和订单一起重置，只影响本机演示数据；网络、库存和事件开关不跟着重置。', netTitle: '网络档位', stockTitle: '库存档位', stockTip: '改变各门店仓位的可租状态，用来看售罄、容量接近、扩大范围等找仓状态。', eventTitle: '交易事件', eventTip: '打开后照常走下单流程，到对应步骤时自动出现。', afterTitle: '租后事件', afterTip: '打开后照常办理续租、退仓、发票，到对应步骤时自动出现；配合「续租报价待确认」「退仓待清空」等演示场景使用。', leadTitle: '留资与账户事件', leadTip: '打开后照常提交预约、咨询、运输、看仓需求，或办理企业认证、批量开票，到对应步骤时自动出现。', once: '（触发一次后自动关闭）', armed: '已打开', off: '未打开', calibTitle: '组件校准',
   goHome: '回首页查看', applied: '已切换：', on: '当前',
   btn: '按钮', tag: '标签与选项', text: '文字角色', color: '颜色', icon: '图标', form: '输入框',
   comp: '公共组件', cell: { a: '带说明的行', av: '右侧说明', b: '带角标的行', c: '只读行', ct: '标签' }, field: { label: '表单项', mark: '选填', label2: '必填项', req: '必填', hint: '提示文字在输入框下方' },
@@ -21,13 +26,21 @@ const L = {
   placeholder: '请输入手机号', error: '请输入 11 位手机号'
 };
 Page({
-  data: { L, scenes: [], nets: [], stocks: [], events: [], afterEvents: [], leadEvents: [], cur: {}, icons: ICONS.map((s) => ({ s, src: '/assets/icons/' + s + '.svg' })), colors: L.colors.map((c) => ({ k: c[0], hex: c[1], bg: 'background: var(--mk-color-' + c[0] + ')' })) },
-  onLoad() { if (!demo.enabled()) { wx.navigateBack({ delta: 1 }); return; } this.sync(); },
-  sync() { const cur = demo.current(), ev = demo.EVENTS.map((x) => Object.assign({ on: !!cur.events[x.id] }, x)); this.setData({ cur, scenes: demo.LIST.map((x) => Object.assign({ on: x.id === cur.scenario }, x)), nets: demo.NET.map((x) => Object.assign({ on: x.id === cur.net }, x)), stocks: demo.STOCK.map((x) => Object.assign({ on: x.id === cur.stock }, x)), events: ev.filter((x) => !x.group), afterEvents: ev.filter((x) => x.group === 'after'), leadEvents: ev.filter((x) => x.group === 'lead') }); },
+  data: { L, ready: false, noScene: false, scenes: [], nets: [], stocks: [], events: [], afterEvents: [], leadEvents: [], cur: {}, icons: ICONS.map((s) => ({ s, src: '/assets/icons/' + s + '.svg' })), colors: L.colors.map((c) => ({ k: c[0], hex: c[1], bg: 'background: var(--mk-color-' + c[0] + ')' })) },
+  onLoad() {
+    if (!demo.enabled()) { // 开关关闭：不显示任何内容。有上一页就返回；直接打开（没有上一页）回首页
+      if (getCurrentPages().length > 1) wx.navigateBack({ delta: 1 }); else wx.reLaunch({ url: routes.HOME });
+      return;
+    }
+    this.setData({ ready: true }); this.sync();
+  },
+  sync() { const cur = demo.current(), ev = demo.EVENTS.map((x) => Object.assign({ on: !!cur.events[x.id] }, x)); this.setData({ cur, noScene: !cur.scenario, scenes: demo.LIST.map((x) => Object.assign({ on: x.id === cur.scenario }, x)), nets: demo.NET.map((x) => Object.assign({ on: x.id === cur.net }, x)), stocks: demo.STOCK.map((x) => Object.assign({ on: x.id === cur.stock }, x)), events: ev.filter((x) => !x.group), afterEvents: ev.filter((x) => x.group === 'after'), leadEvents: ev.filter((x) => x.group === 'lead') }); },
   onShow() { if (demo.enabled()) this.sync(); }, // 一次性事件触发后回到本页，状态要跟着变
-  onScene(e) { const sc = demo.applyScenario(e.currentTarget.dataset.id); if (sc) wx.showToast({ title: L.applied + sc.name, icon: 'none' }); this.sync(); },
+  onScene(e) { const sc = demo.applyScenario(e.currentTarget.dataset.id), n = demo.togglesOn(); if (sc) wx.showToast({ title: L.applied + sc.name + (n ? L.stillOnPrefix + n + L.stillOnSuffix : ''), icon: 'none' }); this.sync(); },
+  onJump(e) { wx.pageScrollTo({ selector: '#' + e.currentTarget.dataset.id, duration: 200 }); },
+  onReset() { demo.resetToggles(); wx.showToast({ title: L.resetDone, icon: 'none' }); this.sync(); },
   onNet(e) { demo.setNet(e.currentTarget.dataset.id); this.sync(); },
   onStock(e) { demo.setStock(e.currentTarget.dataset.id); this.sync(); },
   onEvent(e) { demo.toggleEvent(e.currentTarget.dataset.id); this.sync(); },
-  onHome() { wx.reLaunch({ url: '/pages/home/index' }); }
+  onHome() { wx.reLaunch({ url: routes.HOME }); }
 });

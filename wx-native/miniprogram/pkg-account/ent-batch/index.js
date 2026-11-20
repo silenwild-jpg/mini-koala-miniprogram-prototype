@@ -1,8 +1,9 @@
 // 批量开票 ENT_BATCH（第 4 批）。同一个页面两步：不带参数是选择订单；?ids=订单号,订单号 是确认开票信息（系统返回键回到选择）。
 // 已做：未完成企业认证的拦截（去企业认证）；暂无可开票订单；选择（单选 / 全选 / 合计）；确认（抬头、纳税人识别号、接收邮箱、逐笔租金与管理费）；提交中；
 //       已提交（处理中）、已开具（下载发票、重新发送到邮箱）、未成功（原因、修改后重新提交、联系顾问）；加载 / 失败 / 断网；未登录先登录（自定）。
-// 口径：可开票订单来自 api.getOrders()，只列已付款且未开票的；金额只读 order.quote（减后整期租金 + 管理费），不重算；押金不列，页面写「押金开票事宜请咨询客服」；处理时限写「请咨询客服」。
-// 未做：开票结果的订阅消息（冻结稿没有画，§9）；历史批量开票记录列表（冻结稿没有画）——最近一笔申请在看到「已开具」之前会一直显示在本页。
+// 口径：可开票订单来自 api.getOrders()，只列已付款且未开票的；金额只读 order.quote（减后整期租金 + 管理费），不重算；押金不列，页面写「押金开票事宜请咨询客服」；处理时限写「N 天内开具」（裁定 R-02，N 取配置）。
+// FIX-01：结果页加「再开一批」（处理中 / 已开具）和「重新选择订单」（未成功），点了就不再停在这笔申请上（D-03）；拦截页按认证状态换文案（D-13）；结果写站内消息、可下拉刷新（D-07）。
+// 未做：开票结果的订阅消息（冻结稿没有画，§9）；历史批量开票记录列表（冻结稿没有画）——点过「再开一批」的申请之后只能从消息得知结果。
 const TA = require('../../i18n/account');
 const rules = require('../../core/account');
 const routes = require('../../services/routes');
@@ -10,24 +11,26 @@ const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
 const P = TA.ent.batch;
+const SLA = require('../../core/config-after').sla; // 开票承诺时限（裁定 R-02），与单笔开票同一项配置
 const TONE = { submitted: 'warn', issued: 'ok', failed: 'err' };
 const toast = (title) => wx.showToast({ title, icon: 'none' });
 function stepsOf(status) { // 已提交：第 2 步进行中；已开具：全部完成；未成功：第 2 步失败
   const cur = status === 'issued' ? 4 : 2, failAt = status === 'failed' ? 2 : 0;
-  return P.steps.map((s, i) => { const n = i + 1; const cls = failAt === n ? 'fail' : n < cur ? 'done' : n === cur ? 'cur' : ''; return { t: s.t, s: s.s, cls, tcls: cls === 'fail' ? 'ac-step-t--fail' : cls ? '' : 'ac-step-t--mute' }; });
+  return P.steps.map((s, i) => { const n = i + 1; const cls = failAt === n ? 'fail' : n < cur ? 'done' : n === cur ? 'cur' : ''; return { t: s.t, s: n === 2 ? SLA.invoiceDays + P.promiseSuffix : s.s, cls, tcls: cls === 'fail' ? 'ac-step-t--fail' : cls ? '' : 'ac-step-t--mute' }; });
 }
 Page(auth.guarded(routes.ENT_BATCH, {
   data: {
     T: { b: P, common: TA.common }, sys: 'loading', loggedIn: false, view: 'select', // gate | empty | select | confirm | result
     rows: [], allOn: false, allText: '', selText: '', sumText: rules.money(0), hasSel: false,
     title: null, lines: [], contentTitle: '', busy: false, submitText: P.submit,
-    result: null, loginVisible: false
+    result: null, gate: null, loginVisible: false
   },
   onLoad(q) {
     const ids = String((q && q.ids) || '').split(',').filter((x) => /^MK\d+$/.test(x));
     this._confirmIds = ids; this._sel = {}; this._titles = []; this._titleId = '';
   },
   onShow() { this.refresh(); },
+  onPullDownRefresh() { Promise.resolve(this.refresh()).then(() => wx.stopPullDownRefresh()); },
   onUnload() { if (this._ackId && auth.isLoggedIn()) api.ackBatchInvoice({ id: this._ackId }).catch(() => {}); }, // 已开具的结果看过一次后，下次进来回到选择订单
   refresh() {
     const logged = auth.isLoggedIn();
@@ -36,7 +39,7 @@ Page(auth.guarded(routes.ENT_BATCH, {
     return pd.load(this, Promise.all([api.getEntCert(), api.getOrders(), api.getInvoiceTitles(), api.getBatchInvoice()]), (res) => this.apply(res[0], res[1], res[2], res[3]));
   },
   apply(cert, orders, titles, batch) {
-    if (!cert || cert.status !== 'verified') return this.setData({ view: 'gate' });
+    if (!cert || cert.status !== 'verified') { const g = P.gate[cert && cert.status]; return this.setData({ view: 'gate', gate: g ? { title: g.title, sub: g.sub, btn: g.btn } : { title: P.gateTitle, sub: P.gateSub, btn: P.toCert } }); }
     this._titles = Array.isArray(titles) ? titles : [];
     if (batch && batch.id && P.head[batch.status]) return this.showResult(batch);
     const all = rules.invoiceable(Array.isArray(orders) ? orders : []).map(rules.invoiceLine);
@@ -104,11 +107,19 @@ Page(auth.guarded(routes.ENT_BATCH, {
     this.setData({
       view: 'result',
       result: {
-        status: b.status, title: h.title, tag: h.tag, tone: TONE[b.status], sub: h.subPrefix ? h.subPrefix + b.email : '', steps: stepsOf(b.status),
+        status: b.status, another: b.status === 'failed' ? P.reselect : P.another, title: h.title, tag: h.tag, tone: TONE[b.status], sub: h.subPrefix ? h.subPrefix + b.email : '', steps: stepsOf(b.status),
         reason: P.reasonPrefix + (b.reason || P.reasonEmpty), titleName: b.title_name, count: (b.order_ids || []).length + P.ordersSuffix, amount: rules.money(b.amount),
         lines: (b.lines || []).map((l) => ({ no: l.no, amount: rules.money(l.amount) }))
       }
     });
+  },
+  // 再开一批 / 重新选择订单：把这笔申请标为已看过，回到选择订单。处理中的那笔照常出结果（结果走消息）；未成功的那笔订单已放回可开票
+  onAnother() {
+    const b = this._batch;
+    if (!b || this._leaving) return;
+    this._leaving = true;
+    return api.ackBatchInvoice({ id: b.id }).then(() => { this._leaving = false; this._ackId = ''; this._batch = null; this._confirmIds = []; this._sel = {}; this.setData({ sys: 'loading' }); return this.refresh(); })
+      .catch((err) => { this._leaving = false; toast((err && err.message) || TA.common.saveFailed); });
   },
   onResubmit() { const b = this._batch; if (b && b.order_ids) wx.redirectTo({ url: routes.ENT_BATCH + '?ids=' + b.order_ids.join(',') }); },
   onDownload() {

@@ -2,8 +2,10 @@
 // 受限页在 onLoad 先判断，未登录就 redirectTo 到落点页并打开登录层；返回键回不到受限页。
 // 「立即下单」「下一步」未登录时在当前页打开登录层，不 navigateTo 受限页（见 requireLogin）。
 // 接口侧同样拒绝未登录请求（services/api.js）。
+// 登录态失效（FIX-01 S-02）：接口返回 UNAUTHENTICATED 而本机还记着已登录时，api 层清登录态，页面取数（page-data.load）调 sessionExpired 把用户带到能登录的地方。
 const state = require('./state');
 const routes = require('./routes');
+const T = require('../i18n/zh');
 
 const RESTRICTED = [ // 落点：confirm → 仓位推荐页；其余 → 「我的」
   { prefix: routes.CONFIRM, land: 'match' },
@@ -49,6 +51,16 @@ function consumePending(page, land) {
   }
   return false;
 }
+// 登录态失效后的去向：受限页照守卫的办法去落点页并打开登录层（不记原目标，与 D-198 一致）；其余页面有登录层就地打开，没有就去「我的」打开。
+function sessionExpired(page) {
+  if (isLoggedIn()) state.logout();
+  wx.showToast({ title: T.auth.expired, icon: 'none' });
+  const route = page && page.route;
+  if (isRestricted(route)) { enter(route); return; }
+  if (page && page.data && 'loginVisible' in page.data) { openLogin(page); return; }
+  state.patch('flags', { pendingLogin: 'mine' });
+  wx.switchTab({ url: routes.MINE });
+}
 // 包一层 Page 选项：受限页自动加守卫。
 function guarded(route, options) {
   const onLoad = options.onLoad;
@@ -59,4 +71,4 @@ function guarded(route, options) {
   };
   return options;
 }
-module.exports = { RESTRICTED, isRestricted, isLoggedIn, enter, navigate, openLogin, consumePending, guarded };
+module.exports = { RESTRICTED, isRestricted, isLoggedIn, enter, navigate, openLogin, consumePending, sessionExpired, guarded };

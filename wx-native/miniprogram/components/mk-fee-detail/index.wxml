@@ -11,6 +11,7 @@
       <text class="mk-num fd-amt {{item.muted ? 'fd-muted' : ''}} {{item.good ? 'fd-good' : ''}}">{{item.amt}}</text>
     </view>
     <view wx:if="{{item.sec}}" class="fd-sec">{{item.sec}}</view>
+    <view wx:if="{{item.note}}" class="fd-sec">{{item.note}}</view>
   </view>
   <view class="fd-total mk-between">
     <text class="fd-tl">{{total.label}}</text>

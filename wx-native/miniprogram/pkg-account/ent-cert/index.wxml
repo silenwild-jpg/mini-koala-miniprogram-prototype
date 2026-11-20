@@ -9,7 +9,7 @@
   <view wx:elif="{{view === 'result'}}" class="ac-wrap {{status === 'failed' ? 'ac-wrap--bar' : ''}}">
     <view class="ac-head">
       <view class="ac-head-row"><text class="mk-h2">{{head.title}}</text><text class="mk-tag mk-tag--end mk-tag--{{tone}}">{{head.tag}}</text></view>
-      <text class="mk-sub ac-head-sub">{{head.sub}}</text>
+      <text wx:if="{{head.sub}}" class="mk-sub ac-head-sub">{{head.sub}}</text>
     </view>
     <view class="mk-card">
       <text class="ac-sec">{{T.c.progress}}</text>

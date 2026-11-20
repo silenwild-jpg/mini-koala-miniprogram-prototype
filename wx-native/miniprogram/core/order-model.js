@@ -3,7 +3,20 @@
 const pricing = require('./pricing');
 const order = require('./order');
 const fmt = require('./format');
-const DAY = 86400000;
+const DAY = 86400000, BJ = 8 * 3600000;
+// 加整月（按北京时间的年月日算，与运行环境时区无关）：目标月没有这一天时收到当月最后一天（B-01），
+// 如 11-30 起租 3 个月 → 02-28，01-31 起租 1 个月 → 02-28（闰年 02-29）。
+function addMonths(ms, n) {
+  const d = new Date(Number(ms) + BJ), day = d.getUTCDate();
+  const first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + Number(n), 1, d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds()));
+  const last = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 0)).getUTCDate();
+  first.setUTCDate(Math.min(day, last));
+  return first.getTime() - BJ;
+}
+// 到期日（R-04）：起租日（= 预计用仓时间 = 计费起点）加整月，日期不变；到期日当天仍在租期内，次日起才算逾期。
+const leaseEnd = (startMs, months) => addMonths(startMs, months);
+// 租期内的最后一刻之后：到期日次日 0 点（北京时间）。判断是否逾期用它，不直接用 lease.end。
+function overdueFrom(endMs) { const d = new Date(Number(endMs) + BJ); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1) - BJ; }
 /**
  * p: { store, units[], months, createdAt, seq, identityVerified, km, startAt?, stage?, quotedAt?, factorOverride? }
  * 返回的订单：
@@ -23,7 +36,7 @@ const DAY = 86400000;
  *  stage                  order.STAGE 之一
  *  pay                    { expires_at, paid_at, fail_reason }  fail_reason: '' | 'balance' | 'cancelled' | 'network' | 'risk'
  *  price_change_reason    下单时变价的原因，没有为 ''
- *  lease                  { start, end }  起租日与到期日（毫秒）
+ *  lease                  { start, end }  起租日与到期日（毫秒）。起租日就是预计用仓时间、计费起点；到期日含当天（R-04）
  *  deposit                { status: 'holding'|'refunding'|'refunded'|'partial', amount, pending_fee, refunded }
  *  invoice                { status: 'none'|'applying'|'issued', title }
  *  exit                   null | { applied_at, date, early, estimate }
@@ -33,7 +46,6 @@ const DAY = 86400000;
 function build(p) {
   const q = pricing.quote(p.units, p.months, p.factorOverride ? { factorOverride: p.factorOverride } : undefined);
   const created = p.createdAt, start = p.startAt || created + DAY;
-  const end = new Date(start); end.setMonth(end.getMonth() + p.months);
   const s = p.store, no = order.orderNo(created, p.seq);
   return {
     id: no, no, created_at: created, quoted_at: p.quotedAt || created,
@@ -47,10 +59,10 @@ function build(p) {
     stage: p.stage || order.STAGE.PENDING,
     pay: { expires_at: order.pendingExpiresAt(created), paid_at: 0, fail_reason: '' },
     price_change_reason: '',
-    lease: { start, end: end.getTime() },
+    lease: { start, end: leaseEnd(start, p.months) },
     deposit: { status: 'holding', amount: q.deposit, pending_fee: 0, refunded: 0 },
     invoice: { status: 'none', title: '' },
     exit: null, renew: null
   };
 }
-module.exports = { build, DAY };
+module.exports = { build, addMonths, leaseEnd, overdueFrom, DAY };

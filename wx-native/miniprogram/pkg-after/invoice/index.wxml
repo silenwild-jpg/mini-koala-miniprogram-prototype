@@ -8,6 +8,7 @@
     <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
     <view class="af-body">
       <mk-after-fail wx:if="{{fail}}" title="{{T.i.failTitle}}" reason="{{reason}}" fixes="{{T.i.failFixes}}" extra="{{T.i.failKeep}}" bind:call="onCall" />
+      <mk-notice wx:if="{{sla}}" text="{{sla}}" />
       <view wx:if="{{records.length}}" class="mk-card af-gap">
         <text class="mk-title af-sec">{{T.i.records}}</text>
         <view wx:for="{{records}}" wx:key="id" class="iv-rec">
@@ -15,6 +16,10 @@
             <text class="iv-rec-t">{{item.t}}</text>
             <text class="mk-sub iv-rec-s">{{item.s}}</text>
             <text class="mk-sub iv-rec-s">{{item.email}}</text>
+            <view wx:if="{{item.acts}}" class="iv-rec-acts">
+              <text class="mk-link iv-rec-act" data-id="{{item.id}}" bindtap="onSend" aria-role="button">{{T.i.send}}</text>
+              <text class="mk-link iv-rec-act" data-id="{{item.id}}" bindtap="onDownload" aria-role="button">{{T.i.download}}</text>
+            </view>
           </view>
           <mk-after-tag text="{{item.tag}}" tone="{{item.tone}}" />
         </view>
@@ -28,7 +33,7 @@
               <text class="mk-num iv-pay-k">{{item.amt}}</text>
               <image wx:if="{{item.multi}}" class="mk-icon iv-pay-ico" src="{{item.on ? '/assets/icons/check-brand.svg' : '/assets/icons/chev-mute.svg'}}" />
             </view>
-            <view wx:for="{{item.split}}" wx:for-item="s" wx:key="k" class="mk-between iv-split"><text class="mk-sub">{{s.k}}</text><text class="mk-sub mk-num">{{s.a}}</text></view>
+            <view wx:for="{{item.split}}" wx:for-item="s" wx:key="k" class="mk-between iv-split"><text class="mk-sub">{{s.k}}<text wx:if="{{s.no}}" class="iv-split-no">{{s.no}}</text></text><text class="mk-sub mk-num">{{s.a}}</text></view>
           </view>
           <view class="iv-notes"><mk-after-kv rows="{{notes}}" /></view>
         </block>

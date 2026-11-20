@@ -2,7 +2,7 @@
 const C = require('./config');
 const L = require('./config-lead');
 const req = require('./requirement');
-const { salesOnly } = require('./matching');
+const { largeCapacity } = require('./matching');
 const order = require('./order');
 const H = 3600 * 1000, DAY = 24 * H;
 const TYPES = { BOOKING: 'booking', ADVISOR: 'advisor', ENTERPRISE: 'enterprise', TRANSPORT: 'transport', SUPPORT: 'support', VISIT: 'visit' };
@@ -24,30 +24,32 @@ const dateStr = (ms) => new Date(ms + 8 * H).toISOString().slice(0, 10);
 const dateOptions = (offsets, nowMs) => offsets.map((d) => dateStr(nowMs + d * DAY));
 const validDate = (s, nowMs) => /^\d{4}-\d{2}-\d{2}$/.test(String(s || '')) && !isNaN(Date.parse(s + 'T00:00:00Z')) && String(s) >= dateStr(nowMs);
 
-// 企业容量：按区间存；带入找仓取区间上限；30m³ 及以上不写入全局需求（D-88 / D-101）
+// 企业容量：按区间存；带入找仓取区间上限。达到 30m³ 只提示可联系顾问，仍可带入找仓（2026-11-20 规则）
 const bandOf = (key) => L.bizBands.find((b) => b.key === key || b.label === key) || null;
 // 自定义容量的校验用全站同一份（core/requirement.validate）；返回 { ok, error, capacity_m3, sales }
 const customSize = (raw) => req.validate('m3', raw);
-// v: { custom, sizeRaw, band } → { label, sales, match, error }；match = 带入找仓的容量（没有则 null）
+// v: { custom, sizeRaw, band } → { label, large, match, error }；match = 带入找仓的容量（没有则 null）；large = 达到大容量提示线
 function bizCapacity(v) {
   if (v.custom) {
     const raw = String(v.sizeRaw === undefined || v.sizeRaw === null ? '' : v.sizeRaw).trim();
-    if (!raw) return { label: '', sales: false, match: null, error: 'empty', capacity_m3: null, band: '' };
+    if (!raw) return { label: '', large: false, match: null, error: 'empty', capacity_m3: null, band: '' };
     const r = customSize(raw);
-    if (!r.ok) return { label: raw + 'm³', sales: false, match: null, error: r.error, capacity_m3: null, band: '' };
-    return { label: req.pretty(r.capacity_m3) + 'm³', sales: r.sales, match: r.sales ? null : r.capacity_m3, error: '', capacity_m3: r.capacity_m3, band: '' };
+    if (!r.ok) return { label: raw + 'm³', large: false, match: null, error: r.error, capacity_m3: null, band: '' };
+    return { label: req.pretty(r.capacity_m3) + 'm³', large: largeCapacity(r.capacity_m3), match: r.capacity_m3, error: '', capacity_m3: r.capacity_m3, band: '' };
   }
   const b = bandOf(v.band);
-  if (!b) return { label: '', sales: false, match: null, error: 'empty', capacity_m3: null, band: '' };
-  return { label: b.label, sales: false, match: b.match || b.min, error: '', capacity_m3: null, band: b.label };
+  if (!b) return { label: '', large: false, match: null, error: 'empty', capacity_m3: null, band: '' };
+  return { label: b.label, large: largeCapacity(b.min), match: b.match || b.min, error: '', capacity_m3: null, band: b.label };
 }
 // 预约页意向容量：接受任意小数与「30m³ 及以上」。hint 是显示用文字，m3 是换算后的数（没有则 null）
 function capacityHint(unit, raw) {
   const r = req.validate(unit, raw);
   if (!r.ok) return r;
   const text = unit === 'm2' ? req.demandText({ capacity_m3: r.capacity_m3, input_unit: 'm2', input_value: Number(raw) }) : req.pretty(r.capacity_m3) + 'm³';
-  return { ok: true, hint: text, capacity_m3: r.capacity_m3, sales: r.sales };
+  return { ok: true, hint: text, capacity_m3: r.capacity_m3, large: largeCapacity(r.capacity_m3) };
 }
-const isSalesM3 = (m3) => Number(m3) > 0 && salesOnly(Number(m3));
+const isLargeM3 = (m3) => Number(m3) > 0 && largeCapacity(Number(m3));
+// 看仓时段是否已过：只对「今天」判断；endHour 为空的时段（待电话确认、晚上）不判
+const slotPassed = (date, slotIndex, nowMs) => { const end = L.visitSlotEndHour[slotIndex]; return !!date && date === dateStr(nowMs) && typeof end === 'number' && new Date(nowMs + 8 * H).getUTCHours() >= end; };
 const validTerm = (m) => req.validTerm(m);
-module.exports = { TYPES, STATUS, ackKey, ackAt, leadNo, cleanPhone, validPhone, maskPhone, validAddress, dateStr, dateOptions, validDate, bandOf, customSize, bizCapacity, capacityHint, isSalesM3, validTerm, DAY };
+module.exports = { TYPES, STATUS, ackKey, ackAt, leadNo, cleanPhone, validPhone, maskPhone, validAddress, dateStr, dateOptions, validDate, bandOf, customSize, bizCapacity, capacityHint, isLargeM3, slotPassed, validTerm, DAY };

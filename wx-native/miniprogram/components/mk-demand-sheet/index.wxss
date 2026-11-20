@@ -10,3 +10,7 @@
 .ds-acts { display: flex; margin-top: var(--mk-space-5); }
 .ds-btn { flex: 1; }
 .ds-btn + .mk-btn.mk-btn.ds-btn { margin-left: var(--mk-space-2); }
+.ds-ways { margin-top: var(--mk-space-2); }
+.ds-way { min-height: 72rpx; padding: 0 var(--mk-space-3); margin-right: var(--mk-space-2); border: var(--mk-border-hairline); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); }
+.ds-wt { margin-left: var(--mk-space-1); }
+.ds-woff { margin-left: var(--mk-space-1); font-size: var(--mk-font-size-xs); }

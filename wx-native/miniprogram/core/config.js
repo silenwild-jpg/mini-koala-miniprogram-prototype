@@ -13,6 +13,7 @@ module.exports = {
       { min: 6, max: 11, factor: 0.70 },
       { min: 12, max: 60, factor: 0.65 }
     ],
+    specialFactor: 0.9,  // 特价仓在月基价上的折让（冻结稿演示规则，原先写死在 core/pricing.js 与 mock/specials.js；数值待财务定）
     depositMonths: 1,
     managementFee: 50,
     fullReductionTiers: [ // example（D-157）
@@ -28,7 +29,9 @@ module.exports = {
     largeCapacityFromM3: 30, // >= 仅提示顾问，继续自助找仓下单（2026-11-20）
     advisorCapacityM3: 15,   // >，ruled（D-97）
     advisorRentTotal: 3000,  // >=，ruled（D-182）
-    nearRatio: 0.8,          // ruled（D-99）
+    tolerance: 0.1,          // ruled（D-230）：比需求小 10% 以内（含）算匹配
+    maxOverRatio: 0.3,       // ruled（FIX-01 R-11，张坤 2026-11-20）：匹配仓不超过需求的 130%（含）
+    nearRatio: 0.8,          // ruled（D-99，经 D-230 修改）：比需求小 10%–20% 是「接近」
     nearbyRadiusKm: 5,       // ruled（D-128）
     nearbyFallbackStores: 3
   },

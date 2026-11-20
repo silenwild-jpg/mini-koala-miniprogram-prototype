@@ -10,14 +10,17 @@ const fmt = require('../core/format');
 const req = require('../core/requirement');
 const order = require('../core/order');
 const T = require('../i18n/find');
+const media = require('./media');
 
-const imageOf = id => '/assets/images/stores/' + String(require('../mock/media').includes(id) ? id : 'SIM_BJ01').replace('_','-') + '/card.webp';
+const imageOf = (store) => media.storeCard(store);
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : null);
 const sumVol = (units) => Number(units.reduce((n, u) => n + Number(u.volume), 0).toFixed(3));
 
 // 距离：现在是演示值（D-111）。定位城市没有门店时不显示公里数、不显示免费运输标签（D-184）。
+// 没有起点时同样不给距离（FIX-01 A-04）：用仓位置还是「城市」一级且没有定位成功。真实接口在没有坐标时返回什么待后端定。
+const hasOrigin = (location) => !!location && (location.kind !== 'city' || location.status === 'granted');
 function distanceOf(store, location) {
-  if (!location || location.noStoreCity || location.city !== store.city) return null;
+  if (!location || location.noStoreCity || location.city !== store.city || !hasOrigin(location)) return null;
   return typeof store.distance_km === 'number' ? store.distance_km : null;
 }
 // 仓位用途短句与仓型（冻结稿 br03-policy.generic、w2-render.category）
@@ -45,11 +48,12 @@ function line(units, months, loggedIn) {
     name: single ? fmt.unitName(single) : fmt.comboName(units),
     code: single ? single.code : fmt.comboName(units), volText: fmt.pretty(vol) + 'm³',
     tier: single ? fmt.tierLabel(single) : '', dims: single ? fmt.dimsText(single) : fmt.comboVolumeText(units),
-    area: single ? fmt.areaText(single) : '', usage: usageText(units[0].volume), special: units.some(pricing.isSpecial)
+    area: single ? fmt.areaText(single) : '', usage: usageText(units[0].volume), special: units.some(pricing.isSpecial),
+    thumbs: units.slice(0, 2).map(media.unitThumb)
   };
   if (loggedIn && pricing.isTerm(months)) {
     const q = pricing.quote(units, months);
-    l.price = { mode: 'monthly', amount: q.monthly_average, unit: T.price.month, discount: q.special ? T.price.special : pricing.factorLabel(q.term_factor), sub: T.price.totalPrefix + pricing.yuan(q.rent_total) + ' · ' + fmt.termText(months) + (q.full_reduction > 0 ? ' · ' + T.price.fullOff + pricing.yuan(q.full_reduction) : '') };
+    l.price = { mode: 'monthly', amount: q.monthly_average, unit: T.price.month, discount: q.special ? T.price.special : pricing.factorLabel(q.term_factor), sub: T.price.totalPrefix + pricing.yuan(q.rent_total) + ' · ' + fmt.termText(months) + (q.full_reduction > 0 ? ' · ' + T.price.fullOffShort + pricing.yuan(q.full_reduction) : '') }; // 满额减缩写为「-¥400」（W37 #28）；三页同一写法，卡片里放得下
     l.rentTotal = q.rent_total; l.monthly = q.monthly_average;
     l.cta = T.cta.order;
   } else {
@@ -70,16 +74,15 @@ const monthlyAt = (units, months) => units.reduce((n, u) => n + pricing.unitPric
 
 function largerLine(avail, offerUnits, first, need, ctx, hasLong) {
   const ov = sumVol(offerUnits), ids = offerUnits.map((u) => u.id);
-  const next = avail.find((u) => u.volume > ov && ids.indexOf(u.id) < 0);
+  // 下一档更大的可租仓：不超过需求的容量上限（FIX-01 R-11）。差额与价差都相对上一行的方案（交接 v1.0 §4.4-8，A-09）
+  const next = avail.find((u) => u.volume > ov && ids.indexOf(u.id) < 0 && matching.fit(u.volume, need).state === 'matched');
   if (!next) return null;
   const months = ctx.requirement && ctx.requirement.term_months;
   const row = line([next], months, ctx.loggedIn);
   row.diffText = T.card.diff(fmt.pretty(next.volume - ov));
-  row.bigTag = '';
-  if (ctx.loggedIn && first.monthly !== undefined && row.monthly !== undefined) { // 未登录不显示「每月多 ¥X」（D-187）
-    if (row.monthly > first.monthly) row.diffText += T.card.diffMore(pricing.yuan(row.monthly - first.monthly));
-    else { row.diffText = row.usage; row.bigTag = T.card.bigger; } // 更大的仓不更贵时不写差额
-  }
+  row.bigTag = ''; // W37 #25：不再出「大一档」标签
+  // 未登录不显示「每月多 ¥X」（D-187）；更大的仓不更贵时只写容量差
+  if (ctx.loggedIn && first.monthly !== undefined && row.monthly !== undefined && row.monthly > first.monthly) row.diffText += T.card.diffMore(pricing.yuan(row.monthly - first.monthly));
   const ratio = need / ov; // 理由（D-161）：组合方案、接近方案不出
   row.reason = offerUnits.length > 1 || ratio > 1 ? '' : ratio >= 0.995 ? T.card.reasonEqual(fmt.pretty(ov)) : ratio >= C.pricing.upsizeRatio ? T.card.reasonRatio(fmt.pretty(ov), Math.round(ratio * 100)) : hasLong ? T.card.reasonLong : '';
   return row;
@@ -92,35 +95,42 @@ function storeCard(store, ctx) {
   const m = matching.matchStore(store.units, need);
   const range = matching.capacityRange(store.units);
   const far = pricing.isFar(km);
+  // 本店给出的方案（FIX-01 R-10）：匹配仓 → 两仓组合 → 接近方案；列表与仓位推荐页取同一个
+  const offer = m.best ? [m.best] : (m.combos[0] ? m.combos[0].units : m.nearOffer);
+  const full = !!(m.best || m.combos[0]);
   const card = {
-    id: store.id, photo: imageOf(store.id), name: store.name, district: store.district, area: store.area, community: store.community || '', address: store.address,
+    id: store.id, photo: imageOf(store), name: store.name, district: store.district, area: store.area, community: store.community || '', address: store.address,
     km, kmText: fmt.kmText(km), accessHours: store.access_hours,
-    hasStock: m.available.length > 0, state: m.state, listState: need > 0 ? (m.best ? 'matched' : m.near ? 'near' : 'none') : 'browse',
+    hasStock: m.available.length > 0, state: m.state, listState: need > 0 ? (full ? 'matched' : m.nearOffer ? 'near' : 'none') : 'browse',
     fromPrice: pricing.storeFromCubic(m.available), // 门店「¥X/m³/月起」
     rangeText: range ? (range.min === range.max ? fmt.pretty(range.min) : fmt.pretty(range.min) + '–' + fmt.pretty(range.max)) + 'm³' : '',
     freeTransportTag: far ? T.card.freeTransport : '',
     operating: store.operating_tag || (m.available.some(pricing.isSpecial) ? T.price.special : ''),
     row: null, larger: null, nearText: '', moreText: '', compactText: '', emptyText: ''
   };
-  const pick = m.best || m.near;
-  if (pick) {
-    card.row = line([pick], months, ctx.loggedIn);
-    let more = m.others;
-    if (!m.best) { // 接近：比需求小且差额不超过 20%，写明差额，按钮进门店看仓位
-      card.nearText = matching.fit(pick.volume, need).text;
+  if (offer) {
+    card.offerIds = offer.map((u) => u.id);
+    card.row = line(offer, months, ctx.loggedIn);
+    let more = m.best ? m.others : 0;
+    card.nearText = matching.fit(sumVol(offer), need).text || ''; // 比需求略小（10% 以内，仍算匹配）或接近（10%–20%）时写明差额
+    if (!full) { // 接近：按钮进门店看仓位
       card.row.cta = T.cta.viewUnits; card.row.secondary = true;
-      more = m.available.filter((u) => matching.fit(u.volume, need).state === 'near').length - 1;
+      more = offer.length > 1 ? 0 : m.available.filter((u) => matching.fit(u.volume, need).state === 'near').length - 1;
     }
     if (more > 0) card.moreText = T.card.more(more);
-    if (m.best) card.larger = largerLine(m.available, [m.best], card.row, need, ctx, false);
+    if (full) card.larger = largerLine(m.available, offer, card.row, need, ctx, false);
     card.compactText = card.row.volText + (card.row.rentTotal !== undefined ? ' · ' + fmt.termText(months) + ' ' + pricing.yuan(card.row.rentTotal) : '') + (card.nearText ? ' · ' + card.nearText : '');
   } else if (need > 0) card.emptyText = T.card.noMatch;
   else if (!card.hasStock) card.emptyText = T.card.noStock;
   // 「特价仓」标签按所展示的仓位判断：有需求看展示的那一行，无需求看本店可租仓位
   card.promo = card.row ? card.row.special : !!card.operating && card.operating === T.price.special;
-  card.tags = storeTags(store, 3, card.promo, far);
+  // 免费运输标签：展示的是特价仓时不出（特价仓不参与免费运输，规则配置表 §2，A-13）
+  const freeTag = far && !card.promo;
+  card.freeTransportTag = freeTag ? T.card.freeTransport : '';
+  card.tags = storeTags(store, 3, card.promo, freeTag);
+  card.tagsDetail = storeTags(store, 3, card.promo, false); // 门店详情不出免费运输标签（FIX-01 R-16）
   card.lowText = lowText(store.units);
-  card.tagsCompact = storeTags(store, 2, card.promo, far).slice(0, 2);
+  card.tagsCompact = storeTags(store, 2, card.promo, freeTag).slice(0, 2);
   card.locText = card.kmText ? card.kmText + ' · ' + store.district : store.district + (store.community ? ' · ' + store.community : '');
   return card;
 }
@@ -172,10 +182,11 @@ function scopeOf(location, stores) {
 function advisorFor(capacityM3, rentTotal) {
   if (!pricing.advisorNeeded(capacityM3, rentTotal)) return null;
   return pricing.bigDeal(capacityM3, rentTotal)
-    ? { title: T.advisor.big.title, sub: T.advisor.big.sub(C.matching.advisorCapacityM3, pricing.yuan(pricing.bigDealTotal())) }
+    ? { title: T.advisor.big.title, sub: T.advisor.big.sub() }
     : { title: T.advisor.normal.title, sub: T.advisor.normal.sub };
 }
-const demandLine = (r) => '约 ' + req.pretty(r.capacity_m3) + 'm³ · 租 ' + fmt.termText(r.term_months);
+// 需求条：按面积填的写「6㎡ · 约15m³」（交接 v1.0 §4.3-4，A-11）
+const demandLine = (r) => (r.input_unit === 'm2' && Number(r.input_value) > 0 ? '' : '约 ') + req.demandText(r) + ' · 租 ' + fmt.termText(r.term_months);
 
 /**
  * 门店列表。ctx: { requirement, location, loggedIn }
@@ -204,8 +215,8 @@ function buildList(stores, ctx, filter) {
   const costs = {};
   cards.forEach((c) => {
     if (!hasNeed) { costs[c.id] = c.fromPrice === null ? Infinity : c.fromPrice; return; }
-    const m = matching.matchStore(byId[c.id].units, r.capacity_m3), u = m.best || m.near;
-    costs[c.id] = u ? monthlyAt([u], r.term_months) : Infinity;
+    const us = (c.offerIds || []).map((id) => byId[c.id].units.find((u) => u.id === id)).filter(Boolean);
+    costs[c.id] = us.length ? monthlyAt(us, r.term_months) : Infinity;
   });
   const o = { distOf: (c) => c.km, costOf: (c) => costs[c.id], idOf: (c) => c.id };
   const inf = (v) => (v === null || v === undefined ? Infinity : v);
@@ -222,7 +233,10 @@ function buildList(stores, ctx, filter) {
   // 顾问卡（D-97、D-182）：按需求容量与首位匹配仓位的整期租金判定；未登录只按容量（不间接透露金额档位）
   let advisor = null;
   if (hasNeed && !noMatch) { const c0 = cards.find((c) => c.listState === 'matched'); advisor = advisorFor(r.capacity_m3, (c0 && c0.row.rentTotal) || 0); }
-  return { mode: hasNeed ? 'demand' : 'browse', cards, demandText: hasNeed ? demandLine(r) : '', advisor, total: cards.length, noMatch, far, scopeText: scope ? scope.text : '', filtered };
+  // 首位门店离得远（附近的门店没有合适仓位）时写一句「已扩大范围」（A-22），与仓位推荐页同一句
+  const c1 = cards[0];
+  const expanded = hasNeed && !noMatch && !far && f.sort === 'recommended' && !!c1 && !!c1.row && c1.km !== null && c1.km > CF.list.expandedKm;
+  return { mode: hasNeed ? 'demand' : 'browse', cards, demandText: hasNeed ? demandLine(r) : '', advisor, total: cards.length, noMatch, far, expanded, large: hasNeed && matching.largeCapacity(r.capacity_m3), scopeText: scope ? scope.text : '', filtered };
 }
 
 // 列表里可选的服务标签（按出现的门店数排序）
@@ -254,10 +268,10 @@ function buildHomeRecommend(stores, ctx) {
   return firstTwo.concat(op ? [op] : []).slice(0, CF.recommend.homeCards).map((c) => Object.assign({}, c, { tags: storeTags(byId[c.id], 2, c.promo, false) }));
 }
 
-// 一家门店给出的方案：匹配仓（不小于需求里体积最小的），没有时取合计最小的两仓组合
+// 一家门店给出的方案：匹配仓 → 两仓组合 → 最接近的方案（接近的单仓或组合）。与门店列表的 storeCard 取同一个
 function offerOf(store, need) {
   const m = matching.matchStore(store.units, need);
-  const units = m.best ? [m.best] : (m.combos[0] ? m.combos[0].units : m.near ? [m.near] : null);
+  const units = m.best ? [m.best] : (m.combos[0] ? m.combos[0].units : m.nearOffer);
   return units ? { store, units, volume: sumVol(units), combo: units.length > 1, m } : null;
 }
 function candidates(stores, ctx, excludeId) {
@@ -289,38 +303,34 @@ function buildMatch(stores, ctx) {
       if (scope.pin) rows = rows.filter((x) => x.store.id === scope.pin).concat(rows.filter((x) => x.store.id !== scope.pin));
     }
     const expanded = rows.every((x) => x.km !== null && x.km > CF.recommend.expandedKm);
-    rows.sort((a, b) => (a.volume < need ? 1 : 0) - (b.volume < need ? 1 : 0));
-    mode = rows.every(x => x.volume < need) ? 'near' : rows[0].combo ? 'combo' : expanded ? 'expanded' : 'matched';
-  } else { // 全城没有不小于需求的方案：每店取一个容量最接近的（单仓或两仓合计，差额不超过 20%）
-    rows = [];
-    stores.forEach((s) => {
-      const small = s.units.filter(matching.isAvailable).filter((u) => u.volume < need).sort((a, b) => a.volume - b.volume);
-      const opts = small.filter((u) => matching.fit(u.volume, need).state === 'near').map((u) => ({ store: s, units: [u], volume: u.volume, combo: false }));
-      for (let i = 0; i < small.length; i++) for (let j = i + 1; j < small.length; j++) { const v = sumVol([small[i], small[j]]); if (matching.fit(v, need).state === 'near') opts.push({ store: s, units: [small[i], small[j]], volume: v, combo: true }); }
-      opts.sort((a, b) => b.volume - a.volume);
-      if (opts[0]) rows.push(Object.assign(opts[0], { km: distanceOf(s, ctx.location), cost: monthlyAt(opts[0].units, months) }));
-    });
-    const inf = (v) => (v === null ? Infinity : v);
-    rows.sort((a, b) => (prefer(b.store) ? 1 : 0) - (prefer(a.store) ? 1 : 0) || b.volume - a.volume || inf(a.km) - inf(b.km) || a.cost - b.cost);
-    mode = rows.length ? 'near' : 'none';
-  }
+    const isNear = (x) => matching.fit(x.volume, need).state === 'near';
+    if (rows.every(isNear)) { // 全城只有接近方案：本范围优先，其次容量大的、近的、便宜的在前
+      const inf = (v) => (v === null ? Infinity : v);
+      rows.sort((a, b) => (prefer(b.store) ? 1 : 0) - (prefer(a.store) ? 1 : 0) || b.volume - a.volume || inf(a.km) - inf(b.km) || a.cost - b.cost);
+      mode = 'near';
+    } else {
+      rows.sort((a, b) => (isNear(a) ? 1 : 0) - (isNear(b) ? 1 : 0));
+      mode = rows[0].combo ? 'combo' : expanded ? 'expanded' : 'matched';
+    }
+  } else mode = 'none';
   const top = rows.slice(0, CF.recommend.matchCards);
   const cards = top.map((x, i) => {
     const avail = x.store.units.filter(matching.isAvailable).sort((a, b) => a.volume - b.volume);
     const first = line(x.units, months, ctx.loggedIn);
     const near = matching.fit(x.volume, need);
-    if (near.state === 'near') { first.nearText = near.text; first.secondary = true; }
+    if (near.text) first.nearText = near.text; // 略小（仍算匹配）与接近都写明差额
+    if (near.state === 'near') first.secondary = true;
     first.tier = ''; first.usage = ''; first.area = ''; first.reason = '';
     const next = largerLine(avail, x.units, first, need, ctx, hasLong);
-    if (next) { next.tier = ''; next.usage = ''; next.area = ''; next.reason = ''; next.bigTag = T.card.bigger; next.diffText = T.card.diff(fmt.pretty(sumVol(avail.filter(u => next.id.split(',').includes(u.id))) - need)); if (ctx.loggedIn && next.monthly > first.monthly) next.diffText += T.card.diffMore(pricing.yuan(next.monthly - first.monthly)); }
+    if (next) { next.tier = ''; next.usage = ''; next.area = ''; next.reason = ''; }
     const lines = next ? [first, next] : [first];
     if (next) next.secondary = true;
     const shown = {}; lines.forEach((l) => l.id.split(',').forEach((id) => { shown[id] = 1; }));
     const restCount = avail.filter((u) => !shown[u.id]).length;
     const far = pricing.isFar(x.km), promo = first.special;
     return {
-      id: x.store.id, photo: imageOf(x.store.id), name: x.store.name, address: x.store.address, km: x.km, kmText: fmt.kmText(x.km),
-      rankTag: x.rankTag || '', tags: storeTags(x.store, 3, promo, far).slice(0, 2), lowText: lowText(x.store.units),
+      id: x.store.id, photo: imageOf(x.store), name: x.store.name, address: x.store.address, km: x.km, kmText: fmt.kmText(x.km),
+      rankTag: x.rankTag || '', tags: storeTags(x.store, 3, promo, far && !promo).slice(0, 2), lowText: lowText(x.store.units),
       lines, moreText: restCount > 0 ? T.card.more(restCount) : T.cta.viewStore
     };
   });
@@ -348,19 +358,23 @@ function buildStoreDetail(store, ctx, opts) {
   const inCat = (u) => cat === 'all' || categoryOf(u.volume) === cat;
   const avail = allAvail.filter(inCat);
   const m = matching.matchStore(store.units, need);
-  const largest = allAvail.length ? allAvail[allAvail.length - 1].volume : 0;
-  const situation = !allAvail.length ? 'soldout' : !need ? 'browse' : matching.salesOnly(need) ? 'sales' : m.best ? 'matched' : m.combos.length ? 'combo' : matching.fit(largest, need).state === 'near' ? 'near' : 'nomatch';
-  const mk = (u) => Object.assign(line([u], months, ctx.loggedIn), { fit: matching.fit(u.volume, need).state, favId: u.id });
-  const matched = (need ? avail.filter((u) => u.volume >= need) : avail).map(mk);
-  const others = need ? avail.filter((u) => u.volume < need).sort((a, b) => b.volume - a.volume) : [];
+    const situation = !allAvail.length ? 'soldout' : !need ? 'browse' : matching.salesOnly(need) ? 'sales' : m.best ? 'matched' : m.combos.length ? 'combo' : m.nearOffer ? 'near' : 'nomatch';
+  const st = (u) => matching.fit(u.volume, need).state;
+  const mk = (u) => Object.assign(line([u], months, ctx.loggedIn), { fit: st(u), favId: u.id });
+  // 匹配区间内的仓位（D-230、R-11）：比需求略小的写明差额，仍可直接下单
+  const matched = (need ? avail.filter((u) => st(u) === 'matched') : avail).map((u) => Object.assign(mk(u), need ? { nearText: matching.fit(u.volume, need).text || '' } : {}));
+  // 超过容量上限的仓位：不进推荐，单列一组，仍可下单
+  const over = need ? avail.filter((u) => st(u) === 'over').map((u) => Object.assign(mk(u), { secondary: true })) : [];
+  const others = need ? avail.filter((u) => st(u) === 'near' || st(u) === 'small').sort((a, b) => b.volume - a.volume) : [];
   // 接近（差额不超过 20%）可直接下单并写明差额；更小的给「按 X m³ 重新匹配」
   const near = others.filter((u) => matching.fit(u.volume, need).state === 'near').map((u) => Object.assign(mk(u), { nearText: matching.fit(u.volume, need).text, secondary: true }));
   const smaller = others.filter((u) => matching.fit(u.volume, need).state !== 'near').map((u) => Object.assign(mk(u), { cta: T.detail.rematch(fmt.pretty(u.volume)), act: 'rematch', volume: u.volume, secondary: true }));
-  const sold = store.units.filter((u) => !matching.isAvailable(u) && inCat(u)).slice(0, CF.detail.soldFoldMax).map((u) => ({ id: u.id, name: fmt.unitName(u), tier: fmt.tierLabel(u), dims: fmt.dimsText(u), area: fmt.areaText(u), usage: usageText(u.volume) }));
+  const sold = store.units.filter((u) => !matching.isAvailable(u) && inCat(u)).slice(0, CF.detail.soldFoldMax).map((u) => ({ id: u.id, name: fmt.unitName(u), tier: fmt.tierLabel(u), dims: fmt.dimsText(u), area: fmt.areaText(u), usage: usageText(u.volume), thumb: media.unitThumb(u) }));
   const self = situation === 'browse' || situation === 'matched' || situation === 'combo' || situation === 'near'; // 交顾问 / 无可租 / 无匹配三种只出空态，不列仓位
-  const comboList = need && self && cat === 'all' ? m.combos : [];
+  // 组合方案：合计落在匹配区间的；一个都没有时，退而列出合计只够「接近」的组合并写明差额
+  const comboList = need && self && cat === 'all' ? (m.combos.length ? m.combos : m.nearCombos) : [];
   const comboMode = !comboList.length ? '' : !m.best ? 'open' : need > CF.detail.comboAlwaysFromM3 ? 'fold' : '';
-  const combos = comboMode ? comboList.map((x) => { const l = line(x.units, months, ctx.loggedIn); return Object.assign(l, { tag: T.detail.comboTag(x.units.length), sub: T.detail.comboSub(x.units.map((u) => u.code).join(' + ')) }); }) : [];
+  const combos = comboMode ? comboList.map((x) => { const l = line(x.units, months, ctx.loggedIn); return Object.assign(l, { tag: T.detail.comboTag(x.units.length), sub: T.detail.comboSub(x.units.map((u) => u.code).join(' + ')), nearText: matching.fit(x.volume, need).text || '' }); }) : [];
   // 顾问卡：一页一次；30m³ 及以上主操作已是「提交给顾问」，不再重复
   const chosen = m.best ? [m.best] : (m.combos[0] ? m.combos[0].units : null);
   const rent = chosen && ctx.loggedIn && pricing.isTerm(months) ? pricing.quote(chosen, months).rent_total : 0;
@@ -368,9 +382,10 @@ function buildStoreDetail(store, ctx, opts) {
   const advisor = situation === 'sales' || !need ? null : (lonely || situation === 'nomatch' ? (advisorFor(need, rent) || { title: T.advisor.normal.title, sub: T.advisor.normal.sub }) : advisorFor(need, rent));
   return {
     card, situation, category: cat,
-    rows: self ? matched : [], near: self ? near : [], smaller: self ? smaller : [], sold, combos, comboMode,
+    rows: self ? matched : [], near: self ? near : [], smaller: self ? smaller : [], over: situation === 'sales' ? [] : over, sold, combos, comboMode,
     noSingleText: need && self && !matched.length && avail.length && comboMode !== 'open' && situation !== 'nomatch' ? T.detail.noSingle(fmt.pretty(need)) : '',
     catEmpty: self && !avail.length && !combos.length,
+    showLow: situation !== 'nomatch' && situation !== 'soldout', // 无匹配时不出「仅剩 N 个可租」，免得和空态打架（A-21）
     showAlternatives: situation === 'soldout' || lonely, advisor,
     headPrice: !need && card.fromPrice ? card.fromPrice : null
   };

@@ -1,12 +1,12 @@
 // 商家 / 企业存储 BUSINESS（第 4 批，交接 v1.0 §4.9-4）。两步表单：① 用仓需求 ② 联系方式。?lead=<线索 id> 是从预约记录「补充企业资料」进入的修改。
 // 已做：步骤条；用仓位置 + 多选其他用仓区域（只列当前城市有营业门店的区域；提交时既拼进位置文字，也单独存 other_areas）；
 //      容量按区间存（1–5 / 5–15 / 15–30 / 30m³ 及以上）或自定义（校验用 core/requirement，范围句「0.5m³–200㎡」D-177 原话）；
-//      租期用统一组件（「其他」是底部弹层）；存储类型多选 +「其他」补充；搬入协助；「查看可选仓位」带入找仓取区间上限，30m³ 及以上不写入全局需求；
+//      租期用统一组件（「其他」是底部弹层）；存储类型多选 +「其他」补充；搬入协助；「查看可选仓位」带入找仓取区间上限；
+//      容量达到 30m³ 只在容量栏下提示可联系专属配仓顾问，仍可带入找仓（2026-11-20 规则）；
 //      联系方式（称呼、公司、联系电话登录取号、预计用仓日期弹层、补充信息）；草稿存本机并记住步骤，回来时提示「已恢复上次填写的信息」；
-//      修改已有需求 / 需求不存在或已撤回；提交中、失败重试、回执超时（锁定表单，稍后自动核对一次，同一 request_key 不重复建单）；
-//      提交成功弹窗（按提交时刻取受理文案；30m³ 及以上是「知道了」，否则「继续找仓」）；加载 / 失败 / 断网。
+//      修改已有需求 / 需求不存在或已撤回；提交中、失败重试、回执超时（锁定表单，稍后自动核对一次；仍未确认时提示条留「核对提交结果」可再核对，同一 request_key 不重复建单）；
+//      提交成功弹窗（按提交时刻取受理文案，「继续找仓」「查看预约记录」，点弹窗外关闭）；加载 / 失败 / 断网。
 // 未做：冻结稿 authorized 态的「已微信授权，无需重复填写手机号」输入框（已按 §4.1-8 改为登录取号 + 「修改」）；bk_wx 微信原生弹窗。
-// 注意：15–30m³ 区间带入找仓的上限是 30m³，按全站分流规则（达到 30m³ 交顾问，D-101）门店列表会显示顾问配仓。这是冻结稿规则的直接结果，待业务确认。
 const T = require('../../i18n/lead');
 const L = require('../../core/config-lead');
 const lead = require('../../core/lead');
@@ -17,6 +17,7 @@ const routes = require('../../services/routes');
 const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
+const share = require('../../services/share');
 const Z = T.business;
 const TXT = { c: T.common, ack: T.ack, z: Z, phoneLabel: T.phone.label };
 const DRAFT = 'bizDraft';
@@ -29,12 +30,13 @@ Page(auth.guarded(routes.BUSINESS, {
     location: '', areasOpen: false, areaChips: [], areasNote: '', bandChips: [], custom: false, sizeRaw: '', sizeErr: '', sizeNote: '', term: null, termErr: '',
     typeChips: [], typeOtherOn: false, typeOther: '', moveChips: [], moveNeed: false,
     sumText: '', areaSum: '', name: '', company: '', date: '', notes: '', notesCount: '0/' + L.bizNotesMax, notesMax: L.bizNotesMax, nameMax: L.nameMax, addressMax: L.addressMax,
-    errPhone: '', errDate: '', salesOnly: false, blocked: false, editing: false, saved: false, restored: false, status: 'editing', locked: false, primary: Z.submit,
+    errPhone: '', errDate: '', payNote: Z.payNote, blocked: false, editing: false, saved: false, restored: false, status: 'editing', locked: false, primary: Z.submit,
     sheet: '', dateOptions: [], dateDraft: '', dialog: null
   },
   onLoad(q) {
     q = q || {};
-    this._v = blank(); this._districts = []; this._city = state.get().location.city; this._leadId = q.lead || ''; this._contact = ''; this._key = ''; this._timer = null;
+    this._v = blank(); this._districts = []; this._city = state.get().location.city; this._leadId = q.lead || ''; this._contact = ''; this._key = ''; this._timer = null; this._rechecked = false;
+    this.setData({ payNote: lead.ackAt(Date.now()).in_service_hours ? Z.payNote : Z.payNoteOff });
     const draft = state.get()[DRAFT];
     if (!this._leadId && draft && hasContent(Object.assign(blank(), draft))) { this._v = Object.assign(blank(), draft); this._restored = true; }
     else if (!this._leadId) { // 新草稿带入全站需求的容量与租期
@@ -70,11 +72,11 @@ Page(auth.guarded(routes.BUSINESS, {
   render(extra) {
     const v = this._v, cap = lead.bizCapacity(v), open = v.areasOpen || v.areas.length > 0;
     const sizeText = v.custom ? (cap.capacity_m3 !== null ? cap.label : v.sizeRaw ? v.sizeRaw + 'm³' : Z.sizeEmpty) : (cap.label || Z.sizeNone);
-    const sizeNote = cap.sales ? Z.salesNote : cap.match && !this.data.sizeErr ? T.fn.matchNote(req.pretty(cap.match)) : '';
+    const sizeNote = cap.large ? Z.salesNote : cap.match && !this.data.sizeErr ? T.fn.matchNote(req.pretty(cap.match)) : '';
     this.setData(Object.assign({
       location: v.location, areasOpen: open, areaChips: this._districts.map((a) => ({ a, on: v.areas.indexOf(a) >= 0 })),
       areasNote: v.areas.length ? T.fn.areasPicked(v.areas.length) : T.fn.areasList(this._city),
-      bandChips: L.bizBands.map((b) => ({ key: b.key, label: b.label, on: !v.custom && v.band === b.key })), custom: v.custom, sizeRaw: v.sizeRaw, sizeNote, salesOnly: cap.sales,
+      bandChips: L.bizBands.map((b) => ({ key: b.key, label: b.label, on: !v.custom && v.band === b.key })), custom: v.custom, sizeRaw: v.sizeRaw, sizeNote,
       term: v.term, typeChips: Z.typeOptions.map((t) => ({ t, on: v.types.indexOf(t) >= 0 })), typeOtherOn: v.types.indexOf(Z.typeOther) >= 0, typeOther: v.typeOther,
       moveChips: Z.moveOptions.map((t) => ({ t, on: v.move === t })), moveNeed: v.move === Z.moveYes,
       sumText: [sizeText, v.term ? fmt.termText(v.term) : Z.termNone, v.types.join('、')].filter(Boolean).join(' · '), areaSum: v.areas.length ? Z.otherAreas + v.areas.join('、') : '',
@@ -83,31 +85,32 @@ Page(auth.guarded(routes.BUSINESS, {
     if (!this.data.editing && !this.data.saved) state.set(DRAFT, Object.assign({}, v, { step: this.data.step }));
   },
   locked() { return this.data.status === 'submitting' || this.data.status === 'unknown'; },
-  touch() { if (this.data.status === 'failed') { this._key = ''; this.setData({ status: 'editing' }); } if (this.data.restored) this.setData({ restored: false }); },
+  touch() { this._rechecked = false; if (this.data.status === 'failed') { this._key = ''; this.setData({ status: 'editing' }); } if (this.data.restored) this.setData({ restored: false }); },
   // —— 第 1 步 ——
-  onLocation(e) { this._v.location = e.detail.value; this.touch(); this.render(); },
+  onLocation(e) { if (this.locked()) return; this._v.location = e.detail.value; this.touch(); this.render(); },
   onAreasOpen() { this._v.areasOpen = true; this.render(); },
   onArea(e) {
-    const a = (this.data.areaChips[Number(e.currentTarget.dataset.i)] || {}).a; if (!a) return;
+    const a = (this.data.areaChips[Number(e.currentTarget.dataset.i)] || {}).a; if (!a || this.locked()) return;
     const i = this._v.areas.indexOf(a); if (i >= 0) this._v.areas.splice(i, 1); else this._v.areas.push(a);
     this.touch(); this.render();
   },
   onBand(e) {
     const k = e.currentTarget.dataset.k;
+    if (this.locked()) return;
     if (k === 'custom') { this._v.custom = true; this._v.band = ''; }
     else if (lead.bandOf(k)) { this._v.custom = false; this._v.band = k; }
     this.touch(); this.render({ sizeErr: '' });
   },
-  onSize(e) { this._v.sizeRaw = e.detail.value; this.touch(); this.setData({ sizeErr: '' }); this.render(); },
+  onSize(e) { if (this.locked()) return; this._v.sizeRaw = e.detail.value; this.touch(); this.setData({ sizeErr: '' }); this.render(); },
   onEstimate() { wx.navigateTo({ url: routes.CAPACITY }); },
-  onTerm(e) { const m = e.detail && e.detail.months; if (lead.validTerm(m)) { this._v.term = m; this.touch(); this.render({ termErr: '' }); } },
+  onTerm(e) { const m = e.detail && e.detail.months; if (lead.validTerm(m) && !this.locked()) { this._v.term = m; this.touch(); this.render({ termErr: '' }); } },
   onType(e) {
-    const t = (this.data.typeChips[Number(e.currentTarget.dataset.i)] || {}).t; if (!t) return;
+    const t = (this.data.typeChips[Number(e.currentTarget.dataset.i)] || {}).t; if (!t || this.locked()) return;
     const i = this._v.types.indexOf(t); if (i >= 0) this._v.types.splice(i, 1); else this._v.types.push(t);
     this.touch(); this.render();
   },
-  onTypeOther(e) { this._v.typeOther = e.detail.value; this.touch(); this.render(); },
-  onMove(e) { const t = (this.data.moveChips[Number(e.currentTarget.dataset.i)] || {}).t; if (t) { this._v.move = t; this.touch(); this.render(); } },
+  onTypeOther(e) { if (this.locked()) return; this._v.typeOther = e.detail.value; this.touch(); this.render(); },
+  onMove(e) { const t = (this.data.moveChips[Number(e.currentTarget.dataset.i)] || {}).t; if (t && !this.locked()) { this._v.move = t; this.touch(); this.render(); } },
   // 下一步 / 提交 / 查看仓位前的草稿校验：自定义容量填了就必须有效；租期选了就必须有效
   draftError() {
     const v = this._v;
@@ -120,12 +123,12 @@ Page(auth.guarded(routes.BUSINESS, {
     wx.showToast({ title: Z.err[code] || T.common.checkForm, icon: 'none' });
   },
   onBrowse() {
-    if (this.locked() || this.data.salesOnly) return;
+    if (this.locked()) return;
     const v = this._v, cap = lead.bizCapacity(v);
     let code = this.draftError();
-    if (!code) code = cap.sales ? 'browseSales' : !cap.match ? 'browseSize' : !lead.validTerm(v.term) ? 'browseTerm' : '';
+    if (!code) code = !cap.match ? 'browseSize' : !lead.validTerm(v.term) ? 'browseTerm' : '';
     if (code) return this.showDraftError(code);
-    // 带入找仓：区间取上限；30m³ 及以上不写入全局需求（上面已拦）
+    // 带入找仓：区间取上限
     state.setRequirement({ capacity_m3: cap.match, input_unit: 'm3', input_value: cap.match, source: 'manual', term_months: v.term });
     wx.switchTab({ url: routes.STORES });
   },
@@ -137,13 +140,13 @@ Page(auth.guarded(routes.BUSINESS, {
   onPrev() { if (this.locked()) return; this._v.step = 1; this.setData({ step: 1 }); this.render(); wx.pageScrollTo({ scrollTop: 0, duration: 0 }); },
   onNeeds() { wx.navigateTo({ url: routes.NEEDS }); },
   onNewLead() { // 新建企业需求：丢开正在修改的那条，回到空表单
-    this._leadId = ''; this._v = blank(); this._key = '';
+    this._leadId = ''; this._v = blank(); this._key = ''; this._rechecked = false;
     this.setData({ blocked: false, editing: false, saved: false, status: 'editing', locked: false, primary: Z.submit, step: 1, errPhone: '', errDate: '', sizeErr: '', termErr: '' }); this.render();
   },
   // —— 第 2 步 ——
-  onName(e) { this._v.name = e.detail.value; this.touch(); this.render(); },
-  onCompany(e) { this._v.company = e.detail.value; this.touch(); this.render(); },
-  onNotes(e) { this._v.notes = String(e.detail.value || '').slice(0, L.bizNotesMax); this.touch(); this.render(); },
+  onName(e) { if (this.locked()) return; this._v.name = e.detail.value; this.touch(); this.render(); },
+  onCompany(e) { if (this.locked()) return; this._v.company = e.detail.value; this.touch(); this.render(); },
+  onNotes(e) { if (this.locked()) return; this._v.notes = String(e.detail.value || '').slice(0, L.bizNotesMax); this.touch(); this.render(); },
   onPhoneChange(e) { this._contact = (e.detail && e.detail.phone) || ''; if (e.detail && e.detail.ready) this.setData({ errPhone: '' }); },
   onPhoneLogin() { this.setData({ errPhone: '' }); },
   onOpenDate() { if (this.locked()) return; const opts = lead.dateOptions(L.bizDateOffsets, Date.now()); this.setData({ sheet: 'date', dateDraft: this._v.date, dateOptions: opts.map((d) => ({ d, on: d === this._v.date })) }); },
@@ -169,11 +172,11 @@ Page(auth.guarded(routes.BUSINESS, {
   send() {
     this.setData({ status: 'submitting', locked: true, primary: Z.saving });
     return api.submitLead(this.input()).then((rec) => {
-      const updated = !!this._leadId, off = !rec.in_service_hours, sales = this.data.salesOnly;
-      this._key = ''; this._leadId = rec.id; state.set(DRAFT, null);
+      const updated = !!this._leadId, off = !rec.in_service_hours;
+      this._key = ''; this._rechecked = false; this._leadId = rec.id; state.set(DRAFT, null);
       this.setData({
         status: 'editing', locked: false, saved: true, editing: true, restored: false, primary: Z.update,
-        dialog: { title: updated ? Z.updatedTitle : T.ack.submitted, ack: off ? T.ack.offHours : T.ack.inHours, fine: off ? '' : Z.offPrefix + T.ack.offHours, hoursNote: T.ack.hoursNote, no: T.ack.leadNo + rec.no, sales }
+        dialog: { title: updated ? Z.updatedTitle : T.ack.submitted, ack: off ? T.ack.offHours : T.ack.inHours, fine: off ? '' : Z.offPrefix + T.ack.offHours, hoursNote: T.ack.hoursNote, no: T.ack.leadNo + rec.no }
       });
     }).catch((err) => {
       const code = err && err.code, f = err && err.field;
@@ -182,7 +185,7 @@ Page(auth.guarded(routes.BUSINESS, {
       if (code === 'INVALID' && f === 'date') return this.setData(Object.assign(back, { errDate: Z.err.date }));
       if (code === 'INVALID' && (f === 'capacity' || f === 'term')) { this.setData(Object.assign(back, { step: 1, sizeErr: f === 'capacity' ? Z.err.capacity : '', termErr: f === 'term' ? Z.err.term : '' })); this._v.step = 1; return; }
       if (code === 'NOT_FOUND' || code === 'CONFLICT') { this.setData(Object.assign(back, { blocked: true, editing: false, step: 1 })); wx.showToast({ title: code === 'CONFLICT' ? Z.err.withdrawn : Z.err.notFound, icon: 'none' }); return; }
-      if (code === 'TIMEOUT') { // 回执超时：锁定表单，稍后用同一个 request_key 自动核对一次
+      if (code === 'TIMEOUT') { // 回执超时：锁定表单，稍后用同一个 request_key 自动核对一次；再超时就停在未确认态，由提示条上的「核对提交结果」手动再核对
         this.setData({ status: 'unknown', locked: true, primary: this.data.editing ? Z.update : Z.submit });
         if (!this._rechecked) { this._rechecked = true; this._timer = setTimeout(() => { this._timer = null; this.send(); }, L.recheckMs); }
         return;
@@ -190,9 +193,14 @@ Page(auth.guarded(routes.BUSINESS, {
       this.setData(Object.assign(back, { status: 'failed' }));
     });
   },
-  onRetrySubmit() { if (this.data.status === 'failed') this.send(); },
+  onRetrySubmit() {
+    if (this.data.status === 'failed') return this.send();
+    if (this.data.status === 'unknown') { if (this._timer) { clearTimeout(this._timer); this._timer = null; } return this.send(); } // 手动核对：同一个 request_key
+  },
   onDialogFind() { this.setData({ dialog: null }); wx.switchTab({ url: routes.STORES }); },
   onDialogClose() { this.setData({ dialog: null }); },
   onDialogNeeds() { this.setData({ dialog: null }); wx.navigateTo({ url: routes.NEEDS }); },
+  // 转发（R-15）：只转发空表单入口，不带正在修改的线索 id
+  onShareAppMessage() { return share.message(routes.BUSINESS, { title: T.share.business }); },
   noop() {}
 }));

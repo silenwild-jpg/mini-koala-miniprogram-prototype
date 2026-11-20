@@ -1,7 +1,7 @@
 <view class="mk-page">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="ac-wrap">
-    <mk-notice plain="{{true}}" text="{{T.notice}}" />
+    <mk-notice plain="{{true}}" text="{{notice}}" />
     <mk-empty wx:if="{{empty}}" icon="/assets/icons/ticket-ink.svg" title="{{T.empty}}" card="{{true}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onClaim">{{T.claim}}</button>
     </mk-empty>

@@ -9,23 +9,26 @@ module.exports = {
   },
   mine: {
     signedTitle: '我的迷你考拉', guestTitle: '欢迎使用迷你考拉', guestSub: '查看订单与用仓服务', signedSub: '已登录', profile: '个人信息',
-    newCard: { kicker: '尚未用仓', title: '找一个合适的仓位', sub: '可从附近门店开始', cta: '找附近门店' },
+    newCard: { kicker: '尚未用仓', title: '找一个合适的仓位', cta: '找附近门店' }, // FIX-01 R-21：删「可从附近门店开始」（与按钮同义）
     assets: { title: '我的仓位', allPrefix: '查看全部 ', allSuffix: '处', until: '至 ', start: '起租 ', monthUnit: '个月' },
     stage: { paid_before_start: '待入仓', active: '租用中', expiring: '即将到期', exiting: '退仓处理中', overdue: '租期已到期' },
     progressNone: '尚无保存的需求', monthUnit: '个月', leadsSuffix: '条记录',
+    certStatus: { reviewing: '审核中', verified: '已认证', failed: '未通过' }, // 自写（FIX-01 D-13）：「企业认证」一行右侧的状态
     groups: [
       { key: 'records', title: '我的记录', items: [{ k: 'NEEDS', icon: 'note-ink', t: '预约用仓', s: '查看已提交的预约' }, { k: 'PROGRESS', icon: 'flag-ink', t: '找仓进度', s: '' }] },
       { key: 'benefit', title: '服务与权益', items: [{ k: 'FAVORITES', icon: 'heart-ink', t: '我的收藏', s: '门店和仓位' }, { k: 'COUPONS', icon: 'ticket-ink', t: '优惠与权益', s: '查看可用权益' }, { k: 'MESSAGES', icon: 'msg-ink', t: '消息', s: '查看业务通知' }] },
-      { key: 'finance', title: '账务与企业', items: [{ k: 'ENT_TITLES', icon: 'order-ink', t: '发票与抬头', s: '' }, { k: 'DEPOSIT', icon: 'shield-ink', t: '押金', s: '' }, { k: 'ENT_CERT', icon: 'building-ink', t: '企业认证', s: '' }] },
+      { key: 'finance', title: '账务与企业', items: [{ k: 'ENT_TITLES', icon: 'order-ink', t: '开票抬头', s: '' }, { k: 'ENT_BATCH', icon: 'ticket-ink', t: '批量开票', s: '' }, { k: 'DEPOSIT', icon: 'shield-ink', t: '押金', s: '' }, { k: 'ENT_CERT', icon: 'building-ink', t: '企业认证', s: '' }] }, // FIX-01 S-07 / D-13：入口名统一为「开票抬头」；加「批量开票」直达
       { key: 'more', title: '更多服务', items: [{ k: 'TRANSPORT', icon: 'truck-ink', t: '运输与搬运', s: '下单前可预约' }, { k: 'REFERRAL', icon: 'gift-ink', t: '推荐有礼', s: '' }, { k: 'SUPPORT', icon: 'headset-ink', t: '联系顾问', s: '' }, { k: 'BRAND', icon: 'info-ink', t: '关于迷你考拉', s: '' }] }
     ]
   },
   favorites: {
     empty: '暂无收藏，可在门店详情收藏', findStores: '找附近门店', stores: '门店', units: '仓位',
-    storeGone: '暂停营业', storeGoneSub: '可查看附近其他门店', unitGone: '已租出', unitGoneSub: ' · 可看同店其他仓位'
+    storeGone: '暂停营业', storeGoneSub: '可查看附近其他门店', unitGone: '已租出', unitGoneSub: ' · 可看同店其他仓位',
+    remove: '移除', removed: '已移除' // 自写（FIX-01 D-09）：失效条目可在本页移除
   },
   coupons: {
-    notice: '租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车辆运输费。',
+    // {km} {months} {zhe} 由页面按 core/config.js 的 freeTransport 填入（《规则配置表》§2；FIX-01 D-11 补全条件）
+    notice: '租金券不抵扣押金和管理费。免费运输：用仓位置距门店 {km}km 及以上、租期满 {months} 个月、折扣不低于 {zhe} 折的订单可用，特价仓不参与；含 1 次车辆运输费，搬运、拆装、楼梯费另计。',
     empty: '暂无可查看的优惠与权益', claim: '领取新客券', coupons: '优惠券', benefits: '服务权益',
     gateAmount: '登录后查看金额', validPrefix: '有效期 ', use: '去使用',
     couponStatus: { AVAILABLE: '可使用', SELECTED: '已选择', REDEEMED: '已使用', LOCKED: '已锁定', EXPIRED: '已过期', INVALID: '不可用' },
@@ -67,9 +70,22 @@ module.exports = {
     conflict: { title: '该手机号已绑定其他微信账号', descPrefix: '为保护账户和订单安全，不会自动合并账户。您可以换一个手机号，或联系客服 ', descSuffix: ' 处理。', service: '联系客服', retry: '换个手机号' }
   },
   referral: {
-    section: '邀请好友', para: '邀请好友了解迷你考拉仓的仓储服务。', linkLabel: '分享链接', linkText: '小程序首页 · 我的邀请码', copy: '复制分享链接', copied: '链接已复制',
+    section: '邀请好友', para: '邀请好友了解迷你考拉仓的仓储服务。',
+    // 自写（FIX-01 D-12 / S-04）：正式分享链接格式未定，页面直接显示邀请码；转发卡片落到首页并带邀请码
+    codeLabel: '我的邀请码', codeGuest: '登录后查看', share: '转发给好友', copy: '复制邀请码', copied: '邀请码已复制',
     copyFailed: '复制失败，请稍后重试', // 自写
     noticeTitle: '活动筹备中', noticeSub: '活动开始后，规则与奖励会在这里更新。', shareTitle: '迷你考拉仓' // 自写：shareTitle（转发卡片标题，用品牌名）
+  },
+  // 预约记录页（pkg-account/needs）本批新增的文字；其余仍在 i18n/lead.js 的 needs。全部自写（FIX-01 D-02 / D-08 / D-18）
+  needs: {
+    guestTitle: '登录后查看预约记录', guestSub: '预约、咨询和看仓的受理进度会出现在这里',
+    visitTitle: '预约看仓', visitStatus: '已提交，待门店电话确认', visitTimePrefix: '看仓时间 ', visitTbd: '待电话确认', visitCapPrefix: '意向容量 ',
+    bookAgain: '再预约一次'
+  },
+  // 企业认证、批量开票的站内消息（FIX-01 D-07）。分类标签与去向文字在 cat；demo 是演示数据适配器写入的标题，自写
+  messages: {
+    cat: { entCert: { tag: '企业认证', link: '查看认证结果' }, entBatch: { tag: '发票', link: '查看开票结果' } },
+    demo: { certOk: '企业认证已通过', certFail: '企业认证未通过，请更正资料后重新提交', batchIssued: '批量开票已开具，发票已发送到接收邮箱', batchFail: '批量开票未成功，请修改后重新提交' }
   },
   brand: {
     logo: '迷你考拉仓',
@@ -78,7 +94,7 @@ module.exports = {
     howTitle: '如何选择', how: [{ n: '1', t: '填写容量或按物品估算' }, { n: '2', t: '主动选择租期并查看可用方案' }, { n: '3', t: '核对门店地址、设施和费用' }, { n: '4', t: '确认订单，付款后按指引办理入仓' }],
     storeTitle: '存放说明', storePara: '存放物品、承重、存取条件与服务范围，请在签约前向门店确认。易燃易爆、危险及法律禁止存储的物品不得入仓。',
     serviceTitle: '门店与服务', servicePara: '支持查看北京、上海、深圳、杭州、广州的门店资料；具体库存和服务以门店确认为准。',
-    viewStores: '查看门店', contact: '联系顾问'
+    viewStores: '查看门店', contact: '联系顾问', shareTitle: '迷你考拉仓 · 关于我们' // 自写（FIX-01 R-15）：转发卡片标题
   },
   ent: {
     pending: '请咨询客服',
@@ -92,11 +108,11 @@ module.exports = {
       head: {
         reviewing: { title: '资料审核中', tag: '审核中', sub: '审核结果会通过消息通知您。' },
         verified: { title: '企业认证已完成', tag: '已认证', sub: '可使用企业开票抬头与批量开票。' },
-        failed: { title: '认证未通过', tag: '未通过', sub: '请按原因更正后重新提交。' }
+        failed: { title: '认证未通过', tag: '未通过', sub: '' } // FIX-01 R-21：删「请按原因更正后重新提交。」（与底部按钮同义）
       },
       progress: '认证进度', steps: [{ t: '提交资料', s: '' }, { t: '资料审核', s: '审核时限请咨询客服' }, { t: '认证完成', s: '' }],
       reasonPrefix: '原因：', reasonEmpty: '—', reasonSub: '以审核反馈为准。可修改企业名称、统一社会信用代码或重新上传营业执照。',
-      info: '企业信息', infoContact: '联系人', services: '企业服务', toTitles: '开票抬头管理', toBatch: '批量开票',
+      info: '企业信息', infoContact: '联系人', services: '企业服务', toTitles: '开票抬头', toBatch: '批量开票',
       retry: '更正资料后重新提交'
     },
     titles: {
@@ -110,6 +126,8 @@ module.exports = {
     },
     batch: {
       gateTitle: '批量开票需要先完成企业认证', gateSub: '认证通过后，可把多笔订单合并申请发票。', toCert: '去企业认证', gateFine: '单笔订单开票不需要企业认证，可在订单详情里申请。',
+      // 自写（FIX-01 D-13）：认证审核中 / 未通过时拦截页换文案
+      gate: { reviewing: { title: '企业认证审核中', sub: '认证通过后，可把多笔订单合并申请发票。', btn: '查看认证进度' }, failed: { title: '企业认证未通过', sub: '更正资料并通过认证后，可把多笔订单合并申请发票。', btn: '查看未通过原因' } },
       emptyTitle: '暂无可开票的订单', emptySub: '已付款且未开票的订单会出现在这里。',
       noticeTitle: '选择要合并开票的订单', noticeSub: '只列出已付款且未开票的订单。',
       allPrefix: '全选（', allSuffix: ' 笔）', paidPrefix: ' · 付款 ', monthUnit: '个月',
@@ -122,7 +140,9 @@ module.exports = {
         issued: { title: '发票已开具', tag: '已开具', subPrefix: '已发送到 ' },
         failed: { title: '开票未成功', tag: '未成功', subPrefix: '' }
       },
-      progress: '开票进度', steps: [{ t: '提交申请', s: '' }, { t: '开票处理', s: '处理时限请咨询客服' }, { t: '已开具', s: '发送到接收邮箱' }],
+      // 第 2 步的说明由页面拼成「N 天内开具」（N = core/config-after.js 的 sla.invoiceDays，裁定 R-02）
+      progress: '开票进度', steps: [{ t: '提交申请', s: '' }, { t: '开票处理', s: '' }, { t: '已开具', s: '发送到接收邮箱' }], promiseSuffix: ' 天内开具',
+      another: '再开一批', reselect: '重新选择订单', // 自写（FIX-01 D-03）
       reasonPrefix: '原因：', reasonEmpty: '—', reasonSub: '以财务反馈为准。可更换抬头或接收邮箱后重新提交。',
       content: '开票内容', contentTitle: '抬头', contentOrders: '订单', ordersSuffix: ' 笔',
       retry: '修改后重新提交', download: '下载发票', resend: '重新发送到邮箱',

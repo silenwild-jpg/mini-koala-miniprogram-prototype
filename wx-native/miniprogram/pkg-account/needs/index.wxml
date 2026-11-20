@@ -1,7 +1,10 @@
 <view class="mk-page">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
+  <mk-empty wx:elif="{{guest}}" icon="/assets/icons/note-ink.svg" title="{{T.v.guestTitle}}" sub="{{T.v.guestSub}}">
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.login}}</button>
+  </mk-empty>
   <view wx:elif="{{list.length === 0}}" class="mk-gutter lnd-top">
-    <mk-empty icon="/assets/icons/note-ink.svg" title="{{T.n.emptyTitle}}" sub="{{T.n.emptySub}}" card="{{true}}">
+    <mk-empty icon="/assets/icons/note-ink.svg" title="{{T.n.emptyTitle}}" card="{{true}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onBook">{{T.n.book}}</button>
     </mk-empty>
   </view>
@@ -14,7 +17,8 @@
         <text class="mk-sub lnd-sub mk-num">{{item.detail}}</text>
         <text wx:if="{{item.note}}" class="mk-sub lnd-sub">{{item.note}}</text>
         <view wx:if="{{!item.off}}" class="lnd-acts">
-          <block wx:if="{{item.ent}}">
+          <button wx:if="{{item.visit}}" class="mk-btn mk-btn--md mk-btn--plain lnd-btn" hover-class="mk-btn--plainHover" data-id="{{item.id}}" bindtap="onWithdraw">{{T.n.withdraw}}</button>
+          <block wx:elif="{{item.ent}}">
             <button class="mk-btn mk-btn--md mk-btn--plain lnd-btn" hover-class="mk-btn--plainHover" data-id="{{item.id}}" bindtap="onEdit">{{T.n.edit}}</button>
             <button class="mk-btn mk-btn--md mk-btn--ghost lnd-btn" hover-class="mk-btn--ghostHover" data-id="{{item.id}}" bindtap="onFill">{{T.n.fill}}</button>
             <button class="mk-btn mk-btn--md mk-btn--plain lnd-more" hover-class="mk-btn--plainHover" data-id="{{item.id}}" bindtap="onMore" aria-label="更多操作">{{T.n.more}}</button>
@@ -25,6 +29,7 @@
           </block>
         </view>
       </view>
+      <button class="mk-btn mk-btn--ghost lnd-again" hover-class="mk-btn--ghostHover" bindtap="onBook">{{T.v.bookAgain}}</button>
     </view>
   </block>
   <mk-sheet visible="{{sheet === 'more'}}" title="{{T.n.moreTitle}}" bind:close="onSheetClose">
@@ -41,4 +46,5 @@
     </mk-field>
     <button class="mk-btn lnd-sheetbtn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSave">{{T.n.save}}</button>
   </mk-sheet>
+  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
 </view>

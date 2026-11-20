@@ -25,4 +25,5 @@
 .lg-box { width: 36rpx; height: 36rpx; border: var(--mk-border-strong); border-radius: 8rpx; display: flex; align-items: center; justify-content: center; flex: none; box-sizing: border-box; }
 .lg-box.lg-on { background: var(--mk-color-action-primaryFill); border: 1px solid var(--mk-color-action-primaryFill); }
 .lg-tick { width: 28rpx; height: 28rpx; }
+.lg-privacy { display: block; margin-top: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); }
 .lg-purpose { display: block; margin-top: var(--mk-space-3); line-height: var(--mk-font-lineHeight-loose); color: var(--mk-color-ink-secondary); }

@@ -7,9 +7,16 @@
       <button wx:if="{{!loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="mk-btn--ghostHover" bindtap="onLogin">{{T.common.loginRegister}}</button>
     </view>
     <view class="mk-card">
-      <text class="ac-label">{{T.r.linkLabel}}</text>
-      <view class="rf-box mk-row"><image class="mk-icon rf-ic" src="/assets/icons/copy-ink.svg" /><text class="mk-grow mk-ellipsis">{{T.r.linkText}}</text></view>
-      <button class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="mk-btn--ghostHover" bindtap="onCopy">{{T.r.copy}}</button>
+      <text class="ac-label">{{T.r.codeLabel}}</text>
+      <view class="rf-box mk-row"><image class="mk-icon rf-ic" src="/assets/icons/copy-ink.svg" /><text class="mk-grow mk-ellipsis mk-num">{{loggedIn && code ? code : T.r.codeGuest}}</text></view>
+      <block wx:if="{{loggedIn && code}}">
+        <button class="mk-btn mk-btn--md ac-block" hover-class="mk-btn--hover" open-type="share">{{T.r.share}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="mk-btn--ghostHover" bindtap="onCopy">{{T.r.copy}}</button>
+      </block>
+      <block wx:else>
+        <button class="mk-btn mk-btn--md mk-btn--disabled ac-block" hover-class="none" disabled="{{true}}">{{T.r.share}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md mk-btn--disabled ac-block" hover-class="none" disabled="{{true}}">{{T.r.copy}}</button>
+      </block>
     </view>
     <mk-notice class="rf-note" plain="{{true}}" title="{{T.r.noticeTitle}}" text="{{T.r.noticeSub}}" />
   </view>

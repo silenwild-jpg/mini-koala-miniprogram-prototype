@@ -13,6 +13,7 @@ module.exports = {
     standardCards: 2,           // 交接 §4.4-6：前 2 家标准卡
     estoreSlot: 2,              // 交接 §4.4-6：第 3 位考拉E存卡（下标 2）
     distanceOptionsKm: [3, 5, 10], // 自定：冻结稿只画了「3km内」一个已选态，没有画选项层；取与推荐半径相同的三档
+    expandedKm: 5,              // 自定（FIX-01 A-22）：有需求时列表首位门店超过这个距离，写一句「已扩大范围」
     serviceOptionsMax: 8        // 自定：服务筛选层最多列出的门店标签数
   },
   panel: {
@@ -31,6 +32,8 @@ module.exports = {
   },
   // 仓型（冻结稿 w2-render.js category）：上限含本数
   unitCategories: [{ key: 'mini', maxM3: 1.5 }, { key: 'small', maxM3: 5 }, { key: 'medium', maxM3: 10 }, { key: 'large', maxM3: Infinity }],
+  // 仓位空间示意图的分档（冻结稿 w2-render.js thumb）：上限含本数。注意中型仓到 15m³，与上面仓型筛选的 10m³ 不同，照冻结稿
+  unitThumbBands: [{ key: 'mini', maxM3: 1.5 }, { key: 'small', maxM3: 5 }, { key: 'medium', maxM3: 15 }, { key: 'large', maxM3: Infinity }],
   // 仓位用途短句的分档（冻结稿 runtime/br03-policy.js generic）；文字在 i18n/find.js usage
   usageBandsM3: [1.5, 5, 10, 25, 50],
   estimate: {

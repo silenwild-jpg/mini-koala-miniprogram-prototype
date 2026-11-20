@@ -5,6 +5,8 @@
 const TT = require('../../i18n/trade');
 const contract = require('./contract-text');
 const actions = require('../../services/order-actions');
+const share = require('../../services/share');
+const routes = require('../../services/routes');
 const ALIAS = { storage: 'usage', privacy: 'register', user: 'register' };
 const has = (v) => !!v && !/^待/.test(v);
 Page({
@@ -21,7 +23,10 @@ Page({
     const toc = sections.filter((s) => s.title).map((s, n) => ({ id: s.id, n: n + 1, t: s.title }));
     this.setData({ title: d.title, pending: d.status === 'pending', version: has(contract.meta.version) ? contract.meta.version : '', effective: has(contract.meta.effectiveDate) ? contract.meta.effectiveDate : '', toc: toc.length > 1 ? toc : [], sections });
     this._anchor = (q && q.anchor) || '';
+    this._doc = contract.docs[key] ? key : 'usage'; this._title = d.title;
   },
+  // 转发（FIX-01 R-15）：带上是哪一份协议
+  onShareAppMessage() { return share.message(routes.AGREEMENT, { title: this._title, query: 'doc=' + this._doc }); },
   onReady() { if (this._anchor) this.scrollTo(this._anchor); },
   scrollTo(id) { if (typeof id === 'string' && id) wx.pageScrollTo({ selector: '#' + id, duration: 200, fail() {} }); },
   onToc(e) { this.scrollTo(e.currentTarget.dataset.id); },

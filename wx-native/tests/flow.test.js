@@ -7,6 +7,7 @@ const env = require('../tools/fake_wx').install(root);
 const R = (p) => require(path.join(root, p));
 const state = R('services/state'), routes = R('services/routes'), auth = R('services/auth'), api = R('services/api'), finder = R('services/finder'), location = R('services/location');
 env.loadApp();
+R('services/mock-ext/_db').db.seeded = true; // 本文件测找仓流程，不带演示订单：演示订单占用的仓位（如 A003）在找仓页不可租（FIX-01 A-08）
 const NEED = { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months: 6 };
 const login = () => state.setSession({ loggedIn: true, phoneMasked: '138****8000', token: 't' });
 const fresh = (need, loggedIn) => { state.reset(); env.nav.length = 0; env.mode = 'ok'; if (need) state.set('requirement', need); if (loggedIn) login(); };
@@ -65,7 +66,7 @@ test('未登录时视图模型里没有任何整期金额；登录后才有', as
   assert.ok(/整期 ¥1,680 · 6个月/.test(inn)); assert.ok(/立即下单/.test(inn));
 });
 test('门店列表：起价排序采用当前演示库存，登录前只显示参考价',async()=>{
- fresh(null,false);const stores=await api.getStores({city:'北京'}),rec=finder.buildHomeRecommend(stores,{location:state.get().location});
+ fresh(null,false);state.patch('location',{status:'granted'});const stores=await api.getStores({city:'北京'}),rec=finder.buildHomeRecommend(stores,{location:state.get().location}); // 已定位才按距离排（A-04）
  assert.equal(rec[0].id,'SIM_BJ01');assert.ok(rec.every(c=>c.fromPrice>0));assert.ok(rec[1].fromPrice<rec[0].fromPrice);
  fresh(NEED,true);const list=finder.buildList(stores,{requirement:NEED,location:state.get().location,loggedIn:true});
  assert.equal(list.cards[0].row.name,'A003 · 3.5m³');assert.equal(list.cards[0].row.price.amount,280);

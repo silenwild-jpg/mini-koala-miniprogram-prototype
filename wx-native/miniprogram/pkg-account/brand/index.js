@@ -7,16 +7,18 @@ const routes = require('../../services/routes');
 const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
+const share = require('../../services/share');
 const B = TA.brand;
 Page(auth.guarded(routes.BRAND, {
   data: {
     T: B, sys: 'loading', proofs: [],
-    metrics: T.home.proof,
+    metrics: require('../../i18n/find').home.proof, // 品牌数字只在 i18n/find.js 写一处
     pillars: B.pillars.map((p) => ({ icon: '/assets/icons/' + p.icon + '.svg', t: p.t, s: p.s }))
   },
   onLoad() { this.refresh(); },
   refresh() { return pd.load(this, api.getBrandInfo(), (r) => this.setData({ proofs: (r && r.proof_images) || [] })); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
+  onShareAppMessage() { return share.message(routes.BRAND, { title: B.shareTitle }); }, // 裁定 R-15：本页不涉及登录信息，可转发
   onStores() { wx.switchTab({ url: routes.STORES }); },
   onContact() { wx.navigateTo({ url: routes.SUPPORT }); }
 }));

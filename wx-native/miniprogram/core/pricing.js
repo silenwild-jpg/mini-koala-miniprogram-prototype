@@ -18,7 +18,7 @@ const isSpecial = (u) => Number(u.special_month) > 0 && Number(u.base_month) > N
 // 单个仓位在给定租期（或指定折扣系数）下的月租。月租舍去小数。
 function unitPricing(u, months, factorOverride) {
   const base = Number(u.base_month);
-  const special = isSpecial(u), effective = special ? base * 0.9 : base;
+  const special = isSpecial(u), effective = special ? base * P.specialFactor : base;
   const f = typeof factorOverride === 'number' ? factorOverride : termFactor(months);
   const monthly = Math.trunc(effective * f + EPS);
   return { unit_id: u.id, base_month: base, monthly_rent: monthly, term_factor: f, term_discount_monthly: Math.max(0, effective - monthly), special_discount_monthly: special ? base - effective : 0, special };
@@ -39,10 +39,25 @@ function fullTier(rentTotal) {
   return hit.length ? hit[hit.length - 1] : null;
 }
 
+// 是否参与满额减（R-12）：续租不参与；单个特价仓不参与；组合里含特价仓时整单参与。rows：unitPricing 的结果或带 special 标记的仓位
+function fullEligible(rows, renewal) {
+  if (renewal) return false;
+  const list = (rows || []).map((r) => (typeof r.special === 'boolean' ? r.special : isSpecial(r)));
+  return !(list.length === 1 && list[0]);
+}
+// 「已省」的构成（R-06）：原价整期 − 特价折让 − 租期折扣 = 整期租金。三项都取整到元，保证明细逐行能对上。
+function breakdown(rows, months, rentTotal) {
+  const baseTotal = Math.round((rows || []).reduce((n, r) => n + Number(r.base_month || 0), 0) * months);
+  const rent = Number(rentTotal);
+  const specialOff = Math.min(Math.max(0, baseTotal - rent), Math.round((rows || []).reduce((n, r) => n + Number(r.special_discount_monthly || 0), 0) * months));
+  return { base_total: baseTotal, special_discount_total: specialOff, term_saved_total: Math.max(0, baseTotal - rent - specialOff) };
+}
+
 /**
  * 报价。units：一个或两个（组合仓）仓位；months：整数租期。
  * opts.coupon：{ id, amount } 已判定可用的租金券（只抵租金）；
  * opts.renewal：续租（无押金、无管理费、不参与满额减）；
+ * 满额减（FIX-01 R-12）：单个特价仓不参与；组合里含特价仓时整单参与。特价仓（含组合里有特价仓）不能用券的现行为不变。
  * opts.factorOverride：首次续租沿用原折扣时传入成交折扣系数。
  */
 function quote(units, months, opts) {
@@ -56,20 +71,25 @@ function quote(units, months, opts) {
   const termSaved = rows.reduce((n, r) => n + r.term_discount_monthly, 0) * months;
   let couponId = null, couponOff = 0, couponSkipped = false;
   if (opts.coupon && !special) { couponId = opts.coupon.id; couponOff = Math.min(Number(opts.coupon.amount) || 0, rentTotal); }
-  // 满额减：按券前整期租金取档；与券不同享，取优惠大的一项；特价仓、续租不参与
-  let fullOff = 0, fullMin = null;
-  if (!opts.renewal && !special) {
+  // 满额减：按券前整期租金取档；与券不同享，取优惠大的一项；单个特价仓、续租不参与；组合里含特价仓时整单参与（R-12）
+  let fullOff = 0, fullMin = null, fullSkippedOff = 0, fullSkippedMin = null;
+  const fullOk = fullEligible(rows, opts.renewal);
+  if (fullOk) {
     const t = fullTier(rentTotal);
     if (t && t.off > couponOff) { fullOff = t.off; fullMin = t.min; couponSkipped = couponOff > 0; couponId = null; couponOff = 0; }
+    else if (t) { fullSkippedOff = t.off; fullSkippedMin = t.min; } // 券更大：满额减让位，页面要说明（B-12）
   }
   const deposit = opts.renewal ? 0 : monthly * P.depositMonths;
   const fee = opts.renewal ? 0 : P.managementFee;
   const rentAfter = rentTotal - couponOff - fullOff;
+  const bd = breakdown(rows, months, rentTotal);
   return {
     months, unit_pricing: rows, special,
     term_factor: rows[0].term_factor,
     monthly_average: monthly, rent_total: rentTotal,
-    full_reduction: fullOff, full_min: fullMin,
+    full_reduction: fullOff, full_min: fullMin, full_eligible: fullOk,
+    full_skipped: fullSkippedOff, full_skipped_min: fullSkippedMin,
+    base_total: bd.base_total, special_discount_total: bd.special_discount_total, term_saved_total: bd.term_saved_total,
     coupon_id: couponId, coupon_discount: couponOff, coupon_skipped: couponSkipped,
     rent_after_discount: rentAfter,
     deposit, management_fee: fee,
@@ -132,4 +152,4 @@ function renewalFactor(order, months) {
   return { factor: kept ? deal : cur, kept, current: cur };
 }
 
-module.exports = { yuan, isTerm, termRule, termFactor, factorLabel, termDiscountLabel, bestRule, isSpecial, unitPricing, unitFromMonthly, storeFromCubic, fullTier, quote, nextTier, termHint, fullHint, isFar, freeTransportFor, nudge, advisorNeeded, bigDeal, bigDealTotal, renewalFactor };
+module.exports = { yuan, isTerm, termRule, termFactor, factorLabel, termDiscountLabel, bestRule, isSpecial, fullEligible, breakdown, unitPricing, unitFromMonthly, storeFromCubic, fullTier, quote, nextTier, termHint, fullHint, isFar, freeTransportFor, nudge, advisorNeeded, bigDeal, bigDealTotal, renewalFactor };

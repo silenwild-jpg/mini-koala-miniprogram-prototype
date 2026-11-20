@@ -6,6 +6,7 @@
 //   messages[] 消息（mock-ext/after.js seedMessages）：{ type, title（i18n/after messages.demo 的键）, agoHours, read?, order?（第几笔订单，从 0 起） }
 //   favorites  收藏 { stores[], units[] }，写进本机状态（services/demo.js）
 //   account    { claimed?: 已领新客券, cert?: 'reviewing'|'verified'|'failed' }（mock-ext/account.js init）
+const C = require('../core/config');
 const KEY = 'mk_demo_v1';
 const NEED = { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months: 6, source: 'manual' };
 // 3 家门店 8 笔订单，各阶段都有；「多门店多笔订单」「消息较多」两个场景共用
@@ -19,6 +20,8 @@ const MULTI = [
   { store: 'SIM_BJ01', units: ['SIM_BJ01_U01'], months: 3, agoDays: 200, startInDays: -199, stage: 'ENDED', depositPartial: 40 },
   { store: 'SIM_BJ02', units: ['SIM_BJ02_U02'], months: 1, agoDays: 20, stage: 'CANCELLED' }
 ];
+// 「消息较多」：订单与消息一一对应，且都停在不会自动推进的状态（FIX-01 D-05），消息数与未读数不会自己变
+const INBOX = MULTI.map((o, i) => (i === 3 ? Object.assign({}, o, { after: { renew: 'quoted', renewMonths: 3 } }) : i === 4 ? Object.assign({}, o, { after: { invoice: 'failed' } }) : i === 5 ? Object.assign({}, o, { after: { exit: 'failed' } }) : o));
 const LIST = [
   { id: 'first_visit', name: '首次访问', desc: '未登录 · 未定位 · 没有用仓需求', login: false, located: false, need: null, orders: null },
   { id: 'guest_browsing', name: '访客找仓中', desc: '未登录 · 已定位 · 需求 3.5m³ 租 6 个月', login: false, located: true, need: NEED, orders: null },
@@ -32,11 +35,11 @@ const LIST = [
   { id: 'member_expiring', name: '即将到期', desc: '已登录 · 1 笔临期订单，可续租或退仓', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U03'], months: 12, agoDays: 350, startInDays: -349, stage: 'EXPIRING', factor: 0.6 }] },
   { id: 'member_overdue', name: '已逾期', desc: '已登录 · 1 笔逾期未续订单', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 3, agoDays: 96, startInDays: -95, stage: 'OVERDUE' }] },
   { id: 'member_renew_quote', name: '续租报价待确认', desc: '已登录 · 临期订单的续租报价已出，24 小时内确认', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U03'], months: 12, agoDays: 350, startInDays: -349, stage: 'EXPIRING', factor: 0.6, after: { renew: 'quoted', renewMonths: 6 } }] },
-  { id: 'member_exit_clearing', name: '退仓待清空', desc: '已登录 · 已提交到期退仓，清空后申请验仓', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U03'], months: 12, agoDays: 350, startInDays: -349, stage: 'EXPIRING', after: { exit: 'requested' } }] },
-  { id: 'member_inspect_failed', name: '验仓未通过', desc: '已登录 · 门店验仓未通过，需处理后重新申请', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 3, agoDays: 92, startInDays: -91, stage: 'OVERDUE', after: { exit: 'failed' } }] },
-  { id: 'member_refund_failed', name: '押金退款未成功', desc: '已登录 · 已退仓，押金退款未成功', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U01'], months: 3, agoDays: 100, startInDays: -99, stage: 'ENDED', after: { exit: 'passed', deposit: 'failed' } }] },
-  { id: 'member_invoice_failed', name: '开票未成功', desc: '已登录 · 租用中，首笔付款的发票开具未成功', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 12, agoDays: 40, startInDays: -39, stage: 'ACTIVE', after: { invoice: 'failed' } }] },
-  { id: 'member_identity_mismatch', name: '实名未通过', desc: '已登录 · 已支付待起租，付款后补的实名认证未通过', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ02', units: ['SIM_BJ02_U02'], months: 6, agoDays: 2, startInDays: 3, stage: 'PAID', identity: false, after: { identity: 'mismatch' } }] },
+  { id: 'member_exit_clearing', name: '退仓待清空', desc: '已登录 · 已提交到期退仓，清空后申请验仓', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U03'], months: 12, agoDays: 361, startInDays: -360, stage: 'EXPIRING', after: { exit: 'requested' } }] }, // 约 5 天后到期：到期退仓在到期前 7 天内才可提交（R-01）
+  { id: 'member_inspect_failed', name: '验仓未通过', desc: '已登录 · 门店验仓未通过，需处理后重新申请', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 3, agoDays: 96, startInDays: -95, stage: 'OVERDUE', after: { exit: 'failed' } }], messages: [{ type: 'exit', title: 'exitRequested', agoHours: 50, read: true, order: 0 }, { type: 'exit', title: 'inspectFailed', agoHours: 1, order: 0 }] },
+  { id: 'member_refund_failed', name: '押金退款未成功', desc: '已登录 · 已退仓，押金退款未成功', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U01'], months: 3, agoDays: 100, startInDays: -99, stage: 'ENDED', after: { exit: 'passed', deposit: 'failed' } }], messages: [{ type: 'deposit', title: 'depositFailed', agoHours: 20, order: 0 }] },
+  { id: 'member_invoice_failed', name: '开票未成功', desc: '已登录 · 租用中，首笔付款的发票开具未成功', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 12, agoDays: 40, startInDays: -39, stage: 'ACTIVE', after: { invoice: 'failed' } }], messages: [{ type: 'invoice', title: 'invoiceFailed', agoHours: 20, order: 0 }] },
+  { id: 'member_identity_mismatch', name: '实名未通过', desc: '已登录 · 已支付待起租，付款后补的实名认证未通过', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ02', units: ['SIM_BJ02_U02'], months: 6, agoDays: 2, startInDays: 3, stage: 'PAID', identity: false, after: { identity: 'mismatch' } }], messages: [{ type: 'identity', title: 'identityFail', agoHours: 1, order: 0 }] },
   { id: 'member_closed', name: '订单已取消和已超时', desc: '已登录 · 1 笔已取消、1 笔超时未支付，没有在租订单', login: true, located: true, need: NEED, orders: [{ store: 'SIM_BJ02', units: ['SIM_BJ02_U01'], months: 3, agoDays: 1, stage: 'EXPIRED' }, { store: 'SIM_BJ01', units: ['SIM_BJ01_U02'], months: 6, agoDays: 5, stage: 'CANCELLED' }] },
   { id: 'member_multi', name: '多门店多笔订单', desc: '已登录 · 3 家门店 8 笔订单，各阶段都有', login: true, located: true, need: null, orders: MULTI },
   { id: 'member_leads', name: '有预约记录', desc: '已登录 · 4 条记录：个人预约、企业需求、预约看仓、已撤回的咨询', login: true, located: true, need: NEED, orders: [], leads: [
@@ -45,13 +48,13 @@ const LIST = [
     { type: 'enterprise', agoHours: 5, address: '朝阳区望京 SOHO 附近', band: 0, months: 12, note: '电商备货，旺季前入仓' },
     { type: 'booking', agoHours: 1, store: 'SIM_BJ01', address: '朝阳区安贞西里三区', cap: 3.5, months: 6 }
   ] },
-  { id: 'member_inbox', name: '消息较多', desc: '已登录 · 8 笔订单 · 7 条消息，其中 3 条未读', login: true, located: true, need: null, orders: MULTI, messages: [
+  { id: 'member_inbox', name: '消息较多', desc: '已登录 · 8 笔订单 · 7 条消息，其中 3 条未读', login: true, located: true, need: null, orders: INBOX, messages: [
     { type: 'deposit', title: 'depositRefunded', agoHours: 190 * 24, read: true, order: 6 },
     { type: 'identity', title: 'identityOk', agoHours: 38 * 24, read: true, order: 2 },
     { type: 'invoice', title: 'invoiceIssued', agoHours: 30, read: true, order: 2 },
     { type: 'exit', title: 'exitRequested', agoHours: 26, read: true, order: 5 },
-    { type: 'renew', title: 'renewQuote', agoHours: 3, order: 4 },
-    { type: 'invoice', title: 'invoiceFailed', agoHours: 2, order: 3 },
+    { type: 'renew', title: 'renewQuote', agoHours: 3, order: 3 },
+    { type: 'invoice', title: 'invoiceFailed', agoHours: 2, order: 4 },
     { type: 'exit', title: 'inspectFailed', agoHours: 0.2, order: 5 }
   ] },
   { id: 'member_favorites', name: '有收藏（含已失效）', desc: '已登录 · 收藏 3 家门店、2 个仓位，其中 1 家暂停营业、1 个仓位已租出', login: true, located: true, need: NEED, orders: [], favorites: { stores: ['SIM_BJ01', 'SIM_BJ05', 'SIM_BJ03'], units: ['SIM_BJ01_U03', 'SIM_BJ01_U02'] } },
@@ -102,7 +105,10 @@ const EVENTS = [
 ];
 const SHORT = { quoteMs: 30000, pendingMs: 60000 };
 const IN_WECHAT = typeof __wxConfig !== 'undefined'; // 只有真实小程序运行时才有这个全局量；Node 里的测试环境没有
-function read() { try { const v = wx.getStorageSync(KEY); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
+// 演示工具关闭（DEMO_TOOLS=false 或非演示数据）时一律按「没存过」读：场景、网络、库存、事件都回默认值（FIX-01 D-15）。
+// 否则用过演示工具的手机在关掉入口后会一直停在断网或某个场景，且无处改回。
+const toolsOn = () => C.DATA_SOURCE === 'mock' && !!C.DEMO_TOOLS;
+function read() { if (!toolsOn()) return {}; try { const v = wx.getStorageSync(KEY); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
 function write(part) { const v = Object.assign(read(), part); try { wx.setStorageSync(KEY, v); } catch (e) { /* 存不上不影响本次使用 */ } return v; }
 const scenario = () => LIST.find((x) => x.id === read().scenario) || null;
 const net = () => NET.find((x) => x.id === read().net) || NET[IN_WECHAT ? 1 : 0];

@@ -39,5 +39,6 @@
       <view class="mk-grow mk-sub"><text bindtap="onToggleAgree">{{T.agreePrefix}}</text><text class="mk-link" bindtap="onAgreement">{{agreement}}</text></view>
     </view>
     <text class="mk-mute lg-purpose">{{T.purpose}}</text>
+    <view class="mk-sub lg-privacy"><text>{{T.privacyPrefix}}</text><text class="mk-link" bindtap="onPrivacy" aria-role="link">{{T.privacy}}</text></view>
   </block>
 </mk-sheet>

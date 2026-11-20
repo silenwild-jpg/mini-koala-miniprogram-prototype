@@ -14,7 +14,7 @@
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sd-tb mk-row" bindtap="onFavStore" aria-role="button"><image class="mk-icon" src="/assets/icons/{{fav ? 'heartfill-brand' : 'heart-sub'}}.svg" /><text class="{{fav ? 'mk-link' : 'mk-sub'}}">{{fav ? T.d.favOn : T.d.favorite}}</text></view>
         <button class="mk-bare sd-share mk-row" hover-class="mk-bare--hover" open-type="share"><image class="mk-icon" src="/assets/icons/share-ink.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
       </view>
-      <view wx:if="{{tab !== 1}}" class="sd-tags"><text wx:if="{{card.lowText}}" class="mk-tag mk-tag--warn">{{card.lowText}}</text><text wx:for="{{card.tags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></view>
+      <view wx:if="{{tab !== 1 && ((card.lowText && showLow) || card.tagsDetail.length)}}" class="sd-tags"><text wx:if="{{card.lowText && showLow}}" class="mk-tag mk-tag--warn">{{card.lowText}}</text><text wx:for="{{card.tagsDetail}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></view>
       <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-grow sd-at" bindtap="onSeeRoute" aria-role="button" aria-label="查看完整地址：{{card.address}}"><text class="sd-at-text">{{card.address}}</text></view><button class="mk-bare sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
     </view>
     <view class="mk-between mk-gutter sd-demand">
@@ -35,14 +35,14 @@
         <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.cta.toAdvisor}}</button>
         <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.d.modifyCap}}</button>
       </mk-empty>
-      <mk-empty wx:elif="{{situation === 'soldout'}}" class="sd-emptygap" card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.d.noStockTitle}}" sub="{{T.d.otherSub}}">
+      <mk-empty wx:elif="{{situation === 'soldout'}}" class="sd-emptygap" card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.d.noStockTitle}}">
         <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOtherStores">{{T.d.otherStores}}</button>
       </mk-empty>
       <block wx:else>
         <scroll-view class="sd-cats" scroll-x="true" enhanced="true" show-scrollbar="{{false}}">
           <view class="sd-catrow"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{cats}}" wx:key="k" class="mk-chip sd-cat {{item.on ? 'mk-chip--on' : ''}}" data-k="{{item.k}}" bindtap="onCat" aria-role="button">{{item.t}}</view></view>
         </scroll-view>
-        <mk-empty wx:if="{{situation === 'nomatch'}}" class="sd-emptygap" card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.d.noMatchTitle}}" sub="{{T.d.otherSub}}">
+        <mk-empty wx:if="{{situation === 'nomatch'}}" class="sd-emptygap" card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.d.noMatchTitle}}">
           <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOtherStores">{{T.d.otherStores}}</button>
         </mk-empty>
         <block wx:for="{{blocks}}" wx:key="key">
@@ -50,19 +50,26 @@
           <text wx:elif="{{item.type === 'note'}}" class="mk-sub sd-gnote">{{item.text}}</text>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:elif="{{item.type === 'fold'}}" class="mk-link sd-fold" bindtap="onToggleCombos" aria-role="button">{{item.text}}</view>
           <view wx:else class="sd-urow {{item.type === 'combo' ? 'mk-card sd-combo' : ''}}">
-            <view class="mk-between sd-utop">
-              <view class="mk-grow">
-                <text class="sd-un">{{item.type === 'combo' ? item.row.volText : item.row.name}}</text>
-                <text wx:if="{{item.row.tier}}" class="mk-tag sd-tier">{{item.row.tier}}</text>
-                <text wx:if="{{item.row.tag}}" class="mk-tag sd-tier">{{item.row.tag}}</text>
+            <!-- 上半行：空间示意图 + 名称 / 尺寸；下半行（价格与按钮）通栏（冻结稿 .urow / .foot） -->
+            <view class="sd-uhead">
+              <view wx:if="{{item.type === 'combo'}}" class="sd-upics"><image wx:for="{{item.row.thumbs}}" wx:for-item="ph" wx:key="*this" class="sd-upic" src="{{ph}}" mode="aspectFill" /></view>
+              <image wx:else class="sd-uph" src="{{item.row.thumbs[0]}}" mode="aspectFill" aria-label="仓位空间示意" />
+              <view class="mk-grow sd-uinfo">
+                <view class="mk-between sd-utop">
+                  <view class="mk-grow">
+                    <text class="sd-un">{{item.type === 'combo' ? item.row.volText : item.row.name}}</text>
+                    <text wx:if="{{item.row.tier}}" class="mk-tag sd-tier">{{item.row.tier}}</text>
+                    <text wx:if="{{item.row.tag}}" class="mk-tag sd-tier">{{item.row.tag}}</text>
+                  </view>
+                  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.type === 'unit'}}" class="sd-fav" data-id="{{item.row.favId}}" bindtap="onFavUnit" aria-role="button" aria-label="收藏仓位"><image class="mk-icon" src="/assets/icons/{{item.row.fav ? 'heartfill-brand' : 'heart-sub'}}.svg" /><text wx:if="{{item.row.fav}}" class="mk-link sd-favt">{{T.d.favOn}}</text></view>
+                </view>
+                <block wx:if="{{item.type === 'combo'}}"><text class="mk-sub sd-line">{{item.row.sub}}</text><text wx:if="{{item.row.nearText}}" class="mk-tag mk-tag--promo sd-near">{{item.row.nearText}}</text></block>
+                <block wx:else>
+                  <text class="mk-sub sd-line">{{item.row.dims}}<text wx:if="{{item.row.area}}"> · {{item.row.area}}</text></text>
+                  <text wx:if="{{item.row.nearText}}" class="mk-tag mk-tag--promo sd-near">{{item.row.nearText}}</text>
+                </block>
               </view>
-              <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.type === 'unit'}}" class="sd-fav" data-id="{{item.row.favId}}" bindtap="onFavUnit" aria-role="button" aria-label="收藏仓位"><image class="mk-icon" src="/assets/icons/{{item.row.fav ? 'heartfill-brand' : 'heart-sub'}}.svg" /><text wx:if="{{item.row.fav}}" class="mk-link sd-favt">{{T.d.favOn}}</text></view>
             </view>
-            <block wx:if="{{item.type === 'combo'}}"><text class="mk-sub sd-line">{{item.row.sub}}</text></block>
-            <block wx:else>
-              <text class="mk-sub sd-line">{{item.row.dims}}<text wx:if="{{item.row.area}}"> · {{item.row.area}}</text></text>
-              <text wx:if="{{item.row.nearText}}" class="mk-tag mk-tag--promo sd-near">{{item.row.nearText}}</text>
-            </block>
             <view class="mk-between sd-buy">
               <view class="mk-grow">
                 <mk-price amount="{{item.row.price.amount}}" unit="{{item.row.price.unit}}" discount="{{item.row.price.discount}}" />
@@ -81,8 +88,11 @@
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-between sd-soldhd" bindtap="onToggleSold" aria-role="button"><text class="mk-sub">{{T.d.soldFold}}</text><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
         <block wx:if="{{soldOpen}}">
           <view wx:for="{{sold}}" wx:key="id" class="sd-urow sd-urow--off">
-            <text class="sd-un">{{item.name}}</text><text wx:if="{{item.tier}}" class="mk-tag sd-tier">{{item.tier}}</text>
-            <text class="mk-sub sd-line">{{item.dims}}<text wx:if="{{item.area}}"> · {{item.area}}</text></text>
+            <view class="sd-uhead">
+              <image class="sd-uph" src="{{item.thumb}}" mode="aspectFill" />
+              <view class="mk-grow sd-uinfo"><text class="sd-un">{{item.name}}</text><text wx:if="{{item.tier}}" class="mk-tag sd-tier">{{item.tier}}</text>
+              <text class="mk-sub sd-line">{{item.dims}}<text wx:if="{{item.area}}"> · {{item.area}}</text></text></view>
+            </view>
             <view class="mk-between sd-buy"><text class="mk-sub">{{T.d.soldOut}}</text><button class="mk-btn mk-btn--md mk-btn--disabled sd-cta" hover-class="none" disabled="{{true}}">{{T.d.notRentable}}</button></view>
           </view>
         </block>

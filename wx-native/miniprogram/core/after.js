@@ -3,14 +3,16 @@
 // 订单上由租后接口推进的字段（在 core/order-model.js 注释的基础上细化，接真实接口时后端按同样字段返回）：
 //   renew    { months, status: 'submitted'|'quoted'|'expired'|'paid', submitted_at, quoted_at, factor, kept, amount, monthly,
 //              pay: ''|'pending'|'failed'|'cancelled', notify: ''|'accepted'|'declined', paid_at }
-//   renewals [{ id, months, amount, factor, paid_at }]   已完成的续租付款；订单 months、lease.end 同步累加
-//   exit     { applied_at, date:'YYYY-MM-DD', early, estimate, status: 'requested'|'waiting'|'failed'|'passed', inspect_at, notify, fail_reason }
+//   renewals [{ id, months, amount, monthly, factor, paid_at, from, to }]   已完成的续租付款（from / to = 这次续租前后的到期日）；订单 months、lease.end 同步累加
+//   exit     { applied_at, date:'YYYY-MM-DD', early, estimate, status: 'requested'|'waiting'|'failed'|'passed', inspect_at, notify, fail_reason,
+//              prev_stage（撤回后回到的阶段）, converted（到期退仓在租期结束前申请验仓，改按提前退仓结算，R-01）, planned_date（改按提前退仓前的计划取空日） }
 //   deposit  { status: 'holding'|'refunding'|'refunded'|'partial'|'failed', amount, pending_fee, refunded, refund_at, fail_reason }
-//   invoice  { status: 'none'|'applying'|'issued', title, records: [{ id, payment_id, payment_type, amount, kind, title, tax_id, email, status: 'submitted'|'processing'|'issued'|'failed', submitted_at }] }
+//   invoice  { status: 'none'|'applying'|'issued', title, records: [{ id, payment_id, payment_type, amount（可开票金额，不含押金）, batch_id?（批量开票写入的记录）, kind, title, tax_id, email, status: 'submitted'|'processing'|'issued'|'failed', submitted_at }] }
 const C = require('./config');
 const A = require('./config-after');
 const pricing = require('./pricing');
 const O = require('./order');
+const model = require('./order-model');
 const S = O.STAGE;
 const H = 3600000, DAY = 24 * H, TZ = 8 * H, EPS = 1e-9;
 const PAID = [S.PAID, S.ACTIVE, S.EXPIRING, S.OVERDUE, S.EXITING, S.ENDED];
@@ -29,13 +31,15 @@ function countdown(deadlineMs, nowMs) {
 }
 const fill = (tpl, o) => String(tpl).replace(/\{(\w+)\}/g, (m, k) => (o && o[k] !== undefined && o[k] !== null ? o[k] : ''));
 const zhe = (f) => Number((Number(f) * 10).toFixed(1)) + ' 折'; // 「6 折」「6.5 折」
-const addMonths = (ms, n) => { const d = new Date(ms); d.setMonth(d.getMonth() + n); return d.getTime(); }; // 与 order-model 算到期日同一写法
+const addMonths = model.addMonths; // 与 order-model 算到期日同一个函数（月末不溢出）
+// 到期日含当天（R-04）：到期日次日 0 点起才算已到期
+const leaseOver = (order, nowMs) => nowMs >= model.overdueFrom(order.lease.end);
 
 // 没带订单号进入时取哪一笔：按各服务最可能要办的阶段排
 const PICK = {
   renew: [S.EXPIRING, S.OVERDUE, S.ACTIVE, S.PAID],
   exit: [S.EXITING, S.OVERDUE, S.EXPIRING, S.ACTIVE, S.PAID],
-  deposit: [S.EXITING, S.ENDED, S.ACTIVE, S.EXPIRING, S.OVERDUE, S.PAID],
+  deposit: [S.EXITING, S.OVERDUE, S.EXPIRING, S.ACTIVE, S.PAID, S.ENDED],
   access: [S.ACTIVE, S.EXPIRING, S.PAID, S.EXITING, S.OVERDUE, S.ENDED]
 };
 function pickOrder(orders, kind) {
@@ -43,6 +47,10 @@ function pickOrder(orders, kind) {
   if (kind === 'identity') return paid.find((o) => o.identity_status !== 'verified') || paid[0] || null;
   const pri = PICK[kind];
   if (!pri) return paid[0] || null;
+  if (kind === 'deposit') { // 押金正在处理（退款中 / 退款未成功）的排最前，其次在租的，已结清的排最后（D-14）
+    const moving = paid.find((o) => o.deposit && (o.deposit.status === 'refunding' || o.deposit.status === 'failed'));
+    if (moving) return moving;
+  }
   for (let i = 0; i < pri.length; i++) { const o = paid.find((x) => x.stage === pri[i]); if (o) return o; }
   return null;
 }
@@ -65,9 +73,11 @@ function renewQuote(order, months) {
     lessMonthly: kept ? cur.monthly_average - q.monthly_average : 0, lessTotal: kept ? cur.rent_total - q.rent_total : 0
   };
 }
-// 报价截止：「报价 + 24 小时」与租期到期的较早者。到期未退租也能办续租：报价时租期已过的，不再用到期时刻截断（自定）。
+// 报价截止：「报价 + 24 小时」与租期到期的较早者。到期日含当天（R-04），所以「租期到期」取到期日次日 0 点。
+// 到期未退租也能办续租：报价时租期已过的，不再用到期时刻截断（自定）。
 function renewDeadline(quotedAtMs, leaseEndMs) {
-  return leaseEndMs > quotedAtMs ? O.renewQuoteExpiresAt(quotedAtMs, leaseEndMs) : quotedAtMs + C.timers.renewQuoteTtlHours * H;
+  const cap = model.overdueFrom(leaseEndMs);
+  return cap > quotedAtMs ? O.renewQuoteExpiresAt(quotedAtMs, cap) : quotedAtMs + C.timers.renewQuoteTtlHours * H;
 }
 /**
  * 续租页状态。opts.showCompleted：刚付完款的结果页；之后再进入视为新一次续租。
@@ -82,7 +92,7 @@ function renewView(order, nowMs, opts) {
   if (order.stage === S.ENDED) return { state: 'unavailable', reason: 'ended' };
   if (!r || r.status === 'paid') return max < 1 ? { state: 'unavailable', reason: 'max' } : { state: 'form', max, months: renewDefaultMonths(order) };
   if (r.status === 'submitted') return { state: 'quote_pending', r, months: r.months, max };
-  const deadline = renewDeadline(r.quoted_at, order.lease.end), capped = deadline === order.lease.end;
+  const deadline = renewDeadline(r.quoted_at, order.lease.end), capped = deadline === model.overdueFrom(order.lease.end);
   const base = { r, months: r.months, deadline, capped, max };
   if (r.status === 'expired' || O.isExpired(deadline, nowMs)) return Object.assign(base, { state: 'quote_expired', kept: renewQuote(order, r.months).kept }); // 过期后重新提交仍沿用
   base.kept = !!r.kept;
@@ -98,16 +108,30 @@ function exitState(order, nowMs) {
   if (x && x.status) return x.status;
   if (order.stage === S.PAID) return 'not_started';
   if (order.stage === S.ENDED) return 'passed';
-  return order.stage === S.OVERDUE || nowMs >= order.lease.end ? 'form_expired' : 'form';
+  return order.stage === S.OVERDUE || leaseOver(order, nowMs) ? 'form_expired' : 'form';
 }
-// 取空日期可选范围。到期退仓：不早于租期结束日（已到期则从今天起）；提前退仓：今天至租期结束前一天。
+// 到期退仓最早可提交的日期：到期日前 expiryAdvanceDays 天（R-01）
+const expiryExitFrom = (order) => ymd(dayStart(ymd(order.lease.end)) - A.exit.expiryAdvanceDays * DAY);
+const canExpiryExit = (order, nowMs) => ymd(nowMs) >= expiryExitFrom(order);
+// 取空日期可选范围。到期退仓：租期结束日至其后 expiryClearMaxDays 天（R-09；已到期则从今天起，超过上限的只能选今天）；提前退仓：今天至租期结束前一天。
 function exitDateRange(order, type, nowMs) {
   const today = ymd(nowMs), end = ymd(order.lease.end);
   if (type === 'early') { const last = ymd(dayStart(end) - DAY); return end > today ? { min: today, max: last, def: today } : null; }
-  const min = end >= today ? end : today;
-  return { min, max: '', def: min };
+  const min = end >= today ? end : today, cap = ymd(dayStart(end) + A.exit.expiryClearMaxDays * DAY);
+  return { min, max: cap >= min ? cap : min, def: min };
 }
 const canEarlyExit = (order, nowMs) => !!exitDateRange(order, 'early', nowMs) && (order.stage === S.ACTIVE || order.stage === S.EXPIRING);
+// 撤回退仓（R-01）：到期退仓提交后、门店验仓完成前可撤回。提前退仓能否撤回没有口径，不提供。
+// 已因「早于租期结束申请验仓」改按提前退仓结算的（converted）原本是到期退仓，同样可撤回。
+function canWithdrawExit(order) {
+  const x = order && order.exit;
+  return !!x && order.stage === S.EXITING && ['requested', 'waiting', 'failed'].indexOf(x.status) >= 0 && (!x.early || !!x.converted);
+}
+// 到期退仓在租期结束日之前申请验仓：实际取空早于计划取空日，按提前退仓结算（R-01）。到期日当天及之后申请的不算提前。
+function inspectionIsEarly(order, nowMs) {
+  const x = order && order.exit;
+  return !!x && !x.early && (x.status === 'requested' || x.status === 'failed') && ymd(nowMs) < ymd(order.lease.end);
+}
 /**
  * 提前退仓预计结算费用。照冻结稿 pages/w4-render.js 的 earlyCalc 移植：
  *   已用月数不足 1 个月按 1 个月；剩余月数 = 租期 − 已用月数（按日历整月）；
@@ -143,18 +167,32 @@ function depositState(order) {
 }
 
 // ---- 发票（§4.8-4） ----
-// 付款记录按租金 / 押金 / 管理费拆分；续租付款只有续租租金
+// 付款记录按租金 / 押金 / 管理费拆分；续租付款只有续租租金。invoice_amount = 可开票金额，不含押金（R-03）
 function payments(order) {
-  const q = order.quote;
-  const list = [{ id: 'INITIAL', type: 'INITIAL', amount: q.payable, split: [['rent', q.rent_after_discount], ['deposit', q.deposit], ['fee', q.management_fee]] }];
-  (order.renewals || []).forEach((r) => list.push({ id: r.id, type: 'RENEWAL', amount: r.amount, split: [['renew', r.amount]] }));
+  const q = order.quote, dep = Number(q.deposit) || 0;
+  const list = [{ id: 'INITIAL', type: 'INITIAL', amount: q.payable, invoice_amount: q.payable - dep, split: [['rent', q.rent_after_discount], ['deposit', q.deposit], ['fee', q.management_fee]] }];
+  (order.renewals || []).forEach((r) => list.push({ id: r.id, type: 'RENEWAL', amount: r.amount, invoice_amount: r.amount, split: [['renew', r.amount]] }));
   return list;
 }
+// 累计已付：下单支付 + 各次续租
+const paidTotal = (order) => payments(order).reduce((n, p) => n + Number(p.amount || 0), 0);
+// 签署时的租期（续租前）：月数与到期日
+function signedLease(order) {
+  const rs = order.renewals || [], extra = rs.reduce((n, r) => n + Number(r.months || 0), 0);
+  return { months: Number(order.months) - extra, end: rs.length ? (rs[0].from || addMonths(order.lease.end, -extra)) : order.lease.end };
+}
+// 还没申请过发票的付款。单笔发票页与批量开票共用同一份开票记录 order.invoice.records（D-01）
+function invoiceAvailable(order) {
+  const records = (order.invoice && order.invoice.records) || [];
+  return payments(order).filter((p) => !records.some((r) => r.payment_id === p.id));
+}
+// 订单上的发票摘要状态：没有记录 none；全部已开具 issued；其余 applying
+const invoiceStatus = (records) => (!(records || []).length ? 'none' : records.every((r) => r.status === 'issued') ? 'issued' : 'applying');
 // state: empty | form（还有可申请的付款）| issue_failed | submitted | processing | issued
 function invoiceView(order) {
   if (!isPaid(order)) return { state: 'empty', records: [], available: [], failed: null, last: null };
   const records = (order.invoice && order.invoice.records) || [];
-  const available = payments(order).filter((p) => !records.some((r) => r.payment_id === p.id));
+  const available = invoiceAvailable(order);
   const failed = records.find((r) => r.status === 'failed') || null, last = records[records.length - 1] || null;
   const state = failed ? 'issue_failed' : available.length || !last ? 'form' : last.status;
   return { state, records, available, failed, last };
@@ -177,10 +215,11 @@ function validateIdentity(f) {
 function accessView(order, nowMs) {
   if (!isPaid(order)) return { state: 'not_paid', lease: '' };
   const st = order.stage, x = order.exit;
-  const lease = st === S.PAID ? 'upcoming' : st === S.ENDED ? 'ended' : st === S.EXITING ? 'returning' : st === S.OVERDUE ? 'expired' : 'active';
+  const over = (st === S.ACTIVE || st === S.EXPIRING) && leaseOver(order, nowMs); // 阶段滞后但到期日已过：按已到期（C-14）
+  const lease = st === S.PAID ? 'upcoming' : st === S.ENDED ? 'ended' : st === S.EXITING ? 'returning' : st === S.OVERDUE || over ? 'expired' : 'active';
   if (order.identity_status !== 'verified') return { state: st === S.ENDED ? 'inactive' : 'identity_required', lease };
   if (st === S.PAID || nowMs < order.lease.start) return { state: 'before_start', lease };
-  const allowed = st === S.ACTIVE || st === S.EXPIRING || (st === S.EXITING && x && (x.status === 'requested' || x.status === 'failed')); // 与冻结稿 demo-core 的 access_allowed 一致
+  const allowed = (!over && (st === S.ACTIVE || st === S.EXPIRING)) || (st === S.EXITING && x && (x.status === 'requested' || x.status === 'failed')); // 与冻结稿 demo-core 的 access_allowed 一致
   return { state: allowed ? 'allowed' : 'inactive', lease };
 }
 
@@ -198,6 +237,6 @@ function messageCategory(m) {
 module.exports = {
   PAID, isPaid, ymd, ymdhm, mdhm, dayStart, countdown, fill, zhe, addMonths, pickOrder,
   unitsForPricing, renewMaxMonths, renewDefaultMonths, renewQuote, renewDeadline, renewView,
-  exitState, exitDateRange, canEarlyExit, earlyExitEstimate, depositState,
-  payments, invoiceView, validateInvoice, identityState, validateIdentity, accessView, messageCategory
+  leaseOver, exitState, exitDateRange, expiryExitFrom, canExpiryExit, canEarlyExit, canWithdrawExit, inspectionIsEarly, earlyExitEstimate, depositState,
+  payments, paidTotal, signedLease, invoiceAvailable, invoiceStatus, invoiceView, validateInvoice, identityState, validateIdentity, accessView, messageCategory
 };

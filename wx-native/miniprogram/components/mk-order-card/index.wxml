@@ -1,10 +1,11 @@
 <view wx:if="{{v}}" class="mk-card oc-card {{dead ? 'oc-off' : ''}}">
   <block wx:if="{{variant === 'list'}}">
     <view class="oc-row">
-      <view class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
+      <image wx:if="{{v.storePhoto}}" class="oc-ph oc-img" src="{{v.storePhoto}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
       <view class="mk-grow">
         <view class="mk-title mk-ellipsis">{{v.storeName}}</view>
         <view class="mk-sub mk-ellipsis oc-line2">{{v.noText}}</view>
+        <view wx:if="{{v.dateText}}" class="mk-sub mk-ellipsis oc-line3">{{v.dateText}}</view>
       </view>
       <text wx:if="{{v.stageLabel}}" class="oc-tag oc-tag--{{v.stageTone}}">{{v.stageLabel}}</text>
     </view>
@@ -16,14 +17,14 @@
   <block wx:else>
     <view wx:if="{{dead}}" class="mk-title oc-sec">{{T.origin}}</view>
     <view class="oc-row">
-      <view class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
+      <image wx:if="{{v.storePhoto}}" class="oc-ph oc-img" src="{{v.storePhoto}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
       <view class="mk-grow">
         <view class="mk-title mk-ellipsis">{{v.storeName}}</view>
         <view class="oc-line2 oc-meta"><text wx:if="{{v.kmText}}" class="oc-km">{{v.kmText}}</text><view class="mk-sub mk-ellipsis mk-grow">{{v.address}}</view></view>
       </view>
     </view>
     <view class="oc-row oc-unit">
-      <view class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /></view>
+      <image wx:if="{{v.unitThumb}}" class="oc-ph oc-img" src="{{v.unitThumb}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /></view>
       <view class="mk-grow">
         <view class="mk-title mk-ellipsis">{{v.unitName}}</view>
         <view class="mk-sub oc-line2">{{v.unitSub}}</view>

@@ -31,7 +31,6 @@
       <mk-empty card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.m.noneTitle}}" sub="{{noneSub}}">
         <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onMoreStores">{{T.m.allCity}}</button>
         <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.m.modifyCap}}</button>
-        <button class="mk-bare mk-link mt-contact" hover-class="mk-bare--hover" open-type="contact">{{T.m.consult}}</button>
       </mk-empty>
       <mk-advisor-card wx:if="{{advisor}}" title="{{advisor.title}}" sub="{{advisor.sub}}" />
     </block>

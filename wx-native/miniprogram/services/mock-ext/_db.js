@@ -12,7 +12,7 @@ const store = (id) => stores.find((s) => s.id === id);
 const rawUnit = (id) => units.find((u) => u.id === id);
 // 演示库存档位（mock/scenarios.js STOCK）与「仓位被别人租走」事件：只改可租状态，不改 mock/inventory。找仓各页和下单接口读同一个结果。
 const NEAR4 = stores.filter((s) => s.city === C.defaultCity && s.status === 'open').slice().sort((a, b) => a.distance_km - b.distance_km).slice(0, 4).map((s) => s.id);
-function stocked(u) {
+function stockOf(u) {
   if (!u || u.status !== 'available') return u;
   const off = () => Object.assign({}, u, { status: 'soldout' });
   if (db.kv.gone && db.kv.gone[u.id]) return off();
@@ -26,14 +26,22 @@ function stocked(u) {
   }
   return u;
 }
-const unit = (id) => stocked(rawUnit(id));
+// 被订单占用的仓位（FIX-01 A-08）：待支付 / 支付失败在付款有效期内保留，已付款的到退仓完成前一直占用；已结束、已取消、已超时的释放。
+// 找仓各页（mock-adapter 的门店与仓位列表）读 stocked，看到的是「库存档位 + 订单占用」；下单接口读 unit，只看库存档位，
+// 订单自己占着的仓位仍按 mock-ext/trade.js 的 holds 判断，继续支付不受影响。
+const FREED = [S.ENDED, S.CANCELLED, S.EXPIRED];
+function occupied(unitId, now) {
+  return db.orders.some((o) => FREED.indexOf(o.stage) < 0 && !((o.stage === S.PENDING || o.stage === S.FAILED) && o.pay && order.isExpired(o.pay.expires_at, now)) && (o.units || []).some((x) => x.id === unitId));
+}
+function stocked(u) { const v = stockOf(u); return v && v.status === 'available' && occupied(v.id, Date.now()) ? Object.assign({}, v, { status: 'soldout' }) : v; }
+const unit = (id) => stockOf(rawUnit(id));
 function markGone(ids) { if (!db.kv.gone) db.kv.gone = {}; ids.forEach((id) => { db.kv.gone[id] = 1; }); }
 function mk(o) { // 造一笔演示订单并推进到指定阶段
   const now = Date.now();
   const created = now - (o.agoDays || 0) * DAY;
   const od = model.build({ store: store(o.store), units: o.units.map(rawUnit), months: o.months, createdAt: created, seq: ++db.seq, identityVerified: o.identity !== false, startAt: o.startAt, factorOverride: o.factor });
   if (o.factor) od.deal_factor = o.factor;
-  if ([S.PENDING, S.FAILED, S.EXPIRED, S.CANCELLED].indexOf(o.stage) < 0) { od.pay.paid_at = created + 600000; od.contract = { signed: true, signed_at: created + 300000, signer_masked: '张*' }; }
+  if ([S.PENDING, S.FAILED, S.EXPIRED, S.CANCELLED].indexOf(o.stage) < 0) { od.pay.paid_at = created + 600000; od.contract = { signed: true, signed_at: created + 300000, signer_masked: o.identity === false ? '' : '张*' }; } // 下单时未实名的演示订单不造签署人姓名（B-20，这类订单的来源待业务说明）
   od.stage = o.stage;
   if (o.failReason) od.pay.fail_reason = o.failReason;
   if (o.patch) Object.assign(od, o.patch(od, now));
@@ -88,7 +96,7 @@ function applyAfter(od, a, now) {
   if (a.deposit) Object.assign(od.deposit, a.deposit === 'failed' ? { status: 'failed', refund_at: now - DAY, fail_reason: REASON.refund } : { status: 'refunding', refund_at: now });
   if (a.invoice) {
     const pay = after.payments(od)[0], st = a.invoice;
-    od.invoice.records = [{ id: 'INV1', payment_id: pay.id, payment_type: pay.type, amount: pay.amount, kind: 'enterprise', title: '北京示例科技有限公司', tax_id: '91110105MA00000000', email: 'finance@example.com', status: st, submitted_at: st === 'submitted' || st === 'processing' ? now : now - DAY, issued_at: st === 'issued' ? now - 3600e3 : 0, fail_reason: st === 'failed' ? REASON.invoice : '' }];
+    od.invoice.records = [{ id: 'INV1', payment_id: pay.id, payment_type: pay.type, amount: pay.invoice_amount !== undefined ? pay.invoice_amount : pay.amount, kind: 'enterprise', title: '北京示例科技有限公司', tax_id: '91110105MA00000000', email: 'finance@example.com', status: st, submitted_at: st === 'submitted' || st === 'processing' ? now : now - DAY, issued_at: st === 'issued' ? now - 3600e3 : 0, fail_reason: st === 'failed' ? REASON.invoice : '' }];
     od.invoice.status = st === 'issued' ? 'issued' : 'applying'; od.invoice.title = od.invoice.records[0].title;
   }
 }

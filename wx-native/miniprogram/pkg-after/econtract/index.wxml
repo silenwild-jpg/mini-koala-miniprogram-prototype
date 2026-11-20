@@ -15,6 +15,10 @@
         <text class="mk-title af-sec">{{T.e.orderInfo}}</text>
         <mk-after-kv rows="{{info}}" />
       </view>
+      <view wx:if="{{renewals.length}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.e.renewals}}</text>
+        <mk-after-kv rows="{{renewals}}" />
+      </view>
       <view class="mk-card af-gap">
         <text class="mk-title af-sec">{{T.e.docs}}</text>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{docs}}" wx:key="k" class="ec-doc" data-doc="{{item.doc}}" data-anchor="{{item.anchor}}" bindtap="onDoc" aria-role="button">

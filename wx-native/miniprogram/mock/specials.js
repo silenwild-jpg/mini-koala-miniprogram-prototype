@@ -6,7 +6,7 @@ function assign(units) {
   Object.keys(groups).forEach(id => {
     const all = groups[id], avail = all.filter(u => u.status === 'available').sort((a,b) => hash(a.id + ':20261120') - hash(b.id + ':20261120') || a.id.localeCompare(b.id));
     const selected = avail.slice(0, Math.min(avail.length, 1 + hash(id + ':20261120') % 3));
-    all.forEach(u => { u.special_month = selected.includes(u) ? Math.round(u.base_month * 0.9 * 100) / 100 : null; });
+    all.forEach(u => { u.special_month = selected.includes(u) ? Math.round(u.base_month * require('../core/config').pricing.specialFactor * 100) / 100 : null; });
   });
   return units;
 }

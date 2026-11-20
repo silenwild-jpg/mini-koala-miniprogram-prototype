@@ -137,7 +137,7 @@ test('确认订单页：演示工具页打开「仓位被别人租走」后，�
   const pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '6' }); await tick();
   demo.toggleEvent('unit_gone');
   pg.onAgree(); pg.onSign(); pg.onSignConfirm(); await tick(40);
-  assert.equal(pg.data.gone, true); assert.equal(pg.data.bar.disabled, true); assert.equal(db.orders.length, 0);
+  assert.equal(pg.data.gone, true); assert.equal(pg.data.bar.disabled, false); assert.equal(pg.data.bar.action, 'swap'); assert.equal(db.orders.length, 0); // FIX-01 B-11：主按钮可点，回门店详情重选
   pg.onHide();
 });
 
@@ -149,5 +149,5 @@ test('找仓与交易两域不再手写空态和提示条：统一用 mk-empty /
     assert.ok(!/\.(mt-empty|sd-empty|sl-empty|cf-notice|ag-notice|cf-banner|cf-gone|qk-gone|mt-gone|sd-gone|od-note)\b/.test(read(f + '.wxss')), f + '.wxss');
   }
   assert.equal((read('pages/store/detail.wxml').match(/<mk-empty/g) || []).length, 3);
-  assert.equal((read('pkg-trade/confirm/index.wxml').match(/<mk-notice/g) || []).length, 3);
+  assert.equal((read('pkg-trade/confirm/index.wxml').match(/<mk-notice/g) || []).length, 4); // FIX-01 B-06 加「您有一笔待支付订单」提示条
 });

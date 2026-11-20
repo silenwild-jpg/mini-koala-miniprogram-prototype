@@ -10,6 +10,8 @@ module.exports = {
   taxIdPattern: '^[0-9A-Z]{15,20}$',          // 自定：纳税人识别号 15–20 位数字或大写字母
   emailPattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$', // 自定
   licenseMaxCount: 1,                         // 冻结稿：「已上传 1 张」
+  needsAckHours: 24,                          // 自定（FIX-01 D-18）：预约记录顶部「预计 10 分钟内与您联系」只在有这个小时数以内提交的未撤回记录时显示
+  inviteCodePattern: '^[0-9A-Za-z]{4,16}$',   // 自定（FIX-01 S-04）：转发落地时读取的邀请码格式；正式格式由后端定
   demo: {                                     // 演示：没有审核后台，用时间推进状态；接真实接口后整段不用
     reviewSeconds: 3,                         // 提交后超过这个秒数再取数，企业认证 / 批量开票进入终态
     certRejectKeyword: '驳回',                // 企业名称含这个词 → 认证未通过

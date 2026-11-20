@@ -23,7 +23,7 @@ test('每个有可租库存的门店稳定分配1–3个九折仓位，来源库
 });
 test('混合组合按仓位九折×租期系数后统一舍去月租小数，押金/整期/节省一致',()=>{
  const us=[{id:'a',base_month:1001,special_month:900.9},{id:'b',base_month:777,special_month:null}];
- const q=pricing.quote(us,6);assert.equal(q.monthly_average,630+543);assert.equal(q.rent_total,7038);assert.equal(q.deposit,1173);assert.equal(q.payable,8261);assert.equal(q.saved,(1001+777-1173)*6);
+ const q=pricing.quote(us,6);assert.equal(q.monthly_average,630+543);assert.equal(q.rent_total,7038);assert.equal(q.deposit,1173);assert.equal(q.full_reduction,150);assert.equal(q.payable,8261-150);/* FIX-01 R-12：组合里含特价仓时整单享满额减 */assert.equal(q.saved,(1001+777-1173)*6+150);
  assert.equal(pricing.quote(us,6,{renewal:true}).deposit,0);assert.equal(pricing.quote(us,6,{renewal:true}).management_fee,0);
 });
 test('面积换算后的建议容量继续向上到一位小数，超上限不因浮点被吞',()=>{
@@ -62,7 +62,7 @@ test('快捷下单来源守卫回快捷下单；订单页会话失效立即隐�
 });
 test('快捷下单未登录选齐后提示登录报价，不再显示空的还需状态',async()=>{
  fresh();const pg=env.newPage('pkg-trade/quick/index',{store:'SIM_BJ01',unit:'SIM_BJ01_U03'});await tick();pg.onDate({detail:{value:START}});pg.bar();
- assert.equal(pg.data.btnDisabled,false);assert.equal(pg.data.btnText,'查看报价');assert.equal(pg.data.barLabel,'登录后查看整期报价');assert.equal(pg.data.barAmount,'');assert.equal(pg.data.est,null);
+ assert.equal(pg.data.btnDisabled,false);assert.equal(pg.data.btnText,'查看报价');assert.equal(pg.data.barLabel,'预计整期租金');assert.equal(pg.data.barAmount,'登录后显示');/* FIX-01 B-13：金额位写「登录后显示」，不留空行 */assert.equal(pg.data.est,null);
 });
 test('预约用仓成功不等订阅；顾问允许手填电话且不登录',async()=>{
  fresh();const c=env.newPage('pkg-lead/booking/index',{mode:'advisor'});await tick();c.onManualPhone({detail:{value:'13800008000'}});let asked=0;const original=wx.requestSubscribeMessage;wx.requestSubscribeMessage=()=>{asked++};
@@ -78,7 +78,7 @@ test('取消订单后全站库存恢复，待支付占用对门店/推荐/费用
 test('首页无订单的预约/需求/已选仓三种任务卡均有去向',async()=>{
  fresh(true);const c=env.newComponent('components/mk-task-card/index',{});await c.refresh();assert.equal(c.data.show,false);
  db.leads.push({id:'l',type:'booking',status:'submitted',store_name:'演示门店'});await c.refresh();assert.equal(c.data.main.key,'booking');
- state.setRequirement({capacity_m3:3,term_months:6});await c.refresh();assert.equal(c.data.main.key,'searching');
+ state.setRequirement({capacity_m3:3,term_months:6});await c.refresh();assert.equal(c.data.main,null,'有找仓需求时不出简化卡，交给需求卡（FIX-01 A-05）');assert.deepEqual(c.data.todos.map(t=>t.a),['lead'],'预约记录进待办条带（FIX-01 A-07）');
  state.set('selection',{store_name:'演示门店'});await c.refresh();assert.equal(c.data.main.key,'selected');c.__detach();
 });
 test('费用明细无赠送不占位，只有明确赠送月数才显示',()=>{

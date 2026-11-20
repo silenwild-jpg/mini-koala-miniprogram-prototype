@@ -1,6 +1,7 @@
 // 账户域的纯规则（不依赖 wx）：掩码、校验、可开票订单、注销条件、在租仓位、收藏 id。页面与演示接口共用，tests/account.test.js 覆盖。
 const C = require('./config-account');
 const order = require('./order');
+const after = require('./after');
 const S = order.STAGE;
 const re = (k) => new RegExp(C[k]);
 const money = (n) => '¥' + String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -43,16 +44,16 @@ function titleErrors(f) {
   return e;
 }
 
-// 批量开票：只列已付款且未开票的订单（冻结稿原话）；已取消 / 已过期的不列
+// 批量开票：只列已付款、且还有付款没申请过发票的订单；已取消 / 已过期的不列。
+// 与订单的单笔发票页共用同一份开票记录 order.invoice.records（FIX-01 D-01）：单笔开过的付款这里不再列，批量开过的单笔页也不能再开。
 function invoiceable(orders) {
-  return (orders || []).filter((o) => o && o.pay && o.pay.paid_at > 0 && o.invoice && o.invoice.status === 'none' && o.stage !== S.CANCELLED && o.stage !== S.EXPIRED);
+  return (orders || []).filter((o) => o && o.pay && o.pay.paid_at > 0 && o.invoice && o.stage !== S.CANCELLED && o.stage !== S.EXPIRED && after.invoiceAvailable(o).length > 0);
 }
-// 一笔订单的开票行：金额只读 order.quote（租金取减后整期租金），不重算；押金不列（是否开票待财务）
+// 一笔订单的开票行：还没开过票的各笔付款（下单支付、各次续租）的可开票金额之和，不含押金（R-03）。金额只读订单，不重算。
 function invoiceLine(o) {
-  const q = o.quote || {};
-  const rent = Number(q.rent_after_discount !== undefined ? q.rent_after_discount : q.rent_total) || 0;
-  const fee = Number(q.management_fee) || 0;
-  return { id: o.id, no: o.no, store: o.store ? o.store.name : '', unit: o.unit_name, months: o.months, paidDate: dateText(o.pay && o.pay.paid_at), rent, fee, amount: rent + fee };
+  const pays = after.invoiceAvailable(o), amount = pays.reduce((n, p) => n + (Number(p.invoice_amount) || 0), 0);
+  const fee = pays.some((p) => p.type === 'INITIAL') ? Number((o.quote || {}).management_fee) || 0 : 0;
+  return { id: o.id, no: o.no, store: o.store ? o.store.name : '', unit: o.unit_name, months: o.months, paidDate: dateText(o.pay && o.pay.paid_at), rent: amount - fee, fee, amount };
 }
 const sumAmount = (lines) => (lines || []).reduce((n, l) => n + l.amount, 0);
 

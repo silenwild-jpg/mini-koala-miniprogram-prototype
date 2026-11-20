@@ -7,8 +7,8 @@
     </view>
   </view>
   <view wx:elif="{{view === 'gate'}}" class="ac-wrap">
-    <mk-empty icon="/assets/icons/shield-ink.svg" title="{{T.b.gateTitle}}" sub="{{T.b.gateSub}}" card="{{true}}">
-      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onCert">{{T.b.toCert}}</button>
+    <mk-empty icon="/assets/icons/shield-ink.svg" title="{{gate.title}}" sub="{{gate.sub}}" card="{{true}}">
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onCert">{{gate.btn}}</button>
     </mk-empty>
     <text class="ac-fine">{{T.b.gateFine}}</text>
   </view>
@@ -37,6 +37,7 @@
       <view class="ac-kv"><text class="ac-k">{{T.b.amount}}</text><text class="ac-v eb-b mk-num">{{result.amount}}</text></view>
       <view wx:for="{{result.lines}}" wx:key="no" class="mk-between eb-line"><text class="mk-sub mk-num">{{item.no}}</text><text class="mk-sub mk-num">{{item.amount}}</text></view>
     </view>
+    <view class="mk-card eb-gap"><mk-cell title="{{result.another}}" bindtap="onAnother" /></view>
     <view class="mk-bottom-bar">
       <block wx:if="{{result.status === 'failed'}}">
         <button class="mk-btn ac-bar-btn" hover-class="mk-btn--hover" bindtap="onResubmit">{{T.b.retry}}</button>

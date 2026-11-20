@@ -12,17 +12,31 @@
       <text class="mk-grow">{{bubble.text}}</text><text class="mk-link sl-act" bindtap="onBubbleAction" aria-role="button">{{bubble.action}}</text>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-x" bindtap="hideBubble" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
     </view>
-    <block wx:if="{{mode !== 'sales'}}">
+    <view wx:if="{{mode !== 'sales'}}" class="sl-fwrap">
       <view class="sl-fbar">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f {{sort !== 'recommended' ? 'sl-f--on' : ''}}" data-k="sort" bindtap="onSheet" aria-role="button"><text>{{sortLabel}}</text><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f {{maxKm !== null ? 'sl-f--on' : ''}}" data-k="distance" bindtap="onSheet" aria-role="button"><text>{{distLabel}}</text><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f {{services.length ? 'sl-f--on' : ''}}" data-k="services" bindtap="onSheet" aria-role="button"><text>{{svcLabel}}</text><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f {{sort !== 'recommended' || sheet === 'sort' ? 'sl-f--on' : ''}}" data-k="sort" bindtap="onSheet" aria-role="button" aria-expanded="{{sheet === 'sort'}}"><text>{{sortLabel}}</text><image class="mk-icon sl-fic {{sheet === 'sort' ? 'sl-fic--up' : ''}}" src="/assets/icons/{{sort !== 'recommended' || sheet === 'sort' ? 'down-brand' : 'down-ink'}}.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f {{maxKm !== null || sheet === 'distance' ? 'sl-f--on' : ''}}" data-k="distance" bindtap="onSheet" aria-role="button" aria-expanded="{{sheet === 'distance'}}"><text>{{distLabel}}</text><image class="mk-icon sl-fic {{sheet === 'distance' ? 'sl-fic--up' : ''}}" src="/assets/icons/{{maxKm !== null || sheet === 'distance' ? 'down-brand' : 'down-ink'}}.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f {{svcOn || sheet === 'services' ? 'sl-f--on' : ''}}" data-k="services" bindtap="onSheet" aria-role="button" aria-expanded="{{sheet === 'services'}}"><text>{{svcLabel}}</text><image class="mk-icon sl-fic {{sheet === 'services' ? 'sl-fic--up' : ''}}" src="/assets/icons/{{svcOn || sheet === 'services' ? 'down-brand' : 'down-ink'}}.svg" /></view>
       </view>
-      <view class="mk-gutter sl-chips">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-chip sl-chip {{promo ? 'mk-chip--on' : ''}}" bindtap="onFilterPromo" aria-role="button">{{T.stores.promo}}</view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-chip sl-chip {{freeTransport ? 'mk-chip--on' : ''}}" bindtap="onFilterFree" aria-role="button">{{T.stores.freeTransport}}</view>
+      <!-- 原位下拉：贴在筛选条正下方，盖住需求条与列表顶部 -->
+      <view wx:if="{{sheet}}" class="sl-drop" catchtouchmove="noop">
+        <block wx:if="{{sheet === 'sort'}}">
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{sortOptions}}" wx:key="v" class="sl-opt mk-between {{item.on ? 'sl-opt--on' : ''}}" data-v="{{item.v}}" bindtap="onOption" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
+        </block>
+        <block wx:elif="{{sheet === 'distance'}}">
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{distOptions}}" wx:key="v" class="sl-opt mk-between {{item.on ? 'sl-opt--on' : ''}}" data-v="{{item.v}}" bindtap="onOption" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
+        </block>
+        <block wx:else>
+          <text class="mk-sub sl-gt">{{T.stores.groupOffer}}</text>
+          <view class="sl-svc"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{offerOptions}}" wx:key="k" class="mk-chip sl-chip sl-sv {{item.on ? 'mk-chip--on' : ''}}" data-k="{{item.k}}" bindtap="onOfferOption" aria-role="button">{{item.t}}</view></view>
+          <block wx:if="{{svcOptions.length}}">
+            <text class="mk-sub sl-gt">{{T.stores.groupService}}</text>
+            <view class="sl-svc"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{svcOptions}}" wx:key="t" class="mk-chip sl-chip sl-sv {{item.on ? 'mk-chip--on' : ''}}" data-t="{{item.t}}" bindtap="onSvcOption" aria-role="button">{{item.t}}</view></view>
+          </block>
+          <view class="sl-acts"><button class="mk-btn mk-btn--ghost mk-btn--md sl-btn" hover-class="mk-btn--ghostHover" bindtap="onSvcClear">{{T.stores.reset}}</button><button class="mk-btn mk-btn--md sl-btn" hover-class="mk-btn--hover" bindtap="onSheetConfirm">{{T.stores.confirm}}</button></view>
+        </block>
       </view>
-    </block>
+    </view>
     <view class="mk-between mk-gutter sl-demand">
       <view class="sl-dmark"></view>
       <text wx:if="{{demandText}}" class="mk-grow mk-ellipsis st-demand-value">{{T.stores.demandPrefix}}{{demandText}}</text>
@@ -32,11 +46,12 @@
     </view>
   </view>
 
+  <view wx:if="{{sheet}}" class="sl-mask" bindtap="onSheetClose" catchtouchmove="noop"></view>
   <view wx:if="{{sys}}" class="mk-gutter"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="mk-gutter sl-list">
     <block wx:if="{{mode === 'sales'}}">
       <mk-empty card="{{true}}" icon="/assets/icons/headset-brand.svg" title="{{T.stores.salesTitle}}" sub="{{T.salesSub}}">
-        <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modify}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modifyNeed}}</button>
         <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.stores.salesCta}}</button>
         <text class="mk-mute sl-hours">{{T.hours}}</text>
       </mk-empty>
@@ -44,12 +59,13 @@
     </block>
     <block wx:else>
       <mk-notice wx:if="{{far}}" plain="{{true}}" tone="warn" title="{{farTitle}}" text="{{farSub}}" />
-      <text wx:elif="{{resultText}}" class="mk-mute sl-result">{{resultText}}</text>
+      <text wx:elif="{{resultText}}" class="mk-sub sl-result">{{resultText}}</text>
+      <mk-notice wx:if="{{largeNote}}" plain="{{true}}" title="{{T.stores.largeTitle}}" text="{{T.stores.largeSub}}"><button class="mk-bare mk-link sl-consult" hover-class="mk-bare--hover" open-type="contact">{{T.stores.consult}}</button></mk-notice>
       <block wx:if="{{noMatch}}">
         <mk-empty card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.stores.emptyTitle}}" sub="{{T.stores.emptySub}}">
           <button wx:if="{{filtered}}" class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onClearFilters">{{T.stores.clearFilters}}</button>
-          <button wx:else class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modify}}</button>
-          <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.stores.helpFind}}</button>
+          <button wx:else class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modifyNeed}}</button>
+          <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" open-type="contact">{{T.stores.consult}}</button>
         </mk-empty>
         <mk-estore-card variant="list" />
         <text wx:if="{{total > 0}}" class="mk-title sl-bh">{{T.stores.nearbyTitle}}</text>
@@ -69,18 +85,6 @@
     </block>
   </view>
 
-  <mk-sheet visible="{{sheet === 'sort'}}" title="{{T.stores.sort}}" bind:close="onSheetClose">
-    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{sortOptions}}" wx:key="v" class="sl-opt mk-between {{item.on ? 'sl-opt--on' : ''}}" data-v="{{item.v}}" bindtap="onOption" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
-    <view class="sl-acts"><button class="mk-btn mk-btn--ghost sl-btn" hover-class="mk-btn--ghostHover" bindtap="onSheetClose">{{T.stores.cancel}}</button><button class="mk-btn sl-btn" hover-class="mk-btn--hover" bindtap="onSheetConfirm">{{T.stores.confirm}}</button></view>
-  </mk-sheet>
-  <mk-sheet visible="{{sheet === 'distance'}}" title="{{T.stores.distance}}" bind:close="onSheetClose">
-    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{distOptions}}" wx:key="v" class="sl-opt mk-between {{item.on ? 'sl-opt--on' : ''}}" data-v="{{item.v}}" bindtap="onOption" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
-    <view class="sl-acts"><button class="mk-btn mk-btn--ghost sl-btn" hover-class="mk-btn--ghostHover" bindtap="onSheetClose">{{T.stores.cancel}}</button><button class="mk-btn sl-btn" hover-class="mk-btn--hover" bindtap="onSheetConfirm">{{T.stores.confirm}}</button></view>
-  </mk-sheet>
-  <mk-sheet visible="{{sheet === 'services'}}" title="{{T.stores.services}}" bind:close="onSheetClose">
-    <view class="sl-svc"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{svcOptions}}" wx:key="t" class="mk-chip sl-chip sl-sv {{item.on ? 'mk-chip--on' : ''}}" data-t="{{item.t}}" bindtap="onSvcOption" aria-role="button">{{item.t}}</view></view>
-    <view class="sl-acts"><button class="mk-btn mk-btn--ghost sl-btn" hover-class="mk-btn--ghostHover" bindtap="onSvcClear">{{T.stores.clearServices}}</button><button class="mk-btn sl-btn" hover-class="mk-btn--hover" bindtap="onSheetConfirm">{{T.stores.confirm}}</button></view>
-  </mk-sheet>
   <mk-demand-sheet visible="{{demandSheet}}" bind:close="onDemandClose" bind:change="onDemandChange" bind:sales="onDemandSales" />
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
   <mk-location-panel visible="{{panel}}" note="{{panelNote}}" focus="{{panelFocus}}" bind:close="onPanelClose" bind:change="onLocationChange" />

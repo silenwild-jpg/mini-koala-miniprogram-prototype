@@ -7,6 +7,7 @@
   <block wx:else>
     <view class="af-body ac-top">
       <mk-notice wx:if="{{note}}" text="{{note}}" tone="warn" />
+      <mk-notice wx:if="{{overdue}}" text="{{overdue}}" tone="warn" link="{{T.c.callStore}}" bind:link="onCall" />
       <mk-order-card order="{{order}}" />
       <view wx:if="{{showArrival && arr}}" class="mk-card af-gap ac-card">
         <view class="mk-between ac-headrow">
@@ -39,7 +40,7 @@
       </view>
     </view>
     <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
-      <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn" hover-class="mk-btn--hover" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
+      <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}}" hover-class="{{item.kind === 'ghost' ? 'mk-btn--ghostHover' : 'mk-btn--hover'}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
     </view>
   </block>
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />

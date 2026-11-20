@@ -9,8 +9,11 @@ const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
 const P = TA.coupons;
+const FT = require('../../core/config').freeTransport;
+// 顶部说明里的免费运输条件按规则配置填数（距离、租期、折扣下限），不在文字表里写死
+const NOTICE = P.notice.replace('{km}', FT.minKm).replace('{months}', FT.minTerm).replace('{zhe}', Math.round(FT.minFactor * 100) / 10);
 Page(auth.guarded(routes.COUPONS, {
-  data: { T: P, sys: 'loading', loggedIn: false, empty: false, coupons: [], benefits: [], busy: false, loginVisible: false },
+  data: { T: P, notice: NOTICE, sys: 'loading', loggedIn: false, empty: false, coupons: [], benefits: [], busy: false, loginVisible: false },
   onShow() { this.refresh(); },
   apply(res) {
     res = res || {};

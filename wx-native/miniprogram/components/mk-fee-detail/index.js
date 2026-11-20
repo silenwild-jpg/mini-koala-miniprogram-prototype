@@ -12,8 +12,42 @@
 //   placeholder   没有金额时各行显示的文字（如「登录后显示」）。未登录不显示任何金额（交接 v1.0 §4.1）
 //   total-placeholder  合计行的占位文字（默认同 placeholder）
 //   note          明细下方的小字（如预付说明）
+//   coupon-text   没用券时券行右侧的文字（确认订单页按「没有券 / 有 N 张可用 / 满 N 个月可用」给，B-12）；不传按默认
+// FIX-01：行由 services/order-view.fees 给出，这里只做三处补充（adjust）——
+//   R-06 含特价仓时列出「原价 / 特价仓优惠 / 租期折扣」，三行相减正好等于整期租金，与底栏「已省」对得上，并去掉重复的「特价仓 ¥X/月」行；
+//   B-03 特价仓的券行写「特价仓不可用券」；B-12 券比满额减大时在券行下说明满额减不同享。
 const T = require('../../i18n/trade');
 const view = require('../../services/order-view');
+const pricing = require('../../core/pricing');
+const fmt = require('../../core/format');
+const yuan = pricing.yuan;
+function adjust(f, d) {
+  const o = d.order, q = o && o.quote, F = T.fee;
+  if (!f || !q) return f;
+  let rows = f.rows.slice();
+  if (q.special) {
+    rows = rows.filter((r) => r.id !== 'special');
+    const months = o.months || q.months, ups = q.unit_pricing || [];
+    const bd = q.base_total === undefined ? pricing.breakdown(ups, months, q.rent_total) : { base_total: q.base_total, special_discount_total: q.special_discount_total, term_saved_total: q.term_saved_total };
+    const i = rows.findIndex((r) => r.id === 'rent');
+    if (!d.noSaved && i >= 0 && bd.base_total > Number(q.rent_total)) {
+      const baseSum = ups.reduce((n, x) => n + Number(x.base_month || 0), 0);
+      const add = [{ id: 'origin', k: F.origin, sub: fmt.termText(months), amt: yuan(bd.base_total), sec: yuan(baseSum) + T.common.perMonth + ' × ' + fmt.termText(months), muted: true }];
+      if (bd.special_discount_total > 0) add.push({ id: 'specialOff', k: F.specialOff, amt: '−' + yuan(bd.special_discount_total), good: true });
+      if (bd.term_saved_total > 0) add.push({ id: 'termOff', k: F.termOff, tag: pricing.factorLabel(Number(q.term_factor) || 1), amt: '−' + yuan(bd.term_saved_total), good: true });
+      rows.splice.apply(rows, [i, 0].concat(add));
+    }
+  }
+  const off = Number(q.coupon_discount) || 0;
+  rows = rows.map((r) => {
+    if (r.id !== 'coupon') return r;
+    const c = Object.assign({}, r);
+    if (off > 0) { if (Number(q.full_skipped) > 0) c.note = F.fullSkipped[0] + yuan(q.full_skipped) + F.fullSkipped[1]; }
+    else if (!d.locked && !q.coupon_skipped) { if (q.special) { c.amt = F.couponSpecial; c.link = ''; } else if (d.couponText) c.amt = d.couponText; }
+    return c;
+  });
+  return { rows, total: f.total };
+}
 Component({
   options: { addGlobalClass: true },
   properties: {
@@ -27,16 +61,18 @@ Component({
     couponName: { type: String, value: '' },
     placeholder: { type: String, value: '' },
     totalPlaceholder: { type: String, value: '' },
-    note: { type: String, value: '' }
+    note: { type: String, value: '' },
+    couponText: { type: String, value: '' }
   },
   data: { T: T.fee, rows: [], total: null },
-  observers: { 'order, editable, showCoupon, locked, noSaved, totalLabel, couponName, placeholder, totalPlaceholder': function () { this.render(); } },
+  observers: { 'order, editable, showCoupon, locked, noSaved, totalLabel, couponName, placeholder, totalPlaceholder, couponText': function () { this.render(); } },
   lifetimes: { attached() { this.render(); } },
   methods: {
     render() {
       const d = this.data;
       let f = null;
       if (!d.placeholder) f = view.fees(d.order, Date.now(), { editable: d.editable, showCoupon: d.showCoupon || d.editable, locked: d.locked, noSaved: d.noSaved, totalLabel: d.totalLabel, couponName: d.couponName || (d.order && d.order.coupon_name) || '' });
+      if (f) f = adjust(f, d);
       if (!f) f = d.placeholder ? view.feesPlaceholder(d.placeholder, d.totalPlaceholder) : null;
       this.setData({ rows: f ? f.rows : [], total: f ? f.total : null });
     },

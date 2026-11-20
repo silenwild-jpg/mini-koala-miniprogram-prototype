@@ -12,6 +12,7 @@
         <text wx:if="{{clock}}" class="mk-sub od-subitem od-clock mk-num">{{clock}}</text>
       </view>
     </view>
+    <mk-notice wx:if="{{paidLine}}" text="{{paidLine}}" />
     <mk-notice wx:if="{{subLine}}" text="{{subLine === 'accepted' ? T.subOk : T.subNo}}" link="{{subLine === 'declined' ? T.subAsk : ''}}" bind:link="onSubAsk" />
     <mk-notice wx:if="{{note}}" title="{{note.title}}" text="{{note.text}}" tone="{{note.tone}}" />
     <mk-order-card order="{{order}}" />
@@ -27,7 +28,7 @@
     </view>
     <view wx:if="{{paid}}" class="mk-card od-card">
       <view class="mk-title od-sectitle">{{T.progress}}</view>
-      <view wx:for="{{progress}}" wx:key="k" class="mk-between od-kv"><text class="mk-sub">{{item.k}}</text><text class="{{item.soft ? 'mk-sub' : 'od-kvv'}}">{{item.v}}</text></view>
+      <view wx:for="{{progress}}" wx:key="k" class="mk-between od-kv"><text class="mk-sub">{{item.k}}</text><text class="{{item.soft ? 'mk-sub' : 'od-kvv'}} {{item.warn ? 'od-kvv--warn' : ''}}">{{item.v}}</text></view>
     </view>
     <view wx:if="{{paid}}" class="mk-card od-card">
       <view class="mk-title od-sectitle">{{T.services}}</view>

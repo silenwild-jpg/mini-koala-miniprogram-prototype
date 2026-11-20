@@ -11,7 +11,7 @@
       <view wx:if="{{sub === 'accepted'}}" class="lbk-sub mk-row"><image class="mk-icon" src="/assets/icons/check-brand.svg" /><text class="lbk-subok">{{T.b.subOk}}</text></view>
       <view wx:elif="{{sub === 'declined'}}" class="lbk-sub lbk-sub--col"><text class="mk-sub">{{T.b.subNo}}</text><view class="lbk-subask" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onSubAsk" aria-role="button">{{T.b.subAsk}}</view></view>
       <view class="ldf-acts lbk-acts">
-        <button class="mk-btn mk-btn--ghost" hover-class="mk-btn--ghostHover" bindtap="onNeeds">{{T.c.viewNeeds}}</button>
+        <button class="mk-btn mk-btn--ghost" hover-class="mk-btn--ghostHover" bindtap="onNeeds">{{needsBtn}}</button>
         <button class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onFind">{{T.c.goFind}}</button>
       </view>
     </view>
@@ -30,12 +30,12 @@
         <text class="mk-tag mk-tag--end">{{T.b.storeTag}}</text>
       </view>
       <mk-field label="{{T.b.address}}" mark="{{advisor ? T.c.optionalFill : T.c.required}}" mark-tone="{{advisor ? '' : 'req'}}" error="{{errAddress}}">
-        <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" placeholder="{{T.b.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
+        <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" disabled="{{locked}}" placeholder="{{T.b.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
       </mk-field>
       <view class="ldf-helprow ldf-fld"><text class="mk-sub mk-grow lbk-help">{{help}}</text><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onLocate" aria-role="button"><image class="mk-icon" src="/assets/icons/locate-ink.svg" /><text>{{T.b.locate}}</text></view></view>
       <mk-field class="ldf-fld" label="{{T.phoneLabel}}" mark="{{T.c.required}}" mark-tone="req">
-        <view wx:if="{{advisor}}" class="ldf-input lbk-manual"><input class="ldf-native" type="number" maxlength="11" placeholder="{{T.manualPhone}}" placeholder-class="ldf-ph" value="{{manualPhone}}" bindinput="onManualPhone" /></view>
-        <lead-phone id="phone" what="{{what}}" error="{{errPhone}}" bind:change="onPhoneChange" bind:login="onPhoneLogin" />
+        <view wx:if="{{advisor && !phoneReady}}" class="ldf-input lbk-manual"><input class="ldf-native" type="number" maxlength="11" disabled="{{locked}}" placeholder="{{T.manualPhone}}" placeholder-class="ldf-ph" value="{{manualPhone}}" bindinput="onManualPhone" /></view>
+        <lead-phone id="phone" what="{{what}}" error="{{errPhone}}" disabled="{{locked}}" bind:change="onPhoneChange" bind:login="onPhoneLogin" />
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.b.when}}" mark="{{T.c.optional}}">
         <view class="ldf-chips">
@@ -51,11 +51,11 @@
         </view>
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.b.note}}">
-        <view class="ldf-input ldf-input--tall"><textarea class="ldf-area" value="{{note}}" maxlength="{{noteMax}}" placeholder="{{T.b.notePh}}" placeholder-class="ldf-ph" bindinput="onNote" /><text class="ldf-count">{{noteCount}}</text></view>
+        <view class="ldf-input ldf-input--tall"><textarea class="ldf-area" value="{{note}}" maxlength="{{noteMax}}" disabled="{{locked}}" placeholder="{{T.b.notePh}}" placeholder-class="ldf-ph" bindinput="onNote" /><text class="ldf-count">{{noteCount}}</text></view>
       </mk-field>
     </view>
-    <text class="ldf-paynote">{{T.b.payNote}}</text>
-    <view class="mk-bottom-bar"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{status === 'submitting'}}" bindtap="onSubmit">{{status === 'submitting' ? T.b.submitting : M.submit}}</button></view>
+    <text class="ldf-paynote">{{payNote}}</text>
+    <view class="mk-bottom-bar"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{status === 'submitting'}}" bindtap="onSubmit">{{status === 'submitting' ? T.b.submitting : status === 'unknown' ? T.c.recheck : M.submit}}</button></view>
   </block>
   <mk-sheet visible="{{sheet === 'items'}}" title="{{T.b.items}}" bind:close="onSheetClose">
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{itemOptions}}" wx:key="t" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickItem" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>

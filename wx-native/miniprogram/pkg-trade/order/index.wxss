@@ -19,6 +19,7 @@
 .od-rule { display: block; margin-top: var(--mk-space-2); }
 .od-kv { min-height: 80rpx; border-top: var(--mk-border-hairline); }
 .od-kvv { font-weight: var(--mk-font-weight-medium); }
+.od-kvv--warn { color: var(--mk-color-status-errorText); }
 .od-cancel { display: flex; justify-content: center; padding: var(--mk-space-2) 0 var(--mk-space-4); }
 .od-cancelbtn { min-height: 72rpx; padding: 0 var(--mk-space-4); display: flex; align-items: center; border: var(--mk-border-error); border-radius: var(--mk-radius-control); color: var(--mk-color-status-errorText); font-size: var(--mk-font-size-md); }
 .od-bar { display: flex; align-items: center; }

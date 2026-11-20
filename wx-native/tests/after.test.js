@@ -52,10 +52,11 @@ test('退仓状态：已付未起租是「退订」不是退仓；到期未办�
   assert.equal(after.exitState(act, now), 'form'); assert.equal(after.exitState(up, now), 'not_started'); assert.equal(after.exitState(over, now), 'form_expired');
   assert.equal(after.exitState(order({ stage: S.PENDING }), now), 'empty');
   const end = after.ymd(act.lease.end), today = after.ymd(now);
-  assert.deepEqual(after.exitDateRange(act, 'expiry', now), { min: end, max: '', def: end });
+  assert.deepEqual(after.exitDateRange(act, 'expiry', now), { min: end, max: after.ymd(act.lease.end + A.exit.expiryClearMaxDays * DAY), def: end }, '到期退仓取空日 = 到期日至其后 2 天（R-09）');
   const early = after.exitDateRange(act, 'early', now);
   assert.equal(early.min, today); assert.equal(early.def, today); assert.ok(early.max < end);
   assert.equal(after.exitDateRange(over, 'expiry', now).min, today, '已到期：取空日期从今天起');
+  assert.equal(after.exitDateRange(over, 'expiry', now).max, today, '已过到期日 + 2 天：只能选今天');
   assert.equal(after.canEarlyExit(over, now), false); assert.equal(after.canEarlyExit(act, now), true);
 });
 
@@ -63,7 +64,7 @@ test('退仓状态：已付未起租是「退订」不是退仓；到期未办�
 test('续租报价截止：报价 + 24 小时与租期到期取较早者；租期已过时不再用到期时刻截断', () => {
   const q = Date.UTC(2026, 10, 18, 2);
   assert.equal(after.renewDeadline(q, q + 30 * DAY), q + 24 * H);
-  assert.equal(after.renewDeadline(q, q + 5 * H), q + 5 * H);
+  assert.equal(after.renewDeadline(q, q + 5 * H), q + 14 * H, '到期日含当天（R-04）：截至到期日次日 0 点（北京时间 10 点报价，当天 15 点到期 → 次日 0 点）');
   assert.equal(after.renewDeadline(q, q - DAY), q + 24 * H);
   assert.equal(C.timers.renewQuoteTtlHours, 24);
 });
@@ -105,7 +106,8 @@ test('续租页状态：到期未退租也能办；退仓中不能办；累计 6
   assert.equal(after.renewView(o, now).state, 'form', '付完再进来是新一次续租');
   const soon = order({ months: 12, agoDays: 365, startAt: now - 365 * DAY + 5 * H, stage: S.EXPIRING }); // 5 小时后到期
   soon.renew = { months: 6, status: 'quoted', quoted_at: now, pay: '' };
-  const c = after.renewView(soon, now); assert.equal(c.capped, true); assert.equal(c.deadline, soon.lease.end);
+  soon.lease.end = now + 1000; // 今天到期：报价截至今天结束（到期日含当天，R-04）
+  const c = after.renewView(soon, now); assert.equal(c.capped, true); assert.equal(c.deadline, R('core/order-model').overdueFrom(soon.lease.end)); assert.ok(c.deadline <= now + 24 * H);
 });
 
 // ---------- 规则：押金、发票、实名、入仓、消息 ----------
@@ -165,7 +167,9 @@ test('消息分类：先看类型，再按标题判断；没带订单号进入�
   assert.equal(after.messageCategory({ title: '你好', order_id: 'MK1' }), 'order'); assert.equal(after.messageCategory({ title: '你好' }), 'notice');
   const five = db.orders.slice(0, 5);
   assert.equal(after.pickOrder(five, 'renew').stage, S.EXPIRING); assert.equal(after.pickOrder(five, 'identity').identity_status, 'none');
-  assert.equal(after.pickOrder(five, 'deposit').stage, S.ENDED); assert.equal(after.pickOrder(five, 'access').stage, S.ACTIVE);
+  assert.equal(after.pickOrder(five, 'deposit').stage, S.EXPIRING, '押金：在租的排在已结清的前面（FIX-01 D-14）'); assert.equal(after.pickOrder(five, 'access').stage, S.ACTIVE);
+  const moving = JSON.parse(JSON.stringify(five.find((x) => x.stage === S.ENDED))); moving.deposit.status = 'failed';
+  assert.equal(after.pickOrder(five.concat([moving]), 'deposit').deposit.status, 'failed', '押金正在处理的排最前');
   assert.equal(after.pickOrder([{ stage: S.PENDING }], 'exit'), null);
 });
 
@@ -229,9 +233,12 @@ test('接口：退仓 → 申请验仓 → 验仓通过 → 押金退款 → 已
   await tick(320); x = await api.getAfterOrder({ id });
   assert.equal(x.deposit.status, 'refunded'); assert.equal(x.deposit.refunded, o.quote.deposit);
   // 验仓未通过可重新申请
-  const f = order({}); await api.requestExit({ id: f.id, type: 'expiry', date: after.ymd(f.lease.end) });
+  // 到期退仓要到期前 7 天内才可提交（R-01）；验仓未通过可重新申请（租期结束前申请要先确认按提前退仓结算，见 fix-01-after.test.js）
+  await assert.rejects(api.requestExit({ id: order({}).id, type: 'expiry', date: after.ymd(o.lease.end) }), (e) => e.code === 'INVALID');
+  const f = order({ months: 12, agoDays: 362, startAt: now0 - 361 * DAY, stage: S.EXPIRING }); await api.requestExit({ id: f.id, type: 'expiry', date: after.ymd(f.lease.end) });
   raw(f.id).exit.status = 'failed';
-  assert.equal((await api.requestInspection({ id: f.id })).exit.status, 'waiting');
+  await assert.rejects(api.requestInspection({ id: f.id }), (e) => e.code === 'EARLY_CONFIRM');
+  assert.equal((await api.requestInspection({ id: f.id, early_confirmed: true })).exit.status, 'waiting');
   // 有待结费用：部分退还
   const p = order({}); Object.assign(raw(p.id), { stage: S.ENDED }); Object.assign(raw(p.id).deposit, { status: 'refunding', refund_at: Date.now() - 1000, pending_fee: 40 });
   x = await api.getAfterOrder({ id: p.id }); assert.equal(x.deposit.status, 'partial'); assert.equal(x.deposit.refunded, p.quote.deposit - 40);
@@ -242,7 +249,7 @@ test('接口：发票申请 → 处理中 → 已开具；同一笔付款不能�
   await assert.rejects(api.submitInvoice(Object.assign({}, f, { email: 'zhangsan@example' })), (e) => e.code === 'INVALID');
   let x = await api.submitInvoice(f);
   assert.equal(x.invoice.status, 'applying'); assert.equal(x.invoice.title, '张三');
-  assert.deepEqual([x.invoice.records[0].payment_id, x.invoice.records[0].amount, x.invoice.records[0].status], ['INITIAL', o.quote.payable, 'submitted']);
+  assert.deepEqual([x.invoice.records[0].payment_id, x.invoice.records[0].amount, x.invoice.records[0].status], ['INITIAL', o.quote.payable - o.quote.deposit, 'submitted'], '发票金额不含押金（R-03）');
   await assert.rejects(api.submitInvoice(f), (e) => e.code === 'CONFLICT');
   await assert.rejects(api.sendInvoiceEmail({ id, record_id: 'INV9' }), (e) => e.code === 'NOT_FOUND');
   x = await api.getAfterOrder({ id });
@@ -292,7 +299,7 @@ test('页面：订单号不存在或订单未付款 → 空态；没带订单号
   const rn = await page(routes.RENEW, {}); assert.equal(rn.data.empty, false); assert.equal(rn.data.order.stage, S.EXPIRING); rn.onUnload();
   const none = await page(routes.DEPOSIT, {}); assert.equal(none.data.empty, false, '从「我的」进押金页不带订单号'); none.onUnload();
   const dp = await page(routes.DEPOSIT, { id: db.orders.find((x) => x.stage === S.ENDED && x.deposit.status === 'partial').id }); assert.equal(dp.data.st, 'refunded_partial');
-  assert.deepEqual(dp.data.settle.map((r) => r.k), ['订单押金', '待结费用', '实际退还']); assert.equal(dp.data.settle[1].v, '−¥40');
+  assert.deepEqual(dp.data.settle.map((r) => r.k), ['订单押金', '已扣费用', '实际退还']); assert.equal(dp.data.settle[1].v, '−¥40');
 });
 test('页面 续租：沿用原折扣的填写 → 提交（先请求订阅）→ 报价待确认 → 确认并支付 → 先支付后订阅到期提醒', async () => {
   fresh();
@@ -311,7 +318,7 @@ test('页面 续租：沿用原折扣的填写 → 提交（先请求订阅）�
     pg.onChip({ currentTarget: { dataset: { m: 12 } } });
     const p = pg.onSubmit(); assert.equal(pg.data.st, 'submitting'); assert.equal(pg.data.bar.btns[0].off, true); await p;
     assert.deepEqual(calls, ['TPL_RENEW:none'], '订阅在提交之前请求');
-    assert.equal(pg.data.st, 'quote_pending'); assert.equal(pg.data.sub.text, '已开启微信通知。'); assert.equal(pg.data.note.text, '门店确认报价后会通知您。');
+    assert.equal(pg.data.st, 'quote_pending'); assert.equal(pg.data.sub.text, '已开启微信通知。'); assert.equal(pg.data.note.text, '门店将在 3 天内确认报价，确认后会通知您。');
     await pg.refresh();
     assert.equal(pg.data.st, 'quote_ready'); assert.equal(pg.data.card.total.amt, '¥2,880'); assert.equal(pg.data.card.ref.k, '现行折扣价'); assert.equal(pg.data.card.ref.amt, '¥3,120');
     assert.equal(pg.data.card.keep, '首次续租沿用您原订单的 6 折，比现在 12 个月的 6.5 折每月少 ¥20，本次共少 ¥240。');
@@ -342,7 +349,7 @@ test('页面 续租：取消订阅不拦提交；报价过期（沿用）主按�
     const id = order({ factor: 0.6, months: 12, agoDays: 350, startAt: now0 - 349 * DAY, stage: S.EXPIRING }).id;
     const pg = await page(routes.RENEW, { id });
     await pg.onSubmit();
-    assert.equal(pg.data.st, 'quote_pending'); assert.equal(pg.data.sub.text, '未开启微信通知。'); assert.equal(pg.data.sub.ok, false); assert.equal(pg.data.note.text, '门店确认报价后可在「消息」查看。');
+    assert.equal(pg.data.st, 'quote_pending'); assert.equal(pg.data.sub.text, '未开启微信通知。'); assert.equal(pg.data.sub.ok, false); assert.equal(pg.data.note.text, '门店将在 3 天内确认报价，确认后可在「消息」查看。');
     env.mode = 'ok'; await pg.onSubAsk(); assert.equal(raw(id).renew.notify, 'accepted', '结果页的「开启通知」');
     await pg.refresh(); raw(id).renew.quoted_at -= 25 * H; await pg.refresh();
     assert.equal(pg.data.st, 'quote_expired'); assert.equal(pg.data.head.title, '续租报价已过期');
@@ -367,9 +374,10 @@ test('页面 退仓：提前退仓确认弹层三行、申请验仓时请求订�
   wx.requestSubscribeMessage = (opt) => { calls.push(opt.tmplIds[0] + ':' + raw(id).exit.status); realSub(opt); };
   try {
     const pg = await page(routes.EXIT, { id });
-    assert.equal(pg.data.st, 'form'); assert.equal(pg.data.form.type, 'expiry'); assert.equal(pg.data.form.date, after.ymd(o.lease.end));
-    assert.deepEqual(pg.data.confirmRows.map((r) => r.k), ['退仓类型', '计划取空日期']);
-    pg.onType({ currentTarget: { dataset: { v: 'early' } } });
+    // 离到期还有 10 个多月：到期退仓还不能提交，只有提前退仓（R-01）
+    assert.equal(pg.data.st, 'form'); assert.equal(pg.data.form.type, 'early'); assert.equal(pg.data.form.canEarly, false, '只有一种类型时不出切换');
+    assert.equal(pg.data.form.tip, '到期退仓自 ' + after.expiryExitFrom(o) + ' 起可提交（租期结束前 7 天内）。');
+    pg.onType({ currentTarget: { dataset: { v: 'expiry' } } }); assert.equal(pg.data.form.type, 'early');
     assert.equal(pg.data.form.type, 'early'); assert.equal(pg.data.form.date, today);
     assert.deepEqual(pg.data.confirmRows.map((r) => r.k), ['退仓类型', '计划取空日期', '预计结算费用', '费用结算', '已享优惠']);
     assert.equal(pg.data.confirmRows[2].v, '约 ' + pricing.yuan(after.earlyExitEstimate(o, today).fee)); assert.equal(pg.data.confirmRows[3].link, '查看协议');
@@ -390,8 +398,8 @@ test('页面 退仓：提前退仓确认弹层三行、申请验仓时请求订�
   assert.equal(up.data.st, 'not_started'); assert.equal(up.data.head.title, '订单尚未起租'); assert.equal(up.data.form, null); assert.equal(up.data.steps.length, 0);
   assert.deepEqual(up.data.cancel.map((r) => r.k), ['退订说明', '已付租金', '押金', '办理方式']); assert.equal(up.data.cancel[2].v, '请咨询客服');
   const over = await page(routes.EXIT, { id: order({ stage: S.OVERDUE, months: 3, agoDays: 100, startAt: now0 - 99 * DAY }).id });
-  assert.equal(over.data.st, 'form_expired'); assert.equal(over.data.note.title, '请办理续租或退仓'); assert.equal(over.data.form.canEarly, false);
-  assert.deepEqual(over.data.bar.btns.map((b) => b.text), ['办理续租', '提交退仓安排']); assert.equal(over.data.form.rule, '租期已到期，取空日期从今天起选。');
+  assert.equal(over.data.st, 'form_expired'); assert.equal(over.data.note.title, ''); assert.match(over.data.note.text, /^租期已于 \d{4}-\d\d-\d\d 到期，超出的天数按协议另行计费。$/); assert.equal(over.data.form.canEarly, false);
+  assert.deepEqual(over.data.bar.btns.map((b) => b.text), ['办理续租', '提交退仓安排']); assert.equal(over.data.form.rule, '租期已到期，取空日期为今天。');
 });
 test('页面 押金：保管中只显示「退还时限」一行，点开后展开', async () => {
   fresh();
@@ -404,7 +412,8 @@ test('页面 押金：保管中只显示「退还时限」一行，点开后展�
 test('页面 发票：填完才能提交 → 已提交 → 已开具（下载 / 发邮箱）；开票未成功保留原资料', async () => {
   fresh();
   const id = order({}).id, pg = await page(routes.INVOICE, { id });
-  assert.equal(pg.data.head.title, '申请发票'); assert.equal(pg.data.bar.btns[0].off, true); assert.equal(pg.data.notes[1].v, '请咨询客服');
+  assert.equal(pg.data.head.title, '申请发票'); assert.equal(pg.data.bar.btns[0].off, true);
+  assert.deepEqual([pg.data.notes[0].k, pg.data.notes[0].v], ['可开票金额', pricing.yuan(raw(id).quote.payable - raw(id).quote.deposit) + '（不含押金）']); assert.ok(!/请咨询客服/.test(JSON.stringify(pg.data.notes)));
   const input = (f, value) => pg.onInput({ currentTarget: { dataset: { f } }, detail: { value } });
   input('title', '张三'); input('email', 'zhangsan@example'); pg.onEmailBlur();
   assert.equal(pg.data.bar.btns[0].off, true);
@@ -446,7 +455,7 @@ test('页面 实名兜底与入仓指引：未实名拦截 → 提交资料 → 
   assert.ok(ok.data.arr && ok.data.arr.rows.length > 0, '「到店与进仓」卡有内容');
   let modal = null; const realModal = wx.showModal; wx.showModal = (m) => { modal = m; };
   ok.onOpen(); wx.showModal = realModal;
-  assert.equal(modal.title, '仓位开锁'); assert.equal(modal.content, '当前仓门设备暂未接入。如需存取，请联系门店协助。'); assert.equal(modal.showCancel, false);
+  assert.equal(modal.title, '仓位开锁'); assert.equal(modal.content, '当前仓门设备暂未接入。如需存取，请联系门店协助。'); assert.deepEqual([modal.cancelText, modal.confirmText], ['知道了', '联系门店'], '开门信息弹窗带联系门店（FIX-01 C-06）');
   env.nav.length = 0; ok.onStoreGuide(); assert.equal(env.nav[0].url.indexOf(routes.STORE_DETAIL + '?id=' + act.store.id), 0);
   env.mode = 'fail'; ok.onNavigate(); env.mode = 'ok'; ok.onNavigate();
   const ended = db.orders.find((x) => x.stage === S.ENDED);

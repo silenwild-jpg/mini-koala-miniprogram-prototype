@@ -5,6 +5,7 @@
 .oc-unit { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); }
 .oc-ph { width: 128rpx; height: 128rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; flex: none; margin-right: var(--mk-space-3); }
 .oc-line2 { margin-top: 8rpx; }
+.oc-line3 { margin-top: 4rpx; }
 .oc-meta { display: flex; align-items: center; }
 .oc-km { font-size: var(--mk-font-size-sm); margin-right: var(--mk-space-2); white-space: nowrap; }
 .oc-combo { margin-top: 8rpx; }
@@ -25,3 +26,5 @@
 .oc-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .oc-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .oc-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
+
+.oc-img { display: block; background: var(--mk-color-canvas-sunken); }

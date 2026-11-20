@@ -14,7 +14,7 @@
       <mk-notice wx:if="{{blocked}}" tone="err" title="{{T.z.blockedTitle}}" text="{{T.z.blockedMsg}}" link="{{T.z.newLead}}" bind:link="onNewLead" />
       <mk-notice wx:elif="{{editing && !saved}}" title="{{T.z.editTitle}}" text="{{T.z.editMsg}}" link="{{T.z.newLead}}" bind:link="onNewLead" />
       <mk-notice wx:if="{{status === 'failed'}}" tone="err" title="{{T.z.failedTitle}}" text="{{T.c.failedMsg}}" link="{{T.c.retry}}" bind:link="onRetrySubmit" />
-      <mk-notice wx:if="{{status === 'unknown'}}" tone="err" title="{{T.c.unknownTitle}}" text="{{T.c.unknownMsg}}" />
+      <mk-notice wx:if="{{status === 'unknown'}}" tone="err" title="{{T.c.unknownTitle}}" text="{{T.c.unknownMsg}}" link="{{T.c.recheck}}" bind:link="onRetrySubmit" />
       <mk-notice wx:if="{{restored}}" title="{{T.z.restoredTitle}}" text="{{T.z.restoredMsg}}" />
     </view>
     <view wx:if="{{step === 1}}" class="ldf-form">
@@ -61,7 +61,7 @@
         <view class="ldf-input"><input class="ldf-native" value="{{company}}" maxlength="{{nameMax}}" disabled="{{locked}}" placeholder="{{T.z.companyPh}}" placeholder-class="ldf-ph" bindinput="onCompany" /></view>
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.phoneLabel}}" mark="{{T.c.required}}" mark-tone="req">
-        <lead-phone id="phone" what="{{what}}" error="{{errPhone}}" bind:change="onPhoneChange" bind:login="onPhoneLogin" />
+        <lead-phone id="phone" what="{{what}}" error="{{errPhone}}" disabled="{{locked}}" bind:change="onPhoneChange" bind:login="onPhoneLogin" />
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.z.when}}" error="{{errDate}}">
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-input {{errDate ? 'ldf-input--err' : ''}}" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbz-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
@@ -69,11 +69,11 @@
       <mk-field class="ldf-fld" label="{{T.z.notes}}" mark="{{T.c.optionalFill}}">
         <view class="ldf-input ldf-input--tall"><textarea class="ldf-area" value="{{notes}}" maxlength="{{notesMax}}" disabled="{{locked}}" placeholder="{{T.z.notesPh}}" placeholder-class="ldf-ph" bindinput="onNotes" /><text class="ldf-count">{{notesCount}}</text></view>
       </mk-field>
-      <text class="ldf-paynote">{{T.z.payNote}}</text>
+      <text class="ldf-paynote">{{payNote}}</text>
     </view>
     <view class="mk-bottom-bar ldf-acts">
       <block wx:if="{{step === 1}}">
-        <button class="mk-btn {{locked || salesOnly ? 'mk-btn--disabled' : 'mk-btn--ghost'}}" hover-class="{{locked || salesOnly ? 'none' : 'mk-btn--ghostHover'}}" bindtap="onBrowse">{{T.z.browse}}</button>
+        <button class="mk-btn {{locked ? 'mk-btn--disabled' : 'mk-btn--ghost'}}" hover-class="{{locked ? 'none' : 'mk-btn--ghostHover'}}" bindtap="onBrowse">{{T.z.browse}}</button>
         <button class="mk-btn {{blocked || locked ? 'mk-btn--disabled' : ''}}" hover-class="{{blocked || locked ? 'none' : 'mk-btn--hover'}}" bindtap="onNext">{{T.z.next}}</button>
       </block>
       <block wx:else>
@@ -86,16 +86,15 @@
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{dateOptions}}" wx:key="d" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickDate" aria-role="button"><text class="mk-num">{{item.d}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
     <view class="ldf-sheetacts"><button class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDateOk">{{T.c.confirm}}</button></view>
   </mk-sheet>
-  <view wx:if="{{dialog}}" class="lbz-mask" catchtouchmove="noop">
-    <view class="lbz-dialog">
+  <view wx:if="{{dialog}}" class="lbz-mask" catchtouchmove="noop" bindtap="onDialogClose">
+    <view class="lbz-dialog" catchtap="noop">
       <text class="mk-h2 lbz-dt">{{dialog.title}}</text>
       <text class="lbz-dm">{{dialog.ack}}</text>
       <text wx:if="{{dialog.fine}}" class="mk-sub lbz-df">{{dialog.fine}}</text>
       <text class="mk-sub lbz-df">{{dialog.hoursNote}}</text>
       <text class="lbz-no mk-num">{{dialog.no}}</text>
       <view class="ldf-sheetacts lbz-dacts">
-        <button wx:if="{{dialog.sales}}" class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onDialogClose">{{T.z.gotIt}}</button>
-        <button wx:else class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onDialogFind">{{T.c.goFind}}</button>
+        <button class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onDialogFind">{{T.c.goFind}}</button>
         <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDialogNeeds">{{T.c.viewNeeds}}</button>
       </view>
     </view>

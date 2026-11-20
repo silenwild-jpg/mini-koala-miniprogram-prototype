@@ -9,8 +9,12 @@ module.exports = {
     // 只用于「预计结算费用」估算，界面不显示比例（D-113）；正式结算以后端为准（D-189）。
     penaltyRatio: 0.2,
     penaltyMinMonths: 1,
-    minUsedMonths: 1          // 合同：已使用不足 1 个月按 1 个月
+    minUsedMonths: 1,         // 合同：已使用不足 1 个月按 1 个月
+    expiryAdvanceDays: 7,     // 裁定 R-01（张坤 2026-11-20）：到期日前 7 天起才可提交「到期退仓」，更早只能走提前退仓
+    expiryClearMaxDays: 2     // 裁定 R-09：到期退仓的取空日期 = [到期日, 到期日 + 2 天]
   },
+  // 裁定 R-02：门店 / 后台的承诺时限（天）。页面只写「N 天内」，不写自然日 / 工作日
+  sla: { renewQuoteDays: 3, inspectDays: 1, invoiceDays: 1 },
   expiringDays: 30,           // 冻结稿 w4-render.js o03Stage：剩余 0–30 天算「即将到期」；只在续租支付后回写阶段时用
   hotline: '4000358885',      // 合同：使用协议 附件3（400-035-8885）；门店没有电话时拨这个
   hotlineText: '400-035-8885',

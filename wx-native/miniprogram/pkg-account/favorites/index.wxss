@@ -3,3 +3,4 @@
 .fv-ph { width: 112rpx; height: 112rpx; border-radius: var(--mk-radius-thumb); margin-right: var(--mk-space-3); flex: none; }
 .fv-n { font-weight: var(--mk-font-weight-semibold); min-width: 0; }
 .fv-sub { display: block; margin-top: 4rpx; }
+.fv-rm { flex: none; min-height: var(--mk-size-tapMin); padding: 0 var(--mk-space-2); }

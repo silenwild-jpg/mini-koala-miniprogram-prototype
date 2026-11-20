@@ -4,7 +4,13 @@
 // 主卡取法（冻结稿 docs/W7_Shared_Contracts.md §1、pages/w1-render.js twoLayer）：
 //   押金处理 / 退仓 / 已到期 / 续租 / 即将到期 / 租用中 ＞ 未实名兜底 / 待起租 ＞ 待支付 / 支付失败 ＞ 已超时 / 已取消。
 // 待办条带：主卡被租后阶段占用时的待支付订单、预约记录（接口提供 getLeads 时）、未完成的找仓需求；最多 2 条，其余并成「还有 N 项待办」。
+// FIX-01：
+//   阶段内单列的情况（order-view.variant：押金退款未成功、验仓未通过、退仓待清空、实名未通过、续租待支付 / 付款未成功）各有标题、角标、事实格和主按钮（A-02、A-03、A-06）；
+//   没有订单时：有找仓需求的不再出「继续找仓」简化卡，交给需求卡 mk-need-card（A-05）；有预约记录的进待办条带（A-07）；
+//   在「我的」页不出「找仓进度」待办，那一页的需求卡一直显示，避免两处说同一件事（D-17）。
 const CT = require('../../core/config-trade');
+const CA = require('../../core/config-after');
+const after = require('../../core/after');
 const T = require('../../i18n/trade');
 const api = require('../../services/api');
 const state = require('../../services/state');
@@ -13,7 +19,6 @@ const view = require('../../services/order-view');
 const actions = require('../../services/order-actions');
 const req = require('../../core/requirement');
 const fmt = require('../../core/format');
-const order = require('../../core/order');
 const TK = T.task;
 const GROUP = { refund: 0, returning: 0, inspection: 0, expired_lease: 0, renewal: 0, renewal_pending: 0, expiring: 0, active: 0, identity: 1, upcoming: 1, pending: 2, payment_failed: 2, expired: 6, cancelled: 6 };
 const SCORE = { pending: 95, payment_failed: 94, refund: 91, returning: 90, inspection: 90, expired_lease: 89, identity: 87, renewal: 86, renewal_pending: 86, expiring: 82, upcoming: 77, active: 20, expired: 17, cancelled: 17 };
@@ -22,9 +27,13 @@ const BTN = { // 阶段 → [主按钮, 次按钮]（动作名见 onAction）
   pending: ['pay', 'fees'], payment_failed: ['pay', 'swapUnit'], expired: ['restart', ''], cancelled: ['restart', ''],
   identity: ['identity', 'navigate'], upcoming: ['navigate', 'access'], active: ['unlock', 'navigate'], expiring: ['renew', 'unlock'],
   renewal: ['renewQuote', 'unlock'], renewal_pending: ['renewProgress', 'unlock'], returning: ['exitProgress', 'navigate'], inspection: ['exitProgress', 'navigate'],
-  expired_lease: ['renew', 'exit'], refund: ['deposit', 'order']
+  expired_lease: ['renew', 'exit'], refund: ['deposit', 'order'],
+  // 阶段内单列的情况
+  refund_failed: ['deposit', 'call'], inspect_failed: ['reinspect', 'navigate'], exit_clearing: ['toInspect', 'navigate'], identity_mismatch: ['identityRetry', 'navigate'],
+  renewal_pay: ['renewPay', 'unlock'], renewal_pay_failed: ['renewPay', 'unlock']
 };
-function facts(o, p, now) {
+const ERR = ['refund_failed', 'inspect_failed', 'identity_mismatch', 'renewal_pay_failed'];
+function facts(o, p, now, key) {
   const F = TK.fact, hours = o.store.access_hours || '', end = view.ymd(o.lease.end), start = view.ymd(o.lease.start), out = [];
   const add = (v, l) => { if (v) out.push({ v: String(v), l }); };
   if (p === 'pending') add(view.yuan(o.quote.payable), F.payable);
@@ -32,24 +41,31 @@ function facts(o, p, now) {
   else if (p === 'identity') add(start, F.startPlan);
   else if (p === 'upcoming') { add(start, F.startPlan); add(hours, F.access); }
   else if (p === 'active') { add(end, F.leaseEnd); add(hours, F.access); }
-  else if (p === 'expiring') { add(end, F.leaseEnd); const n = view.daysLeft(o, now); if (n !== null && n >= 0) add(n + T.common.dayUnit, F.leftTerm); }
+  else if (p === 'expiring') { add(end, F.leaseEnd); const n = view.daysLeft(o, now); if (n !== null && n >= 0) add(n === 0 ? T.order.leftToday : n + T.common.dayUnit, F.leftTerm); }
   else if (p === 'renewal') {
     add(end, F.curEnd);
-    if (o.renew && o.renew.amount) add(view.yuan(o.renew.amount), F.renewQuote);
-    if (o.renew && o.renew.quoted_at) add(view.countdown(order.renewQuoteExpiresAt(o.renew.quoted_at, o.lease.end), now), F.quoteLeft);
+    if (o.renew && o.renew.amount) add(view.yuan(o.renew.amount), key === 'renewal' ? F.renewQuote : F.renewPayable);
+    if (o.renew && o.renew.quoted_at) add(view.countdown(after.renewDeadline(o.renew.quoted_at, o.lease.end), now), F.quoteLeft);
   } else if (p === 'renewal_pending') add(end, F.curEnd);
-  else if (p === 'expired_lease') add(end, F.leaseDeadline);
+  else if (p === 'expired_lease') { add(end, F.leaseDeadline); const n = view.daysLeft(o, now); if (n !== null && n < 0) add((-n) + T.common.dayUnit, F.overdue); }
+  else if (p === 'returning' || p === 'inspection') { // 退仓：计划取空日；验仓未通过时先写结果（A-03）
+    if (key === 'inspect_failed') add(TK.badge.inspect_failed, F.inspectResult);
+    add(o.exit && o.exit.date, F.clearPlan);
+  } else if (p === 'refund') add(key === 'refund_failed' ? F.depositAbnormal : F.depositRefunding, F.depositState); // 冻结稿 REFUND_FAILED：事实格「处理异常」（A-02）
   return out;
 }
 function mainCard(rec, others, now) {
-  const o = rec.o, p = rec.p, b = BTN[p] || ['order', ''];
-  const help = TK.help[p] || null, svc = p === 'active' || p === 'expiring';
+  const o = rec.o, p = rec.p, key = view.variant(o, p) || p, b = BTN[key] || BTN[p] || ['order', ''];
+  let help = TK.help[key] || (key === p ? null : TK.help[p]) || null;
+  if (key === 'inspection' && help) help = [help[0], help[1].replace('{n}', CA.sla.inspectDays)];
+  if (key === 'inspect_failed') help = o.exit && o.exit.fail_reason ? [TK.help.inspect_failed[0], o.exit.fail_reason] : null;
+  const svc = p === 'active' || p === 'expiring';
   return {
-    key: p, orderId: o.id, storeId: o.store.id, kicker: TK.kicker[p] || '', title: TK.title[p] || '', strong: p === 'pending' || p === 'payment_failed',
-    badge: p === 'pending' ? TK.left + view.countdown(o.pay.expires_at, now) : (TK.badge[p] || ''), badgeTone: p === 'pending' ? 'err' : URGENT.indexOf(p) >= 0 ? 'warn' : 'ok',
+    key: p, variant: key === p ? '' : key, orderId: o.id, storeId: o.store.id, kicker: TK.kicker[p] || '', title: TK.title[key] || TK.title[p] || '', strong: p === 'pending' || p === 'payment_failed',
+    badge: p === 'pending' ? TK.left + view.countdown(o.pay.expires_at, now) : (TK.badge[key] || ''), badgeTone: p === 'pending' || ERR.indexOf(key) >= 0 ? 'err' : URGENT.indexOf(p) >= 0 ? 'warn' : 'ok',
     store: o.store.name, sub: view.unitLines(o).name + T.common.sep + fmt.termText(o.months),
     address: ['identity', 'upcoming', 'active', 'expiring', 'renewal', 'renewal_pending', 'returning', 'inspection', 'expired_lease'].indexOf(p) >= 0 ? (o.store.address || '') : '',
-    facts: facts(o, p, now).slice(0, 3),
+    facts: facts(o, p, now, key).slice(0, 3),
     primary: { t: TK.btn[b[0]], a: b[0] }, secondary: b[1] ? { t: TK.btn[b[1]], a: b[1] } : null,
     svc, helpTitle: help ? help[0] : '', helpText: help ? help[1] : '',
     othersText: others > 0 ? TK.others[0] + others + TK.others[1] : ''
@@ -78,11 +94,13 @@ Component({
         .sort((a, b) => GROUP[a.p] - GROUP[b.p] || SCORE[b.p] - SCORE[a.p] || b.o.created_at - a.o.created_at);
       if (!recs.length) {
         this.stop();
-        const lead = (this._leads || []).find(x => x.status !== 'withdrawn');
+        // 没有订单：已选仓位 → 「继续确认用仓」；只有预约记录 → 「已收到您的用仓需求」；有找仓需求 → 不出主卡，由需求卡显示（A-05），预约记录进条带（A-07）
+        const lead = (this._leads || []).filter((x) => x && x.status !== 'withdrawn').slice(-1)[0];
         const need = state.get().requirement, sel = state.get().selection;
-        const key = sel ? 'selected' : need ? 'searching' : lead ? 'booking' : '';
-        const copy = { selected: ['继续确认用仓', sel && sel.store_name, '查看已选仓位', 'find'], searching: ['继续找仓', need ? req.demandText(need) + ' · ' + fmt.termText(need.term_months) : '', '查看推荐', 'find'], booking: ['已收到您的用仓需求', lead && lead.store_name, '查看预约', 'lead'] }[key];
-        this.setData({ show: !!copy, main: copy ? { key, title: copy[0], store: copy[1] || '', sub: key === 'booking' ? TK.todoLeadIn : '', primary: { t: copy[2], a: copy[3] }, facts: [], badge: '', secondary: null } : null, todos: [], moreText: '' }); return;
+        const key = sel ? 'selected' : need ? '' : lead ? 'booking' : '';
+        const copy = { selected: [TK.noOrder.selected, sel && sel.store_name, TK.noOrder.selectedBtn, 'find'], booking: [TK.noOrder.booking, lead && lead.store_name, TK.noOrder.bookingBtn, 'lead'] }[key];
+        const strip = lead && key !== 'booking' ? [{ id: 'lead', k: TK.todoLead, t: lead.in_service_hours === false ? TK.todoLeadOff : TK.todoLeadIn, a: 'lead', orderId: '' }] : [];
+        this.setData({ show: !!copy || strip.length > 0, main: copy ? { key, title: copy[0], store: copy[1] || '', sub: key === 'booking' ? TK.todoLeadIn : '', primary: { t: copy[2], a: copy[3] }, facts: [], badge: '', secondary: null } : null, todos: strip, moreText: '' }); return;
       }
       const m = recs[0];
       const others = recs.filter((r) => (r.p === 'active' || r.p === 'expiring') && r.o.id !== m.o.id).length;
@@ -96,7 +114,7 @@ Component({
       const lead = (this._leads || []).filter((x) => x && x.status !== 'withdrawn').slice(-1)[0];
       if (lead) todos.push({ id: 'lead', k: TK.todoLead, t: lead.in_service_hours === false ? TK.todoLeadOff : TK.todoLeadIn, a: 'lead', orderId: '' });
       const r = state.get().requirement; // 需求晚于订单时仍显示找仓进度（§4.7-3）
-      if (r && Number(r.capacity_m3) > 0) todos.push({ id: 'find', k: TK.todoFind, t: req.demandText(r) + T.common.sep + fmt.termText(r.term_months) + TK.todoFindTail, a: 'find', orderId: '' });
+      if (r && Number(r.capacity_m3) > 0 && !this.onMine()) todos.push({ id: 'find', k: TK.todoFind, t: req.demandText(r) + T.common.sep + fmt.termText(r.term_months) + TK.todoFindTail, a: 'find', orderId: '' });
       const shown = todos.slice(0, CT.taskTodoMax), more = todos.length - shown.length;
       this.setData({ show: true, main: mainCard(m, others, now), todos: shown, moreText: more > 0 ? TK.todoMore[0] + more + TK.todoMore[1] : '' });
       // 有倒计时（待支付、支付失败、续租报价）时每秒刷新一次显示
@@ -105,22 +123,25 @@ Component({
       if (!ticking) this.stop();
     },
     stop() { if (this._t) { clearInterval(this._t); this._t = null; } },
+    // 所在页面是不是「我的」：那一页的需求卡一直显示，任务卡不再重复出「找仓进度」（D-17）
+    onMine() { const ps = typeof getCurrentPages === 'function' ? getCurrentPages() : [], cur = ps[ps.length - 1]; return !!cur && '/' + cur.route === routes.MINE; },
     go(a, orderId, storeId) {
       const id = '?id=' + orderId;
       if (a === 'pay') return wx.navigateTo({ url: routes.CONFIRM + '?order=' + orderId });
       if (a === 'fees' || a === 'order' || a === 'more') return wx.navigateTo({ url: routes.ORDER_DETAIL + id });
       if (a === 'swapUnit') return wx.navigateTo({ url: routes.STORE_DETAIL + '?id=' + storeId });
       if (a === 'restart') return wx.switchTab({ url: routes.STORES });
-      if (a === 'identity') return wx.navigateTo({ url: routes.IDENTITY + id });
+      if (a === 'identity' || a === 'identityRetry') return wx.navigateTo({ url: routes.IDENTITY + id });
       if (a === 'access') return wx.navigateTo({ url: routes.ACCESS + id });
-      if (a === 'renew' || a === 'renewQuote' || a === 'renewProgress') return wx.navigateTo({ url: routes.RENEW + id });
-      if (a === 'exit' || a === 'exitProgress') return wx.navigateTo({ url: routes.EXIT + id });
+      if (a === 'renew' || a === 'renewQuote' || a === 'renewProgress' || a === 'renewPay') return wx.navigateTo({ url: routes.RENEW + id });
+      if (a === 'exit' || a === 'exitProgress' || a === 'reinspect' || a === 'toInspect') return wx.navigateTo({ url: routes.EXIT + id });
       if (a === 'deposit') return wx.navigateTo({ url: routes.DEPOSIT + id });
       if (a === 'add') return wx.navigateTo({ url: routes.QUICK + '?store=' + storeId + '&carried=1' });
       if (a === 'notice') return wx.navigateTo({ url: routes.AGREEMENT + '?doc=notice' });
       if (a === 'lead') return wx.navigateTo({ url: routes.NEEDS });
       if (a === 'find') return wx.navigateTo({ url: routes.MATCH });
       if (a === 'unlock') return actions.unlock();
+      if (a === 'call') { const o = (this._orders || []).find((x) => x.id === orderId); return actions.call(o && o.store); }
       if (a === 'navigate') { const o = (this._orders || []).find((x) => x.id === orderId); return actions.navigate(o && o.store); }
     },
     onAction(e) { const m = this.data.main; if (m) this.go(e.currentTarget.dataset.a, m.orderId, m.storeId); },

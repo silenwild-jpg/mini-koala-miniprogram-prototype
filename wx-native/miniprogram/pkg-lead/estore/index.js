@@ -4,11 +4,13 @@
 const T = require('../../i18n/lead');
 const routes = require('../../services/routes');
 const auth = require('../../services/auth');
+const share = require('../../services/share');
 const E = T.estore;
 Page(auth.guarded(routes.ESTORE, {
   data: { T: E, flow: E.flow.map((x, i) => ({ t: x.t, s: x.s, last: i === E.flow.length - 1 })) },
   onLoad() {},
   onSelf() { wx.switchTab({ url: routes.STORES }); },
   onBanList() { wx.navigateTo({ url: routes.AGREEMENT + '?doc=usage&anchor=att2' }); },
-  onConsult() { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&source=estore' }); }
+  onConsult() { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&source=estore' }); },
+  onShareAppMessage() { return share.message(routes.ESTORE, { title: T.share.estore }); } // 转发（R-15）
 }));

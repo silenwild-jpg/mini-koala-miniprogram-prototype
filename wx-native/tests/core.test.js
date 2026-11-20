@@ -41,10 +41,24 @@ test('对照：下一折扣档 1–60 个月、满额减取档', () => {
   for (let m = 1; m <= 60; m++) assert.deepEqual(pricing.nextTier(m), G.nextTier[m], 'm=' + m);
   for (const [t, e] of Object.entries(G.fullTier)) assert.deepEqual(pricing.fullTier(Number(t)), e, 't=' + t);
 });
-test('对照：匹配判定，修复十进制80%边界', () => { for (const c of G.fit) {
-  const expected = c.v === 2.8 && c.n === 3.5 ? { state: 'near', diff: 0.7, text: '小 0.7m³' } : Object.assign({}, c.r, c.r.text ? { text: c.r.text.replace('比需求小','小') } : {});
-  assert.deepEqual(matching.fit(c.v, c.n), expected, JSON.stringify(c));
-} });
+// 匹配区间（D-230 容差 10%、FIX-01 R-11 上限 130%，两端都含）：[0.9n, 1.3n] 匹配；[0.8n, 0.9n) 接近；更小不推荐；更大单列
+test('匹配判定：容差 10%、上限 130%、接近 10%–20%，含十进制边界', () => {
+  assert.deepEqual([C.matching.tolerance, C.matching.maxOverRatio, C.matching.nearRatio], [0.1, 0.3, 0.8]);
+  const f = (v, n) => matching.fit(v, n);
+  assert.deepEqual(f(3.5, 3.5), { state: 'matched', diff: 0, text: '' });
+  assert.deepEqual(f(4, 3.5), { state: 'matched', diff: 0.5, text: '' });
+  assert.deepEqual(f(4.55, 3.5), { state: 'matched', diff: 1.05, text: '' }, '上限含端点：3.5 × 1.3 = 4.55');
+  assert.deepEqual(f(4.6, 3.5), { state: 'over', diff: 1.1 });
+  assert.deepEqual(f(16, 3.5), { state: 'over', diff: 12.5 }, '库存紧张时不再把大 4 倍的仓放进推荐（A-17）');
+  assert.deepEqual(f(3.5, 3.8), { state: 'matched', diff: -0.3, text: '小 0.3m³' }, '小 7.9%，算匹配并写明差额（A-01）');
+  assert.deepEqual(f(3.15, 3.5), { state: 'matched', diff: -0.35, text: '小 0.35m³' }, '容差含端点：3.5 × 0.9 = 3.15');
+  assert.deepEqual(f(3.1, 3.5), { state: 'near', diff: 0.4, text: '小 0.4m³' });
+  assert.deepEqual(f(2.8, 3.5), { state: 'near', diff: 0.7, text: '小 0.7m³' }, '接近含端点：3.5 × 0.8 = 2.8（十进制边界）');
+  assert.deepEqual(f(2.7, 3.5), { state: 'small' });
+  assert.deepEqual(f(5, 0), { state: 'browse' });
+  // 冻结稿对照表里不受新规则影响的行（不小于需求且不超过 130%、小于 80%）仍然一致
+  for (const c of G.fit) if ((c.v >= c.n && c.v <= c.n * 1.3) || c.v < c.n * 0.8 - 1e-9) assert.equal(f(c.v, c.n).state, c.r.state, JSON.stringify(c));
+});
 test('对照：免费运输、远距离引导句', () => {
   for (const c of G.freeTransport) assert.equal(pricing.freeTransportFor(c.km, c.m, false), c.r, JSON.stringify(c));
   for (const c of G.nudgeFar) assert.equal(pricing.nudge(c.m, { km: c.km, baseMonth: c.base }), c.r, JSON.stringify(c));
@@ -116,9 +130,15 @@ test('匹配：最小匹配仓、下一档、接近、组合、交顾问', () =>
   const mk = (id, v, st) => ({ id, volume: v, base_month: v * 100, status: st || 'available' });
   const us = [mk('a', 1), mk('b', 3), mk('c', 3.5), mk('d', 5), mk('e', 8, 'occupied')];
   let r = matching.matchStore(us, 3.2);
-  assert.equal(r.state, 'matched'); assert.equal(r.best.id, 'c'); assert.equal(r.larger.id, 'd'); assert.equal(r.near.id, 'b'); assert.equal(r.others, 1);
+  // 需求 3.2：区间 [2.88, 4.16]。3 与 3.5 都在区间内，取不小于需求的最小仓 3.5；5m³ 超上限，不作下一档，单列 over
+  assert.equal(r.state, 'matched'); assert.equal(r.best.id, 'c'); assert.equal(r.larger, null); assert.equal(r.near, null); assert.equal(r.others, 1); assert.deepEqual(r.over.map((u) => u.id), ['d']);
+  r = matching.matchStore(us, 3); assert.equal(r.best.id, 'b'); assert.equal(r.larger.id, 'c', '下一档在区间内才给');
+  r = matching.matchStore([mk('a', 1), mk('b', 3)], 3.3); assert.equal(r.state, 'matched'); assert.equal(r.best.id, 'b', '没有不小于需求的仓时，取略小（10% 以内）的');
+  // 需求 6：区间 [5.4, 7.8]。没有单仓；组合合计要落在区间内（1+5=6、3+3.5=6.5；3+5=8 超上限）
   r = matching.matchStore(us, 6);
-  assert.equal(r.state, 'combo'); assert.deepEqual(r.combos[0].units.map((u) => u.id), ['a', 'd']); assert.equal(r.near.id, 'd');
+  assert.equal(r.state, 'combo'); assert.deepEqual(r.combos.map((x) => x.units.map((u) => u.id).join('')), ['ad', 'bc']); assert.equal(r.near.id, 'd'); assert.equal(r.nearOffer, null);
+  // 需求 10：没有匹配，合计最大的组合 8.5 只够「接近」→ 作为本店最接近的方案
+  r = matching.matchStore(us, 10); assert.equal(r.state, 'near'); assert.equal(r.near, null); assert.deepEqual(r.nearOffer.map((u) => u.id), ['c', 'd']); assert.equal(r.nearCombos[0].volume, 8.5);
   assert.equal(matching.matchStore(us, 12).state, 'none');
   assert.equal(matching.matchStore(us, 30).state, 'none'); assert.equal(matching.matchStore(us, 29.99).state, 'none');
   assert.equal(matching.matchStore(us, null).state, 'browse');

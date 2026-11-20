@@ -1,12 +1,17 @@
 // 页面取数的公共上下文：登录态 + 需求 + 位置，交给 finder 生成视图模型。另放找仓各页共用的小工具（收藏、文字表裁剪、提示）。
 const state = require('./state');
 const api = require('./api');
+const auth = require('./auth');
 function ctx() { const s = state.get(); return { requirement: s.requirement, location: s.location, loggedIn: !!s.session.loggedIn }; }
 // 统一的三态包装：页面 data.sys = 'loading' | 'failed' | 'offline' | ''
+// 登录态失效（err.expired，由 api 层标记）不当成「服务不可用」：交给 auth.sessionExpired 打开登录层；页面留在失败态，登录后点重试即可
 function load(page, promise, apply) {
   page.setData({ sys: page.data.sys === '' ? '' : 'loading' });
   return promise.then((res) => { apply(res); page.setData({ sys: '' }); })
-    .catch((err) => { console.error(err); page.setData({ sys: err && err.code === 'NETWORK' ? 'offline' : 'failed' }); });
+    .catch((err) => {
+      console.error(err); page.setData({ sys: err && (err.code === 'NETWORK' || err.code === 'TIMEOUT') ? 'offline' : 'failed' }); // 取数超时与断网同样显示（真实适配器现在区分两者）
+      if (err && err.code === 'UNAUTHENTICATED' && err.expired) auth.sessionExpired(page);
+    });
 }
 const cityStores = () => api.getStores({ city: state.get().location.city });
 // 文字表里带参数的句子是函数，不能放进 data；页面用 plain() 取出其中的纯文字部分

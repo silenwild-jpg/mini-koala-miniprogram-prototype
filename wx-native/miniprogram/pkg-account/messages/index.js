@@ -7,12 +7,15 @@ const routes = require('../../services/routes');
 const auth = require('../../services/auth');
 const after = require('../../core/after');
 const M = T.messages;
+const MA = require('../../i18n/account').messages;
+// 账户域自己的消息类型（企业认证、批量开票，FIX-01 D-07）：不经租后的分类表，否则会被归到「咨询」并跳到预约记录
+const ACC_CAT = { ent_cert: 'entCert', ent_batch: 'entBatch' };
 // 分类 → 去向。带订单号的进对应订单的页面；受限页走登录守卫
-const DEST = { renew: 'RENEW', exit: 'EXIT', deposit: 'DEPOSIT', invoice: 'INVOICE', identity: 'IDENTITY', access: 'ACCESS', transport: 'TRANSPORT', lead: 'NEEDS', order: 'ORDER_DETAIL' };
+const DEST = { renew: 'RENEW', exit: 'EXIT', deposit: 'DEPOSIT', invoice: 'INVOICE', identity: 'IDENTITY', access: 'ACCESS', transport: 'TRANSPORT', lead: 'NEEDS', order: 'ORDER_DETAIL', entCert: 'ENT_CERT', entBatch: 'ENT_BATCH' };
 
 function build(list) {
   return (list || []).map((m, i) => {
-    const cat = after.messageCategory(m), c = M.cat[cat] || M.cat.notice, t = Number(m.created_at || m.createdAt || 0);
+    const cat = ACC_CAT[String(m.type || '')] || after.messageCategory(m), c = MA.cat[cat] || M.cat[cat] || M.cat.notice, t = Number(m.created_at || m.createdAt || 0);
     const noTarget = cat === 'notice' || (cat === 'order' && !m.order_id);
     return { id: String(m.id || i), unread: !m.read, cat, tag: c.tag, time: t > 0 ? after.mdhm(t) : '', title: m.title || M.fallback, text: m.text || '', link: noTarget ? '' : c.link, orderId: m.order_id || '' };
   });
@@ -40,7 +43,7 @@ Page(auth.guarded(routes.MESSAGES, {
     const row = this.data.list[e.currentTarget.dataset.i];
     if (!row || !row.link) return;
     const name = DEST[row.cat]; if (!name) return;
-    const url = routes[name] + (row.orderId && name !== 'TRANSPORT' && name !== 'NEEDS' ? '?id=' + row.orderId : '');
+    const url = routes[name] + (row.orderId && name !== 'TRANSPORT' && name !== 'NEEDS' && name !== 'ENT_CERT' && name !== 'ENT_BATCH' ? '?id=' + row.orderId : '');
     auth.navigate(this, url);
   },
   onLogin() { auth.openLogin(this); },

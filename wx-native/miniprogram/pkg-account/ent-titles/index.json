@@ -1,1 +1,1 @@
-{ "navigationBarTitleText": "开票抬头管理", "usingComponents": { "acc-dialog": "../acc-dialog/index" } }
+{ "navigationBarTitleText": "开票抬头", "usingComponents": { "acc-dialog": "../acc-dialog/index" } }

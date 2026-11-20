@@ -8,7 +8,9 @@
 .lab-row:last-child { border-bottom: 0; }
 .lab-nm { display: block; font-weight: var(--mk-font-weight-medium); }
 .lab-on { flex: none; margin: 0 0 0 var(--mk-space-2); }
-.mk-btn.mk-btn.lab-home { margin-top: var(--mk-space-3); }
+.lab-jump { display: flex; flex-wrap: wrap; }
+.lab-jump-i { margin-bottom: var(--mk-space-2); }
+.mk-btn.mk-btn.lab-reset { margin-top: var(--mk-space-2); }
 .lab-sec { display: block; }
 .lab-gap { margin-top: var(--mk-space-3); flex-wrap: wrap; }
 .mk-btn.mk-btn.lab-inl { margin-right: var(--mk-space-2); }

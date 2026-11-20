@@ -33,6 +33,7 @@
           </picker>
         </mk-field>
         <text class="af-rule">{{form.rule}}</text>
+        <text wx:if="{{form.tip}}" class="af-rule">{{form.tip}}</text>
       </view>
       <view wx:if="{{depositRows.length}}" class="mk-card af-gap"><mk-after-kv rows="{{depositRows}}" /></view>
       <view wx:if="{{plan.length}}" class="mk-card af-gap">
@@ -51,6 +52,9 @@
           <text wx:if="{{!sub.ok}}" class="mk-link ex-subbtn" bindtap="onSubAsk" aria-role="button">{{T.c.subOn}}</text>
         </view>
       </mk-notice>
+      <view wx:if="{{canWithdraw}}" class="af-alt">
+        <view class="af-altbtn" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onWithdraw" aria-role="button">{{T.x.withdraw}}</view>
+      </view>
     </view>
   <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
     <view wx:if="{{bar.lab}}" class="af-bar-info">
@@ -65,6 +69,14 @@
       <view class="ex-acts">
         <button class="mk-btn af-btn--neutral ex-act" hover-class="mk-btn--plainHover" bindtap="onConfirmClose">{{T.x.think}}</button>
         <button class="mk-btn af-btn--danger ex-act" hover-class="mk-btn--dimHover" bindtap="onConfirm">{{T.x.confirm}}</button>
+      </view>
+    </mk-sheet>
+    <mk-sheet visible="{{early}}" title="{{T.x.earlyTitle}}" bind:close="onEarlyClose">
+      <text class="af-rule ex-early">{{earlyText}}</text>
+      <mk-after-kv rows="{{earlyRows}}" bind:link="onAgreement" />
+      <view class="ex-acts">
+        <button class="mk-btn af-btn--neutral ex-act" hover-class="mk-btn--plainHover" bindtap="onEarlyClose">{{T.x.think}}</button>
+        <button class="mk-btn af-btn--danger ex-act" hover-class="mk-btn--dimHover" bindtap="onEarlyConfirm">{{T.x.earlyConfirm}}</button>
       </view>
     </mk-sheet>
   </block>

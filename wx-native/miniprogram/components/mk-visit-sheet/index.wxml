@@ -5,7 +5,7 @@
     <view class="vs-ok"><image class="mk-icon mk-icon--md" src="/assets/icons/check-brand.svg" /></view>
     <text class="mk-h2">{{T.doneTitle}}</text>
     <text class="vs-line">{{T.doneSub}}</text>
-    <text class="mk-sub mk-num vs-line">{{success.phone}} · {{success.date}} · {{success.slot}}</text>
+    <text class="mk-sub mk-num vs-line">{{success.line}}</text>
     <text class="mk-t-hint mk-num vs-line">{{T.no}}{{success.no}}</text>
     <button class="mk-btn vs-done" hover-class="mk-btn--hover" bindtap="onClose">{{T.done}}</button>
   </view>
@@ -14,17 +14,18 @@
       <button wx:if="{{!phoneMasked}}" class="mk-btn mk-btn--ghost mk-btn--md vs-wx" hover-class="mk-btn--ghostHover" bindtap="onWechat">{{T.useWechat}}</button>
       <input class="vs-field vs-phone-field {{phoneError ? 'vs-field--error' : ''}}" type="number" maxlength="11" value="{{phone}}" placeholder="{{phoneMasked ? T.phonePhOptional : T.phonePh}}" placeholder-class="mk-t-off" bindinput="onPhone" bindblur="onPhoneBlur" focus="{{phoneFocus}}" cursor-spacing="120" aria-label="{{T.phone}}{{phoneError ? '，' + phoneError : ''}}" disabled="{{busy || unknown}}" />
     </mk-field>
-    <mk-field label="{{T.when}}">
-      <view class="vs-dates"><view wx:for="{{dates}}" wx:key="label" class="mk-chip {{dateIndex === index ? 'mk-chip--on' : ''}}" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" data-i="{{index}}" bindtap="onDateQuick" aria-role="radio" aria-checked="{{dateIndex === index}}">{{item.label}}</view></view>
+    <mk-field label="{{T.when}}" error="{{dateError}}">
+      <view class="vs-dates"><view wx:for="{{dates}}" wx:key="label" class="mk-chip {{dateIndex === index ? 'mk-chip--on' : ''}}" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" data-i="{{index}}" bindtap="onDateQuick" aria-role="checkbox" aria-checked="{{dateIndex === index}}">{{item.label}}</view></view>
       <view class="vs-pickers">
         <picker mode="date" start="{{dateMin}}" value="{{date}}" bindchange="onDate" disabled="{{busy || unknown}}"><view class="vs-field vs-pick"><text class="mk-grow mk-num {{date ? '' : 'mk-t-off'}}">{{date || T.otherDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view></picker>
         <picker range="{{slots}}" value="{{slotIndex}}" bindchange="onSlot" disabled="{{busy || unknown}}"><view class="vs-field vs-pick"><text class="mk-grow">{{slots[slotIndex]}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view></picker>
       </view>
     </mk-field>
-    <mk-field label="{{T.intent}}" mark="{{T.optional}}" error="{{error}}">
+    <mk-field label="{{T.intent}}" mark="{{T.optional}}" error="{{capError}}">
       <picker range="{{units}}" range-key="label" value="{{unitIndex}}" bindchange="onUnit" disabled="{{busy || unknown}}"><view class="vs-field vs-pick"><text class="mk-grow">{{units[unitIndex].label}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view></picker>
       <view class="vs-field vs-pick"><input class="mk-grow vs-cap" type="digit" maxlength="-1" placeholder="{{T.capPh}}" placeholder-class="mk-t-off" value="{{capacity}}" bindinput="onCapacity" disabled="{{busy || unknown}}" /><text class="mk-sub">{{T.m3}}</text></view>
     </mk-field>
+    <text wx:if="{{error}}" class="mk-error vs-err">{{error}}</text>
     <button class="mk-btn vs-submit" hover-class="mk-btn--hover" loading="{{busy}}" disabled="{{busy}}" bindtap="onSubmit">{{unknown ? T.recheck : T.submit}}</button>
     <text class="mk-t-hint vs-note">{{T.note}}</text>
   </block>

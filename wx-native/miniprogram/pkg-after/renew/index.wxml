@@ -7,6 +7,7 @@
   <block wx:else>
     <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
     <view class="af-body">
+      <mk-notice wx:if="{{over}}" text="{{over}}" tone="warn" />
       <mk-notice wx:if="{{note && st === 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}" />
       <mk-order-card order="{{order}}" />
       <view wx:if="{{steps.length}}" class="mk-card af-gap rn-top">
@@ -53,7 +54,7 @@
         <mk-after-kv wx:if="{{card.kv.length}}" rows="{{card.kv}}" />
         <text wx:if="{{card.rule}}" class="af-rule">{{card.rule}}</text>
       </view>
-      <mk-after-fail wx:if="{{fail}}" title="{{T.r.failTitle}}" reason="{{order.renew.fail_reason}}" fixes="{{T.r.failFixes}}" bind:call="onCall" />
+      <mk-after-fail wx:if="{{fail}}" title="{{T.r.failTitle}}" reason="{{order.renew.fail_reason}}" note="{{T.r.failNote}}" fixes="{{T.r.failFixes}}" bind:call="onCall" />
       <view wx:if="{{alt.length}}" class="rn-alt">
         <view wx:for="{{alt}}" wx:key="act" class="rn-altbtn" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" data-act="{{item.act}}" bindtap="onAlt" aria-role="button">{{item.text}}</view>
       </view>

@@ -16,6 +16,8 @@ const api = require('../../services/api');
 const routes = require('../../services/routes');
 const order = require('../../core/order');
 const pd = require('../../services/page-data');
+const flow = require('../../services/estimate-flow');
+const share = require('../../services/share');
 const R = C.requirement, K = T.cap, ERR = K.err;
 const round2 = (n) => Number(Number(n).toFixed(2));
 Page({
@@ -44,6 +46,7 @@ Page({
       this.setData({ src: 'edited' }); this.evaluate();
     }
   },
+  onShareAppMessage() { return share.message(routes.CAPACITY); },
   onRetry() { this.setData({ sys: 'loading' }); pd.load(this, api.getSpaceReference(), (res) => { this._bands = (res && res.bands) || []; this.evaluate(); }); },
   evaluate() {
     const d = this.data, v = req.validate(d.unit, d.raw), est = (state.get().draft || {}).est;
@@ -115,6 +118,7 @@ Page({
     if (d.src === 'items' && est) { need.source = 'items'; need.est = est; } // 仍是物品估算值：仓位推荐页写明估算关系
     state.setRequirement(need);
     this.setData({ raw: String(v.input_value) });
+    if (flow.finish()) return; // 从附近门店 / 门店详情来估算：回到出发页（FIX-01 R-19）
     const pages = getCurrentPages();
     if (pages.length > 1 && '/' + pages[pages.length - 2].route === routes.MATCH) wx.navigateBack(); else wx.redirectTo({ url: routes.MATCH });
   }

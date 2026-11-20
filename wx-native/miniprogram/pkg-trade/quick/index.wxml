@@ -8,7 +8,8 @@
   <view wx:if="{{sys === 'loading'}}" class="mk-gutter"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:else class="mk-gutter">
-    <mk-notice wx:if="{{gone}}" plain="{{true}}" tone="err" title="{{T.goneTitle}}" text="{{T.goneDesc}}" />
+    <mk-notice wx:if="{{gone && held}}" plain="{{true}}" tone="warn" title="{{T.heldTitle}}" text="{{T.heldDesc}}" link="{{T.heldLink}}" bind:link="onHeld" />
+    <mk-notice wx:elif="{{gone}}" plain="{{true}}" tone="err" title="{{T.goneTitle}}" text="{{T.goneDesc}}" />
     <view class="mk-card">
       <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/pin-brand.svg" /><text class="mk-title qk-ctt">{{T.store}}</text></view>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-between qk-loc" bindtap="onLocation" aria-role="button">
@@ -16,7 +17,8 @@
         <view class="mk-row"><text>{{locText}}</text><text class="mk-link qk-change">{{T.change}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
       </view>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="qk-pick" bindtap="onStoreSheet" aria-role="button">
-        <view class="qk-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
+        <image wx:if="{{store && store.photo}}" class="qk-ph qk-img" src="{{store.photo}}" mode="aspectFill" />
+        <view wx:else class="qk-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
         <view class="mk-grow">
           <view class="mk-ellipsis {{store ? 'mk-title' : 'qk-hint'}}">{{store ? store.name : T.pickStore}}</view>
           <view class="mk-sub mk-ellipsis qk-line2">{{store ? store.sub : storeHint}}</view>
@@ -29,7 +31,8 @@
     <view class="mk-card">
       <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /><text class="mk-title qk-ctt">{{T.unit}}</text></view>
       <view class="qk-pick qk-pick--plain">
-        <view class="qk-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /></view>
+        <image wx:if="{{unit && unit.thumb}}" class="qk-ph qk-img" src="{{unit.thumb}}" mode="aspectFill" />
+        <view wx:else class="qk-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /></view>
         <view class="mk-grow">
           <view class="mk-ellipsis {{unit ? 'mk-title' : 'qk-hint'}}">{{unit ? unit.name : T.pickUnit}}</view>
           <view class="mk-sub qk-line2">{{unit ? unit.sub : unitHint}}</view>
@@ -48,6 +51,7 @@
       <picker mode="date" value="{{startDate}}" start="{{startMin}}" end="{{startMax}}" bindchange="onDate">
         <view class="qk-date"><text class="{{startDate ? '' : 'qk-hint'}}">{{startDate || T.pickDate}}</text><image class="mk-icon" src="/assets/icons/cal-ink.svg" /></view>
       </picker>
+      <view class="mk-mute qk-datenote">{{T.dateNote}}</view>
     </view>
     <view wx:if="{{est}}" class="mk-card qk-est">
       <view class="mk-grow">

@@ -1,8 +1,8 @@
 <view class="mk-page cf-page {{bar.showAgree ? 'cf-page--agree' : ''}}">
   <view wx:if="{{sys === 'loading'}}" class="mk-gutter cf-body"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
-  <mk-empty wx:elif="{{mode === 'empty'}}" icon="/assets/icons/order-sub.svg" title="{{T.emptyTitle}}" sub="{{T.emptyDesc}}">
-    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onBackHome">{{T.backHome}}</button>
+  <mk-empty wx:elif="{{mode === 'empty'}}" icon="/assets/icons/order-sub.svg" title="{{emptyKind === 'order' ? TO.emptyTitle : T.emptyTitle}}">
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onEmptyBtn">{{emptyKind === 'order' ? TO.backOrders : T.emptyBtn}}</button>
   </mk-empty>
   <view wx:else class="mk-gutter cf-body">
     <view wx:if="{{head}}" class="cf-head">
@@ -11,6 +11,7 @@
         <text wx:for="{{headSubs}}" wx:key="*this" class="mk-sub cf-subitem">{{item}}</text>
         <view wx:if="{{clock}}" class="cf-subitem"><text class="mk-sub">{{T.left}}</text><text class="mk-num cf-clock">{{clock}}</text></view>
       </view>
+      <view wx:if="{{head.reason}}" class="cf-why">{{head.reason}}</view>
       <view class="mk-sub">{{head.note}}</view>
     </view>
     <mk-notice wx:if="{{recheck}}" title="{{recheck.title}}" tone="{{recheck.ok ? '' : 'warn'}}">
@@ -19,9 +20,11 @@
         <view class="mk-row"><image class="mk-icon cf-checkicon" src="/assets/icons/{{item.ok ? 'check-brand' : 'close-ink'}}.svg" /><text class="{{item.ok ? '' : 'mk-error'}}">{{item.v}}</text></view>
       </view>
     </mk-notice>
-    <mk-notice wx:if="{{quoteExpired}}" tone="warn" title="{{T.quoteExpired}}" text="{{T.quoteExpiredSub}}" link="{{T.refreshQuote}}" bind:link="onRefreshQuote" />
-    <mk-notice wx:if="{{gone}}" plain="{{true}}" tone="err" title="{{T.goneTitle}}" text="{{T.goneDesc}}" />
+    <mk-notice wx:if="{{quoteExpired}}" tone="warn" title="{{T.quoteExpired}}" />
+    <mk-notice wx:if="{{held}}" plain="{{true}}" tone="warn" title="{{T.heldTitle}}" text="{{T.heldDesc}}" />
+    <mk-notice wx:elif="{{gone}}" plain="{{true}}" tone="err" title="{{T.goneTitle}}" text="{{T.goneDesc}}" />
     <mk-order-card order="{{cardOrder}}" show-km="{{true}}" swap="{{swapText}}" editable="{{editable}}" hint="{{hint}}" dead="{{dead}}" bind:swap="onSwap" bind:term="onTerm" bind:date="onDate" />
+    <view wx:if="{{mode === 'compose' && editable}}" class="mk-mute cf-startnote">{{T.startNote}}</view>
     <view wx:if="{{dead}}">
       <view wx:if="{{alts.length}}" class="mk-card cf-card">
         <view class="mk-between cf-sectitle"><text class="mk-title">{{T.altTitle}}</text><text class="mk-sub">{{T.altBy}}</text></view>
@@ -34,7 +37,7 @@
       <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="mk-btn--ghostHover" bindtap="onAdvisor">{{T.btnAdvisor}}</button>
     </view>
     <view wx:else>
-      <mk-fee-detail order="{{cardOrder}}" editable="{{couponEditable}}" show-coupon="{{true}}" locked="{{locked}}" no-saved="{{!!price}}" total-label="{{T.payable}}" placeholder="{{feePlaceholder}}" note="{{feeNote}}" bind:coupon="onCoupon" />
+      <mk-fee-detail order="{{cardOrder}}" editable="{{couponEditable}}" show-coupon="{{true}}" locked="{{locked}}" no-saved="{{!!price}}" total-label="{{T.payable}}" placeholder="{{feePlaceholder}}" note="{{feeNote}}" coupon-text="{{couponText}}" bind:coupon="onCoupon" />
       <view class="mk-card cf-card mk-between cf-kv">
         <text class="mk-sub">{{T.contact}}</text>
         <view class="mk-row"><text class="cf-kvv">{{contactText}}</text><text wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onContact" aria-role="button">{{T.contactSwap}}</text></view>
@@ -75,8 +78,8 @@
   </view>
 
   <mk-sheet visible="{{sheet === 'idv'}}" title="{{T.idvTitle}}" bind:close="onSheetClose">
-    <mk-field label="{{T.idvName}}">
-      <view class="cf-field"><input class="cf-input" type="text" maxlength="20" placeholder="{{T.idvNamePh}}" placeholder-class="mk-t-off" value="{{idvName}}" disabled="{{idvChecking}}" bindinput="onIdvName" /></view>
+    <mk-field label="{{T.idvName}}" error="{{idvNameError}}">
+      <view class="cf-field {{idvNameError ? 'cf-field--err' : ''}}"><input class="cf-input" type="text" maxlength="20" placeholder="{{T.idvNamePh}}" placeholder-class="mk-t-off" value="{{idvName}}" disabled="{{idvChecking}}" bindinput="onIdvName" /></view>
     </mk-field>
     <mk-field label="{{T.idvNo}}" error="{{idvError}}">
       <view class="cf-field {{idvError ? 'cf-field--err' : ''}}"><input class="cf-input" type="idcard" maxlength="18" placeholder="{{T.idvNoPh}}" placeholder-class="mk-t-off" value="{{idvNo}}" disabled="{{idvChecking}}" bindinput="onIdvNo" /></view>
@@ -94,7 +97,7 @@
     </view>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'fees'}}" title="{{feesTitle}}" bind:close="onSheetClose">
-    <mk-fee-detail order="{{cardOrder}}" plain="{{true}}" show-coupon="{{true}}" locked="{{locked}}" total-label="{{T.payable}}" />
+    <mk-fee-detail order="{{cardOrder}}" plain="{{true}}" show-coupon="{{true}}" locked="{{locked}}" total-label="{{T.payable}}" coupon-text="{{couponText}}" />
     <button class="mk-btn cf-sheetbtn" hover-class="mk-btn--hover" bindtap="onSheetClose">{{TC.know}}</button>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'pay'}}" title="{{T.payTitle}}" bind:close="onPayLater">

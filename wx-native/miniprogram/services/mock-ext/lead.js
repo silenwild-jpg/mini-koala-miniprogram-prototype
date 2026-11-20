@@ -151,6 +151,7 @@ const methods = {
     const x = find(p.id);
     if (!x) return fail('NOT_FOUND', '这条需求已不存在');
     if (x.status === lead.STATUS.WITHDRAWN) return fail('CONFLICT', '该需求已撤回');
+    if (x.type === T.VISIT) return fail('INVALID', '看仓预约不能修改地址，可撤回后重新预约'); // 看仓线索的 address 是门店地址，不能被改掉（FIX-01 D-08）
     const address = str(p.address, 10 * L.addressMax);
     if (!lead.validAddress(address, x.type !== T.ADVISOR)) return fail('INVALID', '请填写用仓位置（不超过120字）', 'address');
     x.address = address; x.note = str(p.note, L.noteMax); x.updated_at = Date.now();

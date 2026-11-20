@@ -7,6 +7,9 @@
   <block wx:else>
     <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
     <view class="af-body">
+      <view wx:if="{{picks.length}}" class="mk-card af-gap dp-switch" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onPick" aria-role="button">
+        <text class="mk-sub mk-grow">{{pickCount}}</text><text class="mk-link">{{T.d.switchOrder}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+      </view>
       <view class="mk-card af-gap">
         <text class="mk-sub">{{T.d.amountLabel}}</text>
         <text class="mk-num dp-amt">{{amount}}</text>
@@ -37,6 +40,12 @@
     <mk-sheet visible="{{sheet}}" title="{{T.d.sheet}}" bind:close="onSheetClose">
       <mk-after-steps steps="{{sheetSteps}}" />
       <view class="af-acts"><button class="mk-btn af-btn--neutral" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.known}}</button></view>
+    </mk-sheet>
+    <mk-sheet visible="{{pickSheet}}" title="{{T.d.switchTitle}}" bind:close="onPickClose">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{picks}}" wx:key="id" class="dp-opt {{item.on ? 'dp-opt--on' : ''}}" data-id="{{item.id}}" bindtap="onPickOrder" aria-role="button">
+        <view class="mk-grow dp-opt-main"><text class="dp-opt-t mk-ellipsis">{{item.t}}</text><text class="mk-sub dp-opt-s">{{item.s}}</text></view>
+        <mk-after-tag text="{{item.tag}}" tone="{{item.tone}}" />
+      </view>
     </mk-sheet>
   </block>
 </view>

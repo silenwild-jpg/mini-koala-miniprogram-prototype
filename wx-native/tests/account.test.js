@@ -50,20 +50,20 @@ test('接口：涉及个人数据的接口未登录一律拒绝；未登录取�
   assert.deepEqual(await api.getBrandInfo(), { proof_images: [] });
 });
 
-test('优惠与权益：空态 → 领取 → 可使用；券随订单变为已锁定 / 已使用；已有付款订单时首次租仓券不可用', async () => {
+test('优惠与权益：空态 → 领取 → 可使用；券随订单变为已锁定 / 已使用；已有付款订单不影响其他券（R-14）', async () => {
   fresh(true, false);
   let pg = await page('COUPONS');
-  assert.equal(pg.data.empty, true); assert.equal(pg.data.T.notice, '租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车辆运输费。');
+  assert.equal(pg.data.empty, true); assert.equal(pg.data.notice, '租金券不抵扣押金和管理费。免费运输：用仓位置距门店 5km 及以上、租期满 6 个月、折扣不低于 6 折的订单可用，特价仓不参与；含 1 次车辆运输费，搬运、拆装、楼梯费另计。');
   pg.onClaim(); await tick();
-  assert.deepEqual(pg.data.coupons.map((c) => [c.name, c.amount, c.tag, c.canUse, c.condition, c.valid]), [['新客租仓券', '¥200', '可使用', true, '首次租仓，整期租金满2000元', ''], ['12个月长租券', '¥300', '可使用', true, '首次租仓，租期满12个月', '']]);
+  assert.deepEqual(pg.data.coupons.map((c) => [c.name, c.amount, c.tag, c.canUse, c.condition, c.valid]), [['新客租仓券', '¥200', '可使用', true, '整期租金满2000元', ''], ['12个月长租券', '¥300', '可使用', true, '租期满12个月', '']]);
   assert.deepEqual(pg.data.benefits.map((b) => [b.name, b.tag]), [['免费运输 1 次', '下单时可用']]);
   assert.equal(rules.benefitCount(await api.getBenefits()), 3);
   pg.onUse(); assert.deepEqual(env.nav.pop(), { kind: 'switchTab', url: routes.STORES });
-  // 订单用了券：待支付 → 已锁定；付款后 → 已使用，另一张首次租仓券 → 不可用
+  // 订单用了券：待支付 → 已锁定；付款后 → 已使用，另一张券仍可使用（FIX-01 R-14：不因已有付款订单变不可用）
   db.orders.push({ id: 'MK1', stage: order.STAGE.PENDING, quote: { coupon_id: 'CPN-002' }, pay: { paid_at: 0 } });
   pg = await page('COUPONS'); assert.deepEqual(pg.data.coupons.map((c) => c.tag), ['可使用', '已锁定']);
   db.orders[0].stage = order.STAGE.ACTIVE; db.orders[0].pay.paid_at = Date.now();
-  pg = await page('COUPONS'); assert.deepEqual(pg.data.coupons.map((c) => [c.tag, c.off, c.canUse]), [['不可用', true, false], ['已使用', true, false]]);
+  pg = await page('COUPONS'); assert.deepEqual(pg.data.coupons.map((c) => [c.tag, c.off, c.canUse]), [['可使用', false, true], ['已使用', true, false]]);
 });
 
 test('优惠与权益：未登录不显示金额，「登录后查看金额」「领取」都打开登录层', async () => {
@@ -159,9 +159,9 @@ test('我的：未登录各入口的行为；登录守卫落点逻辑保留', as
   fresh(false, false);
   const pg = await page('MINE');
   assert.equal(pg.data.headTitle, '欢迎使用迷你考拉'); assert.equal(pg.data.headSub, '查看订单与用仓服务'); assert.equal(pg.data.showNew, true); assert.equal(pg.data.sys, '');
-  assert.deepEqual(pg.data.groups.map((g) => [g.title, g.items.map((i) => i.t)]), [['我的记录', ['预约用仓', '找仓进度']], ['服务与权益', ['我的收藏', '优惠与权益', '消息']], ['账务与企业', ['发票与抬头', '押金', '企业认证']], ['更多服务', ['运输与搬运', '推荐有礼', '联系顾问', '关于迷你考拉']]]);
+  assert.deepEqual(pg.data.groups.map((g) => [g.title, g.items.map((i) => i.t)]), [['我的记录', ['预约用仓', '找仓进度']], ['服务与权益', ['我的收藏', '优惠与权益', '消息']], ['账务与企业', ['开票抬头', '批量开票', '押金', '企业认证']], ['更多服务', ['运输与搬运', '推荐有礼', '联系顾问', '关于迷你考拉']]]);
   assert.equal(pg.data.groups[0].items[1].s, '尚无保存的需求'); assert.ok(pg.data.groups.every((g) => g.items.every((i) => i.count === 0)));
-  for (const k of ['ENT_TITLES', 'DEPOSIT', 'ENT_CERT']) { pg.setData({ loginVisible: false }); env.nav.length = 0; pg.onItem(tap({ k })); assert.equal(pg.data.loginVisible, true, k); assert.equal(env.nav.length, 0, k); }
+  for (const k of ['ENT_TITLES', 'ENT_BATCH', 'DEPOSIT', 'ENT_CERT']) { pg.setData({ loginVisible: false }); env.nav.length = 0; pg.onItem(tap({ k })); assert.equal(pg.data.loginVisible, true, k); assert.equal(env.nav.length, 0, k); }
   for (const k of ['NEEDS', 'PROGRESS', 'FAVORITES', 'COUPONS', 'MESSAGES', 'TRANSPORT', 'REFERRAL', 'SUPPORT', 'BRAND']) { env.nav.length = 0; pg.onItem(tap({ k })); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes[k] }], k); }
   pg.setData({ loginVisible: false }); pg.onHead(); assert.equal(pg.data.loginVisible, true);
   pg.onNewCta(); assert.deepEqual(env.nav.pop(), { kind: 'switchTab', url: routes.STORES });
@@ -179,7 +179,7 @@ test('我的：已登录 —— 掩码手机号、角标、多处在租时的「
   assert.equal(pg.data.headTitle, '我的迷你考拉'); assert.equal(pg.data.headSub, '138****8000'); assert.equal(pg.data.showNew, false);
   const row = (k) => pg.data.groups.reduce((a, g) => a.concat(g.items), []).find((i) => i.k === k);
   assert.equal(row('PROGRESS').s, '2㎡ · 约4.8m³ · 6个月'); assert.equal(row('FAVORITES').count, 2);
-  assert.equal(row('COUPONS').count, 1, '有付款订单时两张首次租仓券不可用，只剩服务权益'); assert.equal(row('MESSAGES').count, (await api.getMessagesUnread()).unread);
+  assert.equal(row('COUPONS').count, 3, 'FIX-01 R-14：有付款订单时两张新客券仍可用，加 1 项服务权益'); assert.equal(row('MESSAGES').count, (await api.getMessagesUnread()).unread);
   assert.equal(pg.data.assets.length, 2); assert.equal(pg.data.assetsAll, '查看全部 3处');
   assert.deepEqual(pg.data.assets.map((a) => a.tag), ['即将到期', '租用中']); assert.match(pg.data.assets[1].line, /^12个月 · 至 \d{4}-\d{2}-\d{2}$/);
   env.nav.length = 0; pg.onAsset(tap({ id: pg.data.assets[0].id })); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.ORDER_DETAIL + '?id=' + pg.data.assets[0].id });
@@ -212,7 +212,7 @@ test('企业认证：还需填写 → 校验 → 提交 → 审核中 → 已认
   pastReview(db.kv.account.cert);
   const p2 = await page('ENT_CERT');
   assert.equal(p2.data.status, 'failed'); assert.equal(p2.data.head.title, '认证未通过'); assert.deepEqual(p2.data.steps.map((s) => s.cls), ['done', 'fail', '']); assert.equal(p2.data.reason, '原因：营业执照照片不清晰'); // 演示环境给一条样例原因（_db.REASON.cert）
-  p2.onFix(); assert.equal(p2.data.view, 'form'); assert.equal(p2.data.form.tax, '91110105MA01K7XQ3R'); assert.equal(p2.data.need, '还需填写：联系人');
+  p2.onFix(); assert.equal(p2.data.view, 'form'); assert.equal(p2.data.form.tax, '91110105MA01K7XQ3R'); assert.equal(p2.data.need, '还需填写：营业执照、联系人', 'FIX-01 D-06：未通过后要重新上传营业执照'); assert.equal(p2.data.form.licenseCount, 0);
   p2.onShow(); await tick(); assert.equal(p2.data.view, 'form', '选图返回触发 onShow 时不跳回结果页');
   p2.onAdvisor(); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.SUPPORT });
   await assert.rejects(api.submitEntCert({ name: 'x', tax: '123', licenseCount: 1, contact: 'a', phone: '13800000001' }), (e) => e.code === 'INVALID' && e.fields[0] === 'tax');
@@ -278,7 +278,7 @@ test('批量开票：未认证拦截；暂无可开票订单；选择 → 确认
   cf.onChangeTitle(); assert.equal(cf.data.title.name, '安贞商贸有限公司', '演示环境的选择框默认选第一项');
   cf.onSubmit(); assert.equal(cf.data.submitText, '提交中…'); cf.onSubmit(); await tick();
   assert.equal(cf.data.view, 'result'); assert.deepEqual([cf.data.result.title, cf.data.result.tag, cf.data.result.sub], ['开票申请已提交', '处理中', '开具后发送到 caiwu@163.com']);
-  assert.deepEqual(cf.data.result.steps.map((s) => s.cls), ['done', 'cur', '']); assert.equal(cf.data.result.steps[1].s, '处理时限请咨询客服');
+  assert.deepEqual(cf.data.result.steps.map((s) => s.cls), ['done', 'cur', '']); assert.equal(cf.data.result.steps[1].s, '1 天内开具', 'FIX-01 R-02');
   assert.equal(cf.data.result.count, '2 笔'); assert.equal(cf.data.result.amount, rules.money(amt(o0) + amt(o1))); assert.equal(db.kv.account.batches.length, 1, '连点两次只提交一笔');
   assert.equal(rules.invoiceable(await api.getOrders()).length, 2, '已申请的订单不再可选');
   cf.onOrders(); assert.deepEqual(env.nav.pop(), { kind: 'switchTab', url: routes.ORDERS });
@@ -314,16 +314,16 @@ test('企业三页与推荐有礼：未登录时不取个人数据，先登录',
   }
   fresh(false, false);
   const pg = await page('REFERRAL');
-  assert.equal(pg.data.loggedIn, false); assert.equal(pg.data.code, ''); assert.equal(pg.sharePath(), routes.HOME);
+  assert.equal(pg.data.loggedIn, false); assert.equal(pg.data.code, ''); assert.deepEqual(pg.onShareAppMessage(), { title: '迷你考拉仓', path: routes.HOME });
   pg.onLogin(); assert.equal(pg.data.loginVisible, true);
 });
 
-test('推荐有礼：已登录复制分享链接；失败有提示；不出现奖励金额', async () => {
+test('推荐有礼：已登录转发带邀请码、复制邀请码；失败有提示；不出现奖励金额', async () => {
   fresh(true, false);
   const pg = await page('REFERRAL');
-  assert.equal(pg.data.code, 'MK8000'); assert.equal(pg.sharePath(), routes.HOME + '?ref=MK8000'); assert.deepEqual(pg.onShareAppMessage(), { title: '迷你考拉仓', path: routes.HOME + '?ref=MK8000' });
+  assert.equal(pg.data.code, 'MK8000'); assert.deepEqual(pg.onShareAppMessage(), { title: '迷你考拉仓', path: routes.HOME + '?ref=MK8000' });
   let copied = ''; wx.setClipboardData = (o) => { if (env.mode === 'ok') { copied = o.data; o.success(); } else o.fail({ errMsg: 'fail' }); };
-  pg.onCopy(); assert.equal(copied, routes.HOME + '?ref=MK8000'); assert.ok(toasts.includes('链接已复制'));
+  pg.onCopy(); assert.equal(copied, 'MK8000', 'FIX-01 D-12：复制的是邀请码，不是页面路径'); assert.ok(toasts.includes('邀请码已复制'));
   env.mode = 'fail'; pg.onCopy(); env.mode = 'ok'; assert.ok(toasts.includes(TA.referral.copyFailed));
   assert.deepEqual([TA.referral.noticeTitle, TA.referral.noticeSub], ['活动筹备中', '活动开始后，规则与奖励会在这里更新。']);
   assert.ok(!/¥|元|\d+\s*%/.test(JSON.stringify(TA.referral)));

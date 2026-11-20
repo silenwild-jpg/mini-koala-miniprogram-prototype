@@ -1,6 +1,6 @@
 <view wx:if="{{show}}" class="tk-wrap">
-  <view class="mk-card tk-card {{main.strong ? 'tk-card--strong' : ''}}">
-    <view class="tk-kicker">{{main.kicker}}</view>
+  <view wx:if="{{main}}" class="mk-card tk-card {{main.strong ? 'tk-card--strong' : ''}}">
+    <view wx:if="{{main.kicker}}" class="tk-kicker">{{main.kicker}}</view>
     <view class="tk-head">
       <view class="mk-grow">
         <view class="mk-title {{main.strong ? 'tk-title--strong' : ''}}">{{main.title}}</view>

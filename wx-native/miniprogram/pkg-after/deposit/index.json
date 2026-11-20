@@ -5,6 +5,7 @@
     "mk-after-head": "/components/mk-after-head/index",
     "mk-after-steps": "/components/mk-after-steps/index",
     "mk-after-kv": "/components/mk-after-kv/index",
-    "mk-after-fail": "/components/mk-after-fail/index"
+    "mk-after-fail": "/components/mk-after-fail/index",
+    "mk-after-tag": "/components/mk-after-tag/index"
   }
 }

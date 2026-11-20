@@ -155,7 +155,7 @@ test('订单阶段判定：5 笔演示订单各落在不同阶段；下单时未
   const os = await api.getOrders(), now = Date.now();
   assert.deepEqual(os.map((o) => view.phase(o, now)), ['active', 'expiring', 'identity', 'pending', 'ended']);
   assert.deepEqual(os.map((o) => view.stageLabel(o, now).label), ['租用中', '即将到期', '待实名认证', '待支付', '已退仓']);
-  assert.deepEqual(view.head(os[2], now), { phase: 'identity', title: '入仓前需完成实名认证', tag: '待认证', tone: 'warn' });
+  assert.deepEqual(view.head(os[2], now), { phase: 'identity', variant: '', title: '入仓前需完成实名认证', tag: '待认证', tone: 'warn' });
   await api.verifyIdentity(ID);
   const o3 = await api.getOrder({ id: os[2].id });
   assert.equal(view.phase(o3, now), 'upcoming'); assert.equal(o3.identity_at_order, false);
@@ -165,17 +165,17 @@ test('订单摘要卡与费用明细：同一份订单数据；满额减、已�
   fresh(true); noSeed();
   const od = await placed(U5, 24), now = Date.now();
   const c = view.card(od, now, { showKm: true });
-  assert.deepEqual([c.storeName, c.kmText, c.unitName, c.unitSub, c.termText, c.periodLabel, c.periodText], ['安贞·富仁名苑店', '1.2km', 'A005 · 8m³', '2 × 1.6 × 2.5m', '24个月', '起租日', '2026-12-01']);
+  assert.deepEqual([c.storeName, c.kmText, c.unitName, c.unitSub, c.termText, c.periodLabel, c.periodText], ['安贞·富仁名苑店', '1.2km', 'A005 · 8m³', '2 × 1.6 × 2.5m', '24个月', '起租日', START]);
   const f = view.fees(od, now, { showCoupon: true, locked: true });
   assert.deepEqual(f.rows.map((r) => [r.k, r.sub || '', r.amt, r.sec || '']), [
     ['整期租金', '24个月', '¥12,000', '¥500/月 × 24个月'], ['已省', '较月基价 ¥770/月', '¥6,480', ''], ['满额减', '整期满 ¥10,000', '−¥400', '减后整期租金 ¥11,600'],
     ['优惠券', '', '未使用', ''], ['押金', '1个月月租', '¥500', ''], ['整单管理费', '', '¥50', '']]);
   assert.equal(f.rows[0].tag, '6.5折'); assert.deepEqual(f.total, { label: '本次应付', amt: '¥12,150' });
   const paid = await api.payOrder({ order_id: od.id });
-  assert.equal(view.fees(paid, now).total.label, '已付'); assert.equal(view.card(paid, now).periodLabel, '起止日期'); assert.equal(view.card(paid, now).periodText, '2026-12-01 至 2028-12-01');
+  assert.equal(view.fees(paid, now).total.label, '已付'); assert.equal(view.card(paid, now).periodLabel, '起止日期'); assert.equal(view.card(paid, now).periodText, START + ' 至 ' + view.ymd(R('core/order-model').addMonths(view.parseYmd(START), 24)));
   const ph = view.feesPlaceholder('登录后显示'); assert.ok(!/¥/.test(JSON.stringify(ph))); assert.equal(ph.rows.length, 4);
   const fc = env.newComponent('components/mk-fee-detail/index', { order: paid }); assert.equal(fc.data.total.amt, '¥12,150');
-  const oc = env.newComponent('components/mk-order-card/index', { order: paid, variant: 'list' }); assert.equal(oc.data.v.stageLabel, '待入仓'); assert.equal(oc.data.v.lineText, 'A005 · 8m³ · 24个月');
+  const oc = env.newComponent('components/mk-order-card/index', { order: paid, variant: 'list' }); assert.equal(oc.data.v.stageLabel, '待起租', '列表与详情用同一个词（FIX-01 C-16）'); assert.equal(oc.data.v.lineText, 'A005 · 8m³ · 24个月');
 });
 test('任务卡：未登录或没有订单不渲染；按阶段取主卡，待支付订单进待办条带', async () => {
   fresh(false);
@@ -188,7 +188,7 @@ test('任务卡：未登录或没有订单不渲染；按阶段取主卡，待�
   assert.equal(c.data.main.othersText, '另有 1 间在租仓位，请在订单中查看。');
   assert.deepEqual(c.data.todos.map((t) => t.k), ['待支付订单', '找仓进度']); assert.match(c.data.todos[0].t, /^芍药居北里店 · 本次应付 ¥\d+，剩余 0[23]:\d\d:\d\d$/); assert.equal(c.data.todos[1].t, '3.5m³ · 6个月，查看推荐仓位');
   env.nav.length = 0; c.onAction({ currentTarget: { dataset: { a: 'renew' } } }); assert.equal(env.nav[0].url, routes.RENEW + '?id=' + c.data.main.orderId);
-  toasts.length = 0; c.onAction({ currentTarget: { dataset: { a: 'unlock' } } }); assert.deepEqual(toasts, ['一键开锁暂未开通，目前请按入仓指引到店存取']); assert.equal(env.nav.length, 1, '一键开锁只提示，不跳转');
+  toasts.length = 0; c.onAction({ currentTarget: { dataset: { a: 'unlock' } } }); assert.deepEqual(toasts, ['一键开锁暂未开通，存取时请联系门店协助开门']); assert.equal(env.nav.length, 1, '一键开锁只提示，不跳转');
   env.nav.length = 0; c.onTodo({ currentTarget: { dataset: { i: 0 } } }); assert.match(env.nav[0].url, /^\/pkg-trade\/confirm\/index\?order=MK/);
   c.__detach();
   // 只剩待支付：主卡就是待支付，按钮「继续支付 / 费用明细」
@@ -212,7 +212,7 @@ test('确认订单页：实名 → 勾选告知书 → 签署 → 生成电子�
   assert.deepEqual([pg.data.bar.btn, pg.data.bar.disabled, pg.data.bar.hint, pg.data.bar.showAgree], ['签署并提交', true, '请先勾选确认', true]);
   pg.onBar(); assert.equal(pg.data.sheet, '', '未勾选时点不动');
   pg.onAgree(); assert.equal(pg.data.bar.disabled, false); pg.onBar(); assert.equal(pg.data.sheet, 'sign');
-  assert.deepEqual(pg.data.signRows.map((r) => r.v), ['*明 · 110***********0012', '安贞·富仁名苑店', 'A003 · 3.5m³', '6个月 · ' + START + ' 起', '¥2,010']);
+  assert.deepEqual(pg.data.signRows.map((r) => r.v), ['*明 · 110***********0012', '安贞·富仁名苑店', 'A003 · 3.5m³', '6个月', START + ' 起计费', view.ymd(R('core/order-model').leaseEnd(view.parseYmd(START), 6)) + '（含当天）', '¥2,010']);
   pg.onSignConfirm(); assert.equal(pg.data.bar.btn, '正在生成电子合同…'); assert.equal(pg.data.bar.disabled, true); await tick(30);
   assert.equal(pg.data.mode, 'order'); assert.equal(pg.data.phase, 'pending'); assert.equal(pg.data.head.title, '订单待支付'); assert.equal(pg.data.sheet, 'pay'); assert.equal(pg.data.payText, '微信支付 ¥2,010');
   assert.equal(db.orders.length, 1); assert.equal(db.orders[0].contract.signed, true); assert.match(pg.data.clock, /^0[23]:\d\d:\d\d$/);
@@ -225,7 +225,7 @@ test('确认订单页：支付失败 → 四项核对 → 继续支付；取消�
   let pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '6', demo: 'pay_fail' }); await tick();
   pg.onAgree(); pg.onSign(); pg.onSignConfirm(); await tick(30); pg.onPayConfirm(); await tick(40);
   const od = db.orders[0];
-  assert.equal(od.stage, S.FAILED); assert.equal(pg.data.phase, 'payment_failed'); assert.equal(pg.data.head.title, '支付未成功'); assert.equal(pg.data.swapText, '更换仓位');
+  assert.equal(od.stage, S.FAILED); assert.equal(pg.data.phase, 'payment_failed'); assert.equal(pg.data.head.title, '支付未成功，订单为您保留'); assert.equal(pg.data.head.tag, '支付未成功'); assert.equal(pg.data.swapText, '更换仓位');
   assert.equal(pg.data.recheck.title, '已重新核对，与原订单一致，可以继续支付');
   assert.deepEqual(pg.data.recheck.rows.map((r) => [r.k, r.v, r.ok]), [['订单状态', '已保留', true], ['仓位 A003', '可租', true], ['价格', '与原订单一致', true], ['优惠资格', '无变化', true]]);
   pg.onBar(); await tick(30); assert.equal(pg.data.phase, 'pending'); assert.equal(pg.data.sheet, 'pay'); assert.equal(pg.data.cardOrder.id, od.id, '同一订单号');
@@ -252,7 +252,7 @@ test('确认订单页：支付失败 → 四项核对 → 继续支付；取消�
   // 所选仓位已不可租
   await placed(U5, 6);
   pg = env.newPage('pkg-trade/confirm/index', { unit: U5, term: '6' }); await tick();
-  assert.equal(pg.data.gone, true); assert.deepEqual([pg.data.bar.btn, pg.data.bar.disabled], ['请重新选择仓位', true]); pg.onHide();
+  assert.equal(pg.data.gone, true); assert.equal(pg.data.held, db.orders[db.orders.length - 1].id); assert.deepEqual([pg.data.bar.btn, pg.data.bar.disabled, pg.data.bar.action], ['继续支付', false, 'held']); pg.onHide(); // FIX-01 B-06：占用方是本人的待支付订单
   // 没带仓位：空态
   pg = env.newPage('pkg-trade/confirm/index', {}); await tick(); assert.equal(pg.data.mode, 'empty'); pg.onHide();
 });
@@ -300,7 +300,7 @@ test('订单详情：各阶段的标题、底栏与服务行；一键开锁只�
   let pg = await open(os[0]);
   assert.deepEqual([pg.data.head.title, pg.data.head.tag, pg.data.bar.primary.t, pg.data.bar.secondary.t, pg.data.withUnlock], ['仓位租用中', '租用中', '一键开锁', '门店导航', true]);
   assert.deepEqual(pg.data.services.map((r) => r.k + (r.v ? ' ' + r.v : '')), ['电子合同 已签署', '入仓指引', '续租 可申请', '退仓', '押金进度', '申请发票 可申请']);
-  toasts.length = 0; env.nav.length = 0; act(pg, 'unlock'); assert.deepEqual(toasts, ['一键开锁暂未开通，目前请按入仓指引到店存取']); assert.equal(env.nav.length, 0);
+  toasts.length = 0; env.nav.length = 0; act(pg, 'unlock'); assert.deepEqual(toasts, ['一键开锁暂未开通，存取时请联系门店协助开门']); assert.equal(env.nav.length, 0);
   for (const [a, r] of [['contract', 'ECONTRACT'], ['renew', 'RENEW'], ['exit', 'EXIT'], ['deposit', 'DEPOSIT'], ['invoice', 'INVOICE'], ['access', 'ACCESS']]) { env.nav.length = 0; act(pg, a); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes[r] + '?id=' + os[0].id }], a); }
   pg.onHide();
   pg = await open(os[1]); assert.deepEqual([pg.data.head.title, pg.data.bar.primary.t, pg.data.bar.secondary.t], ['租期即将到期', '办理续租', '一键开锁']); assert.ok(pg.data.subs.some((s) => /^剩余 \d+ 天$/.test(s))); pg.onHide();

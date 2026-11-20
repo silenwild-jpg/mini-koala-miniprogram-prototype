@@ -5,7 +5,8 @@
 //                 已租出仓位折叠、本店无匹配 / 无可租 / 30m³ 及以上交顾问、其他匹配门店和仓位、顾问卡（一页一次）、所选仓位已不可租提示；
 //       服务设施：存取与安防、仓内环境、到店与搬运、预约运输 / 搬运入口；
 //       到店指引（D-122）：位置示意与到店导航、入口与停车卸货（通行限制在这里）、进仓路径、地铁与公交、导航入口选择、地图加载失败。
-// 未做：照片上的自定义导航栏与门店实拍照片位（没有核验过的门店实拍，按交接 §4.4-9 不渲染，用原生导航栏）；位置示意只列入口名，不画地图（地图服务未接入）。
+// 门店头图与仓位空间示意图（FIX-01）：路径由 services/media.js 给；头图是没有逐店核验的示意图，图上标「门店示意图」；仓位图按容量分 4 档，不是该仓位的照片。
+// 未做：照片上的自定义导航栏（用原生导航栏）；位置示意只列入口名，不画地图（地图服务未接入）。
 // 到店资料按字段显示，缺的行不显示、不推断；演示环境只有安贞·富仁名苑店带演示档案。
 const T = require('../../i18n/find');
 const CF = require('../../core/config-find');
@@ -17,6 +18,9 @@ const finder = require('../../services/finder');
 const pd = require('../../services/page-data');
 const req = require('../../core/requirement');
 const matching = require('../../core/matching');
+const media = require('../../services/media');
+const share = require('../../services/share');
+const flow = require('../../services/estimate-flow');
 const D = T.detail, CATS = ['all'].concat(CF.unitCategories.map((c) => c.key));
 // 服务设施页签：只写门店数据里有的项
 function serviceSections(store, profile) {
@@ -43,7 +47,7 @@ Page({
   data: {
     T: { d: pd.plain(D), cubic: T.price.cubicFrom, cta: T.cta, cats: T.unitCategories },
     visitVisible: false, visitStore: null, visitUnit: '', hero: '', sys: 'loading', card: null, hoursText: '', tab: 0, tabs: D.tabs, demandText: '', hasNeed: false, fav: false, gone: false,
-    situation: '', cats: [], blocks: [], rows: [], near: [], smaller: [], sold: [], soldOpen: false, combos: [], comboMode: '', combosOpen: false, noSingleText: '', catEmpty: false,
+    situation: '', cats: [], blocks: [], rows: [], near: [], smaller: [], over: [], showLow: true, sold: [], soldOpen: false, combos: [], comboMode: '', combosOpen: false, noSingleText: '', catEmpty: false,
     alternatives: [], showAlternatives: false, advisor: null, headPrice: null, salesSub: D.salesSub(T.lead.inHours),
     arrSys: 'loading', svc: [], route: null, transitOpen: false, destSheet: false, loginVisible: false, demandSheet: false
   },
@@ -54,11 +58,11 @@ Page({
     if (wx.showShareMenu) wx.showShareMenu({ menus: ['shareAppMessage'] });
   },
   onShow() { this.refresh(); },
-  onShareAppMessage() { return { title: (this.data.card && this.data.card.name) || '', path: routes.STORE_DETAIL + '?id=' + (this._id || '') }; },
+  onShareAppMessage() { return share.message(routes.STORE_DETAIL, { title: (this.data.card && this.data.card.name) || '', query: 'id=' + (this._id || ''), imageUrl: this.data.hero }); },
   refresh() {
     return pd.load(this, api.getStore({ id: this._id }), (store) => {
       this._store = store;
-      this.setData({ visitStore: store, visitUnit: this._unit, hero: '/assets/images/stores/' + (require('../../mock/media').includes(store.id) ? store.id : 'SIM_BJ01').replace('_','-') + '/hero.webp' });
+      this.setData({ visitStore: store, visitUnit: this._unit, hero: media.storeHero(store) });
       wx.setNavigationBarTitle({ title: store.name });
       this.paint();
       this.loadArrival();
@@ -70,20 +74,21 @@ Page({
     const ctx = pd.ctx(), d = finder.buildStoreDetail(store, ctx, { category: this._cat }), r = ctx.requirement;
     const fav = (rows) => rows.map((x) => Object.assign({}, x, { fav: pd.isFavorite('units', x.favId) }));
     const picked = this._unit ? store.units.find((u) => u.id === this._unit) : null;
-    // 仓位区按顺序排成一列：匹配仓位 → 说明句 → 组合方案 → 容量接近 → 比需求小
+    // 仓位区按顺序排成一列：匹配仓位 → 说明句 → 组合方案 → 容量接近 → 比需求小 → 更大的仓位（超过需求 130%，R-11）
     const blocks = [], unit = (list) => (x, i) => blocks.push({ key: list + i, type: list === 'combos' ? 'combo' : 'unit', list, i, row: x });
-    const rows = fav(d.rows), near = fav(d.near), smaller = fav(d.smaller);
+    const rows = fav(d.rows), near = fav(d.near), smaller = fav(d.smaller), over = fav(d.over);
     rows.forEach(unit('rows'));
     if (d.noSingleText) blocks.push({ key: 'note', type: 'note', text: d.noSingleText });
     if (d.comboMode === 'fold') blocks.push({ key: 'fold', type: 'fold', text: D.showCombos });
     if (d.comboMode === 'open' || (d.comboMode === 'fold' && this.data.combosOpen)) { blocks.push({ key: 'ct', type: 'title', text: D.comboTitle }); d.combos.forEach(unit('combos')); }
     if (near.length) { blocks.push({ key: 'nt', type: 'title', text: D.nearTitle }); near.forEach(unit('near')); }
     if (smaller.length) { blocks.push({ key: 'st', type: 'title', text: D.smallTitle }); smaller.forEach(unit('smaller')); }
+    if (over.length) { blocks.push({ key: 'ot', type: 'title', text: D.overTitle }); over.forEach(unit('over')); }
     this.setData({
       card: d.card, hoursText: store.access_hours ? D.hours + store.access_hours : '', fav: pd.isFavorite('stores', store.id),
-      hasNeed: !!r, demandText: r ? '约 ' + req.pretty(r.capacity_m3) + 'm³ · 租 ' + r.term_months + T.unit.month : '',
+      hasNeed: !!r, demandText: r ? (r.input_unit === 'm2' && Number(r.input_value) > 0 ? '' : '约 ') + req.demandText(r) + ' · 租 ' + r.term_months + T.unit.month : '', // 按面积填的写「6㎡ · 约15m³」（A-11）
       situation: d.situation, cats: CATS.map((k) => ({ k, t: T.unitCategories[k], on: k === d.category })),
-      rows, near, smaller, blocks, sold: d.sold, combos: d.combos, comboMode: d.comboMode,
+      rows, near, smaller, over, showLow: d.showLow, blocks, sold: d.sold, combos: d.combos, comboMode: d.comboMode,
       noSingleText: d.noSingleText, catEmpty: d.catEmpty, advisor: d.advisor, headPrice: d.headPrice, showAlternatives: d.showAlternatives,
       gone: this._gone || (!!picked && !matching.isAvailable(picked))
     });
@@ -113,7 +118,7 @@ Page({
   onMoreTransit() { this.setData({ transitOpen: true }); },
   // ---- 仓位行 ----
   onAction(e) {
-    const ds = e.currentTarget.dataset, list = ['rows', 'near', 'smaller', 'combos'].indexOf(ds.list) >= 0 ? ds.list : 'rows';
+    const ds = e.currentTarget.dataset, list = ['rows', 'near', 'smaller', 'over', 'combos'].indexOf(ds.list) >= 0 ? ds.list : 'rows';
     const row = (this.data[list] || [])[Number(ds.i) || 0];
     if (!row) return;
     const r = state.get().requirement;
@@ -151,8 +156,9 @@ Page({
   },
   onCopyAddress() { if (this._store) wx.setClipboardData({ data: this._store.address, fail: () => {} }); },
   // ---- 需求与其它入口 ----
-  onModify() { if (state.get().requirement) this.setData({ demandSheet: true }); else wx.navigateTo({ url: routes.CAPACITY }); },
-  onEstimate() { wx.navigateTo({ url: routes.CAPACITY }); },
+  // 已有需求：在本页弹层里改；还没有需求：去估算，完成后回到本页（FIX-01 R-19）
+  onModify() { if (state.get().requirement) this.setData({ demandSheet: true }); else this.onEstimate(); },
+  onEstimate() { flow.start(routes.STORE_DETAIL); wx.navigateTo({ url: routes.CAPACITY }); },
   onDemandClose() { this.setData({ demandSheet: false }); },
   onDemandChange() { this._cat = 'all'; this.paint(); },
   onDemandSales(e) { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&store=' + this._id + '&cap=' + ((e.detail && e.detail.capacity_m3) || '') }); },

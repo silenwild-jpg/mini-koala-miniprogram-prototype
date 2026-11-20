@@ -4,7 +4,7 @@
     <block wx:if="{{saved}}">
       <lead-ack in-hours="{{inHours}}">
         <button class="mk-btn mk-btn--plain mk-btn--md lsp-act" hover-class="mk-btn--plainHover" bindtap="onMine">{{T.c.backMine}}</button>
-        <button class="mk-btn mk-btn--md lsp-act lsp-act--r" hover-class="mk-btn--hover" bindtap="onNeeds">{{T.c.viewNeeds}}</button>
+        <button class="mk-btn mk-btn--md lsp-act lsp-act--r" hover-class="mk-btn--hover" bindtap="onNext">{{nextBtn}}</button>
       </lead-ack>
       <view class="mk-card lsp-gap">
         <text class="ldf-sectitle">{{T.p.savedTitle}}</text>

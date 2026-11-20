@@ -3,6 +3,8 @@
 //   已提交、开具中、已开具（发票文件卡、发送到邮箱、下载发票）、开票未成功（保留原记录，更正后重新提交）；企业可进「管理开票抬头」「批量开票」；三态。
 // 未做：发票是否含押金、处理时限业务未给口径，界面写「请咨询客服」/ 不显示（交接 §9）；演示环境没有发票文件，「下载发票」会提示暂时无法下载；
 //   从开票抬头页带回已保存的抬头（开票抬头页属第 4 批，接口未约定）。
+// FIX-01：发票金额不含押金（R-03），付款记录里押金一行标「不开票」，「可开票金额」写出具体数；与批量开票共用同一份开票记录（D-01）；
+//   订单有多条申请记录时，每条已开具的记录各自带「发送到邮箱」「下载发票」（C-07）；处理中写明开具时限并加「联系门店」（R-02）。
 const T = require('../../i18n/after');
 const zh = require('../../i18n/zh');
 const api = require('../../services/api');
@@ -24,8 +26,8 @@ function barOf(page, v) {
     const ready = after.validateInvoice(page._form).ready;
     return { btns: [btn(v.failed ? I.retry : I.submit, 'submit', 'primary', { off: !ready })] };
   }
-  if (v.state === 'issued') return { btns: [btn(I.send, 'send', 'ghost'), btn(I.download, 'download')] };
-  return { btns: [btn(CT.backOrder, 'back', 'neutral')] };
+  if (v.state === 'issued') return v.records.length === 1 ? { btns: [btn(I.send, 'send', 'ghost'), btn(I.download, 'download')] } : { btns: [btn(CT.backOrder, 'back', 'neutral')] }; // 多条记录时操作在各条记录上
+  return { btns: [btn(CT.backOrder, 'back', 'neutral'), btn(CT.callStore, 'call', 'ghost')] }; // 已提交 / 开具中：给联系入口
 }
 function render(page, o) {
   cm.cancelLater(page);
@@ -36,13 +38,17 @@ function render(page, o) {
   if (failed && page._prefilled !== failed.id) { page._prefilled = failed.id; Object.assign(f, { kind: failed.kind, title: failed.title, tax_id: failed.tax_id || '', email: failed.email }); page._touched = true; }
   if (!v.available.some((p) => p.id === page._pay)) page._pay = v.available.length ? v.available[0].id : '';
   const multi = v.available.length > 1, ent = f.kind === 'enterprise', check = after.validateInvoice(f);
+  const sel = v.available.find((p) => p.id === page._pay) || null;
+  const recActs = !(v.state === 'issued' && v.records.length === 1); // 只有一条且已开具时，操作在底栏；其余情况放到每条已开具的记录上
+  const waiting = v.records.some((r) => r.status === 'submitted' || r.status === 'processing');
   const d = {
     empty: false, st: v.state, order: o, fail: !!failed, reason: failed ? failed.fail_reason || '' : '', file: [], sheet: false,
     head: { title: failed ? I.head.issue_failed : formState ? I.head.form : I.head[last.status], tag: page._busy ? CT.submittingTag : last ? I.tag[last.status] : I.tag.none, tone: page._busy ? 'warn' : last ? TONE[last.status] : 'ok', subs: [fill(CT.orderNo, { no: o.no }), o.store.name] },
-    records: v.records.map((r) => ({ id: r.id, t: I.payType[r.payment_type] + ' · ' + yuan(r.amount), s: I.kind[r.kind] + ' · ' + r.title + (r.tax_id ? ' · ' + r.tax_id : ''), email: r.email, tag: I.tag[r.status], tone: TONE[r.status] })),
+    records: v.records.map((r) => ({ id: r.id, t: I.payType[r.payment_type] + ' · ' + yuan(r.amount), s: I.kind[r.kind] + ' · ' + r.title + (r.tax_id ? ' · ' + r.tax_id : ''), email: r.email, tag: I.tag[r.status], tone: TONE[r.status], acts: recActs && r.status === 'issued' })),
+    sla: waiting ? fill(I.slaNote, { n: A.sla.invoiceDays }) : '',
     showPays: formState && (v.available.length > 0 || !failed),
-    pays: formState ? v.available.map((p) => ({ id: p.id, label: I.payType[p.type], amt: yuan(p.amount), multi, on: p.id === page._pay, split: p.split.map((s) => ({ k: I.split[s[0]], a: yuan(s[1]) })) })) : [],
-    notes: [{ k: I.amount, v: I.amountText, soft: true }, { k: I.includeDeposit, v: zh.common.contactService, soft: true }, { k: I.content, v: I.contentText, long: true }, { k: I.deadline, v: I.deadlineText, long: true }],
+    pays: formState ? v.available.map((p) => ({ id: p.id, label: I.payType[p.type], amt: yuan(p.amount), multi, on: p.id === page._pay, split: p.split.map((s) => ({ k: I.split[s[0]], a: yuan(s[1]), no: s[0] === 'deposit' ? I.noInvoice : '' })) })) : [],
+    notes: (sel ? [{ k: I.amount, v: fill(I.amountText, { a: yuan(sel.invoice_amount) }) }] : []).concat([{ k: I.content, v: I.contentText, long: true }, { k: I.deadline, v: I.deadlineText, long: true }]),
     form: formState && (v.available.length > 0 || failed) ? {
       kind: f.kind, ent, kinds: [{ v: 'personal', t: I.kind.personal, on: !ent }, { v: 'enterprise', t: I.kind.enterprise, on: ent }],
       title: f.title, tax: f.tax_id, email: f.email, titlePh: I.titlePh[f.kind], emailErr: page._touched && check.emailError
@@ -58,7 +64,7 @@ function done(page, o) { page._busy = false; page._order = o; render(page, o); r
 function failed(page, err) { page._busy = false; cm.opFail(err); return page.refresh(); }
 
 Page(auth.guarded(routes.INVOICE, {
-  data: { T: { c: CT, i: I, z: zh.common }, sys: 'loading', empty: false, st: '', head: null, order: null, fail: false, reason: '', records: [], showPays: false, pays: [], notes: [], form: null, file: [], bar: null, sheet: false, opts: [] },
+  data: { T: { c: CT, i: I, z: zh.common }, sys: 'loading', empty: false, st: '', head: null, order: null, fail: false, reason: '', records: [], sla: '', showPays: false, pays: [], notes: [], form: null, file: [], bar: null, sheet: false, opts: [] },
   onLoad(q) { this._id = (q && q.id) || ''; this._form = { kind: 'personal', title: '', tax_id: '', email: '' }; this._pay = ''; this._busy = false; this._touched = false; this._prefilled = ''; },
   onShow() { this.refresh(); },
   onHide() { cm.cancelLater(this); },
@@ -68,7 +74,7 @@ Page(auth.guarded(routes.INVOICE, {
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   onBar(e) {
     const a = e && e.currentTarget && e.currentTarget.dataset.act;
-    if (a === 'submit') this.onSubmit(); else if (a === 'send') this.onSend(); else if (a === 'download') this.onDownload(); else if (a === 'back') this.onBack();
+    if (a === 'submit') this.onSubmit(); else if (a === 'send') this.onSend(); else if (a === 'download') this.onDownload(); else if (a === 'back') this.onBack(); else if (a === 'call') this.onCall();
   },
   onKind(e) { // 个人 / 企业
     if (!this.data.form || this._busy) return;
@@ -96,14 +102,20 @@ Page(auth.guarded(routes.INVOICE, {
     return api.submitInvoice({ id: o.id, payment_id: this._pay, kind: f.kind, title: f.title, tax_id: f.tax_id, email: f.email })
       .then((x) => { this._form = { kind: f.kind, title: '', tax_id: '', email: '' }; this._touched = false; done(this, x); }, (err) => failed(this, err));
   },
-  onSend() { // 发送到邮箱
-    const o = this._order, last = this._view && this._view.last;
-    if (!o || !last || last.status !== 'issued') return;
+  // 取要操作的那条已开具记录：记录行上的按钮带 data-id；底栏按钮取最后一条
+  issuedOf(e) {
+    const id = e && e.currentTarget && e.currentTarget.dataset ? e.currentTarget.dataset.id : '', v = this._view;
+    const r = v ? (id ? (v.records || []).find((x) => x.id === id) : v.last) : null; // 记录还没取到时（加载失败、无订单）不报错
+    return r && r.status === 'issued' ? r : null;
+  },
+  onSend(e) { // 发送到邮箱
+    const o = this._order, last = this.issuedOf(e);
+    if (!o || !last) return;
     return api.sendInvoiceEmail({ id: o.id, record_id: last.id }).then((r) => cm.toast(fill(I.sent, { e: r.email })), () => cm.toast(I.sendFail));
   },
-  onDownload() { // 下载发票：取文件地址 → 下载 → 打开；任何一步失败都提示
-    const o = this._order, last = this._view && this._view.last;
-    if (!o || !last || last.status !== 'issued') return;
+  onDownload(e) { // 下载发票：取文件地址 → 下载 → 打开；任何一步失败都提示
+    const o = this._order, last = this.issuedOf(e);
+    if (!o || !last) return;
     const no = () => cm.toast(I.downloadFail);
     return api.getInvoiceFile({ id: o.id, record_id: last.id }).then((r) => {
       if (!r || !r.url) return no();

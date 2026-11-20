@@ -12,6 +12,10 @@
   <text wx:if="{{approx}}" class="mk-sub ds-line">{{approx}}</text>
   <text class="mk-mute ds-line">{{note}}</text>
   <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{cold}}" class="mk-link ds-est" bindtap="onEstimate" aria-role="button">{{T.toEstimate}} ›</view>
+  <view wx:else class="ds-ways mk-row">
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ds-way mk-row" bindtap="onItems" aria-role="button"><image class="mk-icon" src="/assets/icons/box-ink.svg" /><text class="ds-wt">{{T.byItems}}</text></view>
+    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ds-way mk-row" bindtap="onAi" aria-role="button"><image class="mk-icon" src="/assets/icons/spark-ink.svg" /><text class="ds-wt mk-sub">{{T.ai}}</text><text class="mk-mute ds-woff">{{T.aiOff}}</text></view>
+  </view>
   <text class="mk-sub ds-label ds-term">{{T.termLabel}}</text>
   <mk-term-seg value="{{term}}" hint="{{hint}}" inline="{{true}}" bind:change="onTerm" />
   <view class="ds-acts">

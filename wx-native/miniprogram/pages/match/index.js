@@ -17,6 +17,7 @@ const pricing = require('../../core/pricing');
 const req = require('../../core/requirement');
 const matching = require('../../core/matching');
 const pd = require('../../services/page-data');
+const share = require('../../services/share');
 const M = T.match, F = M.fees;
 Page({
   data: {
@@ -61,6 +62,7 @@ Page({
     });
   },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
+  onShareAppMessage() { return share.message(routes.MATCH); }, // 对方打开时没有需求，会先被带去填容量
   onTerm(e) { state.setTerm(e.detail.months); this.refresh(); },
   onModify() { const r = state.get().requirement; wx.navigateTo({ url: r && r.source === 'items' ? routes.ITEMS : routes.CAPACITY }); },
   onDemandClose() { this.setData({ demandSheet: false }); },

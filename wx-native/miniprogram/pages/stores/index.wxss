@@ -11,7 +11,6 @@
 .sl-fbar { display: flex; border-bottom: var(--mk-border-hairline); }
 .sl-f { flex: 1; height: 88rpx; display: flex; align-items: center; justify-content: center; font-size: var(--mk-font-size-md); }
 .sl-f--on { color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-semibold); }
-.sl-chips { display: flex; padding-top: var(--mk-space-2); padding-bottom: var(--mk-space-2); border-bottom: var(--mk-border-hairline); }
 .sl-chip { margin-right: var(--mk-space-2); min-height: 64rpx; }
 .sl-demand { min-height: 96rpx; border-bottom: var(--mk-border-hairline); }
 .sl-dmark { width: 6rpx; height: 32rpx; border-radius: 3rpx; background: var(--mk-color-brand-fill); margin-right: var(--mk-space-2); flex: none; }
@@ -25,9 +24,18 @@
 .sl-bh { display: block; margin: var(--mk-space-2) 0 var(--mk-space-3); }
 .sl-more { display: flex; flex-direction: column; margin-bottom: var(--mk-space-cardGap); }
 .mk-btn.mk-btn.sl-mb { width: 100%; }
+/* 筛选条原位下拉（FIX-01 R-18）：面板贴在筛选条下沿，遮罩盖住其下的页面；头部整体吸顶，层级高于遮罩 */
+.sl-fwrap { position: relative; }
+.sl-fic { margin-left: 4rpx; transition: transform var(--mk-motion-fast, 120ms) ease; }
+.sl-fic--up { transform: rotate(180deg); }
+.sl-drop { position: absolute; left: 0; right: 0; top: 100%; z-index: 12; background: var(--mk-color-canvas-card); padding: 0 var(--mk-space-pageGutter) var(--mk-space-3); border-radius: 0 0 var(--mk-radius-card) var(--mk-radius-card); box-shadow: var(--mk-elevation-float); max-height: 70vh; overflow-y: auto; box-sizing: border-box; }
+.sl-mask { position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 9; background: var(--mk-color-overlay-scrim); }
 .sl-opt { min-height: 96rpx; border-bottom: var(--mk-border-hairline); }
-.sl-opt--on { color: var(--mk-color-brand-text); }
-.sl-svc { display: flex; flex-wrap: wrap; padding: var(--mk-space-2) 0; }
+.sl-opt:last-child { border-bottom: 0; }
+.sl-opt--on { color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-semibold); }
+.sl-gt { display: block; margin-top: var(--mk-space-3); }
+.sl-svc { display: flex; flex-wrap: wrap; padding: var(--mk-space-2) 0 0; }
 .sl-sv { margin-bottom: var(--mk-space-2); }
+.mk-bare.mk-bare.sl-consult { margin: var(--mk-space-1) 0 0; padding: 0; min-height: 64rpx; text-align: left; font-size: var(--mk-font-size-sm); }
 
 .st-demand-value { font-weight:600; }

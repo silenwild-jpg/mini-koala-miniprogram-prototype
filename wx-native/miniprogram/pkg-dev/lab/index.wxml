@@ -1,15 +1,17 @@
-<view class="mk-page mk-gutter lab">
-  <view class="mk-h2 lab-h">{{L.sceneTitle}}</view>
-  <text class="mk-t-hint lab-tip">{{L.sceneTip}}</text>
+<view wx:if="{{ready}}" class="mk-page mk-gutter lab">
+  <view class="lab-jump"><view wx:for="{{L.jump}}" wx:key="id" class="mk-chip lab-chipgap lab-jump-i" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" data-id="{{item.id}}" bindtap="onJump" aria-role="button">{{item.t}}</view></view>
+  <button class="mk-btn mk-btn--md mk-btn--plain lab-reset" hover-class="mk-btn--plainHover" bindtap="onReset">{{L.reset}}</button>
+  <button class="mk-btn mk-btn--md mk-btn--ghost lab-reset" hover-class="mk-btn--ghostHover" bindtap="onHome">{{L.goHome}}</button>
+  <view class="mk-h2 lab-h" id="sec-scene">{{L.sceneTitle}}</view>
+  <text class="mk-t-hint lab-tip">{{L.sceneTip}}{{noScene ? L.noScene : ''}}</text>
   <view class="mk-card lab-list">
     <view wx:for="{{scenes}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onScene" aria-role="button">
       <view class="mk-grow"><text class="mk-t-body lab-nm">{{item.name}}</text><text class="mk-t-hint">{{item.desc}}</text></view>
       <view wx:if="{{item.on}}" class="mk-tag mk-tag--brand lab-on"><image class="mk-icon" src="/assets/icons/check-brand.svg" />{{L.on}}</view>
     </view>
   </view>
-  <button class="mk-btn mk-btn--ghost lab-home" hover-class="mk-btn--ghostHover" bindtap="onHome">{{L.goHome}}</button>
 
-  <view class="mk-h2 lab-h">{{L.netTitle}}</view>
+  <view class="mk-h2 lab-h" id="sec-net">{{L.netTitle}}</view>
   <view class="mk-card lab-list">
     <view wx:for="{{nets}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onNet" aria-role="button">
       <view class="mk-grow"><text class="mk-t-body lab-nm">{{item.name}}</text><text class="mk-t-hint">{{item.desc}}</text></view>
@@ -17,7 +19,7 @@
     </view>
   </view>
 
-  <view class="mk-h2 lab-h">{{L.stockTitle}}</view>
+  <view class="mk-h2 lab-h" id="sec-stock">{{L.stockTitle}}</view>
   <text class="mk-t-hint lab-tip">{{L.stockTip}}</text>
   <view class="mk-card lab-list">
     <view wx:for="{{stocks}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onStock" aria-role="button">
@@ -26,7 +28,7 @@
     </view>
   </view>
 
-  <view class="mk-h2 lab-h">{{L.eventTitle}}</view>
+  <view class="mk-h2 lab-h" id="sec-event">{{L.eventTitle}}</view>
   <text class="mk-t-hint lab-tip">{{L.eventTip}}</text>
   <view class="mk-card lab-list">
     <view wx:for="{{events}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onEvent" aria-role="switch" aria-checked="{{item.on}}">
@@ -36,7 +38,7 @@
     </view>
   </view>
 
-  <view class="mk-h2 lab-h">{{L.afterTitle}}</view>
+  <view class="mk-h2 lab-h" id="sec-after">{{L.afterTitle}}</view>
   <text class="mk-t-hint lab-tip">{{L.afterTip}}</text>
   <view class="mk-card lab-list">
     <view wx:for="{{afterEvents}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onEvent" aria-role="switch" aria-checked="{{item.on}}">
@@ -46,7 +48,7 @@
     </view>
   </view>
 
-  <view class="mk-h2 lab-h">{{L.leadTitle}}</view>
+  <view class="mk-h2 lab-h" id="sec-lead">{{L.leadTitle}}</view>
   <text class="mk-t-hint lab-tip">{{L.leadTip}}</text>
   <view class="mk-card lab-list">
     <view wx:for="{{leadEvents}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onEvent" aria-role="switch" aria-checked="{{item.on}}">

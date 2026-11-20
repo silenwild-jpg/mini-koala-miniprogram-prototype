@@ -15,6 +15,15 @@ const rpx = (s) => String(s).replace(/(-?\d*\.?\d+)rpx/g, (_, n) => (Number(n) /
 const comps = (base) => Object.assign({}, app.usingComponents, JSON.parse(fs.readFileSync(path.join(root, base + '.json'), 'utf8')).usingComponents || {});
 const TAG = { view: 'div', text: 'span', block: null, image: 'img', button: 'div', input: 'input', 'scroll-view': 'div' };
 const used = new Set();
+// 组件实例缓存：页面渲染两遍，第一遍创建组件并让它们发起异步取数，等一下再渲染第二遍复用同一批实例，
+// 这样首页任务卡、「我的」未读红点这类组件自己取数的内容才会出现在图里（REVIEW-01 记录的工具缺陷）。
+let instCache = new Map(), instSeen = new Map();
+function instanceOf(cbase, props) {
+  const k0 = cbase + '|' + JSON.stringify(props), n = (instSeen.get(k0) || 0) + 1; instSeen.set(k0, n);
+  const k = k0 + '|' + n;
+  if (!instCache.has(k)) { const inst = env.newComponent(cbase, props); inst.setData(props); if (inst.pageLifetimes && typeof inst.pageLifetimes.show === 'function') { try { inst.pageLifetimes.show.call(inst); } catch (e) {} } instCache.set(k, inst); }
+  return instCache.get(k);
+}
 function render(nodes, scope, base, slot) {
   let html = '', prevIf = null;
   for (const n of nodes) {
@@ -29,7 +38,7 @@ function render(nodes, scope, base, slot) {
       if (map[n.tag]) {
         const cbase = map[n.tag][0] === '/' ? map[n.tag].slice(1) : path.join(path.dirname(base), map[n.tag]); used.add(cbase); // 相对路径的分包内组件按引用方目录解析
         const props = {}; for (const k of Object.keys(a)) if (!/^(wx:|bind|catch|class|style)/.test(k)) props[camel(k)] = interp(a[k], sc);
-        const inst = env.newComponent(cbase, props); inst.setData(props);
+        const inst = instanceOf(cbase, props);
         return '<div class="' + esc(n.tag) + '" style="display:block">' + render(AST[cbase], inst.data, cbase, render(n.c, sc, base, slot)) + '</div>';
       }
       const tag = n.tag in TAG ? TAG[n.tag] : 'div';
@@ -69,7 +78,9 @@ async function shot(name, base, opts) {
   const pg = env.newPage(base, opts.query || {}); if (typeof pg.onShow === 'function' && opts.scenario) pg.onShow(); await new Promise((r) => setTimeout(r, 60));
   if (opts.after) { await opts.after(pg); await new Promise((r) => setTimeout(r, 60)); }
   const conf = JSON.parse(fs.readFileSync(path.join(root, base + '.json'), 'utf8'));
-  const body = render(AST[base], pg.data, base, '');
+  instCache = new Map(); instSeen = new Map(); render(AST[base], pg.data, base, ''); // 第一遍：创建组件
+  await new Promise((r) => setTimeout(r, 80)); instSeen = new Map();
+  const body = render(AST[base], pg.data, base, ''); // 第二遍：组件取数回来后的样子
   const isTab = tabs.findIndex((t) => t.pagePath === base);
   const nav = conf.navigationStyle === 'custom' ? '' : '<div class="navbar">' + esc(conf.navigationBarTitleText || app.window.navigationBarTitleText) + '</div>';
   const tab = isTab < 0 ? '' : '<div class="tabbar">' + tabs.map((t, i) => '<div class="' + (i === isTab ? 'on' : '') + '"><img src="' + path.join(root, i === isTab ? t.selectedIconPath : t.iconPath) + '">' + t.text + '</div>').join('') + '</div>';
@@ -233,6 +244,45 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['rv33_home_offline', 'pages/home/index', { scenario: 'member_active', after: (p) => p.setData({ sys: 'offline' }) }],
     ['rv34_stores_no_location', 'pages/stores/index', { need: NEED }],
     ['rv35_store_detail_guest', 'pages/store/detail', { scenario: 'guest_browsing', query: { id: 'SIM_BJ01' } }]
+  ]) done.push(await shot(x[0], x[1], x[2]).catch((e) => { console.error('RV FAIL', x[0], e && e.message); return ''; }));
+  // FIX-01：找仓三页（附近门店 S01、门店详情 S02、仓位推荐 S5）的门店卡 / 仓位卡各状态，筛选条原位下拉，修改需求弹层
+  const N = (cap, extra) => Object.assign({}, NEED, { capacity_m3: cap, input_value: cap }, extra || {});
+  const SL = 'pages/stores/index', SD = 'pages/store/detail', MT = 'pages/match/index', IN = { located: true, login: true };
+  for (const x of [
+    ['fx01_stores_browse', SL, { located: true }],
+    ['fx02_stores_need_member', SL, Object.assign({ need: NEED }, IN)],
+    ['fx03_stores_need_guest', SL, { need: NEED, located: true }],
+    ['fx04_stores_combo_9', SL, Object.assign({ need: N(9) }, IN)],
+    ['fx05_stores_near_29', SL, Object.assign({ need: N(29) }, IN)],
+    ['fx06_stores_nomatch_35', SL, Object.assign({ need: N(35) }, IN)],
+    ['fx07_stores_area_need', SL, Object.assign({ need: N(15, { input_unit: 'm2', input_value: 6 }) }, IN)],
+    ['fx08_stores_tight', SL, Object.assign({ need: NEED, stock: 'tight' }, IN)],
+    ['fx09_stores_no_location', SL, { need: NEED, login: true }],
+    ['fx10_stores_drop_sort', SL, Object.assign({ need: NEED, after: (p) => p.onSheet({ currentTarget: { dataset: { k: 'sort' } } }) }, IN)],
+    ['fx11_stores_drop_distance', SL, Object.assign({ need: NEED, after: (p) => p.onSheet({ currentTarget: { dataset: { k: 'distance' } } }) }, IN)],
+    ['fx12_stores_drop_services', SL, Object.assign({ need: NEED, after: (p) => { p.onSheet({ currentTarget: { dataset: { k: 'services' } } }); p.onOfferOption({ currentTarget: { dataset: { k: 'promo' } } }); } }, IN)],
+    ['fx13_stores_services_applied', SL, Object.assign({ need: NEED, after: async (p) => { p.onSheet({ currentTarget: { dataset: { k: 'services' } } }); p.onOfferOption({ currentTarget: { dataset: { k: 'promo' } } }); await p.onSheetConfirm(); } }, IN)],
+    ['fx14_stores_demand_sheet', SL, Object.assign({ need: NEED, after: (p) => p.onModify() }, IN)],
+    ['fx20_match_member', MT, Object.assign({ need: NEED }, IN)],
+    ['fx21_match_guest', MT, { need: NEED, located: true }],
+    ['fx22_match_slight_3_8', MT, Object.assign({ need: N(3.8) }, IN)],
+    ['fx23_match_combo_9', MT, Object.assign({ need: N(9) }, IN)],
+    ['fx24_match_combo_15_full', MT, Object.assign({ need: N(15, { term_months: 12 }) }, IN)],
+    ['fx25_match_near_29', MT, Object.assign({ need: N(29) }, IN)],
+    ['fx26_match_none_35', MT, Object.assign({ need: N(35) }, IN)],
+    ['fx27_match_tight', MT, Object.assign({ need: NEED, stock: 'tight' }, IN)],
+    ['fx30_detail_matched', SD, Object.assign({ need: NEED, query: { id: 'SIM_BJ01' } }, IN)],
+    ['fx31_detail_browse_pool_photo', SD, Object.assign({ query: { id: 'SIM_BJ10' } }, IN)],
+    ['fx32_detail_combo_9', SD, Object.assign({ need: N(9), query: { id: 'SIM_BJ01' } }, IN)],
+    ['fx33_detail_near_combo_29', SD, Object.assign({ need: N(29), query: { id: 'SIM_BJ04' } }, IN)],
+    ['fx34_detail_nomatch_25', SD, Object.assign({ need: N(25), query: { id: 'SIM_BJ01' } }, IN)],
+    ['fx35_detail_guest', SD, { need: NEED, located: true, query: { id: 'SIM_BJ02' } }],
+    ['fx36_detail_sold_open', SD, Object.assign({ need: NEED, query: { id: 'SIM_BJ01' }, after: (p) => p.onToggleSold() }, IN)],
+    ['fx37_detail_demand_sheet', SD, Object.assign({ need: NEED, query: { id: 'SIM_BJ01' }, after: (p) => p.onModify() }, IN)],
+    ['fx38_detail_tight_only_over', SD, Object.assign({ need: NEED, stock: 'tight', query: { id: 'SIM_BJ04' } }, IN)],
+    ['fx40_home_member_task', 'pages/home/index', { scenario: 'member_active' }],
+    ['fx41_home_refund_failed', 'pages/home/index', { scenario: 'member_refund_failed' }],
+    ['fx42_mine_inbox', 'pages/mine/index', { scenario: 'member_inbox' }]
   ]) done.push(await shot(x[0], x[1], x[2]).catch((e) => { console.error('RV FAIL', x[0], e && e.message); return ''; }));
   console.log(done.join(' '));
 })();

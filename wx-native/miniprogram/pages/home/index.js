@@ -18,6 +18,7 @@ const routes = require('../../services/routes');
 const finder = require('../../services/finder');
 const location = require('../../services/location');
 const pd = require('../../services/page-data');
+const share = require('../../services/share');
 // 定位气泡每次启动最多出现一次、无门店城市气泡关闭后本次启动不再出现：标记放在 App 上，与门店列表页共用
 const flags = () => { const g = getApp().globalData; if (!g.find) g.find = { bubbleShown: false, nocityClosed: false }; return g.find; };
 Page({
@@ -46,6 +47,7 @@ Page({
     if (solid !== this.data.solid) this.setData({ solid });
   },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
+  onShareAppMessage() { return share.message(routes.HOME); },
   // 城市位：城市名、未定位圆点、气泡
   showLocation(mayBubble) {
     const loc = state.get().location, located = loc.status === 'granted';
@@ -89,7 +91,7 @@ Page({
   onScene(e) {
     const i = Number(e.currentTarget.dataset.i) || 0;
     if (i === CF.moveSceneIndex) state.patch('flags', { moving: true }); // 从搬家场景进入：之后打开用仓位置面板时带搬家提示
-    wx.navigateTo({ url: routes.CAPACITY + '?scene=' + i });
+    wx.navigateTo({ url: routes.CAPACITY }); // 六个场景进同一个填容量页；估算页不按场景区分，不再带没人读的 scene 参数（S-06）
   },
   onStore(e) { wx.navigateTo({ url: routes.STORE_DETAIL + '?id=' + e.currentTarget.dataset.id }); },
   onBusiness() { wx.navigateTo({ url: routes.BUSINESS }); },

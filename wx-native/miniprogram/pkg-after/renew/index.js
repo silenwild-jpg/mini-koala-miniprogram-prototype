@@ -4,6 +4,8 @@
 //   报价 24 小时计时（与租期到期取较早者）；提交时请求「续租报价」订阅，支付成功后请求「租期到期」订阅（先支付、后订阅）；三态。
 // 未做：真实微信支付（演示支付，走接口层）；门店报价与「常规折扣价」不同时的对照行只有数据不同时才出现（演示数据里两者相同）。
 // 说明：门店报价、付款结果由接口推进；演示环境几秒后自动出报价（core/config-after.js demo）。
+// FIX-01：等报价页写明门店确认时限（R-02）并加「联系门店」；已到期订单各态写明续租期自原到期日起算、超出天数另计（R-08）；
+//   待支付 / 付款未成功 / 付款暂缓也可「暂不续租」，付款未成功的说明句换成支付相关的一句（C-18）。
 const T = require('../../i18n/after');
 const api = require('../../services/api');
 const routes = require('../../services/routes');
@@ -17,7 +19,7 @@ const cm = require('../common');
 const R = T.renew, CT = T.common, fill = after.fill, yuan = pricing.yuan;
 const TONE = { form: 'ok', submitting: 'warn', quote_pending: 'warn', quote_ready: 'warn', quote_expired: 'info', payment_pending: 'warn', payment_failed: 'err', cancelled: 'warn', completed: 'ok', unavailable: 'info' };
 const CUR = { form: 1, submitting: 1, quote_pending: 2, quote_ready: 3, quote_expired: 3, payment_pending: 4, payment_failed: 4, cancelled: 4, completed: 6, unavailable: 1 };
-const ACT = { submit: 'onSubmit', confirm: 'onConfirm', regular: 'onRegular', payNow: 'onPayNow', payLater: 'onPayLater', invoice: 'onInvoice', back: 'onBack' };
+const ACT = { submit: 'onSubmit', confirm: 'onConfirm', regular: 'onRegular', payNow: 'onPayNow', payLater: 'onPayLater', invoice: 'onInvoice', back: 'onBack', call: 'onCall' };
 const tagOf = (f) => after.zhe(f).replace(' ', ''); // 标签里不带空格：「6折」
 const btn = (text, act, kind, more) => Object.assign({ text, act, kind: kind || 'primary' }, more);
 
@@ -29,7 +31,8 @@ function render(page, o, now) {
     const st = v.state === 'form' && page._busy ? 'submitting' : v.state, r = v.r || null;
     const end = after.ymd(o.lease.end);
     const d = {
-      empty: false, st, order: o, note: null, sub: null, form: null, card: null, alt: [], fail: st === 'payment_failed', bar: null, pay: null,
+      empty: false, st, order: o, note: null, sub: null, form: null,
+      over: st !== 'completed' && st !== 'unavailable' && after.leaseOver(o, now) ? fill(R.overdueNote, { d: end }) : '', card: null, alt: [], fail: st === 'payment_failed', bar: null, pay: null,
       head: { title: R.head[st], tag: R.tag[st], tone: TONE[st], subs: [fill(CT.orderNo, { no: o.no }), fill(CT.curLeaseTo, { d: end }), fill(CT.totalMonths, { m: o.months })] }
     };
     const quoted = r && r.status !== 'submitted';
@@ -56,9 +59,9 @@ function render(page, o, now) {
       const info = q.kept ? { lab: fill(R.barKeep, { m, z: q.label }), amt: fill(CT.about, { a: yuan(q.total) }) } : { lab: fill(R.barLabel, { m }), amt: R.barPending, muted: true };
       d.bar = st === 'submitting' ? { btns: [btn(CT.submitting, '', 'primary', { loading: true, off: true })] } : Object.assign(info, { btns: [btn(R.submit, 'submit')] });
     } else if (st === 'quote_pending') {
-      d.note = { tone: '', text: r.notify === 'accepted' ? R.pendingNote : R.pendingNoteMsg };
+      d.note = { tone: '', text: fill(r.notify === 'accepted' ? R.pendingNote : R.pendingNoteMsg, { n: A.sla.renewQuoteDays }) };
       d.sub = r.notify === 'accepted' ? { ok: true, text: R.subOk } : r.notify === 'declined' ? { ok: false, text: R.subNo } : null;
-      d.bar = { btns: [btn(CT.backOrder, 'back', 'neutral')] };
+      d.bar = { btns: [btn(CT.backOrder, 'back', 'neutral'), btn(CT.callStore, 'call', 'ghost')] };
       cm.later(page, A.demo.storeQuoteMs - (now - r.submitted_at));
     } else {
       const m = r.months, mt = fill(CT.months, { m }), q = after.renewQuote(o, m), newEnd = after.ymd(st === 'completed' ? o.lease.end : after.addMonths(o.lease.end, m));
@@ -93,6 +96,7 @@ function render(page, o, now) {
         if (st === 'payment_pending') d.bar = { btns: [btn(R.payLater, 'payLater', 'neutral'), btn(R.payNow, 'payNow')] };
         else if (done) d.bar = { btns: [btn(R.invoice, 'invoice', 'ghost'), btn(CT.backOrder, 'back')] };
         else d.bar = { lab: R.payable, amt: yuan(r.amount), btns: [btn(st === 'payment_failed' ? R.repay : R.continuePay, 'payNow')] };
+        if (!done) d.alt = [{ text: R.skip, act: 'skip' }]; // 待支付 / 付款未成功 / 付款暂缓也能放弃这次续租，不用等报价过期
       }
       if (v.deadline && st !== 'completed' && st !== 'quote_expired') startTick(page, v.deadline);
     }
@@ -120,7 +124,7 @@ function confirm(page, regular) {
 }
 
 Page(auth.guarded(routes.RENEW, {
-  data: { T: { c: CT, r: R }, sys: 'loading', empty: false, st: '', head: null, order: null, steps: [], note: null, sub: null, form: null, card: null, alt: [], fail: false, bar: null, paySheet: false, pay: null },
+  data: { T: { c: CT, r: R }, sys: 'loading', empty: false, st: '', head: null, order: null, steps: [], over: '', note: null, sub: null, form: null, card: null, alt: [], fail: false, bar: null, paySheet: false, pay: null },
   onLoad(q) { this._id = (q && q.id) || ''; this._months = 0; this._done = false; this._busy = false; },
   onShow() { return this.refresh(); },
   onHide() { this.stopTimers(); },

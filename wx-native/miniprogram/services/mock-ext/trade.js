@@ -36,25 +36,37 @@ function unitsOf(ids) { const us = (ids || []).map(unit); return us.length && us
 const available = (us, exceptOrderId) => us.every((u) => u.status === 'available' && (!K().holds[u.id] || K().holds[u.id] === exceptOrderId));
 function bump(us) { const u = us[0]; if (!K().prices[u.id]) K().prices[u.id] = Number(u.base_month) + CT.demo.priceBump; }
 // 券：只抵租金。choice：'auto'（默认，取优惠最大的可用券）| 'none' | 券 id
-function couponList(months) { return K().coupons.map((c) => ({ id: c.id, name: c.name, amount: c.amount, eligible: months >= (c.min_months || 0) })); }
-function pickCoupon(choice, months) {
+// 不可用原因 reason：'special'（特价仓不可用券，现行为，待业务裁定 B-03）| 'months'（租期不够，min_months 是门槛）| ''
+function couponList(months, special) {
+  return K().coupons.map((c) => {
+    const reason = special ? 'special' : months >= (c.min_months || 0) ? '' : 'months';
+    return { id: c.id, name: c.name, amount: c.amount, min_months: c.min_months || 0, eligible: !reason, reason };
+  });
+}
+function pickCoupon(choice, months, special) {
   if (choice === 'none') return null;
-  const list = couponList(months).filter((c) => c.eligible);
+  const list = couponList(months, special).filter((c) => c.eligible);
   if (choice && choice !== 'auto') return list.find((c) => c.id === choice) || null;
   return list.sort((a, b) => b.amount - a.amount)[0] || null;
 }
-function quoteOf(us, months, choice) { const c = pickCoupon(choice, months); const q = pricing.quote(us.map(priced), months, c ? { coupon: c } : undefined); return { q, coupon: q.coupon_id ? c : null }; }
+const anySpecial = (us) => us.some((u) => pricing.isSpecial(priced(u)));
+function quoteOf(us, months, choice) { const c = pickCoupon(choice, months, anySpecial(us)); const q = pricing.quote(us.map(priced), months, c ? { coupon: c } : undefined); return { q, coupon: q.coupon_id ? c : null }; }
 function draft(p, session) {
   const us = unitsOf(p.unit_ids);
   if (!us) return fail('NOT_FOUND', '仓位不存在');
   if ((p.simulate === 'coupon' || scenarios.eventOn('coupon')) && !K().coupons.length) K().coupons.push({ id: 'DEMO_COUPON_1', name: CT.demo.couponName, amount: CT.demo.couponAmount, min_months: CT.demo.couponMinMonths });
   const now = Date.now(); sweep(now);
   const st = store(us[0].store_id), can = available(us, p.order_id), months = Number(p.months);
-  const out = { store: st, units: us, months, available: can, quote: null, quoted_at: 0, expires_at: 0, coupons: [], coupon_name: '' };
+  const out = { store: st, units: us, months, available: can, held_order_id: '', quote: null, quoted_at: 0, expires_at: 0, coupons: [], coupon_name: '' };
+  // 仓位被本人未付完的订单占着（B-06）：带回那笔订单号，页面指向「继续支付」。演示环境只有一个用户，占用方即本人
+  if (!can && session && session.loggedIn) {
+    const mine = us.map((u) => find(K().holds[u.id])).find((o) => o && o.id !== p.order_id && (o.stage === S.PENDING || o.stage === S.FAILED));
+    if (mine) out.held_order_id = mine.id;
+  }
   // 未登录不计算、不返回整期金额（交接 v1.0 §4.1-2）
   if (session && session.loggedIn && can && pricing.isTerm(months)) {
     const r = quoteOf(us, months, p.coupon);
-    Object.assign(out, { quote: r.q, quoted_at: now, expires_at: quoteEnd(now), coupons: couponList(months), coupon_name: r.coupon ? r.coupon.name : '' });
+    Object.assign(out, { quote: r.q, quoted_at: now, expires_at: quoteEnd(now), coupons: couponList(months, anySpecial(us)), coupon_name: r.coupon ? r.coupon.name : '' });
   }
   return ok(out);
 }
@@ -70,8 +82,9 @@ const methods = {
   // 实名认证：只支持身份证。演示环境里任意合法格式的姓名 + 18 位身份证号通过。
   verifyIdentity(p, session) {
     const name = String(p.name || '').trim(), no = String(p.id_no || '').trim().toUpperCase();
-    if (name.length < CT.identity.nameMin || name.length > CT.identity.nameMax || !/^[一-龥·A-Za-z]+$/.test(name)) return fail('INVALID', '请填写证件上的姓名');
-    if (no.length !== CT.identity.idLength || !/^\d{17}[\dX]$/.test(no)) return fail('INVALID', '请填写 18 位身份证号');
+    // data.field 指出是哪一项不合格，页面把提示放到对应输入框下（B-17）
+    if (name.length < CT.identity.nameMin || name.length > CT.identity.nameMax || !/^[一-龥·A-Za-z]+$/.test(name)) return fail('INVALID', '请填写证件上的姓名', { field: 'name' });
+    if (no.length !== CT.identity.idLength || !/^\d{17}[\dX]$/.test(no)) return fail('INVALID', '请填写 18 位身份证号', { field: 'id_no' });
     if (p.simulate === 'mismatch' || scenarios.take('idv_mismatch')) return fail('MISMATCH', '姓名与身份证号不一致，请核对后重试');
     const rec = { status: 'verified', name_masked: '*'.repeat(name.length - 1) + name.slice(-1), id_masked: no.slice(0, 3) + '*'.repeat(11) + no.slice(-4), verified_at: Date.now() };
     K().identity[session.phoneMasked || ''] = rec;
@@ -79,7 +92,9 @@ const methods = {
     db.orders.forEach((o) => { if (o.identity_status !== 'verified') o.identity_status = 'verified'; });
     return ok(rec);
   },
-  // 下单。{ unit_ids, months, start_date:'YYYY-MM-DD', quoted_at, expect_payable, coupon, km, accept_price_change }
+  // 下单。{ unit_ids, months, start_date:'YYYY-MM-DD', quoted_at, expect_payable, coupon, km, accept_price_change, sign }
+  // sign: true = 下单与签署一次完成（B-16）：实名不通过时不生成订单，不会留下用户没见过的「已取消」订单。确认订单页走这条。
+  // start_date 就是起租日、计费起点（R-04）。
   createOrder(p, session) {
     seed();
     const now = Date.now(); sweep(now);
@@ -89,6 +104,7 @@ const methods = {
     if (!pricing.isTerm(months)) return fail('INVALID', '请选择租期');
     if (available(us) && scenarios.take('unit_gone')) { markGone(us.map((u) => u.id)); us = unitsOf(p.unit_ids); }
     if (!available(us)) return fail('NOT_FOUND', '仓位已租出');
+    if (p.sign && !verified(session)) return fail('IDENTITY_REQUIRED', '签署协议前需完成实名认证');
     if (p.quoted_at && order.isExpired(quoteEnd(Number(p.quoted_at)), now)) return fail('EXPIRED', '报价已超过有效期');
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(p.start_date || ''));
     const startAt = m ? Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])) - 8 * 3600000 : now + model.DAY;
@@ -107,6 +123,7 @@ const methods = {
     if (r.coupon) { od.quote = r.q; od.coupon_name = r.coupon.name; } // order-model.build 没有券参数：用同一个 pricing.quote 带券的结果替换
     if (p.accept_price_change) od.price_change_reason = String(p.price_change_reason || '');
     if (scenarios.eventOn('pending_short')) od.pay.expires_at = now + scenarios.SHORT.pendingMs;
+    if (p.sign) { od.identity_status = 'verified'; od.contract = { signed: true, signed_at: now, signer_masked: idOf(session).name_masked }; }
     db.orders.push(od);
     us.forEach((u) => { K().holds[u.id] = od.id; });
     return ok(od);
@@ -123,6 +140,7 @@ const methods = {
     return ok(od);
   },
   // 演示支付：默认成功。支付失败不释放仓位、不改截止时间。
+  // 失败原因 pay.fail_reason（R-07，四类枚举待业务提供）：'balance' | 'cancelled' | 'network' | 'risk'；演示默认 'network'，可用 fail_reason 指定。
   payOrder(p) {
     const now = Date.now(); sweep(now);
     const od = find(p.order_id);
@@ -139,6 +157,7 @@ const methods = {
   // 支付失败后继续支付前的四项核对（D-42）：订单状态、仓位、价格、优惠资格。
   // { order_id, dry_run（只核对不改状态）, accept_price_change（用户已确认新报价）}
   // 返回 { ok, order, checks: { status, unit, price, coupon }, new_quote }；四项一致且非 dry_run 时订单回到待支付（同一订单号、同一截止时间）。
+  // 价格或优惠资格有变化（B-02）：都带回 new_quote，用户确认后（accept_price_change）订单金额按新报价更新。
   resumeFailedOrder(p) {
     const now = Date.now(); sweep(now);
     const od = find(p.order_id);
@@ -153,13 +172,14 @@ const methods = {
       checks.coupon = (cur.coupon_id || null) === (od.quote.coupon_id || null) && Number(cur.coupon_discount) === Number(od.quote.coupon_discount);
       checks.price = cur.unit_pricing.every((x, i) => Number(x.base_month) === Number(od.quote.unit_pricing[i].base_month)) && (cur.payable === od.quote.payable || !checks.coupon);
     }
-    const priceOnly = checks.status && checks.unit && checks.coupon && !checks.price;
-    if (priceOnly && p.accept_price_change && !p.dry_run) { // 用户确认新报价：订单金额按新价更新
-      od.quote = cur; od.deposit.amount = cur.deposit; od.price_change_reason = String(p.price_change_reason || ''); checks.price = true;
+    const changed = !!cur && checks.status && checks.unit && (!checks.price || !checks.coupon);
+    if (changed && p.accept_price_change && !p.dry_run) { // 用户确认新报价：订单金额按新价更新；券失效时一并去掉券
+      od.quote = cur; od.deposit.amount = cur.deposit; od.price_change_reason = String(p.price_change_reason || ''); checks.price = true; checks.coupon = true;
+      if (!cur.coupon_id) delete od.coupon_name;
     }
     const all = checks.status && checks.unit && checks.price && checks.coupon;
     if (all && !p.dry_run && od.stage === S.FAILED) od.stage = S.PENDING;
-    return ok({ ok: all, order: od, checks, new_quote: checks.price ? null : cur });
+    return ok({ ok: all, order: od, checks, new_quote: changed && !all ? cur : null });
   },
   // 取消订单：待支付与支付失败都可取消，仓位释放。
   cancelOrder(p) {

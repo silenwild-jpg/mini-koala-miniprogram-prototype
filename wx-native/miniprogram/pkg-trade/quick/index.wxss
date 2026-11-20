@@ -38,3 +38,6 @@
 .qk-none { padding: var(--mk-space-4) 0; }
 .qk-know { margin-top: var(--mk-space-3); }
 .qk-optp .mk-mute, .qk-carried, .qk-access, .qk-accessline, .qk-bar .mk-mute { color:var(--mk-color-ink-secondary); }
+.qk-datenote { margin-top: var(--mk-space-2); color: var(--mk-color-ink-secondary); }
+
+.qk-img { display: block; background: var(--mk-color-canvas-sunken); }

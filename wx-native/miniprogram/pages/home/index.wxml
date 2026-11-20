@@ -47,7 +47,7 @@
           <image class="hm-timg" src="/assets/images/home/task-map.webp" mode="aspectFit" />
         </view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card mk-card--float hm-task" bindtap="onEstimate" aria-role="button">
-          <text class="mk-title">{{T.home.estimate}}</text><text class="hm-ts">{{estimated ? T.home.estimatedSub : T.home.estimateSub}}</text><text class="mk-link hm-ta">{{T.home.estimateLink}}</text>
+          <text class="mk-title">{{T.home.estimate}}</text><text class="hm-ts">{{estimated ? T.home.estimatedSub : T.home.estimateSub}}</text><text class="mk-link hm-ta">{{estimated ? T.home.estimatedLink : T.home.estimateLink}}</text>
           <image class="hm-timg" src="/assets/images/home/task-calculator.webp" mode="aspectFit" />
         </view>
       </view>

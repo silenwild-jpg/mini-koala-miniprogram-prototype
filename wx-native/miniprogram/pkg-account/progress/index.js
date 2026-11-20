@@ -3,7 +3,8 @@
 //      都没有时显示空态（估大小算价格 / 找附近门店）；已选仓位但还没有报价时显示「已选仓位」卡；有报价时显示报价方案卡
 //      （当前报价 →「去确认订单」，超过 3 小时 → 已过期「重新报价」，D-120）；未登录不显示任何金额；加载 / 失败 / 断网。
 // 数据来源：已选仓位读全站状态的 selection 主题 { store_id, store_name, unit_ids[], unit_name, term_months }。金额不在本页算，登录后调 getQuote 取（过期判断用接口返回的 expires_at
-//      与 selection.quoted_at 起算的时效中较早的一个）。目前工程里还没有页面写入 selection（应由确认订单 / 门店详情在选仓时写入、下单成功后清掉），见报告。
+//      与 selection.quoted_at 起算的时效中较早的一个）。selection 由确认订单页写入。
+// 未做：冻结稿需求卡副文案里的「当前方案有效 / 需重新报价」「租期待确认」（需求卡是找仓域组件，已登记待裁）。
 const T = require('../../i18n/lead');
 const order = require('../../core/order');
 const fmt = require('../../core/format');

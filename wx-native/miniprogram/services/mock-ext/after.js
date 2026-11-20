@@ -13,6 +13,7 @@ const after = require('../../core/after');
 const O = require('../../core/order');
 const pricing = require('../../core/pricing');
 const T = require('../../i18n/after').messages.demo;
+const IDV = require('../../i18n/trade').idv;
 const S = O.STAGE;
 const ok = (v) => new Promise((resolve) => setTimeout(() => resolve(JSON.parse(JSON.stringify(v))), 0));
 const fail = (code, message) => Promise.reject({ code, message });
@@ -30,7 +31,7 @@ function paid(p) {
 }
 function invoiceSummary(o) {
   const rs = o.invoice.records || [], last = rs[rs.length - 1];
-  o.invoice.status = !rs.length ? 'none' : rs.every((r) => r.status === 'issued') ? 'issued' : 'applying';
+  o.invoice.status = after.invoiceStatus(rs);
   o.invoice.title = last ? last.title : '';
 }
 function finishRefund(o) {
@@ -69,6 +70,7 @@ function advance(o, now) {
   }
   const rs = (o.invoice && o.invoice.records) || [];
   rs.forEach((v) => {
+    if (v.batch_id) return; // 批量开票写入的记录由批量申请推进（mock-ext/account.js advanceBatch），这里不动
     if (v.status === 'submitted' && now - v.submitted_at >= D.invoiceProcessMs) v.status = 'processing';
     if (v.status === 'processing' && now - v.submitted_at >= D.invoiceIssueMs) {
       if (scenarios.take('invoice_fail')) { v.status = 'failed'; v.fail_reason = REASON.invoice; notify('invoice', T.invoiceFailed, o); }
@@ -129,8 +131,9 @@ const methods = {
     if (['payment_pending', 'payment_failed', 'cancelled'].indexOf(v.state) < 0) return fail('CONFLICT', '当前没有待支付的续租费用');
     if (p.simulate === 'fail' || scenarios.take('renew_pay_fail')) { r.pay = 'failed'; return fail('PAY_FAILED', '支付未成功'); }
     o.renewals = o.renewals || [];
-    o.renewals.push({ id: 'RENEWAL' + (o.renewals.length + 1), months: r.months, amount: r.amount, factor: r.factor, paid_at: now });
-    o.months = Number(o.months) + r.months; o.lease.end = after.addMonths(o.lease.end, r.months); o.renewal_count = (Number(o.renewal_count) || 0) + 1;
+    const from = o.lease.end, to = after.addMonths(from, r.months); // 续租期自原到期日顺延（逾期后续租也一样，R-08）
+    o.renewals.push({ id: 'RENEWAL' + (o.renewals.length + 1), months: r.months, amount: r.amount, monthly: r.monthly, factor: r.factor, paid_at: now, from, to });
+    o.months = Number(o.months) + r.months; o.lease.end = to; o.renewal_count = (Number(o.renewal_count) || 0) + 1;
     Object.assign(r, { status: 'paid', pay: '', paid_at: now });
     if (o.stage === S.EXPIRING || o.stage === S.OVERDUE) o.stage = o.lease.end - now > A.expiringDays * 86400000 ? S.ACTIVE : S.EXPIRING;
     notify('renew', T.renewPaid, o);
@@ -143,6 +146,7 @@ const methods = {
     const now = Date.now(), st = after.exitState(o, now), early = p.type === 'early';
     if (st !== 'form' && st !== 'form_expired') return fail('CONFLICT', st === 'not_started' ? '订单尚未起租，请联系门店办理退订' : '当前不能提交退仓安排');
     if (early && !after.canEarlyExit(o, now)) return fail('INVALID', '当前不能办理提前退仓');
+    if (!early && st === 'form' && !after.canExpiryExit(o, now)) return fail('INVALID', '到期退仓可在租期结束前 ' + A.exit.expiryAdvanceDays + ' 天内提交'); // R-01
     const rg = after.exitDateRange(o, early ? 'early' : 'expiry', now), d = String(p.date || '');
     if (!/^\d{4}-\d{2}-\d{2}$/.test(d) || d < rg.min || (rg.max && d > rg.max)) return fail('INVALID', '请选择有效的取空日期');
     o.exit = { applied_at: now, date: d, early, estimate: early ? after.earlyExitEstimate(o, d) : null, status: 'requested', inspect_at: 0, notify: '', fail_reason: '', prev_stage: o.stage };
@@ -151,11 +155,30 @@ const methods = {
     notify('exit', T.exitRequested, o);
     return ok(o);
   },
-  requestInspection(p) { // { id, notify }：确认清空并申请验仓 / 重新申请验仓
+  // { id, notify, early_confirmed }：确认清空并申请验仓 / 重新申请验仓。
+  // 到期退仓在租期结束日之前申请验仓 = 实际取空早于计划取空日，按提前退仓结算（R-01）：页面先提示，用户确认后带 early_confirmed 再提交；
+  // 没带时返回 EARLY_CONFIRM，不改状态。
+  requestInspection(p) {
     const [o, e] = paid(p); if (e) return e;
-    const x = o.exit;
+    const x = o.exit, now = Date.now();
     if (!x || (x.status !== 'requested' && x.status !== 'failed')) return fail('CONFLICT', '当前不能申请验仓');
-    Object.assign(x, { status: 'waiting', inspect_at: Date.now(), notify: p.notify || '', fail_reason: '' });
+    if (after.inspectionIsEarly(o, now)) {
+      if (!p.early_confirmed) return fail('EARLY_CONFIRM', '早于计划取空日申请验仓，将按提前退仓结算');
+      const today = after.ymd(now);
+      Object.assign(x, { early: true, converted: true, planned_date: x.date, date: today, estimate: after.earlyExitEstimate(o, today) });
+    }
+    Object.assign(x, { status: 'waiting', inspect_at: now, notify: p.notify || '', fail_reason: '' });
+    return ok(o);
+  },
+  // 撤回退仓（R-01）：到期退仓提交后、门店验仓完成前可撤回，订单回到提交前的阶段（此时已过到期日的记为已逾期）。
+  // 提交退仓时作废的续租申请不恢复。
+  cancelExit(p) { // { id }
+    const [o, e] = paid(p); if (e) return e;
+    if (!after.canWithdrawExit(o)) return fail('CONFLICT', '当前不能撤回退仓');
+    const prev = o.exit.prev_stage;
+    o.stage = after.leaseOver(o, Date.now()) ? S.OVERDUE : (prev && prev !== S.EXITING && prev !== S.ENDED ? prev : S.ACTIVE);
+    o.exit = null;
+    notify('exit', T.exitWithdrawn, o);
     return ok(o);
   },
 
@@ -178,7 +201,7 @@ const methods = {
     else {
       const pay = v.available.find((x) => x.id === p.payment_id) || (p.payment_id ? null : v.available[0]);
       if (!pay) return fail('CONFLICT', '这笔付款已申请过发票');
-      v.records.push(Object.assign({ id: 'INV' + (v.records.length + 1), payment_id: pay.id, payment_type: pay.type, amount: pay.amount }, data));
+      v.records.push(Object.assign({ id: 'INV' + (v.records.length + 1), payment_id: pay.id, payment_type: pay.type, amount: pay.invoice_amount }, data)); // 发票金额不含押金（R-03）
     }
     invoiceSummary(o);
     return ok(o);
@@ -199,7 +222,7 @@ const methods = {
     const [o, e] = paid(p); if (e) return e;
     if (o.identity_status === 'verified') return ok(o);
     const v = after.validateIdentity(p);
-    if (v.nameError || v.idError) return fail('INVALID', v.nameError ? '请填写有效姓名' : '请填写18位证件号码');
+    if (v.nameError || v.idError) return fail('INVALID', v.nameError ? IDV.nameInvalid : IDV.noInvalid);
     if (p.simulate === 'mismatch' || scenarios.take('idv_mismatch')) { o.identity_status = 'mismatch'; notify('identity', T.identityFail, o); return ok(o); }
     const name = String(p.name).trim(), no = String(p.id_no).trim().toUpperCase();
     o.identity_status = 'pending'; o.identity_submitted_at = Date.now();
@@ -213,10 +236,11 @@ const methods = {
   getMessagesUnread(p, session) { // 「我的」消息角标是未读数（§4.7-6）；未登录为 0
     if (!session || !session.loggedIn) return ok({ unread: 0 });
     seedMessages();
+    db.orders.forEach((o) => { if (after.isPaid(o)) advance(o, Date.now()); }); // 与 getMessages 同步推进，角标和消息页的未读数才对得上（FIX-01 D-05）
     return ok({ unread: db.messages.filter((m) => !m.read).length });
   }
 };
 module.exports = {
-  needLogin: ['getAfterOrder', 'requestRenewal', 'cancelRenewal', 'confirmRenewal', 'deferRenewalPay', 'payRenewal', 'requestExit', 'requestInspection', 'setAfterNotify', 'submitInvoice', 'sendInvoiceEmail', 'getInvoiceFile', 'submitOrderIdentity', 'getMessages', 'readMessages'],
+  needLogin: ['getAfterOrder', 'requestRenewal', 'cancelRenewal', 'confirmRenewal', 'deferRenewalPay', 'payRenewal', 'requestExit', 'requestInspection', 'cancelExit', 'setAfterNotify', 'submitInvoice', 'sendInvoiceEmail', 'getInvoiceFile', 'submitOrderIdentity', 'getMessages', 'readMessages'],
   methods
 };

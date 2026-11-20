@@ -11,8 +11,10 @@ const api = require('../../services/api');
 const state = require('../../services/state');
 const auth = require('../../services/auth');
 const routes = require('../../services/routes');
+const media = require('../../services/media');
 const pd = require('../../services/page-data');
 const view = require('../../services/order-view');
+const share = require('../../services/share');
 const actions = require('../../services/order-actions');
 const pricing = require('../../core/pricing');
 const fmt = require('../../core/format');
@@ -21,7 +23,7 @@ const inf = (v) => (v === null || v === undefined ? Infinity : v);
 Page({
   data: {
     T, TC: TT.common, sys: 'loading', locText: '', carried: false,
-    store: null, storeHint: '', unit: null, unitHint: '', fromText: '', gone: false,
+    store: null, storeHint: '', unit: null, unitHint: '', fromText: '', gone: false, held: '', // held: 占着所选仓位的本人待支付订单号（FIX-01 B-06）
     term: C.requirement.termDefault, hint: '', startDate: '', startMin: '', startMax: '',
     est: null, access: '', draft: null,
     barLabel: T.need, barAmount: '', barMuted: true, barNeed: '', btnText: T.next, btnDisabled: true,
@@ -51,24 +53,24 @@ Page({
     const km = view.kmOf(st, loc);
     const base = {
       locText: loc.city + T_SEP + (loc.label || T.allCity), carried: !!(this._carried && st),
-      store: st ? { id: st.id, name: st.name, sub: (km !== null ? fmt.kmText(km) + T_SEP : '') + st.address } : null,
+      store: st ? { id: st.id, name: st.name, photo: media.storeCard(st), sub: (km !== null ? fmt.kmText(km) + T_SEP : '') + st.address } : null,
       storeHint: stores.length ? T.storeAddrHint : T.noStore,
-      unit: u ? view.unitLines({ units: [u] }) : null, unitHint: st ? T.unitHint : T.unitNeedStore,
+      unit: u ? Object.assign({ thumb: media.unitThumb(u) }, view.unitLines({ units: [u] })) : null, unitHint: st ? T.unitHint : T.unitNeedStore,
       fromText: u ? pricing.yuan(pricing.unitFromMonthly(u)) : '', access: st && st.access_hours ? T.access + st.access_hours : '',
-      hint: pricing.termHint(d.term), est: null, draft: null, gone: false
+      hint: pricing.termHint(d.term), est: null, draft: null, gone: false, held: ''
     };
     this.setData(base); this.bar();
     if (!u) return Promise.resolve();
     const token = this._token = (this._token || 0) + 1, months = d.term;
     return api.getOrderDraft({ unit_ids: [u.id], months }).then((r) => {
       if (token !== this._token) return; // 期间又改了选择：丢弃旧结果
-      if (!r.available) { this.setData({ gone: true, est: null, draft: null }); this.bar(); return; }
+      if (!r.available) { this.setData({ gone: true, held: r.held_order_id || '', est: null, draft: null }); this.bar(); return; }
       if (r.quote) {
         const q = r.quote, free = pricing.freeTransportFor(km, months, q.special);
         this.setData({
           est: { label: T.estimate, term: '/ ' + fmt.termText(months), amount: pricing.yuan(q.rent_total), tag: q.special ? TT.fee.special : pricing.factorLabel(Number(q.term_factor) || 1), sub: pricing.yuan(q.monthly_average) + TT.common.perMonth + ' × ' + fmt.termText(months) },
           draft: { months, quote: q, free_transport: free },
-          hint: pricing.nudge(months, { km, baseMonth: u.base_month, rentAt: (m) => pricing.quote([u], m).rent_total })
+          hint: pricing.nudge(months, { km: q.special ? null : km, baseMonth: u.base_month, rentAt: pricing.fullEligible([u]) ? (m) => pricing.quote([u], m).rent_total : null }) // 单个特价仓不参与满额减、免费运输，不出对应引导句
         });
       }
       this.bar();
@@ -79,7 +81,8 @@ Page({
     const miss = !d.store ? T.missStore : !d.unit ? T.missUnit : d.gone ? T.missSwap : !d.startDate ? T.missDate : '';
     const quote = !miss && !loggedIn; // 未登录且已选齐：主按钮是「查看报价」，点击打开登录层
     this.setData({
-      barLabel: quote ? T.loginToQuote : d.est ? T.estimate : T.need, barAmount: d.est ? d.est.amount : miss, barMuted: !d.est, barNeed: d.est && miss ? T.need + miss : '',
+      // 未登录且已选齐：金额位写「登录后显示」，不留空行（FIX-01 B-13）
+      barLabel: quote || d.est ? T.estimate : T.need, barAmount: quote ? T.loginToShow : d.est ? d.est.amount : miss, barMuted: !d.est, barNeed: d.est && miss ? T.need + miss : '',
       btnText: quote ? T.quote : T.next, btnDisabled: !!miss
     });
   },
@@ -120,6 +123,9 @@ Page({
     if (!auth.isLoggedIn()) { auth.openLogin(this); return; } // 查看报价：登录后停在本页显示金额
     auth.navigate(this, routes.CONFIRM + '?unit=' + this._unitId + '&term=' + d.term + '&date=' + d.startDate);
   },
+  onHeld() { if (this.data.held) auth.navigate(this, routes.CONFIRM + '?order=' + this.data.held); },
+  // 转发（FIX-01 R-15）：带上已选的门店与仓位，不带租期和日期
+  onShareAppMessage() { return share.message(routes.QUICK, { query: this._storeId ? 'store=' + this._storeId + (this._unitId ? '&unit=' + this._unitId : '') : '' }); },
   onLoginClose() { this.setData({ loginVisible: false }); },
   onLoginSuccess() { this.apply(); }
 });

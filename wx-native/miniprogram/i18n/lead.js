@@ -23,7 +23,7 @@ const fn = {
 module.exports = {
   ack, fn,
   common: {
-    viewNeeds: '查看预约记录', goFind: '继续找仓', backMine: '返回我的', cancel: '取消', confirm: '确定', modify: '修改', done: '完成',
+    viewNeeds: '查看预约记录', viewNeedsLogin: '登录后查看预约记录', viewOrder: '查看订单', goFind: '继续找仓', backMine: '返回我的', cancel: '取消', confirm: '确定', modify: '修改', done: '完成',
     optional: '（可选）', optionalFill: '（选填）', multi: '（可多选）', required: '*', pick: '请选择', pickDate: '选择日期', unsure: '暂不确定', dash: '—',
     m3: 'm³', m2: '㎡', months: '个月', salesLabel: SALES + 'm³ 及以上',
     retry: '重试提交', recheck: '核对提交结果',
@@ -45,6 +45,8 @@ module.exports = {
       advisor: { title: '顾问咨询', h1: '告诉我们您的用仓需求', p: '留下联系电话，顾问来电了解需求并给出方案', submit: '提交咨询需求' },
       business: { title: '企业用仓咨询', h1: '告诉我们企业的用仓需求', p: '多仓、长期或需要开票，由顾问按企业需求配仓', submit: '提交咨询需求' }
     },
+    // 自写（FIX-01 E-21）：从考拉E存进入的顾问表单，标题与说明带出来源；字段与顾问模式相同
+    estoreMode: { title: '考拉E存咨询', h1: '告诉我们您的存放需求', p: '留下联系电话，顾问来电确认上门取送方案与费用', submit: '提交咨询需求' },
     toBusinessTip: '需要填写完整企业资料？', toBusiness: '前往企业用仓需求',
     storeTag: '意向门店',
     address: '用仓位置', addressPh: '填写用仓位置，如：小区、街道和楼栋',
@@ -61,6 +63,7 @@ module.exports = {
     capErrM2: '请填写 ' + C.requirement.areaMinM2 + '–' + C.requirement.areaMaxM2 + '㎡，最多一位小数', // 自写
     note: '其他需求或备注', notePh: '例如：搬运需求、特殊物品、预算范围等...',
     payNote: '提交后' + ack.inHours + '，暂不产生订单',
+    payNoteOff: '现在是非服务时段，顾问上班后将优先联系您，暂不产生订单', // 自写（FIX-01 E-12）：非服务时段打开表单时用这句
     submitting: '正在提交',
     errPhone: '请填写有效联系电话', errAddress: '请填写用仓位置（不超过120字）',
     infoTitle: '已提交的信息',
@@ -84,15 +87,16 @@ module.exports = {
     phonePh: '用于顾问联系', when: '预计用仓时间',
     notes: '补充信息', notesPh: '补充用仓信息，方便我们更准确的理解您的需求，高效协助配仓',
     payNote: '提交后' + ack.inHours,
+    payNoteOff: '现在是非服务时段，顾问上班后将优先联系您', // 自写（FIX-01 E-12）
     browse: '查看可选仓位', next: '下一步：联系方式', prev: '上一步', submit: '邀请顾问协助', update: '保存企业需求更新', saving: '正在保存…',
     blockedTitle: '这条需求已不存在或已撤回', blockedMsg: '可以重新提交一条需求。', newLead: '新建企业需求',
     editTitle: '正在补充已有企业需求', editMsg: '保存后将更新这条需求。',
     restoredTitle: '已恢复上次填写的信息', restoredMsg: '请核对后继续。',
     failedTitle: '暂时无法保存',
-    updatedTitle: '企业需求已更新', offPrefix: '非服务时段提交的：', gotIt: '知道了',
+    updatedTitle: '企业需求已更新', offPrefix: '非服务时段提交的：',
     err: {
       size: '请输入有效容量', // D-177：范围文字原话照写
-      term: '租期请选择1–60个月的整数', browseSize: '请填写或选择所需空间', browseTerm: '请选择租期', browseSales: SALES + 'm³ 及以上由顾问配仓，请直接提交需求',
+      term: '租期请选择1–60个月的整数', browseSize: '请填写或选择所需空间', browseTerm: '请选择租期',
       phone: '请填写有效的联系电话，国际号码请带国家区号', date: '请选择有效的预计用仓日期', capacity: '请填写0.5m³–200㎡的有效容量',
       notFound: '这条需求已不存在，请从「预约用仓」重新打开，或重新提交', withdrawn: '这条需求已撤回，可重新提交'
     }
@@ -102,7 +106,7 @@ module.exports = {
     cmpTitle: '与自助仓怎么选', self: '自助仓', selfList: ['自己到店存取', '按仓位容量和租期计费', '线上选仓、下单、付款'], goSelf: '去找自助仓',
     estoreList: ['上门取件与送回', '方案与费用由顾问确认', '提交需求后电话沟通'],
     flowTitle: '服务流程',
-    flow: [{ t: '提交需求', s: '填写地址、物品和预计存放时间' }, { t: '顾问确认', s: ack.inHours + '，确认方案与费用' }, { t: '上门取件', s: '' }, { t: '入库保管', s: '' }, { t: '预约送回', s: '' }],
+    flow: [{ t: '提交需求', s: '留下联系电话，可补充地址、物品和预计存放时间' }, { t: '顾问确认', s: ack.inHours + '，确认方案与费用' }, { t: '上门取件', s: '' }, { t: '入库保管', s: '' }, { t: '预约送回', s: '' }],
     infoTitle: '服务说明',
     info: [ // 合同文本 estore.*（界面短句）
       { k: '服务范围', v: '上门取送、便捷寄存、灵活召回：可按需召回部分或全部物品，最小 1 个包裹起，送达同城指定地址。物品由仓库集中保管，取用通过召回配送完成' },
@@ -116,6 +120,8 @@ module.exports = {
   },
   transport: {
     note: '下单前即可预约运输 / 搬运，由顾问确认方案与费用，不计入本次应付。',
+    noteOrder: '提交后由顾问确认运输 / 搬运方案与费用，费用不含在订单已付金额内。', // 自写（FIX-01 E-15）：已下单后预约时用这句
+    errOrder: '未找到这笔订单，请重新选择订单', // 自写（FIX-01 E-16）
     address: '取送地址', addressPh: '请填写取送地址', date: '期望运输日期', datePh: '请选择日期', phone: '联系电话', phonePh: '请填写手机号',
     submit: '提交运输预约', pickTitle: '选择关联订单', records: '运输记录', preTitle: '运输预约', pending: '待顾问确认', goFind: '去找仓',
     orderNo: '订单号 ',
@@ -152,12 +158,14 @@ module.exports = {
     selected: '已选仓位', quoteTitle: '报价方案', quoteValid: '当前报价', quoteExpired: '已过期',
     rent: '整期租金', coupon: '优惠券', payable: '本次应付', toConfirm: '去确认订单', requote: '重新报价'
   },
+  // 转发标题（FIX-01 R-15），自写
+  share: { booking: '预约用仓 · 迷你考拉仓', advisor: '顾问咨询 · 迷你考拉仓', business: '商家 / 企业用仓 · 迷你考拉仓', estore: '考拉E存 · 上门取送的寄存服务', transport: '运输与搬运 · 迷你考拉仓', support: '联系顾问 · 迷你考拉仓' },
   // 预约看仓弹层（门店详情）。句子沿用 11-20 基线里弹层原有的写法；errPhoneVerified 是已登录时的报错，自写。
   visit: {
     title: '预约看仓', phone: '联系电话', useWechat: '使用微信手机号', phonePh: '也可直接填写手机号', phonePhOptional: '另填联系电话（选填）', verifiedPrefix: '已验证手机号 ', verifiedSuffix: '，可另填联系电话',
     when: '看仓时间', otherDate: '选择其他日期', slots: ['待电话确认', '上午', '下午', '晚上'], days: ['今天', '明天', '后天'], intent: '意向仓位与容量', optional: '选填', noUnit: '暂不选仓位', capPh: '预计容量', m3: 'm³',
     submit: '提交看仓需求', recheck: '核对提交结果', note: '仅提交销售线索，不锁定仓位；看仓时间以门店电话确认为准。', loginTip: '请登录',
     doneTitle: '看仓需求已提交', doneSub: '门店将电话确认看仓时间', no: '需求编号 ', done: '完成',
-    errPhone: '请填写有效手机号，或使用微信手机号', errPhoneVerified: '请填写有效手机号，或留空使用已验证手机号', errCap: '请填写有效容量，或留空', errDate: '请选择今天或之后的日期', unknown: '提交结果暂未确认，请核对结果', failed: '暂时无法提交，请重试'
+    errPhone: '请填写有效手机号，或使用微信手机号', errPhoneVerified: '请填写有效手机号，或留空使用已验证手机号', errCap: '请填写有效容量，或留空', errDate: '请选择今天或之后的日期', errSlot: '今天这个时段已过，请改选其他时段或日期', unknown: '提交结果暂未确认', failed: '暂时无法提交，请重试'
   }
 };

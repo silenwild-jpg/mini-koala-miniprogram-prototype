@@ -2,17 +2,19 @@
 // 按原单位打开（按面积填的需求以 ㎡ 打开，D-178 只写「约 X m³」不写层高）。租期用全站统一组件。
 // 达到 30m³ 不写入自助需求，抛 sales 事件由页面带去顾问表单（与填容量页同一规则，D-101）。
 // cold = 还没有需求时的「填写需求」形态（带「不确定大小？去估算」）。
+// 已有需求的形态保留两个估算入口（FIX-01 R-19）：「按物品估算」去物品页，估算完回到打开弹层的那一页；「AI 估算」暂未开放，只给一句提示（D-133）。
 const T = require('../../i18n/find');
 const C = require('../../core/config');
 const req = require('../../core/requirement');
 const pricing = require('../../core/pricing');
 const state = require('../../services/state');
 const routes = require('../../services/routes');
+const flow = require('../../services/estimate-flow');
 const D = T.demand;
 Component({
   options: { addGlobalClass: true },
   properties: { visible: { type: Boolean, value: false }, cold: { type: Boolean, value: false }, rangeNote: { type: Boolean, value: false } },
-  data: { T: { capLabel: D.capLabel, termLabel: D.termLabel, toEstimate: D.toEstimate, cancel: D.cancel, m3: T.unit.m3, m2: T.unit.m2 }, title: D.title, note: D.note, submitText: D.update, unit: 'm3', raw: '', term: C.requirement.termDefault, approx: '', error: '', hint: '' },
+  data: { T: { capLabel: D.capLabel, termLabel: D.termLabel, toEstimate: D.toEstimate, byItems: D.byItems, ai: D.ai, aiOff: D.aiOff, cancel: D.cancel, m3: T.unit.m3, m2: T.unit.m2 }, title: D.title, note: D.note, submitText: D.update, unit: 'm3', raw: '', term: C.requirement.termDefault, approx: '', error: '', hint: '' },
   observers: { visible(v) { if (v) this.open(); } },
   methods: {
     open() {
@@ -32,7 +34,9 @@ Component({
     onInput(e) { this.setData({ raw: String((e.detail && e.detail.value) || ''), error: '' }); this.evaluate(); },
     onUnit(e) { const unit = e.currentTarget.dataset.u === 'm2' ? 'm2' : 'm3'; if (unit !== this.data.unit) { this.setData({ unit, raw: '', error: '' }); this.evaluate(); } },
     onTerm(e) { const m = e.detail && e.detail.months; if (pricing.isTerm(m)) { this.setData({ term: m }); this.evaluate(); } },
-    onEstimate() { this.triggerEvent('close'); wx.navigateTo({ url: routes.CAPACITY }); },
+    onEstimate() { this.triggerEvent('close'); flow.start(); wx.navigateTo({ url: routes.CAPACITY }); },
+    onItems() { this.triggerEvent('close'); flow.start(); wx.navigateTo({ url: routes.ITEMS }); },
+    onAi() { wx.showToast({ title: D.aiToast, icon: 'none' }); },
     onClose() { this.triggerEvent('close'); },
     onSubmit() {
       const d = this.data, v = req.validate(d.unit, d.raw);
