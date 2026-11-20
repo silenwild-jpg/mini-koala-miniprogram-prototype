@@ -9,7 +9,8 @@
 //   运输：order_id, date；咨询：support_type, text, order_id
 // 联系电话：已登录用登录手机号（接口侧凭登录态取号，演示数据只有脱敏号）；p.phone 是本次另填并验证过的号码。
 // submitLead 覆盖 mock-adapter.js 里的同名基础方法。带 request_key 时同一个 key 只落一条（重试 / 核对提交结果不重复建单）。
-const { db, store: storeOf } = require('./_db');
+const { db, store: storeOf, pushMessage } = require('./_db');
+const MSG = require('../../i18n/after').messages.demo;
 const scenarios = require('../../mock/scenarios');
 const fmt = require('../../core/format');
 const stores = require('../../mock/stores');
@@ -124,6 +125,9 @@ const methods = {
       const seq = ++k.seq;
       rec = Object.assign({ id: 'LEAD' + lead.leadNo(seq), no: lead.leadNo(seq), status: lead.STATUS.SUBMITTED, accepted_at: now, in_service_hours: ack.in_service_hours }, b.rec);
       db.leads.push(rec);
+      // 预约类线索受理后写一条站内消息（张坤 2026-11-20）；运输预约和客服留言不在「预约记录」里，不写
+      const title = { [T.BOOKING]: MSG.leadBooking, [T.ADVISOR]: MSG.leadAdvisor, [T.ENTERPRISE]: MSG.leadEnterprise, [T.VISIT]: MSG.leadVisit }[rec.type];
+      if (title) pushMessage('lead', title, '');
     }
     if (p.request_key) k.keys[p.request_key] = rec.id;
     if (sim === 'timeout') return fail('TIMEOUT', '提交结果暂未确认，请勿重复提交。');

@@ -6,7 +6,7 @@
 // 同一组失败也可以在演示工具页打开（mock/scenarios.js EVENTS 的租后事件），由这里在对应步骤触发，页面不用带参数：
 //   renew_pay_fail 续租付款失败；idv_mismatch 实名未通过；inspect_fail 验仓未通过；refund_fail 押金退款未成功；invoice_fail 开票未成功；
 //   store_hold 门店暂不处理（下面 advance 里的自动推进全部停住，关闭后从停住的地方继续）。
-const { db, seed, REASON } = require('./_db');
+const { db, seed, pushMessage, REASON } = require('./_db');
 const scenarios = require('../../mock/scenarios');
 const A = require('../../core/config-after');
 const after = require('../../core/after');
@@ -18,10 +18,7 @@ const ok = (v) => new Promise((resolve) => setTimeout(() => resolve(JSON.parse(J
 const fail = (code, message) => Promise.reject({ code, message });
 const kv = () => db.kv.after || (db.kv.after = { msgSeq: 0, seeded: false });
 
-function notify(type, title, o) {
-  const k = kv();
-  db.messages.push({ id: 'MA' + (++k.msgSeq), type, title, text: '', order_id: o ? o.id : '', created_at: Date.now(), read: false });
-}
+function notify(type, title, o) { pushMessage(type, title, o ? o.id : ''); }
 function find(p) { seed(); return db.orders.find((x) => x.id === (p && p.id)) || null; }
 // 取一笔已付款订单并做前置检查；返回 [order, 错误 Promise]
 function paid(p) {

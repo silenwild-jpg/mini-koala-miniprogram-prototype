@@ -19,6 +19,10 @@ module.exports = {
     areaChipsDefault: 8,        // 交接 §4.2-5：商圈默认 8 个，其余展开
     searchStoreMax: 6           // 冻结稿 w14.js：门店结果最多 6 条
   },
+  // 库存紧张提示（GAPS-01，张坤 2026-11-20 要求添加；D-170 曾去掉同类提示，见 PENDING_RULINGS PR-40）。
+  // 数量 = 本店可租仓位总数，不超过 maxLeft 时在门店卡和门店详情的标签行提示；满仓不提示（另有「暂无可租仓位」）。show 关掉即全站不显示。
+  // maxLeft 是自定值：演示库存里每家门店各容量只有 1 个仓位，旧冻结稿的「同容量仅剩 N 个」口径在这份数据上会每行都出现，所以改按门店总数。
+  lowStock: { show: true, maxLeft: 2 },
   detail: {
     soldFoldMax: 3,             // 冻结稿 w2-render.js soldFold(3)
     alternativesMax: 3,         // 冻结稿 w2-render.js alternatives().slice(0,3)

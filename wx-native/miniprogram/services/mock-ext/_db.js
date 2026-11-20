@@ -93,5 +93,10 @@ function applyAfter(od, a, now) {
   }
 }
 // 清空演示数据（切换演示场景时用）。原地清空，各模块手里的 db 引用不变。
+// 写一条站内消息（演示数据）。租后各接口和线索提交共用一个序号。
+function pushMessage(type, title, orderId) {
+  const k = db.kv.after || (db.kv.after = { msgSeq: 0, seeded: false });
+  db.messages.push({ id: 'MA' + (++k.msgSeq), type, title, text: '', order_id: orderId || '', created_at: Date.now(), read: false });
+}
 function resetDb() { db.orders.length = 0; db.leads.length = 0; db.messages.length = 0; db.seq = 0; db.sms = {}; db.kv = {}; db.seeded = false; }
-module.exports = { db, seed, store, unit, stocked, markGone, mk, resetDb, REASON };
+module.exports = { db, seed, store, unit, stocked, markGone, mk, resetDb, pushMessage, REASON };

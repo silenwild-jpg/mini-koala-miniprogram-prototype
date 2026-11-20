@@ -6,8 +6,9 @@
       <view class="mk-between sc-meta">
         <image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sc-km">{{card.kmText}}</text><text class="mk-sub mk-ellipsis mk-grow">{{card.address}}</text>
       </view>
-      <view wx:if="{{card.rankTag || visibleTags.length}}" class="sc-tags">
+      <view wx:if="{{card.rankTag || card.lowText || visibleTags.length}}" class="sc-tags">
         <text wx:if="{{card.rankTag}}" class="mk-tag mk-tag--brand">{{card.rankTag}}</text>
+        <text wx:if="{{card.lowText}}" class="mk-tag mk-tag--warn">{{card.lowText}}</text>
         <text wx:for="{{visibleTags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text>
       </view>
     </view>

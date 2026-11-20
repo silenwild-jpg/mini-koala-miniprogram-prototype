@@ -128,7 +128,12 @@ module.exports = {
       depositRefunded: '押金已退还',
       depositFailed: '押金退款未成功，门店正在处理',
       invoiceIssued: '发票已开具',
-      invoiceFailed: '发票开具未成功，请核对开票信息后重新提交'
+      invoiceFailed: '发票开具未成功，请核对开票信息后重新提交',
+      // 预约提交后的消息（GAPS-01，自写，PR-41 待裁）
+      leadBooking: '预约用仓已提交，顾问将电话联系您',
+      leadAdvisor: '咨询需求已提交，顾问将电话联系您',
+      leadEnterprise: '企业用仓需求已提交，顾问将电话联系您',
+      leadVisit: '预约看仓已提交，门店将电话与您确认时间'
     }
   }
 };

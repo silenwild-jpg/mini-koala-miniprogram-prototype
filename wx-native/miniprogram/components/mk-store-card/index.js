@@ -19,7 +19,7 @@ Component({
       else if (c.row) lines = d.showLarger && c.larger ? [Object.assign({ nearText: c.nearText }, c.row), Object.assign({ secondary: true }, c.larger)] : [Object.assign({ nearText: c.nearText }, c.row)];
       // 列表只留两个标签位（包含推荐标记）；门店完整服务仍在 S02。
       const tags = (d.variant === 'compact' ? c.tagsCompact : c.tags) || [];
-      const visibleTags = tags.slice(0, c.rankTag ? 1 : 2);
+      const visibleTags = tags.slice(0, Math.max(0, 2 - (c.rankTag ? 1 : 0) - (c.lowText ? 1 : 0))); // 库存紧张提示占一个标签位
       this.setData({ lines, visibleTags });
     },
     onStore() { this.triggerEvent('store', { id: (this.data.card || {}).id }); },

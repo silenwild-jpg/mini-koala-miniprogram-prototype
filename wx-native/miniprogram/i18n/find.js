@@ -6,6 +6,8 @@ module.exports = {
   usage: { prefix: '适合', bands: ['行李箱、换季衣物', '纸箱、小件家具', '小件家具、家电', '沙发、家庭家具', '大件家具、家电', '大量家具、物资'] },
   unitCategories: { all: '全部', mini: '迷你仓', small: '小型仓', medium: '中型仓', large: '大型仓' },
   price: { fromMonth: '/月起', month: '/月', cubicFrom: '/m³/月起', special: '特价仓', totalPrefix: '整期 ', fullOff: '满额减 ', none: '暂无价格' },
+  // 库存紧张提示（自写，PR-40 待裁）：按本店可租仓位总数
+  stock: { low: (n) => '仅剩 ' + n + ' 个可租' },
   cta: { order: '立即下单', quote: '查看报价', viewUnits: '查看仓位', viewStore: '查看门店', moreUnits: '查看更多仓位', advisor: '预约顾问', toAdvisor: '提交给顾问' },
   card: {
     range: '可租容量', freeTransport: '满6个月免费运输', more: (n) => '另有 ' + n + ' 个可租 · 查看门店',

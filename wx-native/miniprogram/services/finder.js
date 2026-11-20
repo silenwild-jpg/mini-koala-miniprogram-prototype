@@ -58,6 +58,12 @@ function line(units, months, loggedIn) {
   }
   return l;
 }
+// 库存紧张提示：本店可租仓位总数不超过阈值时给一句话。阈值与开关在 core/config-find.js lowStock。
+function lowText(storeUnits) {
+  const c = CF.lowStock; if (!c || !c.show) return '';
+  const n = (storeUnits || []).filter(matching.isAvailable).length;
+  return n >= 1 && n <= c.maxLeft ? T.stock.low(n) : '';
+}
 const unitRow = (u, months, loggedIn) => line([u], months, loggedIn);
 // 排序用的月租：只在本模块内部比较大小，不放进任何返回值（未登录也不外露）
 const monthlyAt = (units, months) => units.reduce((n, u) => n + pricing.unitPricing(u, pricing.isTerm(months) ? months : pricing.bestRule().min).monthly_rent, 0);
@@ -113,6 +119,7 @@ function storeCard(store, ctx) {
   // 「特价仓」标签按所展示的仓位判断：有需求看展示的那一行，无需求看本店可租仓位
   card.promo = card.row ? card.row.special : !!card.operating && card.operating === T.price.special;
   card.tags = storeTags(store, 3, card.promo, far);
+  card.lowText = lowText(store.units);
   card.tagsCompact = storeTags(store, 2, card.promo, far).slice(0, 2);
   card.locText = card.kmText ? card.kmText + ' · ' + store.district : store.district + (store.community ? ' · ' + store.community : '');
   return card;
@@ -313,7 +320,7 @@ function buildMatch(stores, ctx) {
     const far = pricing.isFar(x.km), promo = first.special;
     return {
       id: x.store.id, photo: imageOf(x.store.id), name: x.store.name, address: x.store.address, km: x.km, kmText: fmt.kmText(x.km),
-      rankTag: x.rankTag || '', tags: storeTags(x.store, 3, promo, far).slice(0, 2),
+      rankTag: x.rankTag || '', tags: storeTags(x.store, 3, promo, far).slice(0, 2), lowText: lowText(x.store.units),
       lines, moreText: restCount > 0 ? T.card.more(restCount) : T.cta.viewStore
     };
   });

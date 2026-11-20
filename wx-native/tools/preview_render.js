@@ -57,6 +57,7 @@ const css = (rel) => fs.existsSync(path.join(root, rel)) ? rpx(inline(rel)).repl
 const BASE = 'html,body{margin:0;background:#888}*{box-sizing:border-box}.wx-page{width:375px;min-height:667px;margin:0 auto;position:relative;overflow:hidden;display:block}.wx-view{display:block}.wx-text{display:inline}.wx-button{border:0}input{border:0;outline:0;background:transparent;font-family:inherit}.navbar{height:44px;display:flex;align-items:center;justify-content:center;background:#fff;font-weight:600;font-size:17px;border-bottom:1px solid #eee}.tabbar{position:absolute;left:0;right:0;bottom:0;height:50px;background:#fff;border-top:1px solid #eee;display:flex}.tabbar div{flex:1;text-align:center;font-size:10px;padding-top:6px;color:#5F6B65}.tabbar img{width:24px;height:24px;display:block;margin:0 auto 2px}.tabbar .on{color:#0B7A48}.note{position:absolute;right:4px;top:2px;font-size:9px;color:#b00;z-index:999;background:#fff8}';
 const tabs = app.tabBar.list;
 async function shot(name, base, opts) {
+  if (process.env.PV_ONLY && !process.env.PV_ONLY.split(',').some((p) => name.indexOf(p) === 0)) return ''; // 只出指定前缀的图
   state.reset(); used.clear(); env.mode = 'ok';
   require(path.join(root, 'mock/scenarios')).write({ scenario: '', net: 'instant', stock: 'normal', events: {} }); require(path.join(root, 'services/mock-ext/_db')).resetDb();
   if (opts.scenario) require(path.join(root, 'services/demo')).applyScenario(opts.scenario); // 演示场景：登录态、定位、需求、订单一起就位
@@ -184,6 +185,14 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['al27_needs_loading', AC('needs'), { scenario: 'member_leads', after: (p) => p.setData({ sys: 'loading' }) }],
     ['al28_booking_offline', LD('booking'), { scenario: 'member_new', after: (p) => p.setData({ sys: 'offline' }) }],
     ['al29_lab_lead_events', 'pkg-dev/lab/index', { scenario: 'member_leads', events: { lead_submit_fail: true, review_hold: true } }]
+  ]) done.push(await shot(x[0], x[1], x[2]));
+  // GAPS-01：库存紧张提示、预约提交后的消息
+  for (const x of [
+    ['gp01_stores_tight', 'pages/stores/index', { located: true, stock: 'tight' }],
+    ['gp02_stores_tight_need', 'pages/stores/index', { need: NEED, located: true, login: true, stock: 'tight' }],
+    ['gp03_match_tight', 'pages/match/index', { need: NEED, located: true, login: true, stock: 'tight' }],
+    ['gp04_detail_tight', 'pages/store/detail', { located: true, login: true, stock: 'tight', query: { id: 'SIM_BJ01' } }],
+    ['gp05_messages_after_booking', AC('messages'), { scenario: 'member_new', before: () => api.submitLead({ type: 'booking', address: '朝阳区芍药居北里 101 号', capacity_m3: 3, term_months: 6 }).then(() => api.submitLead({ type: 'visit', store_id: 'SIM_BJ01', time_slot: '待电话确认' })).catch((e) => console.error(e)) }]
   ]) done.push(await shot(x[0], x[1], x[2]));
   console.log(done.join(' '));
 })();
