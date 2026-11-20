@@ -5,7 +5,8 @@ $headName='codex/inventory-display-density-20261120'
 $baseName='feat/wx-native-rule-baseline-20261120'
 $body=Get-Content -LiteralPath $BodyFile -Raw -Encoding utf8
 $publicHeaders=@{Accept='application/vnd.github+json';'X-GitHub-Api-Version'='2022-11-28'}
-$existing=@(Invoke-RestMethod -Uri ($repoApi+'/pulls?state=open&head=silenwild-jpg%3Acodex%2Finventory-display-density-20261120') -Headers $publicHeaders)
+$existingResponse=Invoke-RestMethod -Uri ($repoApi+'/pulls?state=open&head=silenwild-jpg%3Acodex%2Finventory-display-density-20261120') -Headers $publicHeaders
+$existing=@(foreach($candidatePr in $existingResponse){if($candidatePr.number){$candidatePr}})
 if($existing.Count -gt 1){throw 'Multiple open PRs found; no mutation performed'}
 if($existing.Count -eq 1 -and $existing[0].base.ref -ne $baseName){throw 'Existing PR targets another base; no retarget performed'}
 if($existing.Count -eq 1 -and !$existing[0].draft){throw 'Existing PR is not draft; no mutation performed'}
