@@ -1,5 +1,7 @@
 # 01B组件约定与最小试点｜执行结果
 
+> 后续独立评审及修复：[COLLAB-SETUP-01](../collab/COLLAB-SETUP-01/STATUS.md)，运行时f1deabe。以下为f125158批次历史；自检结论不等于Claude独立签收。
+
 最终运行时及测试候选：`f125158d64371e84877d5e445f70f528c39ac1e4`；分支`codex/inventory-display-density-20261120`。本批完成组件约定和可隔离的最小实施；全站推广、真机和人工签收尚未完成。
 
 | 项目 | 结果 |

@@ -1,5 +1,13 @@
 # 迷你考拉仓｜项目控制中心
 
+## 2026-11-20 COLLAB-SETUP-01交接（当前入口）
+
+运行时`f1deabe80ab9546b719f6ad0b281b611de6034fd`，树`5f80f0d3260e405dc54863bfe16fd08fbba9e694`；分支`codex/inventory-display-density-20261120`。已接收Claude在7b5634af的8项独立意见，补协作约定、修静态裸色值、门店头部按钮挤压/时间折行和看仓字段错误反馈。166测试、Python静态0错误、全35页/22组件/6620调用与6单/960调用零异常、60模板编译通过。
+
+[交付结果](../wx-native/docs/collab/COLLAB-SETUP-01/STATUS.md) · [8项处置](../wx-native/docs/collab/COLLAB-SETUP-01/review-dispositions.csv) · [截图评审](../wx-native/docs/collab/COLLAB-SETUP-01/review.html) · [给Claude的入口](../wx-native/docs/collab/COLLAB-SETUP-01/HANDOFF_TO_CLAUDE.md)。当前索引21图：14张保留fa7e566原SHA并附420文件等价证明，7张当前SHA图；包含12张小样。自检18PASS/2FAIL/1未查，独立G-VIS仍待Claude。
+
+处置5FIXED/3DEFERRED，不代表全包准出：1:1截图、可靠边缘点击、正常说明语义类推广仍待完成；新增O01日期小样差异先核对工具传参与组件绑定。本轮测试范围按用户定义为微信开发者工具sim，无实际手机前置；未合并main、未冻结、未上传体验版或部署。下一包优先独立复核与证据缺口，再继续01C，以下旧入口为历史。
+
 ## 2026-11-20 01B组件约定与试点（当前入口）
 
 最终运行时与技术候选`f125158d64371e84877d5e445f70f528c39ac1e4`，运行时树`08c8e86df7098bd1ef85fb6e9278d1ca7836dce1`。本批改善关键正常说明文字、扩大弹层关闭区、补完整地址入口并修复截断残影。164项测试、60模板编译通过；父候选35页完整模拟零异常，最终S02定向模拟零异常。

@@ -1,0 +1,8 @@
+{
+  "source_sha": "fa7e5668d9b3cf9524271cbbb3ddb958d6890cd3",
+  "logged_in": false,
+  "requirement_m3": 10,
+  "term_months": 12,
+  "inventory": "page-render-only8m3; no source or server writes",
+  "valid_order_submission": false
+}

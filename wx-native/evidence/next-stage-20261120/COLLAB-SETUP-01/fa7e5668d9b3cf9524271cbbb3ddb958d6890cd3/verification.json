@@ -1,0 +1,55 @@
+{
+  "source_sha": "fa7e5668d9b3cf9524271cbbb3ddb958d6890cd3",
+  "runtime_tree": "2d274ba90901c2b64943931aecab520be39b898d",
+  "tests": {
+    "tests": 166,
+    "pass": 166,
+    "fail": 0
+  },
+  "python_static": {
+    "checker": "tools/static_check.py",
+    "errors": [],
+    "report": {
+      "pages": 35,
+      "components": 25,
+      "handlers_checked": 661,
+      "placeholders": 0,
+      "hard_coded_cjk_in_wxml": 30,
+      "size_kb": {
+        "主包": 1465,
+        "pkg-account": 108,
+        "pkg-after": 101,
+        "pkg-estimate": 29,
+        "pkg-lead": 94,
+        "pkg-trade": 191
+      },
+      "errors": []
+    }
+  },
+  "smoke_orders": {
+    "orders": 6,
+    "page_loads": 54,
+    "handler_calls": 960,
+    "new_order": [
+      "MK202611200006",
+      "paid_before_start",
+      2780
+    ],
+    "errors": 0
+  },
+  "smoke_scope": "ALL_PAGES_AND_COMPONENTS",
+  "smoke": {
+    "pages": 35,
+    "components": 22,
+    "handler_calls": 6620,
+    "errors": 0
+  },
+  "wxml": {
+    "templates": 60,
+    "exit_code": 0
+  },
+  "native_visual": "NOT_RUN_BY_THIS_SCRIPT",
+  "real_devices": "NOT_TESTED",
+  "main_merge": "NOT_MERGED",
+  "experience_upload": "NOT_UPLOADED"
+}

@@ -1,0 +1,8 @@
+{
+  "source_sha": "f1deabe80ab9546b719f6ad0b281b611de6034fd",
+  "original_sha": "fa7e5668d9b3cf9524271cbbb3ddb958d6890cd3",
+  "changed_files": [
+    "pages/store/detail.wxss"
+  ],
+  "unchanged_runtime_files": 420
+}
