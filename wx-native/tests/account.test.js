@@ -211,7 +211,7 @@ test('企业认证：还需填写 → 校验 → 提交 → 审核中 → 已认
   await api.submitEntCert({ name: '演示' + C.demo.certRejectKeyword + '公司', tax: '91110105MA01K7XQ3R', licenseCount: 1, contact: '王经理', phone: '13800000001' });
   pastReview(db.kv.account.cert);
   const p2 = await page('ENT_CERT');
-  assert.equal(p2.data.status, 'failed'); assert.equal(p2.data.head.title, '认证未通过'); assert.deepEqual(p2.data.steps.map((s) => s.cls), ['done', 'fail', '']); assert.equal(p2.data.reason, '原因：—');
+  assert.equal(p2.data.status, 'failed'); assert.equal(p2.data.head.title, '认证未通过'); assert.deepEqual(p2.data.steps.map((s) => s.cls), ['done', 'fail', '']); assert.equal(p2.data.reason, '原因：营业执照照片不清晰'); // 演示环境给一条样例原因（_db.REASON.cert）
   p2.onFix(); assert.equal(p2.data.view, 'form'); assert.equal(p2.data.form.tax, '91110105MA01K7XQ3R'); assert.equal(p2.data.need, '还需填写：联系人');
   p2.onShow(); await tick(); assert.equal(p2.data.view, 'form', '选图返回触发 onShow 时不跳回结果页');
   p2.onAdvisor(); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.SUPPORT });
@@ -301,7 +301,7 @@ test('批量开票：未成功 → 订单放回可开票 → 修改后重新提�
   await assert.rejects(api.submitBatchInvoice({ order_ids: ids, title_id: 'T1' }), (e) => e.code === 'CONFLICT');
   pastReview(db.kv.account.batches[0]);
   const pg = await page('ENT_BATCH');
-  assert.deepEqual([pg.data.result.title, pg.data.result.tag, pg.data.result.sub, pg.data.result.reason], ['开票未成功', '未成功', '', '原因：—']); assert.deepEqual(pg.data.result.steps.map((s) => s.cls), ['done', 'fail', '']);
+  assert.deepEqual([pg.data.result.title, pg.data.result.tag, pg.data.result.sub, pg.data.result.reason], ['开票未成功', '未成功', '', '原因：接收邮箱无法送达']); assert.deepEqual(pg.data.result.steps.map((s) => s.cls), ['done', 'fail', '']);
   assert.equal(rules.invoiceable(await api.getOrders()).length, 4);
   pg.onResubmit(); assert.deepEqual(env.nav.pop(), { kind: 'redirectTo', url: routes.ENT_BATCH + '?ids=' + ids.join(',') });
   pg.onAdvisor(); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.SUPPORT });

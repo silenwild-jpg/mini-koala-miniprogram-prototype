@@ -3,13 +3,11 @@
 .ldf-ptitle { padding: var(--mk-space-4) var(--mk-space-pageGutter) 0; }
 .ldf-h1 { display: block; font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); }
 .ldf-p { display: block; margin-top: var(--mk-space-1); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
-.ldf-form { padding: var(--mk-space-4) var(--mk-space-pageGutter) 0; }
-.ldf-field { margin-bottom: var(--mk-space-6); }
-.ldf-field--tight { margin-bottom: var(--mk-space-3); }
-.ldf-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--mk-space-2); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-medium); }
-.ldf-label--sm { font-size: var(--mk-font-size-md); }
-.ldf-req { color: var(--mk-color-status-errorText); }
-.ldf-opt { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-regular); }
+.ldf-form { padding: var(--mk-space-1) var(--mk-space-pageGutter) 0; }
+/* 表单项用全站的 mk-field（自带上外边距）；ldf-fld 补下外边距，把相邻两项拉开到 48rpx；ldf-fld--first 用在卡片里的第一项，抵掉上外边距 */
+.ldf-fld { margin-bottom: var(--mk-space-3); }
+.ldf-fld--first { margin-top: calc(-1 * var(--mk-space-3)); }
+.ldf-ntc { padding-top: var(--mk-space-3); }
 .ldf-input { display: flex; align-items: center; box-sizing: border-box; width: 100%; min-height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); font-size: var(--mk-font-size-md); }
 .ldf-input--err { border: var(--mk-border-error); }
 .ldf-input--tall { align-items: flex-start; flex-direction: column; padding: var(--mk-space-3); }
@@ -18,25 +16,15 @@
 .ldf-count { align-self: flex-end; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); }
 .ldf-ph { color: var(--mk-color-ink-tertiary); }
 .ldf-suffix { margin-left: var(--mk-space-2); color: var(--mk-color-ink-secondary); }
-.ldf-help { display: block; margin-top: var(--mk-space-2); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
 .ldf-helprow { display: flex; align-items: flex-start; justify-content: space-between; margin-top: var(--mk-space-2); }
 .ldf-textbtn { display: flex; align-items: center; flex: none; min-height: 64rpx; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-md); }
 .ldf-textbtn .mk-icon { margin-right: var(--mk-space-1); }
-.ldf-err { display: block; margin-top: var(--mk-space-1); color: var(--mk-color-status-errorText); font-size: var(--mk-font-size-sm); }
 .ldf-chips { display: flex; flex-wrap: wrap; }
 .ldf-chip { display: inline-flex; align-items: center; height: var(--mk-size-chipHeight); padding: 0 var(--mk-space-3); margin: 0 var(--mk-space-2) var(--mk-space-2) 0; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-primary); font-size: var(--mk-font-size-md); }
 .ldf-chip--line { background: var(--mk-color-canvas-card); border: var(--mk-border-strong); }
 .ldf-chip--on { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .ldf-chip--line.ldf-chip--on { border: var(--mk-border-brand); }
 .ldf-chip .mk-icon { margin-right: var(--mk-space-1); }
-.ldf-notice { margin: var(--mk-space-3) var(--mk-space-pageGutter) 0; padding: var(--mk-space-1) var(--mk-space-3) var(--mk-space-1) var(--mk-space-4); border-left: 6rpx solid var(--mk-color-brand-fill); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
-.ldf-status { display: flex; align-items: center; margin: var(--mk-space-3) var(--mk-space-pageGutter) 0; padding: var(--mk-space-3) var(--mk-space-cardPad); border-radius: var(--mk-radius-card); background: var(--mk-color-canvas-card); box-shadow: var(--mk-elevation-card); border-left: 6rpx solid var(--mk-color-brand-fill); }
-.ldf-status--err { border-left-color: var(--mk-color-status-errorStrong); }
-.ldf-status-t { display: block; font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
-.ldf-status--err .ldf-status-t { color: var(--mk-color-status-errorText); }
-.ldf-status-s { display: block; margin-top: 4rpx; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
-.mk-btn.mk-btn.ldf-status-btn { flex: none; margin-left: var(--mk-space-3); }
-.ldf-neutral { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }
 .ldf-acts { display: flex; }
 .ldf-acts .mk-btn { flex: 1; min-width: 0; }
 .ldf-acts .mk-btn + .mk-btn { margin-left: var(--mk-space-3); }
@@ -51,7 +39,4 @@
 .ldf-v { text-align: right; word-break: break-all; }
 .ldf-sectitle { display: block; margin-bottom: var(--mk-space-2); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-medium); }
 .ldf-paynote { display: block; margin: var(--mk-space-2) var(--mk-space-pageGutter) 0; text-align: center; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
-.ldf-tag { display: inline-flex; align-items: center; flex: none; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); }
-.ldf-tag--ok { background: var(--mk-color-status-successFill); color: var(--mk-color-status-successText); }
-.ldf-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .ldf-cardgap { margin: var(--mk-space-cardGap) var(--mk-space-pageGutter) 0; }

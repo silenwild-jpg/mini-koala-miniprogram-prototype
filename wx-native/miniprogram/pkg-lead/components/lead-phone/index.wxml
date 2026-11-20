@@ -1,7 +1,7 @@
 <view wx:if="{{loggedIn}}" class="lph-box {{error ? 'lph-box--err' : ''}}">
   <text class="lph-num mk-num mk-grow">{{masked}}</text>
-  <text class="lph-ok">{{T.verified}}</text>
-  <text class="lph-mod" bindtap="onModify" aria-role="button">{{T.modify}}</text>
+  <text class="mk-tag mk-tag--end mk-tag--ok">{{T.verified}}</text>
+  <view class="lph-mod" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onModify" aria-role="button">{{T.modify}}</view>
 </view>
 <block wx:else>
   <button class="mk-btn lph-wx {{error ? 'lph-box--err' : ''}}" hover-class="mk-btn--plainHover" bindtap="onUseWechat">{{T.useWechat}}</button>
@@ -26,15 +26,15 @@
   <button class="mk-btn lph-done" hover-class="mk-btn--hover" bindtap="onSheetClose">{{T.done}}</button>
 </mk-sheet>
 <mk-sheet visible="{{sms}}" title="{{T.smsTitle}}" bind:close="onSmsClose">
-  <text class="mk-sub lph-lab">{{T.phoneLabel}}</text>
-  <view class="lph-field"><input class="lph-input" type="number" maxlength="11" placeholder="{{T.phonePh}}" placeholder-class="lph-ph" value="{{phone}}" bindinput="onPhone" /></view>
-  <text class="mk-sub lph-lab">{{T.codeLabel}}</text>
-  <view class="mk-row">
-    <view class="lph-field mk-grow"><input class="lph-input" type="number" maxlength="6" placeholder="{{T.codePh}}" placeholder-class="lph-ph" value="{{code}}" bindinput="onCode" /></view>
-    <view class="lph-send {{countdown > 0 ? 'lph-off' : ''}}" bindtap="onSend" aria-role="button">{{sendText}}</view>
-  </view>
-  <text wx:if="{{hint}}" class="mk-sub lph-hint">{{hint}}</text>
-  <text wx:if="{{smsError}}" class="mk-error lph-err">{{smsError}}</text>
+  <mk-field label="{{T.phoneLabel}}">
+    <view class="lph-field"><input class="lph-input" type="number" maxlength="11" placeholder="{{T.phonePh}}" placeholder-class="lph-ph" value="{{phone}}" bindinput="onPhone" /></view>
+  </mk-field>
+  <mk-field label="{{T.codeLabel}}" error="{{smsError}}" hint="{{hint}}">
+    <view class="mk-row">
+      <view class="lph-field mk-grow"><input class="lph-input" type="number" maxlength="6" placeholder="{{T.codePh}}" placeholder-class="lph-ph" value="{{code}}" bindinput="onCode" /></view>
+      <view class="lph-send {{sendOff ? 'lph-off' : ''}}" hover-class="{{sendOff ? 'none' : 'mk-tap--hover'}}" hover-stop-propagation="{{true}}" bindtap="onSend" aria-role="button">{{sendText}}</view>
+    </view>
+  </mk-field>
   <button class="mk-btn lph-done" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onVerify">{{T.ok}}</button>
   <text class="mk-sub lph-hint">{{fine}}</text>
 </mk-sheet>

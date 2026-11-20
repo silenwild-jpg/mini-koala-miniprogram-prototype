@@ -1,8 +1,24 @@
 // 演示场景：一键切到某类用户的完整状态（登录态、定位、需求、订单），用于逐状态核对界面。只在演示数据下生效。
 // orders 为 null = 沿用默认 5 笔演示订单；[] = 没有订单；其余按 _db.mk 的参数造单（时间相对当前时刻）。
 // 订单里的 after 把租后进度直接摆到某一步（services/mock-ext/_db.js applyAfter）：renew / exit / deposit / invoice / identity。
+// 账户和留资（各模块第一次取数时按当前场景造，写法见各适配器文件头）：
+//   leads[]    预约记录（mock-ext/lead.js seedLeads）：{ type, source?, agoHours, withdrawn?, store?, address?, cap?, band?, months?, note?, date?, slot? }
+//   messages[] 消息（mock-ext/after.js seedMessages）：{ type, title（i18n/after messages.demo 的键）, agoHours, read?, order?（第几笔订单，从 0 起） }
+//   favorites  收藏 { stores[], units[] }，写进本机状态（services/demo.js）
+//   account    { claimed?: 已领新客券, cert?: 'reviewing'|'verified'|'failed' }（mock-ext/account.js init）
 const KEY = 'mk_demo_v1';
 const NEED = { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months: 6, source: 'manual' };
+// 3 家门店 8 笔订单，各阶段都有；「多门店多笔订单」「消息较多」两个场景共用
+const MULTI = [
+  { store: 'SIM_BJ02', units: ['SIM_BJ02_U01'], months: 3, agoDays: 0, stage: 'PENDING' },
+  { store: 'SIM_BJ03', units: ['SIM_BJ03_U02'], months: 6, agoDays: 1, startInDays: 5, stage: 'PAID' },
+  { store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 12, agoDays: 40, startInDays: -39, stage: 'ACTIVE', after: { invoice: 'issued' } },
+  { store: 'SIM_BJ03', units: ['SIM_BJ03_U01'], months: 6, agoDays: 80, startInDays: -79, stage: 'ACTIVE', after: { renew: 'submitted', renewMonths: 3 } },
+  { store: 'SIM_BJ01', units: ['SIM_BJ01_U03'], months: 12, agoDays: 350, startInDays: -349, stage: 'EXPIRING', factor: 0.6 },
+  { store: 'SIM_BJ02', units: ['SIM_BJ02_U03'], months: 3, agoDays: 89, startInDays: -88, stage: 'EXPIRING', after: { exit: 'waiting' } },
+  { store: 'SIM_BJ01', units: ['SIM_BJ01_U01'], months: 3, agoDays: 200, startInDays: -199, stage: 'ENDED', depositPartial: 40 },
+  { store: 'SIM_BJ02', units: ['SIM_BJ02_U02'], months: 1, agoDays: 20, stage: 'CANCELLED' }
+];
 const LIST = [
   { id: 'first_visit', name: '首次访问', desc: '未登录 · 未定位 · 没有用仓需求', login: false, located: false, need: null, orders: null },
   { id: 'guest_browsing', name: '访客找仓中', desc: '未登录 · 已定位 · 需求 3.5m³ 租 6 个月', login: false, located: true, need: NEED, orders: null },
@@ -22,16 +38,27 @@ const LIST = [
   { id: 'member_invoice_failed', name: '开票未成功', desc: '已登录 · 租用中，首笔付款的发票开具未成功', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 12, agoDays: 40, startInDays: -39, stage: 'ACTIVE', after: { invoice: 'failed' } }] },
   { id: 'member_identity_mismatch', name: '实名未通过', desc: '已登录 · 已支付待起租，付款后补的实名认证未通过', login: true, located: true, need: null, orders: [{ store: 'SIM_BJ02', units: ['SIM_BJ02_U02'], months: 6, agoDays: 2, startInDays: 3, stage: 'PAID', identity: false, after: { identity: 'mismatch' } }] },
   { id: 'member_closed', name: '订单已取消和已超时', desc: '已登录 · 1 笔已取消、1 笔超时未支付，没有在租订单', login: true, located: true, need: NEED, orders: [{ store: 'SIM_BJ02', units: ['SIM_BJ02_U01'], months: 3, agoDays: 1, stage: 'EXPIRED' }, { store: 'SIM_BJ01', units: ['SIM_BJ01_U02'], months: 6, agoDays: 5, stage: 'CANCELLED' }] },
-  { id: 'member_multi', name: '多门店多笔订单', desc: '已登录 · 3 家门店 8 笔订单，各阶段都有', login: true, located: true, need: null, orders: [
-    { store: 'SIM_BJ02', units: ['SIM_BJ02_U01'], months: 3, agoDays: 0, stage: 'PENDING' },
-    { store: 'SIM_BJ03', units: ['SIM_BJ03_U02'], months: 6, agoDays: 1, startInDays: 5, stage: 'PAID' },
-    { store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 12, agoDays: 40, startInDays: -39, stage: 'ACTIVE', after: { invoice: 'issued' } },
-    { store: 'SIM_BJ03', units: ['SIM_BJ03_U01'], months: 6, agoDays: 80, startInDays: -79, stage: 'ACTIVE', after: { renew: 'submitted', renewMonths: 3 } },
-    { store: 'SIM_BJ01', units: ['SIM_BJ01_U03'], months: 12, agoDays: 350, startInDays: -349, stage: 'EXPIRING', factor: 0.6 },
-    { store: 'SIM_BJ02', units: ['SIM_BJ02_U03'], months: 3, agoDays: 89, startInDays: -88, stage: 'EXPIRING', after: { exit: 'waiting' } },
-    { store: 'SIM_BJ01', units: ['SIM_BJ01_U01'], months: 3, agoDays: 200, startInDays: -199, stage: 'ENDED', depositPartial: 40 },
-    { store: 'SIM_BJ02', units: ['SIM_BJ02_U02'], months: 1, agoDays: 20, stage: 'CANCELLED' }
+  { id: 'member_multi', name: '多门店多笔订单', desc: '已登录 · 3 家门店 8 笔订单，各阶段都有', login: true, located: true, need: null, orders: MULTI },
+  { id: 'member_leads', name: '有预约记录', desc: '已登录 · 4 条记录：个人预约、企业需求、预约看仓、已撤回的咨询', login: true, located: true, need: NEED, orders: [], leads: [
+    { type: 'advisor', agoHours: 96, withdrawn: true, cap: 8, months: 6, note: '想先了解大件家具怎么存' },
+    { type: 'visit', agoHours: 30, store: 'SIM_BJ02', date: 2, slot: '下午', cap: 3.5 },
+    { type: 'enterprise', agoHours: 5, address: '朝阳区望京 SOHO 附近', band: 0, months: 12, note: '电商备货，旺季前入仓' },
+    { type: 'booking', agoHours: 1, store: 'SIM_BJ01', address: '朝阳区安贞西里三区', cap: 3.5, months: 6 }
   ] },
+  { id: 'member_inbox', name: '消息较多', desc: '已登录 · 8 笔订单 · 7 条消息，其中 3 条未读', login: true, located: true, need: null, orders: MULTI, messages: [
+    { type: 'deposit', title: 'depositRefunded', agoHours: 190 * 24, read: true, order: 6 },
+    { type: 'identity', title: 'identityOk', agoHours: 38 * 24, read: true, order: 2 },
+    { type: 'invoice', title: 'invoiceIssued', agoHours: 30, read: true, order: 2 },
+    { type: 'exit', title: 'exitRequested', agoHours: 26, read: true, order: 5 },
+    { type: 'renew', title: 'renewQuote', agoHours: 3, order: 4 },
+    { type: 'invoice', title: 'invoiceFailed', agoHours: 2, order: 3 },
+    { type: 'exit', title: 'inspectFailed', agoHours: 0.2, order: 5 }
+  ] },
+  { id: 'member_favorites', name: '有收藏（含已失效）', desc: '已登录 · 收藏 3 家门店、2 个仓位，其中 1 家暂停营业、1 个仓位已租出', login: true, located: true, need: NEED, orders: [], favorites: { stores: ['SIM_BJ01', 'SIM_BJ05', 'SIM_BJ03'], units: ['SIM_BJ01_U03', 'SIM_BJ01_U02'] } },
+  { id: 'member_coupons', name: '已领新客券', desc: '已登录 · 没有订单 · 2 张券可用、1 项运输权益', login: true, located: true, need: NEED, orders: [], account: { claimed: true } },
+  { id: 'ent_reviewing', name: '企业认证审核中', desc: '已登录 · 租用中 · 企业资料已提交（几秒后出结果，可用「审核暂不处理」停住）', login: true, located: true, need: null, orders: null, account: { cert: 'reviewing' } },
+  { id: 'ent_verified', name: '企业已认证', desc: '已登录 · 租用中 · 企业认证通过，可批量开票', login: true, located: true, need: null, orders: null, account: { cert: 'verified' } },
+  { id: 'ent_rejected', name: '企业认证未通过', desc: '已登录 · 租用中 · 企业认证未通过，可重新提交', login: true, located: true, need: null, orders: null, account: { cert: 'failed' } },
   { id: 'member_ended', name: '全部已结束', desc: '已登录 · 1 笔已结束订单（押金部分退还）', login: true, located: true, need: NEED, orders: [{ store: 'SIM_BJ01', units: ['SIM_BJ01_U01'], months: 3, agoDays: 200, startInDays: -199, stage: 'ENDED', depositPartial: 40 }] }
 ];
 // 网络档位：instant 供自动化测试；realistic 是在微信里运行时的默认值，让加载态和骨架屏真实出现。
@@ -63,7 +90,15 @@ const EVENTS = [
   { id: 'inspect_fail', group: 'after', name: '验仓未通过', desc: '下一次申请验仓，门店返回未通过', once: true },
   { id: 'refund_fail', group: 'after', name: '押金退款未成功', desc: '下一笔押金退款返回未成功', once: true },
   { id: 'invoice_fail', group: 'after', name: '开票未成功', desc: '下一张发票开具返回未成功', once: true },
-  { id: 'store_hold', group: 'after', name: '门店暂不处理', desc: '续租报价、验仓、退款、开票、实名审核都停在等待中，关闭后继续', once: false }
+  { id: 'store_hold', group: 'after', name: '门店暂不处理', desc: '续租报价、验仓、退款、开票、实名审核都停在等待中，关闭后继续', once: false },
+  // 留资与账户事件（group: 'lead'）：在预约、咨询、运输、看仓、企业认证、批量开票各页照常提交，到对应步骤时出现
+  { id: 'lead_submit_fail', group: 'lead', name: '提交失败', desc: '下一次提交预约、咨询、运输或看仓需求返回失败，可重试', once: true },
+  { id: 'lead_submit_timeout', group: 'lead', name: '提交结果未确认', desc: '下一次提交已受理但回执超时，页面提示核对结果，不重复建单', once: true },
+  { id: 'lead_off_hours', group: 'lead', name: '按非服务时段受理', desc: '提交后一律显示非服务时段的受理文案', once: false },
+  { id: 'sms_fail', group: 'lead', name: '验证码发送失败', desc: '下一次获取短信验证码返回失败', once: true },
+  { id: 'cert_reject', group: 'lead', name: '企业认证未通过', desc: '下一次企业认证审核返回未通过', once: true },
+  { id: 'batch_invoice_fail', group: 'lead', name: '批量开票未成功', desc: '下一次批量开票返回未成功', once: true },
+  { id: 'review_hold', group: 'lead', name: '审核暂不处理', desc: '企业认证、批量开票都停在处理中，关闭后继续', once: false }
 ];
 const SHORT = { quoteMs: 30000, pendingMs: 60000 };
 const IN_WECHAT = typeof __wxConfig !== 'undefined'; // 只有真实小程序运行时才有这个全局量；Node 里的测试环境没有

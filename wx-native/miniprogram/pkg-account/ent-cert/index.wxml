@@ -1,14 +1,14 @@
 <view class="mk-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:elif="{{!loggedIn}}" class="ac-wrap">
     <view class="mk-card ac-login">
       <text class="mk-title">{{T.common.loginFirst}}</text>
-      <button class="mk-btn mk-btn--md ac-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
     </view>
   </view>
   <view wx:elif="{{view === 'result'}}" class="ac-wrap {{status === 'failed' ? 'ac-wrap--bar' : ''}}">
     <view class="ac-head">
-      <view class="ac-head-row"><text class="mk-h2">{{head.title}}</text><text class="ac-tag ac-tag--{{tone}}">{{head.tag}}</text></view>
+      <view class="ac-head-row"><text class="mk-h2">{{head.title}}</text><text class="mk-tag mk-tag--end mk-tag--{{tone}}">{{head.tag}}</text></view>
       <text class="mk-sub ac-head-sub">{{head.sub}}</text>
     </view>
     <view class="mk-card">

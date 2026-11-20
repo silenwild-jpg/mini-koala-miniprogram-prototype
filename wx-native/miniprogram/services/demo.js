@@ -13,6 +13,7 @@ function applyScenario(id) {
   if (sc.login) state.setSession({ loggedIn: true, phoneMasked: '138****8000', token: 'demo' });
   if (sc.located) { state.patch('flags', { locationAsked: true }); state.patch('location', { status: 'granted' }); }
   if (sc.need) state.set('requirement', Object.assign({}, sc.need));
+  if (sc.favorites) state.set('favorites', { stores: sc.favorites.stores.slice(), units: sc.favorites.units.slice() });
   return sc;
 }
 function setNet(id) { if (scenarios.NET.some((x) => x.id === id)) scenarios.write({ net: id }); return scenarios.net(); }

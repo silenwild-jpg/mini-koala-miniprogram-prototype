@@ -11,7 +11,7 @@
         <view class="les-col">
           <text class="les-ct">{{T.self}}</text>
           <text wx:for="{{T.selfList}}" wx:key="*this" class="mk-sub les-li">{{item}}</text>
-          <button class="mk-btn ldf-neutral mk-btn--md les-btn" hover-class="mk-btn--plainHover" bindtap="onSelf">{{T.goSelf}}</button>
+          <button class="mk-btn mk-btn--plain mk-btn--md les-btn" hover-class="mk-btn--plainHover" bindtap="onSelf">{{T.goSelf}}</button>
         </view>
         <view class="les-col les-col--r">
           <text class="les-ct">{{T.title}}</text>
@@ -31,7 +31,7 @@
       <view wx:for="{{T.info}}" wx:key="k" class="les-info">
         <text class="mk-sub les-ik">{{item.k}}</text>
         <text class="les-iv {{item.mute ? 'les-iv--mute' : ''}}">{{item.v}}</text>
-        <text wx:if="{{item.link}}" class="mk-link les-link" bindtap="onBanList" aria-role="button">{{item.link}}</text>
+        <view wx:if="{{item.link}}" class="mk-link les-link" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onBanList" aria-role="link">{{item.link}}</view>
       </view>
       <text class="mk-mute les-fine">{{T.fine}}</text>
     </view>

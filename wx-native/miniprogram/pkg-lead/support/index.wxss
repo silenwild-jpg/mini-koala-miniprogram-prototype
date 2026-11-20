@@ -10,7 +10,4 @@
 .lsp-seg { display: flex; padding: 6rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); }
 .lsp-segcell { flex: 1; display: flex; align-items: center; justify-content: center; height: var(--mk-size-btnMdHeight); border-radius: var(--mk-radius-control); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); white-space: nowrap; }
 .lsp-segcell--on { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-medium); }
-.lsp-lab { margin-top: var(--mk-space-3); }
 .lsp-saved { display: block; margin-top: var(--mk-space-2); font-size: var(--mk-font-size-md); }
-.lsp-row { display: flex; align-items: center; min-height: 96rpx; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }
-.lsp-row--last { border-bottom: 0; }

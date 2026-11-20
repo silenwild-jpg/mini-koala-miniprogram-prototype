@@ -1,22 +1,14 @@
 /* 预约记录 */
 .lnd-top { padding-top: var(--mk-space-3); }
-.lnd-notice { margin: var(--mk-space-3) var(--mk-space-pageGutter) 0; padding: var(--mk-space-1) var(--mk-space-3) var(--mk-space-1) var(--mk-space-4); border-left: 6rpx solid var(--mk-color-brand-fill); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
 .lnd-card { margin-bottom: var(--mk-space-cardGap); }
-.lnd-tag { flex: none; display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); margin-left: var(--mk-space-2); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); }
-.lnd-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .lnd-line { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-md); }
 .lnd-sub { display: block; margin-top: var(--mk-space-1); }
 .lnd-acts { display: flex; margin-top: var(--mk-space-3); }
 .mk-btn.mk-btn.lnd-btn { flex: 1; min-width: 0; margin-right: var(--mk-space-2); white-space: nowrap; }
 .lnd-acts .mk-btn.mk-btn.lnd-btn:last-child { margin-right: 0; }
 .lnd-more { flex: none; }
-.lnd-neutral { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }
-.lnd-row { display: flex; align-items: center; min-height: 96rpx; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }
 .lnd-sheetbtn { margin-top: var(--mk-space-4); }
-.lnd-lab { display: block; margin: var(--mk-space-2) 0 var(--mk-space-1); font-size: var(--mk-font-size-md); }
 .lnd-input { display: flex; align-items: center; height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); }
 .lnd-input--err { border: var(--mk-border-error); }
 .lnd-native { flex: 1; min-width: 0; height: var(--mk-size-inputHeight); font-size: var(--mk-font-size-md); }
 .lnd-ph { color: var(--mk-color-ink-tertiary); }
-.lnd-err { display: block; margin-top: var(--mk-space-1); }
-.lnd-rule { display: block; margin-top: var(--mk-space-2); }

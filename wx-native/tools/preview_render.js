@@ -150,5 +150,39 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['oa15_orders_loading', 'pages/orders/index', { scenario: 'member_multi', after: (p) => p.setData({ sys: 'loading' }) }],
     ['oa16_lab_after_events', 'pkg-dev/lab/index', { scenario: 'member_renew_quote', events: { store_hold: true, inspect_fail: true } }]
   ]) done.push(await shot(x[0], x[1], x[2]));
+  // ACCOUNT-LEAD-01：账户和留资域
+  const AC = (n) => 'pkg-account/' + n + '/index', LD = (n) => 'pkg-lead/' + n + '/index';
+  const fill = (p) => { p.onAddress({ detail: { value: '朝阳区安贞西里三区' } }); };
+  for (const x of [
+    ['al01_needs_records', AC('needs'), { scenario: 'member_leads' }],
+    ['al02_needs_edit_sheet', AC('needs'), { scenario: 'member_leads', after: (p) => { p.onEdit({ currentTarget: { dataset: { id: p.data.list[0].id } } }); p.setData({ editAddress: '', editErr: '请填写用仓位置（不超过120字）' }); } }],
+    ['al03_needs_more_sheet', AC('needs'), { scenario: 'member_leads', after: (p) => p.onMore({ currentTarget: { dataset: { id: p.data.list[1].id } } }) }],
+    ['al04_messages_inbox', AC('messages'), { scenario: 'member_inbox' }],
+    ['al05_messages_guest', AC('messages'), { scenario: 'guest_browsing' }],
+    ['al06_messages_empty', AC('messages'), { scenario: 'member_new' }],
+    ['al07_mine_inbox', 'pages/mine/index', { scenario: 'member_inbox' }],
+    ['al08_favorites_gone', AC('favorites'), { scenario: 'member_favorites' }],
+    ['al09_coupons_claimed', AC('coupons'), { scenario: 'member_coupons' }],
+    ['al10_ent_reviewing', AC('ent-cert'), { scenario: 'ent_reviewing', events: { review_hold: true } }],
+    ['al11_ent_rejected', AC('ent-cert'), { scenario: 'ent_rejected' }],
+    ['al12_ent_verified', AC('ent-cert'), { scenario: 'ent_verified' }],
+    ['al13_progress', AC('progress'), { scenario: 'member_active' }],
+    ['al14_booking_form', LD('booking'), { scenario: 'member_new', query: { store: 'SIM_BJ01' } }],
+    ['al15_booking_errors', LD('booking'), { scenario: 'guest_browsing', after: (p) => p.onSubmit() }],
+    ['al16_booking_failed', LD('booking'), { scenario: 'member_new', events: { lead_submit_fail: true }, after: async (p) => { fill(p); await p.onSubmit(); } }],
+    ['al17_booking_unknown', LD('booking'), { scenario: 'member_new', events: { lead_submit_timeout: true }, after: async (p) => { fill(p); await p.onSubmit(); } }],
+    ['al18_booking_done_offhours', LD('booking'), { scenario: 'member_new', events: { lead_off_hours: true }, after: async (p) => { fill(p); await p.onSubmit(); } }],
+    ['al19_booking_advisor', LD('booking'), { scenario: 'guest_large', query: { mode: 'advisor', cap: '35' } }],
+    ['al20_business_step1', LD('business'), { scenario: 'member_new' }],
+    ['al21_business_step2', LD('business'), { scenario: 'member_new', after: (p) => p.setData({ step: 2 }) }],
+    ['al22_business_failed', LD('business'), { scenario: 'member_new', after: (p) => p.setData({ step: 2, status: 'failed' }) }],
+    ['al23_transport_pre', LD('transport'), { scenario: 'member_new', after: (p) => p.onSubmit() }],
+    ['al24_transport_form', LD('transport'), { scenario: 'member_before_start', after: (p) => p.onPick({ currentTarget: { dataset: { i: 0 } } }) }],
+    ['al25_support', LD('support'), { scenario: 'member_active', after: (p) => p.onSubmit() }],
+    ['al26_store_visit_sheet', 'pages/store/detail', { scenario: 'member_new', query: { id: 'SIM_BJ01' }, after: (p) => p.onBooking() }],
+    ['al27_needs_loading', AC('needs'), { scenario: 'member_leads', after: (p) => p.setData({ sys: 'loading' }) }],
+    ['al28_booking_offline', LD('booking'), { scenario: 'member_new', after: (p) => p.setData({ sys: 'offline' }) }],
+    ['al29_lab_lead_events', 'pkg-dev/lab/index', { scenario: 'member_leads', events: { lead_submit_fail: true, review_hold: true } }]
+  ]) done.push(await shot(x[0], x[1], x[2]));
   console.log(done.join(' '));
 })();

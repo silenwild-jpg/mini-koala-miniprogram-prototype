@@ -9,7 +9,9 @@
 //   运输：order_id, date；咨询：support_type, text, order_id
 // 联系电话：已登录用登录手机号（接口侧凭登录态取号，演示数据只有脱敏号）；p.phone 是本次另填并验证过的号码。
 // submitLead 覆盖 mock-adapter.js 里的同名基础方法。带 request_key 时同一个 key 只落一条（重试 / 核对提交结果不重复建单）。
-const { db } = require('./_db');
+const { db, store: storeOf } = require('./_db');
+const scenarios = require('../../mock/scenarios');
+const fmt = require('../../core/format');
 const stores = require('../../mock/stores');
 const L = require('../../core/config-lead');
 const lead = require('../../core/lead');
@@ -19,7 +21,24 @@ const fail = (code, message, field) => Promise.reject({ code, message, field: fi
 const T = lead.TYPES;
 const kv = () => { if (!db.kv.lead) db.kv.lead = { seq: 0, keys: {}, failNext: '' }; return db.kv.lead; };
 const str = (v, max) => String(v === undefined || v === null ? '' : v).trim().slice(0, max);
-const owned = (session) => (session && session.loggedIn ? db.leads : []);
+const owned = (session) => { seedLeads(session); return session && session.loggedIn ? db.leads : []; };
+// 演示场景里的预约记录（mock/scenarios.js 的 leads）：第一次取数时造一次。字段与 submitLead 落库的一致；时间相对当前时刻。
+function seedLeads(session) {
+  const k = kv(); if (k.seeded) return; k.seeded = true;
+  const sc = scenarios.scenario(); if (!sc || !sc.leads) return;
+  const now = Date.now(), phone = (session && session.phoneMasked) || '138****8000';
+  sc.leads.forEach((s) => {
+    const at = now - (s.agoHours || 0) * 3600e3, st = s.store ? storeOf(s.store) : null, seq = ++k.seq, band = s.type === T.ENTERPRISE && typeof s.band === 'number' ? L.bizBands[s.band] : null;
+    const rec = {
+      id: 'LEAD' + lead.leadNo(seq), no: lead.leadNo(seq), type: s.type, source: s.source || '', status: s.withdrawn ? lead.STATUS.WITHDRAWN : lead.STATUS.SUBMITTED, accepted_at: at, in_service_hours: lead.ackAt(at).in_service_hours,
+      store_id: st ? st.id : '', store_name: st ? st.name : '', address: s.type === T.VISIT && st ? st.address : s.address || '', phone_masked: phone, location: null, note: s.note || '',
+      capacity_m3: s.cap || null, capacity_hint: band ? band.label : s.cap ? req.pretty(s.cap) + 'm³' : '', capacity_band: band ? band.label : '', term_months: s.months || null, term_hint: s.months ? fmt.termText(s.months) : ''
+    };
+    if (s.withdrawn) rec.withdrawn_at = at + 3600e3;
+    if (s.type === T.VISIT) Object.assign(rec, { preferred_date: typeof s.date === 'number' ? lead.dateStr(now + s.date * 86400e3) : '', time_slot: s.slot || '待电话确认', unit_id: '' });
+    db.leads.push(rec);
+  });
+}
 const find = (id) => db.leads.find((x) => x.id === id);
 
 function phoneOf(p, session) {
@@ -85,12 +104,14 @@ function build(p, session, now) {
 const methods = {
   // { type, request_key?, lead_id?（企业：更新已有需求）, ...字段 } → 线索对象
   submitLead(p, session) {
+    seedLeads(session);
     const k = kv(), now = Date.now();
     if (p.request_key && k.keys[p.request_key]) { const old = find(k.keys[p.request_key]); if (old) return ok(old); }
     const b = build(p, session, now);
     if (b.err) return fail(b.err[0], b.err[1], b.err[2]);
     // 仅供测试：failNext = 'network' 时本次不落库并失败；'timeout' 时已落库但回执超时（页面显示「提交结果暂未确认」）
-    const sim = k.failNext; k.failNext = '';
+    // 演示工具页的「提交失败」「提交结果未确认」两个事件走同一条路径
+    const sim = k.failNext || (scenarios.take('lead_submit_fail') ? 'network' : scenarios.take('lead_submit_timeout') ? 'timeout' : ''); k.failNext = '';
     if (sim === 'network') return fail('NETWORK', '暂时无法提交，请重试或返回修改。');
     let rec;
     if (p.lead_id) {
@@ -99,7 +120,7 @@ const methods = {
       if (rec.status === lead.STATUS.WITHDRAWN) return fail('CONFLICT', '这条需求已撤回，可重新提交');
       Object.assign(rec, b.rec, { updated_at: now });
     } else {
-      const ack = lead.ackAt(now);
+      const ack = scenarios.eventOn('lead_off_hours') ? { in_service_hours: false } : lead.ackAt(now);
       const seq = ++k.seq;
       rec = Object.assign({ id: 'LEAD' + lead.leadNo(seq), no: lead.leadNo(seq), status: lead.STATUS.SUBMITTED, accepted_at: now, in_service_hours: ack.in_service_hours }, b.rec);
       db.leads.push(rec);

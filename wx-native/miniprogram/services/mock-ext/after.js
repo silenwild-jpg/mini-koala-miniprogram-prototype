@@ -84,6 +84,9 @@ function advance(o, now) {
 function seedMessages() { // 演示订单里下单时未实名的那笔，带一条待办消息（冻结稿 acc messages 的样例）
   const k = kv(); if (k.seeded) return; k.seeded = true; seed();
   db.orders.filter((o) => after.isPaid(o) && o.identity_status === 'none').forEach((o) => notify('identity', T.identityTodo, o));
+  // 演示场景自带的消息（mock/scenarios.js 的 messages）：标题取 i18n 里已有的句子，时间相对当前时刻
+  const sc = scenarios.scenario(), now = Date.now();
+  ((sc && sc.messages) || []).forEach((m) => { const o = db.orders[m.order]; db.messages.push({ id: 'MA' + (++k.msgSeq), type: m.type, title: T[m.title] || m.title, text: '', order_id: o ? o.id : '', created_at: now - (m.agoHours || 0) * 3600e3, read: !!m.read }); });
 }
 
 const methods = {

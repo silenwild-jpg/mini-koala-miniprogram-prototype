@@ -1,5 +1,5 @@
 <view class="mk-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="ac-wrap">
     <mk-notice plain="{{true}}" text="{{T.notice}}" />
     <mk-empty wx:if="{{empty}}" icon="/assets/icons/ticket-ink.svg" title="{{T.empty}}" card="{{true}}">
@@ -13,7 +13,7 @@
           <text wx:else class="cp-gate">{{T.gateAmount}}</text>
         </view>
         <view class="mk-grow">
-          <view class="mk-row"><text class="cp-n">{{item.name}}</text><text class="ac-tag ac-tag--{{item.tone}}">{{item.tag}}</text></view>
+          <view class="mk-row"><text class="cp-n">{{item.name}}</text><text class="mk-tag mk-tag--end mk-tag--{{item.tone}}">{{item.tag}}</text></view>
           <text wx:if="{{item.condition}}" class="mk-sub cp-cond">{{item.condition}}</text>
           <view wx:if="{{item.valid || item.canUse}}" class="mk-between cp-line">
             <text class="mk-mute">{{item.valid}}</text>
@@ -25,7 +25,7 @@
     </view>
     <view wx:if="{{benefits.length}}" class="mk-card">
       <text class="ac-sec">{{T.benefits}}</text>
-      <mk-cell wx:for="{{benefits}}" wx:key="id" icon="/assets/icons/truck-ink.svg" title="{{item.name}}" arrow="{{false}}" divider="{{index > 0}}"><text class="ac-tag ac-tag--{{item.tone}}">{{item.tag}}</text></mk-cell>
+      <mk-cell wx:for="{{benefits}}" wx:key="id" icon="/assets/icons/truck-ink.svg" title="{{item.name}}" arrow="{{false}}" divider="{{index > 0}}"><text class="mk-tag mk-tag--end mk-tag--{{item.tone}}">{{item.tag}}</text></mk-cell>
     </view>
   </view>
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />

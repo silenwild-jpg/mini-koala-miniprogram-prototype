@@ -1,7 +1,6 @@
 /* 账户分包 9 个子页共用的样式（类名前缀 ac-）。只用令牌。 */
 .ac-wrap { padding: var(--mk-space-3) var(--mk-space-pageGutter) 0; }
 .ac-wrap--bar { padding-bottom: 280rpx; }
-.ac-notice { border-left: 6rpx solid var(--mk-color-brand-fill); padding: var(--mk-space-1) var(--mk-space-3); margin-bottom: var(--mk-space-3); }
 .ac-sec { display: flex; align-items: center; justify-content: space-between; font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); padding-bottom: var(--mk-space-2); }
 .ac-kv { display: flex; align-items: center; justify-content: space-between; min-height: 88rpx; }
 .ac-kv + .ac-kv { border-top: var(--mk-border-hairline); }
@@ -10,12 +9,6 @@
 .ac-soft { color: var(--mk-color-ink-hint); }
 .ac-lrow { display: flex; align-items: center; min-height: 104rpx; }
 .ac-lrow + .ac-lrow { border-top: var(--mk-border-hairline); }
-.ac-empty-btn { margin-top: var(--mk-space-4); min-width: 280rpx; }
-.ac-tag { display: inline-flex; align-items: center; flex: none; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); font-weight: var(--mk-font-weight-regular); margin-left: var(--mk-space-2); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); }
-.ac-tag--ok { background: var(--mk-color-status-successFill); color: var(--mk-color-status-successText); }
-.ac-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
-.ac-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
-.ac-tag--info { background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
 .ac-label { display: block; font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); margin-bottom: var(--mk-space-1); }
 .ac-input { height: var(--mk-size-inputHeight); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); padding: 0 var(--mk-space-3); display: flex; align-items: center; box-sizing: border-box; }
 .ac-input--err { border: var(--mk-border-error); }

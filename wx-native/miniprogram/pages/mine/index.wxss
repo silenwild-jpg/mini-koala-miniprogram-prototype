@@ -15,8 +15,4 @@
 .mn-asset { min-height: 128rpx; padding: var(--mk-space-2) 0; }
 .mn-asset + .mn-asset { border-top: var(--mk-border-hairline); }
 .mn-an { font-weight: var(--mk-font-weight-semibold); min-width: 0; }
-.mn-tag { flex: none; margin-left: var(--mk-space-2); height: var(--mk-size-tagHeight); line-height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
-.mn-tag--ok { background: var(--mk-color-status-successFill); color: var(--mk-color-status-successText); }
-.mn-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
-.mn-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
 .mn-demo { display: flex; align-items: center; justify-content: center; min-height: var(--mk-size-tapMin); margin: var(--mk-space-4) var(--mk-space-pageGutter) 0; border-radius: var(--mk-radius-control); }

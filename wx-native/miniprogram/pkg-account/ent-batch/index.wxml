@@ -1,9 +1,9 @@
 <view class="mk-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:elif="{{!loggedIn}}" class="ac-wrap">
     <view class="mk-card ac-login">
       <text class="mk-title">{{T.common.loginFirst}}</text>
-      <button class="mk-btn mk-btn--md ac-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
     </view>
   </view>
   <view wx:elif="{{view === 'gate'}}" class="ac-wrap">
@@ -19,7 +19,7 @@
   </view>
   <view wx:elif="{{view === 'result'}}" class="ac-wrap ac-wrap--bar">
     <view class="ac-head">
-      <view class="ac-head-row"><text class="mk-h2">{{result.title}}</text><text class="ac-tag ac-tag--{{result.tone}}">{{result.tag}}</text></view>
+      <view class="ac-head-row"><text class="mk-h2">{{result.title}}</text><text class="mk-tag mk-tag--end mk-tag--{{result.tone}}">{{result.tag}}</text></view>
       <text wx:if="{{result.sub}}" class="mk-sub ac-head-sub">{{result.sub}}</text>
     </view>
     <view class="mk-card">

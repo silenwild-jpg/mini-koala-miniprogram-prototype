@@ -1,4 +1,4 @@
-// 消息 ACC_MESSAGES（第 3 批）。本页不是受限页；未登录或没有消息时显示「暂无消息」。
+// 消息 ACC_MESSAGES（第 3 批）。本页不是受限页；未登录显示「登录后查看消息」和登录按钮，已登录没有消息时显示「暂无消息」。
 // 已做：空态、未读（红点）、已读（进入本页即标为已读，下次进入红点变灰）、分类标签 + 时间 + 按类型落到对应页面；三态。
 // 未做：消息由各业务接口写入（创建时间、类型、已读），本页只读；微信订阅消息的下发属于后端。
 const T = require('../../i18n/after');
@@ -19,18 +19,19 @@ function build(list) {
 }
 
 Page(auth.guarded(routes.MESSAGES, {
-  data: { T: { m: M }, sys: 'loading', empty: false, list: [], loginVisible: false },
+  data: { T: { m: M, login: require('../../i18n/account').common.loginRegister }, sys: 'loading', guest: false, empty: false, list: [], loginVisible: false },
   onLoad() {},
   onShow() { return this.refresh(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() {
-    this.setData({ sys: this.data.sys === '' ? '' : 'loading' });
+    if (!auth.isLoggedIn()) { this.setData({ sys: '', guest: true, empty: false, list: [] }); return Promise.resolve(); }
+    this.setData({ guest: false, sys: this.data.sys === '' ? '' : 'loading' });
     return api.getMessages().then((list) => {
       const rows = build(list);
       this.setData({ sys: '', empty: !rows.length, list: rows });
       if (rows.some((r) => r.unread)) api.readMessages().catch(() => {}); // 看过即已读；本次仍显示红点
     }).catch((err) => {
-      if (err && err.code === 'UNAUTHENTICATED') { this.setData({ sys: '', empty: true, list: [] }); return; }
+      if (err && err.code === 'UNAUTHENTICATED') { this.setData({ sys: '', guest: true, empty: false, list: [] }); return; }
       console.error(err); this.setData({ sys: err && err.code === 'NETWORK' ? 'offline' : 'failed' });
     });
   },
@@ -42,6 +43,7 @@ Page(auth.guarded(routes.MESSAGES, {
     const url = routes[name] + (row.orderId && name !== 'TRANSPORT' && name !== 'NEEDS' ? '?id=' + row.orderId : '');
     auth.navigate(this, url);
   },
+  onLogin() { auth.openLogin(this); },
   onLoginClose() { this.setData({ loginVisible: false }); },
   onLoginSuccess() { this.refresh(); }
 }));

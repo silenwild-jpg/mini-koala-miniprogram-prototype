@@ -1,10 +1,11 @@
 /* 消息页 */
 .ms-top { padding-top: var(--mk-space-3); }
+.ms-card { padding-top: 0; padding-bottom: 0; }
 .ms-row { display: flex; align-items: flex-start; padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); }
-.ms-row:first-child { border-top: 0; padding-top: 0; }
-.ms-row:last-child { padding-bottom: 0; }
+.ms-row:first-child { border-top: 0; }
 .ms-dot { width: 16rpx; height: 16rpx; flex: none; border-radius: 50%; margin: 12rpx var(--mk-space-2) 0 0; background: var(--mk-color-status-errorStrong); }
 .ms-dot--read { background: var(--mk-color-line-strong); }
 .ms-title { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-md); }
+.ms-title--unread { font-weight: var(--mk-font-weight-medium); }
 .ms-text { display: block; margin-top: var(--mk-space-1); }
 .ms-link { min-height: 64rpx; }

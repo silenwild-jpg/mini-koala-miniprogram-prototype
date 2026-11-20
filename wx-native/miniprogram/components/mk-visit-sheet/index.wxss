@@ -1,13 +1,19 @@
-.vs-store { margin-bottom:8rpx; }
-.vs-label { margin:28rpx 0 12rpx; font-weight:600; }
-.vs-field { padding:20rpx 16rpx; min-height:48rpx; border-bottom:var(--mk-border-hairline); background:var(--mk-color-canvas-page); border-radius:var(--mk-radius-control); margin:12rpx 0; }
-.vs-field--error { border-bottom:var(--mk-border-error); }
-.vs-phone-error { display:block; margin:0 0 12rpx; }
-.vs-dates { display:flex; flex-wrap:wrap; gap:12rpx; }
-.vs-dates .mk-chip { display:flex; align-items:center; min-height:64rpx; }
-.vs-pickers { display:flex; gap:16rpx; }
-.vs-pickers > picker { flex:1; min-width:0; }
-.vs-note, .vs-error { display:block; margin-top:16rpx; }
-.vs-result { display:flex; flex-direction:column; gap:24rpx; padding:32rpx 0; }
-.vs-result button { width:100%; }
-.vs-note, .vs-result .mk-mute { color:var(--mk-color-ink-secondary); }
+/* 预约看仓弹层。表单项用全站 mk-field；输入框与选择框同一种底（vs-field）。 */
+.vs-store { margin-bottom: var(--mk-space-1); }
+.vs-field { display: flex; align-items: center; box-sizing: border-box; min-height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); margin-bottom: var(--mk-space-2); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); font-size: var(--mk-font-size-md); }
+.vs-field--error { border: var(--mk-border-error); }
+.vs-phone-field { width: 100%; margin-bottom: 0; }
+.vs-wx { margin-bottom: var(--mk-space-2); }
+.vs-cap { min-width: 0; height: var(--mk-size-inputHeight); }
+.vs-dates { display: flex; flex-wrap: wrap; margin-bottom: var(--mk-space-1); }
+.vs-dates .mk-chip { margin: 0 var(--mk-space-2) var(--mk-space-2) 0; }
+.vs-pickers { display: flex; }
+.vs-pickers > picker { flex: 1; min-width: 0; }
+.vs-pickers > picker + picker { margin-left: var(--mk-space-2); }
+.vs-pickers .vs-field, .vs-pick:last-child { margin-bottom: 0; }
+.vs-submit { margin-top: var(--mk-space-4); }
+.vs-note { display: block; margin-top: var(--mk-space-2); text-align: center; }
+.vs-result { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--mk-space-4) 0 0; }
+.vs-ok { display: flex; align-items: center; justify-content: center; width: 112rpx; height: 112rpx; border-radius: 50%; background: var(--mk-color-brand-tint); margin-bottom: var(--mk-space-3); }
+.vs-line { display: block; margin-top: var(--mk-space-1); }
+.vs-done { margin-top: var(--mk-space-4); }

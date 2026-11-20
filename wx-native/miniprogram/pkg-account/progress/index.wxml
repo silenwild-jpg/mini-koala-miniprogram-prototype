@@ -1,10 +1,10 @@
 <view class="mk-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="mk-gutter lpg-top">
     <mk-need-card id="need" />
     <view wx:if="{{reference}}" class="mk-card lpg-card lpg-accent">
       <text class="lpg-kicker">{{T.kicker}}</text>
-      <view class="mk-between"><text class="mk-h2 mk-num">{{reference.title}}</text><text class="lpg-badge">{{T.reference}}</text></view>
+      <view class="mk-between"><text class="mk-h2 mk-num">{{reference.title}}</text><text class="mk-tag mk-tag--end mk-tag--brand">{{T.reference}}</text></view>
       <text class="mk-sub lpg-sub">{{reference.sub}}</text>
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onRefind">{{T.refind}}</button>
     </view>
@@ -15,7 +15,7 @@
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onConfirm">{{T.toConfirm}}</button>
     </view>
     <view wx:if="{{quote}}" class="mk-card lpg-card">
-      <view class="mk-row lpg-sec"><text class="mk-title">{{T.quoteTitle}}</text><text class="lpg-tag {{quote.valid ? 'lpg-tag--warn' : ''}}">{{quote.tag}}</text></view>
+      <view class="mk-row lpg-sec"><text class="mk-title">{{T.quoteTitle}}</text><text class="mk-tag mk-tag--end {{quote.valid ? 'mk-tag--warn' : ''}}">{{quote.tag}}</text></view>
       <text class="lpg-store mk-ellipsis">{{quote.store}}</text>
       <text class="mk-sub lpg-sub mk-num">{{quote.line}}</text>
       <view class="lpg-kv"><text class="mk-sub">{{T.rent}}</text><text class="mk-num">{{quote.rent}}</text></view>
@@ -25,7 +25,7 @@
     </view>
     <mk-empty wx:if="{{empty}}" class="lpg-emptywrap" icon="/assets/icons/flag-ink.svg" title="{{T.emptyTitle}}" card="{{true}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onEstimate">{{T.estimate}}</button>
-      <button class="mk-btn mk-btn--md lpg-neutral mk-empty-btn" hover-class="mk-btn--plainHover" bindtap="onStores">{{T.findStores}}</button>
+      <button class="mk-btn mk-btn--md mk-btn--plain mk-empty-btn" hover-class="mk-btn--plainHover" bindtap="onStores">{{T.findStores}}</button>
     </mk-empty>
   </view>
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />

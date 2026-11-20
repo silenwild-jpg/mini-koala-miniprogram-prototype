@@ -11,7 +11,7 @@ const api = require('../../../services/api');
 Component({
   options: { addGlobalClass: true },
   properties: { what: { type: String, value: T.phone.whatBooking }, error: { type: String, value: '' } },
-  data: { T: T.phone, loggedIn: false, loginMasked: '', masked: '', other: '', otherMasked: '', loginVisible: false, sheet: false, sms: false, sheetNote: '', fine: '', phone: '', code: '', sendText: T.phone.send, countdown: 0, hint: '', smsError: '', busy: false },
+  data: { T: T.phone, loggedIn: false, loginMasked: '', masked: '', other: '', otherMasked: '', loginVisible: false, sheet: false, sms: false, sheetNote: '', fine: '', phone: '', code: '', sendText: T.phone.send, countdown: 0, sendOff: false, hint: '', smsError: '', busy: false },
   lifetimes: {
     attached() { this._off = state.on((topic) => { if (topic === 'session' || topic === '*') this.sync(); }); this.sync(); },
     detached() { if (this._off) this._off(); this.stopTimer(); }
@@ -36,7 +36,7 @@ Component({
     onSend() {
       if (this.data.countdown > 0) return;
       api.sendSmsCode({ phone: lead.cleanPhone(this.data.phone) }).then((r) => { this.setData({ hint: T.phone.sent }); this.startTimer(r.resend_seconds || L.smsResendSeconds); })
-        .catch((err) => this.setData({ smsError: (err && err.message) || '' }));
+        .catch((err) => this.setData({ hint: '', smsError: (err && err.message) || T.phone.sendFail }));
     },
     onVerify() {
       if (this.data.busy) return;
@@ -45,8 +45,8 @@ Component({
         .catch((err) => this.setData({ busy: false, smsError: (err && err.message) || '' }));
     },
     startTimer(sec) {
-      this.stopTimer(); this.setData({ countdown: sec, sendText: T.fn.resend(sec) });
-      this._t = setInterval(() => { const n = this.data.countdown - 1; this.setData({ countdown: Math.max(0, n), sendText: n > 0 ? T.fn.resend(n) : T.phone.send }); if (n <= 0) this.stopTimer(); }, 1000);
+      this.stopTimer(); this.setData({ countdown: sec, sendOff: sec > 0, sendText: T.fn.resend(sec) });
+      this._t = setInterval(() => { const n = this.data.countdown - 1; this.setData({ countdown: Math.max(0, n), sendOff: n > 0, sendText: n > 0 ? T.fn.resend(n) : T.phone.send }); if (n <= 0) this.stopTimer(); }, 1000);
     },
     stopTimer() { if (this._t) { clearInterval(this._t); this._t = null; } }
   }

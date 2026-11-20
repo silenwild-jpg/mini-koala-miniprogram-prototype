@@ -27,7 +27,7 @@
       </view>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{assets}}" wx:key="id" class="mn-asset mk-row" data-id="{{item.id}}" bindtap="onAsset" aria-role="button">
         <view class="mk-grow">
-          <view class="mk-row"><text class="mn-an mk-ellipsis">{{item.store}}</text><text class="mn-tag mn-tag--{{item.tone}}">{{item.tag}}</text></view>
+          <view class="mk-row"><text class="mn-an mk-ellipsis">{{item.store}}</text><text class="mk-tag mk-tag--end mk-tag--{{item.tone}}">{{item.tag}}</text></view>
           <text class="mk-sub mn-block">{{item.unit}}</text>
           <text class="mk-mute mn-block">{{item.line}}</text>
         </view>

@@ -1,7 +1,7 @@
 @import "../lead.wxss";
 /* 预约用仓：本页特有的部分 */
 .lbk-tobiz { padding: var(--mk-space-2) var(--mk-space-pageGutter) 0; }
-.lbk-store { display: flex; align-items: center; }
+.lbk-store { display: flex; align-items: center; margin-bottom: 0; }
 .lbk-sn { display: block; }
 .lbk-ss { display: block; margin-top: 4rpx; }
 .lbk-help { margin-right: var(--mk-space-3); }
@@ -24,7 +24,8 @@
 .lbk-sub { margin-top: var(--mk-space-3); justify-content: center; }
 .lbk-sub--col { display: flex; flex-direction: column; align-items: center; }
 .lbk-subok { margin-left: var(--mk-space-1); color: var(--mk-color-status-successText); font-size: var(--mk-font-size-sm); }
-.lbk-subask { min-height: 64rpx; line-height: 64rpx; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-md); }
+.lbk-subask { min-height: var(--mk-size-tapMin); line-height: var(--mk-size-tapMin); padding: 0 var(--mk-space-3); border-radius: var(--mk-radius-control); color: var(--mk-color-brand-text); font-size: var(--mk-font-size-md); }
+.lbk-tolink { display: inline-block; padding: var(--mk-space-1) 0 var(--mk-space-1) var(--mk-space-1); border-radius: var(--mk-radius-control); }
 .lbk-acts { width: 100%; margin-top: var(--mk-space-4); }
 
-.lbk-manual { padding:24rpx 0; border-bottom:var(--mk-border-hairline); min-height:48rpx; }
+.lbk-manual { margin-bottom: var(--mk-space-2); }

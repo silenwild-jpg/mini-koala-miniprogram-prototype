@@ -61,4 +61,14 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-empty-btn + .mk-btn.mk-btn.mk-empty-btn { margin-left: var(--mk-space-3); }
 /* v2 图标按钮：图标尺寸不变，命中区撑到 44px */
 .mk-iconbtn { display: flex; align-items: center; justify-content: center; min-width: var(--mk-size-tapMin); min-height: var(--mk-size-tapMin); flex: none; }
-.mk-tag--error { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
+.mk-tag--error, .mk-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
+/* v2 状态标签：全站一套色调（ok / warn / err / info），取代各分包自带的 xx-tag；mk-tag--end = 放在行尾，不留右外边距、不被压缩 */
+/* ok 用浅绿底：原来各分包用 successFill（#14AE68）配 successText（#0B7A48），对比度约 1.6，字看不清 */
+.mk-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-status-successText); }
+.mk-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
+.mk-tag--info { background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
+.mk-tag--end { flex: none; margin-right: 0; margin-left: var(--mk-space-2); }
+/* v2 中性按钮：白底、深色字、描边，用于「取消」「返回」这类不强调的操作；按压用 mk-btn--plainHover */
+.mk-btn--plain { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }
+/* v2 整页加载、失败、断网的外框：左右留页边距，骨架卡不贴边 */
+.mk-sys-wrap { padding: var(--mk-space-3) var(--mk-space-pageGutter) 0; }

@@ -109,7 +109,7 @@ module.exports = {
     emptyTitle: '无法打开该服务', emptySub: '需要已付款订单才能办理此项服务', viewOrders: '查看我的订单'
   },
   messages: {
-    empty: '暂无消息', fallback: '消息',
+    empty: '暂无消息', emptySub: '订单、续租、退仓、发票的进度会出现在这里', guestTitle: '登录后查看消息', guestSub: '订单、续租、退仓、发票的进度会出现在这里', unread: '未读', read: '已读', fallback: '消息',
     cat: {
       renew: { tag: '续租', link: '查看续租' }, exit: { tag: '退仓', link: '查看退仓进度' }, deposit: { tag: '押金', link: '查看押金进度' }, invoice: { tag: '发票', link: '查看开票进度' },
       identity: { tag: '实名认证', link: '查看认证进度' }, access: { tag: '入仓', link: '查看入仓指引' }, transport: { tag: '运输', link: '查看运输预约' }, lead: { tag: '咨询', link: '查看预约记录' },

@@ -36,7 +36,7 @@ module.exports = {
     sheetTitle: '修改联系电话',
     wechatPhone: '微信手机号', other: '使用其他手机号', otherSub: '需短信验证', otherPhone: '其他手机号',
     smsTitle: '验证其他手机号', phoneLabel: '手机号', phonePh: '请输入手机号', codeLabel: '验证码', codePh: '请输入 6 位验证码',
-    send: '获取验证码', sent: '验证码已发送，5 分钟内有效', ok: '确认',
+    modify: '修改', done: '完成', send: '获取验证码', sendFail: '验证码发送失败，请稍后重试', sent: '验证码已发送，5 分钟内有效', ok: '确认',
     whatBooking: '预约', whatBusiness: '咨询'
   },
   booking: {
@@ -151,5 +151,13 @@ module.exports = {
     reference: '最近参考', refind: '按此需求重新找仓',
     selected: '已选仓位', quoteTitle: '报价方案', quoteValid: '当前报价', quoteExpired: '已过期',
     rent: '整期租金', coupon: '优惠券', payable: '本次应付', toConfirm: '去确认订单', requote: '重新报价'
+  },
+  // 预约看仓弹层（门店详情）。句子沿用 11-20 基线里弹层原有的写法；errPhoneVerified 是已登录时的报错，自写。
+  visit: {
+    title: '预约看仓', phone: '联系电话', useWechat: '使用微信手机号', phonePh: '也可直接填写手机号', phonePhOptional: '另填联系电话（选填）', verifiedPrefix: '已验证手机号 ', verifiedSuffix: '，可另填联系电话',
+    when: '看仓时间', otherDate: '选择其他日期', slots: ['待电话确认', '上午', '下午', '晚上'], days: ['今天', '明天', '后天'], intent: '意向仓位与容量', optional: '选填', noUnit: '暂不选仓位', capPh: '预计容量', m3: 'm³',
+    submit: '提交看仓需求', recheck: '核对提交结果', note: '仅提交销售线索，不锁定仓位；看仓时间以门店电话确认为准。', loginTip: '请登录',
+    doneTitle: '看仓需求已提交', doneSub: '门店将电话确认看仓时间', no: '需求编号 ', done: '完成',
+    errPhone: '请填写有效手机号，或使用微信手机号', errPhoneVerified: '请填写有效手机号，或留空使用已验证手机号', errCap: '请填写有效容量，或留空', errDate: '请选择今天或之后的日期', unknown: '提交结果暂未确认，请核对结果', failed: '暂时无法提交，请重试'
   }
 };

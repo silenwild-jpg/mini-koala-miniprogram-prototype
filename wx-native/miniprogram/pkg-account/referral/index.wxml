@@ -1,5 +1,5 @@
 <view class="mk-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="ac-wrap">
     <view class="mk-card">
       <text class="ac-sec">{{T.r.section}}</text>

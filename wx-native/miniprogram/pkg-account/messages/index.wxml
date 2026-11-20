@@ -1,18 +1,21 @@
 <view class="mk-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
-  <mk-empty wx:elif="{{empty}}" icon="/assets/icons/msg-ink.svg" title="{{T.m.empty}}" has-action="{{false}}" />
+  <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
+  <mk-empty wx:elif="{{guest}}" icon="/assets/icons/msg-ink.svg" title="{{T.m.guestTitle}}" sub="{{T.m.guestSub}}">
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.login}}</button>
+  </mk-empty>
+  <mk-empty wx:elif="{{empty}}" icon="/assets/icons/msg-ink.svg" title="{{T.m.empty}}" sub="{{T.m.emptySub}}" has-action="{{false}}" />
   <view wx:else class="mk-gutter ms-top">
-    <view class="mk-card">
-      <view wx:for="{{list}}" wx:key="id" class="ms-row" data-i="{{index}}" bindtap="onLink">
-        <view class="ms-dot {{item.unread ? '' : 'ms-dot--read'}}"></view>
+    <view class="mk-card ms-card">
+      <view wx:for="{{list}}" wx:key="id" class="ms-row" hover-class="{{item.link ? 'mk-tap--hover' : 'none'}}" hover-stop-propagation="{{true}}" data-i="{{index}}" bindtap="onLink" aria-role="{{item.link ? 'button' : 'text'}}">
+        <view class="ms-dot {{item.unread ? '' : 'ms-dot--read'}}" aria-label="{{item.unread ? T.m.unread : T.m.read}}"></view>
         <view class="mk-grow">
           <view class="mk-between">
             <mk-after-tag text="{{item.tag}}" tone="plain" />
             <text class="mk-mute mk-num">{{item.time}}</text>
           </view>
-          <text class="ms-title">{{item.title}}</text>
+          <text class="ms-title {{item.unread ? 'ms-title--unread' : ''}}">{{item.title}}</text>
           <text wx:if="{{item.text}}" class="mk-sub ms-text">{{item.text}}</text>
-          <view wx:if="{{item.link}}" class="mk-row ms-link" aria-role="link"><text class="mk-link">{{item.link}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+          <view wx:if="{{item.link}}" class="mk-row ms-link"><text class="mk-link">{{item.link}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
         </view>
       </view>
     </view>

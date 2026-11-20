@@ -2,7 +2,8 @@
 // 数据放 db.kv.account（内存，重启即清空）。企业 / 抬头 / 券是冻结稿的合成演示数据，不是真实主体。
 // 演示环境没有审核后台与财务系统：企业认证、批量开票提交后超过 demo.reviewSeconds 秒再取数即进入终态（见 core/config-account.js 的 demo）。
 // 原始手机号只存在这里，返回给页面的一律是掩码。
-const { db, seed } = require('./_db');
+const { db, seed, REASON } = require('./_db');
+const scenarios = require('../../mock/scenarios');
 const C = require('../../core/config-account');
 const rules = require('../../core/account');
 const fmt = require('../../core/format');
@@ -32,9 +33,17 @@ const init = () => ({
   batches: [], batchSeq: 0,
   deletion: null, privacyWithdrawnAt: 0
 });
-function A() { if (!db.kv.account) db.kv.account = init(); return db.kv.account; }
+// 演示场景里的账户状态（mock/scenarios.js 的 account）：已领新客券、企业认证停在哪一步。企业名称等是合成数据。
+const DEMO_COMPANY = { name: '北京示例科技有限公司', tax: '91110105MA00000000', licenseCount: 1, contact: '王经理', phone: '13800008000' };
+function fromScenario(a) {
+  const sc = scenarios.scenario(), s = sc && sc.account; if (!s) return a;
+  if (s.claimed) { NEW_COUPONS.forEach((c) => a.coupons.push(Object.assign({ status: 'AVAILABLE' }, c))); a.benefits.push(Object.assign({}, TRANSPORT_BENEFIT)); a.claimed = true; }
+  if (s.cert) a.cert = { status: s.cert, company: Object.assign({}, DEMO_COMPANY), reason: s.cert === 'failed' ? REASON.cert : '', submitted_at: s.cert === 'reviewing' ? Date.now() : Date.now() - 86400e3 };
+  return a;
+}
+function A() { if (!db.kv.account) db.kv.account = fromScenario(init()); return db.kv.account; }
 const reset = () => { db.kv.account = init(); };
-const due = (at) => Date.now() - at >= C.demo.reviewSeconds * 1000;
+const due = (at) => !scenarios.eventOn('review_hold') && Date.now() - at >= C.demo.reviewSeconds * 1000; // 「审核暂不处理」打开时一直停在处理中
 const paid = (o) => !!(o.pay && o.pay.paid_at > 0);
 
 // 券状态随订单走：订单待支付 / 支付失败 → 已锁定；已付款 → 已使用；首次租仓券在已有付款订单后 → 不可用（冻结稿 runtime/demo-core.js 的规则）
@@ -56,12 +65,14 @@ const certView = (a) => {
   return { status: a.cert.status, reason: a.cert.reason, company: c ? { name: c.name, tax: c.tax, contact: c.contact, phoneMasked: rules.maskPhone(c.phone), licenseCount: c.licenseCount } : null };
 };
 function advanceCert(a) {
-  if (a.cert.status === 'reviewing' && due(a.cert.submitted_at)) a.cert.status = a.cert.company.name.indexOf(C.demo.certRejectKeyword) >= 0 ? 'failed' : 'verified';
+  if (a.cert.status !== 'reviewing' || !due(a.cert.submitted_at)) return;
+  const reject = a.cert.company.name.indexOf(C.demo.certRejectKeyword) >= 0 || scenarios.take('cert_reject');
+  a.cert.status = reject ? 'failed' : 'verified'; a.cert.reason = reject ? REASON.cert : '';
 }
 const setInvoice = (ids, inv) => db.orders.forEach((o) => { if (ids.indexOf(o.id) >= 0) o.invoice = Object.assign({}, o.invoice, inv); });
 function advanceBatch(b) {
   if (b.status !== 'submitted' || !due(b.submitted_at)) return;
-  if (b.email.indexOf(C.demo.invoiceFailEmailPrefix) === 0) { b.status = 'failed'; setInvoice(b.order_ids, { status: 'none', title: '' }); }
+  if (b.email.indexOf(C.demo.invoiceFailEmailPrefix) === 0 || scenarios.take('batch_invoice_fail')) { b.status = 'failed'; b.reason = b.reason || REASON.batch; setInvoice(b.order_ids, { status: 'none', title: '' }); }
   else { b.status = 'issued'; setInvoice(b.order_ids, { status: 'issued' }); }
 }
 const latestBatch = (a) => a.batches.filter((b) => !b.acked).slice(-1)[0] || null;

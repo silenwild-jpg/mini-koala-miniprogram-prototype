@@ -8,13 +8,13 @@
 .lbz-line { width: 56rpx; height: 1px; margin: 0 var(--mk-space-2); background: var(--mk-color-line-strong); }
 .lbz-tags { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-2); }
 .lbz-tag { margin-bottom: var(--mk-space-1); }
-.lbz-arealab { margin-top: var(--mk-space-3); }
 .lbz-add { margin-top: var(--mk-space-1); }
 .lbz-term { padding-top: var(--mk-space-3); }
 .lbz-seg { display: flex; padding: 6rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); }
 .lbz-segcell { flex: 1; display: flex; align-items: center; justify-content: center; height: var(--mk-size-btnMdHeight); border-radius: var(--mk-radius-control); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-md); }
 .lbz-segcell--on { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-medium); }
-.lbz-movenote { margin-top: var(--mk-space-2); padding-left: var(--mk-space-3); border-left: 6rpx solid var(--mk-color-brand-fill); }
+.lbz-movenote { margin-top: var(--mk-space-2); }
+.lbz-sum { margin-top: var(--mk-space-3); margin-bottom: 0; }
 .lbz-lead { margin-right: var(--mk-space-2); }
 .lbz-sumk { display: block; }
 .lbz-sumv { display: block; margin-top: 4rpx; font-size: var(--mk-font-size-md); }

@@ -279,7 +279,7 @@ test('页面：6 个受限页保留登录守卫；入仓指引与消息不受限
   }
   fresh(false);
   const acc = await page(routes.ACCESS, { id: 'MK1' }); assert.ok(!acc.__blocked); assert.equal(acc.data.sys, ''); assert.equal(acc.data.empty, true);
-  const msg = await page(routes.MESSAGES, {}); assert.ok(!msg.__blocked); assert.equal(msg.data.empty, true);
+  const msg = await page(routes.MESSAGES, {}); assert.ok(!msg.__blocked); assert.equal(msg.data.guest, true); assert.equal(msg.data.empty, false); assert.equal(msg.data.sys, ''); // 未登录：登录后查看消息
   for (const n of ['IDENTITY', 'ACCESS', 'RENEW', 'EXIT', 'DEPOSIT', 'INVOICE', 'ECONTRACT', 'MESSAGES']) assert.ok(!/AUTO-PLACEHOLDER/.test(fs.readFileSync(path.join(root, base(routes[n]) + '.js'), 'utf8')), n);
 });
 test('页面：订单号不存在或订单未付款 → 空态；没带订单号时自动取一笔', async () => {

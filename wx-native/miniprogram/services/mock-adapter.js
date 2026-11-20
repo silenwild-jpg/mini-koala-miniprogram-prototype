@@ -36,6 +36,7 @@ const base = {
     if (!/^1\d{10}$/.test(String(p.phone))) return fail('INVALID', '请输入 11 位手机号');
     const now = Date.now(), last = db.sms[p.phone];
     if (last && now - last.at < 60000) return fail('RATE_LIMIT', '发送过于频繁，请稍后再试');
+    if (require('../mock/scenarios').take('sms_fail')) return fail('NETWORK', '验证码发送失败，请稍后重试');
     db.sms[p.phone] = { at: now };
     return ok({ ttl_seconds: 300, resend_seconds: 60 });
   },
