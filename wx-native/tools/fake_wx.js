@@ -35,7 +35,7 @@ function install(root) {
   env.newPage = (base, query) => {
     const o = env.load(base); const inst = Object.assign({}, o, { data: JSON.parse(JSON.stringify(o.data || {})), route: base });
     inst.setData = mkSetData(inst); env.stack = [inst];
-    if (inst.onLoad) inst.onLoad(query || {}); if (inst.onShow && !inst.__blocked) inst.onShow();
+    if (inst.onLoad) inst.onLoad(query || {}); if (inst.onShow && !inst.__blocked) inst.__shown = inst.onShow();
     return inst;
   };
   env.newComponent = (base, props) => {

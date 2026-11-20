@@ -261,7 +261,7 @@ test('确认订单页：租期变化时出下一档 / 满额减 / 免费运输�
   pg.onTerm({ detail: { months: 6 } }); await tick(); assert.equal(pg.data.hint, ''); assert.equal(pg.data.cardOrder.free_transport, false, '安贞店 1.2km，不送');
   pg.onDate({ detail: { value: '2026-12-24' } }); assert.equal(view.ymd(pg.data.cardOrder.lease.start), '2026-12-24');
   pg.onHide();
-  const far = env.newPage('pkg-trade/confirm/index', { unit: 'SIM_BJ04_U01', term: '5' }); await tick();
+  const far = env.newPage('pkg-trade/confirm/index', { unit: 'SIM_BJ04_U02', term: '5' }); await tick();
   assert.match(far.data.hint, /^再租 1 个月享 7 折，还可免费运输 1 次$/);
   far.onTerm({ detail: { months: 6 } }); await tick(); assert.equal(far.data.cardOrder.free_transport, true);
   assert.ok(view.fees(far.data.cardOrder, Date.now(), {}).rows.some((r) => r.k === '服务权益' && r.amt === '免费运输 1 次 · 顾问联系安排'));

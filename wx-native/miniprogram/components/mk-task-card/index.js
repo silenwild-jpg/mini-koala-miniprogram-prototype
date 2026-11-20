@@ -76,7 +76,14 @@ Component({
       const now = Date.now();
       const recs = (this._orders || []).map((o) => ({ o, p: view.phase(o, now) })).filter((r) => r.p !== 'ended' && GROUP[r.p] !== undefined)
         .sort((a, b) => GROUP[a.p] - GROUP[b.p] || SCORE[b.p] - SCORE[a.p] || b.o.created_at - a.o.created_at);
-      if (!recs.length) { this.stop(); this.setData({ show: false, main: null, todos: [], moreText: '' }); return; }
+      if (!recs.length) {
+        this.stop();
+        const lead = (this._leads || []).find(x => x.status !== 'withdrawn');
+        const need = state.get().requirement, sel = state.get().selection;
+        const key = sel ? 'selected' : need ? 'searching' : lead ? 'booking' : '';
+        const copy = { selected: ['继续确认用仓', sel && sel.store_name, '查看已选仓位', 'find'], searching: ['继续找仓', need ? req.demandText(need) + ' · ' + fmt.termText(need.term_months) : '', '查看推荐', 'find'], booking: ['已收到您的用仓需求', lead && lead.store_name, '查看预约', 'lead'] }[key];
+        this.setData({ show: !!copy, main: copy ? { key, title: copy[0], store: copy[1] || '', sub: key === 'booking' ? TK.todoLeadIn : '', primary: { t: copy[2], a: copy[3] }, facts: [], badge: '', secondary: null } : null, todos: [], moreText: '' }); return;
+      }
       const m = recs[0];
       const others = recs.filter((r) => (r.p === 'active' || r.p === 'expiring') && r.o.id !== m.o.id).length;
       const todos = [];

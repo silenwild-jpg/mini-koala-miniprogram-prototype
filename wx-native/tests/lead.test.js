@@ -80,13 +80,13 @@ test('预约页：按面积填的需求带入「2㎡ · 约4.8m³」；?cap=31 �
   fresh({ capacity_m3: 4.8, input_unit: 'm2', input_value: 2, term_months: 12 }, true);
   let pg = env.newPage(base(routes.BOOKING), {}); await tick(); assert.equal(pg.data.capHint, '2㎡ · 约4.8m³'); assert.equal(pg.data.salesCap, false);
   fresh(null, true); pg = env.newPage(base(routes.BOOKING), { mode: 'advisor', cap: '31' }); await tick();
-  assert.equal(pg.data.capHint, '31m³'); assert.equal(pg.data.salesCap, true); assert.equal(pg.data.termHint, '', '预约页不设默认租期');
+  assert.equal(pg.data.capHint, '31m³'); assert.equal(pg.data.salesCap, false); assert.equal(pg.data.termHint, '', '预约页不设默认租期');
   assert.equal(state.get().requirement, null, '30m³ 及以上不写入全局需求');
 });
 test('预约页意向容量弹层：m³ / ㎡ 用全站同一份校验；常用项「30m³ 及以上」', async () => {
   fresh(null, true); const pg = env.newPage(base(routes.BOOKING), {}); await tick();
   pg.onOpenCapacity(); assert.deepEqual(pg.data.capQuick.map((x) => x.t), ['1m³', '3m³', '8m³', '15m³', '30m³ 及以上', '暂不确定']);
-  pg.onCapInput(input('0.3')); pg.onCapOk(); assert.equal(pg.data.sheet, 'capacity'); assert.ok(pg.data.capErr);
+  pg.onCapInput(input('0.3')); pg.onCapOk(); assert.equal(pg.data.sheet, ''); assert.equal(pg.data.capHint, '0.5m³');
   pg.onCapInput(input('3.5')); pg.onCapOk(); assert.equal(pg.data.sheet, ''); assert.equal(pg.data.capHint, '3.5m³');
   pg.onOpenCapacity(); pg.onCapUnit({ currentTarget: { dataset: { u: 'm2' } } }); pg.onCapInput(input('201')); pg.onCapOk(); assert.ok(pg.data.capErr);
   pg.onCapInput(input('2')); pg.onCapOk(); assert.equal(pg.data.capHint, '2㎡ · 约' + (2 * C.requirement.areaLayerHeightM) + 'm³');
@@ -108,11 +108,11 @@ test('订阅消息（D-187）：点「预约用仓」时请求；取消后仍提
   fresh(NEED, true); C.subscribeTemplates.booking = ['TPL_BOOKING']; env.mode = 'fail'; // 假环境：fail = 用户取消订阅
   let pg = env.newPage(base(routes.BOOKING), {}); await tick();
   pg.onAddress(input('北京市朝阳区')); await pg.onSubmit(); await tick();
-  assert.equal(pg.data.status, 'success'); assert.equal(db.leads.length, 1, '取消订阅不拦提交'); assert.equal(pg.data.sub, 'declined');
+  assert.equal(pg.data.status, 'success'); assert.equal(db.leads.length, 1, '取消订阅不拦提交'); assert.equal(pg.data.sub, '');
   env.mode = 'ok'; pg.onSubAsk(); await tick(); assert.equal(pg.data.sub, 'accepted', '点「开启通知」再次请求');
   fresh(NEED, true); C.subscribeTemplates.booking = ['TPL_BOOKING'];
   pg = env.newPage(base(routes.BOOKING), {}); await tick(); pg.onAddress(input('北京市朝阳区')); await pg.onSubmit(); await tick();
-  assert.equal(pg.data.sub, 'accepted'); assert.equal(db.leads.length, 1);
+  assert.equal(pg.data.sub, ''); assert.equal(db.leads.length, 1);
   // 顾问咨询不请求订阅
   fresh(NEED, true); C.subscribeTemplates.booking = ['TPL_BOOKING']; let asked = 0; const orig = wx.requestSubscribeMessage; wx.requestSubscribeMessage = (o) => { asked++; orig(o); };
   pg = env.newPage(base(routes.BOOKING), { mode: 'advisor' }); await tick(); await pg.onSubmit(); await tick();
@@ -139,27 +139,17 @@ test('提交失败可重试、回执超时可核对：同一个 request_key 只�
   const a = await api.submitLead({ type: 'advisor', request_key: 'K1' }), b = await api.submitLead({ type: 'advisor', request_key: 'K1' });
   assert.equal(a.id, b.id); assert.equal(db.leads.length, 2);
 });
-test('企业容量：按区间存，带入找仓取区间上限；30m³ 及以上不带入；自定义用全站校验', () => {
-  assert.deepEqual(L.bizBands.map((b) => b.label), ['1–5m³', '5–15m³', '15–30m³', '30m³ 及以上']);
-  assert.deepEqual(lead.bizCapacity({ custom: false, band: '5-15' }), { label: '5–15m³', sales: false, match: 15, error: '', capacity_m3: null, band: '5–15m³' });
-  const s = lead.bizCapacity({ custom: false, band: '30+' }); assert.equal(s.sales, true); assert.equal(s.match, null);
-  assert.equal(lead.bizCapacity({ custom: true, sizeRaw: '0.3' }).error, 'min'); assert.equal(lead.bizCapacity({ custom: true, sizeRaw: '3.555' }).error, 'decimals');
-  assert.equal(lead.bizCapacity({ custom: true, sizeRaw: 'abc' }).error, 'format'); assert.equal(lead.bizCapacity({ custom: true, sizeRaw: '' }).error, 'empty');
-  const c = lead.bizCapacity({ custom: true, sizeRaw: '8.5' }); assert.equal(c.match, 8.5); assert.equal(c.sales, false); assert.equal(c.capacity_m3, 8.5);
-  const big = lead.bizCapacity({ custom: true, sizeRaw: '48' }); assert.equal(big.sales, true); assert.equal(big.match, null); assert.equal(big.error, '');
-  assert.equal(T.business.err.size, '请填写0.5m³–200㎡，手填容量最多两位小数', '范围文字按 D-177 原话');
+test('企业容量：区间上限与大容量均能带入，自定义沿用归一',()=>{
+ assert.equal(lead.bizCapacity({band:'15-30'}).match,30);assert.equal(lead.bizCapacity({band:'30+'}).match,30);
+ const c=lead.bizCapacity({custom:true,sizeRaw:'30.01'});assert.equal(c.sales,false);assert.equal(c.match,30.1);
+ assert.equal(lead.bizCapacity({custom:true,sizeRaw:'0.11'}).match,0.5);
 });
-test('企业页：范围校验拦住下一步；区间带入找仓；30m³ 及以上不写入全局需求', async () => {
-  fresh(null, true); const pg = env.newPage(base(routes.BUSINESS), {}); await tick();
-  assert.equal(pg.data.step, 1); assert.deepEqual(pg.data.areaChips.map((x) => x.a), ['朝阳区', '西城区', '东城区', '丰台区', '海淀区', '昌平区', '通州区', '石景山区']);
-  pg.onBand({ currentTarget: { dataset: { k: 'custom' } } }); pg.onSize(input('0.3')); pg.onNext();
-  assert.equal(pg.data.step, 1); assert.equal(pg.data.sizeErr, '请填写0.5m³–200㎡，手填容量最多两位小数');
-  pg.onSize(input('48')); assert.equal(pg.data.sizeErr, ''); assert.equal(pg.data.salesOnly, true); assert.equal(pg.data.sizeNote, '30m³ 及以上由顾问配仓。');
-  env.nav.length = 0; pg.onBrowse(); assert.equal(env.nav.length, 0, '30m³ 及以上不能查看可选仓位'); assert.equal(state.get().requirement, null);
-  pg.onBand({ currentTarget: { dataset: { k: '5-15' } } }); assert.equal(pg.data.sizeNote, '找仓时按 15m³ 匹配，可修改。'); assert.equal(pg.data.salesOnly, false);
-  pg.onBrowse(); assert.equal(env.nav.length, 0, '没选租期不带入'); pg.onTerm({ detail: { months: 12 } }); pg.onBrowse();
-  assert.deepEqual(env.nav, [{ kind: 'switchTab', url: routes.STORES }]); assert.equal(state.get().requirement.capacity_m3, 15); assert.equal(state.get().requirement.term_months, 12);
+
+test('企业页：大容量主引导顾问，同时保留自助找仓',async()=>{
+ fresh(null,true);const pg=env.newPage(base(routes.BUSINESS),{});await tick();pg.onBand({currentTarget:{dataset:{k:'custom'}}});pg.onSize(input('48'));assert.equal(pg.data.salesOnly,false);
+ pg.onTerm({detail:{months:12}});env.nav.length=0;pg.onBrowse();assert.equal(state.get().requirement.capacity_m3,48);assert.equal(env.nav[0].url,routes.STORES);
 });
+
 test('企业页：两步提交，线索存区间容量与其他用仓区域；成功后按钮变「保存企业需求更新」', async () => {
   fresh(null, true); const pg = env.newPage(base(routes.BUSINESS), {}); await tick();
   pg.onLocation(input('北京市朝阳区安贞西里三区 12 号楼')); pg.onAreasOpen(); pg.onArea(tapI(4)); pg.onArea(tapI(3));

@@ -13,7 +13,7 @@ const TT = require('../../i18n/trade');
 const T = TT.login;
 Component({
   options: { addGlobalClass: true },
-  properties: { visible: { type: Boolean, value: false }, tip: { type: String, value: '' } },
+  properties: { visible: { type: Boolean, value: false }, tip: { type: String, value: '请登录' } },
   data: {
     T, agreement: TT.docName.register, conflictDesc: T.conflictDesc[0] + CT.hotline + T.conflictDesc[1],
     sheetTitle: T.title, agreed: false, mode: 'entry', // entry | sms | conflict
@@ -34,7 +34,9 @@ Component({
     toSms(note) { this.setData({ mode: 'sms', sheetTitle: T.smsTitle, error: '', codeErr: false, hint: '', note: note || '' }); },
     // 微信手机号快捷登录：拿到 code 交给后端换手机号。取号失败或额度不足（errno 1400001）时隐藏微信按钮，引导短信登录。
     onGetPhone(e) {
-      const d = (e && e.detail) || {};
+      let d = (e && e.detail) || {};
+      const sim = state.get().flags.demoPhone;
+      if (sim) { state.patch('flags', { demoPhone: '' }); d = sim === 'denied' ? { errMsg: 'getPhoneNumber:fail user deny' } : { errMsg: 'getPhoneNumber:fail', errno: 1400001 }; }
       if (!d.code) {
         const msg = String(d.errMsg || '');
         if (/deny|cancel/i.test(msg) && d.errno !== 1400001) { this.setData({ note: 'denied', error: '' }); return; } // 用户不允许：留在登录层，可改用其他手机号或先继续浏览

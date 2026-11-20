@@ -53,7 +53,7 @@ Page(auth.guarded(routes.CONFIRM, {
     this._orderId = q.order || '';
     this._demo = q.demo || ''; this._coupon = 'auto'; this._quote = null; this._priceReason = '';
   },
-  onShow() { this.refresh(); if (!this._t) this._t = actions.every(() => this.tick(), 1000); },
+  onShow() { if (!auth.enter(routes.CONFIRM)) { this.stop(); this.setData({ sys: 'loading', showBar: false, cardOrder: null }); return; } this.refresh(); if (!this._t) this._t = actions.every(() => this.tick(), 1000); },
   onHide() { this.stop(); },
   onUnload() { this.stop(); },
   stop() { if (this._t) { clearInterval(this._t); this._t = null; } },
@@ -73,7 +73,7 @@ Page(auth.guarded(routes.CONFIRM, {
     return pd.load(this, req, (res) => { if (res[1]) identity.save(res[1]); this.applyDraft(res[0]); });
   },
   applyDraft(r) {
-    if (!r || !r.store || !r.units) return;
+    if (!auth.isLoggedIn() || !r || !r.store || !r.units) return;
     const loggedIn = auth.isLoggedIn(), s = state.get(), months = r.months, q = r.quote;
     const km = view.kmOf(r.store, s.location);
     this._km = km; this._store = r.store; this._units = r.units;
@@ -88,8 +88,8 @@ Page(auth.guarded(routes.CONFIRM, {
     this.setData({
       mode: 'compose', loggedIn, cardOrder: draft, editable: true, swapText: T.swap, hint, dead: false, locked: false,
       gone: !r.available, quoteExpired: false,
-      feePlaceholder: !loggedIn ? T.loginToShow : (!q ? TT.fee.requote : ''), feeTotalPlaceholder: '', feeNote: q ? T.prepayNote : '', couponEditable: !!q,
-      contactText: loggedIn ? T.contactPhone + s.session.phoneMasked : T.notLoggedIn, idv: { verified: idv.verified, text: idv.text },
+      feePlaceholder: !q ? TT.fee.requote : '', feeTotalPlaceholder: '', feeNote: q ? T.prepayNote : '', couponEditable: !!q,
+      contactText: T.contactPhone + s.session.phoneMasked, idv: { verified: idv.verified, text: idv.text },
       head: null, headSubs: [], clock: '', recheck: null, alts: [], cancelable: false, submitting: false,
       couponRows: [{ id: 'auto', name: T.couponAuto, sub: '', amount: '', off: false }, { id: 'none', name: T.couponNoUse, sub: '', amount: '', off: false }]
         .concat((r.coupons || []).map((c) => ({ id: c.id, name: c.name, sub: c.eligible ? '' : T.couponNotFit, amount: '−' + yuan(c.amount), off: !c.eligible, cur: c.id === cur }))),
@@ -106,7 +106,7 @@ Page(auth.guarded(routes.CONFIRM, {
       if (d.dead) Object.assign(b, { solo: true, btn: T.btnRestart, action: 'restart' });
       else if (p === 'pending') Object.assign(b, { amount: yuan(q.payable), saved, btn: d.paying ? T.btnPaying : T.btnPay, action: 'pay', disabled: !!d.paying });
       else Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnPay, action: 'resume', disabled: !!(d.recheck && !d.recheck.unitOk), hint: d.recheck && !d.recheck.unitOk ? T.hintUnitSold : '' });
-    } else if (!d.loggedIn) Object.assign(b, { amount: T.loginToShow, muted: true, btn: T.btnQuote, action: 'login' });
+    }
     else if (d.gone) Object.assign(b, { amount: q ? yuan(q.payable) : T.unavailable, muted: !q, btn: T.goneBtn, disabled: true });
     else if (d.quoteExpired) Object.assign(b, { amount: T.refreshToShow, muted: true, btn: T.refreshQuote, action: 'refresh' });
     else if (d.price) Object.assign(b, { amount: T.quotePending, muted: true, btn: T.btnConfirm, disabled: true, hint: T.hintPrice });

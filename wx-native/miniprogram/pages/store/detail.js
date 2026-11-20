@@ -42,7 +42,7 @@ function routeModel(store, profile) {
 Page({
   data: {
     T: { d: pd.plain(D), cubic: T.price.cubicFrom, cta: T.cta, cats: T.unitCategories },
-    sys: 'loading', card: null, hoursText: '', tab: 0, tabs: D.tabs, demandText: '', hasNeed: false, fav: false, gone: false,
+    visitVisible: false, visitStore: null, visitUnit: '', hero: '', sys: 'loading', card: null, hoursText: '', tab: 0, tabs: D.tabs, demandText: '', hasNeed: false, fav: false, gone: false,
     situation: '', cats: [], blocks: [], rows: [], near: [], smaller: [], sold: [], soldOpen: false, combos: [], comboMode: '', combosOpen: false, noSingleText: '', catEmpty: false,
     alternatives: [], showAlternatives: false, advisor: null, headPrice: null, salesSub: D.salesSub(T.lead.inHours),
     arrSys: 'loading', svc: [], route: null, transitOpen: false, destSheet: false, loginVisible: false, demandSheet: false
@@ -58,6 +58,7 @@ Page({
   refresh() {
     return pd.load(this, api.getStore({ id: this._id }), (store) => {
       this._store = store;
+      this.setData({ visitStore: store, visitUnit: this._unit, hero: '/assets/images/stores/' + (require('../../mock/media').includes(store.id) ? store.id : 'SIM_BJ01').replace('_','-') + '/hero.webp' });
       wx.setNavigationBarTitle({ title: store.name });
       this.paint();
       this.loadArrival();
@@ -80,7 +81,7 @@ Page({
     if (smaller.length) { blocks.push({ key: 'st', type: 'title', text: D.smallTitle }); smaller.forEach(unit('smaller')); }
     this.setData({
       card: d.card, hoursText: store.access_hours ? D.hours + store.access_hours : '', fav: pd.isFavorite('stores', store.id),
-      hasNeed: !!r, demandText: r ? req.demandText(r) + ' · ' + r.term_months + T.unit.month : '',
+      hasNeed: !!r, demandText: r ? '约 ' + req.pretty(r.capacity_m3) + 'm³ · 租 ' + r.term_months + T.unit.month : '',
       situation: d.situation, cats: CATS.map((k) => ({ k, t: T.unitCategories[k], on: k === d.category })),
       rows, near, smaller, blocks, sold: d.sold, combos: d.combos, comboMode: d.comboMode,
       noSingleText: d.noSingleText, catEmpty: d.catEmpty, advisor: d.advisor, headPrice: d.headPrice, showAlternatives: d.showAlternatives,
@@ -156,7 +157,8 @@ Page({
   onDemandChange() { this._cat = 'all'; this.paint(); },
   onDemandSales(e) { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&store=' + this._id + '&cap=' + ((e.detail && e.detail.capacity_m3) || '') }); },
   onAdvisorLead() { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&store=' + this._id }); },
-  onBooking() { wx.navigateTo({ url: routes.BOOKING + '?store=' + this._id }); },
+  onBooking() { this.setData({ visitVisible: true }); },
+  onVisitClose() { this.setData({ visitVisible: false }); },
   onTransport() { wx.navigateTo({ url: routes.TRANSPORT + '?store=' + this._id }); },
   onOtherStores() { wx.switchTab({ url: routes.STORES }); },
   onAlt(e) { const id = e.currentTarget.dataset.id; if (id) wx.redirectTo({ url: routes.STORE_DETAIL + '?id=' + id }); },

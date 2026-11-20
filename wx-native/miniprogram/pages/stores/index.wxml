@@ -25,7 +25,7 @@
     </block>
     <view class="mk-between mk-gutter sl-demand">
       <view class="sl-dmark"></view>
-      <text wx:if="{{demandText}}" class="mk-grow mk-ellipsis">{{T.stores.demandPrefix}}{{demandText}}</text>
+      <text wx:if="{{demandText}}" class="mk-grow mk-ellipsis st-demand-value">{{T.stores.demandPrefix}}{{demandText}}</text>
       <text wx:else class="mk-grow">{{T.stores.unsure}}</text>
       <text wx:if="{{demandText}}" class="mk-link sl-mod" bindtap="onModify" aria-role="button">{{T.stores.modify}}</text>
       <text wx:else class="mk-link sl-mod" bindtap="onEstimate" aria-role="button">{{T.stores.estimateNow}}</text>

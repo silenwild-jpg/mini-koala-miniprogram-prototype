@@ -14,7 +14,7 @@ module.exports = {
     wechat: '微信手机号快捷登录', other: '其他手机号登录',
     agreePrefix: '已阅读并同意', agreeTip: '请先阅读并勾选协议',
     phonePlaceholder: '手机号', codePlaceholder: '请输入 6 位验证码', sendCode: '获取验证码', resend: '重新获取',
-    submit: '登录', gateTip: '请先登录，登录后才能确认订单',
+    submit: '登录', gateTip: '请登录',
     wechatUnavailable: '微信快捷登录暂不可用，请用其他手机号登录',
     conflict: '该手机号已绑定其他账号'
   },

@@ -1,12 +1,19 @@
 // 演示数据适配器。数据来自 mock/（由冻结稿导出），价格和库存不是真实报价。
 // 与真实接口保持同一组方法名和返回结构；未登录时不返回整期金额（交接 v1.0 §4.1-2）。
 const stores = require('../mock/stores');
-const units = require('../mock/units');
+const units = require('../mock/inventory');
 const pricing = require('../core/pricing');
 const order = require('../core/order');
 const ok = (v) => new Promise((resolve) => setTimeout(() => resolve(JSON.parse(JSON.stringify(v))), 0));
 const fail = (code, message) => Promise.reject({ code, message });
-const unitsOf = (storeId) => units.filter((u) => u.store_id === storeId);
+const unitsOf = (storeId) => units.filter((u) => u.store_id === storeId).map((u) => {
+  const hold = db.kv.trade && db.kv.trade.holds[u.id];
+  const held = hold && db.orders.find(o => o.id === hold);
+  const active = held && ![order.STAGE.CANCELLED, order.STAGE.EXPIRED].includes(held.stage) &&
+    (![order.STAGE.PENDING, order.STAGE.FAILED].includes(held.stage) || !order.isExpired(held.pay.expires_at, Date.now()));
+  const price = db.kv.trade && db.kv.trade.prices[u.id];
+  return Object.assign({}, u, price ? { base_month: price } : {}, active ? { status: 'reserved' } : {});
+});
 const { db, seed } = require('./mock-ext/_db');
 const mask = (p) => String(p).replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
 
@@ -40,7 +47,7 @@ const base = {
     return ok({ loggedIn: true, phoneMasked: mask(p.phone), token: 'demo-token' });
   },
   getQuote(p) { // { unit_ids, months }
-    const us = (p.unit_ids || []).map((id) => units.find((u) => u.id === id));
+    const us = (p.unit_ids || []).map((id) => { const u = units.find((u) => u.id === id); return u && unitsOf(u.store_id).find(row => row.id === id); });
     if (!us.length || us.some((u) => !u || u.status !== 'available')) return fail('NOT_FOUND', '仓位已租出');
     const now = Date.now();
     return ok(Object.assign(pricing.quote(us, p.months), { quoted_at: now, expires_at: order.quoteExpiresAt(now) }));

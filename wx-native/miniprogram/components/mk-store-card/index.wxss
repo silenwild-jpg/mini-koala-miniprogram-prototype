@@ -19,3 +19,11 @@
 .sc-sub { display: block; margin-top: 4rpx; }
 .sc-cta { min-width: 208rpx; margin-left: var(--mk-space-3); }
 .sc-storelink { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); min-height: 64rpx; display: flex; align-items: center; justify-content: center; }
+
+.sc-km { margin:0 12rpx 0 6rpx; }
+.sc-buy { align-items:flex-start; flex-wrap:wrap; gap:12rpx; }
+.sc-buy > .mk-grow { flex-basis:100%; }
+.sc-cta { margin-left:auto; }
+.sc-sub { white-space:normal; overflow-wrap:anywhere; }
+
+.sc-photo { width:136rpx; height:112rpx; border-radius:var(--mk-radius-thumb); margin-right:20rpx; flex:none; }

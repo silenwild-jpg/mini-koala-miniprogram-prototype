@@ -1,0 +1,10 @@
+.vs-store { margin-bottom:8rpx; }
+.vs-label { margin:28rpx 0 12rpx; font-weight:600; }
+.vs-field { padding:20rpx 16rpx; min-height:48rpx; border-bottom:var(--mk-border-hairline); background:var(--mk-color-canvas-page); border-radius:var(--mk-radius-control); margin:12rpx 0; }
+.vs-dates { display:flex; flex-wrap:wrap; gap:12rpx; }
+.vs-dates .mk-chip { display:flex; align-items:center; min-height:64rpx; }
+.vs-pickers { display:flex; gap:16rpx; }
+.vs-pickers > picker { flex:1; min-width:0; }
+.vs-note, .vs-error { display:block; margin-top:16rpx; }
+.vs-result { display:flex; flex-direction:column; gap:24rpx; padding:32rpx 0; }
+.vs-result button { width:100%; }

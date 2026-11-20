@@ -18,12 +18,10 @@ const isSpecial = (u) => Number(u.special_month) > 0 && Number(u.base_month) > N
 // 单个仓位在给定租期（或指定折扣系数）下的月租。月租舍去小数。
 function unitPricing(u, months, factorOverride) {
   const base = Number(u.base_month);
-  if (isSpecial(u)) {
-    return { unit_id: u.id, base_month: base, monthly_rent: Math.trunc(Number(u.special_month)), term_factor: null, term_discount_monthly: 0, special: true };
-  }
+  const special = isSpecial(u), effective = special ? base * 0.9 : base;
   const f = typeof factorOverride === 'number' ? factorOverride : termFactor(months);
-  const monthly = Math.trunc(base * f + EPS);
-  return { unit_id: u.id, base_month: base, monthly_rent: monthly, term_factor: f, term_discount_monthly: Math.max(0, base - monthly), special: false };
+  const monthly = Math.trunc(effective * f + EPS);
+  return { unit_id: u.id, base_month: base, monthly_rent: monthly, term_factor: f, term_discount_monthly: Math.max(0, effective - monthly), special_discount_monthly: special ? base - effective : 0, special };
 }
 
 // 仓位「¥X/月起」：最低档下的月租，小数进位（D-146、D-147）
@@ -69,7 +67,7 @@ function quote(units, months, opts) {
   const rentAfter = rentTotal - couponOff - fullOff;
   return {
     months, unit_pricing: rows, special,
-    term_factor: special ? null : rows[0].term_factor,
+    term_factor: rows[0].term_factor,
     monthly_average: monthly, rent_total: rentTotal,
     full_reduction: fullOff, full_min: fullMin,
     coupon_id: couponId, coupon_discount: couponOff, coupon_skipped: couponSkipped,
@@ -77,7 +75,7 @@ function quote(units, months, opts) {
     deposit, management_fee: fee,
     payable: rentAfter + deposit + fee,
     term_discount_total: termSaved,
-    saved: special ? 0 : termSaved + fullOff + couponOff // 已省（D-164），基准是月基价；特价仓不显示
+    saved: rows.reduce((n, r) => n + r.base_month - r.monthly_rent, 0) * months + fullOff + couponOff
   };
 }
 

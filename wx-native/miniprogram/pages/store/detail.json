@@ -1,1 +1,1 @@
-{ "navigationBarTitleText": "门店详情", "usingComponents": { "mk-demand-sheet": "/components/mk-demand-sheet/index" } }
+{ "navigationBarTitleText": "门店详情", "usingComponents": { "mk-demand-sheet": "/components/mk-demand-sheet/index", "mk-visit-sheet": "/components/mk-visit-sheet/index" } }

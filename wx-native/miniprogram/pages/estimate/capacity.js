@@ -48,7 +48,7 @@ Page({
   evaluate() {
     const d = this.data, v = req.validate(d.unit, d.raw), est = (state.get().draft || {}).est;
     const error = v.ok || v.error === 'empty' ? '' : (ERR[v.error + '_' + d.unit] || ERR[v.error] || ERR.format);
-    const cap = v.ok ? v.capacity_m3 : null, sales = !!v.sales;
+    const cap = v.ok ? v.capacity_m3 : null, sales = false;
     // 空间参考：按容量取档（档位表经接口取）
     let ref = null;
     const bands = this._bands || [];
@@ -65,8 +65,8 @@ Page({
       cartons: v.ok ? (sales ? '' : K.cartons(req.cartonCount(v.capacity_m3))) : '',
       hint: v.ok ? (sales ? '' : pricing.nudge(d.term)) : '',
       ack: sales ? (order.inServiceHours(Date.now()) ? K.salesIn : K.salesOff) : '',
-      advise: v.ok && !sales && cap > C.matching.advisorCapacityM3,
-      quick: R.capacityQuickPicks.map((q) => ({ v: q, t: q + 'm³', on: v.ok && d.unit === 'm3' && cap === q })),
+      advise: v.ok && cap >= C.matching.largeCapacityFromM3,
+      quick: R.capacityQuickPicks.map((q) => ({ v: q, t: q + (d.unit === 'm2' ? '㎡' : 'm³'), on: v.ok && v.input_value === q })),
       canMinus: v.ok && Number(d.raw) > CF.estimate.capStepM3,
       src, srcText: src === 'items' ? K.fromItems(req.pretty(est.rec), est.kinds, est.count) : src === 'edited' ? K.edited(req.pretty(est.rec)) : '',
       ref,
@@ -85,6 +85,7 @@ Page({
     state.patch('draft', part);
   },
   onUnit(e) { const unit = e.currentTarget.dataset.u === 'm2' ? 'm2' : 'm3'; if (unit !== this.data.unit) { this.setData({ unit, raw: '' }); this.touch('', unit); this.evaluate(); } },
+  onBlur() { const v = req.validate(this.data.unit, this.data.raw); if (v.ok) { this.setData({ raw: String(v.input_value) }); this.evaluate(); } },
   onInput(e) { const raw = String((e.detail && e.detail.value) || ''); this.setData({ raw }); this.touch(raw, this.data.unit); this.evaluate(); },
   onQuick(e) { const raw = String(e.currentTarget.dataset.v); this.setData({ raw }); this.touch(raw, this.data.unit); this.evaluate(); },
   onStep(e) {
@@ -109,11 +110,11 @@ Page({
   onSubmit() {
     if (!this.data.ok) return;
     const d = this.data, v = this._v;
-    if (v.sales) { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&cap=' + v.capacity_m3 }); return; } // 30m³ 及以上不写入自助需求
     const est = (state.get().draft || {}).est;
-    const need = { capacity_m3: v.capacity_m3, input_unit: d.unit, input_value: Number(d.raw), source: 'manual', term_months: d.term };
+    const need = { capacity_m3: v.capacity_m3, input_unit: d.unit, input_value: v.input_value, input_raw: String((state.get().draft || {}).capacity_raw || v.input_raw), source: 'manual', term_months: d.term };
     if (d.src === 'items' && est) { need.source = 'items'; need.est = est; } // 仍是物品估算值：仓位推荐页写明估算关系
     state.setRequirement(need);
+    this.setData({ raw: String(v.input_value) });
     const pages = getCurrentPages();
     if (pages.length > 1 && '/' + pages[pages.length - 2].route === routes.MATCH) wx.navigateBack(); else wx.redirectTo({ url: routes.MATCH });
   }

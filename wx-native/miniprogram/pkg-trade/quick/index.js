@@ -26,15 +26,16 @@ Page({
     est: null, access: '', draft: null,
     barLabel: T.need, barAmount: '', barMuted: true, barNeed: '', btnText: T.next, btnDisabled: true,
     storeSheet: false, storeRows: [], unitSheet: false, unitRows: [], feeSheet: false,
-    loginVisible: false, panel: false
+    loginTip: '请登录', loginVisible: false, panel: false
   },
   onLoad(q) {
-    q = q || {};
+    q = q || {}; this._openLogin = q.login === '1';
+    state.patch('flags', { orderSource: 'quick' });
     this._storeId = q.store || ''; this._unitId = q.unit || ''; this._carried = q.carried === '1';
     const r = state.get().requirement, now = Date.now();
     this.setData({ term: r && pricing.isTerm(r.term_months) ? r.term_months : C.requirement.termDefault, startMin: view.ymd(now + CT.startDate.minDays * view.DAY), startMax: view.ymd(now + CT.startDate.maxDays * view.DAY) });
   },
-  onShow() { this.refresh(); },
+  onShow() { this.refresh(); if (auth.consumePending(this, 'quick') || (this._openLogin && !auth.isLoggedIn())) { this._openLogin = false; auth.openLogin(this); } },
   refresh() { return pd.load(this, pd.cityStores(), (stores) => { this._stores = stores; this.apply(); }); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   current() {

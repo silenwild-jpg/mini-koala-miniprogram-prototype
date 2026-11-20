@@ -13,6 +13,7 @@ const { db } = require('./_db');
 const stores = require('../../mock/stores');
 const L = require('../../core/config-lead');
 const lead = require('../../core/lead');
+const req = require('../../core/requirement');
 const ok = (v) => new Promise((resolve) => setTimeout(() => resolve(JSON.parse(JSON.stringify(v))), 0));
 const fail = (code, message, field) => Promise.reject({ code, message, field: field || '' });
 const T = lead.TYPES;
@@ -27,13 +28,24 @@ function phoneOf(p, session) {
 }
 function build(p, session, now) {
   const type = p.type || T.BOOKING;
-  if ([T.BOOKING, T.ADVISOR, T.ENTERPRISE, T.TRANSPORT, T.SUPPORT].indexOf(type) < 0) return { err: ['INVALID', '线索类型不正确', 'type'] };
+  if ([T.BOOKING, T.ADVISOR, T.ENTERPRISE, T.TRANSPORT, T.SUPPORT, T.VISIT].indexOf(type) < 0) return { err: ['INVALID', '线索类型不正确', 'type'] };
   const phone = phoneOf(p, session);
   if (!phone) return { err: ['INVALID', '请填写有效联系电话', 'phone'] };
   const address = str(p.address, 10 * L.addressMax);
   if (!lead.validAddress(address, type === T.BOOKING || type === T.TRANSPORT)) return { err: ['INVALID', '请填写用仓位置（不超过120字）', 'address'] };
   const store = p.store_id ? stores.find((s) => s.id === p.store_id) : null;
   const rec = { type, source: str(p.source, 20), store_id: store ? store.id : '', store_name: store ? store.name : '', address, phone_masked: phone, location: p.location || null, note: str(p.note, L.bizNotesMax) };
+  if (type === T.VISIT) {
+    if (!store || store.status !== 'open') return { err: ['INVALID', '请选择可预约的门店', 'store'] };
+    if (p.preferred_date && !lead.validDate(p.preferred_date, now)) return { err: ['INVALID', '请选择有效看仓日期', 'date'] };
+    const units = require('../../mock/inventory');
+    const unit = p.unit_id ? units.find(u => u.id === p.unit_id && u.store_id === store.id && u.status === 'available') : null;
+    if (p.unit_id && !unit) return { err: ['INVALID', '意向仓位已售出，请重新选择或留空', 'unit'] };
+    const v = p.capacity_m3 === null || p.capacity_m3 === undefined || p.capacity_m3 === '' ? null : req.validate('m3', p.capacity_m3);
+    if (v && !v.ok) return { err: ['INVALID', '请填写有效容量，或留空', 'capacity'] };
+    if (!['待电话确认', '上午', '下午', '晚上'].includes(p.time_slot)) return { err: ['INVALID', '请选择有效时间段', 'time'] };
+    Object.assign(rec, { address: store.address, preferred_date: str(p.preferred_date, 10), time_slot: p.time_slot, unit_id: unit ? unit.id : '', capacity_m3: v ? v.capacity_m3 : null });
+  }
   if (type === T.BOOKING || type === T.ADVISOR) {
     Object.assign(rec, { start_hint: str(p.start_hint, 20), preferred_date: str(p.preferred_date, 10), items: str(p.items, 40), capacity_hint: str(p.capacity_hint, 40), term_hint: str(p.term_hint, 20) });
     rec.capacity_m3 = Number(p.capacity_m3) > 0 ? Number(p.capacity_m3) : null; // 接受任意小数；「30m³ 及以上」只有文字
@@ -98,7 +110,7 @@ const methods = {
   },
   // { types? } → 预约记录（新的在前）。默认只列预约 / 顾问 / 企业三类；未登录返回空表
   getLeads(p, session) {
-    const types = p.types && p.types.length ? p.types : [T.BOOKING, T.ADVISOR, T.ENTERPRISE];
+    const types = p.types && p.types.length ? p.types : [T.BOOKING, T.ADVISOR, T.ENTERPRISE, T.VISIT];
     return ok(owned(session).filter((x) => types.indexOf(x.type) >= 0).slice().reverse());
   },
   getLead(p, session) { const x = owned(session).find((l) => l.id === p.id); return x ? ok(x) : fail('NOT_FOUND', '这条需求已不存在'); },

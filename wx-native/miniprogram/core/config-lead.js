@@ -13,7 +13,7 @@ module.exports = {
     { key: '1-5', label: '1–5m³', min: 1, max: 5, match: 5 },
     { key: '5-15', label: '5–15m³', min: 5, max: 15, match: 15 },
     { key: '15-30', label: '15–30m³', min: 15, max: 30, match: 30 },
-    { key: '30+', label: '30m³ 及以上', min: 30, max: null, match: null, sales: true }
+    { key: '30+', label: '30m³ 及以上', min: 30, max: null, match: 30, sales: false }
   ],
   hotline: '4000358885',  // 使用协议 附件3：400-035-8885（400 客服电话）
   leadNoDigits: 4,        // 待业务：线索对外编号规则未定，暂用 4 位序号（冻结稿「需求编号 0001」）

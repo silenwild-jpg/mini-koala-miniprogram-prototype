@@ -1,6 +1,7 @@
 <view class="mk-page sd-page">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <block wx:else>
+    <view class="sd-hero"><image class="sd-hero-img" src="{{hero}}" mode="aspectFill" /><text class="sd-demo">门店示意图</text></view>
     <view class="sd-head mk-gutter">
       <view class="mk-row sd-top">
         <text class="mk-h2 sd-name mk-grow">{{card.name}}</text>
@@ -14,7 +15,7 @@
         <button class="sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/ic-share.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
       </view>
       <view wx:if="{{tab !== 1}}" class="sd-tags"><text wx:for="{{card.tags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></view>
-      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text class="mk-grow sd-at">{{card.address}}</text><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text></view>
+      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><text class="mk-grow sd-at">{{card.address}}</text><button class="sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
     </view>
     <view class="mk-between mk-gutter sd-demand">
       <view class="sd-dmark"></view>
@@ -99,7 +100,7 @@
       </block>
       <block wx:if="{{showAlternatives && hasNeed}}">
         <text class="mk-sub sd-gtitle">{{T.d.altTitle}}</text>
-        <text wx:if="{{alternatives.length === 0}}" class="mk-sub sd-gnote">{{T.d.altNone}}</text>
+        <text wx:if="{{alternatives.length === 0}}" class="mk-sub sd-gnote">{{T.d.altNone}}</text><button wx:if="{{alternatives.length === 0}}" class="mk-link" open-type="contact">立即咨询</button>
         <view wx:for="{{alternatives}}" wx:key="id" class="mk-between sd-alt">
           <view class="mk-grow"><text class="sd-un mk-ellipsis">{{item.name}}</text><text class="mk-sub sd-line">{{item.text}}</text></view>
           <button class="mk-btn mk-btn--ghost mk-btn--sm" hover-class="none" data-id="{{item.id}}" bindtap="onAlt">{{T.d.altView}}</button>
@@ -153,7 +154,6 @@
       </view>
       <view class="mk-between sd-ask"><text class="mk-sub mk-grow">{{route.askText}}</text><text class="mk-link sd-copy" bindtap="onCall" aria-role="button">{{T.d.route.askBtn}}</text></view>
     </view>
-    <view class="mk-bottom-bar"><button class="mk-btn mk-btn--ghost" hover-class="none" bindtap="onBooking">{{T.d.booking}}</button></view>
   </block>
   <mk-sheet visible="{{destSheet}}" title="{{T.d.route.destTitle}}" bind:close="onDestClose">
     <text class="mk-sub">{{T.d.route.destNote}}</text>
@@ -163,6 +163,7 @@
       <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
     </view>
   </mk-sheet>
+  <mk-visit-sheet id="visit-sheet" visible="{{visitVisible}}" store="{{visitStore}}" unit-id="{{visitUnit}}" bind:close="onVisitClose" />
   <mk-demand-sheet visible="{{demandSheet}}" bind:close="onDemandClose" bind:change="onDemandChange" bind:sales="onDemandSales" />
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
 </view>

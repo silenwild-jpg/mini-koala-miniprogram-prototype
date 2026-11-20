@@ -55,6 +55,7 @@
     <scroll-view wx:if="{{showRail}}" class="hm-rec" scroll-x="true" enhanced="true" show-scrollbar="{{false}}">
       <view class="hm-rail">
         <view wx:for="{{cards}}" wx:key="id" class="mk-card hm-rcard" data-id="{{item.id}}" bindtap="onStore" aria-role="button">
+          <image class="hm-store-photo" src="{{item.photo}}" mode="aspectFill" />
           <text class="mk-title mk-ellipsis hm-rn">{{item.name}}</text>
           <text class="mk-sub mk-ellipsis hm-rl">{{item.locText}}</text>
           <view class="hm-rtags"><text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="t" class="mk-tag {{tag.promo ? 'mk-tag--promo' : ''}}">{{tag.t}}</text></view>

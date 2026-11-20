@@ -74,3 +74,11 @@
 .sd-fv { margin-left: var(--mk-space-1); font-weight: var(--mk-font-weight-medium); }
 .sd-ask { padding: var(--mk-space-2) 0; }
 .sd-dest { min-height: 112rpx; border-bottom: var(--mk-border-hairline); }
+
+.sd-page { padding-bottom:calc(40rpx + env(safe-area-inset-bottom)); }
+.sd-hero { height:360rpx; position:relative; }
+.sd-hero-img { width:100%; height:100%; }
+.sd-demo { position:absolute; right:24rpx; bottom:16rpx; color:#fff; background:rgba(0,0,0,.65); padding:4rpx 12rpx; font-size:24rpx; }
+.sd-at { line-height:1.5; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+.sd-visit { margin:0 0 0 12rpx; padding:12rpx 0; white-space:nowrap; flex:none; background:transparent; font-size:28rpx; line-height:1.5; }
+.sd-visit::after { border:0; }

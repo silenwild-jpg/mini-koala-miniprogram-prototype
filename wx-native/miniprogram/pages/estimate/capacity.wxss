@@ -30,3 +30,8 @@
 .cp-sum { display: flex; flex-direction: column; }
 .cp-sb { font-weight: var(--mk-font-weight-semibold); }
 .cp-submit { min-width: 280rpx; margin-left: var(--mk-space-3); }
+
+.cp-large { display:flex; align-items:center; gap:12rpx; color:var(--mk-color-ink-secondary); font-size:var(--mk-font-size-sm); margin-top:24rpx; }
+.cp-contact { flex-shrink:0; margin:0; padding:12rpx 0; background:transparent; font-size:inherit; line-height:1.5; }
+.cp-contact::after { border:0; }
+.cp-assist { flex-wrap:wrap; gap:16rpx; }

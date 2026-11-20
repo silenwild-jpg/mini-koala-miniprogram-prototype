@@ -10,7 +10,7 @@ module.exports = {
   card: {
     range: '可租容量', freeTransport: '满6个月免费运输', more: (n) => '另有 ' + n + ' 个可租 · 查看门店',
     noMatch: '该店暂无匹配仓位', noStock: '暂无可租仓位', combo: '组合仓 ', bigger: '大一档',
-    first: '第一推荐', second: '第二推荐',
+    first: '距离最近', second: '区域低价',
     diff: (dv) => '大 ' + dv + 'm³', diffMore: (yuan) => '，每月多 ' + yuan,
     reasonEqual: (v) => '需求与 ' + v + 'm³ 仓相当，大一档更好放',
     reasonRatio: (v, pct) => '需求约占 ' + v + 'm³ 仓的 ' + pct + '%，大一档更好放',
@@ -39,7 +39,7 @@ module.exports = {
     note: '估算值，以实际仓位为准', rangeNote: '可填 0.5m³–200㎡，估算值，以实际仓位为准',
     approx: (v) => '约 ' + v + ' m³', toEstimate: '不确定大小？去估算',
     cancel: '取消', update: '更新推荐', view: '查看推荐', viewStores: '查看门店',
-    errCap: '请填写不小于 0.5m³ 的容量，最多两位小数', errArea: '请填写 0.2–200㎡ 的面积，最多一位小数'
+    errCap: '请输入有效容量', errArea: '面积不能超过200㎡'
   },
   panel: {
     title: '用仓位置', placeholder: '搜索门店、商圈或区域', cancel: '取消',
@@ -83,7 +83,7 @@ module.exports = {
     services: '服务', servicesOn: '已选服务', clearServices: '清空',
     promo: '特价仓', freeTransport: '免费运输',
     cancel: '取消', confirm: '确定',
-    demandPrefix: '已选需求：', modify: '修改需求', unsure: '不确定用多大仓？', estimateNow: '立即估算',
+    demandPrefix: '', modify: '修改 ›', unsure: '拿不准要多大空间？', estimateNow: '估算大小 ›',
     total: (n) => '共' + n + '家门店', shown: (n) => ' · 已显示前' + n + '家', inArea: (a) => a + ' · ',
     more: '查看更多门店', allStores: '查看全部门店',
     emptyTitle: '当前需求暂无可租仓位', emptySub: '可调整容量或租期，或由顾问协助寻找合适仓位',
@@ -97,8 +97,8 @@ module.exports = {
     hours: '存取时间：', tabs: ['可选仓位', '服务设施', '到店指引'], booking: '预约用仓',
     navigate: '到店导航', call: '电话', favorite: '收藏', share: '分享',
     favOn: '已收藏', favOff: '已取消收藏', // 自写：冻结稿没有画收藏后的提示
-    demandPrefix: '已选需求：', modify: '修改需求', unsure: '不确定用多大仓？', estimateNow: '立即估算',
-    goneTitle: '所选仓位已不可租', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。',
+    demandPrefix: '', modify: '修改 ›', unsure: '拿不准要多大空间？', estimateNow: '估算大小 ›',
+    goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。',
     noSingle: (v) => '本店没有不小于 ' + v + 'm³ 的单个仓位。',
     comboTitle: '组合方案', comboTag: (n) => n + ' 间组合', comboSub: (codes) => '一笔订单 · 同一门店 · ' + codes, showCombos: '查看组合仓位',
     nearTitle: '容量接近的仓位', smallTitle: '比需求小的仓位', rematch: (v) => '按 ' + v + 'm³ 重新匹配',
@@ -106,7 +106,7 @@ module.exports = {
     catEmpty: '当前仓型暂无可租仓位。', allCats: '查看全部仓型',
     noMatchTitle: '本店暂无匹配仓位', noStockTitle: '本店暂无可租仓位', otherSub: '可查看其他门店的仓位', otherStores: '查看其他门店',
     salesTitle: '30m³ 及以上的需求由顾问为您配仓', salesSub: (inHours) => '提交后' + inHours + '。', modifyCap: '修改容量',
-    altTitle: '其他匹配门店和仓位', altCombo: ' · 组合方案', altView: '查看匹配方案', altNone: '当前城市没有满足容量的可用方案。',
+    altTitle: '其他匹配门店和仓位', altCombo: ' · 组合方案', altView: '查看匹配方案', altNone: '当前没有满足容量的可用方案。可联系顾问协助',
     svc: {
       access: '存取与安防', hours: '存取时间', daily: '，每日', entry: '进门方式', entryText: '一键开锁（暂未开通），租后在「我的仓位」操作',
       security: '安防', securityText: '全天监控，独立门锁', env: '仓内环境', climate: '控温防潮', climateText: '仓区恒温除湿',
@@ -126,14 +126,14 @@ module.exports = {
   },
   match: {
     needTitle: '您的用仓需求', modify: '修改', origin: '用仓位置', approx: (v) => '约' + v + 'm³',
-    recommendN: (n) => '为您推荐 ' + n + ' 家门店', recommending: '为您推荐门店', matching: '正在按容量与租期匹配',
-    subNear: (v) => '没有不小于 ' + v + 'm³ 的仓位，以下容量接近', subExpanded: '已扩大范围', subCombo: '支持组合仓位',
+    recommendN: () => '为您推荐', recommending: '为您推荐门店', matching: '正在按容量与租期匹配',
+    subNear: () => '为您找到以下容量接近的仓位', subExpanded: '已扩大范围', subCombo: '支持组合仓位',
     fromItems: (net, rec) => '按物品估算：物品约 ' + net + 'm³，留出码放空隙后建议 ' + rec + 'm³。下方是不小于 ' + rec + 'm³ 的仓位。',
     fromItemsTiny: (net) => '按物品估算：物品约 ' + net + 'm³，小于最小仓位，按 0.5m³ 为您匹配。', // 由物品页同句改写：冻结稿只在物品页画了这一句
     longNote: (names) => '清单含长件（' + names + '），请对照仓位的长宽高。',
-    noneTitle: '暂无匹配的仓位', noneSub: (v) => '当前城市没有容量接近 ' + v + 'm³ 的可租仓位，可查看全部门店或调整容量。',
+    noneTitle: '暂无匹配的仓位', noneSub: () => '当前没有满足容量的可用方案。可联系顾问协助',
     allCity: '查看全城门店', modifyCap: '修改容量',
-    goneTitle: '所选仓位已不可租', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。',
+    goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。',
     salesTitle: '30m³ 及以上的需求由顾问为您配仓',
     salesSub: '提交后预计 10 分钟内与您联系。非服务时段提交的，顾问上班后将优先联系您。',
     fees: {
@@ -155,11 +155,11 @@ module.exports = {
     salesIn: '提交后预计 10 分钟内与您联系。', salesOff: '提交后顾问上班将优先联系您。服务时段：每日 9:00–20:00', // salesOff 为任务书 §6 第 7 项自定句
     hintTitle: '需要顾问帮您确认方案？',
     ref: '空间参考', refFits: ' 大致能放', refWithin: (b) => b + 'm³ 以内', refOver: (a) => a + 'm³ 以上', refRange: (a, b) => a + '–' + b + 'm³',
-    refEmpty: '填写容量，查看对应的存储空间参考',
+    refEmpty: '填写容量，参考空间',
     sumSales: ' · 由顾问配仓', needFill: '还需填写容量', needFixCap: '还需修改容量', needFixArea: '还需修改面积', dash: '—',
     submit: '查看仓位报价', toAdvisor: '提交给顾问',
-    // 说明：冻结稿的容量错误句是「请填写不小于 0.5m³ 的容量，最多两位小数」；tests/flow.test.js 仍锁定旧句，改测试后把下面三项换成 demand.errCap
-    err: { min: '请填写不小于 0.5m³ 的容量，最多两位小数', decimals_m3: '请填写不小于 0.5m³ 的容量，最多两位小数', format: '请输入数字', range: '请填写 0.2–200㎡ 的面积，最多一位小数', decimals_m2: '请填写 0.2–200㎡ 的面积，最多一位小数' }
+    // 说明：冻结稿的容量错误句是「请输入有效容量」；tests/flow.test.js 仍锁定旧句，改测试后把下面三项换成 demand.errCap
+    err: { min: '请输入有效容量', decimals_m3: '请输入有效容量', format: '请输入数字', range: '面积不能超过200㎡', decimals_m2: '面积不能超过200㎡' }
   },
   items: {
     toCap: '直接填容量', advisor: '顾问协助', ai: 'AI 估算 · 暂未开放', aiToast: 'AI 估算暂未开放，可按物品估算或直接填写容量',
@@ -168,9 +168,9 @@ module.exports = {
     selected: (kinds, count) => '已选 ' + kinds + ' 种、' + count + ' 件 · 查看清单 ›',
     longHint: (names) => '含长件：' + names + '。选仓时请对照仓位的长宽高。',
     variant: (name) => '规格 · ' + name, per: (v, u) => '约 ' + v + 'm³/' + u, subtotal: (v) => '小计 ' + v + 'm³',
-    estNote: (net, rec) => '物品约 ' + net + 'm³，留出码放空隙后建议 ' + rec + 'm³。估算值，以实际仓位为准。',
-    tinyNote: (net) => '物品约 ' + net + 'm³，小于最小仓位，按 0.5m³ 为您匹配。',
-    biz: { title: '商家 / 企业用仓', sub: '多仓、长期或需要开票，可提交企业用仓需求，由顾问配仓。', btn: '填写企业用仓需求' },
+    estNote: (net, rec) => '建议 ' + rec + 'm³',
+    tinyNote: () => '建议 0.5m³',
+    biz: { title: '商家 / 企业用仓', sub: '为满足企业客户多样化用仓需求，可预约咨询专属配仓顾问', btn: '立即提交' },
     none: { title: '没有找到相关物品', sub: '可换个名称，或选一件大小相近的物品代替', all: '查看全部物品', toCap: '直接填写容量', advisor: '顾问协助' },
     footNone: '还没有选择物品', footNet: (net, count) => '物品约 ' + net + 'm³ · ' + count + ' 件',
     suggest: (v) => '建议 ' + v + 'm³', tiny: '按 0.5m³ 匹配', zero: '0m³',

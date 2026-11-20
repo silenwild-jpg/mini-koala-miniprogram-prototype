@@ -21,7 +21,7 @@ function build(list) {
 Page(auth.guarded(routes.MESSAGES, {
   data: { T: { m: M }, sys: 'loading', empty: false, list: [], loginVisible: false },
   onLoad() {},
-  onShow() { this.refresh(); },
+  onShow() { return this.refresh(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() {
     this.setData({ sys: this.data.sys === '' ? '' : 'loading' });

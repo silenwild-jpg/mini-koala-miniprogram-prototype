@@ -8,7 +8,7 @@ const rules = require('../../core/account');
 const fmt = require('../../core/format');
 const order = require('../../core/order');
 const stores = require('../../mock/stores');
-const units = require('../../mock/units');
+const units = require('../../mock/inventory');
 const S = order.STAGE;
 const ok = (v) => new Promise((resolve) => setTimeout(() => resolve(JSON.parse(JSON.stringify(v))), 0));
 const fail = (code, message, extra) => Promise.reject(Object.assign({ code, message }, extra || {}));

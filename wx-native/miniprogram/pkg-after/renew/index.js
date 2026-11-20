@@ -59,7 +59,7 @@ function render(page, o, now) {
       d.note = { tone: '', text: r.notify === 'accepted' ? R.pendingNote : R.pendingNoteMsg };
       d.sub = r.notify === 'accepted' ? { ok: true, text: R.subOk } : r.notify === 'declined' ? { ok: false, text: R.subNo } : null;
       d.bar = { btns: [btn(CT.backOrder, 'back', 'neutral')] };
-      cm.later(this, A.demo.storeQuoteMs - (now - r.submitted_at));
+      cm.later(page, A.demo.storeQuoteMs - (now - r.submitted_at));
     } else {
       const m = r.months, mt = fill(CT.months, { m }), q = after.renewQuote(o, m), newEnd = after.ymd(st === 'completed' ? o.lease.end : after.addMonths(o.lease.end, m));
       const period = st === 'completed' ? [] : [{ k: R.newEnd, v: newEnd }, { k: R.joint, v: fill(R.jointText, { d: end, m }), soft: true, long: true }];
@@ -122,7 +122,7 @@ function confirm(page, regular) {
 Page(auth.guarded(routes.RENEW, {
   data: { T: { c: CT, r: R }, sys: 'loading', empty: false, st: '', head: null, order: null, steps: [], note: null, sub: null, form: null, card: null, alt: [], fail: false, bar: null, paySheet: false, pay: null },
   onLoad(q) { this._id = (q && q.id) || ''; this._months = 0; this._done = false; this._busy = false; },
-  onShow() { this.refresh(); },
+  onShow() { return this.refresh(); },
   onHide() { this.stopTimers(); },
   onUnload() { this.stopTimers(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },

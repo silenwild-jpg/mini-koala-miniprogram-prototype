@@ -5,7 +5,7 @@ const req = require('./requirement');
 const { salesOnly } = require('./matching');
 const order = require('./order');
 const H = 3600 * 1000, DAY = 24 * H;
-const TYPES = { BOOKING: 'booking', ADVISOR: 'advisor', ENTERPRISE: 'enterprise', TRANSPORT: 'transport', SUPPORT: 'support' };
+const TYPES = { BOOKING: 'booking', ADVISOR: 'advisor', ENTERPRISE: 'enterprise', TRANSPORT: 'transport', SUPPORT: 'support', VISIT: 'visit' };
 const STATUS = { SUBMITTED: 'submitted', WITHDRAWN: 'withdrawn' };
 
 // 受理文案按提交时刻取：服务时段内 inHours，之外 offHours（D-149）。只返回键名，句子在 i18n/lead.js。
@@ -39,7 +39,7 @@ function bizCapacity(v) {
   }
   const b = bandOf(v.band);
   if (!b) return { label: '', sales: false, match: null, error: 'empty', capacity_m3: null, band: '' };
-  return { label: b.label, sales: !!b.sales, match: b.sales ? null : b.match, error: '', capacity_m3: null, band: b.label };
+  return { label: b.label, sales: false, match: b.match || b.min, error: '', capacity_m3: null, band: b.label };
 }
 // 预约页意向容量：接受任意小数与「30m³ 及以上」。hint 是显示用文字，m3 是换算后的数（没有则 null）
 function capacityHint(unit, raw) {

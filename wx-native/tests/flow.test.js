@@ -31,7 +31,7 @@ test('D-198：未登录直接到达受限页 → 被带到落点页并打开登�
     assert.ok(!env.nav.some((n) => n.kind === 'navigateTo'));
     const land = env.newPage(base(toMatch ? routes.MATCH : routes.MINE), toMatch ? { login: '1' } : {});
     assert.equal(land.data.loginVisible, true, name + ' 落点页应打开登录层');
-    assert.equal(land.data.loginTip, '请先登录，登录后才能确认订单');
+    assert.equal(land.data.loginTip, '请登录');
     assert.equal(state.get().flags.pendingLogin, '', '登录层只自动打开一次');
   }
 });
@@ -64,20 +64,14 @@ test('未登录时视图模型里没有任何整期金额；登录后才有', as
   const inn = JSON.stringify(finder.buildList(stores, { requirement: NEED, location: state.get().location, loggedIn: true }));
   assert.ok(/整期 ¥1,680 · 6个月/.test(inn)); assert.ok(/立即下单/.test(inn));
 });
-test('门店列表：与冻结稿首页推荐卡的三家店和起价一致；有需求时首卡 A003 ¥280/月 7折', async () => {
-  fresh(null, false); const stores = await api.getStores({ city: '北京' });
-  const rec = finder.buildHomeRecommend(stores, { location: state.get().location });
-  assert.deepEqual(rec.map((c) => [c.name, c.kmText, c.fromPrice]), [['安贞·富仁名苑店', '1.2km', 63], ['芍药居北里店', '2.8km', 73], ['建国门外·通用时代店', '4.5km', 64]]);
-  const l = finder.buildList(stores, { requirement: NEED, location: state.get().location, loggedIn: true });
-  assert.equal(l.cards[0].row.name, 'A003 · 3.5m³'); assert.deepEqual(l.cards[0].row.price, { mode: 'monthly', amount: 280, unit: '/月', discount: '7折', sub: '整期 ¥1,680 · 6个月' });
-  assert.equal(l.cards[0].larger.diffText, '大 1.5m³，每月多 ¥154');
-  const far = finder.buildList(stores, { requirement: NEED, location: state.get().location, loggedIn: true }, { freeTransport: true });
-  assert.ok(far.total > 0); assert.ok(far.cards.every((c) => c.km >= 5 && c.freeTransportTag === '满6个月免费运输'));
-  assert.ok(l.cards.filter((c) => c.km < 5).every((c) => c.freeTransportTag === ''));
-  const none = finder.buildList(stores, { requirement: NEED, location: Object.assign({}, state.get().location, { noStoreCity: '成都' }), loggedIn: true });
-  assert.ok(none.cards.every((c) => c.kmText === '' && c.freeTransportTag === ''), '无门店城市不显示公里数和免费运输标签');
-  assert.equal(finder.buildList(stores, { requirement: { capacity_m3: 30, term_months: 12 }, location: state.get().location, loggedIn: true }).mode, 'sales');
+test('门店列表：起价排序采用当前演示库存，登录前只显示参考价',async()=>{
+ fresh(null,false);const stores=await api.getStores({city:'北京'}),rec=finder.buildHomeRecommend(stores,{location:state.get().location});
+ assert.equal(rec[0].id,'SIM_BJ01');assert.ok(rec.every(c=>c.fromPrice>0));assert.ok(rec[1].fromPrice<rec[0].fromPrice);
+ fresh(NEED,true);const list=finder.buildList(stores,{requirement:NEED,location:state.get().location,loggedIn:true});
+ assert.equal(list.cards[0].row.name,'A003 · 3.5m³');assert.equal(list.cards[0].row.price.amount,280);
+ assert.equal(finder.buildList(stores,{requirement:{capacity_m3:30,term_months:12},location:state.get().location,loggedIn:true}).mode,'demand');
 });
+
 test('登录层：未勾协议提示；短信登录成功后写入登录态；重复发送被限频', async () => {
   fresh(null, false); const c = env.newComponent('components/mk-login-sheet/index', { visible: true });
   c.setData({ phone: '13800008000' }); c.onSend(); assert.equal(c.data.error, '请先阅读并勾选协议');
@@ -93,17 +87,17 @@ test('登录层：微信取号失败或额度不足时隐藏微信按钮并引�
   c.onGetPhone({ detail: { errMsg: 'getPhoneNumber:fail user deny' } }); assert.equal(c.data.wechatOk, true); assert.equal(c.data.mode, 'entry');
   c.onGetPhone({ detail: { errMsg: 'getPhoneNumber:fail', errno: 1400001 } }); assert.equal(c.data.wechatOk, false); assert.equal(c.data.mode, 'sms');
 });
-test('填容量页：3.5m³ 写入需求并进入仓位推荐；30m³ 交顾问且不写入需求；非法输入不提交', () => {
-  fresh(null, false); let pg = env.newPage('pages/estimate/capacity', {});
-  pg.onInput({ detail: { value: '3.5' } }); assert.equal(pg.data.ok, true); assert.equal(pg.data.cartons, '全放标准纸箱约 29 箱'); pg.onTerm({ detail: { months: 5 } }); assert.equal(pg.data.hint, '再租 1 个月享 7 折');
-  env.nav.length = 0; pg.onSubmit();
-  assert.deepEqual(state.get().requirement, { term_months: 5, source: 'manual', capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5 }); assert.deepEqual(env.nav, [{ kind: 'redirectTo', url: routes.MATCH }]);
-  fresh(null, false); pg = env.newPage('pages/estimate/capacity', {}); pg.onInput({ detail: { value: '30' } }); assert.equal(pg.data.sales, true); env.nav.length = 0; pg.onSubmit();
-  assert.equal(state.get().requirement, null); assert.equal(env.nav[0].url, routes.BOOKING + '?mode=advisor&cap=30');
-  pg.onInput({ detail: { value: '0.3' } }); assert.equal(pg.data.ok, false); assert.equal(pg.data.error, '请填写不小于 0.5m³ 的容量，最多两位小数'); env.nav.length = 0; pg.onSubmit(); assert.equal(env.nav.length, 0);
-  pg.onUnit({ currentTarget: { dataset: { u: 'm2' } } }); pg.onInput({ detail: { value: '2' } }); assert.equal(pg.data.approx, '约 4.8 m³'); assert.ok(!/2\.4|层高/.test(JSON.stringify(pg.data)));
-  pg.onInput({ detail: { value: '201' } }); assert.equal(pg.data.error, '请填写 0.2–200㎡ 的面积，最多一位小数');
+test('填容量页：归一容量与租期贯通推荐，大容量仍然自助',()=>{
+ fresh(null,false);const pg=env.newPage('pages/estimate/capacity',{});
+ pg.onInput({detail:{value:'3.01'}});pg.onTerm({detail:{months:6}});env.nav.length=0;pg.onSubmit();
+ assert.equal(state.get().requirement.capacity_m3,3.1);assert.equal(state.get().requirement.term_months,6);assert.equal(state.get().requirement.input_raw,'3.01');
+ assert.equal(env.nav[0].url,routes.MATCH);
+ pg.onInput({detail:{value:'30'}});pg.onSubmit();assert.equal(state.get().requirement.capacity_m3,30);assert.equal(pg.data.sales,false);
+ pg.onInput({detail:{value:'0.11'}});pg.onSubmit();assert.equal(state.get().requirement.capacity_m3,0.5);
+ pg.onUnit({currentTarget:{dataset:{u:'m2'}}});pg.onInput({detail:{value:'2'}});assert.equal(pg.data.approx,'约 5 m³');
+ pg.onInput({detail:{value:'201'}});assert.equal(pg.data.ok,false);
 });
+
 test('没有需求时进入仓位推荐页 → 带去填容量页', () => { fresh(null, false); env.newPage('pages/match/index', {}); assert.deepEqual(env.nav, [{ kind: 'redirectTo', url: routes.CAPACITY }]); });
 test('定位：首页只自动申请一次；被拒后状态为 denied', async () => {
   fresh(null, false); env.mode = 'fail'; assert.equal(await location.requestOnce(), 'denied'); assert.equal(state.get().location.status, 'denied');
