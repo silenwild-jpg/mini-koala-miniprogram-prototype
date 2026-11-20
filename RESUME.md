@@ -15,7 +15,7 @@
 |---|---|
 | 仓库 | https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype.git |
 | 实施分支 | `codex/inventory-display-density-20261120` |
-| 迁移内容快照SHA | `ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b` |
+| 迁移内容快照SHA | `451a3a015ab90af42969a588fad9d3ec8fd5f99b` |
 | 迁移前完整实现/证据交付SHA | `ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b` |
 | 最终运行时及技术测试SHA | `f1deabe80ab9546b719f6ad0b281b611de6034fd` |
 | 运行时树 | `5f80f0d3260e405dc54863bfe16fd08fbba9e694` |

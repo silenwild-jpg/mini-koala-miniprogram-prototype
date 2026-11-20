@@ -9,5 +9,7 @@
     "qa.zip",
     "wx-native.zip"
   ],
-  "runtime_unchanged": true
+  "runtime_unchanged": true,
+  "migration_payload_sha": "451a3a015ab90af42969a588fad9d3ec8fd5f99b",
+  "seal_scope": "Documentation-only pointer to payload; runtime unchanged"
 }

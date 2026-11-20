@@ -4,7 +4,7 @@
 
 **最新决定：目标是现有视觉统一升级，本轮使用微信开发者工具（sim）。** Claude负责代码/视觉独立评审，Codex负责开发、微信工具测试与截图；本次只准备切换电脑，不启动下一批业务工作。
 
-先读仓库根[RESUME.md](../RESUME.md)。迁移前实现与证据交付为`ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b`，运行时`f1deabe80ab9546b719f6ad0b281b611de6034fd`，运行时树`5f80f0d3260e405dc54863bfe16fd08fbba9e694`；[Draft PR #221](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/221)仍未合并。迁移内容快照SHA与最终远程HEAD见RESUME及交棒回报，检查点提交只新增迁移元数据。
+先读仓库根[RESUME.md](../RESUME.md)。迁移前实现与证据交付为`ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b`，运行时`f1deabe80ab9546b719f6ad0b281b611de6034fd`，运行时树`5f80f0d3260e405dc54863bfe16fd08fbba9e694`；[Draft PR #221](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/221)仍未合并。迁移内容快照`451a3a015ab90af42969a588fad9d3ec8fd5f99b`；最终封口HEAD见交棒回报。快照和封口提交只新增迁移元数据。
 
 本工作区测试/编译/包装进程匹配0个，没有误停其他应用；未启动新测试。已有631个跟踪产出、421个运行时文件及21张索引图已做文件哈希核验，[进程与产物检查回执](../wx-native/evidence/migration-checkpoint-20261120/)随检查点提交。无关qa.zip、wx-native.zip不加入，密钥和认证缓存不迁入仓库。
 
