@@ -1,8 +1,6 @@
 .ag-page { padding-top: var(--mk-space-3); }
 .ag-title { margin-bottom: var(--mk-space-3); }
 .ag-kv { min-height: 64rpx; }
-.ag-notice { border-left: 8rpx solid var(--mk-color-line-strong); }
-.ag-noticedesc { margin-top: var(--mk-space-1); min-height: 64rpx; }
 .ag-sectitle { margin-bottom: var(--mk-space-2); }
 .ag-toc { display: flex; align-items: center; min-height: 88rpx; border-top: var(--mk-border-hairline); }
 .ag-tocn { width: 48rpx; color: var(--mk-color-ink-secondary); flex: none; }

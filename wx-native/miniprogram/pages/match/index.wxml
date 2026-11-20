@@ -22,22 +22,17 @@
   </view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:else class="mk-gutter mt-body">
-    <view wx:if="{{goneTip}}" class="mt-gone"><text class="mt-gt">{{T.m.goneTitle}}</text><text class="mk-sub">{{T.m.goneSub}}</text></view>
-    <view wx:if="{{mode === 'sales'}}" class="mk-card mt-empty">
-      <text class="mk-title">{{T.m.salesTitle}}</text><text class="mk-sub mt-es">{{T.m.salesSub}}</text>
-      <view class="mt-acts">
-        <button class="mk-btn mk-btn--md mt-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.cta.toAdvisor}}</button>
-        <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.m.modifyCap}}</button>
-      </view>
-    </view>
+    <mk-notice wx:if="{{goneTip}}" plain="{{true}}" tone="err" title="{{T.m.goneTitle}}" text="{{T.m.goneSub}}" />
+    <mk-empty wx:if="{{mode === 'sales'}}" card="{{true}}" icon="/assets/icons/headset-brand.svg" title="{{T.m.salesTitle}}" sub="{{T.m.salesSub}}">
+      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.cta.toAdvisor}}</button>
+      <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.m.modifyCap}}</button>
+    </mk-empty>
     <block wx:elif="{{mode === 'none'}}">
-      <view class="mk-card mt-empty">
-        <text class="mk-title">{{T.m.noneTitle}}</text><text class="mk-sub mt-es">{{noneSub}}</text><button class="mk-bare mk-link cp-contact" open-type="contact">立即咨询</button>
-        <view class="mt-acts">
-          <button class="mk-btn mk-btn--md mt-btn" hover-class="mk-btn--hover" bindtap="onMoreStores">{{T.m.allCity}}</button>
-          <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.m.modifyCap}}</button>
-        </view>
-      </view>
+      <mk-empty card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.m.noneTitle}}" sub="{{noneSub}}">
+        <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onMoreStores">{{T.m.allCity}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.m.modifyCap}}</button>
+        <button class="mk-bare mk-link mt-contact" hover-class="mk-bare--hover" open-type="contact">{{T.m.consult}}</button>
+      </mk-empty>
       <mk-advisor-card wx:if="{{advisor}}" title="{{advisor.title}}" sub="{{advisor.sub}}" />
     </block>
     <block wx:else>

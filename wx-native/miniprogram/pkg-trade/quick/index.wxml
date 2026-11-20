@@ -5,9 +5,10 @@
       <view class="qk-step"><text class="qk-stepn {{index === 0 ? 'qk-stepn--on' : ''}} mk-num">{{index + 1}}</text><text class="{{index === 0 ? 'qk-stept--on' : 'mk-sub'}}">{{item}}</text></view>
     </block>
   </view>
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys === 'loading'}}" class="mk-gutter"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
+  <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:else class="mk-gutter">
-    <view wx:if="{{gone}}" class="qk-gone"><view class="qk-gonet">{{T.goneTitle}}</view><view class="mk-sub">{{T.goneDesc}}</view></view>
+    <mk-notice wx:if="{{gone}}" plain="{{true}}" tone="err" title="{{T.goneTitle}}" text="{{T.goneDesc}}" />
     <view class="mk-card">
       <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/pin-brand.svg" /><text class="mk-title qk-ctt">{{T.store}}</text></view>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-between qk-loc" bindtap="onLocation" aria-role="button">
@@ -65,7 +66,7 @@
       <view class="mk-num {{barMuted ? 'qk-baramt--muted' : 'qk-baramt'}}">{{barAmount}}</view>
       <view wx:if="{{barNeed}}" class="mk-mute">{{barNeed}}</view>
     </view>
-    <button class="mk-btn {{btnDisabled ? 'mk-btn--disabled' : ''}} qk-next" hover-class="none" bindtap="onNext">{{btnText}}</button>
+    <button class="mk-btn {{btnDisabled ? 'mk-btn--disabled' : ''}} qk-next" hover-class="{{btnDisabled ? 'none' : 'mk-btn--hover'}}" bindtap="onNext">{{btnText}}</button>
   </view>
   <mk-sheet visible="{{storeSheet}}" title="{{T.storeSheet}}" bind:close="onStoreSheetClose">
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{storeRows}}" wx:key="id" class="qk-opt {{item.on ? 'qk-opt--on' : ''}}" data-id="{{item.id}}" bindtap="onPickStore" aria-role="button">

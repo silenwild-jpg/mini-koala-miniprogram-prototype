@@ -55,13 +55,15 @@ const BASE = 'html,body{margin:0;background:#888}*{box-sizing:border-box}.wx-pag
 const tabs = app.tabBar.list;
 async function shot(name, base, opts) {
   state.reset(); used.clear(); env.mode = 'ok';
-  require(path.join(root, 'mock/scenarios')).write({ scenario: '', net: 'instant' }); require(path.join(root, 'services/mock-ext/_db')).resetDb();
+  require(path.join(root, 'mock/scenarios')).write({ scenario: '', net: 'instant', stock: 'normal', events: {} }); require(path.join(root, 'services/mock-ext/_db')).resetDb();
   if (opts.scenario) require(path.join(root, 'services/demo')).applyScenario(opts.scenario); // 演示场景：登录态、定位、需求、订单一起就位
+  if (opts.stock || opts.events) require(path.join(root, 'mock/scenarios')).write({ stock: opts.stock || 'normal', events: opts.events || {} }); // 库存档位、交易事件
   if (opts.login) state.setSession({ loggedIn: true, phoneMasked: '138****8000', token: 't' });
   if (opts.need) state.set('requirement', opts.need);
   if (opts.located) state.patch('flags', { locationAsked: true }), state.patch('location', { status: 'granted' });
+  if (opts.before) await opts.before();
   const pg = env.newPage(base, opts.query || {}); if (typeof pg.onShow === 'function' && opts.scenario) pg.onShow(); await new Promise((r) => setTimeout(r, 60));
-  if (opts.after) { opts.after(pg); await new Promise((r) => setTimeout(r, 30)); }
+  if (opts.after) { await opts.after(pg); await new Promise((r) => setTimeout(r, 60)); }
   const conf = JSON.parse(fs.readFileSync(path.join(root, base + '.json'), 'utf8'));
   const body = render(AST[base], pg.data, base, '');
   const isTab = tabs.findIndex((t) => t.pagePath === base);
@@ -72,6 +74,7 @@ async function shot(name, base, opts) {
   return name;
 }
 const NEED = { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months: 6, source: 'manual' };
+const ft = {}; // 需要先查到订单号再开页的预览用
 (async () => {
   fs.mkdirSync(out, { recursive: true });
   const done = [];
@@ -98,5 +101,31 @@ const NEED = { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months
     ['c04_favorites', 'pkg-account/favorites/index', { scenario: 'member_new' }], ['c05_coupons', 'pkg-account/coupons/index', { scenario: 'member_active' }], ['c06_profile', 'pkg-account/profile/index', { scenario: 'member_active' }],
     ['c07_ent_cert', 'pkg-account/ent-cert/index', { scenario: 'member_active' }], ['c08_ent_titles', 'pkg-account/ent-titles/index', { scenario: 'member_active' }], ['c09_invoice', 'pkg-after/invoice/index', { scenario: 'member_active' }],
     ['c10_renew_empty', 'pkg-after/renew/index', { login: true, query: { id: 'NOPE' } }], ['c11_progress', 'pkg-account/progress/index', { scenario: 'member_new' }], ['c12_needs', 'pkg-account/needs/index', { scenario: 'member_new' }], ['c13_access', 'pkg-after/access/index', { scenario: 'member_active' }]]) done.push(await shot(pg[0], pg[1], pg[2]));
+  // FIND-TRADE-01：库存档位下的找仓状态、交易各事件下的确认订单
+  const api = require(path.join(root, 'services/api')), wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const idv = () => api.verifyIdentity({ name: '张明', id_no: '110101199001010012' });
+  const BIG = Object.assign({}, NEED, { capacity_m3: 35, input_value: 35, term_months: 12 });
+  const sign = async (p) => { p.onAgree(); p.onSign(); p.onSignConfirm(); await wait(60); };
+  const CF = 'pkg-trade/confirm/index', Q = { unit: 'SIM_BJ01_U03', term: '6' };
+  for (const x of [
+    ['ft01_match_tight', 'pages/match/index', { need: NEED, located: true, login: true, stock: 'tight' }],
+    ['ft02_match_city_soldout', 'pages/match/index', { need: NEED, located: true, stock: 'city_soldout' }],
+    ['ft03_match_large', 'pages/match/index', { scenario: 'guest_large' }],
+    ['ft04_stores_city_soldout', 'pages/stores/index', { need: NEED, located: true, stock: 'city_soldout' }],
+    ['ft05_stores_large', 'pages/stores/index', { need: BIG, located: true }],
+    ['ft06_detail_soldout', 'pages/store/detail', { need: NEED, located: true, login: true, stock: 'city_soldout', query: { id: 'SIM_BJ01' } }],
+    ['ft07_detail_tight', 'pages/store/detail', { need: NEED, located: true, login: true, stock: 'tight', query: { id: 'SIM_BJ01' } }],
+    ['ft08_confirm_ready', CF, { login: true, located: true, before: idv, query: Q, after: (p) => p.onAgree() }],
+    ['ft09_confirm_idv_error', CF, { login: true, located: true, query: Q, events: { idv_mismatch: true }, after: async (p) => { p.onIdv(); p.onIdvName({ detail: { value: '张明' } }); p.onIdvNo({ detail: { value: '110101199001010012' } }); p.onIdvSubmit(); await wait(40); } }],
+    ['ft10_confirm_price_changed', CF, { login: true, located: true, before: idv, query: Q, events: { price_changed: true }, after: sign }],
+    ['ft11_confirm_unit_gone', CF, { login: true, located: true, before: idv, query: Q, events: { unit_gone: true }, after: sign }],
+    ['ft12_confirm_quote_expired', CF, { login: true, located: true, before: idv, query: Q, after: (p) => { p._quote.expires_at = 1; p.tick(); } }],
+    ['ft13_confirm_pay_failed', CF, { login: true, located: true, before: idv, query: Q, events: { pay_fail: true }, after: async (p) => { await sign(p); p.onPayConfirm(); await wait(80); } }],
+    ['ft14_confirm_coupon', CF, { login: true, located: true, before: idv, query: { unit: 'SIM_BJ01_U03', term: '12' }, events: { coupon: true } }],
+    ['ft15_quick', 'pkg-trade/quick/index', { login: true, located: true, need: NEED, query: { store: 'SIM_BJ01', unit: 'SIM_BJ01_U03' } }],
+    ['ft16_order_failed', 'pkg-trade/order/index', { scenario: 'member_failed', before: async () => { ft.id = (await api.getOrders({}))[0].id; }, query: ft }],
+    ['ft17_agreement_pending', 'pkg-trade/agreement/index', { query: { doc: 'register' } }],
+    ['ft18_lab_stock_events', 'pkg-dev/lab/index', { scenario: 'member_active', stock: 'tight', events: { pay_fail: true, coupon: true } }]
+  ]) done.push(await shot(x[0], x[1], x[2]));
   console.log(done.join(' '));
 })();

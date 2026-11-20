@@ -120,7 +120,7 @@ for dp, _, fs in os.walk(root):
                 if '::' in last or not (lc & btn_cls) or lc & {'mk-btn', 'mk-bare'} and len(re.findall(r'\.[\w-]+', sel)) >= 3: continue
                 if not (lc - {'mk-btn', 'mk-bare'}) <= btn_cls: continue
                 errs.append('%s 的 %s 给按钮写了宽度或左右外边距，但权重不够（应写成 .mk-btn.mk-btn.xx 或 .mk-bare.mk-bare.xx）' % (rel, sel))
-PENDING_HANDWRITTEN = {'mt-empty', 'sd-empty', 'sl-empty', 'ag-notice', 'cf-notice', 'lnd-notice', 'ldf-notice'}  # 找仓域、交易域的专用空态和提示，留到逐域批次迁移；这里只拦新增
+PENDING_HANDWRITTEN = {'lnd-notice', 'ldf-notice'}  # 线索域的两种提示，留到「账户和留资」批次迁移；这里只拦新增
 # 按压反馈约定（app.wxss「v2 按压反馈」）：1) 带 bindtap 且标了 aria-role 的可点 view 必须有 hover-class；
 # 2) 按钮只有禁用态才允许 hover-class="none"；3) 空态、提示条不许再逐页手写（用 mk-empty / mk-notice）。
 for dp, _, fs in os.walk(root):

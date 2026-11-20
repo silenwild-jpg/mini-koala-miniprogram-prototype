@@ -4,10 +4,7 @@
     <view wx:if="{{version}}" class="mk-between ag-kv"><text class="mk-sub">{{T.version}}</text><text>{{version}}</text></view>
     <view wx:if="{{effective}}" class="mk-between ag-kv"><text class="mk-sub">{{T.effective}}</text><text>{{effective}}</text></view>
   </view>
-  <view wx:if="{{pending}}" class="mk-card ag-notice">
-    <view class="mk-title">{{T.pendingTitle}}</view>
-    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-sub ag-noticedesc" bindtap="onService" aria-role="button">{{T.pendingDesc}}</view>
-  </view>
+  <mk-notice wx:if="{{pending}}" title="{{T.pendingTitle}}" text="{{T.pendingDesc}}" link="{{T.contact}}" bind:link="onService" />
   <block wx:else>
     <view wx:if="{{toc.length}}" class="mk-card">
       <view class="mk-title ag-sectitle">{{T.toc}}</view>

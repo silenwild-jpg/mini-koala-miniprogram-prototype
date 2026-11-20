@@ -11,6 +11,8 @@ const { db, unit } = R('services/mock-ext/_db');
 const view = R('services/order-view'), identity = R('services/identity'), T = R('i18n/trade');
 env.loadApp();
 const H = 3600e3, S = order.STAGE;
+// 预计用仓时间必须落在「明天起 90 天内」（config-trade.startDate），所以用相对今天的日期，不写死
+const START = view.ymd(Date.now() + 11 * 24 * H), START2 = view.ymd(Date.now() + 34 * 24 * H);
 const realNow = Date.now; let offset = 0; Date.now = () => realNow() + offset;
 const toasts = []; wx.showToast = (o) => toasts.push(o.title);
 const tick = (ms) => new Promise((r) => setTimeout(r, ms || 15));
@@ -27,7 +29,7 @@ const rejects = (p, code) => assert.rejects(p, (e) => e.code === code, code);
 async function placed(unitId, months) { // 实名 → 下单 → 签署，得到一笔待支付订单
   await api.verifyIdentity(ID);
   const d = await api.getOrderDraft({ unit_ids: [unitId], months });
-  const od = await api.createOrder({ unit_ids: [unitId], months, start_date: '2026-12-01', quoted_at: d.quoted_at, expect_payable: d.quote.payable });
+  const od = await api.createOrder({ unit_ids: [unitId], months, start_date: START, quoted_at: d.quoted_at, expect_payable: d.quote.payable });
   return api.signContract({ order_id: od.id });
 }
 
@@ -37,7 +39,7 @@ test('下单金额与 pricing.quote 一致；订单号 MK + 下单日 8 位 + 4 
   assert.deepEqual(a.quote, q); assert.equal(a.quote.payable, 2010); assert.equal(a.quote.rent_total, 1680); assert.equal(a.deposit.amount, 280);
   assert.match(a.no, /^MK\d{8}\d{4}$/); assert.equal(a.no, order.orderNo(a.created_at, 1)); assert.equal(a.stage, S.PENDING);
   assert.equal(a.unit_name, 'A003 · 3.5m³'); assert.equal(a.identity_at_order, true); assert.equal(a.contract.signed, true); assert.equal(a.contract.signer_masked, '*明');
-  assert.equal(view.ymd(a.lease.start), '2026-12-01'); assert.equal(a.deal_factor, 0.7);
+  assert.equal(view.ymd(a.lease.start), START); assert.equal(a.deal_factor, 0.7);
   const b = await placed(U5, 24);
   assert.deepEqual(b.quote, pricing.quote([unit(U5)], 24)); assert.equal(b.quote.full_reduction, 400); assert.equal(b.quote.full_min, 10000); assert.equal(b.quote.rent_after_discount, 11600); assert.equal(b.quote.payable, 12150);
   assert.equal((await api.getOrders()).length, 2);
@@ -200,7 +202,7 @@ test('任务卡：未登录或没有订单不渲染；按阶段取主卡，待�
 });
 test('确认订单页：实名 → 勾选告知书 → 签署 → 生成电子合同 → 支付 → 订单详情', async () => {
   fresh(true); noSeed();
-  const pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '6', date: '2026-12-01' }); await tick();
+  const pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '6', date: START }); await tick();
   assert.equal(pg.data.mode, 'compose'); assert.equal(pg.data.cardOrder.quote.payable, 2010); assert.equal(pg.data.feeNote, '租期折扣按预付整期计算，提前退仓时按协议重新核算 · 报价 3 小时内有效');
   assert.deepEqual([pg.data.bar.btn, pg.data.bar.hint, pg.data.bar.amount, pg.data.bar.saved], ['实名认证', '签署协议前需完成实名认证', '¥2,010', ' · 已省 ¥720']);
   pg.onBar(); assert.equal(pg.data.sheet, 'idv');
@@ -210,7 +212,7 @@ test('确认订单页：实名 → 勾选告知书 → 签署 → 生成电子�
   assert.deepEqual([pg.data.bar.btn, pg.data.bar.disabled, pg.data.bar.hint, pg.data.bar.showAgree], ['签署并提交', true, '请先勾选确认', true]);
   pg.onBar(); assert.equal(pg.data.sheet, '', '未勾选时点不动');
   pg.onAgree(); assert.equal(pg.data.bar.disabled, false); pg.onBar(); assert.equal(pg.data.sheet, 'sign');
-  assert.deepEqual(pg.data.signRows.map((r) => r.v), ['*明 · 110***********0012', '安贞·富仁名苑店', 'A003 · 3.5m³', '6个月 · 2026-12-01 起', '¥2,010']);
+  assert.deepEqual(pg.data.signRows.map((r) => r.v), ['*明 · 110***********0012', '安贞·富仁名苑店', 'A003 · 3.5m³', '6个月 · ' + START + ' 起', '¥2,010']);
   pg.onSignConfirm(); assert.equal(pg.data.bar.btn, '正在生成电子合同…'); assert.equal(pg.data.bar.disabled, true); await tick(30);
   assert.equal(pg.data.mode, 'order'); assert.equal(pg.data.phase, 'pending'); assert.equal(pg.data.head.title, '订单待支付'); assert.equal(pg.data.sheet, 'pay'); assert.equal(pg.data.payText, '微信支付 ¥2,010');
   assert.equal(db.orders.length, 1); assert.equal(db.orders[0].contract.signed, true); assert.match(pg.data.clock, /^0[23]:\d\d:\d\d$/);
@@ -259,7 +261,7 @@ test('确认订单页：租期变化时出下一档 / 满额减 / 免费运输�
   const pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '11' }); await tick();
   assert.equal(pg.data.hint, '再租 1 个月享 6.5 折，月均少 ¥20');
   pg.onTerm({ detail: { months: 6 } }); await tick(); assert.equal(pg.data.hint, ''); assert.equal(pg.data.cardOrder.free_transport, false, '安贞店 1.2km，不送');
-  pg.onDate({ detail: { value: '2026-12-24' } }); assert.equal(view.ymd(pg.data.cardOrder.lease.start), '2026-12-24');
+  pg.onDate({ detail: { value: START2 } }); assert.equal(view.ymd(pg.data.cardOrder.lease.start), START2);
   pg.onHide();
   const far = env.newPage('pkg-trade/confirm/index', { unit: 'SIM_BJ04_U02', term: '5' }); await tick();
   assert.match(far.data.hint, /^再租 1 个月享 7 折，还可免费运输 1 次$/);
@@ -274,13 +276,13 @@ test('快捷下单：未登录不出整期金额，主按钮「查看报价」�
   pg.onUnitSheet(); assert.ok(pg.data.unitRows.length >= 3 && pg.data.unitRows.every((r) => /^¥\d+$/.test(r.price)));
   pg.onPickUnit({ currentTarget: { dataset: { id: U3 } } }); await tick();
   assert.equal(pg.data.unit.name, 'A003 · 3.5m³'); assert.equal(pg.data.est, null); assert.equal(pg.data.fromText, '¥260'); assert.equal(pg.data.barAmount, '选择用仓日期');
-  pg.onTerm({ detail: { months: 6 } }); pg.onDate({ detail: { value: '2026-12-01' } }); await tick();
+  pg.onTerm({ detail: { months: 6 } }); pg.onDate({ detail: { value: START } }); await tick();
   assert.ok(!/整期 ¥|rent_total|payable/.test(JSON.stringify(pg.data).replace(/预计整期租金/g, '')), '未登录的页面数据里没有整期金额');
   assert.deepEqual([pg.data.btnText, pg.data.btnDisabled], ['查看报价', false]);
   env.nav.length = 0; pg.onNext(); assert.equal(pg.data.loginVisible, true); assert.equal(env.nav.length, 0);
   login(); pg.onLoginSuccess(); await tick();
   assert.deepEqual([pg.data.est.amount, pg.data.est.tag, pg.data.barAmount, pg.data.btnText], ['¥1,680', '7折', '¥1,680', '下一步：确认订单']);
-  pg.onNext(); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes.CONFIRM + '?unit=' + U3 + '&term=6&date=2026-12-01' }]);
+  pg.onNext(); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes.CONFIRM + '?unit=' + U3 + '&term=6&date=' + START }]);
   pg.onStoreSheet(); assert.ok(pg.data.storeRows.length <= 8 && pg.data.storeRows[0].on);
   assert.equal(pg.data.storeRows[0].sub, '1.2km · ' + pg._stores.find(s => s.id === 'SIM_BJ01').address);
   const stores = pg._stores;

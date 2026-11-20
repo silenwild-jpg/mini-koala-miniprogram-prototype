@@ -1,5 +1,6 @@
 <view class="mk-page od-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys === 'loading'}}" class="mk-gutter od-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
+  <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/order-sub.svg" title="{{T.emptyTitle}}" sub="{{T.emptyDesc}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onBackOrders">{{T.backOrders}}</button>
   </mk-empty>
@@ -11,14 +12,8 @@
         <text wx:if="{{clock}}" class="mk-sub od-subitem od-clock mk-num">{{clock}}</text>
       </view>
     </view>
-    <view wx:if="{{subLine}}" class="mk-card od-note">
-      <text class="mk-sub">{{subLine === 'accepted' ? T.subOk : T.subNo}}</text>
-      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{subLine === 'declined'}}" class="mk-link od-notelink" bindtap="onSubAsk" aria-role="button">{{T.subAsk}}</view>
-    </view>
-    <view wx:if="{{note}}" class="mk-card od-note od-note--{{note.tone}}">
-      <view wx:if="{{note.title}}" class="mk-title od-notetitle">{{note.title}}</view>
-      <text class="mk-sub">{{note.text}}</text>
-    </view>
+    <mk-notice wx:if="{{subLine}}" text="{{subLine === 'accepted' ? T.subOk : T.subNo}}" link="{{subLine === 'declined' ? T.subAsk : ''}}" bind:link="onSubAsk" />
+    <mk-notice wx:if="{{note}}" title="{{note.title}}" text="{{note.text}}" tone="{{note.tone}}" />
     <mk-order-card order="{{order}}" />
     <view wx:if="{{storeSvc}}" class="mk-card od-card">
       <view class="mk-title od-sectitle">{{T.storeSvc}}</view>

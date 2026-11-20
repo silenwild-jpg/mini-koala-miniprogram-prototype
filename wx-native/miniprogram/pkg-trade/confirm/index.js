@@ -49,7 +49,9 @@ Page(auth.guarded(routes.CONFIRM, {
     this._unitIds = String(q.unit || '').split(',').filter(Boolean);
     this._months = Number(q.term) || C.requirement.termDefault;
     if (!pricing.isTerm(this._months)) this._months = C.requirement.termDefault;
-    this._date = /^\d{4}-\d{2}-\d{2}$/.test(String(q.date || '')) ? q.date : view.ymd(Date.now() + CT.startDate.minDays * view.DAY);
+    // 预计用仓时间：链接带入的日期要落在选择器同一范围内（config-trade.startDate），范围外或格式不对一律按最早可选日
+    const dMin = view.ymd(Date.now() + CT.startDate.minDays * view.DAY), dMax = view.ymd(Date.now() + CT.startDate.maxDays * view.DAY);
+    this._date = /^\d{4}-\d{2}-\d{2}$/.test(String(q.date || '')) && q.date >= dMin && q.date <= dMax ? q.date : dMin;
     this._orderId = q.order || '';
     this._demo = q.demo || ''; this._coupon = 'auto'; this._quote = null; this._priceReason = '';
   },
@@ -140,6 +142,7 @@ Page(auth.guarded(routes.CONFIRM, {
   onDate(e) {
     const v = e && e.detail ? String(e.detail.value || '') : '';
     if (!/^\d{4}-\d{2}-\d{2}$/.test(v) || this.data.locked || !this.data.cardOrder) return;
+    if (v < view.ymd(Date.now() + CT.startDate.minDays * view.DAY) || v > view.ymd(Date.now() + CT.startDate.maxDays * view.DAY)) return;
     this._date = v;
     this.setData({ cardOrder: Object.assign({}, this.data.cardOrder, { lease: { start: view.parseYmd(v) } }) });
   },

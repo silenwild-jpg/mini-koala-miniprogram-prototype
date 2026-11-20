@@ -5,8 +5,6 @@
 .qk-stepn--on { background: var(--mk-color-action-primaryFill); border: 1px solid var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); }
 .qk-stept--on { font-weight: var(--mk-font-weight-medium); }
 .qk-stepline { width: 56rpx; height: 1px; background: var(--mk-color-line-strong); margin: 0 var(--mk-space-2); }
-.qk-gone { margin-bottom: var(--mk-space-3); padding-left: var(--mk-space-3); border-left: 8rpx solid var(--mk-color-status-errorStrong); }
-.qk-gonet { color: var(--mk-color-status-errorText); font-weight: var(--mk-font-weight-semibold); margin-bottom: 4rpx; }
 .qk-ct { display: flex; align-items: center; margin-bottom: var(--mk-space-2); }
 .qk-ctt { margin-left: var(--mk-space-2); }
 .qk-loc { min-height: 88rpx; border-top: var(--mk-border-hairline); }

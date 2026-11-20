@@ -16,5 +16,7 @@ function applyScenario(id) {
   return sc;
 }
 function setNet(id) { if (scenarios.NET.some((x) => x.id === id)) scenarios.write({ net: id }); return scenarios.net(); }
-const current = () => ({ scenario: (scenarios.scenario() || {}).id || '', net: scenarios.net().id });
-module.exports = { ROUTE, enabled, applyScenario, setNet, current, LIST: scenarios.LIST, NET: scenarios.NET };
+function setStock(id) { if (enabled() && scenarios.STOCK.some((x) => x.id === id)) scenarios.write({ stock: id }); return scenarios.stock(); }
+function toggleEvent(id) { if (!enabled()) return false; const on = !scenarios.eventOn(id); scenarios.setEvent(id, on); return on; }
+const current = () => ({ scenario: (scenarios.scenario() || {}).id || '', net: scenarios.net().id, stock: scenarios.stock().id, events: Object.assign({}, scenarios.read().events) });
+module.exports = { ROUTE, enabled, applyScenario, setNet, setStock, toggleEvent, current, LIST: scenarios.LIST, NET: scenarios.NET, STOCK: scenarios.STOCK, EVENTS: scenarios.EVENTS };

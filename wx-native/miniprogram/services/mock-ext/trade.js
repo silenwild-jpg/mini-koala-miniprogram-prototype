@@ -9,13 +9,17 @@
 //   createOrder / resumeFailedOrder({ simulate: 'price_changed' })   该仓位月基价上调（config-trade.demo.priceBump），触发变价确认
 //   verifyIdentity({ simulate: 'mismatch' })      姓名与身份证号不一致
 //   getOrderDraft({ simulate: 'coupon' })         发一张演示租金券
+// 同一组事件也可以在演示工具页打开（mock/scenarios.js EVENTS），由这里在对应接口里触发，页面不用带参数。
 // 仓位占用记在 db.kv.trade.holds（仓位 → 订单号）；不改 mock/units 的库存字段，所以找仓各页看不到这里的占用。
-const { db, seed, store, unit } = require('./_db');
+const { db, seed, store, unit, markGone } = require('./_db');
+const scenarios = require('../../mock/scenarios');
 const model = require('../../core/order-model');
 const order = require('../../core/order');
 const pricing = require('../../core/pricing');
 const CT = require('../../core/config-trade');
 const S = order.STAGE;
+// 报价截止：演示事件 quote_short 打开时缩到 30 秒，否则按规则 3 小时
+const quoteEnd = (at) => (scenarios.eventOn('quote_short') ? at + scenarios.SHORT.quoteMs : order.quoteExpiresAt(at));
 const ok = (v) => new Promise((resolve) => setTimeout(() => resolve(JSON.parse(JSON.stringify(v))), 0));
 const fail = (code, message, data) => Promise.reject(data ? { code, message, data } : { code, message });
 const K = () => { if (!db.kv.trade) db.kv.trade = { holds: {}, identity: {}, prices: {}, coupons: [] }; return db.kv.trade; };
@@ -43,14 +47,14 @@ function quoteOf(us, months, choice) { const c = pickCoupon(choice, months); con
 function draft(p, session) {
   const us = unitsOf(p.unit_ids);
   if (!us) return fail('NOT_FOUND', '仓位不存在');
-  if (p.simulate === 'coupon' && !K().coupons.length) K().coupons.push({ id: 'DEMO_COUPON_1', name: CT.demo.couponName, amount: CT.demo.couponAmount, min_months: CT.demo.couponMinMonths });
+  if ((p.simulate === 'coupon' || scenarios.eventOn('coupon')) && !K().coupons.length) K().coupons.push({ id: 'DEMO_COUPON_1', name: CT.demo.couponName, amount: CT.demo.couponAmount, min_months: CT.demo.couponMinMonths });
   const now = Date.now(); sweep(now);
   const st = store(us[0].store_id), can = available(us, p.order_id), months = Number(p.months);
   const out = { store: st, units: us, months, available: can, quote: null, quoted_at: 0, expires_at: 0, coupons: [], coupon_name: '' };
   // 未登录不计算、不返回整期金额（交接 v1.0 §4.1-2）
   if (session && session.loggedIn && can && pricing.isTerm(months)) {
     const r = quoteOf(us, months, p.coupon);
-    Object.assign(out, { quote: r.q, quoted_at: now, expires_at: order.quoteExpiresAt(now), coupons: couponList(months), coupon_name: r.coupon ? r.coupon.name : '' });
+    Object.assign(out, { quote: r.q, quoted_at: now, expires_at: quoteEnd(now), coupons: couponList(months), coupon_name: r.coupon ? r.coupon.name : '' });
   }
   return ok(out);
 }
@@ -68,7 +72,7 @@ const methods = {
     const name = String(p.name || '').trim(), no = String(p.id_no || '').trim().toUpperCase();
     if (name.length < CT.identity.nameMin || name.length > CT.identity.nameMax || !/^[一-龥·A-Za-z]+$/.test(name)) return fail('INVALID', '请填写证件上的姓名');
     if (no.length !== CT.identity.idLength || !/^\d{17}[\dX]$/.test(no)) return fail('INVALID', '请填写 18 位身份证号');
-    if (p.simulate === 'mismatch') return fail('MISMATCH', '姓名与身份证号不一致，请核对后重试');
+    if (p.simulate === 'mismatch' || scenarios.take('idv_mismatch')) return fail('MISMATCH', '姓名与身份证号不一致，请核对后重试');
     const rec = { status: 'verified', name_masked: '*'.repeat(name.length - 1) + name.slice(-1), id_masked: no.slice(0, 3) + '*'.repeat(11) + no.slice(-4), verified_at: Date.now() };
     K().identity[session.phoneMasked || ''] = rec;
     // 下单时未实名的订单（D-174）：补完实名后订单的实名状态同步为已认证，identity_at_order 保持下单时的事实
@@ -79,24 +83,30 @@ const methods = {
   createOrder(p, session) {
     seed();
     const now = Date.now(); sweep(now);
-    const us = unitsOf(p.unit_ids), months = Number(p.months);
+    let us = unitsOf(p.unit_ids);
+    const months = Number(p.months);
     if (!us) return fail('NOT_FOUND', '仓位不存在');
     if (!pricing.isTerm(months)) return fail('INVALID', '请选择租期');
+    if (available(us) && scenarios.take('unit_gone')) { markGone(us.map((u) => u.id)); us = unitsOf(p.unit_ids); }
     if (!available(us)) return fail('NOT_FOUND', '仓位已租出');
-    if (p.quoted_at && order.isExpired(order.quoteExpiresAt(Number(p.quoted_at)), now)) return fail('EXPIRED', '报价已超过 3 小时');
-    if (p.simulate === 'price_changed') bump(us);
+    if (p.quoted_at && order.isExpired(quoteEnd(Number(p.quoted_at)), now)) return fail('EXPIRED', '报价已超过有效期');
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(p.start_date || ''));
+    const startAt = m ? Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])) - 8 * 3600000 : now + model.DAY;
+    // 预计用仓时间与页面选择器同一范围（config-trade.startDate）；链接带入的范围外日期不收
+    const ymd = (ms) => new Date(ms + 8 * 3600000).toISOString().slice(0, 10);
+    if (m && (p.start_date < ymd(now + CT.startDate.minDays * model.DAY) || p.start_date > ymd(now + CT.startDate.maxDays * model.DAY))) return fail('INVALID', '请重新选择预计用仓时间');
+    if (p.simulate === 'price_changed' || scenarios.take('price_changed')) bump(us);
     const r = quoteOf(us, months, p.coupon);
     // 变价：金额与用户看到的不一致时不下单，带回新报价让用户确认（§4.6-9）
     if (p.expect_payable !== undefined && p.expect_payable !== null && Number(p.expect_payable) !== r.q.payable && !p.accept_price_change) {
       return fail('CONFLICT', '价格刚刚发生变化', { quote: JSON.parse(JSON.stringify(r.q)), quoted_at: now, expires_at: order.quoteExpiresAt(now), base_month: us.map(priced).reduce((n, u) => n + Number(u.base_month), 0) });
     }
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(p.start_date || ''));
-    const startAt = m ? Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])) - 8 * 3600000 : now + model.DAY;
     const args = { store: store(us[0].store_id), units: us.map(priced), months, createdAt: now, seq: ++db.seq, identityVerified: verified(session), quotedAt: Number(p.quoted_at) || now, startAt };
     if (p.km !== undefined) args.km = p.km;
     const od = model.build(args);
     if (r.coupon) { od.quote = r.q; od.coupon_name = r.coupon.name; } // order-model.build 没有券参数：用同一个 pricing.quote 带券的结果替换
     if (p.accept_price_change) od.price_change_reason = String(p.price_change_reason || '');
+    if (scenarios.eventOn('pending_short')) od.pay.expires_at = now + scenarios.SHORT.pendingMs;
     db.orders.push(od);
     us.forEach((u) => { K().holds[u.id] = od.id; });
     return ok(od);
@@ -121,7 +131,7 @@ const methods = {
     if (od.stage === S.FAILED) return fail('CONFLICT', '请先核对订单后继续支付');
     if (od.stage !== S.PENDING) return fail('CONFLICT', '订单当前状态不能支付');
     if (!od.contract.signed) return fail('INVALID', '请先签署协议');
-    if (p.simulate === 'fail') { od.stage = S.FAILED; od.pay.fail_reason = p.fail_reason || 'network'; return ok(od); }
+    if (p.simulate === 'fail' || scenarios.take('pay_fail')) { od.stage = S.FAILED; od.pay.fail_reason = p.fail_reason || 'network'; return ok(od); }
     od.pay.paid_at = now; od.pay.fail_reason = '';
     od.stage = od.lease.start <= now ? S.ACTIVE : S.PAID;
     return ok(od);

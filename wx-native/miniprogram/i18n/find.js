@@ -98,7 +98,7 @@ module.exports = {
     navigate: '到店导航', call: '电话', favorite: '收藏', share: '分享',
     favOn: '已收藏', favOff: '已取消收藏', // 自写：冻结稿没有画收藏后的提示
     demandPrefix: '', modify: '修改 ›', unsure: '拿不准要多大空间？', estimateNow: '估算大小 ›',
-    goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。',
+    goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。', consult: '立即咨询',
     noSingle: (v) => '本店没有不小于 ' + v + 'm³ 的单个仓位。',
     comboTitle: '组合方案', comboTag: (n) => n + ' 间组合', comboSub: (codes) => '一笔订单 · 同一门店 · ' + codes, showCombos: '查看组合仓位',
     nearTitle: '容量接近的仓位', smallTitle: '比需求小的仓位', rematch: (v) => '按 ' + v + 'm³ 重新匹配',
@@ -133,7 +133,7 @@ module.exports = {
     longNote: (names) => '清单含长件（' + names + '），请对照仓位的长宽高。',
     noneTitle: '暂无匹配的仓位', noneSub: () => '当前没有满足容量的可用方案。可联系顾问协助',
     allCity: '查看全城门店', modifyCap: '修改容量',
-    goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。',
+    goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。', consult: '立即咨询',
     salesTitle: '30m³ 及以上的需求由顾问为您配仓',
     salesSub: '提交后预计 10 分钟内与您联系。非服务时段提交的，顾问上班后将优先联系您。',
     fees: {

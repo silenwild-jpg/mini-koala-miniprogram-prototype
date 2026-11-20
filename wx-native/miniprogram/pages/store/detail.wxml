@@ -30,31 +30,21 @@
 
     <!-- 可选仓位 -->
     <view wx:if="{{tab === 0}}" class="mk-gutter sd-body">
-      <view wx:if="{{gone}}" class="sd-gone"><text class="sd-gt">{{T.d.goneTitle}}</text><text class="mk-sub">{{T.d.goneSub}}</text></view>
-      <view wx:if="{{situation === 'sales'}}" class="mk-card sd-empty">
-        <image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" />
-        <text class="mk-title sd-et">{{T.d.salesTitle}}</text><text class="mk-sub">{{salesSub}}</text>
-        <view class="sd-acts">
-          <button class="mk-btn mk-btn--md sd-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.cta.toAdvisor}}</button>
-          <button class="mk-btn mk-btn--ghost mk-btn--md sd-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.d.modifyCap}}</button>
-        </view>
-      </view>
-      <block wx:elif="{{situation === 'soldout'}}">
-        <view class="mk-card sd-empty">
-          <image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" />
-          <text class="mk-title sd-et">{{T.d.noStockTitle}}</text><text class="mk-sub">{{T.d.otherSub}}</text>
-          <view class="sd-acts"><button class="mk-btn mk-btn--md sd-btn" hover-class="mk-btn--hover" bindtap="onOtherStores">{{T.d.otherStores}}</button></view>
-        </view>
-      </block>
+      <mk-notice wx:if="{{gone}}" plain="{{true}}" tone="err" title="{{T.d.goneTitle}}" text="{{T.d.goneSub}}" />
+      <mk-empty wx:if="{{situation === 'sales'}}" class="sd-emptygap" card="{{true}}" icon="/assets/icons/headset-brand.svg" title="{{T.d.salesTitle}}" sub="{{salesSub}}">
+        <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.cta.toAdvisor}}</button>
+        <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.d.modifyCap}}</button>
+      </mk-empty>
+      <mk-empty wx:elif="{{situation === 'soldout'}}" class="sd-emptygap" card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.d.noStockTitle}}" sub="{{T.d.otherSub}}">
+        <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOtherStores">{{T.d.otherStores}}</button>
+      </mk-empty>
       <block wx:else>
         <scroll-view class="sd-cats" scroll-x="true" enhanced="true" show-scrollbar="{{false}}">
           <view class="sd-catrow"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{cats}}" wx:key="k" class="mk-chip sd-cat {{item.on ? 'mk-chip--on' : ''}}" data-k="{{item.k}}" bindtap="onCat" aria-role="button">{{item.t}}</view></view>
         </scroll-view>
-        <view wx:if="{{situation === 'nomatch'}}" class="mk-card sd-empty">
-          <image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" />
-          <text class="mk-title sd-et">{{T.d.noMatchTitle}}</text><text class="mk-sub">{{T.d.otherSub}}</text>
-          <view class="sd-acts"><button class="mk-btn mk-btn--md sd-btn" hover-class="mk-btn--hover" bindtap="onOtherStores">{{T.d.otherStores}}</button></view>
-        </view>
+        <mk-empty wx:if="{{situation === 'nomatch'}}" class="sd-emptygap" card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.d.noMatchTitle}}" sub="{{T.d.otherSub}}">
+          <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOtherStores">{{T.d.otherStores}}</button>
+        </mk-empty>
         <block wx:for="{{blocks}}" wx:key="key">
           <text wx:if="{{item.type === 'title'}}" class="mk-sub sd-gtitle">{{item.text}}</text>
           <text wx:elif="{{item.type === 'note'}}" class="mk-sub sd-gnote">{{item.text}}</text>
@@ -78,7 +68,7 @@
                 <mk-price amount="{{item.row.price.amount}}" unit="{{item.row.price.unit}}" discount="{{item.row.price.discount}}" />
                 <text wx:if="{{item.row.price.sub}}" class="mk-sub sd-line">{{item.row.price.sub}}</text>
               </view>
-              <button class="mk-btn mk-btn--md sd-cta {{item.row.secondary ? 'mk-btn--ghost' : ''}}" hover-class="{{item.row.secondary ? 'none' : 'mk-btn--hover'}}" data-list="{{item.list}}" data-i="{{item.i}}" bindtap="onAction">{{item.row.cta}}</button>
+              <button class="mk-btn mk-btn--md sd-cta {{item.row.secondary ? 'mk-btn--ghost' : ''}}" hover-class="{{item.row.secondary ? 'mk-btn--ghostHover' : 'mk-btn--hover'}}" data-list="{{item.list}}" data-i="{{item.i}}" bindtap="onAction">{{item.row.cta}}</button>
             </view>
           </view>
         </block>
@@ -99,7 +89,7 @@
       </block>
       <block wx:if="{{showAlternatives && hasNeed}}">
         <text class="mk-sub sd-gtitle">{{T.d.altTitle}}</text>
-        <text wx:if="{{alternatives.length === 0}}" class="mk-sub sd-gnote">{{T.d.altNone}}</text><button wx:if="{{alternatives.length === 0}}" class="mk-bare mk-link" open-type="contact">立即咨询</button>
+        <text wx:if="{{alternatives.length === 0}}" class="mk-sub sd-gnote">{{T.d.altNone}}</text><button wx:if="{{alternatives.length === 0}}" class="mk-bare mk-link" hover-class="mk-bare--hover" open-type="contact">{{T.d.consult}}</button>
         <view wx:for="{{alternatives}}" wx:key="id" class="mk-between sd-alt">
           <view class="mk-grow"><text class="sd-un mk-ellipsis">{{item.name}}</text><text class="mk-sub sd-line">{{item.text}}</text></view>
           <button class="mk-btn mk-btn--ghost mk-btn--sm" hover-class="mk-btn--ghostHover" data-id="{{item.id}}" bindtap="onAlt">{{T.d.altView}}</button>

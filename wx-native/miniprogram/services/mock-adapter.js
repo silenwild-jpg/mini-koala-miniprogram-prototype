@@ -6,7 +6,7 @@ const pricing = require('../core/pricing');
 const order = require('../core/order');
 const ok = (v) => new Promise((resolve) => setTimeout(() => resolve(JSON.parse(JSON.stringify(v))), 0));
 const fail = (code, message) => Promise.reject({ code, message });
-const unitsOf = (storeId) => units.filter((u) => u.store_id === storeId).map((u) => {
+const unitsOf = (storeId) => units.filter((u) => u.store_id === storeId).map(stocked).map((u) => {
   const hold = db.kv.trade && db.kv.trade.holds[u.id];
   const held = hold && db.orders.find(o => o.id === hold);
   const active = held && ![order.STAGE.CANCELLED, order.STAGE.EXPIRED].includes(held.stage) &&
@@ -14,7 +14,8 @@ const unitsOf = (storeId) => units.filter((u) => u.store_id === storeId).map((u)
   const price = db.kv.trade && db.kv.trade.prices[u.id];
   return Object.assign({}, u, price ? { base_month: price } : {}, active ? { status: 'reserved' } : {});
 });
-const { db, seed } = require('./mock-ext/_db');
+const { db, seed, stocked } = require('./mock-ext/_db');
+const scenarios = require('../mock/scenarios');
 const mask = (p) => String(p).replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
 
 const base = {
@@ -50,7 +51,7 @@ const base = {
     const us = (p.unit_ids || []).map((id) => { const u = units.find((u) => u.id === id); return u && unitsOf(u.store_id).find(row => row.id === id); });
     if (!us.length || us.some((u) => !u || u.status !== 'available')) return fail('NOT_FOUND', '仓位已租出');
     const now = Date.now();
-    return ok(Object.assign(pricing.quote(us, p.months), { quoted_at: now, expires_at: order.quoteExpiresAt(now) }));
+    return ok(Object.assign(pricing.quote(us, p.months), { quoted_at: now, expires_at: scenarios.eventOn('quote_short') ? now + scenarios.SHORT.quoteMs : order.quoteExpiresAt(now) }));
   },
   getOrders() { seed(); return ok(db.orders); },
   getOrder(p) { seed(); const o = db.orders.find((x) => x.id === p.id); return o ? ok(o) : fail('NOT_FOUND', '订单不存在'); },

@@ -10,6 +10,7 @@ const {db}=R('services/mock-ext/_db'),inventory=R('mock/inventory');
 env.loadApp();
 const tick=()=>new Promise(r=>setTimeout(r,40));
 function fresh(logged=false) { state.reset(); env.nav.length=0; db.orders=[];db.leads=[];db.kv={};db.seeded=true;db.seq=0;if(logged)state.setSession({loggedIn:true,phoneMasked:'138****8000',token:'demo'}); }
+const START=new Date(Date.now()+11*86400e3+8*3600e3).toISOString().slice(0,10); // 预计用仓时间用相对今天的日期（明天起 90 天内才有效）
 test('每个有可租库存的门店稳定分配1–3个九折仓位，来源库存不被改写',()=>{
  const source=R('mock/units'),again=R('mock/specials').assign(source.map(u=>({...u})));
  assert.deepEqual(inventory,again);
@@ -60,7 +61,7 @@ test('快捷下单来源守卫回快捷下单；订单页会话失效立即隐�
  fresh(true);const confirm=env.newPage('pkg-trade/confirm/index',{unit:'SIM_BJ01_U03',term:'6'});await tick();state.logout();env.nav.length=0;confirm.onShow();assert.equal(confirm.data.cardOrder,null);assert.equal(confirm.data.showBar,false);confirm.onUnload();
 });
 test('快捷下单未登录选齐后提示登录报价，不再显示空的还需状态',async()=>{
- fresh();const pg=env.newPage('pkg-trade/quick/index',{store:'SIM_BJ01',unit:'SIM_BJ01_U03'});await tick();pg.onDate({detail:{value:'2026-12-01'}});pg.bar();
+ fresh();const pg=env.newPage('pkg-trade/quick/index',{store:'SIM_BJ01',unit:'SIM_BJ01_U03'});await tick();pg.onDate({detail:{value:START}});pg.bar();
  assert.equal(pg.data.btnDisabled,false);assert.equal(pg.data.btnText,'查看报价');assert.equal(pg.data.barLabel,'登录后查看整期报价');assert.equal(pg.data.barAmount,'');assert.equal(pg.data.est,null);
 });
 test('预约用仓成功不等订阅；顾问允许手填电话且不登录',async()=>{
@@ -69,7 +70,7 @@ test('预约用仓成功不等订阅；顾问允许手填电话且不登录',asy
 });
 test('取消订单后全站库存恢复，待支付占用对门店/推荐/费用查询同时可见',async()=>{
  fresh(true);await api.verifyIdentity({name:'张明',id_no:'110101199001010012'});const ids=['SIM_BJ01_U03'];
- const d=await api.getOrderDraft({unit_ids:ids,months:6});const o=await api.createOrder({unit_ids:ids,months:6,quoted_at:d.quoted_at,expect_payable:d.quote.payable,start_date:'2026-12-01'});
+ const d=await api.getOrderDraft({unit_ids:ids,months:6});const o=await api.createOrder({unit_ids:ids,months:6,quoted_at:d.quoted_at,expect_payable:d.quote.payable,start_date:START});
  let st=await api.getStore({id:'SIM_BJ01'});assert.equal(st.units.find(u=>u.id===ids[0]).status,'reserved');await assert.rejects(api.getQuote({unit_ids:ids,months:6}),e=>e.code==='NOT_FOUND');
  const snapshot=JSON.stringify(o.quote);await api.cancelOrder({order_id:o.id});st=await api.getStore({id:'SIM_BJ01'});assert.equal(st.units.find(u=>u.id===ids[0]).status,'available');assert.equal(JSON.stringify(o.quote),snapshot);
  assert.equal((await api.getOrder({id:o.id})).stage,order.STAGE.CANCELLED);

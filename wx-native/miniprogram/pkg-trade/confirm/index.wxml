@@ -1,5 +1,6 @@
 <view class="mk-page cf-page {{bar.showAgree ? 'cf-page--agree' : ''}}">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys === 'loading'}}" class="mk-gutter cf-body"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
+  <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{mode === 'empty'}}" icon="/assets/icons/order-sub.svg" title="{{T.emptyTitle}}" sub="{{T.emptyDesc}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onBackHome">{{T.backHome}}</button>
   </mk-empty>
@@ -12,19 +13,14 @@
       </view>
       <view class="mk-sub">{{head.note}}</view>
     </view>
-    <view wx:if="{{recheck}}" class="mk-card cf-notice {{recheck.ok ? '' : 'cf-notice--warn'}}">
-      <view class="cf-noticet">{{recheck.title}}</view>
+    <mk-notice wx:if="{{recheck}}" title="{{recheck.title}}" tone="{{recheck.ok ? '' : 'warn'}}">
       <view wx:for="{{recheck.rows}}" wx:key="k" class="mk-between cf-check">
         <text class="mk-sub">{{item.k}}</text>
         <view class="mk-row"><image class="mk-icon cf-checkicon" src="/assets/icons/{{item.ok ? 'check-brand' : 'close-ink'}}.svg" /><text class="{{item.ok ? '' : 'mk-error'}}">{{item.v}}</text></view>
       </view>
-    </view>
-    <view wx:if="{{quoteExpired}}" class="cf-banner">
-      <image class="mk-icon" src="/assets/icons/lock-ink.svg" />
-      <view class="mk-grow cf-bannertext"><view class="cf-bannert">{{T.quoteExpired}}</view><view class="mk-sub">{{T.quoteExpiredSub}}</view></view>
-      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-link cf-bannerlink" bindtap="onRefreshQuote" aria-role="button">{{T.refreshQuote}}</view>
-    </view>
-    <view wx:if="{{gone}}" class="cf-gone"><view class="cf-gonet">{{T.goneTitle}}</view><view class="mk-sub">{{T.goneDesc}}</view></view>
+    </mk-notice>
+    <mk-notice wx:if="{{quoteExpired}}" tone="warn" title="{{T.quoteExpired}}" text="{{T.quoteExpiredSub}}" link="{{T.refreshQuote}}" bind:link="onRefreshQuote" />
+    <mk-notice wx:if="{{gone}}" plain="{{true}}" tone="err" title="{{T.goneTitle}}" text="{{T.goneDesc}}" />
     <mk-order-card order="{{cardOrder}}" show-km="{{true}}" swap="{{swapText}}" editable="{{editable}}" hint="{{hint}}" dead="{{dead}}" bind:swap="onSwap" bind:term="onTerm" bind:date="onDate" />
     <view wx:if="{{dead}}">
       <view wx:if="{{alts.length}}" class="mk-card cf-card">
@@ -72,20 +68,21 @@
         <view class="mk-num {{bar.muted ? 'cf-amt--muted' : 'cf-amt'}}">{{bar.amount}}</view>
       </view>
       <view class="cf-go {{bar.solo ? 'cf-go--solo' : ''}}">
-        <button class="mk-btn {{bar.disabled ? 'mk-btn--disabled' : ''}}" hover-class="none" bindtap="onBar">{{bar.btn}}</button>
+        <button class="mk-btn {{bar.disabled ? 'mk-btn--disabled' : ''}}" hover-class="{{bar.disabled ? 'none' : 'mk-btn--hover'}}" bindtap="onBar">{{bar.btn}}</button>
         <text wx:if="{{bar.hint}}" class="mk-error cf-barhint">{{bar.hint}}</text>
       </view>
     </view>
   </view>
 
   <mk-sheet visible="{{sheet === 'idv'}}" title="{{T.idvTitle}}" bind:close="onSheetClose">
-    <text class="mk-sub cf-label">{{T.idvName}}</text>
-    <view class="cf-field"><input class="cf-input" type="text" maxlength="20" placeholder="{{T.idvNamePh}}" placeholder-class="cf-ph" value="{{idvName}}" disabled="{{idvChecking}}" bindinput="onIdvName" /></view>
-    <text class="mk-sub cf-label">{{T.idvNo}}</text>
-    <view class="cf-field {{idvError ? 'cf-field--err' : ''}}"><input class="cf-input" type="idcard" maxlength="18" placeholder="{{T.idvNoPh}}" placeholder-class="cf-ph" value="{{idvNo}}" disabled="{{idvChecking}}" bindinput="onIdvNo" /></view>
-    <text wx:if="{{idvError}}" class="mk-error cf-fielderr">{{idvError}}</text>
+    <mk-field label="{{T.idvName}}">
+      <view class="cf-field"><input class="cf-input" type="text" maxlength="20" placeholder="{{T.idvNamePh}}" placeholder-class="mk-t-off" value="{{idvName}}" disabled="{{idvChecking}}" bindinput="onIdvName" /></view>
+    </mk-field>
+    <mk-field label="{{T.idvNo}}" error="{{idvError}}">
+      <view class="cf-field {{idvError ? 'cf-field--err' : ''}}"><input class="cf-input" type="idcard" maxlength="18" placeholder="{{T.idvNoPh}}" placeholder-class="mk-t-off" value="{{idvNo}}" disabled="{{idvChecking}}" bindinput="onIdvNo" /></view>
+    </mk-field>
     <text class="mk-mute cf-fine">{{T.idvFine}}</text>
-    <button class="mk-btn {{idvReady && !idvChecking ? '' : 'mk-btn--disabled'}} cf-sheetbtn" hover-class="none" bindtap="onIdvSubmit">{{idvChecking ? T.idvChecking : T.idvSubmit}}</button>
+    <button class="mk-btn {{idvReady && !idvChecking ? '' : 'mk-btn--disabled'}} cf-sheetbtn" hover-class="{{idvReady && !idvChecking ? 'mk-btn--hover' : 'none'}}" bindtap="onIdvSubmit">{{idvChecking ? T.idvChecking : T.idvSubmit}}</button>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'sign'}}" title="{{T.signTitle}}" bind:close="onSheetClose">
     <view wx:for="{{signRows}}" wx:key="k" class="mk-between cf-signrow"><text class="mk-sub">{{item.k}}</text><text class="{{item.strong ? 'cf-signamt mk-num' : 'cf-kvv'}}">{{item.v}}</text></view>

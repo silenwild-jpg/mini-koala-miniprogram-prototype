@@ -35,32 +35,22 @@
   <view wx:if="{{sys}}" class="mk-gutter"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="mk-gutter sl-list">
     <block wx:if="{{mode === 'sales'}}">
-      <view class="mk-card sl-empty">
-        <image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" />
-        <text class="mk-title sl-et">{{T.stores.salesTitle}}</text>
-        <text class="mk-sub">{{T.salesSub}}</text>
-        <view class="sl-acts">
-          <button class="mk-btn mk-btn--ghost mk-btn--md sl-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modify}}</button>
-          <button class="mk-btn mk-btn--md sl-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.stores.salesCta}}</button>
-        </view>
+      <mk-empty card="{{true}}" icon="/assets/icons/headset-brand.svg" title="{{T.stores.salesTitle}}" sub="{{T.salesSub}}">
+        <button class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modify}}</button>
+        <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.stores.salesCta}}</button>
         <text class="mk-mute sl-hours">{{T.hours}}</text>
-      </view>
+      </mk-empty>
       <mk-estore-card variant="list" />
     </block>
     <block wx:else>
-      <view wx:if="{{far}}" class="sl-far"><text class="mk-title">{{farTitle}}</text><text class="mk-sub">{{farSub}}</text></view>
+      <mk-notice wx:if="{{far}}" plain="{{true}}" tone="warn" title="{{farTitle}}" text="{{farSub}}" />
       <text wx:elif="{{resultText}}" class="mk-mute sl-result">{{resultText}}</text>
       <block wx:if="{{noMatch}}">
-        <view class="mk-card sl-empty">
-          <image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" />
-          <text class="mk-title sl-et">{{T.stores.emptyTitle}}</text>
-          <text class="mk-sub">{{T.stores.emptySub}}</text>
-          <view class="sl-acts">
-            <button wx:if="{{filtered}}" class="mk-btn mk-btn--ghost mk-btn--md sl-btn" hover-class="mk-btn--ghostHover" bindtap="onClearFilters">{{T.stores.clearFilters}}</button>
-            <button wx:else class="mk-btn mk-btn--ghost mk-btn--md sl-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modify}}</button>
-            <button class="mk-btn mk-btn--md sl-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.stores.helpFind}}</button>
-          </view>
-        </view>
+        <mk-empty card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.stores.emptyTitle}}" sub="{{T.stores.emptySub}}">
+          <button wx:if="{{filtered}}" class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onClearFilters">{{T.stores.clearFilters}}</button>
+          <button wx:else class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modify}}</button>
+          <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdvisorLead">{{T.stores.helpFind}}</button>
+        </mk-empty>
         <mk-estore-card variant="list" />
         <text wx:if="{{total > 0}}" class="mk-title sl-bh">{{T.stores.nearbyTitle}}</text>
       </block>

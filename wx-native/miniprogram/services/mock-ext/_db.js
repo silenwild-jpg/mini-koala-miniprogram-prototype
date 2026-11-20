@@ -8,11 +8,29 @@ const scenarios = require('../../mock/scenarios');
 const DAY = model.DAY, S = order.STAGE;
 const db = { orders: [], seq: 0, sms: {}, leads: [], messages: [], seeded: false, kv: {} };
 const store = (id) => stores.find((s) => s.id === id);
-const unit = (id) => units.find((u) => u.id === id);
+const rawUnit = (id) => units.find((u) => u.id === id);
+// 演示库存档位（mock/scenarios.js STOCK）与「仓位被别人租走」事件：只改可租状态，不改 mock/inventory。找仓各页和下单接口读同一个结果。
+const NEAR4 = stores.filter((s) => s.city === C.defaultCity && s.status === 'open').slice().sort((a, b) => a.distance_km - b.distance_km).slice(0, 4).map((s) => s.id);
+function stocked(u) {
+  if (!u || u.status !== 'available') return u;
+  const off = () => Object.assign({}, u, { status: 'soldout' });
+  if (db.kv.gone && db.kv.gone[u.id]) return off();
+  const p = scenarios.stock().id;
+  if (p === 'city_soldout') return off();
+  if (p === 'nearby_soldout') return NEAR4.indexOf(u.store_id) >= 0 ? off() : u;
+  if (p === 'tight') { // 每店留 1 个，留哪个按门店序号轮换，容量大小各店不同
+    const sib = units.filter((x) => x.store_id === u.store_id && x.status === 'available');
+    const keep = sib[stores.findIndex((s) => s.id === u.store_id) % sib.length];
+    return keep.id === u.id ? u : off();
+  }
+  return u;
+}
+const unit = (id) => stocked(rawUnit(id));
+function markGone(ids) { if (!db.kv.gone) db.kv.gone = {}; ids.forEach((id) => { db.kv.gone[id] = 1; }); }
 function mk(o) { // 造一笔演示订单并推进到指定阶段
   const now = Date.now();
   const created = now - (o.agoDays || 0) * DAY;
-  const od = model.build({ store: store(o.store), units: o.units.map(unit), months: o.months, createdAt: created, seq: ++db.seq, identityVerified: o.identity !== false, startAt: o.startAt, factorOverride: o.factor });
+  const od = model.build({ store: store(o.store), units: o.units.map(rawUnit), months: o.months, createdAt: created, seq: ++db.seq, identityVerified: o.identity !== false, startAt: o.startAt, factorOverride: o.factor });
   if (o.factor) od.deal_factor = o.factor;
   if (o.stage !== S.PENDING && o.stage !== S.FAILED) { od.pay.paid_at = created + 600000; od.contract = { signed: true, signed_at: created + 300000, signer_masked: '张*' }; }
   od.stage = o.stage;
@@ -45,4 +63,4 @@ function fromSpec(o) {
 }
 // 清空演示数据（切换演示场景时用）。原地清空，各模块手里的 db 引用不变。
 function resetDb() { db.orders.length = 0; db.leads.length = 0; db.messages.length = 0; db.seq = 0; db.sms = {}; db.kv = {}; db.seeded = false; }
-module.exports = { db, seed, store, unit, mk, resetDb };
+module.exports = { db, seed, store, unit, stocked, markGone, mk, resetDb };

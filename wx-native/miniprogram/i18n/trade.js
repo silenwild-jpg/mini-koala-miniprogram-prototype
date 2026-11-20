@@ -138,7 +138,7 @@ module.exports = {
   },
   orders: { all: '全部订单', sort: '按最近订单排序', empty: '暂无订单记录', emptySub: '先去附近门店看看可用仓位。', goStores: '去附近门店', loginTip: '登录后查看订单', login: '登录' },
   agreement: {
-    pendingTitle: '协议正文暂未上线', pendingDesc: '如需了解协议内容，请联系客服。', toc: '目录', body: '正文', fine: '如对协议内容有疑问，请联系客服。',
+    pendingTitle: '协议正文暂未上线', pendingDesc: '如需了解协议内容，请联系客服。', contact: '联系客服', toc: '目录', body: '正文', fine: '如对协议内容有疑问，请联系客服。',
     version: '版本', effective: '生效日期'
   },
   task: { // mk-task-card
