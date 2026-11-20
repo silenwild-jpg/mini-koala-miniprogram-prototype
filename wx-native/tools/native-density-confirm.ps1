@@ -11,7 +11,7 @@ function Invoke-Wx([string]$Tool,[string[]]$Params){
  $start=$raw.IndexOf('{');if($start -lt 0){throw $raw}
  $r=$raw.Substring($start,$raw.LastIndexOf('}')-$start+1)|ConvertFrom-Json
  $receipts.Add([pscustomobject]@{tool=$Tool;parameters=$Params;receipt=$r;time=(Get-Date).ToString('o')})
- [IO.File]::WriteAllText((Join-Path $outDir 'native-receipts.json'),(ConvertTo-Json -InputObject @($receipts) -Depth 45))
+ [IO.File]::WriteAllText((Join-Path $outDir 'native-receipts.json'),(ConvertTo-Json -InputObject @($receipts) -Depth 45).Replace("`r`n","`n"))
  if($r.ok -ne $true -or $r.result.success -eq $false){throw $raw};return $r.result
 }
 function Eval([string]$Code){Invoke-Wx 'automation_evaluate' @('--fn-source',$Code)|Out-Null}
@@ -31,5 +31,6 @@ foreach($width in @(375,390)){
  Invoke-Wx 'automation_evaluate' @('--fn-source',"function(patch){getCurrentPages().slice(-1)[0].setData(patch);return {fixture:'render-only-31m3-combo',cards:getCurrentPages().slice(-1)[0].data.cards};}",'--args-file',(Join-Path $outDir 'combo-render-args.json'))|Out-Null
  Shot "confirm-enough-combo-fixture-$width"
 }
+Nav '/pages/match/index'
 Invoke-Wx 'get_simulator_console' @('--command','grep -n .')|Out-Null
 Write-Output "Confirmation saved: $outDir"

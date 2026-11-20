@@ -1,5 +1,13 @@
 # 迷你考拉仓｜项目控制中心
 
+## 2026-11-20 01A首轮审计与密度缺口修复（当前实施入口）
+
+当前运行时与技术测试候选：`c92fcf0a3b1bffed83f4371c6fb838b30802e876`，分支 `codex/inventory-display-density-20261120`。采集时恢复了微信工具连接；完成35页/22组件首轮源码与资源审计、40张修复前原生截图；修复组合仓卡片缺合计体积，160项测试、全页模拟运行、60个WXML编译通过，最终候选有375/390共8张限定范围确认图。
+
+从[执行结果](../wx-native/docs/visual-audit-01a-20261120/EXECUTION_STATUS.md)、[审计报告](../wx-native/docs/visual-audit-01a-20261120/AUDIT.md)、[截图评审页](../wx-native/docs/visual-audit-01a-20261120/review.html)和[40场景实际执行对照](../wx-native/docs/visual-audit-01a-20261120/CASE_EXECUTION.csv)继续。01B已有[组件约定草案](../wx-native/docs/visual-audit-01a-20261120/COMPONENT_CONTRACT_DRAFT.md)。91项令牌生效，另3条是注释；664行是分支/默认项工作表，不是有效状态数或通过数。
+
+下一执行包：先复查工具连接并恢复普通演示页，再补齐01A关键可达性fixture与密度矩阵剩余项，细化01B说明文字、弹层命中区、地址及图标约定，再进入01C。**采集阶段连接恢复，但收尾再次出现7892代理拒绝，最后导航恢复未完成；已保存的最终8图限定范围检查通过，全站G-VIS、真机、人工签收与正式服务仍待验收。** 未冻结、未归并、未上传体验版。下方为此前规划与实施快照，以本入口为当前状态。
+
 ## 2026-11-20 下阶段完整实施规划 v2（当前任务入口）
 
 当前方案入口：[NEXT-STAGE-20261120-v2](../wx-native/docs/next-stage-20261120/IMPLEMENTATION_PLAN.md)，配套[12项任务](../wx-native/docs/next-stage-20261120/TASKS.csv)、[40项初始验收场景](../wx-native/docs/next-stage-20261120/ACCEPTANCE_MATRIX.csv)、[页面/组件/资源盘点](../wx-native/docs/next-stage-20261120/BASELINE_INVENTORY.json)及[决策风险](../wx-native/docs/next-stage-20261120/DECISIONS_AND_RISKS.md)。本轮只更新规划与静态准备，运行时仍为 `cbffc52201ab61b0896887a46520e4388ac70c70`，分支 `codex/inventory-display-density-20261120`。

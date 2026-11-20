@@ -1,0 +1,27 @@
+{
+  "source_sha": "c92fcf0a3b1bffed83f4371c6fb838b30802e876",
+  "date_shanghai": "2026-11-20",
+  "reviewed_by": "Codex visual inspection of all final eight screenshots",
+  "result": "PASS_LIMITED_TO_CAPTURED_STATES",
+  "screenshot_hashes": {
+    "confirm-normal-375.png": "c1abf94ec1c41a6f4ecda2f130708749bf185dd6a441d197a4edc0221d8782af",
+    "confirm-stores-375.png": "eaf833205fa6808d69fcc566d3f21205d4f1cf5baf52347777e6fbdde4c2b2bf",
+    "confirm-near-combo-375.png": "1bceba1811657e8691517b8ee0eb27ed00a70b8235e38f3ad1339ec997c9adc5",
+    "confirm-enough-combo-fixture-375.png": "a547beb2d977a0aefaa6a133b9cf96c574df14070285a4880a352af05ad47849",
+    "confirm-normal-390.png": "253994b440947f2d2f4d63f1046282411d0259ae07323bb26556fc08be07d859",
+    "confirm-stores-390.png": "3b0a3aaccd593aafa64332095cef190170184b56aa7670ecbb8956ed0005fc34",
+    "confirm-near-combo-390.png": "91222036cc8a69d2f3cc6acdfd03ed100c763f3790151185bd2efde3bda299ae",
+    "confirm-enough-combo-fixture-390.png": "f14c7e2e473b749fb85730cdb919ea5555c003b9c8ef5bd4a6301b7b73d1eb92"
+  },
+  "checks": [
+    "375/390 single-unit and S01 demand controls",
+    "26m3 near-combination total, unit codes and small4.1m3 visible",
+    "31m3 sufficient-combination render fixture total and codes visible",
+    "no added cards, tags or overlays in the fix"
+  ],
+  "limitations": [
+    "render fixture is not a valid order flow",
+    "not human signoff",
+    "not full-site accessibility or physical-device acceptance"
+  ]
+}

@@ -15,7 +15,9 @@
   "runtime_tokens": {
     "file": "styles/tokens.wxss",
     "sha256": "cf0cb8963ad0c854221c0de4edc161fe30f2d61837f2c8d735f768a280033d76",
-    "declared_variables": 94
+    "raw_declaration_matches_including_comments": 94,
+    "active_declarations": 91,
+    "commented_declarations": 3
   },
   "state_counts": "REBUILD_FROM_CURRENT_PATHS; legacy 578 is not the new denominator",
   "screenshots_for_runtime_source": "NOT_CAPTURED",

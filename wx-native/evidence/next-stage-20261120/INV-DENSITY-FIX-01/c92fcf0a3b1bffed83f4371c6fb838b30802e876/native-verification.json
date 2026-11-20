@@ -1,0 +1,376 @@
+{
+  "date_shanghai": "2026-11-20",
+  "task": "INV-DENSITY-FIX-01",
+  "source_sha": "c92fcf0a3b1bffed83f4371c6fb838b30802e876",
+  "runtime_tree": "2fc597243e6ae95190fa6b041053e597cc106158",
+  "technical": {
+    "source_sha": "c92fcf0a3b1bffed83f4371c6fb838b30802e876",
+    "runtime_tree": "2fc597243e6ae95190fa6b041053e597cc106158",
+    "tests": {
+      "tests": 160,
+      "pass": 160,
+      "fail": 0
+    },
+    "smoke": {
+      "pages": 35,
+      "components": 22,
+      "handler_calls": 6618,
+      "errors": 0
+    },
+    "wxml": {
+      "templates": 60,
+      "exit_code": 0
+    },
+    "native_visual": "NOT_RUN_BY_THIS_SCRIPT",
+    "real_devices": "NOT_TESTED",
+    "main_merge": "NOT_MERGED",
+    "experience_upload": "NOT_UPLOADED"
+  },
+  "native": {
+    "screenshots": [
+      {
+        "file": "confirm-normal-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "c1abf94ec1c41a6f4ecda2f130708749bf185dd6a441d197a4edc0221d8782af"
+      },
+      {
+        "file": "confirm-stores-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "eaf833205fa6808d69fcc566d3f21205d4f1cf5baf52347777e6fbdde4c2b2bf"
+      },
+      {
+        "file": "confirm-near-combo-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "1bceba1811657e8691517b8ee0eb27ed00a70b8235e38f3ad1339ec997c9adc5"
+      },
+      {
+        "file": "confirm-enough-combo-fixture-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "a547beb2d977a0aefaa6a133b9cf96c574df14070285a4880a352af05ad47849"
+      },
+      {
+        "file": "confirm-normal-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "253994b440947f2d2f4d63f1046282411d0259ae07323bb26556fc08be07d859"
+      },
+      {
+        "file": "confirm-stores-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "3b0a3aaccd593aafa64332095cef190170184b56aa7670ecbb8956ed0005fc34"
+      },
+      {
+        "file": "confirm-near-combo-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "91222036cc8a69d2f3cc6acdfd03ed100c763f3790151185bd2efde3bda299ae"
+      },
+      {
+        "file": "confirm-enough-combo-fixture-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "f14c7e2e473b749fb85730cdb919ea5555c003b9c8ef5bd4a6301b7b73d1eb92"
+      }
+    ],
+    "devices": [
+      {
+        "width": 375,
+        "height": 812,
+        "sdk": "3.5.8",
+        "model": "iPhone 12/13 mini",
+        "fontScale": 0.92
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "sdk": "3.5.8",
+        "model": "iPhone 12/13 (Pro)",
+        "fontScale": 0.92
+      }
+    ],
+    "console_errors": 0,
+    "warnings": [
+      "7 global custom components may affect lazy code injection",
+      "getSystemInfoSync deprecation warning"
+    ],
+    "coverage": "normal single unit, S01 demand card, actual near combination, render-only sufficient combination fixture",
+    "not_covered": [
+      "all 40 acceptance cases",
+      "custom long content",
+      "keyboard",
+      "font enlargement",
+      "physical iOS/Android",
+      "real auth/payment/CRM"
+    ]
+  },
+  "previous_candidate": {
+    "source_sha": "cbffc52201ab61b0896887a46520e4388ac70c70",
+    "screenshots": [
+      {
+        "file": "H01-guest-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "c57fe6d33d57d98c8c3e2e6983495a3c0e5268b93cc64125743bac3723651f6f"
+      },
+      {
+        "file": "D01-stores-browse-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "d913e4dd3436dcd8f57a6b4fffc7dded18b6554429b373c27a293664cec9736b"
+      },
+      {
+        "file": "D06-match-guest-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "12eedc54f6679cd33164ef43c0876f6a53567e87e801d1703e272528e7227a40"
+      },
+      {
+        "file": "D02-stores-demand-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "59aef18b5960d3a601f9f06c96fb4673ea2cbc911aba47a035565419999bc068"
+      },
+      {
+        "file": "D10-store-dims-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "b9305395299a8b1277dda8975c3a31aacff4cd9b4c06eac285d503d643fdacf6"
+      },
+      {
+        "file": "D15-visit-form-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "cd0230e679ffcafc1183e46d9f69a09572f789b7ef390bf5f6c178b8b6c051f5"
+      },
+      {
+        "file": "D16-visit-validation-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "58b99543122a47513a9fb9530c392db5b3d7be2a05ec31036bf96a3fc3cf546d"
+      },
+      {
+        "file": "D14-store-route-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "3dcff3e2bd780340a36a453968a98a2faffe2184165e6d7c8d55c008267e7f15"
+      },
+      {
+        "file": "D05-match-near-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "1fa89a571c1b6e982b45a0ae1a32233b66369fc8d0f2304351b48c7a48c5e080"
+      },
+      {
+        "file": "D09-store-no-match-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "68bd1c137f5fa0d4a9b75d3f6d7c7e941d25f67b8deefb7b32bbb93ff3dbb854"
+      },
+      {
+        "file": "D17-store-sheet-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "de2b8715bd84025f05b3cd06ae91c17def981078b5857ad11041132fb5a2e7d3"
+      },
+      {
+        "file": "D19-quick-guest-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "97f30083a5b4a82d14fe8eb5bc340d17b469c1b939fc0b33c6434dac47059861"
+      },
+      {
+        "file": "D19-login-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "87bd4f16a41df963f65107b87ed832377ca6175456c3a03faf95296dde439ebf"
+      },
+      {
+        "file": "D20-quick-member-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "bd999e153732c0e6dad43a81885c379bc53bcfaea2bf9fbe18747bb8fe54dd5a"
+      },
+      {
+        "file": "D20-quick-fees-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "57a69c6a49739fea60c0b6017aa0ada3ba385e8195ca3b505adc17b4fd20f723"
+      },
+      {
+        "file": "D03-stores-member-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "e8a0c83c3224af26dcc51a4f2f4d38ece2e98c902a2a3bafec52df2c21fae8bb"
+      },
+      {
+        "file": "D07-match-member-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "38f1f996a07308434cb533dc8fa13b4d32426d26747cfc49ea074e75a9cb99d6"
+      },
+      {
+        "file": "D10-store-member-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "aa29c9ff9a96fe697efa3ba605b5c44d99379f7380b9460edd8366138e1fe5b3"
+      },
+      {
+        "file": "D13-store-soldout-fixture-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "d2202878137502fddfbc3271ec4fa8de97890a10ea66aa5ed876b5067576ad70"
+      },
+      {
+        "file": "D18-store-sheet-soldout-fixture-375.png",
+        "width": 345,
+        "height": 748,
+        "sha256": "f22cdaa937ac76190a14ca4cdecbd90332319e797107b074cde96b60c358c8ad"
+      },
+      {
+        "file": "H01-guest-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "246220e9d696607c1f522c1beef5e584380f509e7ea504606f97b90a92f6422c"
+      },
+      {
+        "file": "D01-stores-browse-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "8d1bee1f57bca49e9d69159ace5bd5d1bbd3982994ab3a5cf74cfca51408e59a"
+      },
+      {
+        "file": "D06-match-guest-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "cff98e1d2b51b478e9b6f4da0b33f72a1acbf00f78e4b39e92dac04fae3ab051"
+      },
+      {
+        "file": "D02-stores-demand-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "abd821d2ce5782aa128328a61e613722cf06838a74e3c2ce56d73a55e676a94c"
+      },
+      {
+        "file": "D10-store-dims-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "8f1d2bff94fca516ffc3aa6ff62dbcc2a72f5230a76e1330ad2614bb22df5cd6"
+      },
+      {
+        "file": "D15-visit-form-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "d001242df1b08c3ba2cd985a773496c1b3bf3aab73743d526b14c668fdd9c52e"
+      },
+      {
+        "file": "D16-visit-validation-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "c7351fbe6ee4a86ad7f263c8e6abd924e13a177cf197c6d0ae9cb2c18e27e5d6"
+      },
+      {
+        "file": "D14-store-route-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "19cd6c3637181a28241a82870d0fd0c337c273a1b37ba1e659e1bc13722d5983"
+      },
+      {
+        "file": "D05-match-near-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "f7b3d3d51f9c0fd5f9c71ca82b92133ee4b16ce4a57ebe43a464e5c923203465"
+      },
+      {
+        "file": "D09-store-no-match-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "d7a743ba8b596330b68bc55f0e2d1cc2aa2e4ba769e5c82d3f36b7073560058f"
+      },
+      {
+        "file": "D17-store-sheet-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "76e3fe16d09efee46602623124e9c9d52600e48ccfdadbc017aaf62a07073319"
+      },
+      {
+        "file": "D19-quick-guest-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "44fbd32b750b74b0d8242174e2dc2bbaf476eed1e0c4e29a2682187c4bd4a119"
+      },
+      {
+        "file": "D19-login-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "76b18a97ad7664574f0e688d31994f8013b1fa01e4e32dd3af054cba43f52079"
+      },
+      {
+        "file": "D20-quick-member-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "8b9cf9a7125cfd549b3ea9d959f2d423c563f2b2ef2d8521228b7b44f3f1e1a8"
+      },
+      {
+        "file": "D20-quick-fees-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "4674907fbabeca89a5c97a02355ba43116db4f3d88791c0e2e8924f0ea2ba424"
+      },
+      {
+        "file": "D03-stores-member-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "4affdd2245c16a97d10290b7f5152bc30becac7d58592833c372b2eea9bf5f45"
+      },
+      {
+        "file": "D07-match-member-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "a6af0b6286b4c5443862237eb2461be11158e2aec11acdcc6aa27fd68c762521"
+      },
+      {
+        "file": "D10-store-member-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "8fa4ff321223b12283e3869e9d62f2c05935b58ea4a8c2eb4d34c26e78abf3bb"
+      },
+      {
+        "file": "D13-store-soldout-fixture-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "6b39cfb5e2c01534a764302d5fc6714ea791227ef120479cfabe115440cdcb69"
+      },
+      {
+        "file": "D18-store-sheet-soldout-fixture-390.png",
+        "width": 359,
+        "height": 777,
+        "sha256": "fc611ed615d4ece46665d4a25c391b015c123d8296bf7aee2340d0344f280976"
+      }
+    ],
+    "tool_calls": 119,
+    "role": "initial inspection and defect evidence; not blanket acceptance for final SHA"
+  },
+  "visual_agent_review": "PASS_LIMITED_TO_CAPTURED_STATES",
+  "human_signoff": "NOT_SIGNED",
+  "full_site_effective_states": "REACHABILITY_PENDING",
+  "experience_upload": "NOT_UPLOADED",
+  "main_merge": "NOT_MERGED",
+  "post_capture_cleanup": {
+    "date_shanghai": "2026-11-20",
+    "source_sha": "c92fcf0a3b1bffed83f4371c6fb838b30802e876",
+    "action": "automation_navigate reLaunch /pages/match/index after final screenshot inspection",
+    "ok": false,
+    "errorType": "MCP_TOOL_ERROR",
+    "code": "APPID_ERROR",
+    "message": "tunneling socket could not be established, cause=connect ECONNREFUSED 127.0.0.1:7892",
+    "effect": "Post-capture navigation back to the ordinary demo page did not complete. The simulator may still display the explicitly named render-only combo fixture.",
+    "data_scope": "The fixture patched only a page instance. No source inventory, server inventory, valid order or production service was written.",
+    "recovery": "Restore the developer-tools network/proxy connection and refresh or reopen the current project. Normal demo data will be reloaded.",
+    "evidence_scope": "All eight final screenshots and prior successful native receipts were saved before this failure. This cleanup failure does not replace their results. Future automation is pending a connection recheck."
+  }
+}

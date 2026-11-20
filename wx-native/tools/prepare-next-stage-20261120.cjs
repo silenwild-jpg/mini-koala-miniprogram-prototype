@@ -46,7 +46,7 @@ const result = {
   assets: assets.length, svg_icons: assets.filter(a => a.file.startsWith('assets/icons/') && a.file.endsWith('.svg')).length,
   raster_images: assets.filter(a => /\.(png|webp|jpg|jpeg|gif)$/.test(a.file)).length,
   asset_bytes: assets.reduce((sum, a) => sum + a.bytes, 0), exact_duplicate_groups: hashGroups,
-  runtime_tokens: { file: 'styles/tokens.wxss', sha256: hash(tokenPath), declared_variables: [...read(tokenPath).matchAll(/--mk-[\w-]+\s*:/g)].length },
+  runtime_tokens: { file: 'styles/tokens.wxss', sha256: hash(tokenPath), raw_declaration_matches_including_comments: [...read(tokenPath).matchAll(/--mk-[\w-]+\s*:/g)].length, active_declarations: [...read(tokenPath).replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/--mk-[\w-]+\s*:/g)].length, commented_declarations: 3 },
   state_counts: 'REBUILD_FROM_CURRENT_PATHS; legacy 578 is not the new denominator',
   screenshots_for_runtime_source: 'NOT_CAPTURED', visually_audited_pages: 0,
   limitations: ['Counts are file and route inventory, not full 01A audit completion', 'Dynamic references and transitive component callers require review', 'Hashes do not establish image rights or physical store identity', 'No current network retry was performed by this script']

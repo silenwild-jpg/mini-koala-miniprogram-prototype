@@ -1,0 +1,62 @@
+{
+  "task": "VIS-COMPONENT-SYSTEM-01A",
+  "source_sha": "cbffc52201ab61b0896887a46520e4388ac70c70",
+  "runtime_tree": "71ee450e0631d78f2d2045456617963ff001b3f9",
+  "audit_input_commit": "4e04db6e83deda43a4bb6fd9a25044db30524b6d",
+  "pages": 35,
+  "components": 22,
+  "active_token_declarations": 91,
+  "commented_token_declarations": 3,
+  "undefined_token_uses": [],
+  "branch_records": 607,
+  "state_matrix_rows": 664,
+  "retired_sales_branches": 3,
+  "interaction_nodes": 425,
+  "assets": 123,
+  "icons": 91,
+  "currentColor_icons": 68,
+  "exact_frozen_asset_matches": 24,
+  "store_media_mappings": 37,
+  "fallback_store_count": 25,
+  "contrasts": [
+    {
+      "foreground": "--mk-color-ink-primary",
+      "background": "--mk-color-canvas-card",
+      "ratio": 14.84,
+      "applicability": "static declared opaque colors; actual inheritance/background still needs native inspection"
+    },
+    {
+      "foreground": "--mk-color-ink-secondary",
+      "background": "--mk-color-canvas-card",
+      "ratio": 5.56,
+      "applicability": "static declared opaque colors; actual inheritance/background still needs native inspection"
+    },
+    {
+      "foreground": "--mk-color-ink-tertiary",
+      "background": "--mk-color-canvas-card",
+      "ratio": 3.13,
+      "applicability": "static declared opaque colors; actual inheritance/background still needs native inspection"
+    },
+    {
+      "foreground": "--mk-color-brand-text",
+      "background": "--mk-color-brand-tint",
+      "ratio": 4.83,
+      "applicability": "static declared opaque colors; actual inheritance/background still needs native inspection"
+    },
+    {
+      "foreground": "--mk-color-ink-inverse",
+      "background": "--mk-color-action-primaryFill",
+      "ratio": 5.4,
+      "applicability": "static declared opaque colors; actual inheritance/background still needs native inspection"
+    },
+    {
+      "foreground": "--mk-color-accent-promoText",
+      "background": "--mk-color-accent-promoFill",
+      "ratio": 4.54,
+      "applicability": "static declared opaque colors; actual inheritance/background still needs native inspection"
+    }
+  ],
+  "total_effective_state_count": "NOT_ESTABLISHED: rows are source branch inventory, not combinations or verified reachability",
+  "visual_status": "See native current-SHA evidence; full-site visual acceptance pending",
+  "scores": "Do not score unmeasured startup, gestures, screen reader or Dynamic Type from source alone"
+}
