@@ -10,7 +10,7 @@
         <view class="sd-ib" bindtap="onCall" aria-role="button" aria-label="拨打客服电话"><image class="mk-icon mk-icon--md" src="/assets/icons/phone-brand.svg" /></view>
       </view>
       <view class="mk-between sd-sub">
-        <text class="mk-sub mk-grow">{{hoursText}}</text>
+        <text class="mk-sub mk-grow sd-hours">{{hoursText}}</text>
         <view class="sd-tb mk-row" bindtap="onFavStore" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-heart.svg" /><text class="{{fav ? 'mk-link' : 'mk-sub'}}">{{fav ? T.d.favOn : T.d.favorite}}</text></view>
         <button class="sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/ic-share.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
       </view>

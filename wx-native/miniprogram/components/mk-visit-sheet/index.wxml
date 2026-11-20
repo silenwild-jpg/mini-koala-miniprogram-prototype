@@ -12,7 +12,8 @@
     <view class="vs-label">联系电话</view>
     <view wx:if="{{phoneMasked}}" class="mk-sub">已验证手机号 {{phoneMasked}}，可另填联系电话</view>
     <button wx:else class="mk-btn mk-btn--ghost mk-btn--md" bindtap="onWechat">使用微信手机号</button>
-    <input class="vs-field" type="number" maxlength="11" value="{{phone}}" placeholder="{{phoneMasked ? '另填联系电话（选填）' : '也可直接填写手机号'}}" bindinput="onPhone" disabled="{{busy || unknown}}" />
+    <input class="vs-field vs-phone-field {{phoneError ? 'vs-field--error' : ''}}" type="number" maxlength="11" value="{{phone}}" placeholder="{{phoneMasked ? '另填联系电话（选填）' : '也可直接填写手机号'}}" bindinput="onPhone" bindblur="onPhoneBlur" focus="{{phoneFocus}}" cursor-spacing="120" aria-label="联系电话{{phoneError ? '，' + phoneError : ''}}" disabled="{{busy || unknown}}" />
+    <text wx:if="{{phoneError}}" class="mk-error vs-phone-error">{{phoneError}}</text>
     <view class="vs-label">看仓时间</view>
     <view class="vs-dates"><view wx:for="{{dates}}" wx:key="label" class="mk-chip {{dateIndex === index ? 'mk-chip--on' : ''}}" data-i="{{index}}" bindtap="onDateQuick">{{item.label}}</view></view>
     <view class="vs-pickers">

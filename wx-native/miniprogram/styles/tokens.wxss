@@ -31,6 +31,7 @@ page {
   --mk-color-status-infoFill: #F5F7F6;
   --mk-color-status-infoText: #5F6B65;
   --mk-color-overlay-scrim: rgba(31,42,36,0.45);
+  --mk-color-overlay-photoLabel: rgba(0,0,0,0.65);
   --mk-color-overlay-photoFade: linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%);
   --mk-font-family-base: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'HarmonyOS Sans SC', 'MiSans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Source Han Sans SC', sans-serif;
   --mk-font-family-numeric: 'DIN Alternate', 'Roboto', -apple-system, 'PingFang SC', sans-serif;

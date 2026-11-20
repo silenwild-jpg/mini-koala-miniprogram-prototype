@@ -1,6 +1,8 @@
 .vs-store { margin-bottom:8rpx; }
 .vs-label { margin:28rpx 0 12rpx; font-weight:600; }
 .vs-field { padding:20rpx 16rpx; min-height:48rpx; border-bottom:var(--mk-border-hairline); background:var(--mk-color-canvas-page); border-radius:var(--mk-radius-control); margin:12rpx 0; }
+.vs-field--error { border-bottom:var(--mk-border-error); }
+.vs-phone-error { display:block; margin:0 0 12rpx; }
 .vs-dates { display:flex; flex-wrap:wrap; gap:12rpx; }
 .vs-dates .mk-chip { display:flex; align-items:center; min-height:64rpx; }
 .vs-pickers { display:flex; gap:16rpx; }
