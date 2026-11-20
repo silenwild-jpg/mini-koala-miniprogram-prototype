@@ -1,0 +1,17 @@
+<view class="mk-page">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:else class="ac-wrap">
+    <view class="mk-card">
+      <text class="ac-sec">{{T.r.section}}</text>
+      <text class="ac-para">{{T.r.para}}</text>
+      <button wx:if="{{!loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="none" bindtap="onLogin">{{T.common.loginRegister}}</button>
+    </view>
+    <view class="mk-card">
+      <text class="ac-label">{{T.r.linkLabel}}</text>
+      <view class="rf-box mk-row"><image class="mk-icon rf-ic" src="/assets/icons/ic-copy.svg" /><text class="mk-grow mk-ellipsis">{{T.r.linkText}}</text></view>
+      <button class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="none" bindtap="onCopy">{{T.r.copy}}</button>
+    </view>
+    <view class="ac-notice rf-note"><text class="ac-notice-t">{{T.r.noticeTitle}}</text><text class="ac-notice-s">{{T.r.noticeSub}}</text></view>
+  </view>
+  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+</view>

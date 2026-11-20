@@ -1,0 +1,9 @@
+<view class="afh-head">
+  <view class="mk-between">
+    <text class="afh-h1 mk-grow">{{title}}</text>
+    <mk-after-tag text="{{tag}}" tone="{{tone}}" />
+  </view>
+  <view wx:if="{{subs.length}}" class="afh-subs">
+    <text wx:for="{{subs}}" wx:key="*this" class="mk-sub afh-sub">{{item}}</text>
+  </view>
+</view>

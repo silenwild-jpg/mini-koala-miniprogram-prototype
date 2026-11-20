@@ -1,0 +1,59 @@
+<view class="mk-page {{view === 'saved' || view === 'pick' ? '' : 'ldf-page'}}">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <block wx:elif="{{view === 'saved'}}">
+    <view class="mk-gutter ltr-top">
+      <lead-ack in-hours="{{inHours}}">
+        <button class="mk-btn ldf-neutral mk-btn--md ltr-act" hover-class="none" bindtap="onMine">{{T.c.backMine}}</button>
+        <button class="mk-btn mk-btn--md ltr-act ltr-act--r" hover-class="mk-btn--hover" bindtap="onFind">{{T.x.goFind}}</button>
+      </lead-ack>
+      <view class="mk-card ltr-gap">
+        <view class="mk-row ltr-sec"><text class="ldf-sectitle ltr-sect">{{T.x.preTitle}}</text><text class="ldf-tag ldf-tag--warn">{{T.x.pending}}</text></view>
+        <text class="ltr-rt">{{saved.address}}</text>
+        <text class="mk-sub ltr-rs mk-num">{{saved.sub}}</text>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{view === 'pick'}}">
+    <text class="mk-title ltr-pickt">{{T.x.pickTitle}}</text>
+    <view class="mk-gutter">
+      <view wx:for="{{orders}}" wx:key="id" class="ltr-pick" data-i="{{index}}" bindtap="onPick" aria-role="button"><mk-order-card order="{{item}}" variant="list" /></view>
+    </view>
+  </block>
+  <block wx:else>
+    <view wx:if="{{view === 'form'}}" class="mk-gutter ltr-top"><mk-order-card order="{{order}}" /></view>
+    <view class="ldf-notice">{{T.x.note}}</view>
+    <view wx:if="{{view === 'form' && free}}" class="mk-card ldf-cardgap mk-between">
+      <view class="mk-grow"><text class="ltr-rt">{{T.x.freeTitle}}</text><text class="mk-sub ltr-rs">{{T.x.freeScope}}</text></view>
+      <text class="ldf-tag ldf-tag--ok">{{T.x.freeArrange}}</text>
+    </view>
+    <view class="mk-card ldf-cardgap">
+      <view class="ldf-field ldf-field--tight">
+        <view class="ldf-label ldf-label--sm"><text>{{T.x.address}}</text></view>
+        <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" placeholder="{{T.x.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
+        <text wx:if="{{errAddress}}" class="ldf-err">{{errAddress}}</text>
+      </view>
+      <view class="ldf-field ldf-field--tight">
+        <view class="ldf-label ldf-label--sm"><text>{{T.x.date}}</text></view>
+        <picker mode="date" value="{{date}}" start="{{today}}" bindchange="onDate">
+          <view class="ldf-input {{errDate ? 'ldf-input--err' : ''}}"><text class="mk-grow mk-num {{date ? '' : 'ldf-ph'}}">{{date || T.x.datePh}}</text><image class="mk-icon" src="/assets/icons/ic-cal.svg" /></view>
+        </picker>
+        <text wx:if="{{errDate}}" class="ldf-err">{{errDate}}</text>
+      </view>
+      <view wx:if="{{view === 'pre'}}" class="ldf-field ldf-field--tight">
+        <view class="ldf-label ldf-label--sm"><text>{{T.x.phone}}</text></view>
+        <view wx:if="{{phoneMasked}}" class="ldf-input"><text class="mk-grow mk-num">{{phoneMasked}}</text><image class="mk-icon" src="/assets/icons/ic-phone.svg" /></view>
+        <view wx:else class="ldf-input {{errPhone ? 'ldf-input--err' : ''}}"><input class="ldf-native" type="number" maxlength="11" value="{{phone}}" placeholder="{{T.x.phonePh}}" placeholder-class="ldf-ph" bindinput="onPhone" /><image class="mk-icon" src="/assets/icons/ic-phone.svg" /></view>
+        <text wx:if="{{errPhone}}" class="ldf-err">{{errPhone}}</text>
+      </view>
+    </view>
+    <text wx:if="{{view === 'pre'}}" class="mk-sub ltr-rule">{{T.x.freeRule}}</text>
+    <view wx:if="{{view === 'form' && records.length > 0}}" class="mk-card ldf-cardgap">
+      <text class="ldf-sectitle">{{T.x.records}}</text>
+      <view wx:for="{{records}}" wx:key="id" class="mk-between ltr-rec">
+        <view class="mk-grow"><text class="ltr-rt">{{item.address}}</text><text class="mk-sub ltr-rs mk-num">{{item.date}}</text></view>
+        <text class="ldf-tag ldf-tag--warn">{{T.x.pending}}</text>
+      </view>
+    </view>
+    <view class="mk-bottom-bar"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSubmit">{{T.x.submit}}</button></view>
+  </block>
+</view>

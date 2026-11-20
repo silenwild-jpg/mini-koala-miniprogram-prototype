@@ -1,0 +1,70 @@
+﻿文件,符号 id,来源,显示尺寸（px，最常见）,出现状态数,出现页面数,出现位置（按钮无障碍名或父级 class，前 3）,备注
+ic-arrow.svg,#i-arrow,符号表,14×14,4,1,v,各页定义一致
+ic-back.svg,#i-back,符号表,24×24 / 18×18,457,31,返回上一步 / 返回我的 / 返回上页,各页定义一致
+ic-bag.svg,#i-bag,符号表,16×16,19,1,BUTTON,各页定义一致
+ic-bell.svg,#i-bell,符号表,24×24,45,1,消息,各页有 2 种画法，取首个
+ic-bike.svg,#i-bike,符号表,,0,0,（580 态里没有用到）,各页定义一致
+ic-box.svg,#i-box,符号表,16×16 / 20×20 / 24×24,43,6,BUTTON / ct / pic,各页定义一致
+ic-building.svg,#i-building,符号表,24×24 / 20×20,71,3,card ent / lrow,各页有 2 种画法，取首个
+ic-cal.svg,#i-cal,符号表,16×16 / 20×20,148,8,lrow / 选择预计用仓日期 / 选择具体日期,各页定义一致
+ic-calc.svg,#i-calc,符号表,18×18,13,1,A,各页定义一致
+ic-cam.svg,#i-cam,符号表,20×20 / 24×24,4,2,arr-frow / 上传营业执照,各页定义一致
+ic-car.svg,#i-car,符号表,20×20 / 24×24,3,1,arr-frow / arr-dest,各页定义一致
+ic-cart.svg,#i-cart,符号表,20×20,2,1,arr-frow,各页定义一致
+ic-check.svg,#i-check,符号表,16×16 / 12×12 / 14×14,229,17,dot / chipwrap / box,各页定义一致
+ic-chev.svg,#i-chev,符号表,16×16 / 24×24 / 18×18,1199,21,lrow / card scard compact / card svcentry,各页定义一致
+ic-clock.svg,#i-clock,符号表,14×14 / 12×12 / 20×20,43,2,hours / fine / arr-frow,各页定义一致
+ic-close.svg,#i-close,符号表,12×12 / 24×24,10,8,dot / 清除搜索 / 关闭登录,各页定义一致
+ic-copy.svg,#i-copy,符号表,16×16,3,1,linkbox,各页定义一致
+ic-cube.svg,#i-cube,符号表,20×20 / 16×16 / 28×28,46,4,lrow / btn text / ph,各页定义一致
+ic-door.svg,#i-door,符号表,24×24,1,1,pic,各页定义一致
+ic-down.svg,#i-down,符号表,12×12 / 16×16,281,4,BUTTON / var / city,各页定义一致
+ic-elev.svg,#i-elev,符号表,20×20,1,1,arr-frow,各页定义一致
+ic-flag.svg,#i-flag,符号表,20×20 / 24×24,27,2,lrow / pic,各页定义一致
+ic-gift.svg,#i-gift,符号表,20×20,26,1,lrow,各页定义一致
+ic-grid.svg,#i-grid,符号表,16×16 / 24×24,27,3,on / A / BUTTON,各页定义一致
+ic-headset.svg,#i-headset,符号表,20×20 / 16×16,46,3,lrow / chipwrap / DIV,各页有 2 种画法，取首个
+ic-heart.svg,#i-heart,符号表,20×20 / 18×18 / 24×24,106,3,收藏门店 / lrow / 收藏A05 · 8m³独立仓,各页定义一致
+ic-id.svg,#i-id,符号表,24×24,1,1,pic,各页定义一致
+ic-info.svg,#i-info,符号表,20×20 / 16×16 / 24×24,55,4,lrow / fine longhint / A,各页有 2 种画法，取首个
+ic-key.svg,#i-key,符号表,,0,0,（580 态里没有用到）,各页定义一致
+ic-list.svg,#i-list,符号表,,0,0,（580 态里没有用到）,各页定义一致
+ic-locate.svg,#i-locate,符号表,16×16,24,1,btn text,各页定义一致
+ic-lock.svg,#i-lock,符号表,24×24,5,1,svc-cell,各页定义一致
+ic-msg.svg,#i-msg,符号表,20×20 / 24×24,27,2,lrow / pic,各页定义一致
+ic-nav.svg,#i-nav,符号表,22×22 / 24×24 / 16×16,50,2,地图导航 / svc-cell / btn secondary arr-go,各页定义一致
+ic-note.svg,#i-note,符号表,20×20 / 16×16 / 24×24,66,4,lrow / flabel / pic,各页定义一致
+ic-office.svg,#i-office,符号表,16×16,19,1,BUTTON,各页定义一致
+ic-order.svg,#i-order,符号表,20×20 / 24×24,32,7,lrow / pic,各页定义一致
+ic-phone.svg,#i-phone,符号表,22×22 / 24×24 / 16×16,61,9,拨打400客服电话 / svc-cell / 请填写手机号,各页定义一致
+ic-pin.svg,#i-pin,符号表,12×12 / 16×16 / 18×18,228,5,card rcard / city / 选择用仓位置,各页定义一致
+ic-plug.svg,#i-plug,符号表,16×16,17,1,BUTTON,各页定义一致
+ic-plus.svg,#i-plus,符号表,24×24,6,1,A,各页定义一致
+ic-plusminus.svg,#i-plusminus,符号表,24×24,4,1,A,各页定义一致
+ic-renew.svg,#i-renew,符号表,20×20 / 24×24,21,3,lrow / A,各页定义一致
+ic-search.svg,#i-search,符号表,16×16 / 24×24,97,3,搜索门店、商圈或区域 / search / search filled,各页定义一致
+ic-share.svg,#i-share,符号表,18×18,26,1,分享门店,各页定义一致
+ic-shield.svg,#i-shield,符号表,20×20 / 24×24,101,8,lrow / card svcentry / arr-frow,各页有 2 种画法，取首个
+ic-sofa.svg,#i-sofa,符号表,16×16,19,1,BUTTON / on,各页定义一致
+ic-spark.svg,#i-spark,符号表,16×16 / 20×20,37,2,chipwrap soon / soon,各页定义一致
+ic-star.svg,#i-star,符号表,16×16,19,1,BUTTON,各页定义一致
+ic-store.svg,#i-store,符号表,16×16 / 18×18 / 28×28,33,3,BUTTON / A / on,各页有 2 种画法，取首个
+ic-tag.svg,#i-tag,符号表,,0,0,（580 态里没有用到）,各页定义一致
+ic-temp.svg,#i-temp,符号表,20×20,4,2,arr-frow / DIV,各页有 2 种画法，取首个
+ic-ticket.svg,#i-ticket,符号表,20×20 / 24×24,59,6,lrow / ct / pic,各页定义一致
+ic-train.svg,#i-train,符号表,20×20,1,1,arr-frow,各页定义一致
+ic-truck.svg,#i-truck,符号表,24×24 / 20×20,67,5,card svcentry / lrow / k,各页定义一致
+ic-user.svg,#i-user,符号表,20×20 / 26×26,90,4,av / lrow / BUTTON,各页定义一致
+ic-walk.svg,#i-walk,符号表,24×24,1,1,arr-dest,各页定义一致
+inline-01-466fd8.svg,,内联,24×24 / 16×16,38,9,关闭登录 / 关闭定位提醒 / 清空输入,
+inline-02-807495.svg,,内联,16×16 / 14×14,35,7,查看到店与进仓指引 / w14res / lk,
+inline-03-044748.svg,,内联,24×24,28,28,pic,
+inline-04-47f593.svg,,内联,24×24,28,28,pic,
+inline-05-3c9a96.svg,,内联,14×14 / 16×16,27,8,box / opt on,
+inline-06-9f9dbd.svg,,内联,16×16,26,5,查看到店与进仓指引 / w12locrow / w14res,
+inline-07-5a5e49.svg,,内联,16×16,12,4,search focus,
+inline-08-983bde.svg,,内联,16×16,8,4,w26subline ok / opt on,
+inline-09-3ecc44.svg,,内联,343×144,7,1,查看门店位置并导航,
+inline-10-7cd3f8.svg,,内联,16×16,6,1,btn secondary md,
+inline-11-2e10f4.svg,,内联,16×16,6,2,w14res,
+inline-12-e324fe.svg,,内联,16×16,1,1,报价状态,

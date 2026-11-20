@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#176949" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="我的 - 选中">
+  <title>我的 - 选中</title>
+  <circle cx="9.2" cy="6.45" r="3.35" fill="#176949" stroke="#176949"/>
+  <path d="M2.8 20.75v-2.25a6.4 6.4 0 0 1 10.25-5.1l.15 7.35Z" fill="#176949" stroke="#176949"/>
+  <path d="m14.25 13.75 3.55-1.95 3.55 1.95v5.25l-3.55 1.95-3.55-1.95Z" fill="#E3F3E9" stroke-width="1.55"/>
+  <path d="m14.25 13.75 3.55 1.85 3.55-1.85M17.8 15.6v5.35" stroke-width="1.4"/>
+  <path d="m18.85 12.4 2.5 1.35v2.15l-3.55-1.95Z" fill="#B7DEC6" stroke="none"/>
+</svg>

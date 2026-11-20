@@ -1,0 +1,8 @@
+.sheet-root { position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 900; }
+.sheet-scrim { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: var(--mk-color-overlay-scrim); }
+.sheet-panel { position: absolute; left: 0; right: 0; background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-card) var(--mk-radius-card) 0 0; box-shadow: var(--mk-elevation-sheet); }
+.sheet-hd { display: flex; align-items: center; justify-content: space-between; padding: var(--mk-space-3) var(--mk-space-pageGutter); border-bottom: var(--mk-border-hairline); }
+.sheet-title { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); }
+.sheet-x { font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); padding: 8rpx 0 8rpx 32rpx; }
+.sheet-bd { max-height: 60vh; padding: var(--mk-space-3) var(--mk-space-pageGutter); box-sizing: border-box; }
+.sheet-safe { height: constant(safe-area-inset-bottom); height: env(safe-area-inset-bottom); }

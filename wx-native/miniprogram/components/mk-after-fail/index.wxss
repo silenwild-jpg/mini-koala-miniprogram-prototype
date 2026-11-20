@@ -1,0 +1,9 @@
+.aff-box { background: var(--mk-color-status-errorFill); border-radius: var(--mk-radius-card); padding: var(--mk-space-cardPad); border-left: 8rpx solid var(--mk-color-status-errorStrong); margin-bottom: var(--mk-space-cardGap); }
+.aff-t { display: block; font-weight: var(--mk-font-weight-semibold); color: var(--mk-color-status-errorText); margin-bottom: var(--mk-space-2); }
+.aff-row { display: flex; justify-content: space-between; align-items: flex-start; padding: var(--mk-space-2) 0; }
+.aff-k { color: var(--mk-color-ink-secondary); flex: none; margin-right: var(--mk-space-4); }
+.aff-v { flex: 1; min-width: 0; text-align: right; }
+.aff-v--soft { color: var(--mk-color-ink-secondary); }
+.aff-extra { display: block; margin-top: var(--mk-space-2); }
+.aff-btn { width: 100%; margin-top: var(--mk-space-3); background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); }
+.aff-ico { margin-right: var(--mk-space-1); }

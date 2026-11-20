@@ -1,0 +1,1 @@
+<text wx:if="{{text}}" class="aft-tag aft-tag--{{tone}}">{{text}}</text>

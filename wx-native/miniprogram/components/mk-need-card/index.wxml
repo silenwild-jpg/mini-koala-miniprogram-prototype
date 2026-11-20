@@ -1,0 +1,20 @@
+<block wx:if="{{has && mode !== 'hidden'}}">
+  <view wx:if="{{mode === 'strip'}}" class="mk-card nc-strip mk-row" bindtap="onView" aria-role="button">
+    <text class="mk-mute nc-sk">{{T.kicker}}</text><text class="mk-grow mk-ellipsis">{{stripText}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+  </view>
+  <view wx:else class="mk-card nc-card">
+    <text class="nc-kicker">{{T.kicker}}</text>
+    <view class="mk-between nc-head">
+      <view class="mk-grow"><text class="mk-title nc-title">{{T.title}}</text><text class="mk-sub">{{T.sub}}</text></view>
+      <text class="mk-tag mk-tag--brand nc-badge">{{T.badge}}</text>
+    </view>
+    <view class="nc-facts">
+      <view class="nc-fact"><view><text class="mk-num nc-num">{{capNum}}</text><text class="nc-u">{{capUnit}}</text></view><text class="mk-sub">{{capLabel}}</text></view>
+      <view class="nc-fact"><view><text class="mk-num nc-num">{{termNum}}</text><text class="nc-u">{{termUnit}}</text></view><text class="mk-sub">{{T.termLabel}}</text></view>
+    </view>
+    <view class="nc-acts">
+      <button class="mk-btn mk-btn--ghost mk-btn--md nc-btn" hover-class="none" bindtap="onModify">{{T.modify}}</button>
+      <button class="mk-btn mk-btn--md nc-btn" hover-class="mk-btn--hover" bindtap="onView">{{T.view}}</button>
+    </view>
+  </view>
+</block>

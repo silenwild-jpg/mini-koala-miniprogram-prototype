@@ -1,0 +1,29 @@
+{
+ "added": {
+  "cap": [
+   "from_items",
+   "from_items_edited",
+   "area_term"
+  ],
+  "items": [
+   "term_other",
+   "advisor_hint"
+  ],
+  "s5": [
+   "from_area",
+   "from_area&overlay=demand"
+  ],
+  "s01": [
+   "matched_area"
+  ],
+  "s02": [
+   "matched_area"
+  ]
+ },
+ "removed": {
+  "items": [
+   "browse",
+   "known"
+  ]
+ }
+}

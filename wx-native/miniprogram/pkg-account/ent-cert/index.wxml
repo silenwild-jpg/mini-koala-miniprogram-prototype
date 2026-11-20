@@ -1,0 +1,76 @@
+<view class="mk-page">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{!loggedIn}}" class="ac-wrap">
+    <view class="mk-card ac-login">
+      <text class="mk-title">{{T.common.loginFirst}}</text>
+      <button class="mk-btn mk-btn--md ac-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
+    </view>
+  </view>
+  <view wx:elif="{{view === 'result'}}" class="ac-wrap {{status === 'failed' ? 'ac-wrap--bar' : ''}}">
+    <view class="ac-head">
+      <view class="ac-head-row"><text class="mk-h2">{{head.title}}</text><text class="ac-tag ac-tag--{{tone}}">{{head.tag}}</text></view>
+      <text class="mk-sub ac-head-sub">{{head.sub}}</text>
+    </view>
+    <view class="mk-card">
+      <text class="ac-sec">{{T.c.progress}}</text>
+      <view wx:for="{{steps}}" wx:key="t" class="ac-step">
+        <view class="ac-dot ac-dot--{{item.cls}}"><image wx:if="{{item.cls === 'done'}}" class="ac-dot-ic" src="/assets/icons/check-white.svg" /></view>
+        <view class="mk-grow"><text class="ac-step-t {{item.tcls}}">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-mute">{{item.s}}</text></view>
+      </view>
+    </view>
+    <view wx:if="{{status === 'failed'}}" class="ac-notice ac-notice--err ec-gap"><text class="ac-notice-t">{{reason}}</text><text class="ac-notice-s">{{T.c.reasonSub}}</text></view>
+    <view class="mk-card ec-gap">
+      <text class="ac-sec">{{T.c.info}}</text>
+      <view class="ac-kv"><text class="ac-k">{{T.c.name}}</text><text class="ac-v">{{company.name}}</text></view>
+      <view class="ac-kv"><text class="ac-k">{{T.c.tax}}</text><text class="ac-v mk-num">{{company.tax}}</text></view>
+      <view class="ac-kv"><text class="ac-k">{{T.c.infoContact}}</text><text class="ac-v">{{contactLine}}</text></view>
+    </view>
+    <view wx:if="{{status === 'verified'}}" class="mk-card">
+      <text class="ac-sec">{{T.c.services}}</text>
+      <view class="ac-lrow" bindtap="onTitles" aria-role="button"><text class="mk-grow">{{T.c.toTitles}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+      <view class="ac-lrow" bindtap="onBatch" aria-role="button"><text class="mk-grow">{{T.c.toBatch}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+    </view>
+    <view wx:if="{{status === 'failed'}}" class="mk-bottom-bar">
+      <button class="mk-btn ac-bar-btn" hover-class="mk-btn--hover" bindtap="onFix">{{T.c.retry}}</button>
+      <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="none" bindtap="onAdvisor">{{T.common.contactAdvisor}}</button>
+    </view>
+  </view>
+  <view wx:else class="ac-wrap ac-wrap--bar">
+    <view class="ac-notice"><text class="ac-notice-t">{{T.c.noticeTitle}}</text><text class="ac-notice-s">{{T.c.noticeSub}}</text></view>
+    <view class="mk-card">
+      <text class="ac-sec">{{T.c.section}}</text>
+      <view class="ac-field">
+        <text class="ac-label">{{T.c.name}}</text>
+        <view class="ac-input"><input class="ac-inp" type="text" maxlength="60" placeholder="{{T.c.namePh}}" placeholder-class="ac-ph" value="{{form.name}}" data-f="name" bindinput="onField" /></view>
+      </view>
+      <view class="ac-field">
+        <text class="ac-label">{{T.c.tax}}</text>
+        <view class="ac-input {{taxError ? 'ac-input--err' : ''}}"><input class="ac-inp" type="text" maxlength="18" placeholder="{{T.c.taxPh}}" placeholder-class="ac-ph" value="{{form.tax}}" data-f="tax" bindinput="onField" bindblur="onTaxBlur" /></view>
+        <text wx:if="{{taxError}}" class="mk-error ac-ferr">{{taxError}}</text>
+      </view>
+      <view class="ac-field">
+        <text class="ac-label">{{T.c.license}}</text>
+        <view class="ec-upload {{form.licenseCount > 0 ? 'ec-upload--done' : ''}}" bindtap="onUpload" aria-role="button">
+          <image class="mk-icon mk-icon--md" src="{{form.licenseCount > 0 ? '/assets/icons/check-brand.svg' : '/assets/icons/ic-cam.svg'}}" />
+          <text class="ec-upload-t">{{uploadText}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="mk-card">
+      <text class="ac-sec">{{T.c.contactSection}}</text>
+      <view class="ac-field">
+        <text class="ac-label">{{T.c.contact}}</text>
+        <view class="ac-input"><input class="ac-inp" type="text" maxlength="20" placeholder="{{T.c.contactPh}}" placeholder-class="ac-ph" value="{{form.contact}}" data-f="contact" bindinput="onField" /></view>
+      </view>
+      <view class="ac-field">
+        <text class="ac-label">{{T.c.phone}}</text>
+        <view class="ac-input"><input class="ac-inp" type="number" maxlength="11" placeholder="{{T.c.phonePh}}" placeholder-class="ac-ph" value="{{form.phone}}" data-f="phone" bindinput="onField" /></view>
+      </view>
+    </view>
+    <view class="mk-bottom-bar">
+      <text wx:if="{{need && !busy}}" class="mk-sub ac-bar-need">{{need}}</text>
+      <button class="mk-btn {{ready && !busy ? '' : 'mk-btn--disabled'}}" hover-class="none" bindtap="onSubmit">{{submitText}}</button>
+    </view>
+  </view>
+  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+</view>

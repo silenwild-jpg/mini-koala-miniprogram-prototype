@@ -1,0 +1,47 @@
+<view class="wrap">
+  <view class="card">
+    <view class="h">1. 容量输入（页面内）</view>
+    <view class="sub">键盘应是带小数点的数字键盘。输入 3.5。键盘弹起时，看页面底部固定的「查看仓位报价」是否被键盘盖住或被顶到奇怪的位置。</view>
+    <input class="k-input" type="digit" placeholder="例如 3.5" value="{{cap}}" bindinput="onCap" bindblur="onCapBlur" cursor-spacing="24" />
+    <verdict case-id="C10" />
+  </view>
+
+  <view class="card">
+    <view class="h">2. 搜索输入</view>
+    <view class="sub">用拼音输入「安贞」。下面会列出每一次触发的内容：看拼音还没选字时（如 an'zhen）有没有触发。输完点键盘上的「搜索」。</view>
+    <input class="k-input" type="text" confirm-type="search" placeholder="搜索门店、商圈或区域" value="{{kw}}" bindinput="onKw" bindconfirm="onKwConfirm" />
+    <view class="out" wx:if="{{searchLog.length}}">已触发 {{inputCount}} 次：{{searchLog}}</view>
+    <verdict case-id="C7" />
+  </view>
+
+  <view class="card">
+    <view class="h">3. 弹层里的输入</view>
+    <view class="sub">打开弹层后：① 在遮罩和弹层上上下滑，背后的页面不应跟着滚；② 点输入框，弹层应被键盘整体顶起，「提交」按钮不被盖住。</view>
+    <view class="btn" data-s="id" bindtap="open">打开实名认证弹层</view>
+    <view class="btn ghost" data-s="sms" bindtap="open">打开短信验证弹层</view>
+    <view class="tip">最近一次键盘高度：{{kb}}px</view>
+    <verdict case-id="B6" />
+    <verdict case-id="D5" />
+  </view>
+
+  <view class="card">
+    <view class="h">填充内容（用来看滚动穿透）</view>
+    <view class="kv" wx:for="{{filler}}" wx:key="*this"><text class="k">第 {{item}} 行</text><text class="v">滚动参照</text></view>
+  </view>
+</view>
+<view class="k-bar"><view class="btn k-bar-btn">查看仓位报价</view></view>
+
+<sheet show="{{sheet === 'id'}}" title="实名认证" lift="{{lift}}" bind:close="close">
+  <view class="sub">姓名</view>
+  <input class="k-input" type="text" placeholder="请输入姓名" adjust-position="{{false}}" bindkeyboardheightchange="onKb" />
+  <view class="sub k-gap">身份证号（键盘应带 X）</view>
+  <input class="k-input" type="idcard" maxlength="18" placeholder="请输入 18 位身份证号" value="{{idno}}" adjust-position="{{false}}" bindinput="onId" bindblur="onIdBlur" bindkeyboardheightchange="onKb" />
+  <view class="tip">测试时请输入任意 18 位数字，末位输 X，不要输入真实证件号。</view>
+  <view class="btn" bindtap="close">提交</view>
+</sheet>
+
+<sheet show="{{sheet === 'sms'}}" title="短信验证" lift="{{lift}}" bind:close="close">
+  <view class="sub">验证码（看键盘上方是否出现短信验证码自动填充）</view>
+  <input class="k-input" type="number" maxlength="6" placeholder="6 位验证码" value="{{sms}}" adjust-position="{{false}}" bindinput="onSms" bindkeyboardheightchange="onKb" />
+  <view class="btn" bindtap="close">登录</view>
+</sheet>

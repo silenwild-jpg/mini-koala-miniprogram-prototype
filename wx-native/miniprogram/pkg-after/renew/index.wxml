@@ -1,0 +1,84 @@
+<view class="mk-page {{bar ? 'af-pad' : ''}}">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{empty}}" class="af-empty">
+    <image class="af-empty-ico" src="/assets/icons/order-sub.svg" />
+    <text class="mk-title">{{T.c.emptyTitle}}</text>
+    <text class="mk-sub af-empty-sub">{{T.c.emptySub}}</text>
+    <button class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
+  </view>
+  <block wx:else>
+    <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
+    <view class="af-body">
+      <mk-after-note wx:if="{{note && st === 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}" />
+      <mk-order-card order="{{order}}" />
+      <view wx:if="{{steps.length}}" class="mk-card af-gap rn-top">
+        <text class="mk-title af-sec">{{T.r.progress}}</text>
+        <mk-after-steps steps="{{steps}}" />
+      </view>
+      <view wx:else class="rn-top"></view>
+      <mk-after-note wx:if="{{note && st !== 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}">
+        <view wx:if="{{sub}}" class="rn-sub">
+          <image wx:if="{{sub.ok}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
+          <text class="mk-sub">{{sub.text}}</text>
+          <text wx:if="{{!sub.ok}}" class="mk-link rn-subbtn" bindtap="onSubAsk" aria-role="button">{{T.c.subOn}}</text>
+        </view>
+      </mk-after-note>
+      <view wx:if="{{form}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.r.monthsTitle}}</text>
+        <view class="mk-between">
+          <text class="mk-sub">{{T.r.monthsLabel}}</text>
+          <view class="rn-stepper">
+            <view class="rn-step {{form.canMinus ? '' : 'rn-step--off'}}" bindtap="onMinus" aria-role="button" aria-label="减少">−</view>
+            <text class="rn-stepval">{{form.monthsText}}</text>
+            <view class="rn-step {{form.canPlus ? '' : 'rn-step--off'}}" bindtap="onPlus" aria-role="button" aria-label="增加">+</view>
+          </view>
+        </view>
+        <view class="rn-chips">
+          <view wx:for="{{form.chips}}" wx:key="m" class="mk-chip rn-chip {{item.on ? 'mk-chip--on' : ''}}" data-m="{{item.m}}" bindtap="onChip" aria-role="button">{{item.label}}</view>
+        </view>
+        <text wx:if="{{form.hint}}" class="rn-hint">{{form.hint}}</text>
+        <text class="af-rule">{{form.rule}}</text>
+      </view>
+      <view wx:if="{{card}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{card.title}}</text>
+        <view class="af-fee-row">
+          <view class="af-fee-k"><text>{{card.main.k}}</text><text wx:if="{{card.main.sub}}" class="af-fee-sub">{{card.main.sub}}</text><text wx:if="{{card.main.tag}}" class="mk-tag mk-tag--promo af-disc">{{card.main.tag}}</text></view>
+          <text class="mk-num af-amt {{card.main.muted ? 'af-amt--muted' : ''}}">{{card.main.amt}}</text>
+        </view>
+        <text wx:if="{{card.sec}}" class="af-fee-sec">{{card.sec}}</text>
+        <view wx:if="{{card.ref}}" class="af-fee-row">
+          <view class="af-fee-k"><text>{{card.ref.k}}</text><text wx:if="{{card.ref.sub}}" class="af-fee-sub">{{card.ref.sub}}</text></view>
+          <text class="mk-num af-amt af-amt--muted {{card.ref.strike ? 'af-amt--strike' : ''}}">{{card.ref.amt}}</text>
+        </view>
+        <view wx:if="{{card.total}}" class="af-total"><text>{{card.total.k}}</text><text class="mk-num af-total-amt">{{card.total.amt}}</text></view>
+        <view wx:if="{{card.keep}}" class="rn-keep">{{card.keep}}</view>
+        <mk-after-kv wx:if="{{card.kv.length}}" rows="{{card.kv}}" />
+        <text wx:if="{{card.rule}}" class="af-rule">{{card.rule}}</text>
+      </view>
+      <mk-after-fail wx:if="{{fail}}" title="{{T.r.failTitle}}" reason="{{order.renew.fail_reason}}" fixes="{{T.r.failFixes}}" bind:call="onCall" />
+      <view wx:if="{{alt.length}}" class="rn-alt">
+        <text wx:for="{{alt}}" wx:key="act" class="rn-altbtn" data-act="{{item.act}}" bindtap="onAlt" aria-role="button">{{item.text}}</text>
+      </view>
+    </view>
+  <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
+    <view wx:if="{{bar.lab}}" class="af-bar-info">
+      <text class="mk-mute">{{bar.lab}}</text>
+      <text class="mk-num af-bar-amt {{bar.muted ? 'af-bar-amt--muted' : ''}}">{{bar.amt}}</text>
+    </view>
+    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="none" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
+  </view>
+    <mk-sheet visible="{{paySheet}}" title="{{T.r.paySheet}}" bind:close="onSheetClose">
+      <view wx:if="{{pay}}">
+        <view class="af-fee-row">
+          <view class="af-fee-k"><text>{{pay.k}}</text><text class="af-fee-sub">{{pay.sub}}</text></view>
+          <text class="mk-num af-amt">{{pay.amt}}</text>
+        </view>
+        <view class="af-total"><text>{{T.r.payable}}</text><text class="mk-num af-total-amt">{{pay.amt}}</text></view>
+        <view class="af-acts">
+          <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onPayConfirm">{{T.r.payConfirm}}</button>
+          <button class="mk-btn af-btn--neutral" hover-class="none" bindtap="onPayLater">{{T.r.payLater}}</button>
+        </view>
+      </view>
+    </mk-sheet>
+  </block>
+</view>

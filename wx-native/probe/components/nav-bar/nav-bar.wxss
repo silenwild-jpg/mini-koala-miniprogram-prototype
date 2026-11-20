@@ -1,0 +1,5 @@
+.nav { position: fixed; left: 0; right: 0; top: 0; z-index: 100; background: var(--mk-color-canvas-card); box-sizing: border-box; }
+.nav-bar { display: flex; align-items: center; padding-left: var(--mk-space-pageGutter); box-sizing: border-box; }
+.nav-city { flex: none; display: flex; align-items: center; font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); margin-right: var(--mk-space-2); }
+.nav-dot { width: 12rpx; height: 12rpx; border-radius: 50%; background: var(--mk-color-accent-promoIcon); margin-left: 8rpx; }
+.nav-search { flex: 1; height: 64rpx; line-height: 64rpx; padding: 0 var(--mk-space-3); background: var(--mk-color-canvas-sunken); border-radius: 32rpx; font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-tertiary); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }

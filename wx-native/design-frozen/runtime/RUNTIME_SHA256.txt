@@ -1,0 +1,23 @@
+b7fc7a60322621ce4efdf08331e67dff012ce6f007ca0d57c74e39636c8a439e  br03-demo-snapshots.js
+a23105130b1330424c9614b6b72818fc520a5ff0aafd62feec60eedde39552a3  br03-policy.js
+976903e1ca79f4a5b120c7ae4fd4b2dfbec65c79785230f0c7f30c0ceee63365  demo-core.js
+ff8aa947528c93b5d0fba7c66e4a3671b2c312c725e6ae5a10ddef46b26d9e6c  fixtures.js
+77b99e4fa2c52bb4668c541bbde42b8ed8f9ae9d983688644f051caf95008fc0  gift-term-policy.js
+ad78c497823033a5b22f92b439164d2774e062d74d38dfb85396d9a1aa883f5a  h01-state-policy-01.js
+76e50eca5e456e592afff09b4dd5541b5b03bfbb30dcbe8a88de39b175c29052  home-recommend-policy.js
+68a30545075f6e77389df4e6d591ba3116de44448b6854f3f3a5fcc0e088eae8  lead-flow.js
+c85eb5d55dcc9481f0d9d2924779d855ba696aa3f8bb7598deab806f246141d3  presentation-policy.js
+a64ac83c23dd5eb62506ddd265a0600670ae127fec75197f4de7f3993e517ce6  promotion-policy.js
+c33a7693647b158c221b5f991dc4d96c75704476ac46e4f86aed6482443701d2  recommendation-policy.js
+e8c53db79362035d0b35125fcec1b9f2b6cdea09884f7e2d4795f76cda5b2bb9  space-unit.js
+f9ada0b099562a98ff9ae38326e0da74039555e52d57038e5031816386cdf77f  store-geo.js
+
+# W3 additions (extracted verbatim, source hashes)
+1f1932f8ac8033790e97905d3b1d05d9a4b2b3c493279c21d6f5a77f1c5ad8c3  cap.html (source of cap-bands.js + assets/estimate/scenes|objects)
+9a4edf66666f3fbf6fe5547fc5151808290b7465683848ece4e2b02fd1199f6d  items.html (source of items-catalog.js + assets/estimate/items)
+13e63b7ef807cd9592d99ed172df7b4cccfe20c57bcd992cd3755e7e18429757  cap-bridge.js (rules ported: area 0.2–80㎡ ×2.5m, ≥50m³ advisor)
+8f913c223872718b3b753281aacdc2323eaaae6ff43d7aad0d2c97faa85f1b0a  items-bridge.js
+8ae2d081b4c23e12d48674adc293c0d2a9fe71a55816e995f98923cbcab5c699  br04/bridge.js (QUICK/RESERVE logic ported, D-45)
+b27a5ff4c474c41edaca0eef90d40907a825630ca545604097aaab567e8f3d2b  br04/quick/index.html
+067236b192af992272873ee157b713f97e06163156b89e8883e9f5a659273a6d  br04/reserve/index.html
+08e427cebc4352ae24f44bdabd72671fe6bb23a14d92b1369a4498979dd8a0ed  lifecycle-contract.js

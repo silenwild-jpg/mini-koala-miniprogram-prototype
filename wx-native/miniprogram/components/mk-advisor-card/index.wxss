@@ -1,0 +1,3 @@
+.adv-adv { margin-top: var(--mk-space-cardGap); }
+.adv-txt { margin: 0 var(--mk-space-3); display: flex; flex-direction: column; }
+.adv-t { font-size: var(--mk-font-size-md); margin-bottom: 4rpx; }

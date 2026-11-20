@@ -1,0 +1,6 @@
+.aft-tag { display: inline-flex; align-items: center; height: 48rpx; padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); white-space: nowrap; flex: none; }
+.aft-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-status-successText); }
+.aft-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
+.aft-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
+.aft-tag--info { background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
+.aft-tag--plain { border: var(--mk-border-hairline); color: var(--mk-color-ink-secondary); height: 40rpx; font-size: var(--mk-font-size-xs); }

@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "退仓",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "mk-order-card": "/components/mk-order-card/index",
+    "mk-after-head": "/components/mk-after-head/index",
+    "mk-after-steps": "/components/mk-after-steps/index",
+    "mk-after-kv": "/components/mk-after-kv/index",
+    "mk-after-note": "/components/mk-after-note/index",
+    "mk-after-fail": "/components/mk-after-fail/index"
+  }
+}

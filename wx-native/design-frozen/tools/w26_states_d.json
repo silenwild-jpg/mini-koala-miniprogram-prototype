@@ -1,0 +1,16 @@
+{
+ "o03": [
+  "active_full"
+ ],
+ "rn01": [
+  "form_keep",
+  "quote_keep"
+ ],
+ "econtract": {
+  "file": "pages/econtract.html",
+  "states": [
+   "signed",
+   "empty"
+  ]
+ }
+}

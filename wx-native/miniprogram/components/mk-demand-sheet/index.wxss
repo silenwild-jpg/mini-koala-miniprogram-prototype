@@ -1,0 +1,12 @@
+.ds-label { display: block; margin-bottom: var(--mk-space-2); }
+.ds-term { margin-top: var(--mk-space-4); margin-bottom: var(--mk-space-4); }
+.ds-field { height: var(--mk-size-inputHeight); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); padding: 0 var(--mk-space-3); box-sizing: border-box; }
+.ds-field.ds-bad { border: var(--mk-border-error); }
+.ds-input { height: 100%; font-size: var(--mk-font-size-lg); }
+.ds-unit { width: 88rpx; height: 64rpx; margin-left: var(--mk-space-2); display: flex; align-items: center; justify-content: center; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); }
+.ds-unit.ds-on { border: var(--mk-border-brand); background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
+.ds-line { display: block; margin-top: var(--mk-space-2); }
+.ds-est { min-height: 64rpx; display: flex; align-items: center; margin-top: var(--mk-space-1); }
+.ds-acts { display: flex; margin-top: var(--mk-space-5); }
+.ds-btn { flex: 1; }
+.ds-btn + .ds-btn { margin-left: var(--mk-space-2); }

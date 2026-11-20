@@ -1,0 +1,15 @@
+{
+ "rn01": [
+  "quote_keep_expired"
+ ],
+ "ex01": [
+  "requested&sub=ask",
+  "waiting&sub=accepted",
+  "waiting&sub=declined"
+ ],
+ "o03": [
+  "pending&sub=ask",
+  "upcoming&sub=accepted",
+  "upcoming&sub=declined"
+ ]
+}

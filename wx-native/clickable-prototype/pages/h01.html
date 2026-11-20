@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>迷你考拉仓 · 首页 H01 · W1 高保真（可编辑）</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/base.css">
+<link rel="stylesheet" href="../design-system/components.css">
+</head>
+<body data-page="H01">
+<!-- W7 新增状态：booking_only | renewal_quote | renewal_pending | active_todo | active_pending | active_many（D-81 主卡 + 待办条带；契约 docs/W7_Shared_Contracts.md §1）。
+     -->
+<!-- 状态由 ?state=<policy key> 驱动；数据来自 runtime/（仓库 PR #220 HEAD 1d0dc7f 原文件，未改）。
+     结构顺序 = WP05 T1：StatusBar → TopBar.home → Hero → [S1 需求卡] → 双任务卡 → 为您推荐 → 常见存储场景 → 企业 → 品牌区 → TabBar -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+ <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11Z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15Z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+ <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+ <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+ <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h3M13 12h3M8 16h3M13 16h3"/></symbol>
+ <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10 5.5 4h13L20 10M4 10v10h16V10M4 10h16M10 20v-6h4v6"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+ <symbol id="i-renew" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></symbol>
+ <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></symbol>
+ <symbol id="i-order" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></symbol>
+ <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+ <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 21h8V9h-8"/><path d="M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/></symbol>
+ <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+ <symbol id="i-temp" viewBox="0 0 24 24"><path d="M10 5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0V5Z"/><path d="M12 9v8"/></symbol>
+ <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1"/><rect x="17" y="13" width="4" height="6" rx="1"/><path d="M17 19a4 4 0 0 1-4 2"/></symbol>
+ <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+ <symbol id="i-box" viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4-9-4Zm0 0v9l9 4 9-4V8M12 12v9"/></symbol>
+</svg>
+<div class="screen" id="screen">
+  <div class="hero-wrap" style="position:relative">
+    <div class="statusbar overlay"><span>9:41</span><span class="sig">●●●● <i></i></span></div>
+    <header class="topbar home" aria-label="城市与搜索">
+      <button class="city" data-action="city"><svg class="ico sm"><use href="#i-pin"/></svg><span id="city">北京</span><svg class="ico xs"><use href="#i-down"/></svg></button>
+      <button class="search" data-action="search" aria-label="搜索门店、商圈或区域"><svg class="ico sm"><use href="#i-search"/></svg><span>搜索门店、商圈或区域</span></button>
+      <button class="bell" data-action="messages" aria-label="消息"><svg class="ico"><use href="#i-bell"/></svg></button>
+    </header>
+    <section class="hero" aria-label="首页品牌区">
+      <img src="../assets/store-curated/v1/SIM_BJ03/hero.webp" alt="迷你考拉仓门店走廊">
+      <h1 class="slogan">让城市生活更轻松<small>家具、行李、闲置物品，找到附近适合的存储空间</small></h1>
+    </section>
+  </div>
+
+  <!-- 插槽 S1：需求卡（仅非 new 态，由 w1-render.js 按 h01-state-policy-01.js 渲染） -->
+  <section class="sec" id="slot-demand" aria-label="当前任务" hidden></section>
+
+  <!-- 双任务卡：standard / weak-row -->
+  <section id="tasks-std" aria-label="双任务入口" style="margin-top:16px">
+    <div class="tasks">
+      <a class="card float task" href="#S01" data-action="nearby"><div><div class="t">找附近门店</div><div class="s">查看门店与仓位</div><div class="a">查看门店 ›</div></div><img src="../assets/task-map.webp" alt=""></a>
+      <a class="card float task" href="#CAP" data-action="estimate"><div><div class="t">估大小算价格</div><div class="s" id="task-est-sub">不知道租多大？</div><div class="a">开始估算 ›</div></div><img src="../assets/task-calculator.webp" alt=""></a>
+    </div>
+  </section>
+  <section id="tasks-weak" aria-label="双任务入口" style="margin-top:16px" hidden>
+    <div class="taskrow"><a href="#S01" data-action="nearby"><svg class="ico"><use href="#i-store"/></svg>找附近门店</a><a href="#CAP" data-action="estimate"><svg class="ico"><use href="#i-calc"/></svg>估大小算价格</a></div>
+  </section>
+
+  <!-- 为您推荐：横滑 2 张完整 + 第 3 张 25%；pending 折叠；在租/入仓前隐藏 -->
+  <section id="rec" aria-label="推荐门店" style="margin-top:24px">
+    <div class="sh"><h2>为您推荐</h2><a href="#S01" data-action="nearby">查看全部门店 ›</a></div>
+    <div class="hscroll" id="rec-rail"></div>
+    
+  </section>
+  <section id="rec-collapsed" aria-label="推荐门店（已收起）" style="margin-top:24px" hidden>
+    <div class="rec-collapsed"><h2>为您推荐</h2><button type="button" aria-expanded="false">展开<svg class="ico sm"><use href="#i-down"/></svg></button></div>
+  </section>
+
+  <!-- 常见存储场景（文案冻结：home.html 六场景；图 = 现有 scenes/*.webp，G-02 路线 A） -->
+  <section id="scenes" aria-label="常见存储场景" style="margin-top:24px">
+    <div class="sh"><h2>常见存储场景</h2></div>
+    <div class="scenes">
+      <a class="scene" href="#CAP"><div class="pic"><img src="../assets/scenes/moving.webp" alt=""></div><span>搬家过渡</span></a>
+      <a class="scene" href="#CAP"><div class="pic"><img src="../assets/scenes/renovation.webp" alt=""></div><span>装修暂存</span></a>
+      <a class="scene" href="#CAP"><div class="pic"><img src="../assets/scenes/luggage.webp" alt=""></div><span>行李寄存</span></a>
+      <a class="scene" href="#CAP"><div class="pic"><img src="../assets/scenes/seasonal.webp" alt=""></div><span>换季收纳</span></a>
+      <a class="scene" href="#CAP"><div class="pic"><img src="../assets/scenes/collection.webp" alt=""></div><span>兴趣收藏</span></a>
+      <a class="scene" href="#CAP"><div class="pic"><img src="../assets/scenes/household.webp" alt=""></div><span>闲置物品</span></a>
+    </div>
+  </section>
+
+  <!-- 企业横幅：白卡 + 浅绿角标，无大色块（D-30） -->
+  <section aria-label="企业存储" style="margin-top:24px">
+    <a class="card ent" href="#BUSINESS"><div class="ic"><svg class="ico"><use href="#i-building"/></svg></div><div class="body"><div class="t">企业存储<span class="badge">企业</span></div><div class="s">灵活空间，满足商家备货与企业存储需求</div></div><span class="a">了解企业存储 ›</span></a>
+  </section>
+
+  <!-- 品牌区：Logo + 经营数据 + 四支柱 + 资质（口径 D-05 原样沿用；考拉 IP 不出场 D-31） -->
+  <section class="brand" aria-label="品牌信任" style="margin-top:24px">
+    <div class="logo"><i></i>迷你考拉仓</div>
+    <div class="metrics"><div><b>14<small>年</small></b><span>稳定运营</span></div><div><b>590+</b><span>直营门店</span></div><div><b>30<small>万+</small></b><span>累计服务用户</span></div></div>
+    <a class="btn text sm" href="acc.html?view=brand" style="margin:4px auto 0">了解迷你考拉仓 ›</a>
+    
+  </section>
+</div>
+<nav class="tabbar" aria-label="底部导航">
+  <a class="on" href="#H01"><img src="../assets/nav/home-active.svg" alt="">首页</a>
+  <a href="#S01"><img src="../assets/nav/stores-inactive.svg" alt="">附近门店</a>
+  <a href="#OH01"><img src="../assets/nav/orders-inactive.svg" alt="">订单</a>
+  <a href="#M01"><img src="../assets/nav/me-inactive.svg" alt="">我的</a>
+</nav>
+<script src="../runtime/store-geo.js"></script>
+<script src="../runtime/fixtures.js"></script>
+<script src="../runtime/space-unit.js"></script>
+<script src="../runtime/br03-demo-snapshots.js"></script>
+<script src="../runtime/presentation-policy.js"></script>
+<script src="../runtime/promotion-policy.js"></script>
+<script src="../runtime/gift-term-policy.js"></script>
+<script src="../runtime/lead-flow.js"></script>
+<script src="../runtime/demo-core.js"></script>
+<script src="../runtime/br03-policy.js"></script>
+<script src="../runtime/home-recommend-policy.js"></script>
+<script src="../runtime/recommendation-policy.js"></script>
+<script src="../runtime/h01-state-policy-01.js"></script>
+<script src="../model/volume-model.js"></script>
+<script src="../model/w7-rules.js"></script>
+<script src="../model/mk-contract-text.js"></script>
+<script src="w1-render.js"></script>
+<script src="w7-sys.js"></script>
+<script src="w9-auth.js"></script>
+<script src="w14.js"></script>
+<script src="w22-terms.js"></script>
+<script src="proto-nav.js"></script>
+</body>
+</html>

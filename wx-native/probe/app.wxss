@@ -1,0 +1,48 @@
+@import "styles/tokens.wxss";
+
+page {
+  background: var(--mk-color-canvas-sunken);
+  color: var(--mk-color-ink-primary);
+  font-family: var(--mk-font-family-base);
+  font-size: var(--mk-font-size-md);
+  line-height: var(--mk-font-lineHeight-normal);
+}
+.wrap { padding: var(--mk-space-3) var(--mk-space-pageGutter) var(--mk-space-10); }
+.card {
+  background: var(--mk-color-canvas-card);
+  border-radius: var(--mk-radius-card);
+  padding: var(--mk-space-cardPad);
+  margin-bottom: var(--mk-space-cardGap);
+  border: var(--mk-border-hairline);
+}
+.h { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); margin-bottom: var(--mk-space-2); }
+.sub { font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); }
+.tip { font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-tertiary); margin-top: var(--mk-space-1); }
+.warn { font-size: var(--mk-font-size-sm); color: var(--mk-color-status-warningText); background: var(--mk-color-status-warningFill); border-radius: var(--mk-radius-control); padding: var(--mk-space-2); margin-bottom: var(--mk-space-2); }
+.btn {
+  height: var(--mk-size-btnMdHeight); line-height: var(--mk-size-btnMdHeight);
+  border-radius: var(--mk-radius-control); text-align: center;
+  background: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse);
+  font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium);
+  margin-top: var(--mk-space-2);
+}
+.btn.ghost { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); border: var(--mk-border-brand); }
+.btn.off { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-tertiary); }
+/* 去掉原生 button 的默认外观，让 open-type 按钮与 .btn 一致 */
+button.btn { padding: 0; width: 100%; }
+button.btn::after { border: none; }
+.out {
+  margin-top: var(--mk-space-2); padding: var(--mk-space-2);
+  background: var(--mk-color-canvas-sunken); border-radius: var(--mk-radius-control);
+  font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary);
+  word-break: break-all; white-space: pre-wrap;
+}
+.kv { display: flex; justify-content: space-between; padding: 12rpx 0; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-sm); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--mk-color-ink-secondary); flex: none; margin-right: var(--mk-space-3); }
+.kv .v { text-align: right; word-break: break-all; }
+.row { display: flex; align-items: center; justify-content: space-between; padding: var(--mk-space-3) 0; border-bottom: var(--mk-border-hairline); }
+.row:last-child { border-bottom: none; }
+.row .t { font-size: var(--mk-font-size-md); }
+.row .d { font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-tertiary); margin-top: 4rpx; }
+.row .go { color: var(--mk-color-ink-tertiary); flex: none; margin-left: var(--mk-space-2); }

@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "快捷下单",
+  "usingComponents": { "mk-fee-detail": "/components/mk-fee-detail/index", "mk-location-panel": "/components/mk-location-panel/index" }
+}

@@ -1,0 +1,83 @@
+<view class="mk-page hm-page">
+  <view class="hm-top" style="padding-top:{{layout.statusBar}}px">
+    <view class="hm-bar mk-row" style="height:{{layout.navHeight}}px;padding-right:{{layout.windowWidth - layout.capsuleLeft + 8}}px">
+      <view class="hm-city mk-row" bindtap="onCity" aria-role="button" aria-label="用仓位置">
+        <image class="mk-icon" src="/assets/icons/pin-ink.svg" /><text class="hm-cname">{{city}}</text><view wx:if="{{!located}}" class="hm-dot"></view><image class="mk-icon" src="/assets/icons/down-ink.svg" />
+      </view>
+      <view class="hm-search mk-row mk-grow" bindtap="onSearch" aria-role="button" aria-label="搜索">
+        <image class="mk-icon" src="/assets/icons/search-sub.svg" /><text class="mk-ellipsis hm-sph">{{T.home.search}}</text>
+      </view>
+      <view class="hm-bell" bindtap="onMessages" aria-role="button" aria-label="消息">
+        <image class="mk-icon mk-icon--md" src="/assets/icons/bell-ink.svg" /><text wx:if="{{unread > 0}}" class="hm-badge">{{unreadText}}</text>
+      </view>
+    </view>
+    <view wx:if="{{nocity}}" class="hm-bubble mk-row">
+      <text class="mk-grow">{{nocity}}</text>
+      <text class="mk-link hm-act" bindtap="onSwitchCity" aria-role="button">{{T.switchCity}}</text>
+      <view class="hm-x" bindtap="onCloseNocity" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
+    </view>
+    <view wx:elif="{{bubble}}" class="hm-bubble mk-row">
+      <text class="mk-grow">{{bubble.text}}</text>
+      <text class="mk-link hm-act" bindtap="onBubbleAction" aria-role="button">{{bubble.action}}</text>
+      <view class="hm-x" bindtap="hideBubble" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
+    </view>
+  </view>
+
+  <view wx:if="{{sys}}" class="mk-gutter"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
+  <block wx:else>
+    <view class="mk-gutter">
+      <view class="hm-hero">
+        <text class="hm-h">{{T.home.heroTitle}}</text>
+        <text class="mk-sub">{{T.home.heroSub}}</text>
+        <view class="hm-rule"></view>
+      </view>
+      <mk-task-card id="task" />
+      <mk-need-card mode="{{needMode}}" />
+      <view wx:if="{{weak}}" class="mk-card hm-weak">
+        <view class="hm-wk" bindtap="onFindStores" aria-role="button"><image class="mk-icon" src="/assets/icons/store-brand.svg" /><text class="hm-wt">{{T.home.findStores}}</text></view>
+        <view class="hm-wk hm-wk--r" bindtap="onEstimate" aria-role="button"><image class="mk-icon" src="/assets/icons/calc-brand.svg" /><text class="hm-wt">{{T.home.estimate}}</text></view>
+      </view>
+      <view wx:else class="hm-tasks">
+        <view class="mk-card hm-task" bindtap="onFindStores" aria-role="button">
+          <text class="mk-title">{{T.home.findStores}}</text><text class="mk-sub hm-ts">{{T.home.findSub}}</text><text class="mk-link">{{T.home.findLink}}</text>
+        </view>
+        <view class="mk-card hm-task" bindtap="onEstimate" aria-role="button">
+          <text class="mk-title">{{T.home.estimate}}</text><text class="mk-sub hm-ts">{{estimated ? T.home.estimatedSub : T.home.estimateSub}}</text><text class="mk-link">{{T.home.estimateLink}}</text>
+        </view>
+      </view>
+      <block wx:if="{{!noRec}}">
+        <view wx:if="{{collapse}}" class="mk-between hm-sec hm-fold" bindtap="onToggleRec" aria-role="button">
+          <text class="mk-h2">{{T.home.recommend}}</text><text class="mk-link">{{recOpen ? T.home.collapse : T.home.expand}}</text>
+        </view>
+        <view wx:else class="mk-between hm-sec"><text class="mk-h2">{{T.home.recommend}}</text><text class="mk-link hm-all" bindtap="onFindStores" aria-role="button">{{T.home.allStores}}</text></view>
+      </block>
+    </view>
+    <scroll-view wx:if="{{showRail}}" class="hm-rec" scroll-x="true" enhanced="true" show-scrollbar="{{false}}">
+      <view class="hm-rail">
+        <view wx:for="{{cards}}" wx:key="id" class="mk-card hm-rcard" data-id="{{item.id}}" bindtap="onStore" aria-role="button">
+          <text class="mk-title mk-ellipsis hm-rn">{{item.name}}</text>
+          <text class="mk-sub mk-ellipsis hm-rl">{{item.locText}}</text>
+          <view class="hm-rtags"><text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="t" class="mk-tag {{tag.promo ? 'mk-tag--promo' : ''}}">{{tag.t}}</text></view>
+          <mk-price wx:if="{{item.fromPrice}}" amount="{{item.fromPrice}}" unit="{{T.cubic}}" size="sm" />
+        </view>
+      </view>
+    </scroll-view>
+    <view class="mk-gutter">
+      <block wx:if="{{!noRec}}">
+        <view class="mk-between hm-sec"><text class="mk-h2">{{T.home.scenes}}</text></view>
+        <view class="hm-scenes">
+          <view wx:for="{{T.home.sceneList}}" wx:key="*this" class="hm-scene" data-i="{{index}}" bindtap="onScene" aria-role="button">{{item}}</view>
+        </view>
+      </block>
+      <view class="mk-card hm-biz" bindtap="onBusiness" aria-role="button">
+        <view class="mk-row"><text class="mk-title">{{T.home.business.title}}</text><text class="mk-tag mk-tag--brand hm-btag">{{T.home.business.tag}}</text></view>
+        <text class="mk-sub hm-bs">{{T.home.business.sub}}</text><text class="mk-link">{{T.home.business.link}}</text>
+      </view>
+      <view class="mk-card hm-proof">
+        <view class="hm-nums"><view wx:for="{{T.home.proof}}" wx:key="t" class="hm-num"><text class="mk-num hm-pn">{{item.n}}</text><text class="mk-sub">{{item.t}}</text></view></view>
+        <view class="mk-link hm-about" bindtap="onAbout" aria-role="button">{{T.home.about}}</view>
+      </view>
+    </view>
+  </block>
+  <mk-location-panel visible="{{panel}}" safe-top="{{panelTop}}" focus="{{panelFocus}}" bind:close="onPanelClose" bind:change="onLocationChange" />
+</view>

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "实名认证",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "mk-order-card": "/components/mk-order-card/index",
+    "mk-after-tag": "/components/mk-after-tag/index",
+    "mk-after-steps": "/components/mk-after-steps/index",
+    "mk-after-note": "/components/mk-after-note/index"
+  }
+}

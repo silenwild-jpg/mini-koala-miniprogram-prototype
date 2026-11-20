@@ -1,0 +1,27 @@
+@import "../lead.wxss";
+/* 商家 / 企业存储：本页特有的部分 */
+.lbz-steps { display: flex; align-items: center; justify-content: center; padding: var(--mk-space-3) var(--mk-space-pageGutter) 0; }
+.lbz-step { display: flex; align-items: center; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
+.lbz-n { display: flex; align-items: center; justify-content: center; width: 40rpx; height: 40rpx; margin-right: var(--mk-space-1); border-radius: 50%; border: var(--mk-border-strong); font-size: var(--mk-font-size-sm); box-sizing: border-box; }
+.lbz-step--on { color: var(--mk-color-ink-primary); }
+.lbz-step--on .lbz-n { border: 0; background: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); }
+.lbz-line { width: 56rpx; height: 1px; margin: 0 var(--mk-space-2); background: var(--mk-color-line-strong); }
+.lbz-tags { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-2); }
+.lbz-tag { margin-bottom: var(--mk-space-1); }
+.lbz-arealab { margin-top: var(--mk-space-3); }
+.lbz-add { margin-top: var(--mk-space-1); }
+.lbz-term { padding-top: var(--mk-space-3); }
+.lbz-seg { display: flex; padding: 6rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); }
+.lbz-segcell { flex: 1; display: flex; align-items: center; justify-content: center; height: var(--mk-size-btnMdHeight); border-radius: var(--mk-radius-control); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-md); }
+.lbz-segcell--on { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-medium); }
+.lbz-movenote { margin-top: var(--mk-space-2); padding-left: var(--mk-space-3); border-left: 6rpx solid var(--mk-color-brand-fill); }
+.lbz-lead { margin-right: var(--mk-space-2); }
+.lbz-sumk { display: block; }
+.lbz-sumv { display: block; margin-top: 4rpx; font-size: var(--mk-font-size-md); }
+.lbz-mask { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: var(--mk-color-overlay-scrim); }
+.lbz-dialog { width: 654rpx; box-sizing: border-box; padding: var(--mk-space-5) var(--mk-space-4) var(--mk-space-4); border-radius: var(--mk-radius-card); background: var(--mk-color-canvas-card); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.lbz-dt { display: block; }
+.lbz-dm { display: block; margin-top: var(--mk-space-1); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-md); }
+.lbz-df { display: block; margin-top: 4rpx; }
+.lbz-no { display: inline-flex; margin-top: var(--mk-space-2); padding: var(--mk-space-1) var(--mk-space-3); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); }
+.lbz-dacts { width: 100%; }

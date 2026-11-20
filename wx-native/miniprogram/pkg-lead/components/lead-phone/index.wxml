@@ -1,0 +1,40 @@
+<view wx:if="{{loggedIn}}" class="lph-box {{error ? 'lph-box--err' : ''}}">
+  <text class="lph-num mk-num mk-grow">{{masked}}</text>
+  <text class="lph-ok">{{T.verified}}</text>
+  <text class="lph-mod" bindtap="onModify" aria-role="button">{{T.modify}}</text>
+</view>
+<block wx:else>
+  <button class="mk-btn lph-wx {{error ? 'lph-box--err' : ''}}" hover-class="none" bindtap="onUseWechat">{{T.useWechat}}</button>
+  <text class="lph-hint">{{T.hint}}</text>
+</block>
+<text wx:if="{{error}}" class="mk-error lph-err">{{error}}</text>
+<mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+<mk-sheet visible="{{sheet}}" title="{{T.sheetTitle}}" bind:close="onSheetClose">
+  <text class="mk-sub lph-note">{{sheetNote}}</text>
+  <view class="lph-row" bindtap="onPickLogin" aria-role="button">
+    <view class="mk-grow"><text class="mk-num {{other ? '' : 'lph-on'}}">{{loginMasked}}</text><text class="mk-sub lph-sub">{{T.wechatPhone}}</text></view>
+    <image wx:if="{{!other}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
+  </view>
+  <view wx:if="{{other}}" class="lph-row">
+    <view class="mk-grow"><text class="mk-num lph-on">{{otherMasked}}</text><text class="mk-sub lph-sub">{{T.otherPhone}}</text></view>
+    <image class="mk-icon" src="/assets/icons/check-brand.svg" />
+  </view>
+  <view class="lph-row" bindtap="onPickOther" aria-role="button">
+    <view class="mk-grow"><text>{{T.other}}</text><text class="mk-sub lph-sub">{{T.otherSub}}</text></view>
+    <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+  </view>
+  <button class="mk-btn lph-done" hover-class="mk-btn--hover" bindtap="onSheetClose">{{T.done}}</button>
+</mk-sheet>
+<mk-sheet visible="{{sms}}" title="{{T.smsTitle}}" bind:close="onSmsClose">
+  <text class="mk-sub lph-lab">{{T.phoneLabel}}</text>
+  <view class="lph-field"><input class="lph-input" type="number" maxlength="11" placeholder="{{T.phonePh}}" placeholder-class="lph-ph" value="{{phone}}" bindinput="onPhone" /></view>
+  <text class="mk-sub lph-lab">{{T.codeLabel}}</text>
+  <view class="mk-row">
+    <view class="lph-field mk-grow"><input class="lph-input" type="number" maxlength="6" placeholder="{{T.codePh}}" placeholder-class="lph-ph" value="{{code}}" bindinput="onCode" /></view>
+    <view class="lph-send {{countdown > 0 ? 'lph-off' : ''}}" bindtap="onSend" aria-role="button">{{sendText}}</view>
+  </view>
+  <text wx:if="{{hint}}" class="mk-sub lph-hint">{{hint}}</text>
+  <text wx:if="{{smsError}}" class="mk-error lph-err">{{smsError}}</text>
+  <button class="mk-btn lph-done" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onVerify">{{T.ok}}</button>
+  <text class="mk-sub lph-hint">{{fine}}</text>
+</mk-sheet>

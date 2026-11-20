@@ -1,0 +1,86 @@
+// 账户域的纯规则（不依赖 wx）：掩码、校验、可开票订单、注销条件、在租仓位、收藏 id。页面与演示接口共用，tests/account.test.js 覆盖。
+const C = require('./config-account');
+const order = require('./order');
+const S = order.STAGE;
+const re = (k) => new RegExp(C[k]);
+const money = (n) => '¥' + String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const dateText = (ms) => (ms > 0 ? new Date(ms + 8 * 3600000).toISOString().slice(0, 10) : ''); // 北京时间
+
+// 手机号一律掩码显示：保留前 3 后 4；带区号或位数不足 11 位时只保留后 4
+function maskPhone(p) {
+  const s = String(p || '').replace(/[^\d+]/g, '');
+  if (!s) return '';
+  if (/\*/.test(String(p))) return String(p);
+  if (/^\d{11}$/.test(s)) return s.slice(0, 3) + '****' + s.slice(7);
+  return s.length > 4 ? s.slice(0, Math.max(0, s.length - 8)) + '****' + s.slice(-4) : '****';
+}
+function maskEmail(e) { const m = String(e || '').match(/^(.)[^@]*(@.+)$/); return m ? m[1] + '***' + m[2] : ''; }
+const normPhone = (p) => String(p || '').replace(/[\s-]/g, '');
+const validContactPhone = (p) => re('contactPhonePattern').test(normPhone(p));
+const validLoginPhone = (p) => re('loginPhonePattern').test(normPhone(p));
+const validSmsCode = (c) => new RegExp('^\\d{' + C.smsCodeLength + '}$').test(String(c || ''));
+const validCreditCode = (t) => re('creditCodePattern').test(String(t || '').trim().toUpperCase());
+const validTaxId = (t) => re('taxIdPattern').test(String(t || '').trim().toUpperCase());
+const validEmail = (e) => re('emailPattern').test(String(e || '').trim());
+
+// 企业认证表单：返回还没填好的字段键（顺序即「还需填写」的顺序）
+function certMissing(f) {
+  f = f || {};
+  const miss = [];
+  if (!String(f.name || '').trim()) miss.push('name');
+  if (!validCreditCode(f.tax)) miss.push('tax');
+  if (!(Number(f.licenseCount) > 0)) miss.push('license');
+  if (!String(f.contact || '').trim() || !validLoginPhone(f.phone)) miss.push('contact');
+  return miss;
+}
+// 开票抬头表单：企业要名称、税号、邮箱；个人要名称、邮箱。专票信息三项可选。
+function titleErrors(f) {
+  f = f || {};
+  const e = {};
+  if (!String(f.name || '').trim()) e.name = 1;
+  if (f.type !== 'person' && !validTaxId(f.tax)) e.tax = 1;
+  if (!validEmail(f.email)) e.email = 1;
+  return e;
+}
+
+// 批量开票：只列已付款且未开票的订单（冻结稿原话）；已取消 / 已过期的不列
+function invoiceable(orders) {
+  return (orders || []).filter((o) => o && o.pay && o.pay.paid_at > 0 && o.invoice && o.invoice.status === 'none' && o.stage !== S.CANCELLED && o.stage !== S.EXPIRED);
+}
+// 一笔订单的开票行：金额只读 order.quote（租金取减后整期租金），不重算；押金不列（是否开票待财务）
+function invoiceLine(o) {
+  const q = o.quote || {};
+  const rent = Number(q.rent_after_discount !== undefined ? q.rent_after_discount : q.rent_total) || 0;
+  const fee = Number(q.management_fee) || 0;
+  return { id: o.id, no: o.no, store: o.store ? o.store.name : '', unit: o.unit_name, months: o.months, paidDate: dateText(o.pay && o.pay.paid_at), rent, fee, amount: rent + fee };
+}
+const sumAmount = (lines) => (lines || []).reduce((n, l) => n + l.amount, 0);
+
+// 在租仓位（「我的」页的「我的仓位」）：已付款且还没结束的订单，按紧急程度排
+const ASSET_PRIORITY = {};
+ASSET_PRIORITY[S.EXPIRING] = 5; ASSET_PRIORITY[S.ACTIVE] = 4; ASSET_PRIORITY[S.PAID] = 3; ASSET_PRIORITY[S.EXITING] = 2; ASSET_PRIORITY[S.OVERDUE] = 1;
+function activeAssets(orders) {
+  return (orders || []).filter((o) => o && ASSET_PRIORITY[o.stage]).sort((a, b) => ASSET_PRIORITY[b.stage] - ASSET_PRIORITY[a.stage]);
+}
+// 注销条件（冻结稿初稿，法务未确认）：没有租用中或待支付的订单、押金已退还、没有处理中的发票或退款
+function deletionBlockers(orders) {
+  const list = orders || [];
+  const active = activeAssets(list).length;
+  const pending = list.filter((o) => o.stage === S.PENDING || o.stage === S.FAILED).length;
+  const deposit = list.filter((o) => o.stage === S.ENDED && o.deposit && (o.deposit.status === 'holding' || o.deposit.status === 'refunding')).length;
+  const invoice = list.filter((o) => o.invoice && o.invoice.status === 'applying').length;
+  return { active, pending, deposit, invoice, blocked: active + pending + deposit + invoice > 0 };
+}
+// 收藏主题里可能是 id，也可能是带 id 的对象
+const favIds = (arr) => (Array.isArray(arr) ? arr : []).map((x) => (x && typeof x === 'object' ? x.id : x)).filter(Boolean);
+function favCount(fav) { fav = fav || {}; return favIds(fav.stores).length + favIds(fav.units).length; }
+// 优惠与权益角标：可用的券 + 服务权益（未登录不计）
+function benefitCount(res) {
+  if (!res || !res.loggedIn) return 0;
+  return (res.coupons || []).filter((c) => c.status === 'AVAILABLE' || c.status === 'SELECTED').length + (res.benefits || []).length;
+}
+const TONE = { ok: ['REDEEMED', 'FULFILLED', 'AVAILABLE', 'ELIGIBLE'], warn: ['LOCKED', 'SELECTED', 'RESERVED', 'ELIGIBILITY_PENDING'] };
+const tone = (status) => (TONE.ok.indexOf(status) >= 0 ? 'ok' : TONE.warn.indexOf(status) >= 0 ? 'warn' : 'info');
+const couponOff = (status) => ['REDEEMED', 'EXPIRED', 'INVALID'].indexOf(status) >= 0;
+
+module.exports = { money, dateText, maskPhone, maskEmail, normPhone, validContactPhone, validLoginPhone, validSmsCode, validCreditCode, validTaxId, validEmail, certMissing, titleErrors, invoiceable, invoiceLine, sumAmount, activeAssets, deletionBlockers, favIds, favCount, benefitCount, tone, couponOff };

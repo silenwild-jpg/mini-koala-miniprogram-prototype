@@ -1,0 +1,6 @@
+.s-card { display: flex; padding: var(--mk-space-cardPadCompact); }
+.s-thumb { flex: none; width: var(--mk-size-thumbCompact); height: var(--mk-size-thumbCompact); border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); margin-right: var(--mk-space-3); }
+.s-body { flex: 1; min-width: 0; }
+.s-name { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.s-price { font-family: var(--mk-font-family-numeric); font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); color: var(--mk-color-ink-primary); }
+.s-unit { font-size: var(--mk-font-size-xs); font-weight: var(--mk-font-weight-regular); color: var(--mk-color-ink-secondary); }

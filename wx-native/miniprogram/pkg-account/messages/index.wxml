@@ -1,0 +1,24 @@
+<view class="mk-page">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{empty}}" class="ms-empty">
+    <image class="ms-empty-ico" src="/assets/icons/ic-msg.svg" />
+    <text class="mk-title">{{T.m.empty}}</text>
+  </view>
+  <view wx:else class="mk-gutter ms-top">
+    <view class="mk-card">
+      <view wx:for="{{list}}" wx:key="id" class="ms-row" data-i="{{index}}" bindtap="onLink">
+        <view class="ms-dot {{item.unread ? '' : 'ms-dot--read'}}"></view>
+        <view class="mk-grow">
+          <view class="mk-between">
+            <mk-after-tag text="{{item.tag}}" tone="plain" />
+            <text class="mk-mute mk-num">{{item.time}}</text>
+          </view>
+          <text class="ms-title">{{item.title}}</text>
+          <text wx:if="{{item.text}}" class="mk-sub ms-text">{{item.text}}</text>
+          <view wx:if="{{item.link}}" class="mk-row ms-link" aria-role="link"><text class="mk-link">{{item.link}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+</view>

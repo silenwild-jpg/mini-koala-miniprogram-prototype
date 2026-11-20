@@ -1,0 +1,581 @@
+﻿页面代号,页面,开发批次,状态键,状态类型,设计稿地址（相对冻结稿 W27）,首屏标题,可点文字（最多 10 个，未禁用）,截图（375 宽首屏）
+H01,首页,1,active,基础态,design/pages/h01.html?state=active,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；找附近门店,screens/h01/active.jpg
+H01,首页,1,active__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/h01.html?state=active&sys=error,北京 / 搜索门店、商圈或区域,北京；搜索门店、商圈或区域；消息；重新加载,screens/h01/active__sys_error.jpg
+H01,首页,1,active__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/h01.html?state=active&sys=loading,北京 / 搜索门店、商圈或区域,北京；搜索门店、商圈或区域；消息,screens/h01/active__sys_loading.jpg
+H01,首页,1,active__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/h01.html?state=active&sys=offline,北京 / 搜索门店、商圈或区域,北京；搜索门店、商圈或区域；消息；重新加载,screens/h01/active__sys_offline.jpg
+H01,首页,1,booking,基础态,design/pages/h01.html?state=booking,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；修改需求；查看推荐仓位；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳,screens/h01/booking.jpg
+H01,首页,1,cancelled,基础态,design/pages/h01.html?state=cancelled,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；重新找仓；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏,screens/h01/cancelled.jpg
+H01,首页,1,estimated,基础态,design/pages/h01.html?state=estimated,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；修改需求；查看推荐仓位；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳,screens/h01/estimated.jpg
+H01,首页,1,expired,基础态,design/pages/h01.html?state=expired,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；重新找仓；查看须知 ›；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳,screens/h01/expired.jpg
+H01,首页,1,expiring,基础态,design/pages/h01.html?state=expiring,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；一键开锁；办理续租；续租；加租仓位；更多服务；门店使用须知；查看须知 ›,screens/h01/expiring.jpg
+H01,首页,1,identity,基础态,design/pages/h01.html?state=identity,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；门店导航；完成实名认证；查看须知 ›；找附近门店；估大小算价格；了解迷你考拉仓 ›,screens/h01/identity.jpg
+H01,首页,1,invalidated,基础态,design/pages/h01.html?state=invalidated,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；重新找仓；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏,screens/h01/invalidated.jpg
+H01,首页,1,lease_expired,基础态,design/pages/h01.html?state=lease_expired,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；办理退仓；办理续租；查看须知 ›；查看全部门店 ›；搬家过渡；装修暂存；行李寄存,screens/h01/lease_expired.jpg
+H01,首页,1,new,基础态,design/pages/h01.html?state=new,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/new.jpg
+H01,首页,1,payment_failed,基础态,design/pages/h01.html?state=payment_failed,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；更换仓位；继续支付；查看须知 ›；找附近门店；估大小算价格；展开；搬家过渡,screens/h01/payment_failed.jpg
+H01,首页,1,pending,基础态,design/pages/h01.html?state=pending,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；费用明细；继续支付；查看须知 ›；找附近门店；估大小算价格；展开；搬家过渡,screens/h01/pending.jpg
+H01,首页,1,refund,基础态,design/pages/h01.html?state=refund,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看订单；查看押金进度；查看须知 ›；查看全部门店 ›；搬家过渡；装修暂存；行李寄存,screens/h01/refund.jpg
+H01,首页,1,renewal,基础态,design/pages/h01.html?state=renewal,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；一键开锁；确认续租报价；查看须知 ›；找附近门店；估大小算价格；了解迷你考拉仓 ›,screens/h01/renewal.jpg
+H01,首页,1,returning,基础态,design/pages/h01.html?state=returning,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；门店导航；查看退仓进度；查看须知 ›；查看全部门店 ›；搬家过渡；装修暂存；行李寄存,screens/h01/returning.jpg
+H01,首页,1,selected,基础态,design/pages/h01.html?state=selected,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看门店；继续下单；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳,screens/h01/selected.jpg
+H01,首页,1,upcoming,基础态,design/pages/h01.html?state=upcoming,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；入仓指引；门店导航；查看须知 ›；找附近门店；估大小算价格；了解迷你考拉仓 ›,screens/h01/upcoming.jpg
+H01,首页,1,w7__active_many,基础态,design/pages/h01.html?state=active_many,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；还有 1 项待办,screens/h01/w7__active_many.jpg
+H01,首页,1,w7__active_pending,基础态,design/pages/h01.html?state=active_pending,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；找附近门店,screens/h01/w7__active_pending.jpg
+H01,首页,1,w7__active_todo,基础态,design/pages/h01.html?state=active_todo,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；找附近门店,screens/h01/w7__active_todo.jpg
+H01,首页,1,w7__active_todo_area,基础态,design/pages/h01.html?state=active_todo_area,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；找附近门店,screens/h01/w7__active_todo_area.jpg
+H01,首页,1,w7__booking_only,基础态,design/pages/h01.html?state=booking_only,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看预约；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏,screens/h01/w7__booking_only.jpg
+H01,首页,1,w7__estimated_area,基础态,design/pages/h01.html?state=estimated_area,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；修改需求；查看推荐仓位；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳,screens/h01/w7__estimated_area.jpg
+H01,首页,1,w7__new__auth_loc_area,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_area,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,朝阳区；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_area.jpg
+H01,首页,1,w7__new__auth_loc_ask,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_ask,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_ask.jpg
+H01,首页,1,w7__new__auth_loc_denied,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_denied,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_denied.jpg
+H01,首页,1,w7__new__auth_loc_nocity,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_nocity,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_nocity.jpg
+H01,首页,1,w7__new__auth_loc_ok,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_ok,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_ok.jpg
+H01,首页,1,w7__new__auth_loc_quiet,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_quiet,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_quiet.jpg
+H01,首页,1,w7__new__auth_loc_settings,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_settings,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_settings.jpg
+H01,首页,1,w7__new__auth_loc_system,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_system,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_system.jpg
+H01,首页,1,w7__new__auth_loc_timeout,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=loc_timeout,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_loc_timeout.jpg
+H01,首页,1,w7__new__auth_privacy,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=privacy,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_privacy.jpg
+H01,首页,1,w7__new__auth_privacy_declined,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=privacy_declined,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_privacy_declined.jpg
+H01,首页,1,w7__new__auth_privacy_loc,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=privacy_loc,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_privacy_loc.jpg
+H01,首页,1,w7__new__auth_privacy_loc_checked,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=privacy_loc_checked,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_privacy_loc_checked.jpg
+H01,首页,1,w7__new__auth_search_empty,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=search_empty,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_search_empty.jpg
+H01,首页,1,w7__new__auth_search_off,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=search_off,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_search_off.jpg
+H01,首页,1,w7__new__auth_search_on,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=search_on,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_search_on.jpg
+H01,首页,1,w7__new__auth_search_typing,定位、隐私与用仓位置面板,design/pages/h01.html?state=new&auth=search_typing,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间 / 为您推荐,北京；搜索门店、商圈或区域；消息；查看全部门店 ›；搬家过渡；装修暂存；行李寄存；换季收纳；兴趣收藏；闲置物品,screens/h01/w7__new__auth_search_typing.jpg
+H01,首页,1,w7__renewal_pending,基础态,design/pages/h01.html?state=renewal_pending,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；一键开锁；查看续租进度；查看须知 ›；找附近门店；估大小算价格；了解迷你考拉仓 ›,screens/h01/w7__renewal_pending.jpg
+H01,首页,1,w7__renewal_quote,基础态,design/pages/h01.html?state=renewal_quote,让城市生活更轻松 家具、行李、闲置物品，找到附近适合的存储空间,北京；搜索门店、商圈或区域；消息；一键开锁；确认续租报价；查看须知 ›；找附近门店；估大小算价格；了解迷你考拉仓 ›,screens/h01/w7__renewal_quote.jpg
+S01,附近门店（门店列表）,1,browse,基础态,design/pages/s01.html?state=browse,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店,screens/s01/browse.jpg
+S01,附近门店（门店列表）,1,browse__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s01.html?state=browse&sys=error,附近门店 / 加载失败,重新加载,screens/s01/browse__sys_error.jpg
+S01,附近门店（门店列表）,1,browse__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s01.html?state=browse&sys=offline,附近门店 / 网络未连接,重新加载,screens/s01/browse__sys_offline.jpg
+S01,附近门店（门店列表）,1,filtering,基础态,design/pages/s01.html?state=filtering,附近门店 / 北京,北京；搜索门店、商圈或区域；价格优先；3km内；服务；特价仓；免费运输；修改需求；立即下单,screens/s01/filtering.jpg
+S01,附近门店（门店列表）,1,loading,基础态,design/pages/s01.html?state=loading,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求,screens/s01/loading.jpg
+S01,附近门店（门店列表）,1,matched,基础态,design/pages/s01.html?state=matched,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单；查看更多门店,screens/s01/matched.jpg
+S01,附近门店（门店列表）,1,matched__demand,弹层 / 抽屉,design/pages/s01.html?state=matched&overlay=demand,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单；查看更多门店,screens/s01/matched__demand.jpg
+S01,附近门店（门店列表）,1,matched__filter,弹层 / 抽屉,design/pages/s01.html?state=matched&overlay=filter,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单；查看更多门店,screens/s01/matched__filter.jpg
+S01,附近门店（门店列表）,1,nomatch,基础态,design/pages/s01.html?state=nomatch,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；顾问帮我找仓,screens/s01/nomatch.jpg
+S01,附近门店（门店列表）,1,soldout,基础态,design/pages/s01.html?state=soldout,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单,screens/s01/soldout.jpg
+S01,附近门店（门店列表）,1,w7__advisor,基础态,design/pages/s01.html?state=advisor,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单；查看更多门店,screens/s01/w7__advisor.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_area,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_area,附近门店 / 朝阳区,朝阳区；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店,screens/s01/w7__browse__auth_loc_area.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_denied,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_denied,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；去开启,screens/s01/w7__browse__auth_loc_denied.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_far,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_far,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；预约顾问；查看全部门店,screens/s01/w7__browse__auth_loc_far.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_nocity,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_nocity,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；切换城市,screens/s01/w7__browse__auth_loc_nocity.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_ok,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_ok,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店,screens/s01/w7__browse__auth_loc_ok.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_quiet,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_quiet,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店,screens/s01/w7__browse__auth_loc_quiet.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_settings,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_settings,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；暂不开启,screens/s01/w7__browse__auth_loc_settings.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_system,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_system,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；查看方法,screens/s01/w7__browse__auth_loc_system.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_loc_timeout,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=loc_timeout,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；重试,screens/s01/w7__browse__auth_loc_timeout.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_privacy_declined,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=privacy_declined,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；开启,screens/s01/w7__browse__auth_privacy_declined.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_search_empty,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=search_empty,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；清空输入,screens/s01/w7__browse__auth_search_empty.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_search_move,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=search_move,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；取消,screens/s01/w7__browse__auth_search_move.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_search_off,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=search_off,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；取消,screens/s01/w7__browse__auth_search_off.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_search_on,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=search_on,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；取消,screens/s01/w7__browse__auth_search_on.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_search_typing,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=search_typing,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；清空输入,screens/s01/w7__browse__auth_search_typing.jpg
+S01,附近门店（门店列表）,1,w7__browse__auth_transport_noloc,定位、隐私与用仓位置面板,design/pages/s01.html?state=browse&auth=transport_noloc,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；立即估算；查看更多门店；取消,screens/s01/w7__browse__auth_transport_noloc.jpg
+S01,附近门店（门店列表）,1,w7__far_transport,基础态,design/pages/s01.html?state=far_transport,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单,screens/s01/w7__far_transport.jpg
+S01,附近门店（门店列表）,1,w7__matched__auth_locked,登录与手机号,design/pages/s01.html?state=matched&auth=locked,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；查看报价；查看更多门店,screens/s01/w7__matched__auth_locked.jpg
+S01,附近门店（门店列表）,1,w7__matched__auth_phone,登录与手机号,design/pages/s01.html?state=matched&auth=phone,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；查看报价；查看更多门店,screens/s01/w7__matched__auth_phone.jpg
+S01,附近门店（门店列表）,1,w7__matched__demand__m2,弹层 / 抽屉,design/pages/s01.html?state=matched&overlay=demand&unit=m2,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单；查看更多门店,screens/s01/w7__matched__demand__m2.jpg
+S01,附近门店（门店列表）,1,w7__matched_area,基础态,design/pages/s01.html?state=matched_area,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；立即下单；查看更多门店,screens/s01/w7__matched_area.jpg
+S01,附近门店（门店列表）,1,w7__near,基础态,design/pages/s01.html?state=near,附近门店 / 北京,北京；搜索门店、商圈或区域；排序；距离；服务；特价仓；免费运输；修改需求；查看仓位；查看更多门店,screens/s01/w7__near.jpg
+S01,附近门店（门店列表）,1,w7__sales,基础态,design/pages/s01.html?state=sales,附近门店 / 北京,北京；搜索门店、商圈或区域；修改需求；提交给顾问,screens/s01/w7__sales.jpg
+S02,门店详情,1,browse,基础态,design/pages/s02.html?state=browse,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；立即估算；可选仓位；服务设施；到店指引；全部,screens/s02/browse.jpg
+S02,门店详情,1,combo,基础态,design/pages/s02.html?state=combo,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/combo.jpg
+S02,门店详情,1,filtered,基础态,design/pages/s02.html?state=filtered,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/filtered.jpg
+S02,门店详情,1,matched,基础态,design/pages/s02.html?state=matched,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/matched.jpg
+S02,门店详情,1,matched__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s02.html?state=matched&sys=error,安贞·富仁名苑店,地图导航；拨打400客服电话；重新加载,screens/s02/matched__sys_error.jpg
+S02,门店详情,1,matched__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s02.html?state=matched&sys=loading,安贞·富仁名苑店,地图导航；拨打400客服电话,screens/s02/matched__sys_loading.jpg
+S02,门店详情,1,matched__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s02.html?state=matched&sys=offline,安贞·富仁名苑店,地图导航；拨打400客服电话；重新加载,screens/s02/matched__sys_offline.jpg
+S02,门店详情,1,matched__sys_unit_gone,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s02.html?state=matched&sys=unit_gone,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/matched__sys_unit_gone.jpg
+S02,门店详情,1,near,基础态,design/pages/s02.html?state=near,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/near.jpg
+S02,门店详情,1,nomatch,基础态,design/pages/s02.html?state=nomatch,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；提交给顾问,screens/s02/nomatch.jpg
+S02,门店详情,1,route,基础态,design/pages/s02.html?state=route,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；位置示意 步行入口 车辆入口,screens/s02/route.jpg
+S02,门店详情,1,services,基础态,design/pages/s02.html?state=services,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；看路线,screens/s02/services.jpg
+S02,门店详情,1,soldout,基础态,design/pages/s02.html?state=soldout,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；查看其他门店,screens/s02/soldout.jpg
+S02,门店详情,1,w7__advisor,基础态,design/pages/s02.html?state=advisor,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/w7__advisor.jpg
+S02,门店详情,1,w7__advisor_rent,基础态,design/pages/s02.html?state=advisor_rent,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/w7__advisor_rent.jpg
+S02,门店详情,1,w7__browse&arrival=transit,基础态,design/pages/s02.html?state=browse&arrival=transit,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；立即估算；可选仓位；服务设施；到店指引；全部,screens/s02/w7__browse-arrival-transit.jpg
+S02,门店详情,1,w7__matched__auth_locked,登录与手机号,design/pages/s02.html?state=matched&auth=locked,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/w7__matched__auth_locked.jpg
+S02,门店详情,1,w7__matched__auth_phone,登录与手机号,design/pages/s02.html?state=matched&auth=phone,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/w7__matched__auth_phone.jpg
+S02,门店详情,1,w7__matched_area,基础态,design/pages/s02.html?state=matched_area,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；全部,screens/s02/w7__matched_area.jpg
+S02,门店详情,1,w7__route&arrival=partial,基础态,design/pages/s02.html?state=route&arrival=partial,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；位置示意 门店位置,screens/s02/w7__route-arrival-partial.jpg
+S02,门店详情,1,w7__route&arrival=simple,基础态,design/pages/s02.html?state=route&arrival=simple,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；位置示意 门店入口,screens/s02/w7__route-arrival-simple.jpg
+S02,门店详情,1,w7__route&arrival=transit,基础态,design/pages/s02.html?state=route&arrival=transit,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；位置示意 门店入口,screens/s02/w7__route-arrival-transit.jpg
+S02,门店详情,1,w7__route&map=fail,基础态,design/pages/s02.html?state=route&map=fail,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；重新加载,screens/s02/w7__route-map-fail.jpg
+S02,门店详情,1,w7__route&open=dest,基础态,design/pages/s02.html?state=route&open=dest,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；位置示意 步行入口 车辆入口,screens/s02/w7__route-open-dest.jpg
+S02,门店详情,1,w7__route&open=guide,基础态,design/pages/s02.html?state=route&open=guide,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；位置示意 步行入口 车辆入口,screens/s02/w7__route-open-guide.jpg
+S02,门店详情,1,w7__route&open=transit,基础态,design/pages/s02.html?state=route&open=transit,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；位置示意 步行入口 车辆入口,screens/s02/w7__route-open-transit.jpg
+S02,门店详情,1,w7__sales,基础态,design/pages/s02.html?state=sales,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；提交给顾问,screens/s02/w7__sales.jpg
+S02,门店详情,1,w7__services&arrival=partial,基础态,design/pages/s02.html?state=services&arrival=partial,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引,screens/s02/w7__services-arrival-partial.jpg
+S02,门店详情,1,w7__services&arrival=simple,基础态,design/pages/s02.html?state=services&arrival=simple,安贞·富仁名苑店,返回；收藏门店；分享门店；地图导航；拨打400客服电话；修改需求；可选仓位；服务设施；到店指引；看路线,screens/s02/w7__services-arrival-simple.jpg
+S5,仓位推荐,1,advisor,基础态,design/pages/s5.html?state=advisor,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位；预约顾问,screens/s5/advisor.jpg
+S5,仓位推荐,1,cold,基础态,design/pages/s5.html?state=cold,仓位推荐 / 您的用仓需求,返回上页；修改；用仓位置 北京 · 全城门店；m³；㎡；不确定大小？去估算；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折,screens/s5/cold.jpg
+S5,仓位推荐,1,combo,基础态,design/pages/s5.html?state=combo,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位；预约顾问,screens/s5/combo.jpg
+S5,仓位推荐,1,expanded,基础态,design/pages/s5.html?state=expanded,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位,screens/s5/expanded.jpg
+S5,仓位推荐,1,large,基础态,design/pages/s5.html?state=large,仓位推荐 / 您的用仓需求,返回上页；修改；用仓位置 北京 · 全城门店；提交给顾问；修改容量,screens/s5/large.jpg
+S5,仓位推荐,1,loading,基础态,design/pages/s5.html?state=loading,为您推荐门店,返回上页；修改；用仓位置 北京 · 全城门店,screens/s5/loading.jpg
+S5,仓位推荐,1,matched,基础态,design/pages/s5.html?state=matched,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位,screens/s5/matched.jpg
+S5,仓位推荐,1,matched__demand,弹层 / 抽屉,design/pages/s5.html?state=matched&overlay=demand,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位；m³；㎡；1个月 8折；3个月 7.5折；6个月 7折,screens/s5/matched__demand.jpg
+S5,仓位推荐,1,matched__fees,弹层 / 抽屉,design/pages/s5.html?state=matched&overlay=fees,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位；知道了,screens/s5/matched__fees.jpg
+S5,仓位推荐,1,matched__origin,弹层 / 抽屉,design/pages/s5.html?state=matched&overlay=origin,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位；取消；重新定位；清除；望京；安贞·富仁名苑店,screens/s5/matched__origin.jpg
+S5,仓位推荐,1,matched__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s5.html?state=matched&sys=error,仓位推荐 / 加载失败,返回上页；重新加载,screens/s5/matched__sys_error.jpg
+S5,仓位推荐,1,matched__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/s5.html?state=matched&sys=offline,仓位推荐 / 网络未连接,返回上页；重新加载,screens/s5/matched__sys_offline.jpg
+S5,仓位推荐,1,near,基础态,design/pages/s5.html?state=near,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位；预约顾问,screens/s5/near.jpg
+S5,仓位推荐,1,none,基础态,design/pages/s5.html?state=none,仓位推荐 / 您的用仓需求,返回上页；修改；用仓位置 北京 · 全城门店；查看全城门店；修改容量；预约顾问,screens/s5/none.jpg
+S5,仓位推荐,1,w7__from_area,基础态,design/pages/s5.html?state=from_area,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位,screens/s5/w7__from_area.jpg
+S5,仓位推荐,1,w7__from_area__demand,弹层 / 抽屉,design/pages/s5.html?state=from_area&overlay=demand,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位；m³；㎡；1个月 8折；3个月 7.5折；6个月 7折,screens/s5/w7__from_area__demand.jpg
+S5,仓位推荐,1,w7__from_items,基础态,design/pages/s5.html?state=from_items,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位,screens/s5/w7__from_items.jpg
+S5,仓位推荐,1,w7__matched__auth_loc_area,定位、隐私与用仓位置面板,design/pages/s5.html?state=matched&auth=loc_area,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 朝阳区；立即下单；查看更多仓位,screens/s5/w7__matched__auth_loc_area.jpg
+S5,仓位推荐,1,w7__matched__auth_locked,登录与手机号,design/pages/s5.html?state=matched&auth=locked,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位,screens/s5/w7__matched__auth_locked.jpg
+S5,仓位推荐,1,w7__matched__auth_phone,登录与手机号,design/pages/s5.html?state=matched&auth=phone,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；微信手机号快捷登录；其他手机号登录,screens/s5/w7__matched__auth_phone.jpg
+S5,仓位推荐,1,w7__matched__auth_phone_agree,登录与手机号,design/pages/s5.html?state=matched&auth=phone_agree,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；微信手机号快捷登录；其他手机号登录,screens/s5/w7__matched__auth_phone_agree.jpg
+S5,仓位推荐,1,w7__matched__auth_phone_conflict,登录与手机号,design/pages/s5.html?state=matched&auth=phone_conflict,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；联系客服；换个手机号,screens/s5/w7__matched__auth_phone_conflict.jpg
+S5,仓位推荐,1,w7__matched__auth_phone_denied,登录与手机号,design/pages/s5.html?state=matched&auth=phone_denied,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；微信手机号快捷登录；其他手机号登录；暂不登录，继续浏览,screens/s5/w7__matched__auth_phone_denied.jpg
+S5,仓位推荐,1,w7__matched__auth_phone_fail,登录与手机号,design/pages/s5.html?state=matched&auth=phone_fail,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；其他手机号登录；暂不登录，继续浏览,screens/s5/w7__matched__auth_phone_fail.jpg
+S5,仓位推荐,1,w7__matched__auth_phone_loading,登录与手机号,design/pages/s5.html?state=matched&auth=phone_loading,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；其他手机号登录,screens/s5/w7__matched__auth_phone_loading.jpg
+S5,仓位推荐,1,w7__matched__auth_phone_ok,登录与手机号,design/pages/s5.html?state=matched&auth=phone_ok,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；立即下单；查看更多仓位,screens/s5/w7__matched__auth_phone_ok.jpg
+S5,仓位推荐,1,w7__matched__auth_phone_wx,登录与手机号,design/pages/s5.html?state=matched&auth=phone_wx,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；不允许；允许,screens/s5/w7__matched__auth_phone_wx.jpg
+S5,仓位推荐,1,w7__matched__auth_sms,登录与手机号,design/pages/s5.html?state=matched&auth=sms,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；获取验证码；使用微信手机号,screens/s5/w7__matched__auth_sms.jpg
+S5,仓位推荐,1,w7__matched__auth_sms_expired,登录与手机号,design/pages/s5.html?state=matched&auth=sms_expired,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；重新获取；使用微信手机号,screens/s5/w7__matched__auth_sms_expired.jpg
+S5,仓位推荐,1,w7__matched__auth_sms_sendfail,登录与手机号,design/pages/s5.html?state=matched&auth=sms_sendfail,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；重新获取；使用微信手机号,screens/s5/w7__matched__auth_sms_sendfail.jpg
+S5,仓位推荐,1,w7__matched__auth_sms_sent,登录与手机号,design/pages/s5.html?state=matched&auth=sms_sent,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；使用微信手机号,screens/s5/w7__matched__auth_sms_sent.jpg
+S5,仓位推荐,1,w7__matched__auth_sms_wrong,登录与手机号,design/pages/s5.html?state=matched&auth=sms_wrong,为您推荐 2 家门店,返回上页；修改；用仓位置 北京 · 全城门店；查看报价；查看更多仓位；关闭登录；登录；使用微信手机号,screens/s5/w7__matched__auth_sms_wrong.jpg
+S5,仓位推荐,1,w7__sales30,基础态,design/pages/s5.html?state=sales30,仓位推荐 / 您的用仓需求,返回上页；修改；用仓位置 北京 · 全城门店；提交给顾问；修改容量,screens/s5/w7__sales30.jpg
+CAP,估算存储空间（填容量）,1,ai,基础态,design/pages/cap.html?state=ai,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/ai.jpg
+CAP,估算存储空间（填容量）,1,area,基础态,design/pages/cap.html?state=area,您需要多大空间？,返回上一步；−；m³；㎡；＋；按物品估算 ›；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折,screens/cap/area.jpg
+CAP,估算存储空间（填容量）,1,empty,基础态,design/pages/cap.html?state=empty,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/empty.jpg
+CAP,估算存储空间（填容量）,1,filled,基础态,design/pages/cap.html?state=filled,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/filled.jpg
+CAP,估算存储空间（填容量）,1,filled__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/cap.html?state=filled&sys=error,估算存储空间 / 加载失败,返回上一步；重新加载,screens/cap/filled__sys_error.jpg
+CAP,估算存储空间（填容量）,1,filled__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/cap.html?state=filled&sys=loading,估算存储空间,返回上一步,screens/cap/filled__sys_loading.jpg
+CAP,估算存储空间（填容量）,1,filled__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/cap.html?state=filled&sys=offline,估算存储空间 / 网络未连接,返回上一步；重新加载,screens/cap/filled__sys_offline.jpg
+CAP,估算存储空间（填容量）,1,invalid,基础态,design/pages/cap.html?state=invalid,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/invalid.jpg
+CAP,估算存储空间（填容量）,1,large,基础态,design/pages/cap.html?state=large,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/large.jpg
+CAP,估算存储空间（填容量）,1,other,基础态,design/pages/cap.html?state=other,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/other.jpg
+CAP,估算存储空间（填容量）,1,term,基础态,design/pages/cap.html?state=term,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/term.jpg
+CAP,估算存储空间（填容量）,1,w7__advisor_hint,基础态,design/pages/cap.html?state=advisor_hint,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/w7__advisor_hint.jpg
+CAP,估算存储空间（填容量）,1,w7__area_invalid,基础态,design/pages/cap.html?state=area_invalid,您需要多大空间？,返回上一步；−；m³；㎡；＋；按物品估算 ›；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折,screens/cap/w7__area_invalid.jpg
+CAP,估算存储空间（填容量）,1,w7__area_large,基础态,design/pages/cap.html?state=area_large,您需要多大空间？,返回上一步；−；m³；㎡；＋；按物品估算 ›；提交给顾问,screens/cap/w7__area_large.jpg
+CAP,估算存储空间（填容量）,1,w7__area_over,基础态,design/pages/cap.html?state=area_over,您需要多大空间？,返回上一步；−；m³；㎡；＋；按物品估算 ›；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折,screens/cap/w7__area_over.jpg
+CAP,估算存储空间（填容量）,1,w7__area_term,基础态,design/pages/cap.html?state=area_term,您需要多大空间？,返回上一步；−；m³；㎡；＋；按物品估算 ›；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折,screens/cap/w7__area_term.jpg
+CAP,估算存储空间（填容量）,1,w7__from_items,基础态,design/pages/cap.html?state=from_items,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/w7__from_items.jpg
+CAP,估算存储空间（填容量）,1,w7__from_items_edited,基础态,design/pages/cap.html?state=from_items_edited,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/w7__from_items_edited.jpg
+CAP,估算存储空间（填容量）,1,w7__over,基础态,design/pages/cap.html?state=over,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/w7__over.jpg
+CAP,估算存储空间（填容量）,1,w7__sales,基础态,design/pages/cap.html?state=sales,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/w7__sales.jpg
+CAP,估算存储空间（填容量）,1,w7__term_near,基础态,design/pages/cap.html?state=term_near,您需要多大空间？,返回上一步；−；m³；㎡；＋；1m³；3m³；8m³；15m³；20m³,screens/cap/w7__term_near.jpg
+ITEMS,按物品估算,1,cart,基础态,design/pages/items.html?state=cart,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/cart.jpg
+ITEMS,按物品估算,1,category,基础态,design/pages/items.html?state=category,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/category.jpg
+ITEMS,按物品估算,1,clear,基础态,design/pages/items.html?state=clear,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/clear.jpg
+ITEMS,按物品估算,1,empty,基础态,design/pages/items.html?state=empty,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/empty.jpg
+ITEMS,按物品估算,1,scenes,基础态,design/pages/items.html?state=scenes,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；搬家装修；家庭闲置；行李寄存；爱好收藏；商家备货,screens/items/scenes.jpg
+ITEMS,按物品估算,1,search,基础态,design/pages/items.html?state=search,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/search.jpg
+ITEMS,按物品估算,1,search_empty,基础态,design/pages/items.html?state=search_empty,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/search_empty.jpg
+ITEMS,按物品估算,1,selected,基础态,design/pages/items.html?state=selected,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/selected.jpg
+ITEMS,按物品估算,1,selected__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/items.html?state=selected&sys=error,按物品估算 / 直接填容量,返回上一步；直接填容量；按物品分类；按场景分类；重新加载,screens/items/selected__sys_error.jpg
+ITEMS,按物品估算,1,selected__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/items.html?state=selected&sys=loading,按物品估算 / 直接填容量,返回上一步；直接填容量；按物品分类；按场景分类,screens/items/selected__sys_loading.jpg
+ITEMS,按物品估算,1,selected__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/items.html?state=selected&sys=offline,按物品估算 / 直接填容量,返回上一步；直接填容量；按物品分类；按场景分类；重新加载,screens/items/selected__sys_offline.jpg
+ITEMS,按物品估算,1,term,基础态,design/pages/items.html?state=term,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/term.jpg
+ITEMS,按物品估算,1,w7__advisor_hint,基础态,design/pages/items.html?state=advisor_hint,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__advisor_hint.jpg
+ITEMS,按物品估算,1,w7__over,基础态,design/pages/items.html?state=over,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__over.jpg
+ITEMS,按物品估算,1,w7__qty,基础态,design/pages/items.html?state=qty,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__qty.jpg
+ITEMS,按物品估算,1,w7__qty_max,基础态,design/pages/items.html?state=qty_max,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__qty_max.jpg
+ITEMS,按物品估算,1,w7__restored,基础态,design/pages/items.html?state=restored,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__restored.jpg
+ITEMS,按物品估算,1,w7__sales,基础态,design/pages/items.html?state=sales,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__sales.jpg
+ITEMS,按物品估算,1,w7__scene_business,基础态,design/pages/items.html?state=scene_business,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；搬家装修；家庭闲置；行李寄存；爱好收藏；商家备货,screens/items/w7__scene_business.jpg
+ITEMS,按物品估算,1,w7__term_other,基础态,design/pages/items.html?state=term_other,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__term_other.jpg
+ITEMS,按物品估算,1,w7__tiny,基础态,design/pages/items.html?state=tiny,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__tiny.jpg
+ITEMS,按物品估算,1,w7__variant,基础态,design/pages/items.html?state=variant,按物品估算 / 直接填容量,返回上一步；直接填容量；顾问协助；按物品分类；按场景分类；全部物品；箱包；家具；家电；纸箱收纳,screens/items/w7__variant.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,coupon,基础态,design/pages/o01.html?state=coupon,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；更换 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/coupon.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,coupon__coupon,弹层 / 抽屉,design/pages/o01.html?state=coupon&overlay=coupon,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；更换 ›；《迷你考拉用户使用告知书》；违规违禁物品；取消；确定,screens/o01/coupon__coupon.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,empty,基础态,design/pages/o01.html?state=empty,确认订单 / 请先选择仓位,返回上一步；返回首页,screens/o01/empty.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,expired,基础态,design/pages/o01.html?state=expired,订单已超时,返回上一步；重新找仓,screens/o01/expired.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,payment_failed,基础态,design/pages/o01.html?state=payment_failed,支付未成功,返回上一步；更换仓位；取消订单；继续支付,screens/o01/payment_failed.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,payment_failed__agreed,弹层 / 抽屉,design/pages/o01.html?state=payment_failed&agreed=1,支付未成功,返回上一步；更换仓位；取消订单；继续支付,screens/o01/payment_failed__agreed.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,pending,基础态,design/pages/o01.html?state=pending,订单待支付,返回上一步；取消订单；继续支付,screens/o01/pending.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,pending__pay,弹层 / 抽屉,design/pages/o01.html?state=pending&overlay=pay,订单待支付,"返回上一步；取消订单；继续支付；微信支付 ¥2,010；暂不支付",screens/o01/pending__pay.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,price_changed,基础态,design/pages/o01.html?state=price_changed,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；查看其他方案；确认新报价,screens/o01/price_changed.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,ready,基础态,design/pages/o01.html?state=ready,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/ready.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,ready__agreed,弹层 / 抽屉,design/pages/o01.html?state=ready&agreed=1,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品；签署并提交,screens/o01/ready__agreed.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,ready__fees,弹层 / 抽屉,design/pages/o01.html?state=ready&overlay=fees,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品；知道了,screens/o01/ready__fees.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,ready__sys_unit_gone,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/o01.html?state=ready&sys=unit_gone,确认订单 / 所选仓位已不可租,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/ready__sys_unit_gone.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,unauthorized,基础态,design/pages/o01.html?state=unauthorized,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；去登录；查看报价,screens/o01/unauthorized.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,unauthorized__phone,弹层 / 抽屉,design/pages/o01.html?state=unauthorized&overlay=phone,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；去登录；查看报价；关闭登录；微信手机号快捷登录；其他手机号登录,screens/o01/unauthorized__phone.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__cancelled,基础态,design/pages/o01.html?state=cancelled,订单已取消,返回上一步；重新找仓,screens/o01/w7__cancelled.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__expired__alternatives,弹层 / 抽屉,design/pages/o01.html?state=expired&overlay=alternatives,订单已超时,返回上一步；重新找仓；预约顾问,screens/o01/w7__expired__alternatives.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__full,基础态,design/pages/o01.html?state=full,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/w7__full.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__full__fees,弹层 / 抽屉,design/pages/o01.html?state=full&overlay=fees,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品；知道了,screens/o01/w7__full__fees.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__full_near,基础态,design/pages/o01.html?state=full_near,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/w7__full_near.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__idv_todo,基础态,design/pages/o01.html?state=idv_todo,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；去认证；实名认证,screens/o01/w7__idv_todo.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__idv_todo__idv,弹层 / 抽屉,design/pages/o01.html?state=idv_todo&overlay=idv,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；去认证；实名认证,screens/o01/w7__idv_todo__idv.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__idv_todo__idv&idv=checking,弹层 / 抽屉,design/pages/o01.html?state=idv_todo&overlay=idv&idv=checking,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；去认证；实名认证,screens/o01/w7__idv_todo__idv-idv-checking.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__idv_todo__idv&idv=err,弹层 / 抽屉,design/pages/o01.html?state=idv_todo&overlay=idv&idv=err,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；去认证；实名认证；提交认证,screens/o01/w7__idv_todo__idv-idv-err.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__idv_todo__idv&idv=filled,弹层 / 抽屉,design/pages/o01.html?state=idv_todo&overlay=idv&idv=filled,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；去认证；实名认证；提交认证,screens/o01/w7__idv_todo__idv-idv-filled.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__paying,基础态,design/pages/o01.html?state=paying,等待支付结果,返回上一步；支付遇到问题；已完成支付,screens/o01/w7__paying.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__payment_failed__cancel,弹层 / 抽屉,design/pages/o01.html?state=payment_failed&overlay=cancel,支付未成功,返回上一步；更换仓位；取消订单；继续支付；暂不取消；确认取消,screens/o01/w7__payment_failed__cancel.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__pending__cancel,弹层 / 抽屉,design/pages/o01.html?state=pending&overlay=cancel,订单待支付,返回上一步；取消订单；继续支付；暂不取消；确认取消,screens/o01/w7__pending__cancel.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__ready__agreed__sign,弹层 / 抽屉,design/pages/o01.html?state=ready&agreed=1&overlay=sign,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品；签署并提交；返回修改；签署,screens/o01/w7__ready__agreed__sign.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__ready__auth_quote_expired,登录与手机号,design/pages/o01.html?state=ready&auth=quote_expired,确认订单 / 报价已超过 3 小时,返回上一步；刷新报价；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/w7__ready__auth_quote_expired.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__ready__protect,弹层 / 抽屉,design/pages/o01.html?state=ready&overlay=protect,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品；联系客服；知道了,screens/o01/w7__ready__protect.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__submitting,基础态,design/pages/o01.html?state=submitting,确认订单 / 安贞·富仁名苑店,返回上一步；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/w7__submitting.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__term_near,基础态,design/pages/o01.html?state=term_near,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/w7__term_near.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__transport_near,基础态,design/pages/o01.html?state=transport_near,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/w7__transport_near.jpg
+O01,确认订单（含实名、签署、支付弹层）,2,w7__transport_ok,基础态,design/pages/o01.html?state=transport_ok,确认订单 / 安贞·富仁名苑店,返回上一步；更换；−；+；选择 ›；《迷你考拉用户使用告知书》；违规违禁物品,screens/o01/w7__transport_ok.jpg
+QUICK,快捷下单,2,empty,基础态,design/pages/quick.html?state=empty,快捷下单 / 1,返回上一步；更改；选择；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期,screens/quick/empty.jpg
+QUICK,快捷下单,2,ready,基础态,design/pages/quick.html?state=ready,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；2026-11-19；费用明细,screens/quick/ready.jpg
+QUICK,快捷下单,2,ready__fees,弹层 / 抽屉,design/pages/quick.html?state=ready&overlay=fees,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；2026-11-19；费用明细,screens/quick/ready__fees.jpg
+QUICK,快捷下单,2,ready__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/quick.html?state=ready&sys=error,快捷下单 / 1,返回上一步；重新加载,screens/quick/ready__sys_error.jpg
+QUICK,快捷下单,2,ready__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/quick.html?state=ready&sys=loading,快捷下单 / 1,返回上一步,screens/quick/ready__sys_loading.jpg
+QUICK,快捷下单,2,ready__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/quick.html?state=ready&sys=offline,快捷下单 / 1,返回上一步；重新加载,screens/quick/ready__sys_offline.jpg
+QUICK,快捷下单,2,ready__sys_unit_gone,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/quick.html?state=ready&sys=unit_gone,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；2026-11-19；费用明细,screens/quick/ready__sys_unit_gone.jpg
+QUICK,快捷下单,2,store,基础态,design/pages/quick.html?state=store,快捷下单 / 1,返回上一步；更改；选择；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期,screens/quick/store.jpg
+QUICK,快捷下单,2,store__city,弹层 / 抽屉,design/pages/quick.html?state=store&overlay=city,快捷下单 / 1,返回上一步；更改；选择；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期；取消,screens/quick/store__city.jpg
+QUICK,快捷下单,2,store__store,弹层 / 抽屉,design/pages/quick.html?state=store&overlay=store,快捷下单 / 1,返回上一步；更改；选择；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期,screens/quick/store__store.jpg
+QUICK,快捷下单,2,term,基础态,design/pages/quick.html?state=term,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期；费用明细,screens/quick/term.jpg
+QUICK,快捷下单,2,term__terms,弹层 / 抽屉,design/pages/quick.html?state=term&overlay=terms,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期；费用明细,screens/quick/term__terms.jpg
+QUICK,快捷下单,2,unit,基础态,design/pages/quick.html?state=unit,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期；费用明细,screens/quick/unit.jpg
+QUICK,快捷下单,2,unit__unit,弹层 / 抽屉,design/pages/quick.html?state=unit&overlay=unit,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期；费用明细,screens/quick/unit__unit.jpg
+QUICK,快捷下单,2,w7__addon,基础态,design/pages/quick.html?state=addon,快捷下单 / 1,返回上一步；更改；选择；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期,screens/quick/w7__addon.jpg
+QUICK,快捷下单,2,w7__ready__auth_locked,登录与手机号,design/pages/quick.html?state=ready&auth=locked,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；2026-11-19；查看报价,screens/quick/w7__ready__auth_locked.jpg
+QUICK,快捷下单,2,w7__ready__auth_phone,登录与手机号,design/pages/quick.html?state=ready&auth=phone,快捷下单 / 1,返回上一步；更改；更换；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；2026-11-19；查看报价,screens/quick/w7__ready__auth_phone.jpg
+QUICK,快捷下单,2,w7__store__auth_loc_area,定位、隐私与用仓位置面板,design/pages/quick.html?state=store&auth=loc_area,快捷下单 / 1,返回上一步；更改；选择；1个月 8折；3个月 7.5折；6个月 7折；12个月 6.5折；其他；请选择用仓日期,screens/quick/w7__store__auth_loc_area.jpg
+O03,订单详情,2,active,基础态,design/pages/o03.html?state=active,仓位租用中,返回上一步；门店导航；联系门店；一键开锁；电子合同 已签署；入仓指引；续租 可申请；退仓；押金进度；申请发票 可申请,screens/o03/active.jpg
+O03,订单详情,2,active__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/o03.html?state=active&sys=error,订单详情 / 加载失败,返回上一步；重新加载,screens/o03/active__sys_error.jpg
+O03,订单详情,2,active__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/o03.html?state=active&sys=loading,订单详情,返回上一步,screens/o03/active__sys_loading.jpg
+O03,订单详情,2,active__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/o03.html?state=active&sys=offline,订单详情 / 网络未连接,返回上一步；重新加载,screens/o03/active__sys_offline.jpg
+O03,订单详情,2,empty,基础态,design/pages/o03.html?state=empty,订单详情 / 暂无可查看的订单,返回上一步；返回订单,screens/o03/empty.jpg
+O03,订单详情,2,ended,基础态,design/pages/o03.html?state=ended,租赁已结束,返回上一步；电子合同 已签署；押金进度 已退还；申请发票 可申请；再次找仓,screens/o03/ended.jpg
+O03,订单详情,2,expired,基础态,design/pages/o03.html?state=expired,订单已超时,返回上一步；重新找仓,screens/o03/expired.jpg
+O03,订单详情,2,expired_lease,基础态,design/pages/o03.html?state=expired_lease,租期已到期,返回上一步；门店导航；联系门店；电子合同 已签署；续租 可申请；退仓；押金进度；申请发票 可申请；办理退仓；办理续租,screens/o03/expired_lease.jpg
+O03,订单详情,2,identity,基础态,design/pages/o03.html?state=identity,入仓前需完成实名认证,返回上一步；门店导航；联系门店；电子合同 已签署；实名认证 待完成；续租 可申请；退仓；押金进度；申请发票 可申请；完成实名认证,screens/o03/identity.jpg
+O03,订单详情,2,inspection,基础态,design/pages/o03.html?state=inspection,等待门店验仓,返回上一步；门店导航；联系门店；电子合同 已签署；退仓进度 待验仓；押金进度 待验仓；申请发票 可申请；查看验仓结果,screens/o03/inspection.jpg
+O03,订单详情,2,payment_failed,基础态,design/pages/o03.html?state=payment_failed,支付未成功，订单为您保留,返回上一步；取消订单；继续支付,screens/o03/payment_failed.jpg
+O03,订单详情,2,pending,基础态,design/pages/o03.html?state=pending,订单待支付,返回上一步；取消订单；继续支付,screens/o03/pending.jpg
+O03,订单详情,2,refund,基础态,design/pages/o03.html?state=refund,押金处理中,返回上一步；门店导航；联系门店；电子合同 已签署；押金进度 退款处理中；申请发票 可申请；查看押金进度,screens/o03/refund.jpg
+O03,订单详情,2,renewal,基础态,design/pages/o03.html?state=renewal,续租报价待确认,返回上一步；门店导航；联系门店；一键开锁；电子合同 已签署；入仓指引；续租进度 待确认续租；退仓；押金进度；申请发票 可申请,screens/o03/renewal.jpg
+O03,订单详情,2,returning,基础态,design/pages/o03.html?state=returning,退仓处理中,返回上一步；门店导航；联系门店；电子合同 已签署；退仓进度 已提交；押金进度；申请发票 可申请；查看退仓进度,screens/o03/returning.jpg
+O03,订单详情,2,upcoming,基础态,design/pages/o03.html?state=upcoming,入仓准备,返回上一步；门店导航；联系门店；电子合同 已签署；入仓指引；续租 可申请；退订 / 退仓；押金进度；申请发票 可申请,screens/o03/upcoming.jpg
+O03,订单详情,2,w7__active__unlock,弹层 / 抽屉,design/pages/o03.html?state=active&overlay=unlock,仓位租用中,返回上一步；门店导航；联系门店；一键开锁；电子合同 已签署；入仓指引；续租 可申请；退仓；押金进度；申请发票 可申请,screens/o03/w7__active__unlock.jpg
+O03,订单详情,2,w7__active_full,基础态,design/pages/o03.html?state=active_full,仓位租用中,返回上一步；门店导航；联系门店；一键开锁；电子合同 已签署；入仓指引；续租 可申请；退仓；押金进度；申请发票 可申请,screens/o03/w7__active_full.jpg
+O03,订单详情,2,w7__cancelled,基础态,design/pages/o03.html?state=cancelled,订单已取消,返回上一步；重新找仓,screens/o03/w7__cancelled.jpg
+O03,订单详情,2,w7__expiring,基础态,design/pages/o03.html?state=expiring,租期即将到期,返回上一步；门店导航；联系门店；一键开锁；电子合同 已签署；入仓指引；续租 可申请；退仓；押金进度；申请发票 可申请,screens/o03/w7__expiring.jpg
+O03,订单详情,2,w7__paying,基础态,design/pages/o03.html?state=paying,订单待支付,返回上一步；取消订单,screens/o03/w7__paying.jpg
+O03,订单详情,2,w7__payment_failed__cancel,弹层 / 抽屉,design/pages/o03.html?state=payment_failed&overlay=cancel,支付未成功，订单为您保留,返回上一步；取消订单；继续支付；暂不取消；确认取消,screens/o03/w7__payment_failed__cancel.jpg
+O03,订单详情,2,w7__pending&sub=ask,订阅消息授权,design/pages/o03.html?state=pending&sub=ask,订单待支付,返回上一步；取消订单；继续支付；取消；允许,screens/o03/w7__pending-sub-ask.jpg
+O03,订单详情,2,w7__pending__cancel,弹层 / 抽屉,design/pages/o03.html?state=pending&overlay=cancel,订单待支付,返回上一步；取消订单；继续支付；暂不取消；确认取消,screens/o03/w7__pending__cancel.jpg
+O03,订单详情,2,w7__upcoming&arrival=simple,基础态,design/pages/o03.html?state=upcoming&arrival=simple,入仓准备,返回上一步；门店导航；联系门店；电子合同 已签署；入仓指引；续租 可申请；退订 / 退仓；押金进度；申请发票 可申请,screens/o03/w7__upcoming-arrival-simple.jpg
+O03,订单详情,2,w7__upcoming&sub=accepted,订阅消息授权,design/pages/o03.html?state=upcoming&sub=accepted,入仓准备,返回上一步；门店导航；联系门店；电子合同 已签署；入仓指引；续租 可申请；退订 / 退仓；押金进度；申请发票 可申请,screens/o03/w7__upcoming-sub-accepted.jpg
+O03,订单详情,2,w7__upcoming&sub=declined,订阅消息授权,design/pages/o03.html?state=upcoming&sub=declined,入仓准备,返回上一步；开启通知；门店导航；联系门店；电子合同 已签署；入仓指引；续租 可申请；退订 / 退仓；押金进度；申请发票 可申请,screens/o03/w7__upcoming-sub-declined.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,empty,基础态,design/pages/oh01.html?state=empty,订单,去附近门店,screens/oh01/empty.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,ended,基础态,design/pages/oh01.html?state=ended,订单,,screens/oh01/ended.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,mixed,基础态,design/pages/oh01.html?state=mixed,订单,,screens/oh01/mixed.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,mixed__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/oh01.html?state=mixed&sys=error,订单,重新加载,screens/oh01/mixed__sys_error.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,mixed__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/oh01.html?state=mixed&sys=loading,订单,,screens/oh01/mixed__sys_loading.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,mixed__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/oh01.html?state=mixed&sys=offline,订单,重新加载,screens/oh01/mixed__sys_offline.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,single,基础态,design/pages/oh01.html?state=single,订单,,screens/oh01/single.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,w7__expiring,基础态,design/pages/oh01.html?state=expiring,订单,,screens/oh01/w7__expiring.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,w7__identity,基础态,design/pages/oh01.html?state=identity,订单,,screens/oh01/w7__identity.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,w7__lease_expired,基础态,design/pages/oh01.html?state=lease_expired,订单,,screens/oh01/w7__lease_expired.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,w7__returning,基础态,design/pages/oh01.html?state=returning,订单,,screens/oh01/w7__returning.jpg
+OH01,订单（订单列表）,2（壳在第 0 批）,w7__upcoming,基础态,design/pages/oh01.html?state=upcoming,订单,,screens/oh01/w7__upcoming.jpg
+AGREEMENT,协议文本（使用协议 / 注册协议 / 告知书 / 私人定制协议）,2,w7__custom,基础态,design/pages/agreement.html?doc=custom,私人定制专项服务协议,返回上页,screens/agreement/w7__custom.jpg
+AGREEMENT,协议文本（使用协议 / 注册协议 / 告知书 / 私人定制协议）,2,w7__notice,基础态,design/pages/agreement.html?doc=notice,迷你考拉用户使用告知书,返回上页,screens/agreement/w7__notice.jpg
+AGREEMENT,协议文本（使用协议 / 注册协议 / 告知书 / 私人定制协议）,2,w7__register,基础态,design/pages/agreement.html?doc=register,迷你考拉用户注册协议和个人信息保护政策,返回上页,screens/agreement/w7__register.jpg
+AGREEMENT,协议文本（使用协议 / 注册协议 / 告知书 / 私人定制协议）,2,w7__usage,基础态,design/pages/agreement.html?doc=usage,迷你考拉自助式设备设施使用协议,返回上页；1 协议说明；2 一、定义和说明；3 二、账户信息管理；4 三、使用须知及服务事宜；5 四、甲方权利与义务；6 五、乙方权利与义务；8 七、保障服务条款；9 八、其他条款；10 九、附件,screens/agreement/w7__usage.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,failed,基础态,design/pages/acc.html?view=identity&state=failed,实名认证 / 安贞·富仁名苑店,返回我的；重新提交资料,screens/acc_identity/failed.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,form,基础态,design/pages/acc.html?view=identity&state=form,实名认证 / 安贞·富仁名苑店,返回我的；开始认证；提交认证,screens/acc_identity/form.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,invalid,基础态,design/pages/acc.html?view=identity&state=invalid,实名认证 / 安贞·富仁名苑店,返回我的；开始认证；提交认证,screens/acc_identity/invalid.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,not_paid,基础态,design/pages/acc.html?view=identity&state=not_paid,实名认证 / 无法打开该服务,返回我的；查看我的订单,screens/acc_identity/not_paid.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,pending,基础态,design/pages/acc.html?view=identity&state=pending,实名认证 / 安贞·富仁名苑店,返回我的；开始认证,screens/acc_identity/pending.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,result,基础态,design/pages/acc.html?view=identity&state=result,实名认证 / 安贞·富仁名苑店,返回我的；审核未通过；审核通过,screens/acc_identity/result.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,reviewing,基础态,design/pages/acc.html?view=identity&state=reviewing,实名认证 / 安贞·富仁名苑店,返回我的,screens/acc_identity/reviewing.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,reviewing__review,弹层 / 抽屉,design/pages/acc.html?view=identity&state=reviewing&review=1,实名认证 / 安贞·富仁名苑店,返回我的；审核认证结果,screens/acc_identity/reviewing__review.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,verified,基础态,design/pages/acc.html?view=identity&state=verified,实名认证 / 安贞·富仁名苑店,返回我的；查看入仓指引,screens/acc_identity/verified.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,verified__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=identity&state=verified&sys=error,实名认证 / 加载失败,返回我的；重新加载,screens/acc_identity/verified__sys_error.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,verified__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=identity&state=verified&sys=loading,实名认证,返回我的,screens/acc_identity/verified__sys_loading.jpg
+ACC_IDENTITY,实名认证（付款后兜底）,3,verified__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=identity&state=verified&sys=offline,实名认证 / 网络未连接,返回我的；重新加载,screens/acc_identity/verified__sys_offline.jpg
+ACC_ACCESS,入仓指引,3,allowed,基础态,design/pages/acc.html?view=access&state=allowed,入仓指引 / 安贞·富仁名苑店,返回我的；门店到店指引；到店导航；查看仓位开门信息,screens/acc_access/allowed.jpg
+ACC_ACCESS,入仓指引,3,allowed__unlock,弹层 / 抽屉,design/pages/acc.html?view=access&state=allowed&overlay=unlock,入仓指引 / 安贞·富仁名苑店,返回我的；门店到店指引；到店导航；查看仓位开门信息；知道了,screens/acc_access/allowed__unlock.jpg
+ACC_ACCESS,入仓指引,3,before_start,基础态,design/pages/acc.html?view=access&state=before_start,入仓指引 / 安贞·富仁名苑店,返回我的；门店到店指引；到店导航,screens/acc_access/before_start.jpg
+ACC_ACCESS,入仓指引,3,identity_required,基础态,design/pages/acc.html?view=access&state=identity_required,入仓指引 / 安贞·富仁名苑店,返回我的；门店到店指引；到店导航；完成实名认证,screens/acc_access/identity_required.jpg
+ACC_ACCESS,入仓指引,3,inactive,基础态,design/pages/acc.html?view=access&state=inactive,入仓指引 / 安贞·富仁名苑店,返回我的,screens/acc_access/inactive.jpg
+ACC_ACCESS,入仓指引,3,inactive__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=access&state=inactive&sys=error,入仓指引 / 加载失败,返回我的；重新加载,screens/acc_access/inactive__sys_error.jpg
+ACC_ACCESS,入仓指引,3,inactive__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=access&state=inactive&sys=loading,入仓指引,返回我的,screens/acc_access/inactive__sys_loading.jpg
+ACC_ACCESS,入仓指引,3,inactive__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=access&state=inactive&sys=offline,入仓指引 / 网络未连接,返回我的；重新加载,screens/acc_access/inactive__sys_offline.jpg
+ACC_ACCESS,入仓指引,3,not_paid,基础态,design/pages/acc.html?view=access&state=not_paid,入仓指引 / 无法打开该服务,返回我的；查看我的订单,screens/acc_access/not_paid.jpg
+ACC_ACCESS,入仓指引,3,w7__allowed&arrival=simple,基础态,design/pages/acc.html?view=access&state=allowed&arrival=simple,入仓指引 / 安贞·富仁名苑店,返回我的；门店到店指引；到店导航；查看仓位开门信息,screens/acc_access/w7__allowed-arrival-simple.jpg
+ACC_ACCESS,入仓指引,3,w7__before_start&arrival=transit,基础态,design/pages/acc.html?view=access&state=before_start&arrival=transit,入仓指引 / 安贞·富仁名苑店,返回我的；门店到店指引；到店导航,screens/acc_access/w7__before_start-arrival-transit.jpg
+RN01,续租申请,3,cancelled,基础态,design/pages/rn01.html?state=cancelled,续租付款已暂缓,返回上一步；继续付款,screens/rn01/cancelled.jpg
+RN01,续租申请,3,completed,基础态,design/pages/rn01.html?state=completed,续租已生效,返回上一步；申请发票；返回订单详情,screens/rn01/completed.jpg
+RN01,续租申请,3,empty,基础态,design/pages/rn01.html?state=empty,续租申请 / 没有可办理租后服务的订单,返回上一步；返回订单,screens/rn01/empty.jpg
+RN01,续租申请,3,form,基础态,design/pages/rn01.html?state=form,申请续租,返回上一步；−；+；3个月；6个月；12个月；提交续租需求,screens/rn01/form.jpg
+RN01,续租申请,3,form__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/rn01.html?state=form&sys=error,续租申请 / 加载失败,返回上一步；重新加载,screens/rn01/form__sys_error.jpg
+RN01,续租申请,3,form__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/rn01.html?state=form&sys=loading,续租申请,返回上一步,screens/rn01/form__sys_loading.jpg
+RN01,续租申请,3,form__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/rn01.html?state=form&sys=offline,续租申请 / 网络未连接,返回上一步；重新加载,screens/rn01/form__sys_offline.jpg
+RN01,续租申请,3,payment_failed,基础态,design/pages/rn01.html?state=payment_failed,续租付款未成功,返回上一步；联系门店；重新支付,screens/rn01/payment_failed.jpg
+RN01,续租申请,3,payment_pending,基础态,design/pages/rn01.html?state=payment_pending,续租费用待支付,返回上一步；稍后支付；立即付款,screens/rn01/payment_pending.jpg
+RN01,续租申请,3,payment_pending__pay,弹层 / 抽屉,design/pages/rn01.html?state=payment_pending&overlay=pay,续租费用待支付,返回上一步；稍后支付；立即付款；确认付款,screens/rn01/payment_pending__pay.jpg
+RN01,续租申请,3,quote_pending,基础态,design/pages/rn01.html?state=quote_pending,门店正在确认报价,返回上一步；返回订单详情,screens/rn01/quote_pending.jpg
+RN01,续租申请,3,quote_ready,基础态,design/pages/rn01.html?state=quote_ready,续租报价待确认,返回上一步；按常规折扣续租；暂不续租；确认并支付,screens/rn01/quote_ready.jpg
+RN01,续租申请,3,unavailable,基础态,design/pages/rn01.html?state=unavailable,暂不能续租,返回上一步；返回订单详情,screens/rn01/unavailable.jpg
+RN01,续租申请,3,w7__form&sub=ask,订阅消息授权,design/pages/rn01.html?state=form&sub=ask,申请续租,返回上一步；−；+；3个月；6个月；12个月；提交续租需求；取消；允许,screens/rn01/w7__form-sub-ask.jpg
+RN01,续租申请,3,w7__form_keep,基础态,design/pages/rn01.html?state=form_keep,申请续租,返回上一步；−；+；3个月；6个月；12个月；提交续租需求,screens/rn01/w7__form_keep.jpg
+RN01,续租申请,3,w7__quote_expired,基础态,design/pages/rn01.html?state=quote_expired,续租报价已过期,返回上一步；暂不续租；按常规折扣续租,screens/rn01/w7__quote_expired.jpg
+RN01,续租申请,3,w7__quote_keep,基础态,design/pages/rn01.html?state=quote_keep,续租报价待确认,返回上一步；暂不续租；确认并支付,screens/rn01/w7__quote_keep.jpg
+RN01,续租申请,3,w7__quote_keep_expired,基础态,design/pages/rn01.html?state=quote_keep_expired,续租报价已过期,返回上一步；暂不续租；重新提交续租需求,screens/rn01/w7__quote_keep_expired.jpg
+RN01,续租申请,3,w7__quote_pending&sub=accepted,订阅消息授权,design/pages/rn01.html?state=quote_pending&sub=accepted,门店正在确认报价,返回上一步；返回订单详情,screens/rn01/w7__quote_pending-sub-accepted.jpg
+RN01,续租申请,3,w7__quote_pending&sub=declined,订阅消息授权,design/pages/rn01.html?state=quote_pending&sub=declined,门店正在确认报价,返回上一步；开启通知；返回订单详情,screens/rn01/w7__quote_pending-sub-declined.jpg
+RN01,续租申请,3,w7__submitting,基础态,design/pages/rn01.html?state=submitting,申请续租,返回上一步；−；+；3个月；6个月；12个月,screens/rn01/w7__submitting.jpg
+EX01,退仓与到期,3,empty,基础态,design/pages/ex01.html?state=empty,退仓与到期 / 没有可办理租后服务的订单,返回上一步；返回订单,screens/ex01/empty.jpg
+EX01,退仓与到期,3,failed,基础态,design/pages/ex01.html?state=failed,验仓未通过,返回上一步；联系门店；重新申请验仓,screens/ex01/failed.jpg
+EX01,退仓与到期,3,form,基础态,design/pages/ex01.html?state=form,办理退仓,返回上一步；到期退仓；提前退仓；提交退仓安排,screens/ex01/form.jpg
+EX01,退仓与到期,3,form__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/ex01.html?state=form&sys=error,退仓与到期 / 加载失败,返回上一步；重新加载,screens/ex01/form__sys_error.jpg
+EX01,退仓与到期,3,form__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/ex01.html?state=form&sys=loading,退仓与到期,返回上一步,screens/ex01/form__sys_loading.jpg
+EX01,退仓与到期,3,form__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/ex01.html?state=form&sys=offline,退仓与到期 / 网络未连接,返回上一步；重新加载,screens/ex01/form__sys_offline.jpg
+EX01,退仓与到期,3,form_early,基础态,design/pages/ex01.html?state=form_early,办理退仓,返回上一步；到期退仓；提前退仓；提交退仓安排,screens/ex01/form_early.jpg
+EX01,退仓与到期,3,form_expired,基础态,design/pages/ex01.html?state=form_expired,租期已到期,返回上一步；查看协议；到期退仓；提前退仓；办理续租；提交退仓安排,screens/ex01/form_expired.jpg
+EX01,退仓与到期,3,passed,基础态,design/pages/ex01.html?state=passed,验仓通过,返回上一步；查看押金进度,screens/ex01/passed.jpg
+EX01,退仓与到期,3,requested,基础态,design/pages/ex01.html?state=requested,退仓已提交,返回上一步；确认清空并申请验仓,screens/ex01/requested.jpg
+EX01,退仓与到期,3,unavailable,基础态,design/pages/ex01.html?state=unavailable,订单尚未起租,返回上一步；返回订单详情；联系门店,screens/ex01/unavailable.jpg
+EX01,退仓与到期,3,w7__form__confirm,弹层 / 抽屉,design/pages/ex01.html?state=form&overlay=confirm,办理退仓,返回上一步；到期退仓；提前退仓；提交退仓安排；再想想；确认提交,screens/ex01/w7__form__confirm.jpg
+EX01,退仓与到期,3,w7__form_early__confirm,弹层 / 抽屉,design/pages/ex01.html?state=form_early&overlay=confirm,办理退仓,返回上一步；到期退仓；提前退仓；提交退仓安排；查看协议；再想想；确认提交,screens/ex01/w7__form_early__confirm.jpg
+EX01,退仓与到期,3,w7__not_started,基础态,design/pages/ex01.html?state=not_started,订单尚未起租,返回上一步；返回订单详情；联系门店,screens/ex01/w7__not_started.jpg
+EX01,退仓与到期,3,w7__requested&sub=ask,订阅消息授权,design/pages/ex01.html?state=requested&sub=ask,退仓已提交,返回上一步；确认清空并申请验仓；取消；允许,screens/ex01/w7__requested-sub-ask.jpg
+EX01,退仓与到期,3,w7__submitting,基础态,design/pages/ex01.html?state=submitting,办理退仓,返回上一步；到期退仓；提前退仓,screens/ex01/w7__submitting.jpg
+EX01,退仓与到期,3,w7__waiting&sub=accepted,订阅消息授权,design/pages/ex01.html?state=waiting&sub=accepted,等待门店验仓,返回上一步；返回订单详情；联系门店,screens/ex01/w7__waiting-sub-accepted.jpg
+EX01,退仓与到期,3,w7__waiting&sub=declined,订阅消息授权,design/pages/ex01.html?state=waiting&sub=declined,等待门店验仓,返回上一步；开启通知；返回订单详情；联系门店,screens/ex01/w7__waiting-sub-declined.jpg
+EX01,退仓与到期,3,waiting,基础态,design/pages/ex01.html?state=waiting,等待门店验仓,返回上一步；返回订单详情；联系门店,screens/ex01/waiting.jpg
+DP01,押金处理,3,empty,基础态,design/pages/dp01.html?state=empty,押金处理 / 没有可办理租后服务的订单,返回上一步；返回订单,screens/dp01/empty.jpg
+DP01,押金处理,3,held,基础态,design/pages/dp01.html?state=held,订单押金,返回上一步；查看退还方式与结算说明 ›；返回订单详情,screens/dp01/held.jpg
+DP01,押金处理,3,held__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/dp01.html?state=held&sys=error,押金处理 / 加载失败,返回上一步；重新加载,screens/dp01/held__sys_error.jpg
+DP01,押金处理,3,held__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/dp01.html?state=held&sys=loading,押金处理,返回上一步,screens/dp01/held__sys_loading.jpg
+DP01,押金处理,3,held__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/dp01.html?state=held&sys=offline,押金处理 / 网络未连接,返回上一步；重新加载,screens/dp01/held__sys_offline.jpg
+DP01,押金处理,3,refund_failed,基础态,design/pages/dp01.html?state=refund_failed,订单押金,返回上一步；联系门店；查看处理进度,screens/dp01/refund_failed.jpg
+DP01,押金处理,3,refund_failed__review,弹层 / 抽屉,design/pages/dp01.html?state=refund_failed&review=1,订单押金,返回上一步；联系门店；查看处理进度,screens/dp01/refund_failed__review.jpg
+DP01,押金处理,3,refund_pending,基础态,design/pages/dp01.html?state=refund_pending,订单押金,返回上一步；查看处理进度,screens/dp01/refund_pending.jpg
+DP01,押金处理,3,refund_pending__progress,弹层 / 抽屉,design/pages/dp01.html?state=refund_pending&overlay=progress,订单押金,返回上一步；查看处理进度；知道了,screens/dp01/refund_pending__progress.jpg
+DP01,押金处理,3,refunded,基础态,design/pages/dp01.html?state=refunded,订单押金,返回上一步；返回订单详情,screens/dp01/refunded.jpg
+DP01,押金处理,3,w7__held&info=open,基础态,design/pages/dp01.html?state=held&info=open,订单押金,返回上一步；返回订单详情,screens/dp01/w7__held-info-open.jpg
+DP01,押金处理,3,w7__refunded_partial,基础态,design/pages/dp01.html?state=refunded_partial,订单押金,返回上一步；返回订单详情,screens/dp01/w7__refunded_partial.jpg
+DP01,押金处理,3,waiting,基础态,design/pages/dp01.html?state=waiting,订单押金,返回上一步；返回订单详情,screens/dp01/waiting.jpg
+IV01,发票申请,3,empty,基础态,design/pages/iv01.html?state=empty,发票申请 / 没有可办理租后服务的订单,返回上一步；返回订单,screens/iv01/empty.jpg
+IV01,发票申请,3,filled,基础态,design/pages/iv01.html?state=filled,申请发票,返回上一步；个人；企业；提交发票申请,screens/iv01/filled.jpg
+IV01,发票申请,3,form,基础态,design/pages/iv01.html?state=form,申请发票,返回上一步；个人；企业,screens/iv01/form.jpg
+IV01,发票申请,3,form__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/iv01.html?state=form&sys=error,发票申请 / 加载失败,返回上一步；重新加载,screens/iv01/form__sys_error.jpg
+IV01,发票申请,3,form__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/iv01.html?state=form&sys=loading,发票申请,返回上一步,screens/iv01/form__sys_loading.jpg
+IV01,发票申请,3,form__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/iv01.html?state=form&sys=offline,发票申请 / 网络未连接,返回上一步；重新加载,screens/iv01/form__sys_offline.jpg
+IV01,发票申请,3,form_enterprise,基础态,design/pages/iv01.html?state=form_enterprise,申请发票,返回上一步；个人；企业；管理开票抬头；批量开票 多笔付款合并申请；提交发票申请,screens/iv01/form_enterprise.jpg
+IV01,发票申请,3,invalid,基础态,design/pages/iv01.html?state=invalid,申请发票,返回上一步；个人；企业,screens/iv01/invalid.jpg
+IV01,发票申请,3,issue_failed,基础态,design/pages/iv01.html?state=issue_failed,开票未成功,返回上一步；联系门店；个人；企业；管理开票抬头；批量开票 多笔付款合并申请；更正资料后重新提交,screens/iv01/issue_failed.jpg
+IV01,发票申请,3,issue_failed__review,弹层 / 抽屉,design/pages/iv01.html?state=issue_failed&review=1,开票未成功,返回上一步；联系门店；个人；企业；管理开票抬头；批量开票 多笔付款合并申请；更正资料后重新提交,screens/iv01/issue_failed__review.jpg
+IV01,发票申请,3,processing,基础态,design/pages/iv01.html?state=processing,发票开具中,返回上一步；返回订单详情,screens/iv01/processing.jpg
+IV01,发票申请,3,submitted,基础态,design/pages/iv01.html?state=submitted,发票申请已提交,返回上一步；返回订单详情,screens/iv01/submitted.jpg
+IV01,发票申请,3,two_payments,基础态,design/pages/iv01.html?state=two_payments,申请发票,返回上一步；个人；企业；提交发票申请,screens/iv01/two_payments.jpg
+IV01,发票申请,3,two_payments__payment,弹层 / 抽屉,design/pages/iv01.html?state=two_payments&overlay=payment,申请发票,返回上一步；个人；企业；提交发票申请；取消；确定,screens/iv01/two_payments__payment.jpg
+IV01,发票申请,3,w7__issued,基础态,design/pages/iv01.html?state=issued,发票已开具,返回上一步；发送到邮箱；下载发票,screens/iv01/w7__issued.jpg
+IV01,发票申请,3,w7__submitting,基础态,design/pages/iv01.html?state=submitting,申请发票,返回上一步；个人；企业,screens/iv01/w7__submitting.jpg
+ECONTRACT,电子合同,3,w7__empty,基础态,design/pages/econtract.html?state=empty,电子合同 / 暂无电子合同,返回订单详情；返回订单,screens/econtract/w7__empty.jpg
+ECONTRACT,电子合同,3,w7__signed,基础态,design/pages/econtract.html?state=signed,自助式设备设施使用协议,返回订单详情；违法违规违禁物品清单 附件；查看协议全文,screens/econtract/w7__signed.jpg
+ACC_MESSAGES,消息,3,empty,基础态,design/pages/acc.html?view=messages&state=empty,消息 / 暂无消息,返回我的,screens/acc_messages/empty.jpg
+ACC_MESSAGES,消息,3,read,基础态,design/pages/acc.html?view=messages&state=read,消息 / 咨询,返回我的；查看预约记录；查看运输预约；查看认证进度,screens/acc_messages/read.jpg
+ACC_MESSAGES,消息,3,read__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=messages&state=read&sys=error,消息 / 加载失败,返回我的；重新加载,screens/acc_messages/read__sys_error.jpg
+ACC_MESSAGES,消息,3,read__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=messages&state=read&sys=loading,消息,返回我的,screens/acc_messages/read__sys_loading.jpg
+ACC_MESSAGES,消息,3,read__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=messages&state=read&sys=offline,消息 / 网络未连接,返回我的；重新加载,screens/acc_messages/read__sys_offline.jpg
+ACC_MESSAGES,消息,3,unread,基础态,design/pages/acc.html?view=messages&state=unread,消息 / 咨询,返回我的；查看预约记录；查看运输预约；查看认证进度,screens/acc_messages/unread.jpg
+M01,我的,4（壳在第 0 批）,active,基础态,design/pages/m01.html?state=active,我的,个人信息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益,screens/m01/active.jpg
+M01,我的,4（壳在第 0 批）,active__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/m01.html?state=active&sys=error,我的,重新加载,screens/m01/active__sys_error.jpg
+M01,我的,4（壳在第 0 批）,active__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/m01.html?state=active&sys=loading,我的,,screens/m01/active__sys_loading.jpg
+M01,我的,4（壳在第 0 批）,active__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/m01.html?state=active&sys=offline,我的,重新加载,screens/m01/active__sys_offline.jpg
+M01,我的,4（壳在第 0 批）,booking,基础态,design/pages/m01.html?state=booking,我的,个人信息；修改需求；查看推荐仓位；预约用仓 1条记录；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/booking.jpg
+M01,我的,4（壳在第 0 批）,cancelled,基础态,design/pages/m01.html?state=cancelled,我的,个人信息；重新找仓；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证；运输与搬运 下单前可预约,screens/m01/cancelled.jpg
+M01,我的,4（壳在第 0 批）,ended,基础态,design/pages/m01.html?state=ended,我的,个人信息；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证；运输与搬运 下单前可预约；推荐有礼,screens/m01/ended.jpg
+M01,我的,4（壳在第 0 批）,estimated,基础态,design/pages/m01.html?state=estimated,我的,个人信息；修改需求；查看推荐仓位；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/estimated.jpg
+M01,我的,4（壳在第 0 批）,expired,基础态,design/pages/m01.html?state=expired,我的,个人信息；重新找仓；查看须知 ›；预约用仓 查看已提交的预约；找仓进度 当前方案需重新报价；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/expired.jpg
+M01,我的,4（壳在第 0 批）,expiring,基础态,design/pages/m01.html?state=expiring,我的,个人信息；一键开锁；办理续租；续租；加租仓位；更多服务；门店使用须知；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位,screens/m01/expiring.jpg
+M01,我的,4（壳在第 0 批）,identity,基础态,design/pages/m01.html?state=identity,我的,个人信息；门店导航；完成实名认证；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/identity.jpg
+M01,我的,4（壳在第 0 批）,invalidated,基础态,design/pages/m01.html?state=invalidated,我的,个人信息；重新找仓；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证；运输与搬运 下单前可预约,screens/m01/invalidated.jpg
+M01,我的,4（壳在第 0 批）,lease_expired,基础态,design/pages/m01.html?state=lease_expired,我的,个人信息；办理退仓；办理续租；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/lease_expired.jpg
+M01,我的,4（壳在第 0 批）,new,基础态,design/pages/m01.html?state=new,我的,个人信息；找附近门店；预约用仓 查看已提交的预约；找仓进度 尚无保存的需求；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/new.jpg
+M01,我的,4（壳在第 0 批）,payment_failed,基础态,design/pages/m01.html?state=payment_failed,我的,个人信息；更换仓位；继续支付；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/payment_failed.jpg
+M01,我的,4（壳在第 0 批）,pending,基础态,design/pages/m01.html?state=pending,我的,个人信息；费用明细；继续支付；查看须知 ›；预约用仓 查看已提交的预约；找仓进度 当前方案有效；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头,screens/m01/pending.jpg
+M01,我的,4（壳在第 0 批）,refund,基础态,design/pages/m01.html?state=refund,我的,个人信息；查看订单；查看押金进度；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/refund.jpg
+M01,我的,4（壳在第 0 批）,renewal,基础态,design/pages/m01.html?state=renewal,我的,个人信息；一键开锁；确认续租报价；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/renewal.jpg
+M01,我的,4（壳在第 0 批）,returning,基础态,design/pages/m01.html?state=returning,我的,个人信息；门店导航；查看退仓进度；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/returning.jpg
+M01,我的,4（壳在第 0 批）,selected,基础态,design/pages/m01.html?state=selected,我的,个人信息；查看门店；继续下单；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/selected.jpg
+M01,我的,4（壳在第 0 批）,upcoming,基础态,design/pages/m01.html?state=upcoming,我的,个人信息；入仓指引；门店导航；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/upcoming.jpg
+M01,我的,4（壳在第 0 批）,w7__active_pending,基础态,design/pages/m01.html?state=active_pending,我的,个人信息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益,screens/m01/w7__active_pending.jpg
+M01,我的,4（壳在第 0 批）,w7__active_todo,基础态,design/pages/m01.html?state=active_todo,我的,个人信息；门店导航；一键开锁；续租；加租仓位；更多服务；门店使用须知；预约用仓 1条记录；我的收藏 门店和仓位；优惠与权益 查看可用权益,screens/m01/w7__active_todo.jpg
+M01,我的,4（壳在第 0 批）,w7__booking__offhours,弹层 / 抽屉,design/pages/m01.html?state=booking&offhours=1,我的,个人信息；修改需求；查看推荐仓位；预约用仓 1条记录；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/w7__booking__offhours.jpg
+M01,我的,4（壳在第 0 批）,w7__estimated_area,基础态,design/pages/m01.html?state=estimated_area,我的,个人信息；修改需求；查看推荐仓位；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/w7__estimated_area.jpg
+M01,我的,4（壳在第 0 批）,w7__new__auth_m_guest,登录与手机号,design/pages/m01.html?state=new&auth=m_guest,我的,登录 / 注册；找附近门店；预约用仓 查看已提交的预约；找仓进度 尚无保存的需求；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/w7__new__auth_m_guest.jpg
+M01,我的,4（壳在第 0 批）,w7__new__auth_phone,登录与手机号,design/pages/m01.html?state=new&auth=phone,我的,登录 / 注册；找附近门店；预约用仓 查看已提交的预约；找仓进度 尚无保存的需求；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金；企业认证,screens/m01/w7__new__auth_phone.jpg
+M01,我的,4（壳在第 0 批）,w7__renewal_pending,基础态,design/pages/m01.html?state=renewal_pending,我的,个人信息；一键开锁；查看续租进度；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/w7__renewal_pending.jpg
+M01,我的,4（壳在第 0 批）,w7__renewal_quote,基础态,design/pages/m01.html?state=renewal_quote,我的,个人信息；一键开锁；确认续租报价；查看须知 ›；预约用仓 查看已提交的预约；我的收藏 门店和仓位；优惠与权益 查看可用权益；消息 查看业务通知；发票与抬头；押金,screens/m01/w7__renewal_quote.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,advisor,基础态,design/pages/booking.html?state=advisor,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 请选择；意向容量 3.5m³；预计租期 6个月,screens/booking/advisor.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,empty,基础态,design/pages/booking.html?state=empty,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 请选择；意向容量 请选择；预计租期 请选择,screens/booking/empty.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,error,基础态,design/pages/booking.html?state=error,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 请选择；意向容量 3.5m³；预计租期 6个月,screens/booking/error.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,failed,基础态,design/pages/booking.html?state=failed,告诉我们您的用仓需求,返回上一步；重试提交；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/failed.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,filled,基础态,design/pages/booking.html?state=filled,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/filled.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,filled__capacity,弹层 / 抽屉,design/pages/booking.html?state=filled&overlay=capacity,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/filled__capacity.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,filled__date,弹层 / 抽屉,design/pages/booking.html?state=filled&overlay=date,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/filled__date.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,filled__items,弹层 / 抽屉,design/pages/booking.html?state=filled&overlay=items,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/filled__items.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,filled__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/booking.html?state=filled&sys=error,预约用仓 / 加载失败,返回上一步；重新加载,screens/booking/filled__sys_error.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,filled__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/booking.html?state=filled&sys=loading,预约用仓,返回上一步,screens/booking/filled__sys_loading.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,filled__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/booking.html?state=filled&sys=offline,预约用仓 / 网络未连接,返回上一步；重新加载,screens/booking/filled__sys_offline.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,submitting,基础态,design/pages/booking.html?state=submitting,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/submitting.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,success,基础态,design/pages/booking.html?state=success,预约用仓 / 已提交,返回上一步；查看预约记录；继续找仓,screens/booking/success.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,success_advisor,基础态,design/pages/booking.html?state=success_advisor,顾问咨询 / 已提交,返回上一步；查看预约记录；继续找仓,screens/booking/success_advisor.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__business,基础态,design/pages/booking.html?state=business,告诉我们企业的用仓需求,返回上一步；前往企业用仓需求；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 请选择；意向容量 3.5m³,screens/booking/w7__business.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__carried,基础态,design/pages/booking.html?state=carried,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/w7__carried.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__carried_area,基础态,design/pages/booking.html?state=carried_area,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；预计租期 6个月；预约用仓,screens/booking/w7__carried_area.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled&sub=ask,订阅消息授权,design/pages/booking.html?state=filled&sub=ask,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/w7__filled-sub-ask.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_authed,登录与手机号,design/pages/booking.html?state=filled&auth=bk_authed,告诉我们您的用仓需求,返回上一步；使用当前位置；修改；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_authed.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_contact,登录与手机号,design/pages/booking.html?state=filled&auth=bk_contact,告诉我们您的用仓需求,返回上一步；使用当前位置；修改；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_contact.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_contact_sms,登录与手机号,design/pages/booking.html?state=filled&auth=bk_contact_sms,告诉我们您的用仓需求,返回上一步；使用当前位置；修改；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_contact_sms.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_denied,登录与手机号,design/pages/booking.html?state=filled&auth=bk_denied,告诉我们您的用仓需求,返回上一步；使用当前位置；使用微信手机号；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_denied.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_login,登录与手机号,design/pages/booking.html?state=filled&auth=bk_login,告诉我们您的用仓需求,返回上一步；使用当前位置；使用微信手机号；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_login.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_sms,登录与手机号,design/pages/booking.html?state=filled&auth=bk_sms,告诉我们您的用仓需求,返回上一步；使用当前位置；使用微信手机号；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_sms.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_unauth,登录与手机号,design/pages/booking.html?state=filled&auth=bk_unauth,告诉我们您的用仓需求,返回上一步；使用当前位置；使用微信手机号；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_unauth.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__auth_bk_wx,登录与手机号,design/pages/booking.html?state=filled&auth=bk_wx,告诉我们您的用仓需求,返回上一步；使用当前位置；使用微信手机号；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³,screens/booking/w7__filled__auth_bk_wx.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__filled__duration,弹层 / 抽屉,design/pages/booking.html?state=filled&overlay=duration,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/w7__filled__duration.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__large,基础态,design/pages/booking.html?state=large,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 30m³ 及以上；预计租期 12个月,screens/booking/w7__large.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__store,基础态,design/pages/booking.html?state=store,告诉我们您的用仓需求,返回上一步；使用当前位置；尽快；明天；近一周；暂不确定；选择日期；存放物品 日常物品；意向容量 3.5m³；预计租期 6个月,screens/booking/w7__store.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__success&sub=accepted,订阅消息授权,design/pages/booking.html?state=success&sub=accepted,预约用仓 / 已提交,返回上一步；查看预约记录；继续找仓,screens/booking/w7__success-sub-accepted.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__success&sub=declined,订阅消息授权,design/pages/booking.html?state=success&sub=declined,预约用仓 / 已提交,返回上一步；开启通知；查看预约记录；继续找仓,screens/booking/w7__success-sub-declined.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__success_offhours,基础态,design/pages/booking.html?state=success_offhours,预约用仓 / 已提交,返回上一步；查看预约记录；继续找仓,screens/booking/w7__success_offhours.jpg
+BOOKING,预约用仓 / 联系顾问（表单）,4（第 1 批先留占位）,w7__success_store,基础态,design/pages/booking.html?state=success_store,预约用仓 / 已提交,返回上一步；查看预约记录；继续找仓,screens/booking/w7__success_store.jpg
+BUSINESS,商家 / 企业存储,4,authorized,基础态,design/pages/business.html?state=authorized,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助,screens/business/authorized.jpg
+BUSINESS,商家 / 企业存储,4,blocked,基础态,design/pages/business.html?state=blocked,商家 / 企业用仓 / 用仓需求,返回上一步；新建企业需求；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算,screens/business/blocked.jpg
+BUSINESS,商家 / 企业存储,4,browse_error,基础态,design/pages/business.html?state=browse_error,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/browse_error.jpg
+BUSINESS,商家 / 企业存储,4,custom,基础态,design/pages/business.html?state=custom,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/custom.jpg
+BUSINESS,商家 / 企业存储,4,edit,基础态,design/pages/business.html?state=edit,商家 / 企业用仓 / 用仓需求,返回上一步；新建企业需求；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算,screens/business/edit.jpg
+BUSINESS,商家 / 企业存储,4,empty,基础态,design/pages/business.html?state=empty,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/empty.jpg
+BUSINESS,商家 / 企业存储,4,error_phone,基础态,design/pages/business.html?state=error_phone,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助,screens/business/error_phone.jpg
+BUSINESS,商家 / 企业存储,4,failed,基础态,design/pages/business.html?state=failed,联系方式,返回上一步；重试提交；查看预约记录；修改；选择日期；上一步；邀请顾问协助,screens/business/failed.jpg
+BUSINESS,商家 / 企业存储,4,filled,基础态,design/pages/business.html?state=filled,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/filled.jpg
+BUSINESS,商家 / 企业存储,4,filled__date,弹层 / 抽屉,design/pages/business.html?state=filled&overlay=date,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/filled__date.jpg
+BUSINESS,商家 / 企业存储,4,filled__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/business.html?state=filled&sys=error,商家 / 企业存储 / 加载失败,返回上一步；重新加载,screens/business/filled__sys_error.jpg
+BUSINESS,商家 / 企业存储,4,filled__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/business.html?state=filled&sys=loading,商家 / 企业存储,返回上一步,screens/business/filled__sys_loading.jpg
+BUSINESS,商家 / 企业存储,4,filled__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/business.html?state=filled&sys=offline,商家 / 企业存储 / 网络未连接,返回上一步；重新加载,screens/business/filled__sys_offline.jpg
+BUSINESS,商家 / 企业存储,4,invalid_capacity,基础态,design/pages/business.html?state=invalid_capacity,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/invalid_capacity.jpg
+BUSINESS,商家 / 企业存储,4,restored,基础态,design/pages/business.html?state=restored,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助,screens/business/restored.jpg
+BUSINESS,商家 / 企业存储,4,submitting,基础态,design/pages/business.html?state=submitting,联系方式,返回上一步；查看预约记录；修改；选择日期,screens/business/submitting.jpg
+BUSINESS,商家 / 企业存储,4,success,基础态,design/pages/business.html?state=success,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；保存企业需求更新；继续找仓,screens/business/success.jpg
+BUSINESS,商家 / 企业存储,4,success_update,基础态,design/pages/business.html?state=success_update,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；保存企业需求更新；继续找仓,screens/business/success_update.jpg
+BUSINESS,商家 / 企业存储,4,unknown,基础态,design/pages/business.html?state=unknown,联系方式,返回上一步；查看预约记录；修改；选择日期,screens/business/unknown.jpg
+BUSINESS,商家 / 企业存储,4,w7__custom__term,弹层 / 抽屉,design/pages/business.html?state=custom&overlay=term,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/w7__custom__term.jpg
+BUSINESS,商家 / 企业存储,4,w7__multi_area,基础态,design/pages/business.html?state=multi_area,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；朝阳区；西城区；东城区；丰台区；海淀区；昌平区；通州区；石景山区,screens/business/w7__multi_area.jpg
+BUSINESS,商家 / 企业存储,4,w7__multi_area_open,基础态,design/pages/business.html?state=multi_area_open,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；朝阳区；西城区；东城区；丰台区；海淀区；昌平区；通州区；石景山区,screens/business/w7__multi_area_open.jpg
+BUSINESS,商家 / 企业存储,4,w7__multi_area_step2,基础态,design/pages/business.html?state=multi_area_step2,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助,screens/business/w7__multi_area_step2.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_authed,登录与手机号,design/pages/business.html?state=restored&auth=bk_authed,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助,screens/business/w7__restored__auth_bk_authed.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_contact,登录与手机号,design/pages/business.html?state=restored&auth=bk_contact,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助；完成,screens/business/w7__restored__auth_bk_contact.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_contact_sms,登录与手机号,design/pages/business.html?state=restored&auth=bk_contact_sms,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助；关闭登录,screens/business/w7__restored__auth_bk_contact_sms.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_denied,登录与手机号,design/pages/business.html?state=restored&auth=bk_denied,联系方式,返回上一步；查看预约记录；修改；使用微信手机号；选择日期；上一步；邀请顾问协助；关闭登录；微信手机号快捷登录；其他手机号登录,screens/business/w7__restored__auth_bk_denied.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_login,登录与手机号,design/pages/business.html?state=restored&auth=bk_login,联系方式,返回上一步；查看预约记录；修改；使用微信手机号；选择日期；上一步；邀请顾问协助；关闭登录；微信手机号快捷登录；其他手机号登录,screens/business/w7__restored__auth_bk_login.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_sms,登录与手机号,design/pages/business.html?state=restored&auth=bk_sms,联系方式,返回上一步；查看预约记录；修改；使用微信手机号；选择日期；上一步；邀请顾问协助；关闭登录,screens/business/w7__restored__auth_bk_sms.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_unauth,登录与手机号,design/pages/business.html?state=restored&auth=bk_unauth,联系方式,返回上一步；查看预约记录；修改；使用微信手机号；选择日期；上一步；邀请顾问协助,screens/business/w7__restored__auth_bk_unauth.jpg
+BUSINESS,商家 / 企业存储,4,w7__restored__auth_bk_wx,登录与手机号,design/pages/business.html?state=restored&auth=bk_wx,联系方式,返回上一步；查看预约记录；修改；使用微信手机号；选择日期；上一步；邀请顾问协助；不允许；允许,screens/business/w7__restored__auth_bk_wx.jpg
+BUSINESS,商家 / 企业存储,4,w7__sales,基础态,design/pages/business.html?state=sales,商家 / 企业用仓 / 用仓需求,返回上一步；查看预约记录；多个区域都需要仓位？添加区域；1–5m³；5–15m³；15–30m³；30m³ 及以上；自定义；不知道多大？使用空间估算；1个月 8折,screens/business/w7__sales.jpg
+BUSINESS,商家 / 企业存储,4,w7__step2,基础态,design/pages/business.html?state=step2,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；邀请顾问协助,screens/business/w7__step2.jpg
+BUSINESS,商家 / 企业存储,4,w7__success_offhours,基础态,design/pages/business.html?state=success_offhours,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；保存企业需求更新；继续找仓,screens/business/w7__success_offhours.jpg
+BUSINESS,商家 / 企业存储,4,w7__success_sales,基础态,design/pages/business.html?state=success_sales,联系方式,返回上一步；查看预约记录；修改；选择日期；上一步；保存企业需求更新；知道了,screens/business/w7__success_sales.jpg
+ESTORE,考拉E存,4,w7__default,基础态,design/pages/estore.html?state=default,考拉E存,返回上页；去找自助仓；查看禁存清单；咨询考拉E存,screens/estore/w7__default.jpg
+ACC_TRANSPORT,运输与搬运,4,empty,基础态,design/pages/acc.html?view=transport&state=empty,运输与搬运 / 下单前即可预约运输 / 搬运，由顾问确认方案与费用，不计入本次应付。,返回我的；提交运输预约,screens/acc_transport/empty.jpg
+ACC_TRANSPORT,运输与搬运,4,form,基础态,design/pages/acc.html?view=transport&state=form,运输与搬运 / 安贞·富仁名苑店,返回我的；提交运输预约,screens/acc_transport/form.jpg
+ACC_TRANSPORT,运输与搬运,4,invalid,基础态,design/pages/acc.html?view=transport&state=invalid,运输与搬运 / 安贞·富仁名苑店,返回我的；提交运输预约,screens/acc_transport/invalid.jpg
+ACC_TRANSPORT,运输与搬运,4,pick,基础态,design/pages/acc.html?view=transport&state=pick,运输与搬运 / 选择关联订单,返回我的,screens/acc_transport/pick.jpg
+ACC_TRANSPORT,运输与搬运,4,saved,基础态,design/pages/acc.html?view=transport&state=saved,运输与搬运 / 安贞·富仁名苑店,返回我的；提交运输预约,screens/acc_transport/saved.jpg
+ACC_TRANSPORT,运输与搬运,4,saved__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=transport&state=saved&sys=error,运输与搬运 / 加载失败,返回我的；重新加载,screens/acc_transport/saved__sys_error.jpg
+ACC_TRANSPORT,运输与搬运,4,saved__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=transport&state=saved&sys=loading,运输与搬运 / 已提交，预计 10 分钟内与您联系,返回我的,screens/acc_transport/saved__sys_loading.jpg
+ACC_TRANSPORT,运输与搬运,4,saved__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=transport&state=saved&sys=offline,运输与搬运 / 网络未连接,返回我的；重新加载,screens/acc_transport/saved__sys_offline.jpg
+ACC_TRANSPORT,运输与搬运,4,w7__pre_invalid,基础态,design/pages/acc.html?view=transport&state=pre_invalid,运输与搬运 / 下单前即可预约运输 / 搬运，由顾问确认方案与费用，不计入本次应付。,返回我的；提交运输预约,screens/acc_transport/w7__pre_invalid.jpg
+ACC_TRANSPORT,运输与搬运,4,w7__pre_saved,基础态,design/pages/acc.html?view=transport&state=pre_saved,运输与搬运 / 已提交,返回我的；去找仓,screens/acc_transport/w7__pre_saved.jpg
+ACC_TRANSPORT,运输与搬运,4,w7__pre_saved__offhours,弹层 / 抽屉,design/pages/acc.html?view=transport&state=pre_saved&offhours=1,运输与搬运 / 已提交,返回我的；去找仓,screens/acc_transport/w7__pre_saved__offhours.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,form,基础态,design/pages/acc.html?view=support&state=form,联系顾问 / 直接联系,返回我的；拨打电话；选仓与服务咨询；订单与租后；搬运服务；个人用仓需求；企业用仓需求；提交咨询,screens/acc_support/form.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,invalid,基础态,design/pages/acc.html?view=support&state=invalid,联系顾问 / 直接联系,返回我的；拨打电话；选仓与服务咨询；订单与租后；搬运服务；个人用仓需求；企业用仓需求；提交咨询,screens/acc_support/invalid.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,order,基础态,design/pages/acc.html?view=support&state=order,订单咨询 / 安贞·富仁名苑店,返回我的；拨打电话；选仓与服务咨询；订单与租后；搬运服务；个人用仓需求；企业用仓需求；提交咨询,screens/acc_support/order.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,saved,基础态,design/pages/acc.html?view=support&state=saved,联系顾问 / 已提交,返回我的；查看预约记录；拨打电话,screens/acc_support/saved.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,saved__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=support&state=saved&sys=error,联系顾问 / 加载失败,返回我的；重新加载,screens/acc_support/saved__sys_error.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,saved__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=support&state=saved&sys=loading,联系顾问,返回我的,screens/acc_support/saved__sys_loading.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,saved__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=support&state=saved&sys=offline,联系顾问 / 网络未连接,返回我的；重新加载,screens/acc_support/saved__sys_offline.jpg
+ACC_SUPPORT,联系顾问 / 订单咨询,4,w7__saved__offhours,弹层 / 抽屉,design/pages/acc.html?view=support&state=saved&offhours=1,联系顾问 / 已提交,返回我的；查看预约记录；拨打电话,screens/acc_support/w7__saved__offhours.jpg
+ACC_NEEDS,预约用仓（记录）,4,edit,基础态,design/pages/acc.html?view=needs&state=edit,预约用仓 / 预计 10 分钟内与您联系；非服务时段提交的，顾问上班后将优先联系您。,返回我的；修改地址与备注；补充企业资料；更多；撤回；保存修改,screens/acc_needs/edit.jpg
+ACC_NEEDS,预约用仓（记录）,4,empty,基础态,design/pages/acc.html?view=needs&state=empty,预约用仓 / 暂无预约记录,返回我的；预约用仓,screens/acc_needs/empty.jpg
+ACC_NEEDS,预约用仓（记录）,4,list,基础态,design/pages/acc.html?view=needs&state=list,预约用仓 / 预计 10 分钟内与您联系；非服务时段提交的，顾问上班后将优先联系您。,返回我的；修改地址与备注；补充企业资料；更多；撤回,screens/acc_needs/list.jpg
+ACC_NEEDS,预约用仓（记录）,4,w7__more,基础态,design/pages/acc.html?view=needs&state=more,预约用仓 / 预计 10 分钟内与您联系；非服务时段提交的，顾问上班后将优先联系您。,返回我的；修改地址与备注；补充企业资料；更多；撤回；撤回需求；联系顾问；取消,screens/acc_needs/w7__more.jpg
+ACC_NEEDS,预约用仓（记录）,4,withdraw,基础态,design/pages/acc.html?view=needs&state=withdraw,预约用仓 / 预计 10 分钟内与您联系；非服务时段提交的，顾问上班后将优先联系您。,返回我的；修改地址与备注；补充企业资料；更多；撤回；暂不撤回；确认撤回,screens/acc_needs/withdraw.jpg
+ACC_NEEDS,预约用仓（记录）,4,withdraw__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=needs&state=withdraw&sys=error,预约用仓 / 加载失败,返回我的；重新加载；暂不撤回；确认撤回,screens/acc_needs/withdraw__sys_error.jpg
+ACC_NEEDS,预约用仓（记录）,4,withdraw__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=needs&state=withdraw&sys=loading,预约用仓 / 撤回需求,返回我的；暂不撤回；确认撤回,screens/acc_needs/withdraw__sys_loading.jpg
+ACC_NEEDS,预约用仓（记录）,4,withdraw__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=needs&state=withdraw&sys=offline,预约用仓 / 网络未连接,返回我的；重新加载；暂不撤回；确认撤回,screens/acc_needs/withdraw__sys_offline.jpg
+ACC_NEEDS,预约用仓（记录）,4,withdrawn,基础态,design/pages/acc.html?view=needs&state=withdrawn,预约用仓 / 预计 10 分钟内与您联系；非服务时段提交的，顾问上班后将优先联系您。,返回我的；修改地址与备注；补充企业资料；更多,screens/acc_needs/withdrawn.jpg
+ACC_PROGRESS,找仓进度,4,demand,基础态,design/pages/acc.html?view=progress&state=demand,找仓进度 / 找仓进度,返回我的；修改需求；查看推荐仓位,screens/acc_progress/demand.jpg
+ACC_PROGRESS,找仓进度,4,none,基础态,design/pages/acc.html?view=progress&state=none,找仓进度 / 尚无保存的找仓需求,返回我的；估大小算价格；找附近门店,screens/acc_progress/none.jpg
+ACC_PROGRESS,找仓进度,4,quote,基础态,design/pages/acc.html?view=progress&state=quote,找仓进度 / 找仓进度,返回我的；去确认订单,screens/acc_progress/quote.jpg
+ACC_PROGRESS,找仓进度,4,quote_expired,基础态,design/pages/acc.html?view=progress&state=quote_expired,找仓进度 / 找仓进度,返回我的；重新报价,screens/acc_progress/quote_expired.jpg
+ACC_PROGRESS,找仓进度,4,reference,基础态,design/pages/acc.html?view=progress&state=reference,找仓进度 / 找仓进度,返回我的；按此需求重新找仓,screens/acc_progress/reference.jpg
+ACC_PROGRESS,找仓进度,4,reference__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=progress&state=reference&sys=error,找仓进度 / 加载失败,返回我的；重新加载,screens/acc_progress/reference__sys_error.jpg
+ACC_PROGRESS,找仓进度,4,reference__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=progress&state=reference&sys=loading,找仓进度,返回我的,screens/acc_progress/reference__sys_loading.jpg
+ACC_PROGRESS,找仓进度,4,reference__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=progress&state=reference&sys=offline,找仓进度 / 网络未连接,返回我的；重新加载,screens/acc_progress/reference__sys_offline.jpg
+ACC_PROGRESS,找仓进度,4,selected,基础态,design/pages/acc.html?view=progress&state=selected,找仓进度 / 找仓进度,返回我的；去确认订单,screens/acc_progress/selected.jpg
+ACC_PROGRESS,找仓进度,4,w7__demand_area,基础态,design/pages/acc.html?view=progress&state=demand_area,找仓进度 / 找仓进度,返回我的；修改需求；查看推荐仓位,screens/acc_progress/w7__demand_area.jpg
+ACC_FAVORITES,我的收藏,4,empty,基础态,design/pages/acc.html?view=favorites&state=empty,我的收藏 / 暂无收藏，可在门店详情收藏,返回我的；找附近门店,screens/acc_favorites/empty.jpg
+ACC_FAVORITES,我的收藏,4,list,基础态,design/pages/acc.html?view=favorites&state=list,我的收藏 / 门店,返回我的,screens/acc_favorites/list.jpg
+ACC_FAVORITES,我的收藏,4,list__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=favorites&state=list&sys=error,我的收藏 / 加载失败,返回我的；重新加载,screens/acc_favorites/list__sys_error.jpg
+ACC_FAVORITES,我的收藏,4,list__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=favorites&state=list&sys=loading,我的收藏,返回我的,screens/acc_favorites/list__sys_loading.jpg
+ACC_FAVORITES,我的收藏,4,list__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=favorites&state=list&sys=offline,我的收藏 / 网络未连接,返回我的；重新加载,screens/acc_favorites/list__sys_offline.jpg
+ACC_FAVORITES,我的收藏,4,w7__list_gone,基础态,design/pages/acc.html?view=favorites&state=list_gone,我的收藏 / 门店,返回我的,screens/acc_favorites/w7__list_gone.jpg
+ACC_COUPONS,优惠与权益,4,available,基础态,design/pages/acc.html?view=coupons&state=available,优惠与权益 / 租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车,返回我的；去使用,screens/acc_coupons/available.jpg
+ACC_COUPONS,优惠与权益,4,empty,基础态,design/pages/acc.html?view=coupons&state=empty,优惠与权益 / 租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车,返回我的；领取新客券,screens/acc_coupons/empty.jpg
+ACC_COUPONS,优惠与权益,4,gate,基础态,design/pages/acc.html?view=coupons&state=gate,优惠与权益 / 租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车,返回我的；登录后查看金额,screens/acc_coupons/gate.jpg
+ACC_COUPONS,优惠与权益,4,locked,基础态,design/pages/acc.html?view=coupons&state=locked,优惠与权益 / 租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车,返回我的；去使用,screens/acc_coupons/locked.jpg
+ACC_COUPONS,优惠与权益,4,redeemed,基础态,design/pages/acc.html?view=coupons&state=redeemed,优惠与权益 / 租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车,返回我的,screens/acc_coupons/redeemed.jpg
+ACC_COUPONS,优惠与权益,4,redeemed__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=coupons&state=redeemed&sys=error,优惠与权益 / 加载失败,返回我的；重新加载,screens/acc_coupons/redeemed__sys_error.jpg
+ACC_COUPONS,优惠与权益,4,redeemed__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=coupons&state=redeemed&sys=loading,优惠与权益,返回我的,screens/acc_coupons/redeemed__sys_loading.jpg
+ACC_COUPONS,优惠与权益,4,redeemed__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=coupons&state=redeemed&sys=offline,优惠与权益 / 网络未连接,返回我的；重新加载,screens/acc_coupons/redeemed__sys_offline.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,contact,基础态,design/pages/acc.html?view=profile&state=contact,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录,screens/acc_profile/contact.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,contact__contact,弹层 / 抽屉,design/pages/acc.html?view=profile&state=contact&overlay=contact,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；保存联系方式,screens/acc_profile/contact__contact.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,contact_invalid,基础态,design/pages/acc.html?view=profile&state=contact_invalid,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；保存联系方式,screens/acc_profile/contact_invalid.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,contact_invalid__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=profile&state=contact_invalid&sys=error,个人信息 / 加载失败,返回我的；重新加载；保存联系方式,screens/acc_profile/contact_invalid__sys_error.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,contact_invalid__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=profile&state=contact_invalid&sys=loading,个人信息 / 填写联系电话,返回我的；保存联系方式,screens/acc_profile/contact_invalid__sys_loading.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,contact_invalid__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=profile&state=contact_invalid&sys=offline,个人信息 / 网络未连接,返回我的；重新加载；保存联系方式,screens/acc_profile/contact_invalid__sys_offline.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,unverified,基础态,design/pages/acc.html?view=profile&state=unverified,个人信息 / 欢迎使用迷你考拉,返回我的；修改联系电话；登录 / 注册,screens/acc_profile/unverified.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,verified,基础态,design/pages/acc.html?view=profile&state=verified,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录,screens/acc_profile/verified.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__auth_m_change,登录与手机号,design/pages/acc.html?view=profile&state=verified&auth=m_change,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；关闭登录；获取验证码,screens/acc_profile/w7__verified__auth_m_change.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__auth_m_change_conflict,登录与手机号,design/pages/acc.html?view=profile&state=verified&auth=m_change_conflict,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；联系客服；换个手机号,screens/acc_profile/w7__verified__auth_m_change_conflict.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__auth_m_change_ok,登录与手机号,design/pages/acc.html?view=profile&state=verified&auth=m_change_ok,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录,screens/acc_profile/w7__verified__auth_m_change_ok.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__auth_m_change_sent,登录与手机号,design/pages/acc.html?view=profile&state=verified&auth=m_change_sent,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；关闭登录,screens/acc_profile/w7__verified__auth_m_change_sent.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__delete,弹层 / 抽屉,design/pages/acc.html?view=profile&state=verified&overlay=delete,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；暂不注销；申请注销,screens/acc_profile/w7__verified__delete.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__delete_blocked,弹层 / 抽屉,design/pages/acc.html?view=profile&state=verified&overlay=delete_blocked,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；知道了；查看订单,screens/acc_profile/w7__verified__delete_blocked.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__logout,弹层 / 抽屉,design/pages/acc.html?view=profile&state=verified&overlay=logout,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；取消,screens/acc_profile/w7__verified__logout.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__privacy,弹层 / 抽屉,design/pages/acc.html?view=profile&state=verified&overlay=privacy,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；去设置；撤回隐私授权,screens/acc_profile/w7__verified__privacy.jpg
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,4,w7__verified__privacy_confirm,弹层 / 抽屉,design/pages/acc.html?view=profile&state=verified&overlay=privacy_confirm,个人信息 / 我的迷你考拉,返回我的；修改联系电话；更换登录手机号；隐私授权管理；注销账号；退出登录；去设置；撤回隐私授权；取消；确认撤回,screens/acc_profile/w7__verified__privacy_confirm.jpg
+ACC_REFERRAL,推荐有礼,4,copied,基础态,design/pages/acc.html?view=referral&state=copied,推荐有礼 / 邀请好友,返回我的；复制分享链接,screens/acc_referral/copied.jpg
+ACC_REFERRAL,推荐有礼,4,copied__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=referral&state=copied&sys=error,推荐有礼 / 加载失败,返回我的；重新加载,screens/acc_referral/copied__sys_error.jpg
+ACC_REFERRAL,推荐有礼,4,copied__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=referral&state=copied&sys=loading,推荐有礼 / 链接已复制,返回我的,screens/acc_referral/copied__sys_loading.jpg
+ACC_REFERRAL,推荐有礼,4,copied__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=referral&state=copied&sys=offline,推荐有礼 / 网络未连接,返回我的；重新加载,screens/acc_referral/copied__sys_offline.jpg
+ACC_REFERRAL,推荐有礼,4,gate,基础态,design/pages/acc.html?view=referral&state=gate,推荐有礼 / 邀请好友,返回我的；登录 / 注册；复制分享链接,screens/acc_referral/gate.jpg
+ACC_REFERRAL,推荐有礼,4,ready,基础态,design/pages/acc.html?view=referral&state=ready,推荐有礼 / 邀请好友,返回我的；复制分享链接,screens/acc_referral/ready.jpg
+ACC_BRAND,关于迷你考拉,4,default,基础态,design/pages/acc.html?view=brand&state=default,关于迷你考拉 / 迷你考拉仓,返回我的；查看门店；联系顾问,screens/acc_brand/default.jpg
+ACC_BRAND,关于迷你考拉,4,default__sys_error,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=brand&state=default&sys=error,关于迷你考拉 / 加载失败,返回我的；重新加载,screens/acc_brand/default__sys_error.jpg
+ACC_BRAND,关于迷你考拉,4,default__sys_loading,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=brand&state=default&sys=loading,关于迷你考拉,返回我的,screens/acc_brand/default__sys_loading.jpg
+ACC_BRAND,关于迷你考拉,4,default__sys_offline,系统态（加载 / 失败 / 断网 / 仓位已租出）,design/pages/acc.html?view=brand&state=default&sys=offline,关于迷你考拉 / 网络未连接,返回我的；重新加载,screens/acc_brand/default__sys_offline.jpg
+ENT_CERT,企业认证,4,w7__empty,基础态,design/pages/ent.html?view=cert&state=empty,企业认证 / 认证后可使用,返回我的,screens/ent_cert/w7__empty.jpg
+ENT_CERT,企业认证,4,w7__failed,基础态,design/pages/ent.html?view=cert&state=failed,认证未通过,返回我的；更正资料后重新提交；联系顾问,screens/ent_cert/w7__failed.jpg
+ENT_CERT,企业认证,4,w7__filled,基础态,design/pages/ent.html?view=cert&state=filled,企业认证 / 认证后可使用,返回我的；提交认证,screens/ent_cert/w7__filled.jpg
+ENT_CERT,企业认证,4,w7__invalid,基础态,design/pages/ent.html?view=cert&state=invalid,企业认证 / 认证后可使用,返回我的,screens/ent_cert/w7__invalid.jpg
+ENT_CERT,企业认证,4,w7__reviewing,基础态,design/pages/ent.html?view=cert&state=reviewing,资料审核中,返回我的,screens/ent_cert/w7__reviewing.jpg
+ENT_CERT,企业认证,4,w7__submitting,基础态,design/pages/ent.html?view=cert&state=submitting,企业认证 / 认证后可使用,返回我的,screens/ent_cert/w7__submitting.jpg
+ENT_CERT,企业认证,4,w7__verified,基础态,design/pages/ent.html?view=cert&state=verified,企业认证已完成,返回我的；开票抬头管理；批量开票,screens/ent_cert/w7__verified.jpg
+ENT_TITLES,开票抬头管理,4,w7__add,基础态,design/pages/ent.html?view=titles&state=add,开票抬头管理 / 抬头信息,返回我的；企业；个人,screens/ent_titles/w7__add.jpg
+ENT_TITLES,开票抬头管理,4,w7__delete,基础态,design/pages/ent.html?view=titles&state=delete,开票抬头管理 / 安贞商贸有限公司,返回我的；编辑；设为默认；添加抬头；暂不删除；确认删除,screens/ent_titles/w7__delete.jpg
+ENT_TITLES,开票抬头管理,4,w7__edit,基础态,design/pages/ent.html?view=titles&state=edit,开票抬头管理 / 抬头信息,返回我的；企业；个人；保存抬头；删除抬头,screens/ent_titles/w7__edit.jpg
+ENT_TITLES,开票抬头管理,4,w7__empty,基础态,design/pages/ent.html?view=titles&state=empty,开票抬头管理 / 还没有开票抬头,返回我的；添加抬头,screens/ent_titles/w7__empty.jpg
+ENT_TITLES,开票抬头管理,4,w7__invalid,基础态,design/pages/ent.html?view=titles&state=invalid,开票抬头管理 / 抬头信息,返回我的；企业；个人；删除抬头,screens/ent_titles/w7__invalid.jpg
+ENT_TITLES,开票抬头管理,4,w7__list,基础态,design/pages/ent.html?view=titles&state=list,开票抬头管理 / 安贞商贸有限公司,返回我的；编辑；设为默认；添加抬头,screens/ent_titles/w7__list.jpg
+ENT_BATCH,批量开票,4,w7__all,基础态,design/pages/ent.html?view=batch&state=all,批量开票 / 选择要合并开票的订单,返回我的；下一步：确认开票信息,screens/ent_batch/w7__all.jpg
+ENT_BATCH,批量开票,4,w7__confirm,基础态,design/pages/ent.html?view=batch&state=confirm,批量开票 / 开票抬头,返回我的；安贞商贸有限公司 更换；提交开票申请,screens/ent_batch/w7__confirm.jpg
+ENT_BATCH,批量开票,4,w7__empty,基础态,design/pages/ent.html?view=batch&state=empty,批量开票 / 暂无可开票的订单,返回我的；查看订单,screens/ent_batch/w7__empty.jpg
+ENT_BATCH,批量开票,4,w7__failed,基础态,design/pages/ent.html?view=batch&state=failed,开票未成功,返回我的；修改后重新提交；联系顾问,screens/ent_batch/w7__failed.jpg
+ENT_BATCH,批量开票,4,w7__gate,基础态,design/pages/ent.html?view=batch&state=gate,批量开票 / 批量开票需要先完成企业认证,返回我的；去企业认证,screens/ent_batch/w7__gate.jpg
+ENT_BATCH,批量开票,4,w7__issued,基础态,design/pages/ent.html?view=batch&state=issued,发票已开具,返回我的；下载发票；重新发送到邮箱,screens/ent_batch/w7__issued.jpg
+ENT_BATCH,批量开票,4,w7__select,基础态,design/pages/ent.html?view=batch&state=select,批量开票 / 选择要合并开票的订单,返回我的,screens/ent_batch/w7__select.jpg
+ENT_BATCH,批量开票,4,w7__selected,基础态,design/pages/ent.html?view=batch&state=selected,批量开票 / 选择要合并开票的订单,返回我的；下一步：确认开票信息,screens/ent_batch/w7__selected.jpg
+ENT_BATCH,批量开票,4,w7__submitted,基础态,design/pages/ent.html?view=batch&state=submitted,开票申请已提交,返回我的；返回订单,screens/ent_batch/w7__submitted.jpg
+ENT_BATCH,批量开票,4,w7__submitting,基础态,design/pages/ent.html?view=batch&state=submitting,批量开票 / 开票抬头,返回我的；安贞商贸有限公司 更换,screens/ent_batch/w7__submitting.jpg

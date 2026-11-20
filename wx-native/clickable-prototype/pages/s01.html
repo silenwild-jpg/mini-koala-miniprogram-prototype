@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>迷你考拉仓 · 附近门店 S01 · W1 高保真（可编辑）</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/base.css">
+<link rel="stylesheet" href="../design-system/components.css">
+</head>
+<body data-page="S01">
+<!-- 状态由 ?state=browse|matched|nomatch|soldout|filtering|loading 驱动；?overlay=demand|filter 叠加 OVL-1 / OVL-2。
+     W7 新增：state=advisor（D-97 顾问卡）| near（D-99 接近，可加 &cap=）| sales（D-101 ≥30m³ 交销售）；overlay=demand 可加 &unit=m2；nomatch 改用 28m³ 需求。
+     W26 新增：auth=loc_nocity（定位到无门店城市，回到北京）| transport_noloc（没有用仓位置时点「免费运输」）| search_move（搬家场景的用仓位置面板）。
+     结构顺序 = WP05 T2：StatusBar → TopBar.page（无返回）→ 城市 + 搜索 → FilterBar → QuickChip → DemandStrip → 卡 1–2 标准卡 → E存 → 紧凑卡 → 查看更多 → TabBar -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+ <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11Z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+ <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+ <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+ <symbol id="i-box" viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4-9-4Zm0 0v9l9 4 9-4V8M12 12v9"/></symbol>
+</svg>
+<div class="screen" id="screen">
+  <div class="statusbar"><span>9:41</span><span class="sig">●●●● <i></i></span></div>
+  <header class="topbar page">附近门店</header>
+  <div class="topbar" style="height:48px;gap:10px;padding-bottom:4px">
+    <button class="city" data-action="city"><span id="city">北京</span><svg class="ico xs"><use href="#i-down"/></svg></button>
+    <button class="search" data-action="search" aria-label="搜索门店、商圈或区域"><svg class="ico sm"><use href="#i-search"/></svg><span>搜索门店、商圈或区域</span></button>
+  </div>
+  <div class="filterbar" id="filterbar">
+    <button type="button" data-filter="0">排序<svg class="ico sm"><use href="#i-down"/></svg></button>
+    <button type="button" data-filter="1">距离<svg class="ico sm"><use href="#i-down"/></svg></button>
+    <button type="button" data-filter="2">服务<svg class="ico sm"><use href="#i-down"/></svg></button>
+  </div>
+  <div class="chips" id="chips">
+    <button type="button" class="chipwrap" aria-pressed="false"><span class="chip" data-quick="promo">特价仓</span></button>
+    <button type="button" class="chipwrap" aria-pressed="false"><span class="chip" data-quick="moving">免费运输</span></button>
+  </div>
+  <div class="dstrip" id="dstrip"><span class="k" id="dstrip-text">不确定用多大仓？</span><button type="button" class="btn text sm" id="dstrip-btn">立即估算</button></div>
+  <p class="result-line" id="result-line"></p>
+  <section class="sec stack" id="list" aria-label="门店列表" style="margin-top:10px"></section>
+  <div class="more-row" id="more-row" hidden><button type="button" class="btn text sm">查看更多门店</button></div>
+</div>
+<nav class="tabbar" aria-label="底部导航">
+  <a href="#H01"><img src="../assets/nav/home-inactive.svg" alt="">首页</a>
+  <a class="on" href="#S01"><img src="../assets/nav/stores-active.svg" alt="">附近门店</a>
+  <a href="#OH01"><img src="../assets/nav/orders-inactive.svg" alt="">订单</a>
+  <a href="#M01"><img src="../assets/nav/me-inactive.svg" alt="">我的</a>
+</nav>
+<div id="overlay-root"></div>
+<script src="../runtime/store-geo.js"></script>
+<script src="../runtime/fixtures.js"></script>
+<script src="../runtime/space-unit.js"></script>
+<script src="../runtime/br03-demo-snapshots.js"></script>
+<script src="../runtime/presentation-policy.js"></script>
+<script src="../runtime/promotion-policy.js"></script>
+<script src="../runtime/gift-term-policy.js"></script>
+<script src="../runtime/lead-flow.js"></script>
+<script src="../runtime/demo-core.js"></script>
+<script src="../runtime/br03-policy.js"></script>
+<script src="../runtime/home-recommend-policy.js"></script>
+<script src="../runtime/recommendation-policy.js"></script>
+<script src="../runtime/h01-state-policy-01.js"></script>
+<script src="../model/volume-model.js"></script>
+<script src="../model/w7-rules.js"></script>
+<script src="../model/mk-contract-text.js"></script>
+<script src="w1-render.js"></script>
+<script src="w7-sys.js"></script>
+<script src="w9-auth.js"></script>
+<script src="w14.js"></script>
+<script src="w22-terms.js"></script>
+<script src="proto-nav.js"></script>
+</body>
+</html>

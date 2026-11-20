@@ -1,0 +1,47 @@
+<view class="mk-page">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{list.length === 0}}" class="mk-gutter lnd-top">
+    <view class="mk-card lnd-empty">
+      <view class="lnd-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-note.svg" /></view>
+      <text class="mk-title lnd-et">{{T.n.emptyTitle}}</text>
+      <text class="mk-sub lnd-es">{{T.n.emptySub}}</text>
+      <button class="mk-btn mk-btn--md lnd-eb" hover-class="mk-btn--hover" bindtap="onBook">{{T.n.book}}</button>
+    </view>
+  </view>
+  <block wx:else>
+    <view wx:if="{{active}}" class="lnd-notice">{{T.ack.both}}</view>
+    <view class="mk-gutter lnd-top">
+      <view wx:for="{{list}}" wx:key="id" class="mk-card lnd-card">
+        <view class="mk-between"><text class="mk-title mk-grow">{{item.title}}</text><text class="lnd-tag {{item.off ? '' : 'lnd-tag--warn'}}">{{item.status}}</text></view>
+        <text class="lnd-line">{{item.loc}}</text>
+        <text class="mk-sub lnd-sub mk-num">{{item.detail}}</text>
+        <text wx:if="{{item.note}}" class="mk-sub lnd-sub">{{item.note}}</text>
+        <view wx:if="{{!item.off}}" class="lnd-acts">
+          <block wx:if="{{item.ent}}">
+            <button class="mk-btn mk-btn--md lnd-neutral lnd-btn" hover-class="none" data-id="{{item.id}}" bindtap="onEdit">{{T.n.edit}}</button>
+            <button class="mk-btn mk-btn--md mk-btn--ghost lnd-btn" hover-class="none" data-id="{{item.id}}" bindtap="onFill">{{T.n.fill}}</button>
+            <button class="mk-btn mk-btn--md lnd-neutral lnd-more" hover-class="none" data-id="{{item.id}}" bindtap="onMore" aria-label="更多操作">{{T.n.more}}</button>
+          </block>
+          <block wx:else>
+            <button class="mk-btn mk-btn--md lnd-neutral lnd-btn" hover-class="none" data-id="{{item.id}}" bindtap="onWithdraw">{{T.n.withdraw}}</button>
+            <button class="mk-btn mk-btn--md mk-btn--ghost lnd-btn" hover-class="none" data-id="{{item.id}}" bindtap="onEdit">{{T.n.edit}}</button>
+          </block>
+        </view>
+      </view>
+    </view>
+  </block>
+  <mk-sheet visible="{{sheet === 'more'}}" title="{{T.n.moreTitle}}" bind:close="onSheetClose">
+    <view class="lnd-row" bindtap="onMoreWithdraw" aria-role="button"><text class="mk-grow">{{T.n.withdrawNeed}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+    <view class="lnd-row" bindtap="onMoreContact" aria-role="button"><text class="mk-grow">{{T.n.contact}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+    <button class="mk-btn lnd-neutral lnd-sheetbtn" hover-class="none" bindtap="onSheetClose">{{T.c.cancel}}</button>
+  </mk-sheet>
+  <mk-sheet visible="{{sheet === 'edit'}}" title="{{T.n.editTitle}}" bind:close="onSheetClose">
+    <text class="lnd-lab">{{T.n.address}}</text>
+    <view class="lnd-input {{editErr ? 'lnd-input--err' : ''}}"><input class="lnd-native" value="{{editAddress}}" maxlength="{{addressMax}}" placeholder="{{T.n.addressPh}}" placeholder-class="lnd-ph" bindinput="onEditAddress" /></view>
+    <text wx:if="{{editErr}}" class="mk-error lnd-err">{{editErr}}</text>
+    <text class="lnd-lab">{{T.n.note}}</text>
+    <view class="lnd-input"><input class="lnd-native" value="{{editNote}}" maxlength="{{noteMax}}" placeholder="{{T.n.notePh}}" placeholder-class="lnd-ph" bindinput="onEditNote" /></view>
+    <text class="mk-sub lnd-rule">{{T.n.editRule}}</text>
+    <button class="mk-btn lnd-sheetbtn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSave">{{T.n.save}}</button>
+  </mk-sheet>
+</view>

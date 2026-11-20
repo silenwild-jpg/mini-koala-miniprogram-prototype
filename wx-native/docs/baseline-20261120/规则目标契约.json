@@ -1,0 +1,87 @@
+{
+  "baseline_id": "MK-NATIVE-RULES-20261120-v1",
+  "status": "approved-rules-implementation-pending",
+  "source_commit": "eefd0e97ddd7c4b94ff423ec9ccaaf8f2072e1f8",
+  "branch": "feat/wx-native-rule-baseline-20261120",
+  "target": "微信原生体验版；演示数据",
+  "rules": {
+    "large_capacity": {
+      "threshold_m3": 30,
+      "block_matching": false,
+      "block_checkout": false,
+      "advisor": "light-nonblocking"
+    },
+    "near_capacity": {
+      "min_ratio_inclusive": 0.8,
+      "max_ratio_exclusive": 1,
+      "eligible": true,
+      "deficit_label": "小 Xm³",
+      "below_ratio_not_near": true
+    },
+    "special": {
+      "factor": 0.9,
+      "stack_term_discount": true,
+      "per_store_count": [
+        1,
+        3
+      ],
+      "deterministic_demo": true
+    },
+    "capacity": {
+      "ceil_decimals": 1,
+      "min_m3": 0.5,
+      "min_m2": 0.2,
+      "max_m2": 200,
+      "temporary_height_m": 2.5,
+      "below_min_suggest_and_continue": true,
+      "precision_error_text": false
+    },
+    "items_advisor": {
+      "capacity_gt_m3": 15,
+      "or_large_item": true,
+      "dismiss_and_continue": true
+    },
+    "store_viewing": {
+      "presentation": "S02-inline-sheet",
+      "new_page": false,
+      "fields": [
+        "phone",
+        "viewing_time",
+        "capacity_optional",
+        "unit_optional"
+      ],
+      "store_context": true,
+      "creates": "sales_lead",
+      "creates_order": false
+    },
+    "s5_edit": {
+      "uses_requirement_origin": true,
+      "routes": [
+        "CAP",
+        "ITEMS"
+      ],
+      "preserve_draft": true
+    },
+    "login": {
+      "prompt": "请登录",
+      "quick_returns_to_quick": true,
+      "remove_confirm_guest_content": true
+    }
+  },
+  "engineering_defaults": {
+    "special_assignment": "固定种子；不随刷新变动",
+    "special_rounding": "沿用原生月租舍去小数，在基价×0.9×租期系数后统一取整；待金额用例核验",
+    "other_promotions": "沿用Claude包内已定义的券/满额减关系；不推导为所有优惠无条件叠加",
+    "reminder_frequency": "同一需求提醒一次，容量/大件条件变化后可重新提示",
+    "missing_s5_origin": "深链来源缺失时到CAP并预填已有需求",
+    "viewing_time": "快捷日期/时间段及其他时间；未确定可由销售电话确认",
+    "customer_service": "优先原生客服入口，真实可用性取决于账号配置；不可伪造已接通",
+    "viewing_phone": "已有验证电话预填，游客优先取号，失败/拒绝保留手填，手填不等于验证登录"
+  },
+  "validation": {
+    "wechat_compile": "NOT_TESTED",
+    "device": "NOT_TESTED",
+    "native_visual_375_390": "NOT_TESTED",
+    "rule_implementation": "NOT_STARTED"
+  }
+}

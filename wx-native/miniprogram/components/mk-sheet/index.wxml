@@ -1,0 +1,10 @@
+<view wx:if="{{visible}}" class="sh-sheet-root" catchtouchmove="noop">
+  <view class="sh-scrim" bindtap="onMask"></view>
+  <view class="sh-panel">
+    <view class="sh-head mk-between">
+      <text class="mk-title">{{title}}</text>
+      <view class="sh-close" bindtap="onClose" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
+    </view>
+    <view class="sh-body"><slot></slot></view>
+  </view>
+</view>

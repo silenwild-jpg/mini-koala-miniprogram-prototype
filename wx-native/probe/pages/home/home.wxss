@@ -1,0 +1,2 @@
+.home-wrap { padding-bottom: 200rpx; }
+.home-bar { position: fixed; left: 0; right: 0; bottom: 0; height: var(--mk-size-ctaHeight); line-height: var(--mk-size-ctaHeight); text-align: center; background: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-md); }

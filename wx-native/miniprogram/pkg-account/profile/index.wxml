@@ -1,0 +1,77 @@
+<view class="mk-page">
+  <view class="pf-head mk-gutter mk-row">
+    <view class="pf-avatar"><image class="mk-icon mk-icon--md" src="/assets/icons/user-sub.svg" /></view>
+    <view class="mk-grow">
+      <text class="mk-h2 pf-block">{{headTitle}}</text>
+      <text class="mk-sub">{{headSub}}</text>
+    </view>
+  </view>
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:else class="ac-wrap">
+    <view class="mk-card">
+      <text class="ac-sec">{{T.p.section}}</text>
+      <view class="ac-kv"><text class="ac-k">{{T.p.loginPhone}}</text><text class="ac-v mk-num {{loginPhone ? '' : 'ac-soft'}}">{{loginPhone || T.p.notLoggedIn}}</text></view>
+      <view class="ac-kv"><text class="ac-k">{{T.p.contactPhone}}</text><text class="ac-v mk-num {{contact ? '' : 'ac-soft'}}">{{contact || T.p.contactEmpty}}</text></view>
+      <view class="ac-acts">
+        <button class="mk-btn mk-btn--ghost mk-btn--md ac-act pf-neutral" hover-class="none" bindtap="onEditContact">{{T.p.editContact}}</button>
+        <button wx:if="{{loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-act pf-neutral" hover-class="none" bindtap="onChangePhone">{{T.p.changePhone}}</button>
+        <button wx:else class="mk-btn mk-btn--md ac-act" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
+      </view>
+    </view>
+    <view class="ac-notice pf-note"><text class="ac-notice-s">{{loggedIn ? T.p.noteSigned : T.p.noteGuest}}</text></view>
+    <block wx:if="{{loggedIn}}">
+      <view class="mk-card">
+        <text class="ac-sec">{{T.p.privacySection}}</text>
+        <view class="ac-lrow" bindtap="onPrivacy" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/ic-shield.svg" /><text class="mk-grow">{{T.p.privacy}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="ac-lrow" bindtap="onDelete" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/ic-user.svg" /><text class="mk-grow">{{T.p.deleteAccount}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+      </view>
+      <button class="mk-btn mk-btn--ghost mk-btn--md pf-neutral pf-logout" hover-class="none" bindtap="onLogout">{{T.p.logout}}</button>
+    </block>
+  </view>
+
+  <mk-sheet visible="{{contactVisible}}" title="{{T.p.contactSheet.title}}" bind:close="onContactClose">
+    <text class="ac-label">{{T.p.contactSheet.label}}</text>
+    <view class="ac-input {{contactError ? 'ac-input--err' : ''}}">
+      <input class="ac-inp" type="text" maxlength="20" placeholder="{{T.p.contactSheet.placeholder}}" placeholder-class="ac-ph" value="{{contactValue}}" bindinput="onContactInput" />
+      <image class="mk-icon" src="/assets/icons/ic-phone.svg" />
+    </view>
+    <text wx:if="{{contactError}}" class="mk-error ac-ferr">{{contactError}}</text>
+    <button class="mk-btn ac-block" hover-class="mk-btn--hover" loading="{{contactBusy}}" bindtap="onSaveContact">{{T.p.contactSheet.save}}</button>
+  </mk-sheet>
+
+  <mk-sheet visible="{{changeVisible}}" title="{{T.p.change.title}}" bind:close="onChangeClose">
+    <text class="ac-label">{{T.p.change.phoneLabel}}</text>
+    <view class="ac-input"><input class="ac-inp" type="number" maxlength="11" placeholder="{{T.p.change.phonePlaceholder}}" placeholder-class="ac-ph" value="{{chPhone}}" bindinput="onChPhone" /></view>
+    <text class="ac-label pf-gap">{{T.p.change.codeLabel}}</text>
+    <view class="mk-row">
+      <view class="ac-input mk-grow {{chError ? 'ac-input--err' : ''}}"><input class="ac-inp" type="number" maxlength="6" placeholder="{{T.p.change.codePlaceholder}}" placeholder-class="ac-ph" value="{{chCode}}" bindinput="onChCode" /></view>
+      <view class="pf-send {{chCountdown > 0 ? 'pf-send--off' : ''}}" bindtap="onChSend" aria-role="button">{{chSendText}}</view>
+    </view>
+    <text wx:if="{{chError}}" class="mk-error ac-ferr">{{chError}}</text>
+    <text wx:elif="{{chHint}}" class="mk-sub ac-ferr">{{chHint}}</text>
+    <button class="mk-btn ac-block {{chReady ? '' : 'mk-btn--disabled'}}" hover-class="none" loading="{{chBusy}}" bindtap="onChSubmit">{{T.p.change.submit}}</button>
+    <text class="ac-fine">{{T.p.change.fine}}</text>
+  </mk-sheet>
+
+  <mk-sheet visible="{{privacyVisible}}" title="{{T.p.privacySheet.title}}" bind:close="onPrivacyClose">
+    <view class="ac-kv"><text class="ac-k">{{T.p.privacySheet.location}}</text><view class="mk-row"><text>{{locationText}}</text><text class="mk-link pf-set" bindtap="onToSetting" aria-role="button">{{T.p.privacySheet.toSetting}}</text></view></view>
+    <view class="ac-kv"><text class="ac-k">{{T.p.privacySheet.phone}}</text><text class="ac-v">{{T.p.privacySheet.granted}}</text></view>
+    <view class="ac-kv"><text class="ac-k">{{T.p.privacySheet.identity}}</text><text class="ac-v">{{identityText}}</text></view>
+    <view class="ac-kv" bindtap="onPrivacyContract" aria-role="button"><text class="mk-link">{{T.p.privacySheet.contract}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+    <text class="ac-fine">{{T.p.privacySheet.fine}}</text>
+    <button class="mk-btn mk-btn--ghost pf-neutral ac-block" hover-class="none" bindtap="onWithdraw">{{T.p.privacySheet.withdraw}}</button>
+  </mk-sheet>
+
+  <mk-sheet visible="{{deleteVisible}}" title="{{T.p.deleteSheet.title}}" bind:close="onDeleteClose">
+    <text class="ac-para">{{T.p.deleteSheet.lead}}</text>
+    <view wx:for="{{T.p.deleteSheet.conditions}}" wx:key="*this" class="pf-cond mk-row"><view class="pf-bullet"></view><text>{{item}}</text></view>
+    <text class="ac-fine">{{T.p.deleteSheet.fine}}</text>
+    <view class="ac-acts">
+      <button class="mk-btn mk-btn--ghost pf-neutral ac-act" hover-class="none" bindtap="onDeleteClose">{{T.p.deleteSheet.cancel}}</button>
+      <button class="mk-btn ac-act" hover-class="mk-btn--hover" loading="{{deleteBusy}}" bindtap="onDeleteConfirm">{{T.p.deleteSheet.confirm}}</button>
+    </view>
+  </mk-sheet>
+
+  <acc-dialog visible="{{dialog.visible}}" title="{{dialog.title}}" desc="{{dialog.desc}}" cancel-text="{{dialog.cancelText}}" confirm-text="{{dialog.confirmText}}" bind:cancel="onDialogCancel" bind:confirm="onDialogConfirm" />
+  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+</view>

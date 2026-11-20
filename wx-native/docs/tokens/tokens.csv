@@ -1,0 +1,95 @@
+﻿令牌,类别,设计稿值（px）,小程序值（rpx）
+--mk-color-brand-fill,color,#14AE68,#14AE68
+--mk-color-brand-text,color,#0B7A48,#0B7A48
+--mk-color-brand-fillPressed,color,#0F8F55,#0F8F55
+--mk-color-action-primaryFill,color,#0B7A48,#0B7A48
+--mk-color-action-primaryPressed,color,#085C36,#085C36
+--mk-color-brand-tint,color,#E6F6EE,#E6F6EE
+--mk-color-brand-tintStrong,color,#CDEBDC,#CDEBDC
+--mk-color-canvas-page,color,#FFFFFF,#FFFFFF
+--mk-color-canvas-card,color,#FFFFFF,#FFFFFF
+--mk-color-canvas-sunken,color,#F5F7F6,#F5F7F6
+--mk-color-ink-primary,color,#1F2A24,#1F2A24
+--mk-color-ink-secondary,color,#5F6B65,#5F6B65
+--mk-color-ink-tertiary,color,#8A948F,#8A948F
+--mk-color-ink-inverse,color,#FFFFFF,#FFFFFF
+--mk-color-line-hairline,color,#E3E8E5,#E3E8E5
+--mk-color-line-strong,color,#C9D3CD,#C9D3CD
+--mk-color-accent-promoFill,color,#FFF1E6,#FFF1E6
+--mk-color-accent-promoText,color,#B4530A,#B4530A
+--mk-color-accent-promoIcon,color,#F5821F,#F5821F
+--mk-color-status-successFill,color,#14AE68,#14AE68
+--mk-color-status-successText,color,#0B7A48,#0B7A48
+--mk-color-status-warningFill,color,#FFF1E6,#FFF1E6
+--mk-color-status-warningText,color,#B4530A,#B4530A
+--mk-color-status-errorFill,color,#FEF3F2,#FEF3F2
+--mk-color-status-errorText,color,#B42318,#B42318
+--mk-color-status-errorStrong,color,#D92D20,#D92D20
+--mk-color-status-infoFill,color,#F5F7F6,#F5F7F6
+--mk-color-status-infoText,color,#5F6B65,#5F6B65
+--mk-color-overlay-scrim,color,"rgba(31,42,36,0.45)","rgba(31,42,36,0.45)"
+--mk-color-overlay-photoFade,color,"linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%)","linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%)"
+--mk-font-family-base,font,"-apple-system, BlinkMacSystemFont, 'PingFang SC', 'HarmonyOS Sans SC', 'MiSans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Source Han Sans SC', sans-serif","-apple-system, BlinkMacSystemFont, 'PingFang SC', 'HarmonyOS Sans SC', 'MiSans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Source Han Sans SC', sans-serif"
+--mk-font-family-numeric,font,"'DIN Alternate', 'Roboto', -apple-system, 'PingFang SC', sans-serif","'DIN Alternate', 'Roboto', -apple-system, 'PingFang SC', sans-serif"
+--mk-font-size-xs,font,12px,24rpx
+--mk-font-size-sm,font,13px,26rpx
+--mk-font-size-md,font,14px,28rpx
+--mk-font-size-lg,font,16px,32rpx
+--mk-font-size-xl,font,18px,36rpx
+--mk-font-size-2xl,font,20px,40rpx
+--mk-font-size-3xl,font,24px,48rpx
+--mk-font-size-4xl,font,28px,56rpx
+--mk-font-weight-regular,font,400,400
+--mk-font-weight-medium,font,500,500
+--mk-font-weight-semibold,font,600,600
+--mk-font-weight-bold,font,700,700
+--mk-font-lineHeight-tight,font,1.2,1.2
+--mk-font-lineHeight-normal,font,1.45,1.45
+--mk-font-lineHeight-loose,font,1.6,1.6
+--mk-font-feature-tabularNums,font,'tnum' 1,'tnum' 1
+--mk-space-1,space,4px,8rpx
+--mk-space-2,space,8px,16rpx
+--mk-space-3,space,12px,24rpx
+--mk-space-4,space,16px,32rpx
+--mk-space-5,space,20px,40rpx
+--mk-space-6,space,24px,48rpx
+--mk-space-8,space,32px,64rpx
+--mk-space-10,space,40px,80rpx
+--mk-space-pageGutter,space,16px,32rpx
+--mk-space-cardPad,space,16px,32rpx
+--mk-space-cardPadCompact,space,12px,24rpx
+--mk-space-cardGap,space,12px,24rpx
+--mk-space-sectionGap,space,24px,48rpx
+--mk-space-inlineGap,space,8px,16rpx
+--mk-radius-control,radius,4px,8rpx
+--mk-radius-thumb,radius,8px,16rpx
+--mk-radius-card,radius,12px,24rpx
+--mk-radius-media,radius,12px,24rpx
+--mk-radius-none,radius,0px,0px
+--mk-elevation-card,elevation,0 1px 0 #E3E8E5,0 1px 0 #E3E8E5
+--mk-elevation-float,elevation,"0 4px 14px rgba(20,174,104,0.08)","0 8rpx 28rpx rgba(20,174,104,0.08)"
+--mk-elevation-sheet,elevation,"0 -2px 12px rgba(31,42,36,0.08)","0 -4rpx 24rpx rgba(31,42,36,0.08)"
+--mk-size-ctaHeight,size,44px,88rpx
+--mk-size-btnMdHeight,size,36px,72rpx
+--mk-size-btnSmHeight,size,32px,64rpx
+--mk-size-inputHeight,size,44px,88rpx
+--mk-size-chipHeight,size,28px,56rpx
+--mk-size-tagHeight,size,20px,40rpx
+--mk-size-thumb,size,88px,176rpx
+--mk-size-thumbCompact,size,64px,128rpx
+--mk-size-cardMediaRatio,size,16/10,16/10
+--mk-size-recCardWidth,size,142px,284rpx
+--mk-size-iconMd,size,24px,48rpx
+--mk-size-iconSm,size,16px,32rpx
+--mk-size-tabBarHeight,size,50px,运行时取系统值
+--mk-size-topBarHeight,size,44px,运行时取系统值
+--mk-size-statusBar,size,44px,运行时取系统值
+--mk-size-heroMaxFold,size,25%,25%
+--mk-motion-fast,motion,120ms,120ms
+--mk-motion-base,motion,200ms,200ms
+--mk-motion-sheet,motion,260ms,260ms
+--mk-motion-easing,motion,"cubic-bezier(0.2, 0, 0, 1)","cubic-bezier(0.2, 0, 0, 1)"
+--mk-border-hairline,border,1px solid #E3E8E5,1px solid #E3E8E5
+--mk-border-strong,border,1px solid #C9D3CD,1px solid #C9D3CD
+--mk-border-brand,border,1px solid #14AE68,1px solid #14AE68
+--mk-border-error,border,1px solid #D92D20,1px solid #D92D20

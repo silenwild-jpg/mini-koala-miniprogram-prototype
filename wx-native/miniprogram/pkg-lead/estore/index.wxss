@@ -1,0 +1,25 @@
+@import "../lead.wxss";
+/* 考拉E存：本页特有的部分 */
+.les-top { padding-top: var(--mk-space-3); }
+.les-kicker { display: block; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-sm); }
+.les-title { display: block; margin-top: var(--mk-space-1); }
+.les-lead { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
+.les-cmp { display: flex; }
+.les-col { flex: 1; min-width: 0; }
+.les-col--r { padding-left: var(--mk-space-3); margin-left: var(--mk-space-3); border-left: var(--mk-border-hairline); }
+.les-ct { display: block; margin-bottom: var(--mk-space-1); font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
+.les-li { display: block; padding: 6rpx 0; }
+.les-btn { margin-top: var(--mk-space-2); }
+.les-step { display: flex; }
+.les-rail { flex: none; width: 40rpx; display: flex; flex-direction: column; align-items: center; margin-right: var(--mk-space-3); }
+.les-dot { width: 32rpx; height: 32rpx; box-sizing: border-box; border-radius: 50%; border: 4rpx solid var(--mk-color-line-strong); background: var(--mk-color-canvas-card); }
+.les-bar { flex: 1; width: 4rpx; min-height: 32rpx; background: var(--mk-color-line-hairline); }
+.les-stepbody { padding-bottom: var(--mk-space-3); }
+.les-st { display: block; font-size: var(--mk-font-size-md); }
+.les-ss { display: block; margin-top: 4rpx; }
+.les-info { padding: var(--mk-space-2) 0; border-bottom: var(--mk-border-hairline); }
+.les-ik { display: block; }
+.les-iv { display: block; margin-top: 4rpx; font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
+.les-iv--mute { color: var(--mk-color-ink-secondary); }
+.les-link { display: inline-flex; align-items: center; min-height: 64rpx; }
+.les-fine { display: block; margin-top: var(--mk-space-3); line-height: var(--mk-font-lineHeight-normal); }

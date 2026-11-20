@@ -1,0 +1,5 @@
+.ol-empty { display: flex; flex-direction: column; align-items: center; padding: var(--mk-space-10) var(--mk-space-pageGutter); }
+.ol-pic { width: 96rpx; height: 96rpx; margin-bottom: var(--mk-space-3); }
+.ol-s { margin: var(--mk-space-2) 0 var(--mk-space-4); }
+.ol-list { padding-top: var(--mk-space-3); }
+.ol-head { margin-bottom: var(--mk-space-3); }

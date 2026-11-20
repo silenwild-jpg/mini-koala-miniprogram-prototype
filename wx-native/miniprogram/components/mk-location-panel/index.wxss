@@ -1,0 +1,21 @@
+.lp-root { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 90; background: var(--mk-color-canvas-page); display: flex; flex-direction: column; box-sizing: border-box; }
+.lp-bar { padding: var(--mk-space-2) var(--mk-space-pageGutter); }
+.lp-search { height: 72rpx; padding: 0 var(--mk-space-3); border: var(--mk-border-brand); border-radius: var(--mk-radius-control); box-sizing: border-box; }
+.lp-input { height: 100%; margin-left: var(--mk-space-2); font-size: var(--mk-font-size-md); }
+.lp-ph { color: var(--mk-color-ink-tertiary); }
+.lp-clr { width: 64rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; margin-right: -16rpx; }
+.lp-cancel { padding-left: var(--mk-space-3); min-height: 64rpx; display: flex; align-items: center; white-space: nowrap; }
+.lp-scroll { flex: 1; height: 0; }
+.lp-body { padding: 0 var(--mk-space-pageGutter) calc(var(--mk-space-6) + env(safe-area-inset-bottom)); display: flex; flex-direction: column; }
+.lp-note { display: block; margin-top: var(--mk-space-2); padding: var(--mk-space-2) var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); color: var(--mk-color-ink-primary); font-size: var(--mk-font-size-sm); }
+.lp-note--soft { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); }
+.lp-loc { min-height: 112rpx; border-bottom: var(--mk-border-hairline); }
+.lp-rb { display: flex; flex-direction: column; margin-left: var(--mk-space-2); }
+.lp-act { min-height: 64rpx; display: flex; align-items: center; padding-left: var(--mk-space-3); white-space: nowrap; }
+.lp-hd { display: flex; margin: var(--mk-space-4) 0 var(--mk-space-2); }
+.lp-chips { display: flex; flex-wrap: wrap; }
+.lp-c { margin: 0 var(--mk-space-2) var(--mk-space-2) 0; min-height: 64rpx; }
+.lp-n { margin-left: var(--mk-space-1); color: var(--mk-color-ink-secondary); }
+.lp-more { border-style: dashed; color: var(--mk-color-ink-secondary); }
+.lp-res { min-height: 112rpx; border-bottom: var(--mk-border-hairline); }
+.lp-nt { display: block; margin-top: var(--mk-space-4); margin-bottom: 4rpx; }

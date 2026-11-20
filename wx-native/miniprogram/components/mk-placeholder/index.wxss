@@ -1,0 +1,2 @@
+.phd-ph { display: flex; flex-direction: column; align-items: center; padding: var(--mk-space-10) var(--mk-space-pageGutter); }
+.phd-d { margin: var(--mk-space-2) 0 var(--mk-space-5); }

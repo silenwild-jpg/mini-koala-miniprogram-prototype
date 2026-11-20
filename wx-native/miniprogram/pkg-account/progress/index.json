@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "找仓进度",
+  "usingComponents": { "mk-need-card": "/components/mk-need-card/index" }
+}

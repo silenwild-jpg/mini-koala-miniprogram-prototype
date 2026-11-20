@@ -1,0 +1,119 @@
+<view class="mk-page it-page">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <block wx:else>
+    <view class="it-head">
+      <view class="mk-row mk-gutter it-assist">
+        <view class="mk-chip it-chip" bindtap="onAdvisor" aria-role="button"><image class="mk-icon it-ci" src="/assets/icons/headset-brand.svg" />{{T.i.advisor}}</view>
+        <view class="mk-chip it-chip it-chip--off" bindtap="onAi" aria-role="button"><image class="mk-icon it-ci" src="/assets/icons/ic-spark.svg" />{{T.i.ai}}</view>
+        <view class="mk-grow"></view>
+        <text class="mk-link it-tocap" bindtap="onToCap" aria-role="button">{{T.i.toCap}}</text>
+      </view>
+      <view class="it-modes">
+        <view class="it-mode {{mode === 'items' ? 'it-mode--on' : ''}}" data-m="items" bindtap="onMode" aria-role="tab">{{T.i.byItem}}</view>
+        <view class="it-mode {{mode === 'scenes' ? 'it-mode--on' : ''}}" data-m="scenes" bindtap="onMode" aria-role="tab">{{T.i.byScene}}</view>
+      </view>
+    </view>
+    <view class="it-main">
+      <view class="it-rail">
+        <view wx:for="{{rail}}" wx:key="id" class="it-nav {{item.on ? 'it-nav--on' : ''}}" data-id="{{item.id}}" bindtap="onCat" aria-role="button">
+          <image class="mk-icon it-ni" src="/assets/icons/{{item.icon}}.svg" /><text class="it-nt">{{item.name}}</text>
+        </view>
+      </view>
+      <view class="it-list">
+        <view class="mk-between"><text class="mk-title">{{listTitle}}</text><text class="mk-sub">{{listCount}}</text></view>
+        <text wx:if="{{sceneDesc}}" class="mk-sub it-line">{{sceneDesc}}</text>
+        <view wx:if="{{bizGuide}}" class="it-biz">
+          <text class="it-bt">{{T.i.biz.title}}</text><text class="mk-sub it-line">{{T.i.biz.sub}}</text>
+          <button class="mk-btn mk-btn--ghost mk-btn--sm it-bbtn" hover-class="none" bindtap="onBusiness">{{T.i.biz.btn}}</button>
+        </view>
+        <view class="it-search mk-row">
+          <image class="mk-icon" src="/assets/icons/search-sub.svg" />
+          <input class="it-sinput mk-grow" confirm-type="search" placeholder="{{T.i.search}}" placeholder-class="it-ph" value="{{search}}" bindinput="onSearchInput" />
+          <view wx:if="{{search}}" class="it-sx" bindtap="onSearchClear" aria-role="button" aria-label="清除搜索"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
+        </view>
+        <view wx:if="{{selectedText}}" class="mk-link it-sel" bindtap="onCart" aria-role="button">{{selectedText}}</view>
+        <view wx:if="{{longHint}}" class="mk-row it-hint"><image class="mk-icon" src="/assets/icons/info-sub.svg" /><text class="mk-sub mk-grow it-ht">{{longHint}}</text></view>
+        <view wx:if="{{emptySearch}}" class="it-none">
+          <text class="mk-title">{{T.i.none.title}}</text><text class="mk-sub it-line">{{T.i.none.sub}}</text>
+          <button class="mk-btn mk-btn--ghost mk-btn--md it-nbtn" hover-class="none" bindtap="onResetSearch">{{T.i.none.all}}</button>
+          <text class="mk-link it-nlk" bindtap="onToCap" aria-role="button">{{T.i.none.toCap}}</text>
+          <text class="mk-link it-nlk" bindtap="onAdvisor" aria-role="button">{{T.i.none.advisor}}</text>
+        </view>
+        <view wx:for="{{rows}}" wx:key="id" class="it-row">
+          <view class="it-th">{{item.abbr}}</view>
+          <view class="mk-grow it-rb">
+            <text class="it-nm">{{item.name}}</text>
+            <view wx:if="{{item.multi}}" class="mk-chip it-var" data-id="{{item.id}}" bindtap="onVariant" aria-role="button">{{item.variantText}}<image class="mk-icon it-vi" src="/assets/icons/down-ink.svg" /></view>
+            <text wx:else class="mk-sub it-line">{{item.desc}}</text>
+            <view class="mk-between it-foot">
+              <view class="it-vol"><text class="mk-sub">{{item.per}}</text><text wx:if="{{item.sub}}" class="it-subt">{{item.sub}}</text></view>
+              <view class="it-stepper mk-row">
+                <view class="it-sb {{item.n ? '' : 'it-sb--off'}}" data-id="{{item.id}}" data-d="minus" bindtap="onStep" aria-role="button" aria-label="减少">−</view>
+                <view class="it-sn mk-num" data-id="{{item.id}}" bindtap="onQty" aria-role="button" aria-label="填写数量">{{item.n}}</view>
+                <view class="it-sb" data-id="{{item.id}}" data-d="plus" bindtap="onStep" aria-role="button" aria-label="增加">+</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <text wx:if="{{estNote}}" class="mk-mute it-est">{{estNote}}</text>
+      </view>
+    </view>
+    <view class="mk-bottom-bar mk-row">
+      <view class="mk-grow it-sum" bindtap="onCart" aria-role="button" aria-label="查看已选清单">
+        <text class="mk-mute">{{footTop}}</text><text class="it-big">{{footBig}}</text>
+      </view>
+      <view wx:if="{{showTerm}}" class="it-termbtn mk-row" bindtap="onTermOpen" aria-role="button"><text>{{term}}{{T.month}}</text><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
+      <button class="mk-btn it-submit {{btnOff ? 'mk-btn--disabled' : ''}}" hover-class="{{btnOff ? 'none' : 'mk-btn--hover'}}" bindtap="onSubmit">{{btnText}}</button>
+    </view>
+  </block>
+
+  <mk-sheet visible="{{cartVisible}}" title="{{cartTitle}}" bind:close="onCartClose">
+    <view wx:if="{{cartRows.length}}" class="it-clearrow"><text class="mk-link it-clear" bindtap="onClear" aria-role="button">{{T.i.cart.clear}}</text></view>
+    <text wx:else class="mk-sub">{{T.i.cart.empty}}</text>
+    <view wx:for="{{cartRows}}" wx:key="id" class="it-crow mk-row">
+      <view class="it-th it-th--sm">{{item.abbr}}</view>
+      <view class="mk-grow it-rb"><text class="it-nm mk-ellipsis">{{item.name}}</text><text class="mk-sub">{{item.line}}</text></view>
+      <text class="mk-sub it-del" data-id="{{item.id}}" bindtap="onDel" aria-role="button">{{T.i.cart.del}}</text>
+      <view class="it-stepper mk-row">
+        <view class="it-sb" data-id="{{item.id}}" data-d="minus" bindtap="onStep" aria-role="button" aria-label="减少">−</view>
+        <view class="it-sn mk-num">{{item.n}}</view>
+        <view class="it-sb" data-id="{{item.id}}" data-d="plus" bindtap="onStep" aria-role="button" aria-label="增加">+</view>
+      </view>
+    </view>
+    <view wx:if="{{longHint}}" class="mk-row it-hint"><image class="mk-icon" src="/assets/icons/info-sub.svg" /><text class="mk-sub mk-grow it-ht">{{longHint}}</text></view>
+    <view wx:if="{{cartAdvHint}}" class="mk-row it-hint"><image class="mk-icon" src="/assets/icons/info-sub.svg" /><text class="mk-sub mk-grow it-ht">{{T.advHint}}</text></view>
+    <view class="mk-between it-total">
+      <view class="mk-grow it-rb"><text>{{T.i.cart.total}}</text><text class="mk-mute">{{cartTotalSub}}</text></view>
+      <text class="mk-num it-tv">{{cartTotal}}</text>
+    </view>
+    <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onCartClose">{{T.i.cart.done}}</button>
+  </mk-sheet>
+
+  <mk-sheet visible="{{variantVisible}}" title="{{T.i.variantTitle}}" bind:close="onVariantClose">
+    <view wx:for="{{variantOptions}}" wx:key="id" class="it-opt mk-between {{item.on ? 'it-opt--on' : ''}}" data-v="{{item.id}}" bindtap="onPickVariant" aria-role="button">
+      <text>{{item.name}}</text><view class="mk-row"><text class="mk-sub">{{item.per}}</text><image wx:if="{{item.on}}" class="mk-icon it-vi" src="/assets/icons/check-brand.svg" /></view>
+    </view>
+    <text class="mk-mute it-line">{{variantNote}}</text>
+  </mk-sheet>
+
+  <mk-sheet visible="{{termVisible}}" title="{{T.termTitle}}" bind:close="onTermClose">
+    <view class="it-termbox"><mk-term-seg value="{{term}}" inline="{{true}}" bind:change="onTerm" /></view>
+    <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onTermClose">{{T.confirm}}</button>
+  </mk-sheet>
+
+  <view wx:if="{{qtyVisible}}" class="it-mask" catchtouchmove="noop">
+    <view class="it-dialog">
+      <text class="mk-title it-dt">{{qtyName}}</text>
+      <text class="mk-sub it-dt">{{T.i.qtyTitle}}</text>
+      <view class="it-qfield mk-row {{qtyBad ? 'it-qfield--bad' : ''}}">
+        <input class="it-qinput mk-grow mk-num" type="number" maxlength="5" focus="{{qtyVisible}}" value="{{qtyRaw}}" bindinput="onQtyInput" /><text class="mk-sub">{{T.piece}}</text>
+      </view>
+      <text wx:if="{{qtyBad}}" class="mk-error it-line">{{qtyErr}}</text>
+      <view class="it-qquick"><view wx:for="{{qtyQuick}}" wx:key="n" class="mk-chip it-qq" data-n="{{item.n}}" bindtap="onQtyQuick" aria-role="button">{{item.t}}</view></view>
+      <view class="it-dacts">
+        <button class="mk-btn mk-btn--ghost mk-btn--md it-dbtn" hover-class="none" bindtap="onQtyCancel">{{T.i.cancel}}</button>
+        <button class="mk-btn mk-btn--md it-dbtn {{qtyBad ? 'mk-btn--disabled' : ''}}" hover-class="{{qtyBad ? 'none' : 'mk-btn--hover'}}" bindtap="onQtyOk">{{T.i.confirm}}</button>
+      </view>
+    </view>
+  </view>
+</view>

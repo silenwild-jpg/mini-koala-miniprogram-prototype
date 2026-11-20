@@ -1,0 +1,44 @@
+<view class="wrap">
+  <view class="card">
+    <view class="h">1. 地图与拨号</view>
+    <view class="btn" bindtap="onMap">打开内置地图（演示坐标）</view>
+    <view class="btn ghost" bindtap="onCall">拨打电话（演示号码，调起后取消）</view>
+    <view class="out" wx:if="{{o1}}">{{o1}}</view>
+    <view class="tip">地图页右下角应能选择手机里的地图应用导航。拨号调起系统确认框后取消即可。</view>
+    <verdict case-id="C9" />
+  </view>
+
+  <view class="card">
+    <view class="h">2. 断网与弱网</view>
+    <view class="sub">正常网络、飞行模式、弱信号处各点一次。</view>
+    <view class="btn ghost" bindtap="onRequest">发起一次请求</view>
+    <view class="out" wx:if="{{o2}}">{{o2}}</view>
+    <view class="tip">看断网时多久返回。探针的域名不在后台白名单里时，体验版会直接报域名不合法，属于正常，可在开发版打开「不校验合法域名」再测。</view>
+    <verdict case-id="C14" />
+  </view>
+
+  <view class="card">
+    <view class="h">3. 切后台后的倒计时</view>
+    <view class="sub">点开始后，马上把微信切到后台或锁屏 30 秒，再回来等它走完。</view>
+    <view class="m-count">{{left}} 秒</view>
+    <view class="btn {{running ? 'off' : ''}}" bindtap="onStart">{{running ? '计时中…' : '开始 60 秒倒计时'}}</view>
+    <view class="out" wx:if="{{o4}}">{{o4}}</view>
+    <view class="tip">回来的瞬间，显示的剩余秒数应直接跳到正确的值，而不是从离开时的数字继续往下数。</view>
+    <verdict case-id="D4" />
+  </view>
+
+  <view class="card">
+    <view class="h">4. 选图</view>
+    <view class="btn ghost" bindtap="onMedia">从相册选择或拍照</view>
+    <view class="out" wx:if="{{o3}}">{{o3}}</view>
+    <view class="tip">相册、拍照各测一次；首次使用时留意系统权限弹窗，拒绝后再点一次看提示。</view>
+    <verdict case-id="E7" />
+  </view>
+
+  <view class="card">
+    <view class="h">5. 分享</view>
+    <button class="btn ghost" open-type="share">分享给微信好友</button>
+    <view class="tip">发给自己或文件传输助手：看卡片标题、默认截图；点卡片应落到「附近门店」。</view>
+    <verdict case-id="F5" />
+  </view>
+</view>

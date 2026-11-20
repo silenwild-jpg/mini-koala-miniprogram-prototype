@@ -1,0 +1,1 @@
+{ "component": true, "usingComponents": { "mk-sheet": "/components/mk-sheet/index", "mk-term-seg": "/components/mk-term-seg/index" } }

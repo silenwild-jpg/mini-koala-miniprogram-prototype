@@ -1,0 +1,79 @@
+{
+  "_说明": "迷你考拉仓小程序可调规则参数。来源：冻结稿 design/model/w7-rules.js、design/runtime/、裁定台账 D-01～D-195。status：ruled=张坤给的数；example=结构示例待财务；self=设计侧自定且已裁定保留；pending=等业务数据；contract=协议条款。",
+  "pricing": {
+    "term_discount_table": {"value": [{"min": 1, "max": 2, "factor": 0.80}, {"min": 3, "max": 5, "factor": 0.75}, {"min": 6, "max": 11, "factor": 0.70}, {"min": 12, "max": 60, "factor": 0.65}], "status": "12–60 月 0.65 为 ruled（D-156）；其余三档 example"},
+    "from_price_rounding": {"value": "ceil", "status": "ruled（D-147）"},
+    "from_price_basis": {"value": "折扣表最低档", "status": "ruled（D-140、D-146）"},
+    "deposit_months": {"value": 1, "status": "基线规则（押金 = 1 个月月均）"},
+    "management_fee_yuan": {"value": 50, "status": "基线规则"},
+    "rent_round_to_yuan": {"value": 10, "status": "基线规则（续租常规折扣价四舍五入到 10 元；下单金额是月租舍去小数 × 月数，两处取整不同，原有差异未动）"},
+    "full_reduction_tiers": {"value": [{"min": 5000, "off": 150}, {"min": 10000, "off": 400}, {"min": 20000, "off": 1000}], "status": "example（D-157）"},
+    "full_reduction_vs_coupon": {"value": "不同享，取优惠大的一项", "status": "self"},
+    "full_reduction_excludes": {"value": ["特价仓", "续租"], "status": "self"},
+    "saved_components": {"value": ["租期折扣", "满额减", "优惠券"], "baseline": "月基价", "status": "ruled（D-164、D-190）"},
+    "next_tier_nudge_months": {"value": 3, "status": "self"},
+    "upsize_reason_ratio": {"value": 0.85, "status": "self"},
+    "first_renewal_keeps_original_discount": {"value": true, "rule": "原折扣更深时沿用，否则取现行；直到首次续租完成", "status": "ruled（D-186、D-192）"}
+  },
+  "free_transport": {
+    "min_distance_km": {"value": 5, "status": "ruled（D-173）"},
+    "min_term_months": {"value": 6, "status": "ruled（D-173）"},
+    "min_discount_factor": {"value": 0.6, "status": "ruled（D-173）"},
+    "judge_by": {"value": "租期折扣档（与券、满额减无关）", "status": "self（D-187）"},
+    "excludes": {"value": ["特价仓"], "status": "self"},
+    "times": {"value": 1, "status": "ruled"}
+  },
+  "matching": {
+    "sales_only_from_m3": {"value": 30, "compare": ">=", "status": "ruled（D-101）"},
+    "advisor_card_capacity_m3": {"value": 15, "compare": ">", "status": "ruled（D-97）"},
+    "advisor_card_rent_total_yuan": {"value": 3000, "compare": ">=", "status": "ruled（D-182）"},
+    "big_deal_rent_total_yuan": {"value": 20000, "compare": ">=", "note": "= 满额减最高档门槛，随它变", "status": "example"},
+    "near_ratio": {"value": 0.8, "status": "ruled（D-99）"},
+    "nearby_radius_km": {"value": 5, "status": "ruled（D-128）"},
+    "nearby_fallback_store_count": {"value": 3, "status": "ruled（D-128）"}
+  },
+  "requirement": {
+    "capacity_min_m3": {"value": 0.5, "decimals": 2, "status": "基线规则"},
+    "area_min_m2": {"value": 0.2, "decimals": 1, "status": "基线规则"},
+    "area_max_m2": {"value": 200, "status": "ruled（D-183）"},
+    "area_layer_height_m": {"value": 2.4, "status": "pending（设计稿临时值；仓库原件 2.5；等实际仓位长宽高，D-178）"},
+    "capacity_quick_picks_m3": {"value": [1, 3, 8, 15, 20], "status": "self"},
+    "carton_volume_m3": {"value": 0.096, "status": "物品目录现值"},
+    "carton_fill_ratio": {"value": 0.8, "status": "self"},
+    "term_presets_months": {"value": [1, 3, 6, 12], "status": "ruled（D-141）"},
+    "term_other_quick_months": {"value": [18, 24, 36], "status": "self"},
+    "term_range_months": {"value": [1, 60], "status": "基线规则"},
+    "term_default_months": {"value": 12, "status": "ruled（D-158）"},
+    "item_qty_max": {"value": 999, "status": "self，待业务确认"},
+    "item_qty_quick": {"value": [10, 20, 50], "status": "self"},
+    "items_advisor_hint_from_m3": {"value": 15, "compare": ">", "status": "self"},
+    "business_capacity_bands": {"value": ["1–5m³", "5–15m³", "15–30m³（不含 30）", "30m³ 及以上"], "status": "ruled（D-88、D-101）"}
+  },
+  "volume_model": {
+    "version": "MK-VOL v0.2",
+    "k_anchors": {"value": [0.80, 0.65, 0.55], "status": "pending（没有门店实测）"},
+    "k_floor": {"value": 0.50, "status": "pending"},
+    "round_up_to_m3": {"value": 0.1, "status": "self"}
+  },
+  "timers": {
+    "login_binding": {"value": "长期", "status": "ruled（D-116）"},
+    "quote_ttl_hours": {"value": 3, "status": "ruled（D-120）"},
+    "pending_order_ttl_hours": {"value": 3, "status": "ruled（D-96）"},
+    "renew_quote_ttl_hours": {"value": 24, "status": "ruled（D-74、D-102）；W18 以来标注「待确认」"},
+    "location_bubble_autohide_seconds": {"value": 5, "status": "self"},
+    "recent_locations_kept": {"value": 3, "status": "self"}
+  },
+  "service": {
+    "hours": {"value": {"start": 9, "end": 20, "days": "每日"}, "status": "ruled（D-149）"},
+    "lead_ack_in_hours": {"value": "预计 10 分钟内与您联系", "status": "ruled（D-95）"},
+    "lead_ack_off_hours": {"value": "已收到，顾问上班后将优先联系您", "status": "ruled（D-106）"}
+  },
+  "early_exit": {
+    "rule": "按实际使用时间收费（不足 1 个月按 1 个月）+ 违约金 + 预付优惠按实际使用周期重算",
+    "status": "contract（D-189）；预计值的三处算法为 self，正式结算以后端为准"
+  },
+  "phone_number_component": {
+    "price_per_success_yuan": {"value": 0.03, "status": "微信官方文档"},
+    "trial_quota": {"value": 1000, "note": "正式版、体验版、开发版共用", "status": "微信官方文档"}
+  }
+}

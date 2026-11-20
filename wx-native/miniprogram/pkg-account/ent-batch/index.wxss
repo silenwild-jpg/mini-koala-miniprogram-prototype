@@ -1,0 +1,13 @@
+@import "../acc.wxss";
+.eb-gap { margin-top: var(--mk-space-3); }
+.eb-ord { display: flex; align-items: flex-start; padding: var(--mk-space-3) 0; }
+.eb-ord + .eb-ord { border-top: var(--mk-border-hairline); }
+.eb-all { align-items: center; }
+.eb-box { width: 40rpx; height: 40rpx; border: var(--mk-border-strong); border-radius: 8rpx; box-sizing: border-box; flex: none; margin: 4rpx var(--mk-space-3) 0 0; display: flex; align-items: center; justify-content: center; }
+.eb-box--on { background: var(--mk-color-action-primaryFill); border: 1px solid var(--mk-color-action-primaryFill); }
+.eb-tick { width: 28rpx; height: 28rpx; }
+.eb-t { display: block; font-weight: var(--mk-font-weight-medium); }
+.eb-s { display: block; margin-top: 4rpx; }
+.eb-b { font-weight: var(--mk-font-weight-semibold); flex: none; margin-left: var(--mk-space-2); }
+.eb-line { min-height: 56rpx; }
+.eb-top { border-top: var(--mk-border-hairline); }

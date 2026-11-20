@@ -1,0 +1,24 @@
+<view class="wrap">
+  <view class="warn">每次成功取号消耗 1 次额度（1,000 次体验额度由开发版、体验版、正式版共用，用完后 ¥0.03 / 次）。这一页每台手机测 3 次即可：同意 1 次、拒绝 1 次、换号或「使用其他号码」1 次。本次已成功 {{count}} 次。</view>
+
+  <view class="card">
+    <view class="h">1. 未勾协议时的拦截</view>
+    <view class="p-agree" bindtap="onToggle">
+      <view class="p-box {{agreed ? 'on' : ''}}">{{agreed ? '✓' : ''}}</view>
+      <text class="sub">我已阅读并同意《迷你考拉仓用户注册协议》《隐私政策》</text>
+    </view>
+    <view wx:if="{{!agreed}}" class="btn" bindtap="onBlocked">微信手机号快捷登录</view>
+    <button wx:else class="btn" open-type="getPhoneNumber|agreePrivacyAuthorization" data-kind="合一按钮" bindgetphonenumber="onPhone">微信手机号快捷登录</button>
+    <view class="tip">不勾选时点按钮：应只出现一句提示，不弹微信的手机号面板。勾选后再点：弹出微信手机号面板。</view>
+    <verdict case-id="D2" />
+  </view>
+
+  <view class="card">
+    <view class="h">2. 同意、拒绝、失败</view>
+    <view class="sub">勾选上面的协议后点登录按钮，分别选「允许」和「拒绝」。下面是不带隐私同意的写法，用来对比两种按钮弹窗是否不同。</view>
+    <button class="btn ghost" open-type="getPhoneNumber" data-kind="仅手机号" bindgetphonenumber="onPhone">对比：仅手机号的按钮</button>
+    <view class="out" wx:if="{{out}}">{{out}}</view>
+    <view class="tip">errno 1400001 表示额度不足，此时微信会自己弹出半屏提示。code 需要后端在 5 分钟内换成手机号，探针不换号，只确认拿到了 code。</view>
+    <verdict case-id="D1" />
+  </view>
+</view>

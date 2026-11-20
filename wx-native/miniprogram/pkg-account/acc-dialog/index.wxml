@@ -1,0 +1,11 @@
+<view wx:if="{{visible}}" class="acd-root" catchtouchmove="noop">
+  <view class="acd-scrim"></view>
+  <view class="acd-box" aria-role="alertdialog">
+    <text class="mk-title acd-title">{{title}}</text>
+    <text class="mk-sub acd-desc">{{desc}}</text>
+    <view class="acd-acts">
+      <button wx:if="{{cancelText}}" class="mk-btn mk-btn--ghost mk-btn--md acd-btn" hover-class="none" bindtap="onCancel">{{cancelText}}</button>
+      <button class="mk-btn mk-btn--md acd-btn {{danger ? 'acd-danger' : ''}}" hover-class="none" bindtap="onConfirm">{{confirmText}}</button>
+    </view>
+  </view>
+</view>

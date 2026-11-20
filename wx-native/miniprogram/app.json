@@ -1,0 +1,151 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/stores/index",
+    "pages/orders/index",
+    "pages/mine/index",
+    "pages/store/detail",
+    "pages/match/index",
+    "pages/estimate/capacity"
+  ],
+  "subpackages": [
+    {
+      "root": "pkg-estimate",
+      "name": "estimate",
+      "pages": [
+        "items/index"
+      ]
+    },
+    {
+      "root": "pkg-trade",
+      "name": "trade",
+      "pages": [
+        "confirm/index",
+        "quick/index",
+        "order/index",
+        "agreement/index"
+      ]
+    },
+    {
+      "root": "pkg-after",
+      "name": "after",
+      "pages": [
+        "identity/index",
+        "access/index",
+        "renew/index",
+        "exit/index",
+        "deposit/index",
+        "invoice/index",
+        "econtract/index"
+      ]
+    },
+    {
+      "root": "pkg-account",
+      "name": "account",
+      "pages": [
+        "messages/index",
+        "needs/index",
+        "progress/index",
+        "favorites/index",
+        "coupons/index",
+        "profile/index",
+        "referral/index",
+        "brand/index",
+        "ent-cert/index",
+        "ent-titles/index",
+        "ent-batch/index"
+      ]
+    },
+    {
+      "root": "pkg-lead",
+      "name": "lead",
+      "pages": [
+        "booking/index",
+        "business/index",
+        "estore/index",
+        "transport/index",
+        "support/index"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/match/index": {
+      "network": "all",
+      "packages": [
+        "pkg-trade"
+      ]
+    },
+    "pages/estimate/capacity": {
+      "network": "all",
+      "packages": [
+        "pkg-estimate"
+      ]
+    },
+    "pages/orders/index": {
+      "network": "all",
+      "packages": [
+        "pkg-trade"
+      ]
+    }
+  },
+  "window": {
+    "navigationBarTitleText": "迷你考拉仓",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F7F6",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#5F6B65",
+    "selectedColor": "#0B7A48",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "assets/tabbar/tab-home.png",
+        "selectedIconPath": "assets/tabbar/tab-home-on.png"
+      },
+      {
+        "pagePath": "pages/stores/index",
+        "text": "附近门店",
+        "iconPath": "assets/tabbar/tab-stores.png",
+        "selectedIconPath": "assets/tabbar/tab-stores-on.png"
+      },
+      {
+        "pagePath": "pages/orders/index",
+        "text": "订单",
+        "iconPath": "assets/tabbar/tab-orders.png",
+        "selectedIconPath": "assets/tabbar/tab-orders-on.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "assets/tabbar/tab-me.png",
+        "selectedIconPath": "assets/tabbar/tab-me-on.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "mk-sheet": "/components/mk-sheet/index",
+    "mk-login-sheet": "/components/mk-login-sheet/index",
+    "mk-term-seg": "/components/mk-term-seg/index",
+    "mk-sys-state": "/components/mk-sys-state/index",
+    "mk-price": "/components/mk-price/index",
+    "mk-advisor-card": "/components/mk-advisor-card/index",
+    "mk-placeholder": "/components/mk-placeholder/index"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于为您查找附近的门店"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "__usePrivacyCheck__": true,
+  "lazyCodeLoading": "requiredComponents",
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

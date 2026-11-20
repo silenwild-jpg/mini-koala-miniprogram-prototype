@@ -1,0 +1,2525 @@
+﻿文字,类别（脚本初分，未逐条人工复核）,出现状态数,出现页面数,出现页面,首次出现（页面/状态）,字数
+9:41,设计稿状态栏（不实现）,580,35,ACC_ACCESS ACC_BRAND ACC_COUPONS ACC_FAVORITES ACC_IDENTITY ACC_MESSAGES ACC_NEEDS ACC_PROFILE ACC_PROGRESS ACC_REFERRAL ACC_SUPPORT ACC_TRANSPORT AGREEMENT BOOKING BUSINESS CAP DP01 ECONTRACT ENT_BATCH ENT_CERT ENT_TITLES ESTORE EX01 H01 ITEMS IV01 M01 O01 O03 OH01 QUICK RN01 S01 S02 S5,h01/new,4
+●●●●,设计稿状态栏（不实现）,580,35,ACC_ACCESS ACC_BRAND ACC_COUPONS ACC_FAVORITES ACC_IDENTITY ACC_MESSAGES ACC_NEEDS ACC_PROFILE ACC_PROGRESS ACC_REFERRAL ACC_SUPPORT ACC_TRANSPORT AGREEMENT BOOKING BUSINESS CAP DP01 ECONTRACT ENT_BATCH ENT_CERT ENT_TITLES ESTORE EX01 H01 ITEMS IV01 M01 O01 O03 OH01 QUICK RN01 S01 S02 S5,h01/new,4
+安贞·富仁名苑店,界面固定文案,298,21,ACC_ACCESS ACC_FAVORITES ACC_IDENTITY ACC_PROGRESS ACC_SUPPORT ACC_TRANSPORT BOOKING ECONTRACT ENT_BATCH EX01 H01 IV01 M01 O01 O03 OH01 QUICK RN01 S01 S02 S5,h01/new,8
+北京市朝阳区富仁名苑胜古北里南28号楼,演示数据（门店 / 订单 / 日期 / 距离）,216,14,ACC_ACCESS ACC_FAVORITES ACC_IDENTITY ACC_SUPPORT ACC_TRANSPORT EX01 H01 M01 O01 O03 RN01 S01 S02 S5,h01/identity,19
+6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,164,13,ACC_PROGRESS BOOKING BUSINESS CAP H01 ITEMS M01 O01 O03 QUICK RN01 S01 S5,h01/booking,3
+1.2km,演示数据（门店 / 订单 / 日期 / 距离）,140,5,H01 O01 S01 S02 S5,h01/new,5
+A003 · 3.5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,133,13,ACC_ACCESS ACC_IDENTITY ACC_SUPPORT ACC_TRANSPORT ECONTRACT EX01 H01 M01 O01 O03 QUICK RN01 S02,h01/lease_expired,12
+订单,界面固定文案,123,5,ENT_BATCH H01 M01 OH01 S01,h01/new,2
+我的,界面固定文案,120,4,H01 M01 OH01 S01,h01/new,2
+附近门店,界面固定文案,120,4,H01 M01 OH01 S01,h01/new,4
+首页,界面固定文案,120,4,H01 M01 OH01 S01,h01/new,2
+1.4 × 1 × 2.5m,界面固定文案,113,9,ACC_ACCESS ACC_IDENTITY ACC_SUPPORT ACC_TRANSPORT EX01 O01 O03 QUICK RN01,o01/unauthorized__phone,14
+近地铁,界面固定文案,109,4,H01 S01 S02 S5,h01/new,3
+电梯直达,界面固定文案,108,4,H01 S01 S02 S5,h01/new,4
+¥,界面固定文案,105,5,H01 QUICK S01 S02 S5,h01/new,1
+7折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,103,11,BOOKING BUSINESS CAP ITEMS O01 O03 QUICK RN01 S01 S02 S5,s01/matched,2
+特价仓,界面固定文案,95,4,H01 S01 S02 S5,h01/new,3
+租期,界面固定文案,93,10,ACC_PROGRESS CAP ECONTRACT H01 ITEMS M01 O01 O03 S01 S5,h01/booking,2
+押金,界面固定文案,91,7,EX01 IV01 M01 O01 O03 QUICK S5,o01/unauthorized__phone,2
+用仓位置,界面固定文案,89,5,ACC_NEEDS BOOKING BUSINESS QUICK S5,s5/near,4
+芍药居北里店,界面固定文案,88,7,ACC_FAVORITES H01 O01 QUICK S01 S02 S5,h01/new,6
+预计用仓时间,界面固定文案,88,4,BOOKING BUSINESS O01 QUICK,o01/unauthorized__phone,6
+12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,85,11,BOOKING BUSINESS CAP ECONTRACT ITEMS O01 O03 QUICK RN01 S01 S5,s5/advisor,4
+搜索门店、商圈或区域,界面固定文案,79,4,H01 QUICK S01 S5,h01/new,10
+2.8km,演示数据（门店 / 订单 / 日期 / 距离）,77,3,H01 S01 S5,h01/new,5
+北京,界面固定文案,77,4,H01 QUICK S01 S5,h01/new,2
+1,界面固定文案,75,8,ACC_BRAND AGREEMENT BUSINESS H01 ITEMS QUICK S01 S5,items/selected,1
+2,界面固定文案,75,9,ACC_BRAND AGREEMENT BUSINESS CAP H01 ITEMS QUICK S01 S5,items/selected,1
+迷你考拉仓,界面固定文案,75,14,ACC_BRAND ACC_PROFILE BOOKING BUSINESS EX01 H01 M01 O01 O03 QUICK RN01 S01 S02 S5,h01/new,5
+预约用仓,界面固定文案,72,5,ACC_NEEDS ACC_SUPPORT BOOKING H01 M01,h01/booking,4
+3.5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,68,6,ACC_PROGRESS BOOKING H01 M01 S01 S5,h01/booking,5
+建国门外·通用时代店,界面固定文案,66,7,ACC_FAVORITES ENT_BATCH H01 QUICK S01 S02 S5,h01/new,10
+−,界面固定文案,65,6,BUSINESS CAP ITEMS O01 QUICK RN01,o01/unauthorized__phone,1
+考拉E存,界面固定文案,65,4,ESTORE H01 S01 S5,s01/matched,4
+费用明细,界面固定文案,64,6,H01 M01 O01 O03 QUICK S5,o01/unauthorized__phone,4
+联系方式,界面固定文案,63,2,BUSINESS O01,o01/unauthorized__phone,4
+¥50,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,61,5,IV01 O01 O03 QUICK S5,o01/ready__fees,3
+6.5折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,59,11,BOOKING BUSINESS CAP ITEMS O01 O03 QUICK RN01 S01 S02 S5,s5/advisor,4
+整期租金,界面固定文案,58,5,ACC_PROGRESS O01 O03 QUICK S5,o01/unauthorized__phone,4
+停车便利,界面固定文案,56,2,S01 S5,s01/matched,4
+整单管理费,界面固定文案,56,4,O01 O03 QUICK S5,o01/unauthorized__phone,5
+用仓需求,界面固定文案,56,2,BOOKING BUSINESS,booking/empty,4
+重新加载,界面固定文案,56,28,ACC_ACCESS ACC_BRAND ACC_COUPONS ACC_FAVORITES ACC_IDENTITY ACC_MESSAGES ACC_NEEDS ACC_PROFILE ACC_PROGRESS ACC_REFERRAL ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS CAP DP01 EX01 H01 ITEMS IV01 M01 O03 OH01 QUICK RN01 S01 S02 S5,m01/active__sys_offline,4
+4.5km,演示数据（门店 / 订单 / 日期 / 距离）,55,3,H01 S01 S5,h01/new,5
+1个月月租,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,54,4,O01 O03 QUICK S5,o01/ready__fees,5
+企业,界面固定文案,54,3,ENT_TITLES H01 IV01,h01/new,2
+修改,界面固定文案,54,3,BOOKING BUSINESS S5,s5/near,2
+/m³/月起,界面固定文案,53,4,H01 QUICK S01 S02,h01/new,6
+3个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,53,8,BOOKING BUSINESS CAP ITEMS QUICK RN01 S01 S5,s5/matched__demand,3
+63,界面固定文案,53,4,H01 QUICK S01 S02,h01/new,2
+小推车,界面固定文案,53,2,S01 S5,s01/matched,3
+确认订单,界面固定文案,53,2,O01 QUICK,o01/unauthorized__phone,4
+联系电话,界面固定文案,52,3,ACC_TRANSPORT BOOKING BUSINESS,booking/empty,4
+修改需求,界面固定文案,51,7,ACC_NEEDS ACC_PROGRESS H01 M01 S01 S02 S5,h01/booking,4
+北京市朝阳区芍药居北里315号楼,演示数据（门店 / 订单 / 日期 / 距离）,51,2,S01 S5,s01/matched,16
+7.5折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,50,8,BOOKING BUSINESS CAP ITEMS O01 QUICK S01 S5,s5/matched__demand,4
+1个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,49,7,BOOKING BUSINESS CAP ITEMS QUICK S01 S5,s5/matched__demand,3
+64,界面固定文案,49,2,H01 S01,h01/new,2
+73,界面固定文案,49,2,H01 S01,h01/new,2
+8折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,49,7,BOOKING BUSINESS CAP ITEMS QUICK S01 S5,s5/matched__demand,2
+找附近门店,界面固定文案,47,4,ACC_FAVORITES ACC_PROGRESS H01 M01,h01/new,5
+其他,界面固定文案,46,7,BOOKING BUSINESS CAP ITEMS QUICK S01 S5,s5/matched__demand,2
++,界面固定文案,45,3,ITEMS O01 RN01,o01/unauthorized__phone,1
+本次应付,界面固定文案,45,7,ACC_PROGRESS H01 M01 O01 O03 QUICK S5,h01/payment_failed,4
+北京 · 全城门店,界面固定文案,44,2,QUICK S5,s5/near,9
+选择日期,界面固定文案,44,2,BOOKING BUSINESS,booking/empty,4
+*,界面固定文案,43,2,BOOKING BUSINESS,booking/empty,1
+14年,界面固定文案,43,2,ACC_BRAND H01,h01/new,3
+30万+,界面固定文案,43,2,ACC_BRAND H01,h01/new,4
+590+,界面固定文案,43,2,ACC_BRAND H01,h01/new,4
+估大小算价格,界面固定文案,43,2,ACC_PROGRESS H01,h01/new,6
+直营门店,界面固定文案,43,2,ACC_BRAND H01,h01/new,4
+稳定运营,界面固定文案,43,2,ACC_BRAND H01,h01/new,4
+累计服务用户,界面固定文案,43,2,ACC_BRAND H01,h01/new,6
+3,界面固定文案,42,8,ACC_BRAND AGREEMENT CAP H01 ITEMS QUICK S01 S5,items/selected,1
+"¥1,680",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,42,6,ACC_PROGRESS O01 O03 QUICK RN01 S5,o01/ready__fees,6
+了解企业存储 ›,界面固定文案,42,1,H01,h01/new,8
+了解迷你考拉仓 ›,界面固定文案,42,1,H01,h01/new,9
+企业存储,界面固定文案,42,1,H01,h01/new,4
+北京市朝阳区安贞西里三区 12 号楼,演示数据（门店 / 订单 / 日期 / 距离）,42,4,ACC_NEEDS BOOKING BUSINESS ENT_TITLES,booking/filled__capacity,18
+家具、行李、闲置物品，找到附近适合的存储空间,界面固定文案,42,1,H01,h01/new,22
+找仓进度,界面固定文案,42,3,ACC_PROGRESS H01 M01,h01/booking,4
+查看预约记录,界面固定文案,42,4,ACC_MESSAGES ACC_SUPPORT BOOKING BUSINESS,booking/success,6
+灵活空间，满足商家备货与企业存储需求,界面固定文案,42,1,H01,h01/new,18
+让城市生活更轻松,界面固定文案,42,1,H01,h01/new,8
+个人信息,界面固定文案,41,2,ACC_PROFILE M01,m01/new,4
+2026-11-19,演示数据（门店 / 订单 / 日期 / 距离）,40,5,ACC_TRANSPORT BOOKING BUSINESS O01 QUICK,o01/ready__fees,10
+¥300,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,40,6,ACC_COUPONS DP01 EX01 IV01 O01 O03,o03/identity,4
+已省,界面固定文案,39,4,O01 O03 QUICK S5,o01/ready__fees,2
+已选需求：,界面固定文案,39,2,S01 S02,s01/matched,5
+"¥2,010",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,38,7,ACC_PROGRESS H01 M01 O01 O03 QUICK S5,h01/payment_failed,6
+·,界面固定文案,38,2,S01 S5,s01/matched,1
+优惠券,界面固定文案,37,4,ACC_COUPONS O01 QUICK S5,o01/unauthorized__phone,3
+取消,界面固定文案,37,16,ACC_NEEDS ACC_PROFILE BOOKING BUSINESS CAP EX01 H01 ITEMS IV01 O01 O03 QUICK RN01 S01 S02 S5,s01/matched__filter,2
+联系顾问,界面固定文案,37,6,ACC_BRAND ACC_NEEDS ACC_SUPPORT ENT_BATCH ENT_CERT M01,m01/new,4
+运输与搬运,界面固定文案,37,2,ACC_TRANSPORT M01,m01/new,5
+¥280/月 × 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,36,5,O01 O03 QUICK RN01 S5,o01/ready__fees,12
+· 适合纸箱、小件家具,界面固定文案,35,2,S01 S5,s01/matched,11
+三元桥·国际村店,界面固定文案,35,5,O01 QUICK S01 S02 S5,s01/matched,8
+商家 / 企业存储,界面固定文案,35,1,BUSINESS,business/filled,9
+安贞商贸有限公司,界面固定文案,35,4,BUSINESS ENT_BATCH ENT_CERT ENT_TITLES,business/failed,8
+控温防潮,界面固定文案,35,3,S01 S02 S5,s01/matched,4
+较月基价 ¥400/月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,35,4,O01 O03 QUICK S5,o01/ready__fees,11
+3.5m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,34,3,M01 S01 S02,s01/matched,11
+下单前可预约，由顾问电话确认，不计入本次应付,界面固定文案,34,2,O01 S02,o01/unauthorized__phone,22
+优惠与权益,界面固定文案,34,2,ACC_COUPONS M01,m01/new,5
+更换,界面固定文案,34,3,ENT_BATCH O01 QUICK,o01/unauthorized__phone,2
+预约运输 / 搬运,界面固定文案,34,2,O01 S02,o01/unauthorized__phone,9
+365,界面固定文案,33,3,S01 S02 S5,s02/combo,3
+¥280,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,33,4,O01 O03 QUICK S5,o01/ready__fees,4
+上门取送,界面固定文案,33,2,ESTORE S01,s01/matched,4
+仓位推荐,界面固定文案,33,1,S5,s5/near,4
+企业认证,界面固定文案,33,2,ENT_CERT M01,m01/new,4
+实名信息,界面固定文案,33,2,ACC_PROFILE O01,o01/unauthorized__phone,4
+行李寄存,界面固定文案,33,2,H01 ITEMS,h01/new,4
+A003 · 3.5m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,32,5,ACC_TRANSPORT ENT_BATCH H01 M01 OH01,h01/identity,19
+了解服务 ›,界面固定文案,32,1,S01,s01/matched,6
+我的收藏,界面固定文案,32,2,ACC_FAVORITES M01,m01/new,4
+推荐有礼,界面固定文案,32,2,ACC_REFERRAL M01,m01/new,4
+更多服务,界面固定文案,32,2,H01 M01,h01/expiring,4
+消息,界面固定文案,32,2,ACC_MESSAGES M01,m01/new,2
+顾问协助,界面固定文案,32,2,CAP ITEMS,cap/empty,4
+4m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,31,2,S01 S5,s01/matched,3
+¥720,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,31,4,O01 O03 QUICK S5,o01/ready__fees,4
+· 约1.6㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,31,2,S01 S5,s01/matched,7
+为您推荐,界面固定文案,31,1,H01,h01/new,4
+了解考拉E存 ›,界面固定文案,31,1,S5,s5/near,8
+免费运输,界面固定文案,31,1,S01,s01/matched,4
+兴趣收藏,界面固定文案,31,1,H01,h01/new,4
+另一种存储方式,界面固定文案,31,1,S5,s5/near,7
+已含基础保障，可了解增值保障,界面固定文案,31,1,O01,o01/unauthorized__phone,14
+常见存储场景,界面固定文案,31,1,H01,h01/new,6
+您的用仓需求,界面固定文案,31,1,S5,s5/near,6
+我的迷你考拉,界面固定文案,31,2,ACC_PROFILE M01,m01/payment_failed,6
+按需存储 · 上门取送,界面固定文案,31,1,S5,s5/near,11
+换季收纳,界面固定文案,31,1,H01,h01/new,4
+搬家过渡,界面固定文案,31,1,H01,h01/new,4
+服务,界面固定文案,31,1,S01,s01/matched,2
+物品保障,界面固定文案,31,1,O01,o01/unauthorized__phone,4
+立即下单,界面固定文案,31,3,S01 S02 S5,s01/matched,4
+装修暂存,界面固定文案,31,1,H01,h01/new,4
+闲置物品,界面固定文案,31,1,H01,h01/new,4
+/月,界面固定文案,30,3,S01 S02 S5,s01/matched,2
+138****8000,演示数据（门店 / 订单 / 日期 / 距离）,30,5,ACC_PROFILE BOOKING BUSINESS M01 S5,m01/payment_failed,11
+"¥3,950",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,30,4,ACC_TRANSPORT IV01 O03 OH01,o03/identity,6
+关于迷你考拉,界面固定文案,30,2,ACC_BRAND M01,m01/new,6
+北京市朝阳区通用时代国际家园永安东里甲3号通用国际中心5号楼,演示数据（门店 / 订单 / 日期 / 距离）,30,3,ACC_FAVORITES S01 S5,s01/matched,30
+存放物品,界面固定文案,30,1,BOOKING,booking/empty,4
+意向容量,界面固定文案,30,1,BOOKING,booking/empty,4
+排序,界面固定文案,30,1,S01,s01/matched,2
+距离,界面固定文案,30,1,S01,s01/matched,2
+预计租期,界面固定文案,30,1,BOOKING,booking/empty,4
+A003,界面固定文案,29,2,S01 S5,s01/matched,4
+B003,界面固定文案,29,2,S01 S5,s01/matched,4
+北京市朝阳区UHN国际村7号楼3、4单元,演示数据（门店 / 订单 / 日期 / 距离）,29,2,S01 S5,s01/matched,20
+尽快,界面固定文案,29,1,BOOKING,booking/empty,2
+开始估算 ›,界面固定文案,29,1,H01,h01/new,6
+查看全部门店 ›,界面固定文案,29,1,H01,h01/new,8
+查看门店 ›,界面固定文案,29,1,H01,h01/new,6
+查看门店与仓位,界面固定文案,29,1,H01,h01/new,7
+标准纸箱,界面固定文案,29,2,CAP ITEMS,cap/large,4
+登录手机号 138****8000,演示数据（门店 / 订单 / 日期 / 距离）,29,1,O01,o01/ready__fees,17
+138 0013 8000,界面固定文案,28,3,BOOKING BUSINESS S5,booking/filled__capacity,13
+2.0km,演示数据（门店 / 订单 / 日期 / 距离）,28,2,S01 S5,s01/matched,5
+m³,界面固定文案,28,5,BOOKING BUSINESS CAP S01 S5,s5/matched__demand,2
+· 朝阳区,界面固定文案,28,1,H01,h01/new,5
+· 约1.4㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,28,2,S01 S5,s01/matched,7
+加载失败,界面固定文案,28,28,ACC_ACCESS ACC_BRAND ACC_COUPONS ACC_FAVORITES ACC_IDENTITY ACC_MESSAGES ACC_NEEDS ACC_PROFILE ACC_PROGRESS ACC_REFERRAL ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS CAP DP01 EX01 H01 ITEMS IV01 M01 O03 OH01 QUICK RN01 S01 S02 S5,s5/matched__sys_error,4
+双井·天之骄子店,演示数据（门店 / 订单 / 日期 / 距离）,28,2,O01 S01,s01/matched,8
+服务暂时不可用，请稍后重试。,界面固定文案,28,28,ACC_ACCESS ACC_BRAND ACC_COUPONS ACC_FAVORITES ACC_IDENTITY ACC_MESSAGES ACC_NEEDS ACC_PROFILE ACC_PROGRESS ACC_REFERRAL ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS CAP DP01 EX01 H01 ITEMS IV01 M01 O03 OH01 QUICK RN01 S01 S02 S5,s5/matched__sys_error,14
+查看仓位报价,界面固定文案,28,2,CAP ITEMS,cap/empty,6
+网络未连接,界面固定文案,28,28,ACC_ACCESS ACC_BRAND ACC_COUPONS ACC_FAVORITES ACC_IDENTITY ACC_MESSAGES ACC_NEEDS ACC_PROFILE ACC_PROGRESS ACC_REFERRAL ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS CAP DP01 EX01 H01 ITEMS IV01 M01 O03 OH01 QUICK RN01 S01 S02 S5,m01/active__sys_offline,5
+装卸区域,界面固定文案,28,1,S02,s02/combo,4
+订单号 MK202611176898,演示数据（门店 / 订单 / 日期 / 距离）,28,5,DP01 EX01 IV01 O03 RN01,ex01/form_early,18
+请检查网络设置后重试。,界面固定文案,28,28,ACC_ACCESS ACC_BRAND ACC_COUPONS ACC_FAVORITES ACC_IDENTITY ACC_MESSAGES ACC_NEEDS ACC_PROFILE ACC_PROGRESS ACC_REFERRAL ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS CAP DP01 EX01 H01 ITEMS IV01 M01 O03 OH01 QUICK RN01 S01 S02 S5,m01/active__sys_offline,11
+门店导航,界面固定文案,28,3,H01 M01 O03,h01/identity,4
+5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,27,2,S01 S5,s5/advisor,3
+使用当前位置,界面固定文案,27,3,BOOKING H01 S01,booking/empty,6
+全天监控,界面固定文案,27,2,S01 S5,s01/matched,4
+已认证,界面固定文案,27,3,ACC_PROFILE ENT_CERT O01,o01/ready__fees,3
+提交后由顾问电话确认，不锁定仓位与价格,界面固定文案,27,1,BOOKING,booking/empty,19
+订单详情,界面固定文案,27,1,O03,o03/pending,4
+2027-10-18,演示数据（门店 / 订单 / 日期 / 距离）,26,4,EX01 H01 M01 O03,o03/identity,10
+B004,界面固定文案,26,2,S01 S5,s5/advisor,4
+下单前可预约,界面固定文案,26,1,M01,m01/new,6
+不知道租多大？,界面固定文案,26,1,H01,h01/new,7
+为您推荐 2 家门店,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,26,1,S5,s5/near,10
+到店指引,界面固定文案,26,1,S02,s02/combo,4
+到店搬运,界面固定文案,26,1,S02,s02/combo,4
+北京市石景山区老山东里47号楼,演示数据（门店 / 订单 / 日期 / 距离）,26,2,S01 S5,s01/matched,15
+发票与抬头,界面固定文案,26,1,M01,m01/new,5
+另有 2 个可租 · 查看门店,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,26,1,S5,s5/near,15
+可选仓位,界面固定文案,26,1,S02,s02/combo,4
+存取时间：09:00-21:00,界面固定文案,26,1,S02,s02/combo,16
+我的记录,界面固定文案,26,1,M01,m01/new,4
+服务与权益,界面固定文案,26,1,M01,m01/new,5
+服务设施,界面固定文案,26,1,S02,s02/combo,4
+查看业务通知,界面固定文案,26,1,M01,m01/new,6
+查看可用权益,界面固定文案,26,1,M01,m01/new,6
+查看更多仓位,界面固定文案,26,1,S5,s5/near,6
+第一推荐,界面固定文案,26,1,S5,s5/near,4
+第二推荐,界面固定文案,26,1,S5,s5/near,4
+老山东里店,演示数据（门店 / 订单 / 日期 / 距离）,26,2,S01 S5,s01/matched,5
+账务与企业,界面固定文案,26,1,M01,m01/new,5
+门店和仓位,界面固定文案,26,1,M01,m01/new,5
+3.5km,演示数据（门店 / 订单 / 日期 / 距离）,25,2,S01 S5,s01/matched,5
+北京市朝阳区天之骄子双井4号楼1单元,演示数据（门店 / 订单 / 日期 / 距离）,25,1,S01,s01/matched,18
+北京市通州区合生滨江帝景永顺镇玉桥东路119号楼1单元-204,演示数据（门店 / 订单 / 日期 / 距离）,25,1,S01,s01/matched,31
+日常物品,界面固定文案,25,1,BOOKING,booking/filled__capacity,4
+查看更多门店,界面固定文案,25,1,S01,s01/matched,6
+玉桥·合生滨江帝景店,演示数据（门店 / 订单 / 日期 / 距离）,25,1,S01,s01/matched,10
+租期至,界面固定文案,25,3,H01 M01 O03,h01/expiring,3
+联系门店,界面固定文案,25,5,DP01 EX01 IV01 O03 RN01,o03/identity,4
+*明 · 110***********0012,界面固定文案,24,1,O01,o01/ready__fees,23
+0/200,界面固定文案,24,1,BOOKING,booking/empty,5
+3.3km,演示数据（门店 / 订单 / 日期 / 距离）,24,1,S01,s01/matched,5
+460,界面固定文案,24,2,S01 S5,s5/advisor,3
+6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,24,2,S01 S5,s5/advisor,3
+A004,界面固定文案,24,2,S01 S5,s5/advisor,4
+㎡,界面固定文案,24,4,BOOKING CAP S01 S5,s5/matched__demand,1
+例如：搬运需求、特殊物品、预算范围等...,界面固定文案,24,1,BOOKING,booking/empty,21
+共30家门店 · 已显示前10家,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,24,1,S01,s01/matched,16
+其他需求或备注,界面固定文案,24,1,BOOKING,booking/empty,7
+可申请,界面固定文案,24,3,IV01 O03 RN01,o03/identity,3
+押金进度,界面固定文案,24,2,DP01 O03,o03/identity,4
+提交后预计 10 分钟内与您联系，暂不产生订单,界面固定文案,24,1,BOOKING,booking/empty,23
+明天,界面固定文案,24,1,BOOKING,booking/empty,2
+暂不确定,界面固定文案,24,1,BOOKING,booking/empty,4
+查看须知 ›,界面固定文案,24,2,H01 M01,h01/payment_failed,6
+续租,界面固定文案,24,4,H01 M01 O03 RN01,h01/expiring,2
+近一周,界面固定文案,24,1,BOOKING,booking/empty,3
+（可选）,界面固定文案,24,1,BOOKING,booking/empty,4
+万柳·光大花园店,演示数据（门店 / 订单 / 日期 / 距离）,23,1,S01,s01/matched,8
+北京市昌平区首开智慧社育知东路1号楼3单元,演示数据（门店 / 订单 / 日期 / 距离）,23,1,S01,s01/matched,21
+北京市海淀区光大花园万柳泉宗路7号楼,演示数据（门店 / 订单 / 日期 / 距离）,23,1,S01,s01/matched,18
+北京市西城区西堤红山广安门外大街305号二区2号楼,演示数据（门店 / 订单 / 日期 / 距离）,23,1,S01,s01/matched,25
+告诉我们您的用仓需求,界面固定文案,23,1,BOOKING,booking/empty,10
+回龙观·首开智慧社店,演示数据（门店 / 订单 / 日期 / 距离）,23,1,S01,s01/matched,10
+广安门·西堤红山店,演示数据（门店 / 订单 / 日期 / 距离）,23,1,S01,s01/matched,9
+查看已提交的预约,界面固定文案,23,1,M01,m01/new,8
+王经理,界面固定文案,23,2,BUSINESS ENT_CERT,business/failed,3
+申请发票,界面固定文案,23,3,IV01 O03 RN01,o03/identity,4
+3.0km,演示数据（门店 / 订单 / 日期 / 距离）,22,1,S01,s01/matched,5
+3.2km,演示数据（门店 / 订单 / 日期 / 距离）,22,1,S01,s01/matched,5
+3.6km,演示数据（门店 / 订单 / 日期 / 距离）,22,1,S01,s01/matched,5
+入仓指引,界面固定文案,22,4,ACC_ACCESS H01 M01 O03,o03/renewal,4
+按场景分类,界面固定文案,22,1,ITEMS,items/selected,5
+按物品估算,界面固定文案,22,1,ITEMS,items/selected,5
+按物品分类,界面固定文案,22,1,ITEMS,items/selected,5
+暂无适用优惠,界面固定文案,22,3,O01 QUICK S5,o01/ready__fees,6
+用仓位置、联系电话必填；其他信息可选。,界面固定文案,22,1,BOOKING,booking/empty,19
+直接填容量,界面固定文案,22,1,ITEMS,items/selected,5
+（选填）,界面固定文案,22,2,BOOKING BUSINESS,business/failed,4
+260,界面固定文案,21,3,CAP S02 S5,s5/advisor,3
+"¥3,600",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,21,2,IV01 O03,o03/identity,6
+一键开锁,界面固定文案,21,3,H01 M01 O03,h01/expiring,4
+估算存储空间,界面固定文案,21,1,CAP,cap/empty,6
+其他手机号登录,界面固定文案,21,8,BOOKING BUSINESS M01 O01 QUICK S01 S02 S5,o01/unauthorized__phone,7
+我已阅读并同意 《迷你考拉用户注册协议和个人信息保护政策》,界面固定文案,21,8,BOOKING BUSINESS M01 O01 QUICK S01 S02 S5,o01/unauthorized__phone,29
+押金保管中,界面固定文案,21,2,DP01 O03,o03/identity,5
+本次应付 · 已省 ¥720,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,21,1,O01,o01/ready__fees,14
+查看报价,界面固定文案,21,5,O01 QUICK S01 S02 S5,o01/unauthorized__phone,4
+租期折扣按预付整期计算，提前退仓时按协议重新核算 · 报价 3 小时内有效,界面固定文案,21,1,O01,o01/ready__fees,37
+租期至 2027-10-18,演示数据（门店 / 订单 / 日期 / 距离）,21,2,DP01 EX01,ex01/form_early,14
+续租申请,界面固定文案,21,1,RN01,rn01/empty,4
+需求约占 4m³ 仓的 88%，大一档更好放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,21,1,S5,s5/advisor,22
+＋,界面固定文案,21,4,BUSINESS CAP ITEMS QUICK,cap/empty,1
+上一步,界面固定文案,20,1,BUSINESS,business/failed,3
+公司 / 商家名称,界面固定文案,20,1,BUSINESS,business/failed,9
+存取时间 09:00-21:00,界面固定文案,20,2,ACC_ACCESS QUICK,quick/store,16
+实名认证,界面固定文案,20,4,ACC_IDENTITY ACC_MESSAGES O01 O03,o03/identity,4
+您的称呼,界面固定文案,20,1,BUSINESS,business/failed,4
+提交后预计 10 分钟内与您联系,界面固定文案,20,1,BUSINESS,business/failed,16
+补充信息,界面固定文案,20,1,BUSINESS,business/failed,4
+需求与 3.5m³ 仓相当，大一档更好放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,20,1,S5,s5/advisor,20
+20/500,界面固定文案,19,1,BUSINESS,business/failed,6
+5–15m³ · 12个月 · 库存、样品,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,19,1,BUSINESS,business/failed,21
+79,界面固定文案,19,1,S01,s01/w7__browse__auth_loc_system,2
+AI 估算 · 暂未开放,界面固定文案,19,1,ITEMS,items/selected,12
+不确定用多大仓？,界面固定文案,19,2,S01 S02,s01/w7__browse__auth_loc_system,8
+待确认,界面固定文案,19,5,BUSINESS H01 M01 O03 RN01,o03/renewal,3
+立即估算,界面固定文案,19,2,S01 S02,s01/w7__browse__auth_loc_system,4
+约 20 箱样品与两台设备，需协助搬入。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,19,1,BUSINESS,business/failed,20
+退仓与到期,界面固定文案,19,1,EX01,ex01/form_early,5
+选择 ›,界面固定文案,19,1,O01,o01/ready__fees,4
+AI估算,界面固定文案,18,1,CAP,cap/empty,4
+仓区在 28 号楼 B1 层，步行与车辆入口不同,界面固定文案,18,2,O03 S02,s02/route,24
+已提交,界面固定文案,18,8,ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS EX01 H01 IV01 O03,booking/success,3
+快捷下单,界面固定文案,18,1,QUICK,quick/store,4
+您需要多大空间？,界面固定文案,18,1,CAP,cap/empty,8
+手机号,界面固定文案,18,6,ACC_PROFILE BOOKING BUSINESS ENT_CERT H01 S5,s5/w7__matched__auth_sms,3
+支付,界面固定文案,18,1,QUICK,quick/store,2
+暂未开放,界面固定文案,18,1,CAP,cap/empty,4
+订单号 MK202611180003,演示数据（门店 / 订单 / 日期 / 距离）,18,2,O01 O03,o01/pending,18
+选择信息,界面固定文案,18,1,QUICK,quick/store,4
+/月起,界面固定文案,17,2,S02 S5,s02/w7__matched__auth_phone,3
+0,界面固定文案,17,1,ITEMS,items/selected,1
+0.8–8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,17,1,S01,s01/w7__browse__auth_loc_system,7
+1.5–12m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,17,1,S01,s01/w7__browse__auth_loc_system,8
+1–6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,17,1,S01,s01/w7__browse__auth_loc_system,5
+83,界面固定文案,17,1,S01,s01/w7__browse__auth_loc_system,2
+84,界面固定文案,17,1,S01,s01/w7__browse__auth_loc_system,2
+87,界面固定文案,17,1,S01,s01/w7__browse__auth_loc_system,2
+89,界面固定文案,17,1,S01,s01/w7__browse__auth_loc_system,2
+全部物品,界面固定文案,17,1,ITEMS,items/selected,4
+冰箱,界面固定文案,17,2,CAP ITEMS,cap/large,2
+办公物资,界面固定文案,17,1,ITEMS,items/selected,4
+可租容量,界面固定文案,17,1,S01,s01/w7__browse__auth_loc_system,4
+商家货品,界面固定文案,17,1,ITEMS,items/selected,4
+家具,界面固定文案,17,1,ITEMS,items/selected,2
+家电,界面固定文案,17,1,ITEMS,items/selected,2
+搜索物品名称,界面固定文案,17,1,ITEMS,items/selected,6
+收藏乐器,界面固定文案,17,1,ITEMS,items/selected,4
+电子合同,界面固定文案,17,2,ECONTRACT O03,o03/identity,4
+箱包,界面固定文案,17,1,ITEMS,items/selected,2
+纸箱收纳,界面固定文案,17,1,ITEMS,items/selected,4
+续租进度,界面固定文案,17,2,O03 RN01,o03/renewal,4
+返回订单详情,界面固定文案,17,4,DP01 EX01 IV01 RN01,rn01/unavailable,6
+280,界面固定文案,16,3,S01 S02 S5,s01/matched,3
+2–16m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,16,1,S01,s01/w7__browse__auth_loc_system,6
+5–9m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,16,1,S01,s01/w7__browse__auth_loc_system,5
+8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,16,3,BOOKING CAP S5,cap/empty,3
+A005 · 8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,16,4,O01 O03 QUICK S02,s02/combo,10
+修改联系电话,界面固定文案,16,3,ACC_PROFILE BOOKING BUSINESS,acc_profile/contact,6
+发票申请,界面固定文案,16,1,IV01,iv01/empty,4
+已付,界面固定文案,16,2,O03 RN01,o03/identity,2
+已签署,界面固定文案,16,2,ECONTRACT O03,o03/identity,3
+待支付,界面固定文案,16,5,M01 O01 O03 OH01 RN01,o01/pending,3
+我已阅读并确认 《迷你考拉用户使用告知书》，并承诺不存放违规违禁物品,界面固定文案,16,1,O01,o01/ready__fees,34
+我的仓位,界面固定文案,16,2,H01 M01,h01/expiring,4
+按物品估算 ›,界面固定文案,16,1,CAP,cap/empty,7
+提交续租需求,界面固定文案,16,1,RN01,rn01/quote_ready,6
+支付续租费用,界面固定文案,16,1,RN01,rn01/quote_ready,6
+"整期 ¥1,680 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,16,3,S01 S02 S5,s01/matched,15
+新租期生效,界面固定文案,16,1,RN01,rn01/quote_ready,5
+确认续租方案,界面固定文案,16,1,RN01,rn01/quote_ready,6
+起止日期,界面固定文案,16,2,ECONTRACT O03,o03/identity,4
+门店确认报价,界面固定文案,16,1,RN01,rn01/quote_ready,6
+0.8–5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,1,S01,s01/w7__browse__auth_loc_system,7
+1.2km · 北京市朝阳区富仁名苑胜古北里南28号楼,演示数据（门店 / 订单 / 日期 / 距离）,15,2,BOOKING QUICK,quick/store,27
+1–8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,1,S01,s01/w7__browse__auth_loc_system,5
+1–9m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,1,S01,s01/w7__browse__auth_loc_system,5
+3m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,3,ACC_PROGRESS BOOKING CAP,cap/empty,3
+3m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,3,CAP M01 S02,m01/identity,10
+三人位沙发,界面固定文案,15,1,ITEMS,items/selected,5
+下单 2026-11-17,演示数据（门店 / 订单 / 日期 / 距离）,15,1,O03,o03/identity,13
+使用微信手机号,界面固定文案,15,3,BOOKING BUSINESS S5,s5/w7__matched__auth_sms,7
+可拆,界面固定文案,15,1,ITEMS,items/selected,2
+更改,界面固定文案,15,1,QUICK,quick/store,2
+租赁进度,界面固定文案,15,1,O03,o03/identity,4
+累计租期,界面固定文案,15,1,O03,o03/identity,4
+约 0.12m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,1,ITEMS,items/selected,10
+约 0.1m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,1,ITEMS,items/selected,9
+约 0.6m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,1,ITEMS,items/selected,9
+约 1.6m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,15,1,ITEMS,items/selected,9
+约 60×40×40cm,界面固定文案,15,1,ITEMS,items/selected,12
+继续支付,界面固定文案,15,4,H01 M01 O01 O03,h01/payment_failed,4
+规格 · 三人位,界面固定文案,15,1,ITEMS,items/selected,8
+订单押金,界面固定文案,15,2,DP01 EX01,ex01/form_early,4
+订单服务,界面固定文案,15,1,O03,o03/identity,4
+退仓进度,界面固定文案,15,2,EX01 O03,ex01/form_early,4
+选择仓位,界面固定文案,15,1,QUICK,quick/store,4
+选择租期,界面固定文案,15,1,QUICK,quick/store,4
+选择门店,界面固定文案,15,1,QUICK,quick/store,4
+邀请顾问协助,界面固定文案,15,1,BUSINESS,business/failed,6
+15m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,2,BOOKING CAP,cap/empty,4
+1m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,2,BOOKING CAP,cap/empty,3
+292,界面固定文案,14,1,S5,s5/advisor,3
+30m³ 及以上,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,2,BOOKING BUSINESS,booking/filled__capacity,8
+¥300/月 × 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,O03,o03/identity,13
+个人,界面固定文案,14,2,ENT_TITLES IV01,iv01/form_enterprise,2
+到店与进仓指引,界面固定文案,14,1,O03,o03/identity,7
+双人床 / 床垫,界面固定文案,14,1,ITEMS,items/selected,8
+可叠放，单把,界面固定文案,14,1,ITEMS,items/selected,6
+含货物的满载托盘,界面固定文案,14,1,ITEMS,items/selected,8
+商品纸箱,界面固定文案,14,1,ITEMS,items/selected,4
+商家 / 企业用仓,界面固定文案,14,2,BUSINESS ITEMS,business/filled,9
+商家常用,界面固定文案,14,1,ITEMS,items/selected,4
+塑料周转箱,界面固定文案,14,1,ITEMS,items/selected,5
+塑料收纳箱,界面固定文案,14,1,ITEMS,items/selected,5
+展示样品架,界面固定文案,14,1,ITEMS,items/selected,5
+常见整理箱,界面固定文案,14,1,ITEMS,items/selected,5
+手机号快捷登录,界面固定文案,14,8,BOOKING BUSINESS M01 O01 QUICK S01 S02 S5,o01/unauthorized__phone,7
+手机号用于登录、查看报价、预约联系和订单通知，未注册的手机号将自动注册。,界面固定文案,14,8,BOOKING BUSINESS M01 O01 QUICK S01 S02 S5,o01/unauthorized__phone,36
+批量开票,界面固定文案,14,3,ENT_BATCH ENT_CERT IV01,iv01/form_enterprise,4
+整包货品,界面固定文案,14,1,ITEMS,items/selected,4
+"整期 ¥2,190 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,3,S01 S02 S5,s02/combo,15
+服装整包,界面固定文案,14,1,ITEMS,items/selected,4
+查看详情,界面固定文案,14,1,QUICK,quick/store,4
+洗衣机,界面固定文案,14,2,CAP ITEMS,items/selected,3
+电视柜,界面固定文案,14,1,ITEMS,items/selected,3
+登录手机号,界面固定文案,14,1,ACC_PROFILE,acc_profile/contact,5
+租用中,界面固定文案,14,5,ACC_TRANSPORT H01 M01 O03 OH01,h01/w7__active_pending,3
+空间参考,界面固定文案,14,1,CAP,cap/large,4
+约 0.07m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,10
+约 0.08m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,10
+约 0.1m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,9
+约 0.25m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,10
+约 0.32m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,10
+约 0.3m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,9
+约 0.4m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,9
+约 0.5m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,9
+约 1.4m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,9
+约 1.8m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,9
+约 1m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,14,1,ITEMS,items/selected,7
+约 60×40×50cm,界面固定文案,14,1,ITEMS,items/selected,12
+约1.5米长，可拆,界面固定文案,14,1,ITEMS,items/selected,9
+联系手机号,界面固定文案,14,1,ACC_PROFILE,acc_profile/contact,5
+茶几 / 小桌,界面固定文案,14,1,ITEMS,items/selected,7
+衣柜,界面固定文案,14,1,ITEMS,items/selected,2
+规格 · 1.8米床,界面固定文案,14,1,ITEMS,items/selected,10
+规格 · 双门,界面固定文案,14,1,ITEMS,items/selected,7
+规格 · 茶几,界面固定文案,14,1,ITEMS,items/selected,7
+规格 · 餐桌,界面固定文案,14,1,ITEMS,items/selected,7
+账户与联系方式,界面固定文案,14,1,ACC_PROFILE,acc_profile/contact,7
+货架,界面固定文案,14,1,ITEMS,items/selected,2
+货物托盘,界面固定文案,14,1,ITEMS,items/selected,4
+门店服务,界面固定文案,14,1,O03,o03/identity,4
+餐桌 / 小桌,界面固定文案,14,1,ITEMS,items/selected,7
+餐椅,界面固定文案,14,1,ITEMS,items/selected,2
+2026-11-18,合同 / 协议原文（逐字，不改）,13,4,BOOKING BUSINESS DP01 EX01,ex01/form_early,10
+20m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,CAP,cap/empty,4
+28寸行李箱,界面固定文案,13,1,ITEMS,items/selected,6
+315,界面固定文案,13,2,S01 S5,s01/matched,3
+"¥1,560",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,4,H01 IV01 M01 RN01,rn01/quote_ready,6
+· 大 1.5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,S5,s5/w7__matched__auth_phone,9
+· 大 2m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,S5,s5/w7__matched__auth_phone,7
+一箱玩具,界面固定文案,13,1,ITEMS,items/selected,4
+书架 / 小柜,界面固定文案,13,1,ITEMS,items/selected,7
+停车卸货,界面固定文案,13,2,ACC_ACCESS S02,s02/route,4
+儿童推车,界面固定文案,13,1,ITEMS,items/selected,4
+儿童玩具箱,界面固定文案,13,1,ITEMS,items/selected,5
+冬季被子,界面固定文案,13,1,ITEMS,items/selected,4
+到店导航,界面固定文案,13,2,ACC_ACCESS S02,s02/route,4
+可压缩,界面固定文案,13,1,ITEMS,items/selected,3
+可折叠,界面固定文案,13,1,ITEMS,items/selected,3
+可拆，约1.8米高,界面固定文案,13,1,ITEMS,items/selected,9
+地库限高 2.0 米，厢式货车请用地面卸货点,界面固定文案,13,1,O03,o03/identity,22
+大衣 / 羽绒服袋,界面固定文案,13,1,ITEMS,items/selected,9
+婴儿床,界面固定文案,13,1,ITEMS,items/selected,3
+存取时间,界面固定文案,13,3,H01 M01 S02,h01/w7__active_pending,4
+常规滚筒 / 波轮,界面固定文案,13,1,ITEMS,items/selected,9
+当前租期至 2027-10-18,演示数据（门店 / 订单 / 日期 / 距离）,13,1,RN01,rn01/quote_ready,16
+托运大箱,界面固定文案,13,1,ITEMS,items/selected,4
+押金处理,界面固定文案,13,1,DP01,dp01/waiting,4
+押金退款处理,界面固定文案,13,1,EX01,ex01/form_early,6
+换季衣物收纳,界面固定文案,13,1,ITEMS,items/selected,6
+提交退仓安排,界面固定文案,13,1,EX01,ex01/form_early,6
+"整期 ¥1,890 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,2,S01 S5,s01/matched,15
+更换登录手机号,界面固定文案,13,1,ACC_PROFILE,acc_profile/contact,7
+朝阳区,界面固定文案,13,5,BUSINESS H01 QUICK S01 S5,h01/w7__new__auth_loc_nocity,3
+注销账号,界面固定文案,13,1,ACC_PROFILE,acc_profile/contact,4
+清空仓位并申请验仓,界面固定文案,13,1,EX01,ex01/form_early,9
+登录手机号验证一次后长期有效，更换时需短信验证。,界面固定文案,13,1,ACC_PROFILE,acc_profile/contact,24
+确定,界面固定文案,13,7,BOOKING BUSINESS CAP ITEMS IV01 O01 S01,s01/matched__filter,2
+签署并提交,界面固定文案,13,1,O01,o01/ready__fees,5
+累计 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,RN01,rn01/quote_ready,7
+约 0.05m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,ITEMS,items/selected,10
+约 0.06m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,ITEMS,items/selected,10
+约 0.11m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,ITEMS,items/selected,10
+约 0.15m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,ITEMS,items/selected,10
+约 0.35m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,ITEMS,items/selected,10
+约 0.55m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,13,1,ITEMS,items/selected,10
+续租租金,界面固定文案,13,2,IV01 RN01,rn01/payment_failed,4
+续租费用,界面固定文案,13,2,IV01 RN01,rn01/payment_failed,4
+衣物箱,界面固定文案,13,1,ITEMS,items/selected,3
+规格 · 普通,界面固定文案,13,1,ITEMS,items/selected,7
+计划取空日期,界面固定文案,13,1,EX01,ex01/form_early,6
+账户与隐私,界面固定文案,13,1,ACC_PROFILE,acc_profile/contact,5
+进仓路径,界面固定文案,13,2,ACC_ACCESS S02,s02/route,4
+退仓安排,界面固定文案,13,1,EX01,ex01/form_early,4
+退仓类型,界面固定文案,13,1,EX01,ex01/form_early,4
+退出登录,界面固定文案,13,1,ACC_PROFILE,acc_profile/contact,4
+门店验仓,界面固定文案,13,1,EX01,ex01/form_early,4
+隐私授权管理,界面固定文案,13,1,ACC_PROFILE,acc_profile/contact,6
+预约顾问,界面固定文案,13,5,CAP O01 S01 S02 S5,s02/combo,4
+15–30m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,BUSINESS,business/filled,7
+1–5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,BUSINESS,business/filled,5
+20寸登机箱,界面固定文案,12,1,ITEMS,items/selected,6
+24寸行李箱,界面固定文案,12,1,ITEMS,items/selected,6
+39项,界面固定文案,12,1,ITEMS,items/selected,3
+5–15m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,BUSINESS,business/filled,6
+A4档案箱,界面固定文案,12,1,ITEMS,items/selected,5
+下一步：确认订单,界面固定文案,12,1,QUICK,quick/store,8
+下一步：联系方式,界面固定文案,12,1,BUSINESS,business/filled,8
+不知道多大？使用空间估算,界面固定文案,12,1,BUSINESS,business/filled,12
+不需要,界面固定文案,12,1,BUSINESS,business/filled,3
+专属顾问,界面固定文案,12,1,BUSINESS,business/filled,4
+中型仓,界面固定文案,12,1,S02,s02/combo,3
+中箱,界面固定文案,12,1,ITEMS,items/selected,2
+主要存储类型,界面固定文案,12,1,BUSINESS,business/filled,6
+全部,界面固定文案,12,1,S02,s02/combo,2
+办公桌,界面固定文案,12,1,ITEMS,items/selected,3
+办公档案,界面固定文案,12,1,ITEMS,items/selected,4
+办公椅,界面固定文案,12,1,ITEMS,items/selected,3
+办公用品箱,界面固定文案,12,1,ITEMS,items/selected,5
+单件,界面固定文案,12,1,ITEMS,items/selected,2
+单把,界面固定文案,12,1,ITEMS,items/selected,2
+单箱,界面固定文案,12,1,ITEMS,items/selected,2
+单箱藏品,界面固定文案,12,1,ITEMS,items/selected,4
+双肩包 / 旅行袋,界面固定文案,12,1,ITEMS,items/selected,9
+取消订单,界面固定文案,12,2,O01 O03,o01/pending,4
+可开发票,界面固定文案,12,1,BUSINESS,business/filled,4
+吉他 / 乐器,界面固定文案,12,1,ITEMS,items/selected,7
+含长件：三人位沙发。选仓时请对照仓位的长宽高。,界面固定文案,12,1,ITEMS,items/selected,23
+多仓、长期或用量较大的商家与企业用仓，由顾问为您配仓。,界面固定文案,12,1,BUSINESS,business/filled,27
+大型仓,界面固定文案,12,1,S02,s02/combo,3
+大概需要多大空间,界面固定文案,12,1,BUSINESS,business/filled,8
+小型仓,界面固定文案,12,1,S02,s02/combo,3
+小箱,界面固定文案,12,1,ITEMS,items/selected,2
+小计 1.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,8
+已选 3 种、6 件 · 查看清单 ›,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,19
+库存,界面固定文案,12,1,BUSINESS,business/filled,2
+建议 3.4m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,8
+微信手机号快捷登录,界面固定文案,12,8,BOOKING BUSINESS M01 O01 QUICK S01 S02 S5,o01/unauthorized__phone,9
+手办 / 藏品箱,界面固定文案,12,1,ITEMS,items/selected,8
+打印机 / 复印机,界面固定文案,12,1,ITEMS,items/selected,9
+抬头,界面固定文案,12,2,ENT_BATCH IV01,iv01/form_enterprise,2
+按中型设备估算，大型复印机请选顾问协助,界面固定文案,12,1,ITEMS,items/selected,19
+提前退仓,界面固定文案,12,1,EX01,ex01/form_early,4
+搬入时是否需要协助,界面固定文案,12,1,BUSINESS,business/filled,9
+搬运方案可确认,界面固定文案,12,1,BUSINESS,business/filled,7
+文件,界面固定文案,12,1,BUSINESS,business/filled,2
+文件档案,界面固定文案,12,1,ITEMS,items/selected,4
+望京,界面固定文案,12,4,H01 QUICK S01 S5,h01/w7__new__auth_search_typing,2
+杂项办公物资,界面固定文案,12,1,ITEMS,items/selected,6
+查看可选仓位,界面固定文案,12,1,BUSINESS,business/filled,6
+样品,界面固定文案,12,1,BUSINESS,business/filled,2
+物品约 2.1m³ · 6 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,15
+物品约 2.1m³，留出码放空隙后建议 3.4m³。估算值，以实际仓位为准。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,38
+球鞋收纳箱,界面固定文案,12,1,ITEMS,items/selected,5
+租用时长,界面固定文案,12,1,BUSINESS,business/filled,4
+约 0.02m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约 0.03m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约 0.03m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约 0.04m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约 0.05m³/箱,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约 0.08m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约 0.2m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,9
+约 0.45m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约 0.67m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,12,1,ITEMS,items/selected,10
+约1.1米长，需看仓位长边,界面固定文案,12,1,ITEMS,items/selected,13
+自定义,界面固定文案,12,1,BUSINESS,business/filled,3
+自行车,界面固定文案,12,1,ITEMS,items/selected,3
+订单号 MK202611174112,演示数据（门店 / 订单 / 日期 / 距离）,12,3,IV01 O03 RN01,o03/renewal,18
+设备,界面固定文案,12,1,BUSINESS,business/filled,2
+请先勾选确认,界面固定文案,12,1,O01,o01/ready__fees,6
+较长物品,界面固定文案,12,1,ITEMS,items/selected,4
+迷你仓,界面固定文案,12,1,S02,s02/combo,3
+铁皮文件柜,界面固定文案,12,1,ITEMS,items/selected,5
+长期 / 多仓可协助,界面固定文案,12,1,BUSINESS,business/filled,10
+闲置小家电,界面固定文案,12,1,ITEMS,items/selected,5
+需要,界面固定文案,12,1,BUSINESS,business/filled,2
+项目物料,界面固定文案,12,1,BUSINESS,business/filled,4
+风扇、净化器等,界面固定文案,12,1,ITEMS,items/selected,7
+（可多选）,界面固定文案,12,1,BUSINESS,business/filled,5
+2 × 1.6 × 2.5m · 约3.2㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,11,1,S02,s02/combo,22
+2件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,11,1,CAP,cap/w7__from_items_edited,2
+4,界面固定文案,11,7,ACC_BRAND AGREEMENT H01 ITEMS QUICK S01 S5,acc_brand/default,1
+台阶无,界面固定文案,11,2,ACC_ACCESS S02,s02/route,3
+小计 0.3m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,11,1,ITEMS,items/selected,8
+提交给顾问,界面固定文案,11,5,CAP ITEMS S01 S02 S5,cap/large,5
+服务时段：每日 9:00–20:00,界面固定文案,11,4,ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS,business/success,18
+查看已租出的仓位,界面固定文案,11,1,S02,s02/combo,8
+起租日,界面固定文案,11,1,O01,o01/pending,3
+适合小件家具、家电,界面固定文案,11,1,S02,s02/combo,9
+重新找仓,界面固定文案,11,4,H01 M01 O01 O03,h01/cancelled,4
+预计 10 分钟内与您联系,界面固定文案,11,5,ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS H01,booking/success,13
+预计容量,界面固定文案,11,5,ACC_PROGRESS H01 M01 S01 S5,h01/booking,4
+验证码,界面固定文案,11,4,ACC_PROFILE BOOKING BUSINESS S5,s5/w7__matched__auth_sms,3
+09:00-21:00,界面固定文案,10,2,H01 M01,h01/w7__active_pending,11
+2026-10-18 至 2027-10-18,演示数据（门店 / 订单 / 日期 / 距离）,10,2,ECONTRACT O03,o03/identity,23
+24:00:00,界面固定文案,10,3,H01 M01 RN01,rn01/quote_ready,8
+A001 · 0.8m³上层 2/2,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,10,2,QUICK S02,s02/combo,18
+A004 · 5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,10,2,QUICK S02,s02/combo,10
+zhangsan@163.com,界面固定文案,10,1,IV01,iv01/form_enterprise,16
+三元桥,界面固定文案,10,4,H01 QUICK S01 S5,s5/matched__origin,3
+东城区,界面固定文案,10,5,BUSINESS H01 QUICK S01 S5,business/w7__multi_area_open,3
+丰台区,界面固定文案,10,5,BUSINESS H01 QUICK S01 S5,business/w7__multi_area_open,3
+丰台科技园,界面固定文案,10,4,H01 QUICK S01 S5,s5/matched__origin,5
+企业名称,界面固定文案,10,2,ENT_CERT ENT_TITLES,ent_cert/w7__empty,4
+允许,界面固定文案,10,7,BOOKING BUSINESS EX01 H01 O03 RN01 S5,h01/w7__new__auth_loc_ask,2
+加租仓位,界面固定文案,10,2,H01 M01,h01/expiring,4
+另有 1 个可租 · 查看门店 ›,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,10,1,S01,s01/matched,17
+多个区域都需要仓位？添加区域,界面固定文案,10,1,BUSINESS,business/filled,14
+姓名,界面固定文案,10,3,ACC_IDENTITY ENT_CERT O01,acc_identity/invalid,2
+安贞,界面固定文案,10,4,H01 QUICK S01 S5,s5/matched__origin,2
+小计 0.2m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,10,1,ITEMS,items/selected,8
+已提交，预计 10 分钟内与您联系,界面固定文案,10,3,ACC_TRANSPORT H01 M01,h01/booking,17
+已登录,界面固定文案,10,1,M01,m01/identity,3
+广安门,界面固定文案,10,4,H01 QUICK S01 S5,s5/matched__origin,3
+广渠门,界面固定文案,10,4,H01 QUICK S01 S5,s5/matched__origin,3
+建国门外,界面固定文案,10,4,H01 QUICK S01 S5,s5/matched__origin,4
+开票内容,界面固定文案,10,2,ENT_BATCH IV01,iv01/form_enterprise,4
+授权后同时完成登录，用于顾问电话联系您。,界面固定文案,10,2,BOOKING BUSINESS,booking/w7__filled__auth_bk_wx,20
+"整期 ¥2,760 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,10,2,S01 S5,s5/matched__demand,15
+昌平区,界面固定文案,10,5,BUSINESS H01 QUICK S01 S5,business/w7__multi_area_open,3
+海淀区,界面固定文案,10,5,BUSINESS H01 QUICK S01 S5,business/w7__multi_area_open,3
+申请,界面固定文案,10,7,BOOKING BUSINESS EX01 H01 O03 RN01 S5,h01/w7__new__auth_loc_ask,2
+石景山区,界面固定文案,10,5,BUSINESS H01 QUICK S01 S5,business/w7__multi_area_open,4
+续租 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,10,1,RN01,rn01/quote_ready,6
+西城区,界面固定文案,10,5,BUSINESS H01 QUICK S01 S5,business/w7__multi_area_open,3
+请咨询客服,待业务或外部接入（占位说法）,10,3,ESTORE EX01 IV01,ex01/unavailable,5
+请选择用仓日期,界面固定文案,10,1,QUICK,quick/store,7
+通州区,界面固定文案,10,5,BUSINESS H01 QUICK S01 S5,business/w7__multi_area_open,3
+门店使用须知,界面固定文案,10,2,H01 M01,h01/expiring,6
+陶然亭,界面固定文案,10,4,H01 QUICK S01 S5,s5/matched__origin,3
+需求编号 0001,界面固定文案,10,2,BOOKING BUSINESS,booking/success,9
+0.8 × 0.5 × 2m · 约0.4㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,S02,s02/combo,22
+1.4 × 1 × 2.5m · 约1.4㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,S02,s02/combo,22
+1.5–5m³ 大致能放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,CAP,cap/w7__from_items_edited,12
+16个,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,CAP,cap/w7__from_items_edited,3
+2 × 1 × 2.5m · 约2㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,S02,s02/combo,18
+4个,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,CAP,cap/w7__from_items_edited,2
+9,界面固定文案,9,5,AGREEMENT H01 QUICK S01 S5,agreement/w7__usage,1
+乘货梯到 B1 仓区层，出梯右转,界面固定文案,9,2,ACC_ACCESS S02,s02/route,16
+剩余 03:00:00,界面固定文案,9,3,H01 M01 O01,o01/pending,11
+发票信息,界面固定文案,9,1,IV01,iv01/form_enterprise,4
+发票类型,界面固定文案,9,1,IV01,iv01/form_enterprise,4
+在 B1 临时卸货位卸货，推车在货梯口自取,界面固定文案,9,2,ACC_ACCESS S02,s02/route,21
+地库 B1 设临时卸货位，紧邻货梯；停车前 30 分钟免费，之后按小区标准收费,界面固定文案,9,2,ACC_ACCESS S02,s02/route,39
+地库限高 2.0 米。厢式货车请停地面卸货点，经 28 号楼北门进入,界面固定文案,9,2,ACC_ACCESS S02,s02/route,34
+小区南门进，28 号楼北侧单元门，下一层到仓区,界面固定文案,9,2,ACC_ACCESS S02,s02/route,23
+已估算用仓需求,界面固定文案,9,3,ACC_PROGRESS H01 M01,h01/booking,7
+已保存需求,界面固定文案,9,3,ACC_PROGRESS H01 M01,h01/booking,5
+已恢复上次填写的信息,界面固定文案,9,1,BUSINESS,business/w7__restored__auth_bk_unauth,10
+折叠椅,界面固定文案,9,1,CAP,cap/w7__from_items_edited,3
+押金 · 1个月月租,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,DP01,dp01/waiting,10
+推车货梯口自取,界面固定文案,9,2,ACC_ACCESS S02,s02/route,7
+支付押金,界面固定文案,9,1,DP01,dp01/waiting,4
+收纳箱,界面固定文案,9,1,CAP,cap/w7__from_items_edited,3
+查看推荐仓位,界面固定文案,9,3,ACC_PROGRESS H01 M01,h01/booking,6
+查看订单与用仓服务,界面固定文案,9,2,ACC_PROFILE M01,m01/new,9
+欢迎使用迷你考拉,界面固定文案,9,2,ACC_PROFILE M01,m01/new,8
+步行入口,界面固定文案,9,2,ACC_ACCESS S02,s02/route,4
+电梯货梯 1 部,界面固定文案,9,2,ACC_ACCESS S02,s02/route,8
+直行约 20 米到仓区门，沿途无台阶,界面固定文案,9,2,ACC_ACCESS S02,s02/route,18
+知道了,界面固定文案,9,7,ACC_ACCESS ACC_PROFILE BUSINESS DP01 O01 QUICK S5,o01/ready__fees,3
+箱包、收纳用品及少量小家具,界面固定文案,9,1,CAP,cap/w7__from_items_edited,13
+继续找仓,界面固定文案,9,2,BOOKING BUSINESS,booking/success,4
+继续查看仓位,界面固定文案,9,3,ACC_PROGRESS H01 M01,h01/booking,6
+胜古北里路一侧地库入口，与步行入口不在同一处,界面固定文案,9,2,ACC_ACCESS S02,s02/route,22
+行李箱,界面固定文案,9,1,CAP,cap/w7__from_items_edited,3
+订单待支付,界面固定文案,9,4,H01 M01 O01 O03,o01/pending,5
+请核对后继续。,界面固定文案,9,1,BUSINESS,business/w7__restored__auth_bk_unauth,7
+请输入 6 位验证码,界面固定文案,9,4,ACC_PROFILE BOOKING BUSINESS S5,s5/w7__matched__auth_sms,10
+车辆入口,界面固定文案,9,2,ACC_ACCESS S02,s02/route,4
+退款处理,界面固定文案,9,1,DP01,dp01/waiting,4
+退还完成,界面固定文案,9,1,DP01,dp01/waiting,4
+退还时限,界面固定文案,9,1,DP01,dp01/waiting,4
+退还说明,界面固定文案,9,1,DP01,dp01/waiting,4
+适合日常闲置与小件家具,界面固定文案,9,1,CAP,cap/w7__from_items_edited,11
+适合纸箱、小件家具,界面固定文案,9,1,S02,s02/combo,9
+适合行李箱、换季衣物,界面固定文案,9,1,S02,s02/combo,10
+通行限制,界面固定文案,9,2,ACC_ACCESS S02,s02/route,4
+邮箱,界面固定文案,9,1,IV01,iv01/form_enterprise,2
+随下单支付 · 2026-10-18,演示数据（门店 / 订单 / 日期 / 距离）,9,1,DP01,dp01/waiting,18
+预计整期租金,界面固定文案,9,1,QUICK,quick/unit,6
+验仓,界面固定文案,9,1,DP01,dp01/waiting,2
+验仓通过后 15 个工作日内,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,9,1,DP01,dp01/waiting,14
+539,界面固定文案,8,2,S02 S5,s02/combo,3
+91110105MA01K7XQ3R,界面固定文案,8,3,ENT_BATCH ENT_CERT ENT_TITLES,ent_cert/w7__submitting,18
+"¥3,170",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,8,1,ENT_BATCH,ent_batch/w7__select,6
+¥810,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,8,1,ENT_BATCH,ent_batch/w7__select,4
+上海,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,2
+下单 2026-11-18,演示数据（门店 / 订单 / 日期 / 距离）,8,1,O03,o03/pending,13
+个人用仓需求,界面固定文案,8,2,ACC_NEEDS ACC_SUPPORT,acc_needs/withdrawn,6
+企业用仓需求,界面固定文案,8,2,ACC_NEEDS ACC_SUPPORT,acc_needs/withdrawn,6
+入口与停车卸货,界面固定文案,8,1,S02,s02/route,7
+全部 24 个商圈,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,8,4,H01 QUICK S01 S5,s5/matched__origin,9
+全部订单,界面固定文案,8,1,OH01,oh01/ended,4
+办理退仓,界面固定文案,8,4,EX01 H01 M01 O03,h01/lease_expired,4
+北京 · 按区域,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,8
+北京 · 按商圈,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,8
+另有 2 个可租 · 查看门店 ›,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,8,1,S01,s01/matched,17
+咨询到店方式,界面固定文案,8,1,S02,s02/route,6
+城市,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,2
+复制地址,界面固定文案,8,1,S02,s02/route,4
+广州,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,2
+我的在租仓位,界面固定文案,8,2,H01 M01,h01/w7__active_pending,6
+按最近订单排序,界面固定文案,8,1,OH01,oh01/ended,7
+提交认证,界面固定文案,8,3,ACC_IDENTITY ENT_CERT O01,acc_identity/invalid,4
+提交身份资料,界面固定文案,8,1,ACC_IDENTITY,acc_identity/invalid,6
+"整期 ¥3,234 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,8,2,S02 S5,s02/combo,15
+新租期至,界面固定文案,8,1,RN01,rn01/quote_ready,4
+最近使用,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,4
+未使用,界面固定文案,8,1,O01,o01/pending,3
+杭州,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,2
+深圳,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,2
+清除,界面固定文案,8,4,H01 QUICK S01 S5,s5/matched__origin,2
+用仓开始,界面固定文案,8,1,O03,o03/pending,4
+租期衔接,界面固定文案,8,1,RN01,rn01/quote_ready,4
+结算说明,界面固定文案,8,1,DP01,dp01/waiting,4
+认证中,界面固定文案,8,1,ACC_IDENTITY,acc_identity/invalid,3
+认证通过,界面固定文案,8,1,ACC_IDENTITY,acc_identity/invalid,4
+起租 2026-11-19,演示数据（门店 / 订单 / 日期 / 距离）,8,1,O03,o03/pending,13
+退至您指定的银行账户或原路退回；信用卡付款原路退回约需 1 个月,合同 / 协议原文（逐字，不改）,8,1,DP01,dp01/waiting,32
+退还方式,界面固定文案,8,1,DP01,dp01/waiting,4
+预计 10 分钟内与您联系；非服务时段提交的，顾问上班后将优先联系您。,界面固定文案,8,2,ACC_NEEDS ACC_SUPPORT,acc_needs/withdrawn,35
+验仓时仓位与配件完好、物品已取空的，押金按约定退还；如有待结费用，结算后退还余额,合同 / 协议原文（逐字，不改）,8,1,DP01,dp01/waiting,40
+385,界面固定文案,7,2,S01 S5,s01/matched,3
+· 大 1.5m³，每月多 ¥85,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,7,1,S5,s5/matched__demand,17
+· 大 2m³，每月多 ¥145,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,7,1,S5,s5/matched__demand,16
+—,界面固定文案,7,5,BOOKING DP01 EX01 IV01 RN01,rn01/payment_failed,1
+下单支付,界面固定文案,7,1,IV01,iv01/form_enterprise,4
+付款记录,界面固定文案,7,1,IV01,iv01/form_enterprise,4
+以开票结果为准,界面固定文案,7,1,IV01,iv01/form_enterprise,7
+位置示意,界面固定文案,7,1,S02,s02/route,4
+入仓步骤,界面固定文案,7,1,ACC_ACCESS,acc_access/allowed,4
+到期退仓,界面固定文案,7,1,EX01,ex01/form_early,4
+到达门店,界面固定文案,7,1,ACC_ACCESS,acc_access/allowed,4
+办理续租,界面固定文案,7,4,EX01 H01 M01 O03,h01/expiring,4
+可开票金额,界面固定文案,7,1,IV01,iv01/form_enterprise,5
+可选择开具技术服务费发票或仓储服务费发票,合同 / 协议原文（逐字，不改）,7,1,IV01,iv01/form_enterprise,20
+地铁,界面固定文案,7,1,S02,s02/route,2
+地铁与公交,界面固定文案,7,1,S02,s02/route,5
+存取后检查仓门关闭,界面固定文案,7,1,ACC_ACCESS,acc_access/allowed,9
+对到店方式有疑问？,界面固定文案,7,1,S02,s02/route,9
+建议在合同结束后 30 个自然日内申请,合同 / 协议原文（逐字，不改）,7,1,IV01,iv01/form_enterprise,19
+开票抬头管理,界面固定文案,7,2,ENT_CERT ENT_TITLES,ent_titles/w7__add,6
+是否含押金,界面固定文案,7,1,IV01,iv01/form_enterprise,5
+比需求小的仓位,界面固定文案,7,1,S02,s02/combo,7
+申请期限,界面固定文案,7,1,IV01,iv01/form_enterprise,4
+登录,界面固定文案,7,3,BOOKING BUSINESS S5,s5/w7__matched__auth_sms,2
+租金,界面固定文案,7,1,IV01,iv01/form_enterprise,2
+管理费,界面固定文案,7,1,IV01,iv01/form_enterprise,3
+统一社会信用代码,界面固定文案,7,1,ENT_CERT,ent_cert/w7__empty,8
+续租应付,界面固定文案,7,1,RN01,rn01/quote_ready,4
+续租报价待确认,界面固定文案,7,4,H01 M01 O03 RN01,o03/renewal,7
+联系人,界面固定文案,7,1,ENT_CERT,ent_cert/w7__empty,3
+订单状态,界面固定文案,7,2,H01 M01,m01/payment_failed,4
+起租后查看入仓信息,界面固定文案,7,1,ACC_ACCESS,acc_access/allowed,9
+返回订单,界面固定文案,7,7,DP01 ECONTRACT ENT_BATCH EX01 IV01 O03 RN01,rn01/empty,4
+退仓,界面固定文案,7,1,O03,o03/identity,2
+预计整期租金 / 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,7,1,QUICK,quick/term__terms,12
+验仓通过,界面固定文案,7,2,DP01 EX01,dp01/refunded,4
+13800138000,界面固定文案,6,1,BOOKING,booking/success,11
+2028-04-18,演示数据（门店 / 订单 / 日期 / 距离）,6,1,RN01,rn01/quote_ready,10
+24个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,5,BUSINESS CAP ITEMS O01 RN01,o01/w7__full,4
+329,界面固定文案,6,2,S01 S5,s01/matched,3
+462,界面固定文案,6,1,S01,s01/matched,3
+469,界面固定文案,6,1,S01,s01/matched,3
+511,界面固定文案,6,1,S01,s01/matched,3
+52s 后重发,界面固定文案,6,4,ACC_PROFILE BOOKING BUSINESS S5,booking/w7__filled__auth_bk_sms,7
+"5m³ · 6个月 ¥2,772",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,1,S01,s01/matched,16
+"5m³ · 6个月 ¥2,814",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,1,S01,s01/matched,16
+"5m³ · 6个月 ¥3,066",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,1,S01,s01/matched,16
+¥260/月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,1,RN01,rn01/quote_ready,6
+¥260/月 × 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,1,RN01,rn01/quote_ready,12
+"¥3,980",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,1,ENT_BATCH,ent_batch/w7__confirm,6
+· 约2㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,2,S01 S5,s5/expanded,5
+"下单支付 · ¥3,950",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,6,1,IV01,iv01/processing,13
+以门店 / 顾问告知为准,界面固定文案,6,4,DP01 EX01 IV01 RN01,rn01/payment_failed,12
+入仓准备,界面固定文案,6,3,H01 M01 O03,o03/w7__upcoming&arrival=simple,4
+到店与进仓,界面固定文案,6,1,ACC_ACCESS,acc_access/allowed,5
+原因,界面固定文案,6,4,DP01 EX01 IV01 RN01,rn01/payment_failed,2
+已提交的信息,界面固定文案,6,1,BOOKING,booking/success,6
+已验证,界面固定文案,6,2,BOOKING BUSINESS,booking/w7__filled__auth_bk_contact_sms,3
+当前租期至,界面固定文案,6,2,H01 M01,h01/w7__renewal_quote,5
+待办理,界面固定文案,6,4,EX01 H01 M01 O03,h01/identity,3
+待起租,界面固定文案,6,2,EX01 O03,ex01/unavailable,3
+您可以,界面固定文案,6,4,DP01 EX01 IV01 RN01,rn01/payment_failed,3
+报价有效至,界面固定文案,6,1,RN01,rn01/quote_ready,5
+押金退还,界面固定文案,6,1,EX01,ex01/form_early,4
+接收邮箱,界面固定文案,6,3,ENT_BATCH ENT_TITLES IV01,iv01/w7__issued,4
+提交发票申请,界面固定文案,6,1,IV01,iv01/form_enterprise,6
+提交后预计 10 分钟内与您联系。,界面固定文案,6,2,CAP S02,cap/large,17
+提前退仓 · 计划取空 2026-11-18,演示数据（门店 / 订单 / 日期 / 距离）,6,1,EX01,ex01/waiting,22
+支付剩余 03:00:00,界面固定文案,6,1,O03,o03/pending,13
+续租办理提醒 续租报价 24 小时内有效，过期后按常规折扣价续租。,界面固定文案,6,2,H01 M01,h01/w7__renewal_quote,33
+续租报价,界面固定文案,6,3,H01 M01 RN01,rn01/quote_ready,4
+自当前租期截止日 2027-10-18 顺延 6个月，不中断,演示数据（门店 / 订单 / 日期 / 距离）,6,1,RN01,rn01/quote_ready,30
+计划起租 2026-12-18,演示数据（门店 / 订单 / 日期 / 距离）,6,2,EX01 O03,ex01/unavailable,15
+订单号 MK202611173716,演示数据（门店 / 订单 / 日期 / 距离）,6,3,DP01 EX01 O03,o03/refund,18
+订单号 MK202611175608,演示数据（门店 / 订单 / 日期 / 距离）,6,2,EX01 O03,ex01/unavailable,18
+订单号 MK202611178208,演示数据（门店 / 订单 / 日期 / 距离）,6,3,DP01 EX01 O03,ex01/waiting,18
+说明,界面固定文案,6,4,DP01 EX01 IV01 RN01,rn01/payment_failed,2
+请选择仓位,界面固定文案,6,1,QUICK,quick/store,5
+请选择日期,界面固定文案,6,2,ACC_TRANSPORT O01,o01/unauthorized__phone,5
+还需,界面固定文案,6,1,QUICK,quick/store,2
+选择,界面固定文案,6,1,QUICK,quick/store,2
+门店,界面固定文案,6,5,ACC_FAVORITES ECONTRACT H01 O01 S01,h01/w7__new__auth_search_typing,2
+门店到店指引,界面固定文案,6,1,ACC_ACCESS,acc_access/allowed,6
+需要顾问帮您确认方案？,界面固定文案,6,3,CAP S02 S5,s02/combo,11
+验仓通过后进入退款处理,界面固定文案,6,1,EX01,ex01/form_early,11
+验证码已发送，5 分钟内有效,界面固定文案,6,4,ACC_PROFILE BOOKING BUSINESS S5,booking/w7__filled__auth_bk_sms,14
+"1,680",界面固定文案,5,1,QUICK,quick/term__terms,5
+10 号线安贞门站 A 口，沿所示路线步行约 650 米到步行入口,界面固定文案,5,1,S02,s02/route,33
+10m³ · 12个月 · 138****8000,演示数据（门店 / 订单 / 日期 / 距离）,5,1,ACC_NEEDS,acc_needs/withdrawn,25
+117,界面固定文案,5,1,S02,s02/w7__matched__auth_phone,3
+12,界面固定文案,5,2,ACC_PROFILE AGREEMENT,acc_profile/contact_invalid__sys_error,2
+12个月长租券,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,2,ACC_COUPONS O01,acc_coupons/gate,7
+139 0013 9000,界面固定文案,5,3,ACC_PROFILE BOOKING BUSINESS,booking/w7__filled__auth_bk_sms,13
+"15m³ 以上或整期满 ¥20,000，由顾问确认方案与价格",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,3,S01 S02 S5,s5/near,30
+18个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,5,BUSINESS CAP ITEMS O01 QUICK,quick/term__terms,4
+2 × 1.6 × 2.5m,界面固定文案,5,3,O01 O03 QUICK,o01/w7__full_near,14
+2026-10-18,演示数据（门店 / 订单 / 日期 / 距离）,5,3,H01 M01 O03,h01/identity,10
+2㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,4,ACC_PROGRESS H01 M01 S5,s5/w7__from_area,2
+"3.5m³ · 6个月 ¥2,184",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,S01,s01/matched,18
+3.5m³ · 6个月 · 138****8000,演示数据（门店 / 订单 / 日期 / 距离）,5,1,ACC_NEEDS,acc_needs/withdrawn,25
+364,界面固定文案,5,1,S01,s01/matched,3
+399,界面固定文案,5,1,S01,s01/matched,3
+413,界面固定文案,5,1,S01,s01/matched,3
+"4m³ · 6个月 ¥1,974",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,S01,s01/matched,16
+"4m³ · 6个月 ¥2,394",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,S01,s01/matched,16
+"4m³ · 6个月 ¥2,478",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,S01,s01/matched,16
+500,界面固定文案,5,1,S02,s02/w7__matched__auth_phone,3
+"5m³ · 6个月 ¥2,310",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,S01,s01/matched,16
+"¥3,120",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,3,O01 QUICK RN01,quick/unit,6
+¥500,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,2,O01 O03,o01/w7__full_near,4
+一键开锁暂未开通，目前请按入仓指引到店存取。,待业务或外部接入（占位说法）,5,1,O03,o03/renewal,22
+下单前即可预约运输 / 搬运，由顾问确认方案与费用，不计入本次应付。,界面固定文案,5,1,ACC_TRANSPORT,acc_transport/empty,34
+付款完成后新租期生效。,界面固定文案,5,1,RN01,rn01/payment_failed,11
+保存联系方式,界面固定文案,5,1,ACC_PROFILE,acc_profile/contact_invalid__sys_error,6
+修改地址与备注,界面固定文案,5,1,ACC_NEEDS,acc_needs/withdrawn,7
+修改容量,界面固定文案,5,2,S02 S5,s02/w7__sales,4
+免费运输 1 次,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,2,ACC_COUPONS O01,acc_coupons/gate,8
+入口,界面固定文案,5,2,ACC_ACCESS S02,s02/w7__route&arrival=partial,2
+全放标准纸箱约 25 箱 · 看示意,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,CAP,cap/filled,18
+其他到店方式,界面固定文案,5,1,S02,s02/route,6
+办理中,界面固定文案,5,3,H01 M01 O03,m01/w7__renewal_pending,3
+北京市朝阳区富仁名苑胜古北里,演示数据（门店 / 订单 / 日期 / 距离）,5,1,ACC_NEEDS,acc_needs/withdrawn,14
+协助确认仓位、费用及搬运安排,界面固定文案,5,2,S02 S5,s02/combo,14
+去认证,界面固定文案,5,1,O01,o01/w7__idv_todo,3
+取送地址,界面固定文案,5,1,ACC_TRANSPORT,acc_transport/empty,4
+可申请专属方案,界面固定文案,5,3,S01 S02 S5,s5/near,7
+咨询类型,界面固定文案,5,1,ACC_SUPPORT,acc_support/order,4
+填写联系电话,界面固定文案,5,1,ACC_PROFILE,acc_profile/contact_invalid__sys_error,6
+备注：周末搬入，需协助搬运,界面固定文案,5,1,ACC_NEEDS,acc_needs/withdrawn,13
+完成,界面固定文案,5,3,BOOKING BUSINESS ITEMS,items/cart,2
+已提交，待顾问联系,界面固定文案,5,1,ACC_NEEDS,acc_needs/withdrawn,9
+已选仓位,界面固定文案,5,3,ACC_PROGRESS H01 M01,acc_progress/quote,4
+开启,界面固定文案,5,2,H01 S01,h01/w7__new__auth_search_off,2
+开票金额,界面固定文案,5,1,ENT_BATCH,ent_batch/w7__confirm,4
+张三,界面固定文案,5,1,IV01,iv01/two_payments,2
+当前位置,界面固定文案,5,4,H01 QUICK S01 S5,s5/matched__origin,4
+待验仓,界面固定文案,5,3,DP01 EX01 O03,ex01/waiting,3
+手机号（支持国际区号）,界面固定文案,5,1,ACC_PROFILE,acc_profile/contact_invalid__sys_error,11
+找仓时按 15m³ 匹配，可修改。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,BUSINESS,business/filled,17
+拨打电话,界面固定文案,5,1,ACC_SUPPORT,acc_support/order,4
+按 0.8m³ 重新匹配,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,5,1,S02,s02/combo,12
+提交中…,界面固定文案,5,5,ENT_BATCH ENT_CERT EX01 IV01 RN01,ent_cert/w7__submitting,4
+提交运输预约,界面固定文案,5,1,ACC_TRANSPORT,acc_transport/empty,6
+撤回需求,界面固定文案,5,1,ACC_NEEDS,acc_needs/withdraw__sys_error,4
+新客租仓券,界面固定文案,5,2,ACC_COUPONS O01,acc_coupons/gate,5
+更多,界面固定文案,5,1,ACC_NEEDS,acc_needs/withdrawn,2
+更换仓位,界面固定文案,5,3,H01 M01 O01,h01/payment_failed,4
+服务权益,界面固定文案,5,2,ACC_COUPONS O01,acc_coupons/gate,4
+望京3号院店,演示数据（门店 / 订单 / 日期 / 距离）,5,2,H01 S01,h01/w7__new__auth_search_typing,6
+望京·朝庭公寓店,演示数据（门店 / 订单 / 日期 / 距离）,5,3,H01 QUICK S01,h01/w7__new__auth_search_typing,8
+朝阳区 安贞附近,界面固定文案,5,4,H01 QUICK S01 S5,s5/matched__origin,8
+期望运输日期,界面固定文案,5,1,ACC_TRANSPORT,acc_transport/empty,6
+未认证,界面固定文案,5,1,O01,o01/w7__idv_todo,3
+申请记录,界面固定文案,5,1,IV01,iv01/processing,4
+电话咨询,界面固定文案,5,1,ACC_SUPPORT,acc_support/order,4
+直接联系,界面固定文案,5,1,ACC_SUPPORT,acc_support/order,4
+确认撤回,界面固定文案,5,2,ACC_NEEDS ACC_PROFILE,acc_needs/withdraw__sys_error,4
+确认续租报价,界面固定文案,5,3,H01 M01 O03,o03/renewal,6
+租期已到期,界面固定文案,5,5,EX01 H01 M01 O03 OH01,h01/lease_expired,5
+租金券不抵扣押金和管理费；免费运输限用仓位置距门店 5km 及以上、租期满 6 个月的订单，含 1 次车辆运输费。,演示数据（门店 / 订单 / 日期 / 距离）,5,1,ACC_COUPONS,acc_coupons/gate,57
+签署协议前需完成实名认证,界面固定文案,5,1,O01,o01/w7__idv_todo,12
+纳税人识别号,界面固定文案,5,2,ENT_BATCH ENT_TITLES,ent_titles/w7__add,6
+继续完成选仓,界面固定文案,5,3,ACC_PROGRESS H01 M01,acc_progress/quote,6
+补充企业资料,界面固定文案,5,1,ACC_NEEDS,acc_needs/withdrawn,6
+订单已超时,界面固定文案,5,4,H01 M01 O01 O03,o01/w7__expired__alternatives,5
+请输入手机号,界面固定文案,5,4,ACC_PROFILE BOOKING ENT_CERT S5,booking/empty,6
+选仓与服务咨询,界面固定文案,5,1,ACC_SUPPORT,acc_support/order,7
+选仓后显示容量与尺寸,界面固定文案,5,1,QUICK,quick/store,10
+重新定位,界面固定文案,5,4,H01 QUICK S01 S5,s5/matched__origin,4
+需要容量,界面固定文案,5,3,ACC_PROGRESS H01 M01,acc_progress/quote,4
+126,界面固定文案,4,1,S02,s02/combo,3
+2026-11-19 16:42 · 剩余,演示数据（门店 / 订单 / 日期 / 距离）,4,1,RN01,rn01/quote_ready,21
+2026-12-18 至 2027-12-18,演示数据（门店 / 订单 / 日期 / 距离）,4,1,O03,o03/w7__upcoming&arrival=simple,23
+2027-12-18,演示数据（门店 / 订单 / 日期 / 距离）,4,1,O03,o03/w7__upcoming&arrival=simple,10
+2㎡ · 约4.8m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,4,H01 M01 S01 S02,s01/w7__matched_area,17
+3.5,界面固定文案,4,4,BOOKING BUSINESS S01 S5,s5/matched__demand,3
+30m³ 及以上由顾问为您配仓,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,1,CAP,cap/large,15
+30m³ 及以上的需求由顾问为您配仓,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,2,S02 S5,s02/w7__sales,18
+5.1km,演示数据（门店 / 订单 / 日期 / 距离）,4,1,S01,s01/w7__advisor,5
+5.7km,演示数据（门店 / 订单 / 日期 / 距离）,4,1,S01,s01/w7__advisor,5
+A003 · 3.5m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,2,H01 M01,h01/payment_failed,18
+caiwu@163.com,界面固定文案,4,2,ENT_BATCH ENT_TITLES,ent_batch/w7__confirm,13
+¥260/月 × 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,2,O01 QUICK,quick/unit,13
+· 适合小件家具、家电,界面固定文案,4,2,S01 S5,s5/near,11
+— · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,1,CAP,cap/empty,8
+三人沙发,界面固定文案,4,1,CAP,cap/large,4
+下单时可用,界面固定文案,4,1,ACC_COUPONS,acc_coupons/gate,5
+下单时未完成的，请在起租前完成,界面固定文案,4,2,ACC_ACCESS ACC_IDENTITY,acc_identity/invalid,15
+不确定多大？,界面固定文案,4,1,CAP,cap/empty,6
+东花市北里店,演示数据（门店 / 订单 / 日期 / 距离）,4,1,S01,s01/w7__advisor,6
+仓位,界面固定文案,4,3,ACC_FAVORITES ECONTRACT O01,acc_favorites/w7__list_gone,2
+企业开票抬头、多笔订单批量开票。认证不影响找仓和下单。,界面固定文案,4,1,ENT_CERT,ent_cert/w7__empty,27
+企业资料,界面固定文案,4,1,ENT_CERT,ent_cert/w7__empty,4
+保存企业需求更新,界面固定文案,4,1,BUSINESS,business/success,8
+入仓服务,界面固定文案,4,2,H01 M01,h01/identity,4
+北京市东城区东花市北里中区 28号楼,演示数据（门店 / 订单 / 日期 / 距离）,4,1,S01,s01/w7__advisor,18
+北京市昌平区龙旗广场黄平路19号楼6号楼,演示数据（门店 / 订单 / 日期 / 距离）,4,1,S01,s01/w7__advisor,20
+协议已签署，仓位已为您保留；关闭支付窗口不会取消订单,界面固定文案,4,1,O01,o01/pending,26
+去设置,界面固定文案,4,3,ACC_PROFILE H01 S01,h01/w7__new__auth_loc_settings,3
+发送一次以下消息,界面固定文案,4,4,BOOKING EX01 O03 RN01,rn01/w7__form&sub=ask,8
+可办理,界面固定文案,4,1,EX01,ex01/form_early,3
+填写容量，查看对应的存储空间参考,界面固定文案,4,1,CAP,cap/empty,16
+填写用仓位置，如：小区、街道和楼栋,界面固定文案,4,1,BOOKING,booking/empty,17
+完成实名认证,界面固定文案,4,4,ACC_ACCESS H01 M01 O03,h01/identity,6
+已失效,界面固定文案,4,3,M01 O01 O03,o01/w7__expired__alternatives,3
+已开具,界面固定文案,4,2,ENT_BATCH IV01,iv01/w7__issued,3
+已收到，顾问上班后将优先联系您,界面固定文案,4,4,ACC_SUPPORT ACC_TRANSPORT BOOKING BUSINESS,acc_transport/w7__pre_saved__offhours,15
+开启定位，查看离您近的门店,界面固定文案,4,2,H01 S01,h01/w7__new__auth_loc_denied,13
+开启通知,界面固定文案,4,4,BOOKING EX01 O03 RN01,rn01/w7__quote_pending&sub=declined,4
+总是保持以上选择，不再询问,界面固定文案,4,4,BOOKING EX01 O03 RN01,rn01/w7__form&sub=ask,13
+报价剩余时间,界面固定文案,4,2,H01 M01,h01/w7__renewal_quote,6
+拒绝,界面固定文案,4,1,H01,h01/w7__new__auth_loc_ask,2
+撤回,界面固定文案,4,1,ACC_NEEDS,acc_needs/edit,2
+撤回后不再作为有效需求展示。,界面固定文案,4,1,ACC_NEEDS,acc_needs/withdraw__sys_error,14
+支付未成功,界面固定文案,4,2,O01 OH01,o01/payment_failed,5
+支付未成功，订单为您保留,界面固定文案,4,3,H01 M01 O03,h01/payment_failed,12
+整期 ¥756 · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,1,S02,s02/combo,13
+暂不取消,界面固定文案,4,2,O01 O03,o01/w7__payment_failed__cancel,4
+暂不撤回,界面固定文案,4,1,ACC_NEEDS,acc_needs/withdraw__sys_error,4
+暂不续租,界面固定文案,4,1,RN01,rn01/quote_ready,4
+暂停营业,界面固定文案,4,2,ACC_FAVORITES S01,acc_favorites/w7__list_gone,4
+更新推荐,界面固定文案,4,2,S01 S5,s5/matched__demand,4
+有效期 以券面为准,界面固定文案,4,1,ACC_COUPONS,acc_coupons/gate,9
+查看处理进度,界面固定文案,4,1,DP01,dp01/refund_pending,6
+查看押金进度,界面固定文案,4,4,EX01 H01 M01 O03,o03/refund,6
+查看订单,界面固定文案,4,4,ACC_PROFILE ENT_BATCH H01 M01,h01/refund,4
+没有可办理租后服务的订单,界面固定文案,4,4,DP01 EX01 IV01 RN01,rn01/empty,12
+满6个月免费运输,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,1,S01,s01/w7__advisor,8
+满额减,界面固定文案,4,2,O01 O03,o01/w7__full_near,3
+用于核实签约人身份并签署协议，由依法设立的第三方机构认证。,界面固定文案,4,1,O01,o01/w7__idv_todo__idv&idv=err,29
+申请续租,界面固定文案,4,1,RN01,rn01/form,4
+登录 / 注册,界面固定文案,4,3,ACC_PROFILE ACC_REFERRAL M01,m01/w7__new__auth_phone,7
+登录后显示,界面固定文案,4,2,O01 QUICK,o01/unauthorized__phone,5
+确认取消,界面固定文案,4,2,O01 O03,o01/w7__payment_failed__cancel,4
+确认取消订单？,界面固定文案,4,2,O01 O03,o01/w7__payment_failed__cancel,7
+等待门店验仓,界面固定文案,4,2,EX01 O03,ex01/waiting,6
+续租 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,1,RN01,rn01/w7__quote_keep_expired,7
+续租价格以门店确认的报价为准。,待业务或外部接入（占位说法）,4,1,RN01,rn01/w7__quote_keep_expired,15
+续租月数,界面固定文案,4,1,RN01,rn01/form,4
+营业执照,界面固定文案,4,1,ENT_CERT,ent_cert/w7__empty,4
+计划起租,界面固定文案,4,2,H01 M01,h01/identity,4
+订单号 MK202611171526,演示数据（门店 / 订单 / 日期 / 距离）,4,3,EX01 O03 RN01,rn01/unavailable,18
+订单已取消,界面固定文案,4,4,H01 M01 O01 O03,h01/cancelled,5
+认证后可使用,界面固定文案,4,1,ENT_CERT,ent_cert/w7__empty,6
+请从「订单」进入。,界面固定文案,4,4,DP01 EX01 IV01 RN01,rn01/empty,9
+请填写取送地址,界面固定文案,4,1,ACC_TRANSPORT,acc_transport/empty,7
+请选择,界面固定文案,4,1,BOOKING,booking/empty,3
+身份证号,界面固定文案,4,1,O01,o01/w7__idv_todo__idv&idv=err,4
+较月基价 ¥770/月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,2,O01 O03,o01/w7__full_near,11
+返回我的,界面固定文案,4,2,ACC_SUPPORT ACC_TRANSPORT,acc_transport/w7__pre_saved,4
+还需选择用仓日期,界面固定文案,4,1,QUICK,quick/unit,8
+退仓处理中,界面固定文案,4,4,H01 M01 O03 OH01,o03/returning,5
+退仓服务,界面固定文案,4,2,H01 M01,h01/lease_expired,4
+退款处理中,界面固定文案,4,3,DP01 EX01 O03,o03/refund,5
+退订 / 退仓,界面固定文案,4,1,O03,o03/w7__upcoming&arrival=simple,7
+链接已复制,界面固定文案,4,1,ACC_REFERRAL,acc_referral/copied__sys_error,5
+霍营·龙旗广场店,演示数据（门店 / 订单 / 日期 / 距离）,4,1,S01,s01/w7__advisor,8
+首次租仓，整期租金满2000元,界面固定文案,4,1,ACC_COUPONS,acc_coupons/gate,15
+首次租仓，租期满12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,4,1,ACC_COUPONS,acc_coupons/gate,12
+0/500,界面固定文案,3,1,ACC_SUPPORT,acc_support/order,5
+09:00-21:00，每日,界面固定文案,3,1,S02,s02/w7__services&arrival=partial,14
+0m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,ITEMS,items/search_empty,3
+10组,界面固定文案,3,1,CAP,cap/large,3
+110101********0012,界面固定文案,3,1,O01,o01/w7__idv_todo__idv&idv=err,18
+138****0000,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ENT_CERT,ent_cert/w7__submitting,11
+1条记录,界面固定文案,3,1,M01,m01/booking,4
+2 笔,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__issued,3
+2.0km · 4m³,演示数据（门店 / 订单 / 日期 / 距离）,3,1,O01,o01/w7__cancelled,11
+2.8km · 4m³,演示数据（门店 / 订单 / 日期 / 距离）,3,1,O01,o01/w7__cancelled,11
+2.8km · 5m³,演示数据（门店 / 订单 / 日期 / 距离）,3,1,O01,o01/w7__cancelled,11
+2026-12-08,演示数据（门店 / 订单 / 日期 / 距离）,3,3,H01 M01 O03,h01/expiring,10
+210个,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,CAP,cap/large,4
+3.4m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,2,ITEMS S5,items/cart,5
+30m³ 及以上由顾问配仓。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,BUSINESS,business/w7__sales,14
+36个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,3,BUSINESS CAP ITEMS,items/w7__term_other,4
+4.1km,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,5
+4.3km,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,5
+4.9km,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,5
+4件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,CAP,cap/large,2
+4台,界面固定文案,3,1,CAP,cap/large,2
+50m³ 以上 大致能放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,CAP,cap/large,12
+6折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,RN01,rn01/w7__quote_keep_expired,2
+819,界面固定文案,3,2,S02 S5,s02/combo,3
+91110105MA01ABCD2X,界面固定文案,3,1,IV01,iv01/form_enterprise,18
+A001 · 0.8m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,ENT_BATCH,ent_batch/w7__select,18
+C004 · 12m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,ENT_BATCH,ent_batch/w7__select,18
+MK202609010012,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ENT_BATCH,ent_batch/w7__issued,14
+MK202609010012 · 付款 2026-09-01,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ENT_BATCH,ent_batch/w7__select,30
+MK202610080031,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ENT_BATCH,ent_batch/w7__issued,14
+MK202610080031 · 付款 2026-10-08,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ENT_BATCH,ent_batch/w7__select,30
+MK202610200044 · 付款 2026-10-20,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ENT_BATCH,ent_batch/w7__select,30
+"¥1,890",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,O01,o01/w7__cancelled,6
+"¥1,974",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,O01,o01/w7__cancelled,6
+"¥2,772",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,O01,o01/w7__cancelled,6
+¥200,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,ACC_COUPONS,acc_coupons/redeemed,4
+"¥9,180",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,ENT_BATCH,ent_batch/w7__select,6
+· 约2.4㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,2,S01 S5,s5/w7__from_area,7
+一键开锁（暂未开通），租后在「我的仓位」操作,待业务或外部接入（占位说法）,3,1,S02,s02/w7__services&arrival=partial,22
+下一步：确认开票信息,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__select,10
+不允许,界面固定文案,3,3,BOOKING BUSINESS S5,booking/w7__filled__auth_bk_wx,3
+与原订单一致,界面固定文案,3,1,O01,o01/payment_failed,6
+专票信息,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,4
+个人 · 张三,界面固定文案,3,1,IV01,iv01/processing,7
+丰台科技园·中海九号公馆店,界面固定文案,3,2,QUICK S01,s01/nomatch,13
+丽泽·丽新怡园店,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,8
+仓位 A003,界面固定文案,3,1,O01,o01/payment_failed,7
+仓位租用中,界面固定文案,3,1,O03,o03/w7__active_full,5
+仓内环境,界面固定文案,3,1,S02,s02/w7__services&arrival=partial,4
+仓区恒温除湿,界面固定文案,3,1,S02,s02/w7__services&arrival=partial,6
+价格,界面固定文案,3,1,O01,o01/payment_failed,2
+企业信息,界面固定文案,3,1,ENT_CERT,ent_cert/w7__failed,4
+企业税号,界面固定文案,3,1,IV01,iv01/form_enterprise,4
+优惠资格,界面固定文案,3,1,O01,o01/payment_failed,4
+位置信息,界面固定文案,3,2,ACC_PROFILE H01,acc_profile/w7__verified__privacy,4
+使用你的手机号,界面固定文案,3,3,BOOKING BUSINESS S5,booking/w7__filled__auth_bk_wx,7
+使用其他号码,界面固定文案,3,3,BOOKING BUSINESS S5,booking/w7__filled__auth_bk_wx,6
+保存抬头,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,4
+入仓前需完成实名认证,界面固定文案,3,3,H01 M01 O03,h01/identity,10
+全天监控，独立门锁,界面固定文案,3,1,S02,s02/w7__services&arrival=partial,9
+全选（3 笔）,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__select,7
+其他可租门店按距离由近到远,界面固定文案,3,1,O01,o01/w7__cancelled,13
+分享链接,界面固定文案,3,1,ACC_REFERRAL,acc_referral/ready,4
+删除,界面固定文案,3,1,ITEMS,items/cart,2
+到期退仓的取空日期不早于租期结束日 2027-10-18。,演示数据（门店 / 订单 / 日期 / 距离）,3,1,EX01,ex01/w7__form__confirm,29
+剩余租期,界面固定文案,3,3,H01 M01 O03,h01/expiring,4
+北京安贞科技有限公司,界面固定文案,3,1,IV01,iv01/form_enterprise,10
+北京市丰台区丽新怡园北京西站南路167号一号楼,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,23
+北京市朝阳区望京3号院1号楼,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,14
+北京市朝阳区望京西园四区,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ACC_TRANSPORT,acc_transport/w7__pre_saved,12
+北京市西城区白广路6号院白广路钢社总院4，6号,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,23
+原订单仓位,界面固定文案,3,1,O01,o01/w7__cancelled,5
+发送到接收邮箱,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__issued,7
+只列出已付款且未开票的订单。,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__select,14
+可从附近门店开始,界面固定文案,3,1,M01,m01/new,8
+可使用,界面固定文案,3,1,ACC_COUPONS,acc_coupons/gate,3
+可填 0.5m³–200㎡，估算值，以实际仓位为准,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,S5,s5/matched__demand,25
+可查看仓位开门信息,界面固定文案,3,1,ACC_ACCESS,acc_access/allowed,9
+可续租 1–48个月，累计租期不超过 60 个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,RN01,rn01/form,24
+可选 1–60 个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,3,BUSINESS CAP ITEMS,items/w7__term_other,10
+咨询内容,界面固定文案,3,1,ACC_SUPPORT,acc_support/order,4
+处理时限请咨询客服,待业务或外部接入（占位说法）,3,1,ENT_BATCH,ent_batch/w7__issued,9
+复制分享链接,界面固定文案,3,1,ACC_REFERRAL,acc_referral/ready,6
+多笔付款合并申请,界面固定文案,3,1,IV01,iv01/form_enterprise,8
+多组家庭家具、大件家电及大量装箱物品,界面固定文案,3,1,CAP,cap/large,18
+存取与安防,界面固定文案,3,1,S02,s02/w7__services&arrival=partial,5
+安防,界面固定文案,3,1,S02,s02/w7__services&arrival=partial,2
+实名认证待认证,界面固定文案,3,1,ACC_IDENTITY,acc_identity/invalid,7
+实名认证认证中,界面固定文案,3,1,ACC_IDENTITY,acc_identity/result,7
+审核时限请咨询客服,待业务或外部接入（占位说法）,3,1,ENT_CERT,ent_cert/w7__failed,9
+小程序首页 · 我的邀请码,界面固定文案,3,1,ACC_REFERRAL,acc_referral/ready,13
+尚无保存的需求,界面固定文案,3,1,M01,m01/new,7
+尚未用仓,界面固定文案,3,1,M01,m01/new,4
+已上传 1 张,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,ENT_CERT,ent_cert/w7__submitting,7
+已保留,界面固定文案,3,1,O01,o01/payment_failed,3
+已取消,界面固定文案,3,3,M01 O01 O03,m01/cancelled,3
+已退仓,界面固定文案,3,3,ACC_ACCESS O03 OH01,oh01/ended,3
+已退还,界面固定文案,3,2,DP01 O03,dp01/refunded,3
+已重新核对，与原订单一致，可以继续支付,界面固定文案,3,1,O01,o01/payment_failed,19
+广渠门内大街8号店,演示数据（门店 / 订单 / 日期 / 距离）,3,2,QUICK S01,s01/nomatch,9
+"建国门外·通用时代店 · 本次应付 ¥2,010，剩余 03:00:00",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,2,H01 M01,h01/w7__active_pending,36
+建议容量,界面固定文案,3,1,ITEMS,items/cart,4
+开启定位后按距离排序,界面固定文案,3,2,H01 S01,h01/w7__new__auth_search_off,10
+开始认证,界面固定文案,3,1,ACC_IDENTITY,acc_identity/invalid,4
+开户银行（可选）,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,8
+开票处理,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__issued,4
+开票未成功,界面固定文案,3,2,ENT_BATCH IV01,iv01/issue_failed__review,5
+开票进度,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__issued,4
+张明,界面固定文案,3,1,O01,o01/w7__idv_todo__idv&idv=err,2
+当前租期至 2026-12-08,演示数据（门店 / 订单 / 日期 / 距离）,3,1,RN01,rn01/w7__quote_keep_expired,16
+当前订单,界面固定文案,3,2,H01 M01,h01/payment_failed,4
+待完成,界面固定文案,3,3,H01 M01 O03,o03/identity,3
+待支付订单,界面固定文案,3,2,H01 M01,h01/w7__active_pending,5
+微信绑定号码,界面固定文案,3,3,BOOKING BUSINESS S5,booking/w7__filled__auth_bk_wx,6
+所选仓位已不可租,界面固定文案,3,3,O01 QUICK S02,s02/matched__sys_unit_gone,8
+找一个合适的仓位,界面固定文案,3,1,M01,m01/new,8
+报价确认中,界面固定文案,3,1,RN01,rn01/w7__quote_pending&sub=declined,5
+抬头信息,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,4
+抬头类型,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,4
+押金处理中,界面固定文案,3,3,H01 M01 O03,o03/refund,5
+拆装衣柜,界面固定文案,3,1,CAP,cap/large,4
+提交中,界面固定文案,3,3,EX01 IV01 RN01,ex01/w7__submitting,3
+提交后由门店报价,界面固定文案,3,1,RN01,rn01/form,8
+提交咨询,界面固定文案,3,1,ACC_SUPPORT,acc_support/order,4
+提交申请,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__issued,4
+提交资料,界面固定文案,3,1,ENT_CERT,ent_cert/w7__failed,4
+搬运服务,界面固定文案,3,1,ACC_SUPPORT,acc_support/order,4
+支付失败,界面固定文案,3,1,O01,o01/payment_failed,4
+"整期 ¥4,914 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,2,S02 S5,s02/combo,15
+无变化,界面固定文案,3,1,O01,o01/payment_failed,3
+更正资料后重新提交,界面固定文案,3,2,ENT_CERT IV01,ent_cert/w7__failed,9
+未取得微信手机号,界面固定文案,3,3,BOOKING BUSINESS S5,business/w7__restored__auth_bk_denied,8
+未登录,界面固定文案,3,2,ACC_PROFILE O01,o01/unauthorized__phone,3
+查看仓位开门信息,界面固定文案,3,1,ACC_ACCESS,acc_access/allowed,8
+查看退仓进度,界面固定文案,3,3,H01 M01 O03,o03/returning,6
+查看门店,界面固定文案,3,3,ACC_BRAND H01 M01,acc_brand/default,4
+比需求小 1m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,2,S01 S02,s02/combo,8
+注册地址与电话（可选）,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,11
+活动开始后，规则与奖励会在这里更新。,界面固定文案,3,1,ACC_REFERRAL,acc_referral/ready,18
+活动筹备中,界面固定文案,3,1,ACC_REFERRAL,acc_referral/ready,5
+添加抬头,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__delete,4
+清空,界面固定文案,3,1,ITEMS,items/cart,2
+牛街·白广路6号院店,演示数据（门店 / 订单 / 日期 / 距离）,3,1,S01,s01/w7__advisor,10
+王经理 138****0000,演示数据（门店 / 订单 / 日期 / 距离）,3,1,ENT_CERT,ent_cert/w7__failed,15
+用于查找附近门店及计算距离；也可以手动选择城市。,界面固定文案,3,1,H01,h01/w7__new__auth_loc_ask,24
+用于登录、预约联系和订单通知。,界面固定文案,3,3,BOOKING BUSINESS S5,booking/w7__filled__auth_bk_wx,15
+申请验仓前,界面固定文案,3,1,EX01,ex01/failed,5
+留下用仓需求,界面固定文案,3,2,H01 S01,s01/w7__browse__auth_loc_far,6
+留言给顾问,界面固定文案,3,1,ACC_SUPPORT,acc_support/order,5
+租期即将到期,界面固定文案,3,3,H01 M01 O03,h01/expiring,6
+管理开票抬头,界面固定文案,3,1,IV01,iv01/form_enterprise,6
+累计 24个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,1,RN01,rn01/w7__quote_keep_expired,7
+约 4.8 m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,2,CAP S5,s5/w7__from_area__demand,8
+联系客服,界面固定文案,3,3,ACC_PROFILE O01 S5,o01/w7__ready__protect,4
+获取你的位置信息,界面固定文案,3,1,H01,h01/w7__new__auth_loc_ask,8
+订单与租后,界面固定文案,3,1,ACC_SUPPORT,acc_support/order,5
+订单为您保留，可在剩余时间内继续支付,界面固定文案,3,1,O01,o01/payment_failed,18
+订单号 MK202610186898,演示数据（门店 / 订单 / 日期 / 距离）,3,2,ACC_TRANSPORT OH01,oh01/single,18
+订单号 MK202611174062,演示数据（门店 / 订单 / 日期 / 距离）,3,2,DP01 O03,dp01/refunded,18
+认证完成,界面固定文案,3,1,ENT_CERT,ent_cert/w7__failed,4
+认证进度,界面固定文案,3,1,ENT_CERT,ent_cert/w7__failed,4
+设为默认抬头,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,6
+证件号码,界面固定文案,3,2,ACC_IDENTITY ECONTRACT,acc_identity/invalid,4
+该仓位刚被租出或已下架，请重新选择仓位。,界面固定文案,3,3,O01 QUICK S02,s02/matched__sys_unit_gone,20
+该店暂无匹配仓位,界面固定文案,3,1,S01,s01/w7__advisor,8
+请先选物品,界面固定文案,3,1,ITEMS,items/search_empty,5
+请填写咨询内容,界面固定文案,3,1,ACC_SUPPORT,acc_support/order,7
+请确认物品全部取出、仓位清空并锁好。,界面固定文案,3,1,EX01,ex01/failed,18
+资料审核,界面固定文案,3,1,ENT_CERT,ent_cert/w7__failed,4
+资料已提交，请等待认证结果。,界面固定文案,3,1,ACC_IDENTITY,acc_identity/result,14
+运输,界面固定文案,3,2,ACC_MESSAGES ESTORE,acc_messages/read,2
+还没有选择物品,界面固定文案,3,1,ITEMS,items/search_empty,7
+进门方式,界面固定文案,3,1,S02,s02/w7__services&arrival=partial,4
+适合大容量复杂存放,界面固定文案,3,1,CAP,cap/large,9
+选择要合并开票的订单,界面固定文案,3,1,ENT_BATCH,ent_batch/w7__select,10
+邀请好友,界面固定文案,3,1,ACC_REFERRAL,acc_referral/ready,4
+邀请好友了解迷你考拉仓的仓储服务。,界面固定文案,3,1,ACC_REFERRAL,acc_referral/ready,17
+银行账号（可选）,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,8
+门店正在确认报价,界面固定文案,3,1,RN01,rn01/w7__quote_pending&sub=declined,8
+陶然亭·中海紫御公馆店,演示数据（门店 / 订单 / 日期 / 距离）,3,2,QUICK S01,s01/nomatch,11
+需关注,界面固定文案,3,3,H01 M01 O03,h01/expiring,3
+需要专用发票时请填写本段。,界面固定文案,3,1,ENT_TITLES,ent_titles/w7__add,13
+非服务时段提交的：已收到，顾问上班后将优先联系您,界面固定文案,3,1,BUSINESS,business/success,24
+顾问电话与您确认可行的方案,界面固定文案,3,2,H01 S01,s01/w7__browse__auth_loc_far,13
+预计面积 · 约4.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,3,3,ACC_PROGRESS H01 M01,h01/w7__estimated_area,13
+验仓由门店完成，通过后押金进入退款处理。,界面固定文案,3,1,EX01,ex01/waiting,20
+0.3,界面固定文案,2,2,BUSINESS CAP,cap/invalid,3
+0.8km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,5
+03:00:00,界面固定文案,2,2,H01 M01,h01/payment_failed,8
+10,界面固定文案,2,2,AGREEMENT ITEMS,items/w7__sales,2
+10 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/w7__qty_max,4
+10m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S5,s5/expanded,4
+11.5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,S02 S5,s02/combo,6
+139****5678,演示数据（门店 / 订单 / 日期 / 距离）,2,1,ACC_PROFILE,acc_profile/contact,11
+16m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S01,s01/w7__advisor,4
+16m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,S01 S02,s01/w7__advisor,11
+2.2km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,5
+2.4km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,5
+2.5km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,5
+2.7km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,5
+20 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/w7__qty_max,4
+200m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,S01 S02,s02/nomatch,11
+2026-11-19 · 138****8000,演示数据（门店 / 订单 / 日期 / 距离）,2,1,ACC_TRANSPORT,acc_transport/w7__pre_saved,24
+2026-11-20,演示数据（门店 / 订单 / 日期 / 距离）,2,2,BOOKING BUSINESS,booking/filled__date,10
+2026-11-21,演示数据（门店 / 订单 / 日期 / 距离）,2,2,BOOKING BUSINESS,booking/filled__date,10
+2026-11-24,演示数据（门店 / 订单 / 日期 / 距离）,2,2,BOOKING BUSINESS,booking/filled__date,10
+2026-12-18,演示数据（门店 / 订单 / 日期 / 距离）,2,2,H01 M01,h01/upcoming,10
+2027-12-08,演示数据（门店 / 订单 / 日期 / 距离）,2,1,RN01,rn01/w7__quote_keep_expired,10
+20天,界面固定文案,2,2,H01 M01,h01/expiring,3
+28寸 · 2件 · 约0.2m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/cart,17
+"3,120",界面固定文案,2,1,QUICK,quick/unit,5
+"3.5m³ · 6个月 ¥2,856",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S01,s01/soldout,18
+30个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,BUSINESS,business/custom,4
+3m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,CAP,cap/term,9
+476,界面固定文案,2,1,S01,s01/soldout,3
+48,界面固定文案,2,1,BUSINESS,business/custom,2
+482913,界面固定文案,2,1,S5,s5/w7__matched__auth_sms_expired,6
+497,界面固定文案,2,1,S01,s01/soldout,3
+"4m³ · 6个月 ¥3,150",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S01,s01/soldout,16
+5,界面固定文案,2,2,AGREEMENT CAP,cap/w7__from_items_edited,1
+5.2km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,5
+5.4km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,5
+5.6km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,5
+5.9km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,5
+50 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/w7__qty_max,4
+525,界面固定文案,2,1,S01,s01/soldout,3
+574,界面固定文案,2,1,S01,s01/w7__matched_area,3
+"5m³ · 6个月 ¥3,780",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S01,s01/soldout,16
+"5m³ · 6个月 ¥4,032",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S01,s01/soldout,16
+5m³ · 6个月，查看推荐仓位,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,H01 M01,m01/w7__active_todo,16
+6,界面固定文案,2,2,AGREEMENT ITEMS,items/w7__sales,1
+6.0km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,5
+6.2km,演示数据（门店 / 订单 / 日期 / 距离）,2,1,O01,o01/w7__transport_ok,5
+60,界面固定文案,2,2,CAP ITEMS,cap/large,2
+616,界面固定文案,2,1,S01,s01/soldout,3
+6222 **** **** 0000,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__edit,19
+630,界面固定文案,2,1,S01,s01/soldout,3
+672,界面固定文案,2,1,S01,s01/soldout,3
+6个月 · A003 · 3.5m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ACC_PROGRESS,acc_progress/quote,18
+6项,界面固定文案,2,1,ITEMS,items/w7__tiny,2
+714,界面固定文案,2,2,S01 S5,s5/expanded,3
+9m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S02,s02/combo,9
+A001 · 0.8m³ · 6个月 · MK202610080031,演示数据（门店 / 订单 / 日期 / 距离）,2,1,ENT_BATCH,ent_batch/w7__confirm,35
+A003 · 3.5m³ · 12个月 · MK202609010012,演示数据（门店 / 订单 / 日期 / 距离）,2,1,ENT_BATCH,ent_batch/w7__confirm,36
+A005,界面固定文案,2,1,S5,s5/w7__from_area,4
+C003,界面固定文案,2,2,S01 S5,s5/expanded,4
+D002,界面固定文案,2,2,S01 S5,s5/expanded,4
+D004,界面固定文案,2,1,S01,s01/w7__advisor,4
+"¥12,000",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,7
+"¥12,150",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,7
+"¥2,880",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,RN01,rn01/w7__quote_keep_expired,6
+¥240/月 × 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,RN01,rn01/w7__quote_keep_expired,13
+¥260,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/coupon,4
+"¥3,130",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/coupon,6
+¥500/月 × 24个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,13
+"¥6,480",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,6
+· 大 3m³，每月多 ¥174,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S5,s5/w7__from_area,16
+· 约6.4㎡,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S01,s01/w7__advisor,7
+· 适合沙发、家庭家具,界面固定文案,2,1,S01,s01/w7__advisor,11
+−¥150,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,O01 O03,o01/w7__full_near,5
+−¥200,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,DP01 O01,dp01/w7__refunded_partial,5
+−¥300,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/coupon,5
+−¥400,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,5
+三人位 · 1件 · 约1.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/cart,17
+上门取送，不需要到店,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_empty,10
+下载发票,界面固定文案,2,2,ENT_BATCH IV01,iv01/w7__issued,4
+与报价有效期相同,界面固定文案,2,1,RN01,rn01/quote_ready,8
+东门进入后乘客梯到 2 层，出梯左转约 10 米到仓区门，沿途无台阶。,界面固定文案,2,2,ACC_ACCESS S02,acc_access/w7__before_start&arrival=transit,35
+为保护账户和订单安全，不会自动合并账户。您可以换一个手机号，或联系客服 400-035-8885 处理。,界面固定文案,2,2,ACC_PROFILE S5,acc_profile/w7__verified__auth_m_change_conflict,52
+从门口平层进入仓区，沿途无台阶，推车在入口处自取。,界面固定文案,2,2,ACC_ACCESS S02,s02/w7__route&arrival=simple,25
+仓区在 28 号楼 1 层，门口可临时停车,界面固定文案,2,2,O03 S02,o03/w7__upcoming&arrival=simple,21
+付款完成，请完成实名认证,界面固定文案,2,1,ACC_MESSAGES,acc_messages/read,12
+付款帮助 关闭支付窗口不会取消订单；请在付款有效期内继续支付。,界面固定文案,2,2,H01 M01,h01/pending,31
+付款帮助 订单与仓位保留至支付截止时间，截止前可继续支付。,界面固定文案,2,2,H01 M01,h01/payment_failed,29
+付款截止,界面固定文案,2,1,RN01,rn01/quote_ready,4
+件,界面固定文案,2,1,ITEMS,items/w7__qty_max,1
+价格优先,界面固定文案,2,1,S01,s01/filtering,4
+企业 · 北京安贞科技有限公司 · 91110105MA01ABCD2X,界面固定文案,2,1,IV01,iv01/issue_failed__review,36
+企业 · 税号 91110105MA01K7XQ3R,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__delete,26
+估算值，以实际仓位为准,界面固定文案,2,1,S01,s01/w7__matched__demand__m2,11
+位置权限在微信「设置」里开关。撤回隐私授权后将退出登录，再次使用相关功能时会重新征得您的同意。,界面固定文案,2,1,ACC_PROFILE,acc_profile/w7__verified__privacy,47
+使用其他手机号,界面固定文案,2,2,BOOKING BUSINESS,booking/w7__filled__auth_bk_contact,7
+停车,界面固定文案,2,1,S02,s02/services,2
+入仓信息将在起租后开放。,界面固定文案,2,1,ACC_ACCESS,acc_access/w7__before_start&arrival=transit,12
+入仓前准备 这笔订单下单时未完成实名认证，完成后起租日起可入仓存取。,界面固定文案,2,2,H01 M01,h01/identity,34
+全放标准纸箱约 40 箱 · 看示意,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,CAP,cap/w7__area_term,18
+公交,界面固定文案,2,1,S02,s02/w7__route&open=transit,2
+其他匹配门店和仓位,界面固定文案,2,1,S02,s02/soldout,9
+其他方式,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_empty,4
+其他租期,界面固定文案,2,2,BUSINESS CAP,cap/other,4
+再想想,界面固定文案,2,1,EX01,ex01/w7__form__confirm,3
+"减后整期租金 ¥11,600",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,14
+切换城市,界面固定文案,2,2,H01 S01,h01/w7__new__auth_loc_nocity,4
+删除抬头,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__edit,4
+到店与搬运,界面固定文案,2,1,S02,s02/services,5
+到期办理提醒 到期前可办理续租；退仓时需清空并申请验仓。,界面固定文案,2,2,H01 M01,h01/expiring,28
+办公存储,界面固定文案,2,1,ITEMS,items/scenes,4
+办理方式,界面固定文案,2,1,EX01,ex01/unavailable,4
+北京 · 有门店的商圈,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_empty,11
+北京 · 朝阳区,界面固定文案,2,2,QUICK S5,quick/w7__store__auth_loc_area,8
+北京市东城区广渠门内大街8号安化南里2号院便利蜂斜对面,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,27
+北京市丰台区中海九号公馆丰葆路98号院一区中海御景春天1号楼,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,30
+北京市丰台区西陆名门玉泉营,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,13
+北京市朝阳区上京新航线309号楼,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,16
+北京市朝阳区中海圣朝菲少角中街8号院9号楼西头,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,23
+北京市朝阳区朝庭公寓望京3号楼,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,15
+北京市海淀区西二旗北路与西二旗中路交叉口,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,20
+北京市西城区中海紫御公馆永定门西滨河路8号院8号楼-14,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/nomatch,28
+北京市西城区蝶翠华庭广安门外大街305号8号楼-1,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,25
+北京市通州区侨商中心北关5号院2号楼大堂进入商业楼,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,25
+北关·侨商中心店,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,8
+协议正文暂未上线,合同 / 协议原文（逐字，不改）,2,1,AGREEMENT,agreement/w7__register,8
+原因：—,界面固定文案,2,2,ENT_BATCH ENT_CERT,ent_cert/w7__failed,4
+原申请记录已保留，更正后可重新提交。,界面固定文案,2,1,IV01,iv01/issue_failed__review,18
+原门店报价,界面固定文案,2,1,RN01,rn01/w7__quote_expired,5
+去使用,界面固定文案,2,1,ACC_COUPONS,acc_coupons/available,3
+去开启,界面固定文案,2,2,H01 S01,h01/w7__new__auth_loc_denied,3
+去找仓,界面固定文案,2,1,ACC_TRANSPORT,acc_transport/w7__pre_saved,3
+去登录,界面固定文案,2,1,O01,o01/unauthorized__phone,3
+去确认订单,界面固定文案,2,1,ACC_PROGRESS,acc_progress/quote,5
+发票已开具,界面固定文案,2,2,ENT_BATCH IV01,iv01/w7__issued,5
+取消后仓位将释放；如仍需用仓，可重新下单。,界面固定文案,2,1,O03,o03/w7__pending__cancel,21
+取消后将释放为您保留的仓位，需要时请重新下单。,界面固定文案,2,1,O01,o01/w7__payment_failed__cancel,23
+另有 3 个可租 · 查看门店,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S5,s5/w7__from_area,15
+可查看其他门店的仓位,界面固定文案,2,1,S02,s02/soldout,10
+含长件：三人位沙发、双人床 / 床垫。选仓时请对照仓位的长宽高。,界面固定文案,2,1,ITEMS,items/w7__sales,32
+咨询,界面固定文案,2,1,ACC_MESSAGES,acc_messages/read,2
+咨询已提交，预计 10 分钟内与您联系,界面固定文案,2,1,ACC_MESSAGES,acc_messages/read,19
+商圈 · 2 家门店,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,H01 S01,h01/w7__new__auth_search_typing,10
+商圈与区域,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_typing,5
+商场东门进，乘客梯到 2 层，出梯左转,界面固定文案,2,2,ACC_ACCESS S02,acc_access/w7__before_start&arrival=transit,19
+商家备货,界面固定文案,2,1,ITEMS,items/scenes,4
+在小程序设置中，将「位置信息」改为「使用小程序时」。不开启也可以手动选择城市。,界面固定文案,2,2,H01 S01,h01/w7__new__auth_loc_settings,39
+城市、区域或详细地址,界面固定文案,2,1,BUSINESS,business/blocked,10
+填写企业用仓需求,界面固定文案,2,1,ITEMS,items/w7__scene_business,8
+填写数量,界面固定文案,2,1,ITEMS,items/w7__qty_max,4
+多仓、长期或需要开票，可提交企业用仓需求，由顾问配仓。,界面固定文案,2,1,ITEMS,items/w7__scene_business,27
+天通苑,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_empty,3
+如对协议内容有疑问，请联系客服。,合同 / 协议原文（逐字，不改）,2,1,AGREEMENT,agreement/w7__usage,16
+如需了解协议内容，请联系客服。,合同 / 协议原文（逐字，不改）,2,1,AGREEMENT,agreement/w7__register,15
+安贞里站，步行约 300 米,界面固定文案,2,1,S02,s02/w7__route&open=transit,14
+家庭闲置,界面固定文案,2,1,ITEMS,items/scenes,4
+容量接近的仓位,界面固定文案,2,1,S02,s02/combo,7
+将结合物品、用仓位置及门店条件确认搬运方案。,界面固定文案,2,1,BUSINESS,business/custom,22
+小区南门进，28 号楼 1 层临街门，步行和车辆同一入口,界面固定文案,2,2,ACC_ACCESS S02,s02/w7__route&arrival=simple,28
+小区南门进，28 号楼北侧单元门,界面固定文案,2,1,S02,s02/w7__route&arrival=partial,16
+尚未到起租时间,界面固定文案,2,1,ACC_ACCESS,acc_access/w7__before_start&arrival=transit,7
+展会物料,界面固定文案,2,1,BUSINESS,business/custom,4
+展开,界面固定文案,2,1,H01,h01/payment_failed,2
+已付租金,界面固定文案,2,1,EX01,ex01/unavailable,4
+"已使用 12个月长租券 · 券后整期租金 ¥2,820",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/coupon,27
+已授权,界面固定文案,2,1,ACC_PROFILE,acc_profile/w7__verified__privacy,3
+已提交内容,界面固定文案,2,1,ACC_SUPPORT,acc_support/saved,5
+已支付,界面固定文案,2,2,H01 M01,h01/upcoming,3
+已过期,界面固定文案,2,1,RN01,rn01/w7__quote_expired,3
+已选物品（3种，共6件）,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/cart,12
+常规折扣价,界面固定文案,2,1,RN01,rn01/quote_ready,5
+广安门·蝶翠华庭店,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,9
+床垫,界面固定文案,2,1,CAP,cap/w7__advisor_hint,2
+开启位置权限,界面固定文案,2,2,H01 S01,h01/w7__new__auth_loc_settings,6
+开票内容（2 笔）,界面固定文案,2,1,ENT_BATCH,ent_batch/w7__confirm,9
+开票抬头,界面固定文案,2,1,ENT_BATCH,ent_batch/w7__confirm,4
+微信手机号,界面固定文案,2,2,BOOKING BUSINESS,booking/w7__filled__auth_bk_contact,5
+想了解仓位是否可以临时换到更大的仓,界面固定文案,2,1,ACC_MESSAGES,acc_messages/read,17
+想了解朝阳区 3m³ 左右的仓位和月租,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ACC_SUPPORT,acc_support/saved,19
+意向门店,界面固定文案,2,1,BOOKING,booking/w7__success_store,4
+成寿寺·中海圣朝菲店,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,10
+成都暂无门店，已为您显示北京门店,界面固定文案,2,2,H01 S01,h01/w7__new__auth_loc_nocity,16
+我已阅读并同意 《迷你考拉仓小程序隐私保护指引》,界面固定文案,2,1,H01,h01/w7__new__auth_privacy_loc,24
+手机定位未开启,界面固定文案,2,2,H01 S01,s01/w7__browse__auth_loc_system,7
+报价已失效,界面固定文案,2,2,H01 M01,h01/invalidated,5
+报价已过期,界面固定文案,2,1,RN01,rn01/w7__quote_expired,5
+报价待门店确认,界面固定文案,2,1,RN01,rn01/form,7
+抬头 · 企业税号 · 邮箱,界面固定文案,2,1,IV01,iv01/issue_failed__review,14
+押金服务,界面固定文案,2,2,H01 M01,h01/refund,4
+招商银行北京安贞支行,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__edit,10
+按 3.5m³ 重新匹配,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S02,s02/combo,12
+按协议结算后退还,界面固定文案,2,1,EX01,ex01/unavailable,8
+按常规折扣续租,界面固定文案,2,1,RN01,rn01/quote_ready,7
+换个手机号,界面固定文案,2,2,ACC_PROFILE S5,acc_profile/w7__verified__auth_m_change_conflict,5
+接收邮箱 caiwu@163.com,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__delete,18
+接收邮箱 w***@163.com,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__delete,17
+推车,界面固定文案,2,1,S02,s02/services,2
+推车仓区门口自取,界面固定文案,2,2,ACC_ACCESS S02,acc_access/w7__before_start&arrival=transit,8
+提交后进入退仓流程；如需继续用仓，请先办理续租。,界面固定文案,2,1,EX01,ex01/w7__form__confirm,24
+提交后预计 10 分钟内与您联系。非服务时段提交的，顾问上班后将优先联系您。,界面固定文案,2,1,S5,s5/w7__sales30,38
+提交咨询需求,界面固定文案,2,1,BOOKING,booking/w7__business,6
+提前退仓按实际使用时间结算，已享优惠按实际使用周期重新核算，具体以协议约定为准。,界面固定文案,2,1,EX01,ex01/form_early,40
+搜索结果,界面固定文案,2,1,ITEMS,items/search,4
+搬家装修,界面固定文案,2,1,ITEMS,items/scenes,4
+搬运方案待确认,界面固定文案,2,1,BUSINESS,business/custom,7
+撤回隐私授权,界面固定文案,2,1,ACC_PROFILE,acc_profile/w7__verified__privacy,6
+支付剩余时间,界面固定文案,2,2,H01 M01,h01/payment_failed,6
+"整期 ¥2,310 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,S01 S5,s5/expanded,15
+"整期 ¥3,120 · 12个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,S02 S5,s5/advisor,16
+"整期 ¥4,380 · 12个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,S02 S5,s5/advisor,16
+"整期满 ¥10,000",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,11
+"整期满 ¥5,000",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,O01 O03,o01/w7__full_near,10
+新建企业需求,界面固定文案,2,1,BUSINESS,business/edit,6
+无法打开该服务,界面固定文案,2,2,ACC_ACCESS ACC_IDENTITY,acc_identity/not_paid,7
+暂不开启,界面固定文案,2,2,H01 S01,h01/w7__new__auth_loc_settings,4
+暂不登录，继续浏览,界面固定文案,2,1,S5,s5/w7__matched__auth_phone_fail,9
+暂时无法提交，请重试或返回修改。,界面固定文案,2,2,BOOKING BUSINESS,business/failed,16
+暂未获取到位置,界面固定文案,2,2,H01 S01,s01/w7__browse__auth_loc_timeout,7
+更换 ›,界面固定文案,2,1,O01,o01/coupon,4
+更换后使用新手机号登录，订单、优惠券和预约记录保留在当前账户。,界面固定文案,2,1,ACC_PROFILE,acc_profile/w7__verified__auth_m_change_sent,31
+望京·上京新航线店,界面固定文案,2,1,S01,s01/nomatch,9
+朝阳区 · 望京3号院,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_typing,11
+朝阳区 · 朝庭公寓,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_typing,10
+"本次应付 · 已省 ¥1,980",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/coupon,16
+"本次应付 · 已省 ¥6,880",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,O01,o01/w7__full,16
+本页列出租金与管理费；押金开票事宜请咨询客服。,待业务或外部接入（占位说法）,2,1,ENT_BATCH,ent_batch/w7__confirm,23
+查看其他门店,界面固定文案,2,1,S02,s02/soldout,6
+查看匹配方案,界面固定文案,2,1,S02,s02/soldout,6
+查看我的订单,界面固定文案,2,2,ACC_ACCESS ACC_IDENTITY,acc_identity/not_paid,6
+查看方法,界面固定文案,2,2,H01 S01,s01/w7__browse__auth_loc_system,4
+查看续租进度,界面固定文案,2,2,H01 M01,m01/w7__renewal_pending,6
+查看认证进度,界面固定文案,2,1,ACC_MESSAGES,acc_messages/read,6
+查看运输预约,界面固定文案,2,1,ACC_MESSAGES,acc_messages/read,6
+标准箱 · 3件 · 约0.3m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/cart,17
+核对收款账户 · 联系门店重新发起,界面固定文案,2,1,DP01,dp01/refund_failed__review,17
+正文,合同 / 协议原文（逐字，不改）,2,1,AGREEMENT,agreement/w7__usage,2
+没有找到「天通苑」相关的门店或商圈,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_empty,17
+爱好收藏,界面固定文案,2,1,ITEMS,items/scenes,4
+物品合计约 2.1m³，留出码放空隙后的建议值,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ITEMS,items/cart,23
+玉泉营·西陆名门店,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,9
+王**,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__delete,3
+电梯客梯 2 部,界面固定文案,2,2,ACC_ACCESS S02,acc_access/w7__before_start&arrival=transit,8
+登录后填写,界面固定文案,2,1,O01,o01/unauthorized__phone,5
+目前可以搜索门店名、商圈、区域和门店所在小区。,界面固定文案,2,2,H01 S01,h01/w7__new__auth_search_empty,23
+看路线,界面固定文案,2,1,S02,s02/services,3
+确认,界面固定文案,2,2,BOOKING BUSINESS,booking/w7__filled__auth_bk_contact_sms,2
+确认并支付,界面固定文案,2,1,RN01,rn01/quote_ready,5
+确认提交,界面固定文案,2,1,EX01,ex01/w7__form__confirm,4
+确认提交退仓？,界面固定文案,2,1,EX01,ex01/w7__form__confirm,7
+确认更换,界面固定文案,2,1,ACC_PROFILE,acc_profile/w7__verified__auth_m_change_sent,4
+确认清空并申请验仓,界面固定文案,2,1,EX01,ex01/requested,9
+租期截止,界面固定文案,2,2,H01 M01,h01/lease_expired,4
+"租金 ¥3,120 · 管理费 ¥50",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ENT_BATCH,ent_batch/w7__confirm,19
+租金 ¥760 · 管理费 ¥50,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,ENT_BATCH,ent_batch/w7__confirm,17
+稍后支付,界面固定文案,2,1,RN01,rn01/payment_pending,4
+立即付款,界面固定文案,2,1,RN01,rn01/payment_pending,4
+签署后 7 日内且未使用仓位的，可联系门店办理退订,合同 / 协议原文（逐字，不改）,2,1,EX01,ex01/unavailable,25
+约4.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S5,s5/w7__from_area,6
+组合仓 B003 + B004,界面固定文案,2,1,S5,s5/near,15
+继续下单,界面固定文案,2,2,H01 M01,h01/selected,4
+续租报价已过期,界面固定文案,2,1,RN01,rn01/w7__quote_expired,7
+续租申请处理中,界面固定文案,2,2,H01 M01,m01/w7__renewal_pending,7
+续租费用待支付,界面固定文案,2,1,RN01,rn01/payment_pending,7
+编辑,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__delete,2
+联系电话必填；用仓位置和以下信息可选。,界面固定文案,2,1,BOOKING,booking/w7__business,19
+联系门店办理,界面固定文案,2,1,EX01,ex01/unavailable,6
+自助式设备设施使用协议,合同 / 协议原文（逐字，不改）,2,2,AGREEMENT ECONTRACT,agreement/w7__usage,11
+自当前租期截止日 2026-12-08 顺延 12个月，不中断,演示数据（门店 / 订单 / 日期 / 距离）,2,1,RN01,rn01/w7__quote_keep_expired,31
+获取验证码,界面固定文案,2,2,ACC_PROFILE S5,s5/w7__matched__auth_sms,5
+西二旗·博雅德园店,演示数据（门店 / 订单 / 日期 / 距离）,2,1,S01,s01/soldout,9
+订单号 MK202611175913,演示数据（门店 / 订单 / 日期 / 距离）,2,2,EX01 O03,o03/expired_lease,18
+订单尚未起租,界面固定文案,2,1,EX01,ex01/unavailable,6
+设为默认,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__delete,4
+该手机号已绑定其他微信账号,界面固定文案,2,2,ACC_PROFILE S5,acc_profile/w7__verified__auth_m_change_conflict,13
+请办理续租或退仓,界面固定文案,2,2,EX01 O03,o03/expired_lease,8
+请填写 0.2–200㎡ 的面积，最多一位小数,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,CAP,cap/w7__area_invalid,23
+请填写手机号,界面固定文案,2,1,ACC_TRANSPORT,acc_transport/empty,6
+请选择有效的运输日期,界面固定文案,2,1,ACC_TRANSPORT,acc_transport/invalid,10
+请重新选择仓位,界面固定文案,2,2,O01 QUICK,o01/ready__sys_unit_gone,7
+起租前退订,界面固定文案,2,1,EX01,ex01/unavailable,5
+起租后可在本页办理退仓。,界面固定文案,2,1,EX01,ex01/unavailable,12
+起租日 2026-12-18,演示数据（门店 / 订单 / 日期 / 距离）,2,1,ACC_ACCESS,acc_access/w7__before_start&arrival=transit,14
+超时订单说明 原订单已失效，重新选择仓位后再付款。,界面固定文案,2,2,H01 M01,h01/expired,25
+超过 15m³ 可预约顾问协助，不影响自助找仓。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,2,CAP ITEMS,cap/w7__advisor_hint,24
+超过 3 小时付款有效期，仓位已释放,界面固定文案,2,1,O01,o01/w7__expired__alternatives,18
+运输预约已提交，预计 10 分钟内与您联系,界面固定文案,2,1,ACC_MESSAGES,acc_messages/read,21
+运输预约待顾问确认,界面固定文案,2,1,ACC_TRANSPORT,acc_transport/w7__pre_saved,9
+还需修改面积,界面固定文案,2,1,CAP,cap/w7__area_invalid,6
+还需要用仓的区域,界面固定文案,2,1,BUSINESS,business/w7__multi_area_open,8
+退仓与验仓 仓内物品清空后申请验仓，押金以审核结果为准。,界面固定文案,2,2,H01 M01,h01/returning,28
+退仓已提交,界面固定文案,2,1,EX01,ex01/requested,5
+退押金办理 先完成退仓和门店验仓，再办理押金退还。,界面固定文案,2,2,H01 M01,h01/lease_expired,25
+退款未成功,界面固定文案,2,1,DP01,dp01/refund_failed__review,5
+退款进度 押金退还进度可在订单详情查看。,界面固定文案,2,2,H01 M01,h01/refund,20
+退订说明,界面固定文案,2,1,EX01,ex01/unavailable,4
+选择预计用仓日期,界面固定文案,2,2,BOOKING BUSINESS,booking/filled__date,8
+重新获取,界面固定文案,2,1,S5,s5/w7__matched__auth_sms_expired,4
+重试,界面固定文案,2,2,H01 S01,s01/w7__browse__auth_loc_timeout,2
+重试提交,界面固定文案,2,2,BOOKING BUSINESS,business/failed,4
+门口可临时停车卸货，不收费,界面固定文案,2,2,ACC_ACCESS S02,s02/w7__route&arrival=simple,13
+门店入口,界面固定文案,2,1,S02,s02/w7__route&arrival=simple,4
+门店无停车位。车辆可在东门路边临时停靠卸货，请勿长时间停留,界面固定文案,2,2,ACC_ACCESS S02,acc_access/w7__before_start&arrival=transit,29
+门店确认报价后会通知您。,界面固定文案,2,1,RN01,rn01/quote_pending,12
+需求约占 5m³ 仓的 96%，大一档更好放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,S5,s5/w7__from_area,22
+需短信验证,界面固定文案,2,2,BOOKING BUSINESS,booking/w7__filled__auth_bk_contact,5
+需要已付款订单才能办理此项服务,界面固定文案,2,2,ACC_ACCESS ACC_IDENTITY,acc_identity/not_paid,15
+顾问咨询,界面固定文案,2,1,BOOKING,booking/success_advisor,4
+预计整期租金 / 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,2,1,QUICK,quick/unit,13
+首次入仓须知 起租日开放存取，提前查看门店位置和存取时间。,界面固定文案,2,2,H01 M01,h01/upcoming,29
+验证其他手机号,界面固定文案,2,2,BOOKING BUSINESS,booking/w7__filled__auth_bk_contact_sms,7
+默认,界面固定文案,2,1,ENT_TITLES,ent_titles/w7__delete,2
+## 5、 免责说明：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,11
+*明,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,2
+0.1,界面固定文案,1,1,CAP,cap/w7__area_invalid,3
+0.8 × 0.5 × 2m,界面固定文案,1,1,QUICK,quick/unit__unit,14
+0项,界面固定文案,1,1,ITEMS,items/search_empty,2
+"1,020",界面固定文案,1,1,S01,s01/w7__advisor,5
+"1,099",界面固定文案,1,1,S01,s01/w7__near,5
+"1,332",界面固定文案,1,1,S01,s01/w7__advisor,5
+"1,435",界面固定文案,1,1,S01,s01/w7__near,5
+"1,488",界面固定文案,1,1,S01,s01/w7__advisor,5
+"1,603",界面固定文案,1,1,S01,s01/w7__near,5
+"1,644",界面固定文案,1,1,S01,s01/w7__advisor,5
+"1,771",界面固定文案,1,1,S01,s01/w7__near,5
+"1,813",界面固定文案,1,1,S5,s5/near,5
+1. 个人用户应当按照填写订单提示的操作流程，填写个人姓名、身份证件号码及手机号码，并按照甲方微信或其服务平台进行身份实名认证，且经依法设立的第三方机构审验合格后，即为完成个人身份信息的下单及签约行为，方可使用甲方旗下的各项服务。乙方应当确保签订的《迷你考拉用户注册协议和个人信息保护政策》及填写订单的信息真实、完整、及时、有效，不得提供虚假信息或冒用他人身份信息，若您在考拉微信小程序下单的实名认证信息与第三方机构实名验证信息不一致时，甲方有权不经乙方同意注销该账户或根据第三方机构提供的信息来匹配下单人的相关信息，因此产生的一切责任由乙方本人承担，甲方不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,286
+1. 乙方使用甲方的设备设施的用途仅且只用于进行“物品的存放”，乙方不得擅自改变使用用途。同时知悉：甲方所建设投入使用的设备设施，投入大量专业技能和智能化服务，同时就此在使用甲方的设备设施的时候，注意使用过程中严格遵守甲方的相关使用要求。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,119
+1. 基础保障服务：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,10
+1. 如果本合同因受不可抗力事件（如政府、所在小区物业要求停电、限制场地进出）或非甲方能力（如所在小区物业更换管理方、业委会换届选举、任何场地处置权方要求甲方退出场地的、因政府查封情形）所能解决的范畴或甲方经营管理及其他实际情况需要或因政府及其代表机构的任何文件、规定、行为、干预、干涉致使协议不能继续履行的原因影响，致使本协议无法继续履行的，不应视为甲方违约，乙方表示认同。乙方无条件同意甲方在通知后（包括书面、短信、微信小程序通告、电话等），即可自动解除双方签署的相关协议，双方互不承担违约责任或其他赔偿责任。自合同解除之日起，费用按实际使用时间计算，不足整月的按天数计算，多退少补；同时甲方复核乙方无违约的情况下，无息退还乙方已支付的履约保证金。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,326
+1. 甲方对其服务的设施及放置设施的场所有修缮管理之义务。若因修缮、迁移考拉仓或结束考拉仓业务的，甲方需通知乙方，非不可抗力因素下因甲方的原因导致乙方在正常使用期内不能继续使用考拉仓服务，甲方需退还乙方剩余使用期内的仓储服务费及履约保证金。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,120
+1. 甲方或考拉公司：指具体为乙方提供自助存取设备的机构，本协议为考拉公司运营的微信或其服务平台。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,49
+1. 甲方提供的服务中包含的任何文本、图形、图片等资料均受著作权法、商标法和或其他财产所有权法律的保护，未经相关权利人同意，乙方不得以直接或间接方式通过任何媒介复制、发行、传播、表演、改编相关资料，或者将资料用于其他商业目的。所有这些资料或资料的任何部分仅可作为私人或非商业用途使用。甲方为提供服务而使用的任何软件（包括但不限于软件中所含的任何文档、图像、照片、声音以及附加程序、辅助材料）的一切权利均属于该软件的著作权人，未经该软件的著作权人许可，乙方不得对该软件进行反向工程（reverse engineer）、反向编译（decompile）或反汇编（disassembile）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,292
+1. 除上述条款所赋予的乙方权利和义务外，乙方有权享有如下权利，应当履行如下义务并承担因违反约定而产生的违约责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,57
+1.2km · 存取 09:00-21:00 · 可租 4 个,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,31
+1.46,界面固定文案,1,1,S01,s01/w7__matched__demand__m2,4
+1.8米床 · 2件 · 约2.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,19
+10 号线安贞门站 A 口,界面固定文案,1,1,S02,s02/services,13
+10 号线安贞门站 A 口，出站右转步行约 200 米,界面固定文案,1,1,S02,s02/w7__route&arrival=transit,27
+10. 乙方为“考拉到”或“考拉E 存”服务的：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,24
+10. 乙方损害其他乙方或第三方利益的，因此产生其他第三方物品损害或其他损失的，由乙方承担一切法律责任，甲方免责。乙方若违反合约约定或相关法律法规，导致甲方、或其关系企业、受雇人、受托人、代理人及其它相关履行辅助人因此而受到损害或支出费用（包括但不限于由法律诉讼、行政程序等所支出的诉讼费用、律师费用、鉴定费、实际遭受损失的费用、行政处罚、支出的赔偿/补偿款及其他费用等），或导致甲方受到客户投诉或品牌形象受损等，乙方应负担损害赔偿责任。同时，乙方已经支付的履约保证金（即押金）作为违约金扣除，同时以合同总金额的30%作为基础违约金，甲方有权在乙方的剩余仓储服务费中直接扣除，若乙方剩余仓储服务费不足以弥补甲方损失的，甲方有权继续要求乙方继续赔付，同时甲方有权解除本协议，合同解除不免除乙方的赔付义务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,351
+10. 乙方知晓并同意：乙方在使用期间因自身原因未使用服务的，不影响使用日期的计算。若在使用期内，乙方书面向甲方提出终止考拉仓服务的，甲方有权拒绝乙方此要求，并要求乙方继续履行本协议，若乙方仍然要求解除本协议的，甲方有权拒绝退还乙方预付未使用的剩余仓储服务费及履约保证金。特殊情况下，甲方可根据乙方实际情况，同意乙方提出书面终止考拉仓服务的要求，乙方同意按照如下处理方式，双方解除本协议及考拉仓服务：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,200
+10. 订金：指乙方可根据其自身需求，可对选取的订单进行为期壹拾（10）个自然日的预定，同时需向甲方支付一定费用作为意向使用金。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,64
+10/500,界面固定文案,1,1,BUSINESS,business/success_update,6
+10m³ · 2.0km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S02,s02/near,12
+"10m³ · 6个月 ¥4,284",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__matched_area,17
+"10m³ · 6个月 ¥5,544",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__matched_area,17
+10m³ · 组合方案 · 2.8km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S02,s02/near,19
+10–25m³ 大致能放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__advisor_hint,12
+10、如发生以下情况，考拉公司可以无需经过乙方的事先同意直接检查乙方的放置物品：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,40
+10个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__term_near,4
+10项,界面固定文案,1,1,ITEMS,items/category,3
+11,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,2
+11. 定金：指乙方可根据其自身需求，确认自身需要使用甲方的服务类型，同时向甲方支付一定的费用作为定金担保的形式，若因乙方原因不能使用的，则定金甲方不予退还。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,79
+11. 本协议期限内，若乙方出现违约情形而甲方又接受乙方支付的相关费用的，不视作甲方放弃追究乙方违约责任的权利，甲方对该项权利的放弃仅以甲方的书面承诺为准。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,78
+11. 本协议第五条所称的“损失”指乙方给甲方造成的直接经济损失以及诉讼、仲裁以及合理的调查费、公证费、担保费、律师费、交通费等相关法律费用。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,71
+11. 若为“考拉社区仓”或“考拉超级仓”服务的，合同解除的，双方确认合同解除处理流程如下：乙方需在合同解除后，清除考拉仓内的所有物品，将场地清理干净，并将考拉仓完好无损的交付给甲方，交回钥匙或门禁卡（如有）。经甲方审验符合退用考拉仓条件的壹拾伍（15）个工作日内将履约保证金退返至乙方指定的银行账户或原路退回（如果是信用卡付款用户，原路退回的时间为一个月）。但若经甲方审验出现仓体（包括防潮垫）损坏、门锁损坏、钥匙或门禁丢失或因乙方原因导致甲方其他损失等情况，甲方可直接在乙方应退还的履约保证金中直接扣除抵偿损失，若不足以抵偿的，甲方有权继续向乙方追偿。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,278
+110***********0012,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,18
+1101,界面固定文案,1,1,ACC_IDENTITY,acc_identity/invalid,4
+11、乙方知晓并同意：乙方在使用期间因自身原因未使用服务的，不影响使用日期的计算。若在使用期内，乙方书面向考拉公司提出终止考拉仓服务的，考拉公司有权拒绝乙方此要求，并要求乙方继续履行本协议，若乙方仍然要求解除本协议的，考拉公司有权拒绝退还乙方预付未使用的剩余仓储服务费及履约保证金。特殊情况下，考拉公司可根据乙方实际情况，同意乙方提出书面终止考拉仓服务的要求，乙方同意按照如下处理方式，双方解除本协议及考拉仓服务：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,207
+11个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__term_near,4
+12. 乙方及乙方工作人员不得以任何形式贿赂或利用乙方分包商、代理商、合作方、中介方等贿赂甲方、甲方工作人员或其亲属、甲方聘请的第三方机构或人员（包括但不限于监理、顾问及咨询单位、检测机构、第三方飞检单位等），包括但不限于：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,112
+12. 在甲方业务范围内，甲方鼓励乙方实名举报存在的有关违反廉洁规定的行为，甲方在调查过程中依据有关规定对举报人及相关信息予以保密。同时，对于乙方（包括但不限于乙方工作人员、分包商、代理商、合作方等）违反有关廉洁规定和本协议约定的，甲方有权依据本协议追究乙方违约责任；情节严重，涉嫌犯罪的，甲方将提请司法机关追究责任人的刑事责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,165
+12. 履约保证金（即押金）：是用户的履约保证，不计付利息。甲方根据用户的不同需求，对于下单使用的订单内容，要求用户支付一定费用作为履约保证金担保的形式。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,77
+12. 若为“考拉到”或“考拉E 存”服务的，合同解除的，双方确认合同解除处理流程如下：乙方需在合同解除后当日内提交“召回”请求，并支付相应的“召回”费用，甲方收到乙方支付的“召回”费用后，将乙方物品运送至乙方指定运输的同城地址后，且乙方接收后未提出异议的，则乙方和甲方之间对此订单信息无任何争议且所有权利和义务归于消灭（除保密条款外），同时乙方认可物品物损。同时，若乙方未在合同解除后提交“召回”请求，并支付相应的“召回”费用的，则甲方同意乙方可按照上述合同约定，乙方应支付相应的清理费，同时乙方未“召回”物品视为乙方将这些物品废弃，相关计算标准与上述约定一致。自上述事宜完成后，本协议解除。除保密条款及乙方的违约责任条款外，其他所有条款自动作废，乙方和甲方之间无任何争议且所有权利和义务归于消灭。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,350
+120,界面固定文案,1,1,CAP,cap/w7__area_large,3
+1200,界面固定文案,1,1,ITEMS,items/w7__qty_max,4
+120个,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__sales,4
+12m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/expanded,4
+12m³ · 4.5km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S02,s02/near,12
+12、双方应当本着公平、公正、诚实信用等原则，合理协商解决争议。对于协议中为未约定或约定不明的条款，双方协商解决。协商不成的，按照交易习惯或者行业规范解决。但仍然无法达成一致且又无解决方案的，双方均可向北京市朝阳区人民法院提起诉讼。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,116
+12项,界面固定文案,1,1,ITEMS,items/scenes,3
+13,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,2
+13. 上门：指根据不同服务类型，甲方根据乙方在甲方微信小程序中预约的车辆、时间和地点，安排第三方运输配送机构上门，对乙方需要存放的物品外包装个数进行智能扫码清点。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,82
+13. 协议已到期或乙方未及时缴纳服务仓储服务费或未及时办理退仓手续的，除按照合同约定支付相应的违约金外，乙方在此不可撤销的同意甲方按照下列规则进行处理：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,77
+13. 在甲方业务范围内，乙方及乙方人员应拒绝甲方员工授意配合进行串标或围标的违规违法操作的请求；乙方及乙方员工不得串谋其他单位，在甲方业务中进行串标或围标的违规违法操作。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,86
+13912345678,界面固定文案,1,1,ACC_PROFILE,acc_profile/contact__contact,11
+13m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S02,s02/combo,4
+13、如果本合同因受不可抗力事件（如政府、所在小区物业要求停电、限制场地进出）或非甲方能力（如所在小区物业更换管理方、业委会换届选举、任何场地处置权方要求甲方退出场地的、因政府查封情形）所能解决的范畴或甲方经营管理及其他实际情况需要或因政府及其代表机构的任何文件、规定、行为、干预、干涉致使协议不能继续履行的原因影响，致使本协议无法继续履行的，不应视为甲方违约，乙方表示认同。乙方无条件同意甲方在通知后（包括书面、短信、微信小程序通告、电话等），即可自动解除双方签署的相关协议，双方互不承担违约责任或其他赔偿责任。自合同解除之日起，费用按实际使用时间计算，不足整月的按天数计算，多退少补；同时甲方复核乙方无违约的情况下，无息退还乙方已支付的履约保证金。但若政府、疫情及相应的管控等情形但不影响乙方物品的正常存储，即不形成不可抗力的情形之一，甲乙双方正常履行合同义务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,383
+14. 乙方在双方合作期间若发现以下情形，应及时采取措施予以制止，并及时按照本协议约定的联系方式通报甲方：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,53
+14. 乙方知晓并同意：因甲方提供服务的性质和范围，同时为保护乙方隐私，甲方仅对所提供之设施所在场地进行常规巡查。甲方不对乙方使用服务的任何行为（包括但不限于物品本身、使用行为、管理放置物品等）承担赔偿、代位赔偿等任何责任。乙方对第三人造成损害的，甲方在第三方有充足证据的情况下将积极配合第三方的求偿行为，包括但不限于封锁乙方设施、划扣履约保证金等。乙方涉及违法违规违规行为的，甲方将积极配合政府等公权力机关或公职人员的调查、侦查行为。因上述行为对乙方造成损失的，甲方不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,242
+14. 入库：指根据不同服务类型，甲方根据乙方需求，在完成上门后，对乙方（待）放置的物品/运输物品外包装个数清点，放置在甲方设备设施的行为。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,70
+14、本《迷你考拉用户使用告知书》是后续您签署《迷你考拉自助式设备设施使用协议》的补充协议，构成您与考拉公司微信小程序之间服务协议的有效组成部分，互为补充说明。自双方签署后生效。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,89
+15. 乙方应主动申报与甲方工作人员或其亲属存在的关联关系，保证不发生任何关联交易行为，不隐瞒任何可能对甲方利益造成影响的信息，并积极提供相关证明文件或材料。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,79
+15. 召回：指根据不同服务类型，甲方按照乙方的需求，委托第三方运输配送机构，将乙方指定存放的部分或全部物品，按照其约定的时间和地点，运回至乙方指定的同城地点的行为。注意：在物品完成配送后请确保及时签收和支付实际运费。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,109
+16. 套餐：指针对“考拉E 存”，甲方根据业务需要，在一定时间内推行的包含有固定存放体积、运费、存放时长等维护组合形式的价格参考。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,66
+16. 如甲方人员向乙方索要好处，乙方应主动向甲方举报，并积极配合相关调查。如经甲方调查属实，已建立合作关系的乙方，甲方可与乙方继续履行该协议对应的主合同，同时对其主动举报的行贿行为对应的违约责任不予追究。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,103
+"16m³ · 12个月 ¥17,856",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__advisor,19
+"16m³ · 12个月 ¥19,728",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__advisor,19
+"16m³ · 6个月 ¥10,626 · 比需求小 1m³",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__near,29
+"16m³ · 6个月 ¥9,618 · 比需求小 1m³",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__near,28
+17. 对于可能存在的违反廉洁有关规定的情况，乙方应积极协助、主动配合甲方的审计、调查工作，如实提供有关信息或举证相关行为。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,62
+17. 账单：指针对“考拉E 存”，乙方存放的物品合计体积超过当前生效中套餐体积，甲方根据实际情况，向乙方定期或不定时的推送超出部分的费用支付明细。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,74
+17m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__near,10
+18 位代码,界面固定文案,1,1,ENT_CERT,ent_cert/w7__empty,6
+18. 乙方应按以下联系方式履行向甲方的各项通报义务，甲方受理举报的常设部门及联系方式为：电话：010-56123425邮箱：hr@koalaministorage.com,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,86
+18. 优惠券：指迷你考拉发放给乙方的，可以用于抵扣甲方仓储服务费等其他服务费用的凭证。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,44
+19. 违法违规违禁物品：指国家、考拉公司禁止存放的物品，包括但不限于国家规定禁止生产、购买、运输和持有的枪支弹药、管制刀具、爆炸物品、剧毒化学品、窃听窃照专用器材、非法药物、毒品、固体、珠宝、活物、赃物、易腐烂、易碎物品等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,113
+19.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,6
+1、 考拉公司产品设备设施，采用微信小程序后台系统统一进行用户身份识别管理与使用，您在考拉公司微信小程-序中使用的考拉公司设备设施，授权考拉公司向依法成立的第三方机构调用您的姓名、身份证号、支付账号信息，进行相关实名认证。同时，若您在考拉微信小程序下单的实名认证信息与第三方机构实名验证信息不一致时，您授权考拉公司根据第三方机构提供的信息来匹配下单人的相关信息，因此产生的一切责任由您本人承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,197
+1、乙方使用甲方地下空间的设备设施并进入考拉仓所在场地，就此主要负责人为使用方人（即“乙方”），全面负责本地下空间的安全使用。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,63
+1、客服官方电话：400-035-8885 或微信小程序通知联系方式,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,34
+1台,界面固定文案,1,1,CAP,cap/w7__advisor_hint,2
+1项,界面固定文案,1,1,ITEMS,items/search,2
+2 × 1 × 2.5m,界面固定文案,1,1,QUICK,quick/unit__unit,12
+2 间组合,界面固定文案,1,1,S02,s02/combo,5
+"2,359",界面固定文案,1,1,S5,s5/near,5
+2. 不可抗力事件发生时，双方应立即通过友好协商决定如何执行本合同，不可抗力事件或其其他影响终止或消除后，双方可协商须立即恢复履行各自在本合同项下的义务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,77
+2. 乙方需按照上述约定完成实名认证后，后续进出以该信息作为后续乙方进出考拉仓所在场地及使用甲方设备设施的身份核定。乙方提交给甲方的个人信息发生变动的，需提前叁（3）日通知甲方。否则由此造成的损失，甲方不承担任何责任。乙方如遗失注册信息的，须立即向甲方办理挂失手续。挂失后，甲方物品遭受损失的，由乙方承担责任。乙方未挂失或未及时挂失的，由乙方自行承担挂失前储存物品毁损遗失的全部责任。同时，乙方知悉个人身份信息或手机下单实时验证码（如有）是作为乙方客户身份信息识别的依据，对该等信息要做好充分的保护，若乙方提供给他人并完成合约签署的，则视为乙方授权他人代为进行线上下单行为，相关权利义务均由乙方自行承担。其次，企业用户知悉，其授权经办人的，甲方将视经办人的全部行为为该企业用户的真实意思表示，如期间因经办人的原因发生任何问题的，由该企业用户承担全部责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,377
+2. 企业用户应当按照填写订单提示的操作流程，填写企业名称、统一社会信用代码，同时委托一名经办人，填写经办人个人姓名、身份证件号码及手机号码并按照甲方微信或其服务平台进行身份实名认证，且经依法设立的第三方机构审验合格后，即为完成企业身份信息的下单及签约行为，方可使用考拉公司旗下的各项服务。企业用户在使用考拉公司服务时，经办人应当向考拉公司出具企业营业执照副本复印件或单位法定代表人签字盖章的合法有效证明文件、加盖公章的企业授权书、委托人身份证件，否则考拉公司有权拒绝提供服务并不承担任何责任。若企业用户通过其企业账号，按照本协议约定支付相应费用的，也视其已通过授权经办人代表企业完成了本合同的签订，同时认可本协议签署的相关内容，包括但不限于本协议中与乙方权益具有或者可能具有重大关系的条款、免除或限制第三方机构及考拉公司责任的条款。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,367
+2. 增值保障服务,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,9
+2. 本协议项下甲方对于乙方所有的通知均可通过应用程序、网站公告、电子邮件、手机短信、场地内张贴公告或快递邮寄等方式进行。甲方可任意选择其中一种方式通知乙方，通过应用程序、网站公告、电子邮件、手机短信、场地内张贴公告的方式通知的，该通知于发送之日视为已送达乙方。通过快递邮寄方式通知的，该通知于乙方签收之日视为已送达乙方，无人签收的，自交邮后第二日视为已送达乙方。乙方知悉并接受通知之内容。乙方如有任何事宜需通知甲方，应当通过甲方对外工商正式公布的通讯地址、电子邮件地址的联系方式进行联系及送达。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,248
+2. 甲方在营业时间内对乙方提供自助式存取服务，在工作时间内提供必要的人工协助，但下列情况除外：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,48
+2. 若为“考拉社区仓”或“考拉超级仓”的，采取如下支付方式，且仅用于采取自存自取的方式进行“物品的存放”：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,54
+2. 迷你考拉仓（简称：考拉仓）：指“迷你考拉社区仓（简称“考拉社区仓”）”、“迷你考拉超级仓（简称“考拉超级仓”）”、“迷你考拉到（简称“考拉到”）”、“迷你考拉E 存（简称考拉E 存）”所阐述的甲方提供的服务的简称。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,110
+2.0km · 存取 08:00-23:00 · 可租 4 个,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,31
+2.1 迷你考拉社区仓（简称：考拉社区仓）：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,22
+2.2 迷你考拉超级仓（简称：考拉超级仓）：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,22
+2.2km · 存取 09:00-21:00 · 暂无可租,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,29
+2.3 迷你考拉到（简称：考拉到）：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,18
+2.4 迷你考拉E 存（简称：考拉E 存）：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,22
+2.4km · 存取 08:00-23:00 · 暂无可租,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,29
+2.5km · 存取 08:00-23:00 · 暂无可租,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,29
+2.7km · 存取 24小时 · 暂无可租,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,22
+2.8km · 存取 08:00-23:00 · 可租 4 个,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,31
+20,界面固定文案,1,1,CAP,cap/w7__advisor_hint,2
+20 天,界面固定文案,1,1,O03,o03/w7__expiring,4
+20. 易损物品：指在使用过程中容易遭受毁损的物品，包括但不限于玻璃制品、陶瓷制品、玉石制品、工艺品等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,52
+200,界面固定文案,1,1,ITEMS,items/w7__over,3
+2025-10-18 至 2026-10-18,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O03,o03/expired_lease,23
+2025-12-08 至 2026-12-08,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O03,o03/w7__expiring,23
+2026-11-17 16:44,演示数据（门店 / 订单 / 日期 / 距离）,1,1,ECONTRACT,econtract/w7__signed,16
+2026-11-19 16:43 · 剩余,演示数据（门店 / 订单 / 日期 / 距离）,1,1,RN01,rn01/cancelled,21
+2026-11-19 16:44 · 剩余,演示数据（门店 / 订单 / 日期 / 距离）,1,1,RN01,rn01/w7__quote_keep,21
+2026-12-02,演示数据（门店 / 订单 / 日期 / 距离）,1,1,BUSINESS,business/filled__date,10
+20m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__advisor_hint,11
+21. 微信或其服务平台：指甲方目前对外通过腾讯微信软件、微信公众平台、微信开放平台等与微信服务相关的网站、应用、软件，包括但不限于考拉公司对外发布的，微信公众号“迷你考拉minikaolacang”、微信小程序 “迷你考拉仓 商户版”、“迷你考拉自助仓库”、“考拉E 存”、“迷你考拉仓工单”、“迷你考拉合伙人”等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,159
+22. 考拉官方沟通渠道：指乙方涉及本协议内容，与我公司沟通的官方渠道，即附件3。特别说明：乙方签署合同后的后续使用问题、付款仅且只能通过此渠道。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,73
+22m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/none,4
+23. 私人定制服务或增值服务：指按照乙方的额外要求，有偿提供的相关服务。如：独立监控设备、独立供电设备、铁质货架、迷你考拉盒、防潮垫、独立梯子、手扶推车等服务。甲方会不时的更新增值相关服务内容，具体以甲方的微信公众账号等相关通知为准。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,118
+24. 增值服务之独立用电使用及服务费：若乙方需要使用独立用电服务的，则该费用不包含在仓储服务费费用中，需要乙方单独支付此笔费用。该笔费用的构成包括：独立用电使用费和服务费。其中独立用电使用费，按照当地物业或者电力局相关规定执行，具体收取标准以物业、电力局等相关规定为准。若供应单位调价，按照新的收费标准执行。服务费包括安装独立电表和线路的物料费用及人工费用、因转供电相关共用设施用电、设施维护人工费、线路损耗等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,207
+24小时监控,界面固定文案,1,1,ACC_BRAND,acc_brand/default,6
+25. 发票约定：乙方确认，乙方应在不晚于合同结束之日起叁拾（30）个自然日内向甲方申请开具发票需求，若超过叁拾（30）个自然日的，甲方有权收取相关的人工服务费（具体费用由甲方确认），如之前的发票已跨年度，乙方应缴纳开票金额7%的服务费。若乙方丢失原始纸质发票的，则无法重新进行开具。若合同提前解除的，且在合同解除前甲方已经向乙方开具发票的，乙方应当在本协议签署后叁（3）个工作日内将发票退还给甲方，甲方按照实收金额重新向乙方开具发票。如乙方不能退还增值税发票的，则乙方应当按照退费金额的 6%赔偿甲方所受税费之损失。以上赔偿金，乙方有权在退费金额中直接扣除。若在合同执行过程中，若双方确认更换考拉仓（下称“换仓”）的，在换仓前甲方已经向乙方开具发票的，乙方应当在本协议签署后叁（3）个工作日内将发票退还，甲方按照退还服务费后的实收金额重新向乙方开具发票。如乙方不能退还增值税发票的，则乙方应当按照退费金额的 6%赔偿甲方所受税费之损失。以上赔偿金，甲方有权在应退还的费用中直接扣除。需要特别说明的，运输费、电费由我公司代为第三方机构收取，并开具相应代收发票，开具的前提是第三方机构已向我公司完成相应的开票义务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,506
+25–50m³ 大致能放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__sales,12
+"26. 基础保障服务：甲方为乙方提供最高不超过伍仟（5,000.00）元的基础保障服务，用于赔偿仅因约定情形造成的财产损失，甲方不另行承担任何其他赔偿责任。具体详见条款描述。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,87
+260m³ · 由顾问配仓,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__over,13
+26m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/near,4
+"27. 增值保障服务：乙方认为基础保障服务不能满足的，可以自行购买增值保障服务，可将赔付上限限额由基础保障服务金额提升至累积不超过人民币壹万伍仟（15,000.00）元，用于赔偿仅因约定情形造成的财产损失，甲方不另行承担任何其他赔偿责任。具体详见条款描述。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,128
+28. 《迷你考拉用户注册协议和个人信息保护政策》：指为预使用甲方服务，通过注册成为迷你考拉用户以兹与甲方签订的合同，同时针对个人信息隐私相关政策明确相关签署及使用过程中甲方为此需要收集、保存和使用的乙方的个人信息，请认真阅读并确认。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,117
+288m³ · 由顾问配仓,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__area_large,13
+28m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/nomatch,10
+29. 《迷你考拉自助式设备设施使用协议》：指乙方完成下单后，与考拉公司签订的本合同。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,43
+29m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/near,4
+2、 您确认在下单支付前，对其存放的体积或面积（再次确认：空间面积=实际使用空间面积x1.5）、大小、适合性、安全性等方面（尤其是安全和安保，其中考拉公司仅在公共区域安装监控设备设施）表示满意，并放弃因上述错误陈述（包括考拉公司工作人员自我理解差误导致的）、保证或声明（口头或书面）向考拉公司提起的申索及法律追究的权利。若为“考拉社区仓”或“考拉超级仓”的，在下单支付前，已对存放的设备本身及附属设施进行了全面、仔细的查看和检查，并确认所有设施的完好无损和所有功能的正常运作，如发现设备有损坏的，应当及时向工作人员提出。否则，您一经使用，即视为您对上述内容的认可，您应当对使用期间所占用的考拉公司设施进行妥善管理并负责。退还考拉仓（该行为下称退仓）审验时，如考拉公司发现设备发生损坏的，您应承担赔偿责任。若出现隐蔽性技术缺陷和物体自然损耗的，您应当在2（贰）日内及时通知考拉公司，考拉公司将视情况进行合理的安排。否则退仓审验时，您应当对因上述原因而产生的损失扩大承担赔偿责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,438
+2、乙方知悉并承诺：在使用甲方自助式设备设施的过程中，严格遵守国家秩序，遵守法律法规，严禁任何人在甲方的经营范围内从事或参与任何形式违法违规的行为。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,74
+2、合同签署及下单规则：我公司均采用线上下单方式与您合作请认准以下公司对外小程序,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,40
+2㎡ · 约4.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,BOOKING,booking/w7__carried_area,11
+2台,界面固定文案,1,1,CAP,cap/w7__sales,2
+2张,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__advisor_hint,2
+3. 乙方保证其是合法设立并有效存续的独立法人及民事行为能力，且在合同期内持续拥有开展本合同所涉业务的经营资质及合法资格及民事行为能力；任何使用其企业邮箱发送邮件的人视为已取得授权，此人有权签署本协议及履行、变更本协议的相关内容且各方承担由此发生的全部后果；乙方有能力和资格履行基于本协议项下之义务；并且该等履行义务的行为不违反任何对其有约束力的法律文件的限制、侵犯他人权益或对第三人违约；乙方采用限制行为能力人签署本协议，但通过其法定监护人账户支付相应款项的，则视为完全行为能力人对其签署合同的认同。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,251
+3. 乙方再次声明已充分理解上述签署行为及授权行为的含义，知晓并自愿承担上述行为可能会给本人带来的不利影响和风险，并仍同意授权：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,64
+3. 乙方选择“增值保障服务”，即可替换原甲方附赠的“基础保障服务”，“基础保障服务”与“增值保障服务”不可重复使用。同时，乙方知悉甲方的赔付上限是基于累积所限，若一次性赔付达到赔付上限金额的，则再次在使用考拉仓过程中发生的上述触发赔付事宜的，乙方在第一次发生上述事宜已经预料到有可能在此使用区域内仍会出现此类情形，乙方继续使用视为对该风险在此发生的免责，乙方认可并放弃继续向甲方追偿。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,193
+3. 如发生以下情况，甲方可以无需经过乙方的事先同意直接检查乙方的放置物品：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,38
+3. 本协议自乙方确认、勾选“同意”《迷你考拉用户使用告知书》及本协议，保证不存取“违规违禁物品”选项时立即成立，并按照订单信息完成签署后，系统将自动生成载有甲、乙双方和本次服务信息的电子文档。乙方根据生成的合同支付相应的款项。甲方核准确认签署动作无误后，本协议自电子文档最终生成之日起生效，乙方可随时下载电子协议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,158
+3. 本合同所称“不可抗力事件”是指影响一方不能合理控制的，无法预料或即使可预料也不可避免且无法克服，并于本合同签订后出现的，使该方对本合同全部或部分的履行在客观上成为不可能或不实际的任何事件。此事件包括但不限于自然灾害（如水灾、火灾、洪灾、旱灾、暴风雪、泥石流、台风、地震）、政府行为（如征收、征用）、突发事件（如疫情）及其社会事件（如战争、动乱、罢工、骚乱、政府行为）或法律规定等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,193
+3. 第三方运输机构：乙方使用“迷你考拉到”、“迷你考拉E 存”服务，需要将物品运达至甲方匹配的仓库内，但基于产品特性保护客户物品安全，乙方无法获取甲方匹配的仓库内，故甲方为乙方开通第三方运输机构接口，由乙方通过该接口直接委托第三方运输机构运输物品，目前合作的第三方运输机构有顺丰、蓝犀牛、闪送、京东等，乙方可以根据其运输物品的类型、体积、重量等自行选择使用适合自己的第三方运输机构。乙方选择完成后，第三方运输机构根据乙方指定时间前往指定运输地址，运输乙方物品至甲方匹配的仓库内。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,240
+3. 若乙方为“考拉到”或“考拉E 存”服务的，采取如下支付方式：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,33
+3.4,界面固定文案,1,1,CAP,cap/w7__from_items,3
+3.4m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__from_items,11
+"3.5m³ · 6个月 ¥2,436",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,18
+"3.5m³ · 6个月 ¥2,646",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,18
+3.8km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,5
+30,界面固定文案,1,1,CAP,cap/w7__sales,2
+30. 《私人定制专项服务协议》：指乙方在签署完成《迷你考拉设备设施使用协议》后，选取私人定制服务，下单后与考拉公司签订的合同，是《迷你考拉设备设施使用协议》的补充协议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,85
+30m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/w7__sales30,4
+30m³ · 由顾问配仓,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__sales,12
+30m³ 及以上 · 12个月 · 库存、样品,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,BUSINESS,business/w7__success_sales,23
+30m³ 及以上由顾问为您配仓。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,BOOKING,booking/w7__large,16
+30m³ 及以上的需求由顾问为您配置方案,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__sales,20
+31. 《迷你考拉用户使用告知书》：指乙方基于其确认的订单信息，在签署《迷你考拉自助式设备设施使用协议》前先行确认其合同相关内容及相关使用考拉设备设施的注意事项，包括重大关系的条款、免除或限制第三方机构及考拉公司责任的条款，点击“确认”后方可签署《迷你考拉自助式设备设施使用协议》，是《迷你考拉自助式设备设施使用协议》的一部分。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,164
+31s 后重发,界面固定文案,1,1,S5,s5/w7__matched__auth_sms_wrong,7
+32. 合约：指乙方与考拉公司签订的《迷你考拉用户注册协议和个人信息保护政策》、《迷你考拉用户使用告知书》、订单、《私人定制专项服务协议》、《迷你考拉自助式设备设施使用协议》补充协议或变更协议、迷你考拉公司（不定期通过短信或迷你考拉微信小程序用户端、门店张贴）发布的规则或通知等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,140
+35m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S02,s02/w7__sales,10
+3km内,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/filtering,4
+3m³ · 10个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__term_near,10
+3m³ · 18个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/other,10
+3、乙方需自行增加安全意识，学习消防安全知识，学习使用灭火器，爱护消防设施，严禁擅自挪用、遮挡（包括挪移或转移灭火器）。人离开时，必须切断电源等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,73
+3、甲方采取商业上合理的方法维持使用空间内的温度在摄氏10℃至28℃（误差控制在2℃以内）内，湿度在10%至70%（误差控制10%以内）左右（具体以甲方场地及考拉仓内的温湿度为准）。乙方需仔细阅读本协议相关存放物品规定，甲方不保证所使用的设备设施、地点及方式是适合任何特定的物品。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,140
+3、自助存取的方式展示：乙方可在下单后通过系统后台查看如何使用，如小程序用户端《新手指南》之“如何开门”、“我的仓库”之“一键开锁”等方式实现自主存取的方式。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,79
+4. “考拉到”或“考拉E 存”的召回服务：乙方向甲方发送召回需求，根据乙方填写的订单信息（其中，乙方通过甲方平台委托第三方运输机构运输其物品，所产生的运输费，由甲方代为支付，并统一与乙方结算，需要特别说明的运输费不包括搬运、拆装、楼梯费、包装费、停车费、高速费等第三方费用），系统将会生成一份包含乙方的订单的所有必要信息的电子物品清单，乙方点击“签署”，意味着认可订单表格中包含的所有信息都是正确和完整的，并自签署完成生成双方盖章版的电子合同，视为双方合同签署完成。乙方应在签署本协议后当日内（不超过当日24 时）或系统设置的期限内或约定的期限内支付相应的费用。依据这些信息生成的最终订单表格将被认为是该次交易的唯一有效证据，这份文件被认为是所有的召回服务信息、问题、取消订单和争议事项的参考，所以乙方必须非常仔细地复查这些信息并纠正一切可能的错误。甲方根据乙方订单内容执行“召回”指令，乙方在收到“召回”订单货物未提出异议的，并点击“确认收货”视为对“召回”的订单货物验收无误。若乙方在执行“召回”订单之日起柒（7）日内未予以“确认收货”的，则自动视为对召回物品无异议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,487
+4. 乙方需及时履行付款义务，包括按期向甲方交纳仓储服务费及相关费用，并按照合同约定的官方收款渠道支付。同时，甲方明确：甲方从不通过私人联系方式与乙方沟通本协议相关内容，更不会提供私人收款账号要求乙方支付。乙方在签署本协议同时，知悉认可甲方如上提示，否则由此导致的乙方损失，与甲方无关，但若因此导致甲方损失的，甲方保留向乙方追偿的权利。其中，乙方知悉，乙方将费用支付给个人账户，但私自进入考拉仓所在场地或使用甲方设备设施，不视为乙方履行了付款义务，但乙方继续占用甲方设备设施的，则视为乙方同意按照本合同逾期付款及留置权的处理方式进行处理。其次，乙方在使用考拉仓期间，所发生的有关场地的一切费用、税收（如房产税、土地使用税）等皆由乙方自行负责，乙方因存放物品所产生的经营性债权、债务与甲方无关。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,346
+4. 免责说明：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,8
+4. 本协议未载明事项，以合约为准。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,18
+4. 本协议的订立、执行和解释均适用于中华人民共和国法律（不包括港澳台地区）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,39
+4. 特别提示：若政府、疫情及相应的管控等情形但不影响乙方物品的正常存储，即不形成不可抗力的情形之一，甲乙双方正常履行合同义务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,64
+4. 甲方提供乙方物品存放地公共区域的视频监控服务，但因技术原因无法实现考拉仓内无死角等理想情形，同时对违法犯罪活动或其他突发因素无法做到合理预估。如因此造成乙方物品发生不良变化的，甲方不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,101
+4. 订单：甲方结账程序生成的记录用户通过本平台页面所使用的服务的名称、价款、折扣等交易信息的表格。这份文件将被用作所有可能发生的与用户使用服务有关的询问、请求和争议的参考。包括预约单、设备设施空间使用单、设备使用单、设备空间运输单、召回单、续约订单等小程序必要订单（具体名称以小程序展示为准）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,148
+4.0km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,5
+4.4km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,5
+4.5km · 存取 24小时 · 可租 4 个,演示数据（门店 / 订单 / 日期 / 距离）,1,1,QUICK,quick/store__store,24
+4.6km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,5
+4.8km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,5
+4.8m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/area,12
+4.8m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__area_term,11
+40,界面固定文案,1,1,ITEMS,items/w7__advisor_hint,2
+406,界面固定文案,1,1,S01,s01/soldout,3
+441,界面固定文案,1,1,S01,s01/soldout,3
+455,界面固定文案,1,1,S01,s01/soldout,3
+483,界面固定文案,1,1,S01,s01/soldout,3
+4m³ · 2.0km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S02,s02/soldout,11
+4m³ · 2.8km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S02,s02/soldout,11
+"4m³ · 6个月 ¥2,646",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+"4m³ · 6个月 ¥2,730",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+"4m³ · 6个月 ¥2,898",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+"4m³ · 6个月 ¥2,982",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+"4、 原则上存取设备内不应存放价值超过人民币伍仟（5,000.00 元）的贵重物品，对于价值超过人民币伍仟（5,000.00 元）元的，可以通过选择购买“增值保障服务”，考拉公司按照合同约定将附赠的基础保障服务金额提升至累积不超过人民币壹万伍仟（15,000.00）元。但若您未选择购买“增值保障服务”，也未对贵重物品购买相关保险的，则您自行承担贵重物品由此造成的任何损失，包括但不限于贵重物品的丢失、损坏等，考拉公司免除任何责任。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,216
+4、乙方应主动配合甲方、物业管理方及相关政府部门做好安全抽查等工作。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,34
+4、收款账号：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,7
+4张,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__sales,2
+5. “考拉到”或“考拉E 存”包装要求：乙方需自行负责对所放置物品的打包及包装动作，并使用保护性包装纸或泡沫垫等对物品进行合理的保护。存在易损物品的，乙方需以书面形式向甲方声明，并在外包装外标注出易碎等标识，否则甲方对该类物品的损坏不承担任何责任。为保护乙方隐私，甲方仅对乙方所放置的物品的外包装进行核查，不涉及包装内容物的核查，且不对乙方所放置物品的丢失、损坏承担任何责任，甲方的考拉到服务仅提供放置的设备设施，乙方需要自行或经甲方推荐使用第三方搬运服务，甲方仅保证所存物品的外包装与乙方交付时一致，但该外包装产生正常损耗的除外。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,267
+5. 乙方需保证：在本协议有效期内，放置在考拉仓内的所有物品均无现有或潜在的任何财产权益纠纷，其放置物品的产权归属明确清晰。如乙方非为放置物品所有人的，应当出具载有物品所有人签字或盖章的授权书，且该授权书应明确允许并授权乙方代为放置物品。同时，应在下单时一并向甲方提供授权委托书，并留存甲方，否则非乙方权属并在甲方设备设施中的物品所产生的损失，由乙方自行承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,180
+5. 双方应当本着公平、公正、诚实信用等原则，合理协商解决争议。对于协议中为未约定或约定不明的条款，双方协商解决。协商不成的，按照交易习惯或者行业规范解决。但仍然无法达成一致且又无解决方案的，双方均可向北京市朝阳区人民法院提起诉讼。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,116
+5. 甲方采取商业上合理的方法维持使用空间内的温度在摄氏10℃至28℃（误差控制在2℃以内）内，湿度在10%至70%（误差控制10%以内）左右（具体以甲方场地及考拉仓内的温湿度为准）。乙方需仔细阅读本协议相关存放物品规定，甲方不保证所使用的设备设施、地点及方式是适合任何特定的物品。乙方知悉及甲方免责：乙方在使用甲方提供的服务时，已对现场进行考察，知悉场地存放环境（如房屋的湿度、温度、采光、通风、虫害、鼠害、排水等环境问题，同时可能存在管道或管道较多），认为放置的空间能满足自身要求，乙方对此无异议且不因此追究任何责任或要求解除本协议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,269
+5. 订单原价：在订单中展示的，优惠前的仓储服务费。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,26
+55个,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__advisor_hint,3
+567,界面固定文案,1,1,S01,s01/soldout,3
+5m³ · 4.5km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S02,s02/soldout,11
+5m³ · 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__from_items_edited,9
+"5m³ · 6个月 ¥3,150",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+"5m³ · 6个月 ¥3,402",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+"5m³ · 6个月 ¥3,444",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+"5m³ · 6个月 ¥3,696",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,16
+5、乙方使用甲方的设备设施仅限于用于放置个人物品，不可改变使用性质。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,34
+5个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__transport_near,3
+6. 下单：指乙方认可订单信息，并提交给考拉公司的行为。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,28
+6. 乙方也可以采用支付订金的形式，则甲方对选取的订单按照双方约定的时间给予一定的预定期，预定期仅是双方对预使用考拉仓的意向使用金。若预定期结束后，任何一方决定不合作的，则在乙方申请返还订金后的壹拾伍（15）个工作日内，经甲方审核后，全额返还。若预定期结束后，双方继续合作的，则订金以双方确认的形式折抵至仓储服务费或合同押金中，具体以双方确认为准。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,174
+6. 乙方放置/运输的物品应当符合甲方的要求及本合同约定，不得存放属于违规违禁物品或不适宜存储放置的物品或合约约定的禁止存放的物品。乙方违反合约规定的，给甲方及第三方造成损失的，由乙方承担。甲方亦有权采取任何合适的紧急处理措施，包括但不限于报警、隔离物品、销毁物品等手段，由此给乙方造成的损失，甲方不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,157
+6. 双方应当对在谈判、合同履行和其他合作事项过程中知晓的对方商业秘密负有保密义务。在甲方商业秘密未公之于众前，乙方不得以任何形式侵犯、使用、公布甲方的商业秘密。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,81
+6. 甲方人工客服咨询和服务时间（除法定节假日之外）为每个工作日9:00-20:00，售后维修时间（除法定节假日之外）为每个工作日10：00-16:00。因甲方的考拉仓场地及考拉仓存取为全自助式，故维修人员在接到报修通知后通常在每个工作日贰拾肆（24）个小时（除法定节假日之外）内赶到现场，为客户提供维修服务。服务时间的调整具体以甲方的通知的为准。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,174
+6.3km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/w7__browse__auth_loc_far,5
+60m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/large,4
+60m³ · 由顾问配仓,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/large,12
+"6m³ · 6个月 ¥3,444",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__matched_area,16
+6、 考拉公司向您提供服务的，服务标准参照考拉公司微信或其服务平台显示的使用空间体积/面积（也表述为“规格”）、使用时长、优惠的算法、私人定制服务、服务时间、市场情况、投入成本等，具体以考拉公司微信或其服务平台显示的为准，主要由仓储使用费和服务费构成（其中服务费不低于费用构成的60%，包括基于此产品所进行的产品技术研发费用、温湿度控制后台检测、公共区域监控监测等技术服务等）。其中使用空间面积=实际占用空间面积x1.5 所得，您知悉，并就此无异议，双方均认可其使用的考拉公司的设备设施（即考拉仓）所测的规格大小，该规格大小为计算相关费用的依据，实际使用中出现差异不做调整。其次，“考拉到”的收费方式包括仓储服务费和运输费组成（包括首次和召回的运输费，首次支付包括仓储服务费及首次运输费），不包括拆卸、搬移费用。考拉公司声明：上述标准不构成对您的承诺。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,376
+6、乙方在使用甲方提供的设备设施时，已对现场进行考察，符合乙方使用要求，同时乙方知悉场地地势低洼、潮湿、鼠虫等危害，乙方有义务做好防水、防潮 、防湿相关措施（如自行增加防潮垫、防尘袋等），不将物品直接接触地面、墙面、管道，物品摆放要求整齐、规范，按照“物品上货架”的要求，自行垫高13 厘米（cm），同时高度不能超过2m。做到安全码放，无倒堆、无滑卸，每个货架之间保留合理距离。灯泡和插座应距离货物50cm 以上。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,207
+6个月 · 2026-11-19 起,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O01,o01/w7__ready__agreed__sign,18
+6个月 · 7折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__quote_expired,8
+7,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,1
+7. 为保护甲方和乙方的合法权益，双方在此不可撤销地同意：在任何时间，任意一方均有权要求双方在合理的期限内，按照本协议最新约定的内容补签书面合同。双方应当确保书面合同的内容和本协议内容一致。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,95
+7. 乙方同意并在此确认，如因第三方侵权行为导致乙方人身、财产损失（非基础保障服务所述情形的），乙方应向侵权方主张损失赔偿，甲方不就乙方因其他侵权方的原因受到的损失承担任何责任与费用，乙方应免于甲方就此遭受诉讼、索赔、追索。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,112
+7. 乙方确认在使用“考拉社区仓”或“考拉超级仓”服务，下单支付前，对其存放的体积或面积（再次确认：空间面积=实际使用空间面积x1.5）、大小、适合性、安全性等方面（尤其是安全和安保，其中甲方仅在公共区域安装监控设备设施）表示满意，并放弃因上述错误陈述（包括甲方工作人员自我理解差误导致的）、保证或声明（口头或书面）向甲方提起的申索及法律追究的权利。若为“考拉社区仓”或“考拉超级仓”的，在下单支付前，已对存放的设备本身及附属设施进行了全面、仔细的查看和检查，并确认所有设施的完好无损和所有功能的正常运作。如发现设备有损坏的，应当及时向工作人员提出。否则，乙方一经使用，即视为乙方对上述内容的认可，乙方应当对使用期间所占用的甲方设施进行妥善管理并负责。退还考拉仓（该行为下称退仓）审验时，如甲方发现设备发生损坏的，乙方应承担赔偿责任。若出现隐蔽性技术缺陷和物体自然损耗的，乙方应当在贰（2）日内及时通知甲方，甲方将视情况进行合理的安排。否则退仓审验时，乙方应当对因上述原因而产生的损失扩大承担赔偿责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,451
+7. 结算：指乙方在完成下单操作后，依据订单向考拉公司发出付款请求的行为。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,37
+7. 非经甲方同意，乙方不可转让本合同下的任何权利义务，也不得转让本合同。否则，甲方有权拒绝承认合同转让的效力，由此给第三方造成的损失，由乙方承担全部责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,78
+7.8km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/w7__browse__auth_loc_far,5
+721,界面固定文案,1,1,S01,s01/w7__matched_area,3
+775,界面固定文案,1,1,S5,s5/combo,3
+7、 您需及时履行付款义务，包括按期向考拉公司交纳仓储服务费及相关费用，并按照合同约定的官方收款渠道支付。同时，考拉公司明确：考拉公司从不通过私人联系方式与您沟通本协议相关内容，更不会提供私人收款账号要求您支付。您在签署本协议同时，知悉认可考拉公司如上提示，否则由此导致的您的损失，与考拉公司无关，但若因此导致考拉公司损失的，考拉公司保留向您追偿的权利。其中，您知悉，您将费用支付给个人账户，但私自进入考拉仓所在场地或使用考拉公司设备设施，不视为您履行了付款义务，但您继续占用考拉公司设备设施的，则视为您同意按照本合同逾期付款及留置权的处理方式进行处理。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,277
+7、乙方使用的考拉仓内若有自带窗户的，乙方不得私自开窗通风。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,30
+7项,界面固定文案,1,1,ITEMS,items/w7__scene_business,2
+8,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,1
+8. 乙方不得以任何违法或者欺诈方式使用考拉仓服务（如代表甲方将本协议部分或全部服务再许可或对外以转租或转售等形式给第三人使用），或将服务用于任何违法或者欺诈性目的、或产生违法或者欺诈效果。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,95
+8. 支付：指乙方发出付款请求后，依据订单通过支付宝、微信、银行卡等方式向考拉公司支付款项的行为。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,49
+8. 本协议和乙方为注册成为甲方用户而签订的《迷你考拉用户注册协议》、《迷你考拉用户使用告知书》、《迷你考拉自助式设备设施使用协议》、订单电子表格共同构成一套完整的协议，各协议（包括但不限于甲方通过本协议约定签署的《私人定制专项服务协议》及发送的通知、使用规则等，乙方在收到甲方通知后伍（5）个工作日内未提出异议，则视为乙方同意，均以最新的服务条款为准。如果用户在条款变更后继续访问或使用考拉仓，则视为用户已经接受对本协议的修改）具有同等的法律效力且均为本套协议不可分割之部分。除双方另有书面约定外，本协议与其他协议在任何情形下均不得被孤立地进行解释，本协议中相关术语的解释应当与其他协议相一致，本协议与其他协议相冲突的条款，以其他协议的约定为准。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,324
+8. 甲方若因自身原因解除本协议（包含但不限于甲方与场地处置方的场地使用协议因各种原因而解除、终止的，或者甲方决定撤销该场地的经营的），在甲方发出通知的叁（3）日后合同解除。在此情况下，甲方向乙方退还剩余预付的仓储服务费及履约保证金。自本协议解除之日起，且甲方退还乙方剩余仓储服务费及履约保证金后，甲乙双方再无争议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,158
+8. 若为“考拉社区仓”或“考拉超级仓”服务的，乙方应当依约在规定的地点使用甲方服务，原则上乙方不得擅自变更使用地点或方式。其中，甲方认为有必要进行换仓的，甲方保证不损害乙方物品及提前叁（3）个工作日内通知（非紧急情况及合同约定的其他情形）的前提下，乙方同意可根据甲方的实际情况调换相应仓型。双方同意，考拉仓调换后，根据调换后的考拉仓的对外售价，将原使用的考拉仓剩余仓储服务费进行折抵，具体折抵方案为：若调换后的考拉仓“月仓储服务费”大于原使用的考拉仓“月仓储服务费”，则乙方需要在甲方通知时间内补足相应的费用，否则视为乙方同意不足部分甲方可通过缩短仓储使用期限来进行折抵；若调换后的考拉仓的“月仓储服务费”小于原使用的考拉仓“月仓储服务费”的，则乙方同意，自动将超出部分通过延长使用期限进行处理。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,349
+"8m³ · 6个月 ¥4,326",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__matched_area,16
+8、 协议已到期或您未及时缴纳服务仓储服务费或未及时办理退仓手续的，除按照合同约定支付相应的违约金外，您在此不可撤销的同意考拉公司按照下列规则进行处理：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,76
+8、具体安全要求如下：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,11
+9. 乙方为“考拉社区仓”或“考拉超级仓”的，在不违反法律法规及本协议其它相关规定的情况下，享有自主存取物件的权利，即自存自取。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,64
+9. 对于因服务器的死机、网络的故障、数据库故障、软件升级、服务器维修、调整、升级等问题，或其他不可抗拒的事由，包括但不限于政府行为、自然灾害、黑客攻击等造成的服务中断和对用户个人数据及资料造成的损失，甲方不承担由此对乙方造成的任何损失或退还任何已缴纳的私人定制服务费用。若出现不可抗力、恶劣天气状况或者城市交通管制等突发且不可变的条件下，乙方已支付考拉到运输费的，甲方有权对于运送服务时间进行更改，并不承担更改时间带来的一切责任和损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,219
+9. 特别说明：乙方应按照系统推送的指定支付时间（如分阶段支付）内或在协议期满前支付相应的仓储服务费及相关费用（续用时，如遇仓储服务费调整的，乙方需按调整后的价格支付相应款项），否则，视为乙方放弃对相应仓及相关订单的使用，甲方可随时将该订单信息及仓释放进行售卖，同时甲方有权随时解除双方签署的合同。逾期期间即便乙方支付了相应的费用的，经甲方确认若已经释放给第三方并早于乙方支付前支付的，则不视为双方协议订立完成，乙方支付的相关费用在壹拾伍（15）个工作日内退还。其次，自逾期之日起，逾期期间乙方的仓储服务费按照“订单原价”按日支付此期间的费用，同时每逾期一日，乙方需按照“逾期应付款项”的1%/日向甲方支付“逾期违约金”；但若如乙方逾期超过叁拾（30）日仍未交费的，则该期间的占用费按照“订单原价”按日1.2 倍支付，同时仍需支付此期间的“逾期违约金”。同时，在此任何节点，甲方均有权解除本协议，本协议所涉优惠随即相应取消，所涉仓将予以释放，待新用户下单后则本协议自动解除，乙方按照上述标准向甲方支付相应的违约金（即占用费+逾期违约金）。同时，乙方在合同解除后当日内清理占用物品，否则甲方有权按照合同约定对相关物品进行清理，由此产生的清理费及给甲方造成的损失由乙方承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,535
+9. 续约：指乙方与甲方协商一致的情况下，对合约中约定的服务期限进行延展的行为。如遇仓储服务费调整的，乙方需按调整后的价格支付相应款项。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,68
+9.1km,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/w7__browse__auth_loc_far,5
+90,界面固定文案,1,1,ITEMS,items/w7__over,2
+904,界面固定文案,1,1,S02,s02/combo,3
+9111,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__invalid,4
+9111010,界面固定文案,1,1,ENT_CERT,ent_cert/w7__invalid,7
+924,界面固定文案,1,1,S01,s01/w7__matched_area,3
+9m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/combo,3
+9、 您应按照双方约定的支付时间内支付相应的仓储服务费及相关费用，若为首单用户，逾期支付视为放弃对订单的使用，考拉公司可随时将该订单信息释放进行售卖，逾期期间即便您支付了相应的费用的，经考拉公司确认若已经释放给第三方并早于您支付前支付的，则不视为双方协议订立完成，您支付的相关费用在15 个工作日内退还。若按照双方约定分阶段支付的或协议期满的，则乙方应按照双方约定的时间或协议期满前及时支付相应的费用（续用时，如遇仓储服务费调整的，乙方需按调整后的价格支付相应款项），否则自逾期之日起，逾期期间乙方的仓储服务费按照“订单原价”按日支付此期间的费用，同时每逾期一日，乙方需按照“逾期应付款项”的1%/日向考拉公司支付“逾期违约金”；但若如乙方逾期超过叁拾（30）日仍未交费的，则该期间的仓储服务费按照“订单原价”按日1.2 倍支付，同时仍需支付此期间的“逾期违约金”；甚者，乙方逾期超过陆拾（60）日的，则考拉公司有权单方面解除本协议并有权按照本协议对乙方物品进行处理，同时乙方应支付此期间的应付的逾期应付款项（按照“下单时优惠前金额”按日1.2 倍计算）和逾期违约金，并承担因考拉公司处置乙方物品所产生的相关费用。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,507
+"9、为保证本责任书内条款的执行，双方同意：如乙方违反上述责任条款之一，每发生一次，乙方应向甲方或场地物业方或相关执法机构支付人民币伍佰（500.00）元/次的违约金（视情节轻重由甲方或场地物业方或相关执法机构决定）；对于发生三次以上违反责任条款、经警告仍不改正的，乙方应向甲方或场地物业方或相关执法机构支付人民币壹仟（1,000.00）元/以上的违约金（视情节轻重由物业方决定）。上述违约金直接从乙方支付的履约保证金（即押金）中扣除，因此导致已缴纳履约保证金不足合同规定金额时，乙方应立即补足。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,247
+A004 · 5m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,OH01,oh01/mixed,17
+A005 · 8m³ · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,OH01,oh01/mixed,17
+AI 估算暂未开放，可按物品估算或直接填写容量,界面固定文案,1,1,CAP,cap/ai,23
+B003 · 4m³ · 1.6 × 1 × 2.5m,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ACC_FAVORITES,acc_favorites/list,27
+B003 · 4m³ · 1.6 × 1 × 2.5m · 可看同店其他仓位,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ACC_FAVORITES,acc_favorites/w7__list_gone,38
+C004,界面固定文案,1,1,S5,s5/expanded,4
+D003,界面固定文案,1,1,S5,s5/expanded,4
+MK202611176898,演示数据（门店 / 订单 / 日期 / 距离）,1,1,ECONTRACT,econtract/w7__signed,14
+a) 考拉公司配合国家及地方公安、政府相关部门（如人防、消防、公安、法院、安监科、街道办、城管等）执法的；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,53
+b) 考拉公司在有充分理由怀疑乙方违反本协议之规定或法律法规或政府机构规章制度规定，或在考拉仓内存放或交付的物品是违法违禁物品或本协议约定其他不得存放的情况下，乙方拒绝提供协助且当时无法寻找到第三方公证人员提供服务的。若经查证属实，考拉公司有权根据情节严重程度采取相应措施，包括但不限于转移、清理，涉及到的转移清理费由乙方承担。同时此行为视为违约行为，考拉公司有权扣除履约保证金，同时乙方应向考拉公司支付协议总额的30%违约金，并承担由此给考拉公司造成的全部损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,232
+c) 发生如下情况，包括但不限于火灾（包括明火）、洪水、爆炸、漏水、异味、腐烂、潮湿发霉、水管意外爆裂等状况，考拉公司、乙方或任何第三方的生命、财产、环境等安全受到现实威胁的。考拉公司采取必要手段检查乙方物品的，应当在事态稳定后尽快通知乙方。乙方同意免除考拉公司因未事先通知乙方而造成损失的赔偿责任及因考拉公司采取合理行动造成存放物品损坏或失去使用功能的，同时，涉及到转移及清理费用，由乙方承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,198
+d) 物业或业委会要求进行检查的，考拉公司应通知乙方，与乙方共同开启存取设备。但考拉公司无法联系上乙方或乙方收到通知未到场的，则视为乙方允许物业或业委会进行检查。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,81
+e) 考拉公司认为有必要进行维修、安全检查、鼠虫消杀等情形的，考拉公司特定授权人可定期打开考拉仓进行对使用设备设施检查或检修，并有权采取有效措施进行处理。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,77
+zhangsan@example,界面固定文案,1,1,IV01,iv01/invalid,16
+¥0,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ENT_BATCH,ent_batch/w7__select,2
+"¥1,320",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__term_near,6
+"¥1,500",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__transport_near,6
+"¥1,848",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/price_changed,6
+"¥1,850",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__transport_near,6
+¥100,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,DP01,dp01/w7__refunded_partial,4
+¥117/月起,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/unit__unit,7
+"¥13,160",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ENT_BATCH,ent_batch/w7__all,7
+"¥2,206",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/price_changed,6
+¥240/月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__quote_keep,6
+¥240/月 × 24个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__form_keep,13
+¥260/月起,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/unit__unit,7
+¥280/月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/price_changed,6
+¥280/月 × 11个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__term_near,13
+"¥3,080",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__term_near,6
+"¥3,240",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O03,o03/w7__active_full,6
+"¥3,410",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__term_near,6
+¥300/月 × 5个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__transport_near,12
+¥308,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/price_changed,4
+¥308/月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/price_changed,6
+¥308/月 × 6个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/price_changed,12
+¥365/月起,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/unit__unit,7
+"¥4,795",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,OH01,oh01/mixed,6
+"¥4,860",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__full_near,6
+¥500/月 × 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O03,o03/w7__active_full,13
+¥500/月 × 18个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__full_near,13
+¥500/月起,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/unit__unit,7
+"¥6,000",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O03,o03/w7__active_full,6
+"¥6,400",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O03,o03/w7__active_full,6
+"¥6,550",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,OH01,oh01/mixed,6
+¥63/m³/月起,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/store__store,9
+¥64/m³/月起,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/store__store,9
+¥73/m³/月起,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/store__store,9
+"¥9,000",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__full_near,6
+"¥9,400",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__full_near,6
+· 大 1.5m³，每月多 ¥105,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/advisor,18
+· 大 2m³，每月多 ¥168,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/advisor,16
+· 大 6m³，每月多 ¥385,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/expanded,16
+· 大 7m³，每月多 ¥434,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/expanded,16
+—m³,界面固定文案,1,1,S5,s5/cold,3
+—个月,界面固定文案,1,1,S5,s5/cold,3
+“考拉E 存” ：可直接下单或预约下单使用“考拉E 存”注意：我们会不定时进行产品的更新迭代。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,47
+“迷你考拉仓 商户版”：可直接下单或预约下单使用“超级仓”、“个性化服务 私人定制”。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,43
+“迷你考拉自助仓库”：可直接下单或预约下单使用“社区仓”、“考拉到”；“超级仓”点击跳转至“迷你考拉仓 商户版”进行预约下单。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,63
+《迷你考拉用户使用告知书》,合同 / 协议原文（逐字，不改）,1,1,ECONTRACT,econtract/w7__signed,13
+《迷你考拉自助式设备设施使用协议》,合同 / 协议原文（逐字，不改）,1,1,ECONTRACT,econtract/w7__signed,17
+一、定义和说明,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,7
+一笔订单 · 同一门店 · A003 + A005,界面固定文案,1,1,S02,s02/combo,25
+一笔订单 · 同一门店 · A004 + A005,界面固定文案,1,1,S02,s02/combo,25
+一键开锁暂未开通，目前请按入仓指引到店存取,待业务或外部接入（占位说法）,1,1,O03,o03/w7__active__unlock,21
+七、保障服务条款,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,8
+三、使用须知及服务事宜,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,11
+三人位,界面固定文案,1,1,ITEMS,items/w7__variant,3
+三人位 · 2件 · 约3.2m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,17
+三人位沙发 · 换规格后数量不变，小计按新规格计算。,界面固定文案,1,1,ITEMS,items/w7__variant,26
+上传营业执照照片,界面固定文案,1,1,ENT_CERT,ent_cert/w7__empty,8
+上门取件,界面固定文案,1,1,ESTORE,estore/w7__default,4
+上门取件与送回,界面固定文案,1,1,ESTORE,estore/w7__default,7
+上门取送、便捷寄存、灵活召回：可按需召回部分或全部物品，最小 1 个包裹起，送达同城指定地址。物品由仓库集中保管，取用通过召回配送完成,合同 / 协议原文（逐字，不改）,1,1,ESTORE,estore/w7__default,67
+上门搬运,界面固定文案,1,1,ACC_BRAND,acc_brand/default,4
+下单时实名认证,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,7
+不可办理,界面固定文案,1,1,RN01,rn01/unavailable,4
+不可用,界面固定文案,1,1,ACC_COUPONS,acc_coupons/redeemed,3
+不用自己到店：预约上门取件、入库保管，需要时再预约送回。,界面固定文案,1,1,ESTORE,estore/w7__default,28
+不确定大小？去估算,界面固定文案,1,1,S5,s5/cold,9
+与自助仓怎么选,界面固定文案,1,1,ESTORE,estore/w7__default,7
+专属服务,界面固定文案,1,1,ACC_BRAND,acc_brand/default,4
+为个人和企业提供自助仓储及用仓方案咨询。,界面固定文案,1,1,ACC_BRAND,acc_brand/default,20
+为了保障您的权益，请您务必详细审慎阅读、充分理解您所选择下单的订单的全部内容，特别是加粗显示的部分，以及与您的权益具有或者可能具有重大关系的条款、免除或限制第三方机构及考拉公司责任的条款。当您点击同意、确认或继续使用考拉设备设施时，视为您已阅读、了解并接受本《迷你考拉用户使用告知书》的相关内容：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,148
+为加强对考拉地下空间安全使用的监督管理，防止和减少安全事故，保障客户的生命财产安全，创造良好的使用环境。依照《中华人民共和国消防法》、《安全生产法》、各地消防安全条例等相关法律、法规，明确房屋使用人安全责任及义务，结合项目实际情况，制定此《安全责任书》，双方共同遵守。内容如下：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,139
+为您推荐门店,界面固定文案,1,1,S5,s5/loading,6
+主动选择租期并查看可用方案,界面固定文案,1,1,ACC_BRAND,acc_brand/default,13
+乙方复核后点击“确认”，或在收到复核订单后超过8 小时未予以确认，则系统自动认定乙方认可复核信息，则意味着认可订单表格中包含的所有信息都是正确和完整的。依据这些信息生成的最终订单表格将被认为是该次交易的唯一有效证据，这份文件被认为是所有的订购服务信息、问题、取消订单、扩容、召回地址和争议事项的参考，所以乙方必须非常仔细地复查这些信息并纠正一切可能的错误。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,178
+乙方有义务做好防水、防潮 、防湿、防虫害等相关措施（如自行增加防潮垫、防尘袋等），不将物品直接接触地面、墙面、管道等，按照甲方相关要求放置，否则因此导致物品丢失或损坏的由乙方自行承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,92
+乙方有义务做好防水、防潮 、防湿、防虫害等相关措施（如自行增加防潮垫、防尘袋等），不将物品直接接触地面、墙面、管道等，按照甲方相关要求放置，否则因此导致物品丢失或损坏的由乙方自行承担。若乙方未按照上述及甲方约定存放的，或因乙方将不适宜存放至考拉仓的物品进行存放的，或因天气、气候等原因（包括但不限于潮湿、干燥、暴雨天气）等情形的，由此产生的物品损坏（包括自然损害产生的物品损坏）或者变质或性能改变（如发霉、潮湿等）等其他状况，应由乙方自行处理并提前制定防护的应对措施和减少损失的补救措施等，甲方不承担任何责任，其次，也不属于“基础保障服务”和“增值保障服务”的服务赔付范围内。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,288
+乙方理解地下空间的特殊性和使用风险，可能会发生安全、防火、返潮、漏水等风险，因此遵守本协议相关约定及本责任书约定对维护乙方利益非常重要。因此乙方确认：违反上述责任条款造成的任何损失由乙方自行承担。乙方违反本责任书约定的，甲方除有权根据上述约定收取违约金外，还有权自主决定提前解除双方签订的合同等相关法律文件，同时乙方还需要向甲方支付合同总额的30%作为违约金，并在应退还给乙方的履约保证金和剩余仓储服务费中扣除，不足以抵扣的，甲方有权继续追偿。同时要求乙方在合同解除后伍（5）日内对物品进行无条件的腾退。若违规行为同时违反有关法律规定，甲方保留追究其法律责任的权利。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,283
+乙方知悉及甲方免责：乙方在使用甲方提供的服务时，已对现场进行考察，知悉场地存放环境（如房屋的湿度、温度、采光、通风、虫害、鼠害、排水等环境问题，同时可能存在管道或管道较多），认为放置的空间能满足自身要求，乙方对此无异议且不因此追究任何责任或要求解除本协议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,128
+乙方知悉所下单金额为其个人预使用金额，包括仓储服务费和运输费（不可分割），不包括搬运、拆装、楼梯费、包装费、停车费、高速费等费用。双方确认甲方仅提供拆装搬运服务的推荐工作，若乙方选择拆装搬运服务的，由甲方联系独立的第三方服务机构并推荐给乙方，具体由乙方自行确认是否选择或自行寻找第三方拆装搬运服务。同时，甲方委托第三方运输配送机构运输物品，该笔费用由甲方代为收取，并统一与第三方运输配送机构结算，但具体运输过程中的物品毁损灭失等相关问题由乙方与第三方运输机构确认，与甲方无关，乙方需要注意具体遵守第三方运输配送机构的运输要求。甲方向乙方推荐第三方服务机构的，不构成甲方对第三方服务机构的服务内容、水平、资质、技术等作出承诺或担保。乙方须审慎选择第三方服务机构，甲方不对因此而造成的任何损失承担责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,349
+乙方需要支付“仓储服务费”和“履约保证金”。乙方可选择自行填写订单信息，或乙方向甲方发送用仓需求，甲方根据乙方的需求，在确认预使用情况后填写预估订单信息（包括订购服务、商品信息等，可同时选择两个及两个以上的考拉仓在同一笔订单中），甲方根据预估使用情况判断乙方是否需要支付一定的履约保证金，若乙方收到甲方发送的预估订单信息中有履约保证金内容，则乙方需自行判断是否可以接受，若选择接受，则一并填写甲方退还履约保证金时的收款银行账号信息（姓名、开户行、银行卡号）。乙方点击“签署”，意味着认可订单表格中包含的所有信息都是正确和完整的，并自签署完成生成双方盖章版的电子合同，视为双方合同签署完成。同时乙方应在签署本协议后当日内（不超过当日24 时）或系统设置的期限内或约定的期限内按照甲方的具体操作要求支付响应的费用。合同期满后，若乙方无违反合同约定，且扣除电费及其他乙方应承担的费用后，甲方应在合同期满后将剩余费用退还至使用方指定账户。若乙方逾期未支付的，则应按照合同约定支付相应的逾期费用并承担相应的责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,451
+九、附件,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,4
+二、账户信息管理,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,8
+五、乙方权利与义务,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,9
+仓位已释放。如仍需用仓，可重新找仓下单。,界面固定文案,1,1,O03,o03/w7__cancelled,20
+仓位已释放，需要时请重新找仓,界面固定文案,1,1,O01,o01/w7__cancelled,14
+仓位开锁,界面固定文案,1,1,ACC_ACCESS,acc_access/allowed__unlock,4
+仓储服务费 + 运输费，按套餐下单；搬运、拆装、包装等按需另计，超出套餐的部分可升级套餐,合同 / 协议原文（逐字，不改）,1,1,ESTORE,estore/w7__default,44
+仓区在 28 号楼 2 层，从商场东门进入,界面固定文案,1,1,S02,s02/w7__route&arrival=transit,21
+以下是离您最近的 3 家,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__browse__auth_loc_far,12
+以审核反馈为准。可修改企业名称、统一社会信用代码或重新上传营业执照。,界面固定文案,1,1,ENT_CERT,ent_cert/w7__failed,34
+以财务反馈为准。可更换抬头或接收邮箱后重新提交。,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__failed,24
+价格与办理：请咨询客服,待业务或外部接入（占位说法）,1,1,O01,o01/w7__ready__protect,11
+价格刚刚发生变化,界面固定文案,1,1,O01,o01/price_changed,8
+企业服务,界面固定文案,1,1,ENT_CERT,ent_cert/w7__verified,4
+企业用仓咨询,界面固定文案,1,1,BOOKING,booking/w7__business,6
+企业认证已完成,界面固定文案,1,1,ENT_CERT,ent_cert/w7__verified,7
+企业需求已更新,界面固定文案,1,1,BUSINESS,business/success_update,7
+会删除当前选择的物品与数量。,界面固定文案,1,1,ITEMS,items/clear,14
+估算值，以实际仓位为准；30m³ 及以上由顾问配仓。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,BOOKING,booking/filled__capacity,26
+但若甲方回收设施时，发现乙方未在合同到期后取走全部物品的，甲方将及时通知乙方遗漏了物品，但不承担将考拉仓内物品进行统计并详细通知乙方的义务。同时，视为乙方将这些物品废弃，并委托甲方代为进行清理，常规情况下费用为人民币贰佰（200.00）元/次，甲方有权进行任何处置，并在应退还的费用中予以扣除。若应退还的费用不足以抵偿的，甲方有权继续向乙方追偿。如乙方已享受甲方推出的任意一项或多项优惠，则退用存取设备或合同解除后，视为乙方自行放弃未使用期间的全部权益，已支付的费用甲方无需退还。若乙方仅享受预付优惠，则按照规则退用存取设备后，退款按实际使用周期计算优惠。自上述事宜完成起，本协议解除。除保密条款及乙方的违约责任条款外，其他所有条款自动作废，乙方和甲方之间无任何争议且所有权利和义务归于消灭。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,346
+使用定位、手机号等功能前，请阅读并同意 《迷你考拉仓小程序隐私保护指引》。,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,37
+使用方（乙方或用户）：微信公众账号及其授权方式下单所确认之使用方,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,32
+使用方（乙方）,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,7
+依据这些信息生成的最终订单表格将被认为是该次交易的唯一有效证据，这份文件被认为是所有的订购物品信息、问题、退仓和争议事项的参考，所以乙方必须非常仔细地复查这些信息并纠正一切可能的错误。乙方应当依据订单确定的金额一次性支付全部款项。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,115
+保存修改,界面固定文案,1,1,ACC_NEEDS,acc_needs/edit,4
+保存后将更新这条需求。,界面固定文案,1,1,BUSINESS,business/edit,11
+修改后重新提交,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__failed,7
+修改清单 ›,界面固定文案,1,1,CAP,cap/w7__from_items,6
+停车、卸货和进仓路径可向门店确认,界面固定文案,1,1,S02,s02/w7__route&arrival=partial,16
+先去附近门店看看可用仓位。,界面固定文案,1,1,OH01,oh01/empty,13
+免费运输 1 次 · 顾问联系安排,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__transport_ok,17
+免费运输按用仓位置到门店的距离判断，请先选择用仓位置。,界面固定文案,1,1,S01,s01/w7__browse__auth_transport_noloc,27
+入口处自取，用后归还,界面固定文案,1,1,S02,s02/w7__services&arrival=simple,10
+入库保管,界面固定文案,1,1,ESTORE,estore/w7__default,4
+全放标准纸箱约 166 箱 · 看示意,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__advisor_hint,19
+八、其他条款,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,6
+六、 不可抗力因素及其他可能影响合同执行的情形,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,23
+共2家门店,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/filtering,5
+共30家门店,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/soldout,6
+共7家门店,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__far_transport,5
+其中本协议当中的乙方为正在使用或者因曾使用考拉仓服务而须承担后合同义务的任何个人、组织或机构，甲方为具体为乙方提供自助存取设备的机构，北京地区提供方：迷你考拉仓（北京）仓储服务有限公司，上海地区提供方：迷你考拉仓（北京）仓储服务有限公司上海分公司，杭州地区提供方：杭州仓满满仓储服务有限公司，深圳地区提供方：迷你考拉仓（北京）仓储服务有限公司深圳分公司，广州地区提供方：迷你考拉仓（北京）仓储服务有限公司广州分公司（以下具体提供方根据使用不同，以“考拉公司”或“甲方”的形式称呼）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,241
+其他区域：海淀区、丰台区,界面固定文案,1,1,BUSINESS,business/w7__multi_area_step2,12
+其他可租门店,界面固定文案,1,1,O01,o01/w7__expired__alternatives,6
+其他租期（1–60个月）,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,QUICK,quick/term__terms,12
+其次，甲乙双方不形成委托保管关系，房屋租赁关系，也不构成任何仓储合同关系。甲乙双方签署前，已通过400 电话、迷你考拉微信或其服务平台或公司官方沟通渠道等相关渠道就异议条款与甲方达成共识，本合同的全部内容由甲乙双方平等协商一致，共同起草制定，非一方事先拟定，不属于格式条款。乙方签署本协议后，乙方通过附件指定下单方式下单并支付相应费用或使用“考拉公司”提供的服务后，即表示甲乙双方协商一致，已完全理解并同意接受本协议的全部约定内容。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,216
+再次找仓,界面固定文案,1,1,O03,o03/ended,4
+再租 1 个月享 6.5 折，月均少 ¥20,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__term_near,22
+再租 1 个月享 7 折，还可免费运输 1 次,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__transport_near,23
+再租 2 个月享 6.5 折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__term_near,14
+"再租 2 个月，整期满 ¥10,000 减 ¥400",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__full_near,26
+"减后整期租金 ¥5,850",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O03,o03/w7__active_full,13
+"减后整期租金 ¥8,850",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__full_near,13
+列出的是北京已有门店的区域。,界面固定文案,1,1,BUSINESS,business/w7__multi_area_open,14
+删除后不影响已开具的发票。,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__delete,13
+删除这个抬头？,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__delete,7
+到期退仓 · 计划取空 2026-11-18,演示数据（门店 / 订单 / 日期 / 距离）,1,1,EX01,ex01/passed,22
+刷新后显示,界面固定文案,1,1,O01,o01/w7__ready__auth_quote_expired,5
+刷新后显示最新金额,界面固定文案,1,1,O01,o01/w7__ready__auth_quote_expired,9
+刷新报价,界面固定文案,1,1,O01,o01/w7__ready__auth_quote_expired,4
+前 30 分钟免费，之后按小区标准,界面固定文案,1,1,S02,s02/services,17
+剩余 20 天,界面固定文案,1,1,O03,o03/w7__expiring,7
+北京 · 12个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ACC_PROGRESS,acc_progress/reference,9
+北京市东城区天桥商场永定门内大街1号天桥百货商场,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,24
+北京市昌平区龙湖滟澜新宸沙河镇能源南街南西区9号楼2单元,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,28
+北京市朝阳区八里庄东里八里庄社区5号楼,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,19
+北京市朝阳区富仁名苑胜古北里南28号楼 · 存取时间 09:00-21:00,演示数据（门店 / 订单 / 日期 / 距离）,1,1,ACC_ACCESS,acc_access/inactive,38
+北京市海淀区城华园学清路21号2号楼,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,18
+北京市通州区珠江丽景家园永顺镇玉潞苑南里63栋2单元,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,26
+协议文件,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,4
+协议说明,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,4
+单人,界面固定文案,1,1,ITEMS,items/w7__variant,2
+单种物品最多填 999 件，更多请交给顾问配仓,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__qty_max,23
+单笔订单开票不需要企业认证，可在订单详情里申请。,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__gate,24
+即将到期,界面固定文案,1,1,OH01,oh01/w7__expiring,4
+原订单不可继续支付，需重新确认仓位和当前价格。,界面固定文案,1,1,O03,o03/expired,23
+原订单金额（已取消）,界面固定文案,1,1,O03,o03/w7__cancelled,10
+原订单金额（已失效）,界面固定文案,1,1,O03,o03/expired,10
+去企业认证,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__gate,5
+去找自助仓,界面固定文案,1,1,ESTORE,estore/w7__default,5
+去附近门店,界面固定文案,1,1,OH01,oh01/empty,5
+双人位,界面固定文案,1,1,ITEMS,items/w7__variant,3
+双人沙发,界面固定文案,1,1,CAP,cap/w7__advisor_hint,4
+双门 · 2件 · 约2m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,14
+发票开具中,界面固定文案,1,1,IV01,iv01/processing,5
+发票形式,界面固定文案,1,1,IV01,iv01/w7__issued,4
+发票文件,界面固定文案,1,1,IV01,iv01/w7__issued,4
+发票申请已提交,界面固定文案,1,1,IV01,iv01/submitted,7
+发送到邮箱,界面固定文案,1,1,IV01,iv01/w7__issued,5
+发送过于频繁，请稍后再试,界面固定文案,1,1,S5,s5/w7__matched__auth_sms_sendfail,12
+变化原因,界面固定文案,1,1,O01,o01/price_changed,4
+只修改本次咨询的联系电话，不会更换您的登录手机号。,界面固定文案,1,1,BUSINESS,business/w7__restored__auth_bk_contact,25
+只修改本次预约的联系电话，不会更换您的登录手机号。,界面固定文案,1,1,BOOKING,booking/w7__filled__auth_bk_contact,25
+可以改用其他手机号，或先继续浏览。,界面固定文案,1,1,S5,s5/w7__matched__auth_phone_denied,17
+可以重新提交一条需求。,界面固定文案,1,1,BUSINESS,business/blocked,11
+可使用企业开票抬头与批量开票。,界面固定文案,1,1,ENT_CERT,ent_cert/w7__verified,15
+可先浏览附近门店,界面固定文案,1,1,S01,s01/nomatch,8
+可换个名称，或选一件大小相近的物品代替,界面固定文案,1,1,ITEMS,items/search_empty,19
+可查看入仓指引,界面固定文案,1,1,ACC_IDENTITY,acc_identity/verified,7
+可查看附近其他门店,界面固定文案,1,1,ACC_FAVORITES,acc_favorites/w7__list_gone,9
+可续租 1–36个月，累计租期不超过 60 个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__form_keep,24
+可调整容量或租期，或由顾问协助寻找合适仓位,界面固定文案,1,1,S01,s01/nomatch,21
+可选,界面固定文案,1,1,O01,o01/w7__ready__protect,2
+各项信息仅在您使用对应功能时收集。拒绝后仍可浏览门店并手动选择城市。,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,34
+同意,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,2
+同时，在此明确，合同所述的“价值”基于乙方使用考拉仓所存放的物品本身物理性质所具备的价值；“损失”，不包括其可能获得的收益、利润、实际用途、商业机会价值等任何直接或间接损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,87
+同时，甲乙双方不形成委托保管关系，乙方使用自存自取方式的“考拉社区仓”、“考拉超级仓”，所存放在存取设备里的物品由乙方自行保管，除“考拉到”、“考拉E 存”甲方对乙方所存放的物品外包装进行个数清点外，甲方不对乙方所存放的物品进行清点统计核查检查等，乙方应严格按照本协议约定存放物品。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,141
+告诉我们企业的用仓需求,界面固定文案,1,1,BOOKING,booking/w7__business,11
+周末搬入，需协助搬运,界面固定文案,1,1,ACC_NEEDS,acc_needs/edit,10
+咨询考拉E存,界面固定文案,1,1,ESTORE,estore/w7__default,6
+咨询需要一个可联系的手机号，可以改用其他手机号登录。,界面固定文案,1,1,BUSINESS,business/w7__restored__auth_bk_denied,26
+商家存货、包装周转及货架,界面固定文案,1,1,ITEMS,items/w7__scene_business,12
+四、甲方权利与义务,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,9
+四惠·八里庄东里店,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,9
+在本协议中，除在文中定义的词语外，下列词语具有以下含义，除非上下文另有解释：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,38
+地图暂时无法加载,界面固定文案,1,1,S02,s02/w7__route&map=fail,8
+地库 B1 临时卸货位,界面固定文案,1,1,S02,s02/services,11
+基础保障,界面固定文案,1,1,O01,o01/w7__ready__protect,4
+填写地址、物品和预计存放时间,界面固定文案,1,1,ESTORE,estore/w7__default,14
+填写容量或按物品估算,界面固定文案,1,1,ACC_BRAND,acc_brand/default,10
+填写需求,界面固定文案,1,1,S5,s5/cold,4
+增值保障,界面固定文案,1,1,O01,o01/w7__ready__protect,4
+处理中,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__submitted,3
+处理进度,界面固定文案,1,1,DP01,dp01/refund_pending__progress,4
+备注,界面固定文案,1,1,ACC_NEEDS,acc_needs/edit,2
+复核订单的确认与支付：甲方根据乙方已支付的预使用订单信息将乙方订单物品委托第三方服务机构进行搬运，存放在甲方的设备设施内，并重新核对预估订单是否满足存放完成全部乙方的物品。根据实际情况，乙方将被邀请复查订购服务（包含增值服务）或商品的信息、付款方式（以附件为准）以及这些服务的运输方式和费用：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,146
+多仓、长期或需要开票，由顾问按企业需求配仓,界面固定文案,1,1,BOOKING,booking/w7__business,21
+套餐与价格,界面固定文案,1,1,ESTORE,estore/w7__default,5
+如 3,界面固定文案,1,1,CAP,cap/empty,3
+如乙方丧失部分、完全民事行为能力或死亡，其法定监护人或家属欲打开存取设备时，应持相关政府证明并向甲方提供。经甲方审核同意后，并需该存取设备物品所有法定监护人或继承人到场后，方可打开考拉仓。存取设备设施费用结清后，可进行退用考拉仓或协议变更手续。若因乙方死亡或者破产，本协议自动终止。如乙方为单位，且进入注销流程时，其全部继承人/股东或注销时的清算组承接本协议乙方的权利和义务，如乙方已注销，则本协议自行终止，若本协议项下有未完成事宜，则乙方于工商系统核准注销日期开始的叁拾（30）日内，由乙方的全部股东签字盖章说明情况后，甲方可配合完成上述事宜。如乙方注销日期超过叁拾（30）日的，若乙方逾期已达到场地清理程序的，则甲方不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,318
+如何选择,界面固定文案,1,1,ACC_BRAND,acc_brand/default,4
+如对合同内容有疑问，请联系客服 400-035-8885。,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,29
+如有物品损失，请在 48 小时内联系我们，并保留相关凭证,合同 / 协议原文（逐字，不改）,1,1,O01,o01/w7__ready__protect,28
+如需更换，请输入联系电话,界面固定文案,1,1,BUSINESS,business/authorized,12
+姓名与身份证号不一致，请核对后重试,界面固定文案,1,1,O01,o01/w7__idv_todo__idv&idv=err,17
+存放物品、承重、存取条件与服务范围，请在签约前向门店确认。易燃易爆、危险及法律禁止存储的物品不得入仓。,界面固定文案,1,1,ACC_BRAND,acc_brand/default,51
+"存放物品价值不超过 ¥5,000 的，附赠累计不超过 ¥5,000 的基础保障",合同 / 协议原文（逐字，不改）,1,1,O01,o01/w7__ready__protect,39
+存放说明,界面固定文案,1,1,ACC_BRAND,acc_brand/default,4
+学院路·城华园店,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,8
+安全防护,界面固定文案,1,1,ACC_BRAND,acc_brand/default,4
+完整条款见《迷你考拉自助式设备设施使用协议》，具体方案以顾问确认为准。服务时段：每日 9:00–20:00。,界面固定文案,1,1,ESTORE,estore/w7__default,54
+实名认证已通过,界面固定文案,1,1,ACC_IDENTITY,acc_identity/verified,7
+实名认证未通过，可重试,界面固定文案,1,1,ACC_IDENTITY,acc_identity/failed,11
+实际退还,界面固定文案,1,1,DP01,dp01/w7__refunded_partial,4
+审核中,界面固定文案,1,1,ENT_CERT,ent_cert/w7__reviewing,3
+审核未通过,界面固定文案,1,1,ACC_IDENTITY,acc_identity/result,5
+审核结果会通过消息通知您。,界面固定文案,1,1,ENT_CERT,ent_cert/w7__reviewing,13
+审核认证结果,界面固定文案,1,1,ACC_IDENTITY,acc_identity/reviewing__review,6
+审核通过,界面固定文案,1,1,ACC_IDENTITY,acc_identity/result,4
+容量、租期和联系方式保留；企业资料可在「补充企业资料」里修改。,界面固定文案,1,1,ACC_NEEDS,acc_needs/edit,31
+导航到哪个入口,界面固定文案,1,1,S02,s02/w7__route&open=dest,7
+小计 0.1m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__tiny,8
+小计 0.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,8
+小计 1.1m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,8
+小计 162m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__over,8
+小计 2.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,8
+小计 24m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__over,7
+小计 2m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,6
+小计 3.2m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,8
+小计 3.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,8
+小计 5.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,8
+小计 5.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,8
+小计 9.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,8
+尚无保存的找仓需求,界面固定文案,1,1,ACC_PROGRESS,acc_progress/none,9
+已享优惠,界面固定文案,1,1,EX01,ex01/w7__form_early__confirm,4
+已享优惠按实际使用周期重新核算,合同 / 协议原文（逐字，不改）,1,1,EX01,ex01/w7__form_early__confirm,15
+已付款且未开票的订单会出现在这里。,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__empty,17
+已使用,界面固定文案,1,1,ACC_COUPONS,acc_coupons/redeemed,3
+已保留上次选择的物品，可继续增减,界面固定文案,1,1,ITEMS,items/w7__restored,16
+已发送到 caiwu@163.com,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__issued,18
+已含,界面固定文案,1,1,O01,o01/w7__ready__protect,2
+已完成,界面固定文案,1,1,RN01,rn01/completed,3
+已完成支付,界面固定文案,1,1,O01,o01/w7__paying,5
+已定位到朝阳区,界面固定文案,1,1,H01,h01/w7__new__auth_loc_ok,7
+已带入您在租的门店，可更换。,界面固定文案,1,1,QUICK,quick/w7__addon,14
+已开启到期提醒，租期到期前会通过微信提醒您。,界面固定文案,1,1,O03,o03/w7__upcoming&sub=accepted,22
+已开启微信通知。,界面固定文案,1,1,RN01,rn01/w7__quote_pending&sub=accepted,8
+已开启微信通知，预约有进展时会提醒您。,界面固定文案,1,1,BOOKING,booking/w7__success&sub=accepted,19
+已开启微信通知，验仓有结果时会提醒您。,界面固定文案,1,1,EX01,ex01/w7__waiting&sub=accepted,19
+已微信授权，无需重复填写手机号。,界面固定文案,1,1,BUSINESS,business/authorized,16
+已扩大范围,界面固定文案,1,1,S5,s5/expanded,5
+已撤回,界面固定文案,1,1,ACC_NEEDS,acc_needs/withdrawn,3
+已改为手动填写 · 物品估算为 3.4m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__from_items_edited,21
+已确认,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,3
+已租出,界面固定文案,1,1,ACC_FAVORITES,acc_favorites/w7__list_gone,3
+已超时,界面固定文案,1,1,M01,m01/expired,3
+已选 0 笔,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__select,6
+已选 1 种、1 件 · 查看清单 ›,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__tiny,19
+已选 2 个区域，顾问会按这些区域一并安排方案。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,BUSINESS,business/w7__multi_area,24
+已选 2 种、290 件 · 查看清单 ›,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__over,21
+已选 2 笔,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__selected,6
+已选 3 笔,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__all,6
+已选 4 种、80 件 · 查看清单 ›,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,20
+已选 6 种、48 件 · 查看清单 ›,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,20
+已选物品（6种，共48件）,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,13
+已锁定,界面固定文案,1,1,ACC_COUPONS,acc_coupons/locked,3
+建议 19.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,9
+建议 34m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,7
+建议 372m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__over,8
+开具后发送到 caiwu@163.com,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__submitted,20
+开票申请已提交,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__submitted,7
+当前仓门设备暂未接入。如需存取，请联系门店协助。,界面固定文案,1,1,ACC_ACCESS,acc_access/allowed__unlock,24
+当前城市没有容量接近 22m³ 的可租仓位，可查看全部门店或调整容量。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/none,35
+当前方案有效,界面固定文案,1,1,M01,m01/pending,6
+当前方案需重新报价,界面固定文案,1,1,M01,m01/expired,9
+当前状态,界面固定文案,1,1,ACC_ACCESS,acc_access/inactive,4
+当前租期至 2028-04-18,演示数据（门店 / 订单 / 日期 / 距离）,1,1,RN01,rn01/completed,16
+当前需求暂无可租仓位,界面固定文案,1,1,S01,s01/nomatch,10
+待入仓,界面固定文案,1,1,OH01,oh01/w7__upcoming,3
+待实名认证,界面固定文案,1,1,OH01,oh01/w7__identity,5
+待确认续租,界面固定文案,1,1,O03,o03/renewal,5
+待结费用,界面固定文案,1,1,DP01,dp01/w7__refunded_partial,4
+待结费用明细可向门店查询。,界面固定文案,1,1,DP01,dp01/w7__refunded_partial,13
+待认证,界面固定文案,1,1,O03,o03/identity,3
+待顾问确认,界面固定文案,1,1,ACC_TRANSPORT,acc_transport/saved,5
+微信手机号暂时无法获取,界面固定文案,1,1,S5,s5/w7__matched__auth_phone_fail,11
+"微信支付 ¥2,010",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/pending__pay,11
+微信支付宝,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,5
+恒温防潮,界面固定文案,1,1,ACC_BRAND,acc_brand/default,4
+恢复,界面固定文案,1,1,CAP,cap/w7__from_items_edited,2
+您有 1 个租用中的订单，退仓并结清后可申请注销。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ACC_PROFILE,acc_profile/w7__verified__delete_blocked,25
+您选择订单并签署《迷你考拉自助存取设备使用协议》，同时按照订单内容支付完相应费用后，即表示双方协商一致，您同意接受《迷你考拉自助存取设备使用协议》的全部约定内容。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,81
+批量开票需要先完成企业认证,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__gate,13
+找仓时按 3.5m³ 匹配，可修改。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,BUSINESS,business/blocked,18
+报价 24 小时内有效。付款完成后新租期生效。,界面固定文案,1,1,RN01,rn01/w7__quote_keep,23
+报价 24 小时内有效。过期后按常规折扣价续租。付款完成后新租期生效。,界面固定文案,1,1,RN01,rn01/quote_ready,35
+报价已超过 3 小时,界面固定文案,1,1,O01,o01/w7__ready__auth_quote_expired,10
+报价待确认,界面固定文案,1,1,O01,o01/price_changed,5
+报价方案已过期,界面固定文案,1,1,ACC_PROGRESS,acc_progress/quote_expired,7
+报价方案当前报价,界面固定文案,1,1,ACC_PROGRESS,acc_progress/quote,8
+押金已退还,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete,5
+押金结算,界面固定文案,1,1,DP01,dp01/w7__refunded_partial,4
+指甲方向乙方提供的区别于考拉社区仓的有偿“大型、联排式、私人、智能、独立、灵活”自助式存放物品（即“自存自取”）的设备设施服务。在此期间甲方不对乙方物品进行检查核验，仅提供可以放置乙方物品的设备设施。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,100
+指甲方向乙方提供的有偿“上门取送、便捷寄存、灵活召回”的一站式服务（不同于“考拉到”服务，乙方可根据其自身需要，灵活召回其存放的部分或全部物品，其中召回的最小计量单位为1 个包裹起），即甲方从乙方指定的地点将其指定存放的物品，自行通过甲方小程序端委托“第三方运输配送机构”存放至甲方的设备设施内的服务（甲方仅收取仓储使用费、代为收取运费，不包含除此以外的如搬运、拆装、楼梯费、包装费、停车费、高速费等费用）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,204
+指甲方向乙方提供的有偿“上门取送、定期寄存、定期召回”的一站式物品存放服务，即甲方从乙方指定的地点将其指定存放的物品，委托“第三方运输配送机构”，存放至甲方的设备设施内的服务（甲方仅收取仓储使用费、代为收取运费，不包含除此以外的如搬运、拆装、楼梯费、包装费、停车费、高速费等费用）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,141
+指甲方向乙方提供的有偿“小型、联排式、私人、智能、独立、灵活”自助式存放物品（即“自存自取”）的设备设施服务。在此期间甲方不对乙方物品进行检查核验，仅提供可以放置乙方物品的设备设施。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,91
+按 0.5m³ 匹配,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__tiny,10
+按 5m³ 重新匹配,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S02,s02/combo,10
+按仓位容量和租期计费,界面固定文案,1,1,ESTORE,estore/w7__default,10
+按此需求重新找仓,界面固定文案,1,1,ACC_PROGRESS,acc_progress/reference,8
+按物品估算 3.4m³ · 3 种 6 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__from_items,21
+按物品估算：物品约 2.1m³，留出码放空隙后建议 3.4m³。下方是不小于 3.4m³ 的仓位。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/w7__from_items,49
+提交开票申请,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__confirm,6
+提交结果暂未确认,界面固定文案,1,1,BUSINESS,business/unknown,8
+提交结果暂未确认，请勿重复提交。,界面固定文案,1,1,BUSINESS,business/unknown,16
+提交需求,界面固定文案,1,1,ESTORE,estore/w7__default,4
+提交需求后电话沟通,界面固定文案,1,1,ESTORE,estore/w7__default,9
+提供方（甲方或考拉公司）：为乙方提供设备设施的考拉公司,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,27
+提供方（甲方）,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,7
+提前退仓请先与门店确认，费用按实际使用时间及协议约定结算。 查看协议,界面固定文案,1,1,EX01,ex01/w7__form_early__confirm,34
+搬家家具,界面固定文案,1,1,BOOKING,booking/filled__items,4
+搬家或装修时常见的家具、家电与收纳用品,界面固定文案,1,1,ITEMS,items/scenes,19
+搬家用仓：搬出地、搬入地都可以查。先选一处，另一处会留在「最近使用」，可随时切换对比。,界面固定文案,1,1,S01,s01/w7__browse__auth_search_move,43
+撤回后将退出登录。已签署的协议和租用中的订单不受影响。,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__privacy_confirm,27
+撤回隐私授权？,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__privacy_confirm,7
+支付处理中…,界面固定文案,1,1,O01,o01/w7__paying,6
+支付流程,界面固定文案,1,1,RN01,rn01/payment_pending__pay,4
+支付确认中,界面固定文案,1,1,O03,o03/w7__paying,5
+支付遇到问题,界面固定文案,1,1,O01,o01/w7__paying,6
+支持查看北京、上海、深圳、杭州、广州的门店资料；具体库存和服务以门店确认为准。,待业务或外部接入（占位说法）,1,1,ACC_BRAND,acc_brand/default,39
+支持组合仓位,界面固定文案,1,1,S5,s5/combo,6
+收款名称：迷你考拉仓（北京）仓储服务有限公司收款账号：110911238610401开户行：招商银行北京首体科技金融支行,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,60
+收费方式,界面固定文案,1,1,ESTORE,estore/w7__default,4
+"整期 ¥1,404 · 12个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S02,s02/w7__advisor_rent,16
+"整期 ¥1,974 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/expanded,15
+"整期 ¥10,878 · 6个月 · 满额减 ¥400",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/near,27
+"整期 ¥12,240 · 12个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__advisor,17
+"整期 ¥14,154 · 6个月 · 满额减 ¥400",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/near,27
+"整期 ¥15,984 · 12个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__advisor,17
+"整期 ¥2,982 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__far_transport,15
+"整期 ¥3,504 · 12个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/advisor,16
+"整期 ¥3,696 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__far_transport,15
+"整期 ¥4,284 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/expanded,15
+"整期 ¥4,650 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/combo,15
+"整期 ¥5,424 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S02,s02/combo,15
+"整期 ¥5,520 · 12个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/advisor,16
+"整期 ¥6,000 · 12个月 · 满额减 ¥150",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S02,s02/w7__advisor_rent,27
+"整期 ¥6,594 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__near,15
+"整期 ¥8,610 · 6个月",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__near,15
+文件资料,界面固定文案,1,1,BOOKING,booking/filled__items,4
+新增：需要周末入仓。,界面固定文案,1,1,BUSINESS,business/success_update,10
+新租期至 2028-04-18 · 累计 18个月,演示数据（门店 / 订单 / 日期 / 距离）,1,1,RN01,rn01/completed,25
+方案与费用由顾问确认,界面固定文案,1,1,ESTORE,estore/w7__default,10
+普通 · 1件 · 约0.3m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,16
+普通 · 1件 · 约0.6m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,16
+智能除湿,界面固定文案,1,1,ACC_BRAND,acc_brand/default,4
+暂不使用优惠,界面固定文案,1,1,O01,o01/coupon__coupon,6
+暂不删除,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__delete,4
+暂不支付,界面固定文案,1,1,O01,o01/pending__pay,4
+暂不注销,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete,4
+暂不能续租,界面固定文案,1,1,RN01,rn01/unavailable,5
+暂无价格,界面固定文案,1,1,S01,s01/nomatch,4
+暂无匹配的仓位,界面固定文案,1,1,S5,s5/none,7
+暂无可开票的订单,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__empty,8
+暂无可查看的优惠与权益,界面固定文案,1,1,ACC_COUPONS,acc_coupons/empty,11
+暂无可查看的订单,界面固定文案,1,1,O03,o03/empty,8
+暂无收藏，可在门店详情收藏,界面固定文案,1,1,ACC_FAVORITES,acc_favorites/empty,13
+暂无消息,界面固定文案,1,1,ACC_MESSAGES,acc_messages/empty,4
+暂无电子合同,界面固定文案,1,1,ECONTRACT,econtract/w7__empty,6
+暂无订单记录,界面固定文案,1,1,OH01,oh01/empty,6
+暂无预约记录,界面固定文案,1,1,ACC_NEEDS,acc_needs/empty,6
+暂时不能注销,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete_blocked,6
+暂时无法保存,界面固定文案,1,1,BUSINESS,business/failed,6
+暂时无法提交,界面固定文案,1,1,BOOKING,booking/failed,6
+更多操作,界面固定文案,1,1,ACC_NEEDS,acc_needs/w7__more,4
+更换门店,界面固定文案,1,1,QUICK,quick/store__store,4
+最终赔偿金额基于所受损物品的实际价值、受损比例、实际损失等因素综合考虑赔偿，请在使用考拉仓时如实填写存放物品类型及存放实际价值。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,64
+最近参考,界面固定文案,1,1,ACC_PROGRESS,acc_progress/reference,4
+月租,界面固定文案,1,1,O01,o01/price_changed,2
+服务时段：每日 9:00–20:00；非服务时段提交的：已收到，顾问上班后将优先联系您,界面固定文案,1,1,S01,s01/w7__sales,43
+服务流程,界面固定文案,1,1,ESTORE,estore/w7__default,4
+服务范围,界面固定文案,1,1,ESTORE,estore/w7__default,4
+服务说明,界面固定文案,1,1,ESTORE,estore/w7__default,4
+朝阳区 · 共9家门店 · 已显示前5家,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__browse__auth_loc_area,20
+未填写,界面固定文案,1,1,ACC_PROFILE,acc_profile/unverified,3
+未完成,界面固定文案,1,1,H01,h01/payment_failed,3
+未开启到期提醒，可在「消息」查看到期通知。,界面固定文案,1,1,O03,o03/w7__upcoming&sub=declined,21
+未开启微信通知。,界面固定文案,1,1,RN01,rn01/w7__quote_pending&sub=declined,8
+未开启微信通知，可在「消息」查看预约进度。,界面固定文案,1,1,BOOKING,booking/w7__success&sub=declined,21
+未开启微信通知，可在「消息」查看验仓结果。,界面固定文案,1,1,EX01,ex01/w7__waiting&sub=declined,21
+未成功,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__failed,3
+未通过,界面固定文案,1,1,ENT_CERT,ent_cert/w7__failed,3
+未通过，可重试,界面固定文案,1,1,ACC_IDENTITY,acc_identity/failed,7
+本作协议（“本协议”）由以下各方在北京市朝阳区签订：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,26
+本协议签署前，乙方已对《迷你考拉用户使用告知书》内容知晓（可通过甲方微信后台小程序已查看确认），同意该文件展示及提示信息。乙方在签署本协议，需审慎详细地阅读本协议下各项条款，同时确认本协议签署后同步签署线上合同，其次将本协议中使用加粗字体或标红的或黑体字体的免除或限制责任条款、法律适用和争议解决条款等阅读两遍以上（如基础保障服务及增值保障服务的赔付上限、物品存放摆放须知、场地现状、突发事项未经通知先行抢救须知、纠纷管辖地为北京市朝阳区人民法院等）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,226
+本店暂无匹配仓位,界面固定文案,1,1,S02,s02/w7__advisor,8
+本店暂无可租仓位,界面固定文案,1,1,S02,s02/soldout,8
+本店没有不小于 9m³ 的单个仓位。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S02,s02/near,18
+"本次应付 · 已省 ¥1,320",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__term_near,16
+"本次应付 · 已省 ¥5,010",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__full_near,16
+本次应付 · 已省 ¥500,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/w7__transport_near,14
+查找附近门店、计算距离,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,11
+查看《迷你考拉自助式设备设施使用协议》,界面固定文案,1,1,O01,o01/w7__ready__agreed__sign,19
+查看仓位,界面固定文案,1,1,S01,s01/w7__near,4
+查看入仓指引,界面固定文案,1,1,ACC_IDENTITY,acc_identity/verified,6
+查看全城门店,界面固定文案,1,1,S5,s5/none,6
+查看全部物品,界面固定文案,1,1,ITEMS,items/search_empty,6
+查看全部门店,界面固定文案,1,1,S01,s01/w7__browse__auth_loc_far,6
+查看其他方案,界面固定文案,1,1,O01,o01/price_changed,6
+查看协议全文,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,6
+查看推荐,界面固定文案,1,1,S5,s5/cold,4
+查看退还方式与结算说明 ›,界面固定文案,1,1,DP01,dp01/held,13
+查看预约,界面固定文案,1,1,H01,h01/w7__booking_only,4
+查看验仓结果,界面固定文案,1,1,O03,o03/inspection,6
+标准箱 · 40件 · 约3.8m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,18
+核对门店地址、设施和费用,界面固定文案,1,1,ACC_BRAND,acc_brand/default,12
+根据市政或小区整体规划的需要，乙方同意：在不影响乙方正常使用的情况下，甲方可在场地前后设置变压器、配电器、人行出入口、管网、消防设置等公共设施，乙方对此无异议，且不因此向甲方提出任何要求，因设计、规划变更或者部门要求导致的场地灭失或者改为设备间等其他用途，乙方同意解除本协议并不追究甲方任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,148
+正在保存…,界面固定文案,1,1,BUSINESS,business/submitting,5
+正在按容量与租期匹配,界面固定文案,1,1,S5,s5/loading,10
+正在提交,界面固定文案,1,1,BOOKING,booking/submitting,4
+正在生成电子合同…,界面固定文案,1,1,O01,o01/w7__submitting,9
+正在确认支付结果,界面固定文案,1,1,O03,o03/w7__paying,8
+正在等待支付结果,界面固定文案,1,1,O01,o01/w7__paying,8
+正在补充已有企业需求,界面固定文案,1,1,BUSINESS,business/edit,10
+比需求小 3m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/near,8
+沙发,界面固定文案,1,1,ITEMS,items/search,2
+沙发、床具、衣柜、冰箱等家庭物品,界面固定文案,1,1,CAP,cap/w7__sales,16
+沙发、拆装床具、家电及纸箱,界面固定文案,1,1,CAP,cap/w7__advisor_hint,13
+沙河·龙湖滟澜新宸店,界面固定文案,1,1,S01,s01/soldout,10
+没有不小于 29m³ 的仓位，以下容量接近,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/near,21
+没有处理中的发票或退款,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete,11
+没有找到相关物品,界面固定文案,1,1,ITEMS,items/search_empty,8
+没有租用中或待支付的订单,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete,12
+注销后，登录手机号、优惠券、预约与收藏记录将被删除。,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete,26
+浏览门店无需登录；查看报价、预约和下单时登录即可。,界面固定文案,1,1,ACC_PROFILE,acc_profile/unverified,25
+添加后，申请发票和批量开票时可直接选择。,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__empty,20
+清单含长件（三人位沙发），请对照仓位的长宽高。,界面固定文案,1,1,S5,s5/w7__from_items,23
+清空已选物品？,界面固定文案,1,1,ITEMS,items/clear,7
+满足以下条件后可申请注销：,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete,13
+潞苑·珠江丽景家园店,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,10
+点击「签署」即确认以上订单信息准确、完整。签署后生成电子合同，并进入支付。,界面固定文案,1,1,O01,o01/w7__ready__agreed__sign,37
+"物品价值超过 ¥5,000 的，可购买增值保障，赔付上限提升至累计不超过 ¥15,000；与基础保障不叠加",合同 / 协议原文（逐字，不改）,1,1,O01,o01/w7__ready__protect,53
+物品合计约 12.7m³，留出码放空隙后的建议值,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,24
+物品约 0.1m³ · 1 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__tiny,15
+物品约 0.1m³，小于最小仓位，按 0.5m³ 为您匹配。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__tiny,30
+物品约 12.7m³ · 48 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,17
+物品约 12.7m³，留出码放空隙后建议 19.6m³。估算值，以实际仓位为准。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__advisor_hint,40
+物品约 186m³ · 290 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__over,17
+物品约 186m³，留出码放空隙后建议 372m³。估算值，以实际仓位为准。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__over,38
+物品约 22.1m³ · 80 件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,17
+物品约 22.1m³，留出码放空隙后建议 34m³。估算值，以实际仓位为准。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__sales,38
+物品限制,界面固定文案,1,1,ESTORE,estore/w7__default,4
+特别提示：目前“考拉到”服务，尚未开通“部分物品的召回”功能。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,31
+王,界面固定文案,1,1,ACC_IDENTITY,acc_identity/invalid,1
+现行折扣价,界面固定文案,1,1,RN01,rn01/w7__quote_keep,5
+用于接收电子发票,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__add,8
+用于顾问联系,界面固定文案,1,1,BUSINESS,business/error_phone,6
+用仓问题协助,界面固定文案,1,1,ACC_BRAND,acc_brand/default,6
+用户使用告知书,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,7
+用户注册协议和个人信息保护政策,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__register,15
+由于乙方存放以上物品（包括上述未说明，但属于违规禁止存放的物品或国内邮件禁止寄递的物品/或交通运输部、公安部关于公布《道路客运车辆禁止、限制携带和托运物品目录》的公告的相关文件所列物品/或北京市公安局公交总队公布了《北京市轨道交通禁止携带物品目录》清单物品等，中国邮政速递物流展示的禁止寄递物品为准https://www.ems.com.cn/Taboo_items）而导致的财产毁损、人身伤亡及其他损失的，由乙方承担民事、行政、刑事及其它一切法律责任（包括律师费、鉴定费、差旅费等相关费用）。考拉公司会不时调整完善违规违禁物品清单，具体以考拉公司发布的禁止存放物品清单或中国邮政速递物流展示的禁止寄递物品为准。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,306
+由合作承运方上门取送（目前合作：顺丰、蓝犀牛、闪送、京东）,合同 / 协议原文（逐字，不改）,1,1,ESTORE,estore/w7__default,29
+甲方向乙方提供的服务标准参照甲方微信或其服务平台显示的使用空间体积/面积（也表述为“规格”）、使用时长、优惠的算法、私人定制服务、服务时间、市场情况、投入成本等，具体以甲方微信或其服务平台显示的为准，费用构成包括仓储使用费和服务费构成，也可自行选择开具技术服务费发票或仓储服务费发票（其中服务费不低于费用构成的65%，包括基于不同服务类型所进行的不同服务技术研发费用、公共区域监控监测、技术和软件开发及系统迭代等技术服务等）。其中，考拉超级仓使用空间面积=实际占用空间面积x1.5 所得，乙方知悉，并就此无异议，双方均认可其使用的甲方的设备设施（即考拉仓）所测的规格大小，该规格大小为计算相关费用的依据，实际使用中出现差异不做调整。其次，“考拉到”或“考拉E 存”的收费方式包括仓储服务费和运输费组成，不包括搬运、拆装、楼梯费、包装费、停车费、高速费等费用。其次，需要特别说明的，乙方选择的“考拉E 存”中的存放空间规格，可参考甲方微信小程序展示的参考参考数值来定，同时，自乙方确认订单使用的仓储服务费金额后，乙方的存放空间即已在其选定的时间内锁定，并已消耗了甲方“考拉E 存”的整体空间，乙方部分召回存放的物品，不做为仓储服务费的退还情形，相应的乙方召回后仍可以继续在其购买的使用空间内继续存放物品。甲方声明：上述标准不构成对乙方之承诺。部分服务费用采取提前支付的方式，首次支付的仓储服务费应于打开存 取设备前支付。建议乙方选择一次性缴纳使用期间仓储服务费总费用，可享受相应折扣并不受使用期间收费标准调整的影响。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,657
+"甲方将在累积不超过人民币伍仟（5,000.00）元赔偿范围内赔偿因甲方责任而导致的如火灾、爆炸、水管意外爆裂、漏水（包括空调滴水）、发霉等情况造成的财产损失。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,79
+申请处理中,界面固定文案,1,1,IV01,iv01/processing,5
+申请注销,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__delete,4
+电子发票,界面固定文案,1,1,IV01,iv01/w7__issued,4
+电梯,界面固定文案,1,1,S02,s02/services,2
+留下联系电话，顾问来电了解需求并给出方案,界面固定文案,1,1,BOOKING,booking/advisor,20
+登录、预约联系、订单通知,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,12
+登录后查看金额,界面固定文案,1,1,ACC_COUPONS,acc_coupons/gate,7
+登录成功,界面固定文案,1,1,S5,s5/w7__matched__auth_phone_ok,4
+登录手机号已更换,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__auth_m_change_ok,8
+目录,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,2
+直接填写容量,界面固定文案,1,1,ITEMS,items/search_empty,6
+确认付款,界面固定文案,1,1,RN01,rn01/payment_pending__pay,4
+确认删除,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__delete,4
+确认支付,界面固定文案,1,1,O01,o01/pending__pay,4
+确认新报价,界面固定文案,1,1,O01,o01/price_changed,5
+确认租期,界面固定文案,1,1,QUICK,quick/term__terms,4
+确认订单，付款后按指引办理入仓,界面固定文案,1,1,ACC_BRAND,acc_brand/default,15
+私人定制专项服务协议,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__custom,10
+租期到期提醒,界面固定文案,1,1,O03,o03/w7__pending&sub=ask,6
+租期已到期，取空日期从今天起选。,界面固定文案,1,1,EX01,ex01/form_expired,16
+租期已到，超出的天数按协议约定计费。,界面固定文案,1,1,O03,o03/expired_lease,18
+租期已到，超出的天数按协议约定计费。 查看协议,界面固定文案,1,1,EX01,ex01/form_expired,23
+租期符合；用仓位置距门店 5km 及以上、租期满 6 个月可用，不抵扣租金,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O01,o01/coupon__coupon,37
+租期至 2026-10-18,演示数据（门店 / 订单 / 日期 / 距离）,1,1,EX01,ex01/form_expired,14
+租赁已结束,界面固定文案,1,1,O03,o03/ended,5
+等待支付结果,界面固定文案,1,1,O01,o01/w7__paying,6
+签署,界面固定文案,1,1,O01,o01/w7__ready__agreed__sign,2
+签署人,界面固定文案,1,1,O01,o01/w7__ready__agreed__sign,3
+签署使用协议,界面固定文案,1,1,O01,o01/w7__ready__agreed__sign,6
+签署使用协议并完成下单后，可在这里查看。,界面固定文案,1,1,ECONTRACT,econtract/w7__empty,20
+签署信息,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,4
+签署后生成，内容以签署时的协议为准。,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,18
+签署方式,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,4
+签署时间,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,4
+累计 18个月,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/completed,7
+约 1.15m³/件,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,ITEMS,items/w7__variant,10
+约 288 m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/w7__area_large,8
+约 3.5 m³,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S01,s01/w7__matched__demand__m2,8
+"约 ¥2,880",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__quote_keep_expired,8
+"约 ¥5,760",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__form_keep,8
+约 ¥632,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,EX01,ex01/w7__form_early__confirm,6
+线上签署,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,4
+线上选仓、下单、付款,界面固定文案,1,1,ESTORE,estore/w7__default,10
+组合仓 A003 + A005,界面固定文案,1,1,S5,s5/combo,15
+组合仓 D003 + D004,界面固定文案,1,1,S5,s5/near,15
+组合方案,界面固定文案,1,1,S02,s02/combo,4
+继续付款,界面固定文案,1,1,RN01,rn01/cancelled,4
+续租 12个月 · 沿用 6 折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__quote_keep_expired,16
+续租 24个月 · 沿用 6 折,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__form_keep,16
+续租付款已暂缓,界面固定文案,1,1,RN01,rn01/cancelled,7
+续租付款未成功,界面固定文案,1,1,RN01,rn01/payment_failed,7
+续租已生效,界面固定文案,1,1,RN01,rn01/completed,5
+续租报价已过期。首次续租仍可沿用原订单的 6 折，重新提交后由门店确认。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__quote_keep_expired,36
+续租报价已过期，可按常规折扣价续租。,界面固定文案,1,1,RN01,rn01/w7__quote_expired,18
+续租报价提醒,界面固定文案,1,1,RN01,rn01/w7__form&sub=ask,6
+"续租费用 · ¥1,560",含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,IV01,iv01/two_payments__payment,13
+综合排序,界面固定文案,1,1,S01,s01/matched__filter,4
+考拉E存服务,界面固定文案,1,1,ACC_BRAND,acc_brand/default,6
+胜古北里路一侧地库入口，限高 2.0 米,界面固定文案,1,1,S02,s02/w7__route&open=dest,20
+自动使用最优优惠,界面固定文案,1,1,O01,o01/coupon__coupon,8
+自助仓,界面固定文案,1,1,ESTORE,estore/w7__default,3
+自己到店存取,界面固定文案,1,1,ESTORE,estore/w7__default,6
+若乙方使用“考拉E 存”服务的：乙方按照原下单的套餐及实际运输情况完成相应订单费用的支付，超出套餐体积的部分，乙方可以选择升级“套餐”或选择按照甲方定期或不定时的方式向乙方推送账单的形式对超出套餐体积部分进行另行支付。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,109
+若乙方使用“考拉到”服务的：若甲方重新核对后存放物品体积大于乙方预下单体积的，则乙方需要在规定时间内补足相应的费用，否则视为乙方同意不足部分甲方可通过缩短使用期限来进行折抵；若存放物品体积小于乙方预下单规格的，则乙方同意，超出部分通过延长使用期限进行处理。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,128
+若乙方未按照上述及甲方约定存放的，或因乙方将不适宜存放至考拉仓的物品进行存放的，或因天气、气候等原因（包括但不限于潮湿、干燥、暴雨天气）等情形的，由此产生的物品损坏（包括自然损害产生的物品损坏）或者变质或性能改变（如发霉、潮湿等）等其他状况，应由乙方自行处理并提前制定防护的应对措施和减少损失的补救措施等，甲方不承担任何责任，其次，也不属于“基础保障服务”和“增值保障服务”的服务赔付范围内。根据市政或小区整体规划的需要，乙方同意：在不影响乙方正常使用的情况下，甲方可在场地前后设置变压器、配电器、人行出入口、管网、消防设置等公共设施，乙方对此无异议，且不因此向甲方提出任何要求，因设计、规划变更或者部门要求导致的场地灭失或者改为设备间等其他用途，乙方同意解除本协议并不追究甲方任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,344
+计划起租 2026-10-18,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O03,o03/identity,15
+订单与仓位,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,5
+订单保留至 2026-11-18 19:42。继续支付前会再次确认仓位、价格和优惠。,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O03,o03/payment_failed,42
+订单保留至 2026-11-18 19:44。继续支付前会再次确认仓位、价格和优惠。,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O03,o03/w7__payment_failed__cancel,42
+订单号,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,3
+订单号 MK202510185913,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/w7__lease_expired,18
+订单号 MK202512086898,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/w7__expiring,18
+订单号 MK202610181526,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/w7__returning,18
+订单号 MK202610182010,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/w7__identity,18
+订单号 MK202610184062,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/ended,18
+订单号 MK202611172010,演示数据（门店 / 订单 / 日期 / 距离）,1,1,O03,o03/identity,18
+订单号 MK202611190002,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/mixed,18
+订单号 MK202611190004,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/mixed,18
+订单号 MK202612185608,演示数据（门店 / 订单 / 日期 / 距离）,1,1,OH01,oh01/w7__upcoming,18
+订单咨询,界面固定文案,1,1,ACC_SUPPORT,acc_support/order,4
+认证中…,界面固定文案,1,1,O01,o01/w7__idv_todo__idv&idv=checking,4
+认证未通过,界面固定文案,1,1,ENT_CERT,ent_cert/w7__failed,5
+认证结果审核,界面固定文案,1,1,ACC_IDENTITY,acc_identity/result,6
+认证通过后，可把多笔订单合并申请发票。,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__gate,19
+该仓位月租由 ¥400 调整为 ¥440,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,O01,o01/price_changed,20
+该号码仅作为本次咨询的联系电话，不会更换您的登录手机号。,界面固定文案,1,1,BUSINESS,business/w7__restored__auth_bk_contact_sms,28
+该号码仅作为本次预约的联系电话，不会更换您的登录手机号。,界面固定文案,1,1,BOOKING,booking/w7__filled__auth_bk_contact_sms,28
+请从「订单」列表选择需要查看的订单。,界面固定文案,1,1,O03,o03/empty,18
+请使用其他手机号，通过短信验证码登录。,界面固定文案,1,1,S5,s5/w7__matched__auth_phone_fail,19
+请先从附近门店选择仓位，再继续下单。,界面固定文案,1,1,O01,o01/empty,18
+请先确认新报价,界面固定文案,1,1,O01,o01/price_changed,7
+请先选择仓位,界面固定文案,1,1,O01,o01/empty,6
+请先选择门店,界面固定文案,1,1,QUICK,quick/empty,6
+请先阅读并勾选协议,界面固定文案,1,1,S5,s5/w7__matched__auth_phone_agree,9
+请勿关闭页面，确认后自动更新订单状态。,界面固定文案,1,1,O03,o03/w7__paying,19
+请在微信支付窗口完成付款，完成后本页自动更新。,界面固定文案,1,1,O01,o01/w7__paying,23
+请填写 18 位统一社会信用代码,界面固定文案,1,1,ENT_CERT,ent_cert/w7__invalid,16
+请填写 18 位身份证号,界面固定文案,1,1,O01,o01/w7__idv_todo__idv,12
+请填写0.5m³–200㎡，手填容量最多两位小数,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,BUSINESS,business/invalid_capacity,24
+请填写不小于 0.5m³ 的容量，最多两位小数,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,CAP,cap/invalid,23
+请填写姓名,界面固定文案,1,1,ACC_IDENTITY,acc_identity/form,5
+请填写或选择所需空间,界面固定文案,1,1,BUSINESS,business/browse_error,10
+请填写有效的纳税人识别号,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__invalid,12
+请填写有效的联系电话，国际号码请带国家区号,界面固定文案,1,1,BUSINESS,business/error_phone,21
+请填写有效联系电话,界面固定文案,1,1,BOOKING,booking/error,9
+请填写用仓位置（不超过120字）,界面固定文案,1,1,BOOKING,booking/error,16
+请填写证件上的姓名,界面固定文案,1,1,O01,o01/w7__idv_todo__idv,9
+请填写身份证号码,界面固定文案,1,1,ACC_IDENTITY,acc_identity/form,8
+请按原因更正后重新提交。,界面固定文案,1,1,ENT_CERT,ent_cert/w7__failed,12
+请核对新的金额后重新确认。已保留您的容量、租期和仓位。,界面固定文案,1,1,O01,o01/price_changed,27
+请自行打包；易损物品请提前告知并在外包装标注 查看禁存清单,界面固定文案,1,1,ESTORE,estore/w7__default,29
+请至少选择 1 笔订单,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__select,11
+请输入企业名称,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__add,7
+请输入姓名,界面固定文案,1,1,IV01,iv01/form,5
+请输入开户银行,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__add,7
+请输入有效的邮箱地址,界面固定文案,1,1,IV01,iv01/invalid,10
+请输入注册地址与电话,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__add,10
+请输入纳税人识别号,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__add,9
+请输入联系人姓名,界面固定文案,1,1,ENT_CERT,ent_cert/w7__empty,8
+请输入营业执照上的企业名称,界面固定文案,1,1,ENT_CERT,ent_cert/w7__empty,13
+请输入邮箱,界面固定文案,1,1,IV01,iv01/form,5
+请输入银行账号,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__add,7
+请选择门店,界面固定文案,1,1,QUICK,quick/empty,5
+货梯口自取，用后归还,界面固定文案,1,1,S02,s02/services,10
+货梯直达 B1 仓区层,界面固定文案,1,1,S02,s02/services,11
+费用结算,界面固定文案,1,1,EX01,ex01/w7__form_early__confirm,4
+资料审核中,界面固定文案,1,1,ENT_CERT,ent_cert/w7__reviewing,5
+距离优先,界面固定文案,1,1,S01,s01/matched__filter,4
+身份证件信息,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,6
+运输记录,界面固定文案,1,1,ACC_TRANSPORT,acc_transport/saved,4
+返回修改,界面固定文案,1,1,O01,o01/w7__ready__agreed__sign,4
+返回首页,界面固定文案,1,1,O01,o01/empty,4
+还有 1 项待办,界面固定文案,1,1,H01,h01/w7__active_many,8
+还没有开票抬头,界面固定文案,1,1,ENT_TITLES,ent_titles/w7__empty,7
+还需修改容量,界面固定文案,1,1,CAP,cap/invalid,6
+还需填写容量,界面固定文案,1,1,CAP,cap/empty,6
+还需填写：企业名称、统一社会信用代码、营业执照、联系人,界面固定文案,1,1,ENT_CERT,ent_cert/w7__empty,27
+还需填写：统一社会信用代码,界面固定文案,1,1,ENT_CERT,ent_cert/w7__invalid,13
+这条需求已不存在或已撤回,界面固定文案,1,1,BUSINESS,business/blocked,12
+这笔订单下单时未完成实名认证，完成后起租日起可入仓存取。,界面固定文案,1,1,O03,o03/identity,28
+违法违规违禁物品清单,合同 / 协议原文（逐字，不改）,1,1,ECONTRACT,econtract/w7__signed,10
+迷你考拉仓（北京）仓储服务有限公司,合同 / 协议原文（逐字，不改）,1,1,ECONTRACT,econtract/w7__signed,17
+迷你考拉用户使用告知书,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,11
+迷你考拉用户注册协议和个人信息保护政策,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__register,19
+迷你考拉自助式设备设施使用协议,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,15
+退仓处理中的订单不能续租。,界面固定文案,1,1,RN01,rn01/unavailable,13
+退出后仍可浏览门店；查看报价、订单和下单时需要重新登录。,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__logout,28
+退出登录？,界面固定文案,1,1,ACC_PROFILE,acc_profile/w7__verified__logout,5
+适合全屋家具与大件存放,界面固定文案,1,1,CAP,cap/w7__sales,11
+适合搬家装修期间存放,界面固定文案,1,1,CAP,cap/w7__advisor_hint,10
+选择付款记录,界面固定文案,1,1,IV01,iv01/two_payments__payment,6
+选择优惠券,界面固定文案,1,1,O01,o01/coupon__coupon,5
+选择关联订单,界面固定文案,1,1,ACC_TRANSPORT,acc_transport/pick,6
+选择后打开地图导航,界面固定文案,1,1,S02,s02/w7__route&open=dest,9
+选择规格,界面固定文案,1,1,ITEMS,items/w7__variant,4
+选择门店后显示地址,界面固定文案,1,1,QUICK,quick/empty,9
+重新加载到店导航,界面固定文案,1,1,S02,s02/w7__route&map=fail,8
+重新发送到邮箱,界面固定文案,1,1,ENT_BATCH,ent_batch/w7__issued,7
+重新报价,界面固定文案,1,1,ACC_PROGRESS,acc_progress/quote_expired,4
+重新提交续租需求,界面固定文案,1,1,RN01,rn01/w7__quote_keep_expired,8
+重新提交资料,界面固定文案,1,1,ACC_IDENTITY,acc_identity/failed,6
+重新支付,界面固定文案,1,1,RN01,rn01/payment_failed,4
+重新支付 · 更换支付方式,界面固定文案,1,1,RN01,rn01/payment_failed,13
+重新清空仓位 · 再次申请验仓,界面固定文案,1,1,EX01,ex01/failed,15
+重新申请验仓,界面固定文案,1,1,EX01,ex01/failed,6
+金额以门店确认的报价为准。,待业务或外部接入（占位说法）,1,1,RN01,rn01/w7__form_keep,13
+钢琴,界面固定文案,1,1,ITEMS,items/search_empty,2
+门口临时停车位,界面固定文案,1,1,S02,s02/w7__services&arrival=simple,7
+门口临时停车，不收费,界面固定文案,1,1,S02,s02/w7__services&arrival=simple,10
+门店与服务,界面固定文案,1,1,ACC_BRAND,acc_brand/default,5
+门店位置,界面固定文案,1,1,S02,s02/w7__route&arrival=partial,4
+门店处理中,界面固定文案,1,1,DP01,dp01/refund_pending__progress,5
+门店已给出续租报价，报价 24 小时内有效，过期后按常规折扣价续租。,界面固定文案,1,1,O03,o03/renewal,34
+门店报价,界面固定文案,1,1,RN01,rn01/quote_ready,4
+门店确认报价后可在「消息」查看。,界面固定文案,1,1,RN01,rn01/w7__quote_pending&sub=declined,16
+附件,界面固定文案,1,1,ECONTRACT,econtract/w7__signed,2
+附件1：《客户使用设备表单》,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,14
+附件2 违法违规违禁物品清单,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,14
+附件2：违规违禁物品清单,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,12
+附件3 考拉公司官方渠道,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,12
+附件3：考拉公司官方渠道,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,12
+附件4：地下空间安全使用责任书,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,15
+附近 5km 内暂无门店,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/w7__browse__auth_loc_far,12
+陶然亭·天桥商场店,演示数据（门店 / 订单 / 日期 / 距离）,1,1,S01,s01/soldout,9
+隐私保护指引,界面固定文案,1,1,H01,h01/w7__new__auth_privacy,6
+需求约占 3.5m³ 仓的 97%，大一档更好放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/w7__from_items,24
+需求约占 4m³ 仓的 85%，大一档更好放,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,S5,s5/w7__from_items,22
+需要填写完整企业资料？前往企业用仓需求,界面固定文案,1,1,BOOKING,booking/w7__business,19
+需要特别注意：第三方运输机构运输期间的运输风险由乙方承担，基于产品特性甲方仅代为乙方支付此期间的运输费（不承担搬运、拆装、楼梯费、包装费、停车费、高速费等其他费用）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,83
+需要特别说明的：该服务进行集中存放，为保证客户物品的安全，服务过程中，甲方暂不提供具体存放地址，乙方不可进入到甲方集中的存放设备设施内。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,68
+需要特别说明的：该服务进行集中存放，为保证客户物品的安全，甲方暂不提供具体存放地址，乙方不可自行进入到甲方集中存放的设备设施内）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,65
+需重新验仓,界面固定文案,1,1,EX01,ex01/failed,5
+顾问会按物品与租期组合仓位并确认费用。提交后预计 10 分钟内与您联系,界面固定文案,1,1,S01,s01/w7__sales,35
+顾问帮我找仓,界面固定文案,1,1,S01,s01/nomatch,6
+顾问确认,界面固定文案,1,1,ESTORE,estore/w7__default,4
+预使用订单下单：乙方可选择自行填写订单信息，或乙方向甲方发送用仓需求，甲方根据乙方的需求，在确认预使用情况后填写预估订单信息（不包含搬运、拆装、楼梯费、包装费、停车费、高速费等费用），系统据此将会生成一份预使用订单包含乙方的订单的所有必要信息的电子物品清单（包括订购服务、商品信息、取件联系方式及地址、运输方式、运输方式、预使用匹配门店、第三方车辆类型、预使用体积、时长、费用等），乙方点击“签署”，意味着认可订单表格中包含的所有信息都是正确和完整的，并自签署完成生成双方盖章版的电子合同，视为双方合同签署完成。乙方应在签署本协议后当日内（不超过当日24 时）或系统设置的期限内或约定的期限内支付预使用费用（其中，“考拉E 存”会根据预使用金额，仅需支付一定比例的费用作为“定金”担保即可）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,346
+预约用仓后，可在这里查看受理进度。,界面固定文案,1,1,ACC_NEEDS,acc_needs/empty,17
+预约用仓已提交,界面固定文案,1,1,H01,h01/w7__booking_only,7
+预约进度提醒,界面固定文案,1,1,BOOKING,booking/w7__filled&sub=ask,6
+预约送回,界面固定文案,1,1,ESTORE,estore/w7__default,4
+预约需要一个可联系的手机号，可以改用其他手机号登录。,界面固定文案,1,1,BOOKING,booking/w7__filled__auth_bk_denied,26
+预计 10 分钟内与您联系，确认方案与费用,界面固定文案,1,1,ESTORE,estore/w7__default,21
+预计结算费用,界面固定文案,1,1,EX01,ex01/w7__form_early__confirm,6
+领取新客券,界面固定文案,1,1,ACC_COUPONS,acc_coupons/empty,5
+首次续租沿用您原订单的 6 折，比现在 12 个月的 6.5 折每月少 ¥20，本次共少 ¥240。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__quote_keep,50
+首次续租沿用您原订单的 6 折，比现在 24 个月的 6.5 折每月少 ¥20。,含数字（金额 / 折扣 / 容量 / 租期，由规则或数据生成）,1,1,RN01,rn01/w7__form_keep,40
+验仓未通过,界面固定文案,1,1,EX01,ex01/failed,5
+验仓结果提醒,界面固定文案,1,1,EX01,ex01/w7__requested&sub=ask,6
+验证中…,界面固定文案,1,1,S5,s5/w7__matched__auth_phone_loading,4
+验证码不正确，请重新输入,界面固定文案,1,1,S5,s5/w7__matched__auth_sms_wrong,12
+验证码已过期，请重新获取,界面固定文案,1,1,S5,s5/w7__matched__auth_sms_expired,12
+（10） 因第三方运输配送机构过错造成乙方运输物品丢失、破损、配送超时导致退单，乙方可向第三方运输配送机构沟通相关赔付事宜，甲方予以配合。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,69
+（10） 部分价值不易做评估的物品或贵重的物品或自然损耗后不可修复的物品或部分易损或不易妥善包装的物品，如货币、金银、珠宝、古董、字画、红木家具、玉雕、木雕、紫砂壶等名贵物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,88
+（10）严禁擅自占用服务环境中的公共区域等影响其他用户服务体验的行为，如公共区域严禁摆放或堆弃物品和垃圾；更甚至，不得在考拉仓范围外存放物品，保持考拉仓与其外围、毗连（包括公用通道、出入口、楼梯、电梯等）区域的畅通；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,108
+（11） 乙方的放置物品/运输应当符合第三方运输配送机构的运输要求，不得存放属于违规违禁物品或不适宜放置的物品或合约附件所列物品。乙方违反合约规定的，给甲方及第三方造成损失的，由乙方承担。甲方亦有权采取任何合适的紧急处理措施，包括但不限于报警、隔离物品、销毁物品等手段，由此给乙方造成的损失，甲方不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,156
+（11） 非法药物、赃物或者任何类型的非法物件；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,24
+（11）严禁在服务环境内随意大小便等不遵守社会公德的行为；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,29
+（12） 除非甲方特定允许，严禁仓内进行经营性行为（包括快递点服务）、严禁通电；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,40
+（12）严禁其他对甲方、其他用户或第三方造成损害的行为，或违反本合同附件约定及法律法规或任何政府机构的规章制度的行为（包括疫情防疫规定的）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,70
+（13） 任何压缩空气（包括但不限于各类任何压缩气体，如压缩气瓶、洗发剂、喷雾剂等）；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,43
+（14） 可能腐烂发霉的物品或可能引发蛀虫的物品，任何赃款赃物或来源不明的物品或侵犯知识产权的物品（包括但不限于盗版音像文档资料或作品等）；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,70
+（15） 会导致提供方甲方或使用方乙方违反任何法律法规或任何政府机构的规章制度的其他物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,45
+（16） 禁止生产、销售、传播的物品，属于禁止或限制寄递的违禁品、假冒伪劣产品。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,40
+（17） 不符合国家规定的或者与第三方约定的质量、安全、环保等标准配送货物涉及国家专营或依审批从事的业务时，未取得相应的全部审批文件及备案资质供甲方存档。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,77
+（1） 上述个人身份签署行为，甲方为此收集的乙方的相关个人或公司信息（包括用户姓名、身份证号或企业统一信用代码、支付账号等），有权向依法成立的第三方机构提供（包括但不限于在本服务中产生的行为、授信及不良信息）进行相关信息认证。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,113
+"（1） 为了乙方物品的安全，乙方在下单前选择确认存放物品价值未超过人民币伍仟（5,000.00）元价值的，甲方附赠累积不超过“人民币5,000.00 元”的基础保障服务。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,85
+（1） 乙方使用的“考拉到”或“考拉E 存”服务，由甲方按照实际情况存放至甲方场地内，乙方无法获悉具体存放地址，不具有自主存取物件的权利。在未得到甲方书面同意的情况下，乙方不得进入甲方经营场地内，若因此给甲方造成损失的，乙方应赔付由此给甲方造成的损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,126
+（1） 乙方工作人员向甲方工作人员或其亲属行贿或利用乙方分包商、代理商、合作方、中介方等向甲方工作人员或其亲属行贿的行为；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,61
+"（1） 乙方若其存放物品价值超过人民币伍仟（5,000.00）元的，建议升级选择增值保障服务，可根据甲方相关约定费用，在乙方支付相应的增值保障服务费后，则可将赔付上限限额由上述原甲方附赠的基础保障金服务费用提升至累积不超过人民币壹万伍仟（15,000.00）元。甲方将在累积不超过人民币壹万伍仟（15,000.00）元赔偿范围内，赔偿因甲方责任导致的如火灾、爆炸、水管意外爆裂、漏水、发霉等情况造成的财产损失，最终赔偿金额基于所受损物品的实际价值、受损比例、实际损失等因素综合考虑赔偿，最终赔偿金额以实际损失为准，请在使用考拉仓时如实填写存放物品类型及存放实际价值。同时，在此明确，合同所述的“价值”基于乙方使用考拉仓所存放的物品本身物理性质所具备的价值；“损失”，不包括其可能获得的收益、利润、实际用途、商业机会价值等任何直接或间接损失。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,370
+（1） 乙方需按照法律规定和甲方的要求使用考拉仓服务，遵守考拉仓所属建筑物、物业管理区域所制定的各项管理规定，包括甲方在本协议签署后为日常经营管理、物业管理需要而制定的各项管理条例和统一规定，以及应政府有关部门要求而制定的相关通知、文件，包括疫情管控规定。不得破坏或变相破坏甲方提供的服务设施及置于场地中的安防设备等其他物品。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,163
+（1） 枪械、武器弹药、管制刀具、毒品、盗取的物品等违法违禁违规违纪类物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,38
+（1） 甲方配合国家及地方公安、政府相关部门（如人防、消防、公安、法院、安监科、街道办、城管等）执法的；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,52
+（1） 自乙方欠费之日起，甲方有权拒绝乙方的所有请求。若为“考拉社区仓”或“考拉超级仓”服务的，甲方有权禁止乙方进入存取设备设施场地或通过更改开仓密码等方式封锁乙方使用的设备并拒绝乙方取回其个人物品；若为“考拉到”“考拉E 存”服务的，甲方有权拒绝乙方入库或召回请求。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,134
+（1） 若乙方签署后不足柒（7）日且未使用甲方设备设施的，甲方可退还已付的仓储服务费，但乙方需要承担甲方实际产生的损失，包括但不限于为满足乙方使用所进行的考拉仓仓体改造费及为此甲方所产生的人力成本、物品成本等损失，若损失无法计算的，以柒（7）日的仓储服务费计算。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,131
+（1） 若在上述损害发生后，乙方超过48 小时内仍未与甲方主动沟通，或自行将受损物品搬离的，或拒不或无法按如上向甲方提供相关损失证明的，或无法提供受损物品购买价值凭证的，则视为乙方放弃如上相应保障服务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,101
+（1） 遵循政府部门的指示（如被公检法、消防或人防等权力机关采取拆封、停业或扣押等强执措施的）以及其它不可抗力情况；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,58
+（1）严禁存放附件一“违法违规违禁物品清单”所列物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,27
+（1）对公收款账户：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,10
+（1）微信公众号——“迷你考拉”：微信号minikaolacang;,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,34
+（1）禁止以任何理由向甲方工作人员或其亲属提供任何形式的利益，包括但不限于给付回扣、好处费、感谢费、佣金、礼金、有价证券、贵重物品等；禁止为甲方工作人员或其亲属报销应由其个人支付的费用；禁止向甲方工作人员或其亲属提供借款、担保或其他形式的融资；禁止为甲方工作人员安排超出正常业务联系所需之招待，包括但不限于频繁或奢华宴请、娱乐活动、旅游度假以及以旅游为目的召开的会议等；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,185
+（1）自您欠费之日起，考拉公司有权拒绝您的所有请求。若为“考拉社区仓”或“考拉超级仓”服务的，考拉公司有权禁止您进入存取设备设施场地或通过更改开仓密码等方式封锁您使用的设备并拒绝您取回其个人物品；若为“考拉到”服务的，考拉公司有权拒绝您入库或召回请求。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,126
+（1）若乙方签署后不足柒（7）日且未使用考拉公司设备设施的，考拉公司可退还已付的仓储服务费，但乙方需要承担考拉公司实际产生的损失，包括但不限于为满足乙方使用所进行的考拉仓仓体改造费及为此考拉公司所产生的人力成本、物品成本等损失，若损失无法计算的，以柒（7）日的仓储服务费计算。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,138
+（1）若因考拉公司原因损害发生后，您自行将受损物品搬离的，或拒不或无法按如上向考拉公司提供相关损失证明的，或无法提供受损物品购买价值凭证的，则视为您放弃如上相应保障服务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,85
+（2） 乙方在合同期内自存自取，在此期间甲方不对乙方物品进行检查核验，仅提供可以放置乙方物品的设备设施，在此期间物品的保管责任仍归乙方，故乙方需自行妥善的保管打开考拉仓及考拉仓设备设施的权限（包括但不限于钥匙、开仓密码、共享密码、开仓二维码），和与个人物品保管安全有关的物品和信息，并在每次使用后检查仓锁等设备，确保放置物品的安全。若因乙方未安全保管开仓权限或未锁仓等原因导致物品遗失或损害的，甲方将积极提供相关信息帮助乙方，但不承担因此而产生的任何损失。同时若因此给甲方造成损失的，乙方应赔付由此给甲方造成的损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,258
+（2） 乙方提供的证明文件等不符合甲方规定的开启存取设备条件的；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,32
+（2） 依法成立的第三方机构查询或核实其身份信息。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,25
+（2） 烟花爆竹、各种气体、油类、酒精等易燃易爆易渗漏易挥发易潮解物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,36
+（2） 甲方不提供运输服务，在乙方通过甲方平台选取第三方运输机构后，为方便乙方计费，运输费由甲方代为支付，乙方应保证第三方运输机构可以安全、合理、顺利地进入乙方同城指定地点并提供停车空间。乙方或乙方授权人应当按约定的时间在同城指定的地点等候，否则乙方需赔偿由此给第三方运输机构造成的损失，如运送费、误工费等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,154
+（2） 甲方在有充分理由怀疑乙方违反本协议之规定或法律法规或政府机构规章制度规定，或在考拉仓内存放或交付的物品是违法违禁物品或本协议约定其他不得存放的情况下，乙方拒绝提供协助且当时无法寻找到第三方公证人员提供服务的。若经查证属实，甲方有权根据情节严重程度采取相应措施，包括但不限于转移、清理，涉及到的转移清理费由乙方承担。同时此行为视为违约行为，甲方有权扣除履约保证金，同时乙方应向甲方支付协议总额的30%违约金，并承担由此给甲方造成的全部损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,223
+（2） 自乙方欠费之日起满叁拾（30）日的（不论乙方是否支付了逾期费用的），甲方有权开启乙方存取的设备设施，并将乙方的放置物品转移到甲方认为合理的地点存放，并不承担此项转移过程中所发生的任何损失和毁损责任。物品转移后，甲方有权拒绝乙方继续使用考拉仓的要求，或经双方确认按照转移后的考拉仓继续使用本协议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,151
+"（2） 若乙方放置的存储物品财产价值超过人民币伍仟（5,000.00）元且乙方并未购买甲方的“增值保障服务”的，乙方应自主购买相应的财产保险及其他必要的保险。若乙方选择不购买其他保险，视为乙方主动放弃对于财产超于人民币伍仟（5,000.00）元部分的赔偿保障，甲方不对乙方因上述以外以及非甲方原因造成的物品损失承担任何赔偿责任。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,164
+（2） 若在上述损害发生后，拒不配合甲方紧急抢救、修复、转移等，导致物品损失或加重损失情节的，由乙方承担相应责任，甲方免责。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,62
+（2） 若签署后乙方使用了考拉仓或签署后超过柒（7）日的，甲方将按乙方实际使用情况收取仓储服务费（不足一个月按一个月计算），同时，乙方须承担单方面解约给甲方带来的经济损失，违约金的计算标准如下：违约金为剩余合同总金额的20%或1 个月仓储服务费（以高者为准）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,130
+"（2） 需要特别说明的，乙方所选择的增值保障服务，仅是对赔付上限限额的提升，不代表购买了增值保障服务后，赔付无上限。对于乙方放置的物品财产价值超过人民币壹万伍仟（15,000.00）元的，乙方仍应自主购买相应的财产保险及其他必要的保险。若乙方选择不购买其他保险，视为乙方主动放弃对于财产超于人民币壹万伍仟（15,000.00）元部分的赔偿保障，甲方不对乙方因上述以外以及非甲方原因造成的物品损失承担任何赔偿责任。",合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,206
+（2）严格遵守考拉仓的用仓管理条例，包括但不限于本合同约定、本附件约定、考拉仓场地规则、场地告知、微信小程序通知内容等；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,60
+（2）二维码收款码：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,10
+（2）微信小程序：,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,9
+（2）甲方工作人员或其亲属任何形式的索要好处或受贿行为；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,28
+（2）禁止为甲方工作人员或其亲属装修住房、婚丧嫁娶、配偶子女工作安排及出国（境）、旅游等提供方便；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,49
+（2）自您欠费之日起满叁拾（30）日的（不论您是否支付了逾期费用的），考拉公司有权开启您存取的设备设施，并将您的放置物品转移到考拉公司认为合理的地点存放，并不承担此项转移过程中所发生的任何损失和毁损责任。物品转移后，考拉公司有权拒绝您继续使用考拉仓的要求，或经双方确认按照转移后的考拉仓继续使用本协议。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,151
+（2）若因考拉公司原因损害发生后，您拒不配合考拉公司紧急抢救、修复、转移等，导致物品损失或加重损失情节的，由您承担相应责任，甲方免责。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,67
+（2）若签署后乙方使用了考拉仓或签署后超过柒（7）日的，考拉公司将按乙方实际使用情况收取仓储服务费（不足一个月按一个月计算），同时，乙方须承担单方面解约给考拉公司带来的经济损失，违约金的计算标准如下：违约金为剩余合同总金额的20%或1 个月仓储服务费（以高者为准）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,133
+（3） 乙方同意并在此确认，如因第三方侵权行为导致乙方人身、财产损失，乙方应向侵权方主张损失赔偿，甲方不就乙方因其他侵权方的原因受到的损失承担任何责任与费用，乙方应免于甲方就此遭受诉讼、索赔、追索。但若甲方先行垫付给乙方的，因此而向直接侵权人追究责任的，乙方有义务向甲方提供相关物品的原始凭证，包括但不限于作为证据提供相关物损凭证等。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,167
+（3） 乙方在使用考拉仓服务时，同时确认、认可并遵守甲方在经营场所中张贴的各项使用规范、注意事项，及甲方通过短信、微信平台等方式发送的各类通知（包括但不限于不得占用“考拉社区仓”或“考拉超级仓”公共空间或通道，此行为视为放弃物品所有权，甲方有权处置物品且要求客户赔付相应的处置费用，并在仓储服务费中予以抵扣）。若乙方违反如上所述各项规范、注意事项及通知，一经发现，甲方有权向其收取相应的违约金（违约金按照实际损害，若无法确定实际损害的，则按照不低于人民币伍佰（500.00）元/次收取；若损失无法计次的，按照合同总额30%支付违约金），并在乙方预付款中予以扣除。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,281
+（3） 乙方应保证自行包装的物品满足长短途运输或第三方运输配送需求，否则导致货物毁损灭失或其他后果的，甲方不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,61
+（3） 乙方未按约定缴纳仓储服务费及其他相关费用的；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,26
+（3） 发生如下情况，包括但不限于火灾（包括明火）、洪水、爆炸、漏水、异味、腐烂、潮湿发霉、水管意外爆裂等状况，甲方、乙方或任何第三方的生命、财产、环境等安全受到现实威胁的。甲方采取必要手段检查乙方物品的，应当在事态稳定后尽快通知乙方。乙方同意免除甲方因未事先通知乙方而造成损失的赔偿责任及因甲方采取合理行动造成存放物品损坏或失去使用功能的，同时，涉及到转移及清理费用，由乙方承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,191
+（3） 改作生产、使用、储存、经营易燃易爆危险化学品的（如白酒、汽油、稀料等）或未取得许可存储经营危险化学品（如笑气、摇头丸等违禁品犯罪物品等）；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,73
+（3） 甲方在本服务范围内依法使用其个人信息及上述信息认证结果。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,32
+（3） 自乙方欠费之日期满陆拾（60）日的，甲方有权终止本协议，同时有权将所留置的乙方之物进行折价、依法拍卖或变卖，并就该款项优先受偿。上述款项不足以弥补甲方损失的，甲方有权继续向乙方追偿。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,95
+（3） 若乙方的物品因任何第三方的行为和原因受损或未超过甲方承诺的控温控湿浮动范围内的，甲方不承担直接或间接任何责任（包括如上基础保障服务），甲方需协助乙方追究相关第三方责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,88
+（3）严格遵守所在小区物业方或项目管理方的指导和要求：包括遵守甲方进出管理规范，不得影响周围环境和本地居民的正常生活，不遵守使用规范；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,67
+（3）甲方人员或其亲属以任何理由向乙方（含关联单位）或乙方人员借贷资金；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,36
+（3）禁止与甲方工作人员或其亲属共同成立公司，禁止允许甲方工作人员或其亲属参股乙方公司或乙方关联公司及参与乙方或乙方关联公司的利益分配，禁止以其他形式与甲方工作人员或其亲属开展合作业务，禁止为甲方工作人员或其亲属提供全职或兼职岗位（包括代理人、顾问）等，以使甲方工作人员或其亲属从乙方处获取不正当利益；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,151
+（3）自您欠费之日期满陆拾（60）日的，考拉公司有权终止本协议，同时有权将所留置的您之物进行折价、依法拍卖或变卖，并就该款项优先受偿。上述款项不足以弥补考拉公司损失的，考拉公司有权继续向您追偿。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,97
+（3）若因考拉公司原因损害发生后，但若您的物品因任何第三方的行为和原因受损或未超过考拉公司承诺的控温控湿浮动范围内的，考拉公司不承担直接或间接任何责任（包括基础保障服务）。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,86
+（4） 不得给本小区内业主、其他用户造成影响，使用期间的音量应控制在合理范围内（白天不超过40 分贝、夜间不超过30 分贝）。若因此引起业主或其他用户或第三方投诉的，乙方应即时整改，并无条件配合甲方进行使用的调整，但因乙方超过三次投诉的，则甲方有权选择解除合同；若因此给甲方造成损失的，则乙方应予以赔付。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,152
+（4） 乙方应遵守第三方运输配送机构对乙方的要求，若乙方拒绝遵守的，则视为乙方拒绝使用甲方的服务，甲方有权选择解除合同，并要求乙方由此给甲方造成的损失，甲方及第三方运输配送机构不承担任何责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,96
+（4） 乙方确认，上述情形发生且甲方进行赔付或垫付的，则相应赔付或垫付物品的所有权归甲方所有。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,47
+（4） 因上述甲方原因导致的如火灾、爆炸、水管意外爆裂、漏水、发霉等物损情况，甲方在上述相应的赔付限额内赔付（超出限额的部分由乙方承担）。但对于乙方未按合同及甲方要求所存放的物品，包括违禁物品，甲方不承担赔偿责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,107
+（4） 物业或业委会要求进行检查的，甲方应通知乙方，与乙方共同开启存取设备。但甲方无法联系上乙方或乙方收到通知未到场的，则视为乙方允许物业或业委会进行检查。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,78
+（4） 甲方需要对设施设备进行维护、维修或者改造；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,25
+（4） 盐酸、硫酸、电池、蓄电池、农药、化学品等具有可燃、助燃特性的化学性、突变型的腐蚀品、毒害品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,50
+（4） 若乙方的实名认证信息与第三方机构实名验证信息不一致时，乙方授权甲方根据第三方机构提供的信息来匹配下单人的相关信息，因此产生的一切责任由乙方本人承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,78
+（4）严禁与考拉仓所在小区居民发生冲突。若涉及到公共设施共用的情况（如进出考拉仓电梯），应先满足本地居民的使用需求，做到谦让、文明、和谐使用设备设施。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,75
+（4）其他违反廉洁规定的情形。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,15
+（4）禁止邀请甲方人员参与带“彩头”的（包括但不限于麻将、牌局、体育竞技、电子竞技等）赌局；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,46
+（4）若因考拉公司原因导致的如火灾、爆炸、水管意外爆裂、漏水、发霉等情况，考拉公司在您选择的保障服务条款所约定的相应的赔付限额内赔付（超出限额的部分由您自行承担）。但对于您未按合同及考拉公司要求所存放的物品，包括违禁物品，考拉公司不承担赔偿责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,123
+（5） 乙方在使用过程中若对考拉仓环境及相关设备设施进行改造装修，需要先经过甲方的书面同意，并得到场地处置方及小区物业管理方的书面同意下，方可按照国家相关装修标准及消防安全规定进行装修施工，否则乙方应将场地恢复原状，若因此给甲方及第三方造成损失的，乙方应赔付由此造成的损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,137
+（5） 放射性同位素有辐射等放射性物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,20
+（5） 无法证明物品权属的，或者存放他人物品未提前将委托书提交给甲方的，则视为对该物品的损失免责。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,49
+（5） 甲方到达同城指定地点提供服务前拒绝接收物品的或者甲方首次选择“考拉E 存”但拒不支付相应费用且在“定金”抵扣完成后，则视为乙方放弃其物品所有权，甲方有权对物品进行处理，并不承担任何责任，同时乙方需要支付由此造成的清理费及甲方由此造成的其他损失。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,126
+（5） 甲方认为有必要进行维修、安全检查、鼠虫消杀等情形的，甲方特定授权人可定期打开考拉仓进行对使用设备设施检查或检修，并有权采取有效措施进行处理。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,74
+（5） 非商业风险的意外事件；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,15
+（5）严禁在用房内私拉电线、擅自引入、供出、或将自备电源与甲方电源并网等偷电、损坏电路设备行为；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,48
+（5）禁止与甲方人员串谋，通过签订虚假合同、编制虚假工程变更指令或虚构工程量，骗取工程款；或与甲方人员串谋向甲方恶意索赔；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,61
+（5）若因考拉公司原因损害发生后，但您无法证明物品权属的，或者存放他人物品未提前将委托书提交给考拉公司的，则视为您对该物品的损失免责。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__notice,67
+（6） 乙方知悉，若将物品交付给甲方后进行物品收回的，则需要按照甲方指定期限内支付相应的运输费方可使用甲方的“召回”服务，乙方知悉甲方不支持部分召回服务。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,77
+（6） 动物（包括但不限于国家保护野生动物和濒危野生动物及其制品）、活物、植物、农作物、食物（如茶叶、生鲜品、保鲜品、调味料、易挥发及有气味性的物品）以及任何类型的易碎物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,87
+（6） 法律法规以及政府机构规章制度规定的其他情况。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,26
+（6）未经甲方许可，侵占、损坏、改动任何甲方置于服务环境中物品的行为，严禁在考拉仓内自行更换仓内原有设备设施，包括私自拆除或故意破坏视频监控器等仓内所有电子及报警设备；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,84
+（6）禁止与甲方人员串谋，降低合同约定的技术标准进行施工；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,29
+（7） 因寄存物品有安全隐患、质量缺陷或包装破损，致使其他托寄物、运输工具、机械设备被污染腐蚀、损坏，或造成人身伤亡的，乙方应承担赔偿责任。同时，因寄存物属于或含有禁止或限制运输物品（或附件约定的违法违禁物品）而被查没、扣留或变更配送路线，导致其他托寄存物时效延误或价值丧失，给甲方或第三人造成经济损失的，乙方应承担赔偿责任。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,163
+（7） 释放任何异味或者烟气的物品（包括垃圾）；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,24
+（7）严禁在考拉仓内住人、办公，仓内不可有人进行办公，若需要进行货物搬运，每次时长不得超过30 分钟。同时，严禁晚上仓内留有人员；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,65
+（7）禁止与甲方人员串谋，提供虚假资质证明材料，更换合同约定材料设备的品牌、规格、等级等，以次充好，造成公司重大损失的；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,60
+（8） 易腐烂、易霉变、易变质（如冷冻肉）及超限等特殊物品；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,30
+（8） 需要运输存放的物品不会造成甲方或其他第三方人身或财产的损害，也没有侵犯任何第三方的知识产权。因权利人投诉或主张权利导致甲方或第三方运输配送机构采取相应处理或处罚措施的，责任由乙方承担，并使甲方及第三方运输机构免责。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,111
+（8）严禁吸烟、严禁使用明火或携带火源进入考拉仓内；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,26
+（8）禁止与甲方人员私自在合同条款以外签订附带协议或私下协议的行为。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,34
+（9） 乙方需要运输存放的物品如果需要办理审批、检验等手续的，乙方应当将办理完有关手续的证明文件提交甲方或第三方运输配送机构，如因乙方未提供相应的手续证明文件而产生的损失由乙方承担。,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,91
+（9） 账本、计算机数据资源、国家机关公文等；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,23
+（9）严禁使用电炉、电取暖器、电炊具、电动车充电等高功率电器；,合同 / 协议原文（逐字，不改）,1,1,AGREEMENT,agreement/w7__usage,31

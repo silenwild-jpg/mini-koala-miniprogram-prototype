@@ -1,0 +1,91 @@
+<view class="mk-page qk-page">
+  <view class="qk-steps">
+    <block wx:for="{{T.steps}}" wx:key="*this">
+      <view wx:if="{{index > 0}}" class="qk-stepline"></view>
+      <view class="qk-step"><text class="qk-stepn {{index === 0 ? 'qk-stepn--on' : ''}} mk-num">{{index + 1}}</text><text class="{{index === 0 ? 'qk-stept--on' : 'mk-sub'}}">{{item}}</text></view>
+    </block>
+  </view>
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:else class="mk-gutter">
+    <view wx:if="{{gone}}" class="qk-gone"><view class="qk-gonet">{{T.goneTitle}}</view><view class="mk-sub">{{T.goneDesc}}</view></view>
+    <view class="mk-card">
+      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/pin-brand.svg" /><text class="mk-title qk-ctt">{{T.store}}</text></view>
+      <view class="mk-between qk-loc" bindtap="onLocation" aria-role="button">
+        <text class="mk-sub">{{T.location}}</text>
+        <view class="mk-row"><text>{{locText}}</text><text class="mk-link qk-change">{{T.change}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+      </view>
+      <view class="qk-pick" bindtap="onStoreSheet" aria-role="button">
+        <view class="qk-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
+        <view class="mk-grow">
+          <view class="mk-ellipsis {{store ? 'mk-title' : 'qk-hint'}}">{{store ? store.name : T.pickStore}}</view>
+          <view class="mk-sub mk-ellipsis qk-line2">{{store ? store.sub : storeHint}}</view>
+          <view wx:if="{{store}}" class="mk-link qk-detail" catchtap="onStoreDetail" aria-role="button">{{T.viewStore}} ›</view>
+        </view>
+        <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+      </view>
+      <view wx:if="{{carried}}" class="mk-mute qk-carried">{{T.carried}}</view>
+    </view>
+    <view class="mk-card">
+      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /><text class="mk-title qk-ctt">{{T.unit}}</text></view>
+      <view class="qk-pick qk-pick--plain">
+        <view class="qk-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /></view>
+        <view class="mk-grow">
+          <view class="mk-ellipsis {{unit ? 'mk-title' : 'qk-hint'}}">{{unit ? unit.name : T.pickUnit}}</view>
+          <view class="mk-sub qk-line2">{{unit ? unit.sub : unitHint}}</view>
+          <view wx:if="{{unit && gone}}" class="mk-sub qk-line2">{{T.unitGone}}</view>
+          <view wx:elif="{{unit && !est}}" class="qk-line2"><text class="mk-num qk-from">{{fromText}}</text><text class="mk-sub">{{TC.perMonthFrom}}</text></view>
+        </view>
+        <view class="mk-link qk-swap" bindtap="onUnitSheet" aria-role="button">{{unit ? T.swap : T.choose}}</view>
+      </view>
+    </view>
+    <view class="mk-card">
+      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-ticket.svg" /><text class="mk-title qk-ctt">{{T.term}}</text></view>
+      <mk-term-seg value="{{term}}" hint="{{hint}}" bind:change="onTerm" />
+    </view>
+    <view class="mk-card">
+      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-cal.svg" /><text class="mk-title qk-ctt">{{T.date}}</text></view>
+      <picker mode="date" value="{{startDate}}" start="{{startMin}}" end="{{startMax}}" bindchange="onDate">
+        <view class="qk-date"><text class="{{startDate ? '' : 'qk-hint'}}">{{startDate || T.pickDate}}</text><image class="mk-icon" src="/assets/icons/ic-cal.svg" /></view>
+      </picker>
+    </view>
+    <view wx:if="{{est}}" class="mk-card qk-est">
+      <view class="mk-grow">
+        <view class="mk-sub">{{est.label}} {{est.term}}</view>
+        <view class="qk-estrow"><text class="mk-num qk-estamt">{{est.amount}}</text><text wx:if="{{est.tag}}" class="mk-tag mk-tag--promo qk-esttag">{{est.tag}}</text></view>
+        <view class="mk-sub">{{est.sub}}</view>
+        <view wx:if="{{access}}" class="mk-mute qk-access">{{access}}</view>
+      </view>
+      <view class="mk-link qk-fees" bindtap="onFees" aria-role="button">{{T.fees}} ›</view>
+    </view>
+    <view wx:elif="{{access}}" class="mk-mute qk-accessline">{{access}}</view>
+  </view>
+  <view wx:if="{{!sys}}" class="mk-bottom-bar qk-bar">
+    <view class="mk-grow">
+      <view class="mk-sub">{{barLabel}}</view>
+      <view class="mk-num {{barMuted ? 'qk-baramt--muted' : 'qk-baramt'}}">{{barAmount}}</view>
+      <view wx:if="{{barNeed}}" class="mk-mute">{{barNeed}}</view>
+    </view>
+    <button class="mk-btn {{btnDisabled ? 'mk-btn--disabled' : ''}} qk-next" hover-class="none" bindtap="onNext">{{btnText}}</button>
+  </view>
+  <mk-sheet visible="{{storeSheet}}" title="{{T.storeSheet}}" bind:close="onStoreSheetClose">
+    <view wx:for="{{storeRows}}" wx:key="id" class="qk-opt {{item.on ? 'qk-opt--on' : ''}}" data-id="{{item.id}}" bindtap="onPickStore" aria-role="button">
+      <view class="mk-grow"><view class="mk-ellipsis qk-optn">{{item.name}}</view><view class="mk-sub mk-ellipsis">{{item.sub}}</view></view>
+      <view wx:if="{{item.price}}" class="qk-optp"><text class="mk-num">{{item.price}}</text><text class="mk-mute">{{TC.perCubicFrom}}</text></view>
+      <image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
+    </view>
+  </mk-sheet>
+  <mk-sheet visible="{{unitSheet}}" title="{{T.unitSheet}}" bind:close="onUnitSheetClose">
+    <view wx:if="{{unitRows.length === 0}}" class="mk-sub qk-none">{{T.noUnit}}</view>
+    <view wx:for="{{unitRows}}" wx:key="id" class="qk-opt {{item.on ? 'qk-opt--on' : ''}}" data-id="{{item.id}}" bindtap="onPickUnit" aria-role="button">
+      <view class="mk-grow"><view class="qk-optn">{{item.name}}<text wx:if="{{item.tier}}" class="mk-tag mk-tag--brand qk-tier">{{item.tier}}</text></view><view class="mk-sub">{{item.sub}}</view></view>
+      <view class="qk-optp"><text class="mk-num">{{item.price}}</text><text class="mk-mute">{{TC.perMonthFrom}}</text></view>
+      <image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
+    </view>
+  </mk-sheet>
+  <mk-sheet visible="{{feeSheet}}" title="{{T.fees}}" bind:close="onFeesClose">
+    <mk-fee-detail order="{{draft}}" plain="{{true}}" show-coupon="{{true}}" />
+    <button class="mk-btn qk-know" hover-class="mk-btn--hover" bindtap="onFeesClose">{{TC.know}}</button>
+  </mk-sheet>
+  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+  <mk-location-panel visible="{{panel}}" bind:close="onPanelClose" bind:change="onLocationChange" />
+</view>

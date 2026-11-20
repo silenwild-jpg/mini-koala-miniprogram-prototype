@@ -1,0 +1,43 @@
+<mk-sheet visible="{{visible}}" title="{{sheetTitle}}" bind:close="onClose">
+  <block wx:if="{{mode === 'conflict'}}">
+    <text class="mk-sub lg-desc">{{conflictDesc}}</text>
+    <view class="lg-two">
+      <button class="mk-btn mk-btn--ghost lg-half" hover-class="none" bindtap="onConflictService">{{T.conflictService}}</button>
+      <button class="mk-btn lg-half" hover-class="mk-btn--hover" bindtap="onConflictChange">{{T.conflictChange}}</button>
+    </view>
+  </block>
+  <block wx:else>
+    <text wx:if="{{tip}}" class="mk-sub lg-tip">{{tip}}</text>
+    <view wx:if="{{note === 'fail'}}" class="lg-note lg-note--err"><text class="lg-notet">{{T.failTitle}}</text><text class="mk-sub">{{T.failDesc}}</text></view>
+    <view wx:if="{{note === 'denied'}}" class="lg-note"><text class="lg-notet">{{T.deniedTitle}}</text><text class="mk-sub">{{T.deniedDesc}}</text></view>
+    <block wx:if="{{mode === 'entry'}}">
+      <block wx:if="{{wechatOk}}">
+        <button wx:if="{{wxLoading}}" class="mk-btn mk-btn--disabled" hover-class="none">{{T.loading}}</button>
+        <button wx:elif="{{agreed}}" class="mk-btn" hover-class="mk-btn--hover" open-type="getPhoneNumber|agreePrivacyAuthorization" bindgetphonenumber="onGetPhone" bindagreeprivacyauthorization="onAgreePrivacy">{{T.wechat}}</button>
+        <button wx:else class="mk-btn" hover-class="mk-btn--hover" bindtap="onNeedAgree">{{T.wechat}}</button>
+      </block>
+      <button class="mk-btn {{wechatOk ? 'mk-btn--ghost' : ''}} lg-other" hover-class="none" bindtap="onOther">{{T.other}}</button>
+      <view wx:if="{{note}}" class="mk-link lg-skip" bindtap="onClose" aria-role="button">{{T.skip}}</view>
+    </block>
+    <block wx:else>
+      <text class="mk-sub lg-label">{{T.phoneLabel}}</text>
+      <view class="lg-field"><input class="lg-input" type="number" maxlength="11" placeholder="{{T.phonePlaceholder}}" placeholder-class="lg-ph" value="{{phone}}" bindinput="onPhone" /></view>
+      <text class="mk-sub lg-label">{{T.codeLabel}}</text>
+      <view class="lg-coderow">
+        <view class="lg-field lg-codefield {{codeErr ? 'lg-field--err' : ''}}"><input class="lg-input" type="number" maxlength="6" placeholder="{{T.codePlaceholder}}" placeholder-class="lg-ph" value="{{code}}" bindinput="onCode" /></view>
+        <view class="lg-send {{countdown > 0 ? 'lg-off' : ''}}" bindtap="onSend" aria-role="button">{{sendLabel}}</view>
+      </view>
+      <text wx:if="{{hint}}" class="mk-sub lg-hint">{{hint}}</text>
+      <text wx:if="{{error}}" class="mk-error lg-err">{{error}}</text>
+      <button class="mk-btn {{ready ? '' : 'mk-btn--disabled'}} lg-submit" hover-class="none" loading="{{busy}}" bindtap="onSubmitSms">{{T.submit}}</button>
+      <view wx:if="{{wechatOk}}" class="mk-link lg-skip" bindtap="onUseWechat" aria-role="button">{{T.useWechat}}</view>
+      <view wx:elif="{{note}}" class="mk-link lg-skip" bindtap="onClose" aria-role="button">{{T.skip}}</view>
+    </block>
+    <text wx:if="{{error && mode === 'entry'}}" class="mk-error lg-err">{{error}}</text>
+    <view class="lg-agree mk-row">
+      <view class="lg-hit" bindtap="onToggleAgree" aria-role="checkbox" aria-checked="{{agreed}}"><view class="lg-box {{agreed ? 'lg-on' : ''}}"><image wx:if="{{agreed}}" class="lg-tick" src="/assets/icons/check-white.svg" /></view></view>
+      <view class="mk-grow mk-sub"><text bindtap="onToggleAgree">{{T.agreePrefix}}</text><text class="mk-link" bindtap="onAgreement">{{agreement}}</text></view>
+    </view>
+    <text class="mk-mute lg-purpose">{{T.purpose}}</text>
+  </block>
+</mk-sheet>

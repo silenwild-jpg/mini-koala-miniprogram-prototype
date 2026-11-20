@@ -1,0 +1,9 @@
+.acd-root { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 200; display: flex; align-items: center; justify-content: center; }
+.acd-scrim { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: var(--mk-color-overlay-scrim); }
+.acd-box { position: relative; width: 590rpx; box-sizing: border-box; background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-card); padding: var(--mk-space-5) var(--mk-space-4) var(--mk-space-4); box-shadow: var(--mk-elevation-float); }
+.acd-title { display: block; }
+.acd-desc { display: block; margin-top: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); }
+.acd-acts { display: flex; margin-top: var(--mk-space-4); }
+.acd-acts .acd-btn { flex: 1; width: auto; margin-left: 0; margin-right: 0; }
+.acd-acts .acd-btn + .acd-btn { margin-left: var(--mk-space-3); }
+.acd-danger { background: var(--mk-color-status-errorStrong); }

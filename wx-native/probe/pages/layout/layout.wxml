@@ -1,0 +1,66 @@
+<view class="wrap">
+  <view class="card">
+    <view class="h">1. 字号</view>
+    <view class="l-12">12px：可租容量 0.8–8m³ · 距您 1.2km · 另有 3 个可租</view>
+    <view class="l-13">13px：租期折扣按预付整期计算</view>
+    <view class="l-14">14px：安贞·富仁名苑店 A003 · 3.5m³</view>
+    <view class="l-16">16px：查看仓位报价</view>
+    <view class="tip">再测一次：微信「我 → 设置 → 通用 → 字体大小」调到最大，回来看这一页和首页有没有文字挤出卡片、被截断。安卓另测系统字体放大。</view>
+    <verdict case-id="B4" />
+  </view>
+
+  <view class="card">
+    <view class="h">2. 描边</view>
+    <view class="l-line l-1px">1px 实线（设计稿口径）</view>
+    <view class="l-line l-1rpx">1rpx 实线（对照）</view>
+    <view class="l-line l-dash">1px 虚线</view>
+    <view class="tip">三个框的边线都应清楚可见、四边粗细一致。</view>
+    <verdict case-id="B5" />
+  </view>
+
+  <view class="card">
+    <view class="h">3. 样式变量</view>
+    <view class="sub">下面两个标签在自定义组件里只用了变量。正常是浅绿底、深绿字、小圆角。</view>
+    <view class="l-chips"><token-chip label="页面里的组件" /></view>
+    <view class="btn ghost" bindtap="open">打开弹层看组件</view>
+    <verdict case-id="B8" />
+  </view>
+
+  <view class="card l-nopad">
+    <view class="h l-pad">4. 横滑卡片</view>
+    <scroll-view scroll-x="{{true}}" class="l-rail" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view class="l-rec" wx:for="{{cards}}" wx:key="n">
+        <view class="l-rec-img"></view>
+        <view class="l-rec-name">{{item.n}}</view>
+        <view class="l-rec-price">¥{{item.p}}<text class="l-unit">/m³/月起</text></view>
+      </view>
+    </scroll-view>
+    <view class="l-pad">
+      <view class="tip">375 宽的手机上应是 2 张完整 + 第 3 张露出一截。横滑时页面不应上下抖；斜着滑时不应卡住。</view>
+      <verdict case-id="C6" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="h">5. 长文字</view>
+    <view class="l-store">建国门外·通用时代国际中心地下二层自助仓储旗舰店（东区）</view>
+    <view class="sub">北京市朝阳区建国门外大街甲 6 号院通用时代国际中心 B 座地下二层 B2-108 至 B2-126，近永安里地铁站 C 口</view>
+    <view class="tip">店名最多两行、超出省略；地址完整换行、不溢出卡片。</view>
+    <verdict case-id="C8" />
+  </view>
+
+  <view class="card">
+    <view class="h">6. 大额金额</view>
+    <view class="kv"><text class="k">整期租金 · 36个月</text><text class="v l-num">¥128,880.00</text></view>
+    <view class="kv"><text class="k">满额减</text><text class="v l-num">−¥1,000.00</text></view>
+    <view class="l-pay"><view><view class="sub">本次应付 · 已省 ¥69,400</view><view class="l-total">¥129,380.00</view></view><view class="btn l-pay-btn">签署并提交</view></view>
+    <view class="tip">金额不换行、不被截断，底部一行的按钮没有被挤窄到文字换行。</view>
+    <verdict case-id="D10" />
+  </view>
+</view>
+
+<sheet show="{{sheet}}" title="弹层里的组件" bind:close="close">
+  <token-chip label="弹层里的组件" />
+  <view class="tip">这个标签的样子应与页面里的那个完全一样。</view>
+  <view class="btn" bindtap="close">知道了</view>
+</sheet>

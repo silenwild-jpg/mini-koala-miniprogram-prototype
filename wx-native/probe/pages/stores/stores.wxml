@@ -1,0 +1,12 @@
+<view class="wrap">
+  <view class="warn">tab 空壳。门店名和价格是演示数据，只用来看 40 行列表的滚动。</view>
+  <view class="card s-card" wx:for="{{list}}" wx:key="id">
+    <view class="s-thumb"></view>
+    <view class="s-body">
+      <view class="s-name">{{item.no}}. {{item.name}}</view>
+      <view class="sub">可租容量 0.8–8m³</view>
+      <view class="s-price">¥63<text class="s-unit">/m³/月起</text></view>
+    </view>
+  </view>
+  <view class="tip">滚到这里：最后一张卡是否完整露出、没有被底部导航盖住。</view>
+</view>

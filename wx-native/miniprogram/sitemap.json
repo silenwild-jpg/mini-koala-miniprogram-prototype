@@ -1,0 +1,1 @@
+{ "desc": "体验版阶段不开放索引", "rules": [{ "action": "disallow", "page": "*" }] }

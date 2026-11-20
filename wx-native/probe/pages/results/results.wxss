@@ -1,0 +1,13 @@
+.r-sum { display: flex; }
+.r-cell { flex: 1; text-align: center; }
+.r-n { font-family: var(--mk-font-family-numeric); font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-bold); }
+.r-bad { color: var(--mk-color-status-errorStrong); }
+.r-row { display: flex; align-items: flex-start; padding: var(--mk-space-2) 0; border-bottom: var(--mk-border-hairline); }
+.r-row:last-child { border-bottom: none; }
+.r-id { flex: none; width: 72rpx; font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-semibold); color: var(--mk-color-brand-text); }
+.r-body { flex: 1; min-width: 0; }
+.r-t { font-size: var(--mk-font-size-sm); }
+.r-v { flex: none; margin-left: var(--mk-space-2); font-size: var(--mk-font-size-sm); }
+.r-pass { color: var(--mk-color-status-successText); }
+.r-fail { color: var(--mk-color-status-errorStrong); }
+.r-na, .r-none { color: var(--mk-color-ink-tertiary); }

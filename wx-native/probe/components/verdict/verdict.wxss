@@ -1,0 +1,12 @@
+/* 自定义组件里直接用 page 上的样式变量：这本身就是用例 B8 的一部分 */
+.vd { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: 1px dashed var(--mk-color-line-strong); }
+.vd-hd { display: flex; align-items: flex-start; }
+.vd-id { flex: none; font-size: var(--mk-font-size-xs); font-weight: var(--mk-font-weight-semibold); color: var(--mk-color-brand-text); background: var(--mk-color-brand-tint); border-radius: var(--mk-radius-control); padding: 2rpx 12rpx; margin-right: var(--mk-space-2); }
+.vd-t { font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-primary); }
+.vd-ops { display: flex; margin-top: var(--mk-space-2); }
+.vd-btn { flex: 1; height: var(--mk-size-btnSmHeight); line-height: var(--mk-size-btnSmHeight); text-align: center; font-size: var(--mk-font-size-sm); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); margin-right: var(--mk-space-2); color: var(--mk-color-ink-secondary); background: var(--mk-color-canvas-card); }
+.vd-btn:last-child { margin-right: 0; }
+.vd-btn.on-pass { background: var(--mk-color-action-primaryFill); border-color: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); }
+.vd-btn.on-fail { background: var(--mk-color-status-errorStrong); border-color: var(--mk-color-status-errorStrong); color: var(--mk-color-ink-inverse); }
+.vd-btn.on-na { background: var(--mk-color-ink-secondary); border-color: var(--mk-color-ink-secondary); color: var(--mk-color-ink-inverse); }
+.vd-note { margin-top: var(--mk-space-2); height: var(--mk-size-btnSmHeight); padding: 0 var(--mk-space-2); font-size: var(--mk-font-size-sm); background: var(--mk-color-canvas-sunken); border-radius: var(--mk-radius-control); }

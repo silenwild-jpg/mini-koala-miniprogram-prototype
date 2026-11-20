@@ -1,0 +1,35 @@
+@import "styles/tokens.wxss";
+/* 全站基础样式。只用设计令牌，不写裸色值；页面样式只写本页特有的部分。 */
+page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-primary); font-family: var(--mk-font-family-base); font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
+.mk-page { min-height: 100vh; box-sizing: border-box; padding-bottom: calc(var(--mk-space-6) + env(safe-area-inset-bottom)); }
+.mk-gutter { padding-left: var(--mk-space-pageGutter); padding-right: var(--mk-space-pageGutter); }
+.mk-card { background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-card); padding: var(--mk-space-cardPad); box-shadow: var(--mk-elevation-card); }
+.mk-card + .mk-card { margin-top: var(--mk-space-cardGap); }
+.mk-row { display: flex; align-items: center; }
+.mk-between { display: flex; align-items: center; justify-content: space-between; }
+.mk-grow { flex: 1; min-width: 0; }
+.mk-title { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); }
+.mk-h2 { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-semibold); }
+.mk-sub { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
+.mk-mute { color: var(--mk-color-ink-tertiary); font-size: var(--mk-font-size-xs); }
+.mk-link { color: var(--mk-color-brand-text); font-size: var(--mk-font-size-sm); }
+.mk-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mk-tag { display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); margin-right: var(--mk-space-1); }
+.mk-tag--promo { background: var(--mk-color-accent-promoFill); color: var(--mk-color-accent-promoText); }
+.mk-tag--brand { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
+.mk-chip { display: inline-flex; align-items: center; height: var(--mk-size-chipHeight); padding: 0 var(--mk-space-3); border-radius: var(--mk-radius-control); border: var(--mk-border-hairline); background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); font-size: var(--mk-font-size-sm); }
+.mk-chip--on { border: var(--mk-border-brand); background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
+/* 按钮：去掉微信 button 的默认边框与内边距 */
+.mk-btn { width: auto; min-height: 0; display: flex; align-items: center; justify-content: center; height: var(--mk-size-ctaHeight); padding: 0 var(--mk-space-4); margin: 0; border-radius: var(--mk-radius-control); background: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: 1; box-sizing: border-box; }
+.mk-btn::after { border: 0; }
+.mk-btn--hover { background: var(--mk-color-action-primaryPressed); }
+.mk-btn--ghost { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); border: var(--mk-border-brand); }
+.mk-btn--md { height: var(--mk-size-btnMdHeight); font-size: var(--mk-font-size-md); padding: 0 var(--mk-space-3); }
+.mk-btn--sm { height: var(--mk-size-btnSmHeight); font-size: var(--mk-font-size-sm); padding: 0 var(--mk-space-3); }
+.mk-btn--disabled { background: var(--mk-color-line-hairline); color: var(--mk-color-ink-tertiary); }
+.mk-icon { width: var(--mk-size-iconSm); height: var(--mk-size-iconSm); flex: none; }
+.mk-icon--md { width: var(--mk-size-iconMd); height: var(--mk-size-iconMd); }
+.mk-hairline { height: 1px; background: var(--mk-color-line-hairline); }
+.mk-bottom-bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--mk-color-canvas-card); box-shadow: var(--mk-elevation-sheet); padding: var(--mk-space-3) var(--mk-space-pageGutter) calc(var(--mk-space-3) + env(safe-area-inset-bottom)); z-index: 20; }
+.mk-error { color: var(--mk-color-status-errorText); font-size: var(--mk-font-size-sm); }
+.mk-num { font-family: var(--mk-font-family-numeric); font-feature-settings: 'tnum' 1; }

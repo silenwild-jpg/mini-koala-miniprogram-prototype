@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/stores/stores",
+    "pages/orders/orders",
+    "pages/mine/mine",
+    "pages/env/env",
+    "pages/location/location",
+    "pages/phone/phone",
+    "pages/subscribe/subscribe",
+    "pages/keyboard/keyboard",
+    "pages/layout/layout",
+    "pages/misc/misc",
+    "pages/results/results"
+  ],
+  "window": {
+    "navigationBarTitleText": "迷你考拉仓 · 真机探针",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F7F6"
+  },
+  "tabBar": {
+    "color": "#5F6B65",
+    "selectedColor": "#0B7A48",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "首页", "iconPath": "assets/tabbar/tab-home.png", "selectedIconPath": "assets/tabbar/tab-home-on.png" },
+      { "pagePath": "pages/stores/stores", "text": "附近门店", "iconPath": "assets/tabbar/tab-stores.png", "selectedIconPath": "assets/tabbar/tab-stores-on.png" },
+      { "pagePath": "pages/orders/orders", "text": "订单", "iconPath": "assets/tabbar/tab-orders.png", "selectedIconPath": "assets/tabbar/tab-orders-on.png" },
+      { "pagePath": "pages/mine/mine", "text": "我的", "iconPath": "assets/tabbar/tab-me.png", "selectedIconPath": "assets/tabbar/tab-me-on.png" }
+    ]
+  },
+  "usingComponents": {
+    "verdict": "/components/verdict/verdict",
+    "sheet": "/components/sheet/sheet"
+  },
+  "permission": {
+    "scope.userLocation": { "desc": "用于为您查找附近的门店" }
+  },
+  "requiredPrivateInfos": ["getLocation"],
+  "__usePrivacyCheck__": true,
+  "lazyCodeLoading": "requiredComponents",
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

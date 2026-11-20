@@ -1,0 +1,42 @@
+<view class="mk-page {{saved ? '' : 'ldf-page'}}">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:else class="mk-gutter lsp-top">
+    <block wx:if="{{saved}}">
+      <lead-ack in-hours="{{inHours}}">
+        <button class="mk-btn ldf-neutral mk-btn--md lsp-act" hover-class="none" bindtap="onMine">{{T.c.backMine}}</button>
+        <button class="mk-btn mk-btn--md lsp-act lsp-act--r" hover-class="mk-btn--hover" bindtap="onNeeds">{{T.c.viewNeeds}}</button>
+      </lead-ack>
+      <view class="mk-card lsp-gap">
+        <text class="ldf-sectitle">{{T.p.savedTitle}}</text>
+        <view class="ldf-kv ldf-kv--last"><text class="ldf-k">{{T.p.type}}</text><text class="ldf-v">{{saved.typeText}}</text></view>
+        <text class="mk-sub lsp-saved">{{saved.text}}</text>
+      </view>
+    </block>
+    <mk-order-card wx:if="{{order && !saved}}" order="{{order}}" />
+    <view class="mk-card lsp-gap">
+      <text class="ldf-sectitle">{{T.p.direct}}</text>
+      <view class="mk-between">
+        <view class="mk-grow"><text class="lsp-t">{{T.p.tel}}</text><text class="mk-sub lsp-s">{{T.ack.hoursNote}}</text></view>
+        <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="none" bindtap="onCall" aria-label="拨打400客服电话"><image class="mk-icon lsp-ico" src="/assets/icons/phone-brand.svg" />{{T.p.call}}</button>
+      </view>
+    </view>
+    <block wx:if="{{!saved}}">
+      <view class="mk-card lsp-gap">
+        <text class="ldf-sectitle">{{T.p.formTitle}}</text>
+        <view class="ldf-label ldf-label--sm"><text>{{T.p.type}}</text></view>
+        <view class="lsp-seg"><view wx:for="{{types}}" wx:key="k" class="lsp-segcell {{item.on ? 'lsp-segcell--on' : ''}}" data-k="{{item.k}}" bindtap="onType" aria-role="button">{{item.t}}</view></view>
+        <view class="ldf-label ldf-label--sm lsp-lab"><text>{{T.p.text}}</text></view>
+        <view class="ldf-input ldf-input--tall {{errText ? 'ldf-input--err' : ''}}"><textarea class="ldf-area" value="{{text}}" maxlength="{{max}}" placeholder="{{T.p.textPh}}" placeholder-class="ldf-ph" bindinput="onText" /><text class="ldf-count">{{count}}</text></view>
+        <text wx:if="{{errText}}" class="ldf-err">{{errText}}</text>
+        <text class="ldf-help">{{T.ack.both}}</text>
+      </view>
+      <view class="mk-card lsp-gap">
+        <text class="ldf-sectitle">{{T.p.others}}</text>
+        <view class="lsp-row" bindtap="onPersonal" aria-role="button"><image class="mk-icon lsp-ico" src="/assets/icons/ic-cal.svg" /><text class="mk-grow">{{T.p.personal}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="lsp-row lsp-row--last" bindtap="onEnterprise" aria-role="button"><image class="mk-icon lsp-ico" src="/assets/icons/ic-building.svg" /><text class="mk-grow">{{T.p.enterprise}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+      </view>
+    </block>
+  </view>
+  <view wx:if="{{!sys && !saved}}" class="mk-bottom-bar"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSubmit">{{T.p.submit}}</button></view>
+  <mk-login-sheet visible="{{loginVisible}}" tip="{{loginTip}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+</view>

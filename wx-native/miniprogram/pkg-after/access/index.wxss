@@ -1,0 +1,39 @@
+/* —— 租后各页共用的页面样式（每页各带一份） —— */
+.af-body { padding: 0 var(--mk-space-pageGutter); }
+.af-pad { padding-bottom: calc(220rpx + env(safe-area-inset-bottom)); }
+.af-sec { display: block; margin-bottom: var(--mk-space-2); }
+.af-gap { margin-bottom: var(--mk-space-cardGap); }
+.af-empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--mk-space-10) var(--mk-space-5); }
+.af-empty-ico { width: 96rpx; height: 96rpx; margin-bottom: var(--mk-space-3); }
+.af-empty-sub { margin: var(--mk-space-2) 0 var(--mk-space-5); }
+.af-rule { display: block; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); margin-top: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); }
+.af-bar { display: flex; align-items: center; }
+.af-bar-info { flex: 1; min-width: 0; margin-right: var(--mk-space-3); display: flex; flex-direction: column; }
+.af-bar-amt { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); }
+.af-bar-amt--muted { font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-regular); color: var(--mk-color-ink-secondary); }
+.af-bar-btn { flex: 1; min-width: 0; width: auto; }
+.af-bar-btn + .af-bar-btn { margin-left: var(--mk-space-3); }
+.af-bar-info + .af-bar-btn { flex: none; width: auto; min-width: 280rpx; }
+.af-btn--neutral { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); }
+.af-btn--danger { background: var(--mk-color-canvas-card); color: var(--mk-color-status-errorText); border: var(--mk-border-error); }
+.af-acts { margin-top: var(--mk-space-4); }
+.af-acts .mk-btn { width: 100%; }
+.af-acts .mk-btn + .mk-btn { margin-top: var(--mk-space-2); }
+/* —— 入仓指引页 —— */
+.ac-top { padding-top: var(--mk-space-3); }
+.ac-card { margin-top: var(--mk-space-cardGap); }
+.ac-headrow { margin-bottom: var(--mk-space-1); }
+.ac-guide { min-height: 64rpx; flex: none; }
+.ac-row { display: flex; align-items: flex-start; padding: var(--mk-space-3) 0; border-bottom: var(--mk-border-hairline); }
+.ac-k { width: 140rpx; flex: none; color: var(--mk-color-ink-secondary); margin-right: var(--mk-space-3); }
+.ac-v { flex: 1; min-width: 0; line-height: var(--mk-font-lineHeight-loose); }
+.ac-v--key { font-weight: var(--mk-font-weight-medium); }
+.ac-sub { display: block; margin: var(--mk-space-3) 0 var(--mk-space-2); }
+.ac-step { display: flex; align-items: flex-start; padding: var(--mk-space-1) 0; }
+.ac-n { width: 40rpx; height: 40rpx; flex: none; margin-right: var(--mk-space-2); border-radius: 50%; background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); font-size: var(--mk-font-size-sm); display: flex; align-items: center; justify-content: center; }
+.ac-path { display: block; line-height: var(--mk-font-lineHeight-loose); }
+.ac-facts { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-3); }
+.ac-fact { display: flex; align-items: center; height: var(--mk-size-chipHeight); padding: 0 var(--mk-space-2); margin: 0 var(--mk-space-2) var(--mk-space-2) 0; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); }
+.ac-fact-v { margin-left: var(--mk-space-1); font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); }
+.ac-nav { margin-top: var(--mk-space-3); width: 100%; }
+.ac-nav-ico { margin-right: var(--mk-space-1); }

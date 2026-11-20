@@ -1,0 +1,19 @@
+.lph-box { display: flex; align-items: center; box-sizing: border-box; height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); }
+.lph-box--err { border: var(--mk-border-error); }
+.lph-num { font-size: var(--mk-font-size-md); }
+.lph-ok { flex: none; height: var(--mk-size-tagHeight); line-height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); background: var(--mk-color-status-successFill); color: var(--mk-color-status-successText); font-size: var(--mk-font-size-xs); }
+.lph-mod { flex: none; min-height: 64rpx; line-height: 64rpx; padding-left: var(--mk-space-3); color: var(--mk-color-brand-text); font-size: var(--mk-font-size-md); }
+.lph-wx { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-medium); }
+.lph-hint { display: block; margin-top: var(--mk-space-2); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
+.lph-err { display: block; margin-top: var(--mk-space-1); }
+.lph-note { display: block; margin-bottom: var(--mk-space-2); }
+.lph-row { display: flex; align-items: center; min-height: 96rpx; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }
+.lph-on { color: var(--mk-color-brand-text); }
+.lph-sub { margin-left: var(--mk-space-3); }
+.lph-done { margin-top: var(--mk-space-4); }
+.lph-lab { display: block; margin: var(--mk-space-2) 0 var(--mk-space-1); }
+.lph-field { display: flex; align-items: center; height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); }
+.lph-input { flex: 1; min-width: 0; height: var(--mk-size-inputHeight); font-size: var(--mk-font-size-md); }
+.lph-ph { color: var(--mk-color-ink-tertiary); }
+.lph-send { flex: none; display: flex; align-items: center; justify-content: center; min-width: 200rpx; height: var(--mk-size-inputHeight); margin-left: var(--mk-space-2); padding: 0 var(--mk-space-2); box-sizing: border-box; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); }
+.lph-off { color: var(--mk-color-ink-tertiary); }

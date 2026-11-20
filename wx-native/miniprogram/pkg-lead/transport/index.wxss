@@ -1,0 +1,14 @@
+@import "../lead.wxss";
+/* 运输与搬运：本页特有的部分 */
+.ltr-top { padding-top: var(--mk-space-3); }
+.ltr-gap { margin-top: var(--mk-space-cardGap); }
+.ltr-act { flex: 1; min-width: 0; }
+.ltr-act--r { margin-left: var(--mk-space-3); }
+.ltr-sec { margin-bottom: var(--mk-space-2); }
+.ltr-sect { margin: 0 var(--mk-space-2) 0 0; }
+.ltr-rt { display: block; font-size: var(--mk-font-size-md); }
+.ltr-rs { display: block; margin-top: 4rpx; }
+.ltr-pickt { display: block; padding: var(--mk-space-3) var(--mk-space-pageGutter); }
+.ltr-pick { margin-bottom: var(--mk-space-cardGap); }
+.ltr-rule { display: block; margin: var(--mk-space-3) var(--mk-space-pageGutter) 0; }
+.ltr-rec { padding: var(--mk-space-2) 0; }

@@ -1,0 +1,28 @@
+{
+ "cap": [
+  "area_large",
+  "area_over"
+ ],
+ "booking": [
+  "carried_area",
+  "filled&sub=ask",
+  "success&sub=accepted",
+  "success&sub=declined"
+ ],
+ "rn01": [
+  "form&sub=ask",
+  "quote_pending&sub=accepted",
+  "quote_pending&sub=declined"
+ ],
+ "m01": [
+  "estimated_area"
+ ],
+ "acc_progress": [
+  "demand_area"
+ ],
+ "business": [
+  "multi_area_open",
+  "multi_area",
+  "multi_area_step2"
+ ]
+}

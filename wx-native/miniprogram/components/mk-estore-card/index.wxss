@@ -1,0 +1,4 @@
+.ec-card { display: flex; flex-direction: column; margin-bottom: var(--mk-space-cardGap); border-left: 6rpx solid var(--mk-color-brand-fill); }
+.ec-k { color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); }
+.ec-t { margin: 4rpx 0; }
+.ec-s { margin-bottom: 4rpx; }

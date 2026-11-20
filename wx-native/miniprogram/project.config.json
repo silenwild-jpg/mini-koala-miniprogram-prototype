@@ -1,0 +1,10 @@
+{
+  "description": "迷你考拉仓小程序（微信原生）· 体验版开发工程",
+  "appid": "touristappid",
+  "projectname": "minikoala-miniprogram",
+  "compileType": "miniprogram",
+  "libVersion": "3.5.8",
+  "setting": { "es6": true, "enhance": true, "postcss": true, "minified": true, "urlCheck": true },
+  "srcMiniprogramRoot": "",
+  "condition": {}
+}

@@ -1,0 +1,27 @@
+{
+ "h01": [
+  "new&auth=privacy_loc",
+  "new&auth=privacy_loc_checked"
+ ],
+ "business": [
+  "restored&auth=bk_unauth",
+  "restored&auth=bk_wx",
+  "restored&auth=bk_authed",
+  "restored&auth=bk_denied",
+  "restored&auth=bk_sms",
+  "restored&auth=bk_contact"
+ ],
+ "m01": [
+  "new&auth=m_guest",
+  "new&auth=phone"
+ ],
+ "acc_profile": [
+  "verified&auth=m_change",
+  "verified&auth=m_change_sent",
+  "verified&auth=m_change_conflict",
+  "verified&auth=m_change_ok"
+ ],
+ "o01": [
+  "ready&auth=quote_expired"
+ ]
+}

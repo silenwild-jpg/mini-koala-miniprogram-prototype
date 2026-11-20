@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "消息",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "mk-after-tag": "/components/mk-after-tag/index"
+  }
+}

@@ -1,0 +1,36 @@
+﻿页面代号,页面,建议小程序路由,建议分包,模板,开发批次,导航栏,进入条件,主要入口,状态数,其中基础态,弹层 / 抽屉,登录与授权类,订阅,系统态
+H01,首页,pages/home/index,主包 · tabBar,T1,1,自定义（透明顶栏）,无,启动页；tabBar「首页」,45,25,0,17,0,3
+S01,附近门店（门店列表）,pages/stores/index,主包 · tabBar,T2,1,原生,无,tabBar「附近门店」；首页「找附近门店」「查看全部门店」,34,11,3,18,0,2
+S02,门店详情,pages/store/detail,主包,T3,1,自定义（照片覆盖）,无；整期价需登录,门店卡；收藏；订单内「更换仓位」,29,23,0,2,0,4
+S5,仓位推荐,pages/match/index,主包,T5,1,原生,已有用仓需求；整期价需登录,估算两页主按钮；首页任务卡 / 待办条,33,12,4,15,0,2
+CAP,估算存储空间（填容量）,pages/estimate/capacity,主包,T4,1,原生,无,首页「估大小算价格」、场景卡；物品页「直接填容量」,21,18,0,0,0,3
+ITEMS,按物品估算,pkg-estimate/items/index,分包 estimate（物品图 39 张）,T4,1,原生,无,填容量页「按物品估算」,22,19,0,0,0,3
+O01,确认订单（含实名、签署、支付弹层）,pkg-trade/confirm/index,分包 trade,T6,2,原生,必须登录；提交前须实名并签署,仓位行「立即下单」；快捷下单；任务卡「继续支付」,35,17,16,1,0,1
+QUICK,快捷下单,pkg-trade/quick/index,分包 trade,T4,2,原生,金额需登录,任务卡「加租仓位」；订单详情,18,6,5,3,0,4
+O03,订单详情,pkg-trade/order/index,分包 trade,T8,2,原生,登录,订单列表；任务卡；支付完成,27,18,3,0,3,3
+OH01,订单（订单列表）,pages/orders/index,主包 · tabBar,T7,2（壳在第 0 批）,原生,登录后有内容,tabBar「订单」,12,9,0,0,0,3
+AGREEMENT,协议文本（使用协议 / 注册协议 / 告知书 / 私人定制协议）,pkg-trade/agreement/index,分包 trade,—,2,原生,无,登录层、确认订单、签署弹层、电子合同、任务卡「查看须知」,4,4,0,0,0,0
+ACC_IDENTITY,实名认证（付款后兜底）,pkg-after/identity/index,分包 after,T7,3,原生,有已付款且未实名的订单,任务卡「完成实名认证」；订单详情,12,8,1,0,0,3
+ACC_ACCESS,入仓指引,pkg-after/access/index,分包 after,T7,3,原生,已付款订单；未实名被拦截,任务卡；订单详情「门店服务」,11,7,1,0,0,3
+RN01,续租申请,pkg-after/renew/index,分包 after,T8,3,原生,租用中 / 待起租 / 到期订单,任务卡「续租」「办理续租」；订单详情,21,14,1,0,3,3
+EX01,退仓与到期,pkg-after/exit/index,分包 after,T8,3,原生,已付款订单,任务卡；订单详情,19,11,2,0,3,3
+DP01,押金处理,pkg-after/deposit/index,分包 after,T8,3,原生,有押金的订单,「我的」账务；任务卡「查看押金进度」,13,8,2,0,0,3
+IV01,发票申请,pkg-after/invoice/index,分包 after,T8,3,原生,已付款订单,订单详情；「我的」发票与抬头,16,11,2,0,0,3
+ECONTRACT,电子合同,pkg-after/econtract/index,分包 after,T8,3,原生,已签署订单,订单详情「电子合同」行,2,2,0,0,0,0
+ACC_MESSAGES,消息,pkg-account/messages/index,分包 account,T7,3,原生,登录,首页顶栏、「我的」,6,3,0,0,0,3
+M01,我的,pages/mine/index,主包 · tabBar,T7,4（壳在第 0 批）,原生,未登录显示「登录 / 注册」,tabBar「我的」,29,23,1,2,0,3
+BOOKING,预约用仓 / 联系顾问（表单）,pkg-lead/booking/index,分包 lead,T4,4（第 1 批先留占位）,原生,联系电话走登录层,门店卡「预约用仓」；≥30m³「提交给顾问」；顾问卡；E存,33,15,4,8,3,3
+BUSINESS,商家 / 企业存储,pkg-lead/business/index,分包 lead,T4,4,原生,联系电话走登录层,首页企业横幅；物品页商家场景,35,22,2,8,0,3
+ESTORE,考拉E存,pkg-lead/estore/index,分包 lead,—,4,原生,无,门店列表 E存卡；附近无门店,1,1,0,0,0,0
+ACC_TRANSPORT,运输与搬运,pkg-lead/transport/index,分包 lead,T7,4,原生,无（下单前可预约）,门店详情服务区；确认订单；订单详情,11,7,1,0,0,3
+ACC_SUPPORT,联系顾问 / 订单咨询,pkg-lead/support/index,分包 lead,T7,4,原生,无,「我的」；订单详情,8,4,1,0,0,3
+ACC_NEEDS,预约用仓（记录）,pkg-account/needs/index,分包 account,T7,4,原生,登录,「我的」；线索成功页「查看预约记录」,9,6,0,0,0,3
+ACC_PROGRESS,找仓进度,pkg-account/progress/index,分包 account,T7,4,原生,无,「我的」；首页待办条,10,7,0,0,0,3
+ACC_FAVORITES,我的收藏,pkg-account/favorites/index,分包 account,T7,4,原生,无（存本机）,「我的」,6,3,0,0,0,3
+ACC_COUPONS,优惠与权益,pkg-account/coupons/index,分包 account,T7,4,原生,金额类需登录,「我的」；确认订单选券,8,5,0,0,0,3
+ACC_PROFILE,个人信息（含退出、注销、隐私授权）,pkg-account/profile/index,分包 account,T7,4,原生,无；多数操作需登录,「我的」头像行,17,4,6,4,0,3
+ACC_REFERRAL,推荐有礼,pkg-account/referral/index,分包 account,T7,4,原生,登录,「我的」,6,3,0,0,0,3
+ACC_BRAND,关于迷你考拉,pkg-account/brand/index,分包 account,T7,4,原生,无,首页「了解迷你考拉仓」；「我的」,4,1,0,0,0,3
+ENT_CERT,企业认证,pkg-account/ent-cert/index,分包 account,—,4,原生,登录,「我的」账务与企业,7,7,0,0,0,0
+ENT_TITLES,开票抬头管理,pkg-account/ent-titles/index,分包 account,—,4,原生,登录,「我的」；发票页,6,6,0,0,0,0
+ENT_BATCH,批量开票,pkg-account/ent-batch/index,分包 account,—,4,原生,登录且企业已认证,发票页,10,10,0,0,0,0

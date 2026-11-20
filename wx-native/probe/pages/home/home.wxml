@@ -1,0 +1,42 @@
+<nav-bar city="北京" dot="{{locDot}}" bind:measure="onNavMeasure" />
+<view class="wrap home-wrap">
+  <view class="card">
+    <view class="h">这是真机验证探针，不是体验版</view>
+    <view class="sub">用来在页面开发前，先确认微信平台上有风险的几件事。每一项测完选「通过 / 不通过 / 测不了」，最后到「结果汇总」复制发回群里。</view>
+  </view>
+
+  <view class="card">
+    <view class="h">首页自动定位</view>
+    <view class="kv"><text class="k">当前状态</text><text class="v">{{locText}}</text></view>
+    <view class="kv" wx:if="{{auto}}"><text class="k">失败返回</text><text class="v">{{auto}}</text></view>
+    <view class="tip">首次打开时请留意：弹出的是「一个弹窗同时含隐私勾选和位置允许」，还是「先隐私、后位置两个弹窗」。要重测请先在右上角「···」→ 设置里清除授权，或删除小程序后重进。</view>
+    <verdict case-id="C1" />
+    <verdict case-id="C2" />
+  </view>
+
+  <view class="card" wx:if="{{nav}}">
+    <view class="h">自定义导航栏</view>
+    <view class="kv"><text class="k">状态栏高度</text><text class="v">{{nav.status}}px</text></view>
+    <view class="kv"><text class="k">导航栏高度</text><text class="v">{{nav.barHeight}}px</text></view>
+    <view class="kv"><text class="k">右侧让出宽度</text><text class="v">{{nav.rightInset}}px</text></view>
+    <view class="kv"><text class="k">取到胶囊位置</text><text class="v">{{nav.menuOk ? '是' : '否（已退回默认值）'}}</text></view>
+    <view class="tip">看顶部：城市和搜索框是否与右上角胶囊垂直对齐，搜索框右端是否离胶囊约 8px、没有被盖住。</view>
+    <verdict case-id="B2" />
+  </view>
+
+  <view class="card">
+    <view class="h">测试项</view>
+    <view class="row" wx:for="{{entries}}" wx:key="url" data-url="{{item.url}}" bindtap="go">
+      <view><view class="t">{{item.t}}</view><view class="d">{{item.d}}</view></view>
+      <text class="go">›</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="h">底部导航与底部操作栏</view>
+    <view class="tip">逐个点底部 4 个 tab：图标是否清晰，选中为深绿、未选中为灰。本页最下方的绿色条是模拟的底部操作栏，看它是否紧贴 tab 上沿、没有被遮挡。</view>
+    <verdict case-id="B1" />
+    <verdict case-id="B3" />
+  </view>
+</view>
+<view class="home-bar">底部操作栏（模拟）</view>

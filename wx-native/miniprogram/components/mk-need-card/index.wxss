@@ -1,0 +1,14 @@
+.nc-card { display: flex; flex-direction: column; border-left: 6rpx solid var(--mk-color-brand-fill); margin-top: var(--mk-space-cardGap); }
+.nc-kicker { color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); }
+.nc-head { align-items: flex-start; margin-top: 4rpx; }
+.nc-title { display: block; }
+.nc-badge { margin-right: 0; margin-left: var(--mk-space-2); }
+.nc-facts { display: flex; margin: var(--mk-space-3) 0; }
+.nc-fact { display: flex; flex-direction: column; margin-right: var(--mk-space-6); }
+.nc-num { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-semibold); }
+.nc-u { font-size: var(--mk-font-size-sm); margin-left: 4rpx; }
+.nc-acts { display: flex; }
+.nc-btn { flex: 1; }
+.nc-btn + .nc-btn { margin-left: var(--mk-space-2); }
+.nc-strip { margin-top: var(--mk-space-cardGap); min-height: 88rpx; padding-top: var(--mk-space-2); padding-bottom: var(--mk-space-2); }
+.nc-sk { margin-right: var(--mk-space-2); white-space: nowrap; }

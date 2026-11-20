@@ -1,0 +1,12 @@
+.ss-sys { display: flex; flex-direction: column; align-items: center; padding: var(--mk-space-10) var(--mk-space-pageGutter); text-align: center; }
+.ss-desc { margin: var(--mk-space-2) 0 var(--mk-space-4); }
+.ss-spinner { width: 48rpx; height: 48rpx; border-radius: 50%; border: 4rpx solid var(--mk-color-brand-tintStrong); border-top-color: var(--mk-color-brand-fill); margin-bottom: var(--mk-space-2); animation: mk-spin 0.8s linear infinite; }
+@keyframes mk-spin { to { transform: rotate(360deg); } }
+.ss-bones { padding: var(--mk-space-3) 0; }
+.ss-bone { margin-bottom: var(--mk-space-cardGap); }
+.ss-bar { height: 28rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); margin-top: var(--mk-space-3); animation: mk-pulse 1.2s ease-in-out infinite; }
+.ss-bar--t { width: 50%; height: 36rpx; margin-top: 0; }
+.ss-bar--l { width: 100%; }
+.ss-bar--m { width: 85%; }
+.ss-bar--s { width: 70%; }
+@keyframes mk-pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }

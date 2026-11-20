@@ -1,0 +1,16 @@
+{
+  "baseline_id": "MK-NATIVE-RULES-20261120-v1",
+  "code_origin_commit": "eefd0e97ddd7c4b94ff423ec9ccaaf8f2072e1f8",
+  "code_origin_tree": "adf98e2583f870b3162559e8bc2f69c5182bb360",
+  "remote_main_at_intake": "0fbe02be51b9c07af644fa09b9d7036ac6212ab4",
+  "source_files": {
+    "wx-native/docs/baseline-20261120/sources/01_规则修改原文.txt": "ba2cc42afc084cde45a2be9feaa6492e1a5d8232a9b599895fc25d0a664165cd",
+    "wx-native/docs/baseline-20261120/sources/02_当轮修订原文.txt": "0d242adb48fddf1b31d584542b91bda1e887d9222b5f62514fb8f82d34074940",
+    "wx-native/docs/baseline-20261120/原代码配置快照.json": "4e37e78dbb10624944f01b9cf1bda14756c86d6b71773fd282265d686afe0158",
+    "wx-native/docs/baseline-20261120/规则变更台账.csv": "854d0b87c6a847fa27784c74b231b972baffc565082573a893d4ba9adb885f12",
+    "wx-native/docs/baseline-20261120/规则基线与实施计划.md": "6f7acb02854c5e8383483450aceee22ba397cd18eaf53f8ecdca971489f24d6a",
+    "wx-native/docs/baseline-20261120/规则目标契约.json": "9be822c6bbc05c254847e223318fa8edb1a4df6a60789fbcceb7466f2ca9eb67"
+  },
+  "change_scope": "baseline documents and entry pointers only; runtime unchanged",
+  "historical_tests": "source commit previously rerun:147 passed; static errors0; smoke6522/0; order960/0; not new-rule implementation evidence"
+}

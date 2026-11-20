@@ -1,0 +1,11 @@
+<view wx:if="{{show}}" class="sheet-root" catchtouchmove="noop">
+  <view class="sheet-scrim" bindtap="onClose"></view>
+  <view class="sheet-panel" style="bottom: {{lift}}px;">
+    <view class="sheet-hd">
+      <text class="sheet-title">{{title}}</text>
+      <view class="sheet-x" bindtap="onClose">关闭</view>
+    </view>
+    <scroll-view scroll-y="{{true}}" class="sheet-bd"><slot></slot></scroll-view>
+    <view class="sheet-safe" wx:if="{{lift === 0}}"></view>
+  </view>
+</view>

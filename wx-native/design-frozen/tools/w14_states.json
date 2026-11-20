@@ -1,0 +1,46 @@
+{
+ "h01": [
+  "new&auth=search_typing",
+  "new&auth=search_empty",
+  "new&auth=loc_area"
+ ],
+ "s01": [
+  "browse&auth=search_typing",
+  "browse&auth=search_empty",
+  "browse&auth=loc_area",
+  "browse&auth=loc_far"
+ ],
+ "s5": [
+  "matched&auth=loc_area"
+ ],
+ "quick": [
+  "store&auth=loc_area"
+ ],
+ "s02": [
+  "route&arrival=simple",
+  "route&arrival=transit",
+  "route&arrival=partial",
+  "route&open=dest",
+  "route&open=guide",
+  "route&open=transit",
+  "route&map=fail",
+  "services&arrival=simple",
+  "services&arrival=partial",
+  "browse&arrival=transit"
+ ],
+ "booking": [
+  "filled&auth=bk_login",
+  "filled&auth=bk_contact_sms"
+ ],
+ "business": [
+  "restored&auth=bk_login",
+  "restored&auth=bk_contact_sms"
+ ],
+ "o03": [
+  "upcoming&arrival=simple"
+ ],
+ "acc_access": [
+  "allowed&arrival=simple",
+  "before_start&arrival=transit"
+ ]
+}

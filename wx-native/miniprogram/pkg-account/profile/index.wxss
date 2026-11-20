@@ -1,0 +1,13 @@
+@import "../acc.wxss";
+.pf-head { background: var(--mk-color-canvas-page); padding-top: var(--mk-space-5); padding-bottom: var(--mk-space-5); }
+.pf-avatar { width: 96rpx; height: 96rpx; border-radius: 50%; background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; margin-right: var(--mk-space-3); flex: none; }
+.pf-block { display: block; }
+.pf-neutral { color: var(--mk-color-ink-primary); border: var(--mk-border-strong); }
+.pf-note { margin-top: var(--mk-space-4); margin-bottom: var(--mk-space-4); }
+.pf-logout { margin-top: var(--mk-space-4); }
+.pf-gap { margin-top: var(--mk-space-3); }
+.pf-send { flex: none; margin-left: var(--mk-space-2); height: var(--mk-size-inputHeight); line-height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); box-sizing: border-box; white-space: nowrap; }
+.pf-send--off { color: var(--mk-color-ink-tertiary); }
+.pf-set { margin-left: var(--mk-space-2); min-height: 64rpx; line-height: 64rpx; padding: 0 var(--mk-space-1); }
+.pf-cond { min-height: 64rpx; }
+.pf-bullet { width: 12rpx; height: 12rpx; border-radius: 50%; background: var(--mk-color-brand-fill); margin-right: var(--mk-space-2); flex: none; }

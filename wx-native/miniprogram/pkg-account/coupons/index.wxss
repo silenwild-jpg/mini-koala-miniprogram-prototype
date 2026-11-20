@@ -1,0 +1,10 @@
+@import "../acc.wxss";
+.cp-card { display: flex; align-items: flex-start; padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); }
+.cp-off { opacity: 0.55; }
+.cp-amt { width: 192rpx; min-height: 132rpx; flex: none; margin-right: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 var(--mk-space-1); box-sizing: border-box; }
+.cp-num { color: var(--mk-color-brand-text); font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); }
+.cp-gate { color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); }
+.cp-n { font-weight: var(--mk-font-weight-medium); }
+.cp-line { display: flex; margin-top: var(--mk-space-1); min-height: 40rpx; }
+.cp-use { min-height: 64rpx; margin: -12rpx 0; }
+.cp-cond { display: block; margin-top: var(--mk-space-1); }

@@ -1,0 +1,40 @@
+<view class="mk-page ldf-page">
+  <view class="mk-gutter les-top">
+    <view class="mk-card">
+      <text class="les-kicker">{{T.kicker}}</text>
+      <text class="mk-h2 les-title">{{T.title}}</text>
+      <text class="mk-sub les-lead">{{T.lead}}</text>
+    </view>
+    <view class="mk-card">
+      <text class="ldf-sectitle">{{T.cmpTitle}}</text>
+      <view class="les-cmp">
+        <view class="les-col">
+          <text class="les-ct">{{T.self}}</text>
+          <text wx:for="{{T.selfList}}" wx:key="*this" class="mk-sub les-li">{{item}}</text>
+          <button class="mk-btn ldf-neutral mk-btn--md les-btn" hover-class="none" bindtap="onSelf">{{T.goSelf}}</button>
+        </view>
+        <view class="les-col les-col--r">
+          <text class="les-ct">{{T.title}}</text>
+          <text wx:for="{{T.estoreList}}" wx:key="*this" class="mk-sub les-li">{{item}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="mk-card">
+      <text class="ldf-sectitle">{{T.flowTitle}}</text>
+      <view wx:for="{{flow}}" wx:key="t" class="les-step">
+        <view class="les-rail"><view class="les-dot"></view><view wx:if="{{!item.last}}" class="les-bar"></view></view>
+        <view class="mk-grow les-stepbody"><text class="les-st">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-sub les-ss">{{item.s}}</text></view>
+      </view>
+    </view>
+    <view class="mk-card">
+      <text class="ldf-sectitle">{{T.infoTitle}}</text>
+      <view wx:for="{{T.info}}" wx:key="k" class="les-info">
+        <text class="mk-sub les-ik">{{item.k}}</text>
+        <text class="les-iv {{item.mute ? 'les-iv--mute' : ''}}">{{item.v}}</text>
+        <text wx:if="{{item.link}}" class="mk-link les-link" bindtap="onBanList" aria-role="button">{{item.link}}</text>
+      </view>
+      <text class="mk-mute les-fine">{{T.fine}}</text>
+    </view>
+  </view>
+  <view class="mk-bottom-bar"><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onConsult">{{T.cta}}</button></view>
+</view>

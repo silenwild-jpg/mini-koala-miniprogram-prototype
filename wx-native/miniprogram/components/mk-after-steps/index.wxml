@@ -1,0 +1,16 @@
+<view class="afs-steps">
+  <view wx:for="{{steps}}" wx:key="t" class="afs-step afs-step--{{item.cls}}">
+    <view class="afs-rail">
+      <view class="afs-dot">
+        <image wx:if="{{item.cls === 'done'}}" class="afs-ico" src="/assets/icons/check-white.svg" />
+        <text wx:elif="{{item.cls === 'fail'}}" class="afs-x">×</text>
+        <view wx:elif="{{item.cls === 'cur'}}" class="afs-core"></view>
+      </view>
+      <view wx:if="{{index < steps.length - 1}}" class="afs-line"></view>
+    </view>
+    <view class="afs-body">
+      <text class="afs-t">{{item.t}}</text>
+      <text wx:if="{{item.s}}" class="mk-sub afs-s">{{item.s}}</text>
+    </view>
+  </view>
+</view>

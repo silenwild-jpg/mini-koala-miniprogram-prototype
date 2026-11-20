@@ -1,0 +1,2 @@
+/* 只用变量，不写任何具体色值：变量在组件里不生效时，这个标签会没有底色和圆角 */
+.chip { display: inline-block; height: var(--mk-size-chipHeight); line-height: var(--mk-size-chipHeight); padding: 0 var(--mk-space-3); background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); }

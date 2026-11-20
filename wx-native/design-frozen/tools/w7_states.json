@@ -1,0 +1,384 @@
+{
+ "h01": {
+  "states": [
+   "booking_only",
+   "renewal_quote",
+   "renewal_pending",
+   "active_todo",
+   "active_pending",
+   "active_many",
+   "new&auth=privacy",
+   "new&auth=loc_ask",
+   "new&auth=loc_ok",
+   "new&auth=privacy_declined",
+   "new&auth=loc_denied",
+   "new&auth=loc_system",
+   "new&auth=loc_timeout",
+   "new&auth=loc_settings",
+   "new&auth=privacy_loc",
+   "new&auth=privacy_loc_checked",
+   "new&auth=loc_quiet",
+   "new&auth=search_off",
+   "new&auth=search_on",
+   "new&auth=search_typing",
+   "new&auth=search_empty",
+   "new&auth=loc_area",
+   "new&auth=loc_nocity",
+   "estimated_area",
+   "active_todo_area"
+  ]
+ },
+ "s01": {
+  "states": [
+   "advisor",
+   "near",
+   "sales",
+   "matched&overlay=demand&unit=m2",
+   "browse&auth=loc_ok",
+   "browse&auth=loc_denied",
+   "browse&auth=loc_system",
+   "browse&auth=loc_timeout",
+   "browse&auth=loc_settings",
+   "matched&auth=locked",
+   "matched&auth=phone",
+   "browse&auth=privacy_declined",
+   "browse&auth=loc_quiet",
+   "browse&auth=search_off",
+   "browse&auth=search_on",
+   "browse&auth=search_typing",
+   "browse&auth=search_empty",
+   "browse&auth=loc_area",
+   "browse&auth=loc_far",
+   "matched_area",
+   "far_transport",
+   "browse&auth=loc_nocity",
+   "browse&auth=transport_noloc",
+   "browse&auth=search_move"
+  ]
+ },
+ "m01": {
+  "states": [
+   "active_todo",
+   "active_pending",
+   "renewal_quote",
+   "renewal_pending",
+   "booking&offhours=1",
+   "new&auth=m_guest",
+   "new&auth=phone",
+   "estimated_area"
+  ]
+ },
+ "oh01": {
+  "states": [
+   "identity",
+   "upcoming",
+   "expiring",
+   "returning",
+   "lease_expired"
+  ]
+ },
+ "acc_needs": {
+  "states": [
+   "more"
+  ]
+ },
+ "acc_transport": {
+  "states": [
+   "pre_invalid",
+   "pre_saved",
+   "pre_saved&offhours=1"
+  ]
+ },
+ "acc_support": {
+  "states": [
+   "saved&offhours=1"
+  ]
+ },
+ "s02": {
+  "states": [
+   "sales",
+   "advisor",
+   "matched&auth=locked",
+   "matched&auth=phone",
+   "route&arrival=simple",
+   "route&arrival=transit",
+   "route&arrival=partial",
+   "route&open=dest",
+   "route&open=guide",
+   "route&open=transit",
+   "route&map=fail",
+   "services&arrival=simple",
+   "services&arrival=partial",
+   "browse&arrival=transit",
+   "matched_area",
+   "advisor_rent"
+  ]
+ },
+ "s5": {
+  "states": [
+   "sales30",
+   "matched&auth=locked",
+   "matched&auth=phone",
+   "matched&auth=phone_agree",
+   "matched&auth=phone_wx",
+   "matched&auth=phone_loading",
+   "matched&auth=phone_fail",
+   "matched&auth=phone_denied",
+   "matched&auth=sms",
+   "matched&auth=sms_sent",
+   "matched&auth=sms_wrong",
+   "matched&auth=sms_expired",
+   "matched&auth=sms_sendfail",
+   "matched&auth=phone_conflict",
+   "matched&auth=phone_ok",
+   "matched&auth=loc_area",
+   "from_items",
+   "from_area",
+   "from_area&overlay=demand"
+  ]
+ },
+ "o01": {
+  "states": [
+   "submitting",
+   "paying",
+   "cancelled",
+   "pending&overlay=cancel",
+   "payment_failed&overlay=cancel",
+   "expired&overlay=alternatives",
+   "ready&auth=quote_expired",
+   "idv_todo",
+   "idv_todo&overlay=idv",
+   "idv_todo&overlay=idv&idv=filled",
+   "idv_todo&overlay=idv&idv=err",
+   "idv_todo&overlay=idv&idv=checking",
+   "ready&agreed=1&overlay=sign",
+   "term_near",
+   "full",
+   "full&overlay=fees",
+   "full_near",
+   "ready&overlay=protect",
+   "transport_near",
+   "transport_ok"
+  ]
+ },
+ "cap": {
+  "states": [
+   "advisor_hint",
+   "sales",
+   "area_invalid",
+   "over",
+   "from_items",
+   "from_items_edited",
+   "area_term",
+   "term_near",
+   "area_large",
+   "area_over"
+  ]
+ },
+ "items": {
+  "states": [
+   "scene_business",
+   "sales",
+   "variant",
+   "qty",
+   "qty_max",
+   "tiny",
+   "over",
+   "restored",
+   "term_other",
+   "advisor_hint"
+  ]
+ },
+ "quick": {
+  "states": [
+   "addon",
+   "ready&auth=locked",
+   "ready&auth=phone",
+   "store&auth=loc_area"
+  ]
+ },
+ "booking": {
+  "states": [
+   "business",
+   "store",
+   "carried",
+   "large",
+   "success_offhours",
+   "success_store",
+   "filled&overlay=duration",
+   "filled&auth=bk_unauth",
+   "filled&auth=bk_wx",
+   "filled&auth=bk_authed",
+   "filled&auth=bk_denied",
+   "filled&auth=bk_sms",
+   "filled&auth=bk_contact",
+   "filled&auth=bk_login",
+   "filled&auth=bk_contact_sms",
+   "carried_area",
+   "filled&sub=ask",
+   "success&sub=accepted",
+   "success&sub=declined"
+  ]
+ },
+ "business": {
+  "states": [
+   "step2",
+   "sales",
+   "success_offhours",
+   "success_sales",
+   "restored&auth=bk_unauth",
+   "restored&auth=bk_wx",
+   "restored&auth=bk_authed",
+   "restored&auth=bk_denied",
+   "restored&auth=bk_sms",
+   "restored&auth=bk_contact",
+   "restored&auth=bk_login",
+   "restored&auth=bk_contact_sms",
+   "custom&overlay=term",
+   "multi_area_open",
+   "multi_area",
+   "multi_area_step2"
+  ]
+ },
+ "o03": {
+  "states": [
+   "paying",
+   "cancelled",
+   "expiring",
+   "pending&overlay=cancel",
+   "payment_failed&overlay=cancel",
+   "active&overlay=unlock",
+   "upcoming&arrival=simple",
+   "active_full",
+   "pending&sub=ask",
+   "upcoming&sub=accepted",
+   "upcoming&sub=declined"
+  ]
+ },
+ "rn01": {
+  "states": [
+   "submitting",
+   "quote_expired",
+   "form&sub=ask",
+   "quote_pending&sub=accepted",
+   "quote_pending&sub=declined",
+   "form_keep",
+   "quote_keep",
+   "quote_keep_expired"
+  ]
+ },
+ "ex01": {
+  "states": [
+   "submitting",
+   "not_started",
+   "form&overlay=confirm",
+   "form_early&overlay=confirm",
+   "requested&sub=ask",
+   "waiting&sub=accepted",
+   "waiting&sub=declined"
+  ]
+ },
+ "iv01": {
+  "states": [
+   "submitting",
+   "issued"
+  ]
+ },
+ "estore": {
+  "file": "pages/estore.html",
+  "states": [
+   "default"
+  ]
+ },
+ "agreement": {
+  "file": "pages/agreement.html",
+  "param": "doc",
+  "states": [
+   "notice",
+   "usage",
+   "register",
+   "custom"
+  ]
+ },
+ "ent_cert": {
+  "file": "pages/ent.html?view=cert",
+  "states": [
+   "empty",
+   "filled",
+   "invalid",
+   "submitting",
+   "reviewing",
+   "verified",
+   "failed"
+  ]
+ },
+ "ent_titles": {
+  "file": "pages/ent.html?view=titles",
+  "states": [
+   "empty",
+   "list",
+   "add",
+   "edit",
+   "invalid",
+   "delete"
+  ]
+ },
+ "ent_batch": {
+  "file": "pages/ent.html?view=batch",
+  "states": [
+   "gate",
+   "empty",
+   "select",
+   "selected",
+   "all",
+   "confirm",
+   "submitting",
+   "submitted",
+   "issued",
+   "failed"
+  ]
+ },
+ "acc_profile": {
+  "states": [
+   "verified&auth=m_change",
+   "verified&auth=m_change_sent",
+   "verified&auth=m_change_conflict",
+   "verified&auth=m_change_ok",
+   "verified&overlay=logout",
+   "verified&overlay=privacy",
+   "verified&overlay=privacy_confirm",
+   "verified&overlay=delete",
+   "verified&overlay=delete_blocked"
+  ]
+ },
+ "acc_access": {
+  "states": [
+   "allowed&arrival=simple",
+   "before_start&arrival=transit"
+  ]
+ },
+ "dp01": {
+  "states": [
+   "refunded_partial",
+   "held&info=open"
+  ]
+ },
+ "acc_favorites": {
+  "file": "pages/acc.html?view=favorites",
+  "states": [
+   "list_gone"
+  ]
+ },
+ "acc_progress": {
+  "states": [
+   "demand_area"
+  ]
+ },
+ "econtract": {
+  "file": "pages/econtract.html",
+  "states": [
+   "signed",
+   "empty"
+  ]
+ }
+}

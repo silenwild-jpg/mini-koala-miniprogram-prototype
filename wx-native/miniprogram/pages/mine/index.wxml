@@ -1,0 +1,49 @@
+<view class="mk-page">
+  <view class="mn-head mk-gutter mk-row" bindtap="onHead" aria-role="button">
+    <view class="mn-avatar"><image class="mk-icon mk-icon--md" src="/assets/icons/user-sub.svg" /></view>
+    <view class="mk-grow">
+      <text class="mk-h2 mn-nm">{{headTitle}}</text>
+      <text class="mk-sub">{{headSub}}</text>
+    </view>
+    <view wx:if="{{loggedIn}}" class="mk-row mn-lk"><text class="mk-link">{{T.mine.profile}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+    <view wx:else class="mn-login">{{T.loginRegister}}</view>
+  </view>
+  <view class="mk-gutter">
+    <view class="mn-task"><mk-task-card id="task" /></view>
+    <mk-need-card />
+    <view wx:if="{{showNew}}" class="mk-card mn-card mn-new">
+      <text class="mn-kicker">{{T.mine.newCard.kicker}}</text>
+      <text class="mk-title mn-block">{{T.mine.newCard.title}}</text>
+      <text class="mk-sub mn-block">{{T.mine.newCard.sub}}</text>
+      <button class="mk-btn mk-btn--md mn-cta" hover-class="mk-btn--hover" bindtap="onNewCta">{{T.mine.newCard.cta}}</button>
+    </view>
+  </view>
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:else class="mk-gutter">
+    <view wx:if="{{assets.length}}" class="mk-card mn-card">
+      <view class="mk-between mn-gt">
+        <text class="mk-title">{{T.mine.assets.title}}</text>
+        <view wx:if="{{assetsAll}}" class="mk-row mn-all" bindtap="onAssetsAll" aria-role="button"><text class="mk-link">{{assetsAll}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+      </view>
+      <view wx:for="{{assets}}" wx:key="id" class="mn-asset mk-row" data-id="{{item.id}}" bindtap="onAsset" aria-role="button">
+        <view class="mk-grow">
+          <view class="mk-row"><text class="mn-an mk-ellipsis">{{item.store}}</text><text class="mn-tag mn-tag--{{item.tone}}">{{item.tag}}</text></view>
+          <text class="mk-sub mn-block">{{item.unit}}</text>
+          <text class="mk-mute mn-block">{{item.line}}</text>
+        </view>
+        <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+      </view>
+    </view>
+    <view wx:for="{{groups}}" wx:key="key" class="mk-card mn-card">
+      <text class="mk-title mn-gt mn-block">{{item.title}}</text>
+      <view wx:for="{{item.items}}" wx:for-item="it" wx:key="k" class="mn-row mk-row" data-k="{{it.k}}" bindtap="onItem" aria-role="button">
+        <image class="mk-icon mk-icon--md mn-ic" src="{{it.icon}}" />
+        <text class="mn-t">{{it.t}}</text>
+        <text class="mk-grow mk-sub mn-s mk-ellipsis">{{it.s}}</text>
+        <text wx:if="{{it.count > 0}}" class="mn-badge mk-num">{{it.count}}</text>
+        <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+      </view>
+    </view>
+  </view>
+  <mk-login-sheet visible="{{loginVisible}}" tip="{{loginTip}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+</view>

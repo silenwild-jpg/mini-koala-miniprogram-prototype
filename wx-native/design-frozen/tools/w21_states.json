@@ -1,0 +1,13 @@
+{
+ "added": {
+  "o01": [
+   "term_near",
+   "full",
+   "full&overlay=fees",
+   "full_near"
+  ],
+  "cap": [
+   "term_near"
+  ]
+ }
+}

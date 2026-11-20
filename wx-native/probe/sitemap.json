@@ -1,0 +1,4 @@
+{
+  "desc": "探针工程不需要被搜索收录",
+  "rules": [{ "action": "disallow", "page": "*" }]
+}

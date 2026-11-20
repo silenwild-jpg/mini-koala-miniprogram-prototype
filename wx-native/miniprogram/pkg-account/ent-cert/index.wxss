@@ -1,0 +1,5 @@
+@import "../acc.wxss";
+.ec-gap { margin-top: var(--mk-space-3); }
+.ec-upload { height: 176rpx; border: 1px dashed var(--mk-color-line-strong); border-radius: var(--mk-radius-control); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ec-upload--done { border: var(--mk-border-brand); background: var(--mk-color-brand-tint); }
+.ec-upload-t { margin-top: var(--mk-space-1); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }

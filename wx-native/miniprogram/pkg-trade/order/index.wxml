@@ -1,0 +1,59 @@
+<view class="mk-page od-page">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{empty}}" class="od-empty">
+    <image class="od-pic" src="/assets/icons/order-sub.svg" />
+    <text class="mk-title">{{T.emptyTitle}}</text>
+    <text class="mk-sub od-emptydesc">{{T.emptyDesc}}</text>
+    <button class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onBackOrders">{{T.backOrders}}</button>
+  </view>
+  <view wx:elif="{{order}}" class="mk-gutter">
+    <view class="od-head">
+      <view class="mk-between"><text class="mk-h2 mk-grow">{{head.title}}</text><text class="od-tag od-tag--{{head.tone}}">{{head.tag}}</text></view>
+      <view class="od-subs">
+        <text wx:for="{{subs}}" wx:key="*this" class="mk-sub od-subitem">{{item}}</text>
+        <text wx:if="{{clock}}" class="mk-sub od-subitem od-clock mk-num">{{clock}}</text>
+      </view>
+    </view>
+    <view wx:if="{{subLine}}" class="mk-card od-note">
+      <text class="mk-sub">{{subLine === 'accepted' ? T.subOk : T.subNo}}</text>
+      <view wx:if="{{subLine === 'declined'}}" class="mk-link od-notelink" bindtap="onSubAsk" aria-role="button">{{T.subAsk}}</view>
+    </view>
+    <view wx:if="{{note}}" class="mk-card od-note od-note--{{note.tone}}">
+      <view wx:if="{{note.title}}" class="mk-title od-notetitle">{{note.title}}</view>
+      <text class="mk-sub">{{note.text}}</text>
+    </view>
+    <mk-order-card order="{{order}}" />
+    <view wx:if="{{storeSvc}}" class="mk-card od-card">
+      <view class="mk-title od-sectitle">{{T.storeSvc}}</view>
+      <view class="od-grid">
+        <view class="od-cell" data-a="navigate" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/nav-brand.svg" /><text class="od-celltext">{{T.navigate}}</text></view>
+        <view class="od-cell" data-a="call" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/phone-brand.svg" /><text class="od-celltext">{{T.callStore}}</text></view>
+        <view wx:if="{{withUnlock}}" class="od-cell" data-a="unlock" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-lock.svg" /><text class="od-celltext">{{T.unlock}}</text></view>
+      </view>
+      <view class="od-row" data-a="arrival" bindtap="onAct" aria-role="button"><image class="mk-icon" src="/assets/icons/pin-brand.svg" /><text class="mk-grow od-rowk">{{T.arrival}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+      <text wx:if="{{withUnlock}}" class="mk-mute od-rule">{{T.unlockRule}}</text>
+    </view>
+    <view wx:if="{{paid}}" class="mk-card od-card">
+      <view class="mk-title od-sectitle">{{T.progress}}</view>
+      <view wx:for="{{progress}}" wx:key="k" class="mk-between od-kv"><text class="mk-sub">{{item.k}}</text><text class="{{item.soft ? 'mk-sub' : 'od-kvv'}}">{{item.v}}</text></view>
+    </view>
+    <view wx:if="{{paid}}" class="mk-card od-card">
+      <view class="mk-title od-sectitle">{{T.services}}</view>
+      <view wx:for="{{services}}" wx:key="k" class="od-row" data-a="{{item.a}}" bindtap="onAct" aria-role="button">
+        <image class="mk-icon" src="/assets/icons/{{item.icon}}.svg" /><text class="mk-grow od-rowk">{{item.k}}</text>
+        <text class="od-rowv {{item.on ? 'od-rowv--on' : ''}}">{{item.v}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+      </view>
+    </view>
+    <mk-fee-detail order="{{order}}" locked="{{true}}" />
+    <view wx:if="{{cancelable}}" class="od-cancel"><view class="od-cancelbtn" bindtap="onCancel" aria-role="button">{{T.cancelOrder}}</view></view>
+  </view>
+  <view wx:if="{{showBar && !sys}}" class="mk-bottom-bar od-bar">
+    <view wx:if="{{bar.mode === 'pay'}}" class="mk-grow"><view class="mk-sub">{{T.payable}}</view><view class="mk-num od-amt">{{bar.amount}}</view></view>
+    <button wx:if="{{bar.secondary}}" class="mk-btn mk-btn--ghost od-barbtn" hover-class="none" data-a="{{bar.secondary.a}}" bindtap="onAct">{{bar.secondary.t}}</button>
+    <button class="mk-btn od-barbtn" hover-class="mk-btn--hover" data-a="{{bar.primary.a}}" bindtap="onAct">{{bar.primary.t}}</button>
+  </view>
+  <view wx:if="{{paying}}" class="od-scrim" catchtouchmove="noop">
+    <view class="od-dialog"><view class="od-spin"></view><text class="mk-title">{{T.payingTitle}}</text><text class="mk-sub od-dialogdesc">{{T.payingDesc}}</text></view>
+  </view>
+  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" />
+</view>

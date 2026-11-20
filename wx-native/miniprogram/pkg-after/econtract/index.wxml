@@ -1,0 +1,34 @@
+<view class="mk-page {{bar ? 'af-pad' : ''}}">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{empty}}" class="af-empty">
+    <image class="af-empty-ico" src="/assets/icons/ic-shield.svg" />
+    <text class="mk-title">{{T.e.emptyTitle}}</text>
+    <text class="mk-sub af-empty-sub">{{T.e.emptySub}}</text>
+    <button class="mk-btn mk-btn--md af-btn--neutral" hover-class="none" bindtap="onOrders">{{T.c.backOrders}}</button>
+  </view>
+  <block wx:else>
+    <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
+    <view class="af-body">
+      <view class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.e.signInfo}}</text>
+        <mk-after-kv rows="{{sign}}" />
+      </view>
+      <view class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.e.orderInfo}}</text>
+        <mk-after-kv rows="{{info}}" />
+      </view>
+      <view class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.e.docs}}</text>
+        <view wx:for="{{docs}}" wx:key="k" class="ec-doc" data-doc="{{item.doc}}" data-anchor="{{item.anchor}}" bindtap="onDoc" aria-role="button">
+          <text class="mk-grow">{{item.k}}</text>
+          <text class="mk-sub ec-doc-v">{{item.v}}</text>
+          <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+        </view>
+      </view>
+      <text class="mk-mute ec-foot">{{foot}}</text>
+    </view>
+    <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
+      <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn" hover-class="mk-btn--hover" bindtap="onBar">{{item.text}}</button>
+    </view>
+  </block>
+</view>

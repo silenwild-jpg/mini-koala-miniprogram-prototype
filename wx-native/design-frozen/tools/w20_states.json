@@ -1,0 +1,20 @@
+{
+ "added": {
+  "o01": [
+   "idv_todo",
+   "idv_todo&overlay=idv",
+   "idv_todo&overlay=idv&idv=filled",
+   "idv_todo&overlay=idv&idv=err",
+   "idv_todo&overlay=idv&idv=checking",
+   "ready&agreed=1&overlay=sign",
+   "submitting"
+  ],
+  "acc_profile": [
+   "verified&overlay=logout",
+   "verified&overlay=privacy",
+   "verified&overlay=privacy_confirm",
+   "verified&overlay=delete",
+   "verified&overlay=delete_blocked"
+  ]
+ }
+}

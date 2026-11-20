@@ -1,0 +1,1 @@
+{ "navigationBarTitleText": "附近门店", "enablePullDownRefresh": true, "usingComponents": { "mk-store-card": "/components/mk-store-card/index", "mk-location-panel": "/components/mk-location-panel/index", "mk-estore-card": "/components/mk-estore-card/index", "mk-demand-sheet": "/components/mk-demand-sheet/index" } }

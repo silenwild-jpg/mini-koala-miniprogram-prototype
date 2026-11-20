@@ -1,0 +1,9 @@
+.pr-price { display: inline-flex; align-items: baseline; color: var(--mk-color-ink-primary); white-space: nowrap; }
+.pr-cur { font-size: var(--mk-font-size-xs); font-weight: var(--mk-font-weight-semibold); margin-right: 4rpx; }
+.pr-num { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); }
+.pr-price--lg .pr-num { font-size: var(--mk-font-size-3xl); }
+.pr-price--sm .pr-num { font-size: var(--mk-font-size-lg); }
+.pr-unit { font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); margin-left: 4rpx; }
+.pr-disc { margin-left: var(--mk-space-2); margin-right: 0; align-self: center; }
+.pr-price--weak { color: var(--mk-color-ink-secondary); }
+.pr-price--weak .pr-num { font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-regular); }

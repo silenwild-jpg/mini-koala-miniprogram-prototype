@@ -1,0 +1,121 @@
+{
+  "DATA_SOURCE": "mock",
+  "API_BASE": "",
+  "DEMO_SEED_ORDERS": true,
+  "pricing": {
+    "termRules": [
+      {
+        "min": 1,
+        "max": 2,
+        "factor": 0.8
+      },
+      {
+        "min": 3,
+        "max": 5,
+        "factor": 0.75
+      },
+      {
+        "min": 6,
+        "max": 11,
+        "factor": 0.7
+      },
+      {
+        "min": 12,
+        "max": 60,
+        "factor": 0.65
+      }
+    ],
+    "depositMonths": 1,
+    "managementFee": 50,
+    "fullReductionTiers": [
+      {
+        "min": 5000,
+        "off": 150
+      },
+      {
+        "min": 10000,
+        "off": 400
+      },
+      {
+        "min": 20000,
+        "off": 1000
+      }
+    ],
+    "nudgeMonths": 3,
+    "upsizeRatio": 0.85
+  },
+  "freeTransport": {
+    "minKm": 5,
+    "minTerm": 6,
+    "minFactor": 0.6
+  },
+  "matching": {
+    "salesOnlyFromM3": 30,
+    "advisorCapacityM3": 15,
+    "advisorRentTotal": 3000,
+    "nearRatio": 0.8,
+    "nearbyRadiusKm": 5,
+    "nearbyFallbackStores": 3
+  },
+  "requirement": {
+    "capacityMinM3": 0.5,
+    "capacityDecimals": 2,
+    "areaMinM2": 0.2,
+    "areaMaxM2": 200,
+    "areaDecimals": 1,
+    "areaLayerHeightM": 2.4,
+    "capacityQuickPicks": [
+      1,
+      3,
+      8,
+      15,
+      20
+    ],
+    "cartonVolumeM3": 0.096,
+    "cartonFillRatio": 0.8,
+    "termPresets": [
+      1,
+      3,
+      6,
+      12
+    ],
+    "termOtherQuick": [
+      18,
+      24,
+      36
+    ],
+    "termMin": 1,
+    "termMax": 60,
+    "termDefault": 12,
+    "itemQtyMax": 999,
+    "itemQtyQuick": [
+      10,
+      20,
+      50
+    ],
+    "itemsAdvisorHintFromM3": 15
+  },
+  "volumeModel": {
+    "version": "MK-VOL-0.2",
+    "kFloor": 0.5,
+    "roundUpTo": 0.1
+  },
+  "timers": {
+    "quoteTtlHours": 3,
+    "pendingOrderTtlHours": 3,
+    "renewQuoteTtlHours": 24,
+    "locationBubbleSeconds": 5,
+    "recentLocationsKept": 3
+  },
+  "service": {
+    "hourStart": 9,
+    "hourEnd": 20
+  },
+  "subscribeTemplates": {
+    "booking": [],
+    "renewQuote": [],
+    "inspect": [],
+    "expire": []
+  },
+  "defaultCity": "北京"
+}

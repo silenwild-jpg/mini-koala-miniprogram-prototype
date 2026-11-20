@@ -1,0 +1,88 @@
+<view class="mk-page {{bar ? 'af-pad' : ''}}">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{empty}}" class="af-empty">
+    <image class="af-empty-ico" src="/assets/icons/order-sub.svg" />
+    <text class="mk-title">{{T.c.emptyTitle}}</text>
+    <text class="mk-sub af-empty-sub">{{T.c.emptySub}}</text>
+    <button class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
+  </view>
+  <block wx:else>
+    <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
+    <view class="af-body">
+      <mk-after-fail wx:if="{{fail}}" title="{{T.i.failTitle}}" reason="{{reason}}" fixes="{{T.i.failFixes}}" extra="{{T.i.failKeep}}" bind:call="onCall" />
+      <view wx:if="{{records.length}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.i.records}}</text>
+        <view wx:for="{{records}}" wx:key="id" class="iv-rec">
+          <view class="mk-grow">
+            <text class="iv-rec-t">{{item.t}}</text>
+            <text class="mk-sub iv-rec-s">{{item.s}}</text>
+            <text class="mk-sub iv-rec-s">{{item.email}}</text>
+          </view>
+          <mk-after-tag text="{{item.tag}}" tone="{{item.tone}}" />
+        </view>
+      </view>
+      <view wx:if="{{showPays}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.i.payments}}</text>
+        <block wx:if="{{pays.length}}">
+          <view wx:for="{{pays}}" wx:key="id" class="iv-pay">
+            <view class="iv-pay-row" bindtap="onPickPay" aria-role="button">
+              <text class="mk-grow iv-pay-k">{{item.label}}</text>
+              <text class="mk-num iv-pay-k">{{item.amt}}</text>
+              <image wx:if="{{item.multi}}" class="mk-icon iv-pay-ico" src="{{item.on ? '/assets/icons/check-brand.svg' : '/assets/icons/chev-mute.svg'}}" />
+            </view>
+            <view wx:for="{{item.split}}" wx:for-item="s" wx:key="k" class="mk-between iv-split"><text class="mk-sub">{{s.k}}</text><text class="mk-sub mk-num">{{s.a}}</text></view>
+          </view>
+          <view class="iv-notes"><mk-after-kv rows="{{notes}}" /></view>
+        </block>
+        <text wx:else class="af-rule">{{T.i.noPayments}}</text>
+      </view>
+      <view wx:if="{{form}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.i.info}}</text>
+        <view class="af-field">
+          <text class="af-label">{{T.i.kindLabel}}</text>
+          <view class="af-seg">
+            <view wx:for="{{form.kinds}}" wx:key="v" class="af-seg-item {{item.on ? 'af-seg-item--on' : ''}}" data-v="{{item.v}}" bindtap="onKind" aria-role="button">{{item.t}}</view>
+          </view>
+        </view>
+        <view class="af-field">
+          <text class="af-label">{{T.i.title}}</text>
+          <view class="af-input"><input class="af-input-el" value="{{form.title}}" placeholder="{{form.titlePh}}" placeholder-class="af-ph" maxlength="60" data-f="title" bindinput="onInput" /></view>
+        </view>
+        <view wx:if="{{form.ent}}" class="af-field">
+          <text class="af-label">{{T.i.tax}}</text>
+          <view class="af-input"><input class="af-input-el" value="{{form.tax}}" placeholder="{{T.i.taxPh}}" placeholder-class="af-ph" maxlength="20" data-f="tax" bindinput="onInput" /></view>
+        </view>
+        <view class="af-field">
+          <text class="af-label">{{T.i.email}}</text>
+          <view class="af-input {{form.emailErr ? 'af-input--err' : ''}}"><input class="af-input-el" value="{{form.email}}" placeholder="{{T.i.emailPh}}" placeholder-class="af-ph" maxlength="60" data-f="email" bindinput="onInput" bindblur="onEmailBlur" /></view>
+          <text wx:if="{{form.emailErr}}" class="mk-error iv-err">{{T.i.emailErr}}</text>
+        </view>
+        <view wx:if="{{form.ent}}" class="iv-links">
+          <view class="iv-link" bindtap="onTitles" aria-role="button"><text class="mk-grow">{{T.i.titles}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+          <view class="iv-link" bindtap="onBatch" aria-role="button"><text class="mk-grow">{{T.i.batch}}</text><text class="mk-sub">{{T.i.batchSub}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        </view>
+      </view>
+      <view wx:if="{{file.length}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.i.file}}</text>
+        <mk-after-kv rows="{{file}}" />
+      </view>
+    </view>
+  <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
+    <view wx:if="{{bar.lab}}" class="af-bar-info">
+      <text class="mk-mute">{{bar.lab}}</text>
+      <text class="mk-num af-bar-amt {{bar.muted ? 'af-bar-amt--muted' : ''}}">{{bar.amt}}</text>
+    </view>
+    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="none" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
+  </view>
+    <mk-sheet visible="{{sheet}}" title="{{T.i.pickPayment}}" bind:close="onSheetClose">
+      <view wx:for="{{opts}}" wx:key="id" class="iv-opt {{item.on ? 'iv-opt--on' : ''}}" data-id="{{item.id}}" bindtap="onOpt" aria-role="button">
+        <text class="mk-grow">{{item.label}}</text>
+        <image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
+      </view>
+      <view class="iv-acts">
+        <button class="mk-btn af-btn--neutral iv-act" hover-class="none" bindtap="onSheetClose">{{T.z.cancel}}</button>
+        <button class="mk-btn iv-act" hover-class="mk-btn--hover" bindtap="onSheetOk">{{T.z.confirm}}</button>
+      </view>
+    </mk-sheet>
+  </block>
+</view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "电子合同",
+  "usingComponents": {
+    "mk-after-head": "/components/mk-after-head/index",
+    "mk-after-kv": "/components/mk-after-kv/index"
+  }
+}

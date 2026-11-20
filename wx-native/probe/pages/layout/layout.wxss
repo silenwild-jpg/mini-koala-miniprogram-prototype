@@ -1,0 +1,22 @@
+.l-12 { font-size: 24rpx; color: var(--mk-color-ink-secondary); }
+.l-13 { font-size: 26rpx; color: var(--mk-color-ink-secondary); }
+.l-14 { font-size: 28rpx; }
+.l-16 { font-size: 32rpx; font-weight: var(--mk-font-weight-semibold); }
+.l-line { padding: var(--mk-space-2); margin-top: var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); }
+.l-1px { border: 1px solid #E3E8E5; }
+.l-1rpx { border: 1rpx solid #E3E8E5; }
+.l-dash { border: 1px dashed #C9D3CD; }
+.l-chips { margin-top: var(--mk-space-2); }
+.l-nopad { padding: var(--mk-space-cardPad) 0; }
+.l-pad { padding: 0 var(--mk-space-cardPad); }
+.l-rail { white-space: nowrap; padding-left: var(--mk-space-cardPad); box-sizing: border-box; }
+.l-rec { display: inline-block; width: var(--mk-size-recCardWidth); margin-right: var(--mk-space-2); vertical-align: top; white-space: normal; }
+.l-rec-img { height: 178rpx; border-radius: var(--mk-radius-media); background: var(--mk-color-brand-tint); }
+.l-rec-name { font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); margin-top: var(--mk-space-1); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.l-rec-price { font-family: var(--mk-font-family-numeric); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-bold); }
+.l-unit { font-size: var(--mk-font-size-xs); font-weight: var(--mk-font-weight-regular); color: var(--mk-color-ink-secondary); }
+.l-store { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-semibold); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-bottom: var(--mk-space-1); }
+.l-num { font-family: var(--mk-font-family-numeric); white-space: nowrap; }
+.l-pay { display: flex; align-items: center; justify-content: space-between; margin-top: var(--mk-space-3); }
+.l-total { font-family: var(--mk-font-family-numeric); font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); white-space: nowrap; }
+.l-pay-btn { flex: none; margin-top: 0; padding: 0 var(--mk-space-4); height: var(--mk-size-ctaHeight); line-height: var(--mk-size-ctaHeight); }

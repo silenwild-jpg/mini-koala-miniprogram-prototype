@@ -1,0 +1,64 @@
+<view class="mk-card sc-card {{variant === 'compact' ? 'sc-card--compact' : ''}}">
+  <view class="sc-head" bindtap="onStore" aria-role="button">
+    <view class="mk-grow">
+      <text class="mk-title mk-ellipsis sc-name">{{card.name}}</text>
+      <view class="mk-between sc-meta">
+        <text class="mk-sub mk-ellipsis mk-grow">{{card.address}}</text>
+        <text wx:if="{{card.kmText}}" class="sc-km">{{card.kmText}}</text>
+      </view>
+      <view class="sc-tags">
+        <text wx:if="{{card.rankTag}}" class="mk-tag mk-tag--brand">{{card.rankTag}}</text>
+        <block wx:if="{{variant === 'compact'}}"><text wx:for="{{card.tagsCompact}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></block>
+        <block wx:else><text wx:for="{{card.tags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></block>
+      </view>
+    </view>
+    <image wx:if="{{variant === 'compact'}}" class="mk-icon sc-chev" src="/assets/icons/chev-mute.svg" />
+  </view>
+
+  <!-- 紧凑卡：一行价格 -->
+  <view wx:if="{{variant === 'compact'}}" class="sc-cline" bindtap="onStore">
+    <block wx:if="{{card.row}}">
+      <mk-price amount="{{card.row.price.amount}}" unit="{{card.row.price.unit}}" size="sm" />
+      <text class="mk-sub sc-cmeta">{{card.compactText}}</text>
+    </block>
+    <text wx:elif="{{card.emptyText}}" class="mk-sub">{{card.emptyText}}</text>
+    <block wx:else>
+      <mk-price wx:if="{{card.fromPrice}}" amount="{{card.fromPrice}}" unit="{{T.cubic}}" size="sm" />
+      <text class="mk-sub sc-cmeta">{{T.range}} {{card.rangeText}}</text>
+    </block>
+  </view>
+
+  <!-- 没有仓位行：浏览卡，或有需求但该店没有匹配 -->
+  <view wx:elif="{{lines.length === 0}}" class="mk-between sc-foot" bindtap="onStore">
+    <text wx:if="{{card.emptyText}}" class="mk-sub">{{card.emptyText}}</text>
+    <block wx:else>
+      <view wx:if="{{variant !== 'plain'}}"><text class="mk-sub">{{T.range}} </text><text>{{card.rangeText}}</text></view>
+      <mk-price wx:if="{{card.fromPrice}}" amount="{{card.fromPrice}}" unit="{{T.cubic}}" />
+      <text wx:else class="mk-sub">{{T.none}}</text>
+    </block>
+    <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+  </view>
+
+  <block wx:else>
+    <view wx:for="{{lines}}" wx:key="id" class="sc-line">
+      <view class="sc-unit">
+        <text class="sc-uname">{{item.name}}</text>
+        <text wx:if="{{item.tier}}" class="mk-tag sc-tier">{{item.tier}}</text>
+        <text wx:if="{{item.area && !item.diffText}}" class="mk-sub"> · {{item.area}}</text>
+        <text class="mk-sub"> · {{item.diffText ? item.diffText : item.usage}}</text>
+        <text wx:if="{{item.bigTag}}" class="mk-tag sc-tier">{{item.bigTag}}</text>
+        <text wx:if="{{item.nearText}}" class="mk-tag mk-tag--promo sc-tier">{{item.nearText}}</text>
+      </view>
+      <text wx:if="{{item.reason}}" class="mk-mute sc-reason">{{item.reason}}</text>
+      <view wx:if="{{variant !== 'match' && index === 0 && card.moreText}}" class="mk-link sc-more" bindtap="onStore">{{card.moreText}} ›</view>
+      <view class="mk-between sc-buy">
+        <view class="mk-grow" data-i="{{index}}" bindtap="onPrice">
+          <mk-price amount="{{item.price.amount}}" unit="{{item.price.unit}}" discount="{{item.price.discount}}" />
+          <text wx:if="{{item.price.sub}}" class="mk-sub sc-sub">{{item.price.sub}}</text>
+        </view>
+        <button class="mk-btn mk-btn--md sc-cta {{item.secondary ? 'mk-btn--ghost' : ''}}" hover-class="{{item.secondary ? 'none' : 'mk-btn--hover'}}" data-i="{{index}}" bindtap="onAction">{{item.cta}}</button>
+      </view>
+    </view>
+    <view wx:if="{{variant === 'match' && card.moreText}}" class="mk-link sc-storelink" bindtap="onStore" aria-role="button">{{card.moreText}} ›</view>
+  </block>
+</view>

@@ -1,0 +1,5 @@
+.wrap { padding-bottom: 240rpx; }
+.k-input { height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); margin-top: var(--mk-space-2); background: var(--mk-color-canvas-sunken); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-lg); }
+.k-gap { margin-top: var(--mk-space-3); }
+.k-bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--mk-color-canvas-card); border-top: var(--mk-border-hairline); padding: var(--mk-space-2) var(--mk-space-pageGutter); padding-bottom: calc(var(--mk-space-2) + constant(safe-area-inset-bottom)); padding-bottom: calc(var(--mk-space-2) + env(safe-area-inset-bottom)); }
+.k-bar-btn { margin-top: 0; height: var(--mk-size-ctaHeight); line-height: var(--mk-size-ctaHeight); }

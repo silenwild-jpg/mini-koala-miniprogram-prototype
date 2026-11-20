@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "usingComponents": { "mk-order-card": "/components/mk-order-card/index", "mk-fee-detail": "/components/mk-fee-detail/index" }
+}

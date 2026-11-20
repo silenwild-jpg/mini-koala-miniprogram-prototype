@@ -1,0 +1,1690 @@
+{
+ "task": "VIS-REDESIGN-01A",
+ "deliverable": "W7 DR1 修订版（v2）· W6 终版 + W7-A～G（34 页，design-system v1.2 增量）",
+ "generated_at": "2026-11-17 16:07",
+ "content_snapshot": {
+  "repo": "silenwild-jpg/mini-koala-miniprogram-prototype",
+  "ref": "PR #220 HEAD 1d0dc7f69fb2501d3298be0fb42b704a54460cb0",
+  "note": "= main 母版 + #210 已签收演示价格 + 01C 文案候选；本交付不改仓库"
+ },
+ "design_system": {
+  "spec": "WP04_Design_System_Spec.md v1.1.1 (D-37 errata) · CONFIRMED by 张坤 2026-11-17",
+  "tokens": "tokens.css 93 tokens",
+  "spec_delta": "docs/WP04_Design_System_Spec_v1.2_Delta.md",
+  "css_layers": {
+   "tokens.css": {
+    "bytes": 3647,
+    "important_outside_comments": 0,
+    "hardcoded_hex": {
+     "#14AE68": 3,
+     "#0B7A48": 3,
+     "#0F8F55": 1,
+     "#085C36": 1,
+     "#E6F6EE": 1,
+     "#CDEBDC": 1,
+     "#FFFFFF": 4,
+     "#F5F7F6": 2,
+     "#1F2A24": 1,
+     "#5F6B65": 2,
+     "#8A948F": 1,
+     "#E3E8E5": 3,
+     "#C9D3CD": 2,
+     "#FFF1E6": 2,
+     "#B4530A": 2,
+     "#F5821F": 1,
+     "#FEF3F2": 1,
+     "#B42318": 1,
+     "#D92D20": 2
+    }
+   },
+   "base.css": {
+    "bytes": 5888,
+    "important_outside_comments": 0,
+    "hardcoded_hex": {
+     "#fff": 3
+    }
+   },
+   "components.css": {
+    "bytes": 105697,
+    "important_outside_comments": 0,
+    "hardcoded_hex": {
+     "#fff": 33,
+     "#2A3630": 1,
+     "#ECEFEE": 1
+    }
+   }
+  }
+ },
+ "runtime_parity": {
+  "br03-demo-snapshots.js": "IDENTICAL",
+  "br03-policy.js": "IDENTICAL",
+  "cap-bands.js": "VERBATIM_EXTRACT",
+  "demo-core.js": "IDENTICAL",
+  "fixtures.js": "IDENTICAL",
+  "gift-term-policy.js": "IDENTICAL",
+  "h01-state-policy-01.js": "IDENTICAL",
+  "home-recommend-policy.js": "IDENTICAL",
+  "items-catalog.js": "VERBATIM_EXTRACT",
+  "lead-flow.js": "IDENTICAL",
+  "lifecycle-contract.js": "IDENTICAL",
+  "presentation-policy.js": "IDENTICAL",
+  "promotion-policy.js": "IDENTICAL",
+  "recommendation-policy.js": "IDENTICAL",
+  "space-unit.js": "IDENTICAL",
+  "store-geo.js": "IDENTICAL"
+ },
+ "pages": {
+  "H01": {
+   "wave": "W1",
+   "states": [
+    "new",
+    "estimated",
+    "selected",
+    "booking",
+    "pending",
+    "expired",
+    "payment_failed",
+    "cancelled",
+    "invalidated",
+    "identity",
+    "upcoming",
+    "renewal",
+    "expiring",
+    "active",
+    "returning",
+    "lease_expired",
+    "refund",
+    "w7__booking_only",
+    "w7__renewal_quote",
+    "w7__renewal_pending",
+    "w7__active_todo",
+    "w7__active_pending",
+    "w7__active_many"
+   ],
+   "runs": 46,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 1,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "S01": {
+   "wave": "W1",
+   "states": [
+    "browse",
+    "matched",
+    "nomatch",
+    "soldout",
+    "filtering",
+    "loading",
+    "matched__demand",
+    "matched__filter",
+    "browse__sys_error",
+    "browse__sys_offline",
+    "w7__advisor",
+    "w7__near",
+    "w7__sales",
+    "w7__matched__demand__m2"
+   ],
+   "runs": 28,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 1,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "S02": {
+   "wave": "W2",
+   "states": [
+    "browse",
+    "matched",
+    "combo",
+    "near",
+    "nomatch",
+    "soldout",
+    "filtered",
+    "services",
+    "route",
+    "matched__sys_loading",
+    "matched__sys_error",
+    "matched__sys_offline",
+    "matched__sys_unit_gone",
+    "w7__sales",
+    "w7__advisor"
+   ],
+   "runs": 30,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 3,
+   "statusbar_missing": 0,
+   "topbar_missing": 30,
+   "dark_green_blocks": 0
+  },
+  "S5": {
+   "wave": "W2",
+   "states": [
+    "matched",
+    "combo",
+    "near",
+    "none",
+    "large",
+    "advisor",
+    "cold",
+    "loading",
+    "expanded",
+    "matched__origin",
+    "matched__fees",
+    "matched__demand",
+    "matched__sys_error",
+    "matched__sys_offline",
+    "w7__sales30"
+   ],
+   "runs": 30,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "O01": {
+   "wave": "W2",
+   "states": [
+    "empty",
+    "unauthorized",
+    "unauthorized__phone",
+    "ready",
+    "ready__agreed",
+    "ready__fees",
+    "coupon",
+    "coupon__coupon",
+    "pending",
+    "pending__pay",
+    "price_changed",
+    "payment_failed",
+    "payment_failed__agreed",
+    "expired",
+    "ready__sys_unit_gone",
+    "w7__submitting",
+    "w7__paying",
+    "w7__cancelled",
+    "w7__pending__cancel",
+    "w7__payment_failed__cancel",
+    "w7__expired__alternatives"
+   ],
+   "runs": 42,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "CAP": {
+   "wave": "W3",
+   "states": [
+    "empty",
+    "filled",
+    "area",
+    "invalid",
+    "term",
+    "other",
+    "large",
+    "ai",
+    "w7__advisor_hint",
+    "w7__sales"
+   ],
+   "runs": 20,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 1,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ITEMS": {
+   "wave": "W3",
+   "states": [
+    "empty",
+    "browse",
+    "selected",
+    "category",
+    "scenes",
+    "search",
+    "search_empty",
+    "term",
+    "known",
+    "cart",
+    "clear",
+    "w7__scene_business",
+    "w7__sales"
+   ],
+   "runs": 26,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 1,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "QUICK": {
+   "wave": "W3",
+   "states": [
+    "empty",
+    "store",
+    "store__city",
+    "store__store",
+    "unit",
+    "unit__unit",
+    "term",
+    "term__terms",
+    "ready",
+    "ready__fees",
+    "ready__sys_loading",
+    "ready__sys_error",
+    "ready__sys_offline",
+    "ready__sys_unit_gone",
+    "w7__addon"
+   ],
+   "runs": 30,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 1,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "BOOKING": {
+   "wave": "W3",
+   "states": [
+    "empty",
+    "filled",
+    "filled__items",
+    "filled__capacity",
+    "filled__date",
+    "advisor",
+    "error",
+    "submitting",
+    "failed",
+    "success",
+    "success_advisor",
+    "w7__business",
+    "w7__store",
+    "w7__carried",
+    "w7__large",
+    "w7__success_offhours",
+    "w7__success_store",
+    "w7__filled__duration"
+   ],
+   "runs": 36,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 4,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "O03": {
+   "wave": "W4",
+   "states": [
+    "empty",
+    "pending",
+    "payment_failed",
+    "expired",
+    "identity",
+    "upcoming",
+    "active",
+    "renewal",
+    "returning",
+    "inspection",
+    "refund",
+    "expired_lease",
+    "ended",
+    "w7__paying",
+    "w7__cancelled",
+    "w7__expiring",
+    "w7__pending__cancel",
+    "w7__payment_failed__cancel",
+    "w7__active__unlock"
+   ],
+   "runs": 38,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "RN01": {
+   "wave": "W4",
+   "states": [
+    "empty",
+    "form",
+    "quote_pending",
+    "quote_ready",
+    "payment_pending",
+    "payment_pending__pay",
+    "payment_failed",
+    "cancelled",
+    "completed",
+    "unavailable",
+    "w7__submitting",
+    "w7__quote_expired"
+   ],
+   "runs": 24,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "EX01": {
+   "wave": "W4",
+   "states": [
+    "empty",
+    "form",
+    "form_early",
+    "form_expired",
+    "requested",
+    "waiting",
+    "failed",
+    "passed",
+    "unavailable",
+    "w7__submitting",
+    "w7__not_started",
+    "w7__form__confirm",
+    "w7__form_early__confirm"
+   ],
+   "runs": 26,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "DP01": {
+   "wave": "W4",
+   "states": [
+    "empty",
+    "held",
+    "waiting",
+    "refund_pending",
+    "refund_pending__progress",
+    "refunded",
+    "refund_failed__review",
+    "refund_failed"
+   ],
+   "runs": 16,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "IV01": {
+   "wave": "W4",
+   "states": [
+    "empty",
+    "form",
+    "filled",
+    "form_enterprise",
+    "invalid",
+    "submitted",
+    "processing",
+    "issue_failed__review",
+    "issue_failed",
+    "two_payments",
+    "two_payments__payment",
+    "w7__submitting",
+    "w7__issued"
+   ],
+   "runs": 26,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 2,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "BUSINESS": {
+   "wave": "W5",
+   "states": [
+    "empty",
+    "filled",
+    "custom",
+    "authorized",
+    "edit",
+    "blocked",
+    "error_phone",
+    "invalid_capacity",
+    "browse_error",
+    "submitting",
+    "failed",
+    "unknown",
+    "restored",
+    "success",
+    "success_update",
+    "filled__date",
+    "w7__step2",
+    "w7__sales",
+    "w7__success_offhours",
+    "w7__success_sales"
+   ],
+   "runs": 40,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 2,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "M01": {
+   "wave": "W6",
+   "states": [
+    "new",
+    "estimated",
+    "selected",
+    "booking",
+    "pending",
+    "expired",
+    "payment_failed",
+    "cancelled",
+    "invalidated",
+    "identity",
+    "upcoming",
+    "renewal",
+    "expiring",
+    "active",
+    "returning",
+    "lease_expired",
+    "refund",
+    "ended",
+    "active__sys_loading",
+    "active__sys_error",
+    "active__sys_offline",
+    "w7__active_todo",
+    "w7__active_pending",
+    "w7__renewal_quote",
+    "w7__renewal_pending",
+    "w7__booking__offhours"
+   ],
+   "runs": 52,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "OH01": {
+   "wave": "W6",
+   "states": [
+    "empty",
+    "single",
+    "mixed",
+    "ended",
+    "mixed__sys_loading",
+    "mixed__sys_error",
+    "mixed__sys_offline",
+    "w7__identity",
+    "w7__upcoming",
+    "w7__expiring",
+    "w7__returning",
+    "w7__lease_expired"
+   ],
+   "runs": 24,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_NEEDS": {
+   "wave": "W6",
+   "states": [
+    "empty",
+    "list",
+    "withdrawn",
+    "edit",
+    "withdraw",
+    "withdraw__sys_loading",
+    "withdraw__sys_error",
+    "withdraw__sys_offline",
+    "w7__more"
+   ],
+   "runs": 18,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_PROGRESS": {
+   "wave": "W6",
+   "states": [
+    "none",
+    "demand",
+    "selected",
+    "quote",
+    "quote_expired",
+    "reference",
+    "reference__sys_loading",
+    "reference__sys_error",
+    "reference__sys_offline"
+   ],
+   "runs": 18,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_FAVORITES": {
+   "wave": "W6",
+   "states": [
+    "empty",
+    "list",
+    "list__sys_loading",
+    "list__sys_error",
+    "list__sys_offline"
+   ],
+   "runs": 10,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_COUPONS": {
+   "wave": "W6",
+   "states": [
+    "empty",
+    "gate",
+    "available",
+    "locked",
+    "redeemed",
+    "redeemed__sys_loading",
+    "redeemed__sys_error",
+    "redeemed__sys_offline"
+   ],
+   "runs": 16,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_MESSAGES": {
+   "wave": "W6",
+   "states": [
+    "empty",
+    "unread",
+    "read",
+    "read__sys_loading",
+    "read__sys_error",
+    "read__sys_offline"
+   ],
+   "runs": 12,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_PROFILE": {
+   "wave": "W6",
+   "states": [
+    "unverified",
+    "verified",
+    "contact",
+    "contact__contact",
+    "contact_invalid",
+    "contact_invalid__sys_loading",
+    "contact_invalid__sys_error",
+    "contact_invalid__sys_offline"
+   ],
+   "runs": 16,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_IDENTITY": {
+   "wave": "W6",
+   "states": [
+    "not_paid",
+    "pending",
+    "form",
+    "invalid",
+    "reviewing",
+    "reviewing__review",
+    "result",
+    "verified",
+    "failed",
+    "verified__sys_loading",
+    "verified__sys_error",
+    "verified__sys_offline"
+   ],
+   "runs": 24,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 2,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_ACCESS": {
+   "wave": "W6",
+   "states": [
+    "not_paid",
+    "identity_required",
+    "before_start",
+    "allowed",
+    "allowed__unlock",
+    "inactive",
+    "inactive__sys_loading",
+    "inactive__sys_error",
+    "inactive__sys_offline"
+   ],
+   "runs": 18,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_TRANSPORT": {
+   "wave": "W6",
+   "states": [
+    "empty",
+    "pick",
+    "form",
+    "invalid",
+    "saved",
+    "saved__sys_loading",
+    "saved__sys_error",
+    "saved__sys_offline",
+    "w7__pre_invalid",
+    "w7__pre_saved",
+    "w7__pre_saved__offhours"
+   ],
+   "runs": 22,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 3,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_REFERRAL": {
+   "wave": "W6",
+   "states": [
+    "gate",
+    "ready",
+    "copied",
+    "copied__sys_loading",
+    "copied__sys_error",
+    "copied__sys_offline"
+   ],
+   "runs": 12,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_SUPPORT": {
+   "wave": "W6",
+   "states": [
+    "form",
+    "order",
+    "invalid",
+    "saved",
+    "saved__sys_loading",
+    "saved__sys_error",
+    "saved__sys_offline",
+    "w7__saved__offhours"
+   ],
+   "runs": 16,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 1,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ACC_BRAND": {
+   "wave": "W6",
+   "states": [
+    "default",
+    "default__sys_loading",
+    "default__sys_error",
+    "default__sys_offline"
+   ],
+   "runs": 8,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ESTORE": {
+   "wave": "W7",
+   "states": [
+    "w7__default"
+   ],
+   "runs": 2,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "AGREEMENT": {
+   "wave": "W7",
+   "states": [
+    "w7__storage",
+    "w7__privacy",
+    "w7__user"
+   ],
+   "runs": 6,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ENT_CERT": {
+   "wave": "W7",
+   "states": [
+    "w7__empty",
+    "w7__filled",
+    "w7__invalid",
+    "w7__submitting",
+    "w7__reviewing",
+    "w7__verified",
+    "w7__failed"
+   ],
+   "runs": 14,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 4,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ENT_TITLES": {
+   "wave": "W7",
+   "states": [
+    "w7__empty",
+    "w7__list",
+    "w7__add",
+    "w7__edit",
+    "w7__invalid",
+    "w7__delete"
+   ],
+   "runs": 12,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 6,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  },
+  "ENT_BATCH": {
+   "wave": "W7",
+   "states": [
+    "w7__gate",
+    "w7__empty",
+    "w7__select",
+    "w7__selected",
+    "w7__all",
+    "w7__confirm",
+    "w7__submitting",
+    "w7__submitted",
+    "w7__issued",
+    "w7__failed"
+   ],
+   "runs": 20,
+   "font_lt12": 0,
+   "tap_lt32": 0,
+   "overflow_x": 0,
+   "console_errors": 0,
+   "contrast_fail_max": 0,
+   "statusbar_missing": 0,
+   "topbar_missing": 0,
+   "dark_green_blocks": 0
+  }
+ },
+ "gate_totals": {
+  "runs": 778,
+  "font_lt12": 0,
+  "tap_lt32": 0,
+  "overflow_x": 0,
+  "console_errors": 0,
+  "contrast_fail_items": 284,
+  "contrast_fail_kinds": {
+   "placeholder/disabled-grey": 284
+  }
+ },
+ "site_inventory": {
+  "font_sizes": [
+   "12",
+   "13",
+   "14",
+   "16",
+   "18",
+   "20",
+   "22",
+   "24",
+   "28"
+  ],
+  "text_colors": 8,
+  "text_colors_list": [
+   "rgb(11, 122, 72)",
+   "rgb(138, 148, 143)",
+   "rgb(180, 35, 24)",
+   "rgb(180, 83, 10)",
+   "rgb(217, 45, 32)",
+   "rgb(255, 255, 255)",
+   "rgb(31, 42, 36)",
+   "rgb(95, 107, 101)"
+  ],
+  "radii": [
+   "12px",
+   "12px 12px 0px 0px",
+   "13px",
+   "2px",
+   "3px",
+   "4px",
+   "50%",
+   "8px"
+  ]
+ },
+ "wp02_baseline_for_comparison": {
+  "font_lt12": 185,
+  "contrast_fail": 213,
+  "font_sizes_runtime": 35,
+  "text_colors_runtime": 143,
+  "radii_runtime": 27,
+  "source_css_colors": 858,
+  "source_important": 364,
+  "css_layers_index_html": 12
+ },
+ "not_covered_by_this_candidate": [
+  "account.html 评审工具 mine（debug=1）：不设计，移 ?review=1 面板（D-36 A）",
+  "微信真机 NOT TESTED（Web 原型，375/390 Chromium）",
+  "RESULT 遗留页：退役，映射见 docs/D28_RESULT_Retirement_Spec.md",
+  "W1 H01 / S01 的 expired / 长店名等 D-22 真实数据复核"
+ ],
+ "open_decisions": [
+  "见 W7_Report.md 第 5、7 节与 DEV_HANDOFF_v2_W7_Delta.md 第 6 节"
+ ],
+ "decisions": "D-01～D-106",
+ "files": {
+  "design-system/base.css": {
+   "sha256": "14a296eed6f1bc6f9849a4cab597c95e31802174d779ffb08b29bf06b36163d6",
+   "bytes": 5888
+  },
+  "design-system/components.css": {
+   "sha256": "bc601a8bec5ee8229b9ebfb1eae8bfc01a7e54cc1791c37eba6c4be13dd810c7",
+   "bytes": 105697
+  },
+  "design-system/tokens.css": {
+   "sha256": "db2f78f81f4d3ba60675e10ee88d1d886974bcb937e2c3975a1910d91c6d3d25",
+   "bytes": 3647
+  },
+  "pages/acc.html": {
+   "sha256": "3efdf11a989e0191448a6545938515cd68a098a84e6bad8c0c44a11a7c0a97f2",
+   "bytes": 9324
+  },
+  "pages/agreement.html": {
+   "sha256": "4e16a449bb33c20677499728d59b8cae5303deaf76ed44fdd2b38505d375c8b1",
+   "bytes": 9102
+  },
+  "pages/booking.html": {
+   "sha256": "2187c3c0c185a8f11d10e2f295d91a9ecc78d5917224bd74a0cf4bb1e891ebd7",
+   "bytes": 7956
+  },
+  "pages/business.html": {
+   "sha256": "39d6411d0a37b9b6762f882446b6eb34064723db1092d8d8f51a8146f3afe6bd",
+   "bytes": 8386
+  },
+  "pages/cap.html": {
+   "sha256": "f1539d2f121e7ab35f8da6ddbd1f60e67ec004123c8c73642aad3f68944455f3",
+   "bytes": 9055
+  },
+  "pages/dp01.html": {
+   "sha256": "177539292814dc45735f52d25285f91e0c907498038c3f0af69489b1018127f1",
+   "bytes": 8071
+  },
+  "pages/ent.html": {
+   "sha256": "4eb0008476c91644721681faecdcb6b0aa277b6d1f29ed822852dd456bee66ec",
+   "bytes": 9114
+  },
+  "pages/estore.html": {
+   "sha256": "52dc16035497c1d75e51994d6814616371250344642c848f273c4c88bbd95ba9",
+   "bytes": 9111
+  },
+  "pages/ex01.html": {
+   "sha256": "85b21620f00fc515cb1bce892a826dadfca72a881139eb5e569670e63e4c8248",
+   "bytes": 8169
+  },
+  "pages/h01.html": {
+   "sha256": "f485ca258ac6f415946b5173abf79cb4afcdee3ed7f12526af920d43e97c978f",
+   "bytes": 10466
+  },
+  "pages/items.html": {
+   "sha256": "fa9b8cc0994f41d6cd4bfe69eaa6b1ec43674fa796b8c96c7a6ee5af901a3059",
+   "bytes": 8737
+  },
+  "pages/iv01.html": {
+   "sha256": "a5033a39dac403366908a8b86c88cfeb12b624741e1b0a9f547d3f4a23f067b9",
+   "bytes": 8163
+  },
+  "pages/m01.html": {
+   "sha256": "9508f452760963641c1d473576cd342a64009c95427a863257b09c662cb89b28",
+   "bytes": 9763
+  },
+  "pages/o01.html": {
+   "sha256": "c76291f86d47d01a71344751f25f51566f3ed6d07f3a4bb08164fedff3619f10",
+   "bytes": 5734
+  },
+  "pages/o03.html": {
+   "sha256": "509fa4decea100f8ef10fd5bff299a2f955bc4c47e3dee1efe7e3caef2b23cab",
+   "bytes": 8202
+  },
+  "pages/oh01.html": {
+   "sha256": "3ef95810653653643b305a5114c017a00c6ab82166778a0cb8d24de50aa4a316",
+   "bytes": 9542
+  },
+  "pages/quick.html": {
+   "sha256": "62409d64a6d860ed970d63c90b7d33e4a1a6449043c16eb4da1b85e773d8513b",
+   "bytes": 8141
+  },
+  "pages/rn01.html": {
+   "sha256": "4f3ee52225d85e23aa0a348fbbbcc3dd0b7840dde170fd5c3c0c92ca2cd68eba",
+   "bytes": 8133
+  },
+  "pages/s01.html": {
+   "sha256": "9c3949240b50d0aeb0e581e37783dee635218aae6d4c069f6b0b17bfc2a3b388",
+   "bytes": 4645
+  },
+  "pages/s02.html": {
+   "sha256": "4c7b1ea972aed0b93072d2a3609e479b8e9ea77f9981096291f9ee5cf1b833f4",
+   "bytes": 6682
+  },
+  "pages/s5.html": {
+   "sha256": "8cac3ddefbcb48f6ca322cf33c184e52ff5cdd16c331cd5017041be4164185e8",
+   "bytes": 6799
+  },
+  "pages/w1-render.js": {
+   "sha256": "b85e5cbe15236cd606de509cd7570c4d75ccf71f0d47a27e9ea9be2eb1a967c1",
+   "bytes": 40888
+  },
+  "pages/w2-render.js": {
+   "sha256": "df072a4ed029b784e9a6538b3afacd0e18eac8db3f29918b4c9785ba26e66216",
+   "bytes": 59369
+  },
+  "pages/w3-render.js": {
+   "sha256": "44608620072bf09cedd70cedbfd9c2a7ef852f7dacd072f54eb6a6b71a1e284b",
+   "bytes": 51806
+  },
+  "pages/w4-render.js": {
+   "sha256": "02186529dda335e89b2398a316ad0e31d87b138e16eaafeb2692986582f186fe",
+   "bytes": 53581
+  },
+  "pages/w5-render.js": {
+   "sha256": "29c3700fa2cedd5ab4aaa4f1d4c60eed244cb63ed504bd56075a024ae5ba5666",
+   "bytes": 23025
+  },
+  "pages/w6-render.js": {
+   "sha256": "f135d2363ad730d60fef2d3f3aa32aaf7528f9c8140ba328f84b8abf76f5e8ac",
+   "bytes": 69935
+  },
+  "pages/w7-sys.js": {
+   "sha256": "bb11d131f2ca041fa052efc0b9f1ee2d144dab68fab1563c397cc24f39ed1aba",
+   "bytes": 4153
+  },
+  "pages/w7f-render.js": {
+   "sha256": "8116f36c7f3c138351b863e9bf2420602a3b10bcc339e2df5f1d62582b92c41e",
+   "bytes": 19367
+  },
+  "runtime/RUNTIME_SHA256.txt": {
+   "sha256": "0d6afbef8cd05297f10bcec890010cd4a5fbe69b4cdb97ba4c4810acf2706958",
+   "bytes": 2014
+  },
+  "runtime/br03-demo-snapshots.js": {
+   "sha256": "b7fc7a60322621ce4efdf08331e67dff012ce6f007ca0d57c74e39636c8a439e",
+   "bytes": 1916
+  },
+  "runtime/br03-policy.js": {
+   "sha256": "a23105130b1330424c9614b6b72818fc520a5ff0aafd62feec60eedde39552a3",
+   "bytes": 4486
+  },
+  "runtime/cap-bands.js": {
+   "sha256": "53912a4c204eaea42d389727a0d9529ae50244a457cd2a751135feb9558f7240",
+   "bytes": 2526
+  },
+  "runtime/demo-core.js": {
+   "sha256": "976903e1ca79f4a5b120c7ae4fd4b2dfbec65c79785230f0c7f30c0ceee63365",
+   "bytes": 56954
+  },
+  "runtime/fixtures.js": {
+   "sha256": "ff8aa947528c93b5d0fba7c66e4a3671b2c312c725e6ae5a10ddef46b26d9e6c",
+   "bytes": 102548
+  },
+  "runtime/gift-term-policy.js": {
+   "sha256": "77b99e4fa2c52bb4668c541bbde42b8ed8f9ae9d983688644f051caf95008fc0",
+   "bytes": 3228
+  },
+  "runtime/h01-state-policy-01.js": {
+   "sha256": "ad78c497823033a5b22f92b439164d2774e062d74d38dfb85396d9a1aa883f5a",
+   "bytes": 9515
+  },
+  "runtime/home-recommend-policy.js": {
+   "sha256": "76e50eca5e456e592afff09b4dd5541b5b03bfbb30dcbe8a88de39b175c29052",
+   "bytes": 1821
+  },
+  "runtime/items-catalog.js": {
+   "sha256": "fe1d0a44bfb86962c9dc6e514034d0bd74731aa4d7634b6b6bef36cb71a286dc",
+   "bytes": 14633
+  },
+  "runtime/lead-flow.js": {
+   "sha256": "68a30545075f6e77389df4e6d591ba3116de44448b6854f3f3a5fcc0e088eae8",
+   "bytes": 5430
+  },
+  "runtime/lifecycle-contract.js": {
+   "sha256": "08e427cebc4352ae24f44bdabd72671fe6bb23a14d92b1369a4498979dd8a0ed",
+   "bytes": 1899
+  },
+  "runtime/presentation-policy.js": {
+   "sha256": "c85eb5d55dcc9481f0d9d2924779d855ba696aa3f8bb7598deab806f246141d3",
+   "bytes": 4632
+  },
+  "runtime/promotion-policy.js": {
+   "sha256": "a64ac83c23dd5eb62506ddd265a0600670ae127fec75197f4de7f3993e517ce6",
+   "bytes": 3079
+  },
+  "runtime/recommendation-policy.js": {
+   "sha256": "c33a7693647b158c221b5f991dc4d96c75704476ac46e4f86aed6482443701d2",
+   "bytes": 2184
+  },
+  "runtime/space-unit.js": {
+   "sha256": "e8c53db79362035d0b35125fcec1b9f2b6cdea09884f7e2d4795f76cda5b2bb9",
+   "bytes": 1799
+  },
+  "runtime/store-geo.js": {
+   "sha256": "f9ada0b099562a98ff9ae38326e0da74039555e52d57038e5031816386cdf77f",
+   "bytes": 3553
+  },
+  "assets/brand-proof-hitech-demo.webp": {
+   "sha256": "451ccb803831e337524e985f0c152894794640d59539cf4f49049532d0d871ef",
+   "bytes": 18534
+  },
+  "assets/brand-proof-media-demo.webp": {
+   "sha256": "febd8f1012078bb497f892500a9f04f755d3e14ec589e46d735b42a502834298",
+   "bytes": 17132
+  },
+  "assets/brand-proof-standard-demo.webp": {
+   "sha256": "544a406a1aed6ae834cd9dd89fba7c1380b7859f2d308561f38b3c0c590435e0",
+   "bytes": 21206
+  },
+  "assets/mini_split.jpg": {
+   "sha256": "6a6b251b15cdfc2ea77ae335478b18156146a00b4b6427a2078535678ff8503f",
+   "bytes": 29672
+  },
+  "assets/store_changning.jpg": {
+   "sha256": "48106c3bce1cdadef1ed7c7cf7ba25e7fb52a2324cf209ee836b303544af10b7",
+   "bytes": 21673
+  },
+  "assets/store_jingan.jpg": {
+   "sha256": "cc0b232bd10be4dac918d62fd787a66e649d3d6adb29a28d3d23df85d00c6c7c",
+   "bytes": 21988
+  },
+  "assets/store_pudong.jpg": {
+   "sha256": "efab936d20246d9034fad6ff48e5f550f0417192115faa058498d6858decced4",
+   "bytes": 21530
+  },
+  "assets/store_xuhui.jpg": {
+   "sha256": "9257fb596f8578d61583b195307f6cb59793049c82f2c3c166657a9bfc885544",
+   "bytes": 22836
+  },
+  "assets/task-calculator.webp": {
+   "sha256": "15e1dda67b9e58df1c7f425963cb11e24611c8e496019187e92ab20cd00bbb75",
+   "bytes": 8312
+  },
+  "assets/task-map.webp": {
+   "sha256": "464c1276ef5a7a7067de771f0685707377c1c43a0e670c5d57b76d88321e6cc3",
+   "bytes": 7114
+  },
+  "assets/estimate/scenes/scene_01.jpg": {
+   "sha256": "9b234aacf1f524badd8a573ae3e184db702109a4afccfd94843d52354f433d41",
+   "bytes": 134247
+  },
+  "assets/estimate/scenes/scene_02.jpg": {
+   "sha256": "1a10d9eedc95ca22356f4cf90259c96c54c65b0c2362809cf108582c0009f726",
+   "bytes": 133420
+  },
+  "assets/estimate/scenes/scene_03.jpg": {
+   "sha256": "408f5bf10a4aabd66b4224bb0a24808dd243d92bcdab7ff20eabcd92fa25ebe4",
+   "bytes": 160965
+  },
+  "assets/estimate/scenes/scene_04.jpg": {
+   "sha256": "a52e514ee7ee31267e7c3d96d19f457cbb5b92f5a07fbedf9451f85b4d449d40",
+   "bytes": 197968
+  },
+  "assets/estimate/scenes/scene_05.jpg": {
+   "sha256": "4af1d6f4689a4b9a708f991b2bd2988dcfab00091c552ccc94de919c5d6525fe",
+   "bytes": 169197
+  },
+  "assets/estimate/scenes/scene_06.jpg": {
+   "sha256": "d2151ebbc8c016425bda9f86f8bcb6ef7ea603ee6832afeed8aebf8b210c1d85",
+   "bytes": 233303
+  },
+  "assets/estimate/objects/三人沙发.webp": {
+   "sha256": "f0343beddb6936392b5f71b95e29c66864eb935e32d56128ca7f48e4c9f7acaa",
+   "bytes": 2148
+  },
+  "assets/estimate/objects/冰箱.webp": {
+   "sha256": "339af44e73ed627eb6a0955217316a1851e85ba3ff5aa260fed6c995ea8ae2b0",
+   "bytes": 1736
+  },
+  "assets/estimate/objects/单人沙发.webp": {
+   "sha256": "ebd58a1a9e8d14911e25b8a870bbf2a267d472b21028d26d86e438064f499f64",
+   "bytes": 9114
+  },
+  "assets/estimate/objects/双人沙发.webp": {
+   "sha256": "db8a8c3d20368e824c1c184f3211c688c16d0b45cf82f193c3cb1adb54d8e5c7",
+   "bytes": 2014
+  },
+  "assets/estimate/objects/床垫.webp": {
+   "sha256": "9cba7891bfadc955395c5bc28f1a9fe9deac012ff2aa8fff39ac3219f4695037",
+   "bytes": 1826
+  },
+  "assets/estimate/objects/折叠椅.webp": {
+   "sha256": "2e96e3bc3ba2842c87d6311bc42dd7fd6552b25baad04ba9b265d1b673ef11e5",
+   "bytes": 2524
+  },
+  "assets/estimate/objects/拆装衣柜.webp": {
+   "sha256": "35fb45abc45df26082361ae05d24a122b3f7b9bac4529e45339fa64e5770b20e",
+   "bytes": 1826
+  },
+  "assets/estimate/objects/收纳箱.webp": {
+   "sha256": "bb93b3bfe706984534e2d347e828f4f228fba18f85d958e7a11986f5c826e43f",
+   "bytes": 2182
+  },
+  "assets/estimate/objects/收纳袋.webp": {
+   "sha256": "5bd233be49dd30b93d48c68d9f0a6ebfa8cf5dd85e1e5b5b0bff954dbc5b20dd",
+   "bytes": 5330
+  },
+  "assets/estimate/objects/标准纸箱.webp": {
+   "sha256": "b051dabbb8d2eeb4a6696bc6389d3835cee2458b2c99e1a5a1d10460c5578f77",
+   "bytes": 2294
+  },
+  "assets/estimate/objects/桌子.webp": {
+   "sha256": "1cde6a4a3118e6c5d55469429c1ff632d70994cf3d8413d893dab6b467b1aec1",
+   "bytes": 3866
+  },
+  "assets/estimate/objects/洗衣机.webp": {
+   "sha256": "5ed69f6d37b5c9b3d2ce2fb3fbdbafe08bfdd8c1a2ce32fe6808ebd13902f96b",
+   "bytes": 2640
+  },
+  "assets/estimate/objects/矮柜.webp": {
+   "sha256": "f94cc34ff644c25bf88032a062769a4efad60352634aad9eb8a5ec0fd5e96114",
+   "bytes": 2478
+  },
+  "assets/estimate/objects/矮柜_实景.webp": {
+   "sha256": "c292c0651a38abdccf77f2ae051de13ffd8d79afef1a42b5c919dcd7ffe18e32",
+   "bytes": 5948
+  },
+  "assets/estimate/objects/行李箱.webp": {
+   "sha256": "fcf5da8d458565d14988535979d302fdd26077827e6a10dbf74d13600e0c17d7",
+   "bytes": 2576
+  },
+  "assets/estimate/items/A4档案箱_专属.webp": {
+   "sha256": "8f4d349957c0bbb2020bfe8a6c107d9f1fe9d8f1487c150532ecd9c393f2619d",
+   "bytes": 9886
+  },
+  "assets/estimate/items/appliance.webp": {
+   "sha256": "ec05b78b3ad4952048c21aed084cfea9e868da7e8c55c7a86c4595173ec7d0d3",
+   "bytes": 16542
+  },
+  "assets/estimate/items/bicycle.webp": {
+   "sha256": "03175126cf4c5e8b31a29f27eea193a1c5a88a06b9e380dbb92c93a06752b4bd",
+   "bytes": 14132
+  },
+  "assets/estimate/items/clothingPack.webp": {
+   "sha256": "3cc8b2b12e9cdc0f99eced9d35e47f8dde12a217410f214e61e1f755172af4eb",
+   "bytes": 59670
+  },
+  "assets/estimate/items/coat.webp": {
+   "sha256": "5a78f605d00aeda42c7eca824d279c3ac8a51b6dc177666250bc391499111708",
+   "bytes": 27354
+  },
+  "assets/estimate/items/crib.webp": {
+   "sha256": "7da3168d42209ea8eb65315f62a266f17cf37d197a8571991fffc51fc2de79f9",
+   "bytes": 26900
+  },
+  "assets/estimate/items/displayRack.webp": {
+   "sha256": "a5e38717d122e937e274fa628536e7b359ecff5041a8f5129823874e062580e6",
+   "bytes": 27792
+  },
+  "assets/estimate/items/figurebox.webp": {
+   "sha256": "3cf74fb59ac42ba3abef133f88427a86e85578b1f10fc98f6e35e27aef3805a1",
+   "bytes": 34970
+  },
+  "assets/estimate/items/fileCab.webp": {
+   "sha256": "35da9d30ff1d557fb78074d73b48efa8d5889bea27949b20ef256002ba474181",
+   "bytes": 8956
+  },
+  "assets/estimate/items/guitar.webp": {
+   "sha256": "d25b52946229fdda02b23e763e3ee71feae44b2c2317791878bd4b2564735d8d",
+   "bytes": 10830
+  },
+  "assets/estimate/items/pallet.webp": {
+   "sha256": "9da137011eb889c2782b964edf0777836e2bb736fb251f2a6437cc632475eb42",
+   "bytes": 56864
+  },
+  "assets/estimate/items/printer.webp": {
+   "sha256": "b6eb45dfbf301fdd8d361351569ab0028ce1db1583afbf2291b39169b117226c",
+   "bytes": 18614
+  },
+  "assets/estimate/items/quilt.webp": {
+   "sha256": "4a469cf35fac8a45c60a732852aea80686d7e315de529c2862471674fb19792d",
+   "bytes": 17706
+  },
+  "assets/estimate/items/shelf.webp": {
+   "sha256": "504108c2ec2b9bc661754c21d3d05e8cdc5d6b78dbedd0fc74ba2ffe76411d9b",
+   "bytes": 36522
+  },
+  "assets/estimate/items/shoebox.webp": {
+   "sha256": "f282cd17f7627e4803ae48a38136b23423001a2b4ba6a5b84df9eb041c99cec9",
+   "bytes": 27918
+  },
+  "assets/estimate/items/stroller.webp": {
+   "sha256": "8a824fbb31442f706a489278e4f84ea275bc195b7ac66774f7b9906e5321e011",
+   "bytes": 14954
+  },
+  "assets/estimate/items/toybox.webp": {
+   "sha256": "6c3e325a46a18e71c3cc9ab8222673e5b96bd93ec18f3bdb17f0932784d1f610",
+   "bytes": 14890
+  },
+  "assets/estimate/items/turnover.webp": {
+   "sha256": "30c903dd0cbb19d14282198af21a26c8747cae2c345cb9e3430f2b4e1e9e86ab",
+   "bytes": 25254
+  },
+  "assets/estimate/items/tvcab.webp": {
+   "sha256": "6d9e569dc42d13f465a21f403fa9924bfdf105f8c46c7608380059e868af2ba4",
+   "bytes": 14198
+  },
+  "assets/estimate/items/upgrade_bag.webp": {
+   "sha256": "fed9e436c4e3ac3826d6b84b0cde8d019e480c85be62413000323a06793c2e3a",
+   "bytes": 9800
+  },
+  "assets/estimate/items/upgrade_luggage20.webp": {
+   "sha256": "426ab2ec85ca8ab3a95fddcfb1174aa97da36184987756d0df947231b0716d82",
+   "bytes": 11006
+  },
+  "assets/estimate/items/upgrade_luggage24.webp": {
+   "sha256": "50d54a7c8b0f2a4868eccd4d4a0ecb6f5d227d8d38cdca296f698ed0a155bb9d",
+   "bytes": 10072
+  },
+  "assets/estimate/items/upgrade_luggage28.webp": {
+   "sha256": "1b09850af4fe728cbe3aaf5302fbfd9ec991f749e96614eafbaf3593cf7a244b",
+   "bytes": 10416
+  },
+  "assets/estimate/items/winebox.webp": {
+   "sha256": "3c56af2bc64d377e6a04c057b4208df16f1e21efd1057ed867e12e619b2d21fb",
+   "bytes": 37512
+  },
+  "assets/estimate/items/三人沙发.webp": {
+   "sha256": "d32d81457f1970204f630159359379c4a992fd99d461bd16049e2f1b4e68d001",
+   "bytes": 19227
+  },
+  "assets/estimate/items/冰箱.webp": {
+   "sha256": "54e863ca099583ce6ea2a7e59f6f8a5f6f779edbae8fa77203d228305a3b77fe",
+   "bytes": 15848
+  },
+  "assets/estimate/items/办公椅_专属.webp": {
+   "sha256": "cc88faf703e95e33458113e22e85e42c153b0d3e7c0de55f9d2b25920efc83a5",
+   "bytes": 14868
+  },
+  "assets/estimate/items/双人床_床架.webp": {
+   "sha256": "3a7b8fb46632f901fe11be1deb0abdef0dd5193dd6558a999b0f35fffc08db75",
+   "bytes": 12552
+  },
+  "assets/estimate/items/床垫.webp": {
+   "sha256": "9cb7746435ff0859b8367896ef663c2a43b1e3e0bd7d94e8708396eea10cbcf9",
+   "bytes": 19174
+  },
+  "assets/estimate/items/折叠椅.webp": {
+   "sha256": "59769ae4ac41b6b6b2b9b95019647c0b297ca3d3ef8fa1fb42969f4befdb5b71",
+   "bytes": 24651
+  },
+  "assets/estimate/items/拆装衣柜.webp": {
+   "sha256": "192ac57c2777a2d62f30ecda2db9ff1371c5af0819c344810f0c296561f3d3db",
+   "bytes": 17497
+  },
+  "assets/estimate/items/收纳箱.webp": {
+   "sha256": "ac6857db8184b4f4f4f84846e9ff99adf3ba8dd6cd2ace2e0478a4debd54060d",
+   "bytes": 21890
+  },
+  "assets/estimate/items/收纳袋.webp": {
+   "sha256": "29fd15678ae70efcd244ff383f302a477bb6c91b061e2023a46ab37428182144",
+   "bytes": 33907
+  },
+  "assets/estimate/items/标准纸箱.webp": {
+   "sha256": "8c30c054f0e10ae86a530875674f99eea984bcb35e278318f33dbaad4a73d8b4",
+   "bytes": 22477
+  },
+  "assets/estimate/items/桌子.webp": {
+   "sha256": "f0bfed1b66010cc5b22203f28b4d498386e5f6fb3ff804d168ddb25f81c30078",
+   "bytes": 33328
+  },
+  "assets/estimate/items/洗衣机.webp": {
+   "sha256": "5aa0a1d02fa4d7f00275ad1d6603ed196f51f93c1f09a04e2e53876415e5f19b",
+   "bytes": 24839
+  },
+  "assets/estimate/items/矮柜_实景.webp": {
+   "sha256": "0a3b4e6f8d63a8b47f95d2e11d0dd137a2e2a0761ac25d393df6b21176d802ee",
+   "bytes": 38657
+  },
+  "assets/estimate/items/茶几_专属.webp": {
+   "sha256": "51009dd92f4fae1de81ee466f51bc7d8127c33190e0a71c76bfbfc259feaf460",
+   "bytes": 10300
+  },
+  "assets/estimate/items/行李箱.webp": {
+   "sha256": "771bb9e6812780775a343b479870f2f3b953687ad6e3be9de5c2c7231d95a096",
+   "bytes": 24990
+  },
+  "assets/nav/find-active.svg": {
+   "sha256": "73e3c1fa4d9a745a9bcb2faae5ff524939bef0fd3e7673723b3747ef7a1857f1",
+   "bytes": 725
+  },
+  "assets/nav/find-inactive.svg": {
+   "sha256": "76753ae56c2b20cc677d005f9a0ee7dfc70447599ca2731243aba7137a5f91fb",
+   "bytes": 486
+  },
+  "assets/nav/home-active.svg": {
+   "sha256": "ac4ea4ad7403787da35f8d3089841425a3315fd7cd2439b84c7973ff497df32b",
+   "bytes": 660
+  },
+  "assets/nav/home-inactive.svg": {
+   "sha256": "d0f4d82b7d063782765f0226bb18be41e740e57cbded94814cfa826f73c5aa59",
+   "bytes": 473
+  },
+  "assets/nav/me-active.svg": {
+   "sha256": "575d4a0f81e40214d09ebc35856bacdab6448e926efc928d61f77e5fe23f9fd4",
+   "bytes": 699
+  },
+  "assets/nav/me-inactive.svg": {
+   "sha256": "611902f4ffec634d74416ea91cc0f0e536eec8ad485f2a23529e0e61721464c2",
+   "bytes": 516
+  },
+  "assets/nav/orders-active.svg": {
+   "sha256": "481e5eb4406acd352fa108777bca8ef4dc46bebe7e88ecf495e5b0d3f408068a",
+   "bytes": 463
+  },
+  "assets/nav/orders-inactive.svg": {
+   "sha256": "f12aa63f4d5ba4f5633c55a2996972644530d95b447df5f1c20d0f2187f86ce3",
+   "bytes": 437
+  },
+  "assets/nav/stores-active.svg": {
+   "sha256": "6e305495739cdb2c3fd83a3dba02dd2cc3d07dbe677b3fc5e4cad7e080053e29",
+   "bytes": 896
+  },
+  "assets/nav/stores-inactive.svg": {
+   "sha256": "a34f74e9b9e0aa39a9a405cc1cbfa41973b0dfa1acb01fbdaf24e2d2514ce9c9",
+   "bytes": 695
+  },
+  "assets/unit-r3/unit-r3-large-336x312.webp": {
+   "sha256": "888bb2bbc1b6d035e40717223867655257d398d13b3771b1a06b8454f30d2a93",
+   "bytes": 7636
+  },
+  "assets/unit-r3/unit-r3-large-640x480.webp": {
+   "sha256": "cba4f18e021c475bd6c069e7a68a65bb919874126eb612c74a6865ce30006321",
+   "bytes": 19224
+  },
+  "assets/unit-r3/unit-r3-medium-336x312.webp": {
+   "sha256": "db91215ded637be93c7bdba8b51df2741af4b4b5399d75f13033d240d41241cc",
+   "bytes": 7004
+  },
+  "assets/unit-r3/unit-r3-medium-640x480.webp": {
+   "sha256": "581207b2c91770800b1a01e53cd9b27d977f26770554e9a5b5f92ffdf3f3ee44",
+   "bytes": 15744
+  },
+  "assets/unit-r3/unit-r3-mini-336x312.webp": {
+   "sha256": "7ad1b1a1066724a068740d7e1a843fa709fc6653dae63b4a35373c2e27403118",
+   "bytes": 6404
+  },
+  "assets/unit-r3/unit-r3-mini-640x480.webp": {
+   "sha256": "5b10b7db0fc9a537ae17130ede7e538519cf7bd48765cb1c917f52a5a636ff0f",
+   "bytes": 13068
+  },
+  "assets/unit-r3/unit-r3-small-336x312.webp": {
+   "sha256": "d74244753a398a8621182b6b1d6b3c75c58063043c686ab23ab43d6c1f84220d",
+   "bytes": 7120
+  },
+  "assets/unit-r3/unit-r3-small-640x480.webp": {
+   "sha256": "6a4825b141baadbec2dc80aea7ce0ce62b61bd4fd7c35ab84dbd69d1af155b63",
+   "bytes": 14494
+  },
+  "assets/scenes/collection.webp": {
+   "sha256": "5ddf949edca6e9b71f37516be2686f02cbe0d4fcba7064451e67e9f157992d4a",
+   "bytes": 21852
+  },
+  "assets/scenes/household.webp": {
+   "sha256": "c57e70c85e4824288fe46558a0b9971af127bfd03aebcfeb5a4cf7404e1123b3",
+   "bytes": 19646
+  },
+  "assets/scenes/luggage.webp": {
+   "sha256": "9234292cd0904cd2458ab5b7944fe0f6679f997b9c006f036fe0aa4c18c5350a",
+   "bytes": 11070
+  },
+  "assets/scenes/moving.webp": {
+   "sha256": "923722211afa014f6711dcec068b1ea84dafe1b3ea6099f04f42fedfe64dedbf",
+   "bytes": 12330
+  },
+  "assets/scenes/renovation.webp": {
+   "sha256": "f94df464a8b0ef6e53963f461a19bc6a618f44baf8caeb25275a709eadefaec7",
+   "bytes": 15630
+  },
+  "assets/scenes/seasonal.webp": {
+   "sha256": "5e984679a3d991b46b52d9b369481faa8922f55b62a6b7f843c4de78a23d2988",
+   "bytes": 19476
+  },
+  "assets/store-curated/v1/mapping_manifest.json": {
+   "sha256": "5134468c0399ab0ad44273bbadd0ba20b8a90b631c32c2773ebf820e0875694b",
+   "bytes": 15959
+  },
+  "assets/store-curated/v1/SIM_BJ09/card.webp": {
+   "sha256": "75465290e5747f63b6fce7a3fe0df7da69debf1886b4d5ebf689fc4a6f881049",
+   "bytes": 21694
+  },
+  "assets/store-curated/v1/SIM_BJ09/hero.webp": {
+   "sha256": "1cbe1d7688df7f22525510cfd37334215a3a6c051446f0969977f5ae4a4b9e44",
+   "bytes": 50834
+  },
+  "assets/store-curated/v1/SIM_BJ05/card.webp": {
+   "sha256": "084398e7e461c949e81d29583ab5c15f30677ed79f2193622aa8610b067a4219",
+   "bytes": 14640
+  },
+  "assets/store-curated/v1/SIM_BJ05/hero.webp": {
+   "sha256": "7c35e3941d5a859c09b9157d26ba0dd99cc410c8b2a13e80a6fc0737fc67625a",
+   "bytes": 36000
+  },
+  "assets/store-curated/v1/SIM_BJ01/card.webp": {
+   "sha256": "ee920a0cef88ad2091819f9ef715c644d22963c2b05add382c7897c74a80062a",
+   "bytes": 16744
+  },
+  "assets/store-curated/v1/SIM_BJ01/hero.webp": {
+   "sha256": "298d9a986ced952b8d7fdf5511ad48eed511ed13765c17557057863fc2e9b57e",
+   "bytes": 42750
+  },
+  "assets/store-curated/v1/SIM_SZ01/card.webp": {
+   "sha256": "2cb27ed0fb34ac771ee8a4ef5ed76472e2265a503af543afed6fa22394f2c912",
+   "bytes": 29500
+  },
+  "assets/store-curated/v1/SIM_SZ01/hero.webp": {
+   "sha256": "2477bba9d88971394322dbdf54f05134009d999aead1d907758518e62369fceb",
+   "bytes": 71676
+  },
+  "assets/store-curated/v1/SIM_BJ03/card.webp": {
+   "sha256": "d7a9ed046158e28b26659d560a1fec0c1a09208d682c54f1f58fb46ec0841140",
+   "bytes": 23060
+  },
+  "assets/store-curated/v1/SIM_BJ03/hero.webp": {
+   "sha256": "befce96f262ac21262db54ec7979f18f549195a0838570fa7a8ef87835a1b727",
+   "bytes": 59218
+  },
+  "assets/store-curated/v1/SIM_BJ06/card.webp": {
+   "sha256": "a56aedd1ada9b5e9092c3f43f730c42a9b5c702dc962ca4daf7a31c000a1aa81",
+   "bytes": 15634
+  },
+  "assets/store-curated/v1/SIM_BJ06/hero.webp": {
+   "sha256": "dc0da096d46e84df535af4d496229f111a6e6038c93038cb47083ccafde26a7a",
+   "bytes": 43948
+  },
+  "assets/store-curated/v1/SIM_BJ04/card.webp": {
+   "sha256": "27d480a23966033a6de5c4405113ffad96728f718fbf519174432082b23d86c1",
+   "bytes": 15574
+  },
+  "assets/store-curated/v1/SIM_BJ04/hero.webp": {
+   "sha256": "1c0adc9b41245efb07d1e9ccd92f1c117a2f7686f129b8cf206135eaffd1cc67",
+   "bytes": 38166
+  },
+  "assets/store-curated/v1/SIM_BJ08/card.webp": {
+   "sha256": "ccd0f04a3f65145dd7b466475fda25aa2eb3458fc40039e6791b0e81719e67f8",
+   "bytes": 19508
+  },
+  "assets/store-curated/v1/SIM_BJ08/hero.webp": {
+   "sha256": "5e953229111cad509bab954ae0f7b49ab9f5298189099680d1b02919bb3c626c",
+   "bytes": 56882
+  },
+  "assets/store-curated/v1/SIM_BJ07/card.webp": {
+   "sha256": "03a288c265584f8b9d0e20f779039e10b84a85870fe845b1e403a059d978129f",
+   "bytes": 20462
+  },
+  "assets/store-curated/v1/SIM_BJ07/hero.webp": {
+   "sha256": "4d57624b3d70ea3238b44ef6ea613d0f9bdc743490c961eff42298a49dd79cef",
+   "bytes": 50250
+  },
+  "assets/store-curated/v1/SIM_SH02/card.webp": {
+   "sha256": "9c3e7ebc4fb38ab6aeba43ad22f768650c0f215b64138d11d66a2ef5b1b750db",
+   "bytes": 21732
+  },
+  "assets/store-curated/v1/SIM_SH02/hero.webp": {
+   "sha256": "90f7d93a416aeb00757e58f4b9f2f293fa8c5fbff51c179bfdca89ac7fe08de5",
+   "bytes": 52542
+  },
+  "assets/store-curated/v1/SIM_SH01/card.webp": {
+   "sha256": "db014c243b7df8e2db1d6289a86c82f22a1bcc73dd381f9b02375d8929fb024f",
+   "bytes": 29650
+  },
+  "assets/store-curated/v1/SIM_SH01/hero.webp": {
+   "sha256": "91ef5bb1f2cf3b0f39ce1b349a2eb9702e79b327eeeed0879bfab6f8eca9257b",
+   "bytes": 85870
+  },
+  "assets/store-curated/v1/SIM_BJ02/card.webp": {
+   "sha256": "f5c5673d8d6864ac5492156506d68354dc8df068f94f8fc85e2b11f6fb79a1b6",
+   "bytes": 17196
+  },
+  "assets/store-curated/v1/SIM_BJ02/hero.webp": {
+   "sha256": "4b6d2e61f41554e62e5a4a04c020f7a601145d24ec41f6651cce97801541fdd9",
+   "bytes": 41974
+  },
+  "model/volume-model.js": {
+   "sha256": "cf623e702bde0db4dc4a93cffacc944ca67e89ca1407ec1db6319055189670e9",
+   "bytes": 3886
+  },
+  "model/w7-rules.js": {
+   "sha256": "bc286165dd8e4bb8eabbce56d460d24673546501c3b122a59d9e8fc0cbb94363",
+   "bytes": 4354
+  }
+ }
+}

@@ -1,0 +1,10 @@
+<view class="nav" style="padding-top: {{status}}px; height: {{total}}px;">
+  <view class="nav-bar" style="height: {{barHeight}}px; padding-right: {{rightInset}}px;">
+    <view class="nav-city" bindtap="onCity">
+      <text>{{city}}</text>
+      <view wx:if="{{dot}}" class="nav-dot"></view>
+    </view>
+    <view class="nav-search" bindtap="onSearch">搜索门店、商圈或区域</view>
+  </view>
+</view>
+<view style="height: {{total}}px;"></view>

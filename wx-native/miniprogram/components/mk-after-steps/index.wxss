@@ -1,0 +1,18 @@
+.afs-steps { padding-top: var(--mk-space-2); }
+.afs-step { display: flex; align-items: stretch; min-height: 72rpx; }
+.afs-rail { width: 40rpx; flex: none; display: flex; flex-direction: column; align-items: center; margin-right: var(--mk-space-3); }
+.afs-dot { width: 40rpx; height: 40rpx; flex: none; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--mk-color-line-strong); background: var(--mk-color-canvas-card); display: flex; align-items: center; justify-content: center; }
+.afs-line { flex: 1; width: 2px; min-height: 24rpx; background: var(--mk-color-line-hairline); }
+.afs-body { flex: 1; min-width: 0; padding-bottom: var(--mk-space-3); display: flex; flex-direction: column; }
+.afs-t { color: var(--mk-color-ink-secondary); line-height: 40rpx; }
+.afs-s { margin-top: var(--mk-space-1); }
+.afs-ico { width: 24rpx; height: 24rpx; }
+.afs-x { color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-md); line-height: 1; }
+.afs-core { width: 16rpx; height: 16rpx; border-radius: 50%; background: var(--mk-color-brand-fill); }
+.afs-step--done .afs-dot { border-color: var(--mk-color-brand-fill); background: var(--mk-color-brand-fill); }
+.afs-step--done .afs-line { background: var(--mk-color-brand-fill); }
+.afs-step--done .afs-t { color: var(--mk-color-ink-primary); }
+.afs-step--cur .afs-dot { border-color: var(--mk-color-brand-fill); box-shadow: 0 0 0 6rpx var(--mk-color-brand-tint); }
+.afs-step--cur .afs-t { color: var(--mk-color-ink-primary); }
+.afs-step--fail .afs-dot { border-color: var(--mk-color-status-errorStrong); background: var(--mk-color-status-errorStrong); }
+.afs-step--fail .afs-t { color: var(--mk-color-status-errorText); }

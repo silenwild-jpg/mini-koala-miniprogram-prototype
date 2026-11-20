@@ -1,0 +1,7 @@
+<view class="wrap">
+  <view class="card">
+    <view class="h">「订单」tab 空壳</view>
+    <view class="sub">这一页只用来确认底部导航可以切换、图标和文字颜色正确。</view>
+    <view class="btn ghost" bindtap="goResults">查看结果汇总</view>
+  </view>
+</view>

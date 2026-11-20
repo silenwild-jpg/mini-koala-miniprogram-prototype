@@ -1,0 +1,9 @@
+<view class="vd">
+  <view class="vd-hd"><text class="vd-id">{{caseId}}</text><text class="vd-t">{{title}}</text></view>
+  <view class="vd-ops">
+    <view class="vd-btn {{v === 'pass' ? 'on-pass' : ''}}" data-v="pass" bindtap="onPick">通过</view>
+    <view class="vd-btn {{v === 'fail' ? 'on-fail' : ''}}" data-v="fail" bindtap="onPick">不通过</view>
+    <view class="vd-btn {{v === 'na' ? 'on-na' : ''}}" data-v="na" bindtap="onPick">测不了</view>
+  </view>
+  <input class="vd-note" placeholder="备注：看到的现象（先选结论再填）" value="{{note}}" bindblur="onNote" />
+</view>

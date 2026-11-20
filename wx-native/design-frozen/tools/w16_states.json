@@ -1,0 +1,17 @@
+{
+ "cap": [
+  "area_invalid",
+  "over"
+ ],
+ "items": [
+  "variant",
+  "qty",
+  "qty_max",
+  "tiny",
+  "over",
+  "restored"
+ ],
+ "s5": [
+  "from_items"
+ ]
+}

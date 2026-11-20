@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "运输与搬运",
+  "usingComponents": { "mk-order-card": "/components/mk-order-card/index", "lead-ack": "/pkg-lead/components/lead-ack/index" }
+}

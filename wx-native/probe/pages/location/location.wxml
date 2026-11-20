@@ -1,0 +1,37 @@
+<view class="wrap">
+  <view class="card">
+    <view class="h">1. 隐私保护指引</view>
+    <view class="sub">后台填好《用户隐私保护指引》后，这里能取到指引名称，并能打开正文。</view>
+    <view class="btn" bindtap="onPrivacy">查询隐私状态</view>
+    <view class="btn ghost" bindtap="onOpenContract">打开隐私保护指引</view>
+    <view class="out" wx:if="{{o1}}">{{o1}}</view>
+    <view class="tip">返回 errno 112：指引里没有声明对应的信息类型。声明后约 5 分钟生效。</view>
+    <verdict case-id="P2" />
+  </view>
+
+  <view class="card">
+    <view class="h">2. 拒绝后再次申请</view>
+    <view class="sub">先在首页的弹窗里点「拒绝」，再来点这个按钮。分两种情况各测一次：拒绝的是隐私弹窗；拒绝的是位置授权。</view>
+    <view class="btn" bindtap="onLocate">再次申请定位</view>
+    <view class="out" wx:if="{{o2}}">{{o2}}</view>
+    <view class="tip">官方规则：隐私弹窗被拒后 10 秒内再调用不弹窗，直接报错（103 或 104）；位置授权被拒后不再弹窗，直接失败，只能去设置页打开。请记下实际看到的是哪一种。</view>
+  </view>
+
+  <view class="card">
+    <view class="h">3. 授权状态与设置页</view>
+    <view class="btn" bindtap="onSetting">查询授权状态</view>
+    <view class="btn ghost" bindtap="onOpenSetting">打开设置页</view>
+    <view class="out" wx:if="{{o3}}">{{o3}}</view>
+    <view class="tip">再测一次：到手机系统设置里关掉定位总开关（或关掉微信的定位权限），回来点上面第 2 步的按钮，看返回什么、微信有没有自己的提示。</view>
+    <verdict case-id="C3" />
+  </view>
+
+  <view class="card">
+    <view class="h">4. 定位耗时与超时</view>
+    <view class="sub">室内、地下车库各测一次，看「耗时」一栏。</view>
+    <view class="btn" bindtap="onPlain">普通定位</view>
+    <view class="btn ghost" bindtap="onTimeout">高精度定位（超时 3 秒）</view>
+    <view class="out" wx:if="{{o4}}">{{o4}}</view>
+    <verdict case-id="C4" />
+  </view>
+</view>

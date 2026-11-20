@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "预约用仓",
+  "usingComponents": { "lead-phone": "/pkg-lead/components/lead-phone/index" }
+}

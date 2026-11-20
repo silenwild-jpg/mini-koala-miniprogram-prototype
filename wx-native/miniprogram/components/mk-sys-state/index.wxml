@@ -1,0 +1,15 @@
+<block wx:if="{{type === 'loading' && bones.length}}">
+  <view class="ss-bones" aria-role="status" aria-label="加载中">
+    <view wx:for="{{bones}}" wx:key="*this" class="mk-card ss-bone">
+      <view class="ss-bar ss-bar--t"></view><view class="ss-bar ss-bar--l"></view><view class="ss-bar ss-bar--m"></view><view wx:if="{{index > 0}}" class="ss-bar ss-bar--s"></view>
+    </view>
+  </view>
+</block>
+<view wx:else class="ss-sys">
+  <block wx:if="{{type === 'loading'}}"><view class="ss-spinner"></view><text class="mk-sub">{{T.sys.loading}}</text></block>
+  <block wx:else>
+    <text class="mk-title">{{type === 'offline' ? T.sys.offline.title : T.sys.failed.title}}</text>
+    <text class="mk-sub ss-desc">{{type === 'offline' ? T.sys.offline.desc : T.sys.failed.desc}}</text>
+    <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="none" bindtap="onRetry">{{T.retry}}</button>
+  </block>
+</view>

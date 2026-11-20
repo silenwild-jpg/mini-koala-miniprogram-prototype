@@ -1,0 +1,10 @@
+<view class="aff-box">
+  <text class="aff-t">{{title}}</text>
+  <view wx:if="{{reason}}" class="aff-row"><text class="aff-k">{{T.fail.reason}}</text><text class="aff-v">{{reason}}</text></view>
+  <view class="aff-row"><text class="aff-k">{{T.fail.note}}</text><text class="aff-v aff-v--soft">{{T.fail.noteText}}</text></view>
+  <view wx:if="{{fixes}}" class="aff-row"><text class="aff-k">{{T.fail.can}}</text><text class="aff-v">{{fixes}}</text></view>
+  <text wx:if="{{extra}}" class="mk-sub aff-extra">{{extra}}</text>
+  <button class="mk-btn mk-btn--md aff-btn" hover-class="none" bindtap="onCall">
+    <image class="mk-icon aff-ico" src="/assets/icons/ic-phone.svg" />{{T.callStore}}
+  </button>
+</view>

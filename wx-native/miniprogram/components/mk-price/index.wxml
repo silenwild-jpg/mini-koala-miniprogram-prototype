@@ -1,0 +1,1 @@
+<view class="pr-price pr-price--{{size}} {{weak ? 'pr-price--weak' : ''}}"><text class="pr-cur">¥</text><text class="pr-num mk-num">{{text}}</text><text class="pr-unit">{{unit}}</text><text wx:if="{{discount}}" class="mk-tag mk-tag--promo pr-disc">{{discount}}</text></view>

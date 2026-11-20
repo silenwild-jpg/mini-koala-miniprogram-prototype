@@ -1,0 +1,44 @@
+<view class="mk-page {{bar ? 'af-pad' : ''}}">
+  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:elif="{{empty}}" class="af-empty">
+    <image class="af-empty-ico" src="/assets/icons/order-sub.svg" />
+    <text class="mk-title">{{T.c.emptyTitle}}</text>
+    <text class="mk-sub af-empty-sub">{{T.c.emptySub}}</text>
+    <button class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
+  </view>
+  <block wx:else>
+    <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
+    <view class="af-body">
+      <view class="mk-card af-gap">
+        <text class="mk-sub">{{T.d.amountLabel}}</text>
+        <text class="mk-num dp-amt">{{amount}}</text>
+      </view>
+      <mk-after-fail wx:if="{{fail}}" title="{{T.d.failTitle}}" reason="{{reason}}" fixes="{{T.d.failFixes}}" bind:call="onCall" />
+      <view class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.d.progress}}</text>
+        <mk-after-steps steps="{{steps}}" />
+      </view>
+      <view wx:if="{{settle.length}}" class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.d.settle}}</text>
+        <mk-after-kv rows="{{settle}}" />
+        <text class="af-rule">{{T.d.dueNote}}</text>
+      </view>
+      <view class="mk-card af-gap">
+        <text class="mk-title af-sec">{{T.d.info}}</text>
+        <mk-after-kv rows="{{info}}" />
+        <text wx:if="{{more}}" class="mk-link dp-more" bindtap="onMore" aria-role="button">{{T.d.more}}</text>
+      </view>
+    </view>
+  <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
+    <view wx:if="{{bar.lab}}" class="af-bar-info">
+      <text class="mk-mute">{{bar.lab}}</text>
+      <text class="mk-num af-bar-amt {{bar.muted ? 'af-bar-amt--muted' : ''}}">{{bar.amt}}</text>
+    </view>
+    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="none" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
+  </view>
+    <mk-sheet visible="{{sheet}}" title="{{T.d.sheet}}" bind:close="onSheetClose">
+      <mk-after-steps steps="{{sheetSteps}}" />
+      <view class="af-acts"><button class="mk-btn af-btn--neutral" hover-class="none" bindtap="onSheetClose">{{T.c.known}}</button></view>
+    </mk-sheet>
+  </block>
+</view>

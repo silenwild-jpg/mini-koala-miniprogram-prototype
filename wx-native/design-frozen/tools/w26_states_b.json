@@ -1,0 +1,10 @@
+{
+ "s02": [
+  "advisor_rent"
+ ],
+ "o01": [
+  "ready&overlay=protect",
+  "transport_near",
+  "transport_ok"
+ ]
+}

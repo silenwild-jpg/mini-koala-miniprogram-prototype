@@ -1,0 +1,29 @@
+<view class="wrap">
+  <view class="card">
+    <view class="h">合计</view>
+    <view class="r-sum">
+      <view class="r-cell"><view class="r-n">{{count.pass}}</view><view class="sub">通过</view></view>
+      <view class="r-cell"><view class="r-n r-bad">{{count.fail}}</view><view class="sub">不通过</view></view>
+      <view class="r-cell"><view class="r-n">{{count.na}}</view><view class="sub">测不了</view></view>
+      <view class="r-cell"><view class="r-n">{{count.none}}</view><view class="sub">未测</view></view>
+    </view>
+    <view class="btn" bindtap="onCopy">复制全部结果</view>
+    <view class="tip">复制后粘贴到群里即可，内容含机型与版本、每一项的结论和备注、{{logN}} 条接口记录。不含手机号、证件号和精确位置。</view>
+  </view>
+
+  <view class="card">
+    <view class="h">逐项结论</view>
+    <view class="r-row" wx:for="{{rows}}" wx:key="id">
+      <text class="r-id">{{item.id}}</text>
+      <view class="r-body"><view class="r-t">{{item.title}}</view><view class="tip" wx:if="{{item.note}}">{{item.note}}</view></view>
+      <text class="r-v r-{{item.v || 'none'}}">{{item.word}}</text>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{tail.length}}">
+    <view class="h">最近的接口记录</view>
+    <view class="tip" wx:for="{{tail}}" wx:key="k">{{item.line}}</view>
+  </view>
+
+  <view class="btn ghost" bindtap="onClear">清空本机记录</view>
+</view>

@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "商家 / 企业存储",
+  "usingComponents": { "lead-phone": "/pkg-lead/components/lead-phone/index" }
+}

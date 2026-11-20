@@ -1,0 +1,53 @@
+{
+ "h01": [
+  "new&auth=privacy",
+  "new&auth=loc_ask",
+  "new&auth=loc_ok",
+  "new&auth=privacy_declined",
+  "new&auth=loc_denied",
+  "new&auth=loc_system",
+  "new&auth=loc_timeout",
+  "new&auth=loc_settings"
+ ],
+ "s01": [
+  "browse&auth=loc_ok",
+  "browse&auth=loc_denied",
+  "browse&auth=loc_system",
+  "browse&auth=loc_timeout",
+  "browse&auth=loc_settings",
+  "matched&auth=locked",
+  "matched&auth=phone"
+ ],
+ "s5": [
+  "matched&auth=locked",
+  "matched&auth=phone",
+  "matched&auth=phone_agree",
+  "matched&auth=phone_wx",
+  "matched&auth=phone_loading",
+  "matched&auth=phone_fail",
+  "matched&auth=phone_denied",
+  "matched&auth=sms",
+  "matched&auth=sms_sent",
+  "matched&auth=sms_wrong",
+  "matched&auth=sms_expired",
+  "matched&auth=sms_sendfail",
+  "matched&auth=phone_conflict",
+  "matched&auth=phone_ok"
+ ],
+ "s02": [
+  "matched&auth=locked",
+  "matched&auth=phone"
+ ],
+ "quick": [
+  "ready&auth=locked",
+  "ready&auth=phone"
+ ],
+ "booking": [
+  "filled&auth=bk_unauth",
+  "filled&auth=bk_wx",
+  "filled&auth=bk_authed",
+  "filled&auth=bk_denied",
+  "filled&auth=bk_sms",
+  "filled&auth=bk_contact"
+ ]
+}

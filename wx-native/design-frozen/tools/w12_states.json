@@ -1,0 +1,15 @@
+{
+ "h01": [
+  "new&auth=loc_quiet",
+  "new&auth=search_off",
+  "new&auth=search_on",
+  "new&auth=city_off"
+ ],
+ "s01": [
+  "browse&auth=privacy_declined",
+  "browse&auth=loc_quiet",
+  "browse&auth=search_off",
+  "browse&auth=search_on",
+  "browse&auth=city_off"
+ ]
+}
