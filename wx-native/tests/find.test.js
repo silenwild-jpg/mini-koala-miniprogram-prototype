@@ -198,9 +198,9 @@ test('门店详情页：页签、收藏、重新匹配、导航与电话、仓�
   fresh(NEED, false); pg = env.newPage('pages/store/detail', { id: 'SIM_BJ01' }); await tick(); env.nav.length = 0;
   assert.equal(pg.data.rows[0].cta, '查看报价'); pg.onAction(tap({ list: 'rows', i: 0 })); assert.equal(pg.data.loginVisible, true); assert.equal(env.nav.length, 0);
   // 没有到店档案的门店：不出入口 / 路径 / 交通，只给导航与「向门店确认」；标签只列门店数据里有的
-  fresh(null, false); pg = env.newPage('pages/store/detail', { id: 'SIM_BJ02', tab: '2' }); await tick();
+  fresh(null, false); pg = env.newPage('pages/store/detail', { id: 'SIM_BJ02', tab: '2' }); await pg.refresh(); await pg.loadArrival();
   assert.equal(pg.data.tab, 2); assert.equal(pg.data.route.entry.length + pg.data.route.steps.length + pg.data.route.transit.length, 0);
-  assert.equal(pg.data.route.askText, '对到店方式有疑问？'); assert.deepEqual(pg.data.route.pins, ['门店位置']);
+  assert.equal(pg.data.route.askText, '停车、卸货和进仓路径可向门店确认'); assert.deepEqual(pg.data.route.pins, ['门店位置']);
   assert.deepEqual(pg.data.svc.map((x) => x.title), ['存取与安防', '到店与搬运']); assert.deepEqual(pg.data.svc[1].rows.map((r) => [r.k, r.v]), [['停车便利', ''], ['小推车', '']]);
   assert.equal(pg.data.headPrice, 71); assert.equal(pg.data.rows[0].cta, '立即下单');
   env.nav.length = 0; pg.onAction(tap({ list: 'rows', i: 0 })); assert.equal(pg.data.loginVisible, true, '未登录点立即下单在当前页打开登录层'); assert.equal(env.nav.length, 0);
