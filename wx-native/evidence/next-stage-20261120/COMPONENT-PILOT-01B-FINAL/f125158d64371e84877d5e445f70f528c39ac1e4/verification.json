@@ -1,0 +1,24 @@
+{
+  "source_sha": "f125158d64371e84877d5e445f70f528c39ac1e4",
+  "runtime_tree": "08c8e86df7098bd1ef85fb6e9278d1ca7836dce1",
+  "tests": {
+    "tests": 164,
+    "pass": 164,
+    "fail": 0
+  },
+  "smoke_scope": "pages/store/detail",
+  "smoke": {
+    "pages": 1,
+    "components": 0,
+    "handler_calls": 432,
+    "errors": 0
+  },
+  "wxml": {
+    "templates": 60,
+    "exit_code": 0
+  },
+  "native_visual": "NOT_RUN_BY_THIS_SCRIPT",
+  "real_devices": "NOT_TESTED",
+  "main_merge": "NOT_MERGED",
+  "experience_upload": "NOT_UPLOADED"
+}

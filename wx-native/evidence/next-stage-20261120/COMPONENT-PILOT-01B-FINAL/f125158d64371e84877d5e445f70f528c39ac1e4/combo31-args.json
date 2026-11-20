@@ -1,0 +1,57 @@
+[
+  {
+    "mode": "combo",
+    "cards": [
+      {
+        "id": "SIM_BJ01",
+        "photo": "/assets/images/stores/SIM-BJ01/card.webp",
+        "name": "安贞·富仁名苑店",
+        "address": "北京市朝阳区富仁名苑胜古北里南28号楼",
+        "km": 1.2,
+        "kmText": "1.2km",
+        "rankTag": "距离最近",
+        "tags": [
+          {
+            "t": "近地铁",
+            "promo": false
+          },
+          {
+            "t": "电梯直达",
+            "promo": false
+          }
+        ],
+        "lines": [
+          {
+            "id": "RENDER_1,RENDER_0",
+            "combo": true,
+            "name": "组合仓 TEST15 + TEST16",
+            "code": "组合仓 TEST15 + TEST16",
+            "volText": "31m³",
+            "tier": "",
+            "dims": "合计 31 m³",
+            "area": "",
+            "usage": "",
+            "special": false,
+            "price": {
+              "mode": "monthly",
+              "amount": 234,
+              "unit": "/月",
+              "discount": "6.5折",
+              "sub": "整期 ¥2,808 · 12个月"
+            },
+            "rentTotal": 2808,
+            "monthly": 234,
+            "cta": "立即下单",
+            "reason": ""
+          }
+        ],
+        "moreText": "查看门店"
+      }
+    ],
+    "total": 1,
+    "advisor": null,
+    "hint": "",
+    "sub": "支持组合仓位",
+    "title": "渲染测试 · 30m³需求"
+  }
+]

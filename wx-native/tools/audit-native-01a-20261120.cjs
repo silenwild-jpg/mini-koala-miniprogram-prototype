@@ -1,7 +1,9 @@
 // Source audit for the mini-program; this does not execute every branch or certify accessibility.
 const fs = require('fs'), path = require('path'), cp = require('child_process'), crypto = require('crypto'), assert = require('assert/strict');
 const native = path.resolve(__dirname, '..'), project = path.join(native, 'miniprogram'), repo = path.resolve(native, '..');
-const out = path.join(native, 'docs/visual-audit-01a-20261120'); fs.mkdirSync(out, { recursive: true });
+const out = path.resolve(native, process.argv[3] || 'docs/visual-audit-01a-20261120');
+assert.ok(out.startsWith(path.resolve(native,'docs')+path.sep), 'Audit output must stay under wx-native/docs');
+fs.mkdirSync(out, { recursive: true });
 const read = f => fs.readFileSync(f, 'utf8');
 const rel = f => path.relative(project, f).replaceAll('\\', '/');
 const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]);
@@ -11,8 +13,8 @@ const csv = rows => rows.map(r => r.map(v => '"' + String(v ?? '').replaceAll('"
 const writeCsv = (name, rows) => fs.writeFileSync(path.join(out, name), csv(rows));
 const line = (s, index) => s.slice(0, index).split('\n').length;
 assert.equal(git('status', '--porcelain', '--', 'wx-native/miniprogram'), '');
-const runtimeSource = 'cbffc52201ab61b0896887a46520e4388ac70c70', runtimeTree = git('rev-parse', 'HEAD:wx-native/miniprogram');
-assert.equal(runtimeTree, '71ee450e0631d78f2d2045456617963ff001b3f9');
+const runtimeSource = process.argv[2] || 'cbffc52201ab61b0896887a46520e4388ac70c70', runtimeTree = git('rev-parse', 'HEAD:wx-native/miniprogram');
+assert.equal(runtimeTree, git('rev-parse',runtimeSource+':wx-native/miniprogram'));
 const app = JSON.parse(read(path.join(project, 'app.json'))), routeInfo = require(path.join(project, 'services/routes')).TABLE;
 const routes = app.pages.concat(...app.subpackages.map(s => s.pages.map(p => s.root + '/' + p)));
 const components = fs.readdirSync(path.join(project, 'components')).filter(n => fs.existsSync(path.join(project, 'components', n, 'index.wxml')));
