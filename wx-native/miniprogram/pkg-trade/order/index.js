@@ -50,15 +50,15 @@ function build(o, now, sub) {
     if (!idv) d.progress.push({ k: T.identity, v: T.todo, soft: true });
     d.progress.push({ k: T.deposit, v: depositLabel(o, p) || T.depositLabel.holding });
     const rows = d.services, row = (a, icon, k, v, on) => rows.push({ a, icon, k, v: v || '', on: !!on });
-    row('contract', 'ic-shield', T.econtract, o.contract && o.contract.signed ? T.signed : '');
-    if (lk === 'active' || lk === 'upcoming') { if (idv) row('access', 'ic-door', T.access, ''); else row('identity', 'ic-id', T.identity, T.todo, true); }
+    row('contract', 'shield-ink', T.econtract, o.contract && o.contract.signed ? T.signed : '');
+    if (lk === 'active' || lk === 'upcoming') { if (idv) row('access', 'door-ink', T.access, ''); else row('identity', 'id-ink', T.identity, T.todo, true); }
     const ren = o.renew && (o.renew.status === 'submitted' || o.renew.status === 'quoted') ? o.renew : null;
-    if ((lk === 'active' || lk === 'upcoming') && o.months < C.requirement.termMax) row('renew', 'ic-renew', ren ? T.renewProgress : T.renew, ren ? (ren.status === 'quoted' ? T.renewQuoted : T.renewSubmitted) : T.canApply, !!ren);
-    if (lk === 'expired') row('renew', 'ic-renew', T.renew, T.canApply, true);
-    if (lk === 'active' || lk === 'expired' || lk === 'returning') row('exit', 'ic-cal', lk === 'returning' ? T.exitProgress : T.exit, o.exit ? (p === 'inspection' ? T.exitInspect : T.exitSubmitted) : '', !!o.exit);
-    if (lk === 'upcoming') row('exit', 'ic-cal', T.unsubscribe, '');
-    row('deposit', 'ic-ticket', T.depositProgress, p === 'inspection' ? T.depositLabel.inspect : (o.deposit.status !== 'holding' ? depositLabel(o, p) : ''), o.deposit.status === 'refunding');
-    row('invoice', 'ic-note', T.invoice, o.invoice.status === 'issued' ? T.invoiceIssued : o.invoice.status === 'applying' ? T.invoiceApplying : T.canApply);
+    if ((lk === 'active' || lk === 'upcoming') && o.months < C.requirement.termMax) row('renew', 'renew-ink', ren ? T.renewProgress : T.renew, ren ? (ren.status === 'quoted' ? T.renewQuoted : T.renewSubmitted) : T.canApply, !!ren);
+    if (lk === 'expired') row('renew', 'renew-ink', T.renew, T.canApply, true);
+    if (lk === 'active' || lk === 'expired' || lk === 'returning') row('exit', 'cal-ink', lk === 'returning' ? T.exitProgress : T.exit, o.exit ? (p === 'inspection' ? T.exitInspect : T.exitSubmitted) : '', !!o.exit);
+    if (lk === 'upcoming') row('exit', 'cal-ink', T.unsubscribe, '');
+    row('deposit', 'ticket-ink', T.depositProgress, p === 'inspection' ? T.depositLabel.inspect : (o.deposit.status !== 'holding' ? depositLabel(o, p) : ''), o.deposit.status === 'refunding');
+    row('invoice', 'note-ink', T.invoice, o.invoice.status === 'issued' ? T.invoiceIssued : o.invoice.status === 'applying' ? T.invoiceApplying : T.canApply);
   }
   d.cancelable = p === 'pending' || p === 'payment_failed';
   const b = BAR[p], txt = (k) => T[k] || '';

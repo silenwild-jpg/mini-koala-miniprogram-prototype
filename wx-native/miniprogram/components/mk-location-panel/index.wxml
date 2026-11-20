@@ -19,7 +19,7 @@
             <view class="lp-chips"><view wx:for="{{noneAreas}}" wx:key="name" class="mk-chip lp-c" data-kind="area" data-name="{{item.name}}" bindtap="onPick" aria-role="button">{{item.name}}<text class="lp-n">{{item.count}}</text></view></view>
           </block>
           <text class="mk-sub lp-hd">{{T.other}}</text>
-          <view class="lp-res mk-row" bindtap="onEstore" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-store.svg" /><view class="mk-grow lp-rb"><text>{{T.estore}}</text><text class="mk-sub">{{T.estoreSub}}</text></view><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+          <view class="lp-res mk-row" bindtap="onEstore" aria-role="button"><image class="mk-icon" src="/assets/icons/store-ink.svg" /><view class="mk-grow lp-rb"><text>{{T.estore}}</text><text class="mk-sub">{{T.estoreSub}}</text></view><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
           <view class="lp-res mk-row" bindtap="onLeave" aria-role="button"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><view class="mk-grow lp-rb"><text>{{T.leave}}</text><text class="mk-sub">{{T.leaveSub}}</text></view><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
         </block>
         <block wx:else>
@@ -29,7 +29,7 @@
           </block>
           <block wx:if="{{resStores.length}}">
             <text class="mk-sub lp-hd">{{T.groupStore}}</text>
-            <view wx:for="{{resStores}}" wx:key="id" class="lp-res mk-row" data-id="{{item.id}}" bindtap="onStorePick" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-store.svg" /><view class="mk-grow lp-rb"><text>{{item.name}}</text><text class="mk-sub">{{item.sub}}</text></view><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+            <view wx:for="{{resStores}}" wx:key="id" class="lp-res mk-row" data-id="{{item.id}}" bindtap="onStorePick" aria-role="button"><image class="mk-icon" src="/assets/icons/store-ink.svg" /><view class="mk-grow lp-rb"><text>{{item.name}}</text><text class="mk-sub">{{item.sub}}</text></view><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
           </block>
         </block>
       </block>

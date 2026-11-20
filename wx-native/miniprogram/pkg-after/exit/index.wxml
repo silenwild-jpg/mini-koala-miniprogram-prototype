@@ -33,7 +33,7 @@
         <view class="af-field">
           <text class="af-label">{{T.x.dateLabel}}</text>
           <picker mode="date" value="{{form.date}}" start="{{form.min}}" end="{{form.max}}" bindchange="onDate">
-            <view class="af-input"><text class="{{form.date ? '' : 'af-ph'}}">{{form.date || T.x.datePlaceholder}}</text><image class="mk-icon" src="/assets/icons/ic-cal.svg" /></view>
+            <view class="af-input"><text class="{{form.date ? '' : 'af-ph'}}">{{form.date || T.x.datePlaceholder}}</text><image class="mk-icon" src="/assets/icons/cal-ink.svg" /></view>
           </picker>
         </view>
         <text class="af-rule">{{form.rule}}</text>

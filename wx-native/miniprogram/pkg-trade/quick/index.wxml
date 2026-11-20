@@ -39,13 +39,13 @@
       </view>
     </view>
     <view class="mk-card">
-      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-ticket.svg" /><text class="mk-title qk-ctt">{{T.term}}</text></view>
+      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/ticket-ink.svg" /><text class="mk-title qk-ctt">{{T.term}}</text></view>
       <mk-term-seg value="{{term}}" hint="{{hint}}" bind:change="onTerm" />
     </view>
     <view class="mk-card">
-      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-cal.svg" /><text class="mk-title qk-ctt">{{T.date}}</text></view>
+      <view class="qk-ct"><image class="mk-icon mk-icon--md" src="/assets/icons/cal-ink.svg" /><text class="mk-title qk-ctt">{{T.date}}</text></view>
       <picker mode="date" value="{{startDate}}" start="{{startMin}}" end="{{startMax}}" bindchange="onDate">
-        <view class="qk-date"><text class="{{startDate ? '' : 'qk-hint'}}">{{startDate || T.pickDate}}</text><image class="mk-icon" src="/assets/icons/ic-cal.svg" /></view>
+        <view class="qk-date"><text class="{{startDate ? '' : 'qk-hint'}}">{{startDate || T.pickDate}}</text><image class="mk-icon" src="/assets/icons/cal-ink.svg" /></view>
       </picker>
     </view>
     <view wx:if="{{est}}" class="mk-card qk-est">

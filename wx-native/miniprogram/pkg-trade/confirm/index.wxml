@@ -19,11 +19,11 @@
       <view class="cf-noticet">{{recheck.title}}</view>
       <view wx:for="{{recheck.rows}}" wx:key="k" class="mk-between cf-check">
         <text class="mk-sub">{{item.k}}</text>
-        <view class="mk-row"><image class="mk-icon cf-checkicon" src="/assets/icons/{{item.ok ? 'check-brand' : 'ic-close'}}.svg" /><text class="{{item.ok ? '' : 'mk-error'}}">{{item.v}}</text></view>
+        <view class="mk-row"><image class="mk-icon cf-checkicon" src="/assets/icons/{{item.ok ? 'check-brand' : 'close-ink'}}.svg" /><text class="{{item.ok ? '' : 'mk-error'}}">{{item.v}}</text></view>
       </view>
     </view>
     <view wx:if="{{quoteExpired}}" class="cf-banner">
-      <image class="mk-icon" src="/assets/icons/ic-lock.svg" />
+      <image class="mk-icon" src="/assets/icons/lock-ink.svg" />
       <view class="mk-grow cf-bannertext"><view class="cf-bannert">{{T.quoteExpired}}</view><view class="mk-sub">{{T.quoteExpiredSub}}</view></view>
       <view class="mk-link cf-bannerlink" bindtap="onRefreshQuote" aria-role="button">{{T.refreshQuote}}</view>
     </view>
@@ -52,7 +52,7 @@
         <view wx:else class="mk-row"><text class="mk-sub">{{T.identityTodo}}</text><text wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onIdv" aria-role="button">{{T.identityGo}}</text></view>
       </view>
       <view class="mk-card cf-card cf-entry" bindtap="onProtect" aria-role="button">
-        <image class="mk-icon mk-icon--md" src="/assets/icons/ic-shield.svg" />
+        <image class="mk-icon mk-icon--md" src="/assets/icons/shield-ink.svg" />
         <view class="mk-grow cf-entrytext"><view class="cf-entryt">{{T.protect}}</view><view class="mk-sub">{{T.protectSub}}</view></view>
         <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
       </view>
@@ -136,7 +136,7 @@
       <view class="cf-reason"><text class="mk-sub">{{T.priceReason}}</text><text class="cf-reasonv">{{price.reason}}</text></view>
       <view wx:for="{{price.rows}}" wx:key="k" class="mk-between cf-diff">
         <text class="mk-sub">{{item.k}}</text>
-        <view class="mk-row mk-num"><text wx:if="{{!item.same}}" class="cf-old">{{item.old}}</text><image wx:if="{{!item.same}}" class="mk-icon cf-arrow" src="/assets/icons/ic-arrow.svg" /><text class="cf-kvv">{{item.cur}}</text></view>
+        <view class="mk-row mk-num"><text wx:if="{{!item.same}}" class="cf-old">{{item.old}}</text><image wx:if="{{!item.same}}" class="mk-icon cf-arrow" src="/assets/icons/arrow-ink.svg" /><text class="cf-kvv">{{item.cur}}</text></view>
       </view>
       <view class="cf-two cf-twogap">
         <button class="mk-btn mk-btn--ghost mk-btn--md cf-half" hover-class="none" bindtap="onPriceOther">{{T.priceOther}}</button>

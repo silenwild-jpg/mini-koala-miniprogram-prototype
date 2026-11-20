@@ -1,0 +1,27 @@
+/* 演示工具页：只用令牌与公共类，本页样式只管排布 */
+.lab { padding-top: var(--mk-space-3); }
+.lab-h { margin: var(--mk-space-5) 0 var(--mk-space-2); }
+.lab-h:first-child { margin-top: 0; }
+.lab-tip { display: block; margin-bottom: var(--mk-space-3); }
+.lab-list { padding-top: 0; padding-bottom: 0; }
+.lab-row { min-height: 112rpx; padding: var(--mk-space-2) 0; box-sizing: border-box; border-bottom: var(--mk-border-hairline); }
+.lab-row:last-child { border-bottom: 0; }
+.lab-nm { display: block; font-weight: var(--mk-font-weight-medium); }
+.lab-on { flex: none; margin: 0 0 0 var(--mk-space-2); }
+.mk-btn.mk-btn.lab-home { margin-top: var(--mk-space-3); }
+.lab-sec { display: block; }
+.lab-gap { margin-top: var(--mk-space-3); flex-wrap: wrap; }
+.mk-btn.mk-btn.lab-inl { margin-right: var(--mk-space-2); }
+.lab-chipgap { margin-right: var(--mk-space-2); }
+.mk-btn.mk-btn.lab-gap { margin-top: var(--mk-space-3); }
+.lab-cls { flex: none; margin-left: var(--mk-space-2); }
+.lab-price { display: flex; align-items: baseline; color: var(--mk-color-accent-promoText); }
+.lab-cur { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-semibold); margin-right: 4rpx; }
+.lab-input { height: var(--mk-size-inputHeight); margin: var(--mk-space-2) 0; padding: 0 var(--mk-space-3); border: var(--mk-border-error); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-md); box-sizing: border-box; }
+.lab-grid { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-2); }
+.lab-sw { width: 33.33%; padding: var(--mk-space-2) var(--mk-space-1) 0 0; box-sizing: border-box; }
+.lab-chip { height: 72rpx; border-radius: var(--mk-radius-control); border: var(--mk-border-hairline); }
+.lab-k { display: block; word-break: break-all; }
+.lab-ic { width: 25%; padding: var(--mk-space-3) var(--mk-space-1) 0 0; box-sizing: border-box; }
+.lab-icbox { display: flex; align-items: center; justify-content: center; height: 80rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); }
+.lab-icbox .mk-icon { margin: 0 var(--mk-space-1); }

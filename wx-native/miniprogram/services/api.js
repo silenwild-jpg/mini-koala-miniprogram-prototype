@@ -3,13 +3,22 @@
 // 约定：全部返回 Promise；失败 reject({ code, message })。code：UNAUTHENTICATED | NOT_FOUND | NETWORK | INVALID | CONFLICT | RATE_LIMIT | EXPIRED | IDENTITY_REQUIRED | MISMATCH
 const C = require('../core/config');
 const state = require('./state');
+const scenarios = require('../mock/scenarios');
 const adapter = C.DATA_SOURCE === 'http' ? require('./http-adapter') : require('./mock-adapter');
 const NEED_LOGIN = { getQuote: 1, createOrder: 1, getOrders: 1, getOrder: 1, payOrder: 1, cancelOrder: 1, signContract: 1, verifyIdentity: 1 };
 
 function call(name, params) {
   if (NEED_LOGIN[name] && !state.get().session.loggedIn) return Promise.reject({ code: 'UNAUTHENTICATED', message: '请先登录' });
   if (typeof adapter[name] !== 'function') return Promise.reject({ code: 'INVALID', message: '接口未实现：' + name });
-  return adapter[name](params || {}, state.get().session);
+  if (C.DATA_SOURCE !== 'mock') return adapter[name](params || {}, state.get().session);
+  const net = scenarios.net(); // 演示数据：按当前网络档位加延迟或失败，让加载态、失败态和真实环境一样出现
+  if (!net.max && !net.fail) return adapter[name](params || {}, state.get().session);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() < net.fail) reject({ code: 'NETWORK', message: '网络异常，请稍后重试' });
+      else adapter[name](params || {}, state.get().session).then(resolve, reject);
+    }, net.min + Math.random() * (net.max - net.min));
+  });
 }
 (adapter.__needLogin || []).forEach((n) => { NEED_LOGIN[n] = 1; });
 const api = {};

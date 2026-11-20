@@ -32,8 +32,8 @@
       </view>
       <view class="mk-card lsp-gap">
         <text class="ldf-sectitle">{{T.p.others}}</text>
-        <view class="lsp-row" bindtap="onPersonal" aria-role="button"><image class="mk-icon lsp-ico" src="/assets/icons/ic-cal.svg" /><text class="mk-grow">{{T.p.personal}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
-        <view class="lsp-row lsp-row--last" bindtap="onEnterprise" aria-role="button"><image class="mk-icon lsp-ico" src="/assets/icons/ic-building.svg" /><text class="mk-grow">{{T.p.enterprise}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="lsp-row" bindtap="onPersonal" aria-role="button"><image class="mk-icon lsp-ico" src="/assets/icons/cal-ink.svg" /><text class="mk-grow">{{T.p.personal}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="lsp-row lsp-row--last" bindtap="onEnterprise" aria-role="button"><image class="mk-icon lsp-ico" src="/assets/icons/building-ink.svg" /><text class="mk-grow">{{T.p.enterprise}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
       </view>
     </block>
   </view>

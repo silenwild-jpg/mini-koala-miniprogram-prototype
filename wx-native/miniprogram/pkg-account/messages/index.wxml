@@ -1,7 +1,7 @@
 <view class="mk-page">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:elif="{{empty}}" class="ms-empty">
-    <image class="ms-empty-ico" src="/assets/icons/ic-msg.svg" />
+    <image class="ms-empty-ico" src="/assets/icons/msg-ink.svg" />
     <text class="mk-title">{{T.m.empty}}</text>
   </view>
   <view wx:else class="mk-gutter ms-top">

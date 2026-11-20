@@ -21,12 +21,12 @@ const D = T.detail, CATS = ['all'].concat(CF.unitCategories.map((c) => c.key));
 // 服务设施页签：只写门店数据里有的项
 function serviceSections(store, profile) {
   const tags = store.tags || [], S = D.svc, svc = (profile && profile.svc) || {};
-  const access = [{ icon: 'ic-clock', k: S.hours, v: store.access_hours ? store.access_hours + S.daily : '' }, { icon: 'ic-shield', k: S.entry, v: S.entryText }];
-  if (tags.some((t) => S.securityTags.indexOf(t) >= 0)) access.push({ icon: 'ic-cam', k: S.security, v: S.securityText });
+  const access = [{ icon: 'clock-ink', k: S.hours, v: store.access_hours ? store.access_hours + S.daily : '' }, { icon: 'shield-ink', k: S.entry, v: S.entryText }];
+  if (tags.some((t) => S.securityTags.indexOf(t) >= 0)) access.push({ icon: 'cam-ink', k: S.security, v: S.securityText });
   const out = [{ title: S.access, link: false, rows: access.filter((r) => r.v) }];
-  if (tags.indexOf(S.climateTag) >= 0) out.push({ title: S.env, link: false, rows: [{ icon: 'ic-temp', k: S.climate, v: S.climateText }] });
-  let move = [['lift', 'ic-elev'], ['cart', 'ic-cart'], ['dock', 'ic-truck'], ['park', 'ic-car'], ['metro', 'ic-train']].filter((x) => svc[x[0]]).map((x) => ({ icon: x[1], k: S[x[0]], v: svc[x[0]] }));
-  if (!move.length) move = tags.filter((t) => S.securityTags.indexOf(t) < 0 && t !== S.climateTag).map((t) => ({ icon: 'ic-check', k: t, v: '' })); // 没有到店档案：只列门店标签
+  if (tags.indexOf(S.climateTag) >= 0) out.push({ title: S.env, link: false, rows: [{ icon: 'temp-ink', k: S.climate, v: S.climateText }] });
+  let move = [['lift', 'elev-ink'], ['cart', 'cart-ink'], ['dock', 'truck-ink'], ['park', 'car-ink'], ['metro', 'train-ink']].filter((x) => svc[x[0]]).map((x) => ({ icon: x[1], k: S[x[0]], v: svc[x[0]] }));
+  if (!move.length) move = tags.filter((t) => S.securityTags.indexOf(t) < 0 && t !== S.climateTag).map((t) => ({ icon: 'check-ink', k: t, v: '' })); // 没有到店档案：只列门店标签
   if (move.length) out.push({ title: S.move, link: true, rows: move });
   return out;
 }

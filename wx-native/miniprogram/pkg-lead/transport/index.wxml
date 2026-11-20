@@ -35,14 +35,14 @@
       <view class="ldf-field ldf-field--tight">
         <view class="ldf-label ldf-label--sm"><text>{{T.x.date}}</text></view>
         <picker mode="date" value="{{date}}" start="{{today}}" bindchange="onDate">
-          <view class="ldf-input {{errDate ? 'ldf-input--err' : ''}}"><text class="mk-grow mk-num {{date ? '' : 'ldf-ph'}}">{{date || T.x.datePh}}</text><image class="mk-icon" src="/assets/icons/ic-cal.svg" /></view>
+          <view class="ldf-input {{errDate ? 'ldf-input--err' : ''}}"><text class="mk-grow mk-num {{date ? '' : 'ldf-ph'}}">{{date || T.x.datePh}}</text><image class="mk-icon" src="/assets/icons/cal-ink.svg" /></view>
         </picker>
         <text wx:if="{{errDate}}" class="ldf-err">{{errDate}}</text>
       </view>
       <view wx:if="{{view === 'pre'}}" class="ldf-field ldf-field--tight">
         <view class="ldf-label ldf-label--sm"><text>{{T.x.phone}}</text></view>
-        <view wx:if="{{phoneMasked}}" class="ldf-input"><text class="mk-grow mk-num">{{phoneMasked}}</text><image class="mk-icon" src="/assets/icons/ic-phone.svg" /></view>
-        <view wx:else class="ldf-input {{errPhone ? 'ldf-input--err' : ''}}"><input class="ldf-native" type="number" maxlength="11" value="{{phone}}" placeholder="{{T.x.phonePh}}" placeholder-class="ldf-ph" bindinput="onPhone" /><image class="mk-icon" src="/assets/icons/ic-phone.svg" /></view>
+        <view wx:if="{{phoneMasked}}" class="ldf-input"><text class="mk-grow mk-num">{{phoneMasked}}</text><image class="mk-icon" src="/assets/icons/phone-ink.svg" /></view>
+        <view wx:else class="ldf-input {{errPhone ? 'ldf-input--err' : ''}}"><input class="ldf-native" type="number" maxlength="11" value="{{phone}}" placeholder="{{T.x.phonePh}}" placeholder-class="ldf-ph" bindinput="onPhone" /><image class="mk-icon" src="/assets/icons/phone-ink.svg" /></view>
         <text wx:if="{{errPhone}}" class="ldf-err">{{errPhone}}</text>
       </view>
     </view>

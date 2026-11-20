@@ -23,8 +23,8 @@
       </view>
       <view wx:if="{{advise}}" class="cp-large"><text>大容量用仓，可联系专属配仓顾问</text><button class="mk-bare mk-link cp-contact" open-type="contact">立即咨询</button></view>
       <view class="cp-assist mk-row">
-        <view class="cp-as mk-row" bindtap="onItems" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-box.svg" /><text class="cp-ast">按物品估算</text></view>
-        <view class="cp-as mk-row" bindtap="onAi" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-spark.svg" /><view class="cp-ai"><text class="mk-sub">{{T.cap.ai}}</text><text class="mk-mute">{{T.cap.aiOff}}</text></view></view>
+        <view class="cp-as mk-row" bindtap="onItems" aria-role="button"><image class="mk-icon" src="/assets/icons/box-ink.svg" /><text class="cp-ast">按物品估算</text></view>
+        <view class="cp-as mk-row" bindtap="onAi" aria-role="button"><image class="mk-icon" src="/assets/icons/spark-ink.svg" /><view class="cp-ai"><text class="mk-sub">{{T.cap.ai}}</text><text class="mk-mute">{{T.cap.aiOff}}</text></view></view>
         <view class="cp-as mk-row" bindtap="onAdvisor" aria-role="button"><image class="mk-icon" src="/assets/icons/headset-brand.svg" /><text class="cp-ast">{{T.cap.advisor}}</text></view>
       </view>
 

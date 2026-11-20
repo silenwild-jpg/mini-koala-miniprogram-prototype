@@ -1,7 +1,7 @@
 <view class="mk-page {{bar ? 'af-pad' : ''}}">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:elif="{{empty}}" class="af-empty">
-    <image class="af-empty-ico" src="/assets/icons/ic-shield.svg" />
+    <image class="af-empty-ico" src="/assets/icons/shield-ink.svg" />
     <text class="mk-title">{{T.e.emptyTitle}}</text>
     <text class="mk-sub af-empty-sub">{{T.e.emptySub}}</text>
     <button class="mk-btn mk-btn--md af-btn--neutral" hover-class="none" bindtap="onOrders">{{T.c.backOrders}}</button>

@@ -24,7 +24,7 @@
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onConfirm">{{quote.cta}}</button>
     </view>
     <view wx:if="{{empty}}" class="mk-card lpg-empty">
-      <view class="lpg-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-flag.svg" /></view>
+      <view class="lpg-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/flag-ink.svg" /></view>
       <text class="mk-title">{{T.emptyTitle}}</text>
       <view class="lpg-eacts">
         <button class="mk-btn mk-btn--md lpg-ebtn" hover-class="mk-btn--hover" bindtap="onEstimate">{{T.estimate}}</button>

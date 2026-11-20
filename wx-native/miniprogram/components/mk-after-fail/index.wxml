@@ -5,6 +5,6 @@
   <view wx:if="{{fixes}}" class="aff-row"><text class="aff-k">{{T.fail.can}}</text><text class="aff-v">{{fixes}}</text></view>
   <text wx:if="{{extra}}" class="mk-sub aff-extra">{{extra}}</text>
   <button class="mk-btn mk-btn--md aff-btn" hover-class="none" bindtap="onCall">
-    <image class="mk-icon aff-ico" src="/assets/icons/ic-phone.svg" />{{T.callStore}}
+    <image class="mk-icon aff-ico" src="/assets/icons/phone-ink.svg" />{{T.callStore}}
   </button>
 </view>

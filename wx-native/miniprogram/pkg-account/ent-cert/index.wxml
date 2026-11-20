@@ -51,7 +51,7 @@
       <view class="ac-field">
         <text class="ac-label">{{T.c.license}}</text>
         <view class="ec-upload {{form.licenseCount > 0 ? 'ec-upload--done' : ''}}" bindtap="onUpload" aria-role="button">
-          <image class="mk-icon mk-icon--md" src="{{form.licenseCount > 0 ? '/assets/icons/check-brand.svg' : '/assets/icons/ic-cam.svg'}}" />
+          <image class="mk-icon mk-icon--md" src="{{form.licenseCount > 0 ? '/assets/icons/check-brand.svg' : '/assets/icons/cam-ink.svg'}}" />
           <text class="ec-upload-t">{{uploadText}}</text>
         </view>
       </view>

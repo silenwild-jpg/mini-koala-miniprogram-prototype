@@ -45,5 +45,6 @@
       </view>
     </view>
   </view>
+  <view wx:if="{{demoLabel}}" class="mk-t-hint mn-demo" hover-class="mk-tap--hover" bindtap="onDemo" aria-role="button">{{demoLabel}}</view>
   <mk-login-sheet visible="{{loginVisible}}" tip="{{loginTip}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
 </view>

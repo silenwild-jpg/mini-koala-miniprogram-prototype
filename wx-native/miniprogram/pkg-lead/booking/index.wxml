@@ -36,7 +36,7 @@
         <view class="ldf-label"><text>{{T.b.address}}</text><text wx:if="{{advisor}}" class="ldf-opt">{{T.c.optionalFill}}</text><text wx:else class="ldf-req">{{T.c.required}}</text></view>
         <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" placeholder="{{T.b.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
         <text wx:if="{{errAddress}}" class="ldf-err">{{errAddress}}</text>
-        <view class="ldf-helprow"><text class="mk-sub mk-grow lbk-help">{{help}}</text><view class="ldf-textbtn" bindtap="onLocate" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-locate.svg" /><text>{{T.b.locate}}</text></view></view>
+        <view class="ldf-helprow"><text class="mk-sub mk-grow lbk-help">{{help}}</text><view class="ldf-textbtn" bindtap="onLocate" aria-role="button"><image class="mk-icon" src="/assets/icons/locate-ink.svg" /><text>{{T.b.locate}}</text></view></view>
       </view>
       <view class="ldf-field">
         <view class="ldf-label"><text>{{T.phoneLabel}}</text><text class="ldf-req">{{T.c.required}}</text></view>
@@ -48,19 +48,19 @@
         <view class="ldf-chips">
           <view wx:for="{{hints}}" wx:key="t" class="ldf-chip ldf-chip--line {{item.on ? 'ldf-chip--on' : ''}}" data-i="{{index}}" bindtap="onHint" aria-role="button"><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /><text>{{item.t}}</text></view>
         </view>
-        <view class="ldf-input" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/ic-cal.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="ldf-input" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
       </view>
       <view class="ldf-field">
         <view class="ldf-label"><text>{{T.b.need}}</text><text class="ldf-opt">{{T.c.optional}}</text></view>
         <view class="mk-card lbk-rows">
-          <view class="lbk-row" bindtap="onOpenItems" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/ic-user.svg" /><text class="mk-grow">{{T.b.items}}</text><text class="{{items ? '' : 'ldf-ph'}}">{{items || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
-          <view class="lbk-row" bindtap="onOpenCapacity" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/ic-cube.svg" /><text class="mk-grow">{{T.b.capacity}}</text><text class="{{capHint ? '' : 'ldf-ph'}}">{{capHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
-          <view class="lbk-row lbk-row--last" bindtap="onOpenDuration" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/ic-cal.svg" /><text class="mk-grow">{{T.b.duration}}</text><text class="{{termHint ? '' : 'ldf-ph'}}">{{termHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
+          <view class="lbk-row" bindtap="onOpenItems" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/user-ink.svg" /><text class="mk-grow">{{T.b.items}}</text><text class="{{items ? '' : 'ldf-ph'}}">{{items || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
+          <view class="lbk-row" bindtap="onOpenCapacity" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cube-ink.svg" /><text class="mk-grow">{{T.b.capacity}}</text><text class="{{capHint ? '' : 'ldf-ph'}}">{{capHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
+          <view class="lbk-row lbk-row--last" bindtap="onOpenDuration" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow">{{T.b.duration}}</text><text class="{{termHint ? '' : 'ldf-ph'}}">{{termHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
         </view>
         <text wx:if="{{salesCap}}" class="ldf-help">{{T.b.salesNote}}</text>
       </view>
       <view class="ldf-field">
-        <view class="ldf-label"><view class="mk-row"><image class="mk-icon lbk-lead" src="/assets/icons/ic-note.svg" /><text>{{T.b.note}}</text></view></view>
+        <view class="ldf-label"><view class="mk-row"><image class="mk-icon lbk-lead" src="/assets/icons/note-ink.svg" /><text>{{T.b.note}}</text></view></view>
         <view class="ldf-input ldf-input--tall"><textarea class="ldf-area" value="{{note}}" maxlength="{{noteMax}}" placeholder="{{T.b.notePh}}" placeholder-class="ldf-ph" bindinput="onNote" /><text class="ldf-count">{{noteCount}}</text></view>
       </view>
     </view>

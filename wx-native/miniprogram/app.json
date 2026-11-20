@@ -66,7 +66,8 @@
         "transport/index",
         "support/index"
       ]
-    }
+    },
+    { "root": "pkg-dev", "pages": ["lab/index"] }
   ],
   "preloadRule": {
     "pages/match/index": {

@@ -15,6 +15,7 @@ page {
   --mk-color-ink-primary: #1F2A24;
   --mk-color-ink-secondary: #5F6B65;
   --mk-color-ink-tertiary: #8A948F;
+  --mk-color-ink-hint: #66716B;
   --mk-color-ink-inverse: #FFFFFF;
   --mk-color-line-hairline: #E3E8E5;
   --mk-color-line-strong: #C9D3CD;
@@ -97,4 +98,13 @@ page {
   --mk-border-strong: 1px solid #C9D3CD;
   --mk-border-brand: 1px solid #14AE68;
   --mk-border-error: 1px solid #D92D20;
+  /* v2 新增（2026-11-20，待最终裁定，见 docs/tokens/VISUAL_SPEC_v2.md）
+     ink-hint：正常要读的说明小字，白底 5.07:1；ink-tertiary 3.13:1 只留给占位、禁用、划线价和装饰图标。 */
+  --mk-color-state-pressed: rgba(31,42,36,0.06);
+  --mk-opacity-disabled: 0.45;
+  --mk-radius-pill: 999rpx;
+  --mk-size-tapMin: 44px;
+  --mk-z-bar: 20;
+  --mk-z-sheet: 100;
+  --mk-z-toast: 200;
 }

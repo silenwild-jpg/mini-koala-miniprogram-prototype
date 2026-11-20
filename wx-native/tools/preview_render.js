@@ -55,10 +55,12 @@ const BASE = 'html,body{margin:0;background:#888}*{box-sizing:border-box}.wx-pag
 const tabs = app.tabBar.list;
 async function shot(name, base, opts) {
   state.reset(); used.clear(); env.mode = 'ok';
+  require(path.join(root, 'mock/scenarios')).write({ scenario: '', net: 'instant' }); require(path.join(root, 'services/mock-ext/_db')).resetDb();
+  if (opts.scenario) require(path.join(root, 'services/demo')).applyScenario(opts.scenario); // 演示场景：登录态、定位、需求、订单一起就位
   if (opts.login) state.setSession({ loggedIn: true, phoneMasked: '138****8000', token: 't' });
   if (opts.need) state.set('requirement', opts.need);
   if (opts.located) state.patch('flags', { locationAsked: true }), state.patch('location', { status: 'granted' });
-  const pg = env.newPage(base, opts.query || {}); await new Promise((r) => setTimeout(r, 30));
+  const pg = env.newPage(base, opts.query || {}); if (typeof pg.onShow === 'function' && opts.scenario) pg.onShow(); await new Promise((r) => setTimeout(r, 60));
   if (opts.after) { opts.after(pg); await new Promise((r) => setTimeout(r, 30)); }
   const conf = JSON.parse(fs.readFileSync(path.join(root, base + '.json'), 'utf8'));
   const body = render(AST[base], pg.data, base, '');
@@ -87,5 +89,9 @@ const NEED = { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months
   done.push(await shot('12_mine_guest', 'pages/mine/index', {}));
   done.push(await shot('13_orders_guest', 'pages/orders/index', {}));
   done.push(await shot('14_term_other_sheet', 'pages/estimate/capacity', { need: NEED }));
+  // 演示场景 × 关键页面：每个场景看首页任务卡、订单列表、我的
+  const SC = require(path.join(root, 'mock/scenarios')).LIST.map((x) => x.id);
+  for (const id of SC) for (const pg of [['home', 'pages/home/index'], ['orders', 'pages/orders/index'], ['mine', 'pages/mine/index']]) done.push(await shot('sc_' + id + '__' + pg[0], pg[1], { scenario: id }));
+  done.push(await shot('20_demo_lab', 'pkg-dev/lab/index', { scenario: 'member_active' }));
   console.log(done.join(' '));
 })();

@@ -2,7 +2,7 @@
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <view wx:elif="{{list.length === 0}}" class="mk-gutter lnd-top">
     <view class="mk-card lnd-empty">
-      <view class="lnd-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/ic-note.svg" /></view>
+      <view class="lnd-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/note-ink.svg" /></view>
       <text class="mk-title lnd-et">{{T.n.emptyTitle}}</text>
       <text class="mk-sub lnd-es">{{T.n.emptySub}}</text>
       <button class="mk-btn mk-btn--md lnd-eb" hover-class="mk-btn--hover" bindtap="onBook">{{T.n.book}}</button>

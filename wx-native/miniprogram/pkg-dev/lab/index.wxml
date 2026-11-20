@@ -1,0 +1,52 @@
+<view class="mk-page mk-gutter lab">
+  <view class="mk-h2 lab-h">{{L.sceneTitle}}</view>
+  <text class="mk-t-hint lab-tip">{{L.sceneTip}}</text>
+  <view class="mk-card lab-list">
+    <view wx:for="{{scenes}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onScene" aria-role="button">
+      <view class="mk-grow"><text class="mk-t-body lab-nm">{{item.name}}</text><text class="mk-t-hint">{{item.desc}}</text></view>
+      <view wx:if="{{item.on}}" class="mk-tag mk-tag--brand lab-on"><image class="mk-icon" src="/assets/icons/check-brand.svg" />{{L.on}}</view>
+    </view>
+  </view>
+  <button class="mk-btn mk-btn--ghost lab-home" hover-class="mk-btn--ghostHover" bindtap="onHome">{{L.goHome}}</button>
+
+  <view class="mk-h2 lab-h">{{L.netTitle}}</view>
+  <view class="mk-card lab-list">
+    <view wx:for="{{nets}}" wx:key="id" class="lab-row mk-between" hover-class="mk-tap--hover" data-id="{{item.id}}" bindtap="onNet" aria-role="button">
+      <view class="mk-grow"><text class="mk-t-body lab-nm">{{item.name}}</text><text class="mk-t-hint">{{item.desc}}</text></view>
+      <view wx:if="{{item.on}}" class="mk-tag mk-tag--brand lab-on"><image class="mk-icon" src="/assets/icons/check-brand.svg" />{{L.on}}</view>
+    </view>
+  </view>
+
+  <view class="mk-h2 lab-h" id="calib">{{L.calibTitle}}</view>
+  <view class="mk-card" id="calib-btn">
+    <text class="mk-t-hint lab-sec">{{L.btn}}</text>
+    <button wx:for="{{L.btns}}" wx:key="t" class="mk-btn {{item.m}} lab-gap" data-calib="btn-full-{{index}}">{{item.t}}</button>
+    <view class="mk-row lab-gap">
+      <button wx:for="{{L.btnRow}}" wx:key="t" class="mk-btn {{item.m}} lab-inl" data-calib="btn-row-{{index}}">{{item.t}}</button>
+      <button class="mk-bare mk-link" hover-class="none" data-calib="btn-bare">{{L.bare}}</button>
+    </view>
+  </view>
+  <view class="mk-card" id="calib-tag">
+    <text class="mk-t-hint lab-sec">{{L.tag}}</text>
+    <view class="mk-row lab-gap"><text wx:for="{{L.tags}}" wx:key="t" class="{{item.c}}">{{item.t}}</text></view>
+    <view class="mk-row lab-gap"><text wx:for="{{L.chips}}" wx:key="t" class="{{item.c}} lab-chipgap">{{item.t}}</text></view>
+  </view>
+  <view class="mk-card" id="calib-text">
+    <text class="mk-t-hint lab-sec">{{L.text}}</text>
+    <view wx:for="{{L.texts}}" wx:key="s" class="mk-between lab-gap"><text class="{{item.c}}">{{item.t}}</text><text class="mk-t-hint mk-t-off lab-cls">{{item.s}}</text></view>
+    <view class="lab-gap lab-price"><text class="lab-cur">{{L.price.cur}}</text><text class="mk-num mk-t-display">{{L.price.n}}</text><text class="mk-t-caption">{{L.price.u}}</text></view>
+  </view>
+  <view class="mk-card" id="calib-form">
+    <text class="mk-t-hint lab-sec">{{L.form}}</text>
+    <input class="lab-input" placeholder="{{L.placeholder}}" placeholder-class="mk-t-off" type="number" maxlength="11" />
+    <text class="mk-error">{{L.error}}</text>
+  </view>
+  <view class="mk-card" id="calib-color">
+    <text class="mk-t-hint lab-sec">{{L.color}}</text>
+    <view class="lab-grid"><view wx:for="{{colors}}" wx:key="k" class="lab-sw"><view class="lab-chip" style="{{item.bg}}"></view><text class="mk-t-hint lab-k">{{item.k}}</text><text class="mk-t-hint mk-t-off">{{item.hex}}</text></view></view>
+  </view>
+  <view class="mk-card" id="calib-icon">
+    <text class="mk-t-hint lab-sec">{{L.icon}}</text>
+    <view class="lab-grid"><view wx:for="{{icons}}" wx:key="s" class="lab-ic"><view class="lab-icbox"><image class="mk-icon mk-icon--md" src="{{item.src}}" /><image class="mk-icon" src="{{item.src}}" /></view><text class="mk-t-hint lab-k">{{item.s}}</text></view></view>
+  </view>
+</view>

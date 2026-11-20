@@ -8,7 +8,7 @@
     </view>
     <view class="mk-card">
       <text class="ac-label">{{T.r.linkLabel}}</text>
-      <view class="rf-box mk-row"><image class="mk-icon rf-ic" src="/assets/icons/ic-copy.svg" /><text class="mk-grow mk-ellipsis">{{T.r.linkText}}</text></view>
+      <view class="rf-box mk-row"><image class="mk-icon rf-ic" src="/assets/icons/copy-ink.svg" /><text class="mk-grow mk-ellipsis">{{T.r.linkText}}</text></view>
       <button class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="none" bindtap="onCopy">{{T.r.copy}}</button>
     </view>
     <view class="ac-notice rf-note"><text class="ac-notice-t">{{T.r.noticeTitle}}</text><text class="ac-notice-s">{{T.r.noticeSub}}</text></view>

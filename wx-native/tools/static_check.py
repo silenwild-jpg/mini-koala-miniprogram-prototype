@@ -132,6 +132,13 @@ for dp, _, fs in os.walk(root):
     size[pkg] = size.get(pkg, 0) + sum(os.path.getsize(os.path.join(dp, f)) for f in fs)
 for k, v in size.items():
     if v > 2 * 1024 * 1024: errs.append('%s 超过 2MB：%dKB' % (k, v / 1024))
+import subprocess
+_ic = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_icons.py'), root, '--check'], capture_output=True, text=True)
+try: errs += json.loads(_ic.stdout)['errors']
+except Exception: errs.append('图标核对没跑通：' + (_ic.stderr or _ic.stdout)[-200:])
+for dp, _, fs in os.walk(os.path.join(root, 'assets', 'icons')):
+    for f in fs:
+        if 'currentColor' in open(os.path.join(dp, f), encoding='utf-8').read(): errs.append('assets/icons/%s 用了 currentColor，<image> 里会渲染成黑色' % f)
 out = {'pages': len(pages), 'components': len(units) - len(pages), 'handlers_checked': handlers, 'placeholders': len(placeholders), 'hard_coded_cjk_in_wxml': hard_cjk, 'size_kb': {k: round(v / 1024) for k, v in size.items()}, 'errors': errs}
 print(json.dumps(out, ensure_ascii=False, indent=1))
 sys.exit(1 if errs else 0)

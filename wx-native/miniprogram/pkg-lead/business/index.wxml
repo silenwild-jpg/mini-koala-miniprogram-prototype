@@ -89,7 +89,7 @@
       </view>
       <view class="ldf-field">
         <view class="ldf-label"><text>{{T.z.when}}</text></view>
-        <view class="ldf-input {{errDate ? 'ldf-input--err' : ''}}" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbz-lead" src="/assets/icons/ic-cal.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="ldf-input {{errDate ? 'ldf-input--err' : ''}}" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbz-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
         <text wx:if="{{errDate}}" class="ldf-err">{{errDate}}</text>
       </view>
       <view class="ldf-field">

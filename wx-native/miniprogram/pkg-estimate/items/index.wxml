@@ -3,7 +3,7 @@
   <block wx:else>
     <view class="it-head">
       <view class="mk-row mk-gutter it-assist">
-        <view class="mk-chip it-chip it-chip--off" bindtap="onAi" aria-role="button"><image class="mk-icon it-ci" src="/assets/icons/ic-spark.svg" />{{T.i.ai}}</view>
+        <view class="mk-chip it-chip it-chip--off" bindtap="onAi" aria-role="button"><image class="mk-icon it-ci" src="/assets/icons/spark-ink.svg" />{{T.i.ai}}</view>
         <view class="mk-grow"></view>
         <text class="mk-link it-tocap" bindtap="onToCap" aria-role="button">{{T.i.toCap}}</text>
       </view>

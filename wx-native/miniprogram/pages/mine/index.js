@@ -16,8 +16,10 @@ const pd = require('../../services/page-data');
 const M = TA.mine;
 const LOGIN_FIRST = { ENT_TITLES: 1, ENT_CERT: 1 }; // 涉及个人与企业资料：未登录先弹登录层（押金页是受限页，由 auth.navigate 处理）
 const TONE = { paid_before_start: 'ok', active: 'ok', expiring: 'warn', exiting: 'warn', overdue: 'err' };
+const demo = require('../../services/demo');
 Page({
   data: { T: { mine: M, loginRegister: TA.common.loginRegister }, sys: 'loading', loggedIn: false, headTitle: M.guestTitle, headSub: M.guestSub, showNew: false, assets: [], assetsAll: '', groups: [], loginVisible: false, loginTip: '' },
+  onLoad() { if (demo.enabled()) this.setData({ demoLabel: '演示工具 · 切换场景与网络' }); },
   onShow() {
     this.sync();
     if (auth.consumePending(this, 'mine')) this.setData({ loginTip: T.login.gateTip });
@@ -58,6 +60,7 @@ Page({
     if (LOGIN_FIRST[k] && !auth.isLoggedIn()) return auth.openLogin(this);
     auth.navigate(this, url);
   },
+  onDemo() { wx.navigateTo({ url: demo.ROUTE }); },
   onNewCta() { wx.switchTab({ url: routes.STORES }); },
   onAsset(e) { this.setData({ loginTip: '' }); auth.navigate(this, routes.ORDER_DETAIL + '?id=' + e.currentTarget.dataset.id); },
   onAssetsAll() { wx.switchTab({ url: routes.ORDERS }); },

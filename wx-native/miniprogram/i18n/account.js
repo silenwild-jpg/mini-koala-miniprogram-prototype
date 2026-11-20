@@ -14,10 +14,10 @@ module.exports = {
     stage: { paid_before_start: '待入仓', active: '租用中', expiring: '即将到期', exiting: '退仓处理中', overdue: '租期已到期' },
     progressNone: '尚无保存的需求', monthUnit: '个月', leadsSuffix: '条记录',
     groups: [
-      { key: 'records', title: '我的记录', items: [{ k: 'NEEDS', icon: 'ic-note', t: '预约用仓', s: '查看已提交的预约' }, { k: 'PROGRESS', icon: 'ic-flag', t: '找仓进度', s: '' }] },
-      { key: 'benefit', title: '服务与权益', items: [{ k: 'FAVORITES', icon: 'ic-heart', t: '我的收藏', s: '门店和仓位' }, { k: 'COUPONS', icon: 'ic-ticket', t: '优惠与权益', s: '查看可用权益' }, { k: 'MESSAGES', icon: 'ic-msg', t: '消息', s: '查看业务通知' }] },
-      { key: 'finance', title: '账务与企业', items: [{ k: 'ENT_TITLES', icon: 'ic-order', t: '发票与抬头', s: '' }, { k: 'DEPOSIT', icon: 'ic-shield', t: '押金', s: '' }, { k: 'ENT_CERT', icon: 'ic-building', t: '企业认证', s: '' }] },
-      { key: 'more', title: '更多服务', items: [{ k: 'TRANSPORT', icon: 'ic-truck', t: '运输与搬运', s: '下单前可预约' }, { k: 'REFERRAL', icon: 'ic-gift', t: '推荐有礼', s: '' }, { k: 'SUPPORT', icon: 'ic-headset', t: '联系顾问', s: '' }, { k: 'BRAND', icon: 'ic-info', t: '关于迷你考拉', s: '' }] }
+      { key: 'records', title: '我的记录', items: [{ k: 'NEEDS', icon: 'note-ink', t: '预约用仓', s: '查看已提交的预约' }, { k: 'PROGRESS', icon: 'flag-ink', t: '找仓进度', s: '' }] },
+      { key: 'benefit', title: '服务与权益', items: [{ k: 'FAVORITES', icon: 'heart-ink', t: '我的收藏', s: '门店和仓位' }, { k: 'COUPONS', icon: 'ticket-ink', t: '优惠与权益', s: '查看可用权益' }, { k: 'MESSAGES', icon: 'msg-ink', t: '消息', s: '查看业务通知' }] },
+      { key: 'finance', title: '账务与企业', items: [{ k: 'ENT_TITLES', icon: 'order-ink', t: '发票与抬头', s: '' }, { k: 'DEPOSIT', icon: 'shield-ink', t: '押金', s: '' }, { k: 'ENT_CERT', icon: 'building-ink', t: '企业认证', s: '' }] },
+      { key: 'more', title: '更多服务', items: [{ k: 'TRANSPORT', icon: 'truck-ink', t: '运输与搬运', s: '下单前可预约' }, { k: 'REFERRAL', icon: 'gift-ink', t: '推荐有礼', s: '' }, { k: 'SUPPORT', icon: 'headset-ink', t: '联系顾问', s: '' }, { k: 'BRAND', icon: 'info-ink', t: '关于迷你考拉', s: '' }] }
     ]
   },
   favorites: {
@@ -73,7 +73,7 @@ module.exports = {
   },
   brand: {
     logo: '迷你考拉仓',
-    pillars: [{ icon: 'ic-shield', t: '安全防护', s: '24小时监控' }, { icon: 'ic-temp', t: '恒温防潮', s: '智能除湿' }, { icon: 'ic-headset', t: '专属服务', s: '用仓问题协助' }, { icon: 'ic-truck', t: '上门搬运', s: '考拉E存服务' }],
+    pillars: [{ icon: 'shield-ink', t: '安全防护', s: '24小时监控' }, { icon: 'temp-ink', t: '恒温防潮', s: '智能除湿' }, { icon: 'headset-ink', t: '专属服务', s: '用仓问题协助' }, { icon: 'truck-ink', t: '上门搬运', s: '考拉E存服务' }],
     para: '为个人和企业提供自助仓储及用仓方案咨询。',
     howTitle: '如何选择', how: [{ n: '1', t: '填写容量或按物品估算' }, { n: '2', t: '主动选择租期并查看可用方案' }, { n: '3', t: '核对门店地址、设施和费用' }, { n: '4', t: '确认订单，付款后按指引办理入仓' }],
     storeTitle: '存放说明', storePara: '存放物品、承重、存取条件与服务范围，请在签约前向门店确认。易燃易爆、危险及法律禁止存储的物品不得入仓。',

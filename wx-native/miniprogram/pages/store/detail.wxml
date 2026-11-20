@@ -11,8 +11,8 @@
       </view>
       <view class="mk-between sd-sub">
         <text class="mk-sub mk-grow sd-hours">{{hoursText}}</text>
-        <view class="sd-tb mk-row" bindtap="onFavStore" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-heart.svg" /><text class="{{fav ? 'mk-link' : 'mk-sub'}}">{{fav ? T.d.favOn : T.d.favorite}}</text></view>
-        <button class="mk-bare sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/ic-share.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
+        <view class="sd-tb mk-row" bindtap="onFavStore" aria-role="button"><image class="mk-icon" src="/assets/icons/{{fav ? 'heartfill-brand' : 'heart-sub'}}.svg" /><text class="{{fav ? 'mk-link' : 'mk-sub'}}">{{fav ? T.d.favOn : T.d.favorite}}</text></view>
+        <button class="mk-bare sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/share-ink.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
       </view>
       <view wx:if="{{tab !== 1}}" class="sd-tags"><text wx:for="{{card.tags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></view>
       <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><view class="mk-grow sd-at" bindtap="onSeeRoute" aria-role="button" aria-label="查看完整地址：{{card.address}}"><text class="sd-at-text">{{card.address}}</text></view><button class="mk-bare sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
@@ -66,7 +66,7 @@
                 <text wx:if="{{item.row.tier}}" class="mk-tag sd-tier">{{item.row.tier}}</text>
                 <text wx:if="{{item.row.tag}}" class="mk-tag sd-tier">{{item.row.tag}}</text>
               </view>
-              <view wx:if="{{item.type === 'unit'}}" class="sd-fav" data-id="{{item.row.favId}}" bindtap="onFavUnit" aria-role="button" aria-label="收藏仓位"><image class="mk-icon" src="/assets/icons/ic-heart.svg" /><text wx:if="{{item.row.fav}}" class="mk-link sd-favt">{{T.d.favOn}}</text></view>
+              <view wx:if="{{item.type === 'unit'}}" class="sd-fav" data-id="{{item.row.favId}}" bindtap="onFavUnit" aria-role="button" aria-label="收藏仓位"><image class="mk-icon" src="/assets/icons/{{item.row.fav ? 'heartfill-brand' : 'heart-sub'}}.svg" /><text wx:if="{{item.row.fav}}" class="mk-link sd-favt">{{T.d.favOn}}</text></view>
             </view>
             <block wx:if="{{item.type === 'combo'}}"><text class="mk-sub sd-line">{{item.row.sub}}</text></block>
             <block wx:else>
@@ -157,7 +157,7 @@
   <mk-sheet visible="{{destSheet}}" title="{{T.d.route.destTitle}}" bind:close="onDestClose">
     <text class="mk-sub">{{T.d.route.destNote}}</text>
     <view wx:for="{{route.dests}}" wx:key="title" class="sd-dest mk-row" data-i="{{index}}" bindtap="onDest" aria-role="button">
-      <image class="mk-icon mk-icon--md" src="/assets/icons/{{item.kind === 'car' ? 'ic-car' : 'ic-walk'}}.svg" />
+      <image class="mk-icon mk-icon--md" src="/assets/icons/{{item.kind === 'car' ? 'car-ink' : 'walk-ink'}}.svg" />
       <view class="mk-grow sd-tt"><text>{{item.title}}</text><text class="mk-sub">{{item.sub}}</text></view>
       <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
     </view>

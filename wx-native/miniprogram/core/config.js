@@ -4,6 +4,7 @@
 module.exports = {
   DATA_SOURCE: 'mock', // 'mock' = 演示数据；'http' = 真实接口（第 5 批）
   API_BASE: '',
+  DEMO_TOOLS: true, // 演示工具入口（「我的」页底部 → 切换演示场景、网络档位、查看组件校准页）。正式提审前改为 false
   DEMO_SEED_ORDERS: true, // 演示环境：登录后带 5 笔覆盖各阶段的演示订单；设为 false 则从空订单开始
   pricing: {
     termRules: [ // 12–60 月 0.65 为 ruled（D-156）；其余三档 example

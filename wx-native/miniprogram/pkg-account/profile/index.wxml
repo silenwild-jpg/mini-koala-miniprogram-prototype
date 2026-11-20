@@ -22,8 +22,8 @@
     <block wx:if="{{loggedIn}}">
       <view class="mk-card">
         <text class="ac-sec">{{T.p.privacySection}}</text>
-        <view class="ac-lrow" bindtap="onPrivacy" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/ic-shield.svg" /><text class="mk-grow">{{T.p.privacy}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
-        <view class="ac-lrow" bindtap="onDelete" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/ic-user.svg" /><text class="mk-grow">{{T.p.deleteAccount}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="ac-lrow" bindtap="onPrivacy" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/shield-ink.svg" /><text class="mk-grow">{{T.p.privacy}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view class="ac-lrow" bindtap="onDelete" aria-role="button"><image class="mk-icon mk-icon--md ac-lead" src="/assets/icons/user-ink.svg" /><text class="mk-grow">{{T.p.deleteAccount}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
       </view>
       <button class="mk-btn mk-btn--ghost mk-btn--md pf-neutral pf-logout" hover-class="none" bindtap="onLogout">{{T.p.logout}}</button>
     </block>
@@ -33,7 +33,7 @@
     <text class="ac-label">{{T.p.contactSheet.label}}</text>
     <view class="ac-input {{contactError ? 'ac-input--err' : ''}}">
       <input class="ac-inp" type="text" maxlength="20" placeholder="{{T.p.contactSheet.placeholder}}" placeholder-class="ac-ph" value="{{contactValue}}" bindinput="onContactInput" />
-      <image class="mk-icon" src="/assets/icons/ic-phone.svg" />
+      <image class="mk-icon" src="/assets/icons/phone-ink.svg" />
     </view>
     <text wx:if="{{contactError}}" class="mk-error ac-ferr">{{contactError}}</text>
     <button class="mk-btn ac-block" hover-class="mk-btn--hover" loading="{{contactBusy}}" bindtap="onSaveContact">{{T.p.contactSheet.save}}</button>

@@ -44,7 +44,7 @@
     <view class="oc-kv mk-between">
       <text class="mk-sub">{{v.periodLabel}}</text>
       <picker wx:if="{{editable}}" mode="date" value="{{v.startDate}}" start="{{startMin}}" end="{{startMax}}" bindchange="onDate">
-        <view class="oc-date"><text class="{{v.startDate ? '' : 'oc-dateph'}}">{{v.startDate || T.pickDate}}</text><image class="mk-icon oc-cal" src="/assets/icons/ic-cal.svg" /></view>
+        <view class="oc-date"><text class="{{v.startDate ? '' : 'oc-dateph'}}">{{v.startDate || T.pickDate}}</text><image class="mk-icon oc-cal" src="/assets/icons/cal-ink.svg" /></view>
       </picker>
       <text wx:else class="oc-val">{{v.periodText}}</text>
     </view>

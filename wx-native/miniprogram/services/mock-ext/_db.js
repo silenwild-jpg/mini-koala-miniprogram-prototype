@@ -4,6 +4,7 @@ const stores = require('../../mock/stores');
 const units = require('../../mock/inventory');
 const model = require('../../core/order-model');
 const order = require('../../core/order');
+const scenarios = require('../../mock/scenarios');
 const DAY = model.DAY, S = order.STAGE;
 const db = { orders: [], seq: 0, sms: {}, leads: [], messages: [], seeded: false, kv: {} };
 const store = (id) => stores.find((s) => s.id === id);
@@ -22,7 +23,10 @@ function mk(o) { // 造一笔演示订单并推进到指定阶段
 }
 // 演示订单：覆盖待支付、待起租、租用中（含满额减 D-185）、即将到期（首次续租沿用原折扣 D-186）、下单时未实名（D-174）、已结束（押金部分退还）
 function seed() {
-  if (db.seeded || !C.DEMO_SEED_ORDERS) return;
+  if (db.seeded) return;
+  const sc = scenarios.scenario();
+  if (sc && sc.orders) { db.seeded = true; sc.orders.forEach(fromSpec); return; }
+  if (!C.DEMO_SEED_ORDERS) return;
   db.seeded = true;
   const now = Date.now();
   mk({ store: 'SIM_BJ01', units: ['SIM_BJ01_U05'], months: 12, agoDays: 40, startAt: now - 39 * DAY, stage: S.ACTIVE });
@@ -31,4 +35,14 @@ function seed() {
   mk({ store: 'SIM_BJ02', units: ['SIM_BJ02_U01'], months: 3, agoDays: 0, stage: S.PENDING });
   mk({ store: 'SIM_BJ01', units: ['SIM_BJ01_U01'], months: 3, agoDays: 200, startAt: now - 199 * DAY, stage: S.ENDED, patch: (od) => ({ deposit: { status: 'partial', amount: od.quote.deposit, pending_fee: 40, refunded: od.quote.deposit - 40 } }) });
 }
-module.exports = { db, seed, store, unit, mk };
+// 演示场景里的订单描述（mock/scenarios.js）→ 造单参数
+function fromSpec(o) {
+  const now = Date.now();
+  const p = { store: o.store, units: o.units, months: o.months, agoDays: o.agoDays, stage: S[o.stage], identity: o.identity, factor: o.factor, failReason: o.failReason };
+  if (typeof o.startInDays === 'number') p.startAt = now + o.startInDays * DAY;
+  if (o.depositPartial) p.patch = (od) => ({ deposit: { status: 'partial', amount: od.quote.deposit, pending_fee: o.depositPartial, refunded: od.quote.deposit - o.depositPartial } });
+  return mk(p);
+}
+// 清空演示数据（切换演示场景时用）。原地清空，各模块手里的 db 引用不变。
+function resetDb() { db.orders.length = 0; db.leads.length = 0; db.messages.length = 0; db.seq = 0; db.sms = {}; db.kv = {}; db.seeded = false; }
+module.exports = { db, seed, store, unit, mk, resetDb };

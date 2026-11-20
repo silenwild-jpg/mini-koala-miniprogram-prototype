@@ -14,7 +14,7 @@
 .qk-pick { display: flex; align-items: center; padding-top: var(--mk-space-2); min-height: 128rpx; }
 .qk-pick--plain { align-items: flex-start; }
 .qk-ph { width: 128rpx; height: 128rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; flex: none; margin-right: var(--mk-space-3); }
-.qk-hint { color: var(--mk-color-ink-tertiary); }
+.qk-hint { color: var(--mk-color-ink-hint); }
 .qk-line2 { margin-top: 8rpx; }
 .qk-detail { margin-top: 4rpx; min-height: 56rpx; display: inline-flex; align-items: center; }
 .qk-carried { margin-top: var(--mk-space-2); }

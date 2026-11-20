@@ -23,7 +23,7 @@
 .mt-estore { margin-top: var(--mk-space-cardGap); }
 .mt-frow { padding: var(--mk-space-2) 0; border-bottom: var(--mk-border-hairline); display: flex; flex-direction: column; }
 .mt-fsub { margin-left: var(--mk-space-2); }
-.mt-muted { color: var(--mk-color-ink-tertiary); }
+.mt-muted { color: var(--mk-color-ink-hint); }
 .mt-ftotal { padding: var(--mk-space-3) 0; }
 .mt-fpay { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); }
 

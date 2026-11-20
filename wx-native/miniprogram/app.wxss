@@ -11,7 +11,7 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-title { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); }
 .mk-h2 { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-semibold); }
 .mk-sub { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
-.mk-mute { color: var(--mk-color-ink-tertiary); font-size: var(--mk-font-size-xs); }
+.mk-mute { color: var(--mk-color-ink-hint); font-size: var(--mk-font-size-xs); }
 .mk-link { color: var(--mk-color-brand-text); font-size: var(--mk-font-size-sm); }
 .mk-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mk-tag { display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); margin-right: var(--mk-space-1); }
@@ -41,3 +41,16 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-bottom-bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--mk-color-canvas-card); box-shadow: var(--mk-elevation-sheet); padding: var(--mk-space-3) var(--mk-space-pageGutter) calc(var(--mk-space-3) + env(safe-area-inset-bottom)); z-index: 20; }
 .mk-error { color: var(--mk-color-status-errorText); font-size: var(--mk-font-size-sm); }
 .mk-num { font-family: var(--mk-font-family-numeric); font-feature-settings: 'tnum' 1; }
+/* v2 文字角色：新写页面优先用角色类，不再逐页拼字号和字重（旧类 mk-title / mk-sub / mk-mute 继续有效） */
+.mk-t-display { font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); }
+.mk-t-title { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); }
+.mk-t-body { font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
+.mk-t-caption { font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); }
+.mk-t-hint { font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-hint); }
+.mk-t-off { color: var(--mk-color-ink-tertiary); }
+/* v2 按压反馈：可点的行、卡片、图标按钮统一用 hover-class="mk-tap--hover"；幽灵按钮用 mk-btn--ghostHover */
+.mk-tap--hover { background: var(--mk-color-state-pressed); }
+.mk-btn--ghostHover { background: var(--mk-color-brand-tint); }
+/* v2 图标按钮：图标尺寸不变，命中区撑到 44px */
+.mk-iconbtn { display: flex; align-items: center; justify-content: center; min-width: var(--mk-size-tapMin); min-height: var(--mk-size-tapMin); flex: none; }
+.mk-tag--error { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
