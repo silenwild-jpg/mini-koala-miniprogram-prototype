@@ -1,5 +1,11 @@
 # 迷你考拉仓｜项目控制中心
 
+## 2026-11-20 下阶段完整实施规划 v2（当前任务入口）
+
+当前方案入口：[NEXT-STAGE-20261120-v2](../wx-native/docs/next-stage-20261120/IMPLEMENTATION_PLAN.md)，配套[12项任务](../wx-native/docs/next-stage-20261120/TASKS.csv)、[40项初始验收场景](../wx-native/docs/next-stage-20261120/ACCEPTANCE_MATRIX.csv)、[页面/组件/资源盘点](../wx-native/docs/next-stage-20261120/BASELINE_INVENTORY.json)及[决策风险](../wx-native/docs/next-stage-20261120/DECISIONS_AND_RISKS.md)。本轮只更新规划与静态准备，运行时仍为 `cbffc52201ab61b0896887a46520e4388ac70c70`，分支 `codex/inventory-display-density-20261120`。
+
+计划顺序：密度候选原生闭环与01A审计交错推进 → 01B组件约定 → 01C核心页试点 → 01D分域推广 → 01E全站与真机 → 01F候选评审。**立即执行包为01A逐项审计＋INV-DENSITY-02A工具连接复查**；代理失败是上次观测，本轮未重试，恢复后继续02B。新矩阵全部NOT_RUN，历史578态不充当新分母；G-VIS仍HOLD，未冻结、未归并、未上传体验版。
+
 ## 2026-11-20 库存展示与信息密度候选（当前增量）
 
 分支 `codex/inventory-display-density-20261120`，运行时与测试候选 `cbffc52`。本批收敛 S01/S5 门店卡标签与冗余文字、S02 泛化用途、QUICK 门店选择层的库存数量展示；容量差额、无库存、报价及主路径保留。详见[实施与下阶段安排](../wx-native/docs/inventory-display-20261120/STATUS.md)和[独立技术验收](../wx-native/evidence/inventory-display-20261120/verification.json)。
