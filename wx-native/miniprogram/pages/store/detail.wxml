@@ -15,7 +15,7 @@
         <button class="sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/ic-share.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
       </view>
       <view wx:if="{{tab !== 1}}" class="sd-tags"><text wx:for="{{card.tags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></view>
-      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><text class="mk-grow sd-at" bindtap="onSeeRoute" aria-role="button" aria-label="查看完整地址：{{card.address}}">{{card.address}}</text><button class="sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
+      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><view class="mk-grow sd-at" bindtap="onSeeRoute" aria-role="button" aria-label="查看完整地址：{{card.address}}"><text class="sd-at-text">{{card.address}}</text></view><button class="sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
     </view>
     <view class="mk-between mk-gutter sd-demand">
       <view class="sd-dmark"></view>
