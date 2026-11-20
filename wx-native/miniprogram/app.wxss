@@ -5,6 +5,8 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-gutter { padding-left: var(--mk-space-pageGutter); padding-right: var(--mk-space-pageGutter); }
 .mk-card { background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-card); padding: var(--mk-space-cardPad); box-shadow: var(--mk-elevation-card); }
 .mk-card + .mk-card { margin-top: var(--mk-space-cardGap); }
+/* STYLE-01 悬浮卡：只用于首页双入口这类需要从页面里浮起来的主入口（冻结稿 .card.float），不描边、绿色调柔和投影 */
+.mk-card--float { box-shadow: var(--mk-elevation-float); }
 .mk-row { display: flex; align-items: center; }
 .mk-between { display: flex; align-items: center; justify-content: space-between; }
 .mk-grow { flex: 1; min-width: 0; }

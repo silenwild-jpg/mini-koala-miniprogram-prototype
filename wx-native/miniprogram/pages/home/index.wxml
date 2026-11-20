@@ -1,5 +1,9 @@
 <view class="mk-page hm-page">
-  <view class="hm-top" style="padding-top:{{layout.statusBar}}px">
+  <block wx:if="{{!sys}}">
+    <image class="hm-photo" style="height:{{heroHeight}}px" src="/assets/images/stores/SIM-BJ03/hero.webp" mode="aspectFill" aria-label="{{T.home.heroAlt}}" />
+    <view class="hm-fade" style="top:{{heroHeight * 0.22}}px;height:{{heroHeight * 0.78}}px"></view>
+  </block>
+  <view class="hm-top {{sys || solid ? 'hm-top--solid' : ''}}" style="padding-top:{{layout.statusBar}}px">
     <view class="hm-bar mk-row" style="height:{{layout.navHeight}}px;padding-right:{{layout.windowWidth - layout.capsuleLeft + 8}}px">
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="hm-city mk-row" bindtap="onCity" aria-role="button" aria-label="用仓位置">
         <image class="mk-icon" src="/assets/icons/pin-ink.svg" /><text class="hm-cname">{{city}}</text><view wx:if="{{!located}}" class="hm-dot"></view><image class="mk-icon" src="/assets/icons/down-ink.svg" />
@@ -25,8 +29,8 @@
 
   <view wx:if="{{sys}}" class="mk-gutter"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <block wx:else>
-    <view class="mk-gutter">
-      <view class="hm-hero">
+    <view class="mk-gutter hm-body">
+      <view class="hm-hero" style="min-height:{{heroHeight - layout.statusBar - layout.navHeight}}px">
         <text class="hm-h">{{T.home.heroTitle}}</text>
         <text class="mk-sub">{{T.home.heroSub}}</text>
         <view class="hm-rule"></view>
@@ -38,11 +42,13 @@
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="hm-wk hm-wk--r" bindtap="onEstimate" aria-role="button"><image class="mk-icon" src="/assets/icons/calc-brand.svg" /><text class="hm-wt">{{T.home.estimate}}</text></view>
       </view>
       <view wx:else class="hm-tasks">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card hm-task" bindtap="onFindStores" aria-role="button">
-          <text class="mk-title">{{T.home.findStores}}</text><text class="mk-sub hm-ts">{{T.home.findSub}}</text><text class="mk-link">{{T.home.findLink}}</text>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card mk-card--float hm-task" bindtap="onFindStores" aria-role="button">
+          <text class="mk-title">{{T.home.findStores}}</text><text class="hm-ts">{{T.home.findSub}}</text><text class="mk-link hm-ta">{{T.home.findLink}}</text>
+          <image class="hm-timg" src="/assets/images/home/task-map.webp" mode="aspectFit" />
         </view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card hm-task" bindtap="onEstimate" aria-role="button">
-          <text class="mk-title">{{T.home.estimate}}</text><text class="mk-sub hm-ts">{{estimated ? T.home.estimatedSub : T.home.estimateSub}}</text><text class="mk-link">{{T.home.estimateLink}}</text>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card mk-card--float hm-task" bindtap="onEstimate" aria-role="button">
+          <text class="mk-title">{{T.home.estimate}}</text><text class="hm-ts">{{estimated ? T.home.estimatedSub : T.home.estimateSub}}</text><text class="mk-link hm-ta">{{T.home.estimateLink}}</text>
+          <image class="hm-timg" src="/assets/images/home/task-calculator.webp" mode="aspectFit" />
         </view>
       </view>
       <block wx:if="{{!noRec}}">
@@ -56,10 +62,12 @@
       <view class="hm-rail">
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{cards}}" wx:key="id" class="mk-card hm-rcard" data-id="{{item.id}}" bindtap="onStore" aria-role="button">
           <image class="hm-store-photo" src="{{item.photo}}" mode="aspectFill" />
-          <text class="mk-title mk-ellipsis hm-rn">{{item.name}}</text>
-          <text class="mk-sub mk-ellipsis hm-rl">{{item.locText}}</text>
-          <view class="hm-rtags"><text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="t" class="mk-tag {{tag.promo ? 'mk-tag--promo' : ''}}">{{tag.t}}</text></view>
-          <mk-price wx:if="{{item.fromPrice}}" amount="{{item.fromPrice}}" unit="{{T.cubic}}" size="sm" />
+          <view class="hm-rbody">
+            <text class="mk-title mk-ellipsis hm-rn">{{item.name}}</text>
+            <text class="mk-sub mk-ellipsis hm-rl">{{item.locText}}</text>
+            <view class="hm-rtags"><text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="t" class="mk-tag {{tag.promo ? 'mk-tag--promo' : ''}}">{{tag.t}}</text></view>
+            <mk-price wx:if="{{item.fromPrice}}" amount="{{item.fromPrice}}" unit="{{T.cubic}}" size="sm" />
+          </view>
         </view>
       </view>
     </scroll-view>
@@ -67,15 +75,23 @@
       <block wx:if="{{!noRec}}">
         <view class="mk-between hm-sec"><text class="mk-h2">{{T.home.scenes}}</text></view>
         <view class="hm-scenes">
-          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{T.home.sceneList}}" wx:key="*this" class="hm-scene" data-i="{{index}}" bindtap="onScene" aria-role="button">{{item}}</view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{T.home.sceneList}}" wx:key="*this" class="hm-scene" data-i="{{index}}" bindtap="onScene" aria-role="button" aria-label="{{item}}">
+            <view class="hm-spic"><image class="hm-simg" src="/assets/images/home/scene-{{T.home.sceneImages[index]}}.webp" mode="aspectFit" /></view>
+            <text class="hm-sname">{{item}}</text>
+          </view>
         </view>
       </block>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card hm-biz" bindtap="onBusiness" aria-role="button">
-        <view class="mk-row"><text class="mk-title">{{T.home.business.title}}</text><text class="mk-tag mk-tag--brand hm-btag">{{T.home.business.tag}}</text></view>
-        <text class="mk-sub hm-bs">{{T.home.business.sub}}</text><text class="mk-link">{{T.home.business.link}}</text>
+        <view class="hm-bic"><image class="mk-icon mk-icon--md" src="/assets/icons/building-brand.svg" /></view>
+        <view class="mk-grow">
+          <view class="mk-row"><text class="mk-title">{{T.home.business.title}}</text><text class="mk-tag mk-tag--brand hm-btag">{{T.home.business.tag}}</text></view>
+          <text class="mk-sub hm-bs">{{T.home.business.sub}}</text>
+        </view>
+        <text class="mk-link hm-ba">{{T.home.business.link}}</text>
       </view>
-      <view class="mk-card hm-proof">
-        <view class="hm-nums"><view wx:for="{{T.home.proof}}" wx:key="t" class="hm-num"><text class="mk-num hm-pn">{{item.n}}</text><text class="mk-sub">{{item.t}}</text></view></view>
+      <view class="hm-proof">
+        <view class="mk-row hm-logo"><view class="hm-mark"></view><text>{{T.home.brandName}}</text></view>
+        <view class="hm-nums"><view wx:for="{{T.home.proof}}" wx:key="t" class="hm-num"><text class="mk-num hm-pn">{{item.n}}</text><text class="hm-pt">{{item.t}}</text></view></view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-link hm-about" bindtap="onAbout" aria-role="button">{{T.home.about}}</view>
       </view>
     </view>

@@ -39,6 +39,7 @@ function render(nodes, scope, base, slot) {
       const cls = [(a.class ? interp(a.class, sc) : ''), 'wx-' + n.tag].join(' ').trim();
       attrs += ' class="' + esc(cls) + '"';
       if (a.style) attrs += ' style="' + esc(rpx(interp(a.style, sc))) + '"';
+      if (n.tag === 'image') { const fit = { aspectFill: 'cover', aspectFit: 'contain' }[a.mode]; if (fit) attrs = / style="/.test(attrs) ? attrs.replace(' style="', ' style="object-fit:' + fit + ';') : attrs + ' style="object-fit:' + fit + '"'; }
       if (n.tag === 'image') return '<img' + attrs + ' src="' + esc(path.join(root, String(interp(a.src || '', sc)))) + '">';
       if (n.tag === 'input') return '<input' + attrs + ' placeholder="' + esc(interp(a.placeholder || '', sc)) + '" value="' + esc(interp(a.value || '', sc) || '') + '">';
       return '<' + tag + attrs + '>' + inner + '</' + tag + '>';

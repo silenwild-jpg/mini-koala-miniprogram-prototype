@@ -152,6 +152,18 @@ import subprocess
 _ic = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_icons.py'), root, '--check'], capture_output=True, text=True)
 try: errs += json.loads(_ic.stdout)['errors']
 except Exception: errs.append('图标核对没跑通：' + (_ic.stderr or _ic.stdout)[-200:])
+# STYLE-01：底部导航图标由 tools/gen_tabbar.py 从 design-src/tabbar 生成，这里核对没有手改、颜色与令牌一致
+_tb = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_tabbar.py'), root, '--check'], capture_output=True, text=True)
+try: errs += json.loads(_tb.stdout)['errors']
+except Exception: errs.append('导航图标核对没跑通：' + (_tb.stderr or _tb.stdout)[-200:])
+# STYLE-01：首页配图（assets/images/home）必须有人引用，引用的文件必须存在；场景图按文字表 sceneImages 拼名
+_home = os.path.join(root, 'assets', 'images', 'home')
+_src = open(os.path.join(root, 'pages', 'home', 'index.wxml'), encoding='utf-8').read()
+_scenes = re.findall(r"'([a-z]+)'", re.search(r'sceneImages:\s*\[([^\]]*)\]', open(os.path.join(root, 'i18n', 'find.js'), encoding='utf-8').read()).group(1))
+_want = set(re.findall(r'/assets/images/home/([a-z-]+\.webp)', _src)) | {'scene-%s.webp' % x for x in _scenes}
+_have = set(os.listdir(_home)) if os.path.isdir(_home) else set()
+for f in sorted(_want - _have): errs.append('首页引用了不存在的 assets/images/home/' + f)
+for f in sorted(_have - _want): errs.append('assets/images/home/%s 没有人引用' % f)
 for dp, _, fs in os.walk(os.path.join(root, 'assets', 'icons')):
     for f in fs:
         if 'currentColor' in open(os.path.join(dp, f), encoding='utf-8').read(): errs.append('assets/icons/%s 用了 currentColor，<image> 里会渲染成黑色' % f)

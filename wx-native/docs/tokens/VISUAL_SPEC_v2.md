@@ -39,6 +39,13 @@
 - 色调用法：功能入口和列表行前图标用 `ink`；可点的动作图标（导航、电话、勾选）用 `brand`；行尾箭头、空态用 `mute` / `sub`；有开关状态的图标用形状加颜色两重区分（收藏：未收藏 `heart-sub` 线框，已收藏 `heartfill-brand` 实心）。
 - 静态检查会拦：引用了不存在的图标、旧的 `ic-` 名称、磁盘文件与来源不一致、没人引用的文件、`currentColor`。
 
-## 5. 这一版没有动的
+## 5. 风格层（STYLE-01，2026-11-20）
 
-卡片投影、圆角、品牌绿用量、首页场景图、tabBar 图标（PNG）。这些属于看得见的风格变化，等运行时校准图回来后再出方案。
+| 项 | 值 | 说明 |
+|---|---|---|
+| `--mk-elevation-card` | `0 0 0 1px #E3E8E5` | 卡片四周 1px 描边（冻结稿 `.card` 的 border）；原值只有底边一条线 |
+| `.mk-card--float` | `--mk-elevation-float` | 悬浮卡，只用于首页双入口 |
+| 首页首图 | 屏高 25%，190–230px，下方 78% 渐隐到白 | 冻结稿 `.hero`；参数在 `core/config-find.js hero` |
+| 底部导航图标 | 选中 `brand-text`，未选中 `ink-secondary`，填充 `brand-tint` / `brand-tintStrong` | 来源 `design-src/tabbar`，`tools/gen_tabbar.py` 生成 81×81 PNG |
+
+没有动：品牌色、字号阶梯、间距、圆角；首页以外的页面底色。详见 `../collab/STYLE-01/README.md`。

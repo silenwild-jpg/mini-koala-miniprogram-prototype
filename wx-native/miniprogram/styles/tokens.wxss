@@ -71,7 +71,7 @@ page {
   --mk-radius-card: 24rpx;
   --mk-radius-media: 24rpx;
   --mk-radius-none: 0px;
-  --mk-elevation-card: 0 1px 0 #E3E8E5;
+  --mk-elevation-card: 0 0 0 1px #E3E8E5; /* STYLE-01：四周 1px 描边（冻结稿 .card 的 border），用投影画不占盒子宽度；原值 0 1px 0 #E3E8E5 只有底边一条线 */
   --mk-elevation-float: 0 8rpx 28rpx rgba(20,174,104,0.08);
   --mk-elevation-sheet: 0 -4rpx 24rpx rgba(31,42,36,0.08);
   --mk-size-ctaHeight: 88rpx;

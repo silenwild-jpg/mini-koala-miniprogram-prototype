@@ -1,5 +1,10 @@
-.hm-page { background: var(--mk-color-canvas-sunken); }
-.hm-top { position: sticky; top: 0; z-index: 10; background: var(--mk-color-canvas-page); }
+/* STYLE-01：首页按冻结稿 H01 改为白底；首图铺在页面最上方（含状态栏和顶栏下面），下方 78% 渐隐到白 */
+.hm-page { position: relative; background: var(--mk-color-canvas-page); }
+.hm-photo { position: absolute; left: 0; top: 0; width: 100%; z-index: 0; background: var(--mk-color-canvas-sunken); }
+.hm-fade { position: absolute; left: 0; right: 0; z-index: 0; background: var(--mk-color-overlay-photoFade); }
+.hm-body { position: relative; z-index: 1; }
+.hm-top { position: sticky; top: 0; z-index: 10; background: transparent; transition: background-color var(--mk-motion-fast) var(--mk-motion-easing); }
+.hm-top--solid { background: var(--mk-color-canvas-page); }
 .hm-bar { padding-left: var(--mk-space-pageGutter); box-sizing: border-box; }
 .hm-city { min-height: 64rpx; flex: none; }
 .hm-cname { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); margin: 0 4rpx; max-width: 160rpx; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
@@ -11,13 +16,15 @@
 .hm-bubble { position: absolute; left: var(--mk-space-3); right: var(--mk-space-3); top: 100%; margin-top: 8rpx; background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-thumb); border: var(--mk-border-hairline); box-shadow: var(--mk-elevation-float); padding: var(--mk-space-1) var(--mk-space-1) var(--mk-space-1) var(--mk-space-3); font-size: var(--mk-font-size-sm); }
 .hm-act { padding: 0 var(--mk-space-2); min-height: 64rpx; display: flex; align-items: center; white-space: nowrap; }
 .hm-x { width: 64rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; flex: none; }
-.hm-hero { padding: var(--mk-space-4) 0 var(--mk-space-3); display: flex; flex-direction: column; }
-.hm-h { font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); margin-bottom: var(--mk-space-1); }
+.hm-hero { padding: var(--mk-space-2) 0 20rpx; display: flex; flex-direction: column; justify-content: flex-end; box-sizing: border-box; }
+.hm-h { font-size: var(--mk-font-size-4xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); margin-bottom: var(--mk-space-1); }
 .hm-rule { width: 80rpx; height: 6rpx; border-radius: 3rpx; background: var(--mk-color-brand-fill); margin-top: var(--mk-space-2); }
-.hm-tasks { display: flex; margin-top: var(--mk-space-cardGap); }
-.hm-task { flex: 1; display: flex; flex-direction: column; margin-top: 0; padding: var(--mk-space-cardPadCompact); }
+.hm-tasks { display: flex; margin-top: var(--mk-space-4); }
+.hm-task { position: relative; flex: 1; min-width: 0; min-height: 192rpx; box-sizing: border-box; display: flex; flex-direction: column; margin-top: 0; padding: var(--mk-space-cardPadCompact); }
 .hm-task + .hm-task { margin-top: 0; margin-left: var(--mk-space-3); }
-.hm-ts { margin: 4rpx 0 var(--mk-space-3); }
+.hm-ts { margin-top: 8rpx; padding-right: 104rpx; font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); line-height: 1.4; }
+.hm-ta { margin-top: auto; padding-top: var(--mk-space-3); font-weight: var(--mk-font-weight-semibold); }
+.hm-timg { position: absolute; right: 20rpx; bottom: 20rpx; width: 96rpx; height: 96rpx; }
 .hm-weak { display: flex; margin-top: var(--mk-space-cardGap); padding: 0; }
 .hm-wk { flex: 1; height: 96rpx; display: flex; align-items: center; justify-content: center; }
 .hm-wk--r { border-left: var(--mk-border-hairline); }
@@ -26,19 +33,32 @@
 .hm-fold { padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); border-bottom: var(--mk-border-hairline); margin-bottom: 0; }
 .hm-all { min-height: 64rpx; display: flex; align-items: center; }
 .hm-rec { white-space: nowrap; width: 100%; }
-.hm-rail { display: inline-flex; padding: 0 var(--mk-space-pageGutter); }
-.hm-rcard { width: var(--mk-size-recCardWidth); margin-right: var(--mk-space-3); display: inline-flex; flex-direction: column; white-space: normal; box-sizing: border-box; padding: var(--mk-space-cardPadCompact); }
+.hm-rail { display: inline-flex; padding: 2rpx var(--mk-space-pageGutter); }
+.hm-rcard { width: var(--mk-size-recCardWidth); margin-right: var(--mk-space-3); display: inline-flex; flex-direction: column; white-space: normal; box-sizing: border-box; padding: 0; overflow: hidden; }
+.hm-rbody { padding: var(--mk-space-cardPadCompact); display: flex; flex-direction: column; min-width: 0; }
 .hm-rcard + .hm-rcard { margin-top: 0; }
 .hm-rn { font-size: var(--mk-font-size-md); display: block; }
 .hm-rl { display: block; margin-top: 4rpx; }
 .hm-rtags { display: flex; flex-wrap: wrap; overflow: hidden; height: var(--mk-size-tagHeight); margin: var(--mk-space-2) 0; }
-.hm-scenes { display: flex; flex-wrap: wrap; margin-right: calc(0rpx - var(--mk-space-2)); }
-.hm-scene { width: calc(33.33% - var(--mk-space-2)); margin: 0 var(--mk-space-2) var(--mk-space-2) 0; height: var(--mk-size-ctaHeight); display: flex; align-items: center; justify-content: center; background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-thumb); font-size: var(--mk-font-size-sm); box-sizing: border-box; }
-.hm-biz { display: flex; flex-direction: column; margin-top: var(--mk-space-sectionGap); }
+.hm-scenes { display: flex; flex-wrap: wrap; }
+.hm-scene { width: calc((100% - 2 * var(--mk-space-cardGap)) / 3); margin: 0 var(--mk-space-cardGap) var(--mk-space-3) 0; display: flex; flex-direction: column; border-radius: var(--mk-radius-media); box-sizing: border-box; }
+.hm-scene:nth-child(3n) { margin-right: 0; }
+/* 图块：正方形下沉底，边长 =（屏宽 − 两侧页边距 − 两个间距）÷ 3 */
+.hm-spic { width: 100%; height: calc((100vw - 2 * var(--mk-space-pageGutter) - 2 * var(--mk-space-cardGap)) / 3); padding: var(--mk-space-3); box-sizing: border-box; background: var(--mk-color-canvas-sunken); border-radius: var(--mk-radius-media); }
+.hm-simg { display: block; width: 100%; height: 100%; }
+.hm-sname { display: block; margin-top: 12rpx; text-align: center; font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
+.hm-biz { display: flex; align-items: center; margin-top: var(--mk-space-3); }
+.hm-bic { width: 96rpx; height: 96rpx; margin-right: var(--mk-space-3); flex: none; display: flex; align-items: center; justify-content: center; border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); }
+.hm-ba { flex: none; margin-left: var(--mk-space-2); font-weight: var(--mk-font-weight-semibold); white-space: nowrap; }
 .hm-btag { margin-left: var(--mk-space-2); }
-.hm-bs { margin: 8rpx 0 var(--mk-space-2); }
-.hm-nums { display: flex; }
-.hm-num { flex: 1; display: flex; flex-direction: column; align-items: center; }
-.hm-pn { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); color: var(--mk-color-brand-text); }
-.hm-about { margin-top: var(--mk-space-3); min-height: 64rpx; display: flex; align-items: center; justify-content: center; }
-.hm-store-photo { display:block; width:100%; height:156rpx; margin-bottom:16rpx; border-radius:var(--mk-radius-thumb); }
+.hm-bs { display: block; margin-top: 4rpx; }
+.hm-proof { margin-top: var(--mk-space-sectionGap); }
+.hm-logo { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); }
+.hm-mark { width: 20rpx; height: 20rpx; margin-right: var(--mk-space-2); border-radius: 4rpx; background: var(--mk-color-brand-fill); }
+.hm-nums { display: flex; margin-top: 28rpx; padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); border-bottom: var(--mk-border-hairline); }
+.hm-num { flex: 1; display: flex; flex-direction: column; }
+.hm-pn { font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-bold); line-height: 1.1; }
+.hm-pt { font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); }
+.hm-about { margin-top: var(--mk-space-1); min-height: 88rpx; display: flex; align-items: center; font-weight: var(--mk-font-weight-semibold); }
+/* 推荐卡通栏图 16:10：卡宽 recCardWidth 284rpx → 高 178rpx */
+.hm-store-photo { display: block; width: 100%; height: 178rpx; background: var(--mk-color-canvas-sunken); }

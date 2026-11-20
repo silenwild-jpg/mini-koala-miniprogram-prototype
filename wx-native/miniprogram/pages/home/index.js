@@ -4,7 +4,9 @@
 //       订单任务卡位（mk-task-card，交易域）、用仓需求卡（mk-need-card；任务卡显示时需求在它的待办条带里，需求卡不重复出现）、
 //       双入口（标准 / 弱化两种）、为您推荐（最近 → 半径内更低价 → 运营位；待支付时收起可展开；服务中不出）、
 //       常见存储场景、企业横幅、品牌区、加载骨架与失败 / 断网（保留顶栏）。
-// 未做：首屏品牌大图、推荐卡与场景的图片（素材没有随包，门店图也不是核验过的实拍）；订单各阶段主卡由 mk-task-card 负责，不在本页。
+// STYLE-01：首屏品牌图（D-12：SIM_BJ03 门店图，高度约为屏高 25%，下方 78% 渐隐到白；顶栏叠在图上，滚动后变实底）、
+//       双入口插画、推荐卡通栏图、六个场景图块（D-11：沿用冻结稿透明底切图）。门店图仍是示意图，不是核验过的实拍。
+// 订单各阶段主卡由 mk-task-card 负责，不在本页。
 // 定位：只在首次进入自动申请一次；拿不到定位（含服务类目未开通）时城市位仍可手动选城市 / 区域 / 商圈。
 const T = require('../../i18n/find');
 const Z = require('../../i18n/zh');
@@ -21,12 +23,15 @@ const flags = () => { const g = getApp().globalData; if (!g.find) g.find = { bub
 Page({
   data: {
     T: { home: pd.plain(T.home), brand: Z.brand, cubic: T.price.cubicFrom, switchCity: T.locate.switchCity },
-    layout: null, panelTop: 0, sys: 'loading', city: '', located: false, bubble: null, nocity: '', cards: [], panel: false, panelFocus: false,
+    layout: null, heroHeight: 190, solid: false, panelTop: 0, sys: 'loading', city: '', located: false, bubble: null, nocity: '', cards: [], panel: false, panelFocus: false,
     unread: 0, unreadText: '', weak: false, noRec: false, collapse: false, recOpen: false, showRail: true, needMode: 'card', estimated: false
   },
   onLoad() {
     const layout = getApp().globalData.layout;
-    this.setData({ layout, panelTop: layout.statusBar + layout.navHeight });
+    // 首图高度：屏高 25%，夹在 190–230 之间（冻结稿 .hero）；至少容得下顶栏和标语
+    const top = layout.statusBar + layout.navHeight;
+    const heroHeight = Math.round(Math.max(CF.hero.min, top + CF.hero.sloganMin, Math.min(CF.hero.max, (layout.windowHeight || 0) * CF.hero.fold)));
+    this.setData({ layout, heroHeight, panelTop: top });
     const asked = state.get().flags.locationAsked;
     location.requestOnce().then((st) => { // 首次进入自动申请一次；之后不再自动申请
       this.showLocation(true);
@@ -35,7 +40,11 @@ Page({
   },
   onShow() { this.refresh(); },
   onHide() { this.hideBubble(); },
-  onPageScroll() { if (this.data.bubble) this.hideBubble(); },
+  onPageScroll(e) {
+    if (this.data.bubble) this.hideBubble();
+    const solid = ((e && e.scrollTop) || 0) > CF.hero.solidAfter; // 顶栏离开首图上沿后变实底，只在跨过阈值时 setData
+    if (solid !== this.data.solid) this.setData({ solid });
+  },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   // 城市位：城市名、未定位圆点、气泡
   showLocation(mayBubble) {

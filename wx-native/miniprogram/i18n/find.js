@@ -73,6 +73,8 @@ module.exports = {
     estimate: '估大小算价格', estimateSub: '不知道租多大？', estimatedSub: '已估算用仓需求', estimateLink: '开始估算 ›',
     recommend: '为您推荐', allStores: '查看全部门店 ›', expand: '展开', collapse: '收起',
     scenes: '常见存储场景', sceneList: ['搬家过渡', '装修暂存', '行李寄存', '换季收纳', '兴趣收藏', '闲置物品'],
+    // 场景图与 sceneList 一一对应（冻结稿 H01，D-11：沿用现有透明底切图）
+    sceneImages: ['moving', 'renovation', 'luggage', 'seasonal', 'collection', 'household'], heroAlt: '迷你考拉仓门店走廊', brandName: '迷你考拉仓',
     business: { title: '企业存储', tag: '企业', sub: '灵活空间，满足商家备货与企业存储需求', link: '了解企业存储 ›' },
     proof: [{ n: '14年', t: '稳定运营' }, { n: '590+', t: '直营门店' }, { n: '30万+', t: '累计服务用户' }], // 口径待业务确认
     about: '了解迷你考拉仓 ›'

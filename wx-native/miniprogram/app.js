@@ -9,7 +9,7 @@ App({
     // 自定义导航栏（首页、门店详情）的避让尺寸：运行时取，不写死设计稿的 44px
     const statusBar = win.statusBarHeight || 20;
     const navHeight = menu && menu.height ? (menu.top - statusBar) * 2 + menu.height : 44;
-    this.globalData.layout = { statusBar, navHeight, capsuleLeft: menu && menu.left ? menu.left : win.windowWidth - 96, windowWidth: win.windowWidth };
+    this.globalData.layout = { statusBar, navHeight, capsuleLeft: menu && menu.left ? menu.left : win.windowWidth - 96, windowWidth: win.windowWidth, windowHeight: win.screenHeight || win.windowHeight || 667 };
   },
-  globalData: { layout: { statusBar: 20, navHeight: 44, capsuleLeft: 279, windowWidth: 375 } }
+  globalData: { layout: { statusBar: 20, navHeight: 44, capsuleLeft: 279, windowWidth: 375, windowHeight: 667 } }
 });

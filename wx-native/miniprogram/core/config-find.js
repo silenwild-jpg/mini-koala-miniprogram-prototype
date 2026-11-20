@@ -34,6 +34,7 @@ module.exports = {
     aiEnabled: false,           // D-133：AI 估算保留占位，不实现
     toastMs: 2400               // 冻结稿 w1-render.js toast
   },
+  hero: { fold: 0.25, min: 190, max: 230, sloganMin: 96, solidAfter: 24 }, // 首页首图（px）：屏高占比、上下限（冻结稿 .hero）、标语区最小高度、滚动多少后顶栏变实底（后两项自定）
   moveSceneIndex: 0,            // 自定：首页场景里「搬家过渡」的位置；从它进入后，用仓位置面板显示搬家提示（交接 §4.2-5）
   hotline: '400-035-8885',      // 合同《使用协议》附件 3（冻结稿 model/mk-contract-text.json service.hotline）
   locateResolveKm: 80           // 自定（仅演示数据适配器用）：定位点距最近门店不超过此距离，视为在该门店所在城市
