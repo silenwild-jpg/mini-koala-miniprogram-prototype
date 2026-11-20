@@ -1,5 +1,15 @@
 # 迷你考拉仓｜项目控制中心
 
+## 2026-11-20 迁移检查点（当前入口，停止在交接点）
+
+**最新决定：目标是现有视觉统一升级，本轮使用微信开发者工具（sim）。** Claude负责代码/视觉独立评审，Codex负责开发、微信工具测试与截图；本次只准备切换电脑，不启动下一批业务工作。
+
+先读仓库根[RESUME.md](../RESUME.md)。迁移前实现与证据交付为`ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b`，运行时`f1deabe80ab9546b719f6ad0b281b611de6034fd`，运行时树`5f80f0d3260e405dc54863bfe16fd08fbba9e694`；[Draft PR #221](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/221)仍未合并。迁移内容快照SHA与最终远程HEAD见RESUME及交棒回报，检查点提交只新增迁移元数据。
+
+本工作区测试/编译/包装进程匹配0个，没有误停其他应用；未启动新测试。已有631个跟踪产出、421个运行时文件及21张索引图已做文件哈希核验，[进程与产物检查回执](../wx-native/evidence/migration-checkpoint-20261120/)随检查点提交。无关qa.zip、wx-native.zip不加入，密钥和认证缓存不迁入仓库。
+
+业务状态仍为COLLAB-SETUP-01待独立复核：166测试及完整技术门禁通过，8项处置5FIXED/3DEFERRED；自检18PASS/2FAIL/1未验。1:1、边缘点击、说明语义类提案及O01日期差异未闭合，不能误称统一升级已完成。当前是worktree，新电脑重新clone，不直接复制旧.git路径。恢复后先只读核验精确SHA、运行时树与证据，再由用户决定启动后续工作。下方为迁移前快照。
+
 ## 2026-11-20 COLLAB-SETUP-01交接（当前入口）
 
 运行时`f1deabe80ab9546b719f6ad0b281b611de6034fd`，树`5f80f0d3260e405dc54863bfe16fd08fbba9e694`；分支`codex/inventory-display-density-20261120`。已接收Claude在7b5634af的8项独立意见，补协作约定、修静态裸色值、门店头部按钮挤压/时间折行和看仓字段错误反馈。166测试、Python静态0错误、全35页/22组件/6620调用与6单/960调用零异常、60模板编译通过。

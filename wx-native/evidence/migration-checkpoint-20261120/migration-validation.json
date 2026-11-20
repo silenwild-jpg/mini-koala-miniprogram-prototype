@@ -1,0 +1,13 @@
+{
+  "task": "MIGRATION-CHECKPOINT-20261120",
+  "runtime_files_verified": 421,
+  "indexed_current_shots_verified": 21,
+  "tracked_artifacts_hashed": 631,
+  "forbidden_archive_or_key_files": [],
+  "new_business_test_started": false,
+  "untracked_zips_excluded": [
+    "qa.zip",
+    "wx-native.zip"
+  ],
+  "runtime_unchanged": true
+}

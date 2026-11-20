@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-11-20T19:45:45.8931494+08:00",
+  "branch": "codex/inventory-display-density-20261120",
+  "local_implementation_sha": "ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b",
+  "remote_sha": "ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b",
+  "match": true,
+  "pr": {
+    "number": 221,
+    "draft": true,
+    "state": "open",
+    "head": "ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b",
+    "base": "feat/wx-native-rule-baseline-20261120",
+    "url": "https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/221"
+  },
+  "ci": [
+    {
+      "name": "Visual contract and evidence guard",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/actions/runs/44729206429/job/136264307370"
+    }
+  ]
+}

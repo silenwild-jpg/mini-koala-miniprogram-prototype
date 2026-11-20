@@ -1,0 +1,13 @@
+{
+  "task": "MIGRATION-CHECKPOINT-20261120",
+  "checked_at": "2026-11-20T19:42:22.4800416+08:00",
+  "implementation_delivery_sha": "ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b",
+  "matching_test_process_count": 0,
+  "matching_wrapper_count": 0,
+  "matching_test_processes": [],
+  "matching_wrappers": [],
+  "stop_actions": [],
+  "result": "NO_ACTIVE_MATCHING_TESTS",
+  "scope": "Only this workspace test/compiler processes;no WeChat app or unrelated process stopped",
+  "new_business_test_started": false
+}
