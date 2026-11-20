@@ -15,7 +15,7 @@
         <button class="sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/ic-share.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
       </view>
       <view wx:if="{{tab !== 1}}" class="sd-tags"><text wx:for="{{card.tags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></view>
-      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><text class="mk-grow sd-at">{{card.address}}</text><button class="sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
+      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><text class="mk-grow sd-at" bindtap="onSeeRoute" aria-role="button" aria-label="查看完整地址：{{card.address}}">{{card.address}}</text><button class="sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
     </view>
     <view class="mk-between mk-gutter sd-demand">
       <view class="sd-dmark"></view>
@@ -134,7 +134,7 @@
         <view class="sd-pins"><view wx:for="{{route.pins}}" wx:key="*this" class="sd-pin mk-row"><image class="mk-icon" src="/assets/icons/pin-brand.svg" /><text>{{item}}</text></view></view>
         <button class="mk-btn mk-btn--ghost mk-btn--md sd-go" hover-class="none" bindtap="onNavigate"><image class="mk-icon sd-goic" src="/assets/icons/nav-brand.svg" />{{T.d.navigate}}</button>
       </view>
-      <view class="mk-between sd-mapbar"><text class="mk-sub mk-grow">{{route.mapNote}}</text><text class="mk-link sd-copy" bindtap="onCopyAddress" aria-role="button">{{T.d.route.copy}}</text></view>
+      <view class="mk-between sd-mapbar"><view class="mk-grow"><text class="mk-sub sd-fulladdr">{{card.address}}</text><text wx:if="{{route.mapNote}}" class="mk-sub sd-mapnote">{{route.mapNote}}</text></view><text class="mk-link sd-copy" bindtap="onCopyAddress" aria-role="button">{{T.d.route.copy}}</text></view>
       <view wx:if="{{route.entry.length}}" class="sd-sec">
         <text class="mk-title">{{T.d.route.entry}}</text>
         <view wx:for="{{route.entry}}" wx:key="k" class="sd-arow"><text class="mk-sub sd-ak">{{item.k}}</text><text class="mk-grow {{item.key ? 'sd-akey' : ''}}">{{item.v}}</text></view>

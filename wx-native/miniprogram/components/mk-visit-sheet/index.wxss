@@ -8,3 +8,4 @@
 .vs-note, .vs-error { display:block; margin-top:16rpx; }
 .vs-result { display:flex; flex-direction:column; gap:24rpx; padding:32rpx 0; }
 .vs-result button { width:100%; }
+.vs-note, .vs-result .mk-mute { color:var(--mk-color-ink-secondary); }

@@ -1,7 +1,8 @@
 const fs=require('fs'),path=require('path'),cp=require('child_process'),crypto=require('crypto'),assert=require('assert/strict');
 const native=path.resolve(__dirname,'..'),repo=path.resolve(native,'..'),project=path.join(native,'miniprogram');
 const git=(...args)=>cp.execFileSync('git',args,{cwd:repo,encoding:'utf8'}).trim();
-const sha=git('rev-parse','HEAD'),out=path.join(native,'evidence/next-stage-20261120/INV-DENSITY-FIX-01',sha);
+const task=process.argv[2]||'INV-DENSITY-FIX-01';assert.match(task,/^[A-Z0-9-]+$/);
+const sha=git('rev-parse','HEAD'),out=path.join(native,'evidence/next-stage-20261120',task,sha);
 assert.equal(git('status','--porcelain','--','wx-native/miniprogram','wx-native/tests'),'');
 fs.mkdirSync(out,{recursive:true});
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):[path.join(d,e.name)]);

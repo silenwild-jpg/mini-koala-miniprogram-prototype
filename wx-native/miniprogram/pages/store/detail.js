@@ -105,7 +105,7 @@ Page({
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   onRetryArrival() { this.loadArrival(); },
   onTab(e) { const i = Number(e.currentTarget.dataset.i); if (i === 0 || i === 1 || i === 2) this.setData({ tab: i }); },
-  onSeeRoute() { this.setData({ tab: 2 }); },
+  onSeeRoute() { this.setData({ tab: 2 }, () => wx.pageScrollTo({ selector: '.sd-tabs', duration: 0 })); },
   onCat(e) { const k = e.currentTarget.dataset.k; if (CATS.indexOf(k) >= 0) { this._cat = k; this.paint(); } },
   onAllCats() { this._cat = 'all'; this.paint(); },
   onToggleSold() { this.setData({ soldOpen: !this.data.soldOpen }); },

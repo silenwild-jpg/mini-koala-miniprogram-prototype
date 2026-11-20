@@ -82,3 +82,4 @@
 .cf-arrow { margin: 0 var(--mk-space-1); }
 .cf-spin { width: 64rpx; height: 64rpx; margin-bottom: var(--mk-space-3); border-radius: 50%; border: 6rpx solid var(--mk-color-brand-tint); border-top: 6rpx solid var(--mk-color-brand-fill); animation: cf-rot 0.9s linear infinite; }
 @keyframes cf-rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.cf-fine, .cf-altp .mk-mute { color:var(--mk-color-ink-secondary); }
