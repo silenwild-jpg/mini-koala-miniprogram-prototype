@@ -9,4 +9,4 @@
 .ds-est { min-height: 64rpx; display: flex; align-items: center; margin-top: var(--mk-space-1); }
 .ds-acts { display: flex; margin-top: var(--mk-space-5); }
 .ds-btn { flex: 1; }
-.ds-btn + .ds-btn { margin-left: var(--mk-space-2); }
+.ds-btn + .mk-btn.mk-btn.ds-btn { margin-left: var(--mk-space-2); }

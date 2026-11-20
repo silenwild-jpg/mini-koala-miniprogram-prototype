@@ -32,7 +32,7 @@
     </view>
     <block wx:elif="{{mode === 'none'}}">
       <view class="mk-card mt-empty">
-        <text class="mk-title">{{T.m.noneTitle}}</text><text class="mk-sub mt-es">{{noneSub}}</text><button class="mk-link cp-contact" open-type="contact">立即咨询</button>
+        <text class="mk-title">{{T.m.noneTitle}}</text><text class="mk-sub mt-es">{{noneSub}}</text><button class="mk-bare mk-link cp-contact" open-type="contact">立即咨询</button>
         <view class="mt-acts">
           <button class="mk-btn mk-btn--md mt-btn" hover-class="mk-btn--hover" bindtap="onMoreStores">{{T.m.allCity}}</button>
           <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="none" bindtap="onModify">{{T.m.modifyCap}}</button>

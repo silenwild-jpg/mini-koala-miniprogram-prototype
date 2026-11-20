@@ -23,11 +23,11 @@
 .sl-et { margin: var(--mk-space-2) 0 4rpx; }
 .sl-acts { display: flex; width: 100%; margin-top: var(--mk-space-4); }
 .sl-btn { flex: 1; }
-.sl-btn + .sl-btn { margin-left: var(--mk-space-2); }
+.sl-btn + .mk-btn.mk-btn.sl-btn { margin-left: var(--mk-space-2); }
 .sl-hours { margin-top: var(--mk-space-3); }
 .sl-bh { display: block; margin: var(--mk-space-2) 0 var(--mk-space-3); }
 .sl-more { display: flex; flex-direction: column; margin-bottom: var(--mk-space-cardGap); }
-.sl-mb { width: 100%; }
+.mk-btn.mk-btn.sl-mb { width: 100%; }
 .sl-opt { min-height: 96rpx; border-bottom: var(--mk-border-hairline); }
 .sl-opt--on { color: var(--mk-color-brand-text); }
 .sl-svc { display: flex; flex-wrap: wrap; padding: var(--mk-space-2) 0; }

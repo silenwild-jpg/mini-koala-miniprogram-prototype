@@ -3,7 +3,7 @@
 .lsp-top { padding-top: var(--mk-space-3); }
 .lsp-gap { margin-top: var(--mk-space-cardGap); }
 .lsp-act { flex: 1; min-width: 0; }
-.lsp-act--r { margin-left: var(--mk-space-3); }
+.mk-btn.mk-btn.lsp-act--r { margin-left: var(--mk-space-3); }
 .lsp-t { display: block; font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
 .lsp-s { display: block; margin-top: 4rpx; }
 .lsp-ico { margin-right: var(--mk-space-2); }

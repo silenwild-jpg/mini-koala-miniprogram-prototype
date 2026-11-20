@@ -12,10 +12,10 @@
       <view class="mk-between sd-sub">
         <text class="mk-sub mk-grow sd-hours">{{hoursText}}</text>
         <view class="sd-tb mk-row" bindtap="onFavStore" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-heart.svg" /><text class="{{fav ? 'mk-link' : 'mk-sub'}}">{{fav ? T.d.favOn : T.d.favorite}}</text></view>
-        <button class="sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/ic-share.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
+        <button class="mk-bare sd-share mk-row" hover-class="none" open-type="share"><image class="mk-icon" src="/assets/icons/ic-share.svg" /><text class="mk-sub">{{T.d.share}}</text></button>
       </view>
       <view wx:if="{{tab !== 1}}" class="sd-tags"><text wx:for="{{card.tags}}" wx:key="t" class="mk-tag {{item.promo ? 'mk-tag--promo' : ''}}">{{item.t}}</text></view>
-      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><view class="mk-grow sd-at" bindtap="onSeeRoute" aria-role="button" aria-label="查看完整地址：{{card.address}}"><text class="sd-at-text">{{card.address}}</text></view><button class="sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
+      <view class="sd-addr mk-row"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><text wx:if="{{card.kmText}}" class="sd-km">{{card.kmText}}</text><view class="mk-grow sd-at" bindtap="onSeeRoute" aria-role="button" aria-label="查看完整地址：{{card.address}}"><text class="sd-at-text">{{card.address}}</text></view><button class="mk-bare sd-visit mk-link" bindtap="onBooking">预约看仓</button></view>
     </view>
     <view class="mk-between mk-gutter sd-demand">
       <view class="sd-dmark"></view>
@@ -99,7 +99,7 @@
       </block>
       <block wx:if="{{showAlternatives && hasNeed}}">
         <text class="mk-sub sd-gtitle">{{T.d.altTitle}}</text>
-        <text wx:if="{{alternatives.length === 0}}" class="mk-sub sd-gnote">{{T.d.altNone}}</text><button wx:if="{{alternatives.length === 0}}" class="mk-link" open-type="contact">立即咨询</button>
+        <text wx:if="{{alternatives.length === 0}}" class="mk-sub sd-gnote">{{T.d.altNone}}</text><button wx:if="{{alternatives.length === 0}}" class="mk-bare mk-link" open-type="contact">立即咨询</button>
         <view wx:for="{{alternatives}}" wx:key="id" class="mk-between sd-alt">
           <view class="mk-grow"><text class="sd-un mk-ellipsis">{{item.name}}</text><text class="mk-sub sd-line">{{item.text}}</text></view>
           <button class="mk-btn mk-btn--ghost mk-btn--sm" hover-class="none" data-id="{{item.id}}" bindtap="onAlt">{{T.d.altView}}</button>

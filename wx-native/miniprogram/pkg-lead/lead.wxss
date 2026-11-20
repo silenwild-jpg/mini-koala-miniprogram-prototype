@@ -35,7 +35,7 @@
 .ldf-status-t { display: block; font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
 .ldf-status--err .ldf-status-t { color: var(--mk-color-status-errorText); }
 .ldf-status-s { display: block; margin-top: 4rpx; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
-.ldf-status-btn { flex: none; margin-left: var(--mk-space-3); }
+.mk-btn.mk-btn.ldf-status-btn { flex: none; margin-left: var(--mk-space-3); }
 .ldf-neutral { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }
 .ldf-acts { display: flex; }
 .ldf-acts .mk-btn { flex: 1; min-width: 0; }

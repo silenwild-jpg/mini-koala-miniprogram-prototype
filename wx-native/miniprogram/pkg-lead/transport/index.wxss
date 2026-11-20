@@ -3,7 +3,7 @@
 .ltr-top { padding-top: var(--mk-space-3); }
 .ltr-gap { margin-top: var(--mk-space-cardGap); }
 .ltr-act { flex: 1; min-width: 0; }
-.ltr-act--r { margin-left: var(--mk-space-3); }
+.mk-btn.mk-btn.ltr-act--r { margin-left: var(--mk-space-3); }
 .ltr-sec { margin-bottom: var(--mk-space-2); }
 .ltr-sect { margin: 0 var(--mk-space-2) 0 0; }
 .ltr-rt { display: block; font-size: var(--mk-font-size-md); }

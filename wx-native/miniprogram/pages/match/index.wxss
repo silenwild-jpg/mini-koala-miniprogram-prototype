@@ -17,7 +17,7 @@
 .mt-empty { display: flex; flex-direction: column; }
 .mt-es { margin-top: var(--mk-space-1); }
 .mt-acts { display: flex; flex-direction: column; margin-top: var(--mk-space-4); }
-.mt-btn { width: 100%; }
+.mk-btn.mk-btn.mt-btn { width: 100%; }
 .mt-btn + .mt-btn { margin-top: var(--mk-space-2); }
 .mt-more { margin-bottom: var(--mk-space-cardGap); }
 .mt-estore { margin-top: var(--mk-space-cardGap); }

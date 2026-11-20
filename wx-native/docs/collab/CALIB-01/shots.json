@@ -1,0 +1,26 @@
+{
+  "package": "CALIB-01",
+  "purpose": "运行时校准第一轮：确认 style v2 按钮复位在开发者工具里生效，并量出全部按钮的真实宽度",
+  "widths": [375, 390],
+  "file_name": "<scene>__<page_id>__<state>__<width>__sim__<runtime_sha7>.png",
+  "measure_fn": "function(){return new Promise(function(resolve){var p=getCurrentPages().slice(-1)[0];var q=wx.createSelectorQuery();q.selectAll('.mk-btn').fields({rect:true,size:true});q.selectAll('.mk-bare').fields({rect:true,size:true});q.selectAll('.mk-page >>> .mk-btn').fields({rect:true,size:true});q.selectAll('.mk-page >>> .mk-bare').fields({rect:true,size:true});q.exec(function(r){resolve({route:p.route,options:p.options,windowWidth:wx.getSystemInfoSync().windowWidth,buttons:r});});});}",
+  "measure_note": "每个场景截图前执行一次 measure_fn，返回值原样存成 <scene>__<width>.measure.json。>>> 跨组件选择器我没有在真实运行时验证过，取不到就原样回报空数组，不要改脚本去凑。",
+  "scenes": [
+    {"scene": "K01", "page_id": "LOGIN", "state": "guest-quote-gate", "login": "guest", "steps": "沿用 C05 的步骤（清状态 → 容量 3.01 → QUICK 选仓/日期 → onNext 触发登录层）", "expect": "登录层两个按钮通栏，375 下约 343；不再是 184"},
+    {"scene": "K02", "page_id": "S5", "state": "guest-full", "login": "guest", "steps": "沿用 C02", "expect": "「查看报价」约 104，与价格同一行靠右，不掉行"},
+    {"scene": "K03", "page_id": "S5", "state": "member-full", "login": "local-demo-member", "steps": "登录后回到仓位推荐页", "expect": "「立即下单」约 104，与价格同行"},
+    {"scene": "K04", "page_id": "S02", "state": "header-readable", "login": "local-demo-member", "route": "/pages/store/detail?id=SIM_BJ01", "expect": "分享约 56、预约看仓约 64（与 f1deabe 一致，不应变化）；仓位行「立即下单」约 104"},
+    {"scene": "K05", "page_id": "S02", "state": "visit-sheet-open", "login": "local-demo-member", "steps": "K04 之后调用 onBooking()", "expect": "弹层主按钮通栏"},
+    {"scene": "K06", "page_id": "S01", "state": "guest-list", "login": "guest", "route": "/pages/stores/index", "expect": "「查看更多门店」通栏约 343"},
+    {"scene": "K07", "page_id": "CAP", "state": "member-need", "login": "local-demo-member", "route": "/pages/estimate/capacity", "expect": "底栏「查看仓位报价」不小于 140，靠右"},
+    {"scene": "K08", "page_id": "QUICK", "state": "unit-picked", "login": "local-demo-member", "route": "/pkg-trade/quick/index?store=SIM_BJ01", "steps": "选 SIM_BJ01_U03", "expect": "「下一步：确认订单」不小于 160"},
+    {"scene": "K09", "page_id": "O01", "state": "member-confirm-term6", "login": "local-demo-member", "route": "/pkg-trade/confirm/index?unit=SIM_BJ01_U03&term=6&date=2026-12-01", "steps": "导航后把 page.options 记进 measure 结果", "expect": "租期显示 6 个月、日期 2026-12-01。若仍是 12 个月 / 11-21，说明 URL 在第一个 & 处被截断（RC9-02 鉴别）；底栏按钮宽度见 measure"},
+    {"scene": "K10", "page_id": "O03", "state": "member-seeded-order", "login": "local-demo-member", "steps": "沿用 C06", "expect": "底栏两个按钮等分"},
+    {"scene": "K11", "page_id": "ORDERS", "state": "guest", "login": "guest", "route": "/pages/orders/index", "expect": "「登录」按钮现在随内容，预计约 52 宽，偏窄，待我看图后定是否加最小宽度"},
+    {"scene": "K12", "page_id": "MINE", "state": "guest", "login": "guest", "route": "/pages/mine/index", "expect": "「找附近门店」约 307（删了页面级复位，改走公共复位，宽度不应变化）"},
+    {"scene": "K13", "page_id": "PROFILE", "state": "member", "login": "local-demo-member", "route": "/pkg-account/profile/index", "expect": "两个并排按钮各约 150，「退出登录」通栏（同上，回归项）"},
+    {"scene": "K14", "page_id": "LEAD-BOOK", "state": "guest", "login": "guest", "route": "/pkg-lead/booking/index", "expect": "「使用微信手机号」「预约用仓」都通栏"},
+    {"scene": "K15", "page_id": "RENEW", "state": "member-seeded-order", "login": "local-demo-member", "steps": "用 C06 取到的订单 ID 打开 /pkg-after/renew/index?id=<订单ID>", "expect": "底栏按钮等分或信息区加定宽按钮，不出现 184"},
+    {"scene": "K16", "page_id": "ITEMS", "state": "advisory-sheet", "login": "guest", "route": "/pkg-estimate/items/index", "steps": "setData({advisoryVisible:true})，仅渲染", "self_check": "RENDER_ONLY", "expect": "「立即咨询」是无底色的文字链接，不是 184 宽灰底按钮；「继续找仓」通栏"}
+  ]
+}

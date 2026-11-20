@@ -1,6 +1,4 @@
 /* 账户分包 9 个子页共用的样式（类名前缀 ac-）。只用令牌。 */
-/* 基础库 style v2 给 button 默认 width:184px 与左右 auto 外边距，选择器权重高于单个类名；这里按页面范围复位（需真机确认）。 */
-.mk-page .mk-btn { width: auto; margin-left: 0; margin-right: 0; }
 .ac-wrap { padding: var(--mk-space-3) var(--mk-space-pageGutter) 0; }
 .ac-wrap--bar { padding-bottom: 280rpx; }
 .ac-notice { border-left: 6rpx solid var(--mk-color-brand-fill); padding: var(--mk-space-1) var(--mk-space-3); margin-bottom: var(--mk-space-3); }
@@ -34,7 +32,7 @@
 .ac-ferr { display: block; margin-top: var(--mk-space-1); }
 .ac-acts { display: flex; margin-top: var(--mk-space-3); }
 .ac-act { flex: 1; }
-.ac-act + .ac-act { margin-left: var(--mk-space-3); }
+.ac-act + .mk-btn.mk-btn.ac-act { margin-left: var(--mk-space-3); }
 .ac-block { margin-top: var(--mk-space-3); }
 .ac-fine { display: block; color: var(--mk-color-ink-tertiary); font-size: var(--mk-font-size-xs); line-height: var(--mk-font-lineHeight-loose); margin-top: var(--mk-space-2); }
 .ac-para { display: block; color: var(--mk-color-ink-secondary); line-height: var(--mk-font-lineHeight-loose); }

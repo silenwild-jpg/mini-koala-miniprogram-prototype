@@ -18,5 +18,5 @@
 .lpg-pic { display: flex; align-items: center; justify-content: center; width: 144rpx; height: 144rpx; margin: var(--mk-space-2) 0 var(--mk-space-3); border-radius: 50%; background: var(--mk-color-brand-tint); }
 .lpg-eacts { display: flex; margin: var(--mk-space-4) 0 var(--mk-space-2); }
 .lpg-ebtn { padding: 0 var(--mk-space-4); }
-.lpg-ebtn--r { margin-left: var(--mk-space-3); }
+.mk-btn.mk-btn.lpg-ebtn--r { margin-left: var(--mk-space-3); }
 .lpg-neutral { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }

@@ -25,5 +25,3 @@
 .mn-t { flex: none; font-weight: var(--mk-font-weight-medium); }
 .mn-s { text-align: right; margin: 0 var(--mk-space-2) 0 var(--mk-space-3); }
 .mn-badge { flex: none; min-width: 36rpx; height: 36rpx; line-height: 36rpx; padding: 0 10rpx; box-sizing: border-box; border-radius: 18rpx; text-align: center; background: var(--mk-color-status-errorStrong); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-xs); margin-right: var(--mk-space-1); }
-/* style v2 的 button 默认 width:184px 且左右 auto 外边距，这里按页面范围复位（需真机确认） */
-.mk-page .mn-cta { width: auto; margin-left: 0; margin-right: 0; }

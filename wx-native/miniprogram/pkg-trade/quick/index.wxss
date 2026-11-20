@@ -31,7 +31,7 @@
 .qk-bar { display: flex; align-items: center; }
 .qk-baramt { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); }
 .qk-baramt--muted { font-size: var(--mk-font-size-lg); color: var(--mk-color-ink-secondary); }
-.qk-next { flex: none; min-width: 320rpx; margin-left: var(--mk-space-3); }
+.mk-btn.mk-btn.qk-next { flex: none; min-width: 320rpx; margin-left: var(--mk-space-3); }
 .qk-opt { display: flex; align-items: center; min-height: 112rpx; border-bottom: var(--mk-border-hairline); }
 .qk-opt--on { color: var(--mk-color-brand-text); }
 .qk-optn { font-weight: var(--mk-font-weight-medium); }

@@ -9,6 +9,6 @@
 .nc-u { font-size: var(--mk-font-size-sm); margin-left: 4rpx; }
 .nc-acts { display: flex; }
 .nc-btn { flex: 1; }
-.nc-btn + .nc-btn { margin-left: var(--mk-space-2); }
+.nc-btn + .mk-btn.mk-btn.nc-btn { margin-left: var(--mk-space-2); }
 .nc-strip { margin-top: var(--mk-space-cardGap); min-height: 88rpx; padding-top: var(--mk-space-2); padding-bottom: var(--mk-space-2); }
 .nc-sk { margin-right: var(--mk-space-2); white-space: nowrap; }

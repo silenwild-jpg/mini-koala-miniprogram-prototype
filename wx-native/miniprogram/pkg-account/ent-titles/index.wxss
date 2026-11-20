@@ -5,5 +5,5 @@
 .et-line { display: block; margin-top: var(--mk-space-1); }
 .et-acts { display: flex; margin-top: var(--mk-space-3); }
 .et-neutral { color: var(--mk-color-ink-primary); border: var(--mk-border-strong); }
-.et-acts .et-neutral { margin-right: var(--mk-space-2); }
+.et-acts .mk-btn.mk-btn.et-neutral { margin-right: var(--mk-space-2); }
 .et-danger { color: var(--mk-color-status-errorText); border: var(--mk-border-error); }

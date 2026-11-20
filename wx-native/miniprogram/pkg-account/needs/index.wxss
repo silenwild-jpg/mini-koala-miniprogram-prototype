@@ -12,8 +12,8 @@
 .lnd-line { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-md); }
 .lnd-sub { display: block; margin-top: var(--mk-space-1); }
 .lnd-acts { display: flex; margin-top: var(--mk-space-3); }
-.lnd-btn { flex: 1; min-width: 0; margin-right: var(--mk-space-2); white-space: nowrap; }
-.lnd-acts .lnd-btn:last-child { margin-right: 0; }
+.mk-btn.mk-btn.lnd-btn { flex: 1; min-width: 0; margin-right: var(--mk-space-2); white-space: nowrap; }
+.lnd-acts .mk-btn.mk-btn.lnd-btn:last-child { margin-right: 0; }
 .lnd-more { flex: none; }
 .lnd-neutral { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }
 .lnd-row { display: flex; align-items: center; min-height: 96rpx; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }

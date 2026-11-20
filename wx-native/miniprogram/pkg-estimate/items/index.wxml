@@ -117,4 +117,4 @@
   </view>
 </view>
 
-<mk-sheet visible="{{advisoryVisible}}" title="下单前确认尺寸" bind:close="onAdvisoryClose"><text>大件物品建议下单前确认尺寸</text><button class="mk-link" open-type="contact">立即咨询</button><button class="mk-btn" bindtap="onAdvisoryContinue">继续找仓</button></mk-sheet>
+<mk-sheet visible="{{advisoryVisible}}" title="下单前确认尺寸" bind:close="onAdvisoryClose"><text>大件物品建议下单前确认尺寸</text><button class="mk-bare mk-link" open-type="contact">立即咨询</button><button class="mk-btn" bindtap="onAdvisoryContinue">继续找仓</button></mk-sheet>

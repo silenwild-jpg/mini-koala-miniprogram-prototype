@@ -19,7 +19,15 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-tag--brand { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .mk-chip { display: inline-flex; align-items: center; height: var(--mk-size-chipHeight); padding: 0 var(--mk-space-3); border-radius: var(--mk-radius-control); border: var(--mk-border-hairline); background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); font-size: var(--mk-font-size-sm); }
 .mk-chip--on { border: var(--mk-border-brand); background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
-/* 按钮：去掉微信 button 的默认边框与内边距 */
+/* 按钮。app.json 开了 style v2：基础库给 button:not([size=mini]) 加 width:184px 和左右 auto 外边距，权重 (0,1,1)，单个类名压不过。
+   约定：1) 每个 <button> 必须带 mk-btn 或 mk-bare，由下面这条双类名规则 (0,2,0) 统一复位；
+        2) 复位后宽度随布局：块级容器里通栏，flex 行里随内容；需要定宽、通栏或左右外边距时，
+           页面/组件里写成 .mk-btn.mk-btn.xx（或 .mk-bare.mk-bare.xx），权重 (0,3,0)，不依赖样式表加载顺序；
+        3) tools/static_check.py 会拦不合约定的写法。 */
+.mk-btn.mk-btn, .mk-bare.mk-bare { width: auto; margin-left: 0; margin-right: 0; }
+/* 文字型按钮（open-type 必须用 button 的文字链接）：去掉 v2 的底色、内边距、加粗 */
+.mk-bare { display: inline-flex; align-items: center; min-height: 0; padding: 0; background: transparent; font-weight: var(--mk-font-weight-regular); line-height: var(--mk-font-lineHeight-normal); border-radius: 0; box-sizing: border-box; }
+.mk-bare::after { border: 0; }
 .mk-btn { width: auto; min-height: 0; display: flex; align-items: center; justify-content: center; height: var(--mk-size-ctaHeight); padding: 0 var(--mk-space-4); margin: 0; border-radius: var(--mk-radius-control); background: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: 1; box-sizing: border-box; }
 .mk-btn::after { border: 0; }
 .mk-btn--hover { background: var(--mk-color-action-primaryPressed); }

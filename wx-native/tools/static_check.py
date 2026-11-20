@@ -1,7 +1,7 @@
 """小程序工程静态检查（不依赖微信开发者工具，不能替代编译）。
 检查：JSON 合法；app.json 主包与分包的页面四件套齐全；组件路径存在（递归）；WXML 结构良好、标签已注册；
 WXML 绑定的事件处理函数在 JS 里存在；JS 里 require 的相对路径存在；分包不引用其它分包；WXSS 不含裸色值（只许用令牌）；
-tabBar 图标存在且不超过 40KB；主包与各分包体积不超过 2MB；统计占位页与写死在 WXML 里的中文。
+tabBar 图标存在且不超过 40KB；主包与各分包体积不超过 2MB；统计占位页与写死在 WXML 里的中文；按钮必须带 mk-btn / mk-bare，按钮类名上的宽度与左右外边距规则权重足够（style v2 的 184px 默认宽度）。
 用法：python3 tools/static_check.py <miniprogram 目录>"""
 import json, os, re, sys
 import xml.dom.minidom as md
@@ -87,6 +87,39 @@ for base, kind in units:
     for other, k2 in units:
         if k2 == 'component' and other < base:
             for c in sorted(mine & set(x for x in cls(other + '.wxss') if not x.startswith('mk-'))): errs.append('组件类名重复 .%s：%s 与 %s' % (c, base, other))
+# 按钮约定（app.wxss「按钮」注释）：style v2 给 button:not([size=mini]) 的 width:184px / 左右 auto 外边距权重 (0,1,1)。
+# 1) 每个 <button> 必须带 mk-btn 或 mk-bare；2) 给按钮类名写 width / 左右外边距的规则，选择器至少 3 个类名，否则压不过复位或依赖加载顺序。
+btn_cls = set()
+for dp, _, fs in os.walk(root):
+    for f in fs:
+        if not f.endswith('.wxml'): continue
+        p = os.path.join(dp, f); rel = os.path.relpath(p, root); w = open(p, encoding='utf-8').read()
+        for m in re.finditer(r'<button\b([^>]*)>', w, flags=re.S):
+            c = re.search(r'(?<![-\w])class="([^"]*)"', m.group(1)); c = c.group(1) if c else ''
+            names = set(re.findall(r'[A-Za-z][\w-]*', re.sub(r'\{\{.*?\}\}', ' ', c)))
+            for e in re.findall(r'\{\{(.*?)\}\}', c):
+                for lit in re.findall(r"'([^']*)'", e): names |= set(lit.split())
+            if not ({'mk-btn', 'mk-bare'} & set(re.findall(r'[A-Za-z][\w-]*', re.sub(r'\{\{.*?\}\}', ' ', c)))):
+                errs.append('%s:%d <button> 没有 mk-btn 或 mk-bare，会被 style v2 锁成 184px 宽' % (rel, w[:m.start()].count('\n') + 1))
+            btn_cls |= names
+btn_cls -= {'mk-btn', 'mk-bare'}
+def _hmargin(v):
+    t = v.split()
+    h = [t[0]] if len(t) == 1 else [t[1]] if len(t) in (2, 3) else [t[1], t[3]] if len(t) == 4 else []
+    return any(x not in ('0', '0rpx', '0px') for x in h)
+for dp, _, fs in os.walk(root):
+    for f in fs:
+        if not f.endswith('.wxss'): continue
+        p = os.path.join(dp, f); rel = os.path.relpath(p, root); s = re.sub(r'/\*.*?\*/', '', open(p, encoding='utf-8').read(), flags=re.S)
+        for m in re.finditer(r'([^{}]+)\{([^{}]*)\}', s):
+            d = dict((k, v.strip()) for k, v in re.findall(r'(?:^|;)\s*(width|margin|margin-left|margin-right)\s*:\s*([^;]+)', m.group(2)))
+            if not (('width' in d) or ('margin-left' in d) or ('margin-right' in d) or ('margin' in d and _hmargin(d['margin']))): continue
+            for sel in m.group(1).split(','):
+                sel = sel.strip(); last = re.split(r'[\s>+~]+', sel)[-1]
+                lc = set(re.findall(r'\.([\w-]+)', last))
+                if '::' in last or not (lc & btn_cls) or lc & {'mk-btn', 'mk-bare'} and len(re.findall(r'\.[\w-]+', sel)) >= 3: continue
+                if not (lc - {'mk-btn', 'mk-bare'}) <= btn_cls: continue
+                errs.append('%s 的 %s 给按钮写了宽度或左右外边距，但权重不够（应写成 .mk-btn.mk-btn.xx 或 .mk-bare.mk-bare.xx）' % (rel, sel))
 for it in app['tabBar']['list']:
     for k in ('iconPath', 'selectedIconPath'):
         if not ex(it[k]): errs.append('tabBar 图标不存在 ' + it[k])

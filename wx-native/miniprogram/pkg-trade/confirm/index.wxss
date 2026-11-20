@@ -64,7 +64,7 @@
 .cf-two { display: flex; margin-top: var(--mk-space-3); }
 .cf-twogap { margin-top: var(--mk-space-4); }
 .cf-half { flex: 1; }
-.cf-half + .cf-half { margin-left: var(--mk-space-2); }
+.mk-btn.mk-btn.cf-half + .mk-btn.mk-btn.cf-half { margin-left: var(--mk-space-2); }
 .cf-later { display: flex; align-items: center; justify-content: center; min-height: 80rpx; margin-top: var(--mk-space-1); }
 .cf-pi { padding: var(--mk-space-2) 0; border-bottom: var(--mk-border-hairline); }
 .cf-pidesc { display: block; margin-top: var(--mk-space-1); }

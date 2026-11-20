@@ -68,4 +68,4 @@
 .it-qq { margin-right: var(--mk-space-2); min-height: 64rpx; }
 .it-dacts { display: flex; margin-top: var(--mk-space-4); }
 .it-dbtn { flex: 1; }
-.it-dbtn + .it-dbtn { margin-left: var(--mk-space-2); }
+.it-dbtn + .mk-btn.mk-btn.it-dbtn { margin-left: var(--mk-space-2); }

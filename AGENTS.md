@@ -51,6 +51,8 @@
 
 ## 二、分工（单写者）
 
+> **分工变更（张坤 2026-11-20 晚在钉钉群裁定，优先于下表）**：运行时代码（`wx-native/miniprogram/`、`tests/`、`tools/`）改由 **Claude 单写**，工作分支 `claude/wx-native-main-20261120`（基于 `ac1d330`）。**Codex 只做拉取、编译、按清单采集截图与测量、推回证据，不改运行时代码，不写交接/状态文档。** 当前采集任务见 `wx-native/docs/collab/CALIB-01/TASK_FOR_CODEX.md`。业务规则、视觉取舍、发体验版和归并仍由张坤裁定。下表第 1、3 行按此作废，其余不变。
+
 | 事项 | 负责方 | 说明 |
 |---|---|---|
 | `wx-native/miniprogram/`、`tests/`、`tools/` 运行时代码 | **Codex（唯一写入方）** | Claude 不直接改这三个目录，发现问题只出问题单 |
