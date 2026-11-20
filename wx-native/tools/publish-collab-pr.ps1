@@ -4,6 +4,8 @@ $repoApi='https://api.github.com/repos/silenwild-jpg/mini-koala-miniprogram-prot
 $headName='codex/inventory-display-density-20261120'
 $baseName='feat/wx-native-rule-baseline-20261120'
 $body=Get-Content -LiteralPath $BodyFile -Raw -Encoding utf8
+foreach($field in @('基线 Commit','活动页面','获批视觉','变更对照','375','390','视觉签收','回滚')){if(!$body.Contains($field)){throw "PR evidence field missing: $field"}}
+foreach($statusName in @('G-TECH','VIS_SIGNED','DEPLOYED')){if($body -notmatch ($statusName+':\s*(PASS|HOLD|NOT_TESTED)')){throw "PR evidence status missing: $statusName"}}
 $publicHeaders=@{Accept='application/vnd.github+json';'X-GitHub-Api-Version'='2022-11-28'}
 $existingResponse=Invoke-RestMethod -Uri ($repoApi+'/pulls?state=open&head=silenwild-jpg%3Acodex%2Finventory-display-density-20261120') -Headers $publicHeaders
 $existing=@(foreach($candidatePr in $existingResponse){if($candidatePr.number){$candidatePr}})
