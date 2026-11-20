@@ -38,7 +38,7 @@ function phase(o, nowMs) {
   const dep = o.deposit && o.deposit.status, exitStatus = String((o.exit && o.exit.status) || '');
   if (dep === 'refunding') return 'refund';
   if (st === S.ENDED) return 'ended';
-  if (st === S.EXITING) return /inspect/i.test(exitStatus) ? 'inspection' : 'returning';
+  if (st === S.EXITING) return exitStatus === 'waiting' || /inspect/i.test(exitStatus) ? 'inspection' : 'returning'; // waiting = 已申请验仓、等门店（core/after.js exit.status）
   if (st === S.OVERDUE) return 'expired_lease';
   if (o.identity_status !== 'verified') return 'identity';
   if (o.renew && o.renew.status === 'quoted') return 'renewal';

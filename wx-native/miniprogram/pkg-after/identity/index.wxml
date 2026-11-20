@@ -1,5 +1,6 @@
 <view class="mk-page {{bar ? 'af-pad' : ''}}">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys === 'loading'}}" class="af-body af-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
+  <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/id-ink.svg" title="{{T.i.emptyTitle}}" sub="{{T.i.emptySub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.i.viewOrders}}</button>
   </mk-empty>
@@ -16,13 +17,11 @@
       <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn" hover-class="mk-btn--hover" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
     </view>
     <mk-sheet visible="{{sheet}}" title="{{T.i.sheet}}" bind:close="onSheetClose">
-      <mk-field label="{{T.i.name}}">
+      <mk-field label="{{T.i.name}}" error="{{nameErr ? T.i.nameErr : ''}}">
         <view class="af-input {{nameErr ? 'af-input--err' : ''}}"><input class="af-input-el" value="{{name}}" placeholder="{{T.i.namePh}}" placeholder-class="af-ph" maxlength="20" bindinput="onName" /></view>
-        <text wx:if="{{nameErr}}" class="mk-error id-err">{{T.i.nameErr}}</text>
       </mk-field>
-      <mk-field label="{{T.i.idNo}}">
+      <mk-field label="{{T.i.idNo}}" error="{{idErr ? T.i.idErr : ''}}">
         <view class="af-input {{idErr ? 'af-input--err' : ''}}"><input class="af-input-el" type="idcard" value="{{idNo}}" placeholder="{{T.i.idPh}}" placeholder-class="af-ph" maxlength="18" bindinput="onIdNo" /></view>
-        <text wx:if="{{idErr}}" class="mk-error id-err">{{T.i.idErr}}</text>
       </mk-field>
       <view class="af-acts"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSubmit">{{T.i.submit}}</button></view>
     </mk-sheet>

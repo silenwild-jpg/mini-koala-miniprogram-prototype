@@ -107,7 +107,7 @@ test('交易事件·报价 30 秒失效、待支付 60 秒超时、有一张可�
 test('演示工具页：库存档位单选、交易事件开关，状态显示跟着变', async () => {
   fresh();
   const pg = env.newPage('pkg-dev/lab/index', {}); await tick();
-  assert.equal(pg.data.stocks.length, 4); assert.equal(pg.data.events.length, demo.EVENTS.length);
+  assert.equal(pg.data.stocks.length, 4); assert.equal(pg.data.events.length + pg.data.afterEvents.length, demo.EVENTS.length); assert.equal(pg.data.events.length, 7);
   pg.onStock({ currentTarget: { dataset: { id: 'tight' } } });
   assert.deepEqual(pg.data.stocks.filter((x) => x.on).map((x) => x.id), ['tight']);
   pg.onEvent({ currentTarget: { dataset: { id: 'pay_fail' } } });

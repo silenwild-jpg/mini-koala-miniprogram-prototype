@@ -3,8 +3,11 @@
 // 演示环境没有门店后台：门店报价、验仓、退款、开票、实名审核由 advance() 按 core/config-after.js 的 demo 间隔自动推进。
 // 失败态在演示环境不会自动出现，页面按数据渲染。不出现在界面上的触发方式（真实接口没有这些参数，与 mock-ext/trade.js 同一约定）：
 //   payRenewal({ simulate: 'fail' }) 续租付款失败；submitOrderIdentity({ simulate: 'mismatch' }) 实名未通过。
-// 验仓未通过、退款未成功、开票未成功没有触发参数，测试里直接改数据覆盖。
-const { db, seed } = require('./_db');
+// 同一组失败也可以在演示工具页打开（mock/scenarios.js EVENTS 的租后事件），由这里在对应步骤触发，页面不用带参数：
+//   renew_pay_fail 续租付款失败；idv_mismatch 实名未通过；inspect_fail 验仓未通过；refund_fail 押金退款未成功；invoice_fail 开票未成功；
+//   store_hold 门店暂不处理（下面 advance 里的自动推进全部停住，关闭后从停住的地方继续）。
+const { db, seed, REASON } = require('./_db');
+const scenarios = require('../../mock/scenarios');
 const A = require('../../core/config-after');
 const after = require('../../core/after');
 const O = require('../../core/order');
@@ -41,6 +44,8 @@ function finishRefund(o) {
 // 演示推进：把「等门店 / 等后台」的状态按时间走到下一步
 function advance(o, now) {
   const D = A.demo, r = o.renew, x = o.exit, d = o.deposit;
+  if (r && r.status === 'quoted' && O.isExpired(after.renewDeadline(r.quoted_at, o.lease.end), now)) { r.status = 'expired'; r.pay = ''; } // 报价过期与门店无关，照常发生
+  if (scenarios.eventOn('store_hold')) return o;
   if (o.identity_status === 'pending' && o.identity_submitted_at && now - o.identity_submitted_at >= D.identityMs) {
     o.identity_status = 'verified'; notify('identity', T.identityOk, o);
     // 实名是账号级的：同步到交易域的实名记录（mock-ext/trade.js 的 db.kv.trade.identity，同一结构），之后下单不用再认证
@@ -53,17 +58,25 @@ function advance(o, now) {
     Object.assign(r, { status: 'quoted', quoted_at: now, factor: q.factor, kept: q.kept, amount: q.total, monthly: q.monthly, pay: '' });
     notify('renew', T.renewQuote, o);
   }
-  if (r && r.status === 'quoted' && O.isExpired(after.renewDeadline(r.quoted_at, o.lease.end), now)) { r.status = 'expired'; r.pay = ''; }
   if (x && x.status === 'waiting' && now - x.inspect_at >= D.inspectMs) {
-    x.status = 'passed'; x.passed_at = now; o.stage = S.ENDED;
-    d.status = 'refunding'; d.refund_at = now;
-    notify('exit', T.inspectPassed, o);
+    if (scenarios.take('inspect_fail')) { x.status = 'failed'; x.fail_reason = REASON.inspect; notify('exit', T.inspectFailed, o); }
+    else {
+      x.status = 'passed'; x.passed_at = now; o.stage = S.ENDED;
+      d.status = 'refunding'; d.refund_at = now;
+      notify('exit', T.inspectPassed, o);
+    }
   }
-  if (d && d.status === 'refunding' && d.refund_at && now - d.refund_at >= D.refundMs) finishRefund(o);
+  if (d && d.status === 'refunding' && d.refund_at && now - d.refund_at >= D.refundMs) {
+    if (scenarios.take('refund_fail')) { d.status = 'failed'; d.fail_reason = REASON.refund; notify('deposit', T.depositFailed, o); }
+    else finishRefund(o);
+  }
   const rs = (o.invoice && o.invoice.records) || [];
   rs.forEach((v) => {
     if (v.status === 'submitted' && now - v.submitted_at >= D.invoiceProcessMs) v.status = 'processing';
-    if (v.status === 'processing' && now - v.submitted_at >= D.invoiceIssueMs) { v.status = 'issued'; v.issued_at = now; notify('invoice', T.invoiceIssued, o); }
+    if (v.status === 'processing' && now - v.submitted_at >= D.invoiceIssueMs) {
+      if (scenarios.take('invoice_fail')) { v.status = 'failed'; v.fail_reason = REASON.invoice; notify('invoice', T.invoiceFailed, o); }
+      else { v.status = 'issued'; v.issued_at = now; notify('invoice', T.invoiceIssued, o); }
+    }
   });
   if (rs.length) invoiceSummary(o);
   return o;
@@ -114,7 +127,7 @@ const methods = {
     const now = Date.now(), v = after.renewView(o, now), r = o.renew;
     if (v.state === 'quote_expired') return fail('EXPIRED', '续租报价已过期');
     if (['payment_pending', 'payment_failed', 'cancelled'].indexOf(v.state) < 0) return fail('CONFLICT', '当前没有待支付的续租费用');
-    if (p.simulate === 'fail') { r.pay = 'failed'; return fail('PAY_FAILED', '支付未成功'); }
+    if (p.simulate === 'fail' || scenarios.take('renew_pay_fail')) { r.pay = 'failed'; return fail('PAY_FAILED', '支付未成功'); }
     o.renewals = o.renewals || [];
     o.renewals.push({ id: 'RENEWAL' + (o.renewals.length + 1), months: r.months, amount: r.amount, factor: r.factor, paid_at: now });
     o.months = Number(o.months) + r.months; o.lease.end = after.addMonths(o.lease.end, r.months); o.renewal_count = (Number(o.renewal_count) || 0) + 1;
@@ -187,7 +200,7 @@ const methods = {
     if (o.identity_status === 'verified') return ok(o);
     const v = after.validateIdentity(p);
     if (v.nameError || v.idError) return fail('INVALID', v.nameError ? '请填写有效姓名' : '请填写18位证件号码');
-    if (p.simulate === 'mismatch') { o.identity_status = 'mismatch'; notify('identity', T.identityFail, o); return ok(o); }
+    if (p.simulate === 'mismatch' || scenarios.take('idv_mismatch')) { o.identity_status = 'mismatch'; notify('identity', T.identityFail, o); return ok(o); }
     const name = String(p.name).trim(), no = String(p.id_no).trim().toUpperCase();
     o.identity_status = 'pending'; o.identity_submitted_at = Date.now();
     o.identity_record = { key: (session && session.phoneMasked) || '', name_masked: '*'.repeat(name.length - 1) + name.slice(-1), id_masked: no.slice(0, 3) + '*'.repeat(11) + no.slice(-4) };

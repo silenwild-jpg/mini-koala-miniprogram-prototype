@@ -52,7 +52,9 @@ function render(nodes, scope, base, slot) {
 }
 // rpx 换成 calc(vw)，同一份 HTML 可在 375 / 390 两个视口下量
 const rpx = (s) => String(s).replace(/(-?\d*\.?\d+)rpx/g, (_, n) => 'calc(' + n + ' * 100vw / 750)');
-const css = (rel) => fs.existsSync(path.join(root, rel)) ? rpx(fs.readFileSync(path.join(root, rel), 'utf8').replace(/@import[^;]+;/g, '')).replace(/(^|[},\s])page(\s*[{,])/g, '$1.wx-page$2').replace(/(^|[},\s>+~])button(?=[\s.:{,\[])/g, '$1wx-button') : '';
+// 读样式并把 @import 展开（相对路径按引用方目录解析；/ 开头按工程根）
+const inline = (rel) => fs.readFileSync(path.join(root, rel), 'utf8').replace(/@import\s+["']([^"']+)["']\s*;/g, (_, f) => { const r = f[0] === '/' ? f.slice(1) : path.join(path.dirname(rel), f); return fs.existsSync(path.join(root, r)) ? inline(r) : ''; });
+const css = (rel) => fs.existsSync(path.join(root, rel)) ? rpx(inline(rel)).replace(/(^|[},\s])page(\s*[{,])/g, '$1.wx-page$2').replace(/(^|[},\s>+~])button(?=[\s.:{,\[])/g, '$1wx-button') : '';
 const V2 = 'wx-button{position:relative;display:block;padding:8px 24px;box-sizing:border-box;font-weight:700;font-size:17px;text-align:center;line-height:1.41176471;border-radius:4px;overflow:hidden}wx-button:not([size=mini]){width:184px;margin-left:auto;margin-right:auto}wx-button[size=mini]{display:inline-block;width:auto;padding:0 .75em;font-size:13px;line-height:2.3}';
 const BASE = 'html,body{margin:0}*{box-sizing:border-box}.wx-page{width:100vw;min-height:100vh;position:relative;display:block}.wx-view{display:block}.wx-text{display:inline}input{border:0;outline:0;background:transparent;font-family:inherit}' + V2;
 async function shot(name, base, opts) {

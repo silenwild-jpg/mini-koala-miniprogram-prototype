@@ -22,7 +22,10 @@ for (const sc of demo.LIST) {
     const list = Array.isArray(res) ? res : res.list || res.orders || [];
     if (sc.orders) {
       assert.strictEqual(list.length, sc.orders.length);
-      sc.orders.forEach((o) => assert.ok(list.some((x) => x.stage === STAGE[o.stage]), '缺少阶段 ' + o.stage));
+      sc.orders.forEach((o) => { // 带退仓进度的订单：验仓通过 = 已结束，其余 = 退仓中
+        const want = o.after && o.after.exit ? (o.after.exit === 'passed' ? STAGE.ENDED : STAGE.EXITING) : STAGE[o.stage];
+        assert.ok(list.some((x) => x.stage === want), '缺少阶段 ' + o.stage);
+      });
     } else assert.strictEqual(list.length, 5);
   });
 }

@@ -50,7 +50,9 @@ function render(nodes, scope, base, slot) {
   }
   return html;
 }
-const css = (rel) => fs.existsSync(path.join(root, rel)) ? rpx(fs.readFileSync(path.join(root, rel), 'utf8').replace(/@import[^;]+;/g, '')).replace(/(^|[},\s])page(\s*[{,])/g, '$1.wx-page$2') : '';
+// 读样式并把 @import 展开（相对路径按引用方目录解析；/ 开头按工程根）
+const inline = (rel) => fs.readFileSync(path.join(root, rel), 'utf8').replace(/@import\s+["']([^"']+)["']\s*;/g, (_, f) => { const r = f[0] === '/' ? f.slice(1) : path.join(path.dirname(rel), f); return fs.existsSync(path.join(root, r)) ? inline(r) : ''; });
+const css = (rel) => fs.existsSync(path.join(root, rel)) ? rpx(inline(rel)).replace(/(^|[},\s])page(\s*[{,])/g, '$1.wx-page$2') : '';
 const BASE = 'html,body{margin:0;background:#888}*{box-sizing:border-box}.wx-page{width:375px;min-height:667px;margin:0 auto;position:relative;overflow:hidden;display:block}.wx-view{display:block}.wx-text{display:inline}.wx-button{border:0}input{border:0;outline:0;background:transparent;font-family:inherit}.navbar{height:44px;display:flex;align-items:center;justify-content:center;background:#fff;font-weight:600;font-size:17px;border-bottom:1px solid #eee}.tabbar{position:absolute;left:0;right:0;bottom:0;height:50px;background:#fff;border-top:1px solid #eee;display:flex}.tabbar div{flex:1;text-align:center;font-size:10px;padding-top:6px;color:#5F6B65}.tabbar img{width:24px;height:24px;display:block;margin:0 auto 2px}.tabbar .on{color:#0B7A48}.note{position:absolute;right:4px;top:2px;font-size:9px;color:#b00;z-index:999;background:#fff8}';
 const tabs = app.tabBar.list;
 async function shot(name, base, opts) {
@@ -126,6 +128,27 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['ft16_order_failed', 'pkg-trade/order/index', { scenario: 'member_failed', before: async () => { ft.id = (await api.getOrders({}))[0].id; }, query: ft }],
     ['ft17_agreement_pending', 'pkg-trade/agreement/index', { query: { doc: 'register' } }],
     ['ft18_lab_stock_events', 'pkg-dev/lab/index', { scenario: 'member_active', stock: 'tight', events: { pay_fail: true, coupon: true } }]
+  ]) done.push(await shot(x[0], x[1], x[2]));
+  // ORDERS-AFTER-01：租后演示场景与租后事件下的订单列表、续租、退仓、押金、发票、实名
+  const pick = (fn) => async () => { const os = await api.getOrders({}); ft.id = (fn ? os.find(fn) : os[0]).id; };
+  const AF = (p) => 'pkg-after/' + p + '/index';
+  for (const x of [
+    ['oa01_orders_multi', 'pages/orders/index', { scenario: 'member_multi' }],
+    ['oa02_orders_closed', 'pages/orders/index', { scenario: 'member_closed' }],
+    ['oa03_home_multi', 'pages/home/index', { scenario: 'member_multi' }],
+    ['oa04_renew_quote', AF('renew'), { scenario: 'member_renew_quote', before: pick(), query: ft }],
+    ['oa05_renew_pay_failed', AF('renew'), { scenario: 'member_renew_quote', events: { renew_pay_fail: true }, before: async () => { await pick()(); await api.confirmRenewal({ id: ft.id }); await api.payRenewal({ id: ft.id }).catch(() => {}); }, query: ft }],
+    ['oa06_exit_clearing', AF('exit'), { scenario: 'member_exit_clearing', before: pick(), query: ft }],
+    ['oa07_exit_waiting', AF('exit'), { scenario: 'member_multi', events: { store_hold: true }, before: pick((o) => o.exit && o.exit.status === 'waiting'), query: ft }],
+    ['oa08_exit_inspect_failed', AF('exit'), { scenario: 'member_inspect_failed', before: pick(), query: ft }],
+    ['oa09_deposit_refund_failed', AF('deposit'), { scenario: 'member_refund_failed', before: pick(), query: ft }],
+    ['oa10_invoice_failed', AF('invoice'), { scenario: 'member_invoice_failed', before: pick(), query: ft }],
+    ['oa11_identity_mismatch', AF('identity'), { scenario: 'member_identity_mismatch', before: pick(), query: ft }],
+    ['oa12_identity_sheet_error', AF('identity'), { scenario: 'member_identity_mismatch', before: pick(), query: ft, after: (p) => { p.onOpen(); p.onName({ detail: { value: '' } }); p.onIdNo({ detail: { value: '1101' } }); p.onSubmit(); } }],
+    ['oa13_order_inspection', 'pkg-trade/order/index', { scenario: 'member_multi', events: { store_hold: true }, before: pick((o) => o.exit && o.exit.status === 'waiting'), query: ft }],
+    ['oa14_renew_loading', AF('renew'), { scenario: 'member_renew_quote', before: pick(), query: ft, after: (p) => p.setData({ sys: 'loading' }) }],
+    ['oa15_orders_loading', 'pages/orders/index', { scenario: 'member_multi', after: (p) => p.setData({ sys: 'loading' }) }],
+    ['oa16_lab_after_events', 'pkg-dev/lab/index', { scenario: 'member_renew_quote', events: { store_hold: true, inspect_fail: true } }]
   ]) done.push(await shot(x[0], x[1], x[2]));
   console.log(done.join(' '));
 })();

@@ -1,5 +1,6 @@
 <view class="mk-page">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys === 'loading'}}" class="mk-gutter ol-list"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
+  <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <block wx:else>
     <mk-empty wx:if="{{orders.length === 0}}" icon="/assets/icons/order-sub.svg" title="{{T.empty}}" sub="{{loggedIn ? T.emptySub : T.loginTip}}">
       <button wx:if="{{loggedIn}}" class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onGoStores">{{T.goStores}}</button>

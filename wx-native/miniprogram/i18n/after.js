@@ -126,7 +126,9 @@ module.exports = {
       inspectPassed: '验仓通过，押金进入退款处理',
       inspectFailed: '验仓未通过，请重新清空仓位后再次申请',
       depositRefunded: '押金已退还',
-      invoiceIssued: '发票已开具'
+      depositFailed: '押金退款未成功，门店正在处理',
+      invoiceIssued: '发票已开具',
+      invoiceFailed: '发票开具未成功，请核对开票信息后重新提交'
     }
   }
 };

@@ -1,5 +1,6 @@
 <view class="mk-page {{bar ? 'af-pad' : ''}}">
-  <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
+  <view wx:if="{{sys === 'loading'}}" class="af-body af-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
+  <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/order-sub.svg" title="{{T.c.emptyTitle}}" sub="{{T.c.emptySub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
   </mk-empty>
@@ -54,7 +55,7 @@
       </view>
       <mk-after-fail wx:if="{{fail}}" title="{{T.r.failTitle}}" reason="{{order.renew.fail_reason}}" fixes="{{T.r.failFixes}}" bind:call="onCall" />
       <view wx:if="{{alt.length}}" class="rn-alt">
-        <text wx:for="{{alt}}" wx:key="act" class="rn-altbtn" data-act="{{item.act}}" bindtap="onAlt" aria-role="button">{{item.text}}</text>
+        <view wx:for="{{alt}}" wx:key="act" class="rn-altbtn" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" data-act="{{item.act}}" bindtap="onAlt" aria-role="button">{{item.text}}</view>
       </view>
     </view>
   <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
@@ -62,7 +63,7 @@
       <text class="mk-mute">{{bar.lab}}</text>
       <text class="mk-num af-bar-amt {{bar.muted ? 'af-bar-amt--muted' : ''}}">{{bar.amt}}</text>
     </view>
-    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="mk-btn--ghostHover" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
+    <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn {{item.kind === 'ghost' ? 'mk-btn--ghost' : ''}} {{item.off ? 'mk-btn--disabled' : ''}} af-btn--{{item.kind}}" hover-class="{{item.off ? 'none' : item.kind === 'ghost' ? 'mk-btn--ghostHover' : item.kind === 'neutral' ? 'mk-btn--plainHover' : item.kind === 'danger' ? 'mk-btn--dimHover' : 'mk-btn--hover'}}" loading="{{item.loading}}" disabled="{{item.off}}" data-act="{{item.act}}" bindtap="onBar">{{item.text}}</button>
   </view>
     <mk-sheet visible="{{paySheet}}" title="{{T.r.paySheet}}" bind:close="onSheetClose">
       <view wx:if="{{pay}}">
