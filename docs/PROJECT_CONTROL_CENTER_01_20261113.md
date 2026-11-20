@@ -1,5 +1,11 @@
 # 迷你考拉仓｜项目控制中心
 
+## 2026-11-20 库存展示与信息密度候选（当前增量）
+
+分支 `codex/inventory-display-density-20261120`，运行时与测试候选 `cbffc52`。本批收敛 S01/S5 门店卡标签与冗余文字、S02 泛化用途、QUICK 门店选择层的库存数量展示；容量差额、无库存、报价及主路径保留。详见[实施与下阶段安排](../wx-native/docs/inventory-display-20261120/STATUS.md)和[独立技术验收](../wx-native/evidence/inventory-display-20261120/verification.json)。
+
+**G-VIS HOLD：** 微信工具的本地代理连接失败，本候选尚无新双尺寸截图；前批截图不可继承。本批未冻结、未归并、未上传体验版。下一任务 `INV-DENSITY-02` 补齐原生视觉闭环，同时可准备 `VIS-COMPONENT-SYSTEM-01A` 全站资产与组件审计。
+
 ## 2026-11-20 微信原生实施候选（当前）
 
 实施分支 `codex/wx-native-exec-20261120`，候选源码 `be7369231b57698ffa7136e3bb0fa78cc8e6542a`。已实现本轮容量/匹配/计价、看仓弹窗与主路径修改；160项测试、60个WXML模板编译和核心原生模拟器路径通过，已生成375/390共18张原生截图。完整范围、40条对照及未完成项见[实施与验收记录](../wx-native/docs/implementation-20261120/STATUS.md)与[原生截图评审页](../wx-native/evidence/20261120/review.html)。
