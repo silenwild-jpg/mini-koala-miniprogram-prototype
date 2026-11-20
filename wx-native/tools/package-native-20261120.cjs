@@ -1,0 +1,13 @@
+const fs=require('fs'),path=require('path'),assert=require('assert/strict'),crypto=require('crypto');
+const native=path.resolve(__dirname,'..'),repo=path.resolve(native,'..');
+const v=JSON.parse(fs.readFileSync(path.join(native,'evidence/20261120/verification.json'),'utf8'));
+const dest=path.join(repo,'deliverables','MiniKoala_NATIVE_20261120_'+v.source_sha.slice(0,7));
+fs.mkdirSync(dest,{recursive:true});
+const copy=(rel)=>{const src=path.join(native,rel),target=path.join(dest,rel);fs.mkdirSync(path.dirname(target),{recursive:true});fs.cpSync(src,target,{recursive:true,filter:p=>path.basename(p)!=='project.private.config.json'});};
+for(const rel of ['miniprogram','tests','docs','README.md'])copy(rel);
+for(const name of ['fake_wx.js','smoke_run.js','smoke_orders.js','native-functional.ps1','native-round.ps1','build-review-20261120.cjs','finalize-evidence-20261120.cjs'])copy('tools/'+name);
+for(const name of ['round2','functional','review.html','verification.json','source-manifest.json','static-result.json','wxml-result.json','node-tests.txt','smoke-pages.txt','smoke-orders.txt','impeccable-detect.json'])copy('evidence/20261120/'+name);
+const manifest=JSON.parse(fs.readFileSync(path.join(native,'evidence/20261120/source-manifest.json'),'utf8'));
+for(const [rel,sha] of Object.entries(manifest.files))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dest,'miniprogram',rel))).digest('hex'),sha,rel);
+fs.writeFileSync(path.join(dest,'打开与验收.md'),`# 微信原生实施候选\n\n源码提交：${v.source_sha}\n\n微信开发者工具导入本包的 miniprogram 目录。AppID 已配置为用户提供的项目AppID；需要对应开发者账号权限。\n\n先打开 evidence/20261120/review.html 看18张原生截图，再读 docs/implementation-20261120/STATUS.md、CHANGE_MATRIX.csv 和 STATE_MATRIX.csv。\n\n160项测试通过；60个WXML模板编译成功；核心模拟器路径通过。账号、实名、支付、销售线索为本地演示，并非真实后台。未上传体验版、未合并主分支、未做真机和全状态人工视觉签收。\n\n本包只包含原生工程、测试、规则文档和对应证据。原冻结设计与旧Web保留在仓库中，未被本轮覆盖。\n\n在包根目录用PowerShell复跑：\n\n\`\`\`powershell\n$testFiles = Get-ChildItem ./tests -Filter '*.test.js' | ForEach-Object FullName\nnode --test --test-concurrency=1 @testFiles\n\`\`\`\n`);
+console.log(JSON.stringify({package_directory:dest,source_sha:v.source_sha,verified_runtime_files:Object.keys(manifest.files).length}));

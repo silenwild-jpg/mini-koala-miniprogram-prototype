@@ -19,13 +19,13 @@ const pd = require('../../services/page-data');
 const location = require('../../services/location');
 const subscribe = require('../../services/subscribe');
 const B = T.booking;
-const TXT = { c: T.common, ack: T.ack, b: { toBusinessTip: B.toBusinessTip, toBusiness: B.toBusiness, storeTag: B.storeTag, address: B.address, addressPh: B.addressPh, locate: B.locate, when: B.when, need: B.need, items: B.items, capacity: B.capacity, duration: B.duration, capPh: B.capPh, capNote: B.capNote, salesNote: B.salesNote, note: B.note, notePh: B.notePh, payNote: B.payNote, submitting: B.submitting, infoTitle: B.infoTitle, subOk: B.subOk, subNo: B.subNo, subAsk: B.subAsk }, phoneLabel: T.phone.label };
+const TXT = { manualPhone: '直接填写联系电话', c: T.common, ack: T.ack, b: { toBusinessTip: B.toBusinessTip, toBusiness: B.toBusiness, storeTag: B.storeTag, address: B.address, addressPh: B.addressPh, locate: B.locate, when: B.when, need: B.need, items: B.items, capacity: B.capacity, duration: B.duration, capPh: B.capPh, capNote: B.capNote, salesNote: B.salesNote, note: B.note, notePh: B.notePh, payNote: B.payNote, submitting: B.submitting, infoTitle: B.infoTitle, subOk: B.subOk, subNo: B.subNo, subAsk: B.subAsk }, phoneLabel: T.phone.label };
 const key = () => 'LEAD_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
 Page(auth.guarded(routes.BOOKING, {
   data: {
     T: TXT, sys: 'loading', mode: 'booking', M: B.modes.booking, advisor: false, help: B.helpBooking, what: T.phone.whatBooking,
     store: null, address: '', startHint: '', date: '', items: '', capHint: '', termHint: '', note: '', noteCount: '0/' + L.noteMax, noteMax: L.noteMax, addressMax: L.addressMax,
-    hints: [], salesCap: false, errAddress: '', errPhone: '', status: 'editing', statusTitle: '', statusMsg: '', statusBtn: '',
+    manualPhone: '', hints: [], salesCap: false, errAddress: '', errPhone: '', status: 'editing', statusTitle: '', statusMsg: '', statusBtn: '',
     sheet: '', itemOptions: [], dateOptions: [], dateDraft: '', capUnit: 'm3', capRaw: '', capQuick: [], capPick: '', capErr: '', termDraft: null,
     result: null, sub: ''
   },
@@ -113,7 +113,8 @@ Page(auth.guarded(routes.BOOKING, {
   onSheetClose() { this.setData({ sheet: '' }); },
   edited() { if (this.data.status === 'failed') { this.setData({ status: 'editing' }); this._key = ''; } },
   // —— 提交 ——
-  hasPhone() { return !!this._contact || auth.isLoggedIn(); },
+  onManualPhone(e) { this._contact = lead.cleanPhone(e.detail.value); this.setData({ manualPhone: e.detail.value, errPhone: '' }); },
+  hasPhone() { return lead.validPhone(this._contact) || (!this._contact && auth.isLoggedIn()); },
   input() {
     const d = this.data;
     return {
@@ -132,8 +133,7 @@ Page(auth.guarded(routes.BOOKING, {
     if (!this._key) this._key = key();
     this.setData({ status: 'submitting' });
     // 订阅消息必须在点按回调里请求；允许或取消都继续提交（§4.10）。只有「预约用仓」按钮带订阅
-    const ask = d.mode === 'booking' ? subscribe.request(subscribe.SCENES.BOOKING) : Promise.resolve({ accepted: false, asked: false });
-    return ask.then((sub) => this.send(sub));
+    return this.send({ accepted: false, asked: false });
   },
   send(sub) {
     this.setData({ status: 'submitting' });

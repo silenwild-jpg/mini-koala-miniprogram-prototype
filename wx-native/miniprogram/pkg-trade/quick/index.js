@@ -26,15 +26,16 @@ Page({
     est: null, access: '', draft: null,
     barLabel: T.need, barAmount: '', barMuted: true, barNeed: '', btnText: T.next, btnDisabled: true,
     storeSheet: false, storeRows: [], unitSheet: false, unitRows: [], feeSheet: false,
-    loginVisible: false, panel: false
+    loginTip: '请登录', loginVisible: false, panel: false
   },
   onLoad(q) {
-    q = q || {};
+    q = q || {}; this._openLogin = q.login === '1';
+    state.patch('flags', { orderSource: 'quick' });
     this._storeId = q.store || ''; this._unitId = q.unit || ''; this._carried = q.carried === '1';
     const r = state.get().requirement, now = Date.now();
     this.setData({ term: r && pricing.isTerm(r.term_months) ? r.term_months : C.requirement.termDefault, startMin: view.ymd(now + CT.startDate.minDays * view.DAY), startMax: view.ymd(now + CT.startDate.maxDays * view.DAY) });
   },
-  onShow() { this.refresh(); },
+  onShow() { this.refresh(); if (auth.consumePending(this, 'quick') || (this._openLogin && !auth.isLoggedIn())) { this._openLogin = false; auth.openLogin(this); } },
   refresh() { return pd.load(this, pd.cityStores(), (stores) => { this._stores = stores; this.apply(); }); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   current() {
@@ -78,7 +79,7 @@ Page({
     const miss = !d.store ? T.missStore : !d.unit ? T.missUnit : d.gone ? T.missSwap : !d.startDate ? T.missDate : '';
     const quote = !miss && !loggedIn; // 未登录且已选齐：主按钮是「查看报价」，点击打开登录层
     this.setData({
-      barLabel: d.est ? T.estimate : T.need, barAmount: d.est ? d.est.amount : miss, barMuted: !d.est, barNeed: d.est && miss ? T.need + miss : '',
+      barLabel: quote ? T.loginToQuote : d.est ? T.estimate : T.need, barAmount: d.est ? d.est.amount : miss, barMuted: !d.est, barNeed: d.est && miss ? T.need + miss : '',
       btnText: quote ? T.quote : T.next, btnDisabled: !!miss
     });
   },
@@ -89,7 +90,8 @@ Page({
     const { stores } = this.current(), loc = state.get().location;
     const rows = stores.slice().sort((a, b) => inf(view.kmOf(a, loc)) - inf(view.kmOf(b, loc))).slice(0, CT.quickStoreSheetMax).map((s) => {
       const av = (s.units || []).filter((u) => u.status === 'available'), km = view.kmOf(s, loc), from = pricing.storeFromCubic(av);
-      return { id: s.id, name: s.name, sub: [km !== null ? fmt.kmText(km) : '', s.access_hours ? T.accessShort + s.access_hours : '', av.length ? T.stockN[0] + av.length + T.stockN[1] : T.stockNone].filter(Boolean).join(T_SEP), price: from === null ? '' : pricing.yuan(from), on: s.id === this._storeId };
+      // 门店选择优先辨认位置；存取时间在选中后展示，无库存必须明确说明。
+      return { id: s.id, name: s.name, sub: [km !== null ? fmt.kmText(km) : '', av.length ? s.address : T.stockNone].filter(Boolean).join(T_SEP), price: from === null ? '' : pricing.yuan(from), on: s.id === this._storeId };
     });
     this.setData({ storeRows: rows, storeSheet: true });
   },

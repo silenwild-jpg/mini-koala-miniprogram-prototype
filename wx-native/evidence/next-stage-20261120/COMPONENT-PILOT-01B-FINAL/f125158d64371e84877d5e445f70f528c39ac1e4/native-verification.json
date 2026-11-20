@@ -1,0 +1,841 @@
+{
+  "source_sha": "f125158d64371e84877d5e445f70f528c39ac1e4",
+  "runtime_tree": "08c8e86df7098bd1ef85fb6e9278d1ca7836dce1",
+  "technical": {
+    "source_sha": "f125158d64371e84877d5e445f70f528c39ac1e4",
+    "runtime_tree": "08c8e86df7098bd1ef85fb6e9278d1ca7836dce1",
+    "tests": {
+      "tests": 164,
+      "pass": 164,
+      "fail": 0
+    },
+    "smoke_scope": "pages/store/detail",
+    "smoke": {
+      "pages": 1,
+      "components": 0,
+      "handler_calls": 432,
+      "errors": 0
+    },
+    "wxml": {
+      "templates": 60,
+      "exit_code": 0
+    },
+    "native_visual": "NOT_RUN_BY_THIS_SCRIPT",
+    "real_devices": "NOT_TESTED",
+    "main_merge": "NOT_MERGED",
+    "experience_upload": "NOT_UPLOADED"
+  },
+  "initial_candidate": {
+    "source_sha": "96692b8bb555087760b8bc48f47fa5fc8afacd90",
+    "screenshots": [
+      {
+        "file": "target-login-375.png",
+        "sha256": "be2ebbbb45ae94aeb536e96639bd8350d7a75716f1e9948aa2d17e668d540d7b",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-quick-member-375.png",
+        "sha256": "d00254c91aed27ee87366d400f84c0e35ebc7ada4f215befbb0ba1c07bc6af0c",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-quick-fees-375.png",
+        "sha256": "de4378033b7ddc4a32960c26ff4db372f866b15cee9a117d737bcb094283ff6c",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-store-header-375.png",
+        "sha256": "87750011aa8af339e92d86eda2ad62d527c47ec69b36435a694006687c2121fe",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-full-address-375.png",
+        "sha256": "af796aa772163e4a62c95e90954d1927b992a0dca1e4e3bd3308f622e07b32a4",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-visit-375.png",
+        "sha256": "662982f4485f78ef0e7aa06ea29f6923b4681c772f2438346653d5f493b752f7",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-visit-validation-375.png",
+        "sha256": "8078edf308aa5929182dc19621923eb676171a4516925e8a6b3afee0ad8d3d90",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-near8-render-375.png",
+        "sha256": "1e4099a6614413b825b44a276c600aac0efc3d5860b8cb9709fdaf0f135d1c23",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-none5-render-375.png",
+        "sha256": "61b86a0bd5b9d83af7c53fb7e8548deb40fa58302ad368b17111b8d1666a44b8",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-store-near8-render-375.png",
+        "sha256": "27aa0c689d4ae66ab070c08146f55f539b5a1f47c393c0b7f14a4e3b85ed3759",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-combo31-render-375.png",
+        "sha256": "f47d5f75dea265141735dcd257940f1eb1ed038b280edd0933e0bd73d97b1d4e",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-store-combo31-render-375.png",
+        "sha256": "0267956560fc5c02e3cb14ce3bf38c951b05a1a94fdf42110979d9a5a0e876e8",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pages-home-index-375.png",
+        "sha256": "b6d3982cd69ac69eeb5186abf53d7200271af5598338042d9b058cb6e3f651b8",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pages-stores-index-375.png",
+        "sha256": "6f4ea107e72ec43b43f7b9815b56f387063ca0cc21a2b63509ec298d7590f5bf",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pages-orders-index-375.png",
+        "sha256": "5092c042cbeae1c94a0bde57a03ea89bdd9e04739b114323f46ac1e686320151",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pages-mine-index-375.png",
+        "sha256": "17ac39f20c9d4e3221a448b46e2a02ab1c0abacaf9bfa47bcbdb5b7c832a2b18",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pages-store-detail-375.png",
+        "sha256": "d60e3e5d5853503515e96e21f6eda4646b55ffa7fb0a9b424649229e6cb89af2",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pages-match-index-375.png",
+        "sha256": "cddba2d43f529485fff0da5149112506c7a7c98c119755a6af1d90bce8bc895d",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pages-estimate-capacity-375.png",
+        "sha256": "e99c40544c099884cae2405d7f019716e14dbf01cb4a721de4042418fb6b5cdc",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-estimate-items-index-375.png",
+        "sha256": "4f58db2baa83c7d04e1758851fe064ed1090bc59a9e66975a6cef369c7a4e443",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-trade-confirm-index-375.png",
+        "sha256": "ed29cf1bccf24c70da2a8c1beb0d4d01204510d12afc6b9a2b2ad045ff127f63",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-trade-quick-index-375.png",
+        "sha256": "282590b0547b046375a4175cde44fc9c606956ca61db2eb83e5cb7a343926e07",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-trade-order-index-375.png",
+        "sha256": "6a5f267c7e031210e9e3e351eb509cfa65af26193b1a40be54f5944f11b95364",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-trade-agreement-index-375.png",
+        "sha256": "3e065f48ecd544c2910d1968d8b2800af2d72e367b6bde06d175270465583985",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-after-identity-index-375.png",
+        "sha256": "fd0b782910bc2ad9c40370856fbcef0e51879942813e5332877b55cbf1702972",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-after-access-index-375.png",
+        "sha256": "164fae83e0dc39638d9a063bac5b9b25e7e859f587ac1763044c21557a7ed8df",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-after-renew-index-375.png",
+        "sha256": "a74150348ec1e5e0e0d0a731d063eee4172404490eb8aac97472b08ca6aba446",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-after-exit-index-375.png",
+        "sha256": "3ebf23eba79f3e6388ca4865b794b75ec177bc17cf1fa43d77ac85dc63b65d2a",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-after-deposit-index-375.png",
+        "sha256": "2b739b84d3688b57abe4939988d267e574a87a17ecbd36d68d628490656a7e5c",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-after-invoice-index-375.png",
+        "sha256": "a5a0a8c85d14cf4dbd255df3c3110ff3d460b68d9499702fb0f39bc600e637c6",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-after-econtract-index-375.png",
+        "sha256": "c5912b14236a2023ad6b415e347c5041ff9fccba6a314271dccd3e821ce39e30",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-messages-index-375.png",
+        "sha256": "0cdd79fe9b676a660a70f379cf4250243bf243ccc024d5a9aba617aad1e6b00d",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-needs-index-375.png",
+        "sha256": "4160adaa7d64f1df1d48c81ab279224e0636bc769b2a77121fa21fdc8066d5e1",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-progress-index-375.png",
+        "sha256": "d8bdedcb2ace14d179858a701bb5647f2a3cb0a9a7d3a21cfb253ff9b246cd2f",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-favorites-index-375.png",
+        "sha256": "0ea808bc69cdf8391674727e76149765e474c68519f5ed70d35b87c2c9963192",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-coupons-index-375.png",
+        "sha256": "d3950ac3ea98b8e0aec05bd71dc03a3e71dc90f4e7166b8752543bfafc0f2ee9",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-profile-index-375.png",
+        "sha256": "0927cd4622304a0facef1e2b5df9744703997ddd2eca61920be3de082804051e",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-referral-index-375.png",
+        "sha256": "b1945edac3fdaafd4b105243665e2e4cb75cd554cb83b30399fe7e73a91d4672",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-brand-index-375.png",
+        "sha256": "d745cada7e27d6b20cd43e6eac0960af322b8b976d4c6abf8ac6263e114707d2",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-ent-cert-index-375.png",
+        "sha256": "5a2a433205e52c1c39387385c98f44cb8673be4077f12eeda9dd4ccf3321aa15",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-ent-titles-index-375.png",
+        "sha256": "f839a4408b07994313c94a47f6edeb15833b817a58bce1b52be6766f9bbd279d",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-account-ent-batch-index-375.png",
+        "sha256": "2407c7ddafe07ba589926d27eddf481451720e86ee6e3115c13bc01bfd39c40c",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-lead-booking-index-375.png",
+        "sha256": "9f40004ad9c9f9267b9176560f30890d464b82e25f6220fcbd572881fce830fd",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-lead-business-index-375.png",
+        "sha256": "f2a0f8c08d90cde33ff59529c0cb96a2ed7a60f1483ec9d9d1df5fa3bc7fa163",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-lead-estore-index-375.png",
+        "sha256": "d5719865ef3d7208f323bf058b8215053897830ef491637cf47a22f525fc894e",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-lead-transport-index-375.png",
+        "sha256": "f9ffd516c00e50ca4390f3ea769459b9aab1ad25b8bdbaceda539a60540938aa",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "page-pkg-lead-support-index-375.png",
+        "sha256": "a4582d723f5533e447d717d0fa0c7ba0a503789601f3befc05e2cabd9258e19b",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-login-390.png",
+        "sha256": "d2e6e3d99e50e0a879d8c5193eb27b384b08394bd55675f508761ee49d1b2c2d",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-quick-member-390.png",
+        "sha256": "e069d43751ea03293478294ca8b1c45a3e79b21f4bd420fceaa56fa1e288c584",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-quick-fees-390.png",
+        "sha256": "2041d42712bf99dfb054cb21990175aaff50784d3e3ce424648f82d7b445960d",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-store-header-390.png",
+        "sha256": "4d5fdea9900473177796968b309181c09f908e3be7a70840664bae130d87b601",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-full-address-390.png",
+        "sha256": "8ef091492252fb1d29ec1e70690635cb2ad7a7e8a603bd266aa244411a67be3f",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-visit-390.png",
+        "sha256": "7a19c48ba681e13d2336f2befc496c447a627463a23dad1db8d9af41a2826ce4",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-visit-validation-390.png",
+        "sha256": "20e07c415830868787b2791008293140b435af22e6b1b8fc9fb5d66740be875a",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-near8-render-390.png",
+        "sha256": "6aeb1892d10d1c6e11c692f30ae53bfce03481b32763a364d0be4ff3c646ed64",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-none5-render-390.png",
+        "sha256": "c3308c3caf97703b7f6bdbce906d80ab9118018466c2fadd8fea967b388aaa94",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-store-near8-render-390.png",
+        "sha256": "4eae3b899f377a1ec4d72e4bf0525e29c400f1f2e9ea09c2288747014c8428ce",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-combo31-render-390.png",
+        "sha256": "bac6da63ee10ac5bb368be5a5c854f7958232104f623a56495e42bea0f1fa766",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-store-combo31-render-390.png",
+        "sha256": "2798253f9c3cd9d2dcbf8d7ac73756071bc3c109909801b97592c2c476814f05",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pages-home-index-390.png",
+        "sha256": "fd469b195a5abf5195b37bd5fba8d42a22afd8985ede5f94a884cd65145e209b",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pages-stores-index-390.png",
+        "sha256": "5aa4632f46a72dd6764b1a9eee993b791da6f885330ee11f9e3738b25d047013",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pages-orders-index-390.png",
+        "sha256": "789873838d09eeddfcbc4517b12dd84c17a93eb348bfa31fa7f745b23e94e0ec",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pages-mine-index-390.png",
+        "sha256": "c541f36645c6178e1769bbcab4ea896cded4a2f8df57d531158918898eae575d",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pages-store-detail-390.png",
+        "sha256": "386d5fa9a99b993db0fb3825a1f8744c99c85e6260c689f15d9f4496b8393efe",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pages-match-index-390.png",
+        "sha256": "add004a315481f8e0491ff2810d08e35e99afe5a36b1e8cb40343ec5c61b2a17",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pages-estimate-capacity-390.png",
+        "sha256": "f8f0ce620b2880185b8eb9430edf44793fe7f7e24456efe190c02aab1ad1f635",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-estimate-items-index-390.png",
+        "sha256": "61cf02b611aaa8ed84a5ec309d6f86ef8ec9378084495dd1fc332eddb7aa85c5",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-trade-confirm-index-390.png",
+        "sha256": "d81330b60cec99b35acabb3dd0cebfa01da1a0f309e8c74e830fb0a50364fec3",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-trade-quick-index-390.png",
+        "sha256": "9e69b3f8a6ecd07474dd35935a5c41825dcc41bcad94b97d74093fb79a988dab",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-trade-order-index-390.png",
+        "sha256": "65cfdb58125600507993c45b858573c7f57ed9bde7227e2365127b543ceb6322",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-trade-agreement-index-390.png",
+        "sha256": "72b6dfe62dae38a626ff0e5b6a6e57105d9654047e300954e1ab944321ba0bc7",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-after-identity-index-390.png",
+        "sha256": "c266aec5b14320bd5ec9236f598b44da066387d926269aa48bd25b1a9e7b1486",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-after-access-index-390.png",
+        "sha256": "094db53a65aa27efaea06acbe23d91550c20e7865410e87db92358ec279d0005",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-after-renew-index-390.png",
+        "sha256": "309117a19de0eacd63c16dc737e0603f193d600ee7bef7bd577331547489f9a2",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-after-exit-index-390.png",
+        "sha256": "83d09a0a1fdf705ae1a15d449a24590fe057521639d6eea3c118f86fe81b9601",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-after-deposit-index-390.png",
+        "sha256": "ced74da865ce138da0618586d7d2ecc35ef6ca465b228de5904bc1a79e021563",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-after-invoice-index-390.png",
+        "sha256": "9907be8e167d907e819ad708aab49d07fc05701e715f2cf178ffaf8d11a05688",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-after-econtract-index-390.png",
+        "sha256": "3b01177f0d9fd8fdc13fcd2a2bd5f97a3f6054caea95157ab7c22f57a05de022",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-messages-index-390.png",
+        "sha256": "bd8e10b280f3b100b2109785572a62dcbf020a3915cbbf1738b46912d36cc04f",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-needs-index-390.png",
+        "sha256": "a88a5a0c36488d248239e289e3a57ec58dbed74f002f5e780b97f2b1f580ffd7",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-progress-index-390.png",
+        "sha256": "bc52f1c03acdcb4a1d2462257cecc8b6723c392c6f6cf1f83b8f8d95d8e29373",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-favorites-index-390.png",
+        "sha256": "4d8eb7e6b45f2a61afb8afc011c1e64d46a552f264e980b389f82bdf5c33c02a",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-coupons-index-390.png",
+        "sha256": "fa3998429ba2c53efd09229ac44509eb15f110a8a96808a01e178e574a03c24b",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-profile-index-390.png",
+        "sha256": "c931f75b77b797587fab4674aefdebc6fa5b300c5ef983c6bb1a79658e7a9c57",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-referral-index-390.png",
+        "sha256": "2e3c156f5d76f64bb60906b86b28f34b6e222379047fda934e5cce3487d693e4",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-brand-index-390.png",
+        "sha256": "87381c35ee5ffefd3f6d40b6925163e26ec416756ee1b765b76fe4518ffbd3cc",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-ent-cert-index-390.png",
+        "sha256": "1532d8d968c92864bf5f101f788940ae7acb152556a548fee3f2986948ca29da",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-ent-titles-index-390.png",
+        "sha256": "24e70e0a68e0f50323105839f7e35214711ccadf502fd4624426410e02f38334",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-account-ent-batch-index-390.png",
+        "sha256": "ba87e858a716c2a837d0c5d3de53942d925c8150d274ac256096e90ed332f1b2",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-lead-booking-index-390.png",
+        "sha256": "6c1857865209e2aef691ef1fac9273874fcf0b5ea7b0980b062cebaec6536095",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-lead-business-index-390.png",
+        "sha256": "cea2588ab05965f8f5abb01976a3ae102dde5481f73644b3f53010bba84084e8",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-lead-estore-index-390.png",
+        "sha256": "21361543dd1c756b9a7a0267fce0c3328df68dce5f176740dd5519697a9d220a",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-lead-transport-index-390.png",
+        "sha256": "d2fcb32b42ddc1aded4575d6d4774e3544f5e43b2744cddfec294bfbe8190e00",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "page-pkg-lead-support-index-390.png",
+        "sha256": "486ef05ce653632d4ef9f28bccd4802de7cfbc981462359e68842e9a8dc3b90e",
+        "pixel_width": 359,
+        "pixel_height": 777
+      }
+    ],
+    "page_default_screenshots": 70,
+    "targeted_screenshots": 24,
+    "full_smoke": {
+      "pages": 35,
+      "components": 22,
+      "handler_calls": 6618,
+      "errors": 0
+    },
+    "limitations": [
+      "375 used a prior m2/1-month draft; targeted capacity screenshots are not valid for their intended m3/12-month cases",
+      "initial visit-validation file is actually local-demo success with a verified phone",
+      "S02 address clamp ghost required a local fix"
+    ]
+  },
+  "final_confirmation": {
+    "screenshots": [
+      {
+        "file": "target-login-375.png",
+        "sha256": "4f376f0eba9e26986608c3d2343541623b0f9fb4a2a589985d9759790c907121",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-quick-member-375.png",
+        "sha256": "8a8bb2828c72fa7ad43b8eb232027afeb5972d8f0e6f20431cf898952416b042",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-quick-fees-375.png",
+        "sha256": "86e9dd01147e3eedb39c249c1c43d1cd0a336ab66aea8ee7944cc4fc26b333a2",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-store-header-375.png",
+        "sha256": "7f2d745490fc9d76f39b311f7fb583bc9b65df9ae2dc757d1e39335f24a1e7d4",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-full-address-375.png",
+        "sha256": "b21bd891ce0871332460d28617dbc4a30ba3344e6a6a7f99001217d97d6ef2ea",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-visit-375.png",
+        "sha256": "960af4c5008a775f5a055611b93596d9a67c6eb49ae58f46ff16aa70a1b3b3de",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-visit-validation-375.png",
+        "sha256": "f981e09e73b605fdeee50450b96c76ca2cbcee0f9d4859d81fb5e967aa08b20d",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-near8-render-375.png",
+        "sha256": "d9ea83fc895afb81f964f567c4fa4333ae7f632a542c17e6b75e28e90686c7f5",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-none5-render-375.png",
+        "sha256": "41258d2592730527a49c105e2b76e9a5bd634fe8cfe6fe481d75c42103e23bc1",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-store-near8-render-375.png",
+        "sha256": "af516fe9afa53575966c2ce48928f961a9790b46f27edb3e19240fc9088d8920",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-combo31-render-375.png",
+        "sha256": "ea7cfa2442c69186e7eadc0153c8de791589f4f387ca29e9f833838e2bd86993",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-store-combo31-render-375.png",
+        "sha256": "ef4bf4a29532df1a6e239a67dd68d61fca9442dd2de194cb2e31c845ef205dff",
+        "pixel_width": 345,
+        "pixel_height": 748
+      },
+      {
+        "file": "target-login-390.png",
+        "sha256": "047b3b3b2e49edd48f55068159e2c54c7e13d91c7388a319d96c4cb3b7ea5b97",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-quick-member-390.png",
+        "sha256": "68bb0999f32d2c27c9846a5e9266f1feee79c80b735c58106bbb5c240d527ed0",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-quick-fees-390.png",
+        "sha256": "458082b457c7eaf2035146fa36fcfbacb0d504b7357d4c4da5041bdcf4a1b342",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-store-header-390.png",
+        "sha256": "afdb1a3c59e421a279c4f9b10935fab88b8937dcf79dd024cde1438594cd14b5",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-full-address-390.png",
+        "sha256": "6bf511c4434360f51321cba16db1927c8f8d441c64cfd7873fb3ed01b6780a78",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-visit-390.png",
+        "sha256": "d6b8ca7486f13372c843b425c88eb6d1761a155fb0330ecb98c7bbf85811f09a",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-visit-validation-390.png",
+        "sha256": "f6d8ea356fdd1f365a1d838373ad7bc6e5607eef27131e8a1b43f63281e59a3b",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-near8-render-390.png",
+        "sha256": "d70a84f47670c0c2a8bb7de03257724b7e15263012b023e2658ffb34b3b9bd05",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-none5-render-390.png",
+        "sha256": "82b9ad8a0c6d641a8e11c15774fafbf35c1d6ffa64adb55b3b77f19fb674f477",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-store-near8-render-390.png",
+        "sha256": "6da64854bb1b23e9ef190d6530493c3140aeda8e964eb0f1773f01ec0bd862fb",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-combo31-render-390.png",
+        "sha256": "726a8bff524d45444e4290eeea6f991d36d701571fbda0c45a65da32382351ab",
+        "pixel_width": 359,
+        "pixel_height": 777
+      },
+      {
+        "file": "target-store-combo31-render-390.png",
+        "sha256": "69b513a81322a5f04ead4a253fbf598d90d469af6c2fa4d82ba224a42b6c1af1",
+        "pixel_width": 359,
+        "pixel_height": 777
+      }
+    ],
+    "devices": [
+      {
+        "width": 375,
+        "height": 812,
+        "sdk": "3.5.8",
+        "fontScale": 0.92
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "sdk": "3.5.8",
+        "fontScale": 0.92
+      }
+    ],
+    "fixture_preconditions": "m3 and 12 months asserted before every capacity submit; invalid phone123 used for client validation; page-only render fixtures"
+  },
+  "source_change_after_full_sweep": [
+    "pages/store/detail.wxml",
+    "pages/store/detail.wxss"
+  ],
+  "unchanged_other_runtime_files": 419,
+  "close_geometry": [
+    {
+      "close": {
+        "id": "",
+        "dataset": {},
+        "left": 319,
+        "right": 367,
+        "top": 380.09375,
+        "bottom": 428.09375,
+        "width": 48,
+        "height": 48
+      },
+      "purpose": {
+        "color": "rgb(95, 107, 101)",
+        "font-size": "12px"
+      }
+    },
+    {
+      "close": {
+        "id": "",
+        "dataset": {},
+        "left": 333,
+        "right": 382,
+        "top": 409.09375,
+        "bottom": 458.09375,
+        "width": 49,
+        "height": 49
+      },
+      "purpose": {
+        "color": "rgb(95, 107, 101)",
+        "font-size": "12px"
+      }
+    }
+  ],
+  "expanded_edge_clicks": {
+    "status": "NOT_VERIFIED",
+    "reason": "appservice App.CDPEnable unimplemented",
+    "receipt": "metrics-native-receipts.json"
+  },
+  "login_purpose_computed_color": [
+    "rgb(95, 107, 101)",
+    "rgb(95, 107, 101)"
+  ],
+  "declared_secondary_on_white_contrast": 5.56,
+  "native_console_errors": 0,
+  "agent_visual_review": "PASS_LIMITED_TO_CAPTURED_STATES",
+  "human_signoff": "NOT_SIGNED",
+  "real_devices": "NOT_TESTED",
+  "all_effective_states": "NOT_ALL_EXECUTED",
+  "experience_upload": "NOT_UPLOADED",
+  "main_merge": "NOT_MERGED",
+  "recovered_tooling_failures": [
+    {
+      "tool": "automation_evaluate",
+      "parameters": [
+        "--fn-source",
+        "function(){wx.setStorageSync('mk_state_v1',{});getApp().onLaunch();getApp().globalData.find=null;return true;}"
+      ],
+      "message": "timeout waiting for automator response",
+      "time": "2026-11-20T16:48:59.8253516+08:00",
+      "recovery": "390 resumed after navigation readiness; original failure receipt preserved"
+    }
+  ]
+}

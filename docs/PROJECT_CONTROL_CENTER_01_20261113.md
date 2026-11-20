@@ -1,5 +1,57 @@
 # 迷你考拉仓｜项目控制中心
 
+## 2026-11-20 迁移检查点（当前入口，停止在交接点）
+
+**最新决定：目标是现有视觉统一升级，本轮使用微信开发者工具（sim）。** Claude负责代码/视觉独立评审，Codex负责开发、微信工具测试与截图；本次只准备切换电脑，不启动下一批业务工作。
+
+先读仓库根[RESUME.md](../RESUME.md)。迁移前实现与证据交付为`ccc9b1569b4ceac4f5bd955b9d7906d55b32de6b`，运行时`f1deabe80ab9546b719f6ad0b281b611de6034fd`，运行时树`5f80f0d3260e405dc54863bfe16fd08fbba9e694`；[Draft PR #221](https://github.com/silenwild-jpg/mini-koala-miniprogram-prototype/pull/221)仍未合并。迁移内容快照`451a3a015ab90af42969a588fad9d3ec8fd5f99b`；最终封口HEAD见交棒回报。快照和封口提交只新增迁移元数据。
+
+本工作区测试/编译/包装进程匹配0个，没有误停其他应用；未启动新测试。已有631个跟踪产出、421个运行时文件及21张索引图已做文件哈希核验，[进程与产物检查回执](../wx-native/evidence/migration-checkpoint-20261120/)随检查点提交。无关qa.zip、wx-native.zip不加入，密钥和认证缓存不迁入仓库。
+
+业务状态仍为COLLAB-SETUP-01待独立复核：166测试及完整技术门禁通过，8项处置5FIXED/3DEFERRED；自检18PASS/2FAIL/1未验。1:1、边缘点击、说明语义类提案及O01日期差异未闭合，不能误称统一升级已完成。当前是worktree，新电脑重新clone，不直接复制旧.git路径。恢复后先只读核验精确SHA、运行时树与证据，再由用户决定启动后续工作。下方为迁移前快照。
+
+## 2026-11-20 COLLAB-SETUP-01交接（当前入口）
+
+运行时`f1deabe80ab9546b719f6ad0b281b611de6034fd`，树`5f80f0d3260e405dc54863bfe16fd08fbba9e694`；分支`codex/inventory-display-density-20261120`。已接收Claude在7b5634af的8项独立意见，补协作约定、修静态裸色值、门店头部按钮挤压/时间折行和看仓字段错误反馈。166测试、Python静态0错误、全35页/22组件/6620调用与6单/960调用零异常、60模板编译通过。
+
+[交付结果](../wx-native/docs/collab/COLLAB-SETUP-01/STATUS.md) · [8项处置](../wx-native/docs/collab/COLLAB-SETUP-01/review-dispositions.csv) · [截图评审](../wx-native/docs/collab/COLLAB-SETUP-01/review.html) · [给Claude的入口](../wx-native/docs/collab/COLLAB-SETUP-01/HANDOFF_TO_CLAUDE.md)。当前索引21图：14张保留fa7e566原SHA并附420文件等价证明，7张当前SHA图；包含12张小样。自检18PASS/2FAIL/1未查，独立G-VIS仍待Claude。
+
+处置5FIXED/3DEFERRED，不代表全包准出：1:1截图、可靠边缘点击、正常说明语义类推广仍待完成；新增O01日期小样差异先核对工具传参与组件绑定。本轮测试范围按用户定义为微信开发者工具sim，无实际手机前置；未合并main、未冻结、未上传体验版或部署。下一包优先独立复核与证据缺口，再继续01C，以下旧入口为历史。
+
+## 2026-11-20 01B组件约定与试点（当前入口）
+
+最终运行时与技术候选`f125158d64371e84877d5e445f70f528c39ac1e4`，运行时树`08c8e86df7098bd1ef85fb6e9278d1ca7836dce1`。本批改善关键正常说明文字、扩大弹层关闭区、补完整地址入口并修复截断残影。164项测试、60模板编译通过；父候选35页完整模拟零异常，最终S02定向模拟零异常。
+
+[执行结果](../wx-native/docs/component-pilot-01b-20261120/STATUS.md) · [截图评审](../wx-native/docs/component-pilot-01b-20261120/review.html) · [组件约定](../wx-native/docs/component-pilot-01b-20261120/COMPONENT_CONTRACT.md) · [下一工作包](../wx-native/docs/component-pilot-01b-20261120/NEXT_PACKAGE.md)。初轮35页双尺寸70默认图＋24关键图，最终另验24关键图；不同SHA证据分别标注，未宣称全站状态通过。关闭区实测48×48/49×49；边缘点击接口不支持，待验。
+
+用户提供代理`127.0.0.1:8686`后已核实端口可连，重启工具后自动化恢复，最终成功回到普通门店页；旧7892阻塞仅为历史。全站有效状态、键盘/字体放大/读屏、真机、素材来源、人工签收与真实服务仍待完成，未合并main、未冻结、未上传体验版。下一包优先01C动态状态核验，再决定01D推广。下方旧入口为历史快照。
+
+## 2026-11-20 01A首轮审计与密度缺口修复（当前实施入口）
+
+当前运行时与技术测试候选：`c92fcf0a3b1bffed83f4371c6fb838b30802e876`，分支 `codex/inventory-display-density-20261120`。采集时恢复了微信工具连接；完成35页/22组件首轮源码与资源审计、40张修复前原生截图；修复组合仓卡片缺合计体积，160项测试、全页模拟运行、60个WXML编译通过，最终候选有375/390共8张限定范围确认图。
+
+从[执行结果](../wx-native/docs/visual-audit-01a-20261120/EXECUTION_STATUS.md)、[审计报告](../wx-native/docs/visual-audit-01a-20261120/AUDIT.md)、[截图评审页](../wx-native/docs/visual-audit-01a-20261120/review.html)和[40场景实际执行对照](../wx-native/docs/visual-audit-01a-20261120/CASE_EXECUTION.csv)继续。01B已有[组件约定草案](../wx-native/docs/visual-audit-01a-20261120/COMPONENT_CONTRACT_DRAFT.md)。91项令牌生效，另3条是注释；664行是分支/默认项工作表，不是有效状态数或通过数。
+
+下一执行包：先复查工具连接并恢复普通演示页，再补齐01A关键可达性fixture与密度矩阵剩余项，细化01B说明文字、弹层命中区、地址及图标约定，再进入01C。**采集阶段连接恢复，但收尾再次出现7892代理拒绝，最后导航恢复未完成；已保存的最终8图限定范围检查通过，全站G-VIS、真机、人工签收与正式服务仍待验收。** 未冻结、未归并、未上传体验版。下方为此前规划与实施快照，以本入口为当前状态。
+
+## 2026-11-20 下阶段完整实施规划 v2（当前任务入口）
+
+当前方案入口：[NEXT-STAGE-20261120-v2](../wx-native/docs/next-stage-20261120/IMPLEMENTATION_PLAN.md)，配套[12项任务](../wx-native/docs/next-stage-20261120/TASKS.csv)、[40项初始验收场景](../wx-native/docs/next-stage-20261120/ACCEPTANCE_MATRIX.csv)、[页面/组件/资源盘点](../wx-native/docs/next-stage-20261120/BASELINE_INVENTORY.json)及[决策风险](../wx-native/docs/next-stage-20261120/DECISIONS_AND_RISKS.md)。本轮只更新规划与静态准备，运行时仍为 `cbffc52201ab61b0896887a46520e4388ac70c70`，分支 `codex/inventory-display-density-20261120`。
+
+计划顺序：密度候选原生闭环与01A审计交错推进 → 01B组件约定 → 01C核心页试点 → 01D分域推广 → 01E全站与真机 → 01F候选评审。**立即执行包为01A逐项审计＋INV-DENSITY-02A工具连接复查**；代理失败是上次观测，本轮未重试，恢复后继续02B。新矩阵全部NOT_RUN，历史578态不充当新分母；G-VIS仍HOLD，未冻结、未归并、未上传体验版。
+
+## 2026-11-20 库存展示与信息密度候选（当前增量）
+
+分支 `codex/inventory-display-density-20261120`，运行时与测试候选 `cbffc52`。本批收敛 S01/S5 门店卡标签与冗余文字、S02 泛化用途、QUICK 门店选择层的库存数量展示；容量差额、无库存、报价及主路径保留。详见[实施与下阶段安排](../wx-native/docs/inventory-display-20261120/STATUS.md)和[独立技术验收](../wx-native/evidence/inventory-display-20261120/verification.json)。
+
+**G-VIS HOLD：** 微信工具的本地代理连接失败，本候选尚无新双尺寸截图；前批截图不可继承。本批未冻结、未归并、未上传体验版。下一任务 `INV-DENSITY-02` 补齐原生视觉闭环，同时可准备 `VIS-COMPONENT-SYSTEM-01A` 全站资产与组件审计。
+
+## 2026-11-20 微信原生实施候选（当前）
+
+实施分支 `codex/wx-native-exec-20261120`，候选源码 `be7369231b57698ffa7136e3bb0fa78cc8e6542a`。已实现本轮容量/匹配/计价、看仓弹窗与主路径修改；160项测试、60个WXML模板编译和核心原生模拟器路径通过，已生成375/390共18张原生截图。完整范围、40条对照及未完成项见[实施与验收记录](../wx-native/docs/implementation-20261120/STATUS.md)与[原生截图评审页](../wx-native/evidence/20261120/review.html)。
+
+仍是演示候选：真实接口、微信客服、真机与全状态人工视觉签收未完成；未上传微信体验版、未合并main、未生产部署。下方规则基线建立和旧Web记录保留为历史，不覆盖当前实施记录。
+
 ## 2026-11-20 本分支当前状态
 
 当前用户已批准以Claude原生v0.2.0加11月20日规则增量建立微信体验版基线。入口：[原生规则基线与实施计划](../wx-native/docs/baseline-20261120/规则基线与实施计划.md)。本分支 `feat/wx-native-rule-baseline-20261120`，来源提交 `eefd0e97ddd7c4b94ff423ec9ccaaf8f2072e1f8`。本轮仅新增规则文档与入口；代码待适配，微信编译与真机未测；本轮不继承旧Web视觉或QA签收。下方2026-11-14及更早内容保留追溯。

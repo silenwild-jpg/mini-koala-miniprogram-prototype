@@ -1,0 +1,11 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const sha=process.argv[2];assert.match(sha,/^[a-f0-9]{40}$/);
+const native=path.resolve(__dirname,'..'),root=path.join(native,'miniprogram');
+const out=path.join(native,'evidence/next-stage-20261120/COLLAB-SETUP-01',sha);fs.mkdirSync(out,{recursive:true});
+const env=require('./fake_wx').install(root);env.loadApp();
+const finder=require(path.join(root,'services/finder')),base=require(path.join(root,'mock/stores'))[0];
+const original=require(path.join(root,'mock/inventory')).find(u=>u.store_id===base.id);
+const store={...base,units:[{...original,id:'RENDER8',code:'TEST8',volume:8,area:4,dims:[2,2,2],status:'available'}]};
+const model=finder.buildMatch([store],{requirement:{capacity_m3:10,term_months:12,source:'manual'},location:{city:base.city,kind:'city'},loggedIn:false});
+assert.ok(model.cards.length);fs.writeFileSync(path.join(out,'near8-args.json'),JSON.stringify([{mode:model.mode,cards:model.cards,advisor:null,hint:'',sub:model.sub,total:model.total,title:'渲染测试 · 10m³需求'}],null,2)+'\n');
+fs.writeFileSync(path.join(out,'fixture-manifest.json'),JSON.stringify({source_sha:sha,logged_in:false,requirement_m3:10,term_months:12,inventory:'page-render-only8m3; no source or server writes',valid_order_submission:false},null,2)+'\n');

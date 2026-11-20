@@ -1,0 +1,31 @@
+<mk-sheet visible="{{visible}}" title="预约看仓" bind:close="onClose">
+  <view class="vs-store mk-title">{{store.name}}</view>
+  <text class="mk-sub">{{store.address}}</text>
+  <view wx:if="{{success}}" class="vs-result">
+    <text class="mk-h2">看仓需求已提交</text>
+    <text>门店将电话确认看仓时间</text>
+    <text class="mk-sub">{{success.phone}} · {{success.date}} · {{success.slot}}</text>
+    <text class="mk-mute">需求编号 {{success.no}}</text>
+    <button class="mk-btn" bindtap="onClose">完成</button>
+  </view>
+  <block wx:else>
+    <view class="vs-label">联系电话</view>
+    <view wx:if="{{phoneMasked}}" class="mk-sub">已验证手机号 {{phoneMasked}}，可另填联系电话</view>
+    <button wx:else class="mk-btn mk-btn--ghost mk-btn--md" bindtap="onWechat">使用微信手机号</button>
+    <input class="vs-field vs-phone-field {{phoneError ? 'vs-field--error' : ''}}" type="number" maxlength="11" value="{{phone}}" placeholder="{{phoneMasked ? '另填联系电话（选填）' : '也可直接填写手机号'}}" bindinput="onPhone" bindblur="onPhoneBlur" focus="{{phoneFocus}}" cursor-spacing="120" aria-label="联系电话{{phoneError ? '，' + phoneError : ''}}" disabled="{{busy || unknown}}" />
+    <text wx:if="{{phoneError}}" class="mk-error vs-phone-error">{{phoneError}}</text>
+    <view class="vs-label">看仓时间</view>
+    <view class="vs-dates"><view wx:for="{{dates}}" wx:key="label" class="mk-chip {{dateIndex === index ? 'mk-chip--on' : ''}}" data-i="{{index}}" bindtap="onDateQuick">{{item.label}}</view></view>
+    <view class="vs-pickers">
+      <picker mode="date" start="{{dateMin}}" value="{{date}}" bindchange="onDate" disabled="{{busy || unknown}}"><view class="vs-field">{{date || '选择其他日期'}} ›</view></picker>
+      <picker range="{{slots}}" value="{{slotIndex}}" bindchange="onSlot" disabled="{{busy || unknown}}"><view class="vs-field">{{slots[slotIndex]}} ›</view></picker>
+    </view>
+    <view class="vs-label">意向仓位与容量 <text class="mk-sub">选填</text></view>
+    <picker range="{{units}}" range-key="label" value="{{unitIndex}}" bindchange="onUnit" disabled="{{busy || unknown}}"><view class="vs-field">{{units[unitIndex].label}} ›</view></picker>
+    <view class="mk-row"><input class="vs-field mk-grow" type="digit" maxlength="-1" placeholder="预计容量" value="{{capacity}}" bindinput="onCapacity" disabled="{{busy || unknown}}" /><text>m³</text></view>
+    <text wx:if="{{error}}" class="mk-error vs-error">{{error}}</text>
+    <button class="mk-btn" loading="{{busy}}" disabled="{{busy}}" bindtap="onSubmit">{{unknown ? '核对提交结果' : '提交看仓需求'}}</button>
+    <text class="mk-mute vs-note">仅提交销售线索，不锁定仓位；看仓时间以门店电话确认为准。</text>
+  </block>
+</mk-sheet>
+<mk-login-sheet visible="{{loginVisible}}" tip="请登录" bind:close="onLoginClose" bind:success="onLoginSuccess" />

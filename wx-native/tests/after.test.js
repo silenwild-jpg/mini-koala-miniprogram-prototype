@@ -24,7 +24,7 @@ seed();
 const now0 = Date.now();
 // 自造订单：A003（月基价 400）
 const order = (o) => mk(Object.assign({ store: 'SIM_BJ01', units: ['SIM_BJ01_U03'], months: 12, agoDays: 40, startAt: now0 - 39 * DAY, stage: S.ACTIVE }, o));
-const page = async (route, query) => { const pg = env.newPage(base(route), query); await tick(); return pg; };
+const page = async (route, query) => { const pg = env.newPage(base(route), query); if(pg.__shown) await pg.__shown; else await tick(40); return pg; };
 
 // ---------- 规则：退仓（D-189） ----------
 test('提前退仓预计结算：冻结稿示例 ¥632 = 违约金 ¥572 + 优惠重算补差 ¥60', () => {

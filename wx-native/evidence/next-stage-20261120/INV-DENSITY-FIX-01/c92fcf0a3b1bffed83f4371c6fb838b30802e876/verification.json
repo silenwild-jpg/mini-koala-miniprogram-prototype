@@ -1,0 +1,23 @@
+{
+  "source_sha": "c92fcf0a3b1bffed83f4371c6fb838b30802e876",
+  "runtime_tree": "2fc597243e6ae95190fa6b041053e597cc106158",
+  "tests": {
+    "tests": 160,
+    "pass": 160,
+    "fail": 0
+  },
+  "smoke": {
+    "pages": 35,
+    "components": 22,
+    "handler_calls": 6618,
+    "errors": 0
+  },
+  "wxml": {
+    "templates": 60,
+    "exit_code": 0
+  },
+  "native_visual": "NOT_RUN_BY_THIS_SCRIPT",
+  "real_devices": "NOT_TESTED",
+  "main_merge": "NOT_MERGED",
+  "experience_upload": "NOT_UPLOADED"
+}

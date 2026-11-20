@@ -261,7 +261,7 @@ test('确认订单页：租期变化时出下一档 / 满额减 / 免费运输�
   pg.onTerm({ detail: { months: 6 } }); await tick(); assert.equal(pg.data.hint, ''); assert.equal(pg.data.cardOrder.free_transport, false, '安贞店 1.2km，不送');
   pg.onDate({ detail: { value: '2026-12-24' } }); assert.equal(view.ymd(pg.data.cardOrder.lease.start), '2026-12-24');
   pg.onHide();
-  const far = env.newPage('pkg-trade/confirm/index', { unit: 'SIM_BJ04_U01', term: '5' }); await tick();
+  const far = env.newPage('pkg-trade/confirm/index', { unit: 'SIM_BJ04_U02', term: '5' }); await tick();
   assert.match(far.data.hint, /^再租 1 个月享 7 折，还可免费运输 1 次$/);
   far.onTerm({ detail: { months: 6 } }); await tick(); assert.equal(far.data.cardOrder.free_transport, true);
   assert.ok(view.fees(far.data.cardOrder, Date.now(), {}).rows.some((r) => r.k === '服务权益' && r.amt === '免费运输 1 次 · 顾问联系安排'));
@@ -281,7 +281,12 @@ test('快捷下单：未登录不出整期金额，主按钮「查看报价」�
   login(); pg.onLoginSuccess(); await tick();
   assert.deepEqual([pg.data.est.amount, pg.data.est.tag, pg.data.barAmount, pg.data.btnText], ['¥1,680', '7折', '¥1,680', '下一步：确认订单']);
   pg.onNext(); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes.CONFIRM + '?unit=' + U3 + '&term=6&date=2026-12-01' }]);
-  pg.onStoreSheet(); assert.ok(pg.data.storeRows.length <= 8 && pg.data.storeRows[0].on); assert.match(pg.data.storeRows[0].sub, /^1\.2km · 存取 09:00-21:00 · 可租 \d+ 个$/);
+  pg.onStoreSheet(); assert.ok(pg.data.storeRows.length <= 8 && pg.data.storeRows[0].on);
+  assert.equal(pg.data.storeRows[0].sub, '1.2km · ' + pg._stores.find(s => s.id === 'SIM_BJ01').address);
+  const stores = pg._stores;
+  pg._stores = stores.map(s => ({ ...s, units: s.units.map(u => ({ ...u, status: 'reserved' })) }));
+  pg.onStoreSheet(); assert.ok(pg.data.storeRows.every(r => r.sub.endsWith('暂无可租') && r.price === ''), '被占用的库存不能显示可租起价');
+  pg._stores = stores;
   // 加租仓位：带入在租门店
   const add = env.newPage('pkg-trade/quick/index', { store: 'SIM_BJ01', carried: '1' }); await tick(); assert.equal(add.data.carried, true);
 });

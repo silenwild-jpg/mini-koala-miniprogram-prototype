@@ -1,0 +1,55 @@
+[
+  {
+    "mode": "combo",
+    "cards": [
+      {
+        "id": "SIM_BJ01",
+        "photo": "/assets/images/stores/SIM-BJ01/card.webp",
+        "name": "安贞·富仁名苑店",
+        "address": "北京市朝阳区富仁名苑胜古北里南28号楼",
+        "km": 1.2,
+        "kmText": "1.2km",
+        "rankTag": "距离最近",
+        "tags": [
+          {
+            "t": "近地铁",
+            "promo": false
+          },
+          {
+            "t": "电梯直达",
+            "promo": false
+          }
+        ],
+        "lines": [
+          {
+            "id": "RENDER_B,RENDER_A",
+            "combo": true,
+            "name": "组合仓 TEST-D004 + TEST-D003",
+            "code": "组合仓 TEST-D004 + TEST-D003",
+            "volText": "31m³",
+            "tier": "",
+            "dims": "合计 31 m³",
+            "area": "",
+            "usage": "",
+            "special": false,
+            "price": {
+              "mode": "from",
+              "amount": 292,
+              "unit": "/月起",
+              "discount": "",
+              "sub": ""
+            },
+            "cta": "查看报价",
+            "reason": ""
+          }
+        ],
+        "moreText": "查看门店"
+      }
+    ],
+    "advisor": null,
+    "hint": "",
+    "sub": "支持组合仓位",
+    "total": 1,
+    "title": "组合方案渲染测试"
+  }
+]

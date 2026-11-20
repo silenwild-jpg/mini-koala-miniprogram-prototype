@@ -86,6 +86,6 @@
     <mk-fee-detail order="{{draft}}" plain="{{true}}" show-coupon="{{true}}" />
     <button class="mk-btn qk-know" hover-class="mk-btn--hover" bindtap="onFeesClose">{{TC.know}}</button>
   </mk-sheet>
-  <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
+  <mk-login-sheet id="login-sheet" tip="{{loginTip}}" visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
   <mk-location-panel visible="{{panel}}" bind:close="onPanelClose" bind:change="onLocationChange" />
 </view>

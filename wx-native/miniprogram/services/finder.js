@@ -11,6 +11,7 @@ const req = require('../core/requirement');
 const order = require('../core/order');
 const T = require('../i18n/find');
 
+const imageOf = id => '/assets/images/stores/' + String(require('../mock/media').includes(id) ? id : 'SIM_BJ01').replace('_','-') + '/card.webp';
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : null);
 const sumVol = (units) => Number(units.reduce((n, u) => n + Number(u.volume), 0).toFixed(3));
 
@@ -86,7 +87,7 @@ function storeCard(store, ctx) {
   const range = matching.capacityRange(store.units);
   const far = pricing.isFar(km);
   const card = {
-    id: store.id, name: store.name, district: store.district, area: store.area, community: store.community || '', address: store.address,
+    id: store.id, photo: imageOf(store.id), name: store.name, district: store.district, area: store.area, community: store.community || '', address: store.address,
     km, kmText: fmt.kmText(km), accessHours: store.access_hours,
     hasStock: m.available.length > 0, state: m.state, listState: need > 0 ? (m.best ? 'matched' : m.near ? 'near' : 'none') : 'browse',
     fromPrice: pricing.storeFromCubic(m.available), // 门店「¥X/m³/月起」
@@ -167,7 +168,7 @@ function advisorFor(capacityM3, rentTotal) {
     ? { title: T.advisor.big.title, sub: T.advisor.big.sub(C.matching.advisorCapacityM3, pricing.yuan(pricing.bigDealTotal())) }
     : { title: T.advisor.normal.title, sub: T.advisor.normal.sub };
 }
-const demandLine = (r) => req.demandText(r) + ' · ' + fmt.termText(r.term_months);
+const demandLine = (r) => '约 ' + req.pretty(r.capacity_m3) + 'm³ · 租 ' + fmt.termText(r.term_months);
 
 /**
  * 门店列表。ctx: { requirement, location, loggedIn }
@@ -249,7 +250,7 @@ function buildHomeRecommend(stores, ctx) {
 // 一家门店给出的方案：匹配仓（不小于需求里体积最小的），没有时取合计最小的两仓组合
 function offerOf(store, need) {
   const m = matching.matchStore(store.units, need);
-  const units = m.best ? [m.best] : (m.combos[0] ? m.combos[0].units : null);
+  const units = m.best ? [m.best] : (m.combos[0] ? m.combos[0].units : m.near ? [m.near] : null);
   return units ? { store, units, volume: sumVol(units), combo: units.length > 1, m } : null;
 }
 function candidates(stores, ctx, excludeId) {
@@ -257,7 +258,9 @@ function candidates(stores, ctx, excludeId) {
   const rows = stores.filter((s) => s.id !== excludeId).map((s) => offerOf(s, need)).filter(Boolean);
   rows.forEach((x) => { x.cost = monthlyAt(x.units, months); x.km = distanceOf(x.store, ctx.location); });
   rows.sort((a, b) => (a.volume - need) - (b.volume - need) || a.cost - b.cost || String(a.store.id).localeCompare(String(b.store.id)));
-  return rank(rows, { distOf: (x) => x.km, costOf: (x) => x.cost, idOf: (x) => x.store.id }).items;
+  const ranked = rank(rows, { distOf: (x) => x.km, costOf: (x) => x.cost, idOf: (x) => x.store.id });
+  ranked.items.forEach((x,i) => { x.rankTag = i === 0 && ranked.distanceRanked ? T.card.first : i === 1 && ranked.cheaperSecond ? T.card.second : ''; });
+  return ranked.items;
 }
 
 /**
@@ -279,13 +282,14 @@ function buildMatch(stores, ctx) {
       if (scope.pin) rows = rows.filter((x) => x.store.id === scope.pin).concat(rows.filter((x) => x.store.id !== scope.pin));
     }
     const expanded = rows.every((x) => x.km !== null && x.km > CF.recommend.expandedKm);
-    mode = rows[0].combo ? 'combo' : expanded ? 'expanded' : 'matched';
+    rows.sort((a, b) => (a.volume < need ? 1 : 0) - (b.volume < need ? 1 : 0));
+    mode = rows.every(x => x.volume < need) ? 'near' : rows[0].combo ? 'combo' : expanded ? 'expanded' : 'matched';
   } else { // 全城没有不小于需求的方案：每店取一个容量最接近的（单仓或两仓合计，差额不超过 20%）
     rows = [];
     stores.forEach((s) => {
       const small = s.units.filter(matching.isAvailable).filter((u) => u.volume < need).sort((a, b) => a.volume - b.volume);
-      const opts = small.filter((u) => u.volume >= need * C.matching.nearRatio).map((u) => ({ store: s, units: [u], volume: u.volume, combo: false }));
-      for (let i = 0; i < small.length; i++) for (let j = i + 1; j < small.length; j++) { const v = sumVol([small[i], small[j]]); if (v < need && v >= need * C.matching.nearRatio) opts.push({ store: s, units: [small[i], small[j]], volume: v, combo: true }); }
+      const opts = small.filter((u) => matching.fit(u.volume, need).state === 'near').map((u) => ({ store: s, units: [u], volume: u.volume, combo: false }));
+      for (let i = 0; i < small.length; i++) for (let j = i + 1; j < small.length; j++) { const v = sumVol([small[i], small[j]]); if (matching.fit(v, need).state === 'near') opts.push({ store: s, units: [small[i], small[j]], volume: v, combo: true }); }
       opts.sort((a, b) => b.volume - a.volume);
       if (opts[0]) rows.push(Object.assign(opts[0], { km: distanceOf(s, ctx.location), cost: monthlyAt(opts[0].units, months) }));
     });
@@ -299,15 +303,17 @@ function buildMatch(stores, ctx) {
     const first = line(x.units, months, ctx.loggedIn);
     const near = matching.fit(x.volume, need);
     if (near.state === 'near') { first.nearText = near.text; first.secondary = true; }
+    first.tier = ''; first.usage = ''; first.area = ''; first.reason = '';
     const next = largerLine(avail, x.units, first, need, ctx, hasLong);
+    if (next) { next.tier = ''; next.usage = ''; next.area = ''; next.reason = ''; next.bigTag = T.card.bigger; next.diffText = T.card.diff(fmt.pretty(sumVol(avail.filter(u => next.id.split(',').includes(u.id))) - need)); if (ctx.loggedIn && next.monthly > first.monthly) next.diffText += T.card.diffMore(pricing.yuan(next.monthly - first.monthly)); }
     const lines = next ? [first, next] : [first];
     if (next) next.secondary = true;
     const shown = {}; lines.forEach((l) => l.id.split(',').forEach((id) => { shown[id] = 1; }));
     const restCount = avail.filter((u) => !shown[u.id]).length;
     const far = pricing.isFar(x.km), promo = first.special;
     return {
-      id: x.store.id, name: x.store.name, address: x.store.address, km: x.km, kmText: fmt.kmText(x.km),
-      rankTag: i === 0 ? T.card.first : T.card.second, tags: storeTags(x.store, 3, promo, far).slice(0, 2),
+      id: x.store.id, photo: imageOf(x.store.id), name: x.store.name, address: x.store.address, km: x.km, kmText: fmt.kmText(x.km),
+      rankTag: x.rankTag || '', tags: storeTags(x.store, 3, promo, far).slice(0, 2),
       lines, moreText: restCount > 0 ? T.card.more(restCount) : T.cta.viewStore
     };
   });

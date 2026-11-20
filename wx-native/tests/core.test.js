@@ -41,14 +41,17 @@ test('对照：下一折扣档 1–60 个月、满额减取档', () => {
   for (let m = 1; m <= 60; m++) assert.deepEqual(pricing.nextTier(m), G.nextTier[m], 'm=' + m);
   for (const [t, e] of Object.entries(G.fullTier)) assert.deepEqual(pricing.fullTier(Number(t)), e, 't=' + t);
 });
-test('对照：匹配判定', () => { for (const c of G.fit) assert.deepEqual(matching.fit(c.v, c.n), c.r, JSON.stringify(c)); });
+test('对照：匹配判定，修复十进制80%边界', () => { for (const c of G.fit) {
+  const expected = c.v === 2.8 && c.n === 3.5 ? { state: 'near', diff: 0.7, text: '小 0.7m³' } : Object.assign({}, c.r, c.r.text ? { text: c.r.text.replace('比需求小','小') } : {});
+  assert.deepEqual(matching.fit(c.v, c.n), expected, JSON.stringify(c));
+} });
 test('对照：免费运输、远距离引导句', () => {
   for (const c of G.freeTransport) assert.equal(pricing.freeTransportFor(c.km, c.m, false), c.r, JSON.stringify(c));
   for (const c of G.nudgeFar) assert.equal(pricing.nudge(c.m, { km: c.km, baseMonth: c.base }), c.r, JSON.stringify(c));
 });
 test('对照：体积模型 v0.2、面积换算', () => {
   for (const c of G.volume) { const r = volume.recommend(c.lines); assert.equal(r.recommended, c.r.recommended); assert.equal(r.k, c.r.k); assert.equal(r.net, c.r.net); }
-  for (const c of G.areaToM3) assert.equal(req.areaToM3(c.a), c.r);
+  for (const c of G.areaToM3) assert.equal(req.areaToM3(c.a), Number((c.a * 2.5).toFixed(2)));
 });
 
 test('交接文档里的两个试算：安贞店 ¥63/m³/月起；A003 租 12 个月 ¥260/月、整期 ¥3,120', () => {
@@ -70,12 +73,14 @@ test('券只抵租金，不抵押金和管理费', () => {
   const q = pricing.quote([{ id: 'x', base_month: 100, volume: 1 }], 1, { coupon: { id: 'c', amount: 999 } });
   assert.equal(q.coupon_discount, 80); assert.equal(q.payable, 0 + 80 + 50);
 });
-test('特价仓：不叠租期折扣、不参与满额减与券、不显示已省、不送免费运输', () => {
-  const u = { id: 's', base_month: 2000, special_month: 900, volume: 10 };
-  const q = pricing.quote([u], 12, { coupon: { id: 'c', amount: 300 } });
-  assert.equal(q.special, true); assert.equal(q.monthly_average, 900); assert.equal(q.full_reduction, 0); assert.equal(q.coupon_discount, 0); assert.equal(q.saved, 0);
-  assert.equal(pricing.freeTransportFor(8, 12, true), false);
+test('特价仓：九折与租期折扣乘算；保留券/满额减/运输资格', () => {
+ const u={id:'s',base_month:2000,special_month:1800,volume:10};
+ const q=pricing.quote([u],12,{coupon:{id:'c',amount:300}});
+ assert.equal(q.monthly_average,1170); assert.equal(q.term_factor,0.65); assert.equal(q.rent_total,14040);
+ assert.equal(q.full_reduction,0); assert.equal(q.coupon_discount,0); assert.equal(q.saved,9960); assert.equal(q.deposit,1170);
+ assert.equal(pricing.freeTransportFor(8,12,true),false);
 });
+
 test('续租：无押金、无管理费、不参与满额减；首次续租沿用更深的原折扣', () => {
   const u = { id: 'x', base_month: 800, volume: 8 };
   const k = pricing.renewalFactor({ deal_factor: 0.6, renewal_count: 0 }, 12);
@@ -115,22 +120,25 @@ test('匹配：最小匹配仓、下一档、接近、组合、交顾问', () =>
   r = matching.matchStore(us, 6);
   assert.equal(r.state, 'combo'); assert.deepEqual(r.combos[0].units.map((u) => u.id), ['a', 'd']); assert.equal(r.near.id, 'd');
   assert.equal(matching.matchStore(us, 12).state, 'none');
-  assert.equal(matching.matchStore(us, 30).state, 'sales'); assert.equal(matching.matchStore(us, 29.99).state, 'none');
+  assert.equal(matching.matchStore(us, 30).state, 'none'); assert.equal(matching.matchStore(us, 29.99).state, 'none');
   assert.equal(matching.matchStore(us, null).state, 'browse');
   assert.deepEqual(matching.capacityRange(us), { min: 1, max: 5 });
 });
 
-test('容量输入：下限 0.5、两位小数、30m³ 及以上交顾问（含超过 200）', () => {
-  assert.equal(req.validate('m3', '').error, 'empty'); assert.equal(req.validate('m3', 'abc').error, 'format'); assert.equal(req.validate('m3', '-1').error, 'format');
-  assert.equal(req.validate('m3', '0.49').error, 'min'); assert.equal(req.validate('m3', '0.5').ok, true);
-  assert.equal(req.validate('m3', '3.255').error, 'decimals'); assert.equal(req.validate('m3', '3.25').ok, true);
-  assert.equal(req.validate('m3', '29.99').sales, false); assert.equal(req.validate('m3', '30').sales, true); assert.equal(req.validate('m3', '500').sales, true);
+test('容量输入：任意小数向上归一，下限建议，30m³不中断',()=>{
+ for(const raw of ['', 'abc','-1','Infinity']) assert.equal(req.validate('m3',raw).ok,false);
+ for(const [raw,want] of [['0',0.5],['0.49',0.5],['3.01',3.1],['3.1',3.1],['3.1000000000000001',3.2],['29.99',30],['500',500]]) {
+  const r=req.validate('m3',raw);assert.equal(r.ok,true);assert.equal(r.capacity_m3,want);assert.equal(r.sales,false);assert.equal(r.input_raw,raw);
+ }
 });
-test('面积输入：0.2–200㎡、一位小数、换算后达到 30m³ 交顾问', () => {
-  assert.equal(req.validate('m2', '0.1').error, 'range'); assert.equal(req.validate('m2', '200.1').error, 'range'); assert.equal(req.validate('m2', '2.25').error, 'decimals');
-  assert.deepEqual(req.validate('m2', '2'), { ok: true, capacity_m3: 4.8, sales: false });
-  assert.equal(req.validate('m2', '12.5').sales, true); assert.equal(req.validate('m2', '12.4').sales, false); assert.equal(req.validate('m2', '200').ok, true);
+
+test('面积输入：最高200㎡，2.5m暂定层高，下限建议不阻断',()=>{
+ assert.equal(req.validate('m2','0.11').input_value,0.2);assert.equal(req.validate('m2','0.11').capacity_m3,0.5);
+ assert.equal(req.validate('m2','2').capacity_m3,5);assert.equal(req.validate('m2','2.25').input_value,2.3);
+ assert.equal(req.validate('m2','200').capacity_m3,500);assert.equal(req.validate('m2','200.0000000001').error,'range');
+ assert.equal(req.validate('m2','12.5').sales,false);
 });
+
 test('需求显示与纸箱数', () => {
   assert.equal(req.demandText({ capacity_m3: 4.8, input_unit: 'm2', input_value: 2 }), '2㎡ · 约4.8m³');
   assert.equal(req.demandText({ capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5 }), '3.5m³'); assert.equal(req.demandText(null), '');

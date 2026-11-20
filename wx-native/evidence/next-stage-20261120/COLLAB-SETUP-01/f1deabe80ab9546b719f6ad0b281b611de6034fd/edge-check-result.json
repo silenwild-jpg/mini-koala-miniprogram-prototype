@@ -1,0 +1,20 @@
+{
+  "source_sha": "f1deabe80ab9546b719f6ad0b281b611de6034fd",
+  "status": "NOT_VERIFIED",
+  "width": 375,
+  "desktop_edge_attempt": {
+    "window_point": {
+      "x": 1193,
+      "y": 528
+    },
+    "native_login_visible_after": true,
+    "interpretation": "No closure observed;coordinate mapping and native host input have not been ruled out"
+  },
+  "center_control_attempt": {
+    "executed": false,
+    "reason": "Computer Use detected user input and required refresh"
+  },
+  "width390": "NOT_RUN_AFTER_UNRESOLVED_375_CONTROL",
+  "cleanup": "Explicit page onLoginClose handler and switchTab stores;not counted as click success",
+  "geometry": "375 public SelectorQuery48x48;size alone does not prove hit behavior"
+}

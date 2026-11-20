@@ -1,0 +1,7 @@
+"前景令牌","背景令牌","对比度","普通文本4.5","适用边界"
+"--mk-color-ink-primary","--mk-color-canvas-card","14.84","PASS_PAIR","static declared opaque colors; actual inheritance/background still needs native inspection"
+"--mk-color-ink-secondary","--mk-color-canvas-card","5.56","PASS_PAIR","static declared opaque colors; actual inheritance/background still needs native inspection"
+"--mk-color-ink-tertiary","--mk-color-canvas-card","3.13","BELOW_4_5_PAIR","static declared opaque colors; actual inheritance/background still needs native inspection"
+"--mk-color-brand-text","--mk-color-brand-tint","4.83","PASS_PAIR","static declared opaque colors; actual inheritance/background still needs native inspection"
+"--mk-color-ink-inverse","--mk-color-action-primaryFill","5.4","PASS_PAIR","static declared opaque colors; actual inheritance/background still needs native inspection"
+"--mk-color-accent-promoText","--mk-color-accent-promoFill","4.54","PASS_PAIR","static declared opaque colors; actual inheritance/background still needs native inspection"

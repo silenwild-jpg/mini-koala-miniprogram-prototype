@@ -44,12 +44,11 @@
       <mk-fee-detail order="{{cardOrder}}" editable="{{couponEditable}}" show-coupon="{{true}}" locked="{{locked}}" no-saved="{{!!price}}" total-label="{{T.payable}}" placeholder="{{feePlaceholder}}" note="{{feeNote}}" bind:coupon="onCoupon" />
       <view class="mk-card cf-card mk-between cf-kv">
         <text class="mk-sub">{{T.contact}}</text>
-        <view class="mk-row"><text class="{{loggedIn ? 'cf-kvv' : 'mk-sub'}}">{{contactText}}</text><text wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onContact" aria-role="button">{{loggedIn ? T.contactSwap : T.goLogin}}</text></view>
+        <view class="mk-row"><text class="cf-kvv">{{contactText}}</text><text wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onContact" aria-role="button">{{T.contactSwap}}</text></view>
       </view>
       <view class="mk-card cf-card mk-between cf-kv">
         <text class="mk-sub">{{T.identity}}</text>
-        <view wx:if="{{!loggedIn}}" class="mk-sub">{{T.identityLogin}}</view>
-        <view wx:elif="{{idv.verified}}" class="mk-row"><text class="cf-kvv">{{idv.text}}</text><text class="cf-tag cf-tag--ok">{{T.identityDone}}</text></view>
+        <view wx:if="{{idv.verified}}" class="mk-row"><text class="cf-kvv">{{idv.text}}</text><text class="cf-tag cf-tag--ok">{{T.identityDone}}</text></view>
         <view wx:else class="mk-row"><text class="mk-sub">{{T.identityTodo}}</text><text wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onIdv" aria-role="button">{{T.identityGo}}</text></view>
       </view>
       <view class="mk-card cf-card cf-entry" bindtap="onProtect" aria-role="button">

@@ -1,0 +1,16 @@
+{
+ "pages": 35,
+ "components": 25,
+ "handlers_checked": 661,
+ "placeholders": 0,
+ "hard_coded_cjk_in_wxml": 30,
+ "size_kb": {
+  "主包": 1465,
+  "pkg-account": 108,
+  "pkg-after": 101,
+  "pkg-estimate": 29,
+  "pkg-lead": 94,
+  "pkg-trade": 191
+ },
+ "errors": []
+}

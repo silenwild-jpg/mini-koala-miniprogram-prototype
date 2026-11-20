@@ -1,0 +1,27 @@
+{
+  "source_sha": "cbffc52201ab61b0896887a46520e4388ac70c70",
+  "branch": "codex/inventory-display-density-20261120",
+  "runtime_tree": "71ee450e0631d78f2d2045456617963ff001b3f9",
+  "tests": {
+    "tests": 160,
+    "pass": 160,
+    "fail": 0
+  },
+  "smoke": {
+    "pages": 35,
+    "components": 22,
+    "handler_calls": 6618,
+    "errors": 0
+  },
+  "native_wxml_compile": {
+    "exit_code": 0,
+    "template_count": 60
+  },
+  "display_contract": "PASS: two tag positions; capacity shortfall and guest price/action preserved; full services unchanged",
+  "native_simulator": "BLOCKED: developer tools proxy 127.0.0.1:7892 refused connection; AppID permission lookup fails",
+  "screenshots_375_390": "NOT_CAPTURED_FOR_THIS_SHA",
+  "visual_acceptance": "HOLD",
+  "real_device": "NOT_TESTED",
+  "merge": "NOT_MERGED",
+  "experience_upload": "NOT_UPLOADED"
+}

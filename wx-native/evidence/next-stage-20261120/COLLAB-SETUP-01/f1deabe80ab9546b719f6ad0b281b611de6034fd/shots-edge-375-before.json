@@ -1,0 +1,68 @@
+[
+  {
+    "file": "C11__LOGIN__edge-before__375__sim__f1deabe.png",
+    "scene_id": "C11",
+    "page_id": "LOGIN",
+    "state": "edge-before",
+    "fixture_id": "NONE",
+    "pre_actions": "actual guest gate; before expanded-edge desktop click; native result checked",
+    "observation": {
+      "route": "pkg-trade/quick/index",
+      "sys": "",
+      "closed": false,
+      "info": {
+        "batteryLevel": 100,
+        "benchmarkLevel": -1,
+        "brand": "devtools",
+        "memorySize": 2048,
+        "model": "iPhone 12/13 mini",
+        "system": "iOS 10.0.1",
+        "platform": "devtools",
+        "pixelRatio": 3,
+        "safeArea": {
+          "top": 47,
+          "left": 0,
+          "right": 375,
+          "bottom": 778,
+          "width": 375,
+          "height": 731
+        },
+        "screenWidth": 375,
+        "screenHeight": 812,
+        "screenTop": 91,
+        "windowWidth": 375,
+        "windowHeight": 721,
+        "statusBarHeight": 47,
+        "version": "8.0.5",
+        "language": "zh_CN",
+        "SDKVersion": "3.5.8",
+        "enableDebug": false,
+        "fontSizeScaleFactor": 0.92,
+        "fontSizeSetting": 16,
+        "mode": "default",
+        "host": {
+          "env": "WeChat"
+        },
+        "bluetoothEnabled": true,
+        "locationEnabled": true,
+        "wifiEnabled": true,
+        "locationReducedAccuracy": true,
+        "albumAuthorized": true,
+        "bluetoothAuthorized": true,
+        "cameraAuthorized": true,
+        "locationAuthorized": true,
+        "microphoneAuthorized": true,
+        "notificationAuthorized": true,
+        "notificationAlertAuthorized": true,
+        "notificationBadgeAuthorized": true,
+        "notificationSoundAuthorized": true,
+        "phoneCalendarAuthorized": true,
+        "deviceOrientation": "portrait",
+        "devicePixelRatio": 3
+      }
+    },
+    "image_width": 345,
+    "image_height": 748,
+    "runtime_sha": "f1deabe80ab9546b719f6ad0b281b611de6034fd"
+  }
+]

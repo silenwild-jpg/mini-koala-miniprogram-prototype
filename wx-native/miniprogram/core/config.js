@@ -24,7 +24,7 @@ module.exports = {
   },
   freeTransport: { minKm: 5, minTerm: 6, minFactor: 0.6 }, // ruled（D-173）
   matching: {
-    salesOnlyFromM3: 30,     // >=，ruled（D-101）
+    largeCapacityFromM3: 30, // >= 仅提示顾问，继续自助找仓下单（2026-11-20）
     advisorCapacityM3: 15,   // >，ruled（D-97）
     advisorRentTotal: 3000,  // >=，ruled（D-182）
     nearRatio: 0.8,          // ruled（D-99）
@@ -32,15 +32,17 @@ module.exports = {
     nearbyFallbackStores: 3
   },
   requirement: {
-    capacityMinM3: 0.5, capacityDecimals: 2,
+    capacityMinM3: 0.5, capacityDecimals: 1,
     areaMinM2: 0.2, areaMaxM2: 200, areaDecimals: 1, // 上限 ruled（D-183）
-    areaLayerHeightM: 2.4, // pending（D-178）：等实际仓位长宽高，全站只此一处
+    areaLayerHeightM: 2.5, // 2026-11-20暂定，实际仓位长宽高接入后替换
     capacityQuickPicks: [1, 3, 8, 15, 20],
     cartonVolumeM3: 0.096, cartonFillRatio: 0.8,
     termPresets: [1, 3, 6, 12], termOtherQuick: [18, 24, 36],
     termMin: 1, termMax: 60, termDefault: 12,
     itemQtyMax: 999, itemQtyQuick: [10, 20, 50],
-    itemsAdvisorHintFromM3: 15
+    itemsAdvisorHintFromM3: 15,
+    // 演示目录的大件分类；长件也触发。真实目录接入后由bulky字段替换。
+    bulkyItemIds: ['sofa3', 'bed180', 'wardrobe', 'fridge', 'washer', 'dining', 'tvcab', 'bookcase', 'crib']
   },
   volumeModel: { version: 'MK-VOL-0.2', kFloor: 0.5, roundUpTo: 0.1 }, // 系数 pending（没有门店实测）
   timers: {

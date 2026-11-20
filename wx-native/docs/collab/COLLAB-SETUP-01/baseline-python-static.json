@@ -1,0 +1,19 @@
+{
+ "pages": 35,
+ "components": 25,
+ "handlers_checked": 660,
+ "placeholders": 0,
+ "hard_coded_cjk_in_wxml": 30,
+ "size_kb": {
+  "主包": 1464,
+  "pkg-account": 108,
+  "pkg-after": 101,
+  "pkg-estimate": 29,
+  "pkg-lead": 94,
+  "pkg-trade": 191
+ },
+ "errors": [
+  "pages\\store\\detail.wxss 出现裸色值 #fff",
+  "pages\\store\\detail.wxss 出现裸色值 rgba("
+ ]
+}

@@ -5,7 +5,7 @@
       <text class="mk-h2 cp-title">{{T.cap.title}}</text>
       <view class="cp-row mk-row {{error ? 'cp-bad' : ''}}">
         <view class="cp-step {{canMinus ? '' : 'cp-off'}}" data-dir="minus" bindtap="onStep" aria-role="button" aria-label="减少">−</view>
-        <input class="cp-input mk-grow mk-num" type="digit" maxlength="7" placeholder="{{unit === 'm3' ? T.cap.placeholderM3 : T.cap.placeholderM2}}" placeholder-class="cp-ph" value="{{raw}}" bindinput="onInput" />
+        <input class="cp-input mk-grow mk-num" type="digit" maxlength="-1" placeholder="{{unit === 'm3' ? T.cap.placeholderM3 : T.cap.placeholderM2}}" placeholder-class="cp-ph" value="{{raw}}" bindinput="onInput" bindblur="onBlur" />
         <view class="cp-units mk-row">
           <view class="cp-u {{unit === 'm3' ? 'cp-on' : ''}}" data-u="m3" bindtap="onUnit" aria-role="button">{{T.m3}}</view>
           <view class="cp-u {{unit === 'm2' ? 'cp-on' : ''}}" data-u="m2" bindtap="onUnit" aria-role="button">{{T.m2}}</view>
@@ -14,33 +14,18 @@
       </view>
       <text wx:if="{{approx}}" class="mk-sub cp-line">{{approx}}</text>
       <text wx:if="{{error}}" class="mk-error cp-line">{{error}}</text>
-      <view wx:if="{{unit === 'm3'}}" class="cp-quick">
+      <view class="cp-quick">
         <view wx:for="{{quick}}" wx:key="v" class="mk-chip cp-q {{item.on ? 'mk-chip--on' : ''}}" data-v="{{item.v}}" bindtap="onQuick" aria-role="button">{{item.t}}</view>
       </view>
-      <view wx:if="{{src === 'items'}}" class="cp-src mk-row">
-        <image class="mk-icon" src="/assets/icons/ic-box.svg" /><text class="mk-grow cp-srct">{{srcText}}</text><text class="mk-link cp-lk" bindtap="onItems" aria-role="button">{{T.cap.editList}}</text>
-      </view>
-      <view wx:elif="{{src === 'edited'}}" class="cp-src mk-row">
-        <image class="mk-icon" src="/assets/icons/ic-box.svg" /><text class="mk-grow cp-srct">{{srcText}}</text><text class="mk-link cp-lk" bindtap="onRestore" aria-role="button">{{T.cap.restore}}</text>
-      </view>
-      <view wx:else class="mk-between cp-help">
-        <text wx:if="{{cartons}}" class="mk-sub mk-grow" bindtap="onSeeRef" aria-role="button">{{cartons}}{{T.cap.seeRef}}</text>
-        <text wx:elif="{{!sales}}" class="mk-sub mk-grow">{{T.cap.unsure}}</text>
-        <text wx:else class="mk-grow"></text>
-        <text class="mk-link cp-lk" bindtap="onItems" aria-role="button">{{T.cap.byItems}}</text>
-      </view>
-
-      <view wx:if="{{!sales}}" class="cp-sec">
+      <view class="cp-sec">
         <text class="mk-title cp-label">{{T.cap.term}}</text>
         <mk-term-seg value="{{term}}" hint="{{hint}}" bind:change="onTerm" />
       </view>
-      <view wx:if="{{sales}}" class="mk-card cp-advice">
-        <text class="mk-title">{{T.cap.salesTitle}}</text><text class="mk-sub cp-line">{{ack}}</text>
-      </view>
-      <mk-advisor-card wx:elif="{{advise}}" title="{{T.cap.hintTitle}}" sub="{{T.hintSub}}" />
+      <view wx:if="{{advise}}" class="cp-large"><text>大容量用仓，可联系专属配仓顾问</text><button class="mk-link cp-contact" open-type="contact">立即咨询</button></view>
       <view class="cp-assist mk-row">
-        <view wx:if="{{!sales && !advise}}" class="cp-as mk-row" bindtap="onAdvisor" aria-role="button"><image class="mk-icon" src="/assets/icons/headset-brand.svg" /><text class="cp-ast">{{T.cap.advisor}}</text></view>
+        <view class="cp-as mk-row" bindtap="onItems" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-box.svg" /><text class="cp-ast">按物品估算</text></view>
         <view class="cp-as mk-row" bindtap="onAi" aria-role="button"><image class="mk-icon" src="/assets/icons/ic-spark.svg" /><view class="cp-ai"><text class="mk-sub">{{T.cap.ai}}</text><text class="mk-mute">{{T.cap.aiOff}}</text></view></view>
+        <view class="cp-as mk-row" bindtap="onAdvisor" aria-role="button"><image class="mk-icon" src="/assets/icons/headset-brand.svg" /><text class="cp-ast">{{T.cap.advisor}}</text></view>
       </view>
 
       <view id="cp-ref" class="cp-sec">

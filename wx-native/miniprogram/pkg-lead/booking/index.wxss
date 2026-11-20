@@ -26,3 +26,5 @@
 .lbk-subok { margin-left: var(--mk-space-1); color: var(--mk-color-status-successText); font-size: var(--mk-font-size-sm); }
 .lbk-subask { min-height: 64rpx; line-height: 64rpx; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-md); }
 .lbk-acts { width: 100%; margin-top: var(--mk-space-4); }
+
+.lbk-manual { padding:24rpx 0; border-bottom:var(--mk-border-hairline); min-height:48rpx; }

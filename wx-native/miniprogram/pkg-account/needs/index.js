@@ -14,7 +14,7 @@ const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
 const N = T.needs;
-const titleOf = (l) => (l.type === lead.TYPES.ENTERPRISE ? N.titles.enterprise : l.source === 'estore' ? N.titles.estore : l.type === lead.TYPES.ADVISOR ? N.titles.advisor : N.titles.booking);
+const titleOf = (l) => (l.type === lead.TYPES.VISIT ? '预约看仓' : l.type === lead.TYPES.ENTERPRISE ? N.titles.enterprise : l.source === 'estore' ? N.titles.estore : l.type === lead.TYPES.ADVISOR ? N.titles.advisor : N.titles.booking);
 function card(l) {
   const ent = l.type === lead.TYPES.ENTERPRISE, off = l.status === lead.STATUS.WITHDRAWN;
   const cap = l.capacity_hint || (l.capacity_m3 ? req.pretty(l.capacity_m3) + 'm³' : N.capNone);
@@ -22,7 +22,7 @@ function card(l) {
   return {
     id: l.id, ent, off, title: titleOf(l), status: off ? N.status.withdrawn : N.status.submitted,
     loc: l.address || (l.type === lead.TYPES.ADVISOR ? N.addrOptional : N.addrNone),
-    detail: [cap, term].concat(l.phone_masked ? [l.phone_masked] : []).join(' · '), note: l.note ? N.notePrefix + l.note : '',
+    detail: [cap, term].concat(l.phone_masked ? [l.phone_masked] : []).join(' · '), note: l.type === lead.TYPES.VISIT ? (l.preferred_date || '待电话确认') + ' · ' + l.time_slot : l.note ? N.notePrefix + l.note : '',
     address: l.address || '', rawNote: l.note || ''
   };
 }

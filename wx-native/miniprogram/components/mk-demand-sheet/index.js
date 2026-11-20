@@ -19,7 +19,7 @@ Component({
       const r = state.get().requirement, cold = this.data.cold || !r;
       const unit = !cold && r.input_unit === 'm2' ? 'm2' : 'm3';
       this.setData({
-        title: cold ? D.coldTitle : D.title, note: this.data.rangeNote ? D.rangeNote : D.note, submitText: cold ? D.view : D.update,
+        title: cold ? D.coldTitle : D.title, note: '', submitText: cold ? D.view : D.update,
         unit, raw: cold ? '' : String(unit === 'm2' ? r.input_value : r.capacity_m3), term: cold ? C.requirement.termDefault : (r.term_months || C.requirement.termDefault), error: ''
       });
       this.evaluate();
@@ -37,10 +37,9 @@ Component({
     onSubmit() {
       const d = this.data, v = req.validate(d.unit, d.raw);
       if (!v.ok) { this.setData({ error: d.unit === 'm2' ? D.errArea : D.errCap }); return; }
-      if (v.sales) { this.triggerEvent('sales', { capacity_m3: v.capacity_m3 }); this.triggerEvent('close'); return; }
       const draft = state.get().draft || {};
       if (draft.source === 'items') state.patch('draft', { source: 'edited', capacity_raw: d.raw, unit: d.unit }); // 物品估算带来的容量被手改：清单保留
-      state.setRequirement({ capacity_m3: v.capacity_m3, input_unit: d.unit, input_value: Number(d.raw), source: 'manual', term_months: d.term });
+      state.setRequirement({ capacity_m3: v.capacity_m3, input_unit: d.unit, input_value: v.input_value, input_raw: v.input_raw, source: 'manual', term_months: d.term });
       this.triggerEvent('change', { requirement: state.get().requirement });
       this.triggerEvent('close');
     }

@@ -32,3 +32,5 @@
 .sl-opt--on { color: var(--mk-color-brand-text); }
 .sl-svc { display: flex; flex-wrap: wrap; padding: var(--mk-space-2) 0; }
 .sl-sv { margin-bottom: var(--mk-space-2); }
+
+.st-demand-value { font-weight:600; }

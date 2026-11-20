@@ -2,7 +2,7 @@
   <text class="mk-sub ds-label">{{T.capLabel}}</text>
   <view class="mk-row">
     <view class="ds-field mk-row mk-grow {{error ? 'ds-bad' : ''}}">
-      <input class="ds-input mk-grow mk-num" type="digit" maxlength="7" value="{{raw}}" bindinput="onInput" />
+      <input class="ds-input mk-grow mk-num" type="digit" maxlength="-1" value="{{raw}}" bindinput="onInput" />
       <text class="mk-sub">{{unit === 'm3' ? T.m3 : T.m2}}</text>
     </view>
     <view class="ds-unit {{unit === 'm3' ? 'ds-on' : ''}}" data-u="m3" bindtap="onUnit" aria-role="button">{{T.m3}}</view>

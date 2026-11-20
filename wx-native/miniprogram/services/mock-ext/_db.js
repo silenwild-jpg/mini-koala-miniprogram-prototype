@@ -1,7 +1,7 @@
 // 演示环境的内存数据（W34）：各 mock-ext 模块共用同一份。只在演示数据适配器里使用，接真实接口后不存在。
 const C = require('../../core/config');
 const stores = require('../../mock/stores');
-const units = require('../../mock/units');
+const units = require('../../mock/inventory');
 const model = require('../../core/order-model');
 const order = require('../../core/order');
 const DAY = model.DAY, S = order.STAGE;

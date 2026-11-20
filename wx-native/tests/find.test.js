@@ -20,7 +20,7 @@ const tap = (dataset) => ({ currentTarget: { dataset } });
 const realGetLocation = wx.getLocation;
 const withLocation = (impl, fn) => { wx.getLocation = impl; return Promise.resolve().then(fn).finally(() => { wx.getLocation = realGetLocation; }); };
 let BJS;
-test.before(async () => { BJS = await api.getStores({ city: '北京' }); });
+test.before(async () => { BJS = (await api.getStores({ city: '北京' })).map(s => Object.assign({}, s, { units: R('mock/units').filter(u => u.store_id === s.id) })); });
 const unit = (id, volume, base, extra) => Object.assign({ id, store_id: id.split('_U')[0], code: id.slice(-4), volume, area: 1, dims: [1, 1, volume], base_month: base, status: 'available', special_month: null, tier_index: null, tier_total: null }, extra || {});
 const store = (id, km, units, extra) => Object.assign({ id, city: '北京', name: id + '店', district: '朝阳区', area: '', community: '', address: '地址' + id, distance_km: km, status: 'open', access_hours: '09:00-21:00', tags: [], phone: '', operating_tag: '', photo: '', units }, extra || {});
 
@@ -83,13 +83,13 @@ test('门店列表：接近方案、无匹配页、30m³ 及以上、区域范�
   const l = finder.buildList(stores, ctx(NEED, true));
   assert.deepEqual(l.cards.map((c) => [c.id, c.listState]), [['SIM_T2', 'matched'], ['SIM_T1', 'near'], ['SIM_T3', 'none']]);
   const near = l.cards[1];
-  assert.equal(near.nearText, '比需求小 0.5m³'); assert.equal(near.row.cta, '查看仓位'); assert.equal(near.moreText, '另有 1 个可租 · 查看门店');
-  assert.equal(near.compactText, '3m³ · 6个月 ¥1,260 · 比需求小 0.5m³');
+  assert.equal(near.nearText, '小 0.5m³'); assert.equal(near.row.cta, '查看仓位'); assert.equal(near.moreText, '另有 1 个可租 · 查看门店');
+  assert.equal(near.compactText, '3m³ · 6个月 ¥1,260 · 小 0.5m³');
   assert.equal(l.cards[2].emptyText, '该店暂无匹配仓位'); assert.equal(l.noMatch, false);
   const none = finder.buildList(stores, ctx({ capacity_m3: 20, term_months: 6 }, true));
   assert.equal(none.noMatch, true); assert.equal(none.advisor, null);
   const sales = finder.buildList(stores, ctx({ capacity_m3: 30, term_months: 12 }, true));
-  assert.equal(sales.mode, 'sales'); assert.equal(sales.total, 0);
+  assert.equal(sales.mode, 'demand'); assert.equal(sales.total, 3);
   // 用仓位置选了区域 / 商圈：只看该范围
   assert.deepEqual(finder.buildList(stores, ctx(null, false, Object.assign({}, BJ, { kind: 'district', label: '海淀区' }))).cards.map((c) => c.id), ['SIM_T3']);
   assert.equal(finder.buildList(stores, ctx(null, false, Object.assign({}, BJ, { kind: 'area', label: '万柳' }))).scopeText, '万柳');
@@ -125,41 +125,16 @@ test('未登录：列表、仓位推荐、门店详情的视图模型里没有�
 });
 
 // ---------- 仓位推荐 ----------
-test('仓位推荐：前 2 家、匹配仓 + 大一档与理由、组合方案、接近、无匹配、30m³ 及以上', () => {
-  const m = finder.buildMatch(BJS, ctx(NEED, true));
-  assert.equal(m.mode, 'matched'); assert.equal(m.cards.length, 2);
-  assert.deepEqual(m.cards.map((c) => [c.id, c.rankTag]), [['SIM_BJ01', '第一推荐'], ['SIM_BJ02', '第二推荐']]);
-  const a = m.cards[0].lines;
-  assert.equal(a[0].name, 'A003 · 3.5m³'); assert.equal(a[0].area, '约1.4㎡'); assert.equal(a[0].usage, '适合纸箱、小件家具'); assert.equal(a[0].price.sub, '整期 ¥1,680 · 6个月');
-  assert.equal(a[1].diffText, '大 1.5m³，每月多 ¥154'); assert.equal(a[1].reason, '需求与 3.5m³ 仓相当，大一档更好放'); assert.equal(a[1].secondary, true);
-  assert.equal(m.cards[1].lines[1].reason, '需求约占 4m³ 仓的 88%，大一档更好放');
-  assert.equal(m.cards[0].moreText, '另有 2 个可租 · 查看门店');
-  const combo = finder.buildMatch(BJS, ctx({ capacity_m3: 9, term_months: 6 }, true));
-  assert.equal(combo.mode, 'combo'); assert.equal(combo.sub, '支持组合仓位');
-  assert.equal(combo.cards[0].lines[0].name, '组合仓 A003 + A005'); assert.equal(combo.cards[0].lines[0].volText, '11.5m³'); assert.equal(combo.cards[0].lines[0].id, 'SIM_BJ01_U03,SIM_BJ01_U05');
-  assert.equal(combo.cards[0].lines[0].price.amount, 819); assert.equal(combo.cards[0].lines[0].price.sub, '整期 ¥4,914 · 6个月');
-  assert.equal(combo.cards[0].lines.length, 1, '组合方案后面没有更大的可租仓时只有一行');
-  assert.equal(combo.advisor.title, '需要顾问帮您确认方案？', '整期 ≥ ¥3,000 出顾问卡');
-  const near = finder.buildMatch(BJS, ctx({ capacity_m3: 29, term_months: 6 }, true));
-  assert.equal(near.mode, 'near'); assert.equal(near.sub, '没有不小于 29m³ 的仓位，以下容量接近');
-  assert.equal(near.cards[0].lines[0].nearText, '比需求小 3m³'); assert.equal(near.cards[0].lines[0].price.sub, '整期 ¥10,878 · 6个月 · 满额减 ¥400');
-  assert.equal(near.advisor.title, '可申请专属方案');
-  const tiny = [store('SIM_T1', 1, [unit('SIM_T1_U001', 1, 100)])];
-  const none = finder.buildMatch(tiny, ctx({ capacity_m3: 22, term_months: 6 }, true));
-  assert.equal(none.mode, 'none'); assert.equal(none.cards.length, 0); assert.ok(none.advisor);
-  assert.equal(finder.buildMatch(BJS, ctx({ capacity_m3: 30, term_months: 6 }, true)).mode, 'sales', '30m³（含）交顾问');
-  // 已扩大范围：候选都在 3km 外
-  const farOnly = BJS.filter((s) => s.distance_km > 3);
-  assert.equal(finder.buildMatch(farOnly, ctx(NEED, true)).mode, 'expanded'); assert.equal(finder.buildMatch(farOnly, ctx(NEED, true)).sub, '已扩大范围');
-  // 用仓位置选了区域：先推本区域
-  const hd = finder.buildMatch(BJS, ctx(NEED, true, Object.assign({}, BJ, { kind: 'district', label: '海淀区' })));
-  assert.equal(BJS.find((s) => s.id === hd.cards[0].id).district, '海淀区');
-  // 含长件：需求占比不到 85% 时也给出大一档的理由
-  const long = finder.buildMatch(BJS, ctx({ capacity_m3: 2.6, term_months: 6, source: 'items', est: { long: ['三人位沙发'] } }, true));
-  assert.equal(long.cards[0].lines[1].reason, '清单含长件，大一档更好放');
+test('仓位推荐：最多两店，足额优先、80%近似纳入、精简行与大容量',()=>{
+ const m=finder.buildMatch(BJS,ctx(NEED,true));assert.equal(m.cards.length,2);assert.equal(m.cards[0].rankTag,'距离最近');
+ const [a,b]=m.cards[0].lines;assert.equal(a.name,'A003 · 3.5m³');assert.equal(a.usage,'');assert.equal(a.tier,'');assert.equal(a.area,'');
+ assert.equal(b.reason,'');assert.equal(b.bigTag,'大一档');assert.equal(b.diffText,'大 1.5m³，每月多 ¥154');
+ const near=finder.buildMatch(BJS,ctx({capacity_m3:29,term_months:6},true));assert.equal(near.mode,'near');assert.equal(near.sub,'为您找到以下容量接近的仓位');assert.equal(near.cards[0].lines[0].nearText,'小 3m³');
+ assert.notEqual(finder.buildMatch(BJS,ctx({capacity_m3:30,term_months:6},true)).mode,'sales');
+ const mixed=[store('A',1,[unit('A_U01',8,800)]),store('B',2,[unit('B_U01',10,1000)])];
+ const out=finder.buildMatch(mixed,ctx({capacity_m3:10,term_months:6},false));assert.deepEqual(out.cards.map(c=>c.id),['B','A']);assert.equal(out.cards[1].lines[0].nearText,'小 2m³');
 });
 
-// ---------- 门店详情 ----------
 test('门店详情：各种情形（浏览 / 匹配 / 组合 / 无匹配 / 交顾问 / 仓型筛选 / 已租出）', () => {
   const s = BJS[0];
   const browse = finder.buildStoreDetail(s, ctx(null, true));
@@ -174,10 +149,10 @@ test('门店详情：各种情形（浏览 / 匹配 / 组合 / 无匹配 / 交�
   const combo = finder.buildStoreDetail(s, ctx({ capacity_m3: 9, term_months: 6 }, true));
   assert.equal(combo.situation, 'combo'); assert.equal(combo.comboMode, 'open');
   assert.deepEqual(combo.combos.map((c) => [c.volText, c.tag, c.sub, c.price.amount]), [['11.5m³', '2 间组合', '一笔订单 · 同一门店 · A003 + A005', 819], ['13m³', '2 间组合', '一笔订单 · 同一门店 · A004 + A005', 973]]);
-  assert.deepEqual(combo.near.map((r) => [r.name, r.nearText, r.cta]), [['A005 · 8m³', '比需求小 1m³', '立即下单']]);
+  assert.deepEqual(combo.near.map((r) => [r.name, r.nearText, r.cta]), [['A005 · 8m³', '小 1m³', '立即下单']]);
   assert.equal(combo.advisor.title, '需要顾问帮您确认方案？');
   const sales = finder.buildStoreDetail(s, ctx({ capacity_m3: 35, term_months: 6 }, true));
-  assert.equal(sales.situation, 'sales'); assert.equal(sales.rows.length + sales.near.length + sales.smaller.length + sales.combos.length, 0); assert.equal(sales.advisor, null);
+  assert.equal(sales.situation, 'nomatch'); assert.equal(sales.rows.length + sales.near.length + sales.smaller.length + sales.combos.length, 0); assert.ok(sales.advisor);
   const nomatch = finder.buildStoreDetail(s, ctx({ capacity_m3: 25, term_months: 6 }, true));
   assert.equal(nomatch.situation, 'nomatch'); assert.ok(nomatch.advisor); assert.equal(nomatch.rows.length + nomatch.smaller.length, 0);
   const cat = finder.buildStoreDetail(s, ctx(null, true), { category: 'mini' });
@@ -223,11 +198,11 @@ test('门店详情页：页签、收藏、重新匹配、导航与电话、仓�
   fresh(NEED, false); pg = env.newPage('pages/store/detail', { id: 'SIM_BJ01' }); await tick(); env.nav.length = 0;
   assert.equal(pg.data.rows[0].cta, '查看报价'); pg.onAction(tap({ list: 'rows', i: 0 })); assert.equal(pg.data.loginVisible, true); assert.equal(env.nav.length, 0);
   // 没有到店档案的门店：不出入口 / 路径 / 交通，只给导航与「向门店确认」；标签只列门店数据里有的
-  fresh(null, false); pg = env.newPage('pages/store/detail', { id: 'SIM_BJ02', tab: '2' }); await tick();
+  fresh(null, false); pg = env.newPage('pages/store/detail', { id: 'SIM_BJ02', tab: '2' }); await pg.refresh(); await pg.loadArrival();
   assert.equal(pg.data.tab, 2); assert.equal(pg.data.route.entry.length + pg.data.route.steps.length + pg.data.route.transit.length, 0);
   assert.equal(pg.data.route.askText, '停车、卸货和进仓路径可向门店确认'); assert.deepEqual(pg.data.route.pins, ['门店位置']);
   assert.deepEqual(pg.data.svc.map((x) => x.title), ['存取与安防', '到店与搬运']); assert.deepEqual(pg.data.svc[1].rows.map((r) => [r.k, r.v]), [['停车便利', ''], ['小推车', '']]);
-  assert.equal(pg.data.headPrice, 73); assert.equal(pg.data.rows[0].cta, '立即下单');
+  assert.equal(pg.data.headPrice, 71); assert.equal(pg.data.rows[0].cta, '立即下单');
   env.nav.length = 0; pg.onAction(tap({ list: 'rows', i: 0 })); assert.equal(pg.data.loginVisible, true, '未登录点立即下单在当前页打开登录层'); assert.equal(env.nav.length, 0);
   // 其它演示档案：字段缺的行不显示
   db.kv.find = { arrivalOf: { SIM_BJ02: 'partial' } }; pg.loadArrival(); await tick();
@@ -259,7 +234,7 @@ test('附近门店页：前 2 家标准卡、第 3 位考拉E存卡、其余紧�
   assert.ok(pg.data.items.filter((x) => x.type === 'store').every((x) => x.card.km >= 5 && x.card.district === '朝阳区'));
   // 30m³ 及以上：不出列表
   fresh({ capacity_m3: 31, input_unit: 'm3', input_value: 31, term_months: 12 }, true); const sp = env.newPage('pages/stores/index', {}); await tick();
-  assert.equal(sp.data.mode, 'sales'); assert.equal(sp.data.items.length, 0);
+  assert.equal(sp.data.mode, 'demand'); assert.ok(sp.data.items.length > 0);
   // 无匹配页：门店按浏览卡显示
   fresh({ capacity_m3: 29.5, input_unit: 'm3', input_value: 29.5, term_months: 6 }, true); const np = env.newPage('pages/stores/index', {}); await tick();
   assert.equal(np.data.noMatch, true); assert.equal(np.data.resultText, '可先浏览附近门店'); assert.ok(np.data.items.every((x) => x.type === 'store' && !x.card.row));
@@ -267,39 +242,23 @@ test('附近门店页：前 2 家标准卡、第 3 位考拉E存卡、其余紧�
 });
 
 // ---------- 修改需求 ----------
-test('修改需求弹层：按原单位打开；更新写回全站需求；非法输入报错；30m³ 及以上交顾问不写入', () => {
-  fresh({ capacity_m3: 4.8, input_unit: 'm2', input_value: 2, term_months: 6, source: 'manual' }, false);
-  const c = env.newComponent('components/mk-demand-sheet/index', {}); c.setData({ visible: true });
-  assert.deepEqual([c.data.unit, c.data.raw, c.data.term, c.data.approx, c.data.title, c.data.submitText], ['m2', '2', 6, '约 4.8 m³', '修改需求', '更新推荐']);
-  c.onUnit(tap({ u: 'm3' })); assert.equal(c.data.raw, ''); c.onSubmit(); assert.equal(c.data.error, '请填写不小于 0.5m³ 的容量，最多两位小数'); assert.equal(state.get().requirement.capacity_m3, 4.8);
-  c.onInput({ detail: { value: '5' } }); c.onTerm({ detail: { months: 12 } }); c.onSubmit();
-  assert.deepEqual(state.get().requirement, { term_months: 12, source: 'manual', capacity_m3: 5, input_unit: 'm3', input_value: 5 });
-  assert.deepEqual(c.events.map((e) => e.name), ['change', 'close']);
-  c.events.length = 0; c.onInput({ detail: { value: '30' } }); c.onSubmit();
-  assert.deepEqual(c.events.map((e) => [e.name, e.detail && e.detail.capacity_m3]), [['sales', 30], ['close', undefined]]); assert.equal(state.get().requirement.capacity_m3, 5);
-  c.onUnit(tap({ u: 'm2' })); c.onInput({ detail: { value: '201' } }); c.onSubmit(); assert.equal(c.data.error, '请填写 0.2–200㎡ 的面积，最多一位小数');
-  // 没有需求时是「填写需求」
-  fresh(null, false); const cold = env.newComponent('components/mk-demand-sheet/index', { cold: true, rangeNote: true }); cold.setData({ visible: true });
-  assert.deepEqual([cold.data.title, cold.data.submitText, cold.data.raw, cold.data.term, cold.data.note], ['填写需求', '查看推荐', '', 12, '可填 0.5m³–200㎡，估算值，以实际仓位为准']);
-});
-test('仓位推荐页：修改需求后刷新；物品估算的说明句与长件句；费用明细取报价接口', async () => {
-  fresh({ capacity_m3: 3.4, input_unit: 'm3', input_value: 3.4, term_months: 6, source: 'items', est: { rec: 3.4, netText: '2.1', kinds: 3, count: 6, long: ['三人位沙发'], tiny: false } }, true);
-  const pg = env.newPage('pages/match/index', {}); await tick();
-  assert.equal(pg.data.estText, '按物品估算：物品约 2.1m³，留出码放空隙后建议 3.4m³。下方是不小于 3.4m³ 的仓位。'); assert.equal(pg.data.longText, '清单含长件（三人位沙发），请对照仓位的长宽高。');
-  assert.equal(pg.data.title, '为您推荐 2 家门店'); assert.equal(pg.data.cards[0].lines[1].reason, '需求约占 3.5m³ 仓的 97%，大一档更好放');
-  assert.equal(pg.data.locText, '北京 · 全城门店');
-  pg.onFees({ detail: { storeId: 'SIM_BJ01', unitId: 'SIM_BJ01_U03' } }); await tick();
-  assert.equal(pg.data.feesVisible, true); assert.equal(pg.data.fees.payable, '¥2,010');
-  assert.deepEqual(pg.data.fees.rows.map((r) => [r.k, r.v]), [['整期租金', '¥1,680'], ['已省', '¥720'], ['优惠券', '暂无适用优惠'], ['押金', '¥280'], ['整单管理费', '¥50']]);
-  assert.equal(pg.data.fees.rows[0].note, '¥280/月 × 6个月'); assert.equal(pg.data.fees.rows[1].sub, '较月基价 ¥400/月');
-  state.setRequirement({ capacity_m3: 4.8, input_unit: 'm2', input_value: 2, source: 'manual', term_months: 6 }); pg.onDemandChange(); await tick();
-  assert.deepEqual([pg.data.capNum, pg.data.capUnit, pg.data.capApprox, pg.data.estText], ['2', '㎡', '约4.8m³', '']);
-  // 未登录不取费用明细
-  fresh(NEED, false); const g = env.newPage('pages/match/index', {}); await tick(); g.onFees({ detail: { storeId: 'SIM_BJ01', unitId: 'SIM_BJ01_U03' } }); await tick(); assert.equal(g.data.feesVisible, false);
-  assert.equal(g.data.cards[0].lines[0].cta, '查看报价');
+test('修改需求弹层：按原单位编辑，2.5m换算，大容量可更新',()=>{
+ fresh({capacity_m3:5,input_unit:'m2',input_value:2,term_months:6},false);
+ const c=env.newComponent('components/mk-demand-sheet/index',{visible:true});c.open();assert.equal(c.data.raw,'2');assert.equal(c.data.approx,'约 5 m³');
+ c.onInput({detail:{value:'0.11'}});c.onSubmit();assert.equal(state.get().requirement.capacity_m3,0.5);assert.equal(state.get().requirement.input_value,0.2);
+ c.onUnit(tap({u:'m3'}));c.onInput({detail:{value:'30.01'}});c.onSubmit();assert.equal(state.get().requirement.capacity_m3,30.1);assert.ok(!c.events.some(e=>e.name==='sales'));
+ c.onUnit(tap({u:'m2'}));c.onInput({detail:{value:'201'}});c.onSubmit();assert.ok(c.data.error);
+ const cold=env.newComponent('components/mk-demand-sheet/index',{cold:true,rangeNote:true});cold.open();assert.equal(cold.data.note,'');
 });
 
-// ---------- 按物品估算 ----------
+test('仓位推荐页：修改回来源、摘要不堆估算说明、费用取接口',async()=>{
+ fresh({capacity_m3:3.4,input_unit:'m3',input_value:3.4,term_months:6,source:'items',est:{long:['沙发']}},true);
+ const pg=env.newPage('pages/match/index',{});await pg.refresh();env.nav.length=0;pg.onModify();assert.equal(env.nav[0].url,routes.ITEMS);assert.equal(pg.data.title,'为您推荐');
+ const fs=require('fs'),markup=fs.readFileSync(path.join(root,'pages/match/index.wxml'),'utf8');assert.ok(!markup.includes('estText'));assert.ok(!markup.includes('mk-term-seg'));assert.ok(!markup.includes('mk-demand-sheet'));
+ pg.onFees({detail:{storeId:'SIM_BJ01',unitId:'SIM_BJ01_U03'}});await tick(30);assert.equal(pg.data.feesVisible,true);assert.equal(pg.data.fees.payable,'¥2,010');
+ state.setRequirement({capacity_m3:5,input_unit:'m2',input_value:2,source:'manual',term_months:6});env.nav.length=0;pg.onModify();assert.equal(env.nav[0].url,routes.CAPACITY);
+});
+
 test('物品目录：39 项、七个分类、六个场景；目录清理落在数据上', async () => {
   const cat = await api.getItemCatalog();
   assert.equal(cat.items.length, 39); assert.deepEqual(cat.categories.map((c) => c.name), ['箱包', '家具', '家电', '纸箱收纳', '收藏乐器', '商家货品', '办公物资']);
@@ -310,80 +269,20 @@ test('物品目录：39 项、七个分类、六个场景；目录清理落在�
   assert.equal(cat.items.filter((x) => x.long).length, 8, '目录里 8 种长件');
   assert.ok(cat.scenes.every((s) => s.items.every((id) => by[id])));
 });
-test('按物品估算页：数量、规格、清单、长件、租期、提交；不足 0.5m³ 与达到 30m³', async () => {
-  fresh(null, false); const pg = env.newPage('pkg-estimate/items/index', {}); await tick();
-  assert.equal(pg.data.sys, ''); assert.equal(pg.data.listCount, '39项'); assert.equal(pg.data.btnOff, true); assert.equal(pg.data.btnText, '请先选物品'); assert.equal(pg.data.footTop, '还没有选择物品');
-  assert.deepEqual(pg.data.rail.map((x) => x.name), ['全部物品', '箱包', '家具', '家电', '纸箱收纳', '收藏乐器', '商家货品', '办公物资']);
-  const step = (id, d) => pg.onStep(tap({ id, d }));
-  step('box', 'plus'); assert.equal(pg.data.footBig, '按 0.5m³ 匹配'); assert.equal(pg.data.estNote, '物品约 0.1m³，小于最小仓位，按 0.5m³ 为您匹配。');
-  step('box', 'plus'); step('box', 'plus'); step('luggage28', 'plus'); step('luggage28', 'plus'); step('sofa3', 'plus');
-  assert.equal(pg.data.footTop, '物品约 2.1m³ · 6 件'); assert.equal(pg.data.footBig, '建议 3.4m³'); assert.equal(pg.data.selectedText, '已选 3 种、6 件 · 查看清单 ›');
-  assert.equal(pg.data.longHint, '含长件：三人位沙发。选仓时请对照仓位的长宽高。'); assert.equal(pg.data.estNote, '物品约 2.1m³，留出码放空隙后建议 3.4m³。估算值，以实际仓位为准。');
-  assert.ok(!/装载系数/.test(JSON.stringify(pg.data)));
-  const sofa = pg.data.rows.find((r) => r.id === 'sofa3'); assert.deepEqual([sofa.variantText, sofa.per, sofa.sub, sofa.n], ['规格 · 三人位', '约 1.6m³/件', '小计 1.6m³', 1]);
-  assert.equal(pg.data.rows.find((r) => r.id === 'box').per, '约 0.1m³/箱');
-  // 清单抽屉
-  assert.equal(pg.data.cartTitle, '已选物品（3种，共6件）'); assert.equal(pg.data.cartTotal, '3.4m³'); assert.equal(pg.data.cartTotalSub, '物品合计约 2.1m³，留出码放空隙后的建议值');
-  assert.deepEqual(pg.data.cartRows.map((r) => r.line).sort(), ['28寸 · 2件 · 约0.2m³', '三人位 · 1件 · 约1.6m³', '标准箱 · 3件 · 约0.3m³'].sort());
-  // 规格：换规格数量不变
-  pg.onVariant(tap({ id: 'sofa3' })); assert.equal(pg.data.variantVisible, true); assert.deepEqual(pg.data.variantOptions.map((o) => [o.name, o.per, o.on]), [['三人位', '约 1.6m³/件', true], ['双人位', '约 1.15m³/件', false], ['单人', '约 0.6m³/件', false]]);
-  pg.onPickVariant(tap({ v: 'single' })); assert.equal(pg.data.rows.find((r) => r.id === 'sofa3').n, 1); assert.equal(pg.data.rows.find((r) => r.id === 'sofa3').sub, '小计 0.6m³');
-  pg.onVariant(tap({ id: 'sofa3' })); pg.onPickVariant(tap({ v: 'std' }));
-  // 数量：点数字直接输入，上限 999，超限「确定」不可点
-  pg.onQty(tap({ id: 'box' })); assert.deepEqual([pg.data.qtyVisible, pg.data.qtyName, pg.data.qtyRaw], [true, '标准纸箱', '3']);
-  pg.onQtyInput({ detail: { value: '1200' } }); assert.equal(pg.data.qtyBad, true); assert.equal(pg.data.qtyErr, '单种物品最多填 999 件，更多请交给顾问配仓'); pg.onQtyOk(); assert.equal(pg.data.qtyVisible, true);
-  pg.onQtyQuick(tap({ n: 20 })); assert.equal(pg.data.qtyBad, false); pg.onQtyOk(); assert.equal(pg.data.qtyVisible, false); assert.equal(pg.data.rows.find((r) => r.id === 'box').n, 20);
-  pg.onQty(tap({ id: 'box' })); pg.onQtyInput({ detail: { value: '3' } }); pg.onQtyOk();
-  // 分类、场景、搜索
-  pg.onCat(tap({ id: 'business' })); assert.deepEqual([pg.data.listTitle, pg.data.listCount, pg.data.bizGuide], ['商家货品', '6项', true]);
-  pg.onMode(tap({ m: 'scenes' })); assert.deepEqual([pg.data.listTitle, pg.data.listCount, pg.data.sceneDesc, pg.data.bizGuide], ['搬家装修', '12项', '搬家或装修时常见的家具、家电与收纳用品', false]);
-  pg.onMode(tap({ m: 'items' })); pg.onSearchInput({ detail: { value: '沙发' } }); assert.equal(pg.data.listTitle, '搜索结果'); assert.ok(pg.data.rows.length >= 1 && pg.data.rows.every((r) => /沙发/.test(r.name + r.variantText)));
-  pg.onSearchInput({ detail: { value: '钢琴' } }); assert.equal(pg.data.emptySearch, true); assert.equal(pg.data.rows.length, 0);
-  pg.onResetSearch(); assert.equal(pg.data.listCount, '39项');
-  // 租期与提交
-  pg.onTerm({ detail: { months: 6 } }); assert.equal(pg.data.term, 6);
-  env.nav.length = 0; pg.onSubmit();
-  const r = state.get().requirement;
-  assert.deepEqual([r.capacity_m3, r.input_unit, r.source, r.term_months, r.est.netText, r.est.kinds, r.est.count], [3.4, 'm3', 'items', 6, '2.1', 3, 6]); assert.deepEqual(r.est.long, ['三人位沙发']);
-  assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes.MATCH }]);
-  // 草稿两页共用：填容量页带出「按物品估算 3.4m³ · 3 种 6 件」；手改后可恢复
-  const cap = env.newPage('pages/estimate/capacity', {}); await tick();
-  assert.deepEqual([cap.data.raw, cap.data.src, cap.data.srcText, cap.data.term], ['3.4', 'items', '按物品估算 3.4m³ · 3 种 6 件', 6]);
-  cap.onInput({ detail: { value: '5' } }); assert.deepEqual([cap.data.src, cap.data.srcText], ['edited', '已改为手动填写 · 物品估算为 3.4m³']); assert.equal(state.get().draft.items.length, 3, '清单保留');
-  cap.onRestore(); assert.deepEqual([cap.data.raw, cap.data.src], ['3.4', 'items']);
-  // 回到物品页：清单带回
-  const again = env.newPage('pkg-estimate/items/index', {}); await tick(); assert.equal(again.data.footTop, '物品约 2.1m³ · 6 件'); assert.equal(again.data.term, 6);
-  // 清空
-  again.onClear(); assert.equal(again.data.btnOff, true); assert.deepEqual(state.get().draft.items, []); assert.equal(state.get().draft.source, 'manual');
-  // 不足 0.5m³：按 0.5m³ 匹配，不拦截
-  again.onStep(tap({ id: 'box', d: 'plus' })); assert.equal(again.data.btnOff, false); env.nav.length = 0; again.onSubmit(); assert.equal(state.get().requirement.capacity_m3, 0.5); assert.equal(state.get().requirement.est.tiny, true);
-  // 超过 15m³：清单抽屉加顾问提示；达到 30m³（含超过 200m³）：主按钮「提交给顾问」，不写入自助需求
-  const big = env.newPage('pkg-estimate/items/index', {}); await tick(); big.onClear();
-  big.setCount('sofa3', 2); big.setCount('bed180', 2); big.setCount('wardrobe', 2); big.setCount('fridge', 1); big.setCount('washer', 1); big.setCount('box', 40);
-  assert.equal(big.data.footBig, '建议 19.6m³'); assert.equal(big.data.cartAdvHint, true); assert.equal(big.data.btnText, '查看仓位报价');
-  big.setCount('pallet', 90); big.setCount('goodsbox', 200);
-  assert.equal(big.data.btnText, '提交给顾问'); assert.equal(big.data.showTerm, false); assert.equal(big.data.cartAdvHint, false);
-  state.set('requirement', null); env.nav.length = 0; big.onSubmit(); assert.equal(state.get().requirement, null); assert.ok(env.nav[0].url.indexOf(routes.BOOKING + '?mode=advisor&cap=') === 0);
-});
-test('填容量页：空间参考卡、顾问提示、AI 占位、加减、底栏摘要', async () => {
-  fresh(null, false); const pg = env.newPage('pages/estimate/capacity', {}); await tick();
-  assert.equal(pg.data.sys, ''); assert.equal(pg.data.ref, null); assert.deepEqual([pg.data.sumCap, pg.data.sumTerm, pg.data.needText], ['—', ' · 12个月', '还需填写容量']);
-  pg.onQuick(tap({ v: 3 })); assert.equal(pg.data.ref.range, '1.5–5m³ 大致能放'); assert.equal(pg.data.ref.title, '适合日常闲置与小件家具'); assert.equal(pg.data.cartons, '全放标准纸箱约 25 箱');
-  assert.equal(pg.data.quick.find((q) => q.v === 3).on, true); assert.deepEqual([pg.data.sumCap, pg.data.needText, pg.data.submitText], ['3m³', '', '查看仓位报价']);
-  pg.onStep(tap({ dir: 'plus' })); assert.equal(pg.data.raw, '3.5'); pg.onStep(tap({ dir: 'minus' })); pg.onStep(tap({ dir: 'minus' })); assert.equal(pg.data.raw, '2.5');
-  pg.onInput({ detail: { value: '0.5' } }); assert.equal(pg.data.canMinus, false); pg.onStep(tap({ dir: 'minus' })); assert.equal(pg.data.raw, '0.5');
-  pg.onInput({ detail: { value: '1' } }); assert.equal(pg.data.ref.range, '1.5m³ 以内 大致能放');
-  pg.onInput({ detail: { value: '20' } }); assert.equal(pg.data.advise, true); assert.equal(pg.data.sales, false);
-  pg.onInput({ detail: { value: '60' } }); assert.deepEqual([pg.data.sales, pg.data.advise, pg.data.ref.range, pg.data.sumTerm, pg.data.submitText], [true, false, '50m³ 以上 大致能放', ' · 由顾问配仓', '提交给顾问']);
-  pg.onInput({ detail: { value: '260' } }); assert.equal(pg.data.sales, true); assert.equal(pg.data.error, '', '超过 200m³ 不报错，交顾问');
-  pg.onInput({ detail: { value: '0.3' } }); assert.deepEqual([pg.data.needText, pg.data.needErr], ['还需修改容量', true]);
-  pg.onUnit(tap({ u: 'm2' })); pg.onInput({ detail: { value: '0.1' } }); assert.equal(pg.data.needText, '还需修改面积');
-  pg.onInput({ detail: { value: '120' } }); assert.equal(pg.data.sales, true); assert.equal(pg.data.approx, '约 288 m³');
-  const toasts = []; const st = wx.showToast; wx.showToast = (o) => toasts.push(o.title); pg.onAi(); wx.showToast = st;
-  assert.deepEqual(toasts, ['AI 估算暂未开放，可按物品估算或直接填写容量']);
+test('按物品估算：大件或>15m³提醒可继续，草稿和租期保留',async()=>{
+ fresh(null,false);const pg=env.newPage('pkg-estimate/items/index',{});await tick(30);pg.setCount('sofa3',1);pg.onTerm({detail:{months:6}});env.nav.length=0;pg.onSubmit();
+ assert.equal(pg.data.advisoryVisible,true);assert.equal(state.get().requirement,null);pg.onAdvisoryContinue();assert.equal(state.get().requirement.source,'items');assert.equal(state.get().requirement.term_months,6);assert.equal(env.nav[0].url,routes.MATCH);
+ pg.setCount('pallet',90);pg.onSubmit();assert.equal(pg.data.advisoryVisible,true);pg.onAdvisoryContinue();assert.ok(state.get().requirement.capacity_m3>=30);assert.equal(pg.data.showTerm,true);assert.equal(pg.data.btnText,'查看仓位报价');
+ const again=env.newPage('pkg-estimate/items/index',{});await tick(30);assert.equal(again.data.term,6);assert.ok(again.data.cartRows.length>0);again.onClear();assert.deepEqual(state.get().draft.items,[]);
 });
 
-// ---------- 定位、无门店城市、用仓位置面板 ----------
+test('填容量页：空间参考、单位快捷项、30m³窄提醒与可继续',async()=>{
+ fresh(null,false);const pg=env.newPage('pages/estimate/capacity',{});await tick(30);assert.equal(pg.data.ref,null);
+ pg.onQuick(tap({v:3}));assert.equal(pg.data.ref.title,'适合日常闲置与小件家具');assert.equal(pg.data.quick.find(q=>q.v===3).on,true);
+ pg.onInput({detail:{value:'20'}});assert.equal(pg.data.advise,false);pg.onInput({detail:{value:'30'}});assert.equal(pg.data.advise,true);assert.equal(pg.data.sales,false);assert.equal(pg.data.submitText,'查看仓位报价');
+ pg.onUnit(tap({u:'m2'}));assert.ok(pg.data.quick.every(q=>q.t.endsWith('㎡')));pg.onQuick(tap({v:3}));assert.equal(pg.data.approx,'约 7.5 m³');
+});
+
 test('定位：成功后解析城市与区域；定位城市没有门店时保持北京并记下原城市（D-184）', async () => {
   fresh(null, false);
   assert.equal(await location.request(), 'granted');

@@ -25,15 +25,17 @@ function enter(route) {
   const r = rule(route);
   if (!r || isLoggedIn()) return true;
   // 确认订单的落点是仓位推荐页；但没有用仓需求时仓位推荐页无法显示，改落到「我的」
-  const land = r.land === 'match' && state.get().requirement ? 'match' : 'mine';
+  const land = r.land === 'match' && state.get().flags.orderSource === 'quick' ? 'quick' : r.land === 'match' && state.get().requirement ? 'match' : 'mine';
   state.patch('flags', { pendingLogin: land });
-  if (land === 'match') wx.redirectTo({ url: routes.MATCH + '?login=1' });
+  if (land === 'quick') wx.redirectTo({ url: routes.QUICK + '?login=1' });
+  else if (land === 'match') wx.redirectTo({ url: routes.MATCH + '?login=1' });
   else wx.switchTab({ url: routes.MINE }); // tab 页不能带参数，用 flags.pendingLogin 传递
   return false;
 }
 // 页面跳转统一入口：目标是受限页且未登录时，不跳转，由调用页打开登录层。
 function navigate(page, url) {
   if (isRestricted(url) && !isLoggedIn()) { openLogin(page); return false; }
+  if (norm(url) === routes.CONFIRM) { const pages = getCurrentPages(); const source = pages.length && norm(pages[pages.length - 1].route) === routes.QUICK ? 'quick' : 'match'; state.patch('flags', { orderSource: source }); }
   wx.navigateTo({ url });
   return true;
 }

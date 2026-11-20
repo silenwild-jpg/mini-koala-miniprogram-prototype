@@ -1,20 +1,14 @@
 <view class="mk-page mt-page">
   <view class="mt-top">
     <view class="mk-gutter mt-need">
-      <text class="mk-sub">{{T.m.needTitle}}</text>
       <view class="mk-between">
         <view class="mk-row mt-sum">
-          <text class="mk-num mt-big">{{capNum}}</text><text class="mt-u">{{capUnit}}</text><text wx:if="{{capApprox}}" class="mk-sub mt-approx">{{capApprox}}</text>
+          <text>约 </text><text class="mk-num mt-big">{{capNum}}</text><text class="mt-u">{{capUnit}}</text><text wx:if="{{capApprox}}" class="mk-sub mt-approx">{{capApprox}}</text>
           <view class="mt-sep"></view>
-          <text class="mk-num mt-big">{{term}}</text><text class="mt-u">{{T.month}}</text>
+          <text>租 </text><text class="mk-num mt-big">{{term}}</text><text class="mt-u">{{T.month}}</text>
         </view>
         <view class="mk-link mt-mod" bindtap="onModify" aria-role="button">{{T.m.modify}} ›</view>
       </view>
-      <mk-term-seg wx:if="{{mode !== 'sales'}}" value="{{term}}" hint="{{hint}}" bind:change="onTerm" />
-    </view>
-    <view wx:if="{{estText}}" class="mk-gutter mt-est mk-row">
-      <image class="mk-icon" src="/assets/icons/info-sub.svg" />
-      <view class="mk-grow mt-esttxt"><text class="mk-sub">{{estText}}</text><text wx:if="{{longText}}" class="mk-sub">{{longText}}</text></view>
     </view>
     <view class="mk-between mk-gutter mt-loc" bindtap="onLocation" aria-role="button">
       <view class="mk-row mk-grow"><image class="mk-icon" src="/assets/icons/pin-brand.svg" /><text class="mk-sub mt-lk">{{T.m.origin}}</text><text class="mk-ellipsis mk-grow">{{locText}}</text></view>
@@ -38,7 +32,7 @@
     </view>
     <block wx:elif="{{mode === 'none'}}">
       <view class="mk-card mt-empty">
-        <text class="mk-title">{{T.m.noneTitle}}</text><text class="mk-sub mt-es">{{noneSub}}</text>
+        <text class="mk-title">{{T.m.noneTitle}}</text><text class="mk-sub mt-es">{{noneSub}}</text><button class="mk-link cp-contact" open-type="contact">立即咨询</button>
         <view class="mt-acts">
           <button class="mk-btn mk-btn--md mt-btn" hover-class="mk-btn--hover" bindtap="onMoreStores">{{T.m.allCity}}</button>
           <button class="mk-btn mk-btn--ghost mk-btn--md mt-btn" hover-class="none" bindtap="onModify">{{T.m.modifyCap}}</button>
@@ -49,7 +43,7 @@
     <block wx:else>
       <view class="mt-hd"><text class="mk-h2">{{title}}</text><text wx:if="{{sub}}" class="mk-sub">{{sub}}</text></view>
       <mk-store-card wx:for="{{cards}}" wx:key="id" card="{{item}}" variant="match" bind:store="onStore" bind:action="onAction" bind:fees="onFees" />
-      <button class="mk-btn mk-btn--ghost mk-btn--md mt-more" hover-class="none" bindtap="onMoreStores">{{T.cta.moreUnits}}</button>
+      <view class="mt-more" bindtap="onMoreStores" aria-role="button" aria-label="更多仓位"><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
       <mk-advisor-card wx:if="{{advisor}}" title="{{advisor.title}}" sub="{{advisor.sub}}" />
     </block>
     <view class="mt-estore"><mk-estore-card variant="match" /></view>
@@ -63,7 +57,6 @@
     <view class="mk-between mt-ftotal"><text class="mk-title">{{T.m.fees.payable}}</text><text class="mk-num mt-fpay">{{fees.payable}}</text></view>
     <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onFeesClose">{{T.m.fees.ok}}</button>
   </mk-sheet>
-  <mk-demand-sheet visible="{{demandSheet}}" range-note="{{true}}" bind:close="onDemandClose" bind:change="onDemandChange" bind:sales="onDemandSales" />
   <mk-login-sheet visible="{{loginVisible}}" tip="{{loginTip}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />
   <mk-location-panel visible="{{panel}}" bind:close="onPanelClose" bind:change="onLocationChange" />
 </view>

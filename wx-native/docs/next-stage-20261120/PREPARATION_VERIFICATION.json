@@ -1,0 +1,29 @@
+{
+  "kind": "PLANNING_PACKAGE_VALIDATION_NOT_RUNTIME_OR_VISUAL_ACCEPTANCE",
+  "date_shanghai": "2026-11-20",
+  "planning_input_commit": "2ee11bb7878f8d425633c090626a4516aca14a1f",
+  "runtime_source_sha": "cbffc52201ab61b0896887a46520e4388ac70c70",
+  "runtime_tree": "71ee450e0631d78f2d2045456617963ff001b3f9",
+  "runtime_files_hash_checked_unchanged": 421,
+  "task_rows": 12,
+  "task_dependency_references": "VALID",
+  "initial_acceptance_scenarios": 40,
+  "unique_scenario_ids": true,
+  "new_acceptance_status": "ALL_NOT_RUN",
+  "page_scope_rows": 35,
+  "component_scope_rows": 22,
+  "asset_scope_rows": 123,
+  "local_links_checked_in_new_markdown_documents": 9,
+  "local_links": "PASS",
+  "csv_parsing": "PASS_POWERSHELL_IMPORT_CSV",
+  "runtime_changes_in_this_round": false,
+  "runtime_test_suite_rerun": false,
+  "native_network_rechecked_in_this_round": false,
+  "new_native_screenshots": 0,
+  "visual_acceptance": "HOLD",
+  "notes": [
+    "Static preparation is complete; full 01A visual/source audit is still pending.",
+    "Prior runtime test evidence remains valid for its exact unchanged runtime; no new test execution is claimed.",
+    "No experience upload, main merge, or production deployment was performed."
+  ]
+}

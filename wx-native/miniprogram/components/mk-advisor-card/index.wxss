@@ -1,3 +1,5 @@
-.adv-adv { margin-top: var(--mk-space-cardGap); }
+.adv-adv { margin-top: var(--mk-space-cardGap); padding:20rpx 0; }
 .adv-txt { margin: 0 var(--mk-space-3); display: flex; flex-direction: column; }
 .adv-t { font-size: var(--mk-font-size-md); margin-bottom: 4rpx; }
+.adv-contact { flex:none; margin:0; padding:16rpx 0; background:transparent; font-size:var(--mk-font-size-sm); line-height:1.5; }
+.adv-contact::after { border:0; }

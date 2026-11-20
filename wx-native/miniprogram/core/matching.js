@@ -3,14 +3,16 @@ const C = require('./config');
 const M = C.matching;
 
 const isAvailable = (u) => !!u && u.status === 'available' && Number(u.volume) > 0;
-const salesOnly = (capacityM3) => Number(capacityM3) >= M.salesOnlyFromM3; // 达到 30m³ 交顾问（D-101）
+// 兼容旧调用名；大容量不再产生销售专用阻断态。
+const salesOnly = () => false;
+const largeCapacity = (capacityM3) => Number(capacityM3) >= M.largeCapacityFromM3;
 
 // D-99：不小于需求 = 匹配；小且差额不超过 20% = 接近；更小不推荐
 function fit(unitVolume, needM3) {
   const v = Number(unitVolume), n = Number(needM3);
   if (!(n > 0)) return { state: 'browse' };
   if (v >= n) return { state: 'matched', diff: +(v - n).toFixed(2) };
-  if (v >= n * M.nearRatio) return { state: 'near', diff: +(n - v).toFixed(2), text: '比需求小 ' + (+(n - v).toFixed(1)) + 'm³' };
+  if (v + 1e-9 >= n * M.nearRatio) return { state: 'near', diff: +(n - v).toFixed(2), text: '小 ' + (+(n - v).toFixed(2)) + 'm³' };
   return { state: 'small' };
 }
 
@@ -30,7 +32,7 @@ function matchStore(storeUnits, needM3) {
   const best = matched[0] || null;
   const larger = best ? (matched.find((u) => u.volume > best.volume) || null) : null;
   const smaller = avail.filter((u) => u.volume < n);
-  const nearList = smaller.filter((u) => u.volume >= n * M.nearRatio);
+  const nearList = smaller.filter((u) => fit(u.volume, n).state === 'near');
   const near = nearList.length ? nearList[nearList.length - 1] : null;
   const combos = [];
   for (let i = 0; i < smaller.length; i++) for (let j = i + 1; j < smaller.length; j++) {
@@ -48,4 +50,4 @@ function capacityRange(storeUnits) {
   return v.length ? { min: Math.min.apply(null, v), max: Math.max.apply(null, v) } : null;
 }
 
-module.exports = { isAvailable, salesOnly, fit, matchStore, capacityRange };
+module.exports = { isAvailable, salesOnly, largeCapacity, fit, matchStore, capacityRange };

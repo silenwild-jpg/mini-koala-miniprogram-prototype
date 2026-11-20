@@ -1,7 +1,7 @@
 // 线索域界面文字（预约用仓、顾问咨询、企业、考拉E存、运输与搬运、联系顾问、预约记录、找仓进度）。
 // 照冻结稿原文；标「自写」的是冻结稿没有、开发补的句子。用词遵守交接 v1.0 §4.11。
 const C = require('../core/config');
-const SALES = C.matching.salesOnlyFromM3;
+const SALES = C.matching.largeCapacityFromM3;
 const HOURS = C.service.hourStart + ':00–' + C.service.hourEnd + ':00';
 const ack = { // D-95 / D-106 张坤给定原句
   inHours: '预计 10 分钟内与您联系',
@@ -55,9 +55,9 @@ module.exports = {
     when: '预计用仓时间', hints: ['尽快', '明天', '近一周', '暂不确定'],
     need: '用仓需求', items: '存放物品', capacity: '意向容量', duration: '预计租期',
     itemOptions: ['日常物品', '搬家家具', '文件资料', '暂不确定'],
-    capPh: '输入容量，如 3.5', capNote: '估算值，以实际仓位为准；' + SALES + 'm³ 及以上由顾问配仓。',
-    salesNote: SALES + 'm³ 及以上由顾问为您配仓。',
-    capErrM3: '请填写0.5m³–200㎡，手填容量最多两位小数', // 与企业页同句（D-177 原话）
+    capPh: '输入容量，如 3.5', capNote: '大容量需求可联系专属配仓顾问，也可继续自主找仓。',
+    salesNote: '大容量需求建议联系专属配仓顾问',
+    capErrM3: '请输入有效容量', // 与企业页同句（D-177 原话）
     capErrM2: '请填写 ' + C.requirement.areaMinM2 + '–' + C.requirement.areaMaxM2 + '㎡，最多一位小数', // 自写
     note: '其他需求或备注', notePh: '例如：搬运需求、特殊物品、预算范围等...',
     payNote: '提交后' + ack.inHours + '，暂不产生订单',
@@ -74,7 +74,7 @@ module.exports = {
     addArea: '多个区域都需要仓位？添加区域', areas: '还需要用仓的区域',
     otherAreas: '其他区域：', otherAreasJoin: '；其他区域：',
     size: '大概需要多大空间', custom: '自定义', sizePh: '请输入预计体积',
-    salesNote: SALES + 'm³ 及以上由顾问配仓。',
+    salesNote: '大容量需求建议联系专属配仓顾问',
     estimate: '不知道多大？使用空间估算',
     term: '租用时长', types: '主要存储类型', typeOptions: ['库存', '样品', '文件', '设备', '项目物料', '其他'], typeOther: '其他', typeOtherPh: '请补充存储类型',
     move: '搬入时是否需要协助', moveOptions: ['需要', '待确认', '不需要'], moveDefault: '待确认', moveYes: '需要',
@@ -91,7 +91,7 @@ module.exports = {
     failedTitle: '暂时无法保存',
     updatedTitle: '企业需求已更新', offPrefix: '非服务时段提交的：', gotIt: '知道了',
     err: {
-      size: '请填写0.5m³–200㎡，手填容量最多两位小数', // D-177：范围文字原话照写
+      size: '请输入有效容量', // D-177：范围文字原话照写
       term: '租期请选择1–60个月的整数', browseSize: '请填写或选择所需空间', browseTerm: '请选择租期', browseSales: SALES + 'm³ 及以上由顾问配仓，请直接提交需求',
       phone: '请填写有效的联系电话，国际号码请带国家区号', date: '请选择有效的预计用仓日期', capacity: '请填写0.5m³–200㎡的有效容量',
       notFound: '这条需求已不存在，请从「预约用仓」重新打开，或重新提交', withdrawn: '这条需求已撤回，可重新提交'

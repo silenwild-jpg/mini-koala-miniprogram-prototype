@@ -26,3 +26,9 @@
 .mt-muted { color: var(--mk-color-ink-tertiary); }
 .mt-ftotal { padding: var(--mk-space-3) 0; }
 .mt-fpay { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); }
+
+.mt-big { font-size:var(--mk-font-size-md); }
+.mt-sum { margin:0; flex-wrap:wrap; }
+.mt-sep { height:24rpx; }
+.mt-more { display:flex; justify-content:center; align-items:center; min-height:88rpx; }
+.mt-frow .mk-mute { color:var(--mk-color-ink-secondary); }

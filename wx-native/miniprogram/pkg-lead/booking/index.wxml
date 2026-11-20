@@ -40,6 +40,7 @@
       </view>
       <view class="ldf-field">
         <view class="ldf-label"><text>{{T.phoneLabel}}</text><text class="ldf-req">{{T.c.required}}</text></view>
+        <input wx:if="{{advisor}}" class="lbk-manual" type="number" maxlength="11" placeholder="{{T.manualPhone}}" value="{{manualPhone}}" bindinput="onManualPhone" />
         <lead-phone id="phone" what="{{what}}" error="{{errPhone}}" bind:change="onPhoneChange" bind:login="onPhoneLogin" />
       </view>
       <view class="ldf-field">

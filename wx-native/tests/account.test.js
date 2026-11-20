@@ -167,7 +167,7 @@ test('我的：未登录各入口的行为；登录守卫落点逻辑保留', as
   pg.onNewCta(); assert.deepEqual(env.nav.pop(), { kind: 'switchTab', url: routes.STORES });
   // 落点：被受限页带过来时打开登录层一次并带提示
   fresh(false, false); state.patch('flags', { pendingLogin: 'mine' });
-  const land = await page('MINE'); assert.equal(land.data.loginVisible, true); assert.equal(land.data.loginTip, '请先登录，登录后才能确认订单'); assert.equal(state.get().flags.pendingLogin, '');
+  const land = await page('MINE'); assert.equal(land.data.loginVisible, true); assert.equal(land.data.loginTip, '请登录'); assert.equal(state.get().flags.pendingLogin, '');
 });
 
 test('我的：已登录 —— 掩码手机号、角标、多处在租时的「我的仓位」、找仓进度按原单位', async () => {

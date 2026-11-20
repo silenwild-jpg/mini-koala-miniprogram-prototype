@@ -3,7 +3,6 @@
   <block wx:else>
     <view class="it-head">
       <view class="mk-row mk-gutter it-assist">
-        <view class="mk-chip it-chip" bindtap="onAdvisor" aria-role="button"><image class="mk-icon it-ci" src="/assets/icons/headset-brand.svg" />{{T.i.advisor}}</view>
         <view class="mk-chip it-chip it-chip--off" bindtap="onAi" aria-role="button"><image class="mk-icon it-ci" src="/assets/icons/ic-spark.svg" />{{T.i.ai}}</view>
         <view class="mk-grow"></view>
         <text class="mk-link it-tocap" bindtap="onToCap" aria-role="button">{{T.i.toCap}}</text>
@@ -32,7 +31,7 @@
           <view wx:if="{{search}}" class="it-sx" bindtap="onSearchClear" aria-role="button" aria-label="清除搜索"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
         </view>
         <view wx:if="{{selectedText}}" class="mk-link it-sel" bindtap="onCart" aria-role="button">{{selectedText}}</view>
-        <view wx:if="{{longHint}}" class="mk-row it-hint"><image class="mk-icon" src="/assets/icons/info-sub.svg" /><text class="mk-sub mk-grow it-ht">{{longHint}}</text></view>
+        <view wx:if="{{longHint}}" class="it-long-info" bindtap="onLongInfo" aria-role="button" aria-label="长件尺寸提示"><image class="mk-icon" src="/assets/icons/info-sub.svg" /></view>
         <view wx:if="{{emptySearch}}" class="it-none">
           <text class="mk-title">{{T.i.none.title}}</text><text class="mk-sub it-line">{{T.i.none.sub}}</text>
           <button class="mk-btn mk-btn--ghost mk-btn--md it-nbtn" hover-class="none" bindtap="onResetSearch">{{T.i.none.all}}</button>
@@ -80,8 +79,8 @@
         <view class="it-sb" data-id="{{item.id}}" data-d="plus" bindtap="onStep" aria-role="button" aria-label="增加">+</view>
       </view>
     </view>
-    <view wx:if="{{longHint}}" class="mk-row it-hint"><image class="mk-icon" src="/assets/icons/info-sub.svg" /><text class="mk-sub mk-grow it-ht">{{longHint}}</text></view>
-    <view wx:if="{{cartAdvHint}}" class="mk-row it-hint"><image class="mk-icon" src="/assets/icons/info-sub.svg" /><text class="mk-sub mk-grow it-ht">{{T.advHint}}</text></view>
+    <view wx:if="{{longHint}}" class="it-long-info" bindtap="onLongInfo" aria-role="button" aria-label="长件尺寸提示"><image class="mk-icon" src="/assets/icons/info-sub.svg" /></view>
+
     <view class="mk-between it-total">
       <view class="mk-grow it-rb"><text>{{T.i.cart.total}}</text><text class="mk-mute">{{cartTotalSub}}</text></view>
       <text class="mk-num it-tv">{{cartTotal}}</text>
@@ -117,3 +116,5 @@
     </view>
   </view>
 </view>
+
+<mk-sheet visible="{{advisoryVisible}}" title="下单前确认尺寸" bind:close="onAdvisoryClose"><text>大件物品建议下单前确认尺寸</text><button class="mk-link" open-type="contact">立即咨询</button><button class="mk-btn" bindtap="onAdvisoryContinue">继续找仓</button></mk-sheet>

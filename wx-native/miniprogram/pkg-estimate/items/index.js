@@ -13,6 +13,7 @@ const C = require('../../core/config');
 const T = require('../../i18n/find');
 const Z = require('../../i18n/zh');
 const volume = require('../../core/volume');
+const requirement = require('../../core/requirement');
 const matching = require('../../core/matching');
 const pricing = require('../../core/pricing');
 const state = require('../../services/state');
@@ -36,7 +37,7 @@ Page(auth.guarded(routes.ITEMS, {
     cartVisible: false, cartTitle: '', cartRows: [], cartAdvHint: false, cartTotal: '', cartTotalSub: '',
     variantVisible: false, variantNote: '', variantOptions: [],
     qtyVisible: false, qtyName: '', qtyRaw: '', qtyBad: false, qtyErr: I.qtyMax(R.itemQtyMax), qtyQuick: R.itemQtyQuick.map((n) => ({ n, t: I.qtyQuick(n) })),
-    termVisible: false
+    advisoryVisible: false, termVisible: false
   },
   onLoad() {
     this._count = {}; this._var = {}; this._by = {}; this._items = []; this._category = 'all';
@@ -142,11 +143,16 @@ Page(auth.guarded(routes.ITEMS, {
   onSubmit() {
     const s = this.summary();
     if (!s.valid) return;
-    if (s.sales) { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&cap=' + s.rec }); return; } // 达到 30m³ 交顾问，不写入自助需求
+    const bulky = s.sel.filter(x => x.bulky || x.long || R.bulkyItemIds.includes(x.id)).map(x => x.id);
+    const noticeKey = JSON.stringify([s.rec, bulky]);
+    if (requirement.itemsReminder(s.rec, bulky.length > 0) && this._noticeKey !== noticeKey) { this._noticeKey = noticeKey; this.setData({ advisoryVisible: true }); return; }
     const cap = Math.max(R.capacityMinM3, s.rec); // 不足 0.5m³ 按 0.5m³ 匹配，不拦截
     state.setRequirement({ capacity_m3: cap, input_unit: 'm3', input_value: cap, source: 'items', term_months: this.data.term, est: this._est });
     const pages = getCurrentPages();
     if (pages.length > 1 && '/' + pages[pages.length - 2].route === routes.MATCH) wx.navigateBack(); else wx.navigateTo({ url: routes.MATCH });
   },
+  onAdvisoryClose() { this.setData({ advisoryVisible: false }); },
+  onAdvisoryContinue() { this.setData({ advisoryVisible: false }); this.onSubmit(); },
+  onLongInfo() { wx.showModal({ title: '长件尺寸', content: this.data.longHint, showCancel: false }); },
   noop() {}
 }));

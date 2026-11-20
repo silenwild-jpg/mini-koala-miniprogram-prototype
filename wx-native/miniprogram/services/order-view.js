@@ -97,6 +97,8 @@ function fees(o, nowMs, opts) {
     rows.push(row);
   }
   if (o.free_transport) rows.push({ id: 'benefit', k: T.fee.benefit, amt: T.fee.freeTransport, muted: true });
+  const gift = Number(o.gift_months || q.gift_months);
+  if (Number.isFinite(gift) && gift > 0) rows.push({ id: 'gift', k: '赠送租期', amt: gift + '个月', muted: true });
   rows.push({ id: 'deposit', k: T.fee.deposit, sub: (q.unit_pricing || []).length > 1 ? T.fee.depositCombo : T.fee.depositOne, amt: yuan(q.deposit) });
   rows.push({ id: 'fee', k: T.fee.management, amt: yuan(q.management_fee) });
   let label = opts.totalLabel;

@@ -62,7 +62,7 @@ Page({
   },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   onTerm(e) { state.setTerm(e.detail.months); this.refresh(); },
-  onModify() { this.setData({ demandSheet: true }); },
+  onModify() { const r = state.get().requirement; wx.navigateTo({ url: r && r.source === 'items' ? routes.ITEMS : routes.CAPACITY }); },
   onDemandClose() { this.setData({ demandSheet: false }); },
   onDemandChange() { this.setData({ goneTip: false }); this.refresh(); },
   onDemandSales(e) { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&cap=' + ((e.detail && e.detail.capacity_m3) || '') }); },
@@ -72,7 +72,7 @@ Page({
   onStore(e) { wx.navigateTo({ url: routes.STORE_DETAIL + '?id=' + e.detail.id }); },
   onAction(e) {
     const d = e.detail || {};
-    if (d.cta !== T.cta.order) { this.setData({ loginTip: '' }); auth.openLogin(this); return; } // 未登录「查看报价」
+    if (d.cta !== T.cta.order) { this.setData({ loginTip: '请登录' }); auth.openLogin(this); return; } // 未登录「查看报价」
     const url = routes.CONFIRM + '?unit=' + d.unitId + '&term=' + this.data.term;
     if (!auth.isLoggedIn()) { auth.navigate(this, url); return; } // 未登录点「立即下单」：在当前页打开登录层（D-198）
     auth.navigate(this, url);

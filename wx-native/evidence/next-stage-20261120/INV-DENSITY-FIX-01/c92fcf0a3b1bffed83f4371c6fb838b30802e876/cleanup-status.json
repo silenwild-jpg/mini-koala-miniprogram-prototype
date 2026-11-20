@@ -1,0 +1,13 @@
+{
+  "date_shanghai": "2026-11-20",
+  "source_sha": "c92fcf0a3b1bffed83f4371c6fb838b30802e876",
+  "action": "automation_navigate reLaunch /pages/match/index after final screenshot inspection",
+  "ok": false,
+  "errorType": "MCP_TOOL_ERROR",
+  "code": "APPID_ERROR",
+  "message": "tunneling socket could not be established, cause=connect ECONNREFUSED 127.0.0.1:7892",
+  "effect": "Post-capture navigation back to the ordinary demo page did not complete. The simulator may still display the explicitly named render-only combo fixture.",
+  "data_scope": "The fixture patched only a page instance. No source inventory, server inventory, valid order or production service was written.",
+  "recovery": "Restore the developer-tools network/proxy connection and refresh or reopen the current project. Normal demo data will be reloaded.",
+  "evidence_scope": "All eight final screenshots and prior successful native receipts were saved before this failure. This cleanup failure does not replace their results. Future automation is pending a connection recheck."
+}

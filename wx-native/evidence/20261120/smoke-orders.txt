@@ -1,0 +1,17 @@
+{ code: 'NOT_FOUND', message: '仓位不存在' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{ code: 'NOT_FOUND', message: '仓位不存在' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{ code: 'NOT_FOUND', message: '仓位不存在' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{ code: 'NOT_FOUND', message: '仓位不存在' }
+{ code: 'INVALID', message: '需要已付款订单才能办理此项服务' }
+{ code: 'INVALID', message: '需要已付款订单才能办理此项服务' }
+{ code: 'NOT_FOUND', message: '仓位不存在' }
+{ code: 'NOT_FOUND', message: '仓位不存在' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{ code: 'CONFLICT', message: '当前没有待确认的续租报价' }
+{"orders":6,"page_loads":54,"handler_calls":960,"new_order":["MK202611200006","paid_before_start",2780],"errors":0}

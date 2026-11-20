@@ -41,3 +41,4 @@
 .hm-num { flex: 1; display: flex; flex-direction: column; align-items: center; }
 .hm-pn { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); color: var(--mk-color-brand-text); }
 .hm-about { margin-top: var(--mk-space-3); min-height: 64rpx; display: flex; align-items: center; justify-content: center; }
+.hm-store-photo { display:block; width:100%; height:156rpx; margin-bottom:16rpx; border-radius:var(--mk-radius-thumb); }

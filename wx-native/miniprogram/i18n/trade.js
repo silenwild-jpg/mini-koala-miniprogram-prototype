@@ -107,7 +107,7 @@ module.exports = {
     term: '选择租期', date: '预计用仓时间', pickDate: '请选择用仓日期',
     estimate: '预计整期租金', access: '存取时间 ', fees: '费用明细',
     need: '还需', missStore: '选择门店', missUnit: '选择仓位', missSwap: '更换仓位', missDate: '选择用仓日期',
-    next: '下一步：确认订单', quote: '查看报价',
+    next: '下一步：确认订单', quote: '查看报价', loginToQuote: '登录后查看整期报价',
     storeSheet: '更换门店', unitSheet: '选择仓位', accessShort: '存取 ', stockN: ['可租 ', ' 个'], stockNone: '暂无可租',
     noUnit: '本店暂无可用仓位。', // 自写（冻结稿原句「本店暂无满足容量的可用仓位」指向按需求筛选，快捷下单不带需求）
     goneTitle: '所选仓位已不可租', goneDesc: '该仓位刚被租出或已下架，请重新选择仓位。'
