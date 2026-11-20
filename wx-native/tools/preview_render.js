@@ -194,5 +194,45 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['gp04_detail_tight', 'pages/store/detail', { located: true, login: true, stock: 'tight', query: { id: 'SIM_BJ01' } }],
     ['gp05_messages_after_booking', AC('messages'), { scenario: 'member_new', before: () => api.submitLead({ type: 'booking', address: '朝阳区芍药居北里 101 号', capacity_m3: 3, term_months: 6 }).then(() => api.submitLead({ type: 'visit', store_id: 'SIM_BJ01', time_slot: '待电话确认' })).catch((e) => console.error(e)) }]
   ]) done.push(await shot(x[0], x[1], x[2]));
+
+  // REVIEW-01：原型完整评审补图——订单详情各阶段、租后各页默认态、此前没出过图的账户/留资/估算页
+  const st = (stage) => pick((o) => o.stage === stage), OD = 'pkg-trade/order/index';
+  for (const x of [
+    ['rv01_order_pending', OD, { scenario: 'member_multi', before: st('pending_payment'), query: ft }],
+    ['rv02_order_paid', OD, { scenario: 'member_multi', before: st('paid_before_start'), query: ft }],
+    ['rv03_order_active', OD, { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['rv04_order_expiring', OD, { scenario: 'member_expiring', before: pick(), query: ft }],
+    ['rv05_order_overdue', OD, { scenario: 'member_overdue', before: pick(), query: ft }],
+    ['rv06_order_ended', OD, { scenario: 'member_ended', before: pick(), query: ft }],
+    ['rv07_order_cancelled', OD, { scenario: 'member_multi', before: st('cancelled'), query: ft }],
+    ['rv08_order_expired', OD, { scenario: 'member_closed', before: pick(), query: ft }],
+    ['rv09_order_paid_no_identity', OD, { scenario: 'member_before_start', before: pick(), query: ft }],
+    ['rv10_access_active', AF('access'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['rv11_access_before_start', AF('access'), { scenario: 'member_before_start', before: pick(), query: ft }],
+    ['rv12_access_overdue', AF('access'), { scenario: 'member_overdue', before: pick(), query: ft }],
+    ['rv13_renew_expiring', AF('renew'), { scenario: 'member_expiring', before: pick(), query: ft }],
+    ['rv14_renew_overdue', AF('renew'), { scenario: 'member_overdue', before: pick(), query: ft }],
+    ['rv15_exit_start', AF('exit'), { scenario: 'member_expiring', before: pick(), query: ft }],
+    ['rv16_exit_active_early', AF('exit'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['rv17_deposit_ended_partial', AF('deposit'), { scenario: 'member_ended', before: pick(), query: ft }],
+    ['rv18_deposit_active', AF('deposit'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['rv19_invoice_issued', AF('invoice'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['rv20_econtract', AF('econtract'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['rv21_identity_pending', AF('identity'), { scenario: 'member_before_start', before: pick(), query: ft }],
+    ['rv22_items', 'pkg-estimate/items/index', { scenario: 'guest_browsing' }],
+    ['rv23_quick_guest', 'pkg-trade/quick/index', { scenario: 'guest_browsing', query: { store: 'SIM_BJ01' } }],
+    ['rv24_referral', AC('referral'), { scenario: 'member_active' }],
+    ['rv25_referral_guest', AC('referral'), { scenario: 'guest_browsing' }],
+    ['rv26_brand', AC('brand'), { scenario: 'guest_browsing' }],
+    ['rv27_ent_batch', AC('ent-batch'), { scenario: 'ent_verified' }],
+    ['rv28_ent_batch_unverified', AC('ent-batch'), { scenario: 'member_active' }],
+    ['rv29_estore', LD('estore'), { scenario: 'guest_browsing' }],
+    ['rv30_agreement_lease', 'pkg-trade/agreement/index', { query: { doc: 'lease' } }],
+    ['rv31_confirm_guest_no_identity', CF, { login: true, located: true, query: Q }],
+    ['rv32_stores_nearby_soldout', 'pages/stores/index', { need: NEED, located: true, stock: 'nearby_soldout' }],
+    ['rv33_home_offline', 'pages/home/index', { scenario: 'member_active', after: (p) => p.setData({ sys: 'offline' }) }],
+    ['rv34_stores_no_location', 'pages/stores/index', { need: NEED }],
+    ['rv35_store_detail_guest', 'pages/store/detail', { scenario: 'guest_browsing', query: { id: 'SIM_BJ01' } }]
+  ]) done.push(await shot(x[0], x[1], x[2]).catch((e) => { console.error('RV FAIL', x[0], e && e.message); return ''; }));
   console.log(done.join(' '));
 })();

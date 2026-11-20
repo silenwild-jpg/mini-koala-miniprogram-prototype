@@ -31,7 +31,7 @@
 
 - 2026-11-20 用 `miniprogram-ci@2.1.31` 实测：`private.wxee3644ae9ad05329.key` 对 AppID `wxee3644ae9ad05329` 可以编译并出预览码。
 - 本机默认走 IPv6 出口，会被白名单拒绝；要带 `NODE_OPTIONS=--dns-result-order=ipv4first` 走 `172.104.171.166`。
-- `project.config.json` 里的 AppID 是 `wx54ad163db2e41201`，与密钥不是同一个小程序；用它出预览被拒（IP 不在白名单）。工程里的 AppID 这批没有改，等张坤确认用哪个。
+- `project.config.json` 里的 AppID 是 `wx54ad163db2e41201`，与密钥不是同一个小程序；用它出预览被拒（IP 不在白名单）。工程里的 AppID 这批没有改，等张坤确认用哪个。（2026-11-20 张坤确认用 `wxee3644ae9ad05329`，已在 REVIEW-01 提交里改。）
 - 微信编译器给出的包体积：主包 508,809 字节，整包 954,887 字节。之前各批报的「约 1.5MB」是按源文件粗算的，偏大。
 
 ## 校准时要看的点
