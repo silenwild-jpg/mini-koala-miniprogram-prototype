@@ -71,7 +71,6 @@
             <block wx:if="{{item.type === 'combo'}}"><text class="mk-sub sd-line">{{item.row.sub}}</text></block>
             <block wx:else>
               <text class="mk-sub sd-line">{{item.row.dims}}<text wx:if="{{item.row.area}}"> · {{item.row.area}}</text></text>
-              <text class="mk-sub sd-line">{{item.row.usage}}</text>
               <text wx:if="{{item.row.nearText}}" class="mk-tag mk-tag--promo sd-near">{{item.row.nearText}}</text>
             </block>
             <view class="mk-between sd-buy">

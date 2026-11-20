@@ -4,7 +4,7 @@
 .sc-name { display: block; }
 .sc-meta { margin-top: 8rpx; }
 .sc-km { margin-left: var(--mk-space-2); white-space: nowrap; font-size: var(--mk-font-size-sm); }
-.sc-tags { margin-top: var(--mk-space-2); display: flex; flex-wrap: wrap; overflow: hidden; max-height: var(--mk-size-tagHeight); }
+.sc-tags { margin-top: var(--mk-space-2); display: flex; flex-wrap: wrap; }
 .sc-chev { margin-left: var(--mk-space-2); margin-top: 8rpx; }
 .sc-cline { margin-top: var(--mk-space-2); display: flex; align-items: baseline; flex-wrap: wrap; }
 .sc-cmeta { margin-left: var(--mk-space-2); }
@@ -13,8 +13,6 @@
 .sc-unit { font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
 .sc-uname { font-weight: var(--mk-font-weight-medium); color: var(--mk-color-ink-primary); }
 .sc-tier { margin-left: var(--mk-space-1); margin-right: 0; }
-.sc-reason { display: block; margin-top: 4rpx; }
-.sc-more { display: flex; justify-content: flex-end; min-height: 64rpx; align-items: center; }
 .sc-buy { margin-top: var(--mk-space-2); align-items: flex-end; }
 .sc-sub { display: block; margin-top: 4rpx; }
 .sc-cta { min-width: 208rpx; margin-left: var(--mk-space-3); }

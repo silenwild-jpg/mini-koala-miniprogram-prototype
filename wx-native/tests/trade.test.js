@@ -281,7 +281,12 @@ test('快捷下单：未登录不出整期金额，主按钮「查看报价」�
   login(); pg.onLoginSuccess(); await tick();
   assert.deepEqual([pg.data.est.amount, pg.data.est.tag, pg.data.barAmount, pg.data.btnText], ['¥1,680', '7折', '¥1,680', '下一步：确认订单']);
   pg.onNext(); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes.CONFIRM + '?unit=' + U3 + '&term=6&date=2026-12-01' }]);
-  pg.onStoreSheet(); assert.ok(pg.data.storeRows.length <= 8 && pg.data.storeRows[0].on); assert.match(pg.data.storeRows[0].sub, /^1\.2km · 存取 09:00-21:00 · 可租 \d+ 个$/);
+  pg.onStoreSheet(); assert.ok(pg.data.storeRows.length <= 8 && pg.data.storeRows[0].on);
+  assert.equal(pg.data.storeRows[0].sub, '1.2km · ' + pg._stores.find(s => s.id === 'SIM_BJ01').address);
+  const stores = pg._stores;
+  pg._stores = stores.map(s => ({ ...s, units: s.units.map(u => ({ ...u, status: 'reserved' })) }));
+  pg.onStoreSheet(); assert.ok(pg.data.storeRows.every(r => r.sub.endsWith('暂无可租') && r.price === ''), '被占用的库存不能显示可租起价');
+  pg._stores = stores;
   // 加租仓位：带入在租门店
   const add = env.newPage('pkg-trade/quick/index', { store: 'SIM_BJ01', carried: '1' }); await tick(); assert.equal(add.data.carried, true);
 });

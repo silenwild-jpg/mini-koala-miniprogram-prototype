@@ -8,7 +8,7 @@ const T = require('../../i18n/find');
 Component({
   options: { addGlobalClass: true },
   properties: { card: { type: Object, value: {} }, variant: { type: String, value: 'standard' }, showLarger: { type: Boolean, value: false } },
-  data: { T: { range: T.card.range, cubic: T.price.cubicFrom, none: T.price.none }, lines: [] },
+  data: { T: { range: T.card.range, cubic: T.price.cubicFrom, none: T.price.none }, lines: [], visibleTags: [] },
   observers: { card() { this.build(); }, variant() { this.build(); }, showLarger() { this.build(); } },
   lifetimes: { attached() { this.build(); } },
   methods: {
@@ -17,7 +17,10 @@ Component({
       let lines = [];
       if (d.variant === 'match') lines = c.lines || [];
       else if (c.row) lines = d.showLarger && c.larger ? [Object.assign({ nearText: c.nearText }, c.row), Object.assign({ secondary: true }, c.larger)] : [Object.assign({ nearText: c.nearText }, c.row)];
-      this.setData({ lines });
+      // 列表只留两个标签位（包含推荐标记）；门店完整服务仍在 S02。
+      const tags = (d.variant === 'compact' ? c.tagsCompact : c.tags) || [];
+      const visibleTags = tags.slice(0, c.rankTag ? 1 : 2);
+      this.setData({ lines, visibleTags });
     },
     onStore() { this.triggerEvent('store', { id: (this.data.card || {}).id }); },
     onAction(e) {

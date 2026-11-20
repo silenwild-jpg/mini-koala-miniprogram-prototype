@@ -90,7 +90,8 @@ Page({
     const { stores } = this.current(), loc = state.get().location;
     const rows = stores.slice().sort((a, b) => inf(view.kmOf(a, loc)) - inf(view.kmOf(b, loc))).slice(0, CT.quickStoreSheetMax).map((s) => {
       const av = (s.units || []).filter((u) => u.status === 'available'), km = view.kmOf(s, loc), from = pricing.storeFromCubic(av);
-      return { id: s.id, name: s.name, sub: [km !== null ? fmt.kmText(km) : '', s.access_hours ? T.accessShort + s.access_hours : '', av.length ? T.stockN[0] + av.length + T.stockN[1] : T.stockNone].filter(Boolean).join(T_SEP), price: from === null ? '' : pricing.yuan(from), on: s.id === this._storeId };
+      // 门店选择优先辨认位置；存取时间在选中后展示，无库存必须明确说明。
+      return { id: s.id, name: s.name, sub: [km !== null ? fmt.kmText(km) : '', av.length ? s.address : T.stockNone].filter(Boolean).join(T_SEP), price: from === null ? '' : pricing.yuan(from), on: s.id === this._storeId };
     });
     this.setData({ storeRows: rows, storeSheet: true });
   },
