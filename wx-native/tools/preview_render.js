@@ -289,5 +289,53 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['r13c_titles_add_reviewing', 'pkg-account/ent-titles/index', { scenario: 'ent_reviewing', events: { review_hold: true }, query: { mode: 'add' } }],
     ['r13d_titles_add_verified', 'pkg-account/ent-titles/index', { scenario: 'ent_verified', query: { mode: 'add' } }]
   ]) done.push(await shot(x[0], x[1], x[2]).catch((e) => { console.error('RV FAIL', x[0], e && e.message); return ''; }));
+  // VISUAL-UPGRADE 第 1 步诊断：36 页各出一张代表状态（五个样板页多出一到两张），只用于诊断表，不是验收图
+  const SL1 = 'pages/stores/index', SD1 = 'pages/store/detail', IN1 = { located: true, login: true };
+  for (const x of [
+    ['dg01_home_first', 'pages/home/index', { scenario: 'first_visit' }],
+    ['dg01b_home_need', 'pages/home/index', { scenario: 'member_new' }],
+    ['dg01c_home_active', 'pages/home/index', { scenario: 'member_active' }],
+    ['dg02_stores_browse', SL1, { located: true }],
+    ['dg02b_stores_need', SL1, Object.assign({ need: NEED }, IN1)],
+    ['dg03_detail_need', SD1, Object.assign({ need: NEED, query: { id: 'SIM_BJ01' } }, IN1)],
+    ['dg03b_detail_browse', SD1, { located: true, query: { id: 'SIM_BJ01' } }],
+    ['dg04_capacity_empty', 'pages/estimate/capacity', {}],
+    ['dg04b_capacity_filled', 'pages/estimate/capacity', { need: NEED }],
+    ['dg05_confirm_first', CF, { login: true, located: true, query: Q }],
+    ['dg05b_confirm_ready', CF, { login: true, located: true, before: idv, query: Q, after: (p) => p.onAgree() }],
+    ['dg06_match', 'pages/match/index', Object.assign({ need: NEED }, IN1)],
+    ['dg07_items', 'pkg-estimate/items/index', { scenario: 'guest_browsing' }],
+    ['dg08_quick', 'pkg-trade/quick/index', { login: true, located: true, need: NEED, query: { store: 'SIM_BJ01', unit: 'SIM_BJ01_U03' } }],
+    ['dg09_orders', 'pages/orders/index', { scenario: 'member_multi' }],
+    ['dg10_order_active', OD, { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['dg10b_order_pending', OD, { scenario: 'member_multi', before: st('pending_payment'), query: ft }],
+    ['dg11_agreement', 'pkg-trade/agreement/index', { query: { doc: 'lease' } }],
+    ['dg12_identity', AF('identity'), { scenario: 'member_before_start', before: pick(), query: ft }],
+    ['dg13_access', AF('access'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['dg14_renew', AF('renew'), { scenario: 'member_renew_quote', before: pick(), query: ft }],
+    ['dg15_exit', AF('exit'), { scenario: 'member_expiring', before: pick(), query: ft }],
+    ['dg16_deposit', AF('deposit'), { scenario: 'member_ended', before: pick(), query: ft }],
+    ['dg17_invoice', AF('invoice'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['dg18_econtract', AF('econtract'), { scenario: 'member_multi', before: st('active'), query: ft }],
+    ['dg19_mine_member', 'pages/mine/index', { scenario: 'member_inbox' }],
+    ['dg19b_mine_guest', 'pages/mine/index', { scenario: 'guest_browsing' }],
+    ['dg20_messages', AC('messages'), { scenario: 'member_inbox' }],
+    ['dg21_needs', AC('needs'), { scenario: 'member_leads' }],
+    ['dg22_progress', AC('progress'), { scenario: 'member_active' }],
+    ['dg23_favorites', AC('favorites'), { scenario: 'member_favorites' }],
+    ['dg24_coupons', AC('coupons'), { scenario: 'member_coupons' }],
+    ['dg25_profile', AC('profile'), { scenario: 'member_active' }],
+    ['dg26_referral', AC('referral'), { scenario: 'member_active' }],
+    ['dg27_brand', AC('brand'), { scenario: 'guest_browsing' }],
+    ['dg28_ent_cert', AC('ent-cert'), { scenario: 'member_active' }],
+    ['dg29_ent_titles', AC('ent-titles'), { scenario: 'ent_verified' }],
+    ['dg30_ent_batch', AC('ent-batch'), { scenario: 'ent_verified' }],
+    ['dg31_booking', LD('booking'), { scenario: 'member_new', query: { store: 'SIM_BJ01' } }],
+    ['dg32_business', LD('business'), { scenario: 'member_new' }],
+    ['dg33_estore', LD('estore'), { scenario: 'guest_browsing' }],
+    ['dg34_transport', LD('transport'), { scenario: 'member_before_start' }],
+    ['dg35_support', LD('support'), { scenario: 'member_active' }],
+    ['dg36_lab', 'pkg-dev/lab/index', { scenario: 'member_active' }]
+  ]) done.push(await shot(x[0], x[1], x[2]).catch((e) => { console.error('DG FAIL', x[0], e && e.message); return ''; }));
   console.log(done.join(' '));
 })();
