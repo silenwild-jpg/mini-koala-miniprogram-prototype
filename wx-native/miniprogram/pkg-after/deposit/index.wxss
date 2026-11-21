@@ -1,6 +1,10 @@
 @import "../after.wxss";
 /* —— 押金页 —— */
 .dp-amt { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); }
+/* IMPL-02 M-32：部分退还态大数字下方的两行小字（订单押金、已扣费用） */
+.dp-part { margin-top: var(--mk-space-2); }
+.dp-part-row { display: flex; align-items: baseline; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
+.dp-part-k { width: 140rpx; flex: none; }
 .dp-more { display: inline-block; padding: var(--mk-space-2) 0; }
 .dp-switch { display: flex; align-items: center; min-height: 80rpx; margin-bottom: var(--mk-space-2); padding: 0 var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
 .dp-amtbox { padding: var(--mk-space-2) 0 var(--mk-space-3); }

@@ -73,51 +73,53 @@ test('容量页仓库示意：没填时是淡的最小档；容量越大缩放�
   });
   pg.data.stage.imgs.forEach((x) => assert.ok(fs.existsSync(path.join(root, x.src)), x.src));
   pg.onUnit(tap({ u: 'm2' })); assert.equal(pg.data.stage.on, false);
-  const seq = pg._flySeq;
-  pg.onInput({ detail: { value: '300' } }); assert.equal(pg.data.stage.on, false); assert.ok(pg.data.error); assert.equal(pg._flySeq, seq, '无效输入不飞箱子');
+  pg.onInput({ detail: { value: '300' } }); assert.equal(pg.data.stage.on, false); assert.ok(pg.data.error); assert.deepEqual(pg.data.boxes, [], '无效输入不放箱子');
   pg.onUnload();
 });
 
-test('容量页动效：点加号箱子飘入、点减号飘出，数字与底栏弹一下；快速连点 20 次不堆积，只有一个收尾定时器，结束后清空', async () => {
+// IMPL-02：箱子从「飘过就消失」改成在示意区累计停留（data.boxes，只数由容量决定），下面三条按新机制改写；更细的用例在 impl-02-estimate.test.js。
+test('容量页动效：点加号箱子落进示意区并留下、点减号最上面一只飘出，数字与底栏弹一下；快速连点 20 次只数仍与容量对应，只有一个收尾定时器', async () => {
   fresh(); const pg = await cap();
+  const shown = () => pg.data.boxes.filter((x) => !x.out);
   pg.onStep(tap({ dir: 'plus' }));
-  assert.equal(pg.data.fly.length, 1); assert.equal(pg.data.fly[0].out, false);
+  assert.equal(shown().length, viz.boxCount(0.5)); assert.match(pg.data.boxes[0].cls, /cp-box--in/);
   await tick(40); assert.match(pg.data.capBump, /mk-bump/); assert.equal(pg.data.sumBump, 'mk-bump');
   for (let i = 0; i < 20; i++) pg.onStep(tap({ dir: 'plus' }));
   assert.equal(Number(pg.data.raw), 10.5, '每次点击都算数');
-  assert.ok(pg.data.fly.length <= E.flyMax); assert.equal(new Set(pg.data.fly.map((x) => x.k)).size, pg.data.fly.length, '键不重复');
-  pg.onStep(tap({ dir: 'minus' })); assert.equal(pg.data.fly[pg.data.fly.length - 1].out, true); assert.equal(Number(pg.data.raw), 10);
-  const first = pg._flyTimer; assert.ok(first);
-  pg.onQuick(tap({ v: 20 })); assert.ok(pg.data.fly.length <= E.flyMax); assert.notEqual(pg._flyTimer, first, '定时器顺延而不是叠加');
-  await tick(E.flyMs + E.flyStaggerMs * (E.flyBurst + 1) + 80);
-  assert.deepEqual(pg.data.fly, []); assert.equal(pg._flyTimer, null);
+  assert.equal(shown().length, viz.boxCount(10.5)); assert.equal(new Set(pg.data.boxes.map((x) => x.i)).size, pg.data.boxes.length, '键不重复');
+  pg.onStep(tap({ dir: 'minus' })); assert.equal(Number(pg.data.raw), 10); assert.equal(shown().length, viz.boxCount(10));
+  pg.onQuick(tap({ v: 8 })); assert.equal(pg.data.boxes[pg.data.boxes.length - 1].out, true, '变少：多出来的先带着飘出类留一拍');
+  const first = pg._boxTimer; assert.ok(first);
+  pg.onQuick(tap({ v: 6 })); assert.notEqual(pg._boxTimer, first, '定时器顺延而不是叠加');
+  await tick(E.flyMs + E.flyStaggerMs + 80);
+  assert.equal(pg.data.boxes.length, viz.boxCount(6)); assert.equal(pg._boxTimer, null);
   // 动画期间与之后都能正常提交
   assert.equal(pg.data.ok, true); pg.onStep(tap({ dir: 'minus' })); pg.onSubmit();
-  assert.equal(state.get().requirement.capacity_m3, 19.5);
+  assert.equal(state.get().requirement.capacity_m3, 5.5);
   pg.onUnload();
 });
 
-test('容量页动效：值没变不触发（已在最小值再点减号、重复点同一档）；拖动时按最小间隔节流', async () => {
+test('容量页动效：值没变不触发（已在最小值再点减号、重复点同一档）；拖动时箱子只数跟着容量走，不会多出来', async () => {
   fresh(); const pg = await cap();
-  pg.onQuick(tap({ v: 3 })); await tick(E.flyMs + E.flyStaggerMs * (E.flyBurst + 1) + 60); assert.deepEqual(pg.data.fly, []);
-  pg.onQuick(tap({ v: 3 })); assert.deepEqual(pg.data.fly, []); assert.equal(pg._flyTimer, null);
-  pg.onInput({ detail: { value: String(C.requirement.capacityMinM3) } }); pg.onStep(tap({ dir: 'minus' })); assert.deepEqual(pg.data.fly, []);
+  pg.onQuick(tap({ v: 3 })); await tick(60); const before = JSON.stringify(pg.data.boxes), bump = pg.data.capBump;
+  pg.onQuick(tap({ v: 3 })); assert.equal(JSON.stringify(pg.data.boxes), before); assert.equal(pg.data.capBump, bump, '重复点同一档不再弹'); assert.ok(!pg._boxTimer);
+  pg.onInput({ detail: { value: String(C.requirement.capacityMinM3) } }); await tick(E.flyMs + E.flyStaggerMs + 60);
+  const min = JSON.stringify(pg.data.boxes); pg.onStep(tap({ dir: 'minus' })); assert.equal(JSON.stringify(pg.data.boxes), min);
   pg._rect = { left: 0, width: 1000 }; pg.measure = () => {};
-  pg.onSlideStart(touch(200)); const n0 = pg._flySeq;
-  for (let x = 220; x < 900; x += 20) pg.onSlideMove(touch(x)); // 同一拍里连续 34 次移动
-  assert.ok(pg._flySeq - n0 <= 1, '节流：间隔不到 flyGapMs 不再加箱子'); assert.ok(pg.data.fly.length <= E.flyMax);
+  pg.onSlideStart(touch(200));
+  for (let x = 220; x < 900; x += 20) { pg.onSlideMove(touch(x)); assert.equal(pg.data.boxes.filter((b) => !b.out).length, viz.boxCount(pg._v.capacity_m3)); }
   pg.onSlideEnd(); pg.onUnload();
 });
 
-test('容量页动效：动画中途离开页面，定时器清掉，之后不再 setData', async () => {
+test('容量页动效：箱子飘出途中离开页面，定时器清掉，之后不再 setData', async () => {
   fresh(); const pg = await cap();
-  pg.onStep(tap({ dir: 'plus' })); pg.onStep(tap({ dir: 'plus' }));
-  assert.ok(pg._flyTimer);
-  pg.onUnload(); assert.equal(pg._flyTimer, null);
+  pg.onQuick(tap({ v: 8 })); pg.onQuick(tap({ v: 6 }));
+  assert.ok(pg._boxTimer);
+  pg.onUnload(); assert.equal(pg._boxTimer, null);
   const count = spy(pg);
   await tick(E.flyMs + E.flyStaggerMs * 4 + 80);
   assert.equal(count(), 0);
-  pg.flyBoxes(1, 1); assert.equal(count(), 0, '卸载后再触发也不写数据');
+  const kept = pg.data.boxes; assert.equal(pg.planBoxes('large', 9), kept, '卸载后再算也不改'); assert.equal(pg._boxTimer, null);
 });
 
 test('物品页：头部不再有 AI 估算与「直接填容量」；物品行与清单行用物品图，39 件一一有图，单张不超过 10KB', async () => {

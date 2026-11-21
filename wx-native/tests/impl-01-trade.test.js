@@ -88,7 +88,7 @@ test('确认订单：待支付 → 支付未成功，状态头淡入一次；订
   assert.deepEqual([pg.data.phase, pg.data.headFx], ['pending', '']);
   await api.payOrder({ order_id: od.id, simulate: 'fail' }); await pg.refresh(); await tick(40);
   assert.deepEqual([pg.data.phase, pg.data.headFx], ['payment_failed', 'mk-fade']); pg.onUnload();
-  assert.match(read('pkg-trade/confirm/index.wxml'), /class="cf-scrim mk-fade"[\s\S]*class="cf-dialog cf-dialog--center mk-fade-in"/);
+  assert.match(read('pkg-trade/confirm/index.wxml'), /class="cf-scrim mk-fade[ "][\s\S]*class="cf-dialog cf-dialog--center mk-fade-in[ "]/); // IMPL-02：两层都多拼了退场类
   const o = active(), dt = await page(routes.ORDER_DETAIL, { id: o.id, paid: '1' }); await tick(40);
   assert.deepEqual([dt.data.paying, dt.data.headFx], [false, 'mk-fade']); dt.onUnload();
   const plain = await page(routes.ORDER_DETAIL, { id: o.id }); await tick(40); assert.equal(plain.data.headFx, '', '普通进入不淡入'); plain.onUnload();
@@ -130,7 +130,7 @@ test('订单列表：前几张卡错峰渐显、整卡按压；订单详情与�
   const ol = read('pages/orders/index.wxml');
   assert.match(ol, /hover-class="mk-press--hover"[^>]*class="mk-press ol-item \{\{index < 6 \? 'mk-fade-in mk-fade-in--d' \+ index : ''\}\}"/);
   const od = read('pkg-trade/order/index.wxml');
-  assert.match(od, /class="mk-page mk-page--plain od-page"/); assert.equal((od.match(/class="mk-card/g) || []).length, 0); assert.ok((od.match(/class="mk-sec"/g) || []).length >= 4);
+  assert.match(od, /class="mk-page mk-page--plain od-page"/); assert.equal((od.match(/class="mk-card/g) || []).length, 0); assert.ok((od.match(/class="mk-sec"/g) || []).length >= 3); // IMPL-02 M-23：租赁进度并入订单卡区域，少一个小节
   for (const p of ['identity', 'access', 'econtract', 'deposit', 'renew', 'exit', 'invoice']) {
     const w = read('pkg-after/' + p + '/index.wxml');
     assert.match(w, /class="mk-page mk-page--plain /, p); assert.equal((w.match(/class="mk-card/g) || []).length, 0, p + ' 不再有描边卡'); assert.match(w, /class="af-secs/, p);

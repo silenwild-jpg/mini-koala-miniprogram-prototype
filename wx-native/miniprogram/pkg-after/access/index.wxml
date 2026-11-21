@@ -8,7 +8,7 @@
     <view class="af-body af-top ac-top">
       <mk-notice wx:if="{{note}}" text="{{note}}" tone="warn" />
       <mk-notice wx:if="{{overdue}}" text="{{overdue}}" tone="warn" link="{{T.c.callStore}}" bind:link="onCall" />
-      <mk-order-card order="{{order}}" />
+      <mk-order-card order="{{order}}" mode="brief" />
     </view>
     <view class="af-secs">
       <view wx:if="{{showArrival && arr}}" class="mk-sec">

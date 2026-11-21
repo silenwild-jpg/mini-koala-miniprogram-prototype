@@ -1,0 +1,28 @@
+{
+  "说明": [
+    "尺寸示意插画的源参数。tools/gen_size_illus.py 读这份参数生成 miniprogram/assets/images/units/size-*.svg 与 miniprogram/core/config-size-illus.js。",
+    "档位与容量区间不在这里：取 miniprogram/core/config-find.js 的 unitThumbBands。",
+    "每档仓体的长宽高不在这里：按下面 tiers.<档>.unit 的仓位编号去 miniprogram/mock/units.js 读 dims（演示数据）。选的是该档演示仓位里出现次数最多的那种尺寸。",
+    "纸箱三边不在这里：读 miniprogram/mock/items.js 里「标准纸箱」(box) 说明文字中的 60×40×40cm。",
+    "箱位个数不在这里：按 config-find.js estimate.stageBoxStepsM3 与档位上限算。",
+    "人形高 1.7m 只是比例参照，不是任何规格；仓门一侧、人站的位置、纸箱靠里墙码放的方式都是画法约定，不代表门店实际。",
+    "颜色只写 styles/tokens.wxss 里的令牌名（--mk-color- 之后的部分），脚本去读色值。"
+  ],
+  "viewBox": 200,
+  "margin": 5,
+  "tiers": {
+    "mini": { "unit": "SIM_BJ02_U01", "stackLayers": 3 },
+    "small": { "unit": "SIM_BJ01_U04", "stackLayers": 2 },
+    "medium": { "unit": "SIM_BJ01_U05", "stackLayers": 2 },
+    "large": { "unit": "SIM_BJ04_U04", "stackLayers": 2 }
+  },
+  "carton": { "item": "box", "gapM": 0.03 },
+  "person": { "heightM": 1.7, "headR": 0.115, "torso": [0.21, 0.8, 1.44, 0.1], "leg": [0.02, 0.19, 0.86, 0.07], "clearance": 16 },
+  "stroke": { "main": 2, "inner": 1.5, "dim": 1.2, "box": 1.2 },
+  "dim": { "offset": 10, "tick": 3.5, "labelGap": 7, "fontSize": 15, "personFontSize": 13 },
+  "tones": {
+    "frame": "brand-fill", "edge": "ink-secondary", "inner": "line-strong", "floor": "line-hairline", "wall": "canvas-sunken",
+    "person": "ink-tertiary", "dim": "ink-tertiary", "text": "ink-secondary",
+    "boxLine": "brand-text", "boxTop": "canvas-card", "boxLeft": "brand-tint", "boxRight": "brand-tintStrong"
+  }
+}

@@ -42,3 +42,8 @@
 .oc-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .oc-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
 .oc-img { display: block; background: var(--mk-color-canvas-sunken); }
+/* IMPL-02 M-28 紧凑摘要（mode="brief"）：浅灰底块不描边，三行：店名、编号标签 + 容量、起止日期 */
+.oc-brief { margin-bottom: var(--mk-space-cardGap); padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.oc-brief .oc-brief-line { margin-top: var(--mk-space-2); }
+.oc-brief .oc-no { margin-top: 4rpx; margin-bottom: 4rpx; }
+.oc-brief-span { margin-top: var(--mk-space-2); }

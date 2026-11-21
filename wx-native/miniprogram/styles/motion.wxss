@@ -35,3 +35,11 @@
 .mk-fade { animation: mk-kf-fade var(--mk-motion-base) var(--mk-motion-easing) both; }
 /* IMPL-01 估算域：加减圆钮这类小控件的按压（比卡片的 0.98 明显一些），配 mk-press 用：hover-class="mk-tap--hover mk-press--stepHover" */
 .mk-press--stepHover { transform: scale(0.9); }
+/* IMPL-02 主写者：退场。wx:if 的面板、对话框、遮罩关闭时由 core/motion.js 的 leave(this, key) 加上 mk-leave，播完再移除。
+   mk-leave 只变透明度；下拉面板想带一点上收，再加 mk-leave--up；居中对话框想带一点缩小，再加 mk-leave--zoom。 */
+@keyframes mk-kf-leave { from { opacity: 1; } to { opacity: 0; } }
+@keyframes mk-kf-leave-up { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-12rpx); } }
+@keyframes mk-kf-leave-zoom { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.96); } }
+.mk-leave { animation: mk-kf-leave var(--mk-motion-fast) var(--mk-motion-easing) both; pointer-events: none; }
+.mk-leave.mk-leave--up { animation-name: mk-kf-leave-up; }
+.mk-leave.mk-leave--zoom { animation-name: mk-kf-leave-zoom; }

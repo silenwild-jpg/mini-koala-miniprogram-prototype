@@ -32,7 +32,7 @@ const page = async (name, q) => { const pg = env.newPage(base(routes[name]), q |
 const tap = (dataset) => ({ currentTarget: { dataset: dataset || {} }, detail: {} });
 const pastReview = (obj) => { obj.submitted_at -= (CA.demo.reviewSeconds + 1) * 1000; };
 const verifyCert = async () => { await api.submitEntCert({ name: '演示商贸有限公司', tax: '91110105MA01K7XQ3R', licenseCount: 1, contact: '王经理', phone: '13800000001' }); pastReview(db.kv.account.cert); await api.getEntCert(); };
-const items = (pg) => pg.data.groups.reduce((a, g) => a.concat(g.items), []);
+const items = (pg) => pg.data.groups.reduce((a, g) => a.concat(g.items), (pg.data.quick || []).slice()); // IMPL-02 M-34：常用入口 5 格在 quick
 const dayStr = (offset) => lead.dateStr(Date.now() + offset * 86400e3);
 
 // 裁定 R-13 后，没通过认证的演示账户起始不带企业抬头；认证通过后先加一条企业抬头再批量开票

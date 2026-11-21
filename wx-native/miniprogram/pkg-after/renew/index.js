@@ -100,6 +100,9 @@ function render(page, o, now) {
       }
       if (v.deadline && st !== 'completed' && st !== 'quote_expired') startTick(page, v.deadline);
     }
+    // IMPL-02 M-29：只有一行费用（没有对照行）且金额与合计相同时，费用行与合计行合并成一行：合计的名称与金额 + 费用行的月数、折扣标签；算式仍在下方。
+    // 有对照行（现行折扣价、常规折扣价、原报价）或没有合计（填写态、沿用原折扣的过期态）时保持原样。
+    if (d.card && d.card.total && !d.card.ref && d.card.main.amt === d.card.total.amt) d.card.one = { k: d.card.total.k, sub: d.card.main.sub, tag: d.card.main.tag || '', amt: d.card.total.amt };
     // IMPL-01 动效：改续租月数后步进数字与底栏金额轻微回弹（首次渲染、占位文字不动）；状态切换时正文淡入
     const prevAmt = page.data.bar && !page.data.bar.muted ? page.data.bar.amt : '', prevM = page.data.form ? page.data.form.months : 0;
     page.setData(d);

@@ -19,6 +19,7 @@
             <view class="iv-rec-line"><text class="mk-tag iv-rec-kind">{{item.kind}}</text><text class="mk-sub iv-rec-title">{{item.s}}</text></view>
             <text wx:if="{{item.tax}}" class="mk-sub mk-num iv-rec-s">{{item.tax}}</text>
             <text class="mk-sub iv-rec-s">{{item.email}}</text>
+            <view wx:if="{{item.form}}" class="mk-sub iv-rec-s iv-rec-form"><text class="iv-rec-formk">{{item.form.k}}</text><text>{{item.form.v}}</text></view>
             <view wx:if="{{item.acts}}" class="iv-rec-acts">
               <text class="mk-link iv-rec-act" data-id="{{item.id}}" bindtap="onSend" aria-role="button">{{T.i.send}}</text>
               <text class="mk-link iv-rec-act" data-id="{{item.id}}" bindtap="onDownload" aria-role="button">{{T.i.download}}</text>

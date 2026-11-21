@@ -49,7 +49,11 @@ module.exports = {
     sliderStops: [0.1, 0.325, 0.55, 0.775, 1],
     // IMPL-01 示意区与动效（自定）：仓库示意随容量缩放的下限；一次最多同时飞几个箱子 / 物品图；连拖时两次飞入的最小间隔；飞行时长与错峰；数量弹窗退场时长
     numDigitRpx: 46, numPadRpx: 24, numEmptyRpx: 150, numMaxRpx: 330, // 容量大数字输入框按字符估宽（72rpx 字号下每位数字约 46rpx）
-    stageScaleMin: 0.62, flyBurst: 3, flyMax: 4, flyGapMs: 90, flyMs: 300, flyStaggerMs: 60, dialogOutMs: 180,
+    stageScaleMin: 0.8, flyBurst: 3, flyMax: 4, flyMs: 300, flyStaggerMs: 60, dialogOutMs: 180,
+    // IMPL-02 容量页示意区的累计箱子（自定口径，待裁）：容量每达到下面一个值，示意区多留一只箱子（只数 = 不大于当前容量的项数）。
+    // 是「越大越多」的示意，不是「全放标准纸箱约 N 箱」那个数。每档插画里画多少个箱位由 tools/gen_size_illus.py 按这张表与 unitThumbBands 算出，改表后要重跑。
+    // stageScaleMin 由 0.62 改 0.8：新的尺寸示意图里有尺寸数字，缩得太小看不清（物品页底栏的仓库示意共用此值）。原 flyGapMs（连拖节流）不再需要：箱子只数由容量决定，不会越积越多。
+    stageBoxStepsM3: [0.5, 1, 1.5, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30],
     toastMs: 2400               // 冻结稿 w1-render.js toast
   },
   hero: { backdrop: 72, solidAfter: 24 }, // 首页顶部浅绿底带（px）：顶栏以下再延伸多少（IMPL-01 自定，首屏卡压在它上面）；滚动多少后顶栏变实底（自定）

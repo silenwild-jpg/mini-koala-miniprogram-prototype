@@ -6,14 +6,17 @@
     <mk-notice wx:if="{{pending}}" title="{{T.pendingTitle}}" text="{{T.pendingDesc}}" link="{{T.contact}}" bind:link="onService" />
   </view>
   <block wx:if="{{!pending}}">
-    <view wx:if="{{toc.length}}" class="mk-sec {{toc.length > 2 ? 'ag-tocs--lined' : ''}}">
-      <view class="mk-sec__hd ag-sectitle">{{T.toc}}</view>
-      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{toc}}" wx:key="id" class="ag-toc" data-id="{{item.id}}" bindtap="onToc" aria-role="button">
-        <text class="mk-num ag-tocn">{{item.n}}</text><view class="mk-grow mk-ellipsis">{{item.t}}</view><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+    <view wx:if="{{toc.length}}" class="mk-sec ag-tocsec">
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ag-tochd" bindtap="onTocToggle" aria-role="button" aria-expanded="{{tocOpen && !tocOpenLeave}}">
+        <text class="mk-grow ag-tochdt">{{T.toc}}</text><image class="mk-icon mk-rot {{tocOpen && !tocOpenLeave ? 'mk-rot--on' : ''}}" src="/assets/icons/down-ink.svg" />
+      </view>
+      <view wx:if="{{tocOpen}}" class="ag-tocs mk-drop-in {{tocOpenLeave ? 'mk-leave mk-leave--up' : ''}} {{toc.length > 2 ? 'ag-tocs--lined' : ''}}">
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{toc}}" wx:key="id" class="ag-toc" data-id="{{item.id}}" bindtap="onToc" aria-role="button">
+          <view class="mk-grow mk-ellipsis">{{item.t}}</view><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+        </view>
       </view>
     </view>
     <view class="mk-sec">
-      <view class="mk-sec__hd ag-sectitle">{{T.body}}</view>
       <view wx:for="{{sections}}" wx:key="id" id="{{item.id}}" class="ag-sec">
         <view wx:if="{{item.title}}" class="ag-h3">{{item.title}}</view>
         <block wx:for="{{item.paras}}" wx:for-item="p" wx:key="k">

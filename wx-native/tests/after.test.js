@@ -299,7 +299,7 @@ test('页面：订单号不存在或订单未付款 → 空态；没带订单号
   const rn = await page(routes.RENEW, {}); assert.equal(rn.data.empty, false); assert.equal(rn.data.order.stage, S.EXPIRING); rn.onUnload();
   const none = await page(routes.DEPOSIT, {}); assert.equal(none.data.empty, false, '从「我的」进押金页不带订单号'); none.onUnload();
   const dp = await page(routes.DEPOSIT, { id: db.orders.find((x) => x.stage === S.ENDED && x.deposit.status === 'partial').id }); assert.equal(dp.data.st, 'refunded_partial');
-  assert.deepEqual(dp.data.settle.map((r) => r.k), ['订单押金', '已扣费用', '实际退还']); assert.equal(dp.data.settle[1].v, '−¥40');
+  assert.deepEqual([dp.data.part.rows[0].k, dp.data.part.rows[1].k, dp.data.part.label], ['订单押金', '已扣费用', '实际退还']); assert.equal(dp.data.part.rows[1].v, '−¥40'); // IMPL-02 M-32：结算三行并入顶部金额区
 });
 test('页面 续租：沿用原折扣的填写 → 提交（先请求订阅）→ 报价待确认 → 确认并支付 → 先支付后订阅到期提醒', async () => {
   fresh();
@@ -424,7 +424,7 @@ test('页面 发票：填完才能提交 → 已提交 → 已开具（下载 / 
   await pg.onSubmit();
   assert.equal(pg.data.head.title, '发票申请已提交'); assert.equal(pg.data.head.tag, '已提交'); assert.equal(pg.data.form, null); assert.deepEqual([pg.data.records[0].kind, pg.data.records[0].s], ['个人', '张三']); // IMPL-01：类型是标签、抬头是正文
   await pg.refresh();
-  assert.equal(pg.data.head.title, '发票已开具'); assert.deepEqual(pg.data.bar.btns.map((b) => b.text), ['发送到邮箱', '下载发票']); assert.equal(pg.data.file[1].v, 'zhangsan@163.com');
+  assert.equal(pg.data.head.title, '发票已开具'); assert.deepEqual(pg.data.bar.btns.map((b) => b.text), ['发送到邮箱', '下载发票']); assert.equal(pg.data.records[0].email, 'zhangsan@163.com');
   await pg.onSend(); await pg.onDownload();
   raw(id).invoice.records[0].status = 'failed'; await pg.refresh();
   assert.equal(pg.data.head.title, '开票未成功'); assert.equal(pg.data.fail, true); assert.equal(pg.data.form.title, '张三'); assert.equal(pg.data.bar.btns[0].text, '更正资料后重新提交'); assert.equal(pg.data.showPays, false);

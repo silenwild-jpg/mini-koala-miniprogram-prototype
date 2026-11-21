@@ -10,6 +10,9 @@
 /* IMPL-01：合计行不画线，用浅灰底块与字号区分（与 mk-fee-detail 的合计行同一写法） */
 .af-total { display: flex; align-items: center; justify-content: space-between; margin: var(--mk-space-2) 0; padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); font-weight: var(--mk-font-weight-semibold); }
 .af-total-amt { font-size: var(--mk-font-size-xl); }
+/* IMPL-02 M-29：单行费用与合计合并后的那一行；月数小字不加粗 */
+.af-total--one .af-fee-sub { font-weight: var(--mk-font-weight-regular); }
+.af-total--one .af-total-amt { flex: none; margin-left: var(--mk-space-3); }
 /* —— 续租页 —— */
 .rn-notesec .mk-sec__hd { display: none; }
 .rn-stepper { display: flex; align-items: center; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); }

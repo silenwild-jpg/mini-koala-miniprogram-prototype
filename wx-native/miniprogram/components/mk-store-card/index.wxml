@@ -1,3 +1,4 @@
+<!-- IMPL-02：仓位行的编号用 mk-unitno 标签（组合仓每个编号一个），容量跟在后面，与订单卡同一写法；满额减是价格次行后的优惠标签。 -->
 <!-- IMPL-01 门店卡骨架（四种形态同一套）：图（角标压在图左上）｜店名 → 距离 · 区名 · 商圈 → 标签一行；发丝线下：规格在左、价格独立在右（或价格 + 按钮）。 -->
 <view class="mk-card sc-card mk-press {{variant === 'compact' ? 'sc-card--compact' : ''}} {{enterCls}}" hover-class="mk-press--hover">
   <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sc-head" bindtap="onStore" aria-role="button" aria-label="{{card.name}}，查看门店和全部仓位">
@@ -47,7 +48,8 @@
     <view wx:for="{{lines}}" wx:key="id" class="sc-line {{index > 0 ? 'sc-line--alt' : ''}}">
       <view class="sc-unit">
         <text wx:if="{{item.combo}}" class="mk-tag mk-tag--brand sc-ctag">{{item.comboTag}}</text>
-        <text class="sc-uname">{{item.combo ? item.codes + ' · ' + item.volText : item.name}}</text>
+        <block wx:if="{{item.codeList.length}}"><text wx:for="{{item.codeList}}" wx:for-item="c" wx:key="*this" class="mk-unitno sc-no">{{c}}</text><text class="mk-num sc-vol">{{item.volText}}</text></block>
+        <text wx:else class="sc-uname">{{item.name}}</text>
         <text wx:if="{{item.bigTag}}" class="mk-tag sc-tier">{{item.bigTag}}</text>
         <text wx:if="{{item.nearText}}" class="mk-tag mk-tag--promo sc-tier">{{item.nearText}}</text>
         <text wx:if="{{item.diffText}}" class="mk-sub sc-diff">{{item.diffText}}</text>
@@ -55,7 +57,7 @@
       <view class="mk-between sc-buy">
         <view class="mk-grow" data-i="{{index}}" bindtap="onPrice">
           <view class="{{bump}}"><mk-price amount="{{item.price.amount}}" unit="{{item.price.unit}}" discount="{{item.price.discount}}" /></view>
-          <text wx:if="{{item.price.sub}}" class="mk-sub sc-sub">{{item.price.sub}}</text>
+          <view wx:if="{{item.price.sub || item.price.off}}" class="sc-subline"><text wx:if="{{item.price.sub}}" class="mk-sub sc-sub">{{item.price.sub}}</text><text wx:if="{{item.price.off}}" class="mk-tag mk-tag--promo mk-num sc-off">{{item.price.off}}</text></view>
         </view>
         <button class="mk-btn mk-btn--md sc-cta {{item.secondary ? 'mk-btn--ghost' : ''}}" hover-class="{{item.secondary ? 'mk-btn--ghostHover' : 'mk-btn--hover'}}" hover-stop-propagation="{{true}}" data-i="{{index}}" bindtap="onAction">{{item.cta}}</button>
       </view>

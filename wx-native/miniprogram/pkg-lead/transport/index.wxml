@@ -21,7 +21,7 @@
     </view>
   </block>
   <block wx:else>
-    <view wx:if="{{view === 'form'}}" class="mk-gutter ltr-top"><mk-order-card order="{{order}}" /></view>
+    <view wx:if="{{view === 'form'}}" class="mk-gutter ltr-top ltr-brief"><mk-order-card order="{{order}}" mode="brief" /></view>
     <view class="mk-gutter ldf-ntc"><mk-notice class="ltr-note" plain="{{true}}" text="{{view === 'form' ? T.x.noteOrder : T.x.note}}" /></view>
     <view wx:if="{{view === 'form' && free}}" class="ldf-block ldf-cardgap mk-between">
       <view class="mk-grow"><text class="ltr-rt">{{T.x.freeTitle}}</text><text class="mk-sub ltr-rs">{{T.x.freeScope}}</text></view>

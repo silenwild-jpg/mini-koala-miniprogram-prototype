@@ -1,5 +1,11 @@
 @import "../acc.wxss";
+/* IMPL-02 M-37：说明、邀请码、「活动筹备中」三块合并成一张主卡（状态标签在上，标题与说明、邀请码、两个按钮依次排）；筹备中的说明句是卡下小字。页面回到浅灰底衬这张卡 */
+.rf-wrap { padding-top: var(--mk-space-3); }
+.rf-state { margin-right: 0; }
+.rf-title { display: block; margin-top: var(--mk-space-3); }
+.rf-para { margin-top: var(--mk-space-1); }
+.rf-label { margin-top: var(--mk-space-4); }
 .rf-box { min-height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); }
 .rf-ic { margin-right: var(--mk-space-2); }
-.rf-note { margin-bottom: calc(-1 * var(--mk-space-3)); }
-.ac-secs .mk-btn.mk-btn.ac-block { width: 100%; }
+.rf-fine { margin-top: var(--mk-space-3); padding: 0 var(--mk-space-1); }
+.rf-card .mk-btn.mk-btn.ac-block { width: 100%; }

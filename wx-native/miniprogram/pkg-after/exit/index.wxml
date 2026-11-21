@@ -8,7 +8,7 @@
     <view class="{{stFx}}"><mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" /></view>
     <view class="af-body af-top">
       <mk-notice wx:if="{{note}}" title="{{note.title}}" text="{{note.text}}" tone="{{note.tone}}" link="{{note.link}}" bind:link="onAgreement" />
-      <mk-order-card order="{{order}}" />
+      <mk-order-card order="{{order}}" mode="brief" />
     </view>
     <view class="af-secs {{stFx}}">
       <view wx:if="{{cancel}}" class="mk-sec">
@@ -37,15 +37,8 @@
         <text wx:if="{{form.tip}}" class="af-rule">{{form.tip}}</text>
       </view>
       <view wx:if="{{depositRows.length}}" class="mk-sec"><mk-after-kv rows="{{depositRows}}" /></view>
-      <view wx:if="{{plan.length}}" class="mk-sec">
-        <view class="mk-sec__hd">{{T.x.arrange}}</view>
-        <mk-after-kv rows="{{plan}}" />
-      </view>
       <view wx:if="{{fail}}" class="mk-sec"><mk-after-fail title="{{T.x.failTitle}}" reason="{{order.exit.fail_reason}}" fixes="{{T.x.failFixes}}" bind:call="onCall" /></view>
-      <view wx:if="{{before}}" class="mk-sec">
-        <view class="mk-sec__hd">{{T.x.beforeInspect}}</view>
-        <text>{{T.x.beforeInspectText}}</text>
-      </view>
+      <view wx:if="{{before}}" class="mk-sec"><mk-notice text="{{T.x.beforeInspectNote}}" /></view>
       <view wx:if="{{waitNote}}" class="mk-sec">
       <mk-notice text="{{waitNote}}">
         <view wx:if="{{sub}}" class="ex-sub">

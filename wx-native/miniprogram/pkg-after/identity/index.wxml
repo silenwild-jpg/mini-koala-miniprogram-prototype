@@ -7,7 +7,7 @@
   <block wx:else>
     <view class="af-body af-top id-top">
       <mk-notice wx:if="{{note}}" text="{{note}}" tone="{{noteTone}}" />
-      <mk-order-card order="{{order}}" />
+      <mk-order-card order="{{order}}" mode="brief" />
     </view>
     <view class="af-secs {{stFx}}">
       <view class="mk-sec">

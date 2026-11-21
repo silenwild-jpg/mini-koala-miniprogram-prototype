@@ -137,11 +137,11 @@ test('筛选条与面板的呈现：已选数量是数字角标；下拉带展�
   const pg = env.newPage('pages/stores/index', {}); await tick();
   pg.onSheet(tap({ k: 'services' })); pg.onOfferOption(tap({ k: 'promo' })); pg.onSheetConfirm(); await tick();
   assert.deepEqual([pg.data.svcLabel, pg.data.svcN, pg.data.svcOn], ['服务', 1, true]);
-  // 快速连点同一项：开 → 关 → 开，状态与点击次数一致
-  pg.onSheet(tap({ k: 'sort' })); pg.onSheet(tap({ k: 'sort' })); pg.onSheet(tap({ k: 'sort' })); assert.equal(pg.data.sheet, 'sort');
-  pg.onSheet(tap({ k: 'distance' })); assert.equal(pg.data.sheet, 'distance'); pg.onSheetClose(); assert.equal(pg.data.sheet, '');
+  // 快速连点同一项：开 → 关（退场中）→ 开，状态与点击次数一致（IMPL-02：收起先播退场）
+  pg.onSheet(tap({ k: 'sort' })); pg.onSheet(tap({ k: 'sort' })); pg.onSheet(tap({ k: 'sort' })); assert.equal(pg.data.sheet, 'sort'); assert.equal(pg.data.sheetLeave, '');
+  pg.onSheet(tap({ k: 'distance' })); assert.equal(pg.data.sheet, 'distance'); await pg.onSheetClose(); assert.equal(pg.data.sheet, '');
   const w = read('pages/stores/index.wxml');
-  assert.ok(/class="sl-drop mk-drop-in"/.test(w)); assert.ok(/mk-rot \{\{sheet === 'sort' \? 'mk-rot--on' : ''\}\}/.test(w)); assert.ok(/sl-mask mk-scrim-in/.test(w));
+  assert.ok(/class="sl-drop mk-drop-in /.test(w)); assert.ok(/mk-rot \{\{\(sheet === 'sort' && !sheetLeave\) \? 'mk-rot--on' : ''\}\}/.test(w)); assert.ok(/sl-mask mk-scrim-in/.test(w));
   assert.ok(/\.mk-scrim-in/.test(read('styles/motion.wxss')));
   const c = env.newComponent('components/mk-location-panel/index', {}); c.setData({ visible: true }); await tick();
   c.onInput({ detail: { value: '望京' } });

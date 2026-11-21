@@ -5,7 +5,8 @@
       <view class="mk-grow">
         <view class="mk-title {{main.strong ? 'tk-title--strong' : ''}}">{{main.title}}</view>
         <view class="tk-store mk-ellipsis">{{main.store}}</view>
-        <view class="mk-sub mk-ellipsis">{{main.sub}}</view>
+        <view wx:if="{{main.codes.length}}" class="tk-unit"><text wx:for="{{main.codes}}" wx:key="*this" class="mk-unitno tk-no">{{item}}</text><text class="mk-num tk-vol">{{main.vol}}</text><text class="mk-sub tk-term">{{main.term}}</text></view>
+        <view wx:else class="mk-sub mk-ellipsis">{{main.sub}}</view>
         <view wx:if="{{main.address}}" class="mk-mute tk-addr mk-ellipsis">{{main.address}}</view>
       </view>
       <text wx:if="{{main.badge}}" class="tk-badge tk-badge--{{main.badgeTone}} mk-num">{{main.badge}}</text>

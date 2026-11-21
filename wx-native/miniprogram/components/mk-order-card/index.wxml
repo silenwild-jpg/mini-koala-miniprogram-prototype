@@ -1,4 +1,13 @@
-<view wx:if="{{v}}" class="mk-card oc-card {{dead ? 'oc-off' : ''}}">
+<view wx:if="{{v && mode === 'brief'}}" class="oc-brief">
+  <view class="mk-title mk-ellipsis">{{v.storeName}}</view>
+  <view wx:if="{{v.unitCodes.length}}" class="oc-unitline oc-brief-line">
+    <text wx:for="{{v.unitCodes}}" wx:key="*this" class="mk-unitno oc-no">{{item}}</text>
+    <text class="mk-num oc-vol">{{v.unitVol}}</text>
+  </view>
+  <view wx:elif="{{v.unitName}}" class="mk-ellipsis oc-brief-line">{{v.unitName}}</view>
+  <view wx:if="{{briefSpan}}" class="mk-sub mk-num oc-brief-span">{{briefSpan}}</view>
+</view>
+<view wx:elif="{{v}}" class="mk-card oc-card {{dead ? 'oc-off' : ''}}">
   <block wx:if="{{variant === 'list'}}">
     <view class="oc-row">
       <image wx:if="{{v.storePhoto}}" class="oc-ph oc-img" src="{{v.storePhoto}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>

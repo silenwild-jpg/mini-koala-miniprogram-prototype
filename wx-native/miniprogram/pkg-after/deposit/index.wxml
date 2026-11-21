@@ -10,7 +10,15 @@
       <view wx:if="{{picks.length}}" class="dp-switch" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onPick" aria-role="button">
         <text class="mk-sub mk-grow">{{pickCount}}</text><text class="mk-link">{{T.d.switchOrder}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" />
       </view>
-      <view class="dp-amtbox">
+      <view wx:if="{{part}}" class="dp-amtbox">
+        <text class="mk-sub">{{part.label}}</text>
+        <text class="mk-num dp-amt">{{part.amt}}</text>
+        <view class="dp-part">
+          <view wx:for="{{part.rows}}" wx:key="k" class="dp-part-row"><text class="dp-part-k">{{item.k}}</text><text class="mk-num">{{item.v}}</text></view>
+        </view>
+        <text class="af-rule">{{part.note}}</text>
+      </view>
+      <view wx:else class="dp-amtbox">
         <view class="mk-row"><text class="mk-sub">{{T.d.amountLabel}}</text><text class="dp-basis">{{T.d.amountBasis}}</text></view>
         <text class="mk-num dp-amt">{{amount}}</text>
       </view>
@@ -20,11 +28,6 @@
       <view class="mk-sec">
         <view class="mk-sec__hd">{{T.d.progress}}</view>
         <mk-after-steps steps="{{steps}}" />
-      </view>
-      <view wx:if="{{settle.length}}" class="mk-sec">
-        <view class="mk-sec__hd">{{T.d.settle}}</view>
-        <mk-after-kv rows="{{settle}}" />
-        <text class="af-rule">{{T.d.dueNote}}</text>
       </view>
       <view class="mk-sec">
         <view class="mk-sec__hd">{{T.d.info}}</view>

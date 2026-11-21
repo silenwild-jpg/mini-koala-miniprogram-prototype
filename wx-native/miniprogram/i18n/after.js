@@ -53,7 +53,8 @@ module.exports = {
     submit: '提交退仓安排', renew: '办理续租',
     confirmTitle: '确认提交退仓？', estimate: '预计结算费用', settle: '费用结算', settleText: '提前退仓请先与门店确认，费用按实际使用时间及协议约定结算。', promo: '已享优惠', promoText: '已享优惠按实际使用周期重新核算',
     confirmText: '提交后进入退仓流程；如需继续用仓，请先办理续租。', think: '再想想', confirm: '确认提交',
-    beforeInspect: '申请验仓前', beforeInspectText: '请确认物品全部取出、仓位清空并锁好。', inspect: '确认清空并申请验仓', reinspect: '重新申请验仓',
+    beforeInspect: '申请验仓前', beforeInspectText: '请确认物品全部取出、仓位清空并锁好。', beforeInspectNote: '申请验仓前，请确认物品全部取出、仓位清空并锁好。', // IMPL-02 M-31：提示条用的单句（原标题 + 原句合成）
+    inspect: '确认清空并申请验仓', reinspect: '重新申请验仓',
     waitingNote: '门店将在 {n} 天内完成验仓，通过后押金进入退款处理。', // R-02：{n} = config-after sla.inspectDays
     // R-01：撤回退仓；早于计划取空日申请验仓按提前退仓结算
     withdraw: '撤回退仓申请', withdrawTitle: '确认撤回退仓申请？', withdrawText: '撤回后订单回到原来的租用状态。提交退仓时作废的续租申请不会恢复。', withdrawYes: '确认撤回', withdrawNo: '暂不撤回', withdrawn: '退仓申请已撤回',
@@ -63,7 +64,8 @@ module.exports = {
   },
   deposit: {
     head: '订单押金', tag: { held: '押金保管中', waiting: '待验仓', refund_pending: '退款处理中', refund_failed: '退款未成功', refunded: '已退还', refunded_partial: '部分退还' },
-    amountLabel: '押金', amountBasis: '1个月月租', progress: '押金进度', steps: ['支付押金', '押金保管中', '验仓', '退款处理', '退还完成'], paidWith: '{d} 随下单支付',
+    amountLabel: '押金', amountBasis: '1个月月租', dueMinus: '−{a}', // IMPL-02 M-32：部分退还态顶部小字行的扣减写法
+    progress: '押金进度', steps: ['支付押金', '押金保管中', '验仓', '退款处理', '退还完成'], paidWith: '{d} 随下单支付',
     exitTag: { requested: '已提交', waiting: '待验仓', failed: '需重新验仓', passed: '验仓通过' },
     settle: '押金结算', orderDeposit: '订单押金', due: '已扣费用', back: '实际退还', dueNote: '已扣费用明细可向门店查询。', // FIX-01 C-12：结算完成后不再叫「待结费用」
     switchOrder: '切换订单', switchTitle: '选择订单', switchCount: '共 {n} 笔订单', // FIX-01 D-14

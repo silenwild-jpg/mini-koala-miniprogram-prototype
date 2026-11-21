@@ -14,9 +14,10 @@ module.exports = {
     stage: { paid_before_start: '待入仓', active: '租用中', expiring: '即将到期', exiting: '退仓处理中', overdue: '租期已到期' },
     progressNone: '尚无保存的需求', monthUnit: '个月', leadsSuffix: '条记录',
     certStatus: { reviewing: '审核中', verified: '已认证', failed: '未通过' }, // 自写（FIX-01 D-13）：「企业认证」一行右侧的状态
+    // IMPL-02 M-34：原「我的记录」「服务与权益」两组合并成一行 5 格的常用入口（图标 + 名称；只有消息带未读徽标）。s 不再显示，留作无障碍朗读
+    quickLabel: '常用入口', unreadSuffix: '条未读',
+    quick: [{ k: 'NEEDS', icon: 'note-ink', t: '预约用仓', s: '查看已提交的预约' }, { k: 'PROGRESS', icon: 'flag-ink', t: '找仓进度', s: '' }, { k: 'FAVORITES', icon: 'heart-ink', t: '我的收藏', s: '门店和仓位' }, { k: 'COUPONS', icon: 'ticket-ink', t: '优惠与权益', s: '查看可用权益' }, { k: 'MESSAGES', icon: 'msg-ink', t: '消息', s: '查看业务通知', badge: true }],
     groups: [
-      { key: 'records', title: '我的记录', items: [{ k: 'NEEDS', icon: 'note-ink', t: '预约用仓', s: '查看已提交的预约' }, { k: 'PROGRESS', icon: 'flag-ink', t: '找仓进度', s: '' }] },
-      { key: 'benefit', title: '服务与权益', items: [{ k: 'FAVORITES', icon: 'heart-ink', t: '我的收藏', s: '门店和仓位' }, { k: 'COUPONS', icon: 'ticket-ink', t: '优惠与权益', s: '查看可用权益' }, { k: 'MESSAGES', icon: 'msg-ink', t: '消息', s: '查看业务通知' }] },
       { key: 'finance', title: '账务与企业', items: [{ k: 'ENT_TITLES', icon: 'order-ink', t: '开票抬头', s: '' }, { k: 'ENT_BATCH', icon: 'ticket-ink', t: '批量开票', s: '' }, { k: 'DEPOSIT', icon: 'shield-ink', t: '押金', s: '' }, { k: 'ENT_CERT', icon: 'building-ink', t: '企业认证', s: '' }] }, // FIX-01 S-07 / D-13：入口名统一为「开票抬头」；加「批量开票」直达
       { key: 'more', title: '更多服务', items: [{ k: 'TRANSPORT', icon: 'truck-ink', t: '运输与搬运', s: '下单前可预约' }, { k: 'REFERRAL', icon: 'gift-ink', t: '推荐有礼', s: '' }, { k: 'SUPPORT', icon: 'headset-ink', t: '联系顾问', s: '' }, { k: 'BRAND', icon: 'info-ink', t: '关于迷你考拉', s: '' }] }
     ]

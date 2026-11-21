@@ -28,7 +28,7 @@ function render(page, o, now) {
   page._st = st0;
   if (st0 === 'empty') { page.setData({ empty: true, order: null, bar: null, st: 'empty', confirm: false }); return; }
   const x = o.exit, end = after.ymd(o.lease.end), isForm = st0 === 'form' || st0 === 'form_expired';
-  const d = { empty: false, st: st0, order: o, note: null, cancel: null, form: null, depositRows: [], plan: [], fail: false, before: false, waitNote: '', sub: null, bar: null, steps: [], confirmRows: [], canWithdraw: false, early: false, earlyRows: [], earlyText: '' };
+  const d = { empty: false, st: st0, order: o, note: null, cancel: null, form: null, depositRows: [], fail: false, before: false, waitNote: '', sub: null, bar: null, steps: [], confirmRows: [], canWithdraw: false, early: false, earlyRows: [], earlyText: '' };
   d.head = { title: X.head[st0], tag: page._busy && isForm ? CT.submittingTag : X.tag[st0], tone: page._busy && isForm ? 'warn' : TONE[st0], subs: [fill(CT.orderNo, { no: o.no }), st0 === 'not_started' ? fill(CT.planStart, { d: after.ymd(o.lease.start) }) : fill(CT.leaseTo, { d: end })] };
   if (st0 === 'not_started') { // 已付未起租：退订，由门店办理
     d.cancel = [{ k: X.cancelRule, v: X.cancelRuleText, long: true }, { k: X.cancelPaid, v: X.cancelPaidText, long: true }, { k: X.cancelDeposit, v: zh.common.contactService, soft: true }, { k: X.cancelWay, v: X.cancelWayText }];
@@ -53,7 +53,7 @@ function render(page, o, now) {
     d.bar = page._busy ? { btns: [btn(CT.submitting, '', 'primary', { loading: true, off: true })] }
       : { btns: (expired ? [btn(X.renew, 'renew', 'ghost')] : []).concat([btn(X.submit, 'submit', 'danger')]) };
   } else {
-    if (x) d.plan = [{ k: X.typeLabel, v: typeText }, { k: X.dateLabel, v: x.date }];
+    // IMPL-02 M-30：已提交后的「退仓安排」两行（退仓类型、计划取空日期）并入进度第一步的副文案（X.stepPlan 已含这两项），不再单列一节
     if (st0 === 'requested' || st0 === 'failed') { d.fail = st0 === 'failed'; d.before = true; d.bar = { btns: [btn(st0 === 'failed' ? X.reinspect : X.inspect, 'inspect')] }; }
     d.canWithdraw = after.canWithdrawExit(o);
     if (d.before && after.inspectionIsEarly(o, now)) { // 租期结束日之前申请验仓：按提前退仓结算，先让用户看到预计结算费用（R-01）
@@ -76,7 +76,7 @@ function failed(page, err) { page._busy = false; page.setData({ confirm: false, 
 const isForm = (page) => page._st === 'form' || page._st === 'form_expired';
 
 Page(auth.guarded(routes.EXIT, {
-  data: { T: { c: CT, x: X }, sys: 'loading', empty: false, st: '', head: null, order: null, steps: [], note: null, cancel: null, form: null, depositRows: [], plan: [], fail: false, before: false, waitNote: '', sub: null, bar: null, confirm: false, confirmRows: [], canWithdraw: false, early: false, earlyRows: [], earlyText: '' },
+  data: { T: { c: CT, x: X }, sys: 'loading', empty: false, st: '', head: null, order: null, steps: [], note: null, cancel: null, form: null, depositRows: [], fail: false, before: false, waitNote: '', sub: null, bar: null, confirm: false, confirmRows: [], canWithdraw: false, early: false, earlyRows: [], earlyText: '' },
   onLoad(q) { this._id = (q && q.id) || ''; this._type = q && q.type === 'early' ? 'early' : 'expiry'; this._date = ''; this._busy = false; },
   onShow() { this.refresh(); },
   onHide() { cm.cancelLater(this); },

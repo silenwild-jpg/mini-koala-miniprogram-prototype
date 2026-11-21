@@ -156,6 +156,10 @@ except Exception: errs.append('图标核对没跑通：' + (_ic.stderr or _ic.st
 _tb = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_tabbar.py'), root, '--check'], capture_output=True, text=True)
 try: errs += json.loads(_tb.stdout)['errors']
 except Exception: errs.append('导航图标核对没跑通：' + (_tb.stderr or _tb.stdout)[-200:])
+# IMPL-02：尺寸示意插画由 tools/gen_size_illus.py 生成，这里核对生成物没有手改
+_si = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_size_illus.py'), '--check'], capture_output=True, text=True)
+try: errs += json.loads(_si.stdout)['errors']
+except Exception: errs.append('尺寸示意插画核对没跑通：' + (_si.stderr or _si.stdout)[-200:])
 # STYLE-01 / IMPL-01：首页配图（assets/images/home，含 banner / city / proof 子目录）必须有人引用，引用的文件必须存在。
 # 引用处：首页 WXML 与 core/config-find.js（轮播、五城地标、资质配图的路径写在配置里）
 _home = os.path.join(root, 'assets', 'images', 'home')

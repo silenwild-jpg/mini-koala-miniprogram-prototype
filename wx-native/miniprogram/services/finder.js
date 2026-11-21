@@ -49,17 +49,17 @@ function line(units, months, loggedIn) {
     code: single ? single.code : fmt.comboName(units), volText: fmt.pretty(vol) + 'm³',
     tier: single ? fmt.tierLabel(single) : '', dims: single ? fmt.dimsText(single) : fmt.comboVolumeText(units),
     area: single ? fmt.areaText(single) : '', usage: usageText(units[0].volume), special: units.some(pricing.isSpecial),
-    thumbs: units.slice(0, 2).map(media.unitThumb),
+    thumbs: units.slice(0, 2).map(media.unitThumb), illus: media.unitSizeIllus(units[0]),
     // IMPL-01：组合方案行与单仓同一写法「编号 · 容量」，「N 间组合」单独成标签
-    codes: units.map((u) => u.code).join(' + '), comboTag: single ? '' : T.detail.comboTag(units.length), totalText: ''
+    codes: units.map((u) => u.code).join(' + '), codeList: units.map((u) => u.code).filter(Boolean), comboTag: single ? '' : T.detail.comboTag(units.length), totalText: ''
   };
   if (loggedIn && pricing.isTerm(months)) {
     const q = pricing.quote(units, months);
-    l.price = { mode: 'monthly', amount: q.monthly_average, unit: T.price.month, discount: q.special ? T.price.special : pricing.factorLabel(q.term_factor), sub: T.price.totalPrefix + pricing.yuan(q.rent_total) + ' · ' + fmt.termText(months) + (q.full_reduction > 0 ? ' · ' + T.price.fullOffShort + pricing.yuan(q.full_reduction) : '') }; // 满额减缩写为「-¥400」（W37 #28）；三页同一写法，卡片里放得下
+    l.price = { mode: 'monthly', amount: q.monthly_average, unit: T.price.month, discount: q.special ? T.price.special : pricing.factorLabel(q.term_factor), sub: T.price.totalPrefix + pricing.yuan(q.rent_total) + ' · ' + fmt.termText(months), off: q.full_reduction > 0 ? T.price.fullOffTag(pricing.yuan(q.full_reduction)) : '' }; // IMPL-02 PR-201：满额减不再拼进次行，单独成优惠标签（price.off）；附近门店、仓位推荐、门店详情三处同一写法
     l.rentTotal = q.rent_total; l.monthly = q.monthly_average; l.totalText = T.price.totalPrefix + pricing.yuan(q.rent_total);
     l.cta = T.cta.order;
   } else {
-    l.price = { mode: 'from', amount: units.reduce((n, u) => n + pricing.unitFromMonthly(u), 0), unit: T.price.fromMonth, discount: '', sub: '' };
+    l.price = { mode: 'from', amount: units.reduce((n, u) => n + pricing.unitFromMonthly(u), 0), unit: T.price.fromMonth, discount: '', sub: '', off: '' };
     l.cta = pricing.isTerm(months) ? T.cta.quote : T.cta.order; // 没有需求时按默认租期下单（D-158），未登录由登录守卫拦在当前页
   }
   return l;
@@ -387,7 +387,7 @@ function buildStoreDetail(store, ctx, opts) {
   // 接近（差额不超过 20%）可直接下单并写明差额；更小的给「按 X m³ 重新匹配」
   const near = others.filter((u) => matching.fit(u.volume, need).state === 'near').map((u) => Object.assign(mk(u), { nearText: matching.fit(u.volume, need).text, secondary: true }));
   const smaller = others.filter((u) => matching.fit(u.volume, need).state !== 'near').map((u) => Object.assign(mk(u), { cta: T.detail.rematch(fmt.pretty(u.volume)), act: 'rematch', volume: u.volume, secondary: true }));
-  const sold = store.units.filter((u) => !matching.isAvailable(u) && inCat(u)).slice(0, CF.detail.soldFoldMax).map((u) => ({ id: u.id, name: fmt.unitName(u), tier: fmt.tierLabel(u), dims: fmt.dimsText(u), area: fmt.areaText(u), usage: usageText(u.volume), thumb: media.unitThumb(u) }));
+  const sold = store.units.filter((u) => !matching.isAvailable(u) && inCat(u)).slice(0, CF.detail.soldFoldMax).map((u) => ({ id: u.id, name: fmt.unitName(u), code: u.code, volText: fmt.pretty(u.volume) + 'm³', tier: fmt.tierLabel(u), dims: fmt.dimsText(u), area: fmt.areaText(u), usage: usageText(u.volume), thumb: media.unitThumb(u) }));
   const self = situation === 'browse' || situation === 'matched' || situation === 'combo' || situation === 'near'; // 交顾问 / 无可租 / 无匹配三种只出空态，不列仓位
   // 组合方案：合计落在匹配区间的；一个都没有时，退而列出合计只够「接近」的组合并写明差额
   const comboList = need && self && cat === 'all' ? (m.combos.length ? m.combos : m.nearCombos) : [];

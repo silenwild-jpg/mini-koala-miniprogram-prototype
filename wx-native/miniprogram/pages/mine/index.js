@@ -19,7 +19,7 @@ const LOGIN_FIRST = { ENT_TITLES: 1, ENT_BATCH: 1, ENT_CERT: 1 }; // 涉及个�
 const TONE = { paid_before_start: 'ok', active: 'ok', expiring: 'warn', exiting: 'warn', overdue: 'err' };
 const demo = require('../../services/demo');
 Page({
-  data: { T: { mine: M, loginRegister: TA.common.loginRegister }, sys: 'loading', loggedIn: false, headTitle: M.guestTitle, headSub: M.guestSub, showNew: false, assets: [], assetsAll: '', groups: [], loginVisible: false, loginTip: '' },
+  data: { T: { mine: M, loginRegister: TA.common.loginRegister }, sys: 'loading', loggedIn: false, headTitle: M.guestTitle, headSub: M.guestSub, showNew: false, assets: [], assetsAll: '', quick: [], groups: [], loginVisible: false, loginTip: '' },
   onLoad() { if (demo.enabled()) this.setData({ demoLabel: '演示工具 · 切换场景与网络' }); },
   onShow() {
     this.sync();
@@ -29,14 +29,19 @@ Page({
   },
   sync() {
     const s = state.get().session, logged = !!s.loggedIn;
-    this.setData({ loggedIn: logged, headTitle: logged ? M.signedTitle : M.guestTitle, headSub: logged ? (s.phoneMasked || M.signedSub) : M.guestSub, groups: this.buildGroups(this._counts || {}) });
+    this.setData({ loggedIn: logged, headTitle: logged ? M.signedTitle : M.guestTitle, headSub: logged ? (s.phoneMasked || M.signedSub) : M.guestSub });
+    this.setGroups();
   },
   refreshTask() { const c = this.selectComponent ? this.selectComponent('#task') : null; if (c && c.refresh) c.refresh(); },
   buildGroups(counts) {
     const r = state.get().requirement;
     const progress = r && req.demandText(r) ? req.demandText(r) + (r.term_months ? ' · ' + r.term_months + M.monthUnit : '') : M.progressNone;
-    return M.groups.map((g) => ({ key: g.key, title: g.title, items: g.items.map((it) => ({ k: it.k, icon: '/assets/icons/' + it.icon + '.svg', t: it.t, s: it.k === 'PROGRESS' ? progress : it.k === 'NEEDS' && this._leads > 0 ? this._leads + M.leadsSuffix : it.k === 'ENT_CERT' && this._cert ? M.certStatus[this._cert] || it.s : it.s, count: counts[it.k] || 0 })) }));
+    const row = (it) => ({ k: it.k, icon: '/assets/icons/' + it.icon + '.svg', t: it.t, s: it.k === 'PROGRESS' ? progress : it.k === 'NEEDS' && this._leads > 0 ? this._leads + M.leadsSuffix : it.k === 'ENT_CERT' && this._cert ? M.certStatus[this._cert] || it.s : it.s, count: counts[it.k] || 0 });
+    // IMPL-02 M-34：常用入口 5 格（图标 + 名称）。只有消息显示未读徽标；其余格的副文案与数量仍在数据里（朗读用），不画出来
+    this._quick = M.quick.map((it) => { const r = row(it); r.badge = it.badge ? r.count : 0; r.label = r.t + (r.badge > 0 ? ' ' + r.badge + M.unreadSuffix : r.s ? ' ' + r.s : ''); return r; });
+    return M.groups.map((g) => ({ key: g.key, title: g.title, items: g.items.map(row) }));
   },
+  setGroups(extra) { const groups = this.buildGroups(this._counts || {}); this.setData(Object.assign({ groups, quick: this._quick }, extra || {})); },
   refresh() {
     const logged = auth.isLoggedIn();
     // 角标类数据（未读数、预约条数）取不到时按 0 处理，不让整页进失败态；权益与订单取不到才算失败
@@ -54,7 +59,7 @@ Page({
         codes: (o.units || []).map((u) => u.code).filter(Boolean), vol: (o.units || []).length ? req.pretty(Number((o.units || []).reduce((n, u) => n + Number(u.volume || 0), 0).toFixed(3))) + 'm³' : '',
         term: o.months + M.assets.monthUnit, span: o.stage === 'paid_before_start' ? M.assets.start + rules.dateText(o.lease.start) : M.assets.until + rules.dateText(o.lease.end)
       })) : []; // 只有一处在租时任务卡已经显示，不重复列
-      this.setData({ showNew: !orders.length && !state.get().requirement, assets: rows, assetsAll: assets.length > C.mineAssetRows ? M.assets.allPrefix + assets.length + M.assets.allSuffix : '', groups: this.buildGroups(this._counts) });
+      this.setGroups({ showNew: !orders.length && !state.get().requirement, assets: rows, assetsAll: assets.length > C.mineAssetRows ? M.assets.allPrefix + assets.length + M.assets.allSuffix : '' });
     });
   },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },

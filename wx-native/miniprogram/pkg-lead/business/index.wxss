@@ -6,8 +6,11 @@
 .lbz-step--on { color: var(--mk-color-ink-primary); }
 .lbz-step--on .lbz-n { border: 0; background: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); }
 .lbz-line { width: 56rpx; height: 1px; margin: 0 var(--mk-space-2); background: var(--mk-color-line-strong); }
-.lbz-tags { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-2); }
-.lbz-tag { margin-bottom: var(--mk-space-1); }
+/* IMPL-02 M-38：大标题区与小节标题行合并成一个标题区（两步共用）：标题行右侧是「查看预约记录」；第一步带说明与一行权益 */
+.lbz-head { padding-top: var(--mk-space-3); }
+.lbz-ht { min-width: 0; }
+.lbz-needs { margin-left: var(--mk-space-3); }
+.lbz-perks { display: block; margin-top: var(--mk-space-2); color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); }
 .lbz-add { margin-top: var(--mk-space-1); }
 .lbz-term { padding-top: var(--mk-space-3); }
 .lbz-seg { display: flex; padding: 6rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); }

@@ -5,7 +5,7 @@ module.exports = {
   // 仓位用途短句（冻结稿 runtime/br03-policy.js）：与 core/config-find.js usageBandsM3 一一对应，最后一项是超出最大档
   usage: { prefix: '适合', bands: ['行李箱、换季衣物', '纸箱、小件家具', '小件家具、家电', '沙发、家庭家具', '大件家具、家电', '大量家具、物资'] },
   unitCategories: { all: '全部', mini: '迷你仓', small: '小型仓', medium: '中型仓', large: '大型仓' },
-  price: { fromMonth: '/月起', month: '/月', cubicFrom: '/m³/月起', special: '特价仓', totalPrefix: '整期 ', fullOff: '满额减 ', fullOffShort: '-', none: '暂无价格' },
+  price: { fromMonth: '/月起', month: '/月', cubicFrom: '/m³/月起', special: '特价仓', totalPrefix: '整期 ', fullOff: '满额减 ', fullOffShort: '-', fullOffTag: (yuan) => '满额减 ' + yuan, none: '暂无价格' },
   // 库存紧张提示（自写，PR-40 待裁）：按本店可租仓位总数
   stock: { low: (n) => '仅剩 ' + n + ' 个可租' },
   cta: { order: '立即下单', quote: '查看报价', viewUnits: '查看仓位', viewStore: '查看门店', moreUnits: '查看更多仓位', advisor: '预约顾问', toAdvisor: '提交给顾问' },

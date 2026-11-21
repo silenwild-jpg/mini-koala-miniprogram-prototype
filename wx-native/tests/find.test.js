@@ -144,7 +144,7 @@ test('门店详情：各种情形（浏览 / 匹配 / 组合 / 无匹配 / 交�
   const s = BJS[0];
   const browse = finder.buildStoreDetail(s, ctx(null, true));
   assert.equal(browse.situation, 'browse'); assert.equal(browse.headPrice, 63); assert.equal(browse.rows.length, 4);
-  assert.deepEqual(browse.rows[0].price, { mode: 'from', amount: 117, unit: '/月起', discount: '', sub: '' }); assert.equal(browse.rows[0].tier, '上层 2/2');
+  assert.deepEqual(browse.rows[0].price, { mode: 'from', amount: 117, unit: '/月起', discount: '', sub: '', off: '' }); assert.equal(browse.rows[0].tier, '上层 2/2');
   assert.equal(browse.rows[0].cta, '立即下单', '无需求时按默认租期下单');
   assert.equal(browse.sold.length, 1); assert.equal(browse.advisor, null);
   const matched = finder.buildStoreDetail(s, ctx(NEED, true));
@@ -229,8 +229,8 @@ test('附近门店页：前 2 家标准卡、第 3 位考拉E存卡、其余紧�
   pg.onMore(); assert.equal(pg.data.shown, 20); pg.onMore(); assert.equal(pg.data.shown, 28); assert.equal(pg.data.hasMore, false);
   // 排序：原位下拉，单选即生效并收起（R-18）；再点同一项收起
   pg.onSheet(tap({ k: 'sort' })); assert.equal(pg.data.sheet, 'sort'); assert.deepEqual(pg.data.sortOptions.map((o) => [o.t, o.on]), [['综合排序', true], ['距离优先', false], ['价格优先', false]]);
-  pg.onSheet(tap({ k: 'sort' })); assert.equal(pg.data.sheet, ''); pg.onSheet(tap({ k: 'sort' }));
-  pg.onOption(tap({ v: 'price' })); await tick();
+  await pg.onSheet(tap({ k: 'sort' })); assert.equal(pg.data.sheet, ''); pg.onSheet(tap({ k: 'sort' })); // IMPL-02：收起先播退场，等它结束
+  await pg.onOption(tap({ v: 'price' }));
   assert.equal(pg.data.sort, 'price'); assert.equal(pg.data.sortLabel, '价格优先'); assert.equal(pg.data.sheet, '');
   const amounts = pg.data.items.filter((x) => x.type === 'store' && x.card.row).map((x) => x.card.row.price.amount);
   assert.deepEqual(amounts, amounts.slice().sort((a, b) => a - b));
@@ -317,7 +317,7 @@ test('定位：成功后解析城市与区域；定位城市没有门店时保�
     assert.equal(home.data.nocity, '成都暂无门店，已为您显示北京门店'); assert.equal(home.data.city, '北京');
     assert.ok(home.data.cards.length === 3 && home.data.cards.every((c) => c.kmText === ''), '无门店城市：推荐卡不显示公里数');
     const list = finder.buildList(BJS, pd.ctx()); assert.ok(list.cards.every((c) => c.kmText === '' && c.freeTransportTag === ''));
-    home.onCloseNocity(); assert.equal(home.data.nocity, '');
+    await home.onCloseNocity(); assert.equal(home.data.nocity, ''); // IMPL-02：气泡关闭先播退场
     const again = env.newPage('pages/home/index', {}); await tick(); assert.equal(again.data.nocity, '', '关闭后本次启动不再出现');
     getApp().globalData.find = null; const sp = env.newPage('pages/stores/index', {}); await tick(); assert.equal(sp.data.nocity, '成都暂无门店，已为您显示北京门店');
     sp.onSwitchCity(); assert.equal(sp.data.panel, true); assert.equal(sp.data.nocity, '');
@@ -345,7 +345,7 @@ test('定位被拒：位置授权被拒后不再调用 wx.getLocation，只引�
   // 首页：未定位时城市位有圆点，气泡每次启动最多一次
   fresh(null, false); env.mode = 'fail';
   const home = env.newPage('pages/home/index', {}); await tick();
-  assert.equal(home.data.located, false); assert.equal(home.data.bubble.action, '去开启'); home.hideBubble(); assert.equal(home.data.bubble, null);
+  assert.equal(home.data.located, false); assert.equal(home.data.bubble.action, '去开启'); await home.hideBubble(); assert.equal(home.data.bubble, null);
   const sp = env.newPage('pages/stores/index', {}); await tick(); assert.equal(sp.data.bubble, null, '同一次启动里门店列表不再弹'); assert.equal(sp.data.located, false);
   assert.equal(sp.data.items.length > 0, true, '定位不可用时列表照常');
   env.mode = 'ok';

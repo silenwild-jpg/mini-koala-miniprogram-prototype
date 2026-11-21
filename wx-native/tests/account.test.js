@@ -159,8 +159,9 @@ test('我的：未登录各入口的行为；登录守卫落点逻辑保留', as
   fresh(false, false);
   const pg = await page('MINE');
   assert.equal(pg.data.headTitle, '欢迎使用迷你考拉'); assert.equal(pg.data.headSub, '查看订单与用仓服务'); assert.equal(pg.data.showNew, true); assert.equal(pg.data.sys, '');
-  assert.deepEqual(pg.data.groups.map((g) => [g.title, g.items.map((i) => i.t)]), [['我的记录', ['预约用仓', '找仓进度']], ['服务与权益', ['我的收藏', '优惠与权益', '消息']], ['账务与企业', ['开票抬头', '批量开票', '押金', '企业认证']], ['更多服务', ['运输与搬运', '推荐有礼', '联系顾问', '关于迷你考拉']]]);
-  assert.equal(pg.data.groups[0].items[1].s, '尚无保存的需求'); assert.ok(pg.data.groups.every((g) => g.items.every((i) => i.count === 0)));
+  assert.deepEqual(pg.data.groups.map((g) => [g.title, g.items.map((i) => i.t)]), [['账务与企业', ['开票抬头', '批量开票', '押金', '企业认证']], ['更多服务', ['运输与搬运', '推荐有礼', '联系顾问', '关于迷你考拉']]]);
+  assert.deepEqual(pg.data.quick.map((i) => i.t), ['预约用仓', '找仓进度', '我的收藏', '优惠与权益', '消息'], 'IMPL-02 M-34：原「我的记录」「服务与权益」两组合并成常用入口 5 格');
+  assert.equal(pg.data.quick[1].s, '尚无保存的需求'); assert.ok(pg.data.groups.every((g) => g.items.every((i) => i.count === 0))); assert.ok(pg.data.quick.every((i) => i.count === 0 && i.badge === 0));
   for (const k of ['ENT_TITLES', 'ENT_BATCH', 'DEPOSIT', 'ENT_CERT']) { pg.setData({ loginVisible: false }); env.nav.length = 0; pg.onItem(tap({ k })); assert.equal(pg.data.loginVisible, true, k); assert.equal(env.nav.length, 0, k); }
   for (const k of ['NEEDS', 'PROGRESS', 'FAVORITES', 'COUPONS', 'MESSAGES', 'TRANSPORT', 'REFERRAL', 'SUPPORT', 'BRAND']) { env.nav.length = 0; pg.onItem(tap({ k })); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes[k] }], k); }
   pg.setData({ loginVisible: false }); pg.onHead(); assert.equal(pg.data.loginVisible, true);
@@ -177,7 +178,7 @@ test('我的：已登录 —— 掩码手机号、角标、多处在租时的「
   await api.claimCoupons();
   const pg = await page('MINE');
   assert.equal(pg.data.headTitle, '我的迷你考拉'); assert.equal(pg.data.headSub, '138****8000'); assert.equal(pg.data.showNew, false);
-  const row = (k) => pg.data.groups.reduce((a, g) => a.concat(g.items), []).find((i) => i.k === k);
+  const row = (k) => pg.data.groups.reduce((a, g) => a.concat(g.items), pg.data.quick.slice()).find((i) => i.k === k); // IMPL-02 M-34：常用入口 5 格在 quick
   assert.equal(row('PROGRESS').s, '2㎡ · 约4.8m³ · 6个月'); assert.equal(row('FAVORITES').count, 2);
   assert.equal(row('COUPONS').count, 3, 'FIX-01 R-14：有付款订单时两张新客券仍可用，加 1 项服务权益'); assert.equal(row('MESSAGES').count, (await api.getMessagesUnread()).unread);
   assert.equal(pg.data.assets.length, 2); assert.equal(pg.data.assetsAll, '查看全部 3处');

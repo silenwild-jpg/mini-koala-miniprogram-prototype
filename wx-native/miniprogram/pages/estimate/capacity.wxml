@@ -37,8 +37,9 @@
         <view class="cp-stage" aria-role="img" aria-label="{{T.cap.ref}}">
           <view class="cp-depot mk-ease {{stage.on ? '' : 'cp-depot--off'}}" style="transform: scale({{stage.s}})">
             <image wx:for="{{stage.imgs}}" wx:key="key" class="cp-dimg mk-ease {{item.on ? 'cp-dimg--on' : ''}}" src="{{item.src}}" mode="aspectFit" />
+            <image wx:for="{{boxes}}" wx:key="i" class="cp-box {{item.cls}}" src="{{stage.carton}}" style="left: {{item.l}}%; top: {{item.t}}%; width: {{stage.bw}}%; height: {{stage.bh}}%" />
+            <image wx:for="{{stage.imgs}}" wx:key="key" class="cp-dimg mk-ease {{item.on ? 'cp-dimg--on' : ''}}" src="{{item.front}}" mode="aspectFit" />
           </view>
-          <image wx:for="{{fly}}" wx:key="k" class="cp-fly cp-fly--l{{item.lane}} cp-fly--d{{item.d}} {{item.out ? 'cp-fly--out' : ''}}" src="/assets/icons/cube-brand.svg" />
         </view>
         <view wx:if="{{ref}}" class="cp-rb">
           <text class="mk-t-hint">{{ref.range}}</text>

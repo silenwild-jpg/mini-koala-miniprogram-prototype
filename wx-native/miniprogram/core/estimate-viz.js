@@ -27,4 +27,7 @@ function valueOf(pos, min, step) {
 }
 // 仓库示意的缩放：容量越大越接近 1，最小 stageScaleMin
 const scaleOf = (m3) => Number((E.stageScaleMin + (1 - E.stageScaleMin) * posOf(m3, C.requirement.capacityMinM3)).toFixed(3));
-module.exports = { points, posOf, valueOf, scaleOf };
+// 容量页示意区累计停留的箱子只数（IMPL-02，自定口径）：不大于当前容量的 stageBoxStepsM3 项数，至少 1 只；无效容量为 0。
+// 与 tools/gen_size_illus.py 的 box_count 同一口径（它据此决定每档画几个箱位）。
+const boxCount = (m3) => { const v = Number(m3); if (!Number.isFinite(v) || v <= 0) return 0; return Math.max(1, E.stageBoxStepsM3.filter((s) => s <= v + 1e-9).length); };
+module.exports = { points, posOf, valueOf, scaleOf, boxCount };

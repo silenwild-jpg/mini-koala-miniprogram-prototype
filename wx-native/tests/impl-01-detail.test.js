@@ -81,7 +81,7 @@ test('仓位区：仓号与容量分开给，仓型分组标题每种仓型只�
   units.forEach((b) => { assert.match(b.row.code, /^[A-Z]\d{3}$/); assert.match(b.row.volText, /m³$/); });
   const heads = units.filter((b) => b.head).map((b) => b.head);
   assert.deepEqual(heads.map((h) => h.title), ['迷你仓 · 1.5m³ 以内', '小型仓 · 1.5–5m³', '中型仓 · 5–10m³']);
-  heads.forEach((h) => { assert.ok(/\/units\/(mini|small|medium|large)\.webp$/.test(h.thumb)); assert.ok(h.usage.indexOf('适合') === 0); });
+  heads.forEach((h) => { assert.ok(/\/units\/size-(mini|small|medium|large)-box\.svg$/.test(h.thumb)); assert.ok(h.usage.indexOf('适合') === 0); });
   assert.equal(pg.data.blocks[0].first, true);
   fresh(NEED, true); pg = await open();
   const cats = pg.data.blocks.filter((b) => b.head).map((b) => b.head.cat); assert.equal(new Set(cats).size, cats.length, '有需求分组时同一仓型也只出一次');
@@ -89,7 +89,7 @@ test('仓位区：仓号与容量分开给，仓型分组标题每种仓型只�
   assert.ok(pg.data.sold.length > 0); pg.data.sold.forEach((x) => { assert.ok(x.code); assert.match(x.volText, /m³$/); });
   const wxml = read('pages/store/detail.wxml');
   assert.match(wxml, /class="sd-filter">[\s\S]*class="sd-need"[\s\S]*class="mk-grow sd-cats"/); assert.ok(!/sd-demand/.test(wxml));
-  assert.match(wxml, /class="mk-unitno sd-code">\{\{item\.row\.code\}\}/);
+  assert.match(wxml, /wx:for="\{\{item\.row\.codeList\}\}" wx:for-item="c" wx:key="\*this" class="mk-unitno sd-code">\{\{c\}\}/); // IMPL-02：组合方案每个编号一个标签
 });
 
 test('无匹配：一行提示加文字链（进入时渐显），点文字链去门店列表', async () => {

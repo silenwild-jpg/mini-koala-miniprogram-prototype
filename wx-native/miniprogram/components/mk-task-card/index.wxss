@@ -6,6 +6,10 @@
 .tk-title--strong { color: var(--mk-color-status-errorText); }
 .tk-store { margin-top: 8rpx; font-weight: var(--mk-font-weight-semibold); color: var(--mk-color-ink-secondary); }
 .tk-addr { margin-top: 4rpx; }
+/* IMPL-02：编号标签在前、容量在后、租期收尾（同订单卡 oc-unitline） */
+.tk-unit { display: flex; align-items: center; flex-wrap: wrap; margin-top: 8rpx; }
+.tk-no { margin-right: var(--mk-space-2); }
+.tk-vol { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); margin-right: var(--mk-space-2); }
 .tk-badge { flex: none; margin-left: var(--mk-space-2); display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); white-space: nowrap; background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .tk-badge--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .tk-badge--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }

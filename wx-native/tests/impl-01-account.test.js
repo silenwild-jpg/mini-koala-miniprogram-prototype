@@ -125,7 +125,7 @@ test('信息行：「我的仓位」与订单卡同一写法（编号标签 + �
   const pg = await page('MINE');
   assert.ok(pg.data.assets.length >= 1);
   pg.data.assets.forEach((a) => { assert.ok(a.codes.length >= 1); assert.match(a.vol, /^[\d.]+m³$/); assert.match(a.term, /^\d+个月$/); assert.ok(!/ · /.test(a.term + a.span)); assert.equal(a.line, undefined); });
-  const progress = pg.data.groups.reduce((a, g) => a.concat(g.items), []).find((i) => i.k === 'PROGRESS');
+  const progress = pg.data.quick.find((i) => i.k === 'PROGRESS'); // IMPL-02 M-34：找仓进度进了常用入口，副文案仍在数据里（朗读用）
   assert.equal(progress.s, '3m³ · 6个月');
   const wxml = read('pages/mine/index.wxml');
   assert.match(wxml, /class="mk-unitno mn-no">\{\{c\}\}/); assert.ok(!/item\.line\b/.test(wxml));
@@ -160,10 +160,11 @@ test('分隔符：账户与留资域的界面文字里没有 •；分享标题�
 });
 
 test('去卡片化：账户键值 / 说明 / 表单页与留资页用白底 + 通栏小节；以可点对象为主的列表页（收藏、预约记录、找仓进度）保留卡片', () => {
-  ['profile', 'messages', 'coupons', 'referral', 'brand', 'ent-cert', 'ent-batch'].forEach((n) => assert.match(read('pkg-account/' + n + '/index.wxml'), /^<view class="mk-page mk-page--plain">/, n));
+  ['profile', 'messages', 'coupons', 'brand', 'ent-cert', 'ent-batch'].forEach((n) => assert.match(read('pkg-account/' + n + '/index.wxml'), /^<view class="mk-page mk-page--plain">/, n));
   ['booking', 'business', 'estore', 'support'].forEach((n) => assert.match(read('pkg-lead/' + n + '/index.wxml'), /^<view class="mk-page mk-page--plain\b/, n));
   assert.match(read('pages/mine/index.wxml'), /^<view class="mk-page mk-page--plain">/);
-  ['profile', 'coupons', 'referral', 'brand', 'ent-cert', 'ent-batch'].forEach((n) => { const w = read('pkg-account/' + n + '/index.wxml'); assert.ok(!/class="mk-card\b/.test(w), n + ' 不再有描边卡'); assert.ok((w.match(/class="mk-sec\b/g) || []).length >= 2, n); });
+  ['profile', 'coupons', 'brand', 'ent-cert', 'ent-batch'].forEach((n) => { const w = read('pkg-account/' + n + '/index.wxml'); assert.ok(!/class="mk-card\b/.test(w), n + ' 不再有描边卡'); assert.ok((w.match(/class="mk-sec\b/g) || []).length >= 2, n); });
+  assert.match(read('pkg-account/referral/index.wxml'), /^<view class="mk-page">[^]*class="mk-card rf-card/, 'IMPL-02 M-37：推荐有礼三块合并成一张主卡，页面回到浅灰底');
   ['estore', 'support'].forEach((n) => assert.ok(!/class="mk-card\b/.test(read('pkg-lead/' + n + '/index.wxml')), n));
   assert.ok(!/class="mk-card\b/.test(read('pkg-account/messages/index.wxml')), '消息列表不再包卡');
   ['favorites', 'needs', 'progress'].forEach((n) => { const w = read('pkg-account/' + n + '/index.wxml'); assert.match(w, /^<view class="mk-page">/, n); assert.match(w, /class="mk-card\b/, n); });
@@ -192,8 +193,8 @@ test('动效：列表前几项进场渐显、未读点过渡、成功态淡入�
   assert.match(read('pkg-account/messages/index.wxml'), /class="ms-dot mk-ease /);
   assert.match(read('pkg-lead/booking/index.wxml'), /class="lbk-result mk-fade-in"/);
   assert.match(read('pkg-lead/components/lead-ack/index.wxml'), /class="lak-card mk-fade-in"/);
-  assert.match(read('pkg-lead/business/index.wxml'), /class="lbz-mask mk-fade"[^]*class="lbz-dialog mk-fade-in"/);
-  assert.match(read('pkg-account/acc-dialog/index.wxml'), /class="acd-scrim mk-fade"[^]*class="acd-box mk-fade-in"/);
+  assert.match(read('pkg-lead/business/index.wxml'), /class="lbz-mask mk-fade [^]*class="lbz-dialog mk-fade-in /);
+  assert.match(read('pkg-account/acc-dialog/index.wxml'), /class="acd-scrim mk-fade [^]*class="acd-box mk-fade-in /);
   assert.match(read('components/mk-login-sheet/index.wxml'), /^<mk-sheet visible="\{\{visible\}\}"/, '登录弹层走 mk-sheet 的进出场');
   const css = ACC.concat(LEAD).map((f) => read(f + '.wxss')).join('\n') + read('pkg-account/acc.wxss') + read('pkg-lead/lead.wxss') + read('pages/mine/index.wxss');
   assert.ok(!/\b\d+m?s\b/.test(css.replace(/\/\*[^]*?\*\//g, '')), '域内样式不写裸时长，只用 --mk-motion-*');
@@ -204,6 +205,7 @@ test('动效：企业页成功弹窗快速连点「关闭」与卸载后状态�
   const pg = await page('BUSINESS');
   pg.setData({ dialog: { title: 't', ack: 'a', fine: '', hoursNote: 'h', no: 'n' } });
   pg.onDialogClose(); pg.onDialogClose(); pg.onDialogClose();
-  assert.equal(pg.data.dialog, null);
+  assert.equal(pg.data.dialogLeave, 'mk-leave'); await tick(R('core/config').motion.leaveMs + 40); // IMPL-02：关闭先播退场再移除
+  assert.equal(pg.data.dialog, null); assert.equal(pg.data.dialogLeave, '');
   assert.doesNotThrow(() => { if (pg.onUnload) pg.onUnload(); });
 });

@@ -22,6 +22,7 @@ const finder = require('../../services/finder');
 const location = require('../../services/location');
 const pd = require('../../services/page-data');
 const share = require('../../services/share');
+const motion = require('../../core/motion');
 // 定位气泡每次启动最多出现一次、无门店城市气泡关闭后本次启动不再出现：标记放在 App 上，与门店列表页共用
 const flags = () => { const g = getApp().globalData; if (!g.find) g.find = { bubbleShown: false, nocityClosed: false }; return g.find; };
 Page({
@@ -29,7 +30,7 @@ Page({
     T: { home: pd.plain(T.home), brand: Z.brand, cubic: T.price.cubicFrom, switchCity: T.locate.switchCity },
     banners: [], bannerIdx: 0, bannerAuto: false, bannerInterval: CF.home.bannerIntervalMs, bannerDuration: CF.home.bannerDurationMs,
     sceneIcons: CF.home.sceneIcons, cityImages: CF.home.cityImages, proofImages: CF.home.proofImages,
-    layout: null, heroHeight: 0, solid: false, panelTop: 0, sys: 'loading', city: '', located: false, bubble: null, nocity: '', cards: [], panel: false, panelFocus: false,
+    layout: null, heroHeight: 0, solid: false, panelTop: 0, sys: 'loading', city: '', located: false, bubble: null, nocity: '', cards: [], panel: false, panelFocus: false, bubbleLeave: '', nocityLeave: '',
     unread: 0, unreadText: '', weak: false, noRec: false, collapse: false, recOpen: false, showRail: true, needMode: 'card', estimated: false
   },
   onLoad() {
@@ -45,8 +46,8 @@ Page({
     });
   },
   onShow() { this.unlockNav(); this.setData({ bannerAuto: true }); this.refresh(); },
-  onHide() { this.hideBubble(); this.unlockNav(); this.setData({ bannerAuto: false }); }, // 离开首页时停掉自动轮播
-  onUnload() { this.hideBubble(); this.unlockNav(); this._gone = true; },
+  onHide() { this.hideBubble(true); this.unlockNav(); this.setData({ bannerAuto: false }); }, // 离开首页时停掉自动轮播
+  onUnload() { this.hideBubble(true); this.unlockNav(); this._gone = true; motion.dispose(this); },
   onPageScroll(e) {
     if (this.data.bubble) this.hideBubble();
     const solid = ((e && e.scrollTop) || 0) > CF.hero.solidAfter; // 顶栏离开顶部底带后变实底，只在跨过阈值时 setData
@@ -61,11 +62,17 @@ Page({
     if (located && this.data.bubble) this.hideBubble();
     if (mayBubble === true && !located && !flags().bubbleShown) {
       flags().bubbleShown = true;
-      this.setData({ bubble: location.hint() });
+      motion.cancelLeave(this, 'bubble'); this.setData({ bubble: location.hint() });
       this._bt = setTimeout(() => this.hideBubble(), C.timers.locationBubbleSeconds * 1000);
     }
   },
-  hideBubble() { if (this._bt) { clearTimeout(this._bt); this._bt = null; } if (this.data.bubble) this.setData({ bubble: null }); },
+  // 气泡收起：先播退场再移除（IMPL-02）；now === true（页面隐藏 / 卸载、马上要被面板盖住）时直接移除
+  hideBubble(now) {
+    if (this._bt) { clearTimeout(this._bt); this._bt = null; }
+    if (!this.data.bubble) return Promise.resolve(false);
+    if (now === true) { motion.cancelLeave(this, 'bubble'); this.setData({ bubble: null }); return Promise.resolve(true); }
+    return motion.leave(this, 'bubble', null);
+  },
   refresh() {
     this.showLocation(false);
     const s = state.get(), hasNeed = !!s.requirement;
@@ -86,13 +93,13 @@ Page({
     Promise.resolve(t.refresh()).then(() => { const d = t.data || {}; apply(finder.layoutOf(d.show && d.main ? d.main.key : '')); }).catch(byOrders);
   },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
-  onCity() { this.hideBubble(); this.setData({ panel: true, panelFocus: false }); },
-  onSearch() { this.hideBubble(); this.setData({ panel: true, panelFocus: true }); },
+  onCity() { this.hideBubble(true); this.setData({ panel: true, panelFocus: false }); },
+  onSearch() { this.hideBubble(true); this.setData({ panel: true, panelFocus: true }); },
   onPanelClose() { this.setData({ panel: false }); },
   onLocationChange() { flags().nocityClosed = true; this.refresh(); },
   onBubbleAction() { const b = this.data.bubble; this.hideBubble(); location.act(b ? b.kind : 'retry').then(() => this.refresh()); },
-  onCloseNocity() { flags().nocityClosed = true; this.setData({ nocity: '' }); },
-  onSwitchCity() { flags().nocityClosed = true; this.setData({ nocity: '', panel: true, panelFocus: false }); },
+  onCloseNocity() { flags().nocityClosed = true; return this.data.nocity ? motion.leave(this, 'nocity', '') : Promise.resolve(false); },
+  onSwitchCity() { flags().nocityClosed = true; motion.cancelLeave(this, 'nocity'); this.setData({ nocity: '', panel: true, panelFocus: false }); },
   onToggleRec() { const open = !this.data.recOpen; this.setData({ recOpen: open, showRail: !this.data.noRec && (!this.data.collapse || open) }); },
   // 跳转防连点：发起后 navLockMs 内不再重复跳；页面隐藏、再次显示、卸载时解锁并清定时器
   go(url) {

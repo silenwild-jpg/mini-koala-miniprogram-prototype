@@ -18,6 +18,7 @@ const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
 const share = require('../../services/share');
+const motion = require('../../core/motion');
 const Z = T.business;
 const TXT = { c: T.common, ack: T.ack, z: Z, phoneLabel: T.phone.label };
 const DRAFT = 'bizDraft';
@@ -31,7 +32,7 @@ Page(auth.guarded(routes.BUSINESS, {
     typeChips: [], typeOtherOn: false, typeOther: '', moveChips: [], moveNeed: false,
     sumText: '', areaSum: '', name: '', company: '', date: '', notes: '', notesCount: '0/' + L.bizNotesMax, notesMax: L.bizNotesMax, nameMax: L.nameMax, addressMax: L.addressMax,
     errPhone: '', errDate: '', payNote: Z.payNote, blocked: false, editing: false, saved: false, restored: false, status: 'editing', locked: false, primary: Z.submit,
-    sheet: '', dateOptions: [], dateDraft: '', dialog: null
+    sheet: '', dateOptions: [], dateDraft: '', dialog: null, dialogLeave: '', benefitLine: Z.benefits.join(Z.benefitSep)
   },
   onLoad(q) {
     q = q || {};
@@ -46,7 +47,7 @@ Page(auth.guarded(routes.BUSINESS, {
     }
     this.load();
   },
-  onUnload() { if (this._timer) { clearTimeout(this._timer); this._timer = null; } },
+  onUnload() { motion.dispose(this); if (this._timer) { clearTimeout(this._timer); this._timer = null; } },
   load() {
     const jobs = [pd.cityStores(), this._leadId ? api.getLead({ id: this._leadId }).catch((e) => (e && (e.code === 'NOT_FOUND' || e.code === 'UNAUTHENTICATED') ? null : Promise.reject(e))) : Promise.resolve(undefined)];
     return pd.load(this, Promise.all(jobs), (res) => {
@@ -175,6 +176,7 @@ Page(auth.guarded(routes.BUSINESS, {
     return api.submitLead(this.input()).then((rec) => {
       const updated = !!this._leadId, off = !rec.in_service_hours;
       this._key = ''; this._rechecked = false; this._leadId = rec.id; state.set(DRAFT, null);
+      motion.cancelLeave(this, 'dialog'); // 上一个弹窗还在退场时又提交成功：取消退场，不让它把新弹窗清掉
       this.setData({
         status: 'editing', locked: false, saved: true, editing: true, restored: false, primary: Z.update,
         dialog: { title: updated ? Z.updatedTitle : T.ack.submitted, ack: off ? T.ack.offHours : T.ack.inHours, fine: off ? '' : Z.offPrefix + T.ack.offHours, hoursNote: T.ack.hoursNote, no: T.ack.leadNo + rec.no }
@@ -198,9 +200,10 @@ Page(auth.guarded(routes.BUSINESS, {
     if (this.data.status === 'failed') return this.send();
     if (this.data.status === 'unknown') { if (this._timer) { clearTimeout(this._timer); this._timer = null; } return this.send(); } // 手动核对：同一个 request_key
   },
-  onDialogFind() { this.setData({ dialog: null }); wx.switchTab({ url: routes.STORES }); },
-  onDialogClose() { this.setData({ dialog: null }); },
-  onDialogNeeds() { this.setData({ dialog: null }); wx.navigateTo({ url: routes.NEEDS }); },
+  // IMPL-02（PR-243）：成功弹窗与遮罩关闭带退场（core/motion.leave，播完再把 dialog 置空）。跳转不等动画；退场中重复点不重复跳
+  onDialogFind() { if (!this.data.dialog || this.data.dialogLeave) return; motion.leave(this, 'dialog', null); wx.switchTab({ url: routes.STORES }); },
+  onDialogClose() { if (this.data.dialog) motion.leave(this, 'dialog', null); },
+  onDialogNeeds() { if (!this.data.dialog || this.data.dialogLeave) return; motion.leave(this, 'dialog', null); wx.navigateTo({ url: routes.NEEDS }); },
   // 转发（R-15）：只转发空表单入口，不带正在修改的线索 id
   onShareAppMessage() { return share.message(routes.BUSINESS, { title: T.share.business }); },
   noop() {}

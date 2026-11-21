@@ -27,7 +27,7 @@ Page({
     T: { stores: pd.plain(S), login: Z.login, leave: T.advisor.leave, hours: S.salesHours(T.lead.hoursNote, T.lead.offHours), salesSub: S.salesSub(T.lead.inHours), switchCity: T.locate.switchCity, search: T.panel.placeholder },
     sys: 'loading', mode: 'browse', cityText: '', located: true, bubble: null, nocity: '', demandText: '', items: [], total: 0, shown: 0, resultText: '', advisor: null,
     noMatch: false, far: false, farTitle: S.farTitle(C.matching.nearbyRadiusKm), farSub: '', filtered: false, hasMore: false,
-    sort: 'recommended', maxKm: null, services: [], promo: false, freeTransport: false, sortLabel: S.sort, distLabel: S.distance, svcLabel: S.services, svcN: 0, priceBump: '', needBump: '',
+    sort: 'recommended', maxKm: null, services: [], promo: false, freeTransport: false, sortLabel: S.sort, distLabel: S.distance, svcLabel: S.services, svcN: 0, priceBump: '', needBump: '', sheetLeave: '', bubbleLeave: '', nocityLeave: '',
     sheet: '', sortOptions: [], distOptions: [], svcOptions: [], offerOptions: [], svcOn: false, largeNote: false,
     loginVisible: false, panel: false, panelNote: '', panelFocus: false, demandSheet: false
   },
@@ -35,16 +35,22 @@ Page({
     this.refresh();
     const loc = state.get().location, f = flags();
     if (loc.status !== 'granted' && !f.bubbleShown) { // 气泡每次启动最多出现一次（与首页共用一个标记）
-      f.bubbleShown = true; this.setData({ bubble: location.hint() });
+      f.bubbleShown = true; motion.cancelLeave(this, 'bubble'); this.setData({ bubble: location.hint() });
       this._bt = setTimeout(() => this.hideBubble(), C.timers.locationBubbleSeconds * 1000);
     }
   },
-  onHide() { this.hideBubble(); },
-  onUnload() { this.hideBubble(); motion.dispose(this); },
+  onHide() { this.hideBubble(true); },
+  onUnload() { this.hideBubble(true); motion.dispose(this); },
   onPageScroll() { if (this.data.bubble) this.hideBubble(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   onShareAppMessage() { return share.message(routes.STORES); },
-  hideBubble() { if (this._bt) { clearTimeout(this._bt); this._bt = null; } if (this.data.bubble) this.setData({ bubble: null }); },
+  // 气泡收起：先播退场再移除（IMPL-02）；now === true（页面隐藏 / 卸载、马上要被面板盖住）时直接移除
+  hideBubble(now) {
+    if (this._bt) { clearTimeout(this._bt); this._bt = null; }
+    if (!this.data.bubble) return Promise.resolve(false);
+    if (now === true) { motion.cancelLeave(this, 'bubble'); this.setData({ bubble: null }); return Promise.resolve(true); }
+    return motion.leave(this, 'bubble', null);
+  },
   filter() { const d = this.data; return { sort: d.sort, maxKm: d.maxKm, services: d.services, promo: d.promo, freeTransport: d.freeTransport }; },
   refresh() {
     const loc = state.get().location;
@@ -88,22 +94,28 @@ Page({
       svcLabel: S.services, svcN: picked, svcOn: picked > 0 // 已选数量单独成数字角标，不再拼成「服务 · N」
     });
   },
-  apply(part) { this.setData(Object.assign({ shown: 0, sheet: '' }, part)); this._showAll = false; return this.refresh(); },
+  // 筛选生效：下拉面板走退场（不在这里直接清 sheet）；返回的 Promise 等列表刷新与退场都结束
+  apply(part) { this.setData(Object.assign({ shown: 0 }, part)); this._showAll = false; const done = this.refresh(), gone = this.closeSheet(); return Promise.all([done, gone]).then((r) => r[0]); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   onMore() { if (this.data.far) { this._showAll = true; this.paint(PAGE); return; } this.paint(this.data.shown + PAGE); },
   // ---- 用仓位置 ----
-  onCity() { this.hideBubble(); this.setData({ panel: true, panelNote: '', panelFocus: false }); },
-  onSearch() { this.hideBubble(); this.setData({ panel: true, panelNote: '', panelFocus: true }); },
+  onCity() { this.hideBubble(true); this.setData({ panel: true, panelNote: '', panelFocus: false }); },
+  onSearch() { this.hideBubble(true); this.setData({ panel: true, panelNote: '', panelFocus: true }); },
   onPanelClose() { this.setData({ panel: false }); this._wantFree = false; this._wantPart = null; },
   onLocationChange() { flags().nocityClosed = true; const want = this._wantFree, part = this._wantPart; this._wantFree = false; this._wantPart = null; this.apply(Object.assign({}, part || {}, want ? { freeTransport: true } : {})); },
   onBubbleAction() { const b = this.data.bubble; this.hideBubble(); location.act(b ? b.kind : 'retry').then(() => this.refresh()); },
-  onCloseNocity() { flags().nocityClosed = true; this.setData({ nocity: '' }); },
-  onSwitchCity() { flags().nocityClosed = true; this.setData({ nocity: '', panel: true, panelNote: '', panelFocus: false }); },
+  onCloseNocity() { flags().nocityClosed = true; return this.data.nocity ? motion.leave(this, 'nocity', '') : Promise.resolve(false); },
+  onSwitchCity() { flags().nocityClosed = true; motion.cancelLeave(this, 'nocity'); this.setData({ nocity: '', panel: true, panelNote: '', panelFocus: false }); },
   // ---- 排序与筛选（原位下拉：点筛选条的一项，在它正下方展开；再点同一项或点遮罩收起）----
+  // IMPL-02 退场：收起时面板上收淡出、遮罩淡出（motion.leave），播完才清 sheet；切到另一项直接换内容，不先退场再进场；
+  //   退场途中再点同一项 = 重新展开；退场途中点另一项 = 取消退场换内容。
+  closeSheet() { return this.data.sheet ? motion.leave(this, 'sheet', '') : Promise.resolve(false); },
   onSheet(e) {
     const k = e.currentTarget.dataset.k, d = this.data;
     this.hideBubble();
-    if (d.sheet === k) { this.setData({ sheet: '' }); return; }
+    if (d.sheet === k && !d.sheetLeave) return this.closeSheet();
+    motion.cancelLeave(this, 'sheet');
+    if (d.sheet === k) return;
     if (k === 'sort') this.setData({ sheet: 'sort', sortOptions: ['recommended', 'distance', 'price'].map((v) => ({ v, t: S.sortOptions[v], on: v === d.sort })) });
     else if (k === 'distance') this.setData({ sheet: 'distance', distOptions: [{ v: -1, t: S.anyDistance, on: d.maxKm === null }].concat(CF.list.distanceOptionsKm.map((v) => ({ v, t: S.within(v), on: v === d.maxKm }))) });
     else if (k === 'services') this.setData({
@@ -111,14 +123,14 @@ Page({
       offerOptions: [{ k: 'promo', t: S.promo, on: !!d.promo }, { k: 'freeTransport', t: S.freeTransport, on: !!d.freeTransport }]
     });
   },
-  onSheetClose() { this.setData({ sheet: '' }); },
+  onSheetClose() { return this.closeSheet(); },
   noop() {},
   onOption(e) { // 排序、距离：单选，点了就生效并收起
     const v = e.currentTarget.dataset.v;
     const part = this.data.sheet === 'sort' ? { sort: ['distance', 'price'].indexOf(v) >= 0 ? v : 'recommended' } : this.data.sheet === 'distance' ? { maxKm: Number(v) > 0 ? Number(v) : null } : null;
     if (!part) return;
     // 按距离排序 / 筛选需要一个起点：没有用仓位置时先打开面板并说明，选定后自动应用（与「免费运输」同一做法，A-04）
-    if (!this._hasPoint && (part.sort === 'distance' || part.maxKm)) { this._wantPart = part; this.setData({ sheet: '', panel: true, panelNote: T.panel.distanceNote, panelFocus: false }); return; }
+    if (!this._hasPoint && (part.sort === 'distance' || part.maxKm)) { this._wantPart = part; this.closeSheet(); this.setData({ panel: true, panelNote: T.panel.distanceNote, panelFocus: false }); return; }
     return this.apply(part);
   },
   onSvcOption(e) { const t = e.currentTarget.dataset.t; this.setData({ svcOptions: this.data.svcOptions.map((o) => (o.t === t ? { t: o.t, on: !o.on } : o)) }); },
@@ -128,7 +140,7 @@ Page({
   // 「免费运输」没有用仓位置时先不置为选中，其余照常生效，然后打开用仓位置面板并说明，选定后自动应用（交接 v1.0 §4.5-7）
   onSheetConfirm() {
     const d = this.data;
-    if (d.sheet !== 'services') { this.setData({ sheet: '' }); return; }
+    if (d.sheet !== 'services') return this.closeSheet();
     const on = (k) => !!(d.offerOptions.find((x) => x.k === k) || {}).on;
     const wantFree = on('freeTransport'), needPoint = wantFree && !d.freeTransport && !this._hasPoint;
     const done = this.apply({ services: d.svcOptions.filter((x) => x.on).map((x) => x.t), promo: on('promo'), freeTransport: wantFree && !needPoint });
@@ -144,7 +156,7 @@ Page({
   onClearFilters() { this.apply({ sort: 'recommended', maxKm: null, services: [], promo: false, freeTransport: false }); },
   // ---- 需求 ----
   // 已有需求：在本页弹层里改（弹层里保留「按物品估算」「AI 估算」入口）；还没有需求：去估算，完成后回到本页（FIX-01 R-19）
-  onModify() { if (state.get().requirement) this.setData({ demandSheet: true, sheet: '' }); else this.onEstimate(); },
+  onModify() { if (state.get().requirement) { this.closeSheet(); this.setData({ demandSheet: true }); } else this.onEstimate(); },
   onDemandClose() { this.setData({ demandSheet: false }); },
   // 改了容量或租期：需求条与卡片价格各给一次轻微反馈（页面已卸载时 motion 不再写数据）
   onDemandChange() { const done = this.apply({}); motion.bump(this, 'needBump'); motion.bump(this, 'priceBump'); return done; },

@@ -4,22 +4,22 @@
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-row sl-city" bindtap="onCity" aria-role="button" aria-label="用仓位置"><text class="sl-cn mk-ellipsis">{{cityText}}</text><view wx:if="{{!located}}" class="sl-dot"></view><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-row mk-grow sl-search" bindtap="onSearch" aria-role="button" aria-label="搜索"><image class="mk-icon" src="/assets/icons/search-sub.svg" /><text class="mk-ellipsis sl-sph">{{T.search}}</text></view>
     </view>
-    <view wx:if="{{nocity}}" class="sl-bubble mk-row">
+    <view wx:if="{{nocity}}" class="sl-bubble mk-row mk-fade {{nocityLeave}}">
       <text class="mk-grow">{{nocity}}</text><text class="mk-link sl-act" bindtap="onSwitchCity" aria-role="button">{{T.switchCity}}</text>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-x" bindtap="onCloseNocity" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
     </view>
-    <view wx:elif="{{bubble}}" class="sl-bubble mk-row">
+    <view wx:elif="{{bubble}}" class="sl-bubble mk-row mk-fade {{bubbleLeave}}">
       <text class="mk-grow">{{bubble.text}}</text><text class="mk-link sl-act" bindtap="onBubbleAction" aria-role="button">{{bubble.action}}</text>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-x" bindtap="hideBubble" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
     </view>
     <view wx:if="{{mode !== 'sales'}}" class="sl-fwrap">
       <view class="sl-fbar">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f mk-ease {{sort !== 'recommended' || sheet === 'sort' ? 'sl-f--on' : ''}}" data-k="sort" bindtap="onSheet" aria-role="button" aria-expanded="{{sheet === 'sort'}}"><text>{{sortLabel}}</text><image class="mk-icon sl-fic mk-rot {{sheet === 'sort' ? 'mk-rot--on' : ''}}" src="/assets/icons/{{sort !== 'recommended' || sheet === 'sort' ? 'down-brand' : 'down-ink'}}.svg" /></view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f mk-ease {{maxKm !== null || sheet === 'distance' ? 'sl-f--on' : ''}}" data-k="distance" bindtap="onSheet" aria-role="button" aria-expanded="{{sheet === 'distance'}}"><text>{{distLabel}}</text><image class="mk-icon sl-fic mk-rot {{sheet === 'distance' ? 'mk-rot--on' : ''}}" src="/assets/icons/{{maxKm !== null || sheet === 'distance' ? 'down-brand' : 'down-ink'}}.svg" /></view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f mk-ease {{svcOn || sheet === 'services' ? 'sl-f--on' : ''}}" data-k="services" bindtap="onSheet" aria-role="button" aria-expanded="{{sheet === 'services'}}"><text>{{svcLabel}}</text><text wx:if="{{svcN}}" class="mk-num sl-fn">{{svcN}}</text><image class="mk-icon sl-fic mk-rot {{sheet === 'services' ? 'mk-rot--on' : ''}}" src="/assets/icons/{{svcOn || sheet === 'services' ? 'down-brand' : 'down-ink'}}.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f mk-ease {{sort !== 'recommended' || (sheet === 'sort' && !sheetLeave) ? 'sl-f--on' : ''}}" data-k="sort" bindtap="onSheet" aria-role="button" aria-expanded="{{(sheet === 'sort' && !sheetLeave)}}"><text>{{sortLabel}}</text><image class="mk-icon sl-fic mk-rot {{(sheet === 'sort' && !sheetLeave) ? 'mk-rot--on' : ''}}" src="/assets/icons/{{sort !== 'recommended' || (sheet === 'sort' && !sheetLeave) ? 'down-brand' : 'down-ink'}}.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f mk-ease {{maxKm !== null || (sheet === 'distance' && !sheetLeave) ? 'sl-f--on' : ''}}" data-k="distance" bindtap="onSheet" aria-role="button" aria-expanded="{{(sheet === 'distance' && !sheetLeave)}}"><text>{{distLabel}}</text><image class="mk-icon sl-fic mk-rot {{(sheet === 'distance' && !sheetLeave) ? 'mk-rot--on' : ''}}" src="/assets/icons/{{maxKm !== null || (sheet === 'distance' && !sheetLeave) ? 'down-brand' : 'down-ink'}}.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="sl-f mk-ease {{svcOn || (sheet === 'services' && !sheetLeave) ? 'sl-f--on' : ''}}" data-k="services" bindtap="onSheet" aria-role="button" aria-expanded="{{(sheet === 'services' && !sheetLeave)}}"><text>{{svcLabel}}</text><text wx:if="{{svcN}}" class="mk-num sl-fn">{{svcN}}</text><image class="mk-icon sl-fic mk-rot {{(sheet === 'services' && !sheetLeave) ? 'mk-rot--on' : ''}}" src="/assets/icons/{{svcOn || (sheet === 'services' && !sheetLeave) ? 'down-brand' : 'down-ink'}}.svg" /></view>
       </view>
       <!-- 原位下拉：贴在筛选条正下方，盖住需求条与列表顶部 -->
-      <view wx:if="{{sheet}}" class="sl-drop mk-drop-in" catchtouchmove="noop">
+      <view wx:if="{{sheet}}" class="sl-drop mk-drop-in {{sheetLeave ? 'mk-leave mk-leave--up' : ''}}" catchtouchmove="noop">
         <block wx:if="{{sheet === 'sort'}}">
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{sortOptions}}" wx:key="v" class="sl-opt mk-between mk-ease {{item.on ? 'sl-opt--on' : ''}}" data-v="{{item.v}}" bindtap="onOption" aria-role="button"><text>{{item.t}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
         </block>
@@ -49,7 +49,7 @@
     </view>
   </view>
 
-  <view wx:if="{{sheet}}" class="sl-mask mk-scrim-in" bindtap="onSheetClose" catchtouchmove="noop"></view>
+  <view wx:if="{{sheet}}" class="sl-mask mk-scrim-in {{sheetLeave}}" bindtap="onSheetClose" catchtouchmove="noop"></view>
   <view wx:if="{{sys}}" class="mk-gutter"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="mk-gutter sl-list">
     <block wx:if="{{mode === 'sales'}}">

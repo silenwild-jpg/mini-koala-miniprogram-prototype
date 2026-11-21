@@ -6,9 +6,15 @@
       <view class="lbz-line"></view>
       <view class="lbz-step {{step === 2 ? 'lbz-step--on' : ''}}"><text class="lbz-n mk-num">2</text><text>{{T.z.steps[1]}}</text></view>
     </view>
-    <view wx:if="{{step === 1}}" class="ldf-ptitle">
-      <text class="ldf-h1">{{T.z.title}}</text><text class="ldf-p">{{T.z.intro}}</text>
-      <view class="lbz-tags"><text wx:for="{{T.z.benefits}}" wx:key="*this" class="mk-tag lbz-tag">{{item}}</text></view>
+    <view class="ldf-ptitle lbz-head">
+      <view class="mk-between">
+        <text class="{{step === 1 ? 'ldf-h1' : 'mk-h2'}} mk-grow lbz-ht">{{step === 1 ? T.z.title : T.z.steps[1]}}</text>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn lbz-needs" bindtap="onNeeds" aria-role="button"><text>{{T.c.viewNeeds}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+      </view>
+      <block wx:if="{{step === 1}}">
+        <text class="ldf-p">{{T.z.intro}}</text>
+        <text class="lbz-perks mk-ellipsis">{{benefitLine}}</text>
+      </block>
     </view>
     <view wx:if="{{blocked || (editing && !saved) || status === 'failed' || status === 'unknown' || restored}}" class="mk-gutter ldf-ntc">
       <mk-notice wx:if="{{blocked}}" tone="err" title="{{T.z.blockedTitle}}" text="{{T.z.blockedMsg}}" link="{{T.z.newLead}}" bind:link="onNewLead" />
@@ -18,7 +24,6 @@
       <mk-notice wx:if="{{restored}}" title="{{T.z.restoredTitle}}" text="{{T.z.restoredMsg}}" />
     </view>
     <view wx:if="{{step === 1}}" class="ldf-form mk-fade">
-      <view class="mk-between"><text class="mk-h2">{{T.z.steps[0]}}</text><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onNeeds" aria-role="button"><text>{{T.c.viewNeeds}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view></view>
       <mk-field class="ldf-fld" label="{{T.z.location}}">
         <view class="ldf-input"><input class="ldf-native" value="{{location}}" maxlength="{{addressMax}}" disabled="{{locked}}" placeholder="{{T.z.locationPh}}" placeholder-class="ldf-ph" bindinput="onLocation" /></view>
         <block wx:if="{{areasOpen}}">
@@ -49,7 +54,6 @@
       </mk-field>
     </view>
     <view wx:else class="ldf-form mk-fade">
-      <view class="mk-between"><text class="mk-h2">{{T.z.steps[1]}}</text><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onNeeds" aria-role="button"><text>{{T.c.viewNeeds}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view></view>
       <view class="ldf-block mk-between lbz-sum">
         <view class="mk-grow"><text class="mk-sub lbz-sumk">{{T.z.sumLabel}}</text><text class="lbz-sumv lbz-sumv--main mk-num">{{sumText}}</text><text wx:if="{{typeSum}}" class="mk-sub lbz-sumv">{{typeSum}}</text><text wx:if="{{areaSum}}" class="mk-sub lbz-sumv">{{areaSum}}</text></view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onPrev" aria-role="button">{{T.c.modify}}</view>
@@ -86,8 +90,8 @@
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{dateOptions}}" wx:key="d" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickDate" aria-role="button"><text class="mk-num">{{item.d}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
     <view class="ldf-sheetacts"><button class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDateOk">{{T.c.confirm}}</button></view>
   </mk-sheet>
-  <view wx:if="{{dialog}}" class="lbz-mask mk-fade" catchtouchmove="noop" bindtap="onDialogClose">
-    <view class="lbz-dialog mk-fade-in" catchtap="noop">
+  <view wx:if="{{dialog}}" class="lbz-mask mk-fade {{dialogLeave}}" catchtouchmove="noop" bindtap="onDialogClose">
+    <view class="lbz-dialog mk-fade-in {{dialogLeave}} mk-leave--zoom" catchtap="noop">
       <text class="mk-h2 lbz-dt">{{dialog.title}}</text>
       <text class="lbz-dm">{{dialog.ack}}</text>
       <text wx:if="{{dialog.fine}}" class="mk-sub lbz-df">{{dialog.fine}}</text>

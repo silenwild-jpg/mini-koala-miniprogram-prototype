@@ -34,6 +34,14 @@
         <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
       </view>
     </view>
+    <view wx:if="{{quick.length}}" class="mk-sec mn-qsec" aria-label="{{T.mine.quickLabel}}">
+      <view class="mn-quick">
+        <view wx:for="{{quick}}" wx:key="k" class="mn-q mk-press" hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" data-k="{{item.k}}" bindtap="onItem" aria-role="button" aria-label="{{item.label}}">
+          <view class="mn-qic"><image class="mk-icon mk-icon--md" src="{{item.icon}}" /><text wx:if="{{item.badge > 0}}" class="mk-num mn-qbadge">{{item.badge}}</text></view>
+          <text class="mn-qt">{{item.t}}</text>
+        </view>
+      </view>
+    </view>
     <view wx:for="{{groups}}" wx:key="key" class="mk-sec">
       <view class="mk-sec__hd">{{item.title}}</view>
       <mk-cell wx:for="{{item.items}}" wx:for-item="it" wx:for-index="ix" wx:key="k" icon="{{it.icon}}" title="{{it.t}}" value="{{it.s}}" badge="{{it.count || 0}}" divider="{{ix > 0 && item.items.length > 2}}" inset="{{true}}" data-k="{{it.k}}" bindtap="onItem" />

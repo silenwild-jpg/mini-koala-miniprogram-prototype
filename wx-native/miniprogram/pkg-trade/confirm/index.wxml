@@ -130,12 +130,12 @@
     </view>
   </mk-sheet>
 
-  <view wx:if="{{price}}" class="cf-scrim mk-fade" catchtouchmove="noop">
-    <view class="cf-dialog mk-fade-in">
+  <view wx:if="{{priceDlg}}" class="cf-scrim mk-fade {{priceDlgLeave}}" catchtouchmove="noop">
+    <view class="cf-dialog mk-fade-in {{priceDlgLeave ? 'mk-leave mk-leave--zoom' : ''}}">
       <view class="mk-title">{{T.priceTitle}}</view>
       <text class="mk-sub cf-dialogdesc">{{T.priceDesc}}</text>
-      <view class="cf-reason"><text class="mk-sub">{{T.priceReason}}</text><text class="cf-reasonv">{{price.reason}}</text></view>
-      <view wx:for="{{price.rows}}" wx:key="k" class="mk-between cf-diff">
+      <view class="cf-reason"><text class="mk-sub">{{T.priceReason}}</text><text class="cf-reasonv">{{priceDlg.reason}}</text></view>
+      <view wx:for="{{priceDlg.rows}}" wx:key="k" class="mk-between cf-diff">
         <text class="mk-sub">{{item.k}}</text>
         <view class="mk-row mk-num"><text wx:if="{{!item.same}}" class="cf-old">{{item.old}}</text><image wx:if="{{!item.same}}" class="mk-icon cf-arrow" src="/assets/icons/arrow-ink.svg" /><text class="cf-kvv">{{item.cur}}</text></view>
       </view>
@@ -145,8 +145,8 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{paying}}" class="cf-scrim mk-fade" catchtouchmove="noop">
-    <view class="cf-dialog cf-dialog--center mk-fade-in">
+  <view wx:if="{{payingDlg}}" class="cf-scrim mk-fade {{payingDlgLeave}}" catchtouchmove="noop">
+    <view class="cf-dialog cf-dialog--center mk-fade-in {{payingDlgLeave ? 'mk-leave mk-leave--zoom' : ''}}">
       <view class="cf-spin"></view>
       <view class="mk-title">{{T.payingTitle}}</view>
       <text class="mk-sub cf-dialogdesc">{{T.payingDesc}}</text>

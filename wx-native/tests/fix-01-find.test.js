@@ -121,7 +121,7 @@ test('门店图与仓位图：每家演示门店都有卡片图和头图文件�
   assert.ok(pooled.every((s) => /\/POOL-0[1-6]\//.test(media.storeCard(s)))); assert.ok(new Set(pooled.map((s) => media.storeDir(s.id))).size >= 5, '共用图轮着用，不是同一张');
   assert.equal(media.storeCard({ id: 'SIM_BJ10' }), media.storeCard({ id: 'SIM_BJ10' }));
   assert.equal(media.storeCard({ id: 'X', photo: 'https://cdn.example/x.jpg' }), 'https://cdn.example/x.jpg', '接口给了线上地址就用接口的');
-  assert.deepEqual([0.8, 1.5, 1.6, 5, 5.1, 15, 15.1, 40].map((v) => path.basename(media.unitThumb({ volume: v }), '.webp')), ['mini', 'mini', 'small', 'small', 'medium', 'medium', 'large', 'large']);
+  assert.deepEqual([0.8, 1.5, 1.6, 5, 5.1, 15, 15.1, 40].map((v) => path.basename(media.unitThumb({ volume: v }), '.webp')), ['mini', 'mini', 'small', 'small', 'medium', 'medium', 'large', 'large']); // IMPL-02：具体仓位缩略图仍是 4 档空间示意图；尺寸示意插画只用在仓型层面（media.unitSizeIllus）
   ['mini', 'small', 'medium', 'large'].forEach((k) => assert.ok(ex('/assets/images/units/' + k + '.webp')));
   // 门店详情：头图、仓位行与组合卡都带图；收藏、快捷下单同样
   fresh(need(9), true); const pg = env.newPage('pages/store/detail', { id: 'SIM_BJ10' }); await tick();

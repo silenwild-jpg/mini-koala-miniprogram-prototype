@@ -24,14 +24,15 @@ function render(page, o, now) {
   const dp = o.deposit, x = o.exit, failed = st === 'refund_failed', moving = st === 'refund_pending' || failed;
   const full = st !== 'held' || page._open;
   const d = {
-    empty: false, st, order: o, fail: failed, reason: dp.fail_reason || '', amount: yuan(dp.amount), settle: [], more: !full,
+    empty: false, st, order: o, fail: failed, reason: dp.fail_reason || '', amount: yuan(dp.amount), more: !full,
     head: { title: D.head, tag: D.tag[st], tone: TONE[st], subs: [fill(CT.orderNo, { no: o.no }), fill(CT.leaseTo, { d: after.ymd(o.lease.end) })] },
     steps: cm.steps(D.steps, [fill(D.paidWith, { d: after.ymd(o.pay.paid_at || o.created_at) }), '', x && x.status ? D.exitTag[x.status] || '' : ''], CUR[st], failed ? 4 : 0),
     info: [{ k: D.time, v: D.timeText }].concat(full ? [{ k: D.method, v: D.methodText, long: true }, { k: D.deduct, v: D.deductText, long: true }] : []),
     bar: { btns: [moving ? { text: D.viewProgress, act: 'progress', kind: 'ghost' } : { text: CT.backOrder, act: 'back', kind: 'neutral' }].concat(st === 'refunded_partial' ? [{ text: CT.callStore, act: 'call', kind: 'ghost' }] : []) },
     sheetSteps: moving ? cm.steps(D.sheetSteps, [x && x.passed_at ? after.ymd(x.passed_at) : '', failed ? D.tag.refund_failed : D.storeHandling, ''], 2, failed ? 2 : 0) : []
   };
-  if (st === 'refunded_partial') d.settle = [{ k: D.orderDeposit, v: yuan(dp.amount) }, { k: D.due, v: '−' + yuan(dp.pending_fee) }, { k: D.back, v: yuan(dp.refunded), strong: true }];
+  // IMPL-02 M-32：部分退还态的结算三行并入顶部金额区：实际退还为大数字，订单押金与已扣费用为小字两行，「已扣费用明细可向门店查询」跟在其后；不再单列「押金结算」一节。其它状态顶部仍是押金金额。
+  d.part = st === 'refunded_partial' ? { label: D.back, amt: yuan(dp.refunded), rows: [{ k: D.orderDeposit, v: yuan(dp.amount) }, { k: D.due, v: fill(D.dueMinus, { a: yuan(dp.pending_fee) }) }], note: D.dueNote } : null;
   if (!moving) d.sheet = false;
   if (st === 'refund_pending' && dp.refund_at) cm.later(page, A.demo.refundMs - (now - dp.refund_at));
   if (st === 'waiting' && x && x.inspect_at) cm.later(page, A.demo.inspectMs - (now - x.inspect_at));
@@ -46,7 +47,7 @@ function loadPicks(page) {
 }
 
 Page(auth.guarded(routes.DEPOSIT, {
-  data: { T: { c: CT, d: D }, sys: 'loading', empty: false, st: '', head: null, order: null, amount: '', fail: false, reason: '', steps: [], settle: [], info: [], more: false, bar: null, sheet: false, sheetSteps: [], picks: [], pickCount: '', pickSheet: false },
+  data: { T: { c: CT, d: D }, sys: 'loading', empty: false, st: '', head: null, order: null, amount: '', fail: false, reason: '', steps: [], part: null, info: [], more: false, bar: null, sheet: false, sheetSteps: [], picks: [], pickCount: '', pickSheet: false },
   onLoad(q) { this._id = (q && q.id) || ''; this._auto = !this._id; this._open = !!(q && q.info === 'open'); },
   onShow() { this.refresh(); },
   onHide() { cm.cancelLater(this); },

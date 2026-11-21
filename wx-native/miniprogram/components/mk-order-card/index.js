@@ -8,6 +8,8 @@
 //   editable  租期显示为 − / + 步进、日期可选（下单前）。触发 term { months }、date { value: 'YYYY-MM-DD' }
 //   hint      租期行下方的引导句（一处只出一句，由页面用 core/pricing.nudge 算好传入）
 //   dead      已超时 / 已取消：标题「原订单仓位」，整卡减淡
+//   mode      'brief' = 紧凑摘要（IMPL-02 M-28，租后各页与留资页顶部用）：店名一行、仓位编号标签加容量一行、租期起止日期一行（YYYY-MM-DD 至 YYYY-MM-DD）。
+//             不带图、状态、金额、地址，不可点；优先于 variant。缺省 '' = 按 variant 走原有形态，输出不变。
 // IMPL-01：详情形态去掉门店图与仓位图（M-18）；仓位编号用标签、与容量同一行；租期步进数字变化时轻微回弹（core/motion）。
 const C = require('../../core/config');
 const CT = require('../../core/config-trade');
@@ -19,6 +21,7 @@ Component({
   properties: {
     order: { type: Object, value: null },
     variant: { type: String, value: 'detail' },
+    mode: { type: String, value: '' },
     showKm: { type: Boolean, value: false },
     swap: { type: String, value: '' },
     editable: { type: Boolean, value: false },
@@ -26,7 +29,7 @@ Component({
     dead: { type: Boolean, value: false },
     dateNote: { type: String, value: '' } // 日期行下方的小字（确认订单：预计用仓时间即起租日）
   },
-  data: { T: T.card, v: null, canMinus: false, canPlus: false, startMin: '', startMax: '', termBump: '' },
+  data: { T: T.card, v: null, briefSpan: '', canMinus: false, canPlus: false, startMin: '', startMax: '', termBump: '' },
   observers: { 'order, showKm': function () { this.render(); } },
   lifetimes: { attached() { this.render(); }, detached() { motion.dispose(this); } },
   methods: {
@@ -35,7 +38,9 @@ Component({
       const v = view.card(o, now, { showKm: this.data.showKm });
       const R = C.requirement, m = v ? Number(v.months) : 0;
       const prev = this.data.v ? Number(this.data.v.months) : 0;
-      this.setData({ v, canMinus: m > R.termMin, canPlus: m < R.termMax, startMin: view.ymd(now + CT.startDate.minDays * view.DAY), startMax: view.ymd(now + CT.startDate.maxDays * view.DAY) });
+      const end = o && o.lease && o.lease.end ? view.ymd(o.lease.end) : '';
+      const briefSpan = v ? (v.startDate && end ? v.startDate + T.common.to + end : v.startDate || end) : ''; // 未起租的订单只有起租日
+      this.setData({ v, briefSpan, canMinus: m > R.termMin, canPlus: m < R.termMax, startMin: view.ymd(now + CT.startDate.minDays * view.DAY), startMax: view.ymd(now + CT.startDate.maxDays * view.DAY) });
       if (this.data.editable && prev && m && prev !== m) motion.bump(this, 'termBump', 'mk-bump mk-bump--center'); // 只在用户改了租期时回弹，首次渲染不动
     },
     onSwap() { this.triggerEvent('swap'); },

@@ -1,5 +1,5 @@
 // 订单详情 O03（第 2 批）。?id=订单号；从确认订单支付成功跳来时带 &paid=1（先显示「正在确认支付结果」）和 &sub=accepted|declined（到期提醒订阅结果）。
-// 已做（27 态里 25 个）：状态头（标题 + 标签 + 订单号 / 下单日 / 支付剩余 / 剩余天数 / 计划起租）、各阶段说明句、订单摘要卡、门店服务（导航 / 联系门店 / 一键开锁）、
+// 已做（27 态里 25 个）：状态头（标题 + 订单号 / 下单日 / 支付剩余 / 剩余天数 / 计划起租）、各阶段说明句、订单摘要卡、门店服务（导航 / 联系门店 / 一键开锁）、
 //   租赁进度、订单服务列表（电子合同 · 已签署 → 电子合同页；入仓指引 / 实名认证；续租；退仓 / 退订；押金进度；申请发票）、费用明细（含满额减）、
 //   待支付与支付失败的取消订单确认、各阶段底栏、下单时未实名的兜底态（D-174）、到期提醒已开启 / 未开启两句、空态、加载 / 失败 / 断网、支付确认中。
 // 「一键开锁」点击只提示暂未开通（D-151、D-175）。
@@ -31,6 +31,10 @@ const BAR = { // 阶段 → [主按钮文字键, 动作, 次按钮文字键, 动
   refund_failed: ['btnDeposit', 'deposit', 'btnCall', 'call'], renewal_pay: ['btnRenewPay', 'renew', 'unlock', 'unlock'], renewal_pay_failed: ['btnRenewPay', 'renew', 'unlock', 'unlock']
 };
 BAR.inspection = ['btnInspect', 'exit', 'btnCall', 'call']; // C-13：门店还没验仓，按钮写「查看验仓进度」，并给联系门店
+// IMPL-02 M-25：状态头只留大标题。原标签里大标题没有的信息（下列情况）并进副标题第一项，其余情况标签与大标题同义，不再显示。
+const HEAD_KEEP = ['inspect_failed', 'exit_clearing', 'identity_mismatch', 'renewal_pay_failed', 'renewal_pending', 'refund', 'ended'];
+// IMPL-02 M-24：门店服务宫格里的「门店导航」「一键开锁」与底栏同名按钮去重——底栏有就从宫格去掉，底栏没有才留在宫格
+const GRID = [['navigate', 'nav-brand', 'navigate'], ['call', 'phone-brand', 'callStore'], ['unlock', 'lock-ink', 'unlock']];
 const EXIT_TEXT = { requested: 'exitSubmitted', waiting: 'exitInspect', failed: 'exitFailed', passed: 'exitPassed' };
 function depositLabel(o, p) {
   const st = o.deposit && o.deposit.status, L = T.depositLabel;
@@ -56,7 +60,7 @@ function build(o, now, sub) {
     renewal: { title: '', text: T.noteRenewal, tone: 'warn' }, renewal_pay: { title: '', text: T.noteRenewPay, tone: 'warn' }, renewal_pay_failed: { title: '', text: T.noteRenewPayFailed, tone: 'err' },
     refund_failed: why(o.deposit && o.deposit.fail_reason), inspect_failed: why(x && x.fail_reason)
   };
-  const d = { head: h, subs, note: NOTE[key] || null, order: o, paid, phase: p, clock: '', subLine: paid && (sub === 'accepted' || sub === 'declined') ? sub : '' };
+  const d = { head: h, subs, note: NOTE[key] || null, headNote: HEAD_KEEP.indexOf(key) >= 0 ? h.tag : '', order: o, paid, phase: p, clock: '', subLine: paid && (sub === 'accepted' || sub === 'declined') ? sub : '' };
   d.storeSvc = paid && p !== 'ended'; d.withUnlock = ['active', 'expiring', 'renewal', 'renewal_pending'].indexOf(p) >= 0;
   d.progress = []; d.services = [];
   if (paid) {
@@ -87,29 +91,36 @@ function build(o, now, sub) {
   else if (b) d.bar = { mode: b[2] ? 'two' : 'one', amount: '', primary: { t: txt(b[0]), a: b[1] }, secondary: b[2] ? { t: txt(b[2]), a: b[3] } : null };
   else d.bar = { mode: 'none', amount: '', primary: null, secondary: null };
   d.showBar = d.bar.mode !== 'none';
+  const inBar = [d.bar.primary && d.bar.primary.a, d.bar.secondary && d.bar.secondary.a];
+  d.grid = !d.storeSvc ? [] : GRID.filter((g) => (g[0] !== 'unlock' || d.withUnlock) && (g[0] === 'call' || inBar.indexOf(g[0]) < 0)).map((g) => ({ a: g[0], icon: g[1], t: T[g[2]] }));
   return d;
 }
 Page(auth.guarded(routes.ORDER_DETAIL, {
-  data: { T, sys: 'loading', empty: false, paying: false, headFx: '', paidLine: '', head: null, subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
-  onLoad(q) { this._id = (q && q.id) || ''; this._sub = (q && q.sub) || ''; this._justPaid = !!(q && q.paid === '1'); if (this._justPaid) this.setData({ paying: true }); },
+  data: { T, sys: 'loading', empty: false, paying: false, payingDlg: false, payingDlgLeave: '', headFx: '', paidLine: '', head: null, headNote: '', grid: [], subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
+  onLoad(q) { this._id = (q && q.id) || ''; this._sub = (q && q.sub) || ''; this._justPaid = !!(q && q.paid === '1'); if (this._justPaid) { this.setData({ paying: true }); this.dlgSync(); } },
+  // IMPL-02：「正在确认支付结果」层的显示跟着 paying 走，收起时先播退场再移除（paying 仍是即时的逻辑状态）
+  dlgSync() {
+    if (this.data.paying) { motion.cancelLeave(this, 'payingDlg'); if (!this.data.payingDlg) this.setData({ payingDlg: true }); }
+    else if (this.data.payingDlg) motion.leave(this, 'payingDlg');
+  },
   onShow() { this.refresh(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   onHide() { this.stop(); },
   onUnload() { this.stop(); motion.dispose(this); },
   refresh() {
-    if (!this._id) { this.setData({ sys: '', empty: true, paying: false, showBar: false }); return Promise.resolve(); }
+    if (!this._id) { this.setData({ sys: '', empty: true, paying: false, showBar: false }); this.dlgSync(); return Promise.resolve(); }
     const p = api.getOrder({ id: this._id }).catch((err) => (err && err.code === 'NOT_FOUND' ? null : Promise.reject(err)));
     return pd.load(this, p, (o) => {
-      if (!o) { this.stop(); this.setData({ empty: true, paying: false, order: null, showBar: false }); return; }
+      if (!o) { this.stop(); this.setData({ empty: true, paying: false, order: null, showBar: false }); this.dlgSync(); return; }
       const d = build(o, Date.now(), this._sub);
       d.paidLine = this._justPaid && d.paid ? T.paidOk + view.yuan(o.quote.payable) : ''; // 从确认订单支付成功跳来：确认一句「支付成功，已付 ¥X」（B-15）
       const wasPaying = this.data.paying, prevPhase = this.data.phase;
-      this.setData(Object.assign({ empty: false, paying: false }, d));
+      this.setData(Object.assign({ empty: false, paying: false }, d)); this.dlgSync();
       if (wasPaying || (prevPhase && prevPhase !== d.phase)) motion.bump(this, 'headFx', 'mk-fade'); // IMPL-01：支付确认中 → 结果态、阶段切换时状态头淡入一次
       this.tick();
       if (this.data.cancelable && !this._t) this._t = actions.every(() => this.tick(), 1000);
       if (!this.data.cancelable) this.stop();
-    }).then(() => { if (this.data.sys && this.data.paying) this.setData({ paying: false }); }); // 取数失败时收起「正在确认支付结果」
+    }).then(() => { if (this.data.sys && this.data.paying) { this.setData({ paying: false }); this.dlgSync(); } }); // 取数失败时收起「正在确认支付结果」
   },
   // 待支付 / 支付失败的剩余时间：自下单起 3 小时，支付失败不重新计时
   tick() {

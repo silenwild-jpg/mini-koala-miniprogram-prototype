@@ -29,5 +29,11 @@
 /* 价格与按钮同一行（FIX-01 R-23，冻结稿：价格在左、104px 按钮靠右）；整期那一行放不下时在左栏内折行 */
 .sc-buy { margin-top: var(--mk-space-2); align-items: flex-end; flex-wrap: nowrap; }
 .sc-buy > .mk-grow { flex-basis: auto; min-width: 0; }
-.sc-sub { display: block; margin-top: 4rpx; white-space: normal; overflow-wrap: anywhere; }
+/* IMPL-02：次行「整期 ¥X · N个月」后面跟满额减优惠标签；放不下时标签折到下一行 */
+.sc-subline { display: flex; align-items: center; flex-wrap: wrap; margin-top: 4rpx; }
+.sc-sub { white-space: normal; overflow-wrap: anywhere; margin-right: var(--mk-space-2); }
+.sc-off { margin: 4rpx 0; flex: none; }
+/* IMPL-02：编号标签在前、容量在后（同订单卡 oc-no / oc-vol） */
+.sc-no { margin-right: var(--mk-space-2); }
+.sc-vol { font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); color: var(--mk-color-ink-primary); }
 .mk-btn.mk-btn.sc-cta { min-width: 208rpx; margin-left: var(--mk-space-3); flex: none; }

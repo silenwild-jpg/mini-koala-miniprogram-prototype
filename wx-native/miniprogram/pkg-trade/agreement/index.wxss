@@ -1,13 +1,17 @@
-/* IMPL-01 去卡片化：标题与版本、目录、正文三个通栏小节（app.wxss mk-sec），不再各包一张卡；目录行间线从文字起、首行不画。 */
+/* IMPL-01 去卡片化：标题与版本、目录、正文三个通栏小节（IMPL-02 起目录收成一行、正文无小节标题）（app.wxss mk-sec），不再各包一张卡；目录行间线从文字起、首行不画。 */
 .ag-page { padding-top: 0; }
 .ag-title { margin-bottom: var(--mk-space-1); }
 .ag-kv { min-height: 64rpx; }
-.ag-sectitle.ag-sectitle { margin-bottom: var(--mk-space-1); }
+/* IMPL-02 M-26：目录默认收起，「目录」一行带箭头，点开后在原位展开（mk-drop-in），收起先播退场；目录项不带序号，行间线与文字左对齐。 */
+.ag-tocsec.ag-tocsec { padding-top: 0; padding-bottom: 0; }
+.ag-tochd { display: flex; align-items: center; min-height: 96rpx; }
+.ag-tochdt { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); }
+.ag-tocs { padding-bottom: var(--mk-space-2); }
 .ag-toc { position: relative; display: flex; align-items: center; min-height: 88rpx; }
-.ag-tocs--lined .ag-toc + .ag-toc::before { content: ''; position: absolute; left: 48rpx; right: 0; top: 0; border-top: var(--mk-border-hairline); }
-.ag-tocn { width: 48rpx; color: var(--mk-color-ink-secondary); flex: none; }
-.ag-sec { padding-top: var(--mk-space-3); }
-.ag-h3 { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); margin-bottom: var(--mk-space-2); }
+.ag-tocs--lined .ag-toc + .ag-toc::before { content: ''; position: absolute; left: 0; right: 0; top: 0; border-top: var(--mk-border-hairline); }
+/* IMPL-02 M-27：正文不再有「正文」标题，章标题就是一级标题（与小节标题同档）；章与章之间用留白分开。 */
+.ag-sec + .ag-sec { padding-top: var(--mk-space-5); }
+.ag-h3 { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); margin-bottom: var(--mk-space-3); }
 .ag-h4 { font-weight: var(--mk-font-weight-semibold); margin: var(--mk-space-3) 0 var(--mk-space-1); }
 .ag-p { margin-bottom: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); color: var(--mk-color-ink-primary); word-break: break-all; }
 .ag-fine { padding: var(--mk-space-4) 0 0; min-height: 64rpx; }

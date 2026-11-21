@@ -24,3 +24,10 @@
 .mn-term { margin-right: var(--mk-space-2); }
 .mn-an { font-weight: var(--mk-font-weight-semibold); min-width: 0; }
 .mn-demo { display: flex; align-items: center; justify-content: center; min-height: var(--mk-size-tapMin); margin: var(--mk-space-4) var(--mk-space-pageGutter) 0; border-radius: var(--mk-radius-control); }
+/* IMPL-02 M-34：常用入口一行 5 格（图标 + 名称）。原「我的记录」「服务与权益」两组列表合并到这里；只有消息带未读徽标（样式同 mk-cell 的徽标） */
+.mn-secs .mk-sec.mn-qsec { padding-top: var(--mk-space-3); padding-bottom: var(--mk-space-3); padding-left: var(--mk-space-2); padding-right: var(--mk-space-2); }
+.mn-quick { display: flex; }
+.mn-q { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; padding: var(--mk-space-2) 0; border-radius: var(--mk-radius-control); }
+.mn-qic { position: relative; display: flex; align-items: center; justify-content: center; width: 80rpx; height: 80rpx; border-radius: 50%; background: var(--mk-color-canvas-sunken); }
+.mn-qbadge { position: absolute; top: -8rpx; left: 48rpx; min-width: 36rpx; height: 36rpx; line-height: 36rpx; padding: 0 10rpx; box-sizing: border-box; border-radius: 18rpx; text-align: center; background: var(--mk-color-status-errorStrong); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-xs); }
+.mn-qt { margin-top: var(--mk-space-2); font-size: var(--mk-font-size-xs); line-height: var(--mk-font-lineHeight-tight); white-space: nowrap; }

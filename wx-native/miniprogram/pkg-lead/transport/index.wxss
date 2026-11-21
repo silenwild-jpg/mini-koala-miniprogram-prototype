@@ -16,3 +16,5 @@
 .ltr-ic { margin: 4rpx var(--mk-space-2) 0 0; }
 .ltr-note { margin-bottom: calc(-1 * var(--mk-space-3)); }
 .ltr-rec { padding: var(--mk-space-2) 0; }
+/* IMPL-02 M-39：带订单的表单顶部用订单卡的紧凑摘要（mk-order-card mode="brief"，自带下外边距）；紧跟的提示句不再叠一层上内边距 */
+.ltr-brief + .ldf-ntc { padding-top: 0; }

@@ -7,8 +7,9 @@
   <view wx:elif="{{order}}">
     <view class="mk-gutter od-top">
       <view class="od-head {{headFx}}">
-        <view class="mk-between"><text class="mk-h2 mk-grow">{{head.title}}</text><text class="od-tag od-tag--{{head.tone}}">{{head.tag}}</text></view>
+        <view class="mk-h2">{{head.title}}</view>
         <view class="od-subs">
+          <text wx:if="{{headNote}}" class="od-subitem od-headnote od-headnote--{{head.tone}}">{{headNote}}</text>
           <text wx:for="{{subs}}" wx:key="*this" class="mk-sub od-subitem">{{item}}</text>
           <text wx:if="{{clock}}" class="mk-sub od-subitem od-clock mk-num">{{clock}}</text>
         </view>
@@ -16,24 +17,22 @@
       <mk-notice wx:if="{{paidLine}}" text="{{paidLine}}" />
       <mk-notice wx:if="{{subLine}}" text="{{subLine === 'accepted' ? T.subOk : T.subNo}}" link="{{subLine === 'declined' ? T.subAsk : ''}}" bind:link="onSubAsk" />
       <mk-notice wx:if="{{note}}" title="{{note.title}}" text="{{note.text}}" tone="{{note.tone}}" />
-      <mk-order-card order="{{order}}" />
+      <view class="od-cardgrp">
+        <view class="od-cardwrap"><mk-order-card order="{{order}}" /></view>
+        <view wx:if="{{paid}}" class="od-prog" aria-label="{{T.progress}}">
+          <view wx:for="{{progress}}" wx:key="k" class="mk-between od-kv"><text class="mk-sub">{{item.k}}</text><text class="{{item.soft ? 'mk-sub' : 'od-kvv'}} {{item.warn ? 'od-kvv--warn' : ''}}">{{item.v}}</text></view>
+        </view>
+      </view>
     </view>
     <view class="od-secs">
       <view wx:if="{{storeSvc}}" class="mk-sec">
         <view class="mk-sec__hd">{{T.storeSvc}}</view>
-        <view class="od-grid">
-          <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" class="od-cell mk-press" data-a="navigate" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/nav-brand.svg" /><text class="od-celltext">{{T.navigate}}</text></view>
-          <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" class="od-cell mk-press" data-a="call" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/phone-brand.svg" /><text class="od-celltext">{{T.callStore}}</text></view>
-          <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" wx:if="{{withUnlock}}" class="od-cell mk-press" data-a="unlock" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/lock-ink.svg" /><text class="od-celltext">{{T.unlock}}</text></view>
+        <view wx:if="{{grid.length > 1}}" class="od-grid">
+          <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" wx:for="{{grid}}" wx:key="a" class="od-cell mk-press" data-a="{{item.a}}" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/{{item.icon}}.svg" /><text class="od-celltext">{{item.t}}</text></view>
         </view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:elif="{{grid.length === 1}}" class="od-row" data-a="{{grid[0].a}}" bindtap="onAct" aria-role="button"><image class="mk-icon" src="/assets/icons/{{grid[0].icon}}.svg" /><text class="mk-grow od-rowk">{{grid[0].t}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="od-row" data-a="arrival" bindtap="onAct" aria-role="button"><image class="mk-icon" src="/assets/icons/pin-brand.svg" /><text class="mk-grow od-rowk">{{T.arrival}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
         <text wx:if="{{withUnlock}}" class="mk-mute od-rule">{{T.unlockRule}}</text>
-      </view>
-      <view wx:if="{{paid}}" class="mk-sec">
-        <view class="mk-sec__hd">{{T.progress}}</view>
-        <view class="od-kvs">
-          <view wx:for="{{progress}}" wx:key="k" class="mk-between od-kv"><text class="mk-sub">{{item.k}}</text><text class="{{item.soft ? 'mk-sub' : 'od-kvv'}} {{item.warn ? 'od-kvv--warn' : ''}}">{{item.v}}</text></view>
-        </view>
       </view>
       <view wx:if="{{paid}}" class="mk-sec">
         <view class="mk-sec__hd od-hd--rows">{{T.services}}</view>
@@ -54,8 +53,8 @@
     <button wx:if="{{bar.secondary}}" class="mk-btn mk-btn--ghost od-barbtn" hover-class="mk-btn--ghostHover" data-a="{{bar.secondary.a}}" bindtap="onAct">{{bar.secondary.t}}</button>
     <button class="mk-btn od-barbtn" hover-class="mk-btn--hover" data-a="{{bar.primary.a}}" bindtap="onAct">{{bar.primary.t}}</button>
   </view>
-  <view wx:if="{{paying}}" class="od-scrim mk-fade" catchtouchmove="noop">
-    <view class="od-dialog mk-fade-in"><view class="od-spin"></view><text class="mk-title">{{T.payingTitle}}</text><text class="mk-sub od-dialogdesc">{{T.payingDesc}}</text></view>
+  <view wx:if="{{payingDlg}}" class="od-scrim mk-fade {{payingDlgLeave}}" catchtouchmove="noop">
+    <view class="od-dialog mk-fade-in {{payingDlgLeave ? 'mk-leave mk-leave--zoom' : ''}}"><view class="od-spin"></view><text class="mk-title">{{T.payingTitle}}</text><text class="mk-sub od-dialogdesc">{{T.payingDesc}}</text></view>
   </view>
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" />
 </view>

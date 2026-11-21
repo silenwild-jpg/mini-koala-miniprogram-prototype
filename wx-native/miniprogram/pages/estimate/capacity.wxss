@@ -32,26 +32,24 @@
 .cp-ts { margin-top: 4rpx; font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-hint); line-height: var(--mk-font-lineHeight-tight); white-space: nowrap; }
 .cp-tick--on .cp-tv { color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-semibold); }
 .cp-tick--on .cp-ts { color: var(--mk-color-brand-text); }
-/* 仓库示意区：左图右文，不描边。图随容量缩放（transform-origin 在底边中点），箱子从上方飘入 */
+/* 尺寸示意区：左图右文，不描边。图随容量缩放（transform-origin 在底边中点）；箱子叠在底图与仓门框之间，落到位后留下 */
 .cp-ref { display: flex; align-items: center; margin-top: var(--mk-space-1); }
-.cp-stage { position: relative; width: 264rpx; height: 264rpx; flex: none; overflow: hidden; }
-.cp-depot { position: absolute; left: 0; right: 0; bottom: 0; height: 245rpx; transform-origin: 50% 100%; }
+.cp-stage { position: relative; width: 320rpx; height: 320rpx; flex: none; overflow: hidden; }
+.cp-depot { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 50% 100%; }
 .cp-depot--off { opacity: 0.35; }
 .cp-dimg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; }
 .cp-dimg--on { opacity: 1; }
-@keyframes cp-kf-fly-in { 0% { opacity: 0; transform: translateY(0) scale(1); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(150rpx) scale(0.55); } }
-@keyframes cp-kf-fly-out { 0% { opacity: 0; transform: translateY(150rpx) scale(0.55); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(0) scale(1); } }
-.cp-fly { position: absolute; top: 0; width: 44rpx; height: 44rpx; margin-left: -22rpx; opacity: 0; animation: cp-kf-fly-in 300ms var(--mk-motion-easing) both; }
-.cp-fly--out { animation-name: cp-kf-fly-out; }
-.cp-fly--l0 { left: 50%; }
-.cp-fly--l1 { left: 34%; }
-.cp-fly--l2 { left: 66%; }
-.cp-fly--d1 { animation-delay: 60ms; }
-.cp-fly--d2 { animation-delay: 120ms; }
-.cp-rb { flex: 1; min-width: 0; margin-left: var(--mk-space-3); display: flex; flex-direction: column; }
+@keyframes cp-kf-box-in { 0% { opacity: 0; transform: translateY(-120rpx); } 30% { opacity: 1; } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes cp-kf-box-out { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-120rpx); } }
+.cp-box { position: absolute; }
+.cp-box--in { animation: cp-kf-box-in 300ms var(--mk-motion-easing) both; }
+.cp-box--out { animation: cp-kf-box-out 300ms var(--mk-motion-easing) both; }
+.cp-box--d1 { animation-delay: 60ms; }
+.cp-box--d2 { animation-delay: 120ms; }
+.cp-rb { flex: 1; min-width: 0; margin-left: var(--mk-space-1); display: flex; flex-direction: column; }
 .cp-rt { margin: 4rpx 0; }
 .cp-things { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-1); }
-.cp-thing { width: 50%; margin-top: var(--mk-space-1); display: flex; align-items: baseline; white-space: nowrap; }
+.cp-thing { width: 100%; margin-top: var(--mk-space-1); display: flex; align-items: baseline; white-space: nowrap; }
 .cp-tn { font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); }
 .cp-tc { margin-left: var(--mk-space-1); font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-semibold); }
 /* 拿不准时的出路：两块浅灰底的入口，不描边 */

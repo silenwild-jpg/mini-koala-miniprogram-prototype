@@ -7,6 +7,9 @@
 // IMPL-01（张坤 2026-11-21）：AI 估算入口按 config-find.estimate.aiEnabled 整个隐藏；快捷档改成带刻度的滑杆（每档写仓型名）；
 //       空间参考上移到滑杆下方，配 4 档仓位空间示意图（主包已有的 assets/images/units），随容量平滑缩放；
 //       容量变大时箱子从上方飘入示意区、变小时飘出（最多同时 flyMax 个，一个定时器收尾，离开页面即清）；数字与底栏容量变化时轻微弹一下。
+// IMPL-02（M-14）：示意图换成程序画的尺寸示意插画（仓体长宽高 + 1.7m 人形参照，services/media.sizeIllusSet，4 档淡入切换与缩放照旧）；
+//       箱子不再飘过就消失，改为在示意区累计停留：只数由容量决定（core/estimate-viz.boxCount，规则在 config-find.estimate.stageBoxStepsM3），
+//       箱位由 core/config-size-illus.js 给出；变多时新箱子落到位后留下，变少时最上面的先飘出再移除（一个收尾定时器，离开页面即清）。
 // 容量错误句现在仍是旧句（tests/flow.test.js 锁定），冻结稿原文见 i18n/find.js cap.err 上方的说明。
 const C = require('../../core/config');
 const CF = require('../../core/config-find');
@@ -23,6 +26,7 @@ const share = require('../../services/share');
 const media = require('../../services/media');
 const motion = require('../../core/motion');
 const viz = require('../../core/estimate-viz');
+const SI = require('../../core/config-size-illus');
 const R = C.requirement, K = T.cap, ERR = K.err;
 const round2 = (n) => Number(Number(n).toFixed(2));
 const E = CF.estimate, BUMP = 'mk-bump mk-bump--center';
@@ -39,7 +43,7 @@ Page({
   data: {
     T: { cap: pd.plain(K), m3: T.unit.m3, m2: T.unit.m2, hintSub: T.advisor.capHint(C.matching.advisorCapacityM3), advisorCta: T.cta.advisor },
     sys: 'loading', unit: 'm3', raw: '', quick: ticksOf('m3', null), ai: !!E.aiEnabled, numW: E.numEmptyRpx,
-    pos: 0, sliding: false, stage: { on: false, s: E.stageScaleMin, key: '', imgs: media.unitThumbSet().map((x) => ({ key: x.key, src: x.src, on: false })) }, fly: [], capBump: '', sumBump: '', term: R.termDefault, hint: '', error: '', approx: '', cartons: '', sales: false, ok: false, ack: '',
+    pos: 0, sliding: false, stage: { on: false, s: E.stageScaleMin, key: '', carton: '', bw: 0, bh: 0, imgs: media.sizeIllusSet().map((x) => ({ key: x.key, src: x.base, front: x.front, carton: x.carton, on: false })) }, boxes: [], capBump: '', sumBump: '', term: R.termDefault, hint: '', error: '', approx: '', cartons: '', sales: false, ok: false, ack: '',
     advise: false, src: 'manual', srcText: '', canMinus: false, ref: null, sumCap: K.dash, sumTerm: '', needText: '', needErr: false, submitText: K.submit
   },
   onLoad() {
@@ -63,7 +67,7 @@ Page({
     }
   },
   onReady() { this.measure(); },
-  onUnload() { this._gone = true; if (this._flyTimer) { clearTimeout(this._flyTimer); this._flyTimer = null; } motion.dispose(this); },
+  onUnload() { this._gone = true; if (this._boxTimer) { clearTimeout(this._boxTimer); this._boxTimer = null; } motion.dispose(this); },
   onShareAppMessage() { return share.message(routes.CAPACITY); },
   onRetry() { this.setData({ sys: 'loading' }); pd.load(this, api.getSpaceReference(), (res) => { this._bands = (res && res.bands) || []; this.evaluate(); }); },
   evaluate() {
@@ -80,7 +84,11 @@ Page({
     }
     const src = d.src !== 'manual' && est && est.rec > 0 ? d.src : 'manual';
     const empty = v.error === 'empty';
+    // 尺寸示意：按容量取档；没填或填错时显示最小档的淡图、不放箱子
+    const key = v.ok ? media.unitThumbKey(cap) : '', tier = SI.tiers[key], on = (x) => (v.ok ? x.key === key : x.key === d.stage.imgs[0].key);
+    const cur = d.stage.imgs.find(on) || d.stage.imgs[0];
     this.setData({
+      boxes: this.planBoxes(key, v.ok ? viz.boxCount(cap) : 0),
       ok: v.ok, sales, error,
       approx: v.ok ? (d.unit === 'm2' ? K.approx(req.pretty(v.capacity_m3)) : '') : '', // 只写「约 X m³」，不显示层高（D-178）
       cartons: v.ok ? (sales ? '' : K.cartons(req.cartonCount(v.capacity_m3))) : '',
@@ -89,7 +97,7 @@ Page({
       advise: v.ok && cap >= C.matching.largeCapacityFromM3,
       quick: ticksOf(d.unit, v), numW: numWidth(d.raw),
       pos: v.ok ? Number(viz.posOf(v.input_value, minOf(d.unit)).toFixed(4)) : 0,
-      stage: { on: v.ok, s: v.ok ? viz.scaleOf(cap) : E.stageScaleMin, key: v.ok ? media.unitThumbKey(cap) : '', imgs: d.stage.imgs.map((x) => ({ key: x.key, src: x.src, on: v.ok ? x.key === media.unitThumbKey(cap) : x.key === d.stage.imgs[0].key })) },
+      stage: { on: v.ok, s: v.ok ? viz.scaleOf(cap) : E.stageScaleMin, key, carton: cur.carton, bw: tier ? tier.boxW : 0, bh: tier ? tier.boxH : 0, imgs: d.stage.imgs.map((x) => Object.assign({}, x, { on: on(x) })) },
       canMinus: v.ok && Number(d.raw) > CF.estimate.capStepM3,
       src, srcText: src === 'items' ? K.fromItems(req.pretty(est.rec), est.kinds, est.count) : src === 'edited' ? K.edited(req.pretty(est.rec)) : '',
       ref,
@@ -110,24 +118,31 @@ Page({
   onUnit(e) { const unit = e.currentTarget.dataset.u === 'm2' ? 'm2' : 'm3'; if (unit !== this.data.unit) { this.setData({ unit, raw: '' }); this.touch('', unit); this.evaluate(); } },
   onBlur() { const v = req.validate(this.data.unit, this.data.raw); if (v.ok) { this.setData({ raw: String(v.input_value) }); this.evaluate(); } },
   onInput(e) { const raw = String((e.detail && e.detail.value) || ''); this.setData({ raw }); this.touch(raw, this.data.unit); this.evaluate(); },
-  onQuick(e) { const raw = String(e.currentTarget.dataset.v), prev = this.capNow(); this.setData({ raw }); this.touch(raw, this.data.unit); this.evaluate(); this.react(prev, E.flyBurst, true); },
+  onQuick(e) { const raw = String(e.currentTarget.dataset.v), prev = this.capNow(); this.setData({ raw }); this.touch(raw, this.data.unit); this.evaluate(); this.react(prev); },
   // ---- 动效 ----
   capNow() { return this._v && this._v.ok ? this._v.capacity_m3 : 0; },
-  // 容量变了：箱子飘入 / 飘出示意区，数字弹一下。prev 是变化前的容量（m³，无效时为 0）
-  react(prev, n, bump) {
-    const cur = this.capNow();
-    if (cur === prev) return;
-    if (cur > 0) this.flyBoxes(cur > prev ? 1 : -1, n);
-    if (bump) { motion.bump(this, 'capBump', BUMP); motion.bump(this, 'sumBump'); }
-  },
-  // 同时最多 flyMax 个；新来的接在后面，老的被挤掉；只有一个收尾定时器，连点时顺延，不会越积越多
-  flyBoxes(dir, n) {
-    if (this._gone) return;
-    const k = Math.max(1, Math.min(E.flyBurst, n || 1)), list = (this.data.fly || []).slice();
-    for (let i = 0; i < k; i++) { this._flySeq = (this._flySeq || 0) + 1; list.push({ k: this._flySeq, lane: this._flySeq % 3, d: i, out: dir < 0 }); }
-    this.setData({ fly: list.slice(-E.flyMax) });
-    if (this._flyTimer) clearTimeout(this._flyTimer);
-    this._flyTimer = setTimeout(() => { this._flyTimer = null; if (!this._gone) this.setData({ fly: [] }); }, E.flyMs + E.flyStaggerMs * k + E.flyStaggerMs);
+  // 容量变了：数字与底栏弹一下。prev 是变化前的容量（m³，无效时为 0）。箱子的增减不在这里，由 evaluate 里的 planBoxes 按容量算
+  react(prev) { if (this.capNow() !== prev) { motion.bump(this, 'capBump', BUMP); motion.bump(this, 'sumBump'); } },
+  // 累计箱子层：返回这一刻该渲染的箱子 [{ i, l, t, cls }]（i = 箱位序号，也是渲染顺序与 wx:key）。n = 目标只数。
+  // 只数始终等于 n：正在飘出的排在后面、带 cp-box--out，由唯一的收尾定时器移除；连点时定时器顺延，不叠加。
+  // 同一档里已经在位的箱子原样保留（类名不变就不会重播动画）；换档时箱位整体变了，已有的直接换到新箱位，不播动画，上一档正在飘出的直接丢掉。
+  planBoxes(key, n) {
+    const tier = SI.tiers[key], prev = this.data.boxes || [], same = key === this._boxKey, was = this._boxN || 0;
+    const stop = () => { if (this._boxTimer) { clearTimeout(this._boxTimer); this._boxTimer = null; } };
+    if (this._gone) return prev;
+    if (!tier || !(n > 0)) { stop(); this._boxKey = key; this._boxN = 0; return []; }
+    const N = Math.min(n, tier.slots.length), list = [];
+    let fresh = 0;
+    for (let i = 0; i < N; i++) {
+      const old = same ? prev[i] : null, stay = old ? !old.out : (!same && i < was);
+      list.push({ i, l: tier.slots[i][0], t: tier.slots[i][1], cls: stay ? (old ? old.cls : '') : 'cp-box--in cp-box--d' + Math.min(fresh++, E.flyBurst - 1) });
+    }
+    let leaving = 0;
+    if (same) for (let i = N; i < prev.length; i++) { list.push(Object.assign({}, prev[i], { out: true, cls: 'cp-box--out' })); leaving++; }
+    this._boxKey = key; this._boxN = N;
+    stop();
+    if (leaving) this._boxTimer = setTimeout(() => { this._boxTimer = null; if (!this._gone) this.setData({ boxes: (this.data.boxes || []).filter((x) => !x.out) }); }, E.flyMs + E.flyStaggerMs);
+    return list;
   },
   // ---- 滑杆 ----
   // 轨道的左边界与宽度（px）。量不到时（节点还没渲染）按页边距推算
@@ -136,16 +151,14 @@ Page({
     if (!this._rect) this._rect = { left: w * 80 / 750, width: w * (750 - 160) / 750 };
     wx.createSelectorQuery().select('#cp-track').boundingClientRect().exec((res) => { const r = res && res[0]; if (r && r.width > 0) this._rect = { left: r.left, width: r.width }; });
   },
-  slideTo(e, force) {
+  slideTo(e) {
     const t = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]); if (!t || !this._rect) return;
     const unit = this.data.unit, next = viz.valueOf((t.clientX - this._rect.left) / this._rect.width, minOf(unit), E.capStepM3), raw = String(next);
     if (raw === this.data.raw) return;
-    const prev = this.capNow(), now = Date.now();
-    this.setData({ raw }); this.touch(raw, unit); this.evaluate();
-    if (force || now - (this._flyAt || 0) >= E.flyGapMs) { this._flyAt = now; this.react(prev, 1, false); }
+    this.setData({ raw }); this.touch(raw, unit); this.evaluate(); // 箱子只数随容量走（planBoxes），拖多快都不会多出来；数字的弹动留到松手
   },
-  onSlideStart(e) { this.measure(); this._slidePrev = this.capNow(); this.setData({ sliding: true }); this.slideTo(e, true); },
-  onSlideMove(e) { if (this.data.sliding) this.slideTo(e, false); },
+  onSlideStart(e) { this.measure(); this._slidePrev = this.capNow(); this.setData({ sliding: true }); this.slideTo(e); },
+  onSlideMove(e) { if (this.data.sliding) this.slideTo(e); },
   onSlideEnd() {
     if (!this.data.sliding) return;
     this.setData({ sliding: false });
@@ -156,7 +169,7 @@ Page({
     const min = this.data.unit === 'm2' ? R.areaMinM2 : R.capacityMinM3;
     const next = Number.isFinite(n) && this.data.raw !== '' ? Math.max(min, round2(n + dir * step)) : (dir > 0 ? Math.max(min, step) : min);
     const prev = this.capNow();
-    this.setData({ raw: String(next) }); this.touch(String(next), this.data.unit); this.evaluate(); this.react(prev, 1, true);
+    this.setData({ raw: String(next) }); this.touch(String(next), this.data.unit); this.evaluate(); this.react(prev);
   },
   onRestore() { // 恢复为物品估算值
     const d = state.get().draft || {};
@@ -165,7 +178,7 @@ Page({
     this._stamp = Date.now();
     state.patch('draft', { source: 'items', capacity_raw: raw, unit: 'm3', stamp: this._stamp });
     const prev = this.capNow();
-    this.setData({ unit: 'm3', raw, src: 'items' }); this.evaluate(); this.react(prev, E.flyBurst, true);
+    this.setData({ unit: 'm3', raw, src: 'items' }); this.evaluate(); this.react(prev);
   },
   onTerm(e) { this.setData({ term: e.detail.months }); state.patch('draft', { term: e.detail.months }); this.evaluate(); },
   onItems() { const pages = getCurrentPages(); if (pages.length > 1 && '/' + pages[pages.length - 2].route === routes.ITEMS) wx.navigateBack(); else wx.navigateTo({ url: routes.ITEMS }); },

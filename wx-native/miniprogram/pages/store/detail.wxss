@@ -49,7 +49,7 @@
 .sd-fold { min-height: 64rpx; display: flex; align-items: center; }
 /* 仓型分组标题：浅灰底块，不描边 */
 .sd-cathd { display: flex; align-items: center; margin-top: var(--mk-space-3); padding: var(--mk-space-2) var(--mk-space-3) var(--mk-space-2) var(--mk-space-2); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
-.sd-uph { width: 96rpx; height: 96rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); flex: none; margin-right: var(--mk-space-3); }
+.sd-uph { width: 160rpx; height: 160rpx; border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); flex: none; margin-right: var(--mk-space-3); }
 .sd-cathd-main { display: flex; flex-direction: column; }
 .sd-cathd-t { font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-semibold); }
 /* 仓位行：容量 + 仓号标签一行，规格一行，价格与按钮一行；行间发丝线，组内第一行不画线 */
@@ -67,6 +67,10 @@
 .sd-favt { margin-left: 4rpx; font-size: var(--mk-font-size-xs); }
 .sd-line { display: block; margin-top: 4rpx; }
 .sd-buy { display: flex; align-items: flex-end; margin-top: var(--mk-space-2); }
+/* IMPL-02 PR-201：价格次行「整期 ¥X · N个月」后面跟满额减优惠标签（与门店卡 sc-subline 同一写法） */
+.sd-subline { display: flex; align-items: center; flex-wrap: wrap; margin-top: 4rpx; }
+.sd-sub { margin-right: var(--mk-space-2); }
+.sd-off { margin: 4rpx 0; flex: none; }
 .mk-btn.mk-btn.sd-cta { min-width: 192rpx; margin-left: var(--mk-space-3); }
 .sd-allcat { align-self: flex-start; display: inline-flex; }
 .sd-soldhd { min-height: 88rpx; margin-top: var(--mk-space-2); }

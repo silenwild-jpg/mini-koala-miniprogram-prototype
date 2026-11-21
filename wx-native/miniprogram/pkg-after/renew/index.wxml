@@ -9,7 +9,7 @@
     <view class="af-body af-top">
       <mk-notice wx:if="{{over}}" text="{{over}}" tone="warn" />
       <mk-notice wx:if="{{note && st === 'quote_expired'}}" text="{{note.text}}" tone="{{note.tone}}" />
-      <mk-order-card order="{{order}}" />
+      <mk-order-card order="{{order}}" mode="brief" />
     </view>
     <view class="af-secs {{stFx}}">
       <view wx:if="{{steps.length}}" class="mk-sec">
@@ -43,7 +43,11 @@
       </view>
       <view wx:if="{{card}}" class="mk-sec">
         <view class="mk-sec__hd">{{card.title}}</view>
-        <view class="af-fee-row">
+        <view wx:if="{{card.one}}" class="af-total af-total--one">
+          <view class="af-fee-k"><text>{{card.one.k}}</text><text wx:if="{{card.one.sub}}" class="af-fee-sub">{{card.one.sub}}</text><text wx:if="{{card.one.tag}}" class="mk-tag mk-tag--promo af-disc">{{card.one.tag}}</text></view>
+          <text class="mk-num af-total-amt">{{card.one.amt}}</text>
+        </view>
+        <view wx:else class="af-fee-row">
           <view class="af-fee-k"><text>{{card.main.k}}</text><text wx:if="{{card.main.sub}}" class="af-fee-sub">{{card.main.sub}}</text><text wx:if="{{card.main.tag}}" class="mk-tag mk-tag--promo af-disc">{{card.main.tag}}</text></view>
           <text class="mk-num af-amt {{card.main.muted ? 'af-amt--muted' : ''}}">{{card.main.amt}}</text>
         </view>
@@ -52,7 +56,7 @@
           <view class="af-fee-k"><text>{{card.ref.k}}</text><text wx:if="{{card.ref.sub}}" class="af-fee-sub">{{card.ref.sub}}</text></view>
           <text class="mk-num af-amt af-amt--muted {{card.ref.strike ? 'af-amt--strike' : ''}}">{{card.ref.amt}}</text>
         </view>
-        <view wx:if="{{card.total}}" class="af-total"><text>{{card.total.k}}</text><text class="mk-num af-total-amt">{{card.total.amt}}</text></view>
+        <view wx:if="{{card.total && !card.one}}" class="af-total"><text>{{card.total.k}}</text><text class="mk-num af-total-amt">{{card.total.amt}}</text></view>
         <view wx:if="{{card.keep}}" class="rn-keep">{{card.keep}}</view>
         <mk-after-kv wx:if="{{card.kv.length}}" rows="{{card.kv}}" />
         <text wx:if="{{card.rule}}" class="af-rule">{{card.rule}}</text>

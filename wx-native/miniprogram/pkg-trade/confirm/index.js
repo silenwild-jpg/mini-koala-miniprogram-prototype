@@ -47,7 +47,7 @@ Page(auth.guarded(routes.CONFIRM, {
     sheet: '', // idv | sign | fees | pay | protect | coupon
     idvName: '', idvNo: '', idvError: '', idvChecking: false, idvReady: false,
     signRows: [], payText: '', couponRows: [], couponChoice: 'auto',
-    price: null, paying: false, loginVisible: false, loginTip: ''
+    price: null, paying: false, priceDlg: null, priceDlgLeave: '', payingDlg: false, payingDlgLeave: '', loginVisible: false, loginTip: ''
   },
   onLoad(q) {
     q = q || {};
@@ -77,6 +77,15 @@ Page(auth.guarded(routes.CONFIRM, {
     });
   },
   onHide() { this.stop(); },
+  // IMPL-02：两个居中对话框（变价确认、等待支付结果）的显示跟着 price / paying 走，关闭时先播退场再移除。
+  // price / paying 仍是即时的逻辑状态（底栏、防重复点按都读它们），priceDlg / payingDlg 只管界面上那一层。
+  dlgSync() {
+    const d = this.data;
+    if (d.price) { motion.cancelLeave(this, 'priceDlg'); if (d.priceDlg !== d.price) this.setData({ priceDlg: d.price }); }
+    else if (d.priceDlg) motion.leave(this, 'priceDlg', null);
+    if (d.paying) { motion.cancelLeave(this, 'payingDlg'); if (!d.payingDlg) this.setData({ payingDlg: true }); }
+    else if (d.payingDlg) motion.leave(this, 'payingDlg');
+  },
   onUnload() { this.stop(); this._tk = (this._tk || 0) + 1; motion.dispose(this); },
   stop() { if (this._t) { clearInterval(this._t); this._t = null; } },
   refresh() {
@@ -154,7 +163,7 @@ Page(auth.guarded(routes.CONFIRM, {
     if (d.mode === 'compose' && this._quote && !d.quoteExpired && order.isExpired(this._quote.expires_at, now)) this.expireQuote();
     if (d.mode === 'order' && d.cancelable && d.cardOrder) {
       const exp = d.cardOrder.pay.expires_at;
-      if (order.isExpired(exp, now)) { this.setData({ cancelable: false, sheet: '', paying: false }); this.loadOrder(); return; }
+      if (order.isExpired(exp, now)) { this.setData({ cancelable: false, sheet: '', paying: false }); this.dlgSync(); this.loadOrder(); return; }
       this.setData({ clock: view.countdown(exp, now) });
     }
   },
@@ -196,7 +205,7 @@ Page(auth.guarded(routes.CONFIRM, {
       success: (res) => {
         if (!res.confirm) return;
         this._busy = true;
-        api.cancelOrder({ order_id: this._orderId }).then((od) => { this._busy = false; this.setData({ recheck: null, sheet: '', price: null }); this.applyOrder(od); go(); })
+        api.cancelOrder({ order_id: this._orderId }).then((od) => { this._busy = false; this.setData({ recheck: null, sheet: '', price: null }); this.dlgSync(); this.applyOrder(od); go(); })
           .catch((err) => { this._busy = false; actions.toast((err && err.message) || T.toastFail); this.loadOrder(); });
       },
       fail() {}
@@ -288,15 +297,15 @@ Page(auth.guarded(routes.CONFIRM, {
     const bo = sumBase(oldQ), bn = sumBase(newQ);
     const reason = bo !== bn ? T.priceReasonBase[0] + yuan(bo) + T.priceReasonBase[1] + yuan(bn) : (Number(oldQ.coupon_discount) || 0) !== (Number(newQ.coupon_discount) || 0) ? T.priceReasonCoupon : T.priceReasonOther;
     const row = (k, a, b, suffix) => ({ k, old: yuan(a) + (suffix || ''), cur: yuan(b) + (suffix || ''), same: a === b });
-    this.setData({ price: { from, reason, rows: [row(T.priceRent, oldQ.rent_total, newQ.rent_total), row(T.priceMonthly, oldQ.monthly_average, newQ.monthly_average, TT.common.perMonth), row(T.priceDeposit, oldQ.deposit, newQ.deposit), row(T.pricePayable, oldQ.payable, newQ.payable)] } });
+    this.setData({ price: { from, reason, rows: [row(T.priceRent, oldQ.rent_total, newQ.rent_total), row(T.priceMonthly, oldQ.monthly_average, newQ.monthly_average, TT.common.perMonth), row(T.priceDeposit, oldQ.deposit, newQ.deposit), row(T.pricePayable, oldQ.payable, newQ.payable)] } }); this.dlgSync();
     this.syncBar();
   },
-  onPriceOther() { this.setData({ price: null }); this.syncBar(); this.onSwap(); },
+  onPriceOther() { this.setData({ price: null }); this.dlgSync(); this.syncBar(); this.onSwap(); },
   onPriceAccept() {
     const pr = this.data.price;
     if (!pr) return;
     this._priceReason = pr.reason;
-    this.setData({ price: null });
+    this.setData({ price: null }); this.dlgSync();
     if (pr.from === 'order') return this.onResume(true);
     this.loadDraft(true); // 确认新报价：按新价重新报价，用户再签署
   },
@@ -363,11 +372,11 @@ Page(auth.guarded(routes.CONFIRM, {
   onPayConfirm() {
     const d = this.data;
     if (d.paying || d.mode !== 'order' || d.phase !== 'pending') return;
-    this.setData({ sheet: '', paying: true }); this.syncBar();
+    this.setData({ sheet: '', paying: true }); this.dlgSync(); this.syncBar();
     const p = { order_id: this._orderId };
     if (this._demo === 'pay_fail') { p.simulate = 'fail'; this._demo = ''; }
     subscribe.request(subscribe.SCENES.EXPIRE).then((sub) => api.payOrder(p).then((od) => {
-      this.setData({ paying: false });
+      this.setData({ paying: false }); this.dlgSync();
       if (view.isPaid(view.phase(od, Date.now()))) {
         this.stop();
         wx.redirectTo({ url: routes.ORDER_DETAIL + '?id=' + od.id + '&paid=1' + (sub.asked ? '&sub=' + (sub.accepted ? 'accepted' : 'declined') : '') });
@@ -375,15 +384,15 @@ Page(auth.guarded(routes.CONFIRM, {
       }
       actions.toast(T.toastPayFail); // 支付失败：不释放仓位，沿用原截止时间
       this.applyOrder(od);
-    })).catch((err) => { this.setData({ paying: false }); actions.toast((err && err.message) || T.toastFail); this.loadOrder(); });
+    })).catch((err) => { this.setData({ paying: false }); this.dlgSync(); actions.toast((err && err.message) || T.toastFail); this.loadOrder(); });
   },
   onPayLater() { this.setData({ sheet: '' }); },
   // 「支付遇到问题」（B-15）：停止等待并重新取订单，同时说明订单仍保留、可联系客服；「已完成支付」只重新取订单
   onPayProblem() {
-    this.setData({ paying: false }); this.loadOrder();
+    this.setData({ paying: false }); this.dlgSync(); this.loadOrder();
     wx.showModal({ title: T.payProblem, content: T.payProblemDesc[0] + CT.hotline + T.payProblemDesc[1], cancelText: TT.common.know, confirmText: TT.common.contactService, success: (res) => { if (res.confirm) actions.callService(); }, fail() {} });
   },
-  onPayDone() { this.setData({ paying: false }); this.loadOrder(); },
+  onPayDone() { this.setData({ paying: false }); this.dlgSync(); this.loadOrder(); },
   onCancel() {
     if (!this.data.cancelable || this._busy || !this._orderId) return;
     wx.showModal({

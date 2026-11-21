@@ -1,7 +1,9 @@
 // 门店图与仓位图的路径。现在都是随包的演示素材；正式环境由接口返回线上地址（store.photo / store.photo_hero / unit.photo），有就优先用。
 // 门店图：12 家有专属图（mock/media.js，来自冻结稿 store-curated）；其余门店从 6 套共用实景图里按门店编号固定取一套（FIX-01，
 //         素材来自 2026-10 的 real_store_demo，是迷你考拉仓真实仓区照片，但没有逐店核验，不代表该门店实景）。同一家门店的卡片图与头图取同一套。
-// 仓位图：按容量分 4 档的空间示意图（冻结稿 unit-r3），不是该仓位的照片。
+// 仓位图：具体仓位的缩略图仍用按容量分 4 档的空间示意图（冻结稿 unit-r3 的 webp，unitThumb）。
+// 尺寸示意插画（unitSizeIllus / sizeIllusSet）：按同样 4 档（IMPL-02 M-11 / M-14，tools/gen_size_illus.py 生成的矢量图：仓体、长宽高、1.7m 人形参照、几只标准纸箱），
+//         画的是该档一个代表仓位的尺寸（见 core/config-size-illus.js），不是这个仓位自己的尺寸，更不是照片。
 const OWN = require('../mock/media');
 const CF = require('../core/config-find');
 const POOL = ['POOL-01', 'POOL-02', 'POOL-03', 'POOL-04', 'POOL-05', 'POOL-06'];
@@ -31,6 +33,13 @@ function unitThumb(unit) {
   const b = CF.unitThumbBands.find((x) => v <= x.maxM3) || CF.unitThumbBands[CF.unitThumbBands.length - 1];
   return BASE + 'units/' + b.key + '.webp';
 }
+// 仓型的尺寸示意图（IMPL-02 M-11）：只用在「仓型」层面（门店详情仓型分组标题、容量页示意区），不当作某个具体仓位的缩略图——
+// 图上标的是该档代表仓位的尺寸，放在具体仓位旁边会和它自己的尺寸对不上。
+function unitSizeIllus(unit) {
+  const v = Number(unit && unit.volume) || 0;
+  const b = CF.unitThumbBands.find((x) => v <= x.maxM3) || CF.unitThumbBands[CF.unitThumbBands.length - 1];
+  return BASE + 'units/size-' + b.key + '-box.svg';
+}
 // 物品缩略图（IMPL-01 M-20）：随 pkg-estimate 分包的 39 张小图，按物品编号取；正式环境接口返回 item.photo 时优先用。
 const itemThumb = (item) => (item && item.photo) || '/pkg-estimate/assets/items/' + ((item && item.id) || 'box') + '.webp';
 // 仓位空间示意图的 4 档（IMPL-01，估算两页的仓库示意共用）：全部档位 [{ key, src }]，与某个容量落在哪一档
@@ -40,3 +49,7 @@ const unitThumbKey = (m3) => { const v = Number(m3) || 0; return (CF.unitThumbBa
 const mapPin = BASE + 'map/pin.png';
 module.exports = { storeDir, storeCard, storeHero, storeGallery, storeOwn, unitThumb, mapPin, POOL };
 Object.assign(module.exports, { itemThumb, unitThumbSet, unitThumbKey }); // IMPL-01 估算域
+// 尺寸示意插画的分层素材（IMPL-02，容量页示意区用）：base 底图（不带箱）、front 前景（仓门框，叠在箱子上面）、carton 单只纸箱、full 合成图。
+// 箱位坐标在 core/config-size-illus.js（与图同一个脚本生成）。
+const sizeIllusSet = () => CF.unitThumbBands.map((b) => { const p = BASE + 'units/size-' + b.key; return { key: b.key, base: p + '.svg', front: p + '-front.svg', carton: p + '-carton.svg', full: p + '-box.svg' }; });
+Object.assign(module.exports, { sizeIllusSet, unitSizeIllus }); // IMPL-02 估算域

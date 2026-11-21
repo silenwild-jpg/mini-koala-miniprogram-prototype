@@ -1,11 +1,11 @@
-<view wx:if="{{visible}}" class="acd-root" catchtouchmove="noop">
-  <view class="acd-scrim mk-fade"></view>
-  <view class="acd-box mk-fade-in" aria-role="alertdialog">
-    <text class="mk-title acd-title">{{title}}</text>
-    <text class="mk-sub acd-desc">{{desc}}</text>
+<view wx:if="{{show}}" class="acd-root" catchtouchmove="noop">
+  <view class="acd-scrim mk-fade {{showLeave}}"></view>
+  <view class="acd-box mk-fade-in {{showLeave}} mk-leave--zoom" aria-role="alertdialog">
+    <text class="mk-title acd-title">{{snap.title}}</text>
+    <text class="mk-sub acd-desc">{{snap.desc}}</text>
     <view class="acd-acts">
-      <button wx:if="{{cancelText}}" class="mk-btn mk-btn--ghost mk-btn--md acd-btn" hover-class="mk-btn--ghostHover" bindtap="onCancel">{{cancelText}}</button>
-      <button class="mk-btn mk-btn--md acd-btn {{danger ? 'acd-danger' : ''}}" hover-class="mk-btn--dimHover" bindtap="onConfirm">{{confirmText}}</button>
+      <button wx:if="{{snap.cancelText}}" class="mk-btn mk-btn--ghost mk-btn--md acd-btn" hover-class="mk-btn--ghostHover" bindtap="onCancel">{{snap.cancelText}}</button>
+      <button class="mk-btn mk-btn--md acd-btn {{snap.danger ? 'acd-danger' : ''}}" hover-class="mk-btn--dimHover" bindtap="onConfirm">{{snap.confirmText}}</button>
     </view>
   </view>
 </view>

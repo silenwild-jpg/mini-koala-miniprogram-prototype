@@ -67,7 +67,7 @@
           <block wx:else>
             <!-- 仓型分组标题：空间示意图放这里，仓位行里不再放图（M-11） -->
             <view wx:if="{{item.head}}" class="sd-cathd">
-              <image class="sd-uph" src="{{item.head.thumb}}" mode="aspectFill" aria-label="仓型空间示意" />
+              <image class="sd-uph" src="{{item.head.thumb}}" mode="aspectFit" aria-label="仓型尺寸示意" />
               <view class="mk-grow sd-cathd-main"><text class="sd-cathd-t">{{item.head.title}}</text><text wx:if="{{item.head.usage}}" class="mk-t-hint sd-line">{{item.head.usage}}</text></view>
             </view>
             <view class="sd-urow {{item.type === 'combo' ? 'sd-combo' : ''}} {{item.head || item.first ? 'sd-urow--first' : ''}}">
@@ -75,7 +75,7 @@
               <view class="sd-utop">
                 <view class="mk-grow sd-uline">
                   <text class="sd-vol mk-num">{{item.row.volText}}</text>
-                  <text class="mk-unitno sd-code">{{item.row.code}}</text>
+                  <text wx:for="{{item.row.codeList}}" wx:for-item="c" wx:key="*this" class="mk-unitno sd-code">{{c}}</text>
                   <text wx:if="{{item.row.tier}}" class="mk-tag sd-tier">{{item.row.tier}}</text>
                   <text wx:if="{{item.row.tag}}" class="mk-tag sd-tier">{{item.row.tag}}</text>
                   <text wx:if="{{item.row.nearText}}" class="mk-tag mk-tag--promo sd-tier">{{item.row.nearText}}</text>
@@ -87,7 +87,7 @@
               <view class="sd-buy">
                 <view class="mk-grow">
                   <mk-price amount="{{item.row.price.amount}}" unit="{{item.row.price.unit}}" discount="{{item.row.price.discount}}" />
-                  <text wx:if="{{item.row.price.sub}}" class="mk-t-hint sd-line">{{item.row.price.sub}}</text>
+                  <view wx:if="{{item.row.price.sub || item.row.price.off}}" class="sd-subline"><text wx:if="{{item.row.price.sub}}" class="mk-t-hint sd-sub">{{item.row.price.sub}}</text><text wx:if="{{item.row.price.off}}" class="mk-tag mk-tag--promo mk-num sd-off">{{item.row.price.off}}</text></view>
                 </view>
                 <button class="mk-btn mk-btn--md sd-cta {{item.row.secondary ? 'mk-btn--ghost' : ''}}" hover-class="{{item.row.secondary ? 'mk-btn--ghostHover' : 'mk-btn--hover'}}" data-list="{{item.list}}" data-i="{{item.i}}" bindtap="onAction">{{item.row.cta}}</button>
               </view>
@@ -100,8 +100,8 @@
         </block>
       </block>
       <block wx:if="{{sold.length && situation !== 'sales'}}">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-between sd-soldhd" bindtap="onToggleSold" aria-role="button"><text class="mk-sub">{{T.d.soldFold}}</text><image class="mk-icon mk-rot {{soldOpen ? 'mk-rot--on' : ''}}" src="/assets/icons/down-ink.svg" /></view>
-        <view wx:if="{{soldOpen}}" class="mk-drop-in">
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-between sd-soldhd" bindtap="onToggleSold" aria-role="button"><text class="mk-sub">{{T.d.soldFold}}</text><image class="mk-icon mk-rot {{soldOpen && !soldOpenLeave ? 'mk-rot--on' : ''}}" src="/assets/icons/down-ink.svg" /></view>
+        <view wx:if="{{soldOpen}}" class="mk-drop-in {{soldOpenLeave ? 'mk-leave mk-leave--up' : ''}}">
           <view wx:for="{{sold}}" wx:key="id" class="sd-urow sd-urow--off">
             <view class="sd-utop"><view class="mk-grow sd-uline"><text class="sd-vol mk-num">{{item.volText}}</text><text class="mk-unitno sd-code">{{item.code}}</text><text wx:if="{{item.tier}}" class="mk-tag sd-tier">{{item.tier}}</text></view></view>
             <text wx:if="{{item.dims}}" class="mk-sub sd-line mk-num">{{item.dims}}<text wx:if="{{item.area}}"> · {{item.area}}</text></text>

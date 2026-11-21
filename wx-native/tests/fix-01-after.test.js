@@ -183,7 +183,7 @@ test('C-04 / R-01：租期结束日之前申请验仓，先提示按提前退仓
   await pg.onInspect(); await pg.onEarlyConfirm();
   const x = raw(id).exit;
   assert.deepEqual([x.status, x.early, x.converted, x.date, x.planned_date, x.estimate.fee], ['waiting', true, true, today, end, fee]);
-  assert.equal(pg.data.st, 'waiting'); assert.equal(pg.data.plan[0].v, '提前退仓'); assert.equal(pg.data.canWithdraw, true, '原本是到期退仓，验仓完成前仍可撤回'); pg.onUnload();
+  assert.equal(pg.data.st, 'waiting'); assert.ok(pg.data.steps[0].s.indexOf('提前退仓') === 0, 'IMPL-02 M-30：退仓类型在进度第一步副文案里'); assert.equal(pg.data.canWithdraw, true, '原本是到期退仓，验仓完成前仍可撤回'); pg.onUnload();
   // 到期日当天申请：不算提前，不用确认
   const d0 = endingIn(0); await api.requestExit({ id: d0.id, type: 'expiry', date: after.ymd(d0.lease.end + DAY) });
   assert.equal(after.inspectionIsEarly(raw(d0.id), now()), false);
@@ -363,7 +363,7 @@ test('C-12 / D-14：押金页部分退还与订单详情同名、可联系门店
   const os = await api.getOrders({}), ended = os.find((o) => o.stage === S.ENDED);
   let pg = await page('DEPOSIT', { id: ended.id });
   assert.deepEqual([pg.data.st, pg.data.head.tag], ['refunded_partial', '部分退还']); assert.equal(TT.order.depositLabel.partial, pg.data.head.tag);
-  assert.deepEqual(pg.data.settle.map((r) => r.k), ['订单押金', '已扣费用', '实际退还']); assert.equal(TA.deposit.dueNote, '已扣费用明细可向门店查询。');
+  assert.deepEqual([pg.data.part.rows[0].k, pg.data.part.rows[1].k, pg.data.part.label], ['订单押金', '已扣费用', '实际退还']); assert.equal(TA.deposit.dueNote, '已扣费用明细可向门店查询。');
   assert.deepEqual(pg.data.bar.btns.map((b) => [b.text, b.act]), [['返回订单详情', 'back'], ['联系门店', 'call']]);
   assert.equal(pg.data.picks.length, 0, '带订单号进入不出切换'); pg.onUnload();
   pg = await page('DEPOSIT', {});

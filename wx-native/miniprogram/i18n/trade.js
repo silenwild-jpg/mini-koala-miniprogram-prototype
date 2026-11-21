@@ -187,7 +187,7 @@ module.exports = {
   },
   orders: { all: '全部订单', sort: '按最近订单排序', empty: '暂无订单记录', emptySub: '', goStores: '去附近门店', loginTip: '登录后查看订单', login: '登录' }, // FIX-01 R-21：空态说明句与「去附近门店」按钮同义，删；未登录时标题直接写「登录后查看订单」（C-20）
   agreement: {
-    pendingTitle: '协议正文暂未上线', pendingDesc: '需要了解协议内容？', contact: '联系客服', toc: '目录', body: '正文', fine: '如对协议内容有疑问，请联系客服。',
+    pendingTitle: '协议正文暂未上线', pendingDesc: '需要了解协议内容？', contact: '联系客服', toc: '目录', fine: '如对协议内容有疑问，请联系客服。',
     version: '版本', effective: '生效日期'
   },
   task: { // mk-task-card

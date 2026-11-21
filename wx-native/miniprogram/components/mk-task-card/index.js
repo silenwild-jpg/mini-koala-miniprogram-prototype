@@ -65,7 +65,9 @@ function mainCard(rec, others, now) {
   return {
     key: p, variant: key === p ? '' : key, orderId: o.id, storeId: o.store.id, kicker: TK.kicker[p] || '', title: TK.title[key] || TK.title[p] || '', strong: p === 'pending' || p === 'payment_failed',
     badge: p === 'pending' ? TK.left + view.countdown(o.pay.expires_at, now) : (TK.badge[key] || ''), badgeTone: p === 'pending' || ERR.indexOf(key) >= 0 ? 'err' : URGENT.indexOf(p) >= 0 ? 'warn' : 'ok',
-    store: o.store.name, sub: view.unitLines(o).name + T.common.sep + fmt.termText(o.months),
+    store: o.store.name, sub: view.unitLines(o).name + T.common.sep + fmt.termText(o.months), // sub 只在订单没带仓位编号时兜底显示
+    // IMPL-02：仓位编号用 mk-unitno 标签（组合仓每个编号一个），容量与租期跟在后面，与订单卡同一写法
+    codes: (o.units || []).map((u) => u.code).filter(Boolean), vol: (o.units || []).length ? fmt.pretty(view.unitsVolume(o.units)) + 'm³' : '', term: fmt.termText(o.months),
     address: ['identity', 'upcoming', 'active', 'expiring', 'renewal', 'renewal_pending', 'returning', 'inspection', 'expired_lease'].indexOf(p) >= 0 ? (o.store.address || '') : '',
     facts: facts(o, p, now, key).slice(0, 3),
     primary: { t: TK.btn[b[0]], a: b[0] }, secondary: b[1] ? { t: TK.btn[b[1]], a: b[1] } : null,

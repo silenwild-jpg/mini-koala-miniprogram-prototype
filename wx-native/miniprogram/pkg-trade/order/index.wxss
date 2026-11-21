@@ -3,10 +3,13 @@
 .od-subs { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-1); }
 .od-subitem { margin-right: var(--mk-space-3); }
 .od-clock { color: var(--mk-color-status-errorText); }
-.od-tag { flex: none; margin-left: var(--mk-space-2); display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
-.od-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
-.od-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
-.od-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
+.od-headnote { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); color: var(--mk-color-status-infoText); }
+.od-headnote--warn { color: var(--mk-color-status-warningText); }
+.od-headnote--ok { color: var(--mk-color-brand-text); }
+.od-headnote--err { color: var(--mk-color-status-errorText); }
+/* IMPL-02 M-23：租赁进度并入订单卡区域——浅灰底块垫在订单卡下沿（上缘收进卡片圆角底下），与卡片同宽，不再是独立小节。订单卡组件本身不动。 */
+.od-cardwrap { position: relative; z-index: 1; }
+.od-prog { margin-top: calc(-1 * var(--mk-space-cardGap) - var(--mk-radius-card)); margin-bottom: var(--mk-space-cardGap); padding: calc(var(--mk-radius-card) + var(--mk-space-1)) var(--mk-space-cardPad) var(--mk-space-1); border-radius: 0 0 var(--mk-radius-card) var(--mk-radius-card); background: var(--mk-color-canvas-sunken); }
 /* IMPL-01 去卡片化：订单卡之外的门店服务、租赁进度、订单服务、费用明细改成通栏小节，小节之间用浅灰分区带；宫格用浅灰底块不描边。 */
 .od-top { padding-bottom: var(--mk-space-2); }
 .od-secs .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); }

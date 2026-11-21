@@ -22,6 +22,7 @@ const fn = {
 };
 module.exports = {
   ack, fn,
+  advisorCard: { contact: '立即咨询' }, // IMPL-02 PR-244：顾问卡（components/mk-advisor-card）按钮文字，原来写死在模板里，文字未改
   common: {
     viewNeeds: '查看预约记录', viewNeedsLogin: '登录后查看预约记录', viewOrder: '查看订单', goFind: '继续找仓', backMine: '返回我的', cancel: '取消', confirm: '确定', modify: '修改', done: '完成',
     optional: '（可选）', optionalFill: '（选填）', multi: '（可多选）', required: '*', pick: '请选择', pickDate: '选择日期', unsure: '暂不确定', dash: '—',
@@ -72,7 +73,7 @@ module.exports = {
   business: {
     steps: ['用仓需求', '联系方式'],
     title: '商家 / 企业用仓', intro: '多仓、长期或用量较大的商家与企业用仓，由顾问为您配仓。',
-    benefits: ['可开发票', '专属顾问', '长期 / 多仓可协助', '搬运方案可确认'],
+    benefits: ['可开发票', '专属顾问', '长期 / 多仓可协助', '搬运方案可确认'], benefitSep: ' · ', // IMPL-02 M-38：四项权益收成一行（同级短语，用全站统一的中点分隔）
     location: '用仓位置', locationPh: '城市、区域或详细地址',
     addArea: '多个区域都需要仓位？添加区域', areas: '还需要用仓的区域',
     otherAreas: '其他区域：', otherAreasJoin: '；其他区域：',

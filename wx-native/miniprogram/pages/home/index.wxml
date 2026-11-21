@@ -12,12 +12,12 @@
         <image class="mk-icon mk-icon--md" src="/assets/icons/bell-ink.svg" /><text wx:if="{{unread > 0}}" class="hm-badge">{{unreadText}}</text>
       </view>
     </view>
-    <view wx:if="{{nocity}}" class="hm-bubble mk-row">
+    <view wx:if="{{nocity}}" class="hm-bubble mk-row mk-fade {{nocityLeave}}">
       <text class="mk-grow">{{nocity}}</text>
       <text class="mk-link hm-act" bindtap="onSwitchCity" aria-role="button">{{T.switchCity}}</text>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="hm-x" bindtap="onCloseNocity" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
     </view>
-    <view wx:elif="{{bubble}}" class="hm-bubble mk-row">
+    <view wx:elif="{{bubble}}" class="hm-bubble mk-row mk-fade {{bubbleLeave}}">
       <text class="mk-grow">{{bubble.text}}</text>
       <text class="mk-link hm-act" bindtap="onBubbleAction" aria-role="button">{{bubble.action}}</text>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="hm-x" bindtap="hideBubble" aria-role="button" aria-label="关闭"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>

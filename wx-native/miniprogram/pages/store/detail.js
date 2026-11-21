@@ -26,7 +26,6 @@ const media = require('../../services/media');
 const share = require('../../services/share');
 const flow = require('../../services/estimate-flow');
 const motion = require('../../core/motion');
-const fmt = require('../../core/format');
 const D = T.detail, CATS = ['all'].concat(CF.unitCategories.map((c) => c.key));
 // 服务设施：统一成图标加文字的宫格。第一格是存取时间；门店有补全档案（profile.fac，演示数据）时照档案列，没有时只写门店数据里有的项。
 const FAC_ICON = { hours: 'clock-ink', lift: 'elev-ink', climate: 'temp-ink', security: 'cam-ink', lock: 'lock-ink', cart: 'cart-ink', dock: 'truck-ink', park: 'car-ink', metro: 'train-ink', other: 'check-ink' };
@@ -46,7 +45,7 @@ function facilityGrid(store, profile) {
 function catHead(cat, row) {
   const list = CF.unitCategories, i = list.findIndex((c) => c.key === cat), lo = i > 0 ? list[i - 1].maxM3 : null, hi = i >= 0 && Number.isFinite(list[i].maxM3) ? list[i].maxM3 : null;
   const range = lo === null ? T.cap.refWithin(hi) : hi === null ? T.cap.refOver(lo) : T.cap.refRange(lo, hi);
-  return { cat, title: D.catHead(T.unitCategories[cat], range), usage: row.usage || '', thumb: (row.thumbs && row.thumbs[0]) || '' };
+  return { cat, title: D.catHead(T.unitCategories[cat], range), usage: row.usage || '', thumb: row.illus || (row.thumbs && row.thumbs[0]) || '' };
 }
 function routeModel(store, profile) {
   const p = profile || {}, pair = (r) => ({ k: r[0], v: r[1], key: !!r[2] });
@@ -61,7 +60,7 @@ Page({
   data: {
     T: { d: pd.plain(D), cubic: T.price.cubicFrom, cta: T.cta, cats: T.unitCategories },
     visitVisible: false, visitStore: null, visitUnit: '', hero: '', gallery: [], heroIndex: 0, favBump: '', sys: 'loading', card: null, tab: 0, tabs: D.tabs, demandText: '', hasNeed: false, fav: false, gone: false,
-    situation: '', cats: [], blocks: [], rows: [], near: [], smaller: [], over: [], showLow: true, sold: [], soldOpen: false, combos: [], comboMode: '', combosOpen: false, noSingleText: '', catEmpty: false,
+    situation: '', cats: [], blocks: [], rows: [], near: [], smaller: [], over: [], showLow: true, sold: [], soldOpen: false, soldOpenLeave: '', combos: [], comboMode: '', combosOpen: false, noSingleText: '', catEmpty: false,
     alternatives: [], showAlternatives: false, advisor: null, headPrice: null, salesSub: D.salesSub(T.lead.inHours),
     arrSys: 'loading', svc: [], route: null, geo: null, markers: [], mapScale: CF.detail.mapScale, transitOpen: false, destSheet: false, loginVisible: false, demandSheet: false
   },
@@ -131,7 +130,7 @@ Page({
       hasNeed: !!r, demandText: r ? (r.input_unit === 'm2' && Number(r.input_value) > 0 ? '' : '约 ') + req.demandText(r) + ' · 租 ' + r.term_months + T.unit.month : '', // 按面积填的写「6㎡ · 约15m³」（A-11）
       situation: d.situation, cats: CATS.map((k) => ({ k, t: T.unitCategories[k], on: k === d.category })),
       rows, near, smaller, over, showLow: d.showLow, blocks,
-      sold: d.sold.map((x) => { const u = store.units.find((y) => y.id === x.id); return Object.assign({}, x, u ? { code: u.code, volText: fmt.pretty(u.volume) + 'm³' } : { code: '', volText: x.name }); }), // 已租出的行同样把容量和仓号分开写
+      sold: d.sold, // 已租出的行同样把容量和仓号分开写（code / volText 由 finder 给）
       combos: d.combos, comboMode: d.comboMode,
       noSingleText: d.noSingleText, catEmpty: d.catEmpty, advisor: d.advisor, headPrice: d.headPrice, showAlternatives: d.showAlternatives,
       gone: this._gone || (!!picked && !matching.isAvailable(picked))
@@ -171,7 +170,11 @@ Page({
   },
   onCat(e) { const k = e.currentTarget.dataset.k; if (CATS.indexOf(k) >= 0) { this._cat = k; this.paint(); } },
   onAllCats() { this._cat = 'all'; this.paint(); },
-  onToggleSold() { this.setData({ soldOpen: !this.data.soldOpen }); },
+  // 已租出仓位折叠：收起时先播退场再移除（退场途中再点 = 重新展开）
+  onToggleSold() {
+    if (this.data.soldOpen && !this.data.soldOpenLeave) return motion.leave(this, 'soldOpen');
+    motion.cancelLeave(this, 'soldOpen'); this.setData({ soldOpen: true }); return Promise.resolve(true);
+  },
   onToggleCombos() { this.setData({ combosOpen: !this.data.combosOpen }); this.paint(); },
   onMoreTransit() { this.setData({ transitOpen: true }); },
   // ---- 仓位行 ----
