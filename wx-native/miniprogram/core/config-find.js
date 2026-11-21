@@ -28,7 +28,13 @@ module.exports = {
     soldFoldMax: 3,             // 冻结稿 w2-render.js soldFold(3)
     alternativesMax: 3,         // 冻结稿 w2-render.js alternatives().slice(0,3)
     comboAlwaysFromM3: 10,      // 冻结稿 w2-render.js：需求超过 10m³ 时，有匹配仓也给出组合方案入口
-    defaultOrderTerm: 12        // D-158：未选过租期时默认 12 个月并视为已选
+    defaultOrderTerm: 12,       // D-158：未选过租期时默认 12 个月并视为已选
+    galleryMin: 3,              // 自定（IMPL-01）：门店详情顶部横滑图至少几张，不够从共用图池补
+    tabScrollMs: 250,           // 自定（IMPL-01）：点页签滚到对应分段的时长
+    tabLockMs: 400,             // 自定（IMPL-01）：点页签后这段时间内不按滚动位置改页签高亮（等滚动结束）
+    tabBarRpx: 88,              // 自定（IMPL-01）：吸顶页签高度（rpx），与 pages/store/detail.wxss .sd-tabs 一致；滚动定位时扣掉
+    mapScale: 16,               // 到店指引地图与 wx.openLocation 的缩放级别（原 openLocation 写死 16）
+    mapMarkerPx: 32             // 自定（IMPL-01）：地图上门店标记的边长（px）
   },
   // 仓型（冻结稿 w2-render.js category）：上限含本数
   unitCategories: [{ key: 'mini', maxM3: 1.5 }, { key: 'small', maxM3: 5 }, { key: 'medium', maxM3: 10 }, { key: 'large', maxM3: Infinity }],
@@ -38,10 +44,35 @@ module.exports = {
   usageBandsM3: [1.5, 5, 10, 25, 50],
   estimate: {
     capStepM3: 0.5,             // 冻结稿 cap.html：加减按钮每次 0.5
-    aiEnabled: false,           // D-133：AI 估算保留占位，不实现
+    aiEnabled: false,           // D-133：AI 估算不实现。IMPL-01（张坤 2026-11-21）：关着时两页的入口整个隐藏、不留占位；功能开放时改 true 即恢复
+    // IMPL-01 容量滑杆：快捷档（core/config.js capacityQuickPicks）在滑杆上的位置（0–1）。等距排，小容量段更细（自定）；滑杆左端是最小值
+    sliderStops: [0.1, 0.325, 0.55, 0.775, 1],
+    // IMPL-01 示意区与动效（自定）：仓库示意随容量缩放的下限；一次最多同时飞几个箱子 / 物品图；连拖时两次飞入的最小间隔；飞行时长与错峰；数量弹窗退场时长
+    numDigitRpx: 46, numPadRpx: 24, numEmptyRpx: 150, numMaxRpx: 330, // 容量大数字输入框按字符估宽（72rpx 字号下每位数字约 46rpx）
+    stageScaleMin: 0.62, flyBurst: 3, flyMax: 4, flyGapMs: 90, flyMs: 300, flyStaggerMs: 60, dialogOutMs: 180,
     toastMs: 2400               // 冻结稿 w1-render.js toast
   },
-  hero: { fold: 0.25, min: 190, max: 230, sloganMin: 96, solidAfter: 24 }, // 首页首图（px）：屏高占比、上下限（冻结稿 .hero）、标语区最小高度、滚动多少后顶栏变实底（后两项自定）
+  hero: { backdrop: 72, solidAfter: 24 }, // 首页顶部浅绿底带（px）：顶栏以下再延伸多少（IMPL-01 自定，首屏卡压在它上面）；滚动多少后顶栏变实底（自定）
+  // 首页（IMPL-01，张坤 2026-11-21 第 3 段）。
+  // banners：首屏卡上半部分的品牌与运营轮播。图不带字，标题与副标题由页面叠在图上；route 是 services/routes.js 的常量名；
+  //   tone = 叠字颜色（light 白字 / dark 深字）；hideWithNeed = 已有找仓需求时不出（M-04：有需求时不再出「估大小算价格」入口）。
+  //   三张的文案与排序都是演示数据，运营内容上线前由业务提供。
+  home: {
+    bannerIntervalMs: 4000,     // 自定：轮播停留
+    bannerDurationMs: 300,      // 自定：轮播切换时长（动效上限 300ms）
+    navLockMs: 600,             // 自定：一次跳转发起后，这段时间内的重复点击不再跳（防快速连点开出两页）
+    banners: [
+      { key: 'brand', image: '/assets/images/home/banner/brand.webp', title: '让城市生活更轻松', sub: '家具、行李、闲置物品，找到附近适合的存储空间', route: 'BRAND', tone: 'light' },
+      { key: 'estimate', image: '/assets/images/home/banner/estimate.webp', title: '估大小算价格', sub: '不知道租多大？', route: 'CAPACITY', tone: 'dark', hideWithNeed: true },
+      { key: 'estore', image: '/assets/images/home/banner/estore.webp', title: '考拉E存', sub: '上门取送，不需要到店', route: 'ESTORE', tone: 'dark' }
+    ],
+    // 六个场景的圆形图标（design-src/icons.json），顺序与 i18n/find.js home.sceneList 一一对应
+    sceneIcons: ['scenemove-brand', 'scenereno-brand', 'scenebag-brand', 'sceneseason-brand', 'scenehobby-brand', 'sceneidle-brand'],
+    // 品牌区五城地标线条画，顺序与 i18n/find.js home.cities 一一对应
+    cityImages: ['/assets/images/home/city/beijing.svg', '/assets/images/home/city/shanghai.svg', '/assets/images/home/city/shenzhen.svg', '/assets/images/home/city/hangzhou.svg', '/assets/images/home/city/guangzhou.svg'],
+    // 品牌区三张资质配图：占位示意（其中有与事实不符的），上线前必须换正式件；说明文字在 i18n/find.js home.proofCaptions
+    proofImages: ['/assets/images/home/proof/proof1.webp', '/assets/images/home/proof/proof2.webp', '/assets/images/home/proof/proof3.webp']
+  },
   moveSceneIndex: 0,            // 自定：首页场景里「搬家过渡」的位置；从它进入后，用仓位置面板显示搬家提示（交接 §4.2-5）
   hotline: '400-035-8885',      // 合同《使用协议》附件 3（冻结稿 model/mk-contract-text.json service.hotline）
   locateResolveKm: 80           // 自定（仅演示数据适配器用）：定位点距最近门店不超过此距离，视为在该门店所在城市

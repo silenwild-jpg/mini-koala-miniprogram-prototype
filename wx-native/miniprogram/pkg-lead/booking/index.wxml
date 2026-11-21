@@ -1,7 +1,7 @@
-<view class="mk-page {{status === 'success' ? '' : 'ldf-page'}}">
+<view class="mk-page mk-page--plain {{status === 'success' ? '' : 'ldf-page'}}">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <block wx:elif="{{status === 'success'}}">
-    <view class="lbk-result">
+    <view class="lbk-result mk-fade-in">
       <view class="lbk-ic"><image class="lbk-tick" src="/assets/icons/check-white.svg" /></view>
       <text class="lbk-done">{{T.ack.submitted}}</text>
       <text class="lbk-ack">{{result.ack}}</text>
@@ -15,19 +15,19 @@
         <button class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onFind">{{T.c.goFind}}</button>
       </view>
     </view>
-    <view class="mk-card ldf-cardgap">
-      <text class="ldf-sectitle">{{T.b.infoTitle}}</text>
+    <view class="ldf-secs ldf-secs--top mk-fade-in mk-fade-in--d2"><view class="mk-sec">
+      <view class="mk-sec__hd">{{T.b.infoTitle}}</view>
       <view wx:for="{{result.rows}}" wx:key="k" class="ldf-kv {{item.last ? 'ldf-kv--last' : ''}}"><text class="ldf-k">{{item.k}}</text><text class="ldf-v">{{item.v}}</text></view>
-    </view>
+    </view></view>
   </block>
   <block wx:else>
     <view wx:if="{{status === 'failed' || status === 'unknown'}}" class="mk-gutter ldf-ntc"><mk-notice tone="err" title="{{statusTitle}}" text="{{statusMsg}}" link="{{statusBtn}}" bind:link="onRetrySubmit" /></view>
     <view class="ldf-ptitle"><text class="ldf-h1">{{M.h1}}</text><text class="ldf-p">{{M.p}}</text></view>
     <view wx:if="{{mode === 'business'}}" class="lbk-tobiz mk-sub"><text>{{T.b.toBusinessTip}}</text><view class="mk-link lbk-tolink" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onToBusiness" aria-role="link">{{T.b.toBusiness}}</view></view>
     <view class="ldf-form">
-      <view wx:if="{{store}}" class="mk-card lbk-store">
-        <view class="mk-grow"><text class="mk-title mk-ellipsis lbk-sn">{{store.name}}</text><text class="mk-sub mk-ellipsis lbk-ss">{{store.sub}}</text></view>
-        <text class="mk-tag mk-tag--end">{{T.b.storeTag}}</text>
+      <view wx:if="{{store}}" class="ldf-block lbk-store">
+        <view class="mk-row"><text class="mk-title mk-ellipsis mk-grow lbk-sn">{{store.name}}</text><text class="mk-tag mk-tag--end mk-tag--brand">{{T.b.storeTag}}</text></view>
+        <view class="lbk-ss"><image class="mk-icon lbk-pin" src="/assets/icons/pin-sub.svg" /><text wx:if="{{store.km}}" class="mk-num lbk-km">{{store.km}}</text><text class="mk-sub mk-ellipsis mk-grow">{{store.addr}}</text></view>
       </view>
       <mk-field label="{{T.b.address}}" mark="{{advisor ? T.c.optionalFill : T.c.required}}" mark-tone="{{advisor ? '' : 'req'}}" error="{{errAddress}}">
         <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" disabled="{{locked}}" placeholder="{{T.b.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
@@ -44,7 +44,7 @@
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-input" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.b.need}}" mark="{{T.c.optional}}" hint="{{salesCap ? T.b.salesNote : ''}}">
-        <view class="mk-card lbk-rows">
+        <view class="lbk-rows">
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row" bindtap="onOpenItems" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/user-ink.svg" /><text class="mk-grow">{{T.b.items}}</text><text class="{{items ? '' : 'ldf-ph'}}">{{items || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row" bindtap="onOpenCapacity" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cube-ink.svg" /><text class="mk-grow">{{T.b.capacity}}</text><text class="{{capHint ? '' : 'ldf-ph'}}">{{capHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row lbk-row--last" bindtap="onOpenDuration" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow">{{T.b.duration}}</text><text class="{{termHint ? '' : 'ldf-ph'}}">{{termHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>

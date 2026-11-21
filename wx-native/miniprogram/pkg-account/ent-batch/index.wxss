@@ -1,13 +1,25 @@
 @import "../acc.wxss";
-.eb-gap { margin-top: var(--mk-space-3); }
+/* IMPL-01 去卡片化：选择、确认、结果三态都改成通栏小节。订单行多于两行时保留发丝线，线从文字左缘起（勾选框不压线）；
+   订单行按订单卡写法：店名一级，仓位编号标签 + 容量 + 租期同一行，订单号与付款日小字，金额在右单列加粗。 */
+.eb-reason { margin-top: var(--mk-space-3); margin-bottom: calc(-1 * var(--mk-space-3)); }
+.eb-center { text-align: center; padding: 0 var(--mk-space-pageGutter); }
+.eb-no { margin-right: var(--mk-space-2); }
+.eb-vol { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); margin-right: var(--mk-space-3); }
+.eb-fee { margin-right: var(--mk-space-3); }
+.eb-blk { display: block; }
+.eb-wrap { flex-wrap: wrap; }
+.eb-wrap > text { white-space: nowrap; }
+.eb-lines { margin-top: var(--mk-space-2); padding: var(--mk-space-1) var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.eb-another { padding-top: 0; padding-bottom: 0; }
 .eb-ord { display: flex; align-items: flex-start; padding: var(--mk-space-3) 0; }
-.eb-ord + .eb-ord { border-top: var(--mk-border-hairline); }
+.eb-ord + .eb-ord { position: relative; }
+.eb-ord + .eb-ord::before { content: ''; position: absolute; top: 0; right: 0; left: 0; border-top: var(--mk-border-hairline); }
+.eb-all + .eb-ord::before, .eb-ord--pick + .eb-ord--pick::before { left: calc(40rpx + var(--mk-space-3)); }
 .eb-all { align-items: center; }
 .eb-box { width: 40rpx; height: 40rpx; border: var(--mk-border-strong); border-radius: 8rpx; box-sizing: border-box; flex: none; margin: 4rpx var(--mk-space-3) 0 0; display: flex; align-items: center; justify-content: center; }
 .eb-box--on { background: var(--mk-color-action-primaryFill); border: 1px solid var(--mk-color-action-primaryFill); }
 .eb-tick { width: 28rpx; height: 28rpx; }
 .eb-t { display: block; font-weight: var(--mk-font-weight-medium); }
-.eb-s { display: block; margin-top: 4rpx; }
+.eb-s { margin-top: var(--mk-space-1); }
 .eb-b { font-weight: var(--mk-font-weight-semibold); flex: none; margin-left: var(--mk-space-2); }
 .eb-line { min-height: 56rpx; }
-.eb-top { border-top: var(--mk-border-hairline); }

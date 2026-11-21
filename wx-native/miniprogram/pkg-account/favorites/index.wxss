@@ -1,6 +1,24 @@
 @import "../acc.wxss";
-.fv-row { padding: var(--mk-space-2) 0; }
-.fv-ph { width: 112rpx; height: 112rpx; border-radius: var(--mk-radius-thumb); margin-right: var(--mk-space-3); flex: none; }
-.fv-n { font-weight: var(--mk-font-weight-semibold); min-width: 0; }
-.fv-sub { display: block; margin-top: 4rpx; }
-.fv-rm { flex: none; min-height: var(--mk-size-tapMin); padding: 0 var(--mk-space-2); }
+/* IMPL-01：收藏页是「可点对象」的列表，保留卡片与浅灰底；原来「一张卡包一个列表」拆成每家门店、每个仓位各一张卡，分组用小节标题。
+   门店卡骨架与 components/mk-store-card 一致（图 160×144、店名、位置行、标签行、卡内只有一条发丝线）。 */
+.fv-sec { display: block; padding: var(--mk-space-1) 0 var(--mk-space-2); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); }
+.fv-sec--next { margin-top: var(--mk-space-sectionGap); }
+.fv-card { margin-bottom: var(--mk-space-cardGap); }
+.mk-card + .mk-card.fv-card { margin-top: 0; }
+.fv-head { display: flex; align-items: flex-start; }
+.fv-ph { width: 160rpx; height: 144rpx; border-radius: var(--mk-radius-thumb); margin-right: 20rpx; flex: none; background: var(--mk-color-canvas-sunken); }
+.fv-ph--unit { width: 144rpx; }
+.fv-ph--off { opacity: 0.55; }
+.fv-info { min-width: 0; display: flex; flex-direction: column; }
+.fv-n { display: block; }
+.fv-loc { margin-top: 8rpx; display: flex; align-items: baseline; font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); min-width: 0; }
+.fv-km { flex: none; white-space: nowrap; color: var(--mk-color-ink-primary); font-weight: var(--mk-font-weight-medium); }
+.fv-dot { flex: none; white-space: pre; }
+.fv-tags { margin-top: var(--mk-space-2); display: flex; height: var(--mk-size-tagHeight); overflow: hidden; }
+.fv-unit { margin-top: var(--mk-space-2); display: flex; align-items: center; }
+.fv-no { margin-right: var(--mk-space-2); }
+.fv-vol { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); }
+.fv-dims { display: block; margin-top: var(--mk-space-1); }
+.fv-chev { align-self: center; margin-left: 4rpx; margin-right: -8rpx; }
+.fv-foot { margin-top: var(--mk-space-3); padding-top: var(--mk-space-2); border-top: var(--mk-border-hairline); }
+.mk-bare.mk-bare.fv-rm { flex: none; min-height: 64rpx; padding: 0 0 0 var(--mk-space-3); }

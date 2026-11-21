@@ -18,7 +18,7 @@ const toast = (title) => wx.showToast({ title, icon: 'none' });
 const NO_DIALOG = { visible: false, kind: '', title: '', desc: '', cancelText: '', confirmText: '' };
 Page(auth.guarded(routes.PROFILE, {
   data: {
-    T: { p: P, common: TA.common }, sys: 'loading', loggedIn: false, headTitle: P.guestTitle, headSub: P.guestSub, loginPhone: '', contact: '', identityVerified: false,
+    T: { p: P, common: TA.common }, sys: 'loading', loggedIn: false, loginPhone: '', contact: '', identityVerified: false,
     contactVisible: false, contactValue: '', contactError: '', contactBusy: false,
     changeVisible: false, chPhone: '', chCode: '', chCountdown: 0, chSendText: P.change.send, chHint: '', chError: '', chReady: false, chBusy: false,
     privacyVisible: false, locationText: P.privacySheet.notGranted, identityText: P.privacySheet.notVerified,
@@ -29,9 +29,9 @@ Page(auth.guarded(routes.PROFILE, {
   onUnload() { this.stopTimer(); },
   refresh() {
     const s = state.get().session, logged = !!s.loggedIn;
-    this.setData({ loggedIn: logged, headTitle: logged ? P.signedTitle : P.guestTitle, headSub: logged ? (s.phoneMasked || P.signedSub) : P.guestSub, loginPhone: logged ? s.phoneMasked : '' });
+    this.setData({ loggedIn: logged, loginPhone: logged ? s.phoneMasked : '' }); // IMPL-01 M-35：头部（头像 + 标题 + 脱敏手机号）已删，手机号只在「登录手机号」一行
     if (!logged) { this.setData({ sys: '', contact: '', identityVerified: false }); return Promise.resolve(); } // 未登录不取个人数据
-    return pd.load(this, api.getProfile(), (r) => this.setData({ loginPhone: r.phoneMasked, headSub: r.phoneMasked || P.signedSub, contact: r.contactMasked || '', identityVerified: !!r.identityVerified, identityText: r.identityVerified ? P.privacySheet.verified : P.privacySheet.notVerified }));
+    return pd.load(this, api.getProfile(), (r) => this.setData({ loginPhone: r.phoneMasked, contact: r.contactMasked || '', identityVerified: !!r.identityVerified, identityText: r.identityVerified ? P.privacySheet.verified : P.privacySheet.notVerified }));
   },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   // ---- 联系电话 ----

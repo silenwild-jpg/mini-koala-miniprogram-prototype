@@ -1,0 +1,37 @@
+/* 全站动效（MOTION-01，2026-11-21）。原则：自然、克制，只给已有交互加反馈，不改布局和操作路径；时长 100–300ms。
+   只用 transform / opacity（不触发重排）；时长与曲线取 tokens 的 --mk-motion-*。
+   用法：
+   1) 按钮按压：所有 mk-btn 的按压类（mk-btn--hover / --ghostHover / --plainHover / --dimHover）自带轻微缩小，页面不用写。
+   2) 卡片、图块按压：hover-class="mk-press--hover"（可与 mk-tap--hover 并用：hover-class="mk-tap--hover mk-press--hover"），元素本身加 class mk-press。
+   3) 进场渐显：class="mk-fade-in"，列表错峰加 mk-fade-in--d1 … d5（每档 40ms）；只用在首屏卡片、推荐卡、结果卡，不要整页每个元素都加。
+   4) 数值变化反馈：元素 class 里拼 {{xxBump}}，用 core/motion.js 的 bump(this, 'xxBump') 触发（容量、价格、合计）。
+   5) 下拉展开：展开的面板加 mk-drop-in；箭头旋转用 mk-rot + mk-rot--on。
+   6) 弹层：mk-sheet 自带上滑与遮罩渐暗、关闭时反向，页面不用管。
+   7) 页签下划线、分段选中这类位置切换：元素加 mk-ease（transform / opacity / background-color 统一过渡）。 */
+.mk-btn, .mk-bare { transition: transform var(--mk-motion-fast) var(--mk-motion-easing), background-color var(--mk-motion-fast) var(--mk-motion-easing), opacity var(--mk-motion-fast) var(--mk-motion-easing); }
+.mk-btn.mk-btn--hover, .mk-btn.mk-btn--ghostHover, .mk-btn.mk-btn--plainHover, .mk-btn.mk-btn--dimHover { transform: scale(0.97); }
+.mk-press { transition: transform var(--mk-motion-fast) var(--mk-motion-easing); }
+.mk-press--hover { transform: scale(0.98); }
+.mk-ease { transition: transform var(--mk-motion-base) var(--mk-motion-easing), opacity var(--mk-motion-base) var(--mk-motion-easing), background-color var(--mk-motion-base) var(--mk-motion-easing); }
+@keyframes mk-kf-fade-in { from { opacity: 0; transform: translateY(16rpx); } to { opacity: 1; transform: translateY(0); } }
+.mk-fade-in { animation: mk-kf-fade-in 240ms var(--mk-motion-easing) both; }
+.mk-fade-in--d1 { animation-delay: 40ms; }
+.mk-fade-in--d2 { animation-delay: 80ms; }
+.mk-fade-in--d3 { animation-delay: 120ms; }
+.mk-fade-in--d4 { animation-delay: 160ms; }
+.mk-fade-in--d5 { animation-delay: 200ms; }
+@keyframes mk-kf-bump { 0% { transform: scale(1); } 40% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.mk-bump { display: inline-block; animation: mk-kf-bump 220ms var(--mk-motion-easing); transform-origin: left center; }
+.mk-bump--center { transform-origin: center center; }
+@keyframes mk-kf-drop-in { from { opacity: 0; transform: translateY(-12rpx); } to { opacity: 1; transform: translateY(0); } }
+.mk-drop-in { animation: mk-kf-drop-in var(--mk-motion-base) var(--mk-motion-easing) both; transform-origin: top center; }
+.mk-rot { transition: transform var(--mk-motion-base) var(--mk-motion-easing); }
+.mk-rot--on { transform: rotate(180deg); }
+/* find 域追加：原位下拉的遮罩渐暗（只做 opacity，不位移）。用法：遮罩元素加 mk-scrim-in */
+@keyframes mk-kf-scrim-in { from { opacity: 0; } to { opacity: 1; } }
+.mk-scrim-in { animation: mk-kf-scrim-in var(--mk-motion-base) var(--mk-motion-easing) both; }
+/* IMPL-01 trade 追加：只变透明度的淡入（不位移），用在居中对话框的遮罩、页内状态头切换（支付中 → 结果态）。 */
+@keyframes mk-kf-fade { from { opacity: 0; } to { opacity: 1; } }
+.mk-fade { animation: mk-kf-fade var(--mk-motion-base) var(--mk-motion-easing) both; }
+/* IMPL-01 估算域：加减圆钮这类小控件的按压（比卡片的 0.98 明显一些），配 mk-press 用：hover-class="mk-tap--hover mk-press--stepHover" */
+.mk-press--stepHover { transform: scale(0.9); }

@@ -1,5 +1,8 @@
-.afk-row { display: flex; align-items: flex-start; justify-content: space-between; padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); }
-.afk-row:first-child { border-top: 0; }
+/* IMPL-01：行间发丝线只在同组多于 2 行时出（afk-list--lined），两行以内靠留白；sub 是值下方的第二行（如报价有效期的剩余时间）。 */
+.afk-row { display: flex; align-items: flex-start; justify-content: space-between; padding: var(--mk-space-3) 0; }
+.afk-list--lined .afk-row + .afk-row { border-top: var(--mk-border-hairline); }
+.afk-sub { display: block; margin-top: 4rpx; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
+.afk-sub--warn { color: var(--mk-color-status-warningText); }
 .afk-k { color: var(--mk-color-ink-secondary); flex: none; margin-right: var(--mk-space-4); }
 .afk-v { flex: 1; min-width: 0; text-align: right; word-break: break-all; }
 .afk-v--soft { color: var(--mk-color-ink-secondary); }

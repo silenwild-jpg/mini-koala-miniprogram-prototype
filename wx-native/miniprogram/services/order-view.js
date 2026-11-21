@@ -89,6 +89,9 @@ function card(o, nowMs, opts) {
   return {
     storeName: o.store.name, address: o.store.address || '', kmText: opts.showKm ? fmt.kmText(o.store.distance_km) : '',
     unitName: lines.name, unitSub: lines.sub, comboTag: lines.combo,
+    // IMPL-01：仓位编号单独成标签、与容量同一行；租期与起止日拆开，不再用分隔符串成一行
+    unitCodes: (o.units || []).map((u) => u.code).filter(Boolean), unitVol: (o.units || []).length ? fmt.pretty(unitsVolume(o.units)) + 'm³' : '', unitDims: (o.units || []).length === 1 ? fmt.dimsText(o.units[0]) : '',
+    spanText: paid ? start + T.common.to + end : start ? T.card.startDay + ' ' + start : '',
     storePhoto: media.storeCard(o.store), unitThumb: media.unitThumb((o.units || [])[0]), // 演示素材，路径见 services/media.js
     months: o.months, termText: term,
     periodLabel: paid ? T.card.period : (p ? T.card.startDay : T.card.startPlan),
@@ -114,10 +117,10 @@ function fees(o, nowMs, opts) {
   const off = Number(q.coupon_discount) || 0;
   if (off > 0 || opts.editable || opts.showCoupon) {
     const row = { id: 'coupon', k: T.fee.coupon, link: opts.editable ? (off > 0 ? T.fee.couponSwap : T.fee.couponPick) : '', amt: off > 0 ? '−' + yuan(off) : opts.locked ? T.fee.couponUnused : q.coupon_skipped ? T.fee.couponSkipped : T.fee.couponNone, muted: !(off > 0) };
-    if (off > 0 && opts.couponName) row.sec = T.fee.couponUsed + opts.couponName + T.fee.couponAfter + yuan(q.rent_after_discount);
+    if (off > 0 && opts.couponName) { row.sec = T.fee.couponUsed + opts.couponName; row.extra = T.fee.couponAfter + yuan(q.rent_after_discount); } // 券名一行、券后金额另一行，不用分隔符串（IMPL-01）
     rows.push(row);
   }
-  if (o.free_transport) rows.push({ id: 'benefit', k: T.fee.benefit, amt: T.fee.freeTransport, muted: true });
+  if (o.free_transport) rows.push({ id: 'benefit', k: T.fee.benefit, amt: T.fee.freeTransport, note: T.fee.freeTransportNote, muted: true });
   const gift = Number(o.gift_months || q.gift_months);
   if (Number.isFinite(gift) && gift > 0) rows.push({ id: 'gift', k: '赠送租期', amt: gift + '个月', muted: true });
   rows.push({ id: 'deposit', k: T.fee.deposit, sub: (q.unit_pricing || []).length > 1 ? T.fee.depositCombo : T.fee.depositOne, amt: yuan(q.deposit) });
@@ -131,7 +134,7 @@ function fees(o, nowMs, opts) {
   rens.forEach((r, i) => {
     const mon = Number(r.monthly) || (Number(r.amount) % Number(r.months) === 0 ? Number(r.amount) / Number(r.months) : 0);
     rows.push({ id: 'renew' + (i + 1), k: G.renew, sub: fmt.termText(r.months), tag: q.special || !r.factor ? '' : pricing.factorLabel(Number(r.factor)), amt: yuan(r.amount),
-      sec: (mon ? yuan(mon) + T.common.perMonth + ' × ' + fmt.termText(r.months) + T.common.sep : '') + ymd(r.paid_at) + G.paidAt });
+      sec: mon ? yuan(mon) + T.common.perMonth + ' × ' + fmt.termText(r.months) : '', note: ymd(r.paid_at) + G.paidAt }); // 算式进说明列，支付日期另起一行（IMPL-01）
   });
   return { rows, total: { label: opts.totalLabel || G.total, amt: yuan(after.paidTotal(o)) } };
 }

@@ -13,13 +13,25 @@
 .cf-checkicon { margin-right: var(--mk-space-1); }
 .cf-card { margin-bottom: var(--mk-space-cardGap); margin-top: 0; }
 .cf-sectitle { margin-bottom: var(--mk-space-2); }
-.cf-alt { display: flex; align-items: center; min-height: 112rpx; border-top: var(--mk-border-hairline); }
+.cf-alt { display: flex; align-items: center; min-height: 112rpx; }
+.cf-alt + .cf-alt { border-top: var(--mk-border-hairline); }
+.cf-altmain { min-width: 0; }
+.cf-altmeta { display: flex; align-items: center; margin-top: 8rpx; }
+.cf-altkm { margin-right: var(--mk-space-2); }
+.cf-altvol { margin-right: 0; }
 .cf-altn { font-weight: var(--mk-font-weight-medium); }
 .cf-altp { flex: none; text-align: right; margin: 0 var(--mk-space-2); }
 .cf-altamt { font-weight: var(--mk-font-weight-bold); }
-.cf-kv { min-height: 64rpx; }
 .cf-kvv { font-weight: var(--mk-font-weight-medium); }
-.cf-kvlink { min-height: 64rpx; display: inline-flex; align-items: center; padding-left: var(--mk-space-3); }
+.cf-kvlink { flex: none; min-height: 64rpx; display: inline-flex; align-items: center; padding-left: var(--mk-space-3); border-radius: var(--mk-radius-control); }
+.cf-linkchev { margin-left: 4rpx; }
+/* 下单人（M-16）：联系方式与实名信息一张卡，未实名时描绿边，把这一步抬出来 */
+.cf-person--todo { box-shadow: 0 0 0 2px var(--mk-color-brand-fill); }
+.cf-prow { display: flex; align-items: center; min-height: 80rpx; }
+.cf-pk { flex: none; width: 156rpx; }
+.mk-btn.mk-btn.cf-idvbtn { flex: none; margin-left: var(--mk-space-2); }
+.cf-ptip { display: flex; align-items: flex-start; margin-top: var(--mk-space-2); padding: var(--mk-space-2) var(--mk-space-3); border-radius: var(--mk-radius-control); background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
+.cf-ptipicon { margin: 6rpx var(--mk-space-1) 0 0; }
 .cf-entry { display: flex; align-items: center; }
 .cf-entrytext { margin: 0 var(--mk-space-2) 0 var(--mk-space-3); }
 .cf-entryt { font-weight: var(--mk-font-weight-semibold); }
@@ -32,7 +44,8 @@
 .cf-tick { width: 28rpx; height: 28rpx; }
 .cf-agreetext { line-height: var(--mk-font-lineHeight-loose); }
 .cf-barmain { display: flex; align-items: flex-start; }
-.cf-saved { color: var(--mk-color-brand-text); }
+.cf-barlabel { display: flex; align-items: center; }
+.cf-saved { margin-left: var(--mk-space-2); padding: 0 var(--mk-space-1); border-radius: var(--mk-radius-control); background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); line-height: 36rpx; white-space: nowrap; }
 .cf-amt { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); }
 .cf-amt--muted { font-size: var(--mk-font-size-md); color: var(--mk-color-ink-secondary); }
 .cf-go { flex: none; min-width: 280rpx; margin-left: var(--mk-space-3); display: flex; flex-direction: column; }
@@ -43,7 +56,8 @@
 .cf-input { flex: 1; height: 100%; font-size: var(--mk-font-size-lg); }
 .cf-fine { display: block; margin-top: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); }
 .cf-sheetbtn { margin-top: var(--mk-space-3); }
-.cf-signrow { min-height: 80rpx; border-bottom: var(--mk-border-hairline); }
+.cf-signrow { min-height: 80rpx; }
+.cf-signrow + .cf-signrow { border-top: var(--mk-border-hairline); }
 .cf-signamt { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-bold); }
 .cf-signlink { min-height: 64rpx; display: flex; align-items: center; margin-top: var(--mk-space-2); }
 .cf-two { display: flex; margin-top: var(--mk-space-3); }
@@ -51,9 +65,11 @@
 .cf-half { flex: 1; }
 .mk-btn.mk-btn.cf-half + .mk-btn.mk-btn.cf-half { margin-left: var(--mk-space-2); }
 .cf-later { display: flex; align-items: center; justify-content: center; min-height: 80rpx; margin-top: var(--mk-space-1); }
-.cf-pi { padding: var(--mk-space-2) 0; border-bottom: var(--mk-border-hairline); }
+.cf-pi { padding: var(--mk-space-2) 0; }
+.cf-pi + .cf-pi { border-top: var(--mk-border-hairline); }
 .cf-pidesc { display: block; margin-top: var(--mk-space-1); }
-.cf-opt { display: flex; align-items: center; min-height: 104rpx; border-bottom: var(--mk-border-hairline); }
+.cf-opt { display: flex; align-items: center; min-height: 104rpx; }
+.cf-opt + .cf-opt { border-top: var(--mk-border-hairline); }
 .cf-opt--off { color: var(--mk-color-ink-tertiary); }
 .cf-optamt { margin: 0 var(--mk-space-2); color: var(--mk-color-accent-promoText); }
 .cf-scrim { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 110; background: var(--mk-color-overlay-scrim); display: flex; align-items: center; justify-content: center; }
@@ -62,11 +78,11 @@
 .cf-dialogdesc { display: block; margin-top: var(--mk-space-2); }
 .cf-reason { display: flex; flex-direction: column; margin: var(--mk-space-3) 0 var(--mk-space-1); padding: var(--mk-space-2) var(--mk-space-3); border-radius: var(--mk-radius-control); background: var(--mk-color-status-warningFill); }
 .cf-reasonv { color: var(--mk-color-status-warningText); font-weight: var(--mk-font-weight-medium); }
-.cf-diff { min-height: 72rpx; border-bottom: var(--mk-border-hairline); }
+.cf-diff { min-height: 72rpx; }
+.cf-diff + .cf-diff { border-top: var(--mk-border-hairline); }
 .cf-old { color: var(--mk-color-ink-tertiary); text-decoration: line-through; }
 .cf-arrow { margin: 0 var(--mk-space-1); }
 .cf-spin { width: 64rpx; height: 64rpx; margin-bottom: var(--mk-space-3); border-radius: 50%; border: 6rpx solid var(--mk-color-brand-tint); border-top: 6rpx solid var(--mk-color-brand-fill); animation: cf-rot 0.9s linear infinite; }
 @keyframes cf-rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .cf-fine, .cf-altp .mk-mute { color:var(--mk-color-ink-secondary); }
 .cf-why { margin-top: var(--mk-space-1); color: var(--mk-color-status-errorText); font-size: var(--mk-font-size-sm); }
-.cf-startnote { margin: calc(0rpx - var(--mk-space-2)) 0 var(--mk-space-cardGap); padding: 0 var(--mk-space-1); color: var(--mk-color-ink-secondary); }

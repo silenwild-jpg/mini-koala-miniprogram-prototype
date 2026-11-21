@@ -1,28 +1,33 @@
+/* IMPL-01：标准卡、紧凑卡、浏览卡、推荐卡同一骨架。卡内只留一条发丝线（门店信息与仓位之间）；第二个仓位行用浅灰底块，不再加线。 */
 .sc-card { margin-bottom: var(--mk-space-cardGap); }
 .sc-card--compact { padding: var(--mk-space-cardPadCompact); }
 .sc-head { display: flex; align-items: flex-start; }
+.sc-pic { position: relative; width: 160rpx; height: 144rpx; border-radius: var(--mk-radius-thumb); overflow: hidden; margin-right: 20rpx; flex: none; background: var(--mk-color-canvas-sunken); }
+.sc-photo { width: 100%; height: 100%; display: block; }
+.sc-info { min-width: 0; display: flex; flex-direction: column; }
 .sc-name { display: block; }
-.sc-meta { margin-top: 8rpx; }
-.sc-km { margin-left: var(--mk-space-2); white-space: nowrap; font-size: var(--mk-font-size-sm); }
-.sc-tags { margin-top: var(--mk-space-2); display: flex; flex-wrap: wrap; }
-.sc-chev { margin-left: var(--mk-space-2); margin-top: 8rpx; }
-.sc-cline { margin-top: var(--mk-space-2); display: flex; align-items: baseline; flex-wrap: wrap; }
-.sc-cmeta { margin-left: var(--mk-space-2); }
-.sc-foot { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); }
+/* 位置行：距离加重，区名与商圈跟在后面，同一视觉组 */
+.sc-loc { margin-top: 8rpx; display: flex; align-items: baseline; font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); min-width: 0; }
+.sc-km { flex: none; white-space: nowrap; color: var(--mk-color-ink-primary); font-weight: var(--mk-font-weight-medium); }
+.sc-dot { flex: none; white-space: pre; }
+.sc-place { min-width: 0; }
+.sc-tags { margin-top: var(--mk-space-2); display: flex; flex-wrap: wrap; height: var(--mk-size-tagHeight); overflow: hidden; }
+.sc-chev { margin-left: 4rpx; margin-right: -8rpx; }
+.sc-foot { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); align-items: center; }
+.sc-spec { display: flex; align-items: center; flex-wrap: wrap; min-width: 0; font-size: var(--mk-font-size-sm); }
+.sc-lab { margin-right: 8rpx; }
+.sc-fr { flex: none; margin-left: var(--mk-space-2); }
+.sc-cprice { display: flex; flex-direction: column; align-items: flex-end; }
+.sc-ctotal { margin-top: 2rpx; white-space: nowrap; }
 .sc-line { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); }
-.sc-unit { font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
+.sc-line--alt { border-top: 0; padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.sc-unit { display: flex; align-items: center; flex-wrap: wrap; font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
 .sc-uname { font-weight: var(--mk-font-weight-medium); color: var(--mk-color-ink-primary); }
-.sc-tier { margin-left: var(--mk-space-1); margin-right: 0; }
-.sc-buy { margin-top: var(--mk-space-2); align-items: flex-end; }
-.sc-sub { display: block; margin-top: 4rpx; }
-.mk-btn.mk-btn.sc-cta { min-width: 208rpx; margin-left: var(--mk-space-3); }
-.sc-storelink { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); min-height: 64rpx; display: flex; align-items: center; justify-content: center; }
-
-.sc-km { margin:0 12rpx 0 6rpx; }
+.sc-ctag { margin-right: var(--mk-space-2); }
+.sc-tier { margin-left: var(--mk-space-2); margin-right: 0; }
+.sc-diff { margin-left: var(--mk-space-2); }
 /* 价格与按钮同一行（FIX-01 R-23，冻结稿：价格在左、104px 按钮靠右）；整期那一行放不下时在左栏内折行 */
-.sc-buy { align-items:flex-end; flex-wrap:nowrap; }
-.sc-buy > .mk-grow { flex-basis:auto; min-width:0; }
-.mk-btn.mk-btn.sc-cta { margin-left:var(--mk-space-3); flex:none; }
-.sc-sub { white-space:normal; overflow-wrap:anywhere; }
-
-.sc-photo { width:136rpx; height:112rpx; border-radius:var(--mk-radius-thumb); margin-right:20rpx; flex:none; }
+.sc-buy { margin-top: var(--mk-space-2); align-items: flex-end; flex-wrap: nowrap; }
+.sc-buy > .mk-grow { flex-basis: auto; min-width: 0; }
+.sc-sub { display: block; margin-top: 4rpx; white-space: normal; overflow-wrap: anywhere; }
+.mk-btn.mk-btn.sc-cta { min-width: 208rpx; margin-left: var(--mk-space-3); flex: none; }

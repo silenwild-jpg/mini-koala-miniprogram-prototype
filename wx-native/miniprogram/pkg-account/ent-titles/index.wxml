@@ -1,18 +1,16 @@
-<view class="mk-page">
+<view class="mk-page {{mode === 'form' || !loggedIn ? 'mk-page--plain' : ''}}">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
-  <view wx:elif="{{!loggedIn}}" class="ac-wrap">
-    <view class="mk-card ac-login">
-      <text class="mk-title">{{T.common.loginFirst}}</text>
-      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
-    </view>
+  <view wx:elif="{{!loggedIn}}" class="ac-login">
+    <text class="mk-title">{{T.common.loginFirst}}</text>
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
   </view>
-  <view wx:elif="{{mode === 'form'}}" class="ac-wrap ac-wrap--bar">
-    <view class="mk-card">
-      <text class="ac-sec">{{T.t.formSection}}</text>
+  <view wx:elif="{{mode === 'form'}}" class="ac-secs ac-secs--bar">
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.t.formSection}}</view>
       <mk-field label="{{T.t.type}}">
         <view class="et-seg">
-          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i {{form.type === 'company' ? 'et-seg-i--on' : ''}} {{lock.on ? 'et-seg-i--off' : ''}}" data-v="company" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'company'}}" aria-disabled="{{lock.on}}">{{T.t.typeCompany}}</view>
-          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i {{form.type === 'person' ? 'et-seg-i--on' : ''}}" data-v="person" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'person'}}">{{T.t.typePerson}}</view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i mk-ease {{form.type === 'company' ? 'et-seg-i--on' : ''}} {{lock.on ? 'et-seg-i--off' : ''}}" data-v="company" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'company'}}" aria-disabled="{{lock.on}}">{{T.t.typeCompany}}</view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i mk-ease {{form.type === 'person' ? 'et-seg-i--on' : ''}}" data-v="person" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'person'}}">{{T.t.typePerson}}</view>
         </view>
       </mk-field>
       <mk-notice wx:if="{{lock.on}}" class="et-lock" plain="{{true}}" text="{{lock.text}}" link="{{lock.link}}" bind:link="onCert" />
@@ -26,8 +24,8 @@
         <view class="ac-input {{emailError ? 'ac-input--err' : ''}}"><input class="ac-inp" type="text" maxlength="60" placeholder="{{T.t.emailPh}}" placeholder-class="ac-ph" value="{{form.email}}" data-f="email" bindinput="onField" bindblur="onEmailBlur" /></view>
       </mk-field>
     </view>
-    <view wx:if="{{form.type !== 'person'}}" class="mk-card">
-      <text class="ac-sec">{{T.t.vatSection}}</text>
+    <view wx:if="{{form.type !== 'person'}}" class="mk-sec">
+      <view class="mk-sec__hd">{{T.t.vatSection}}</view>
       <mk-field label="{{T.t.bank}}" mark="{{T.common.optional}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="60" placeholder="{{T.t.bankPh}}" placeholder-class="ac-ph" value="{{form.bank}}" data-f="bank" bindinput="onField" /></view>
       </mk-field>
@@ -39,7 +37,7 @@
       </mk-field>
       <text class="ac-fine">{{T.t.vatFine}}</text>
     </view>
-    <view class="mk-card">
+    <view class="mk-sec">
       <view class="ac-kv"><text class="ac-k">{{T.t.asDefault}}</text><switch checked="{{form.isDefault}}" bindchange="onDefault" /></view>
     </view>
     <view class="mk-bottom-bar">
@@ -48,14 +46,14 @@
     </view>
   </view>
   <view wx:elif="{{rows.length === 0}}" class="ac-wrap">
-    <mk-empty icon="/assets/icons/ticket-ink.svg" title="{{T.t.emptyTitle}}" sub="{{T.t.emptySub}}" card="{{true}}">
+    <mk-empty icon="/assets/icons/ticket-ink.svg" title="{{T.t.emptyTitle}}" sub="{{T.t.emptySub}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdd">{{T.t.add}}</button>
     </mk-empty>
   </view>
   <view wx:else class="ac-wrap ac-wrap--bar">
-    <view wx:for="{{rows}}" wx:key="id" class="mk-card">
-      <view class="mk-row"><text class="mk-title mk-grow">{{item.name}}</text><text wx:if="{{item.isDefault}}" class="mk-tag mk-tag--end mk-tag--ok">{{T.t.defaultTag}}</text></view>
-      <text class="mk-sub et-line">{{item.line}}</text>
+    <view wx:for="{{rows}}" wx:key="id" class="mk-card {{index < 6 ? 'mk-fade-in mk-fade-in--d' + index : ''}}">
+      <view class="mk-row"><text class="mk-title mk-ellipsis et-name">{{item.name}}</text><text class="mk-tag et-type">{{item.typeText}}</text><view class="mk-grow"></view><text wx:if="{{item.isDefault}}" class="mk-tag mk-tag--end mk-tag--ok">{{T.t.defaultTag}}</text></view>
+      <text wx:if="{{item.taxText}}" class="mk-sub mk-num et-line">{{item.taxText}}</text>
       <text class="mk-sub et-line">{{item.email}}</text>
       <view class="et-acts">
         <button class="mk-btn mk-btn--ghost mk-btn--md et-neutral" hover-class="mk-btn--ghostHover" data-id="{{item.id}}" bindtap="onEdit">{{T.t.edit}}</button>

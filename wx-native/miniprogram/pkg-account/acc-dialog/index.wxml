@@ -1,6 +1,6 @@
 <view wx:if="{{visible}}" class="acd-root" catchtouchmove="noop">
-  <view class="acd-scrim"></view>
-  <view class="acd-box" aria-role="alertdialog">
+  <view class="acd-scrim mk-fade"></view>
+  <view class="acd-box mk-fade-in" aria-role="alertdialog">
     <text class="mk-title acd-title">{{title}}</text>
     <text class="mk-sub acd-desc">{{desc}}</text>
     <view class="acd-acts">

@@ -1,14 +1,17 @@
 @import "../lead.wxss";
 /* 预约用仓：本页特有的部分 */
 .lbk-tobiz { padding: var(--mk-space-2) var(--mk-space-pageGutter) 0; }
-.lbk-store { display: flex; align-items: center; margin-bottom: 0; }
-.lbk-sn { display: block; }
-.lbk-ss { display: block; margin-top: 4rpx; }
+/* IMPL-01：意向门店是表单里的摘要，用浅灰底块不描边；距离紧跟定位图标、与地址同一行（与订单卡的门店行同一写法） */
+.lbk-store { margin-top: var(--mk-space-3); }
+.lbk-sn { min-width: 0; }
+.lbk-ss { display: flex; align-items: center; margin-top: var(--mk-space-1); min-width: 0; }
+.lbk-pin { margin-right: 4rpx; }
+.lbk-km { flex: none; margin-right: var(--mk-space-2); font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); }
 .lbk-help { margin-right: var(--mk-space-3); }
 .lbk-lead { margin-right: var(--mk-space-2); }
-.lbk-rows { padding-top: 0; padding-bottom: 0; }
-.lbk-row { display: flex; align-items: center; min-height: 96rpx; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }
-.lbk-row--last { border-bottom: 0; }
+/* 用仓需求三行：不再包卡；三行保留发丝线，线从文字左缘起 */
+.lbk-row { position: relative; display: flex; align-items: center; min-height: 96rpx; font-size: var(--mk-font-size-md); border-radius: var(--mk-radius-control); }
+.lbk-row + .lbk-row::before { content: ''; position: absolute; top: 0; right: 0; left: calc(var(--mk-size-iconSm) + var(--mk-space-2)); border-top: var(--mk-border-hairline); }
 .lbk-chev { margin-left: var(--mk-space-2); }
 .lbk-unit { flex: none; display: flex; align-items: center; justify-content: center; min-width: 72rpx; height: 64rpx; margin-left: var(--mk-space-1); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
 .lbk-unit--on { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); }

@@ -1,7 +1,7 @@
-<view class="mk-page">
+<view class="mk-page mk-page--plain">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
-  <view wx:else class="ac-wrap">
-    <view class="mk-card">
+  <view wx:else class="ac-secs">
+    <view class="mk-sec">
       <view class="mk-row br-logo"><view class="br-mark"></view><text class="mk-h2">{{T.logo}}</text></view>
       <view class="br-metrics">
         <view wx:for="{{metrics}}" wx:key="t" class="br-metric"><text class="br-num mk-num">{{item.n}}</text><text class="mk-sub br-block">{{item.t}}</text></view>
@@ -16,13 +16,19 @@
         <image wx:for="{{proofs}}" wx:key="*this" class="br-proof" mode="aspectFill" src="{{item}}" />
       </view>
     </view>
-    <view class="mk-card">
+    <view class="mk-sec">
       <text class="ac-para">{{T.para}}</text>
-      <text class="mk-title br-h">{{T.howTitle}}</text>
+    </view>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.howTitle}}</view>
       <view wx:for="{{T.how}}" wx:key="n" class="mk-row br-li"><text class="br-no mk-num">{{item.n}}</text><text class="mk-grow">{{item.t}}</text></view>
-      <text class="mk-title br-h">{{T.storeTitle}}</text>
+    </view>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.storeTitle}}</view>
       <text class="ac-para">{{T.storePara}}</text>
-      <text class="mk-title br-h">{{T.serviceTitle}}</text>
+    </view>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.serviceTitle}}</view>
       <text class="ac-para">{{T.servicePara}}</text>
       <view class="ac-acts br-acts">
         <button class="mk-btn mk-btn--md ac-act" hover-class="mk-btn--hover" bindtap="onStores">{{T.viewStores}}</button>

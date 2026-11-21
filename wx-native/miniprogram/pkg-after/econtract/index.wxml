@@ -1,4 +1,4 @@
-<view class="mk-page {{bar ? 'af-pad' : ''}}">
+<view class="mk-page mk-page--plain {{bar ? 'af-pad' : ''}}">
   <view wx:if="{{sys === 'loading'}}" class="af-body af-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/shield-ink.svg" title="{{T.e.emptyTitle}}" sub="{{T.e.emptySub}}">
@@ -6,28 +6,28 @@
   </mk-empty>
   <block wx:else>
     <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
-    <view class="af-body">
-      <view class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.e.signInfo}}</text>
+    <view class="af-secs">
+      <view class="mk-sec">
+        <view class="mk-sec__hd">{{T.e.signInfo}}</view>
         <mk-after-kv rows="{{sign}}" />
       </view>
-      <view class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.e.orderInfo}}</text>
+      <view class="mk-sec">
+        <view class="mk-sec__hd">{{T.e.orderInfo}}</view>
         <mk-after-kv rows="{{info}}" />
       </view>
-      <view wx:if="{{renewals.length}}" class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.e.renewals}}</text>
+      <view wx:if="{{renewals.length}}" class="mk-sec">
+        <view class="mk-sec__hd">{{T.e.renewals}}</view>
         <mk-after-kv rows="{{renewals}}" />
       </view>
-      <view class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.e.docs}}</text>
+      <view class="mk-sec {{docs.length > 2 ? 'ec-docs--lined' : ''}}">
+        <view class="mk-sec__hd">{{T.e.docs}}</view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{docs}}" wx:key="k" class="ec-doc" data-doc="{{item.doc}}" data-anchor="{{item.anchor}}" bindtap="onDoc" aria-role="button">
           <text class="mk-grow">{{item.k}}</text>
           <text class="mk-sub ec-doc-v">{{item.v}}</text>
           <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
         </view>
       </view>
-      <text class="mk-mute ec-foot">{{foot}}</text>
+      <view class="af-foot"><text class="mk-mute ec-foot">{{foot}}</text></view>
     </view>
     <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">
       <button wx:for="{{bar.btns}}" wx:key="text" class="mk-btn af-bar-btn" hover-class="mk-btn--hover" bindtap="onBar">{{item.text}}</button>

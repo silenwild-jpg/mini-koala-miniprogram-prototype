@@ -28,15 +28,25 @@
 .ldf-acts { display: flex; }
 .ldf-acts .mk-btn { flex: 1; min-width: 0; }
 .ldf-acts .mk-btn + .mk-btn { margin-left: var(--mk-space-3); }
-.ldf-optrow { display: flex; align-items: center; justify-content: space-between; min-height: 96rpx; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }
+.ldf-optrow { display: flex; align-items: center; justify-content: space-between; min-height: 96rpx; font-size: var(--mk-font-size-md); }
+.ldf-optrow + .ldf-optrow { border-top: var(--mk-border-hairline); }
 .ldf-optrow--on { color: var(--mk-color-brand-text); }
 .ldf-sheetacts { display: flex; margin-top: var(--mk-space-4); }
 .ldf-sheetacts .mk-btn { flex: 1; min-width: 0; }
 .ldf-sheetacts .mk-btn + .mk-btn { margin-left: var(--mk-space-3); }
-.ldf-kv { display: flex; justify-content: space-between; padding: var(--mk-space-3) 0; border-bottom: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }
+.ldf-kv { display: flex; justify-content: space-between; padding: var(--mk-space-3) 0; font-size: var(--mk-font-size-md); }
+.ldf-kv + .ldf-kv { border-top: var(--mk-border-hairline); }
 .ldf-kv--last { border-bottom: 0; }
 .ldf-k { flex: none; margin-right: var(--mk-space-4); color: var(--mk-color-ink-secondary); }
 .ldf-v { text-align: right; word-break: break-all; }
 .ldf-sectitle { display: block; margin-bottom: var(--mk-space-2); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-medium); }
 .ldf-paynote { display: block; margin: var(--mk-space-2) var(--mk-space-pageGutter) 0; text-align: center; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
 .ldf-cardgap { margin: var(--mk-space-cardGap) var(--mk-space-pageGutter) 0; }
+/* IMPL-01 去卡片化：留资五页白底（页面根节点 mk-page--plain）。表单分组、说明、键值改成通栏小节（app.wxss mk-sec），小节之间 16rpx 浅灰分区带；
+   ldf-secs = 小节序列，其中每个 mk-sec 上方都带分区带；ldf-block = 表单里的摘要块（浅灰底、不描边，代替原来套在表单里的小卡）。 */
+.ldf-secs .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); }
+.ldf-secs .mk-sec__hd { margin-bottom: var(--mk-space-2); }
+.ldf-secs--top { margin-top: var(--mk-space-4); }
+.ldf-block { padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+/* 动效：可选项（标签、分段）选中时底色与文字色过渡，时长与曲线取 tokens（与 styles/motion.wxss 的 mk-ease 同值） */
+.ldf-chip, .ldf-seg-ease { transition: background-color var(--mk-motion-base) var(--mk-motion-easing), color var(--mk-motion-base) var(--mk-motion-easing); }

@@ -1,44 +1,42 @@
-<view class="mk-page">
+<view class="mk-page mk-page--plain">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
-  <view wx:elif="{{!loggedIn}}" class="ac-wrap">
-    <view class="mk-card ac-login">
-      <text class="mk-title">{{T.common.loginFirst}}</text>
-      <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
-    </view>
+  <view wx:elif="{{!loggedIn}}" class="ac-login">
+    <text class="mk-title">{{T.common.loginFirst}}</text>
+    <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
   </view>
-  <view wx:elif="{{view === 'result'}}" class="ac-wrap {{status === 'failed' ? 'ac-wrap--bar' : ''}}">
-    <view class="ac-head">
+  <view wx:elif="{{view === 'result'}}" class="ac-secs mk-fade {{status === 'failed' ? 'ac-secs--bar' : ''}}">
+    <view class="ac-pad ac-head">
       <view class="ac-head-row"><text class="mk-h2">{{head.title}}</text><text class="mk-tag mk-tag--end mk-tag--{{tone}}">{{head.tag}}</text></view>
       <text wx:if="{{head.sub}}" class="mk-sub ac-head-sub">{{head.sub}}</text>
     </view>
-    <view class="mk-card">
-      <text class="ac-sec">{{T.c.progress}}</text>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.c.progress}}</view>
       <view wx:for="{{steps}}" wx:key="t" class="ac-step">
         <view class="ac-dot ac-dot--{{item.cls}}"><image wx:if="{{item.cls === 'done'}}" class="ac-dot-ic" src="/assets/icons/check-white.svg" /></view>
         <view class="mk-grow"><text class="ac-step-t {{item.tcls}}">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-mute">{{item.s}}</text></view>
       </view>
+      <mk-notice wx:if="{{status === 'failed'}}" class="ec-reason" plain="{{true}}" tone="err" title="{{reason}}" text="{{T.c.reasonSub}}" />
     </view>
-    <mk-notice wx:if="{{status === 'failed'}}" class="ec-gap" plain="{{true}}" tone="err" title="{{reason}}" text="{{T.c.reasonSub}}" />
-    <view class="mk-card ec-gap">
-      <text class="ac-sec">{{T.c.info}}</text>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.c.info}}</view>
       <view class="ac-kv"><text class="ac-k">{{T.c.name}}</text><text class="ac-v">{{company.name}}</text></view>
       <view class="ac-kv"><text class="ac-k">{{T.c.tax}}</text><text class="ac-v mk-num">{{company.tax}}</text></view>
       <view class="ac-kv"><text class="ac-k">{{T.c.infoContact}}</text><text class="ac-v">{{contactLine}}</text></view>
     </view>
-    <view wx:if="{{status === 'verified'}}" class="mk-card">
-      <text class="ac-sec">{{T.c.services}}</text>
+    <view wx:if="{{status === 'verified'}}" class="mk-sec">
+      <view class="mk-sec__hd">{{T.c.services}}</view>
       <mk-cell title="{{T.c.toTitles}}" bindtap="onTitles" />
-      <mk-cell title="{{T.c.toBatch}}" divider="{{true}}" bindtap="onBatch" />
+      <mk-cell title="{{T.c.toBatch}}" divider="{{false}}" bindtap="onBatch" />
     </view>
     <view wx:if="{{status === 'failed'}}" class="mk-bottom-bar">
       <button class="mk-btn ac-bar-btn" hover-class="mk-btn--hover" bindtap="onFix">{{T.c.retry}}</button>
       <button class="mk-btn mk-btn--ghost ac-bar-btn" hover-class="mk-btn--ghostHover" bindtap="onAdvisor">{{T.common.contactAdvisor}}</button>
     </view>
   </view>
-  <view wx:else class="ac-wrap ac-wrap--bar">
-    <mk-notice plain="{{true}}" title="{{T.c.noticeTitle}}" text="{{T.c.noticeSub}}" />
-    <view class="mk-card">
-      <text class="ac-sec">{{T.c.section}}</text>
+  <view wx:else class="ac-secs ac-secs--bar">
+    <view class="ac-pad"><mk-notice plain="{{true}}" title="{{T.c.noticeTitle}}" text="{{T.c.noticeSub}}" /></view>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.c.section}}</view>
       <mk-field label="{{T.c.name}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="60" placeholder="{{T.c.namePh}}" placeholder-class="ac-ph" value="{{form.name}}" data-f="name" bindinput="onField" /></view>
       </mk-field>
@@ -52,8 +50,8 @@
         </view>
       </mk-field>
     </view>
-    <view class="mk-card">
-      <text class="ac-sec">{{T.c.contactSection}}</text>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.c.contactSection}}</view>
       <mk-field label="{{T.c.contact}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="20" placeholder="{{T.c.contactPh}}" placeholder-class="ac-ph" value="{{form.contact}}" data-f="contact" bindinput="onField" /></view>
       </mk-field>

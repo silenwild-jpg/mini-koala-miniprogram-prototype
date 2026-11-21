@@ -18,15 +18,17 @@ const req = require('../../core/requirement');
 const matching = require('../../core/matching');
 const pd = require('../../services/page-data');
 const share = require('../../services/share');
+const motion = require('../../core/motion');
 const M = T.match, F = M.fees;
 Page({
   data: {
     T: { m: pd.plain(M), login: Z.login, cta: T.cta, month: T.unit.month },
     sys: 'loading', has: false, capNum: '', capUnit: '', capApprox: '', term: null, hint: '', locText: '', estText: '', longText: '',
     mode: '', title: '', sub: '', cards: [], total: 0, advisor: null, noneSub: '', goneTip: false,
-    fees: null, feesVisible: false, loginVisible: false, loginTip: '', panel: false, demandSheet: false
+    fees: null, feesVisible: false, priceBump: '', payBump: '', loginVisible: false, loginTip: '', panel: false, demandSheet: false
   },
   onLoad(q) { this._openLogin = !!(q && q.login === '1'); },
+  onUnload() { motion.dispose(this); },
   onShow() {
     if (!state.get().requirement) { wx.redirectTo({ url: routes.CAPACITY }); return; } // 没有需求先去填
     this.refresh();
@@ -55,6 +57,10 @@ Page({
         const base = us.reduce((n, u) => n + Number(u.base_month), 0);
         hint = us.length ? pricing.nudge(r.term_months, { km: first.km, baseMonth: us.some(pricing.isSpecial) ? 0 : base, rentAt: pd.ctx().loggedIn ? (m) => pricing.quote(us, m).rent_total : null }) : '';
       }
+      // 价格变化反馈（IMPL-01）：容量、租期、登录态或用仓位置变了导致卡片上的价格与上一次不同，数字轻微放大一下；首次进入不做
+      const sig = res.cards.map((c) => c.lines.map((l) => l.id + ':' + l.price.amount + ':' + (l.rentTotal || '')).join('|')).join('/');
+      if (this._sig !== undefined && this._sig !== sig && res.cards.length) motion.bump(this, 'priceBump');
+      this._sig = sig;
       this.setData({
         mode: res.mode, cards: res.cards, total: res.total, advisor: res.advisor, hint, sub: res.sub,
         title: res.cards.length ? M.recommendN(res.cards.length) : '', noneSub: M.noneSub(req.pretty(r.capacity_m3))
@@ -91,13 +97,15 @@ Page({
     if (!auth.isLoggedIn() || !d.unitId || !pricing.isTerm(months)) return;
     api.getQuote({ unit_ids: ids, months }).then((q) => {
       const y = pricing.yuan, base = q.unit_pricing.reduce((n, x) => n + Number(x.base_month || 0), 0);
-      const rows = [{ k: F.rent, sub: months + T.unit.month + (q.special ? ' · ' + T.price.special : q.term_factor ? ' · ' + pricing.factorLabel(q.term_factor) : ''), v: y(q.rent_total), note: F.formula(y(q.monthly_average), months) }];
+      const rows = [{ k: F.rent, sub: months + T.unit.month, tag: q.special ? T.price.special : q.term_factor ? pricing.factorLabel(q.term_factor) : '', v: y(q.rent_total), note: F.formula(y(q.monthly_average), months) }];
       if (q.term_discount_total > 0 && !q.special) rows.push({ k: F.saved, sub: F.savedSub(y(base)), v: y(q.term_discount_total), note: '' });
       if (q.full_reduction > 0) rows.push({ k: F.full, sub: F.fullSub(y(q.full_min)), v: '−' + y(q.full_reduction), note: F.afterFull(y(q.rent_after_discount)) });
       rows.push({ k: F.coupon, sub: '', v: q.coupon_discount > 0 ? '−' + y(q.coupon_discount) : F.couponNone, note: '', muted: !(q.coupon_discount > 0) });
       rows.push({ k: F.deposit, sub: ids.length > 1 ? F.depositSubCombo : F.depositSub, v: y(q.deposit), note: '' });
       rows.push({ k: F.fee, sub: '', v: y(q.management_fee), note: '' });
       this.setData({ fees: { rows, payable: y(q.payable) }, feesVisible: true });
+      if (this._paid !== undefined && this._paid !== q.payable) motion.bump(this, 'payBump'); // 再次打开时应付金额变了
+      this._paid = q.payable;
     }).catch((err) => {
       if (err && err.code === 'NOT_FOUND') { this.setData({ goneTip: true }); this.refresh(); return; } // 仓位已租出
       pd.toast(F.failed);

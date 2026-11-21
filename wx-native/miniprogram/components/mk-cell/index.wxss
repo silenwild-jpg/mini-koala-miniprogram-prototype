@@ -1,6 +1,8 @@
 :host { display: block; }
 .cel { display: flex; align-items: center; min-height: 104rpx; }
 .cel--line { border-top: var(--mk-border-hairline); }
+.cel--inset { position: relative; }
+.cel--inset::before { content: ''; position: absolute; top: 0; right: 0; left: calc(var(--mk-size-iconMd) + var(--mk-space-3)); border-top: var(--mk-border-hairline); }
 .cel-ic { margin-right: var(--mk-space-3); }
 .cel-t { flex: none; max-width: 70%; font-weight: var(--mk-font-weight-medium); }
 .cel-t--strong { font-weight: var(--mk-font-weight-semibold); }

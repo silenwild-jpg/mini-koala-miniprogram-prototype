@@ -26,6 +26,7 @@ function render(page, o, now) {
     steps: cm.steps(st === 'mismatch' ? [I.steps[0], I.stepMismatch, I.steps[2]] : I.steps, [st === 'none' ? I.sub.none : '', st === 'pending' ? I.sub.pending : st === 'mismatch' ? V.mismatch : '', st === 'verified' ? I.sub.verified : ''], cur, st === 'mismatch' ? 2 : 0),
     bar: st === 'none' ? { btns: [{ text: I.start, act: 'open' }] } : st === 'mismatch' ? { btns: [{ text: I.retry, act: 'open' }] } : st === 'verified' ? { btns: [{ text: I.viewAccess, act: 'access' }] } : null
   });
+  cm.fx(page, st);
   if (st === 'pending' && o.identity_submitted_at) cm.later(page, A.demo.identityMs - (now - o.identity_submitted_at));
 }
 
@@ -34,7 +35,7 @@ Page(auth.guarded(routes.IDENTITY, {
   onLoad(q) { this._id = (q && q.id) || ''; this._f = { name: '', id_no: '' }; },
   onShow() { this.refresh(); },
   onHide() { cm.cancelLater(this); },
-  onUnload() { cm.cancelLater(this); },
+  onUnload() { cm.cancelLater(this); cm.dispose(this); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() { return cm.load(this, 'identity', (o, now) => render(this, o, now)); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },

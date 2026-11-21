@@ -1,8 +1,8 @@
-/* STYLE-01：首页按冻结稿 H01 改为白底；首图铺在页面最上方（含状态栏和顶栏下面），下方 78% 渐隐到白 */
-.hm-page { position: relative; background: var(--mk-color-canvas-page); }
-.hm-photo { position: absolute; left: 0; top: 0; width: 100%; z-index: 0; background: var(--mk-color-canvas-sunken); }
-.hm-fade { position: absolute; left: 0; right: 0; z-index: 0; background: var(--mk-color-overlay-photoFade); }
-.hm-body { position: relative; z-index: 1; }
+/* IMPL-01：首页白底；顶部一条浅绿底带（状态栏 + 顶栏 + 往下一段），首屏卡压在它上面；顶栏叠在底带上，滚动后变实底。
+   分段靠留白（sectionGap），不用分割线；真正成卡的只有首屏主卡、任务卡 / 需求卡、推荐门店卡，入口与企业存储用不描边的浅灰底块。 */
+.hm-page { position: relative; }
+.hm-backdrop { position: absolute; left: 0; top: 0; width: 100%; z-index: 0; background: var(--mk-color-brand-tint); border-radius: 0 0 var(--mk-radius-card) var(--mk-radius-card); }
+.hm-body, .hm-sk { position: relative; z-index: 1; }
 .hm-top { position: sticky; top: 0; z-index: 10; background: transparent; transition: background-color var(--mk-motion-fast) var(--mk-motion-easing); }
 .hm-top--solid { background: var(--mk-color-canvas-page); }
 .hm-bar { padding-left: var(--mk-space-pageGutter); box-sizing: border-box; }
@@ -16,49 +16,100 @@
 .hm-bubble { position: absolute; left: var(--mk-space-3); right: var(--mk-space-3); top: 100%; margin-top: 8rpx; background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-thumb); border: var(--mk-border-hairline); box-shadow: var(--mk-elevation-float); padding: var(--mk-space-1) var(--mk-space-1) var(--mk-space-1) var(--mk-space-3); font-size: var(--mk-font-size-sm); }
 .hm-act { padding: 0 var(--mk-space-2); min-height: 64rpx; display: flex; align-items: center; white-space: nowrap; }
 .hm-x { width: 64rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; flex: none; }
-.hm-hero { padding: var(--mk-space-2) 0 20rpx; display: flex; flex-direction: column; justify-content: flex-end; box-sizing: border-box; }
-.hm-h { font-size: var(--mk-font-size-4xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); margin-bottom: var(--mk-space-1); }
-.hm-rule { width: 80rpx; height: 6rpx; border-radius: 3rpx; background: var(--mk-color-brand-fill); margin-top: var(--mk-space-2); }
-.hm-tasks { display: flex; margin-top: var(--mk-space-4); }
-.hm-task { position: relative; flex: 1; min-width: 0; min-height: 192rpx; box-sizing: border-box; display: flex; flex-direction: column; margin-top: 0; padding: var(--mk-space-cardPadCompact); }
-.hm-task + .hm-task { margin-top: 0; margin-left: var(--mk-space-3); }
-.hm-ts { margin-top: 8rpx; padding-right: 104rpx; font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); line-height: 1.4; }
-.hm-ta { margin-top: auto; padding-top: var(--mk-space-3); font-weight: var(--mk-font-weight-semibold); }
-.hm-timg { position: absolute; right: 20rpx; bottom: 20rpx; width: 96rpx; height: 96rpx; }
-.hm-weak { display: flex; margin-top: var(--mk-space-cardGap); padding: 0; }
-.hm-wk { flex: 1; height: 96rpx; display: flex; align-items: center; justify-content: center; }
-.hm-wk--r { border-left: var(--mk-border-hairline); }
-.hm-wt { margin-left: var(--mk-space-2); font-weight: var(--mk-font-weight-medium); }
+.hm-body { padding-top: var(--mk-space-2); }
+/* 首屏主卡：上半轮播（图不带字，标题叠在图上），下半「找附近门店」+ 主按钮 */
+.hm-find { padding: 0; overflow: hidden; }
+.hm-find--after { margin-top: var(--mk-space-cardGap); } /* 上面有需求卡时留卡间距（需求卡是组件，mk-card + mk-card 的相邻规则够不着） */
+.hm-banner { position: relative; height: 300rpx; background: var(--mk-color-canvas-sunken); }
+.hm-swiper { width: 100%; height: 100%; }
+.hm-slide { position: relative; width: 100%; height: 100%; }
+.hm-slide__img { display: block; width: 100%; height: 100%; }
+.hm-slide__txt { position: absolute; left: var(--mk-space-4); top: 0; bottom: 0; width: 64%; display: flex; flex-direction: column; justify-content: center; }
+.hm-slide__t { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); }
+.hm-slide__s { margin-top: var(--mk-space-1); font-size: var(--mk-font-size-sm); line-height: 1.4; }
+.hm-slide__txt--light { color: var(--mk-color-ink-inverse); }
+.hm-slide__txt--dark { color: var(--mk-color-ink-primary); }
+.hm-slide__txt--dark .hm-slide__s { color: var(--mk-color-ink-secondary); }
+.hm-dots { position: absolute; left: var(--mk-space-4); bottom: var(--mk-space-2); display: flex; align-items: center; }
+.hm-dots__i { width: 12rpx; height: 8rpx; margin-right: 8rpx; border-radius: 4rpx; background: var(--mk-color-line-strong); opacity: 0.7; }
+.hm-dots__i--on { background: var(--mk-color-brand-fill); opacity: 1; transform: scaleX(1.6); }
+.hm-findrow { display: flex; align-items: center; padding: var(--mk-space-3) var(--mk-space-4); }
+.hm-findtxt { display: flex; flex-direction: column; min-width: 0; }
+.hm-findt { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); margin-bottom: 4rpx; }
+.mk-btn.mk-btn.hm-findbtn { flex: none; width: 232rpx; margin-left: var(--mk-space-3); margin-right: 0; }
+/* 入口：不描边的浅灰底块（不用浅绿底）；弱化态（已有订单主卡）收成一行短块 */
+.hm-entries { display: flex; margin-top: var(--mk-space-3); }
+.hm-entry { flex: 1; min-width: 0; min-height: 136rpx; box-sizing: border-box; display: flex; align-items: center; padding: var(--mk-space-3) 20rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.hm-entry + .hm-entry { margin-left: var(--mk-space-3); }
+.hm-entry__ic { flex: none; width: 72rpx; height: 72rpx; margin-right: var(--mk-space-2); display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--mk-color-canvas-card); }
+.hm-entry__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.hm-entry__t { font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-semibold); white-space: nowrap; }
+.hm-entry__s { margin-top: 4rpx; font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); white-space: nowrap; }
+.hm-entry__chev { flex: none; }
+.hm-entries--weak { margin-top: 0; }
+.hm-entries--weak .hm-entry { min-height: 88rpx; justify-content: center; padding: 0 var(--mk-space-1); }
+.hm-entries--weak .hm-entry + .hm-entry { margin-left: var(--mk-space-2); }
+.hm-entries--weak .hm-entry__ic { width: auto; height: auto; margin-right: var(--mk-space-1); background: transparent; }
+.hm-entries--weak .hm-entry__ic .mk-icon { width: var(--mk-size-iconSm); height: var(--mk-size-iconSm); }
+.hm-entries--weak .hm-entry__txt { flex: none; }
+.hm-entries--weak .hm-entry__t { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); }
 .hm-sec { margin: var(--mk-space-sectionGap) 0 var(--mk-space-3); }
-.hm-fold { padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); border-bottom: var(--mk-border-hairline); margin-bottom: 0; }
+.hm-fold { margin-bottom: 0; padding: var(--mk-space-2) var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
 .hm-all { min-height: 64rpx; display: flex; align-items: center; }
+/* 为您推荐：横滑门店卡，图 16:10，角标贴图片左上角 */
 .hm-rec { white-space: nowrap; width: 100%; }
 .hm-rail { display: inline-flex; padding: 2rpx var(--mk-space-pageGutter); }
+.hm-rec--open { margin-top: var(--mk-space-3); }
 .hm-rcard { width: var(--mk-size-recCardWidth); margin-right: var(--mk-space-3); display: inline-flex; flex-direction: column; white-space: normal; box-sizing: border-box; padding: 0; overflow: hidden; }
-.hm-rbody { padding: var(--mk-space-cardPadCompact); display: flex; flex-direction: column; min-width: 0; }
 .hm-rcard + .hm-rcard { margin-top: 0; }
+.hm-rphoto { position: relative; }
+.hm-store-photo { display: block; width: 100%; height: 178rpx; background: var(--mk-color-canvas-sunken); }
+.hm-rbody { padding: var(--mk-space-cardPadCompact); display: flex; flex-direction: column; min-width: 0; }
 .hm-rn { font-size: var(--mk-font-size-md); display: block; }
-.hm-rl { display: block; margin-top: 4rpx; }
+/* 位置行与门店卡 mk-store-card 同一写法（距离加重 · 区名）；卡宽只有 284rpx，有距离时不带商圈，没有距离时写「区名 · 商圈」 */
+.hm-rl { display: flex; align-items: center; min-width: 0; margin-top: 4rpx; font-size: var(--mk-font-size-sm); color: var(--mk-color-ink-secondary); }
+.hm-rkm { flex: none; white-space: nowrap; color: var(--mk-color-ink-primary); font-weight: var(--mk-font-weight-medium); }
+.hm-rdot { flex: none; white-space: pre; }
+.hm-rplace { min-width: 0; }
 .hm-rtags { display: flex; flex-wrap: wrap; overflow: hidden; height: var(--mk-size-tagHeight); margin: var(--mk-space-2) 0; }
-.hm-scenes { display: flex; flex-wrap: wrap; }
-.hm-scene { width: calc((100% - 2 * var(--mk-space-cardGap)) / 3); margin: 0 var(--mk-space-cardGap) var(--mk-space-3) 0; display: flex; flex-direction: column; border-radius: var(--mk-radius-media); box-sizing: border-box; }
-.hm-scene:nth-child(3n) { margin-right: 0; }
-/* 图块：正方形下沉底，边长 =（屏宽 − 两侧页边距 − 两个间距）÷ 3 */
-.hm-spic { width: 100%; height: calc((100vw - 2 * var(--mk-space-pageGutter) - 2 * var(--mk-space-cardGap)) / 3); padding: var(--mk-space-3); box-sizing: border-box; background: var(--mk-color-canvas-sunken); border-radius: var(--mk-radius-media); }
-.hm-simg { display: block; width: 100%; height: 100%; }
-.hm-sname { display: block; margin-top: 12rpx; text-align: center; font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
-.hm-biz { display: flex; align-items: center; margin-top: var(--mk-space-3); }
-.hm-bic { width: 96rpx; height: 96rpx; margin-right: var(--mk-space-3); flex: none; display: flex; align-items: center; justify-content: center; border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); }
-.hm-ba { flex: none; margin-left: var(--mk-space-2); font-weight: var(--mk-font-weight-semibold); white-space: nowrap; }
-.hm-btag { margin-left: var(--mk-space-2); }
+/* 常见存储场景：一行横滑的圆形图标。每格 160rpx，左边距 32rpx → 一屏露出四个半，右侧不留页边距，用「露半个」表达可滑 */
+.hm-scroll { white-space: nowrap; width: 100%; }
+.hm-scenes { display: inline-flex; padding: 0 var(--mk-space-2) 0 var(--mk-space-pageGutter); }
+.hm-scene { flex: none; width: 160rpx; display: flex; flex-direction: column; align-items: flex-start; }
+.hm-sround { width: 120rpx; height: 120rpx; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--mk-color-brand-tint); }
+.hm-sicon { width: 56rpx; height: 56rpx; }
+.hm-sname { width: 120rpx; margin-top: 12rpx; text-align: center; font-size: var(--mk-font-size-sm); white-space: nowrap; }
+/* 企业存储：带箭头的入口行，浅灰底块不描边（与入口同一种底） */
+.hm-biz { display: flex; align-items: center; margin-top: var(--mk-space-sectionGap); padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.hm-bic { width: 80rpx; height: 80rpx; margin-right: var(--mk-space-3); flex: none; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--mk-color-canvas-card); }
+.hm-btxt { min-width: 0; }
 .hm-bs { display: block; margin-top: 4rpx; }
+.hm-bchev { flex: none; margin-left: var(--mk-space-2); }
+/* 品牌区：标题行 → 三组数字 → 五城地标线条画 → 三张资质配图；段内只靠留白，不画线 */
 .hm-proof { margin-top: var(--mk-space-sectionGap); }
 .hm-logo { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); }
 .hm-mark { width: 20rpx; height: 20rpx; margin-right: var(--mk-space-2); border-radius: 4rpx; background: var(--mk-color-brand-fill); }
-.hm-nums { display: flex; margin-top: 28rpx; padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); border-bottom: var(--mk-border-hairline); }
+.hm-about { min-height: 64rpx; display: flex; align-items: center; }
+.hm-nums { display: flex; margin-top: var(--mk-space-2); }
 .hm-num { flex: 1; display: flex; flex-direction: column; }
-.hm-pn { font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-bold); line-height: 1.1; }
+.hm-pn { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); line-height: 1.2; }
 .hm-pt { font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); }
-.hm-about { margin-top: var(--mk-space-1); min-height: 88rpx; display: flex; align-items: center; font-weight: var(--mk-font-weight-semibold); }
-/* 推荐卡通栏图 16:10：卡宽 recCardWidth 284rpx → 高 178rpx */
-.hm-store-photo { display: block; width: 100%; height: 178rpx; background: var(--mk-color-canvas-sunken); }
+.hm-cities { display: flex; justify-content: space-between; margin-top: var(--mk-space-4); padding: var(--mk-space-3) var(--mk-space-2) var(--mk-space-2); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.hm-city5 { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.hm-city5__img { width: 88rpx; height: 88rpx; }
+.hm-city5__n { margin-top: 4rpx; font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); }
+.hm-certs { display: flex; margin-top: var(--mk-space-3); }
+.hm-cert { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.hm-cert + .hm-cert { margin-left: var(--mk-space-2); }
+.hm-cert__img { display: block; width: 100%; height: 156rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.hm-cert__n { margin-top: var(--mk-space-1); font-size: var(--mk-font-size-xs); color: var(--mk-color-ink-secondary); }
+/* 加载骨架：按新结构（主卡、两块入口、小节标题、三张推荐卡）占位，高度与实际内容一致，加载完不跳动 */
+.hm-sk { padding-top: var(--mk-space-2); }
+.hm-sk__b { border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); animation: hm-pulse 1.2s ease-in-out infinite; }
+.hm-sk__find { height: 444rpx; border-radius: var(--mk-radius-card); }
+.hm-sk__row { display: flex; margin-top: var(--mk-space-3); overflow: hidden; }
+.hm-sk__entry { flex: 1; height: 136rpx; }
+.hm-sk__entry + .hm-sk__entry { margin-left: var(--mk-space-3); }
+.hm-sk__bar { width: 40%; height: 44rpx; margin-top: var(--mk-space-sectionGap); }
+.hm-sk__rec { flex: none; width: var(--mk-size-recCardWidth); height: 420rpx; margin-right: var(--mk-space-3); border-radius: var(--mk-radius-card); }
+@keyframes hm-pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }

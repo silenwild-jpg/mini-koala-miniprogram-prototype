@@ -19,6 +19,7 @@ const location = require('../../services/location');
 const pd = require('../../services/page-data');
 const share = require('../../services/share');
 const flow = require('../../services/estimate-flow');
+const motion = require('../../core/motion');
 const S = T.stores, PAGE = CF.list.pageSize;
 const flags = () => { const g = getApp().globalData; if (!g.find) g.find = { bubbleShown: false, nocityClosed: false }; return g.find; };
 Page({
@@ -26,7 +27,7 @@ Page({
     T: { stores: pd.plain(S), login: Z.login, leave: T.advisor.leave, hours: S.salesHours(T.lead.hoursNote, T.lead.offHours), salesSub: S.salesSub(T.lead.inHours), switchCity: T.locate.switchCity, search: T.panel.placeholder },
     sys: 'loading', mode: 'browse', cityText: '', located: true, bubble: null, nocity: '', demandText: '', items: [], total: 0, shown: 0, resultText: '', advisor: null,
     noMatch: false, far: false, farTitle: S.farTitle(C.matching.nearbyRadiusKm), farSub: '', filtered: false, hasMore: false,
-    sort: 'recommended', maxKm: null, services: [], promo: false, freeTransport: false, sortLabel: S.sort, distLabel: S.distance, svcLabel: S.services,
+    sort: 'recommended', maxKm: null, services: [], promo: false, freeTransport: false, sortLabel: S.sort, distLabel: S.distance, svcLabel: S.services, svcN: 0, priceBump: '', needBump: '',
     sheet: '', sortOptions: [], distOptions: [], svcOptions: [], offerOptions: [], svcOn: false, largeNote: false,
     loginVisible: false, panel: false, panelNote: '', panelFocus: false, demandSheet: false
   },
@@ -39,6 +40,7 @@ Page({
     }
   },
   onHide() { this.hideBubble(); },
+  onUnload() { this.hideBubble(); motion.dispose(this); },
   onPageScroll() { if (this.data.bubble) this.hideBubble(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   onShareAppMessage() { return share.message(routes.STORES); },
@@ -67,9 +69,15 @@ Page({
     l.cards.slice(0, n).forEach((c, i) => {
       if (i === CF.list.estoreSlot && !l.noMatch && !farMode) items.push({ key: 'estore', type: 'estore' });
       const browse = l.noMatch ? Object.assign({}, c, { row: null, emptyText: c.hasStock ? '' : T.card.noStock }) : c; // 无匹配页的门店按浏览卡显示；满仓的仍写「暂无可租仓位」（A-12）
-      items.push({ key: c.id, type: 'store', variant: i < CF.list.standardCards ? (l.noMatch ? 'plain' : 'standard') : 'compact', card: browse });
+      items.push({ key: c.id, type: 'store', variant: i < CF.list.standardCards ? (l.noMatch ? 'plain' : 'standard') : 'compact', card: browse, hd: '' });
     });
     if (!l.noMatch && !farMode && n <= CF.list.estoreSlot && l.mode !== 'sales') items.push({ key: 'estore', type: 'estore' });
+    // IMPL-01 小节标题：前两家确实按推荐规则选出（带角标）时，标「为您优先推荐」与「更多门店」，把大卡和紧凑卡分成两段
+    const stores = items.filter((x) => x.type === 'store');
+    if (!l.noMatch && !farMode && stores.length && stores[0].card.rankTag && stores[0].variant === 'standard') {
+      stores[0].hd = S.topTitle;
+      const rest = stores.find((x) => x.variant === 'compact'); if (rest) rest.hd = S.restTitle;
+    }
     const picked = d.services.length + (d.promo ? 1 : 0) + (d.freeTransport ? 1 : 0);
     this.setData({
       mode: l.mode, demandText: l.demandText, total: l.total, shown: n, items, advisor: farMode ? null : l.advisor, noMatch: l.noMatch, far: farMode, filtered: l.filtered,
@@ -77,7 +85,7 @@ Page({
       resultText: l.expanded && !farMode ? S.expanded : '', // 「共 N 家门店 · 已显示前 N 家」已删（FIX-01 R-22）
       largeNote: !!l.large && l.mode !== 'sales' && !l.noMatch, // 无匹配时空态卡已有「立即咨询」，不重复 // 30m³ 及以上：给一句建议联系顾问（W37 #22，A-14），不拦自助找仓
       sortLabel: d.sort === 'recommended' ? S.sort : S.sortOptions[d.sort], distLabel: d.maxKm === null ? S.distance : S.within(d.maxKm),
-      svcLabel: picked ? S.svcCount(picked) : S.services, svcOn: picked > 0
+      svcLabel: S.services, svcN: picked, svcOn: picked > 0 // 已选数量单独成数字角标，不再拼成「服务 · N」
     });
   },
   apply(part) { this.setData(Object.assign({ shown: 0, sheet: '' }, part)); this._showAll = false; return this.refresh(); },
@@ -138,7 +146,8 @@ Page({
   // 已有需求：在本页弹层里改（弹层里保留「按物品估算」「AI 估算」入口）；还没有需求：去估算，完成后回到本页（FIX-01 R-19）
   onModify() { if (state.get().requirement) this.setData({ demandSheet: true, sheet: '' }); else this.onEstimate(); },
   onDemandClose() { this.setData({ demandSheet: false }); },
-  onDemandChange() { this.apply({}); },
+  // 改了容量或租期：需求条与卡片价格各给一次轻微反馈（页面已卸载时 motion 不再写数据）
+  onDemandChange() { const done = this.apply({}); motion.bump(this, 'needBump'); motion.bump(this, 'priceBump'); return done; },
   onDemandSales(e) { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor&cap=' + ((e.detail && e.detail.capacity_m3) || '') }); },
   onEstimate() { flow.start(routes.STORES); wx.navigateTo({ url: routes.CAPACITY }); },
   onAdvisorLead() { wx.navigateTo({ url: routes.BOOKING + '?mode=advisor' }); },

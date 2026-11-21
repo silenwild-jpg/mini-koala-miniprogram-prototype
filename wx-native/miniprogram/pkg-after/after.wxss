@@ -26,5 +26,15 @@
 .af-seg-item--on { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-medium); }
 .af-loading { padding-top: var(--mk-space-3); }
 /* 页面正文末尾的次要文字操作（如「撤回退仓申请」） */
-.af-alt { display: flex; justify-content: center; }
+.af-alt { display: flex; justify-content: center; border-top: 16rpx solid var(--mk-color-canvas-sunken); }
 .af-altbtn { padding: var(--mk-space-3) var(--mk-space-4); color: var(--mk-color-ink-secondary); border-radius: var(--mk-radius-control); }
+/* IMPL-01 去卡片化：租后各页白底（页面根节点 mk-page--plain）。订单卡是可点的独立对象，保留卡片；进度、键值、表单、费用改成通栏小节（app.wxss mk-sec），
+   小节之间用 16rpx 浅灰分区带，不再每段包一张卡。af-top = 状态头下方的提示条与订单卡；af-secs = 其后的小节序列。 */
+.af-top { padding-top: var(--mk-space-1); padding-bottom: var(--mk-space-1); }
+.af-secs .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); }
+.af-secs .mk-sec__hd { margin-bottom: var(--mk-space-2); }
+.af-hd-tag { flex: none; margin-left: var(--mk-space-2); }
+.af-foot { padding: var(--mk-space-3) var(--mk-space-pageGutter); border-top: 16rpx solid var(--mk-color-canvas-sunken); }
+/* 底栏金额上方的说明行：文字 + 折扣标签（续租沿用原折扣） */
+.af-bar-lab { display: flex; align-items: center; }
+.af-bar-tag { margin-left: var(--mk-space-2); margin-right: 0; }

@@ -13,3 +13,16 @@
 .ts-q { margin-right: var(--mk-space-2); }
 .ts-range { display: block; margin-bottom: var(--mk-space-3); }
 .ts-inline { margin-top: var(--mk-space-2); }
+/* IMPL-01 动效：选中态由一块滑块承担，切换租期时滑块平移到新位置（只动 transform / opacity）。格子等宽，滑块宽度 = 一格，位移 = 格数 ×（一格 + 间距）。
+   格数不是 5 或 6 时（配置改了预设档位）不出滑块，退回格子自身的选中样式。 */
+.ts-seg { position: relative; }
+.ts-seg--slide .ts-cell { position: relative; z-index: 1; background: transparent; transition: color var(--mk-motion-base) var(--mk-motion-easing); }
+.ts-seg--slide .ts-cell.ts-on { border: 1px solid transparent; background: transparent; }
+.ts-thumb { position: absolute; left: 0; top: 0; z-index: 0; height: var(--mk-size-btnMdHeight); width: calc((100% - 4 * var(--mk-space-2)) / 5); box-sizing: border-box; border: var(--mk-border-brand); border-radius: var(--mk-radius-control); background: var(--mk-color-brand-tint); opacity: 0; pointer-events: none; transition: transform var(--mk-motion-base) var(--mk-motion-easing), opacity var(--mk-motion-fast) var(--mk-motion-easing); }
+.ts-thumb--n6 { width: calc((100% - 5 * var(--mk-space-2)) / 6); }
+.ts-thumb--on { opacity: 1; }
+.ts-thumb--i1 { transform: translateX(calc(100% + var(--mk-space-2))); }
+.ts-thumb--i2 { transform: translateX(calc(200% + 2 * var(--mk-space-2))); }
+.ts-thumb--i3 { transform: translateX(calc(300% + 3 * var(--mk-space-2))); }
+.ts-thumb--i4 { transform: translateX(calc(400% + 4 * var(--mk-space-2))); }
+.ts-thumb--i5 { transform: translateX(calc(500% + 5 * var(--mk-space-2))); }

@@ -49,12 +49,14 @@ function line(units, months, loggedIn) {
     code: single ? single.code : fmt.comboName(units), volText: fmt.pretty(vol) + 'm³',
     tier: single ? fmt.tierLabel(single) : '', dims: single ? fmt.dimsText(single) : fmt.comboVolumeText(units),
     area: single ? fmt.areaText(single) : '', usage: usageText(units[0].volume), special: units.some(pricing.isSpecial),
-    thumbs: units.slice(0, 2).map(media.unitThumb)
+    thumbs: units.slice(0, 2).map(media.unitThumb),
+    // IMPL-01：组合方案行与单仓同一写法「编号 · 容量」，「N 间组合」单独成标签
+    codes: units.map((u) => u.code).join(' + '), comboTag: single ? '' : T.detail.comboTag(units.length), totalText: ''
   };
   if (loggedIn && pricing.isTerm(months)) {
     const q = pricing.quote(units, months);
     l.price = { mode: 'monthly', amount: q.monthly_average, unit: T.price.month, discount: q.special ? T.price.special : pricing.factorLabel(q.term_factor), sub: T.price.totalPrefix + pricing.yuan(q.rent_total) + ' · ' + fmt.termText(months) + (q.full_reduction > 0 ? ' · ' + T.price.fullOffShort + pricing.yuan(q.full_reduction) : '') }; // 满额减缩写为「-¥400」（W37 #28）；三页同一写法，卡片里放得下
-    l.rentTotal = q.rent_total; l.monthly = q.monthly_average;
+    l.rentTotal = q.rent_total; l.monthly = q.monthly_average; l.totalText = T.price.totalPrefix + pricing.yuan(q.rent_total);
     l.cta = T.cta.order;
   } else {
     l.price = { mode: 'from', amount: units.reduce((n, u) => n + pricing.unitFromMonthly(u), 0), unit: T.price.fromMonth, discount: '', sub: '' };
@@ -131,7 +133,12 @@ function storeCard(store, ctx) {
   card.tagsDetail = storeTags(store, 3, card.promo, false); // 门店详情不出免费运输标签（FIX-01 R-16）
   card.lowText = lowText(store.units);
   card.tagsCompact = storeTags(store, 2, card.promo, freeTag).slice(0, 2);
-  card.locText = card.kmText ? card.kmText + ' · ' + store.district : store.district + (store.community ? ' · ' + store.community : '');
+  // IMPL-01 门店卡位置行（全站基准，M-08）：距离 · 区名 · 商圈（没有商圈写小区 / 街道），不带省市与门牌；价格、标签不进这一行。
+  // placeText 不含距离（卡片里距离单独加重）；locText 是整行，给只有一个文本位的地方用（首页推荐卡）。
+  card.place = store.area || store.community || '';
+  card.placeText = [store.district, card.place].filter(Boolean).join(' · ');
+  card.locText = [card.kmText, card.placeText].filter(Boolean).join(' · ');
+  card.rankTag = ''; card.rankKind = '';
   return card;
 }
 
@@ -224,11 +231,17 @@ function buildList(stores, ctx, filter) {
   else if (f.sort === 'price') cards = cards.slice().sort((a, b) => costs[a.id] - costs[b.id] || inf(a.km) - inf(b.km) || String(a.id).localeCompare(String(b.id)));
   else {
     const eligible = cards.filter((c) => (hasNeed ? c.row : c.hasStock)), rest = cards.filter((c) => !(hasNeed ? c.row : c.hasStock));
-    cards = rank(eligible, o).items.concat(rest);
+    const rk = rank(eligible, o);
+    // IMPL-01 M-06 角标：与仓位推荐页同一规则（candidates），只有确实按该规则选出的才标；按距离 / 价格手动排序时不标
+    if (rk.distanceRanked && rk.items[0]) { rk.items[0].rankTag = T.card.first; rk.items[0].rankKind = 'near'; }
+    if (rk.cheaperSecond && rk.items[1]) { rk.items[1].rankTag = T.card.second; rk.items[1].rankKind = 'price'; }
+    cards = rk.items.concat(rest);
   }
   if (hasNeed) { const g = { matched: 0, near: 1, none: 2 }; cards = cards.map((c, i) => [c, i]).sort((a, b) => g[a[0].listState] - g[b[0].listState] || a[1] - b[1]).map((x) => x[0]); }
   if (scope && scope.pin) cards = cards.filter((c) => c.id === scope.pin).concat(cards.filter((c) => c.id !== scope.pin));
   if (far) cards = cards.slice().sort((a, b) => inf(a.km) - inf(b.km)); // 兜底：列最近的几家
+  // 角标只留在实际排在第一、第二位的卡上：后面的分组（有匹配在前）、置顶、兜底排序把它挪走了就不标，免得「距离最近」出现在第三张
+  cards.forEach((c, i) => { if (c.rankTag && i !== (c.rankKind === 'price' ? 1 : 0)) { c.rankTag = ''; c.rankKind = ''; } });
   const noMatch = hasNeed ? !cards.some((c) => c.row) : cards.length === 0;
   // 顾问卡（D-97、D-182）：按需求容量与首位匹配仓位的整期租金判定；未登录只按容量（不间接透露金额档位）
   let advisor = null;
@@ -248,10 +261,13 @@ function serviceOptions(stores) {
 /**
  * 首页推荐（冻结稿 runtime/home-recommend-policy.js）：最近 → 半径内更低价 → 运营位（特价仓优先）。
  * 只取有可租仓位的门店（没有仓位就没有起价可写）。距离不全时保持数据顺序取前两家。
+ * IMPL-01：带出选中原因 rankKind / rankTag（与附近门店、仓位推荐页同一套角标）：按距离排出的第一家 = near「距离最近」；
+ * 第二家只有确实是按「半径内更低价」选出来的才 = price「区域低价」（退回取次近的不标）；运营位、距离不全时都不标。
  */
 function buildHomeRecommend(stores, ctx) {
   const cards = stores.map((s) => storeCard(s, { requirement: null, location: ctx.location, loggedIn: ctx.loggedIn })).filter((c) => c.hasStock);
   let firstTwo;
+  const why = {}; // 门店编号 → 选中原因
   if (cards.length && cards.every((c) => c.km !== null)) {
     const sorted = cards.slice().sort((a, b) => a.km - b.km || String(a.id).localeCompare(String(b.id)));
     const first = sorted[0], rest = sorted.slice(1);
@@ -261,11 +277,12 @@ function buildHomeRecommend(stores, ctx) {
       if (cheaper.length) second = cheaper[0];
     }
     firstTwo = [first, second || rest[0]].filter(Boolean);
+    why[first.id] = 'near'; if (second) why[second.id] = 'price';
   } else firstTwo = cards.slice(0, 2);
   const rest = cards.filter((c) => firstTwo.indexOf(c) < 0);
   const op = rest.find((c) => c.operating === CF.recommend.operatingTag) || rest.find((c) => c.operating) || rest[0];
   const byId = {}; stores.forEach((s) => { byId[s.id] = s; });
-  return firstTwo.concat(op ? [op] : []).slice(0, CF.recommend.homeCards).map((c) => Object.assign({}, c, { tags: storeTags(byId[c.id], 2, c.promo, false) }));
+  return firstTwo.concat(op ? [op] : []).slice(0, CF.recommend.homeCards).map((c) => Object.assign({}, c, { tags: storeTags(byId[c.id], 2, c.promo, false), rankKind: why[c.id] || '', rankTag: why[c.id] ? (why[c.id] === 'price' ? T.card.second : T.card.first) : '' }));
 }
 
 // 一家门店给出的方案：匹配仓 → 两仓组合 → 最接近的方案（接近的单仓或组合）。与门店列表的 storeCard 取同一个
@@ -280,7 +297,7 @@ function candidates(stores, ctx, excludeId) {
   rows.forEach((x) => { x.cost = monthlyAt(x.units, months); x.km = distanceOf(x.store, ctx.location); });
   rows.sort((a, b) => (a.volume - need) - (b.volume - need) || a.cost - b.cost || String(a.store.id).localeCompare(String(b.store.id)));
   const ranked = rank(rows, { distOf: (x) => x.km, costOf: (x) => x.cost, idOf: (x) => x.store.id });
-  ranked.items.forEach((x,i) => { x.rankTag = i === 0 && ranked.distanceRanked ? T.card.first : i === 1 && ranked.cheaperSecond ? T.card.second : ''; });
+  ranked.items.forEach((x,i) => { x.rankTag = i === 0 && ranked.distanceRanked ? T.card.first : i === 1 && ranked.cheaperSecond ? T.card.second : ''; x.rankKind = x.rankTag === T.card.second ? 'price' : x.rankTag ? 'near' : ''; });
   return ranked.items;
 }
 
@@ -330,7 +347,8 @@ function buildMatch(stores, ctx) {
     const far = pricing.isFar(x.km), promo = first.special;
     return {
       id: x.store.id, photo: imageOf(x.store), name: x.store.name, address: x.store.address, km: x.km, kmText: fmt.kmText(x.km),
-      rankTag: x.rankTag || '', tags: storeTags(x.store, 3, promo, far && !promo).slice(0, 2), lowText: lowText(x.store.units),
+      district: x.store.district, place: x.store.area || x.store.community || '', placeText: [x.store.district, x.store.area || x.store.community || ''].filter(Boolean).join(' · '),
+      rankTag: x.rankTag || '', rankKind: x.rankKind || '', tags: storeTags(x.store, 3, promo, far && !promo).slice(0, 2), lowText: lowText(x.store.units),
       lines, moreText: restCount > 0 ? T.card.more(restCount) : T.cta.viewStore
     };
   });

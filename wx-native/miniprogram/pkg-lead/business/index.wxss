@@ -15,6 +15,7 @@
 .lbz-segcell--on { background: var(--mk-color-canvas-card); color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-medium); }
 .lbz-movenote { margin-top: var(--mk-space-2); }
 .lbz-sum { margin-top: var(--mk-space-3); margin-bottom: 0; }
+.lbz-sumv--main { font-weight: var(--mk-font-weight-medium); }
 .lbz-lead { margin-right: var(--mk-space-2); }
 .lbz-sumk { display: block; }
 .lbz-sumv { display: block; margin-top: 4rpx; font-size: var(--mk-font-size-md); }

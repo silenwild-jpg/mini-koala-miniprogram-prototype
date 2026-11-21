@@ -313,7 +313,7 @@ test('页面 续租：沿用原折扣的填写 → 提交（先请求订阅）�
     assert.equal(pg.data.form.months, 12); assert.equal(pg.data.form.rule, '可续租 1–48个月，累计租期不超过 60 个月');
     assert.equal(pg.data.card.main.amt, '约 ¥2,880'); assert.equal(pg.data.card.main.tag, '6折');
     assert.equal(pg.data.card.keep, '首次续租沿用您原订单的 6 折，比现在 12 个月的 6.5 折每月少 ¥20。');
-    assert.equal(pg.data.bar.lab, '续租 12个月 · 沿用 6 折'); assert.equal(pg.data.bar.amt, '约 ¥2,880'); assert.equal(pg.data.bar.btns[0].text, '提交续租需求');
+    assert.deepEqual([pg.data.bar.lab, pg.data.bar.tag], ['续租 12个月', '沿用 6 折']); assert.equal(pg.data.bar.amt, '约 ¥2,880'); assert.equal(pg.data.bar.btns[0].text, '提交续租需求');
     pg.onChip({ currentTarget: { dataset: { m: 6 } } }); assert.equal(pg.data.form.months, 6); pg.onPlus(); pg.onMinus(); pg.onMinus(); assert.equal(pg.data.form.months, 5);
     pg.onChip({ currentTarget: { dataset: { m: 12 } } });
     const p = pg.onSubmit(); assert.equal(pg.data.st, 'submitting'); assert.equal(pg.data.bar.btns[0].off, true); await p;
@@ -323,7 +323,7 @@ test('页面 续租：沿用原折扣的填写 → 提交（先请求订阅）�
     assert.equal(pg.data.st, 'quote_ready'); assert.equal(pg.data.card.total.amt, '¥2,880'); assert.equal(pg.data.card.ref.k, '现行折扣价'); assert.equal(pg.data.card.ref.amt, '¥3,120');
     assert.equal(pg.data.card.keep, '首次续租沿用您原订单的 6 折，比现在 12 个月的 6.5 折每月少 ¥20，本次共少 ¥240。');
     assert.deepEqual(pg.data.alt.map((a) => a.text), ['暂不续租'], '沿用原折扣时不出「按常规折扣续租」');
-    assert.equal(pg.data.card.rule, '报价 24 小时内有效。付款完成后新租期生效。'); assert.match(pg.data.card.kv[0].v, / · 剩余 2[34]:\d\d:\d\d$/);
+    assert.equal(pg.data.card.rule, '报价 24 小时内有效。付款完成后新租期生效。'); assert.match(pg.data.card.kv[0].sub, /^剩余 2[34]:\d\d:\d\d$/); // IMPL-01：剩余时间在截止时间下方单独一行
     await pg.onConfirm(); assert.equal(pg.data.st, 'payment_pending'); assert.equal(pg.data.paySheet, true);
     assert.deepEqual(pg.data.bar.btns.map((b) => b.text), ['稍后支付', '立即付款']);
     await pg.onPayLater(); assert.equal(pg.data.st, 'cancelled'); assert.equal(pg.data.head.title, '续租付款已暂缓'); assert.equal(pg.data.bar.btns[0].text, '继续付款');
@@ -422,7 +422,7 @@ test('页面 发票：填完才能提交 → 已提交 → 已开具（下载 / 
   env.nav.length = 0; pg.onTitles(); pg.onBatch(); assert.deepEqual(env.nav.map((n) => n.url), [routes.ENT_TITLES, routes.ENT_BATCH]);
   pg.onKind({ currentTarget: { dataset: { v: 'personal' } } });
   await pg.onSubmit();
-  assert.equal(pg.data.head.title, '发票申请已提交'); assert.equal(pg.data.head.tag, '已提交'); assert.equal(pg.data.form, null); assert.equal(pg.data.records[0].s, '个人 · 张三');
+  assert.equal(pg.data.head.title, '发票申请已提交'); assert.equal(pg.data.head.tag, '已提交'); assert.equal(pg.data.form, null); assert.deepEqual([pg.data.records[0].kind, pg.data.records[0].s], ['个人', '张三']); // IMPL-01：类型是标签、抬头是正文
   await pg.refresh();
   assert.equal(pg.data.head.title, '发票已开具'); assert.deepEqual(pg.data.bar.btns.map((b) => b.text), ['发送到邮箱', '下载发票']); assert.equal(pg.data.file[1].v, 'zhangsan@163.com');
   await pg.onSend(); await pg.onDownload();

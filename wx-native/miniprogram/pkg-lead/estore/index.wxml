@@ -1,12 +1,12 @@
-<view class="mk-page ldf-page">
-  <view class="mk-gutter les-top">
-    <view class="mk-card">
+<view class="mk-page mk-page--plain ldf-page">
+  <view class="les-top">
+    <view class="mk-sec">
       <text class="les-kicker">{{T.kicker}}</text>
       <text class="mk-h2 les-title">{{T.title}}</text>
       <text class="mk-sub les-lead">{{T.lead}}</text>
     </view>
-    <view class="mk-card">
-      <text class="ldf-sectitle">{{T.cmpTitle}}</text>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.cmpTitle}}</view>
       <view class="les-cmp">
         <view class="les-col">
           <text class="les-ct">{{T.self}}</text>
@@ -19,15 +19,15 @@
         </view>
       </view>
     </view>
-    <view class="mk-card">
-      <text class="ldf-sectitle">{{T.flowTitle}}</text>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.flowTitle}}</view>
       <view wx:for="{{flow}}" wx:key="t" class="les-step">
         <view class="les-rail"><view class="les-dot"></view><view wx:if="{{!item.last}}" class="les-bar"></view></view>
         <view class="mk-grow les-stepbody"><text class="les-st">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-sub les-ss">{{item.s}}</text></view>
       </view>
     </view>
-    <view class="mk-card">
-      <text class="ldf-sectitle">{{T.infoTitle}}</text>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.infoTitle}}</view>
       <view wx:for="{{T.info}}" wx:key="k" class="les-info">
         <text class="mk-sub les-ik">{{item.k}}</text>
         <text class="les-iv {{item.mute ? 'les-iv--mute' : ''}}">{{item.v}}</text>

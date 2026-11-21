@@ -1,28 +1,27 @@
-<view class="mk-page it-page">
+<view class="mk-page mk-page--plain it-page">
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <block wx:else>
     <view class="it-head">
-      <view class="mk-row mk-gutter it-assist">
+      <view wx:if="{{ai}}" class="mk-row mk-gutter it-assist">
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-chip it-chip it-chip--off" bindtap="onAi" aria-role="button"><image class="mk-icon it-ci" src="/assets/icons/spark-ink.svg" />{{T.i.ai}}</view>
-        <view class="mk-grow"></view>
-        <text class="mk-link it-tocap" bindtap="onToCap" aria-role="button">{{T.i.toCap}}</text>
       </view>
       <view class="it-modes">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-mode {{mode === 'items' ? 'it-mode--on' : ''}}" data-m="items" bindtap="onMode" aria-role="tab">{{T.i.byItem}}</view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-mode {{mode === 'scenes' ? 'it-mode--on' : ''}}" data-m="scenes" bindtap="onMode" aria-role="tab">{{T.i.byScene}}</view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-mode mk-ease {{mode === 'items' ? 'it-mode--on' : ''}}" data-m="items" bindtap="onMode" aria-role="tab">{{T.i.byItem}}</view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-mode mk-ease {{mode === 'scenes' ? 'it-mode--on' : ''}}" data-m="scenes" bindtap="onMode" aria-role="tab">{{T.i.byScene}}</view>
+        <view class="it-ink mk-ease {{mode === 'scenes' ? 'it-ink--r' : ''}}"><view class="it-inkbar"></view></view>
       </view>
     </view>
     <view class="it-main">
-      <view class="it-rail">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{rail}}" wx:key="id" class="it-nav {{item.on ? 'it-nav--on' : ''}}" data-id="{{item.id}}" bindtap="onCat" aria-role="button">
+      <view class="it-rail {{ai ? 'it-rail--ai' : ''}}">
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{rail}}" wx:key="id" class="it-nav mk-ease {{item.on ? 'it-nav--on' : ''}}" data-id="{{item.id}}" bindtap="onCat" aria-role="button">
           <image class="mk-icon it-ni" src="/assets/icons/{{item.icon}}.svg" /><text class="it-nt">{{item.name}}</text>
         </view>
       </view>
       <view class="it-list">
-        <view class="mk-between"><text class="mk-title">{{listTitle}}</text><text class="mk-sub">{{listCount}}</text></view>
-        <text wx:if="{{sceneDesc}}" class="mk-sub it-line">{{sceneDesc}}</text>
+        <view class="mk-between"><text class="mk-t-title">{{listTitle}}</text><text class="mk-t-hint">{{listCount}}</text></view>
+        <text wx:if="{{sceneDesc}}" class="mk-t-hint it-line">{{sceneDesc}}</text>
         <view wx:if="{{bizGuide}}" class="it-biz">
-          <text class="it-bt">{{T.i.biz.title}}</text><text class="mk-sub it-line">{{T.i.biz.sub}}</text>
+          <text class="it-bt">{{T.i.biz.title}}</text><text class="mk-t-caption it-line">{{T.i.biz.sub}}</text>
           <button class="mk-btn mk-btn--ghost mk-btn--sm it-bbtn" hover-class="mk-btn--ghostHover" bindtap="onBusiness">{{T.i.biz.btn}}</button>
         </view>
         <view class="it-search mk-row">
@@ -30,69 +29,82 @@
           <input class="it-sinput mk-grow" confirm-type="search" placeholder="{{T.i.search}}" placeholder-class="it-ph" value="{{search}}" bindinput="onSearchInput" />
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{search}}" class="it-sx" bindtap="onSearchClear" aria-role="button" aria-label="清除搜索"><image class="mk-icon" src="/assets/icons/close-sub.svg" /></view>
         </view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{selectedText}}" class="mk-link it-sel" bindtap="onCart" aria-role="button">{{selectedText}}</view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{longHint}}" class="it-long-info" bindtap="onLongInfo" aria-role="button" aria-label="长件尺寸提示"><image class="mk-icon" src="/assets/icons/info-sub.svg" /></view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{selectedText}}" class="it-sel" bindtap="onCart" aria-role="button">
+          <text class="mk-t-caption">{{selectedText}}</text>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{longHint}}" class="it-long-info" catchtap="onLongInfo" aria-role="button" aria-label="长件尺寸提示"><image class="mk-icon" src="/assets/icons/info-sub.svg" /></view>
+          <view class="mk-grow"></view><text class="mk-link it-see">{{T.i.seeCart}}</text>
+        </view>
         <view wx:if="{{emptySearch}}" class="it-none">
-          <text class="mk-title">{{T.i.none.title}}</text><text class="mk-sub it-line">{{T.i.none.sub}}</text>
+          <text class="mk-t-title">{{T.i.none.title}}</text><text class="mk-t-caption it-line">{{T.i.none.sub}}</text>
           <button class="mk-btn mk-btn--ghost mk-btn--md it-nbtn" hover-class="mk-btn--ghostHover" bindtap="onResetSearch">{{T.i.none.all}}</button>
           <text class="mk-link it-nlk" bindtap="onToCap" aria-role="button">{{T.i.none.toCap}}</text>
           <text class="mk-link it-nlk" bindtap="onAdvisor" aria-role="button">{{T.i.none.advisor}}</text>
         </view>
-        <view wx:for="{{rows}}" wx:key="id" class="it-row">
-          <view class="it-th">{{item.abbr}}</view>
-          <view class="mk-grow it-rb">
-            <text class="it-nm">{{item.name}}</text>
-            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.multi}}" class="mk-chip it-var" data-id="{{item.id}}" bindtap="onVariant" aria-role="button">{{item.variantText}}<image class="mk-icon it-vi" src="/assets/icons/down-ink.svg" /></view>
-            <text wx:else class="mk-sub it-line">{{item.desc}}</text>
-            <view class="mk-between it-foot">
-              <view class="it-vol"><text class="mk-sub">{{item.per}}</text><text wx:if="{{item.sub}}" class="it-subt">{{item.sub}}</text></view>
-              <view class="it-stepper mk-row">
-                <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-sb {{item.n ? '' : 'it-sb--off'}}" data-id="{{item.id}}" data-d="minus" bindtap="onStep" aria-role="button" aria-label="减少">−</view>
-                <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-sn mk-num" data-id="{{item.id}}" bindtap="onQty" aria-role="button" aria-label="填写数量">{{item.n}}</view>
-                <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-sb" data-id="{{item.id}}" data-d="plus" bindtap="onStep" aria-role="button" aria-label="增加">+</view>
+        <view class="it-rows {{listFx}}">
+          <view wx:for="{{rows}}" wx:key="id" class="it-row">
+            <image class="it-th" src="{{item.thumb}}" mode="aspectFit" />
+            <view class="mk-grow it-rb {{item.last ? '' : 'it-rb--line'}}">
+              <text class="it-nm">{{item.name}}</text>
+              <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.multi}}" class="it-var" data-id="{{item.id}}" bindtap="onVariant" aria-role="button"><text class="it-vl">{{T.i.variantLabel}}</text><text class="it-vn mk-ellipsis">{{item.variantText}}</text><image class="mk-icon it-vi" src="/assets/icons/down-ink.svg" /></view>
+              <text wx:else class="mk-t-hint it-line">{{item.desc}}</text>
+              <view class="mk-between it-foot">
+                <view class="it-vol"><text class="mk-t-hint">{{item.per}}</text><text wx:if="{{item.sub}}" class="it-subt mk-num">{{item.sub}}</text></view>
+                <view class="it-stepper mk-row">
+                  <view hover-class="mk-press--stepHover" hover-stop-propagation="{{true}}" wx:if="{{item.n}}" class="it-sb mk-press" data-id="{{item.id}}" data-d="minus" bindtap="onStep" aria-role="button" aria-label="减少"><view class="it-sbi"><image class="mk-icon" src="/assets/icons/minus-brand.svg" /></view></view>
+                  <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.n}}" class="it-sn mk-num" data-id="{{item.id}}" bindtap="onQty" aria-role="button" aria-label="填写数量">{{item.n}}</view>
+                  <view hover-class="mk-press--stepHover" hover-stop-propagation="{{true}}" class="it-sb mk-press" data-id="{{item.id}}" data-d="plus" bindtap="onStep" aria-role="button" aria-label="增加"><view class="it-sbi it-sbi--plus"><image class="mk-icon" src="/assets/icons/plus-white.svg" /></view></view>
+                </view>
               </view>
             </view>
           </view>
         </view>
-        <text wx:if="{{estNote}}" class="mk-mute it-est">{{estNote}}</text>
+        <text wx:if="{{estNote}}" class="mk-t-hint it-est">{{estNote}}</text>
       </view>
     </view>
     <view class="mk-bottom-bar mk-row">
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-grow it-sum" bindtap="onCart" aria-role="button" aria-label="查看已选清单">
-        <text class="mk-mute">{{footTop}}</text><text class="it-big">{{footBig}}</text>
+        <view id="it-depot" class="it-depot {{depotBump}}">
+          <view class="it-dbox mk-ease {{depot.on ? '' : 'it-dbox--off'}}" style="transform: scale({{depot.s}})">
+            <image wx:for="{{depot.imgs}}" wx:key="key" class="it-dimg mk-ease {{item.on ? 'it-dimg--on' : ''}}" src="{{item.src}}" mode="aspectFit" />
+          </view>
+          <text wx:if="{{depot.count}}" class="it-dn mk-num">{{depot.count}}</text>
+        </view>
+        <view class="it-st"><text class="mk-t-hint it-nw">{{footTop}}</text><text class="it-big mk-num {{footBump}}">{{footBig}}</text></view>
       </view>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{showTerm}}" class="it-termbtn mk-row" bindtap="onTermOpen" aria-role="button"><text>{{term}}{{T.month}}</text><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
       <button class="mk-btn it-submit {{btnOff ? 'mk-btn--disabled' : ''}}" hover-class="{{btnOff ? 'none' : 'mk-btn--hover'}}" bindtap="onSubmit">{{btnText}}</button>
     </view>
+    <image wx:for="{{flyers}}" wx:key="k" class="it-flyer" src="{{item.src}}" style="{{item.style}}" mode="aspectFit" />
   </block>
 
   <mk-sheet visible="{{cartVisible}}" title="{{cartTitle}}" bind:close="onCartClose">
     <view wx:if="{{cartRows.length}}" class="it-clearrow"><text class="mk-link it-clear" bindtap="onClear" aria-role="button">{{T.i.cart.clear}}</text></view>
-    <text wx:else class="mk-sub">{{T.i.cart.empty}}</text>
+    <text wx:else class="mk-t-caption">{{T.i.cart.empty}}</text>
     <view wx:for="{{cartRows}}" wx:key="id" class="it-crow mk-row">
-      <view class="it-th it-th--sm">{{item.abbr}}</view>
-      <view class="mk-grow it-rb"><text class="it-nm mk-ellipsis">{{item.name}}</text><text class="mk-sub">{{item.line}}</text></view>
+      <image class="it-th it-th--sm" src="{{item.thumb}}" mode="aspectFit" />
+      <view class="mk-grow it-rb"><text class="it-nm mk-ellipsis">{{item.name}}</text><text class="mk-t-hint">{{item.line}}</text></view>
       <text class="mk-sub it-del" data-id="{{item.id}}" bindtap="onDel" aria-role="button">{{T.i.cart.del}}</text>
       <view class="it-stepper mk-row">
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-sb" data-id="{{item.id}}" data-d="minus" bindtap="onStep" aria-role="button" aria-label="减少">−</view>
+        <view hover-class="mk-press--stepHover" hover-stop-propagation="{{true}}" class="it-sb mk-press" data-id="{{item.id}}" data-d="minus" bindtap="onStep" aria-role="button" aria-label="减少"><view class="it-sbi"><image class="mk-icon" src="/assets/icons/minus-brand.svg" /></view></view>
         <view class="it-sn mk-num">{{item.n}}</view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="it-sb" data-id="{{item.id}}" data-d="plus" bindtap="onStep" aria-role="button" aria-label="增加">+</view>
+        <view hover-class="mk-press--stepHover" hover-stop-propagation="{{true}}" class="it-sb mk-press" data-id="{{item.id}}" data-d="plus" bindtap="onStep" aria-role="button" aria-label="增加"><view class="it-sbi it-sbi--plus"><image class="mk-icon" src="/assets/icons/plus-white.svg" /></view></view>
       </view>
     </view>
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{longHint}}" class="it-long-info" bindtap="onLongInfo" aria-role="button" aria-label="长件尺寸提示"><image class="mk-icon" src="/assets/icons/info-sub.svg" /></view>
 
     <view class="mk-between it-total">
-      <view class="mk-grow it-rb"><text>{{T.i.cart.total}}</text><text class="mk-mute">{{cartTotalSub}}</text></view>
+      <view class="mk-grow it-rb"><text class="mk-t-body">{{T.i.cart.total}}</text><text class="mk-t-hint">{{cartTotalSub}}</text></view>
       <text class="mk-num it-tv">{{cartTotal}}</text>
     </view>
     <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onCartClose">{{T.i.cart.done}}</button>
   </mk-sheet>
 
   <mk-sheet visible="{{variantVisible}}" title="{{T.i.variantTitle}}" bind:close="onVariantClose">
+    <text class="mk-t-caption it-line">{{variantName}}</text>
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{variantOptions}}" wx:key="id" class="it-opt mk-between {{item.on ? 'it-opt--on' : ''}}" data-v="{{item.id}}" bindtap="onPickVariant" aria-role="button">
       <text>{{item.name}}</text><view class="mk-row"><text class="mk-sub">{{item.per}}</text><image wx:if="{{item.on}}" class="mk-icon it-vi" src="/assets/icons/check-brand.svg" /></view>
     </view>
-    <text class="mk-mute it-line">{{variantNote}}</text>
+    <text class="mk-t-hint it-line it-vhint">{{T.i.variantHint}}</text>
   </mk-sheet>
 
   <mk-sheet visible="{{termVisible}}" title="{{T.termTitle}}" bind:close="onTermClose">
@@ -100,10 +112,10 @@
     <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onTermClose">{{T.confirm}}</button>
   </mk-sheet>
 
-  <view wx:if="{{qtyVisible}}" class="it-mask" catchtouchmove="noop">
-    <view class="it-dialog">
-      <text class="mk-title it-dt">{{qtyName}}</text>
-      <text class="mk-sub it-dt">{{T.i.qtyTitle}}</text>
+  <view wx:if="{{qtyRender}}" class="it-mask {{qtyOut ? 'it-mask--out' : 'mk-fade'}}" catchtouchmove="noop">
+    <view class="it-dialog {{qtyOut ? '' : 'mk-drop-in'}}">
+      <text class="mk-t-title it-dt">{{qtyName}}</text>
+      <text class="mk-t-caption it-dt">{{T.i.qtyTitle}}</text>
       <view class="it-qfield mk-row {{qtyBad ? 'it-qfield--bad' : ''}}">
         <input class="it-qinput mk-grow mk-num" type="number" maxlength="5" focus="{{qtyVisible}}" value="{{qtyRaw}}" bindinput="onQtyInput" /><text class="mk-sub">{{T.piece}}</text>
       </view>
@@ -117,4 +129,4 @@
   </view>
 </view>
 
-<mk-sheet visible="{{advisoryVisible}}" title="下单前确认尺寸" bind:close="onAdvisoryClose"><text>大件物品建议下单前确认尺寸</text><button class="mk-bare mk-link" open-type="contact">立即咨询</button><button class="mk-btn" bindtap="onAdvisoryContinue">继续找仓</button></mk-sheet>
+<mk-sheet visible="{{advisoryVisible}}" title="{{T.i.advisory.title}}" bind:close="onAdvisoryClose"><text>{{T.i.advisory.body}}</text><button class="mk-bare mk-link" open-type="contact">{{T.i.advisory.contact}}</button><button class="mk-btn" bindtap="onAdvisoryContinue">{{T.i.advisory.go}}</button></mk-sheet>

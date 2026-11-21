@@ -31,7 +31,7 @@ Page(auth.guarded(routes.ENT_TITLES, {
   },
   apply(list) {
     list = Array.isArray(list) ? list : [];
-    this.setData({ rows: list.map((t) => ({ id: t.id, name: t.displayName || t.name, isDefault: !!t.isDefault, line: (t.type === 'person' ? P.typePerson : P.typeCompany) + (t.tax ? P.taxPrefix + t.tax : ''), email: P.emailPrefix + (t.displayEmail || t.email || '') })) });
+    this.setData({ rows: list.map((t) => ({ id: t.id, name: t.displayName || t.name, isDefault: !!t.isDefault, typeText: t.type === 'person' ? P.typePerson : P.typeCompany, taxText: t.tax ? P.taxLabel + t.tax : '', /* IMPL-01：类型成标签、税号单独一行；line 保留给旧用例，界面不再绑定 */ line: (t.type === 'person' ? P.typePerson : P.typeCompany) + (t.tax ? P.taxPrefix + t.tax : ''), email: P.emailPrefix + (t.displayEmail || t.email || '') })) });
     if (this._form && !this._loaded) { // 表单只在第一次取数时填入，之后保留用户正在改的内容
       this._loaded = true;
       const t = list.find((x) => x.id === this._editId);

@@ -156,12 +156,14 @@ except Exception: errs.append('图标核对没跑通：' + (_ic.stderr or _ic.st
 _tb = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_tabbar.py'), root, '--check'], capture_output=True, text=True)
 try: errs += json.loads(_tb.stdout)['errors']
 except Exception: errs.append('导航图标核对没跑通：' + (_tb.stderr or _tb.stdout)[-200:])
-# STYLE-01：首页配图（assets/images/home）必须有人引用，引用的文件必须存在；场景图按文字表 sceneImages 拼名
+# STYLE-01 / IMPL-01：首页配图（assets/images/home，含 banner / city / proof 子目录）必须有人引用，引用的文件必须存在。
+# 引用处：首页 WXML 与 core/config-find.js（轮播、五城地标、资质配图的路径写在配置里）
 _home = os.path.join(root, 'assets', 'images', 'home')
-_src = open(os.path.join(root, 'pages', 'home', 'index.wxml'), encoding='utf-8').read()
-_scenes = re.findall(r"'([a-z]+)'", re.search(r'sceneImages:\s*\[([^\]]*)\]', open(os.path.join(root, 'i18n', 'find.js'), encoding='utf-8').read()).group(1))
-_want = set(re.findall(r'/assets/images/home/([a-z-]+\.webp)', _src)) | {'scene-%s.webp' % x for x in _scenes}
-_have = set(os.listdir(_home)) if os.path.isdir(_home) else set()
+_src = open(os.path.join(root, 'pages', 'home', 'index.wxml'), encoding='utf-8').read() + open(os.path.join(root, 'core', 'config-find.js'), encoding='utf-8').read()
+_want = set(re.findall(r'/assets/images/home/([a-z0-9/-]+\.(?:webp|svg|jpg|png))', _src))
+_have = set()
+for dp, _, fs in os.walk(_home):
+    for f in fs: _have.add(os.path.relpath(os.path.join(dp, f), _home).replace(os.sep, '/'))
 for f in sorted(_want - _have): errs.append('首页引用了不存在的 assets/images/home/' + f)
 for f in sorted(_have - _want): errs.append('assets/images/home/%s 没有人引用' % f)
 for dp, _, fs in os.walk(os.path.join(root, 'assets', 'icons')):

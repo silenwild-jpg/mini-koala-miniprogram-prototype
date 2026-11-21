@@ -4,6 +4,7 @@ const routes = require('../services/routes');
 const after = require('../core/after');
 const A = require('../core/config-after');
 const T = require('../i18n/after');
+const motion = require('../core/motion');
 
 /**
  * 取订单。页面进入参数 ?id=<订单号>；没带时取最可能要办这项服务的一笔（core/after.pickOrder）。
@@ -48,4 +49,8 @@ function later(page, ms) {
 function cancelLater(page) { if (page._later) { clearTimeout(page._later); page._later = null; } }
 // 接口失败的统一提示
 function opFail(err) { console.error(err); toast((err && err.message) || T.common.opFail); }
-module.exports = { load, steps, toast, callStore, backToOrder, toOrders, toAgreement, later, cancelLater, opFail };
+// IMPL-01 动效：页面状态切换（提交中 → 待报价、支付中 → 结果态……）时状态头与正文淡入一次。WXML 里把 {{stFx}} 拼进容器 class。
+// 首次渲染不动；页面 onUnload 里调 cm.dispose(page)，之后的延时回调不再写数据。
+function fx(page, st) { if (page._fxSt && st && page._fxSt !== st) motion.bump(page, 'stFx', 'mk-fade'); page._fxSt = st || page._fxSt; }
+const dispose = (page) => motion.dispose(page);
+module.exports = { fx, dispose, bump: motion.bump, load, steps, toast, callStore, backToOrder, toOrders, toAgreement, later, cancelLater, opFail };

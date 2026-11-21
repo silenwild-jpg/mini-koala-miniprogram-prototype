@@ -12,6 +12,7 @@ const A = require('../../core/config-after');
 const after = require('../../core/after');
 const pricing = require('../../core/pricing');
 const cm = require('../common');
+const view = require('../../services/order-view'); // 切换订单的行：店名一级，仓位编号标签与容量同一行，与订单卡同一写法（IMPL-01）
 const D = T.deposit, CT = T.common, fill = after.fill, yuan = pricing.yuan;
 const TONE = { held: 'ok', waiting: 'warn', refund_pending: 'warn', refund_failed: 'err', refunded: 'ok', refunded_partial: 'ok' };
 const CUR = { held: 2, waiting: 3, refund_pending: 4, refund_failed: 4, refunded: 6, refunded_partial: 6 };
@@ -34,13 +35,13 @@ function render(page, o, now) {
   if (!moving) d.sheet = false;
   if (st === 'refund_pending' && dp.refund_at) cm.later(page, A.demo.refundMs - (now - dp.refund_at));
   if (st === 'waiting' && x && x.inspect_at) cm.later(page, A.demo.inspectMs - (now - x.inspect_at));
-  page.setData(d);
+  page.setData(d); cm.fx(page, st);
 }
 // 可切换的订单（只在没带订单号进入时用）：全部已付款订单，带各自的押金状态
 function loadPicks(page) {
   return api.getOrders().then((os) => {
     const list = (os || []).filter(after.isPaid);
-    page.setData({ picks: list.length > 1 ? list.map((o) => ({ id: o.id, t: o.store.name + ' · ' + o.unit_name, s: fill(CT.orderNo, { no: o.no }), tag: D.tag[after.depositState(o)] || '', tone: TONE[after.depositState(o)] || 'info', on: o.id === page._id })) : [], pickCount: fill(D.switchCount, { n: list.length }) });
+    page.setData({ picks: list.length > 1 ? list.map((o) => ({ id: o.id, t: o.store.name, codes: (o.units || []).map((u) => u.code).filter(Boolean), vol: view.card(o, Date.now()).unitVol, s: fill(CT.orderNo, { no: o.no }), tag: D.tag[after.depositState(o)] || '', tone: TONE[after.depositState(o)] || 'info', on: o.id === page._id })) : [], pickCount: fill(D.switchCount, { n: list.length }) });
   }).catch(() => {});
 }
 
@@ -49,7 +50,7 @@ Page(auth.guarded(routes.DEPOSIT, {
   onLoad(q) { this._id = (q && q.id) || ''; this._auto = !this._id; this._open = !!(q && q.info === 'open'); },
   onShow() { this.refresh(); },
   onHide() { cm.cancelLater(this); },
-  onUnload() { cm.cancelLater(this); },
+  onUnload() { cm.cancelLater(this); cm.dispose(this); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() { const p = cm.load(this, 'deposit', (o, now) => render(this, o, now)); return this._auto ? p.then(() => loadPicks(this)) : p; },
   onPick() { if (this.data.picks.length > 1) this.setData({ pickSheet: true }); },
@@ -62,7 +63,7 @@ Page(auth.guarded(routes.DEPOSIT, {
   },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
   onBar(e) { const a = e && e.currentTarget && e.currentTarget.dataset.act; if (a === 'progress') this.onProgress(); else if (a === 'back') this.onBack(); else if (a === 'call') this.onCall(); },
-  onMore() { this._open = true; if (this._order) render(this, this._order, Date.now()); }, // 查看退还方式与结算说明
+  onMore() { this._open = true; if (this._order) { render(this, this._order, Date.now()); cm.bump(this, 'moreFx', 'mk-fade'); } }, // 查看退还方式与结算说明
   onProgress() { if (this.data.sheetSteps.length) this.setData({ sheet: true }); },
   onSheetClose() { this.setData({ sheet: false }); },
   onBack() { cm.backToOrder(this); },

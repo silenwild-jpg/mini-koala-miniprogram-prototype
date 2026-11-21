@@ -1,30 +1,44 @@
+/* IMPL-01：卡内不用分割线，分组靠留白与浅灰底块；仓位编号是标签（app.wxss mk-unitno），与容量同一行；金额单列。 */
 .oc-card { margin-bottom: var(--mk-space-cardGap); }
 .oc-off { opacity: 0.72; }
 .oc-sec { margin-bottom: var(--mk-space-3); }
 .oc-row { display: flex; align-items: center; }
-.oc-unit { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); }
-.oc-ph { width: 128rpx; height: 128rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; flex: none; margin-right: var(--mk-space-3); }
-.oc-line2 { margin-top: 8rpx; }
+.oc-main { min-width: 0; }
+.oc-namerow { display: flex; align-items: center; }
+.oc-ph { width: 112rpx; height: 112rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; flex: none; margin-right: var(--mk-space-3); }
+.oc-unitline { display: flex; align-items: center; flex-wrap: wrap; margin-top: 12rpx; }
+.oc-no { margin-right: var(--mk-space-2); }
+.oc-vol { font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
+.oc-vol--lg { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); }
+.oc-line2 { display: block; margin-top: 8rpx; }
 .oc-line3 { margin-top: 4rpx; }
-.oc-meta { display: flex; align-items: center; }
-.oc-km { font-size: var(--mk-font-size-sm); margin-right: var(--mk-space-2); white-space: nowrap; }
-.oc-combo { margin-top: 8rpx; }
-.oc-swap { min-height: 64rpx; padding-left: var(--mk-space-3); display: flex; align-items: center; white-space: nowrap; }
-.oc-kv { min-height: 96rpx; margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); box-sizing: border-box; }
+.oc-meta { display: flex; align-items: center; margin-top: 8rpx; }
+.oc-pin { flex: none; margin-right: 6rpx; }
+.oc-km { flex: none; font-size: var(--mk-font-size-sm); margin-right: 12rpx; white-space: nowrap; }
+.oc-combo { margin-right: 0; }
+.oc-unit { display: flex; align-items: center; margin-top: var(--mk-space-3); padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.oc-unit .oc-unitline { margin-top: 0; }
+.oc-swap { flex: none; min-height: 64rpx; padding-left: var(--mk-space-3); display: flex; align-items: center; white-space: nowrap; }
+.oc-swapchev { margin-left: 4rpx; }
+.oc-kv { min-height: 72rpx; margin-top: var(--mk-space-3); box-sizing: border-box; }
 .oc-val { font-weight: var(--mk-font-weight-medium); text-align: right; }
 .oc-hint { margin-top: var(--mk-space-2); color: var(--mk-color-accent-promoText); font-size: var(--mk-font-size-sm); }
 .oc-stepper { display: flex; align-items: center; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); height: 72rpx; }
 .oc-step { width: 76rpx; height: 72rpx; display: flex; align-items: center; justify-content: center; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xl); }
 .oc-step--off { color: var(--mk-color-ink-tertiary); }
-.oc-stepval { min-width: 124rpx; height: 72rpx; line-height: 72rpx; text-align: center; border-left: var(--mk-border-strong); border-right: var(--mk-border-strong); font-weight: var(--mk-font-weight-medium); }
+.oc-stepval { min-width: 124rpx; height: 72rpx; display: flex; align-items: center; justify-content: center; border-left: var(--mk-border-strong); border-right: var(--mk-border-strong); font-weight: var(--mk-font-weight-medium); }
 .oc-date { display: flex; align-items: center; justify-content: space-between; min-width: 300rpx; height: 72rpx; padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); box-sizing: border-box; }
+.oc-note { margin-top: var(--mk-space-2); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); }
 .oc-dateph { color: var(--mk-color-ink-tertiary); }
 .oc-cal { margin-left: var(--mk-space-2); }
-.oc-bot { margin-top: var(--mk-space-3); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); }
-.oc-amt { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-bold); margin-left: var(--mk-space-2); white-space: nowrap; }
-.oc-tag { display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); white-space: nowrap; margin-left: var(--mk-space-2); background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
+/* 列表卡：租期与起止日一行；订单号、日期小字在左，金额在右单列 */
+.oc-span { display: flex; align-items: baseline; margin-top: var(--mk-space-3); }
+.oc-spanterm { flex: none; margin-right: var(--mk-space-2); font-weight: var(--mk-font-weight-medium); }
+.oc-foot { display: flex; align-items: flex-end; margin-top: var(--mk-space-2); }
+.oc-footl { min-width: 0; }
+.oc-amt { flex: none; font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); margin-left: var(--mk-space-3); white-space: nowrap; }
+.oc-tag { flex: none; display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); white-space: nowrap; margin-left: var(--mk-space-2); background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
 .oc-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .oc-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .oc-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
-
 .oc-img { display: block; background: var(--mk-color-canvas-sunken); }

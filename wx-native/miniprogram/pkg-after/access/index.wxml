@@ -1,22 +1,26 @@
-<view class="mk-page {{bar ? 'af-pad' : ''}}">
+<view class="mk-page mk-page--plain {{bar ? 'af-pad' : ''}}">
   <view wx:if="{{sys === 'loading'}}" class="af-body af-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/door-ink.svg" title="{{T.x.emptyTitle}}" sub="{{T.x.emptySub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.x.viewOrders}}</button>
   </mk-empty>
   <block wx:else>
-    <view class="af-body ac-top">
+    <view class="af-body af-top ac-top">
       <mk-notice wx:if="{{note}}" text="{{note}}" tone="warn" />
       <mk-notice wx:if="{{overdue}}" text="{{overdue}}" tone="warn" link="{{T.c.callStore}}" bind:link="onCall" />
       <mk-order-card order="{{order}}" />
-      <view wx:if="{{showArrival && arr}}" class="mk-card af-gap ac-card">
-        <view class="mk-between ac-headrow">
-          <text class="mk-title">{{T.x.arrival}}</text>
+    </view>
+    <view class="af-secs">
+      <view wx:if="{{showArrival && arr}}" class="mk-sec">
+        <view class="mk-sec__hd ac-headrow">
+          <text>{{T.x.arrival}}</text>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-row ac-guide" bindtap="onStoreGuide" aria-role="link"><text class="mk-link">{{T.x.storeGuide}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
         </view>
-        <view wx:for="{{arr.rows}}" wx:key="k" class="ac-row">
-          <text class="ac-k">{{item.k}}</text>
-          <text class="ac-v {{item.key ? 'ac-v--key' : ''}}">{{item.v}}</text>
+        <view class="{{arr.rows.length > 2 ? 'ac-rows--lined' : ''}}">
+          <view wx:for="{{arr.rows}}" wx:key="k" class="ac-row">
+            <text class="ac-k">{{item.k}}</text>
+            <text class="ac-v {{item.key ? 'ac-v--key' : ''}}">{{item.v}}</text>
+          </view>
         </view>
         <block wx:if="{{arr.steps.length || arr.path}}">
           <text class="mk-sub ac-sub">{{T.x.path}}</text>
@@ -28,13 +32,12 @@
         </view>
         <button class="mk-btn mk-btn--ghost mk-btn--md ac-nav" hover-class="mk-btn--ghostHover" bindtap="onNavigate"><image class="mk-icon ac-nav-ico" src="/assets/icons/nav-brand.svg" />{{T.x.navigate}}</button>
       </view>
-      <view wx:else class="ac-card"></view>
-      <view class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.x.stepsTitle}}</text>
+      <view class="mk-sec">
+        <view class="mk-sec__hd">{{T.x.stepsTitle}}</view>
         <mk-after-steps steps="{{steps}}" />
+        <mk-notice wx:if="{{before}}" title="{{T.x.beforeTitle}}" text="{{T.x.beforeText}}" />
       </view>
-      <mk-notice wx:if="{{before}}" title="{{T.x.beforeTitle}}" text="{{T.x.beforeText}}" />
-      <view wx:if="{{lease}}" class="mk-card af-gap mk-between">
+      <view wx:if="{{lease}}" class="mk-sec mk-between">
         <text class="mk-sub">{{T.x.status}}</text>
         <mk-after-tag text="{{lease.text}}" tone="{{lease.tone}}" />
       </view>

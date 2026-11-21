@@ -1,27 +1,27 @@
-<view class="mk-page mk-gutter ag-page">
-  <view class="mk-h2 ag-title">{{title}}</view>
-  <view wx:if="{{version || effective}}" class="mk-card">
+<view class="mk-page mk-page--plain ag-page">
+  <view class="mk-sec">
+    <view class="mk-h2 ag-title">{{title}}</view>
     <view wx:if="{{version}}" class="mk-between ag-kv"><text class="mk-sub">{{T.version}}</text><text>{{version}}</text></view>
     <view wx:if="{{effective}}" class="mk-between ag-kv"><text class="mk-sub">{{T.effective}}</text><text>{{effective}}</text></view>
+    <mk-notice wx:if="{{pending}}" title="{{T.pendingTitle}}" text="{{T.pendingDesc}}" link="{{T.contact}}" bind:link="onService" />
   </view>
-  <mk-notice wx:if="{{pending}}" title="{{T.pendingTitle}}" text="{{T.pendingDesc}}" link="{{T.contact}}" bind:link="onService" />
-  <block wx:else>
-    <view wx:if="{{toc.length}}" class="mk-card">
-      <view class="mk-title ag-sectitle">{{T.toc}}</view>
+  <block wx:if="{{!pending}}">
+    <view wx:if="{{toc.length}}" class="mk-sec {{toc.length > 2 ? 'ag-tocs--lined' : ''}}">
+      <view class="mk-sec__hd ag-sectitle">{{T.toc}}</view>
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{toc}}" wx:key="id" class="ag-toc" data-id="{{item.id}}" bindtap="onToc" aria-role="button">
         <text class="mk-num ag-tocn">{{item.n}}</text><view class="mk-grow mk-ellipsis">{{item.t}}</view><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
       </view>
     </view>
-    <view class="mk-card">
-      <view class="mk-title ag-sectitle">{{T.body}}</view>
+    <view class="mk-sec">
+      <view class="mk-sec__hd ag-sectitle">{{T.body}}</view>
       <view wx:for="{{sections}}" wx:key="id" id="{{item.id}}" class="ag-sec">
         <view wx:if="{{item.title}}" class="ag-h3">{{item.title}}</view>
         <block wx:for="{{item.paras}}" wx:for-item="p" wx:key="k">
-          <view wx:if="{{p.h}}" class="ag-h4"><text user-select="true">{{p.t}}</text></view>
-          <view wx:else class="ag-p"><text user-select="true">{{p.t}}</text></view>
+          <view wx:if="{{p.h}}" class="ag-h4"><text user-select="{{true}}">{{p.t}}</text></view>
+          <view wx:else class="ag-p"><text user-select="{{true}}">{{p.t}}</text></view>
         </block>
       </view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-mute ag-fine" bindtap="onService" aria-role="button">{{T.fine}}</view>
     </view>
-    <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-mute ag-fine" bindtap="onService" aria-role="button">{{T.fine}}</view>
   </block>
 </view>

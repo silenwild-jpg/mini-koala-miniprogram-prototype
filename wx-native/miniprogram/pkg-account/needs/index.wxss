@@ -1,7 +1,12 @@
 /* 预约记录 */
 .lnd-top { padding-top: var(--mk-space-3); }
 .lnd-card { margin-bottom: var(--mk-space-cardGap); }
-.lnd-line { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-md); }
+/* IMPL-01：预约记录是带操作的独立对象，保留卡片与浅灰底；卡内按用途分行——位置（图标 + 地点，门店地址紧跟其下）、规格、联系电话（图标 + 号码）、备注 */
+.lnd-loc { display: flex; align-items: flex-start; margin-top: var(--mk-space-2); }
+.lnd-ic { margin: 4rpx var(--mk-space-1) 0 0; }
+.lnd-line { display: block; font-size: var(--mk-font-size-md); }
+.lnd-addr { display: block; margin-top: 4rpx; }
+.lnd-spec { display: block; margin-top: var(--mk-space-2); font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
 .lnd-sub { display: block; margin-top: var(--mk-space-1); }
 .lnd-acts { display: flex; margin-top: var(--mk-space-3); }
 .mk-btn.mk-btn.lnd-btn { flex: 1; min-width: 0; margin-right: var(--mk-space-2); white-space: nowrap; }

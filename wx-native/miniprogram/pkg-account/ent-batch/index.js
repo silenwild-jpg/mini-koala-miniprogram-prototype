@@ -10,6 +10,8 @@ const routes = require('../../services/routes');
 const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
+// IMPL-01：订单行不再用分隔符把仓位、租期、订单号、付款日串成一行。仓位「A003 · 3.5m³」拆成编号标签 + 容量；line1 / line2 保留给旧用例，界面不再绑定
+const unitOf = (name) => { const a = String(name || '').split(' · '); return a.length === 2 && a[0].indexOf('+') < 0 ? { code: a[0], vol: a[1] } : { code: '', vol: name || '' }; };
 const P = TA.ent.batch;
 const SLA = require('../../core/config-after').sla; // 开票承诺时限（裁定 R-02），与单笔开票同一项配置
 const TONE = { submitted: 'warn', issued: 'ok', failed: 'err' };
@@ -54,7 +56,7 @@ Page(auth.guarded(routes.ENT_BATCH, {
     const all = this._lines || [], sel = this._sel || {};
     const on = all.filter((l) => sel[l.id]);
     this.setData({
-      rows: all.map((l) => ({ id: l.id, store: l.store, line1: l.unit + ' · ' + l.months + P.monthUnit, line2: l.no + P.paidPrefix + l.paidDate, amount: rules.money(l.amount), on: !!sel[l.id] })),
+      rows: all.map((l) => Object.assign(unitOf(l.unit), { term: l.months + P.monthUnit, noText: P.orderNoLabel + l.no, paidText: P.paidLabel + l.paidDate }, { id: l.id, store: l.store, line1: l.unit + ' · ' + l.months + P.monthUnit, line2: l.no + P.paidPrefix + l.paidDate, amount: rules.money(l.amount), on: !!sel[l.id] })),
       allOn: all.length > 0 && on.length === all.length, allText: P.allPrefix + all.length + P.allSuffix,
       selText: P.selectedPrefix + on.length + P.selectedSuffix, sumText: rules.money(rules.sumAmount(on)), hasSel: on.length > 0
     });
@@ -78,7 +80,7 @@ Page(auth.guarded(routes.ENT_BATCH, {
     this._titleId = t ? t.id : ''; this._picked = picked;
     this.setData({
       view: 'confirm', title: t ? { name: t.displayName || t.name, tax: t.tax || '', email: t.displayEmail || t.email || '' } : null,
-      lines: picked.map((l) => ({ id: l.id, store: l.store, line1: l.unit + ' · ' + l.months + P.monthUnit + ' · ' + l.no, line2: P.rent + rules.money(l.rent) + P.fee + rules.money(l.fee), amount: rules.money(l.amount) })),
+      lines: picked.map((l) => Object.assign(unitOf(l.unit), { term: l.months + P.monthUnit, noText: P.orderNoLabel + l.no, rentText: P.rent + rules.money(l.rent), feeText: P.feeLabel + rules.money(l.fee) }, { id: l.id, store: l.store, line1: l.unit + ' · ' + l.months + P.monthUnit + ' · ' + l.no, line2: P.rent + rules.money(l.rent) + P.fee + rules.money(l.fee), amount: rules.money(l.amount) })),
       contentTitle: P.contentPrefix + picked.length + P.contentSuffix, sumText: rules.money(rules.sumAmount(picked))
     });
   },

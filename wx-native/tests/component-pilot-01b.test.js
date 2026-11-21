@@ -48,7 +48,7 @@ test('D04/D14：长地址从已有路线入口完整保留，滚动到页签且�
   wx.pageScrollTo = options=>scrolls.push(options); wx.setClipboardData = options=>copies.push(options.data);
   try {
     page.onSeeRoute(); assert.equal(page.data.tab,2); assert.equal(page.data.card.address,fullAddress);
-    assert.deepEqual(scrolls,[{selector:'.sd-tabs',duration:0}]);
+    assert.deepEqual(scrolls,[{selector:'#sd-sec-2',offsetTop:-44,duration:250}]); // IMPL-01：三段同页，滚到「到店指引」段并扣掉吸顶页签高度
     page.onCopyAddress(); assert.deepEqual(copies,[fullAddress]);
     assert.equal(JSON.stringify(state.get().requirement),before);
   } finally { wx.pageScrollTo=oldScroll;wx.setClipboardData=oldCopy; }

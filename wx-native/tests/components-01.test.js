@@ -42,9 +42,9 @@ test('同一卡片里连续的 mk-cell：第二行起带 divider', () => {
   }
 });
 test('按压态样式类在 app.wxss 都有定义，且页面里用到的 hover-class 都在其中', () => {
-  const css = fs.readFileSync(path.join(root, 'app.wxss'), 'utf8');
+  const css = fs.readFileSync(path.join(root, 'app.wxss'), 'utf8') + fs.readFileSync(path.join(root, 'styles/motion.wxss'), 'utf8'); // IMPL-01：按压缩小类 mk-press--hover 定义在 styles/motion.wxss（app.wxss 引入）
   const used = new Set();
-  for (const p of walk(root, '.wxml')) for (const m of fs.readFileSync(p, 'utf8').matchAll(/hover-class="([^"{]+)"/g)) used.add(m[1]);
+  for (const p of walk(root, '.wxml')) for (const m of fs.readFileSync(p, 'utf8').matchAll(/hover-class="([^"{]+)"/g)) m[1].split(/\s+/).filter(Boolean).forEach((k) => used.add(k)); // 可并用两个按压类
   used.delete('none');
   for (const k of used) assert.ok(css.includes('.' + k), k + ' 未定义');
 });

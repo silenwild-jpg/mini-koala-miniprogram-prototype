@@ -13,16 +13,31 @@ const location = require('../../services/location');
 const routes = require('../../services/routes');
 const P = T.panel;
 const EMPTY = { cities: [], districts: [], areas: [], stores: [] };
+const LEAVE_MS = 260; // 与 --mk-motion-sheet、mk-sheet 一致
 Component({
   options: { addGlobalClass: true },
   properties: { visible: { type: Boolean, value: false }, note: { type: String, value: '' }, move: { type: Boolean, value: false }, safeTop: { type: Number, value: 0 }, focus: { type: Boolean, value: false } },
   data: {
     T: { placeholder: P.placeholder, cancel: P.cancel, useCurrent: P.useCurrent, useCurrentSub: P.useCurrentSub, current: P.current, relocate: P.relocate, recents: P.recents, clear: P.clear, city: P.city, groupArea: P.groupArea, groupStore: P.groupStore, noneSub: P.noneSub, other: P.other, estore: T.estore.name, estoreSub: P.estoreSub, leave: P.leave, leaveSub: P.leaveSub, moveNote: P.moveNote },
+    show: false, open: false, // show = 是否渲染，open = 是否处于展开位置（进出场，写法同 mk-sheet）
     showMove: false, query: '', city: '', cities: [], recents: [], located: false, pointLabel: '', locateAction: P.enable, sel: '',
     districts: [], areas: [], areaMore: '', byDistrict: '', byArea: '', showAll: false,
     searching: false, resAreas: [], resStores: [], none: false, noneTitle: '', noneAreasTitle: '', noneAreas: []
   },
-  observers: { visible(v) { if (v) { this.setData({ query: '', searching: false, showAll: false }); this.refresh(); } } },
+  observers: {
+    visible(v) {
+      // 进出场：快速开关以最后一次 visible 为准；组件卸载后延时回调不再写数据
+      if (this._t) { clearTimeout(this._t); this._t = null; }
+      if (v) {
+        this.setData({ show: true, query: '', searching: false, showAll: false }); this.refresh();
+        this._t = setTimeout(() => { this._t = null; if (!this._gone) this.setData({ open: true }); }, 30);
+      } else if (this.data.show) {
+        this.setData({ open: false });
+        this._t = setTimeout(() => { this._t = null; if (!this._gone) this.setData({ show: false }); }, LEAVE_MS);
+      }
+    }
+  },
+  lifetimes: { detached() { this._gone = true; if (this._t) { clearTimeout(this._t); this._t = null; } } },
   methods: {
     noop() {},
     refresh() {
@@ -47,8 +62,8 @@ Component({
       const idx = this._idx || EMPTY, k = String(this.data.query || '').trim();
       if (!k) { this.setData({ searching: false, resAreas: [], resStores: [], none: false }); return; }
       const has = (v) => String(v || '').indexOf(k) >= 0;
-      const resAreas = idx.areas.filter((a) => has(a.name)).map((a) => ({ key: 'a-' + a.name, kind: 'area', name: a.name, sub: P.areaSub(a.count) }))
-        .concat(idx.districts.filter((a) => has(a.name)).map((a) => ({ key: 'd-' + a.name, kind: 'district', name: a.name, sub: P.districtSub(a.count) })));
+      const resAreas = idx.areas.filter((a) => has(a.name)).map((a) => ({ key: 'a-' + a.name, kind: 'area', name: a.name, tag: P.kindArea, sub: P.storeCount(a.count) }))
+        .concat(idx.districts.filter((a) => has(a.name)).map((a) => ({ key: 'd-' + a.name, kind: 'district', name: a.name, tag: P.kindDistrict, sub: P.storeCount(a.count) })));
       const resStores = idx.stores.filter((s) => has(s.name) || has(s.community) || has(s.address)).slice(0, CF.panel.searchStoreMax)
         .map((s) => ({ id: s.id, name: s.name, sub: [s.district, s.community].filter(Boolean).join(' · ') }));
       const none = !resAreas.length && !resStores.length;

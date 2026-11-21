@@ -50,7 +50,9 @@ Page({
       this._counts = { FAVORITES: rules.favCount(state.get().favorites), COUPONS: rules.benefitCount(res[0]), MESSAGES: Number(res[1] && res[1].unread) || 0 };
       const rows = assets.length > 1 ? assets.slice(0, C.mineAssetRows).map((o) => ({
         id: o.id, store: o.store.name, tag: M.stage[o.stage] || '', tone: TONE[o.stage] || 'info', unit: o.unit_name,
-        line: o.months + M.assets.monthUnit + ' · ' + (o.stage === 'paid_before_start' ? M.assets.start + rules.dateText(o.lease.start) : M.assets.until + rules.dateText(o.lease.end))
+        // IMPL-01：与订单卡同一写法——仓位编号成标签、与容量同一行；租期与日期拆成两段，不再用分隔符串成一行
+        codes: (o.units || []).map((u) => u.code).filter(Boolean), vol: (o.units || []).length ? req.pretty(Number((o.units || []).reduce((n, u) => n + Number(u.volume || 0), 0).toFixed(3))) + 'm³' : '',
+        term: o.months + M.assets.monthUnit, span: o.stage === 'paid_before_start' ? M.assets.start + rules.dateText(o.lease.start) : M.assets.until + rules.dateText(o.lease.end)
       })) : []; // 只有一处在租时任务卡已经显示，不重复列
       this.setData({ showNew: !orders.length && !state.get().requirement, assets: rows, assetsAll: assets.length > C.mineAssetRows ? M.assets.allPrefix + assets.length + M.assets.allSuffix : '', groups: this.buildGroups(this._counts) });
     });

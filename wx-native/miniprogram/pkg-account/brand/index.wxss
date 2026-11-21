@@ -1,18 +1,18 @@
 @import "../acc.wxss";
-.br-logo { padding-bottom: var(--mk-space-3); border-bottom: var(--mk-border-hairline); }
+/* IMPL-01 去卡片化：两张卡拆成通栏小节；品牌数字放进浅灰底块（不描边），不再用两条发丝线隔开 */
+.br-logo { padding-bottom: var(--mk-space-3); }
 .br-mark { width: 20rpx; height: 20rpx; border-radius: 4rpx; background: var(--mk-color-brand-fill); margin-right: var(--mk-space-2); }
-.br-metrics { display: flex; padding: var(--mk-space-3) 0; border-bottom: var(--mk-border-hairline); }
+.br-metrics { display: flex; padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
 .br-metric { flex: 1; }
 .br-num { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); }
 .br-block { display: block; }
-.br-pillars { display: flex; flex-wrap: wrap; padding-top: var(--mk-space-2); }
+.br-pillars { display: flex; flex-wrap: wrap; padding-top: var(--mk-space-3); }
 .br-pillar { width: 50%; box-sizing: border-box; padding: var(--mk-space-2) var(--mk-space-2) var(--mk-space-2) 0; align-items: flex-start; }
 .br-pic { margin-right: var(--mk-space-2); }
 .br-pt { display: block; font-weight: var(--mk-font-weight-medium); }
 .br-proofs { display: flex; margin-top: var(--mk-space-3); }
-.br-proof { flex: 1; height: 144rpx; border-radius: var(--mk-radius-thumb); border: var(--mk-border-hairline); }
+.br-proof { flex: 1; height: 144rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
 .br-proof + .br-proof { margin-left: var(--mk-space-2); }
-.br-h { display: block; margin: var(--mk-space-4) 0 var(--mk-space-2); }
 .br-li { min-height: 64rpx; }
 .br-no { width: 40rpx; height: 40rpx; line-height: 40rpx; border-radius: 50%; text-align: center; background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); margin-right: var(--mk-space-3); flex: none; }
 .br-acts { margin-top: var(--mk-space-4); }

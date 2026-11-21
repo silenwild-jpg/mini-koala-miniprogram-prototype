@@ -7,20 +7,24 @@
 .od-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .od-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .od-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
-.od-card { margin-bottom: var(--mk-space-cardGap); }
-.od-sectitle { margin-bottom: var(--mk-space-2); }
+/* IMPL-01 去卡片化：订单卡之外的门店服务、租赁进度、订单服务、费用明细改成通栏小节，小节之间用浅灰分区带；宫格用浅灰底块不描边。 */
+.od-top { padding-bottom: var(--mk-space-2); }
+.od-secs .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); }
+.od-hd--rows, .od-hd--fee { margin-bottom: var(--mk-space-1); }
 .od-grid { display: flex; margin: 0 -8rpx var(--mk-space-2); }
-.od-cell { flex: 1; margin: 0 8rpx; min-height: 128rpx; border: var(--mk-border-hairline); border-radius: var(--mk-radius-control); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.od-cell { flex: 1; margin: 0 8rpx; min-height: 128rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .od-celltext { margin-top: 8rpx; font-size: var(--mk-font-size-sm); }
-.od-row { display: flex; align-items: center; min-height: 96rpx; border-top: var(--mk-border-hairline); }
+.od-row { display: flex; align-items: center; min-height: 96rpx; }
+.od-row--line { position: relative; }
+.od-row--line + .od-row--line::before { content: ''; position: absolute; left: calc(var(--mk-size-iconSm) + var(--mk-space-2)); right: 0; top: 0; border-top: var(--mk-border-hairline); }
 .od-rowk { margin-left: var(--mk-space-2); }
 .od-rowv { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); margin-right: var(--mk-space-1); }
 .od-rowv--on { color: var(--mk-color-status-warningText); }
 .od-rule { display: block; margin-top: var(--mk-space-2); }
-.od-kv { min-height: 80rpx; border-top: var(--mk-border-hairline); }
+.od-kv { min-height: 72rpx; }
 .od-kvv { font-weight: var(--mk-font-weight-medium); }
 .od-kvv--warn { color: var(--mk-color-status-errorText); }
-.od-cancel { display: flex; justify-content: center; padding: var(--mk-space-2) 0 var(--mk-space-4); }
+.od-cancel { display: flex; justify-content: center; padding: var(--mk-space-4) 0; border-top: 16rpx solid var(--mk-color-canvas-sunken); }
 .od-cancelbtn { min-height: 72rpx; padding: 0 var(--mk-space-4); display: flex; align-items: center; border: var(--mk-border-error); border-radius: var(--mk-radius-control); color: var(--mk-color-status-errorText); font-size: var(--mk-font-size-md); }
 .od-bar { display: flex; align-items: center; }
 .od-barbtn { flex: 1; }

@@ -17,7 +17,6 @@ const cm = require('../common');
 const I = T.invoice, CT = T.common, fill = after.fill, yuan = pricing.yuan;
 const TONE = { submitted: 'warn', processing: 'warn', issued: 'ok', failed: 'err' };
 const btn = (text, act, kind, more) => Object.assign({ text, act, kind: kind || 'primary' }, more);
-const payLabel = (p) => I.payType[p.type] + ' · ' + yuan(p.amount);
 
 function barOf(page, v) {
   if (v.state === 'form' || v.state === 'issue_failed') {
@@ -44,7 +43,7 @@ function render(page, o) {
   const d = {
     empty: false, st: v.state, order: o, fail: !!failed, reason: failed ? failed.fail_reason || '' : '', file: [], sheet: false,
     head: { title: failed ? I.head.issue_failed : formState ? I.head.form : I.head[last.status], tag: page._busy ? CT.submittingTag : last ? I.tag[last.status] : I.tag.none, tone: page._busy ? 'warn' : last ? TONE[last.status] : 'ok', subs: [fill(CT.orderNo, { no: o.no }), o.store.name] },
-    records: v.records.map((r) => ({ id: r.id, t: I.payType[r.payment_type] + ' · ' + yuan(r.amount), s: I.kind[r.kind] + ' · ' + r.title + (r.tax_id ? ' · ' + r.tax_id : ''), email: r.email, tag: I.tag[r.status], tone: TONE[r.status], acts: recActs && r.status === 'issued' })),
+    records: v.records.map((r) => ({ id: r.id, t: I.payType[r.payment_type], amt: yuan(r.amount), kind: I.kind[r.kind], s: r.title, tax: r.tax_id || '', email: r.email, tag: I.tag[r.status], tone: TONE[r.status], acts: recActs && r.status === 'issued' })),
     sla: waiting ? fill(I.slaNote, { n: A.sla.invoiceDays }) : '',
     showPays: formState && (v.available.length > 0 || !failed),
     pays: formState ? v.available.map((p) => ({ id: p.id, label: I.payType[p.type], amt: yuan(p.amount), multi, on: p.id === page._pay, split: p.split.map((s) => ({ k: I.split[s[0]], a: yuan(s[1]), no: s[0] === 'deposit' ? I.noInvoice : '' })) })) : [],
@@ -53,12 +52,12 @@ function render(page, o) {
       kind: f.kind, ent, kinds: [{ v: 'personal', t: I.kind.personal, on: !ent }, { v: 'enterprise', t: I.kind.enterprise, on: ent }],
       title: f.title, tax: f.tax_id, email: f.email, titlePh: I.titlePh[f.kind], emailErr: page._touched && check.emailError
     } : null,
-    opts: v.available.map((p) => ({ id: p.id, label: payLabel(p), on: p.id === page._pay })),
+    opts: v.available.map((p) => ({ id: p.id, label: I.payType[p.type], amt: yuan(p.amount), on: p.id === page._pay })),
     bar: barOf(page, v)
   };
   if (v.state === 'issued') d.file = [{ k: I.form, v: I.formText }, { k: I.toEmail, v: last.email }];
   if (last && (last.status === 'submitted' || last.status === 'processing')) cm.later(page, (last.status === 'submitted' ? A.demo.invoiceProcessMs : A.demo.invoiceIssueMs) - (now - last.submitted_at));
-  page.setData(d);
+  page.setData(d); cm.fx(page, (failed ? 'issue_failed' : v.state) + (page._busy ? ':busy' : ''));
 }
 function done(page, o) { page._busy = false; page._order = o; render(page, o); return o; }
 function failed(page, err) { page._busy = false; cm.opFail(err); return page.refresh(); }
@@ -68,7 +67,7 @@ Page(auth.guarded(routes.INVOICE, {
   onLoad(q) { this._id = (q && q.id) || ''; this._form = { kind: 'personal', title: '', tax_id: '', email: '' }; this._pay = ''; this._busy = false; this._touched = false; this._prefilled = ''; },
   onShow() { this.refresh(); },
   onHide() { cm.cancelLater(this); },
-  onUnload() { cm.cancelLater(this); },
+  onUnload() { cm.cancelLater(this); cm.dispose(this); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() { return cm.load(this, 'invoice', (o) => render(this, o)); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },

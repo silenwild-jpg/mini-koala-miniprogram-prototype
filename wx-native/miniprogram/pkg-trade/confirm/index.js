@@ -28,7 +28,8 @@ const pricing = require('../../core/pricing');
 const fmt = require('../../core/format');
 const C = require('../../core/config');
 const CT = require('../../core/config-trade');
-const T = TT.confirm, SEP = TT.common.sep, F = TT.fee;
+const motion = require('../../core/motion');
+const T = TT.confirm, F = TT.fee;
 const yuan = pricing.yuan;
 const BAR0 = { label: T.payable, saved: '', amount: '', muted: false, btn: '', action: '', disabled: false, hint: '', showAgree: false, solo: false };
 const sumBase = (q) => (q.unit_pricing || []).reduce((n, x) => n + Number(x.base_month || 0), 0);
@@ -39,7 +40,7 @@ Page(auth.guarded(routes.CONFIRM, {
     sys: 'loading', mode: 'compose', phase: '', // mode: empty | compose | order；phase: pending | payment_failed | expired | cancelled
     loggedIn: true, cardOrder: null, editable: false, swapText: '', hint: '', dead: false, locked: false,
     gone: false, quoteExpired: false, feePlaceholder: '', feeTotalPlaceholder: '', feeNote: '', couponEditable: false,
-    contactText: '', idv: { verified: false, text: '' },
+    contactText: '', phoneText: '', amtBump: '', headFx: '', idv: { verified: false, text: '' },
     agreed: false, submitting: false,
     head: null, headSubs: [], clock: '', recheck: null, alts: [], cancelable: false,
     bar: BAR0, showBar: false,
@@ -70,13 +71,13 @@ Page(auth.guarded(routes.CONFIRM, {
     return api.getIdentity().catch(() => null).then((res) => {
       if (res) identity.save(res);
       const idv = identity.get();
-      this.setData({ contactText: T.contactPhone + state.get().session.phoneMasked, idv: { verified: idv.verified, text: idv.text } });
+      this.setData({ contactText: T.contactPhone + state.get().session.phoneMasked, phoneText: state.get().session.phoneMasked, idv: { verified: idv.verified, text: idv.text } });
       if (this.data.sheet === 'sign') this.setData(idv.verified ? { signRows: this.signRows() } : { sheet: '' });
       this.syncBar();
     });
   },
   onHide() { this.stop(); },
-  onUnload() { this.stop(); },
+  onUnload() { this.stop(); this._tk = (this._tk || 0) + 1; motion.dispose(this); },
   stop() { if (this._t) { clearInterval(this._t); this._t = null; } },
   refresh() {
     if (this._orderId) return this.loadOrder();
@@ -91,7 +92,8 @@ Page(auth.guarded(routes.CONFIRM, {
     const p = { unit_ids: this._unitIds, months: this._months, coupon: this._coupon };
     if (this._demo === 'coupon') p.simulate = 'coupon';
     const req = Promise.all([requote && loggedIn ? api.refreshQuote(p) : api.getOrderDraft(p), loggedIn ? api.getIdentity().catch(() => null) : Promise.resolve(null)]);
-    return pd.load(this, req, (res) => { if (res[1]) identity.save(res[1]); this.applyDraft(res[0]); });
+    const tk = this._tk = (this._tk || 0) + 1; // 快速连改租期 / 换券时只用最后一次的报价；离开页面后在路上的结果丢弃（IMPL-01）
+    return pd.load(this, req, (res) => { if (res[1]) identity.save(res[1]); if (tk !== this._tk) return; this.applyDraft(res[0]); });
   },
   applyDraft(r) {
     if (!auth.isLoggedIn() || !r || !r.store || !r.units) return;
@@ -116,7 +118,7 @@ Page(auth.guarded(routes.CONFIRM, {
       mode: 'compose', loggedIn, cardOrder: draft, editable: true, swapText: T.swap, hint, dead: false, locked: false,
       gone: !r.available, held: r.available ? '' : r.held_order_id || '', quoteExpired: false, couponText,
       feePlaceholder: !q ? TT.fee.requote : '', feeTotalPlaceholder: '', feeNote: q ? T.prepayNote : '', couponEditable: !!q,
-      contactText: T.contactPhone + s.session.phoneMasked, idv: { verified: idv.verified, text: idv.text },
+      contactText: T.contactPhone + s.session.phoneMasked, phoneText: s.session.phoneMasked, idv: { verified: idv.verified, text: idv.text },
       head: null, headSubs: [], clock: '', recheck: null, alts: [], cancelable: false, submitting: false,
       couponRows: [{ id: 'auto', name: T.couponAuto, sub: '', amount: '', off: false }, { id: 'none', name: T.couponNoUse, sub: '', amount: '', off: false }]
         .concat((r.coupons || []).map((c) => ({ id: c.id, name: c.name, sub: why(c), amount: '−' + yuan(c.amount), off: !c.eligible, cur: c.id === cur }))),
@@ -142,7 +144,9 @@ Page(auth.guarded(routes.CONFIRM, {
     else if (!d.idv.verified) Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnIdentity, action: 'idv', hint: T.hintIdentity });
     else if (d.submitting) Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnSubmitting, disabled: true, showAgree: true });
     else Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnSign, action: 'sign', disabled: !d.agreed, hint: d.agreed ? '' : T.hintAgree, showAgree: true });
+    const prev = d.bar && !d.bar.muted ? d.bar.amount : '';
     this.setData({ bar: b, showBar: d.mode !== 'empty' });
+    if (prev && !b.muted && b.amount && prev !== b.amount) motion.bump(this, 'amtBump'); // 底栏金额变了（改租期、换券）轻微回弹；首次出现与占位文字不动
   },
   // 每秒一次：报价是否超过 3 小时；待支付 / 支付失败的剩余时间。两者互不影响
   tick() {
@@ -318,11 +322,12 @@ Page(auth.guarded(routes.CONFIRM, {
     this.setData({
       mode: 'order', phase: p, loggedIn: true, cardOrder: od, editable: false, swapText: failed ? T.swapUnit : '', hint: '', dead, locked: true,
       gone: false, held: '', quoteExpired: false, feePlaceholder: '', feeNote: '', couponEditable: false, couponText: '',
-      contactText: T.contactPhone + s.session.phoneMasked, idv: { verified: idv.verified || od.identity_status === 'verified', text: idv.text || (od.contract && od.contract.signer_masked) || '' },
+      contactText: T.contactPhone + s.session.phoneMasked, phoneText: s.session.phoneMasked, idv: { verified: idv.verified || od.identity_status === 'verified', text: idv.text || (od.contract && od.contract.signer_masked) || '' },
       head: { title: HEAD[0], tag: HEAD[1], tone: HEAD[2], reason: why[0], note: why[1] || HEAD[3] }, headSubs: [T.orderNo + od.no],
       clock: dead ? '' : view.countdown(od.pay.expires_at, now), cancelable: !dead, recheck: failed ? this.data.recheck : null, alts: dead ? this.data.alts : [],
       payText: T.payWechat + yuan(od.quote.payable), sheet: this.data.sheet === 'pay' && p !== 'pending' ? '' : this.data.sheet
     });
+    if (this._fxPhase && this._fxPhase !== p) motion.bump(this, 'headFx', 'mk-fade'); this._fxPhase = p; // 支付中 → 结果态（待支付 / 支付未成功 / 已取消）切换时状态头淡入一次
     this.syncBar();
     if (failed) this.recheck(true);
     if (dead) this.loadAlts(od);
@@ -400,7 +405,7 @@ Page(auth.guarded(routes.CONFIRM, {
         const u = (s.units || []).filter((x) => x.status === 'available' && Number(x.volume) >= need).sort((a, b) => a.volume - b.volume || a.base_month - b.base_month)[0];
         if (!u) return null;
         const km = view.kmOf(s, loc);
-        return { id: s.id, name: s.name, km: km === null ? Infinity : km, sub: (km === null ? '' : fmt.kmText(km) + SEP) + fmt.pretty(u.volume) + 'm³', price: yuan(pricing.quote([u], od.months).rent_total), term: fmt.termText(od.months) };
+        return { id: s.id, name: s.name, km: km === null ? Infinity : km, kmText: km === null ? '' : fmt.kmText(km), vol: fmt.pretty(u.volume) + 'm³', price: yuan(pricing.quote([u], od.months).rent_total), term: fmt.termText(od.months) };
       }).filter(Boolean).sort((a, b) => a.km - b.km).slice(0, CT.alternatives.max);
       if (this.data.dead) this.setData({ alts: rows });
     }).catch(() => {});

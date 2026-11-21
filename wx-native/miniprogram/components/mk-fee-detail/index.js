@@ -12,6 +12,7 @@
 //   placeholder   没有金额时各行显示的文字（如「登录后显示」）。未登录不显示任何金额（交接 v1.0 §4.1）
 //   total-placeholder  合计行的占位文字（默认同 placeholder）
 //   note          明细下方的小字（如预付说明）
+//   no-total      不出合计行（确认订单页：合计只留底栏，M-15）
 //   coupon-text   没用券时券行右侧的文字（确认订单页按「没有券 / 有 N 张可用 / 满 N 个月可用」给，B-12）；不传按默认
 // FIX-01：行由 services/order-view.fees 给出，这里只做三处补充（adjust）——
 //   R-06 含特价仓时列出「原价 / 特价仓优惠 / 租期折扣」，三行相减正好等于整期租金，与底栏「已省」对得上，并去掉重复的「特价仓 ¥X/月」行；
@@ -20,6 +21,7 @@ const T = require('../../i18n/trade');
 const view = require('../../services/order-view');
 const pricing = require('../../core/pricing');
 const fmt = require('../../core/format');
+const motion = require('../../core/motion');
 const yuan = pricing.yuan;
 function adjust(f, d) {
   const o = d.order, q = o && o.quote, F = T.fee;
@@ -57,6 +59,7 @@ Component({
     showCoupon: { type: Boolean, value: false },
     locked: { type: Boolean, value: false },
     noSaved: { type: Boolean, value: false },
+    noTotal: { type: Boolean, value: false },
     totalLabel: { type: String, value: '' },
     couponName: { type: String, value: '' },
     placeholder: { type: String, value: '' },
@@ -64,9 +67,9 @@ Component({
     note: { type: String, value: '' },
     couponText: { type: String, value: '' }
   },
-  data: { T: T.fee, rows: [], total: null },
+  data: { T: T.fee, rows: [], total: null, totalBump: '' },
   observers: { 'order, editable, showCoupon, locked, noSaved, totalLabel, couponName, placeholder, totalPlaceholder, couponText': function () { this.render(); } },
-  lifetimes: { attached() { this.render(); } },
+  lifetimes: { attached() { this.render(); }, detached() { motion.dispose(this); } },
   methods: {
     render() {
       const d = this.data;
@@ -74,7 +77,11 @@ Component({
       if (!d.placeholder) f = view.fees(d.order, Date.now(), { editable: d.editable, showCoupon: d.showCoupon || d.editable, locked: d.locked, noSaved: d.noSaved, totalLabel: d.totalLabel, couponName: d.couponName || (d.order && d.order.coupon_name) || '' });
       if (f) f = adjust(f, d);
       if (!f) f = d.placeholder ? view.feesPlaceholder(d.placeholder, d.totalPlaceholder) : null;
-      this.setData({ rows: f ? f.rows : [], total: f ? f.total : null });
+      // 版式（IMPL-01）：说明列 mid 放「单价 × 月数」这类算式（已含月数时不再单列月数），放不进一行的说明落到下一行 below
+      const rows = (f ? f.rows : []).map((r) => { const inSec = !!(r.sec && r.sub && r.sec.indexOf(r.sub) >= 0); return Object.assign({}, r, { mid: inSec ? r.sec : r.sub || '', below: inSec ? '' : r.sec || '' }); });
+      const prev = this.data.total ? this.data.total.amt : '', cur = f && f.total ? f.total.amt : '';
+      this.setData({ rows, total: f ? f.total : null });
+      if (prev && cur && prev !== cur && /\d/.test(prev) && /\d/.test(cur)) motion.bump(this, 'totalBump'); // 合计金额变了才回弹
     },
     onCoupon() { this.triggerEvent('coupon'); }
   }

@@ -7,8 +7,13 @@
 .lpg-btn { margin-top: var(--mk-space-3); }
 .lpg-sec { display: flex; margin-bottom: var(--mk-space-2); }
 .lpg-store { display: block; font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
-.lpg-kv { display: flex; align-items: center; justify-content: space-between; padding: var(--mk-space-3) 0; border-top: var(--mk-border-hairline); font-size: var(--mk-font-size-md); }
-.lpg-kv + .lpg-kv { margin-top: 0; }
-.lpg-sub + .lpg-kv { margin-top: var(--mk-space-2); }
+/* IMPL-01：进度页的三张卡都是带主按钮的操作区，保留卡片；卡内不再用三条发丝线分隔金额行——租金、优惠收进浅灰底块（不描边），应付单列加粗 */
+.lpg-unit { margin-top: var(--mk-space-2); }
+.lpg-no { margin-right: var(--mk-space-2); }
+.lpg-vol { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); }
+.lpg-term { margin-left: var(--mk-space-3); }
+.lpg-fees { margin-top: var(--mk-space-3); padding: var(--mk-space-1) var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.lpg-kv { display: flex; align-items: center; justify-content: space-between; padding: var(--mk-space-2) 0; font-size: var(--mk-font-size-md); }
+.lpg-total { padding: var(--mk-space-3) 0 0; }
 .lpg-amt { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); }
 .lpg-emptywrap { display: block; margin-top: var(--mk-space-cardGap); }

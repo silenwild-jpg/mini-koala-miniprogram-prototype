@@ -110,10 +110,10 @@ const methods = {
   // ---- 收藏（收藏的 id 存本机 state.favorites；这里只取门店 / 仓位的现状）----
   getFavoriteItems(p) {
     const sIds = rules.favIds(p.stores), uIds = rules.favIds(p.units);
-    const ss = sIds.map((id) => stores.find((x) => x.id === id)).filter(Boolean).map((s) => ({ id: s.id, name: s.name, address: s.address, photo: s.photo || '', gone: s.status !== 'open' }));
+    const ss = sIds.map((id) => stores.find((x) => x.id === id)).filter(Boolean).map((s) => ({ id: s.id, name: s.name, address: s.address, photo: s.photo || '', gone: s.status !== 'open', city: s.city, district: s.district || '', area: s.area || '', community: s.community || '', distance_km: s.distance_km })); // IMPL-01：带上区名、商圈、距离，收藏页门店卡按全站位置行写法显示
     const us = uIds.map((id) => units.find((x) => x.id === id)).filter(Boolean).map((u) => {
       const s = stores.find((x) => x.id === u.store_id) || {};
-      return { id: u.id, store_id: u.store_id, store_name: s.name || '', name: fmt.unitName(u), dims: fmt.dimsText(u), volume: u.volume, gone: u.status !== 'available' };
+      return { id: u.id, store_id: u.store_id, store_name: s.name || '', name: fmt.unitName(u), code: u.code || '', dims: fmt.dimsText(u), volume: u.volume, gone: u.status !== 'available' };
     });
     return ok({ stores: ss, units: us });
   },

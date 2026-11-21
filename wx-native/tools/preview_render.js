@@ -337,5 +337,11 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['dg35_support', LD('support'), { scenario: 'member_active' }],
     ['dg36_lab', 'pkg-dev/lab/index', { scenario: 'member_active' }]
   ]) done.push(await shot(x[0], x[1], x[2]).catch((e) => { console.error('DG FAIL', x[0], e && e.message); return ''; }));
+  // IMPL-01：外部出图清单。PV_LIST=<js 文件绝对路径>，该文件 module.exports = (h) => [[名称, 页面路径, 选项], …]，
+  // h = { api, pick, st, AF, AC, LD, OD, ft, wait, state }。各域各用各的清单文件，不用都来改这里。
+  if (process.env.PV_LIST) {
+    const list = require(path.resolve(process.env.PV_LIST))({ api, pick, st, AF, AC, LD, OD, ft, wait, state });
+    for (const x of list) done.push(await shot(x[0], x[1], x[2] || {}).catch((e) => { console.error('PV_LIST FAIL', x[0], e && e.message); return ''; }));
+  }
   console.log(done.join(' '));
 })();

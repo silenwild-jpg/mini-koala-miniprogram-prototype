@@ -59,9 +59,9 @@ test('D-08 / E-09：看仓记录单独一套 —— 门店名、看仓时间、�
   const v = pg.data.list.find((x) => x.id === rec.id), t = pg.data.list.find((x) => x.id === tbd.id);
   assert.equal(v.visit, true); assert.equal(v.title, '预约看仓'); assert.equal(v.status, '已提交，待门店电话确认');
   assert.equal(v.loc, rec.store_name, '第一行是门店名'); assert.equal(v.detail, '看仓时间 ' + dayStr(2) + ' · 下午');
-  assert.ok(v.note.indexOf(rec.address) === 0, '门店地址放在说明行'); assert.match(v.note, /138\*\*\*\*8000$/);
+  assert.equal(v.addr, rec.address, '门店地址紧跟在门店名下面（IMPL-01：不再和容量、手机号串成一行）'); assert.equal(v.phone, '138****8000'); assert.equal(v.note, '');
   assert.ok(!/待补充/.test(JSON.stringify(v)), '不显示「容量待补充 · 租期待补充」');
-  assert.equal(t.detail, '看仓时间 待电话确认'); assert.match(t.note, /意向容量 3\.5m³/);
+  assert.equal(t.detail, '看仓时间 待电话确认'); assert.equal(t.extra, '意向容量 3.5m³');
   assert.ok(!/预约看仓|待电话确认/.test(read('pkg-account/needs/index.js').replace(/^\/\/.*$/gm, '')), '标题和时段不再写死在页面代码里');
   // 操作：页面上只有撤回；点修改无效；接口也拒绝
   const wxml = read('pkg-account/needs/index.wxml');
@@ -171,11 +171,11 @@ test('D-09：收藏页的失效条目可以移除，角标跟着减；有效条�
   state.set('favorites', { stores: ['SIM_BJ01', 'SIM_BJ05'], units: ['SIM_BJ02_U03', 'SIM_BJ01_U02'] }); // SIM_BJ05 暂停营业；SIM_BJ01_U02 已租出
   const pg = await page('FAVORITES');
   assert.equal(rules.favCount(state.get().favorites), 4);
-  pg.onRemove(tap({ kind: 'stores', id: 'SIM_BJ01' })); await tick(30);
+  await pg.onRemove(tap({ kind: 'stores', id: 'SIM_BJ01' }));
   assert.equal(state.get().favorites.stores.length, 2, '营业中的门店不在本页移除');
-  pg.onRemove(tap({ kind: 'stores', id: 'SIM_BJ05' })); await tick(30);
+  await pg.onRemove(tap({ kind: 'stores', id: 'SIM_BJ05' })); // IMPL-01：条目先淡出再从列表拿掉，onRemove 返回的 Promise 在列表刷新后完成
   assert.deepEqual(state.get().favorites.stores, ['SIM_BJ01']); assert.deepEqual(pg.data.stores.map((s) => s.id), ['SIM_BJ01']);
-  pg.onRemove(tap({ kind: 'units', id: 'SIM_BJ01_U02' })); await tick(30);
+  await pg.onRemove(tap({ kind: 'units', id: 'SIM_BJ01_U02' }));
   assert.deepEqual(state.get().favorites.units, ['SIM_BJ02_U03']); assert.equal(rules.favCount(state.get().favorites), 2);
   assert.ok(toasts.includes('已移除'));
   const wxml = read('pkg-account/favorites/index.wxml');

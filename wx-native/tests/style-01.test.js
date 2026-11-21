@@ -14,13 +14,11 @@ const tick = (ms) => new Promise((r) => setTimeout(r, ms || 15));
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const home = async (layout) => { state.reset(); if (layout) Object.assign(getApp().globalData.layout, layout); const pg = env.newPage('pages/home/index', {}); await tick(40); return pg; };
 
-test('首图高度：屏高 25%，夹在 190–230；顶栏加标语放不下时按内容撑高', async () => {
+test('顶部底带高度：状态栏 + 顶栏 + 往下延伸一段（IMPL-01：原首图与标语区撤掉，标语进第一张轮播）', async () => {
   const L0 = Object.assign({}, getApp().globalData.layout);
   try {
-    assert.equal((await home({ statusBar: 20, navHeight: 44, windowHeight: 667 })).data.heroHeight, 190);
-    assert.equal((await home({ statusBar: 47, navHeight: 44, windowHeight: 844 })).data.heroHeight, 211);
-    assert.equal((await home({ statusBar: 47, navHeight: 44, windowHeight: 1000 })).data.heroHeight, 230);
-    assert.equal((await home({ statusBar: 59, navHeight: 48, windowHeight: 667 })).data.heroHeight, 59 + 48 + CF.hero.sloganMin);
+    assert.equal((await home({ statusBar: 20, navHeight: 44, windowHeight: 667 })).data.heroHeight, 20 + 44 + CF.hero.backdrop);
+    assert.equal((await home({ statusBar: 59, navHeight: 48, windowHeight: 1000 })).data.heroHeight, 59 + 48 + CF.hero.backdrop, '不再随屏高变化');
   } finally { Object.assign(getApp().globalData.layout, L0); }
 });
 
@@ -35,12 +33,12 @@ test('顶栏：在首图上透明，滚过阈值变实底，滚回恢复；阈�
   assert.match(read('pages/home/index.wxml'), /sys \|\| solid \? 'hm-top--solid'/); // 加载、失败、断网时不出首图，顶栏保持实底
 });
 
-test('场景图：与六个场景文案一一对应，文件都在包里', () => {
-  assert.equal(T.home.sceneImages.length, T.home.sceneList.length);
-  assert.equal(new Set(T.home.sceneImages).size, 6);
-  for (const n of T.home.sceneImages) assert.ok(fs.existsSync(path.join(root, 'assets/images/home/scene-' + n + '.webp')), n);
-  assert.equal(T.home.sceneList[CF.moveSceneIndex], '搬家过渡'); assert.equal(T.home.sceneImages[CF.moveSceneIndex], 'moving');
-  for (const f of ['task-map.webp', 'task-calculator.webp']) assert.ok(fs.existsSync(path.join(root, 'assets/images/home', f)), f);
+test('场景图标：与六个场景文案一一对应，文件都在包里（IMPL-01：场景切图换成圆底线性图标，原 scene-*.webp / task-*.webp 已删）', () => {
+  assert.equal(CF.home.sceneIcons.length, T.home.sceneList.length);
+  assert.equal(new Set(CF.home.sceneIcons).size, 6);
+  for (const n of CF.home.sceneIcons) assert.ok(fs.existsSync(path.join(root, 'assets/icons/' + n + '.svg')), n);
+  assert.equal(T.home.sceneList[CF.moveSceneIndex], '搬家过渡'); assert.equal(CF.home.sceneIcons[CF.moveSceneIndex], 'scenemove-brand');
+  assert.ok(!fs.readdirSync(path.join(root, 'assets/images/home')).some((f) => /^(scene|task)-/.test(f)));
   assert.ok(fs.existsSync(path.join(root, 'assets/images/stores/SIM-BJ03/hero.webp')));
 });
 

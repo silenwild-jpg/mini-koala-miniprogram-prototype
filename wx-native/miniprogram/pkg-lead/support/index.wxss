@@ -1,6 +1,7 @@
 @import "../lead.wxss";
 /* 联系顾问：本页特有的部分 */
-.lsp-top { padding-top: var(--mk-space-3); }
+.lsp-top { padding-top: var(--mk-space-3); padding-bottom: var(--mk-space-3); }
+.ldf-secs > .mk-sec:first-child { border-top: 0; }
 .lsp-gap { margin-top: var(--mk-space-cardGap); }
 .lsp-act { flex: 1; min-width: 0; }
 .mk-btn.mk-btn.lsp-act--r { margin-left: var(--mk-space-3); }

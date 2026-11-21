@@ -1,8 +1,9 @@
-<view class="afk-list">
+<view class="afk-list {{rows.length > 2 ? 'afk-list--lined' : ''}}">
   <view wx:for="{{rows}}" wx:key="k" class="afk-row {{item.long ? 'afk-row--long' : ''}}">
     <text class="afk-k">{{item.k}}</text>
     <view class="afk-v {{item.soft ? 'afk-v--soft' : ''}} {{item.strong ? 'afk-v--strong' : ''}}">
       <text>{{item.v}}</text>
+      <text wx:if="{{item.sub}}" class="afk-sub mk-num {{item.subWarn ? 'afk-sub--warn' : ''}}">{{item.sub}}</text>
       <text wx:if="{{item.link}}" class="mk-link afk-link" data-key="{{item.key}}" bindtap="onLink" aria-role="link">{{item.link}}</text>
     </view>
   </view>

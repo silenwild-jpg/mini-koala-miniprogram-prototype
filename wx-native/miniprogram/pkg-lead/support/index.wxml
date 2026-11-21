@@ -1,39 +1,39 @@
-<view class="mk-page {{saved ? '' : 'ldf-page'}}">
+<view class="mk-page mk-page--plain {{saved ? '' : 'ldf-page'}}">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
-  <view wx:else class="mk-gutter lsp-top">
+  <view wx:else class="ldf-secs">
     <block wx:if="{{saved}}">
-      <lead-ack in-hours="{{inHours}}">
+      <view class="mk-gutter"><lead-ack in-hours="{{inHours}}">
         <button class="mk-btn mk-btn--plain mk-btn--md lsp-act" hover-class="mk-btn--plainHover" bindtap="onMine">{{T.c.backMine}}</button>
         <button class="mk-btn mk-btn--md lsp-act lsp-act--r" hover-class="mk-btn--hover" bindtap="onNext">{{nextBtn}}</button>
-      </lead-ack>
-      <view class="mk-card lsp-gap">
-        <text class="ldf-sectitle">{{T.p.savedTitle}}</text>
+      </lead-ack></view>
+      <view class="mk-sec mk-fade-in mk-fade-in--d2">
+        <view class="mk-sec__hd">{{T.p.savedTitle}}</view>
         <view class="ldf-kv ldf-kv--last"><text class="ldf-k">{{T.p.type}}</text><text class="ldf-v">{{saved.typeText}}</text></view>
         <text class="mk-sub lsp-saved">{{saved.text}}</text>
       </view>
     </block>
-    <mk-order-card wx:if="{{order && !saved}}" order="{{order}}" />
-    <view class="mk-card lsp-gap">
-      <text class="ldf-sectitle">{{T.p.direct}}</text>
+    <view wx:if="{{order && !saved}}" class="mk-gutter lsp-top"><mk-order-card order="{{order}}" /></view>
+    <view class="mk-sec">
+      <view class="mk-sec__hd">{{T.p.direct}}</view>
       <view class="mk-between">
         <view class="mk-grow"><text class="lsp-t">{{T.p.tel}}</text><text class="mk-sub lsp-s">{{T.ack.hoursNote}}</text></view>
         <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="mk-btn--ghostHover" bindtap="onCall" aria-label="拨打400客服电话"><image class="mk-icon lsp-ico" src="/assets/icons/phone-brand.svg" />{{T.p.call}}</button>
       </view>
     </view>
     <block wx:if="{{!saved}}">
-      <view class="mk-card lsp-gap">
-        <text class="ldf-sectitle">{{T.p.formTitle}}</text>
+      <view class="mk-sec">
+        <view class="mk-sec__hd">{{T.p.formTitle}}</view>
         <mk-field class="ldf-fld--first" label="{{T.p.type}}">
-        <view class="lsp-seg"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{types}}" wx:key="k" class="lsp-segcell {{item.on ? 'lsp-segcell--on' : ''}}" data-k="{{item.k}}" bindtap="onType" aria-role="button">{{item.t}}</view></view>
+        <view class="lsp-seg"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{types}}" wx:key="k" class="lsp-segcell ldf-seg-ease {{item.on ? 'lsp-segcell--on' : ''}}" data-k="{{item.k}}" bindtap="onType" aria-role="button">{{item.t}}</view></view>
         </mk-field>
         <mk-field label="{{T.p.text}}" error="{{errText}}" hint="{{T.ack.both}}">
         <view class="ldf-input ldf-input--tall {{errText ? 'ldf-input--err' : ''}}"><textarea class="ldf-area" value="{{text}}" maxlength="{{max}}" placeholder="{{T.p.textPh}}" placeholder-class="ldf-ph" bindinput="onText" /><text class="ldf-count">{{count}}</text></view>
         </mk-field>
       </view>
-      <view class="mk-card lsp-gap">
-        <text class="ldf-sectitle">{{T.p.others}}</text>
+      <view class="mk-sec">
+        <view class="mk-sec__hd">{{T.p.others}}</view>
         <mk-cell icon="/assets/icons/cal-ink.svg" title="{{T.p.personal}}" bindtap="onPersonal" />
-        <mk-cell icon="/assets/icons/building-ink.svg" title="{{T.p.enterprise}}" divider="{{true}}" bindtap="onEnterprise" />
+        <mk-cell icon="/assets/icons/building-ink.svg" title="{{T.p.enterprise}}" divider="{{false}}" bindtap="onEnterprise" />
       </view>
     </block>
   </view>

@@ -148,6 +148,6 @@ test('找仓与交易两域不再手写空态和提示条：统一用 mk-empty /
     assert.ok(!/class="[^"]*\b(mt-empty|sd-empty|sl-empty|cf-notice|ag-notice|cf-banner|cf-gone|qk-gone|mt-gone|sd-gone|od-note)\b/.test(read(f + '.wxml')), f);
     assert.ok(!/\.(mt-empty|sd-empty|sl-empty|cf-notice|ag-notice|cf-banner|cf-gone|qk-gone|mt-gone|sd-gone|od-note)\b/.test(read(f + '.wxss')), f + '.wxss');
   }
-  assert.equal((read('pages/store/detail.wxml').match(/<mk-empty/g) || []).length, 3);
+  assert.equal((read('pages/store/detail.wxml').match(/<mk-empty/g) || []).length, 2); // IMPL-01 M-12：无匹配空态压成一行提示，剩交顾问、无可租两处
   assert.equal((read('pkg-trade/confirm/index.wxml').match(/<mk-notice/g) || []).length, 4); // FIX-01 B-06 加「您有一笔待支付订单」提示条
 });

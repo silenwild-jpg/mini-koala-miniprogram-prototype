@@ -182,8 +182,10 @@ test('门店详情页：页签、收藏、重新匹配、导航与电话、仓�
   assert.deepEqual(pg.onShareAppMessage(), { title: '安贞·富仁名苑店', path: routes.STORE_DETAIL + '?id=SIM_BJ01', imageUrl: '/assets/images/stores/SIM-BJ01/hero.webp' });
   // 服务设施与到店指引：安贞店带演示档案
   pg.onTab(tap({ i: 1 })); assert.equal(pg.data.tab, 1);
-  assert.deepEqual(pg.data.svc.map((x) => x.title), ['存取与安防', '仓内环境', '到店与搬运']);
-  assert.equal(pg.data.svc[0].rows[1].v, '一键开锁（暂未开通），租后在「我的仓位」操作');
+  // IMPL-01：服务设施改成图标加文字的宫格，第一格是存取时间（到店资料单独取，这里等它回来再看，免得偶发读到档案回来之前的样子）
+  await pg.loadArrival();
+  assert.deepEqual(pg.data.svc.map((x) => x.k), ['存取时间', '电梯直达', '控温防潮', '全天监控', '一键开锁', '免费推车', '停车卸货', '近地铁']);
+  assert.deepEqual([pg.data.svc[0].v, pg.data.svc[4].v], ['09:00-21:00', '暂未开通']);
   pg.onSeeRoute(); assert.equal(pg.data.tab, 2);
   assert.equal(pg.data.route.mapNote, '仓区在 28 号楼 B1 层，步行与车辆入口不同'); assert.equal(pg.data.route.entry[3].key, true, '通行限制在到店指引里');
   // 导航：两个入口 → 先选入口，再打开地图（gcj02 坐标）
@@ -208,7 +210,7 @@ test('门店详情页：页签、收藏、重新匹配、导航与电话、仓�
   fresh(null, false); pg = env.newPage('pages/store/detail', { id: 'SIM_BJ02', tab: '2' }); await pg.refresh(); await pg.loadArrival();
   assert.equal(pg.data.tab, 2); assert.equal(pg.data.route.entry.length + pg.data.route.steps.length + pg.data.route.transit.length, 0);
   assert.equal(pg.data.route.askText, '停车、卸货和进仓路径可向门店确认'); assert.deepEqual(pg.data.route.pins, ['门店位置']);
-  assert.deepEqual(pg.data.svc.map((x) => x.title), ['存取与安防', '到店与搬运']); assert.deepEqual(pg.data.svc[1].rows.map((r) => [r.k, r.v]), [['停车便利', ''], ['小推车', '']]);
+  assert.deepEqual(pg.data.svc.map((x) => [x.k, x.v]), [['存取时间', '08:00-23:00'], ['停车便利', ''], ['小推车', ''], ['一键开锁', '暂未开通']]); // 没有补全档案：只列门店数据里有的项
   assert.equal(pg.data.headPrice, 71); assert.equal(pg.data.rows[0].cta, '立即下单');
   env.nav.length = 0; pg.onAction(tap({ list: 'rows', i: 0 })); assert.equal(pg.data.loginVisible, true, '未登录点立即下单在当前页打开登录层'); assert.equal(env.nav.length, 0);
   // 其它演示档案：字段缺的行不显示
@@ -238,8 +240,8 @@ test('附近门店页：前 2 家标准卡、第 3 位考拉E存卡、其余紧�
   // 服务面板（R-17）：「特价仓」「免费运输」并入「优惠」一组，与服务设施一起点「确定」生效
   pg.onSheet(tap({ k: 'services' })); assert.deepEqual(pg.data.offerOptions.map((o) => [o.t, o.on]), [['特价仓', false], ['免费运输', false]]); assert.ok(pg.data.svcOptions.length > 0 && pg.data.svcOptions.every((o) => o.t !== '特价仓'));
   pg.onOfferOption(tap({ k: 'promo' })); assert.equal(pg.data.promo, false, '没点确定不生效'); pg.onSheetConfirm(); await tick();
-  assert.equal(pg.data.promo, true); assert.equal(pg.data.svcLabel, '服务 · 1'); assert.equal(pg.data.svcOn, true); assert.ok(pg.data.items.filter((x) => x.type === 'store').every((x) => x.card.promo || x.card.operating === '特价仓'));
-  pg.onSheet(tap({ k: 'services' })); pg.onSvcClear(); pg.onSheetConfirm(); await tick(); assert.equal(pg.data.promo, false); assert.equal(pg.data.svcLabel, '服务');
+  assert.equal(pg.data.promo, true); assert.deepEqual([pg.data.svcLabel, pg.data.svcN], ['服务', 1], 'IMPL-01：已选数量单独成数字角标'); assert.equal(pg.data.svcOn, true); assert.ok(pg.data.items.filter((x) => x.type === 'store').every((x) => x.card.promo || x.card.operating === '特价仓'));
+  pg.onSheet(tap({ k: 'services' })); pg.onSvcClear(); pg.onSheetConfirm(); await tick(); assert.equal(pg.data.promo, false); assert.deepEqual([pg.data.svcLabel, pg.data.svcN], ['服务', 0]);
   // 没有用仓位置（未定位、只到城市）：卡片不显示公里数；按距离筛选先打开用仓位置面板，不直接生效（A-04）
   state.patch('location', { status: 'unasked' }); await pg.refresh();
   assert.ok(pg.data.items.filter((x) => x.type === 'store').every((x) => x.card.kmText === '' && x.card.tags.every((t) => t.t !== '满6个月免费运输')));
@@ -248,7 +250,7 @@ test('附近门店页：前 2 家标准卡、第 3 位考拉E存卡、其余紧�
   pg.onSheet(tap({ k: 'services' })); pg.onOfferOption(tap({ k: 'freeTransport' })); pg.onSheetConfirm(); await tick();
   assert.equal(pg.data.freeTransport, false); assert.equal(pg.data.panel, true); assert.equal(pg.data.panelNote, '免费运输按用仓位置到门店的距离判断，请先选择用仓位置。');
   state.setLocation({ kind: 'district', label: '朝阳区' }); pg.onLocationChange(); await tick();
-  assert.equal(pg.data.freeTransport, true); assert.equal(pg.data.cityText, '朝阳区'); assert.equal(pg.data.svcLabel, '服务 · 1');
+  assert.equal(pg.data.freeTransport, true); assert.equal(pg.data.cityText, '朝阳区'); assert.deepEqual([pg.data.svcLabel, pg.data.svcN], ['服务', 1]);
   const markup = require('fs').readFileSync(path.join(root, 'pages/stores/index.wxml'), 'utf8'); assert.ok(!/mk-sheet visible=|onFilterPromo|onFilterFree|T\.stores\.total/.test(markup), '筛选不再用底部弹层，也没有单独的快捷项');
   assert.ok(pg.data.items.filter((x) => x.type === 'store').every((x) => x.card.km >= 5 && x.card.district === '朝阳区'));
   // 30m³ 及以上：不出列表
@@ -352,14 +354,14 @@ test('用仓位置面板：城市 / 区域 / 商圈带门店数；搜索分两�
   fresh(null, false); const c = env.newComponent('components/mk-location-panel/index', {}); c.setData({ visible: true }); await tick();
   assert.deepEqual(c.data.cities.map((x) => x.name), ['北京', '上海', '杭州', '广州', '深圳']); assert.equal(c.data.cities[0].on, true);
   assert.deepEqual(c.data.districts.slice(0, 2), [{ name: '朝阳区', count: 9, on: false }, { name: '西城区', count: 4, on: false }]);
-  assert.equal(c.data.areas.length, CF.panel.areaChipsDefault); assert.equal(c.data.areaMore, '全部 24 个商圈'); assert.equal(c.data.byDistrict, '北京 · 按区域');
+  assert.equal(c.data.areas.length, CF.panel.areaChipsDefault); assert.equal(c.data.areaMore, '全部 24 个商圈'); assert.equal(c.data.byDistrict, '按区域');
   c.onAllAreas(); assert.equal(c.data.areas.length, 24); assert.equal(c.data.areaMore, '');
   assert.deepEqual([c.data.located, c.data.locateAction], [false, '开启']);
   c.onInput({ detail: { value: '望京' } });
-  assert.deepEqual(c.data.resAreas.map((x) => [x.name, x.sub]), [['望京', '商圈 · 2 家门店']]); assert.deepEqual(c.data.resStores.map((x) => x.name).sort(), ['望京·朝庭公寓店', '望京3号院店'].sort());
-  c.onInput({ detail: { value: '朝阳' } }); assert.deepEqual(c.data.resAreas.map((x) => [x.kind, x.sub]), [['district', '区域 · 9 家门店']]); assert.equal(c.data.resStores.length, CF.panel.searchStoreMax);
+  assert.deepEqual(c.data.resAreas.map((x) => [x.name, x.tag, x.sub]), [['望京', '商圈', '2 家门店']]); assert.deepEqual(c.data.resStores.map((x) => x.name).sort(), ['望京·朝庭公寓店', '望京3号院店'].sort());
+  c.onInput({ detail: { value: '朝阳' } }); assert.deepEqual(c.data.resAreas.map((x) => [x.kind, x.tag, x.sub]), [['district', '区域', '9 家门店']]); assert.equal(c.data.resStores.length, CF.panel.searchStoreMax);
   c.onInput({ detail: { value: '天通苑' } });
-  assert.deepEqual([c.data.none, c.data.noneTitle, c.data.noneAreas.length, c.data.noneAreasTitle], [true, '没有找到「天通苑」相关的门店或商圈', 8, '北京 · 有门店的商圈']);
+  assert.deepEqual([c.data.none, c.data.noneTitle, c.data.noneAreas.length, c.data.noneAreasTitle], [true, '没有找到「天通苑」相关的门店或商圈', 8, '北京有门店的商圈']);
   env.nav.length = 0; c.onEstore(); c.onLeave(); assert.deepEqual(env.nav.map((x) => x.url), [routes.ESTORE, routes.BOOKING + '?mode=advisor']);
   c.onClearQuery(); assert.equal(c.data.searching, false);
   c.events.length = 0; c.onPick(tap({ kind: 'area', name: '望京' }));

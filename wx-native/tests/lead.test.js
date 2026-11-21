@@ -155,7 +155,7 @@ test('企业页：两步提交，线索存区间容量与其他用仓区域；�
   pg.onLocation(input('北京市朝阳区安贞西里三区 12 号楼')); pg.onAreasOpen(); pg.onArea(tapI(4)); pg.onArea(tapI(3));
   assert.equal(pg.data.areasNote, '已选 2 个区域，顾问会按这些区域一并安排方案。');
   pg.onBand({ currentTarget: { dataset: { k: '5-15' } } }); pg.onTerm({ detail: { months: 12 } }); pg.onType(tapI(0)); pg.onType(tapI(1)); pg.onNext();
-  assert.equal(pg.data.step, 2); assert.equal(pg.data.sumText, '5–15m³ · 12个月 · 库存、样品'); assert.equal(pg.data.areaSum, '其他区域：海淀区、丰台区'); assert.equal(pg.data.primary, '邀请顾问协助');
+  assert.equal(pg.data.step, 2); assert.equal(pg.data.sumText, '5–15m³ · 12个月'); assert.equal(pg.data.typeSum, '库存、样品'); // IMPL-01：物品类型另起一行 assert.equal(pg.data.areaSum, '其他区域：海淀区、丰台区'); assert.equal(pg.data.primary, '邀请顾问协助');
   pg.onName(input('王经理')); pg.onCompany(input('安贞商贸有限公司')); await pg.onSubmit(); await tick();
   assert.equal(db.leads.length, 1); const l = db.leads[0];
   assert.equal(l.type, 'enterprise'); assert.equal(l.capacity_band, '5–15m³'); assert.equal(l.capacity_m3, null); assert.deepEqual(l.other_areas, ['海淀区', '丰台区']);
@@ -183,8 +183,8 @@ test('预约记录：列表、修改地址与备注、撤回；撤回后不能�
   const pg = env.newPage(base(routes.NEEDS), {}); await tick();
   assert.equal(pg.data.list.length, 2, '运输预约与咨询不进预约记录'); assert.equal(pg.data.active, true);
   const [e, p] = pg.data.list; // 新的在前
-  assert.equal(e.title, '企业用仓需求'); assert.equal(e.detail, '5–15m³ · 12个月 · 138****8000'); assert.equal(e.status, '已提交，待顾问联系');
-  assert.equal(p.title, '个人用仓需求'); assert.equal(p.detail, '3.5m³ · 6个月 · 138****8000'); assert.equal(p.note, '备注：周末搬入，需协助搬运');
+  assert.equal(e.title, '企业用仓需求'); assert.equal(e.detail, '5–15m³ · 12个月'); assert.equal(e.phone, '138****8000'); // IMPL-01：联系电话单独一行 assert.equal(e.status, '已提交，待顾问联系');
+  assert.equal(p.title, '个人用仓需求'); assert.equal(p.detail, '3.5m³ · 6个月'); assert.equal(p.phone, '138****8000'); assert.equal(p.note, '备注：周末搬入，需协助搬运');
   const on = (id) => ({ currentTarget: { dataset: { id } } });
   pg.onEdit(on(p.id)); assert.equal(pg.data.sheet, 'edit'); pg.onEditAddress(input('')); await pg.onSave(); await tick(); assert.equal(pg.data.editErr, '请填写用仓位置（不超过120字）');
   pg.onEditAddress(input('北京市朝阳区望京')); pg.onEditNote(input('改到周日')); await pg.onSave(); await tick();
@@ -203,7 +203,7 @@ test('运输与搬运：下单前可预约；校验地址、日期、手机号�
   pg.onSubmit(); assert.equal(pg.data.errAddress, '请填写取送地址'); assert.equal(pg.data.errDate, '请选择有效的运输日期'); assert.equal(pg.data.errPhone, '请填写有效联系电话');
   pg.onAddress(input('北京市朝阳区望京西园四区')); pg.onDate(input('2020-01-01')); pg.onPhone(input('13800138000')); pg.onSubmit(); assert.equal(pg.data.errDate, '请选择有效的运输日期');
   const d = lead.dateStr(Date.now() + lead.DAY); pg.onDate(input(d)); await pg.onSubmit(); await tick();
-  assert.equal(pg.data.view, 'saved'); assert.equal(pg.data.saved.sub, d + ' · 138****8000'); assert.equal(db.leads[0].type, 'transport'); assert.equal(db.leads[0].order_id, '');
+  assert.equal(pg.data.view, 'saved'); assert.deepEqual([pg.data.saved.date, pg.data.saved.phone], [d, '138****8000']); // IMPL-01：日期与联系电话分两行 assert.equal(db.leads[0].type, 'transport'); assert.equal(db.leads[0].order_id, '');
   fresh(null, true); pg = env.newPage(base(routes.TRANSPORT), {}); await tick();
   if (C.DEMO_SEED_ORDERS) {
     assert.equal(pg.data.view, 'pick'); assert.ok(pg.data.orders.length >= 1);

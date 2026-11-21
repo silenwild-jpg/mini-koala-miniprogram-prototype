@@ -1,43 +1,54 @@
-.qk-page { padding-bottom: calc(220rpx + env(safe-area-inset-bottom)); }
+/* IMPL-01：门店卡与仓位卡合并、租期卡与日期卡合并（M-22）；预计费用并入底栏（M-21）；起租说明、单价算式、存取时间放在日期卡下方小字。卡内不画分割线。 */
+.qk-page { padding-bottom: calc(260rpx + env(safe-area-inset-bottom)); }
 .qk-steps { display: flex; align-items: center; justify-content: center; padding: var(--mk-space-3) var(--mk-space-pageGutter); }
 .qk-step { display: flex; align-items: center; font-size: var(--mk-font-size-sm); }
 .qk-stepn { width: 40rpx; height: 40rpx; margin-right: var(--mk-space-1); border-radius: 50%; border: var(--mk-border-strong); color: var(--mk-color-ink-secondary); display: flex; align-items: center; justify-content: center; font-size: var(--mk-font-size-xs); box-sizing: border-box; }
 .qk-stepn--on { background: var(--mk-color-action-primaryFill); border: 1px solid var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); }
 .qk-stept--on { font-weight: var(--mk-font-weight-medium); }
 .qk-stepline { width: 56rpx; height: 1px; background: var(--mk-color-line-strong); margin: 0 var(--mk-space-2); }
-.qk-ct { display: flex; align-items: center; margin-bottom: var(--mk-space-2); }
+.qk-ct { display: flex; align-items: center; margin-bottom: var(--mk-space-1); }
 .qk-ctt { margin-left: var(--mk-space-2); }
-.qk-loc { min-height: 88rpx; border-top: var(--mk-border-hairline); }
+.qk-loc { min-height: 80rpx; }
 .qk-change { margin-left: var(--mk-space-2); }
-.qk-pick { display: flex; align-items: center; padding-top: var(--mk-space-2); min-height: 128rpx; }
-.qk-pick--plain { align-items: flex-start; }
+.qk-pick { display: flex; align-items: center; padding: var(--mk-space-1) 0; min-height: 128rpx; }
+.qk-main { min-width: 0; }
 .qk-ph { width: 128rpx; height: 128rpx; border-radius: var(--mk-radius-thumb); background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; flex: none; margin-right: var(--mk-space-3); }
+.qk-ph--sm { width: 96rpx; height: 96rpx; background: var(--mk-color-canvas-card); }
 .qk-hint { color: var(--mk-color-ink-hint); }
 .qk-line2 { margin-top: 8rpx; }
+.qk-meta { display: flex; align-items: center; margin-top: 8rpx; }
+.qk-pin { flex: none; margin-right: 6rpx; }
+.qk-km { flex: none; margin-right: 12rpx; font-size: var(--mk-font-size-sm); white-space: nowrap; }
 .qk-detail { margin-top: 4rpx; min-height: 56rpx; display: inline-flex; align-items: center; }
-.qk-carried { margin-top: var(--mk-space-2); }
+.qk-carried { margin-top: var(--mk-space-1); }
+.qk-unit { display: flex; align-items: center; margin-top: var(--mk-space-2); padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
+.qk-unitline { display: flex; align-items: center; flex-wrap: wrap; }
+.qk-no { margin-right: var(--mk-space-2); }
+.qk-vol { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); }
 .qk-from { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); }
-.qk-swap { min-height: 64rpx; padding-left: var(--mk-space-3); display: flex; align-items: center; white-space: nowrap; }
+.qk-swap { flex: none; min-height: 64rpx; padding-left: var(--mk-space-3); display: flex; align-items: center; white-space: nowrap; border-radius: var(--mk-radius-control); }
+.qk-term { padding-top: var(--mk-space-3); }
+.qk-datelabel { margin: var(--mk-space-4) 0 var(--mk-space-2); }
 .qk-date { display: flex; align-items: center; justify-content: space-between; height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); box-sizing: border-box; }
-.qk-est { display: flex; align-items: flex-start; }
-.qk-estrow { display: flex; align-items: center; margin: 4rpx 0; }
-.qk-estamt { font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-bold); }
-.qk-esttag { margin-left: var(--mk-space-2); }
-.qk-access { margin-top: var(--mk-space-2); }
-.qk-accessline { padding: var(--mk-space-3) 4rpx; }
-.qk-fees { flex: none; min-height: 64rpx; display: flex; align-items: center; white-space: nowrap; }
+.qk-notes { padding: var(--mk-space-2) 4rpx 0; }
+.qk-noteline { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); line-height: var(--mk-font-lineHeight-loose); }
 .qk-bar { display: flex; align-items: center; }
-.qk-baramt { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); }
+.qk-barinfo { min-width: 0; border-radius: var(--mk-radius-control); }
+.qk-barlabel { display: flex; align-items: center; }
+.qk-barterm { margin-left: var(--mk-space-1); }
+.qk-baramtrow { display: flex; align-items: center; }
+.qk-baramt { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); }
 .qk-baramt--muted { font-size: var(--mk-font-size-lg); color: var(--mk-color-ink-secondary); }
+.qk-esttag { margin-left: var(--mk-space-2); margin-right: 0; }
+.qk-fees { display: inline-flex; align-items: center; font-size: var(--mk-font-size-xs); }
 .mk-btn.mk-btn.qk-next { flex: none; min-width: 320rpx; margin-left: var(--mk-space-3); }
-.qk-opt { display: flex; align-items: center; min-height: 112rpx; border-bottom: var(--mk-border-hairline); }
-.qk-opt--on { color: var(--mk-color-brand-text); }
+.qk-opt { display: flex; align-items: center; min-height: 112rpx; padding: var(--mk-space-1) 0; box-sizing: border-box; }
+.qk-opt + .qk-opt { border-top: var(--mk-border-hairline); }
+.qk-opt--on .qk-optn { color: var(--mk-color-brand-text); }
 .qk-optn { font-weight: var(--mk-font-weight-medium); }
 .qk-optp { flex: none; margin: 0 var(--mk-space-2); text-align: right; }
-.qk-tier { margin-left: var(--mk-space-2); }
+.qk-tier { margin-left: var(--mk-space-2); margin-right: 0; }
 .qk-none { padding: var(--mk-space-4) 0; }
 .qk-know { margin-top: var(--mk-space-3); }
-.qk-optp .mk-mute, .qk-carried, .qk-access, .qk-accessline, .qk-bar .mk-mute { color:var(--mk-color-ink-secondary); }
-.qk-datenote { margin-top: var(--mk-space-2); color: var(--mk-color-ink-secondary); }
-
+.qk-optp .mk-mute, .qk-carried, .qk-bar .mk-mute { color: var(--mk-color-ink-secondary); }
 .qk-img { display: block; background: var(--mk-color-canvas-sunken); }

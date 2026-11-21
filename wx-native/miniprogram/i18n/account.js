@@ -23,7 +23,7 @@ module.exports = {
   },
   favorites: {
     empty: '暂无收藏，可在门店详情收藏', findStores: '找附近门店', stores: '门店', units: '仓位',
-    storeGone: '暂停营业', storeGoneSub: '可查看附近其他门店', unitGone: '已租出', unitGoneSub: ' · 可看同店其他仓位',
+    storeGone: '暂停营业', storeGoneSub: '可查看附近其他门店', unitGone: '已租出', unitGoneSub: '可看同店其他仓位', // IMPL-01：失效说明单独一行，不再接在规格后面（去掉句首的分隔符）
     remove: '移除', removed: '已移除' // 自写（FIX-01 D-09）：失效条目可在本页移除
   },
   coupons: {
@@ -39,6 +39,7 @@ module.exports = {
     signedTitle: '我的迷你考拉', guestTitle: '欢迎使用迷你考拉', guestSub: '查看订单与用仓服务', signedSub: '已登录',
     section: '账户与联系方式', loginPhone: '登录手机号', notLoggedIn: '未登录', contactPhone: '联系手机号', contactEmpty: '未填写',
     editContact: '修改联系电话', changePhone: '更换登录手机号',
+    editShort: '修改', changeShort: '更换', // IMPL-01 M-36：两个动作并入字段行行尾后的短写（读屏仍念全称）
     noteSigned: '登录手机号验证一次后长期有效，更换时需短信验证。', noteGuest: '浏览门店无需登录；查看报价、预约和下单时登录即可。',
     privacySection: '账户与隐私', privacy: '隐私授权管理', deleteAccount: '注销账号', logout: '退出登录',
     contactSheet: { title: '填写联系电话', label: '手机号（支持国际区号）', placeholder: '请填写手机号', error: '请填写有效联系电话', save: '保存联系方式', saved: '联系方式已保存' }, // 自写：saved
@@ -117,7 +118,7 @@ module.exports = {
     },
     titles: {
       emptyTitle: '还没有开票抬头', emptySub: '添加后，申请发票和批量开票时可直接选择。', add: '添加抬头',
-      typeCompany: '企业', typePerson: '个人', defaultTag: '默认', taxPrefix: ' · 税号 ', emailPrefix: '接收邮箱 ', edit: '编辑', setDefault: '设为默认',
+      typeCompany: '企业', typePerson: '个人', defaultTag: '默认', taxPrefix: ' · 税号 ', taxLabel: '税号 ', emailPrefix: '接收邮箱 ', edit: '编辑', setDefault: '设为默认',
       formSection: '抬头信息', type: '抬头类型', name: '企业名称', namePh: '请输入企业名称', personName: '姓名', personNamePh: '请输入姓名', // 自写：个人抬头的「姓名」两项（冻结稿只画了企业类型的表单）
       tax: '纳税人识别号', taxPh: '请输入纳税人识别号', taxError: '请填写有效的纳税人识别号', email: '接收邮箱', emailPh: '用于接收电子发票', emailError: '请填写有效的邮箱', // 自写：emailError
       vatSection: '专票信息', bank: '开户银行', bankPh: '请输入开户银行', account: '银行账号', accountPh: '请输入银行账号', addr: '注册地址与电话', addrPh: '请输入注册地址与电话', vatFine: '需要专用发票时请填写本段。',
@@ -133,10 +134,10 @@ module.exports = {
       gate: { reviewing: { title: '企业认证审核中', sub: '认证通过后，可把多笔订单合并申请发票。', btn: '查看认证进度' }, failed: { title: '企业认证未通过', sub: '更正资料并通过认证后，可把多笔订单合并申请发票。', btn: '查看未通过原因' } },
       emptyTitle: '暂无可开票的订单', emptySub: '已付款且未开票的订单会出现在这里。',
       noticeTitle: '选择要合并开票的订单', noticeSub: '只列出已付款且未开票的订单。',
-      allPrefix: '全选（', allSuffix: ' 笔）', paidPrefix: ' · 付款 ', monthUnit: '个月',
+      allPrefix: '全选（', allSuffix: ' 笔）', paidPrefix: ' · 付款 ', monthUnit: '个月', paidLabel: '付款 ', orderNoLabel: '订单号 ', // IMPL-01：订单号、付款日分开写时的前缀
       selectedPrefix: '已选 ', selectedSuffix: ' 笔', needOne: '请至少选择 1 笔订单', next: '下一步：确认开票信息',
       titleSection: '开票抬头', change: '更换', noTitle: '添加开票抬头', taxId: '纳税人识别号', email: '接收邮箱', // 自写：noTitle（还没有抬头时这一行的文字）
-      contentPrefix: '开票内容（', contentSuffix: ' 笔）', rent: '租金 ', fee: ' · 管理费 ', contentFine: '本页列出租金与管理费；押金开票事宜请咨询客服。',
+      contentPrefix: '开票内容（', contentSuffix: ' 笔）', rent: '租金 ', fee: ' · 管理费 ', feeLabel: '管理费 ', contentFine: '本页列出租金与管理费；押金开票事宜请咨询客服。',
       amount: '开票金额', submit: '提交开票申请',
       head: {
         submitted: { title: '开票申请已提交', tag: '处理中', subPrefix: '开具后发送到 ' },

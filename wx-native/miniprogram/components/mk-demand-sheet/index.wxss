@@ -6,11 +6,14 @@
 .ds-unit { width: 88rpx; height: 64rpx; margin-left: var(--mk-space-2); display: flex; align-items: center; justify-content: center; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); }
 .ds-unit.ds-on { border: var(--mk-border-brand); background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
 .ds-line { display: block; margin-top: var(--mk-space-2); }
+.ds-line.mk-bump { display: block; }
+.ds-unit { transition: color var(--mk-motion-base) var(--mk-motion-easing), background-color var(--mk-motion-base) var(--mk-motion-easing), border-color var(--mk-motion-base) var(--mk-motion-easing); }
 .ds-est { min-height: 64rpx; display: flex; align-items: center; margin-top: var(--mk-space-1); }
 .ds-acts { display: flex; margin-top: var(--mk-space-5); }
 .ds-btn { flex: 1; }
 .ds-btn + .mk-btn.mk-btn.ds-btn { margin-left: var(--mk-space-2); }
 .ds-ways { margin-top: var(--mk-space-2); }
-.ds-way { min-height: 72rpx; padding: 0 var(--mk-space-3); margin-right: var(--mk-space-2); border: var(--mk-border-hairline); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-sm); }
+/* IMPL-01：弹层里的两个估算入口不再描边，用浅灰底块 */
+.ds-way { min-height: 72rpx; padding: 0 var(--mk-space-3); margin-right: var(--mk-space-2); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); font-size: var(--mk-font-size-sm); }
 .ds-wt { margin-left: var(--mk-space-1); }
 .ds-woff { margin-left: var(--mk-space-1); font-size: var(--mk-font-size-xs); }

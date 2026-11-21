@@ -38,3 +38,16 @@
 .ac-bar-need { display: block; margin-bottom: var(--mk-space-2); }
 .ac-amt { font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-semibold); }
 .ac-login { display: flex; flex-direction: column; align-items: center; padding-top: var(--mk-space-8); padding-bottom: var(--mk-space-6); }
+/* IMPL-01 去卡片化：账户各页白底（页面根节点 mk-page--plain），键值、说明、表单分组改成通栏小节（app.wxss mk-sec），小节之间 16rpx 浅灰分区带。
+   ac-secs = 小节序列（不带左右页边距，mk-sec 自带）；ac-pad = 小节之外的提示句、空态（带页边距）；ac-noline = 两行以内的键值组不画发丝线。 */
+.ac-secs--bar { padding-bottom: 280rpx; }
+.ac-secs .mk-sec__hd { margin-bottom: var(--mk-space-2); }
+.ac-pad { padding: var(--mk-space-3) var(--mk-space-pageGutter) 0; }
+.ac-pad + .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); }
+.ac-noline .ac-kv + .ac-kv { border-top: 0; }
+.ac-note { display: block; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
+/* 行尾操作（文字 + 箭头）：键值行里的明确入口 */
+.ac-tail { display: flex; align-items: center; flex: none; min-height: 64rpx; margin-left: var(--mk-space-3); padding-left: var(--mk-space-2); border-radius: var(--mk-radius-control); }
+/* 失效条目移除时的淡出（收藏页）；时长取 tokens */
+.ac-leave { opacity: 0; transform: translateY(-8rpx); transition: opacity var(--mk-motion-base) var(--mk-motion-easing), transform var(--mk-motion-base) var(--mk-motion-easing); }
+.ac-pad.ac-head { padding-bottom: var(--mk-space-4); }

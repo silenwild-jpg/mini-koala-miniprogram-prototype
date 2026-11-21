@@ -1,4 +1,4 @@
-<view class="mk-page">
+<view class="mk-page mk-page--plain">
   <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mn-head mk-gutter mk-row" bindtap="onHead" aria-role="button">
     <view class="mn-avatar"><image class="mk-icon mk-icon--md" src="/assets/icons/user-sub.svg" /></view>
     <view class="mk-grow">
@@ -11,31 +11,32 @@
   <view class="mk-gutter">
     <view class="mn-task"><mk-task-card id="task" /></view>
     <mk-need-card />
-    <view wx:if="{{showNew}}" class="mk-card mn-card mn-new">
+    <view wx:if="{{showNew}}" class="mk-card mn-card mn-new mk-fade-in">
       <text class="mn-kicker">{{T.mine.newCard.kicker}}</text>
       <text class="mk-title mn-block">{{T.mine.newCard.title}}</text>
       <button class="mk-btn mk-btn--md mn-cta" hover-class="mk-btn--hover" bindtap="onNewCta">{{T.mine.newCard.cta}}</button>
     </view>
   </view>
   <mk-sys-state wx:if="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
-  <view wx:else class="mk-gutter">
-    <view wx:if="{{assets.length}}" class="mk-card mn-card">
-      <view class="mk-between mn-gt">
-        <text class="mk-title">{{T.mine.assets.title}}</text>
+  <view wx:else class="mn-secs">
+    <view wx:if="{{assets.length}}" class="mk-sec">
+      <view class="mk-sec__hd">
+        <text>{{T.mine.assets.title}}</text>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{assetsAll}}" class="mk-row mn-all" bindtap="onAssetsAll" aria-role="button"><text class="mk-link">{{assetsAll}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
       </view>
-      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{assets}}" wx:key="id" class="mn-asset mk-row" data-id="{{item.id}}" bindtap="onAsset" aria-role="button">
+      <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" wx:for="{{assets}}" wx:key="id" class="mn-asset mk-row mk-press" data-id="{{item.id}}" bindtap="onAsset" aria-role="button">
         <view class="mk-grow">
           <view class="mk-row"><text class="mn-an mk-ellipsis">{{item.store}}</text><text class="mk-tag mk-tag--end mk-tag--{{item.tone}}">{{item.tag}}</text></view>
-          <text class="mk-sub mn-block">{{item.unit}}</text>
-          <text class="mk-mute mn-block">{{item.line}}</text>
+          <view wx:if="{{item.codes.length}}" class="mk-row mn-unit"><text wx:for="{{item.codes}}" wx:for-item="c" wx:key="*this" class="mk-unitno mn-no">{{c}}</text><text class="mk-num mn-vol">{{item.vol}}</text></view>
+          <text wx:else class="mk-sub mn-block mn-unit">{{item.unit}}</text>
+          <view class="mk-row mn-span"><text class="mn-term">{{item.term}}</text><text class="mk-sub mk-num">{{item.span}}</text></view>
         </view>
         <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
       </view>
     </view>
-    <view wx:for="{{groups}}" wx:key="key" class="mk-card mn-card">
-      <text class="mk-title mn-gt mn-block">{{item.title}}</text>
-      <mk-cell wx:for="{{item.items}}" wx:for-item="it" wx:for-index="ix" wx:key="k" icon="{{it.icon}}" title="{{it.t}}" value="{{it.s}}" badge="{{it.count || 0}}" divider="{{ix > 0}}" data-k="{{it.k}}" bindtap="onItem" />
+    <view wx:for="{{groups}}" wx:key="key" class="mk-sec">
+      <view class="mk-sec__hd">{{item.title}}</view>
+      <mk-cell wx:for="{{item.items}}" wx:for-item="it" wx:for-index="ix" wx:key="k" icon="{{it.icon}}" title="{{it.t}}" value="{{it.s}}" badge="{{it.count || 0}}" divider="{{ix > 0 && item.items.length > 2}}" inset="{{true}}" data-k="{{it.k}}" bindtap="onItem" />
     </view>
   </view>
   <view wx:if="{{demoLabel}}" class="mk-t-hint mn-demo" hover-class="mk-tap--hover" bindtap="onDemo" aria-role="button">{{demoLabel}}</view>

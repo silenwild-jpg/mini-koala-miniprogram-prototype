@@ -1,4 +1,4 @@
-<view wx:if="{{visible}}" class="lp-root" style="padding-top:{{safeTop}}px" catchtouchmove="noop" aria-role="dialog" aria-label="选择用仓位置">
+<view wx:if="{{show}}" class="lp-root {{open ? 'lp-root--on' : ''}}" style="padding-top:{{safeTop}}px" catchtouchmove="noop" aria-role="dialog" aria-label="选择用仓位置">
   <view class="lp-bar mk-row">
     <view class="lp-search mk-row mk-grow">
       <image class="mk-icon" src="/assets/icons/search-sub.svg" />
@@ -25,7 +25,7 @@
         <block wx:else>
           <block wx:if="{{resAreas.length}}">
             <text class="mk-sub lp-hd">{{T.groupArea}}</text>
-            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{resAreas}}" wx:key="key" class="lp-res mk-row" data-kind="{{item.kind}}" data-name="{{item.name}}" bindtap="onPick" aria-role="button"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><view class="mk-grow lp-rb"><text>{{item.name}}</text><text class="mk-sub">{{item.sub}}</text></view><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{resAreas}}" wx:key="key" class="lp-res mk-row" data-kind="{{item.kind}}" data-name="{{item.name}}" bindtap="onPick" aria-role="button"><image class="mk-icon" src="/assets/icons/pin-sub.svg" /><view class="mk-grow lp-rb"><view class="mk-row"><text>{{item.name}}</text><text class="mk-tag lp-kind">{{item.tag}}</text></view><text class="mk-sub">{{item.sub}}</text></view><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
           </block>
           <block wx:if="{{resStores.length}}">
             <text class="mk-sub lp-hd">{{T.groupStore}}</text>
@@ -45,15 +45,15 @@
         </block>
         <text wx:if="{{showMove}}" class="lp-note lp-note--soft">{{T.moveNote}}</text>
         <text class="mk-sub lp-hd">{{T.city}}</text>
-        <view class="lp-chips"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{cities}}" wx:key="name" class="mk-chip lp-c {{item.on ? 'mk-chip--on' : ''}}" data-city="{{item.name}}" bindtap="onCity" aria-role="button">{{item.name}}</view></view>
+        <view class="lp-chips"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{cities}}" wx:key="name" class="mk-chip lp-c mk-ease {{item.on ? 'mk-chip--on' : ''}}" data-city="{{item.name}}" bindtap="onCity" aria-role="button">{{item.name}}</view></view>
         <block wx:if="{{districts.length}}">
           <text class="mk-sub lp-hd">{{byDistrict}}</text>
-          <view class="lp-chips"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{districts}}" wx:key="name" class="mk-chip lp-c {{item.on ? 'mk-chip--on' : ''}}" data-kind="district" data-name="{{item.name}}" bindtap="onPick" aria-role="button">{{item.name}}<text class="lp-n">{{item.count}}</text></view></view>
+          <view class="lp-chips"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{districts}}" wx:key="name" class="mk-chip lp-c mk-ease {{item.on ? 'mk-chip--on' : ''}}" data-kind="district" data-name="{{item.name}}" bindtap="onPick" aria-role="button">{{item.name}}<text class="lp-n">{{item.count}}</text></view></view>
         </block>
         <block wx:if="{{areas.length}}">
           <text class="mk-sub lp-hd">{{byArea}}</text>
           <view class="lp-chips">
-            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{areas}}" wx:key="name" class="mk-chip lp-c {{item.on ? 'mk-chip--on' : ''}}" data-kind="area" data-name="{{item.name}}" bindtap="onPick" aria-role="button">{{item.name}}<text class="lp-n">{{item.count}}</text></view>
+            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{areas}}" wx:key="name" class="mk-chip lp-c mk-ease {{item.on ? 'mk-chip--on' : ''}}" data-kind="area" data-name="{{item.name}}" bindtap="onPick" aria-role="button">{{item.name}}<text class="lp-n">{{item.count}}</text></view>
             <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{areaMore}}" class="mk-chip lp-c lp-more" bindtap="onAllAreas" aria-role="button">{{areaMore}}</view>
           </view>
         </block>

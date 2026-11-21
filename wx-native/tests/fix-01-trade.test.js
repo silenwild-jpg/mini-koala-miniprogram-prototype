@@ -101,7 +101,7 @@ test('R-06 / B-04 特价仓「已省」= 原价整期 − 实付租金；费用�
   // 确认订单页底栏的「已省」与明细对得上
   fresh(); await verify();
   const pg = env.newPage('pkg-trade/confirm/index', { unit: U4, term: '6', date: START }); await tick();
-  assert.equal(pg.data.bar.saved, ' · 已省 ¥1,380'); assert.equal(372 + 1008, 1380); pg.onHide();
+  assert.equal(pg.data.bar.saved, '已省 ¥1,380'); assert.equal(372 + 1008, 1380); pg.onHide();
 });
 
 test('B-03 特价仓 + 有券：券弹层里置灰并写「特价仓不可用券」，金额不变（特价仓能否用券待业务裁定）', async () => {
@@ -129,7 +129,7 @@ test('B-12 券行分开写：租期不够「满 N 个月可用」、有券没用
   pg.onTerm({ detail: { months: 12 } }); await tick();
   assert.equal(pg.data.cardOrder.quote.coupon_discount, 300); assert.equal(pg.data.couponText, '');
   pg.onCoupon(); pg.onPickCoupon({ currentTarget: { dataset: { i: 1 } } }); pg.onCouponConfirm(); await tick();
-  assert.equal(pg.data.cardOrder.quote.coupon_discount, 0); assert.equal(pg.data.couponText, '未使用 · 有 1 张可用');
+  assert.equal(pg.data.cardOrder.quote.coupon_discount, 0); assert.equal(pg.data.couponText, '有 1 张可用'); // IMPL-01：券行右侧只写可用数量，不再用分隔符拼「未使用」
   pg.onHide();
   // 没有券：仍是「暂无适用优惠」
   fresh(); await verify();

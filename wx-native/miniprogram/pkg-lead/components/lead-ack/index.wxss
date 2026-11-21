@@ -1,4 +1,5 @@
-.lak-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
+/* IMPL-01：提交成功态不再包卡，居中直接落在白底上，进场淡入（mk-fade-in） */
+.lak-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--mk-space-5) 0 var(--mk-space-4); }
 .lak-pic { display: flex; align-items: center; justify-content: center; width: 112rpx; height: 112rpx; border-radius: 50%; background: var(--mk-color-brand-tint); margin: var(--mk-space-2) 0 var(--mk-space-3); }
 .lak-t { display: block; }
 .lak-m { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-md); }

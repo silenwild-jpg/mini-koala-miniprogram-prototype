@@ -1,15 +1,17 @@
-<view class="mk-page {{bar ? 'af-pad' : ''}}">
+<view class="mk-page mk-page--plain {{bar ? 'af-pad' : ''}}">
   <view wx:if="{{sys === 'loading'}}" class="af-body af-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/id-ink.svg" title="{{T.i.emptyTitle}}" sub="{{T.i.emptySub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.i.viewOrders}}</button>
   </mk-empty>
   <block wx:else>
-    <view class="af-body id-top">
+    <view class="af-body af-top id-top">
       <mk-notice wx:if="{{note}}" text="{{note}}" tone="{{noteTone}}" />
       <mk-order-card order="{{order}}" />
-      <view class="mk-card af-gap id-card">
-        <view class="mk-row id-headrow"><text class="mk-title id-title">{{T.i.title}}</text><mk-after-tag text="{{tag}}" tone="{{tone}}" /></view>
+    </view>
+    <view class="af-secs {{stFx}}">
+      <view class="mk-sec">
+        <view class="mk-sec__hd"><text class="mk-grow">{{T.i.title}}</text><view class="af-hd-tag"><mk-after-tag text="{{tag}}" tone="{{tone}}" /></view></view>
         <mk-after-steps steps="{{steps}}" />
       </view>
     </view>

@@ -1,12 +1,13 @@
 @import "../lead.wxss";
 /* 考拉E存：本页特有的部分 */
-.les-top { padding-top: var(--mk-space-3); }
+/* IMPL-01 去卡片化：四张说明卡改成通栏小节；对比两栏之间不画竖线，右栏（本服务）用浅灰底块；须知各项之间保留发丝线（多于两行，线与文字左缘对齐） */
+.les-top .mk-sec__hd { margin-bottom: var(--mk-space-2); }
 .les-kicker { display: block; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-sm); }
 .les-title { display: block; margin-top: var(--mk-space-1); }
 .les-lead { display: block; margin-top: var(--mk-space-1); font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
 .les-cmp { display: flex; }
 .les-col { flex: 1; min-width: 0; }
-.les-col--r { padding-left: var(--mk-space-3); margin-left: var(--mk-space-3); border-left: var(--mk-border-hairline); }
+.les-col--r { padding: var(--mk-space-3); margin-left: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
 .les-ct { display: block; margin-bottom: var(--mk-space-1); font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }
 .les-li { display: block; padding: 6rpx 0; }
 .les-btn { margin-top: var(--mk-space-2); }
@@ -17,7 +18,8 @@
 .les-stepbody { padding-bottom: var(--mk-space-3); }
 .les-st { display: block; font-size: var(--mk-font-size-md); }
 .les-ss { display: block; margin-top: 4rpx; }
-.les-info { padding: var(--mk-space-2) 0; border-bottom: var(--mk-border-hairline); }
+.les-info { padding: var(--mk-space-2) 0; }
+.les-info + .les-info { border-top: var(--mk-border-hairline); }
 .les-ik { display: block; }
 .les-iv { display: block; margin-top: 4rpx; font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
 .les-iv--mute { color: var(--mk-color-ink-secondary); }

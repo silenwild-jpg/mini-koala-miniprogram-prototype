@@ -1,5 +1,5 @@
 .mt-top { background: var(--mk-color-canvas-page); }
-.mt-need { padding-top: var(--mk-space-3); padding-bottom: var(--mk-space-3); }
+.mt-need { padding-top: var(--mk-space-3); padding-bottom: 0; }
 .mt-sum { align-items: baseline; margin: var(--mk-space-1) 0 var(--mk-space-4); }
 .mt-big { font-size: var(--mk-font-size-3xl); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); }
 .mt-u { font-size: var(--mk-font-size-sm); margin-left: 4rpx; }
@@ -8,13 +8,15 @@
 .mt-mod { min-height: 64rpx; display: flex; align-items: center; padding-left: var(--mk-space-3); white-space: nowrap; }
 .mt-est { padding-top: var(--mk-space-3); padding-bottom: var(--mk-space-3); border-top: var(--mk-border-hairline); align-items: flex-start; }
 .mt-esttxt { display: flex; flex-direction: column; margin-left: var(--mk-space-2); }
-.mt-loc { min-height: 96rpx; border-top: var(--mk-border-hairline); border-bottom: var(--mk-border-hairline); }
+/* IMPL-01：需求与用仓位置之间不再画线；头部与推荐列表之间用浅灰分区带（mk-band） */
+.mt-loc { min-height: 88rpx; }
 .mt-lk { margin: 0 var(--mk-space-2); white-space: nowrap; }
 .mt-body { padding-top: var(--mk-space-4); }
 .mt-hd { display: flex; flex-direction: column; margin-bottom: var(--mk-space-3); }
 .mt-more { margin-bottom: var(--mk-space-cardGap); }
 .mt-estore { margin-top: var(--mk-space-cardGap); }
 .mt-frow { padding: var(--mk-space-2) 0; border-bottom: var(--mk-border-hairline); display: flex; flex-direction: column; }
+.mt-ftag { margin-left: var(--mk-space-2); margin-right: 0; }
 .mt-fsub { margin-left: var(--mk-space-2); }
 .mt-muted { color: var(--mk-color-ink-hint); }
 .mt-ftotal { padding: var(--mk-space-3) 0; }

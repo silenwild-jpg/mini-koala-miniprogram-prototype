@@ -126,7 +126,7 @@ test('门店图与仓位图：每家演示门店都有卡片图和头图文件�
   // 门店详情：头图、仓位行与组合卡都带图；收藏、快捷下单同样
   fresh(need(9), true); const pg = env.newPage('pages/store/detail', { id: 'SIM_BJ10' }); await tick();
   assert.ok(/\/POOL-0[1-6]\/hero\.webp$/.test(pg.data.hero)); assert.ok(pg.data.blocks.filter((b) => b.type !== 'title' && b.type !== 'note' && b.type !== 'fold').every((b) => b.row.thumbs.length >= 1));
-  const wxml = fs.readFileSync(path.join(root, 'pages/store/detail.wxml'), 'utf8'); assert.ok(/class="sd-uph"/.test(wxml) && /class="sd-upic"/.test(wxml));
+  const wxml = fs.readFileSync(path.join(root, 'pages/store/detail.wxml'), 'utf8'); assert.ok(/class="sd-uph"/.test(wxml) && !/sd-upic/.test(wxml)); // IMPL-01 M-11：空间示意图移到仓型分组标题，仓位行与组合行内不再放图
   state.set('favorites', { stores: ['SIM_BJ10'], units: ['SIM_BJ01_U03'] }); const fv = env.newPage('pkg-account/favorites/index', {}); await tick(30);
   assert.ok(ex(fv.data.stores[0].photo)); assert.equal(fv.data.units[0].thumb, '/assets/images/units/small.webp');
 });

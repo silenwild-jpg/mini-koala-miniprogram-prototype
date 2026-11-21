@@ -1,4 +1,4 @@
-<view class="mk-card lak-card">
+<view class="lak-card mk-fade-in">
   <view class="lak-pic"><image class="mk-icon mk-icon--md" src="/assets/icons/check-brand.svg" /></view>
   <text class="mk-h2 lak-t">{{T.submitted}}</text>
   <text class="lak-m">{{inHours ? T.inHours : T.offHours}}</text>

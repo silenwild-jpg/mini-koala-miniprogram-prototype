@@ -1,7 +1,14 @@
 @import "../after.wxss";
 /* —— 发票页 —— */
 .iv-rec { display: flex; align-items: flex-start; padding: var(--mk-space-2) 0; }
-.iv-rec-t { display: block; font-weight: var(--mk-font-weight-medium); }
+.iv-rec-main { min-width: 0; }
+.iv-rec-top { display: flex; align-items: baseline; }
+.iv-rec-t { font-weight: var(--mk-font-weight-medium); }
+.iv-rec-amt { margin-left: var(--mk-space-2); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-bold); }
+.iv-rec-line { display: flex; align-items: center; margin-top: var(--mk-space-1); }
+.iv-rec-kind { flex: none; }
+.iv-rec-title { min-width: 0; word-break: break-all; }
+.iv-opt-amt { margin-right: var(--mk-space-2); font-weight: var(--mk-font-weight-semibold); }
 .iv-rec-s { display: block; margin-top: var(--mk-space-1); word-break: break-all; }
 .iv-pay { padding-bottom: var(--mk-space-2); }
 .iv-pay-row { display: flex; align-items: center; min-height: 80rpx; }
@@ -11,9 +18,10 @@
 .iv-split-no { margin-left: var(--mk-space-2); color: var(--mk-color-ink-tertiary); }
 .iv-rec-acts { display: flex; margin-top: var(--mk-space-1); }
 .iv-rec-act { padding: var(--mk-space-2) var(--mk-space-4) var(--mk-space-2) 0; }
-.iv-notes { border-top: var(--mk-border-hairline); margin-top: var(--mk-space-1); }
+.iv-notes { margin-top: var(--mk-space-1); }
 .iv-links { margin-top: var(--mk-space-3); }
-.iv-link { display: flex; align-items: center; min-height: 88rpx; border-top: var(--mk-border-hairline); }
+.iv-link { display: flex; align-items: center; min-height: 88rpx; }
+.iv-link + .iv-link { border-top: var(--mk-border-hairline); }
 .iv-opt { display: flex; align-items: center; min-height: 96rpx; padding: 0 var(--mk-space-3); margin-bottom: var(--mk-space-2); border: var(--mk-border-hairline); border-radius: var(--mk-radius-control); }
 .iv-opt--on { border: var(--mk-border-brand); background: var(--mk-color-brand-tint); }
 .iv-acts { display: flex; margin-top: var(--mk-space-4); }

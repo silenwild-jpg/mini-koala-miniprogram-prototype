@@ -1,21 +1,22 @@
 <view wx:if="{{total}}" class="{{plain ? 'fd-plain' : 'mk-card fd-card'}}">
   <view wx:if="{{!plain}}" class="mk-title fd-title">{{T.title}}</view>
   <view wx:for="{{rows}}" wx:key="id" class="fd-item">
-    <view class="mk-between">
-      <view class="fd-k">
-        <text>{{item.k}}</text>
-        <text wx:if="{{item.sub}}" class="fd-sub">{{item.sub}}</text>
+    <view class="fd-line">
+      <text class="fd-k">{{item.k}}</text>
+      <view class="fd-mid">
+        <text wx:if="{{item.mid}}" class="fd-sub mk-num">{{item.mid}}</text>
         <text wx:if="{{item.tag}}" class="mk-tag mk-tag--promo fd-tag">{{item.tag}}</text>
-        <text wx:if="{{item.link}}" class="mk-link fd-link" bindtap="onCoupon" aria-role="button">{{item.link}}</text>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.link}}" class="mk-link fd-link" bindtap="onCoupon" aria-role="button">{{item.link}}</view>
       </view>
       <text class="mk-num fd-amt {{item.muted ? 'fd-muted' : ''}} {{item.good ? 'fd-good' : ''}}">{{item.amt}}</text>
     </view>
-    <view wx:if="{{item.sec}}" class="fd-sec">{{item.sec}}</view>
+    <view wx:if="{{item.below}}" class="fd-sec mk-num">{{item.below}}</view>
     <view wx:if="{{item.note}}" class="fd-sec">{{item.note}}</view>
+    <view wx:if="{{item.extra}}" class="fd-sec">{{item.extra}}</view>
   </view>
-  <view class="fd-total mk-between">
+  <view wx:if="{{!noTotal}}" class="fd-total mk-between">
     <text class="fd-tl">{{total.label}}</text>
-    <text class="mk-num {{total.muted ? 'fd-tmuted' : 'fd-tamt'}}">{{total.amt}}</text>
+    <text class="mk-num {{total.muted ? 'fd-tmuted' : 'fd-tamt'}} {{totalBump}}">{{total.amt}}</text>
   </view>
   <view wx:if="{{note}}" class="fd-note">{{note}}</view>
 </view>

@@ -11,6 +11,7 @@ module.exports = {
   emailPattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$', // 自定
   licenseMaxCount: 1,                         // 冻结稿：「已上传 1 张」
   needsAckHours: 24,                          // 自定（FIX-01 D-18）：预约记录顶部「预计 10 分钟内与您联系」只在有这个小时数以内提交的未撤回记录时显示
+  removeFadeMs: 200,                          // 自定（IMPL-01 动效）：收藏页移除失效条目的淡出时长，与 tokens 的 --mk-motion-base 同值
   inviteCodePattern: '^[0-9A-Za-z]{4,16}$',   // 自定（FIX-01 S-04）：转发落地时读取的邀请码格式；正式格式由后端定
   demo: {                                     // 演示：没有审核后台，用时间推进状态；接真实接口后整段不用
     reviewSeconds: 3,                         // 提交后超过这个秒数再取数，企业认证 / 批量开票进入终态

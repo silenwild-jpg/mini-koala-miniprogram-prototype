@@ -80,9 +80,9 @@ test('我的收藏：空态；列表；失效态（仓位已租出、门店暂�
   pg.onFindStores(); assert.deepEqual(env.nav.pop(), { kind: 'switchTab', url: routes.STORES });
   state.set('favorites', { stores: ['SIM_BJ01', 'SIM_BJ05'], units: ['SIM_BJ02_U03', 'SIM_BJ01_U02'] }); // SIM_BJ05 暂停营业；SIM_BJ01_U02 已租出
   pg = await page('FAVORITES');
-  assert.deepEqual(pg.data.stores.map((s) => [s.id, s.gone, s.sub]), [['SIM_BJ01', false, '北京市朝阳区富仁名苑胜古北里南28号楼'], ['SIM_BJ05', true, '可查看附近其他门店']]);
-  assert.deepEqual(pg.data.units.map((u) => [u.name, u.gone, u.sub]), [['芍药居北里店', false, pg.data.units[0].sub], ['安贞·富仁名苑店', true, 'A002 · 2m³ · 1 × 1 × 2m · 可看同店其他仓位']]);
-  assert.ok(/^B003 · 4m³/.test(pg.data.units[0].sub)); assert.equal(pg.data.T.unitGone, '已租出'); assert.equal(pg.data.T.storeGone, '暂停营业');
+  assert.deepEqual(pg.data.stores.map((s) => [s.id, s.gone]), [['SIM_BJ01', false], ['SIM_BJ05', true]]); assert.equal(pg.data.T.storeGoneSub, '可查看附近其他门店'); // IMPL-01：门店卡改按全站位置行写法（区名 · 商圈），失效说明在卡底单独一行
+  assert.deepEqual(pg.data.units.map((u) => [u.name, u.gone, u.code, u.vol, u.dims]), [['芍药居北里店', false, 'B003', '4m³', pg.data.units[0].dims], ['安贞·富仁名苑店', true, 'A002', '2m³', '1 × 1 × 2m']]); assert.equal(pg.data.T.unitGoneSub, '可看同店其他仓位'); // IMPL-01：仓位编号成标签、容量同一行、尺寸另一行，不再拼成一串
+  assert.equal(pg.data.T.unitGone, '已租出'); assert.equal(pg.data.T.storeGone, '暂停营业');
   pg.onStore(tap({ id: 'SIM_BJ05', gone: true })); assert.deepEqual(env.nav.pop(), { kind: 'switchTab', url: routes.STORES });
   pg.onStore(tap({ id: 'SIM_BJ01', gone: false })); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.STORE_DETAIL + '?id=SIM_BJ01' });
   pg.onUnit(tap({ store: 'SIM_BJ01' })); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.STORE_DETAIL + '?id=SIM_BJ01' });
@@ -92,14 +92,14 @@ test('我的收藏：空态；列表；失效态（仓位已租出、门店暂�
 test('个人信息：未登录态；联系电话校验；未登录保存 → 先登录再保存；显示一律掩码', async () => {
   fresh(false, false);
   const pg = await page('PROFILE');
-  assert.equal(pg.data.sys, ''); assert.equal(pg.data.loggedIn, false); assert.equal(pg.data.loginPhone, ''); assert.equal(pg.data.headTitle, '欢迎使用迷你考拉');
+  assert.equal(pg.data.sys, ''); assert.equal(pg.data.loggedIn, false); assert.equal(pg.data.loginPhone, ''); assert.equal(pg.data.headTitle, undefined, 'IMPL-01 M-35：个人资料头部已删');
   pg.onEditContact(); pg.onContactInput(input('12')); pg.onSaveContact();
   assert.equal(pg.data.contactError, '请填写有效联系电话'); assert.equal(pg.data.contactVisible, true);
   pg.onContactInput(input('13912345678')); assert.equal(pg.data.contactError, ''); pg.onSaveContact();
   assert.equal(pg.data.loginVisible, true); assert.equal(pg.data.contactVisible, false);
   login(); pg.onLoginSuccess(); await tick(40);
   assert.equal(pg.data.contact, '139****5678'); assert.equal(pg.data.loginPhone, '138****8000'); assert.ok(toasts.includes('联系方式已保存'));
-  assert.ok(!/13912345678"/.test(JSON.stringify([pg.data.contact, pg.data.loginPhone, pg.data.headSub])));
+  assert.ok(!/13912345678"/.test(JSON.stringify([pg.data.contact, pg.data.loginPhone])));
   assert.equal((await api.getProfile()).contactMasked, '139****5678');
 });
 
@@ -181,7 +181,7 @@ test('我的：已登录 —— 掩码手机号、角标、多处在租时的「
   assert.equal(row('PROGRESS').s, '2㎡ · 约4.8m³ · 6个月'); assert.equal(row('FAVORITES').count, 2);
   assert.equal(row('COUPONS').count, 3, 'FIX-01 R-14：有付款订单时两张新客券仍可用，加 1 项服务权益'); assert.equal(row('MESSAGES').count, (await api.getMessagesUnread()).unread);
   assert.equal(pg.data.assets.length, 2); assert.equal(pg.data.assetsAll, '查看全部 3处');
-  assert.deepEqual(pg.data.assets.map((a) => a.tag), ['即将到期', '租用中']); assert.match(pg.data.assets[1].line, /^12个月 · 至 \d{4}-\d{2}-\d{2}$/);
+  assert.deepEqual(pg.data.assets.map((a) => a.tag), ['即将到期', '租用中']); assert.equal(pg.data.assets[1].term, '12个月'); assert.match(pg.data.assets[1].span, /^至 \d{4}-\d{2}-\d{2}$/); assert.ok(pg.data.assets[1].codes.length >= 1 && /m³$/.test(pg.data.assets[1].vol)); // IMPL-01：租期与到期日拆开，仓位编号成标签
   env.nav.length = 0; pg.onAsset(tap({ id: pg.data.assets[0].id })); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.ORDER_DETAIL + '?id=' + pg.data.assets[0].id });
   pg.onAssetsAll(); assert.deepEqual(env.nav.pop(), { kind: 'switchTab', url: routes.ORDERS });
   pg.onItem(tap({ k: 'DEPOSIT' })); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.DEPOSIT });

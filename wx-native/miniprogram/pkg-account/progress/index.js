@@ -37,14 +37,17 @@ Page(auth.guarded(routes.PROGRESS, {
       }
       let selected = null, quote = null;
       if (sel) {
+        // IMPL-01：单个仓位「A003 · 3.5m³」拆成编号标签 + 容量（与订单卡同一写法），租期另起一段；组合仓名称整段显示。line 字段保留（旧用例在断言），界面不再绑定
         const line = fmt.termText(sel.term_months) + (sel.unit_name ? ' · ' + sel.unit_name : '');
+        const parts = String(sel.unit_name || '').split(' · '), single = parts.length === 2 && parts[0].indexOf('+') < 0;
+        const unit = { code: single ? parts[0] : '', vol: single ? parts[1] : sel.unit_name || '', term: fmt.termText(sel.term_months) };
         const q = res[1];
         if (q) {
           const deadline = sel.quoted_at ? Math.min(order.quoteExpiresAt(sel.quoted_at), q.expires_at) : q.expires_at;
           const valid = !order.isExpired(deadline, now);
           const off = Number(q.coupon_discount) || 0;
-          quote = { store: sel.store_name || '', line, valid, tag: valid ? G.quoteValid : G.quoteExpired, rent: money(q.rent_total), coupon: off > 0 ? '−' + money(off) : '', payable: money(q.payable), cta: valid ? G.toConfirm : G.requote };
-        } else selected = { store: sel.store_name || '', line };
+          quote = { store: sel.store_name || '', line, unit, valid, tag: valid ? G.quoteValid : G.quoteExpired, rent: money(q.rent_total), coupon: off > 0 ? '−' + money(off) : '', payable: money(q.payable), cta: valid ? G.toConfirm : G.requote };
+        } else selected = { store: sel.store_name || '', line, unit };
       }
       this._sel = sel; this._ref = reference;
       this.setData({ hasNeed, reference, selected, quote, empty: !hasNeed && !reference && !selected && !quote });

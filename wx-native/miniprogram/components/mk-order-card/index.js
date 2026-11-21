@@ -8,11 +8,12 @@
 //   editable  租期显示为 − / + 步进、日期可选（下单前）。触发 term { months }、date { value: 'YYYY-MM-DD' }
 //   hint      租期行下方的引导句（一处只出一句，由页面用 core/pricing.nudge 算好传入）
 //   dead      已超时 / 已取消：标题「原订单仓位」，整卡减淡
-// 没有门店实拍与仓位图数据，照片位用图标占位。
+// IMPL-01：详情形态去掉门店图与仓位图（M-18）；仓位编号用标签、与容量同一行；租期步进数字变化时轻微回弹（core/motion）。
 const C = require('../../core/config');
 const CT = require('../../core/config-trade');
 const T = require('../../i18n/trade');
 const view = require('../../services/order-view');
+const motion = require('../../core/motion');
 Component({
   options: { addGlobalClass: true },
   properties: {
@@ -22,17 +23,20 @@ Component({
     swap: { type: String, value: '' },
     editable: { type: Boolean, value: false },
     hint: { type: String, value: '' },
-    dead: { type: Boolean, value: false }
+    dead: { type: Boolean, value: false },
+    dateNote: { type: String, value: '' } // 日期行下方的小字（确认订单：预计用仓时间即起租日）
   },
-  data: { T: T.card, v: null, canMinus: false, canPlus: false, startMin: '', startMax: '' },
+  data: { T: T.card, v: null, canMinus: false, canPlus: false, startMin: '', startMax: '', termBump: '' },
   observers: { 'order, showKm': function () { this.render(); } },
-  lifetimes: { attached() { this.render(); } },
+  lifetimes: { attached() { this.render(); }, detached() { motion.dispose(this); } },
   methods: {
     render() {
       const o = this.data.order, now = Date.now();
       const v = view.card(o, now, { showKm: this.data.showKm });
       const R = C.requirement, m = v ? Number(v.months) : 0;
+      const prev = this.data.v ? Number(this.data.v.months) : 0;
       this.setData({ v, canMinus: m > R.termMin, canPlus: m < R.termMax, startMin: view.ymd(now + CT.startDate.minDays * view.DAY), startMax: view.ymd(now + CT.startDate.maxDays * view.DAY) });
+      if (this.data.editable && prev && m && prev !== m) motion.bump(this, 'termBump', 'mk-bump mk-bump--center'); // 只在用户改了租期时回弹，首次渲染不动
     },
     onSwap() { this.triggerEvent('swap'); },
     onMinus() { if (this.data.v && this.data.canMinus) this.triggerEvent('term', { months: Number(this.data.v.months) - 1 }); },

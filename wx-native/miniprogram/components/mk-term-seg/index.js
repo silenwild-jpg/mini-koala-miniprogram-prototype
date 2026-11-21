@@ -1,10 +1,12 @@
 // 统一租期组件（D-141）：一行 1 / 3 / 6 / 12 个月 +「其他」，折扣写在右上角标；
 //「其他」打开底部弹层（步进 1–60，快捷 18 / 24 / 36）。全站只有这一个租期组件。
 // inline：组件本身已经放在弹层里时（修改需求弹层、物品页租期层），「其他」在原处展开步进器，不再叠第二个弹层。
+// IMPL-01 动效：选中态是一块会平移的滑块；步进数字变化时轻微回弹；原处展开的步进器下拉渐显。
 // allowUnsure 只有预约页用（「暂不确定」）。hint 是租期下方的引导句，由页面按 core/pricing.nudge 计算后传入。
 const C = require('../../core/config');
 const pricing = require('../../core/pricing');
 const T = require('../../i18n/zh');
+const motion = require('../../core/motion');
 const R = C.requirement;
 Component({
   options: { addGlobalClass: true },
@@ -14,14 +16,18 @@ Component({
     hint: { type: String, value: '' },
     inline: { type: Boolean, value: false }
   },
-  data: { T: T.term, confirmText: T.common.confirm, rangeText: T.term.range.replace('{min}', R.termMin).replace('{max}', R.termMax), cells: [], otherOn: false, otherLabel: T.term.other, otherBadge: '', sheet: false, expand: false, draft: 18, draftBadge: '', quick: R.termOtherQuick, canMinus: true, canPlus: true },
-  observers: { value() { this.render(); } },
-  lifetimes: { attached() { this.render(); } },
+  data: { T: T.term, confirmText: T.common.confirm, rangeText: T.term.range.replace('{min}', R.termMin).replace('{max}', R.termMax), cells: [], otherOn: false, otherLabel: T.term.other, otherBadge: '', sheet: false, expand: false, draft: 18, draftBadge: '', quick: R.termOtherQuick, canMinus: true, canPlus: true, slide: false, count: 5, onIndex: -1, draftBump: '' },
+  observers: { 'value, allowUnsure': function () { this.render(); } },
+  lifetimes: { attached() { this.render(); }, detached() { motion.dispose(this); } },
   methods: {
     render() {
       const v = this.data.value;
       const otherOn = Number.isInteger(v) && R.termPresets.indexOf(v) < 0;
+      // 滑块位置（IMPL-01 动效）：预设档位按顺序，其后是「其他」，再后是「暂不确定」；未选时 -1（滑块隐藏）
+      const P = R.termPresets, count = P.length + 1 + (this.data.allowUnsure ? 1 : 0);
+      const onIndex = v === 'unsure' && this.data.allowUnsure ? P.length + 1 : otherOn ? P.length : P.indexOf(v);
       this.setData({
+        slide: count === 5 || count === 6, count, onIndex,
         cells: R.termPresets.map((m) => ({ m, label: m + T.term.unit, badge: pricing.termDiscountLabel(m), on: v === m })),
         otherOn, otherLabel: otherOn ? v + T.term.unit : T.term.other, otherBadge: otherOn ? pricing.termDiscountLabel(v) : ''
       });
@@ -34,7 +40,7 @@ Component({
       if (!this.data.inline) { this.setData({ sheet: true }); return; }
       this.setData({ expand: true }); if (!other) this.emit(this.data.draft); // 原处展开：选中即生效
     },
-    setDraft(n) { const d = Math.min(R.termMax, Math.max(R.termMin, Math.round(Number(n)) || R.termMin)); this.setData({ draft: d, draftBadge: pricing.termDiscountLabel(d), canMinus: d > R.termMin, canPlus: d < R.termMax }); },
+    setDraft(n) { const d = Math.min(R.termMax, Math.max(R.termMin, Math.round(Number(n)) || R.termMin)); if (d !== this.data.draft && (this.data.sheet || this.data.expand)) motion.bump(this, 'draftBump', 'mk-bump mk-bump--center'); this.setData({ draft: d, draftBadge: pricing.termDiscountLabel(d), canMinus: d > R.termMin, canPlus: d < R.termMax }); },
     onMinus() { this.setDraft(this.data.draft - 1); this.live(); },
     onPlus() { this.setDraft(this.data.draft + 1); this.live(); },
     onQuick(e) { this.setDraft(e.currentTarget.dataset.m); this.live(); },

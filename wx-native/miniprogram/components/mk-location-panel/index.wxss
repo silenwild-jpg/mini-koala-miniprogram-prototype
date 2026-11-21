@@ -1,4 +1,7 @@
-.lp-root { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 90; background: var(--mk-color-canvas-page); display: flex; flex-direction: column; box-sizing: border-box; }
+/* IMPL-01 进出场：整层轻微上移 + 渐显，关闭反向；时长与 mk-sheet 相同（--mk-motion-sheet） */
+.lp-root { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 90; background: var(--mk-color-canvas-page); display: flex; flex-direction: column; box-sizing: border-box; opacity: 0; transform: translateY(48rpx); transition: opacity var(--mk-motion-sheet) var(--mk-motion-easing), transform var(--mk-motion-sheet) var(--mk-motion-easing); }
+.lp-root--on { opacity: 1; transform: none; }
+.lp-kind { margin-left: var(--mk-space-2); margin-right: 0; }
 .lp-bar { padding: var(--mk-space-2) var(--mk-space-pageGutter); }
 .lp-search { height: 72rpx; padding: 0 var(--mk-space-3); border: var(--mk-border-brand); border-radius: var(--mk-radius-control); box-sizing: border-box; }
 .lp-input { height: 100%; margin-left: var(--mk-space-2); font-size: var(--mk-font-size-md); }

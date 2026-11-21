@@ -18,6 +18,7 @@ const share = require('../../services/share');
 const actions = require('../../services/order-actions');
 const pricing = require('../../core/pricing');
 const fmt = require('../../core/format');
+const motion = require('../../core/motion');
 const T = TT.quick, T_SEP = TT.common.sep;
 const inf = (v) => (v === null || v === undefined ? Infinity : v);
 Page({
@@ -27,7 +28,7 @@ Page({
     term: C.requirement.termDefault, hint: '', startDate: '', startMin: '', startMax: '',
     est: null, access: '', draft: null,
     barLabel: T.need, barAmount: '', barMuted: true, barNeed: '', btnText: T.next, btnDisabled: true,
-    storeSheet: false, storeRows: [], unitSheet: false, unitRows: [], feeSheet: false,
+    storeSheet: false, storeRows: [], unitSheet: false, unitRows: [], feeSheet: false, amtBump: '',
     loginTip: '请登录', loginVisible: false, panel: false
   },
   onLoad(q) {
@@ -53,9 +54,9 @@ Page({
     const km = view.kmOf(st, loc);
     const base = {
       locText: loc.city + T_SEP + (loc.label || T.allCity), carried: !!(this._carried && st),
-      store: st ? { id: st.id, name: st.name, photo: media.storeCard(st), sub: (km !== null ? fmt.kmText(km) + T_SEP : '') + st.address } : null,
+      store: st ? { id: st.id, name: st.name, photo: media.storeCard(st), kmText: km !== null ? fmt.kmText(km) : '', address: st.address } : null, // 距离靠地址同一行，不用分隔符串（IMPL-01）
       storeHint: stores.length ? T.storeAddrHint : T.noStore,
-      unit: u ? Object.assign({ thumb: media.unitThumb(u) }, view.unitLines({ units: [u] })) : null, unitHint: st ? T.unitHint : T.unitNeedStore,
+      unit: u ? Object.assign({ thumb: media.unitThumb(u), code: u.code, vol: fmt.pretty(u.volume) + 'm³' }, view.unitLines({ units: [u] })) : null, unitHint: st ? T.unitHint : T.unitNeedStore,
       fromText: u ? pricing.yuan(pricing.unitFromMonthly(u)) : '', access: st && st.access_hours ? T.access + st.access_hours : '',
       hint: pricing.termHint(d.term), est: null, draft: null, gone: false, held: ''
     };
@@ -68,7 +69,7 @@ Page({
       if (r.quote) {
         const q = r.quote, free = pricing.freeTransportFor(km, months, q.special);
         this.setData({
-          est: { label: T.estimate, term: '/ ' + fmt.termText(months), amount: pricing.yuan(q.rent_total), tag: q.special ? TT.fee.special : pricing.factorLabel(Number(q.term_factor) || 1), sub: pricing.yuan(q.monthly_average) + TT.common.perMonth + ' × ' + fmt.termText(months) },
+          est: { label: T.estimate, term: fmt.termText(months), amount: pricing.yuan(q.rent_total), tag: q.special ? TT.fee.special : pricing.factorLabel(Number(q.term_factor) || 1), sub: pricing.yuan(q.monthly_average) + TT.common.perMonth + ' × ' + fmt.termText(months) },
           draft: { months, quote: q, free_transport: free },
           hint: pricing.nudge(months, { km: q.special ? null : km, baseMonth: u.base_month, rentAt: pricing.fullEligible([u]) ? (m) => pricing.quote([u], m).rent_total : null }) // 单个特价仓不参与满额减、免费运输，不出对应引导句
         });
@@ -85,6 +86,8 @@ Page({
       barLabel: quote || d.est ? T.estimate : T.need, barAmount: quote ? T.loginToShow : d.est ? d.est.amount : miss, barMuted: !d.est, barNeed: d.est && miss ? T.need + miss : '',
       btnText: quote ? T.quote : T.next, btnDisabled: !!miss
     });
+    // 改租期、换仓位后金额变了：底栏金额轻微回弹（第一次出现金额不动）
+    if (d.est && !quote) { if (this._lastAmt && this._lastAmt !== d.est.amount) motion.bump(this, 'amtBump'); this._lastAmt = d.est.amount; }
   },
   onLocation() { this.setData({ panel: true }); },
   onPanelClose() { this.setData({ panel: false }); },
@@ -94,7 +97,7 @@ Page({
     const rows = stores.slice().sort((a, b) => inf(view.kmOf(a, loc)) - inf(view.kmOf(b, loc))).slice(0, CT.quickStoreSheetMax).map((s) => {
       const av = (s.units || []).filter((u) => u.status === 'available'), km = view.kmOf(s, loc), from = pricing.storeFromCubic(av);
       // 门店选择优先辨认位置；存取时间在选中后展示，无库存必须明确说明。
-      return { id: s.id, name: s.name, sub: [km !== null ? fmt.kmText(km) : '', av.length ? s.address : T.stockNone].filter(Boolean).join(T_SEP), price: from === null ? '' : pricing.yuan(from), on: s.id === this._storeId };
+      return { id: s.id, name: s.name, kmText: km !== null ? fmt.kmText(km) : '', address: av.length ? s.address : '', none: av.length ? '' : T.stockNone, price: from === null ? '' : pricing.yuan(from), on: s.id === this._storeId };
     });
     this.setData({ storeRows: rows, storeSheet: true });
   },
@@ -108,7 +111,7 @@ Page({
   onUnitSheet() {
     const { st } = this.current();
     if (!st) { actions.toast(T.unitNeedStore); return; }
-    const rows = (st.units || []).filter((u) => u.status === 'available').map((u) => ({ id: u.id, name: fmt.unitName(u), tier: fmt.tierLabel(u), sub: fmt.dimsText(u), price: pricing.yuan(pricing.unitFromMonthly(u)), on: u.id === this._unitId }));
+    const rows = (st.units || []).filter((u) => u.status === 'available').map((u) => ({ id: u.id, name: fmt.unitName(u), code: u.code, vol: fmt.pretty(u.volume) + 'm³', tier: fmt.tierLabel(u), sub: fmt.dimsText(u), price: pricing.yuan(pricing.unitFromMonthly(u)), on: u.id === this._unitId }));
     this.setData({ unitRows: rows, unitSheet: true });
   },
   onUnitSheetClose() { this.setData({ unitSheet: false }); },
@@ -123,6 +126,7 @@ Page({
     if (!auth.isLoggedIn()) { auth.openLogin(this); return; } // 查看报价：登录后停在本页显示金额
     auth.navigate(this, routes.CONFIRM + '?unit=' + this._unitId + '&term=' + d.term + '&date=' + d.startDate);
   },
+  onUnload() { this._token = (this._token || 0) + 1; motion.dispose(this); }, // 离开后丢弃还在路上的报价结果，不再回弹
   onHeld() { if (this.data.held) auth.navigate(this, routes.CONFIRM + '?order=' + this.data.held); },
   // 转发（FIX-01 R-15）：带上已选的门店与仓位，不带租期和日期
   onShareAppMessage() { return share.message(routes.QUICK, { query: this._storeId ? 'store=' + this._storeId + (this._unitId ? '&unit=' + this._unitId : '') : '' }); },

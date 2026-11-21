@@ -66,7 +66,7 @@ Page(auth.guarded(routes.TRANSPORT, {
     this.setData({ busy: true });
     return api.submitLead({ type: lead.TYPES.TRANSPORT, request_key: this._key, address: d.address, date: d.date, phone: needPhone ? d.phone : '', order_id: pre ? '' : this._orderId, store_id: pre ? this._storeId : '' }).then((rec) => {
       this._key = '';
-      if (pre) return this.setData({ busy: false, address: '', date: '', phone: '', view: 'saved', inHours: !!rec.in_service_hours, saved: { address: rec.address, sub: rec.date + ' · ' + rec.phone_masked } });
+      if (pre) return this.setData({ busy: false, address: '', date: '', phone: '', view: 'saved', inHours: !!rec.in_service_hours, saved: { address: rec.address, date: rec.date, phone: rec.phone_masked } }); // IMPL-01：日期与联系电话分两行，不再拼成一串
       this.setData({ busy: false, address: '', date: '' });
       wx.showToast({ title: rec.in_service_hours ? X.toastIn : X.toastOff, icon: 'none' });
       return this.loadRecords();

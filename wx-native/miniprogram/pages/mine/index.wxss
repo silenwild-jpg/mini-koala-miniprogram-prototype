@@ -1,4 +1,4 @@
-.mn-head { background: var(--mk-color-canvas-page); padding-top: var(--mk-space-5); padding-bottom: var(--mk-space-5); }
+.mn-head { padding-top: var(--mk-space-5); padding-bottom: var(--mk-space-5); }
 /* 任务卡组件自带下外边距、需求卡组件自带上外边距：这里抵掉任务卡的下外边距，让各卡之间都是一个卡间距（需真机确认） */
 .mn-task { padding-top: var(--mk-space-cardGap); margin-bottom: calc(0rpx - var(--mk-space-cardGap)); }
 .mn-avatar { width: 96rpx; height: 96rpx; border-radius: 50%; background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; margin-right: var(--mk-space-3); flex: none; }
@@ -10,9 +10,17 @@
 .mn-kicker { display: block; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); margin-bottom: var(--mk-space-1); }
 .mn-block { display: block; }
 .mn-cta { margin-top: var(--mk-space-3); }
-.mn-gt { padding-bottom: var(--mk-space-1); }
 .mn-all { min-height: 64rpx; }
-.mn-asset { min-height: 128rpx; padding: var(--mk-space-2) 0; }
-.mn-asset + .mn-asset { border-top: var(--mk-border-hairline); }
+/* IMPL-01 去卡片化：页面白底；任务卡、需求卡、「尚未用仓」卡是可点对象 / 主操作区，保留卡片；「我的仓位」与四组入口改成通栏小节，小节之间 16rpx 分区带。 */
+.mn-secs { margin-top: var(--mk-space-4); }
+.mn-secs .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); padding-bottom: var(--mk-space-2); }
+.mn-secs .mk-sec__hd { margin-bottom: 0; min-height: 64rpx; }
+/* 我的仓位：与订单卡同一写法——店名一级；仓位编号标签 + 容量同一行；租期与到期日另一行。最多两行，行间用留白不画线 */
+.mn-asset { padding: var(--mk-space-2) 0; border-radius: var(--mk-radius-control); }
+.mn-unit { margin-top: var(--mk-space-1); }
+.mn-no { margin-right: var(--mk-space-2); }
+.mn-vol { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); }
+.mn-span { margin-top: var(--mk-space-1); font-size: var(--mk-font-size-sm); }
+.mn-term { margin-right: var(--mk-space-2); }
 .mn-an { font-weight: var(--mk-font-weight-semibold); min-width: 0; }
 .mn-demo { display: flex; align-items: center; justify-content: center; min-height: var(--mk-size-tapMin); margin: var(--mk-space-4) var(--mk-space-pageGutter) 0; border-radius: var(--mk-radius-control); }

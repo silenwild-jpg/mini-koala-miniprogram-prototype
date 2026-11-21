@@ -33,7 +33,7 @@ function render(page, o, now) {
   if (st0 === 'not_started') { // 已付未起租：退订，由门店办理
     d.cancel = [{ k: X.cancelRule, v: X.cancelRuleText, long: true }, { k: X.cancelPaid, v: X.cancelPaidText, long: true }, { k: X.cancelDeposit, v: zh.common.contactService, soft: true }, { k: X.cancelWay, v: X.cancelWayText }];
     d.bar = { btns: [btn(CT.backOrder, 'back', 'neutral'), btn(CT.callStore, 'call')] };
-    page.setData(d); return;
+    page.setData(d); cm.fx(page, st0); return;
   }
   const typeText = x ? X.type[x.early ? 'early' : 'expiry'] : '';
   d.steps = cm.steps(X.steps, [x ? fill(X.stepPlan, { t: typeText, d: x.date }) : '', '', '', st0 === 'passed' ? T.deposit.tag[after.depositState(o)] || '' : ''], CUR[st0], st0 === 'failed' ? 3 : 0);
@@ -69,7 +69,7 @@ function render(page, o, now) {
     }
     if (st0 === 'passed') d.bar = { btns: [btn(X.viewDeposit, 'deposit')] };
   }
-  page.setData(d);
+  page.setData(d); cm.fx(page, st0);
 }
 function done(page, o) { page._busy = false; page._order = o; render(page, o, Date.now()); return o; }
 function failed(page, err) { page._busy = false; page.setData({ confirm: false, early: false }); cm.opFail(err); return page.refresh(); }
@@ -80,7 +80,7 @@ Page(auth.guarded(routes.EXIT, {
   onLoad(q) { this._id = (q && q.id) || ''; this._type = q && q.type === 'early' ? 'early' : 'expiry'; this._date = ''; this._busy = false; },
   onShow() { this.refresh(); },
   onHide() { cm.cancelLater(this); },
-  onUnload() { cm.cancelLater(this); },
+  onUnload() { cm.cancelLater(this); cm.dispose(this); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() { return cm.load(this, 'exit', (o, now) => render(this, o, now)); },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },

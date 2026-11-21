@@ -1,32 +1,34 @@
-<view class="mk-page {{bar ? 'af-pad' : ''}}">
+<view class="mk-page mk-page--plain {{bar ? 'af-pad' : ''}}">
   <view wx:if="{{sys === 'loading'}}" class="af-body af-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/order-sub.svg" title="{{T.c.emptyTitle}}" sub="{{T.c.emptySub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
   </mk-empty>
   <block wx:else>
-    <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
-    <view class="af-body">
-      <view wx:if="{{picks.length}}" class="mk-card af-gap dp-switch" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onPick" aria-role="button">
-        <text class="mk-sub mk-grow">{{pickCount}}</text><text class="mk-link">{{T.d.switchOrder}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" />
+    <view class="{{stFx}}"><mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" /></view>
+    <view class="af-body af-top {{stFx}}">
+      <view wx:if="{{picks.length}}" class="dp-switch" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onPick" aria-role="button">
+        <text class="mk-sub mk-grow">{{pickCount}}</text><text class="mk-link">{{T.d.switchOrder}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" />
       </view>
-      <view class="mk-card af-gap">
-        <text class="mk-sub">{{T.d.amountLabel}}</text>
+      <view class="dp-amtbox">
+        <view class="mk-row"><text class="mk-sub">{{T.d.amountLabel}}</text><text class="dp-basis">{{T.d.amountBasis}}</text></view>
         <text class="mk-num dp-amt">{{amount}}</text>
       </view>
       <mk-after-fail wx:if="{{fail}}" title="{{T.d.failTitle}}" reason="{{reason}}" fixes="{{T.d.failFixes}}" bind:call="onCall" />
-      <view class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.d.progress}}</text>
+    </view>
+    <view class="af-secs {{stFx}}">
+      <view class="mk-sec">
+        <view class="mk-sec__hd">{{T.d.progress}}</view>
         <mk-after-steps steps="{{steps}}" />
       </view>
-      <view wx:if="{{settle.length}}" class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.d.settle}}</text>
+      <view wx:if="{{settle.length}}" class="mk-sec">
+        <view class="mk-sec__hd">{{T.d.settle}}</view>
         <mk-after-kv rows="{{settle}}" />
         <text class="af-rule">{{T.d.dueNote}}</text>
       </view>
-      <view class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.d.info}}</text>
-        <mk-after-kv rows="{{info}}" />
+      <view class="mk-sec">
+        <view class="mk-sec__hd">{{T.d.info}}</view>
+        <view class="{{moreFx}}"><mk-after-kv rows="{{info}}" /></view>
         <text wx:if="{{more}}" class="mk-link dp-more" bindtap="onMore" aria-role="button">{{T.d.more}}</text>
       </view>
     </view>
@@ -43,7 +45,7 @@
     </mk-sheet>
     <mk-sheet visible="{{pickSheet}}" title="{{T.d.switchTitle}}" bind:close="onPickClose">
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{picks}}" wx:key="id" class="dp-opt {{item.on ? 'dp-opt--on' : ''}}" data-id="{{item.id}}" bindtap="onPickOrder" aria-role="button">
-        <view class="mk-grow dp-opt-main"><text class="dp-opt-t mk-ellipsis">{{item.t}}</text><text class="mk-sub dp-opt-s">{{item.s}}</text></view>
+        <view class="mk-grow dp-opt-main"><text class="dp-opt-t mk-ellipsis">{{item.t}}</text><view wx:if="{{item.codes.length}}" class="dp-opt-unit"><text wx:for="{{item.codes}}" wx:for-item="c" wx:key="*this" class="mk-unitno dp-opt-no">{{c}}</text><text class="mk-num">{{item.vol}}</text></view><text class="mk-mute dp-opt-s">{{item.s}}</text></view>
         <mk-after-tag text="{{item.tag}}" tone="{{item.tone}}" />
       </view>
     </mk-sheet>

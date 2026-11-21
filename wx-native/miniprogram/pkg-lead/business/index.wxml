@@ -1,4 +1,4 @@
-<view class="mk-page ldf-page">
+<view class="mk-page mk-page--plain ldf-page">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <block wx:else>
     <view class="lbz-steps">
@@ -17,7 +17,7 @@
       <mk-notice wx:if="{{status === 'unknown'}}" tone="err" title="{{T.c.unknownTitle}}" text="{{T.c.unknownMsg}}" link="{{T.c.recheck}}" bind:link="onRetrySubmit" />
       <mk-notice wx:if="{{restored}}" title="{{T.z.restoredTitle}}" text="{{T.z.restoredMsg}}" />
     </view>
-    <view wx:if="{{step === 1}}" class="ldf-form">
+    <view wx:if="{{step === 1}}" class="ldf-form mk-fade">
       <view class="mk-between"><text class="mk-h2">{{T.z.steps[0]}}</text><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onNeeds" aria-role="button"><text>{{T.c.viewNeeds}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view></view>
       <mk-field class="ldf-fld" label="{{T.z.location}}">
         <view class="ldf-input"><input class="ldf-native" value="{{location}}" maxlength="{{addressMax}}" disabled="{{locked}}" placeholder="{{T.z.locationPh}}" placeholder-class="ldf-ph" bindinput="onLocation" /></view>
@@ -44,14 +44,14 @@
         <view wx:if="{{typeOtherOn}}" class="ldf-input"><input class="ldf-native" value="{{typeOther}}" maxlength="{{nameMax}}" disabled="{{locked}}" placeholder="{{T.z.typeOtherPh}}" placeholder-class="ldf-ph" bindinput="onTypeOther" /></view>
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.z.move}}">
-        <view class="lbz-seg"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{moveChips}}" wx:key="t" class="lbz-segcell {{item.on ? 'lbz-segcell--on' : ''}}" data-i="{{index}}" bindtap="onMove" aria-role="button">{{item.t}}</view></view>
+        <view class="lbz-seg"><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{moveChips}}" wx:key="t" class="lbz-segcell ldf-seg-ease {{item.on ? 'lbz-segcell--on' : ''}}" data-i="{{index}}" bindtap="onMove" aria-role="button">{{item.t}}</view></view>
         <mk-notice wx:if="{{moveNeed}}" class="lbz-movenote" plain="{{true}}" title="{{T.z.moveNoteTitle}}" text="{{T.z.moveNote}}" />
       </mk-field>
     </view>
-    <view wx:else class="ldf-form">
+    <view wx:else class="ldf-form mk-fade">
       <view class="mk-between"><text class="mk-h2">{{T.z.steps[1]}}</text><view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onNeeds" aria-role="button"><text>{{T.c.viewNeeds}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view></view>
-      <view class="mk-card mk-between lbz-sum">
-        <view class="mk-grow"><text class="mk-sub lbz-sumk">{{T.z.sumLabel}}</text><text class="lbz-sumv">{{sumText}}</text><text wx:if="{{areaSum}}" class="lbz-sumv">{{areaSum}}</text></view>
+      <view class="ldf-block mk-between lbz-sum">
+        <view class="mk-grow"><text class="mk-sub lbz-sumk">{{T.z.sumLabel}}</text><text class="lbz-sumv lbz-sumv--main mk-num">{{sumText}}</text><text wx:if="{{typeSum}}" class="mk-sub lbz-sumv">{{typeSum}}</text><text wx:if="{{areaSum}}" class="mk-sub lbz-sumv">{{areaSum}}</text></view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-textbtn" bindtap="onPrev" aria-role="button">{{T.c.modify}}</view>
       </view>
       <mk-field class="ldf-fld" label="{{T.z.name}}" mark="{{T.c.optionalFill}}">
@@ -86,8 +86,8 @@
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{dateOptions}}" wx:key="d" class="ldf-optrow {{item.on ? 'ldf-optrow--on' : ''}}" data-i="{{index}}" bindtap="onPickDate" aria-role="button"><text class="mk-num">{{item.d}}</text><image wx:if="{{item.on}}" class="mk-icon" src="/assets/icons/check-brand.svg" /></view>
     <view class="ldf-sheetacts"><button class="mk-btn mk-btn--plain" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.cancel}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onDateOk">{{T.c.confirm}}</button></view>
   </mk-sheet>
-  <view wx:if="{{dialog}}" class="lbz-mask" catchtouchmove="noop" bindtap="onDialogClose">
-    <view class="lbz-dialog" catchtap="noop">
+  <view wx:if="{{dialog}}" class="lbz-mask mk-fade" catchtouchmove="noop" bindtap="onDialogClose">
+    <view class="lbz-dialog mk-fade-in" catchtap="noop">
       <text class="mk-h2 lbz-dt">{{dialog.title}}</text>
       <text class="lbz-dm">{{dialog.ack}}</text>
       <text wx:if="{{dialog.fine}}" class="mk-sub lbz-df">{{dialog.fine}}</text>

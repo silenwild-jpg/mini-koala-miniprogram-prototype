@@ -1,4 +1,5 @@
 @import "styles/tokens.wxss";
+@import "styles/motion.wxss";
 /* 全站基础样式。只用设计令牌，不写裸色值；页面样式只写本页特有的部分。 */
 page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-primary); font-family: var(--mk-font-family-base); font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
 .mk-page { min-height: 100vh; box-sizing: border-box; padding-bottom: calc(var(--mk-space-6) + env(safe-area-inset-bottom)); }
@@ -74,3 +75,16 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-btn--plain { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }
 /* v2 整页加载、失败、断网的外框：左右留页边距，骨架卡不贴边 */
 .mk-sys-wrap { padding: var(--mk-space-3) var(--mk-space-pageGutter) 0; }
+/* IMPL-01 去卡片化：用小节层级代替描边卡。mk-sec 白底通栏小节，相邻小节之间 16rpx 浅灰分区带；mk-rows 无外框行列表。 */
+.mk-page--plain { background: var(--mk-color-canvas-card); }
+.mk-sec { background: var(--mk-color-canvas-card); padding: var(--mk-space-4) var(--mk-space-pageGutter); }
+.mk-sec + .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); }
+.mk-sec__hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--mk-space-3); font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); }
+.mk-band { height: 16rpx; background: var(--mk-color-canvas-sunken); }
+.mk-rows__row { padding: var(--mk-space-3) 0; }
+.mk-rows__row + .mk-rows__row { border-top: var(--mk-border-hairline); }
+/* IMPL-01 门店卡角标（距离最近 / 区域低价）：贴在卡片图片或卡片左上角，首页推荐、附近门店、仓位推荐三处同一样式。父元素需 position: relative。 */
+.mk-corner { position: absolute; left: 0; top: 0; z-index: 1; height: 44rpx; padding: 0 var(--mk-space-2); display: flex; align-items: center; border-radius: var(--mk-radius-card) 0 var(--mk-radius-thumb) 0; background: var(--mk-color-action-primaryFill); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-xs); font-weight: var(--mk-font-weight-medium); line-height: 1; }
+.mk-corner--price { background: var(--mk-color-accent-promoIcon); }
+/* IMPL-01 仓位编号标签：等宽数字、白底描边小标签，与实底的状态标签区分；订单卡、快速下单、订单选择用同一个（门店详情仓位行可直接用）。后面跟容量时两者同一行。 */
+.mk-unitno { display: inline-flex; align-items: center; flex: none; height: var(--mk-size-tagHeight); padding: 0 12rpx; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); font-family: var(--mk-font-family-numeric); font-feature-settings: 'tnum' 1; font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-semibold); line-height: 1; white-space: nowrap; box-sizing: border-box; }

@@ -1,6 +1,8 @@
 .sh-sheet-root { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 100; }
-.sh-scrim { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: var(--mk-color-overlay-scrim); }
-.sh-panel { position: absolute; left: 0; right: 0; bottom: 0; max-height: 86vh; display: flex; flex-direction: column; background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-card) var(--mk-radius-card) 0 0; box-shadow: var(--mk-elevation-sheet); padding-bottom: env(safe-area-inset-bottom); }
+.sh-scrim { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: var(--mk-color-overlay-scrim); opacity: 0; transition: opacity var(--mk-motion-sheet) var(--mk-motion-easing); }
+.sh-scrim--on { opacity: 1; }
+.sh-panel { position: absolute; left: 0; right: 0; bottom: 0; max-height: 86vh; display: flex; flex-direction: column; background: var(--mk-color-canvas-card); border-radius: var(--mk-radius-card) var(--mk-radius-card) 0 0; box-shadow: var(--mk-elevation-sheet); padding-bottom: env(safe-area-inset-bottom); transform: translateY(100%); transition: transform var(--mk-motion-sheet) var(--mk-motion-easing); }
+.sh-panel--on { transform: translateY(0); }
 .sh-head { padding: var(--mk-space-4) var(--mk-space-pageGutter) var(--mk-space-2); }
 .sh-close { width: 96rpx; height: 96rpx; min-width: 48px; min-height: 48px; display: flex; align-items: center; justify-content: center; flex: none; margin: -16rpx -16rpx -16rpx 0; }
 .sh-body { padding: var(--mk-space-2) var(--mk-space-pageGutter) var(--mk-space-4); overflow-y: auto; }

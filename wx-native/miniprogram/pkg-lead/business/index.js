@@ -79,7 +79,8 @@ Page(auth.guarded(routes.BUSINESS, {
       bandChips: L.bizBands.map((b) => ({ key: b.key, label: b.label, on: !v.custom && v.band === b.key })), custom: v.custom, sizeRaw: v.sizeRaw, sizeNote,
       term: v.term, typeChips: Z.typeOptions.map((t) => ({ t, on: v.types.indexOf(t) >= 0 })), typeOtherOn: v.types.indexOf(Z.typeOther) >= 0, typeOther: v.typeOther,
       moveChips: Z.moveOptions.map((t) => ({ t, on: v.move === t })), moveNeed: v.move === Z.moveYes,
-      sumText: [sizeText, v.term ? fmt.termText(v.term) : Z.termNone, v.types.join('、')].filter(Boolean).join(' · '), areaSum: v.areas.length ? Z.otherAreas + v.areas.join('、') : '',
+      sumText: [sizeText, v.term ? fmt.termText(v.term) : Z.termNone].filter(Boolean).join(' · '), typeSum: v.types.join('、'), // IMPL-01：容量 · 租期是同级规格，保留分隔符；物品类型另起一行，不再接在后面
+      areaSum: v.areas.length ? Z.otherAreas + v.areas.join('、') : '',
       name: v.name, company: v.company, date: v.date, notes: v.notes, notesCount: v.notes.length + '/' + L.bizNotesMax
     }, extra || {}));
     if (!this.data.editing && !this.data.saved) state.set(DRAFT, Object.assign({}, v, { step: this.data.step }));

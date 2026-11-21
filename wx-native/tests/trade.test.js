@@ -186,7 +186,7 @@ test('任务卡：未登录或没有订单不渲染；按阶段取主卡，待�
   c = env.newComponent('components/mk-task-card/index', {}); await c.refresh();
   assert.equal(c.data.show, true); assert.equal(c.data.main.key, 'expiring'); assert.equal(c.data.main.title, '租期即将到期'); assert.equal(c.data.main.primary.t, '办理续租'); assert.equal(c.data.main.secondary.t, '一键开锁');
   assert.equal(c.data.main.othersText, '另有 1 间在租仓位，请在订单中查看。');
-  assert.deepEqual(c.data.todos.map((t) => t.k), ['待支付订单', '找仓进度']); assert.match(c.data.todos[0].t, /^芍药居北里店 · 本次应付 ¥\d+，剩余 0[23]:\d\d:\d\d$/); assert.equal(c.data.todos[1].t, '3.5m³ · 6个月，查看推荐仓位');
+  assert.deepEqual(c.data.todos.map((t) => t.k), ['待支付订单', '找仓进度']); assert.equal(c.data.todos[0].t, '芍药居北里店'); assert.match(c.data.todos[0].amt, /^¥[\d,]+$/); assert.match(c.data.todos[0].note, /^剩余 0[23]:\d\d:\d\d$/); // IMPL-01：门店、金额、剩余时间分开，不再拼成一串 assert.equal(c.data.todos[1].t, '3.5m³ · 6个月，查看推荐仓位');
   env.nav.length = 0; c.onAction({ currentTarget: { dataset: { a: 'renew' } } }); assert.equal(env.nav[0].url, routes.RENEW + '?id=' + c.data.main.orderId);
   toasts.length = 0; c.onAction({ currentTarget: { dataset: { a: 'unlock' } } }); assert.deepEqual(toasts, ['一键开锁暂未开通，存取时请联系门店协助开门']); assert.equal(env.nav.length, 1, '一键开锁只提示，不跳转');
   env.nav.length = 0; c.onTodo({ currentTarget: { dataset: { i: 0 } } }); assert.match(env.nav[0].url, /^\/pkg-trade\/confirm\/index\?order=MK/);
@@ -203,8 +203,8 @@ test('任务卡：未登录或没有订单不渲染；按阶段取主卡，待�
 test('确认订单页：实名 → 勾选告知书 → 签署 → 生成电子合同 → 支付 → 订单详情', async () => {
   fresh(true); noSeed();
   const pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '6', date: START }); await tick();
-  assert.equal(pg.data.mode, 'compose'); assert.equal(pg.data.cardOrder.quote.payable, 2010); assert.equal(pg.data.feeNote, '租期折扣按预付整期计算，提前退仓时按协议重新核算 · 报价 3 小时内有效');
-  assert.deepEqual([pg.data.bar.btn, pg.data.bar.hint, pg.data.bar.amount, pg.data.bar.saved], ['实名认证', '签署协议前需完成实名认证', '¥2,010', ' · 已省 ¥720']);
+  assert.equal(pg.data.mode, 'compose'); assert.equal(pg.data.cardOrder.quote.payable, 2010); assert.equal(pg.data.feeNote, '租期折扣按预付整期计算，提前退仓时按协议重新核算。报价 3 小时内有效'); // IMPL-01：两句话用句号
+  assert.deepEqual([pg.data.bar.btn, pg.data.bar.hint, pg.data.bar.amount, pg.data.bar.saved], ['实名认证', '签署协议前需完成实名认证', '¥2,010', '已省 ¥720']); // IMPL-01：「已省」是金额旁的独立标签，不带分隔符
   pg.onBar(); assert.equal(pg.data.sheet, 'idv');
   pg.onIdvName({ detail: { value: '张明' } }); pg.onIdvNo({ detail: { value: '11010119900101' } }); assert.equal(pg.data.idvReady, false);
   pg.onIdvNo({ detail: { value: ID.id_no } }); assert.equal(pg.data.idvReady, true); pg.onIdvSubmit(); assert.equal(pg.data.idvChecking, true); await tick();
@@ -266,7 +266,7 @@ test('确认订单页：租期变化时出下一档 / 满额减 / 免费运输�
   const far = env.newPage('pkg-trade/confirm/index', { unit: 'SIM_BJ04_U02', term: '5' }); await tick();
   assert.match(far.data.hint, /^再租 1 个月享 7 折，还可免费运输 1 次$/);
   far.onTerm({ detail: { months: 6 } }); await tick(); assert.equal(far.data.cardOrder.free_transport, true);
-  assert.ok(view.fees(far.data.cardOrder, Date.now(), {}).rows.some((r) => r.k === '服务权益' && r.amt === '免费运输 1 次 · 顾问联系安排'));
+  assert.ok(view.fees(far.data.cardOrder, Date.now(), {}).rows.some((r) => r.k === '服务权益' && r.amt === '免费运输 1 次' && r.note === '顾问联系安排')); // IMPL-01：权益与安排方式分两行
   far.onHide();
 });
 test('快捷下单：未登录不出整期金额，主按钮「查看报价」打开登录层；登录后显示预计整期租金并可进确认订单', async () => {
@@ -284,10 +284,10 @@ test('快捷下单：未登录不出整期金额，主按钮「查看报价」�
   assert.deepEqual([pg.data.est.amount, pg.data.est.tag, pg.data.barAmount, pg.data.btnText], ['¥1,680', '7折', '¥1,680', '下一步：确认订单']);
   pg.onNext(); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes.CONFIRM + '?unit=' + U3 + '&term=6&date=' + START }]);
   pg.onStoreSheet(); assert.ok(pg.data.storeRows.length <= 8 && pg.data.storeRows[0].on);
-  assert.equal(pg.data.storeRows[0].sub, '1.2km · ' + pg._stores.find(s => s.id === 'SIM_BJ01').address);
+  assert.deepEqual([pg.data.storeRows[0].kmText, pg.data.storeRows[0].address], ['1.2km', pg._stores.find(s => s.id === 'SIM_BJ01').address]); // IMPL-01：距离与地址同一行两个字段，不拼串
   const stores = pg._stores;
   pg._stores = stores.map(s => ({ ...s, units: s.units.map(u => ({ ...u, status: 'reserved' })) }));
-  pg.onStoreSheet(); assert.ok(pg.data.storeRows.every(r => r.sub.endsWith('暂无可租') && r.price === ''), '被占用的库存不能显示可租起价');
+  pg.onStoreSheet(); assert.ok(pg.data.storeRows.every(r => r.none === '暂无可租' && r.address === '' && r.price === ''), '被占用的库存不能显示可租起价');
   pg._stores = stores;
   // 加租仓位：带入在租门店
   const add = env.newPage('pkg-trade/quick/index', { store: 'SIM_BJ01', carried: '1' }); await tick(); assert.equal(add.data.carried, true);

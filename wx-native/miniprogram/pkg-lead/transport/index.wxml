@@ -1,4 +1,4 @@
-<view class="mk-page {{view === 'saved' || view === 'pick' ? '' : 'ldf-page'}}">
+<view class="mk-page {{view === 'pick' ? '' : 'mk-page--plain'}} {{view === 'saved' || view === 'pick' ? '' : 'ldf-page'}}">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <block wx:elif="{{view === 'saved'}}">
     <view class="mk-gutter ltr-top">
@@ -6,12 +6,13 @@
         <button class="mk-btn mk-btn--plain mk-btn--md ltr-act" hover-class="mk-btn--plainHover" bindtap="onMine">{{T.c.backMine}}</button>
         <button class="mk-btn mk-btn--md ltr-act ltr-act--r" hover-class="mk-btn--hover" bindtap="onFind">{{T.x.goFind}}</button>
       </lead-ack>
-      <view class="mk-card ltr-gap">
-        <view class="mk-row ltr-sec"><text class="ldf-sectitle ltr-sect">{{T.x.preTitle}}</text><text class="mk-tag mk-tag--end mk-tag--warn">{{T.x.pending}}</text></view>
-        <text class="ltr-rt">{{saved.address}}</text>
-        <text class="mk-sub ltr-rs mk-num">{{saved.sub}}</text>
-      </view>
     </view>
+    <view class="ldf-secs ldf-secs--top mk-fade-in mk-fade-in--d2"><view class="mk-sec">
+      <view class="mk-sec__hd"><text>{{T.x.preTitle}}</text><text class="mk-tag mk-tag--end mk-tag--warn">{{T.x.pending}}</text></view>
+      <view class="ltr-ln"><image class="mk-icon ltr-ic" src="/assets/icons/pin-ink.svg" /><text class="ltr-rt mk-grow">{{saved.address}}</text></view>
+      <view class="ltr-ln"><image class="mk-icon ltr-ic" src="/assets/icons/cal-ink.svg" /><text class="mk-sub mk-num">{{saved.date}}</text></view>
+      <view class="ltr-ln"><image class="mk-icon ltr-ic" src="/assets/icons/phone-ink.svg" /><text class="mk-sub mk-num">{{saved.phone}}</text></view>
+    </view></view>
   </block>
   <block wx:elif="{{view === 'pick'}}">
     <text class="mk-title ltr-pickt">{{T.x.pickTitle}}</text>
@@ -22,11 +23,11 @@
   <block wx:else>
     <view wx:if="{{view === 'form'}}" class="mk-gutter ltr-top"><mk-order-card order="{{order}}" /></view>
     <view class="mk-gutter ldf-ntc"><mk-notice class="ltr-note" plain="{{true}}" text="{{view === 'form' ? T.x.noteOrder : T.x.note}}" /></view>
-    <view wx:if="{{view === 'form' && free}}" class="mk-card ldf-cardgap mk-between">
+    <view wx:if="{{view === 'form' && free}}" class="ldf-block ldf-cardgap mk-between">
       <view class="mk-grow"><text class="ltr-rt">{{T.x.freeTitle}}</text><text class="mk-sub ltr-rs">{{T.x.freeScope}}</text></view>
       <text class="mk-tag mk-tag--end mk-tag--ok">{{T.x.freeArrange}}</text>
     </view>
-    <view class="mk-card ldf-cardgap">
+    <view class="ldf-secs ldf-secs--top"><view class="mk-sec">
       <mk-field class="ldf-fld--first" label="{{T.x.address}}" error="{{errAddress}}">
         <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" placeholder="{{T.x.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
       </mk-field>
@@ -39,15 +40,15 @@
         <view wx:if="{{phoneMasked}}" class="ldf-input"><text class="mk-grow mk-num">{{phoneMasked}}</text><image class="mk-icon" src="/assets/icons/phone-ink.svg" /></view>
         <view wx:else class="ldf-input {{errPhone ? 'ldf-input--err' : ''}}"><input class="ldf-native" type="number" maxlength="11" value="{{phone}}" placeholder="{{T.x.phonePh}}" placeholder-class="ldf-ph" bindinput="onPhone" /><image class="mk-icon" src="/assets/icons/phone-ink.svg" /></view>
       </mk-field>
+      <text wx:if="{{view === 'pre'}}" class="mk-sub ltr-rule">{{T.x.freeRule}}</text>
     </view>
-    <text wx:if="{{view === 'pre'}}" class="mk-sub ltr-rule">{{T.x.freeRule}}</text>
-    <view wx:if="{{view === 'form' && records.length > 0}}" class="mk-card ldf-cardgap">
-      <text class="ldf-sectitle">{{T.x.records}}</text>
+    <view wx:if="{{view === 'form' && records.length > 0}}" class="mk-sec">
+      <view class="mk-sec__hd">{{T.x.records}}</view>
       <view wx:for="{{records}}" wx:key="id" class="mk-between ltr-rec">
         <view class="mk-grow"><text class="ltr-rt">{{item.address}}</text><text class="mk-sub ltr-rs mk-num">{{item.date}}</text></view>
         <text class="mk-tag mk-tag--end mk-tag--warn">{{T.x.pending}}</text>
       </view>
-    </view>
+    </view></view>
     <view class="mk-bottom-bar"><button class="mk-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onSubmit">{{T.x.submit}}</button></view>
   </block>
 </view>

@@ -55,7 +55,7 @@ Page(auth.guarded(routes.BOOKING, {
   },
   load() { // 有意向门店时取门店；取不到（门店不存在、接口失败、断网）就按不带门店的表单继续，不挡留资
     return pd.load(this, this._storeId ? api.getStore({ id: this._storeId }).catch(() => null) : Promise.resolve(null), (s) => {
-      this.setData({ store: s ? { id: s.id, name: s.name, sub: (s.distance_km !== null && s.distance_km !== undefined && state.get().location.noStoreCity === '' ? fmt.kmText(s.distance_km) + ' · ' : '') + s.address } : null });
+      this.setData({ store: s ? { id: s.id, name: s.name, km: s.distance_km !== null && s.distance_km !== undefined && state.get().location.noStoreCity === '' ? fmt.kmText(s.distance_km) : '', addr: s.address } : null }); // IMPL-01：距离与地址分两个字段，界面上同一行、距离紧跟定位图标，不再拼成「1.2km · 地址」
     });
   },
   onRetry() { this.setData({ sys: 'loading' }); this.load(); },

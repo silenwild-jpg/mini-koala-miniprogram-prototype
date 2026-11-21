@@ -56,7 +56,7 @@ function render(page, o, now) {
       d.card = q.kept
         ? { title: R.feeTitle, main: { k: R.rent, sub: mt, tag: tagOf(q.factor), amt: fill(CT.about, { a: yuan(q.total) }) }, sec: fill(CT.calc, { a: yuan(q.monthly), m }), keep: fill(R.keepForm, { z: q.label, m, p: q.currentLabel, less: yuan(q.lessMonthly) }), rule: R.ruleKeep }
         : { title: R.feeTitle, main: { k: R.rent, sub: mt, amt: R.pendingAmount, muted: true }, rule: R.ruleNormal };
-      const info = q.kept ? { lab: fill(R.barKeep, { m, z: q.label }), amt: fill(CT.about, { a: yuan(q.total) }) } : { lab: fill(R.barLabel, { m }), amt: R.barPending, muted: true };
+      const info = q.kept ? { lab: fill(R.barLabel, { m }), tag: fill(R.barKeepTag, { z: q.label }), amt: fill(CT.about, { a: yuan(q.total) }) } : { lab: fill(R.barLabel, { m }), amt: R.barPending, muted: true };
       d.bar = st === 'submitting' ? { btns: [btn(CT.submitting, '', 'primary', { loading: true, off: true })] } : Object.assign(info, { btns: [btn(R.submit, 'submit')] });
     } else if (st === 'quote_pending') {
       d.note = { tone: '', text: fill(r.notify === 'accepted' ? R.pendingNote : R.pendingNoteMsg, { n: A.sla.renewQuoteDays }) };
@@ -66,7 +66,7 @@ function render(page, o, now) {
     } else {
       const m = r.months, mt = fill(CT.months, { m }), q = after.renewQuote(o, m), newEnd = after.ymd(st === 'completed' ? o.lease.end : after.addMonths(o.lease.end, m));
       const period = st === 'completed' ? [] : [{ k: R.newEnd, v: newEnd }, { k: R.joint, v: fill(R.jointText, { d: end, m }), soft: true, long: true }];
-      const valid = { k: R.validTo, v: v.deadline ? leftText(v.deadline, now) : '' };
+      const valid = { k: R.validTo, v: v.deadline ? after.ymdhm(v.deadline) : '', sub: v.deadline ? leftText(v.deadline, now) : '', subWarn: true }; // 截止时间是值，剩余时间单独一行（IMPL-01）
       const ttl = fill(v.capped ? R.ttlCapped : R.ttl, { h: C.timers.renewQuoteTtlHours });
       const regular = q.currentTotal, differs = regular !== r.amount;
       if (st === 'quote_ready') {
@@ -82,10 +82,10 @@ function render(page, o, now) {
         if (v.kept) {
           d.note = { tone: '', text: fill(R.expiredKeepNote, { z: q.label }) };
           d.card = { title: R.feeTitle, main: { k: R.rent, sub: mt, tag: tagOf(q.factor), amt: fill(CT.about, { a: yuan(q.total) }) }, sec: fill(CT.calc, { a: yuan(q.monthly), m }), ref: old, kv: period, rule: R.ruleNormal };
-          d.bar = { lab: fill(R.barKeep, { m, z: q.label }), amt: fill(CT.about, { a: yuan(q.total) }), btns: [btn(R.resubmit, 'submit')] };
+          d.bar = { lab: fill(R.barLabel, { m }), tag: fill(R.barKeepTag, { z: q.label }), amt: fill(CT.about, { a: yuan(q.total) }), btns: [btn(R.resubmit, 'submit')] };
         } else {
           d.note = { tone: '', text: R.expiredNote };
-          d.card = { title: R.feeTitle, main: { k: R.regular, sub: mt + (q.special ? '' : ' · ' + tagOf(q.currentFactor)), amt: yuan(regular) }, sec: fill(CT.calc, { a: yuan(q.currentMonthly), m }), ref: old, total: { k: R.payable, amt: yuan(regular) }, kv: period, rule: R.effect };
+          d.card = { title: R.feeTitle, main: { k: R.regular, sub: mt, tag: q.special ? '' : tagOf(q.currentFactor), amt: yuan(regular) }, sec: fill(CT.calc, { a: yuan(q.currentMonthly), m }), ref: old, total: { k: R.payable, amt: yuan(regular) }, kv: period, rule: R.effect };
           d.bar = { lab: R.payable, amt: yuan(regular), btns: [btn(R.renewRegular, 'regular')] };
         }
         d.alt = [{ text: R.skip, act: 'skip' }];
@@ -100,15 +100,20 @@ function render(page, o, now) {
       }
       if (v.deadline && st !== 'completed' && st !== 'quote_expired') startTick(page, v.deadline);
     }
+    // IMPL-01 动效：改续租月数后步进数字与底栏金额轻微回弹（首次渲染、占位文字不动）；状态切换时正文淡入
+    const prevAmt = page.data.bar && !page.data.bar.muted ? page.data.bar.amt : '', prevM = page.data.form ? page.data.form.months : 0;
     page.setData(d);
+    if (d.form && prevM && prevM !== d.form.months) cm.bump(page, 'mBump', 'mk-bump mk-bump--center');
+    if (prevAmt && d.bar && !d.bar.muted && d.bar.amt && /\d/.test(d.bar.amt) && prevAmt !== d.bar.amt && page._fxSt === st) cm.bump(page, 'amtBump');
+    cm.fx(page, st);
 }
-function leftText(deadline, now) { return fill(R.validLeft, { t: after.ymdhm(deadline), c: after.countdown(deadline, now) }); }
+function leftText(deadline, now) { return fill(R.validLeft, { c: after.countdown(deadline, now) }); }
 // 报价有效期倒计时：每秒更新一行文字；到点重新取数（进入「报价已过期」）
 function startTick(page, deadline) {
   page._tick = setInterval(() => {
       const now = Date.now(), card = page.data.card;
       if (now >= deadline) { page.stopTimers(); page.setData({ paySheet: false }); page.refresh(); return; }
-      if (card && card.kv && card.kv.length && card.kv[0].k === R.validTo) page.setData({ 'card.kv[0].v': leftText(deadline, now) });
+      if (card && card.kv && card.kv.length && card.kv[0].k === R.validTo) page.setData({ 'card.kv[0].sub': leftText(deadline, now) });
   }, 1000);
   if (page._tick && page._tick.unref) page._tick.unref(); // 只在 Node 测试环境有 unref：不让计时器拖住进程
 }
@@ -128,7 +133,7 @@ Page(auth.guarded(routes.RENEW, {
   onLoad(q) { this._id = (q && q.id) || ''; this._months = 0; this._done = false; this._busy = false; },
   onShow() { return this.refresh(); },
   onHide() { this.stopTimers(); },
-  onUnload() { this.stopTimers(); },
+  onUnload() { this.stopTimers(); cm.dispose(this); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   refresh() { return cm.load(this, 'renew', (o, now) => render(this, o, now)); },
   stopTimers() { cm.cancelLater(this); if (this._tick) { clearInterval(this._tick); this._tick = null; } },

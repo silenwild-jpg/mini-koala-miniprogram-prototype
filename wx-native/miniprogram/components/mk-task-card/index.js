@@ -8,6 +8,8 @@
 //   阶段内单列的情况（order-view.variant：押金退款未成功、验仓未通过、退仓待清空、实名未通过、续租待支付 / 付款未成功）各有标题、角标、事实格和主按钮（A-02、A-03、A-06）；
 //   没有订单时：有找仓需求的不再出「继续找仓」简化卡，交给需求卡 mk-need-card（A-05）；有预约记录的进待办条带（A-07）；
 //   在「我的」页不出「找仓进度」待办，那一页的需求卡一直显示，避免两处说同一件事（D-17）。
+// IMPL-01（2026-11-21）：临期且主按钮已是「办理续租」时四宫格去掉「续租」（M-05）；待支付待办的门店、金额、剩余时间分开呈现；
+//   卡内不再画分隔线，说明用不描边的浅灰底块，待办条带从描边卡改成浅灰底块。
 const CT = require('../../core/config-trade');
 const CA = require('../../core/config-after');
 const after = require('../../core/after');
@@ -67,7 +69,8 @@ function mainCard(rec, others, now) {
     address: ['identity', 'upcoming', 'active', 'expiring', 'renewal', 'renewal_pending', 'returning', 'inspection', 'expired_lease'].indexOf(p) >= 0 ? (o.store.address || '') : '',
     facts: facts(o, p, now, key).slice(0, 3),
     primary: { t: TK.btn[b[0]], a: b[0] }, secondary: b[1] ? { t: TK.btn[b[1]], a: b[1] } : null,
-    svc, helpTitle: help ? help[0] : '', helpText: help ? help[1] : '',
+    svc, svcRenew: !(p === 'expiring' && b[0] === 'renew'), // M-05：临期且主按钮已是「办理续租」时，四宫格不再重复出「续租」
+    helpTitle: help ? help[0] : '', helpText: help ? help[1] : '',
     othersText: others > 0 ? TK.others[0] + others + TK.others[1] : ''
   };
 }
@@ -108,8 +111,8 @@ Component({
       // 待支付：主卡被租后或入仓阶段占用时进条带
       recs.slice(1).forEach((r) => {
         if ((r.p !== 'pending' && r.p !== 'payment_failed') || GROUP[m.p] >= 2) return;
-        const txt = r.p === 'pending' ? r.o.store.name + T.common.sep + TK.todoPayable + view.yuan(r.o.quote.payable) + TK.todoLeft + view.countdown(r.o.pay.expires_at, now) : r.o.store.name + T.common.sep + TK.todoFailed;
-        todos.push({ id: 'o' + r.o.id, k: TK.todoPending, t: txt, a: 'pay', orderId: r.o.id });
+        // IMPL-01：门店名、金额、剩余时间不再拼成一串。门店名是正文，金额单列在行尾用数字字体，剩余时间 / 支付未成功是下一行小字
+        todos.push({ id: 'o' + r.o.id, k: TK.todoPending, t: r.o.store.name, amt: view.yuan(r.o.quote.payable), note: r.p === 'pending' ? TK.left + view.countdown(r.o.pay.expires_at, now) : TK.todoFailed, a: 'pay', orderId: r.o.id });
       });
       const lead = (this._leads || []).filter((x) => x && x.status !== 'withdrawn').slice(-1)[0];
       if (lead) todos.push({ id: 'lead', k: TK.todoLead, t: lead.in_service_hours === false ? TK.todoLeadOff : TK.todoLeadIn, a: 'lead', orderId: '' });

@@ -1,4 +1,5 @@
-<view class="ts-seg" aria-role="group" aria-label="{{T.title}}">
+<view class="ts-seg {{slide ? 'ts-seg--slide' : ''}}" aria-role="group" aria-label="{{T.title}}">
+  <view wx:if="{{slide}}" class="ts-thumb ts-thumb--n{{count}} ts-thumb--i{{onIndex < 0 ? 0 : onIndex}} {{onIndex < 0 ? '' : 'ts-thumb--on'}}"></view>
   <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{cells}}" wx:key="m" class="ts-cell {{item.on ? 'ts-on' : ''}}" data-m="{{item.m}}" bindtap="onPick" aria-role="button">
     <text>{{item.label}}</text><text wx:if="{{item.badge}}" class="ts-badge">{{item.badge}}</text>
   </view>
@@ -8,10 +9,10 @@
   <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{allowUnsure}}" class="ts-cell {{value === 'unsure' ? 'ts-on' : ''}}" bindtap="onUnsure" aria-role="button"><text>{{T.unsure}}</text></view>
 </view>
 <text wx:if="{{hint}}" class="ts-hint">{{hint}}</text>
-<view wx:if="{{inline && expand}}" class="ts-inline">
+<view wx:if="{{inline && expand}}" class="ts-inline mk-drop-in">
   <view class="ts-stepper mk-between">
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ts-step {{canMinus ? '' : 'ts-off'}}" bindtap="onMinus" aria-role="button" aria-label="减少 1 个月">−</view>
-    <view class="ts-val"><text class="mk-num ts-n">{{draft}}</text><text class="mk-sub">{{T.unit}}</text><text wx:if="{{draftBadge}}" class="mk-tag mk-tag--promo ts-b">{{draftBadge}}</text></view>
+    <view class="ts-val"><text class="mk-num ts-n {{draftBump}}">{{draft}}</text><text class="mk-sub">{{T.unit}}</text><text wx:if="{{draftBadge}}" class="mk-tag mk-tag--promo ts-b">{{draftBadge}}</text></view>
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ts-step {{canPlus ? '' : 'ts-off'}}" bindtap="onPlus" aria-role="button" aria-label="增加 1 个月">＋</view>
   </view>
   <view class="ts-quick"><view wx:for="{{quick}}" wx:key="*this" class="mk-chip {{draft === item ? 'mk-chip--on' : ''}} ts-q" data-m="{{item}}" bindtap="onQuick">{{item}}{{T.unit}}</view></view>
@@ -20,7 +21,7 @@
 <mk-sheet visible="{{sheet}}" title="{{T.otherTitle}}" bind:close="onCloseSheet">
   <view class="ts-stepper mk-between">
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ts-step {{canMinus ? '' : 'ts-off'}}" bindtap="onMinus" aria-role="button" aria-label="减少 1 个月">−</view>
-    <view class="ts-val"><text class="mk-num ts-n">{{draft}}</text><text class="mk-sub">{{T.unit}}</text><text wx:if="{{draftBadge}}" class="mk-tag mk-tag--promo ts-b">{{draftBadge}}</text></view>
+    <view class="ts-val"><text class="mk-num ts-n {{draftBump}}">{{draft}}</text><text class="mk-sub">{{T.unit}}</text><text wx:if="{{draftBadge}}" class="mk-tag mk-tag--promo ts-b">{{draftBadge}}</text></view>
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ts-step {{canPlus ? '' : 'ts-off'}}" bindtap="onPlus" aria-role="button" aria-label="增加 1 个月">＋</view>
   </view>
   <view class="ts-quick"><view wx:for="{{quick}}" wx:key="*this" class="mk-chip {{draft === item ? 'mk-chip--on' : ''}} ts-q" data-m="{{item}}" bindtap="onQuick">{{item}}{{T.unit}}</view></view>

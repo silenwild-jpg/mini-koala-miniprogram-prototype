@@ -5,7 +5,7 @@
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onEmptyBtn">{{emptyKind === 'order' ? TO.backOrders : T.emptyBtn}}</button>
   </mk-empty>
   <view wx:else class="mk-gutter cf-body">
-    <view wx:if="{{head}}" class="cf-head">
+    <view wx:if="{{head}}" class="cf-head {{headFx || 'mk-fade'}}">
       <view class="mk-between"><text class="mk-h2 mk-grow">{{paying ? T.payingHead : head.title}}</text><text class="cf-tag cf-tag--{{head.tone}}">{{head.tag}}</text></view>
       <view class="cf-subs">
         <text wx:for="{{headSubs}}" wx:key="*this" class="mk-sub cf-subitem">{{item}}</text>
@@ -23,13 +23,12 @@
     <mk-notice wx:if="{{quoteExpired}}" tone="warn" title="{{T.quoteExpired}}" />
     <mk-notice wx:if="{{held}}" plain="{{true}}" tone="warn" title="{{T.heldTitle}}" text="{{T.heldDesc}}" />
     <mk-notice wx:elif="{{gone}}" plain="{{true}}" tone="err" title="{{T.goneTitle}}" text="{{T.goneDesc}}" />
-    <mk-order-card order="{{cardOrder}}" show-km="{{true}}" swap="{{swapText}}" editable="{{editable}}" hint="{{hint}}" dead="{{dead}}" bind:swap="onSwap" bind:term="onTerm" bind:date="onDate" />
-    <view wx:if="{{mode === 'compose' && editable}}" class="mk-mute cf-startnote">{{T.startNote}}</view>
+    <mk-order-card order="{{cardOrder}}" show-km="{{true}}" swap="{{swapText}}" editable="{{editable}}" hint="{{hint}}" dead="{{dead}}" date-note="{{mode === 'compose' && editable ? T.startNote : ''}}" bind:swap="onSwap" bind:term="onTerm" bind:date="onDate" />
     <view wx:if="{{dead}}">
       <view wx:if="{{alts.length}}" class="mk-card cf-card">
         <view class="mk-between cf-sectitle"><text class="mk-title">{{T.altTitle}}</text><text class="mk-sub">{{T.altBy}}</text></view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{alts}}" wx:key="id" class="cf-alt" data-id="{{item.id}}" bindtap="onAlt" aria-role="button">
-          <view class="mk-grow"><view class="mk-ellipsis cf-altn">{{item.name}}</view><view class="mk-sub">{{item.sub}}</view></view>
+          <view class="mk-grow cf-altmain"><view class="mk-ellipsis cf-altn">{{item.name}}</view><view class="cf-altmeta"><text wx:if="{{item.kmText}}" class="mk-sub mk-num cf-altkm">{{item.kmText}}</text><text class="mk-tag cf-altvol mk-num">{{item.vol}}</text></view></view>
           <view class="cf-altp"><view class="mk-num cf-altamt">{{item.price}}</view><view class="mk-mute">{{item.term}}</view></view>
           <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
         </view>
@@ -37,22 +36,27 @@
       <button class="mk-btn mk-btn--ghost mk-btn--md" hover-class="mk-btn--ghostHover" bindtap="onAdvisor">{{T.btnAdvisor}}</button>
     </view>
     <view wx:else>
-      <mk-fee-detail order="{{cardOrder}}" editable="{{couponEditable}}" show-coupon="{{true}}" locked="{{locked}}" no-saved="{{!!price}}" total-label="{{T.payable}}" placeholder="{{feePlaceholder}}" note="{{feeNote}}" coupon-text="{{couponText}}" bind:coupon="onCoupon" />
-      <view class="mk-card cf-card mk-between cf-kv">
-        <text class="mk-sub">{{T.contact}}</text>
-        <view class="mk-row"><text class="cf-kvv">{{contactText}}</text><text wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onContact" aria-role="button">{{T.contactSwap}}</text></view>
+      <view class="mk-card cf-card cf-person {{!idv.verified && !locked ? 'cf-person--todo' : ''}}">
+        <view class="mk-title cf-sectitle">{{T.person}}</view>
+        <view class="cf-prow">
+          <text class="mk-sub cf-pk">{{T.personPhone}}</text>
+          <text class="mk-grow mk-num cf-kvv">{{phoneText}}</text>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onContact" aria-role="button">{{T.contactSwap}}<image class="mk-icon cf-linkchev" src="/assets/icons/chev-brand.svg" /></view>
+        </view>
+        <view class="cf-prow">
+          <text class="mk-sub cf-pk">{{T.identity}}</text>
+          <block wx:if="{{idv.verified}}"><text class="mk-grow mk-ellipsis cf-kvv">{{idv.text}}</text><text class="mk-tag mk-tag--ok mk-tag--end">{{T.identityDone}}</text></block>
+          <block wx:else><view class="mk-grow"><text class="mk-tag mk-tag--warn">{{T.identityTodo}}</text></view><button wx:if="{{!locked}}" class="mk-btn mk-btn--ghost mk-btn--sm cf-idvbtn" hover-class="mk-btn--ghostHover" bindtap="onIdv">{{T.identityGo}}</button></block>
+        </view>
+        <view wx:if="{{!idv.verified && !locked}}" class="cf-ptip"><image class="mk-icon cf-ptipicon" src="/assets/icons/info-sub.svg" /><text class="mk-grow">{{T.personTip}}</text></view>
       </view>
-      <view class="mk-card cf-card mk-between cf-kv">
-        <text class="mk-sub">{{T.identity}}</text>
-        <view wx:if="{{idv.verified}}" class="mk-row"><text class="cf-kvv">{{idv.text}}</text><text class="cf-tag cf-tag--ok">{{T.identityDone}}</text></view>
-        <view wx:else class="mk-row"><text class="mk-sub">{{T.identityTodo}}</text><text wx:if="{{!locked}}" class="mk-link cf-kvlink" bindtap="onIdv" aria-role="button">{{T.identityGo}}</text></view>
-      </view>
-      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card cf-card cf-entry" bindtap="onProtect" aria-role="button">
+      <mk-fee-detail order="{{cardOrder}}" editable="{{couponEditable}}" show-coupon="{{true}}" locked="{{locked}}" no-saved="{{!!price}}" no-total="{{true}}" total-label="{{T.payable}}" placeholder="{{feePlaceholder}}" note="{{feeNote}}" coupon-text="{{couponText}}" bind:coupon="onCoupon" />
+      <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" class="mk-card cf-card cf-entry mk-press" bindtap="onProtect" aria-role="button">
         <image class="mk-icon mk-icon--md" src="/assets/icons/shield-ink.svg" />
         <view class="mk-grow cf-entrytext"><view class="cf-entryt">{{T.protect}}</view><view class="mk-sub">{{T.protectSub}}</view></view>
         <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
       </view>
-      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-card cf-card cf-entry" bindtap="onTransport" aria-role="button">
+      <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" class="mk-card cf-card cf-entry mk-press" bindtap="onTransport" aria-role="button">
         <image class="mk-icon mk-icon--md" src="/assets/icons/truck-brand.svg" />
         <view class="mk-grow cf-entrytext"><view class="cf-entryt">{{T.transport}}</view><view class="mk-sub">{{T.transportSub}}</view></view>
         <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
@@ -67,8 +71,8 @@
     </view>
     <view class="cf-barmain">
       <view wx:if="{{!bar.solo}}" class="mk-grow" bindtap="onFees">
-        <view class="mk-sub"><text>{{bar.label}}</text><text wx:if="{{bar.saved && !bar.muted}}" class="cf-saved">{{bar.saved}}</text></view>
-        <view class="mk-num {{bar.muted ? 'cf-amt--muted' : 'cf-amt'}}">{{bar.amount}}</view>
+        <view class="cf-barlabel"><text class="mk-sub">{{bar.label}}</text><text wx:if="{{bar.saved && !bar.muted}}" class="cf-saved mk-num">{{bar.saved}}</text></view>
+        <view class="mk-num {{bar.muted ? 'cf-amt--muted' : 'cf-amt'}}"><text class="{{amtBump}}">{{bar.amount}}</text></view>
       </view>
       <view class="cf-go {{bar.solo ? 'cf-go--solo' : ''}}">
         <button class="mk-btn {{bar.disabled ? 'mk-btn--disabled' : ''}}" hover-class="{{bar.disabled ? 'none' : 'mk-btn--hover'}}" bindtap="onBar">{{bar.btn}}</button>
@@ -126,8 +130,8 @@
     </view>
   </mk-sheet>
 
-  <view wx:if="{{price}}" class="cf-scrim" catchtouchmove="noop">
-    <view class="cf-dialog">
+  <view wx:if="{{price}}" class="cf-scrim mk-fade" catchtouchmove="noop">
+    <view class="cf-dialog mk-fade-in">
       <view class="mk-title">{{T.priceTitle}}</view>
       <text class="mk-sub cf-dialogdesc">{{T.priceDesc}}</text>
       <view class="cf-reason"><text class="mk-sub">{{T.priceReason}}</text><text class="cf-reasonv">{{price.reason}}</text></view>
@@ -141,8 +145,8 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{paying}}" class="cf-scrim" catchtouchmove="noop">
-    <view class="cf-dialog cf-dialog--center">
+  <view wx:if="{{paying}}" class="cf-scrim mk-fade" catchtouchmove="noop">
+    <view class="cf-dialog cf-dialog--center mk-fade-in">
       <view class="cf-spin"></view>
       <view class="mk-title">{{T.payingTitle}}</view>
       <text class="mk-sub cf-dialogdesc">{{T.payingDesc}}</text>

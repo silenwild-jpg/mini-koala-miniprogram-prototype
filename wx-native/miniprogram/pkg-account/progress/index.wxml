@@ -2,28 +2,30 @@
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="mk-gutter lpg-top">
     <mk-need-card id="need" />
-    <view wx:if="{{reference}}" class="mk-card lpg-card lpg-accent">
+    <view wx:if="{{reference}}" class="mk-card lpg-card lpg-accent mk-fade-in">
       <text class="lpg-kicker">{{T.kicker}}</text>
       <view class="mk-between"><text class="mk-h2 mk-num">{{reference.title}}</text><text class="mk-tag mk-tag--end mk-tag--brand">{{T.reference}}</text></view>
       <text class="mk-sub lpg-sub">{{reference.sub}}</text>
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onRefind">{{T.refind}}</button>
     </view>
-    <view wx:if="{{selected}}" class="mk-card lpg-card">
+    <view wx:if="{{selected}}" class="mk-card lpg-card mk-fade-in mk-fade-in--d1">
       <text class="mk-title lpg-sec">{{T.selected}}</text>
       <text class="lpg-store mk-ellipsis">{{selected.store}}</text>
-      <text class="mk-sub lpg-sub mk-num">{{selected.line}}</text>
+      <view class="mk-row lpg-unit"><text wx:if="{{selected.unit.code}}" class="mk-unitno lpg-no">{{selected.unit.code}}</text><text class="mk-num lpg-vol">{{selected.unit.vol}}</text><text class="mk-sub lpg-term">{{selected.unit.term}}</text></view>
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onConfirm">{{T.toConfirm}}</button>
     </view>
-    <view wx:if="{{quote}}" class="mk-card lpg-card">
+    <view wx:if="{{quote}}" class="mk-card lpg-card mk-fade-in mk-fade-in--d1">
       <view class="mk-row lpg-sec"><text class="mk-title">{{T.quoteTitle}}</text><text class="mk-tag mk-tag--end {{quote.valid ? 'mk-tag--warn' : ''}}">{{quote.tag}}</text></view>
       <text class="lpg-store mk-ellipsis">{{quote.store}}</text>
-      <text class="mk-sub lpg-sub mk-num">{{quote.line}}</text>
-      <view class="lpg-kv"><text class="mk-sub">{{T.rent}}</text><text class="mk-num">{{quote.rent}}</text></view>
-      <view wx:if="{{quote.coupon}}" class="lpg-kv"><text class="mk-sub">{{T.coupon}}</text><text class="mk-num">{{quote.coupon}}</text></view>
-      <view class="lpg-kv"><text class="mk-sub">{{T.payable}}</text><text class="mk-num lpg-amt">{{quote.payable}}</text></view>
+      <view class="mk-row lpg-unit"><text wx:if="{{quote.unit.code}}" class="mk-unitno lpg-no">{{quote.unit.code}}</text><text class="mk-num lpg-vol">{{quote.unit.vol}}</text><text class="mk-sub lpg-term">{{quote.unit.term}}</text></view>
+      <view class="lpg-fees">
+        <view class="lpg-kv"><text class="mk-sub">{{T.rent}}</text><text class="mk-num">{{quote.rent}}</text></view>
+        <view wx:if="{{quote.coupon}}" class="lpg-kv"><text class="mk-sub">{{T.coupon}}</text><text class="mk-num">{{quote.coupon}}</text></view>
+      </view>
+      <view class="lpg-kv lpg-total"><text>{{T.payable}}</text><text class="mk-num lpg-amt">{{quote.payable}}</text></view>
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onConfirm">{{quote.cta}}</button>
     </view>
-    <mk-empty wx:if="{{empty}}" class="lpg-emptywrap" icon="/assets/icons/flag-ink.svg" title="{{T.emptyTitle}}" card="{{true}}">
+    <mk-empty wx:if="{{empty}}" class="lpg-emptywrap" icon="/assets/icons/flag-ink.svg" title="{{T.emptyTitle}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onEstimate">{{T.estimate}}</button>
       <button class="mk-btn mk-btn--md mk-btn--plain mk-empty-btn" hover-class="mk-btn--plainHover" bindtap="onStores">{{T.findStores}}</button>
     </mk-empty>

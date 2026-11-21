@@ -56,7 +56,7 @@ test('C-01：续租后费用明细按付款分段，「已付」是累计、「�
   assert.deepEqual([rent.sub, rent.amt, rent.sec], ['12个月', '¥2,880', '¥240/月 × 12个月'], '整期租金一行是下单时的租期与金额，不再拿累计租期配原金额');
   assert.deepEqual([f.rows.find((r) => r.id === 'saved').amt, f.rows.find((r) => r.id === 'saved').sub], ['¥1,920', '较月基价 ¥400/月'], '已省 = (400 − 240) × 12，与上面 12 个月同一段');
   assert.deepEqual(f.rows.slice(-2).map((r) => [r.k, r.sub, r.amt]), [['下单支付小计', '12个月', '¥3,170'], ['续租租金', '6个月', '¥1,440']]);
-  assert.equal(f.rows[f.rows.length - 1].sec, '¥240/月 × 6个月 · ' + view.ymd(now()) + ' 支付'); assert.equal(f.rows[f.rows.length - 1].tag, '6折');
+  assert.deepEqual([f.rows[f.rows.length - 1].sec, f.rows[f.rows.length - 1].note], ['¥240/月 × 6个月', view.ymd(now()) + ' 支付']); assert.equal(f.rows[f.rows.length - 1].tag, '6折');
   assert.deepEqual(f.total, { label: '累计已付', amt: '¥4,610' }, '3,170 + 1,440');
   assert.equal(after.paidTotal(x), 4610);
   const c = listCard(x);
@@ -231,7 +231,7 @@ test('D-01 / R-03：批量与单笔共用一份开票记录，开过的不能重
   assert.deepEqual([raw(id).invoice.records[0].status, raw(id).invoice.status], ['issued', 'issued']);
   let pg = await page('INVOICE', { id });
   assert.deepEqual([pg.data.st, pg.data.head.title, pg.data.form, pg.data.records.length], ['issued', '发票已开具', null, 1], '批量开过后，单笔页是已开具，不再是可申请');
-  assert.equal(pg.data.records[0].t, '下单支付 · ' + yuan(amount)); pg.onUnload();
+  assert.deepEqual([pg.data.records[0].t, pg.data.records[0].amt], ['下单支付', yuan(amount)]); pg.onUnload();
   await rejects(api.submitInvoice({ id, kind: 'personal', title: '张三', email: 'a@b.cn' }), 'CONFLICT');
   // 单笔开过 → 批量列表不再列；批量未成功 → 记录撤掉，付款放回可申请
   const o2 = active({ units: ['SIM_BJ01_U05'] }), o3 = active({ units: ['SIM_BJ01_U02'] });

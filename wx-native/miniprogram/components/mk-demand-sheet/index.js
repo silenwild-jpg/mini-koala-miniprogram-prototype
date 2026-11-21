@@ -10,11 +10,13 @@ const pricing = require('../../core/pricing');
 const state = require('../../services/state');
 const routes = require('../../services/routes');
 const flow = require('../../services/estimate-flow');
+const motion = require('../../core/motion');
 const D = T.demand;
 Component({
   options: { addGlobalClass: true },
   properties: { visible: { type: Boolean, value: false }, cold: { type: Boolean, value: false }, rangeNote: { type: Boolean, value: false } },
-  data: { T: { capLabel: D.capLabel, termLabel: D.termLabel, toEstimate: D.toEstimate, byItems: D.byItems, ai: D.ai, aiOff: D.aiOff, cancel: D.cancel, m3: T.unit.m3, m2: T.unit.m2 }, title: D.title, note: D.note, submitText: D.update, unit: 'm3', raw: '', term: C.requirement.termDefault, approx: '', error: '', hint: '' },
+  data: { T: { capLabel: D.capLabel, termLabel: D.termLabel, toEstimate: D.toEstimate, byItems: D.byItems, ai: D.ai, aiOff: D.aiOff, cancel: D.cancel, m3: T.unit.m3, m2: T.unit.m2 }, title: D.title, note: D.note, submitText: D.update, unit: 'm3', raw: '', term: C.requirement.termDefault, approx: '', error: '', hint: '', approxBump: '' },
+  lifetimes: { detached() { motion.dispose(this); } },
   observers: { visible(v) { if (v) this.open(); } },
   methods: {
     open() {
@@ -29,7 +31,9 @@ Component({
     evaluate() {
       const d = this.data, v = req.validate(d.unit, d.raw);
       this._v = v;
-      this.setData({ approx: v.ok && d.unit === 'm2' ? D.approx(req.pretty(v.capacity_m3)) : '', hint: v.ok && !v.sales ? pricing.nudge(d.term) : '' });
+      const approx = v.ok && d.unit === 'm2' ? D.approx(req.pretty(v.capacity_m3)) : '';
+      if (approx && d.approx && approx !== d.approx) motion.bump(this, 'approxBump'); // 换算出的容量变了：轻微反馈
+      this.setData({ approx, hint: v.ok && !v.sales ? pricing.nudge(d.term) : '' });
     },
     onInput(e) { this.setData({ raw: String((e.detail && e.detail.value) || ''), error: '' }); this.evaluate(); },
     onUnit(e) { const unit = e.currentTarget.dataset.u === 'm2' ? 'm2' : 'm3'; if (unit !== this.data.unit) { this.setData({ unit, raw: '', error: '' }); this.evaluate(); } },

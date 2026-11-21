@@ -19,12 +19,12 @@ module.exports = {
     progress: '续租进度', stepMonths: '续租 {m}个月', stepExpired: '报价已过期', stepDone: '新租期至 {d} · 累计 {m}个月',
     monthsTitle: '续租月数', monthsLabel: '续租', monthsRule: '可续租 1–{max}个月，累计租期不超过 {cap} 个月',
     feeTitle: '续租费用', quoteTitle: '续租报价', rent: '续租租金', storeQuote: '门店报价', regular: '常规折扣价', current: '现行折扣价', oldQuote: '原门店报价', expiredSub: '已过期',
-    pendingAmount: '提交后由门店报价', barPending: '报价待门店确认', barLabel: '续租 {m}个月', barKeep: '续租 {m}个月 · 沿用 {z}',
+    pendingAmount: '提交后由门店报价', barPending: '报价待门店确认', barLabel: '续租 {m}个月', barKeepTag: '沿用 {z}', // IMPL-01：月数是说明、沿用折扣是标签，分开放不用分隔符
     ruleNormal: '续租价格以门店确认的报价为准。', ruleKeep: '金额以门店确认的报价为准。',
     keepForm: '首次续租沿用您原订单的 {z}，比现在 {m} 个月的 {p}每月少 {less}。',
     keepQuote: '首次续租沿用您原订单的 {z}，比现在 {m} 个月的 {p}每月少 {less}，本次共少 {total}。',
     payable: '续租应付', paid: '已付',
-    validTo: '报价有效至', validLeft: '{t} · 剩余 {c}', payDeadline: '付款截止', sameAsQuote: '与报价有效期相同', newEnd: '新租期至', joint: '租期衔接', jointText: '自当前租期截止日 {d} 顺延 {m}个月，不中断',
+    validTo: '报价有效至', validLeft: '剩余 {c}', payDeadline: '付款截止', sameAsQuote: '与报价有效期相同', newEnd: '新租期至', joint: '租期衔接', jointText: '自当前租期截止日 {d} 顺延 {m}个月，不中断',
     ttl: '报价 {h} 小时内有效。', ttlCapped: '距当前租期到期不足 {h} 小时，报价有效期截至租期到期。', afterExpire: '过期后按常规折扣价续租。', effect: '付款完成后新租期生效。',
     expiredNote: '续租报价已过期，可按常规折扣价续租。', expiredKeepNote: '续租报价已过期。首次续租仍可沿用原订单的 {z}，重新提交后由门店确认。',
     pendingNote: '门店将在 {n} 天内确认报价，确认后会通知您。', pendingNoteMsg: '门店将在 {n} 天内确认报价，确认后可在「消息」查看。', // R-02：{n} = config-after sla.renewQuoteDays
@@ -63,7 +63,7 @@ module.exports = {
   },
   deposit: {
     head: '订单押金', tag: { held: '押金保管中', waiting: '待验仓', refund_pending: '退款处理中', refund_failed: '退款未成功', refunded: '已退还', refunded_partial: '部分退还' },
-    amountLabel: '押金 · 1个月月租', progress: '押金进度', steps: ['支付押金', '押金保管中', '验仓', '退款处理', '退还完成'], paidWith: '随下单支付 · {d}',
+    amountLabel: '押金', amountBasis: '1个月月租', progress: '押金进度', steps: ['支付押金', '押金保管中', '验仓', '退款处理', '退还完成'], paidWith: '{d} 随下单支付',
     exitTag: { requested: '已提交', waiting: '待验仓', failed: '需重新验仓', passed: '验仓通过' },
     settle: '押金结算', orderDeposit: '订单押金', due: '已扣费用', back: '实际退还', dueNote: '已扣费用明细可向门店查询。', // FIX-01 C-12：结算完成后不再叫「待结费用」
     switchOrder: '切换订单', switchTitle: '选择订单', switchCount: '共 {n} 笔订单', // FIX-01 D-14

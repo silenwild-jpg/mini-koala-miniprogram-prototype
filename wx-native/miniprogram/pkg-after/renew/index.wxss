@@ -7,19 +7,20 @@
 .af-amt--muted { font-weight: var(--mk-font-weight-regular); color: var(--mk-color-ink-tertiary); }
 .af-amt--strike { text-decoration: line-through; }
 .af-fee-sec { display: block; color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); margin-bottom: var(--mk-space-1); }
-.af-total { display: flex; align-items: center; justify-content: space-between; margin-top: var(--mk-space-2); padding-top: var(--mk-space-3); border-top: var(--mk-border-hairline); font-weight: var(--mk-font-weight-semibold); }
+/* IMPL-01：合计行不画线，用浅灰底块与字号区分（与 mk-fee-detail 的合计行同一写法） */
+.af-total { display: flex; align-items: center; justify-content: space-between; margin: var(--mk-space-2) 0; padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); font-weight: var(--mk-font-weight-semibold); }
 .af-total-amt { font-size: var(--mk-font-size-xl); }
 /* —— 续租页 —— */
-.rn-top { margin-top: var(--mk-space-cardGap); }
+.rn-notesec .mk-sec__hd { display: none; }
 .rn-stepper { display: flex; align-items: center; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); }
 .rn-step { width: 72rpx; height: 68rpx; display: flex; align-items: center; justify-content: center; font-size: var(--mk-font-size-xl); color: var(--mk-color-brand-text); }
 .rn-step--off { color: var(--mk-color-ink-tertiary); }
-.rn-stepval { min-width: 128rpx; height: 68rpx; line-height: 68rpx; text-align: center; border-left: var(--mk-border-strong); border-right: var(--mk-border-strong); }
+.rn-stepval { min-width: 128rpx; height: 68rpx; line-height: 68rpx; text-align: center; box-sizing: border-box; border-left: var(--mk-border-strong); border-right: var(--mk-border-strong); }
 .rn-chips { display: flex; flex-wrap: wrap; margin-top: var(--mk-space-3); }
 .rn-chip { margin-right: var(--mk-space-2); }
 .rn-hint { display: block; margin-top: var(--mk-space-2); color: var(--mk-color-accent-promoText); font-size: var(--mk-font-size-sm); }
 .rn-keep { margin: var(--mk-space-3) 0 var(--mk-space-1); padding: var(--mk-space-2) var(--mk-space-3); border-radius: var(--mk-radius-control); background: var(--mk-color-accent-promoFill); color: var(--mk-color-accent-promoText); font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
-.rn-alt { display: flex; justify-content: center; }
+.rn-alt { display: flex; justify-content: center; border-top: 16rpx solid var(--mk-color-canvas-sunken); }
 .rn-altbtn { padding: var(--mk-space-3) var(--mk-space-4); color: var(--mk-color-ink-secondary); border-radius: var(--mk-radius-control); }
 .rn-sub { display: flex; align-items: center; margin-top: var(--mk-space-2); }
 .rn-subbtn { padding: var(--mk-space-2) var(--mk-space-3); font-size: var(--mk-font-size-md); }

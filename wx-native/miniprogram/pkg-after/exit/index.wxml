@@ -1,29 +1,30 @@
-<view class="mk-page {{bar ? 'af-pad' : ''}}">
+<view class="mk-page mk-page--plain {{bar ? 'af-pad' : ''}}">
   <view wx:if="{{sys === 'loading'}}" class="af-body af-loading"><mk-sys-state type="loading" skeleton="{{3}}" /></view>
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <mk-empty wx:elif="{{empty}}" icon="/assets/icons/order-sub.svg" title="{{T.c.emptyTitle}}" sub="{{T.c.emptySub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.c.backOrders}}</button>
   </mk-empty>
   <block wx:else>
-    <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
-    <view class="af-body">
+    <view class="{{stFx}}"><mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" /></view>
+    <view class="af-body af-top">
       <mk-notice wx:if="{{note}}" title="{{note.title}}" text="{{note.text}}" tone="{{note.tone}}" link="{{note.link}}" bind:link="onAgreement" />
       <mk-order-card order="{{order}}" />
-      <view class="ex-top"></view>
-      <view wx:if="{{cancel}}" class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.x.cancelTitle}}</text>
+    </view>
+    <view class="af-secs {{stFx}}">
+      <view wx:if="{{cancel}}" class="mk-sec">
+        <view class="mk-sec__hd">{{T.x.cancelTitle}}</view>
         <mk-after-kv rows="{{cancel}}" />
         <text class="af-rule">{{T.x.cancelFoot}}</text>
       </view>
-      <view wx:if="{{steps.length}}" class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.x.progress}}</text>
+      <view wx:if="{{steps.length}}" class="mk-sec">
+        <view class="mk-sec__hd">{{T.x.progress}}</view>
         <mk-after-steps steps="{{steps}}" />
       </view>
-      <view wx:if="{{form}}" class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.x.arrange}}</text>
+      <view wx:if="{{form}}" class="mk-sec">
+        <view class="mk-sec__hd">{{T.x.arrange}}</view>
         <mk-field label="{{T.x.typeLabel}}">
           <view wx:if="{{form.canEarly}}" class="af-seg">
-            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{form.types}}" wx:key="v" class="af-seg-item {{item.on ? 'af-seg-item--on' : ''}}" data-v="{{item.v}}" bindtap="onType" aria-role="button">{{item.t}}</view>
+            <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{form.types}}" wx:key="v" class="af-seg-item mk-ease {{item.on ? 'af-seg-item--on' : ''}}" data-v="{{item.v}}" bindtap="onType" aria-role="button">{{item.t}}</view>
           </view>
           <view wx:else class="af-input"><text>{{form.typeText}}</text></view>
         </mk-field>
@@ -35,23 +36,25 @@
         <text class="af-rule">{{form.rule}}</text>
         <text wx:if="{{form.tip}}" class="af-rule">{{form.tip}}</text>
       </view>
-      <view wx:if="{{depositRows.length}}" class="mk-card af-gap"><mk-after-kv rows="{{depositRows}}" /></view>
-      <view wx:if="{{plan.length}}" class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.x.arrange}}</text>
+      <view wx:if="{{depositRows.length}}" class="mk-sec"><mk-after-kv rows="{{depositRows}}" /></view>
+      <view wx:if="{{plan.length}}" class="mk-sec">
+        <view class="mk-sec__hd">{{T.x.arrange}}</view>
         <mk-after-kv rows="{{plan}}" />
       </view>
-      <mk-after-fail wx:if="{{fail}}" title="{{T.x.failTitle}}" reason="{{order.exit.fail_reason}}" fixes="{{T.x.failFixes}}" bind:call="onCall" />
-      <view wx:if="{{before}}" class="mk-card af-gap">
-        <text class="mk-title af-sec">{{T.x.beforeInspect}}</text>
+      <view wx:if="{{fail}}" class="mk-sec"><mk-after-fail title="{{T.x.failTitle}}" reason="{{order.exit.fail_reason}}" fixes="{{T.x.failFixes}}" bind:call="onCall" /></view>
+      <view wx:if="{{before}}" class="mk-sec">
+        <view class="mk-sec__hd">{{T.x.beforeInspect}}</view>
         <text>{{T.x.beforeInspectText}}</text>
       </view>
-      <mk-notice wx:if="{{waitNote}}" text="{{waitNote}}">
+      <view wx:if="{{waitNote}}" class="mk-sec">
+      <mk-notice text="{{waitNote}}">
         <view wx:if="{{sub}}" class="ex-sub">
           <image wx:if="{{sub.ok}}" class="mk-icon" src="/assets/icons/check-brand.svg" />
           <text class="mk-sub mk-grow">{{sub.text}}</text>
           <text wx:if="{{!sub.ok}}" class="mk-link ex-subbtn" bindtap="onSubAsk" aria-role="button">{{T.c.subOn}}</text>
         </view>
       </mk-notice>
+      </view>
       <view wx:if="{{canWithdraw}}" class="af-alt">
         <view class="af-altbtn" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onWithdraw" aria-role="button">{{T.x.withdraw}}</view>
       </view>

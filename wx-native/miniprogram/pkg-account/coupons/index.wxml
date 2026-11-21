@@ -1,13 +1,13 @@
-<view class="mk-page">
+<view class="mk-page mk-page--plain">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
-  <view wx:else class="ac-wrap">
-    <mk-notice plain="{{true}}" text="{{notice}}" />
-    <mk-empty wx:if="{{empty}}" icon="/assets/icons/ticket-ink.svg" title="{{T.empty}}" card="{{true}}">
+  <view wx:else class="ac-secs">
+    <view class="ac-pad"><mk-notice plain="{{true}}" text="{{notice}}" /></view>
+    <mk-empty wx:if="{{empty}}" icon="/assets/icons/ticket-ink.svg" title="{{T.empty}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" loading="{{busy}}" bindtap="onClaim">{{T.claim}}</button>
     </mk-empty>
-    <view wx:else class="mk-card">
-      <text class="ac-sec">{{T.coupons}}</text>
-      <view wx:for="{{coupons}}" wx:key="id" class="cp-card {{item.off ? 'cp-off' : ''}}">
+    <view wx:else class="mk-sec">
+      <view class="mk-sec__hd">{{T.coupons}}</view>
+      <view wx:for="{{coupons}}" wx:key="id" class="cp-card {{item.off ? 'cp-off' : ''}} {{index < 6 ? 'mk-fade-in mk-fade-in--d' + index : ''}}">
         <view class="cp-amt">
           <text wx:if="{{item.amount}}" class="cp-num mk-num">{{item.amount}}</text>
           <text wx:else class="cp-gate">{{T.gateAmount}}</text>
@@ -21,11 +21,11 @@
           </view>
         </view>
       </view>
-      <button wx:if="{{!loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="mk-btn--ghostHover" bindtap="onLogin">{{T.gateAmount}}</button>
+      <button wx:if="{{!loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-block cp-login" hover-class="mk-btn--ghostHover" bindtap="onLogin">{{T.gateAmount}}</button>
     </view>
-    <view wx:if="{{benefits.length}}" class="mk-card">
-      <text class="ac-sec">{{T.benefits}}</text>
-      <mk-cell wx:for="{{benefits}}" wx:key="id" icon="/assets/icons/truck-ink.svg" title="{{item.name}}" arrow="{{false}}" divider="{{index > 0}}"><text class="mk-tag mk-tag--end mk-tag--{{item.tone}}">{{item.tag}}</text></mk-cell>
+    <view wx:if="{{benefits.length}}" class="mk-sec">
+      <view class="mk-sec__hd">{{T.benefits}}</view>
+      <mk-cell wx:for="{{benefits}}" wx:key="id" icon="/assets/icons/truck-ink.svg" title="{{item.name}}" arrow="{{false}}" divider="{{index > 0 && benefits.length > 2}}" inset="{{true}}"><text class="mk-tag mk-tag--end mk-tag--{{item.tone}}">{{item.tag}}</text></mk-cell>
     </view>
   </view>
   <mk-login-sheet visible="{{loginVisible}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />

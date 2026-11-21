@@ -1,5 +1,6 @@
 @import "../after.wxss";
 /* —— 电子合同页 —— */
-.ec-doc { display: flex; align-items: center; min-height: 96rpx; border-top: var(--mk-border-hairline); }
+.ec-doc { display: flex; align-items: center; min-height: 96rpx; }
+.ec-docs--lined .ec-doc + .ec-doc { border-top: var(--mk-border-hairline); }
 .ec-doc-v { flex: none; margin: 0 var(--mk-space-1) 0 var(--mk-space-2); }
-.ec-foot { display: block; padding: 0 var(--mk-space-2) var(--mk-space-3); line-height: var(--mk-font-lineHeight-loose); }
+.ec-foot { display: block; line-height: var(--mk-font-lineHeight-loose); }

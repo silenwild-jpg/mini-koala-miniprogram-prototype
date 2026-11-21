@@ -12,7 +12,7 @@ module.exports = {
   card: {
     range: '可租容量', freeTransport: '满6个月免费运输', more: (n) => '另有 ' + n + ' 个可租 · 查看门店',
     noMatch: '该店暂无匹配仓位', noStock: '暂无可租仓位', combo: '组合仓 ', bigger: '大一档',
-    first: '距离最近', second: '区域低价',
+    first: '距离最近', second: '区域低价', matched: '匹配', // matched：紧凑卡规格位「匹配 4m³」（IMPL-01 自写，照方向稿 03）
     diff: (dv) => '大 ' + dv + 'm³', diffMore: (yuan) => '，每月多 ' + yuan,
     reasonEqual: (v) => '需求与 ' + v + 'm³ 仓相当，大一档更好放',
     reasonRatio: (v, pct) => '需求约占 ' + v + 'm³ 仓的 ' + pct + '%，大一档更好放',
@@ -48,11 +48,12 @@ module.exports = {
     useCurrent: '使用当前位置', useCurrentSub: '开启定位后按距离排序', enable: '开启',
     current: '当前位置', relocate: '重新定位',
     recents: '最近使用', clear: '清除', city: '城市',
-    byDistrict: (c) => c + ' · 按区域', byArea: (c) => c + ' · 按商圈', allAreas: (n) => '全部 ' + n + ' 个商圈',
+    byDistrict: () => '按区域', byArea: () => '按商圈', // IMPL-01：城市已在上一组选中，小节标题不再重复拼城市名
+    allAreas: (n) => '全部 ' + n + ' 个商圈',
     groupArea: '商圈与区域', groupStore: '门店',
-    areaSub: (n) => '商圈 · ' + n + ' 家门店', districtSub: (n) => '区域 · ' + n + ' 家门店',
+    kindArea: '商圈', kindDistrict: '区域', storeCount: (n) => n + ' 家门店', // IMPL-01：类型成标签、门店数成说明，不再拼成「商圈 · N 家门店」
     noneTitle: (k) => '没有找到「' + k + '」相关的门店或商圈', noneSub: '目前可以搜索门店名、商圈、区域和门店所在小区。',
-    areasWithStores: (c) => c + ' · 有门店的商圈', other: '其他方式',
+    areasWithStores: (c) => c + '有门店的商圈', other: '其他方式',
     estoreSub: '上门取送，不需要到店', leave: '留下用仓需求', leaveSub: '顾问电话与您确认可行的方案',
     moveNote: '搬家用仓：搬出地、搬入地都可以查。先选一处，另一处会留在「最近使用」，可随时切换对比。',
     transportNote: '免费运输按用仓位置到门店的距离判断，请先选择用仓位置。',
@@ -71,15 +72,16 @@ module.exports = {
   },
   home: {
     search: '搜索门店、商圈或区域',
-    heroTitle: '让城市生活更轻松', heroSub: '家具、行李、闲置物品，找到附近适合的存储空间',
-    findStores: '找附近门店', findSub: '查看门店与仓位', findLink: '查看门店 ›',
-    estimate: '估大小算价格', estimateSub: '不知道租多大？', estimatedSub: '已估算用仓需求', estimateLink: '开始估算 ›', estimatedLink: '修改需求 ›',
+    findStores: '找附近门店', findSub: '查看门店与仓位', findBtn: '查看门店',
+    estimate: '估大小算价格', estimateSub: '不知道租多大？',
+    quick: '立即下单', quickSub: '选好门店直接订', // IMPL-01（M-01）：新增入口，进快捷下单页
     recommend: '为您推荐', allStores: '查看全部门店 ›', expand: '展开', collapse: '收起',
-    scenes: '常见存储场景', sceneList: ['搬家过渡', '装修暂存', '行李寄存', '换季收纳', '兴趣收藏', '闲置物品'],
-    // 场景图与 sceneList 一一对应（冻结稿 H01，D-11：沿用现有透明底切图）
-    sceneImages: ['moving', 'renovation', 'luggage', 'seasonal', 'collection', 'household'], heroAlt: '迷你考拉仓门店走廊', brandName: '迷你考拉仓',
-    business: { title: '企业存储', tag: '企业', sub: '灵活空间，满足商家备货与企业存储需求', link: '了解企业存储 ›' },
-    proof: [{ n: '14年', t: '稳定运营' }, { n: '590+', t: '直营门店' }, { n: '30万+', t: '累计服务用户' }], // 口径待业务确认
+    scenes: '常见存储场景', sceneList: ['搬家过渡', '装修暂存', '行李寄存', '换季收纳', '兴趣收藏', '闲置物品'], // 图标在 core/config-find.js home.sceneIcons
+    brandName: '迷你考拉仓',
+    business: { title: '企业存储', sub: '灵活空间，满足商家备货与企业存储需求' },
+    proof: [{ n: '14年', t: '稳定运营' }, { n: '590+', t: '直营门店' }, { n: '30万+', t: '累计服务用户' }], // 张坤 2026-11-21 确认为现行口径（M-03）
+    cities: ['北京', '上海', '深圳', '杭州', '广州'], // 覆盖城市（M-03）；地标线条画在 core/config-find.js home.cityImages
+    proofCaptions: ['高新技术企业', '媒体报道', '行业标准'], // 配图是占位示意，上线前换正式件
     about: '了解迷你考拉仓 ›'
   },
   stores: {
@@ -88,7 +90,7 @@ module.exports = {
     services: '服务', servicesOn: '已选服务', clearServices: '清空',
     promo: '特价仓', freeTransport: '免费运输',
     groupOffer: '优惠', groupService: '服务设施', reset: '重置', // FIX-01 R-17 / R-18：特价仓、免费运输并入「服务」下拉
-    svcCount: (n) => '服务 · ' + n,
+    topTitle: '为您优先推荐', restTitle: '更多门店', // IMPL-01 自写（照方向稿 03）：列表两段的小节标题
     cancel: '取消', confirm: '确定',
     demandPrefix: '', modify: '修改 ›', modifyNeed: '修改需求', unsure: '拿不准要多大空间？', estimateNow: '估算大小 ›',
     expanded: '附近门店暂无合适仓位，已扩大范围', // 自写（A-22）
@@ -104,6 +106,12 @@ module.exports = {
   detail: {
     hours: '存取时间：', tabs: ['可选仓位', '服务设施', '到店指引'], booking: '预约用仓',
     navigate: '到店导航', call: '电话', favorite: '收藏', share: '分享',
+    // IMPL-01（2026-11-21）：头图标注、地址组、底栏、分段、无匹配一行提示、仓型分组标题
+    heroDemo: '门店示意图', navShort: '导航', fromLabel: '起价',
+    bar: { fav: '收藏', faved: '已收藏', share: '分享', visit: '预约看仓', ask: '在线问', call: '打电话' },
+    estimateChip: '估算大小', noMatchLine: '本店暂无匹配仓位', otherStoresLink: '查看其他门店 ›',
+    catHead: (name, range) => name + ' · ' + range,
+    comboNote: '一笔订单，同一门店',
     favOn: '已收藏', favOff: '已取消收藏', // 自写：冻结稿没有画收藏后的提示
     demandPrefix: '', modify: '修改 ›', unsure: '拿不准要多大空间？', estimateNow: '估算大小 ›',
     goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。', consult: '立即咨询',
@@ -121,10 +129,14 @@ module.exports = {
       security: '安防', securityText: '全天监控，独立门锁', env: '仓内环境', climate: '控温防潮', climateText: '仓区恒温除湿',
       move: '到店与搬运', seeRoute: '看路线', lift: '电梯', cart: '推车', dock: '装卸区域', park: '停车', metro: '地铁',
       transport: '预约运输 / 搬运', transportSub: '下单前可预约，由顾问电话确认，不计入本次应付',
-      securityTags: ['全天监控', '独立安防'], climateTag: '控温防潮'
+      securityTags: ['全天监控', '独立安防'], climateTag: '控温防潮',
+      // IMPL-01：服务设施统一成图标加文字的宫格（上面的长句不再整句显示；到店细节在「到店指引」里）
+      title: '服务设施', lock: '一键开锁', lockHint: '暂未开通',
+      tagKinds: { '近地铁': 'metro', '电梯直达': 'lift', '停车便利': 'park', '小推车': 'cart', '24小时存取': 'hours' } // 门店标签 → 宫格图标类型；不在表里的用对勾
     },
     route: {
       map: '位置示意', copy: '复制地址', copied: '地址已复制', // 「地址已复制」自写
+      title: '到店指引', mapTap: '点击地图导航', // IMPL-01
       entry: '入口与停车卸货', path: '进仓路径', transit: '地铁与公交', moreTransit: '其他到店方式',
       ask: '对到店方式有疑问？', askPartial: '停车、卸货和进仓路径可向门店确认', askBtn: '咨询到店方式',
       mapFail: '地图暂时无法加载', reload: '重新加载',
@@ -165,6 +177,7 @@ module.exports = {
     hintTitle: '需要顾问帮您确认方案？',
     ref: '空间参考', refFits: ' 大致能放', refWithin: (b) => b + 'm³ 以内', refOver: (a) => a + 'm³ 以上', refRange: (a, b) => a + '–' + b + 'm³',
     refEmpty: '填写容量，参考空间',
+    byItemsBtn: '按物品估算', large: '大容量用仓，可联系专属配仓顾问', contact: '立即咨询', // IMPL-01：原来写死在 WXML 里的三句，文字未改
     sumSales: ' · 由顾问配仓', needFill: '还需填写容量', needFixCap: '还需修改容量', needFixArea: '还需修改面积', dash: '—',
     submit: '查看仓位报价', toAdvisor: '提交给顾问',
     // 说明：冻结稿的容量错误句是「请输入有效容量」；tests/flow.test.js 仍锁定旧句，改测试后把下面三项换成 demand.errCap
@@ -174,14 +187,14 @@ module.exports = {
     toCap: '直接填容量', advisor: '顾问协助', ai: 'AI 估算 · 暂未开放', aiToast: 'AI 估算暂未开放，可按物品估算或直接填写容量',
     byItem: '按物品分类', byScene: '按场景分类', all: '全部物品', count: (n) => n + '项', result: '搜索结果',
     search: '搜索物品名称',
-    selected: (kinds, count) => '已选 ' + kinds + ' 种、' + count + ' 件 · 查看清单 ›',
+    selected: (kinds, count) => '已选 ' + kinds + ' 种、' + count + ' 件', seeCart: '查看清单 ›', // IMPL-01：说明与操作分开，操作放行尾
     longHint: (names) => '含长件：' + names + '。选仓时请对照仓位的长宽高。',
-    variant: (name) => '规格 · ' + name, per: (v, u) => '约 ' + v + 'm³/' + u, subtotal: (v) => '小计 ' + v + 'm³',
+    variantLabel: '规格', per: (v, u) => '约 ' + v + 'm³/' + u, subtotal: (v) => '小计 ' + v + 'm³',
     estNote: (net, rec) => '建议 ' + rec + 'm³',
     tinyNote: () => '建议 0.5m³',
     biz: { title: '商家 / 企业用仓', sub: '为满足企业客户多样化用仓需求，可预约咨询专属配仓顾问', btn: '立即提交' },
     none: { title: '没有找到相关物品', sub: '可换个名称，或选一件大小相近的物品代替', all: '查看全部物品', toCap: '直接填写容量', advisor: '顾问协助' },
-    footNone: '还没有选择物品', footNet: (net, count) => '物品约 ' + net + 'm³ · ' + count + ' 件',
+    footNone: '还没有选择物品', footNet: (net) => '物品约 ' + net + 'm³', // IMPL-01：件数改放在左下仓库示意的角标上
     suggest: (v) => '建议 ' + v + 'm³', tiny: '按 0.5m³ 匹配', zero: '0m³',
     pickFirst: '请先选物品', submit: '查看仓位报价', toAdvisor: '提交给顾问',
     cart: {
@@ -190,9 +203,10 @@ module.exports = {
       total: '建议容量', totalSub: (net) => '物品合计约 ' + net + 'm³，留出码放空隙后的建议值', done: '完成'
     },
     clearTitle: '清空已选物品？', clearBody: '会删除当前选择的物品与数量。', clearYes: '清空', cancel: '取消', confirm: '确定',
-    variantTitle: '选择规格', variantNote: (name) => name + ' · 换规格后数量不变，小计按新规格计算。', variantPer: (v) => '约 ' + v + 'm³/件',
+    variantTitle: '选择规格', variantHint: '换规格后数量不变，小计按新规格计算。', variantPer: (v) => '约 ' + v + 'm³/件',
     qtyTitle: '填写数量', qtyQuick: (n) => n + ' 件', qtyMax: (n) => '单种物品最多填 ' + n + ' 件，更多请交给顾问配仓',
     termTitle: '租期', restored: '已保留上次选择的物品，可继续增减',
+    advisory: { title: '下单前确认尺寸', body: '大件物品建议下单前确认尺寸', contact: '立即咨询', go: '继续找仓' }, longTitle: '长件尺寸', // IMPL-01：原来写死在页面里，文字未改
     abbr: { suitcase: '箱', furniture: '家', electric: '电', organize: '收', hobby: '藏', business: '商', office: '办', other: '物' }
   }
 };

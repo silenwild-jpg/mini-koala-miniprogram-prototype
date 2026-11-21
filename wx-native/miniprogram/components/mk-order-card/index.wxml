@@ -2,41 +2,44 @@
   <block wx:if="{{variant === 'list'}}">
     <view class="oc-row">
       <image wx:if="{{v.storePhoto}}" class="oc-ph oc-img" src="{{v.storePhoto}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
-      <view class="mk-grow">
-        <view class="mk-title mk-ellipsis">{{v.storeName}}</view>
-        <view class="mk-sub mk-ellipsis oc-line2">{{v.noText}}</view>
-        <view wx:if="{{v.dateText}}" class="mk-sub mk-ellipsis oc-line3">{{v.dateText}}</view>
+      <view class="mk-grow oc-main">
+        <view class="oc-namerow"><text class="mk-title mk-ellipsis mk-grow">{{v.storeName}}</text><text wx:if="{{v.stageLabel}}" class="oc-tag oc-tag--{{v.stageTone}}">{{v.stageLabel}}</text></view>
+        <view wx:if="{{v.unitCodes.length}}" class="oc-unitline">
+          <text wx:for="{{v.unitCodes}}" wx:key="*this" class="mk-unitno oc-no">{{item}}</text>
+          <text wx:if="{{v.comboTag}}" class="mk-sub">{{v.unitSub}}</text><text wx:else class="mk-num oc-vol">{{v.unitVol}}</text>
+        </view>
+        <view wx:else class="mk-sub mk-ellipsis oc-unitline">{{v.unitName}}</view>
       </view>
-      <text wx:if="{{v.stageLabel}}" class="oc-tag oc-tag--{{v.stageTone}}">{{v.stageLabel}}</text>
     </view>
-    <view class="oc-bot mk-between">
-      <view class="mk-sub mk-ellipsis mk-grow">{{v.lineText}}</view>
+    <view class="oc-span"><text class="oc-spanterm">{{v.termText}}</text><text wx:if="{{v.spanText}}" class="mk-sub mk-num mk-ellipsis mk-grow">{{v.spanText}}</text></view>
+    <view class="oc-foot">
+      <view class="mk-grow oc-footl">
+        <view class="mk-mute mk-ellipsis">{{v.noText}}</view>
+        <view wx:if="{{v.dateText}}" class="mk-mute mk-ellipsis oc-line3">{{v.dateText}}</view>
+      </view>
       <text class="mk-num oc-amt">{{v.payableText}}</text>
     </view>
   </block>
   <block wx:else>
     <view wx:if="{{dead}}" class="mk-title oc-sec">{{T.origin}}</view>
-    <view class="oc-row">
-      <image wx:if="{{v.storePhoto}}" class="oc-ph oc-img" src="{{v.storePhoto}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
-      <view class="mk-grow">
-        <view class="mk-title mk-ellipsis">{{v.storeName}}</view>
-        <view class="oc-line2 oc-meta"><text wx:if="{{v.kmText}}" class="oc-km">{{v.kmText}}</text><view class="mk-sub mk-ellipsis mk-grow">{{v.address}}</view></view>
+    <view class="mk-title mk-ellipsis">{{v.storeName}}</view>
+    <view class="oc-meta"><image class="mk-icon oc-pin" src="/assets/icons/pin-sub.svg" /><text wx:if="{{v.kmText}}" class="oc-km mk-num">{{v.kmText}}</text><view class="mk-sub mk-ellipsis mk-grow">{{v.address}}</view></view>
+    <view class="oc-unit">
+      <view class="mk-grow oc-main">
+        <view wx:if="{{v.unitCodes.length}}" class="oc-unitline">
+          <text wx:for="{{v.unitCodes}}" wx:key="*this" class="mk-unitno oc-no">{{item}}</text>
+          <text wx:if="{{v.comboTag}}" class="mk-tag oc-combo">{{v.comboTag}}</text><text wx:else class="mk-num oc-vol oc-vol--lg">{{v.unitVol}}</text>
+        </view>
+        <view wx:else class="mk-title mk-ellipsis">{{v.unitName}}</view>
+        <view wx:if="{{v.unitSub}}" class="mk-sub mk-num oc-line2">{{v.unitSub}}</view>
       </view>
-    </view>
-    <view class="oc-row oc-unit">
-      <image wx:if="{{v.unitThumb}}" class="oc-ph oc-img" src="{{v.unitThumb}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/cube-brand.svg" /></view>
-      <view class="mk-grow">
-        <view class="mk-title mk-ellipsis">{{v.unitName}}</view>
-        <view class="mk-sub oc-line2">{{v.unitSub}}</view>
-        <text wx:if="{{v.comboTag}}" class="mk-tag oc-combo">{{v.comboTag}}</text>
-      </view>
-      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{swap}}" class="mk-link oc-swap" bindtap="onSwap" aria-role="button">{{swap}}</view>
+      <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{swap}}" class="mk-link oc-swap" bindtap="onSwap" aria-role="button">{{swap}}<image class="mk-icon oc-swapchev" src="/assets/icons/chev-brand.svg" /></view>
     </view>
     <view class="oc-kv mk-between">
       <text class="mk-sub">{{T.term}}</text>
       <view wx:if="{{editable}}" class="oc-stepper">
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="oc-step {{canMinus ? '' : 'oc-step--off'}}" bindtap="onMinus" aria-role="button" aria-label="减少">−</view>
-        <text class="oc-stepval">{{v.termText}}</text>
+        <view class="oc-stepval"><text class="{{termBump}}">{{v.termText}}</text></view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="oc-step {{canPlus ? '' : 'oc-step--off'}}" bindtap="onPlus" aria-role="button" aria-label="增加">+</view>
       </view>
       <text wx:else class="oc-val">{{v.termText}}</text>
@@ -45,9 +48,10 @@
     <view class="oc-kv mk-between">
       <text class="mk-sub">{{v.periodLabel}}</text>
       <picker wx:if="{{editable}}" mode="date" value="{{v.startDate}}" start="{{startMin}}" end="{{startMax}}" bindchange="onDate">
-        <view class="oc-date"><text class="{{v.startDate ? '' : 'oc-dateph'}}">{{v.startDate || T.pickDate}}</text><image class="mk-icon oc-cal" src="/assets/icons/cal-ink.svg" /></view>
+        <view class="oc-date"><text class="mk-num {{v.startDate ? '' : 'oc-dateph'}}">{{v.startDate || T.pickDate}}</text><image class="mk-icon oc-cal" src="/assets/icons/cal-ink.svg" /></view>
       </picker>
-      <text wx:else class="oc-val">{{v.periodText}}</text>
+      <text wx:else class="oc-val mk-num">{{v.periodText}}</text>
     </view>
+    <view wx:if="{{dateNote}}" class="oc-note">{{dateNote}}</view>
   </block>
 </view>

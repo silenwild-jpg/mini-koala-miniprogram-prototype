@@ -59,11 +59,11 @@ module.exports = {
     title: '费用明细', rent: '整期租金', special: '特价仓', saved: '已省', savedBase: '较月基价 ',
     full: '满额减', fullMin: '整期满 ', rentAfter: '减后整期租金 ',
     coupon: '优惠券', couponPick: '选择 ›', couponSwap: '更换 ›', couponNone: '暂无适用优惠', couponSkipped: '不与满额减同享', couponUnused: '未使用',
-    couponSpecial: '特价仓不可用券', couponNeedMonths: ['满 ', ' 个月可用'], couponAvail: ['未使用 · 有 ', ' 张可用'], // FIX-01 B-03 / B-12
+    couponSpecial: '特价仓不可用券', couponNeedMonths: ['满 ', ' 个月可用'], couponAvail: ['有 ', ' 张可用'], // FIX-01 B-03 / B-12
     fullSkipped: ['已选优惠更大的一项，满额减（−', '）不同享'], // FIX-01 B-12：券比满额减大时满额减让位
     origin: '原价', specialOff: '特价仓优惠', termOff: '租期折扣', // FIX-01 R-06：原价 − 特价仓优惠 − 租期折扣 = 整期租金
-    couponUsed: '已使用 ', couponAfter: ' · 券后整期租金 ',
-    benefit: '服务权益', freeTransport: '免费运输 1 次 · 顾问联系安排',
+    couponUsed: '已使用 ', couponAfter: '券后整期租金 ',
+    benefit: '服务权益', freeTransport: '免费运输 1 次', freeTransportNote: '顾问联系安排', // IMPL-01：权益一项、安排方式是说明，分两行不用分隔符
     deposit: '押金', depositOne: '1个月月租', depositCombo: '各仓月租合计', management: '整单管理费',
     payable: '本次应付', paid: '已付', originCancelled: '原订单金额（已取消）', originExpired: '原订单金额（已失效）',
     loginToShow: '登录后显示', requote: '待重新报价', refreshToShow: '刷新后显示'
@@ -95,14 +95,15 @@ module.exports = {
     swap: '更换', swapUnit: '更换仓位',
     goneTitle: '所选仓位已不可租', goneDesc: '该仓位刚被租出或已下架。', goneBtn: '重新选择仓位',
     quoteExpired: '报价已超过 ' + QUOTE_H + ' 小时', quoteExpiredSub: '', refreshQuote: '刷新报价',
-    prepayNote: '租期折扣按预付整期计算，提前退仓时按协议重新核算 · 报价 ' + QUOTE_H + ' 小时内有效',
+    prepayNote: '租期折扣按预付整期计算，提前退仓时按协议重新核算。报价 ' + QUOTE_H + ' 小时内有效', // IMPL-01：两句话用句号，不用分隔符
+    person: '下单人', personPhone: '联系手机号', personTip: '签署协议前需完成实名认证，认证后回到本页继续', // IMPL-01 M-16：联系方式卡与实名信息卡合并为「下单人」（提示句取方向稿 06_confirm_B）
     contact: '联系方式', contactPhone: '登录手机号 ', contactSwap: '更换', notLoggedIn: '未登录', goLogin: '去登录',
     identity: '实名信息', identityDone: '已认证', identityTodo: '未认证', identityGo: '去认证', identityLogin: '登录后填写',
     protect: '物品保障', protectSub: '已含基础保障，可了解增值保障',
     transport: '预约运输 / 搬运', transportSub: '下单前可预约，由顾问电话确认，不计入本次应付',
     cancelOrder: '取消订单', cancelTitle: '确认取消订单？', cancelDesc: '取消后仓位将释放；如仍需用仓，可重新下单。', cancelKeep: '暂不取消', cancelYes: '确认取消',
     agreePrefix: '我已阅读并确认 ', agreeMid: '，并承诺不存放', agreeProhibited: '违规违禁物品',
-    payable: '本次应付', savedPrefix: ' · 已省 ', loginToShow: '登录后显示', refreshToShow: '刷新后显示', quotePending: '报价待确认', unavailable: '当前方案不可用',
+    payable: '本次应付', savedPrefix: '已省 ', loginToShow: '登录后显示', refreshToShow: '刷新后显示', quotePending: '报价待确认', unavailable: '当前方案不可用',
     btnQuote: '查看报价', btnIdentity: '实名认证', btnSign: '签署并提交', btnSubmitting: '正在生成电子合同…', btnPay: '继续支付', btnPaying: '支付处理中…', btnRestart: '重新找仓', btnConfirm: '确认订单', btnAdvisor: '预约顾问',
     hintIdentity: '签署协议前需完成实名认证', hintAgree: '请先勾选确认', hintPrice: '请先确认新报价', hintUnitSold: '仓位已售出，请更换仓位',
     hintDate: '请选择预计用仓时间', // 自写
@@ -138,6 +139,7 @@ module.exports = {
   },
   quick: {
     steps: ['选择信息', '确认订单', '支付'],
+    storeUnit: '门店与仓位', termDate: '租期与用仓时间', // IMPL-01 M-22：门店卡与仓位卡合并、租期卡与日期卡合并后的卡标题
     store: '选择门店', location: '用仓位置', change: '更改', allCity: '全城门店', pickStore: '请选择门店', storeAddrHint: '选择门店后显示地址', noStore: '暂无可展示门店',
     viewStore: '查看详情', carried: '已带入您在租的门店，可更换。',
     unit: '选择仓位', pickUnit: '请选择仓位', unitHint: '选仓后显示容量与尺寸', unitNeedStore: '请先选择门店', unitGone: '当前不可用', choose: '选择', swap: '更换',
@@ -167,6 +169,7 @@ module.exports = {
     noteOverdue: ['租期已于 ', ' 到期，超出的天数按协议另行计费，与续租租金分开结算。办理续租的，续租期自原到期日起算。'],
     noteRenewal: '门店已给出续租报价，报价 24 小时内有效，过期后按常规折扣价续租。',
     subOk: '已开启到期提醒，租期到期前会通过微信提醒您。', subNo: '未开启到期提醒，可在「消息」查看到期通知。', subAsk: '开启通知',
+    feeTitle: '费用明细', // IMPL-01：订单详情去卡片后小节标题由页面给
     storeSvc: '门店服务', navigate: '门店导航', callStore: '联系门店', unlock: '一键开锁', arrival: '到店与进仓指引',
     unlockRule: '一键开锁暂未开通，存取时请联系门店协助开门。', unlockToast: '一键开锁暂未开通，存取时请联系门店协助开门', // FIX-01 C-06：不再指回入仓指引
     navCopied: '已复制门店地址，可在地图中搜索', // 自写：门店坐标数据未提供时的替代

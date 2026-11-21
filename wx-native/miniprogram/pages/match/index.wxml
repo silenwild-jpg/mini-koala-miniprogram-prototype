@@ -15,6 +15,7 @@
       <image class="mk-icon" src="/assets/icons/chev-mute.svg" />
     </view>
   </view>
+  <view class="mk-band"></view>
 
   <view wx:if="{{sys === 'loading'}}" class="mk-gutter mt-body">
     <view class="mt-hd"><text class="mk-h2">{{T.m.recommending}}</text><text class="mk-sub">{{T.m.matching}}</text></view>
@@ -36,7 +37,7 @@
     </block>
     <block wx:else>
       <view class="mt-hd"><text class="mk-h2">{{title}}</text><text wx:if="{{sub}}" class="mk-sub">{{sub}}</text></view>
-      <mk-store-card wx:for="{{cards}}" wx:key="id" card="{{item}}" variant="match" bind:store="onStore" bind:action="onAction" bind:fees="onFees" />
+      <mk-store-card wx:for="{{cards}}" wx:key="id" card="{{item}}" variant="match" enter="{{index}}" bump="{{priceBump}}" bind:store="onStore" bind:action="onAction" bind:fees="onFees" />
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mt-more" bindtap="onMoreStores" aria-role="button" aria-label="更多仓位"><image class="mk-icon" src="/assets/icons/down-ink.svg" /></view>
       <mk-advisor-card wx:if="{{advisor}}" title="{{advisor.title}}" sub="{{advisor.sub}}" />
     </block>
@@ -45,10 +46,10 @@
 
   <mk-sheet visible="{{feesVisible}}" title="{{T.m.fees.title}}" bind:close="onFeesClose">
     <view wx:for="{{fees.rows}}" wx:key="k" class="mt-frow">
-      <view class="mk-between"><view class="mk-grow"><text>{{item.k}}</text><text wx:if="{{item.sub}}" class="mk-mute mt-fsub">{{item.sub}}</text></view><text class="mk-num {{item.muted ? 'mt-muted' : ''}}">{{item.v}}</text></view>
+      <view class="mk-between"><view class="mk-grow mk-row"><text>{{item.k}}</text><text wx:if="{{item.sub}}" class="mk-mute mt-fsub">{{item.sub}}</text><text wx:if="{{item.tag}}" class="mk-tag mk-tag--promo mt-ftag">{{item.tag}}</text></view><text class="mk-num {{item.muted ? 'mt-muted' : ''}}">{{item.v}}</text></view>
       <text wx:if="{{item.note}}" class="mk-mute">{{item.note}}</text>
     </view>
-    <view class="mk-between mt-ftotal"><text class="mk-title">{{T.m.fees.payable}}</text><text class="mk-num mt-fpay">{{fees.payable}}</text></view>
+    <view class="mk-between mt-ftotal"><text class="mk-title">{{T.m.fees.payable}}</text><text class="mk-num mt-fpay {{payBump}}">{{fees.payable}}</text></view>
     <button class="mk-btn" hover-class="mk-btn--hover" bindtap="onFeesClose">{{T.m.fees.ok}}</button>
   </mk-sheet>
   <mk-login-sheet visible="{{loginVisible}}" tip="{{loginTip}}" bind:close="onLoginClose" bind:success="onLoginSuccess" />

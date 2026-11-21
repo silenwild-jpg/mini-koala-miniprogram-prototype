@@ -4,17 +4,19 @@
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.login}}</button>
   </mk-empty>
   <view wx:elif="{{list.length === 0}}" class="mk-gutter lnd-top">
-    <mk-empty icon="/assets/icons/note-ink.svg" title="{{T.n.emptyTitle}}" card="{{true}}">
+    <mk-empty icon="/assets/icons/note-ink.svg" title="{{T.n.emptyTitle}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onBook">{{T.n.book}}</button>
     </mk-empty>
   </view>
   <block wx:else>
     <view class="mk-gutter lnd-top">
       <mk-notice wx:if="{{active}}" plain="{{true}}" text="{{T.ack.both}}" />
-      <view wx:for="{{list}}" wx:key="id" class="mk-card lnd-card">
+      <view wx:for="{{list}}" wx:key="id" class="mk-card lnd-card {{index < 6 ? 'mk-fade-in mk-fade-in--d' + index : ''}}">
         <view class="mk-between"><text class="mk-title mk-grow">{{item.title}}</text><text class="mk-tag mk-tag--end {{item.off ? '' : 'mk-tag--warn'}}">{{item.status}}</text></view>
-        <text class="lnd-line">{{item.loc}}</text>
-        <text class="mk-sub lnd-sub mk-num">{{item.detail}}</text>
+        <view class="lnd-loc"><image class="mk-icon lnd-ic" src="/assets/icons/pin-ink.svg" /><view class="mk-grow"><text class="lnd-line">{{item.loc}}</text><text wx:if="{{item.addr}}" class="mk-sub lnd-addr">{{item.addr}}</text></view></view>
+        <text class="lnd-spec mk-num">{{item.detail}}</text>
+        <text wx:if="{{item.extra}}" class="mk-sub lnd-sub mk-num">{{item.extra}}</text>
+        <view wx:if="{{item.phone}}" class="mk-row lnd-sub"><image class="mk-icon lnd-ic" src="/assets/icons/phone-ink.svg" /><text class="mk-sub mk-num">{{item.phone}}</text></view>
         <text wx:if="{{item.note}}" class="mk-sub lnd-sub">{{item.note}}</text>
         <view wx:if="{{!item.off}}" class="lnd-acts">
           <button wx:if="{{item.visit}}" class="mk-btn mk-btn--md mk-btn--plain lnd-btn" hover-class="mk-btn--plainHover" data-id="{{item.id}}" bindtap="onWithdraw">{{T.n.withdraw}}</button>
@@ -34,7 +36,7 @@
   </block>
   <mk-sheet visible="{{sheet === 'more'}}" title="{{T.n.moreTitle}}" bind:close="onSheetClose">
     <mk-cell title="{{T.n.withdrawNeed}}" bindtap="onMoreWithdraw" />
-    <mk-cell title="{{T.n.contact}}" divider="{{true}}" bindtap="onMoreContact" />
+    <mk-cell title="{{T.n.contact}}" divider="{{false}}" bindtap="onMoreContact" />
     <button class="mk-btn mk-btn--plain lnd-sheetbtn" hover-class="mk-btn--plainHover" bindtap="onSheetClose">{{T.c.cancel}}</button>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'edit'}}" title="{{T.n.editTitle}}" bind:close="onSheetClose">

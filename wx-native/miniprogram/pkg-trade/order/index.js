@@ -18,6 +18,7 @@ const actions = require('../../services/order-actions');
 const subscribe = require('../../services/subscribe');
 const order = require('../../core/order');
 const fmt = require('../../core/format');
+const motion = require('../../core/motion');
 const T = TT.order, S = order.STAGE;
 const LEASE = { [S.PAID]: 'upcoming', [S.ACTIVE]: 'active', [S.EXPIRING]: 'active', [S.OVERDUE]: 'expired', [S.EXITING]: 'returning', [S.ENDED]: 'ended' };
 const BAR = { // 阶段 → [主按钮文字键, 动作, 次按钮文字键, 动作]
@@ -89,12 +90,12 @@ function build(o, now, sub) {
   return d;
 }
 Page(auth.guarded(routes.ORDER_DETAIL, {
-  data: { T, sys: 'loading', empty: false, paying: false, paidLine: '', head: null, subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
+  data: { T, sys: 'loading', empty: false, paying: false, headFx: '', paidLine: '', head: null, subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
   onLoad(q) { this._id = (q && q.id) || ''; this._sub = (q && q.sub) || ''; this._justPaid = !!(q && q.paid === '1'); if (this._justPaid) this.setData({ paying: true }); },
   onShow() { this.refresh(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },
   onHide() { this.stop(); },
-  onUnload() { this.stop(); },
+  onUnload() { this.stop(); motion.dispose(this); },
   refresh() {
     if (!this._id) { this.setData({ sys: '', empty: true, paying: false, showBar: false }); return Promise.resolve(); }
     const p = api.getOrder({ id: this._id }).catch((err) => (err && err.code === 'NOT_FOUND' ? null : Promise.reject(err)));
@@ -102,7 +103,9 @@ Page(auth.guarded(routes.ORDER_DETAIL, {
       if (!o) { this.stop(); this.setData({ empty: true, paying: false, order: null, showBar: false }); return; }
       const d = build(o, Date.now(), this._sub);
       d.paidLine = this._justPaid && d.paid ? T.paidOk + view.yuan(o.quote.payable) : ''; // 从确认订单支付成功跳来：确认一句「支付成功，已付 ¥X」（B-15）
+      const wasPaying = this.data.paying, prevPhase = this.data.phase;
       this.setData(Object.assign({ empty: false, paying: false }, d));
+      if (wasPaying || (prevPhase && prevPhase !== d.phase)) motion.bump(this, 'headFx', 'mk-fade'); // IMPL-01：支付确认中 → 结果态、阶段切换时状态头淡入一次
       this.tick();
       if (this.data.cancelable && !this._t) this._t = actions.every(() => this.tick(), 1000);
       if (!this.data.cancelable) this.stop();
