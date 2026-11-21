@@ -56,7 +56,7 @@ function render(page, o) {
     bar: barOf(page, v)
   };
   // IMPL-02 M-33：已开具且只有一条记录时，「发票文件」两行并入这条申请记录：发票形式作为记录里的一行，接收邮箱记录里本来就有（同一个值），不再单列一节；多条记录时保持原样。
-  if (v.state === 'issued' && v.records.length === 1) d.records[0].form = { k: I.form, v: I.formText };
+  if (v.state === 'issued' && v.records.length === 1) { d.records[0].form = { k: I.form, v: I.formText }; d.records[0].emailK = I.toEmail; } // REVIEW-02 C2-09：并入后邮箱行带回「接收邮箱」名称，与「发票形式」同一写法
   else if (v.state === 'issued') d.file = [{ k: I.form, v: I.formText }, { k: I.toEmail, v: last.email }];
   if (last && (last.status === 'submitted' || last.status === 'processing')) cm.later(page, (last.status === 'submitted' ? A.demo.invoiceProcessMs : A.demo.invoiceIssueMs) - (now - last.submitted_at));
   page.setData(d); cm.fx(page, (failed ? 'issue_failed' : v.state) + (page._busy ? ':busy' : ''));

@@ -3,12 +3,12 @@
   <mk-sys-state wx:elif="{{sys}}" type="{{sys}}" bind:retry="onRetry" />
   <block wx:else>
     <mk-empty wx:if="{{orders.length === 0}}" icon="/assets/icons/order-sub.svg" title="{{loggedIn ? T.empty : T.loginTip}}" sub="{{loggedIn ? T.emptySub : ''}}">
-      <button wx:if="{{loggedIn}}" class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onGoStores">{{T.goStores}}</button>
-      <button wx:else class="mk-btn mk-btn--md" hover-class="mk-btn--hover" bindtap="onLogin">{{T.login}}</button>
+      <button wx:if="{{loggedIn}}" class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onGoStores">{{T.goStores}}</button>
+      <button wx:else class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.login}}</button>
     </mk-empty>
     <view wx:else class="mk-gutter ol-list">
       <view class="mk-between ol-head"><text class="mk-title">{{T.all}}</text><text class="mk-sub">{{T.sort}}</text></view>
-      <view hover-class="mk-press--hover" hover-stop-propagation="{{true}}" wx:for="{{orders}}" wx:key="id" class="mk-press ol-item {{index < 6 ? 'mk-fade-in mk-fade-in--d' + index : ''}}" data-id="{{item.id}}" bindtap="onOrder" aria-role="button">
+      <view hover-class="mk-press--hover" hover-stop-propagation="{{true}}" wx:for="{{orders}}" wx:key="id" class="mk-press ol-item mk-fade-in mk-fade-in--d{{index < 5 ? index : 5}}" data-id="{{item.id}}" bindtap="onOrder" aria-role="button">
         <mk-order-card order="{{item}}" variant="list" />
       </view>
     </view>

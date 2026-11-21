@@ -126,7 +126,7 @@ Page(auth.guarded(routes.CONFIRM, {
     this.setData({
       mode: 'compose', loggedIn, cardOrder: draft, editable: true, swapText: T.swap, hint, dead: false, locked: false,
       gone: !r.available, held: r.available ? '' : r.held_order_id || '', quoteExpired: false, couponText,
-      feePlaceholder: !q ? TT.fee.requote : '', feeTotalPlaceholder: '', feeNote: q ? T.prepayNote : '', couponEditable: !!q,
+      feePlaceholder: !q ? TT.fee.requote : '', feeTotalPlaceholder: '', feeNote: q ? T.prepayNote : '', couponEditable: !!q && cs.length > 0, // 一张券都没有时不出「选择」入口（REVIEW-02 B2-02）；有不可用的券仍可点开看差什么
       contactText: T.contactPhone + s.session.phoneMasked, phoneText: s.session.phoneMasked, idv: { verified: idv.verified, text: idv.text },
       head: null, headSubs: [], clock: '', recheck: null, alts: [], cancelable: false, submitting: false,
       couponRows: [{ id: 'auto', name: T.couponAuto, sub: '', amount: '', off: false }, { id: 'none', name: T.couponNoUse, sub: '', amount: '', off: false }]
@@ -150,7 +150,7 @@ Page(auth.guarded(routes.CONFIRM, {
     else if (d.quoteExpired) Object.assign(b, { amount: T.refreshToShow, muted: true, btn: T.refreshQuote, action: 'refresh' });
     else if (d.price) Object.assign(b, { amount: T.quotePending, muted: true, btn: T.btnConfirm, disabled: true, hint: T.hintPrice });
     else if (!q) Object.assign(b, { amount: T.unavailable, muted: true, btn: T.refreshQuote, action: 'refresh' });
-    else if (!d.idv.verified) Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnIdentity, action: 'idv', hint: T.hintIdentity });
+    else if (!d.idv.verified) Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnIdentity, action: 'idv' }); // 原因句只在下单人卡里出一次，底栏按钮下不再重复（REVIEW-02 B2-09）
     else if (d.submitting) Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnSubmitting, disabled: true, showAgree: true });
     else Object.assign(b, { amount: yuan(q.payable), saved, btn: T.btnSign, action: 'sign', disabled: !d.agreed, hint: d.agreed ? '' : T.hintAgree, showAgree: true });
     const prev = d.bar && !d.bar.muted ? d.bar.amount : '';
@@ -300,7 +300,14 @@ Page(auth.guarded(routes.CONFIRM, {
     this.setData({ price: { from, reason, rows: [row(T.priceRent, oldQ.rent_total, newQ.rent_total), row(T.priceMonthly, oldQ.monthly_average, newQ.monthly_average, TT.common.perMonth), row(T.priceDeposit, oldQ.deposit, newQ.deposit), row(T.pricePayable, oldQ.payable, newQ.payable)] } }); this.dlgSync();
     this.syncBar();
   },
-  onPriceOther() { this.setData({ price: null }); this.dlgSync(); this.syncBar(); this.onSwap(); },
+  // 「查看其他方案」：去门店详情前先按新价重取报价（REVIEW-02 B2-04），返回本页时明细、底栏、签署弹层都是新价，不会留着旧价可提交。
+  // 支付未成功那条路（from = order）金额在订单上，由四项核对卡标出「价格已变化」，这里不重取。
+  onPriceOther() {
+    const pr = this.data.price;
+    this.setData({ price: null }); this.dlgSync(); this.syncBar();
+    if (pr && pr.from === 'draft' && !this._orderId) this.loadDraft(true);
+    this.onSwap();
+  },
   onPriceAccept() {
     const pr = this.data.price;
     if (!pr) return;
@@ -323,7 +330,7 @@ Page(auth.guarded(routes.CONFIRM, {
     const now = Date.now(), p = view.phase(od, now), s = state.get();
     if (view.isPaid(p)) { wx.redirectTo({ url: routes.ORDER_DETAIL + '?id=' + od.id }); return; } // 已支付的订单在订单详情看
     const dead = p === 'expired' || p === 'cancelled', failed = p === 'payment_failed';
-    const HEAD = { pending: [T.pendingTitle, T.pendingTag, 'warn', T.pendingNote], payment_failed: [T.failedTitle, T.failedTag, 'err', T.failedNote], expired: [T.expiredTitle, T.expiredTag, 'info', T.expiredNote], cancelled: [T.cancelledTitle, T.cancelledTag, 'info', T.cancelledNote] }[p];
+    const HEAD = { pending: [T.pendingTitle, T.pendingTag, 'warn', T.pendingNote], payment_failed: [T.failedTitle, T.failedTag, 'warn', T.failedNote], expired: [T.expiredTitle, T.expiredTag, 'info', T.expiredNote], cancelled: [T.cancelledTitle, T.cancelledTag, 'info', T.cancelledNote] }[p];
     this._store = od.store; this._quote = null;
     const idv = identity.get();
     // 支付未成功的原因与建议（R-07）：有原因时建议句替代通用说明句
@@ -332,7 +339,8 @@ Page(auth.guarded(routes.CONFIRM, {
       mode: 'order', phase: p, loggedIn: true, cardOrder: od, editable: false, swapText: failed ? T.swapUnit : '', hint: '', dead, locked: true,
       gone: false, held: '', quoteExpired: false, feePlaceholder: '', feeNote: '', couponEditable: false, couponText: '',
       contactText: T.contactPhone + s.session.phoneMasked, phoneText: s.session.phoneMasked, idv: { verified: idv.verified || od.identity_status === 'verified', text: idv.text || (od.contract && od.contract.signer_masked) || '' },
-      head: { title: HEAD[0], tag: HEAD[1], tone: HEAD[2], reason: why[0], note: why[1] || HEAD[3] }, headSubs: [T.orderNo + od.no],
+      head: { title: HEAD[0], tag: HEAD[1], tone: view.stageLabel(od, now).tone || HEAD[2], // 色调读全站阶段色表（REVIEW-02 B2-05）
+        reason: why[0], note: why[1] || HEAD[3] }, headSubs: [T.orderNo + od.no],
       clock: dead ? '' : view.countdown(od.pay.expires_at, now), cancelable: !dead, recheck: failed ? this.data.recheck : null, alts: dead ? this.data.alts : [],
       payText: T.payWechat + yuan(od.quote.payable), sheet: this.data.sheet === 'pay' && p !== 'pending' ? '' : this.data.sheet
     });

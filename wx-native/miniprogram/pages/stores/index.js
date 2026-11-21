@@ -26,7 +26,7 @@ Page({
   data: {
     T: { stores: pd.plain(S), login: Z.login, leave: T.advisor.leave, hours: S.salesHours(T.lead.hoursNote, T.lead.offHours), salesSub: S.salesSub(T.lead.inHours), switchCity: T.locate.switchCity, search: T.panel.placeholder },
     sys: 'loading', mode: 'browse', cityText: '', located: true, bubble: null, nocity: '', demandText: '', items: [], total: 0, shown: 0, resultText: '', advisor: null,
-    noMatch: false, far: false, farTitle: S.farTitle(C.matching.nearbyRadiusKm), farSub: '', filtered: false, hasMore: false,
+    noMatch: false, far: false, emptySub: S.emptySub, farTitle: S.farTitle(C.matching.nearbyRadiusKm), farSub: '', filtered: false, hasMore: false,
     sort: 'recommended', maxKm: null, services: [], promo: false, freeTransport: false, sortLabel: S.sort, distLabel: S.distance, svcLabel: S.services, svcN: 0, priceBump: '', needBump: '', sheetLeave: '', bubbleLeave: '', nocityLeave: '',
     sheet: '', sortOptions: [], distOptions: [], svcOptions: [], offerOptions: [], svcOn: false, largeNote: false,
     loginVisible: false, panel: false, panelNote: '', panelFocus: false, demandSheet: false
@@ -78,16 +78,17 @@ Page({
       items.push({ key: c.id, type: 'store', variant: i < CF.list.standardCards ? (l.noMatch ? 'plain' : 'standard') : 'compact', card: browse, hd: '' });
     });
     if (!l.noMatch && !farMode && n <= CF.list.estoreSlot && l.mode !== 'sales') items.push({ key: 'estore', type: 'estore' });
-    // IMPL-01 小节标题：前两家确实按推荐规则选出（带角标）时，标「为您优先推荐」与「更多门店」，把大卡和紧凑卡分成两段
+    // IMPL-01 小节标题：前两家确实按推荐规则选出时，标「为您优先推荐」与「更多门店」，把大卡和紧凑卡分成两段。
+    // REVIEW-02 A2-01：按列表给的 topRanked 判断，不再看首卡有没有角标文字
     const stores = items.filter((x) => x.type === 'store');
-    if (!l.noMatch && !farMode && stores.length && stores[0].card.rankTag && stores[0].variant === 'standard') {
+    if (!l.noMatch && !farMode && stores.length && l.topRanked && stores[0].variant === 'standard') {
       stores[0].hd = S.topTitle;
       const rest = stores.find((x) => x.variant === 'compact'); if (rest) rest.hd = S.restTitle;
     }
     const picked = d.services.length + (d.promo ? 1 : 0) + (d.freeTransport ? 1 : 0);
     this.setData({
       mode: l.mode, demandText: l.demandText, total: l.total, shown: n, items, advisor: farMode ? null : l.advisor, noMatch: l.noMatch, far: farMode, filtered: l.filtered,
-      farSub: S.farSub(n), hasMore: l.total > n, // 无匹配页也可翻页（A-12）
+      farSub: S.farSub(n), emptySub: l.soldOut ? S.emptySoldOut : S.emptySub, hasMore: l.total > n, // 无匹配页也可翻页（A-12）
       resultText: l.expanded && !farMode ? S.expanded : '', // 「共 N 家门店 · 已显示前 N 家」已删（FIX-01 R-22）
       largeNote: !!l.large && l.mode !== 'sales' && !l.noMatch, // 无匹配时空态卡已有「立即咨询」，不重复 // 30m³ 及以上：给一句建议联系顾问（W37 #22，A-14），不拦自助找仓
       sortLabel: d.sort === 'recommended' ? S.sort : S.sortOptions[d.sort], distLabel: d.maxKm === null ? S.distance : S.within(d.maxKm),

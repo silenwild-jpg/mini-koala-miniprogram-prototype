@@ -34,6 +34,9 @@
 .cp-tick--on .cp-ts { color: var(--mk-color-brand-text); }
 /* 尺寸示意区：左图右文，不描边。图随容量缩放（transform-origin 在底边中点）；箱子叠在底图与仓门框之间，落到位后留下 */
 .cp-ref { display: flex; align-items: center; margin-top: var(--mk-space-1); }
+/* REVIEW-02 A2-10：示意图下方一行小字（所填容量大于图上代表仓位时） */
+.cp-stagecol { flex: none; display: flex; flex-direction: column; align-items: center; }
+.cp-illnote { margin-top: -8rpx; padding-bottom: 8rpx; white-space: nowrap; }
 .cp-stage { position: relative; width: 320rpx; height: 320rpx; flex: none; overflow: hidden; }
 .cp-depot { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 50% 100%; }
 .cp-depot--off { opacity: 0.35; }

@@ -127,7 +127,8 @@ function storeCard(store, ctx) {
   // 「特价仓」标签按所展示的仓位判断：有需求看展示的那一行，无需求看本店可租仓位
   card.promo = card.row ? card.row.special : !!card.operating && card.operating === T.price.special;
   // 免费运输标签：展示的是特价仓时不出（特价仓不参与免费运输，规则配置表 §2，A-13）
-  const freeTag = far && !card.promo;
+  // 没有可租仓位的门店不出优惠标签（REVIEW-02 A2-12）：没有仓位可订，「满 6 个月免费运输」无从兑现
+  const freeTag = far && !card.promo && card.hasStock;
   card.freeTransportTag = freeTag ? T.card.freeTransport : '';
   card.tags = storeTags(store, 3, card.promo, freeTag);
   card.tagsDetail = storeTags(store, 3, card.promo, false); // 门店详情不出免费运输标签（FIX-01 R-16）
@@ -216,7 +217,9 @@ function buildList(stores, ctx, filter) {
   let cards = scope ? all.filter((c) => scope.has(byId[c.id])) : all;
   if (f.services.length) cards = cards.filter((c) => f.services.every((v) => (byId[c.id].tags || []).indexOf(v) >= 0));
   if (f.maxKm !== null) cards = cards.filter((c) => c.km !== null && c.km <= Number(f.maxKm));
-  if (f.promo) cards = cards.filter((c) => c.promo || c.operating === T.price.special);
+  // 「特价仓」筛选与卡片上的「特价仓」标签同一口径（REVIEW-02 A2-02）：有需求看展示的那一间，无需求看本店有没有可租的特价仓（card.promo）。
+  // 原先多放行「本店有任一特价仓」，演示库存里几乎每家店都有，选了等于没选，结果里还混着不带标签、不是特价的卡。
+  if (f.promo) cards = cards.filter((c) => c.promo);
   if (f.freeTransport) cards = cards.filter((c) => pricing.isFar(c.km)); // 只留 5km 及以上的门店（D-173）
   // 排序入参与显示同一个数：无需求用门店「/m³/月起」，有需求用所展示仓位在所选租期下的月租
   const costs = {};
@@ -227,15 +230,23 @@ function buildList(stores, ctx, filter) {
   });
   const o = { distOf: (c) => c.km, costOf: (c) => costs[c.id], idOf: (c) => c.id };
   const inf = (v) => (v === null || v === undefined ? Infinity : v);
+  let topId = ''; // 按推荐规则排出的第一家（按距离 / 价格手动排序、距离不全时为空）
   if (f.sort === 'distance') cards = cards.slice().sort((a, b) => inf(a.km) - inf(b.km) || String(a.id).localeCompare(String(b.id)));
   else if (f.sort === 'price') cards = cards.slice().sort((a, b) => costs[a.id] - costs[b.id] || inf(a.km) - inf(b.km) || String(a.id).localeCompare(String(b.id)));
   else {
     const eligible = cards.filter((c) => (hasNeed ? c.row : c.hasStock)), rest = cards.filter((c) => !(hasNeed ? c.row : c.hasStock));
-    const rk = rank(eligible, o);
+    const all0 = rank(eligible, o);
+    // REVIEW-02 A2-01：有需求时列表按「有匹配 → 接近」分组，角标要在排在前面的那一组里判。
+    // 原先在全部候选里排完再分组，最近的那家若只有「接近」方案会被挪到后面，角标跟着被清掉，首位的匹配门店反而没有「距离最近」。
+    // 现在：有匹配的一组单独按同一规则（最近 → 半径内更低价 → 其余按距离）排并标角标；「接近」的一组保持原先的相对顺序，不标。全是「接近」或无需求时与原来相同。
+    const full = hasNeed ? all0.items.filter((c) => c.listState === 'matched') : [];
+    const split = full.length > 0 && full.length < all0.items.length;
+    const rk = split ? rank(full, o) : all0;
     // IMPL-01 M-06 角标：与仓位推荐页同一规则（candidates），只有确实按该规则选出的才标；按距离 / 价格手动排序时不标
     if (rk.distanceRanked && rk.items[0]) { rk.items[0].rankTag = T.card.first; rk.items[0].rankKind = 'near'; }
     if (rk.cheaperSecond && rk.items[1]) { rk.items[1].rankTag = T.card.second; rk.items[1].rankKind = 'price'; }
-    cards = rk.items.concat(rest);
+    cards = (split ? rk.items.concat(all0.items.filter((c) => c.listState !== 'matched')) : rk.items).concat(rest);
+    topId = rk.distanceRanked && rk.items[0] ? rk.items[0].id : '';
   }
   if (hasNeed) { const g = { matched: 0, near: 1, none: 2 }; cards = cards.map((c, i) => [c, i]).sort((a, b) => g[a[0].listState] - g[b[0].listState] || a[1] - b[1]).map((x) => x[0]); }
   if (scope && scope.pin) cards = cards.filter((c) => c.id === scope.pin).concat(cards.filter((c) => c.id !== scope.pin));
@@ -249,7 +260,10 @@ function buildList(stores, ctx, filter) {
   // 首位门店离得远（附近的门店没有合适仓位）时写一句「已扩大范围」（A-22），与仓位推荐页同一句
   const c1 = cards[0];
   const expanded = hasNeed && !noMatch && !far && f.sort === 'recommended' && !!c1 && !!c1.row && c1.km !== null && c1.km > CF.list.expandedKm;
-  return { mode: hasNeed ? 'demand' : 'browse', cards, demandText: hasNeed ? demandLine(r) : '', advisor, total: cards.length, noMatch, far, expanded, large: hasNeed && matching.largeCapacity(r.capacity_m3), scopeText: scope ? scope.text : '', filtered };
+  // topRanked：前两家确实是按推荐规则排出来的（首位就是规则选出的第一家）。页面的小节标题用它判断，不再依赖角标文字是否存在（REVIEW-02 A2-01）
+  // soldOut：本城市所有门店都没有可租仓位（与筛选无关），空态换一句说明（REVIEW-02 A2-12）
+  const topRanked = !!topId && !!c1 && c1.id === topId, soldOut = all.length > 0 && all.every((c) => !c.hasStock);
+  return { mode: hasNeed ? 'demand' : 'browse', cards, demandText: hasNeed ? demandLine(r) : '', advisor, total: cards.length, noMatch, far, expanded, topRanked, soldOut, large: hasNeed && matching.largeCapacity(r.capacity_m3), scopeText: scope ? scope.text : '', filtered };
 }
 
 // 列表里可选的服务标签（按出现的门店数排序）
@@ -296,8 +310,14 @@ function candidates(stores, ctx, excludeId) {
   const rows = stores.filter((s) => s.id !== excludeId).map((s) => offerOf(s, need)).filter(Boolean);
   rows.forEach((x) => { x.cost = monthlyAt(x.units, months); x.km = distanceOf(x.store, ctx.location); });
   rows.sort((a, b) => (a.volume - need) - (b.volume - need) || a.cost - b.cost || String(a.store.id).localeCompare(String(b.store.id)));
-  const ranked = rank(rows, { distOf: (x) => x.km, costOf: (x) => x.cost, idOf: (x) => x.store.id });
-  ranked.items.forEach((x,i) => { x.rankTag = i === 0 && ranked.distanceRanked ? T.card.first : i === 1 && ranked.cheaperSecond ? T.card.second : ''; x.rankKind = x.rankTag === T.card.second ? 'price' : x.rankTag ? 'near' : ''; });
+  return rankTagged(rows);
+}
+// 按推荐规则排一组候选并标角标（第一家「距离最近」、确实按半径内更低价选出的第二家「区域低价」），其余清空
+const ROW_RANK = { distOf: (x) => x.km, costOf: (x) => x.cost, idOf: (x) => x.store.id };
+const untag = (x) => { x.rankTag = ''; x.rankKind = ''; return x; };
+function rankTagged(rows) {
+  const ranked = rank(rows, ROW_RANK);
+  ranked.items.forEach((x, i) => { x.rankTag = i === 0 && ranked.distanceRanked ? T.card.first : i === 1 && ranked.cheaperSecond ? T.card.second : ''; x.rankKind = x.rankTag === T.card.second ? 'price' : x.rankTag ? 'near' : ''; });
   return ranked.items;
 }
 
@@ -314,14 +334,19 @@ function buildMatch(stores, ctx) {
   const hasLong = !!(r.source === 'items' && r.est && r.est.long && r.est.long.length);
   let rows = candidates(stores, ctx), mode;
   if (rows.length) {
+    const isNear = (x) => matching.fit(x.volume, need).state === 'near';
+    const allNear = rows.every(isNear);
+    // REVIEW-02 A2-01：有足额方案时「接近」的排在后面，角标要在足额的那一组里判（原先在全部候选里标完再把接近的挪后，首卡常常没有角标）。
+    // 足额的一组单独按同一规则排并标角标；「接近」的保持原先的相对顺序，不标。全城只有接近方案时不变。
+    const regroup = (list) => { const fullRows = list.filter((x) => !isNear(x)); return allNear || !fullRows.length ? rankTagged(list) : rankTagged(fullRows).concat(list.filter(isNear).map(untag)); };
+    if (!allNear) rows = regroup(rows);
     if (scope) { // 用仓位置选了区域 / 商圈：先推本范围内的，再接其余
       const local = rows.filter((x) => prefer(x.store));
-      if (local.length) rows = rank(local, { distOf: (x) => x.km, costOf: (x) => x.cost, idOf: (x) => x.store.id }).items.concat(rows.filter((x) => !prefer(x.store)));
+      if (local.length) rows = regroup(local).concat(rows.filter((x) => !prefer(x.store)).map(untag));
       if (scope.pin) rows = rows.filter((x) => x.store.id === scope.pin).concat(rows.filter((x) => x.store.id !== scope.pin));
     }
     const expanded = rows.every((x) => x.km !== null && x.km > CF.recommend.expandedKm);
-    const isNear = (x) => matching.fit(x.volume, need).state === 'near';
-    if (rows.every(isNear)) { // 全城只有接近方案：本范围优先，其次容量大的、近的、便宜的在前
+    if (allNear) { // 全城只有接近方案：本范围优先，其次容量大的、近的、便宜的在前
       const inf = (v) => (v === null ? Infinity : v);
       rows.sort((a, b) => (prefer(b.store) ? 1 : 0) - (prefer(a.store) ? 1 : 0) || b.volume - a.volume || inf(a.km) - inf(b.km) || a.cost - b.cost);
       mode = 'near';
@@ -330,6 +355,8 @@ function buildMatch(stores, ctx) {
       mode = rows[0].combo ? 'combo' : expanded ? 'expanded' : 'matched';
     }
   } else mode = 'none';
+  // 角标只留在实际排在第一、第二位的卡上（与门店列表同一做法）：范围置顶、接近方案按容量重排把它挪走了就不标
+  rows.forEach((x, i) => { if (x.rankTag && i !== (x.rankKind === 'price' ? 1 : 0)) untag(x); });
   const top = rows.slice(0, CF.recommend.matchCards);
   const cards = top.map((x, i) => {
     const avail = x.store.units.filter(matching.isAvailable).sort((a, b) => a.volume - b.volume);
@@ -355,7 +382,8 @@ function buildMatch(stores, ctx) {
   const rent0 = top[0] && cards[0].lines[0].rentTotal;
   const advisor = mode === 'none' ? (advisorFor(need, 0) || { title: T.advisor.normal.title, sub: T.advisor.normal.sub }) : advisorFor(need, rent0 || 0);
   const sub = mode === 'near' ? T.match.subNear(fmt.pretty(need)) : mode === 'expanded' ? T.match.subExpanded : mode === 'combo' ? T.match.subCombo : '';
-  return { mode, sub, cards, total: rows.length, advisor };
+  // soldOut：本城市所有门店都没有可租仓位，空态换一句说明（REVIEW-02 A2-12）
+  return { mode, sub, cards, total: rows.length, advisor, soldOut: mode === 'none' && stores.length > 0 && stores.every((s) => !s.units.some(matching.isAvailable)) };
 }
 
 // 门店详情里「其他匹配门店和仓位」（冻结稿 w2-render.js alternatives）
@@ -392,7 +420,7 @@ function buildStoreDetail(store, ctx, opts) {
   // 组合方案：合计落在匹配区间的；一个都没有时，退而列出合计只够「接近」的组合并写明差额
   const comboList = need && self && cat === 'all' ? (m.combos.length ? m.combos : m.nearCombos) : [];
   const comboMode = !comboList.length ? '' : !m.best ? 'open' : need > CF.detail.comboAlwaysFromM3 ? 'fold' : '';
-  const combos = comboMode ? comboList.map((x) => { const l = line(x.units, months, ctx.loggedIn); return Object.assign(l, { tag: T.detail.comboTag(x.units.length), sub: T.detail.comboSub(x.units.map((u) => u.code).join(' + ')), nearText: matching.fit(x.volume, need).text || '' }); }) : [];
+  const combos = comboMode ? comboList.map((x) => { const l = line(x.units, months, ctx.loggedIn); const ft = matching.fit(x.volume, need); return Object.assign(l, { tag: T.detail.comboTag(x.units.length), sub: T.detail.comboSub(x.units.map((u) => u.code).join(' + ')), nearText: ft.text || '' }, ft.state === 'near' ? { secondary: true } : {}); }) : []; // REVIEW-02 A2-06：合计只够「接近」的组合与本页接近的单仓、仓位推荐页同一写法（线框「立即下单」+ 差额标签）
   // 顾问卡：一页一次；30m³ 及以上主操作已是「提交给顾问」，不再重复
   const chosen = m.best ? [m.best] : (m.combos[0] ? m.combos[0].units : null);
   const rent = chosen && ctx.loggedIn && pricing.isTerm(months) ? pricing.quote(chosen, months).rent_total : 0;

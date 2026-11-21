@@ -1,7 +1,7 @@
 <view class="mk-page">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <view wx:else class="ac-wrap">
-    <mk-empty wx:if="{{empty}}" icon="/assets/icons/heartfill-brand.svg" title="{{T.empty}}">
+    <mk-empty wx:if="{{empty}}" icon="/assets/icons/heart-ink.svg" title="{{T.empty}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onFindStores">{{T.findStores}}</button>
     </mk-empty>
     <block wx:if="{{stores.length}}">

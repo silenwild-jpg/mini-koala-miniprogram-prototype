@@ -12,6 +12,8 @@
 //   卡内不再画分隔线，说明用不描边的浅灰底块，待办条带从描边卡改成浅灰底块。
 const CT = require('../../core/config-trade');
 const CA = require('../../core/config-after');
+const CAC = require('../../core/config-account');
+const account = require('../../core/account');
 const after = require('../../core/after');
 const T = require('../../i18n/trade');
 const api = require('../../services/api');
@@ -50,8 +52,8 @@ function facts(o, p, now, key) {
     if (o.renew && o.renew.quoted_at) add(view.countdown(after.renewDeadline(o.renew.quoted_at, o.lease.end), now), F.quoteLeft);
   } else if (p === 'renewal_pending') add(end, F.curEnd);
   else if (p === 'expired_lease') { add(end, F.leaseDeadline); const n = view.daysLeft(o, now); if (n !== null && n < 0) add((-n) + T.common.dayUnit, F.overdue); }
-  else if (p === 'returning' || p === 'inspection') { // 退仓：计划取空日；验仓未通过时先写结果（A-03）
-    if (key === 'inspect_failed') add(TK.badge.inspect_failed, F.inspectResult);
+  else if (p === 'returning' || p === 'inspection') { // 退仓：计划取空日
+    // REVIEW-02 E2-12：验仓未通过不再单列「需重新验仓 / 验仓结果」一格——标题与右上标签已经说了两遍，这一格只是把标签文字再抄一次
     add(o.exit && o.exit.date, F.clearPlan);
   } else if (p === 'refund') add(key === 'refund_failed' ? F.depositAbnormal : F.depositRefunding, F.depositState); // 冻结稿 REFUND_FAILED：事实格「处理异常」（A-02）
   return out;
@@ -73,7 +75,7 @@ function mainCard(rec, others, now) {
     primary: { t: TK.btn[b[0]], a: b[0] }, secondary: b[1] ? { t: TK.btn[b[1]], a: b[1] } : null,
     svc, svcRenew: !(p === 'expiring' && b[0] === 'renew'), // M-05：临期且主按钮已是「办理续租」时，四宫格不再重复出「续租」
     helpTitle: help ? help[0] : '', helpText: help ? help[1] : '',
-    othersText: others > 0 ? TK.others[0] + others + TK.others[1] : ''
+    othersText: others > 0 ? TK.others[0] + others + TK.others[1] : '', others
   };
 }
 Component({
@@ -100,15 +102,18 @@ Component({
       if (!recs.length) {
         this.stop();
         // 没有订单：已选仓位 → 「继续确认用仓」；只有预约记录 → 「已收到您的用仓需求」；有找仓需求 → 不出主卡，由需求卡显示（A-05），预约记录进条带（A-07）
-        const lead = (this._leads || []).filter((x) => x && x.status !== 'withdrawn').slice(-1)[0];
+        const lead = this.latestLead();
         const need = state.get().requirement, sel = state.get().selection;
         const key = sel ? 'selected' : need ? '' : lead ? 'booking' : '';
         const copy = { selected: [TK.noOrder.selected, sel && sel.store_name, TK.noOrder.selectedBtn, 'find'], booking: [TK.noOrder.booking, lead && lead.store_name, TK.noOrder.bookingBtn, 'lead'] }[key];
-        const strip = lead && key !== 'booking' ? [{ id: 'lead', k: TK.todoLead, t: lead.in_service_hours === false ? TK.todoLeadOff : TK.todoLeadIn, a: 'lead', orderId: '' }] : [];
-        this.setData({ show: !!copy || strip.length > 0, main: copy ? { key, title: copy[0], store: copy[1] || '', sub: key === 'booking' ? TK.todoLeadIn : '', primary: { t: copy[2], a: copy[3] }, facts: [], badge: '', secondary: null } : null, todos: strip, moreText: '' }); return;
+        const strip = lead && key !== 'booking' ? [{ id: 'lead', k: TK.todoLead, t: this.leadText(lead, now), a: 'lead', orderId: '' }] : [];
+        this.setData({ show: !!copy || strip.length > 0, main: copy ? { key, title: copy[0], store: copy[1] || '', sub: key === 'booking' ? this.leadText(lead, now) : '', primary: { t: copy[2], a: copy[3] }, facts: [], badge: '', secondary: null } : null, todos: strip, moreText: '' }); return;
       }
       const m = recs[0];
-      const others = recs.filter((r) => (r.p === 'active' || r.p === 'expiring') && r.o.id !== m.o.id).length;
+      // 「另有 N 处在租仓位」（REVIEW-02 E2-01 / D2-01）：与「我的」页「我的仓位」同一口径（core/account.js activeAssets：已付款且还没结束的订单），
+      // 原先只数租用中 / 即将到期，续租处理中、退仓中、待入仓、已到期的都漏了，和「我的仓位 全部 N 处」对不上。
+      // 在「我的」页不出这一句：那一页紧接着就是「我的仓位」列表，不重复说。
+      const others = this.onMine() ? 0 : account.activeAssets(this._orders).filter((o) => o.id !== m.o.id).length;
       const todos = [];
       // 待支付：主卡被租后或入仓阶段占用时进条带
       recs.slice(1).forEach((r) => {
@@ -116,8 +121,8 @@ Component({
         // IMPL-01：门店名、金额、剩余时间不再拼成一串。门店名是正文，金额单列在行尾用数字字体，剩余时间 / 支付未成功是下一行小字
         todos.push({ id: 'o' + r.o.id, k: TK.todoPending, t: r.o.store.name, amt: view.yuan(r.o.quote.payable), note: r.p === 'pending' ? TK.left + view.countdown(r.o.pay.expires_at, now) : TK.todoFailed, a: 'pay', orderId: r.o.id });
       });
-      const lead = (this._leads || []).filter((x) => x && x.status !== 'withdrawn').slice(-1)[0];
-      if (lead) todos.push({ id: 'lead', k: TK.todoLead, t: lead.in_service_hours === false ? TK.todoLeadOff : TK.todoLeadIn, a: 'lead', orderId: '' });
+      const lead = this.latestLead();
+      if (lead) todos.push({ id: 'lead', k: TK.todoLead, t: this.leadText(lead, now), a: 'lead', orderId: '' });
       const r = state.get().requirement; // 需求晚于订单时仍显示找仓进度（§4.7-3）
       if (r && Number(r.capacity_m3) > 0 && !this.onMine()) todos.push({ id: 'find', k: TK.todoFind, t: req.demandText(r) + T.common.sep + fmt.termText(r.term_months) + TK.todoFindTail, a: 'find', orderId: '' });
       const shown = todos.slice(0, CT.taskTodoMax), more = todos.length - shown.length;
@@ -126,6 +131,18 @@ Component({
       const ticking = recs.some((x) => x.p === 'pending' || x.p === 'payment_failed' || x.p === 'renewal');
       if (ticking && !this._t) this._t = actions.every(() => this.render(), 1000);
       if (!ticking) this.stop();
+    },
+    // 预约记录一句话（REVIEW-02 E2-15）：承诺句「预计 10 分钟内与您联系 / 顾问上班后将优先联系您」只在受理后 needsAckHours 小时内写，
+    // 过了改成中性的「已提交，待顾问联系」——与预约记录页同一个窗口（core/config-account.js needsAckHours，PR-120）。没有受理时间的按刚提交算。
+    // 最近一条未撤回的预约记录：按受理时间取最新的。接口按新到旧返回，原先取数组最后一条，拿到的其实是最早的那条（REVIEW-02 E2-15 核实时发现）
+    latestLead() {
+      const live = (this._leads || []).filter((x) => x && x.status !== 'withdrawn');
+      return live.reduce((best, x) => (!best || (Number(x.accepted_at) || 0) > (Number(best.accepted_at) || 0) ? x : best), null) || undefined;
+    },
+    leadText(lead, now) {
+      const at = Number(lead && lead.accepted_at) || 0;
+      if (at > 0 && now - at >= CAC.needsAckHours * 3600e3) return TK.todoLeadWait;
+      return lead.in_service_hours === false ? TK.todoLeadOff : TK.todoLeadIn;
     },
     stop() { if (this._t) { clearInterval(this._t); this._t = null; } },
     // 所在页面是不是「我的」：那一页的需求卡一直显示，任务卡不再重复出「找仓进度」（D-17）

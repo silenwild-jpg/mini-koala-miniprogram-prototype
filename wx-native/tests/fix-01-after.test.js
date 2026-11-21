@@ -63,7 +63,7 @@ test('C-01：续租后费用明细按付款分段，「已付」是累计、「�
   assert.deepEqual([c.lineText, c.payableText, c.termText], ['A003 · 3.5m³ · 18个月（含续租）', '¥4,610', '18个月（含续租）']);
   assert.equal(env.newComponent('components/mk-fee-detail/index', { order: x, locked: true }).data.total.amt, '¥4,610');
   const pg = await page('ORDER_DETAIL', { id });
-  assert.ok(pg.data.progress.some((r) => r.k === '累计租期' && r.v === '18个月')); pg.onHide();
+  assert.ok(!pg.data.progress.some((r) => r.k === '累计租期'), 'REVIEW-02 C2-05：累计租期只在订单卡里写一次（18个月（含续租））'); pg.onHide();
   // 第二次续租：再加一段，合计继续累加
   const y = await renewOnce(id, 3);
   f = view.fees(y, now());
@@ -86,7 +86,7 @@ test('C-02 / A-02：押金退款未成功归入押金处理阶段；列表、详
   assert.equal(pg.data.storeSvc, true, '有门店服务卡，可联系门店'); pg.onHide();
   const c = await taskCard();
   assert.equal(c.data.show, true, '首页任务卡出现');
-  assert.deepEqual([c.data.main.key, c.data.main.title, c.data.main.badge, c.data.main.badgeTone, c.data.main.primary.t], ['refund', '押金处理中', '退款未成功', 'err', '查看押金进度']);
+  assert.deepEqual([c.data.main.key, c.data.main.title, c.data.main.badge, c.data.main.badgeTone, c.data.main.primary.t], ['refund', '押金退款未成功', '退款未成功', 'err', '查看押金进度']);
   assert.deepEqual(c.data.main.facts, [{ v: '处理异常', l: '押金进度' }]);
   env.nav.length = 0; c.onAction({ currentTarget: { dataset: { a: 'deposit' } } }); assert.equal(env.nav[0].url, routes.DEPOSIT + '?id=' + o.id); c.__detach();
   // 退款处理中：同一阶段，文字是「退款处理中」
@@ -103,7 +103,7 @@ test('C-03 / A-03：验仓未通过、退仓待清空各有标签、状态头、
   assert.equal(pg.data.note.text, '原因：' + o.exit.fail_reason); assert.ok(pg.data.subs.includes('计划取空 ' + o.exit.date)); pg.onHide();
   let c = await taskCard();
   assert.deepEqual([c.data.main.title, c.data.main.badge, c.data.main.badgeTone, c.data.main.primary.t, c.data.main.helpText], ['验仓未通过', '需重新验仓', 'err', '重新申请验仓', o.exit.fail_reason]);
-  assert.deepEqual(c.data.main.facts.map((x) => [x.v, x.l]), [['需重新验仓', '验仓结果'], [o.exit.date, '计划取空']]);
+  assert.deepEqual(c.data.main.facts.map((x) => [x.v, x.l]), [[o.exit.date, '计划取空']]); // REVIEW-02 E2-12：不再把标签文字抄成一格「验仓结果」
   env.nav.length = 0; c.onAction({ currentTarget: { dataset: { a: 'reinspect' } } }); assert.equal(env.nav[0].url, routes.EXIT + '?id=' + o.id); c.__detach();
 
   o = await first('member_exit_clearing');
@@ -255,7 +255,7 @@ test('D-01 / R-03：批量与单笔共用一份开票记录，开过的不能重
 test('C-06：已到期的入仓指引写明原因并给去向；开门信息弹窗带「联系门店」；一键开锁提示不再指回入仓指引', async () => {
   const o = await first('member_overdue');
   let pg = await page('ACCESS', { id: o.id });
-  assert.deepEqual([pg.data.st, pg.data.overdue, pg.data.lease.text], ['inactive', '租期已到期，入仓信息暂不开放。', '租期已到期']);
+  assert.deepEqual([pg.data.st, pg.data.overdue, pg.data.head.tag], ['inactive', '租期已到期，入仓信息暂不开放。', '租期已到期']);
   assert.deepEqual(pg.data.bar.btns.map((b) => [b.text, b.act]), [['办理退仓', 'exit'], ['办理续租', 'renew']]);
   env.nav.length = 0; pg.onBar({ currentTarget: { dataset: { act: 'renew' } } }); pg.onBar({ currentTarget: { dataset: { act: 'exit' } } });
   assert.deepEqual(env.nav.map((n) => n.url), [routes.RENEW + '?id=' + o.id, routes.EXIT + '?id=' + o.id]);

@@ -19,8 +19,8 @@
     <view wx:if="{{blocked || (editing && !saved) || status === 'failed' || status === 'unknown' || restored}}" class="mk-gutter ldf-ntc">
       <mk-notice wx:if="{{blocked}}" tone="err" title="{{T.z.blockedTitle}}" text="{{T.z.blockedMsg}}" link="{{T.z.newLead}}" bind:link="onNewLead" />
       <mk-notice wx:elif="{{editing && !saved}}" title="{{T.z.editTitle}}" text="{{T.z.editMsg}}" link="{{T.z.newLead}}" bind:link="onNewLead" />
-      <mk-notice wx:if="{{status === 'failed'}}" tone="err" title="{{T.z.failedTitle}}" text="{{T.c.failedMsg}}" link="{{T.c.retry}}" bind:link="onRetrySubmit" />
-      <mk-notice wx:if="{{status === 'unknown'}}" tone="err" title="{{T.c.unknownTitle}}" text="{{T.c.unknownMsg}}" link="{{T.c.recheck}}" bind:link="onRetrySubmit" />
+      <mk-notice wx:if="{{status === 'failed'}}" tone="err" title="{{editing ? T.z.failedTitle : T.c.failedTitle}}" text="{{T.c.failedHint}}" link="{{T.c.retry}}" bind:link="onRetrySubmit" />
+      <mk-notice wx:if="{{status === 'unknown'}}" tone="err" title="{{T.c.unknownTitle}}" text="{{T.c.unknownHint}}" link="{{T.c.recheck}}" bind:link="onRetrySubmit" />
       <mk-notice wx:if="{{restored}}" title="{{T.z.restoredTitle}}" text="{{T.z.restoredMsg}}" />
     </view>
     <view wx:if="{{step === 1}}" class="ldf-form mk-fade">
@@ -67,7 +67,7 @@
       <mk-field class="ldf-fld" label="{{T.phoneLabel}}" mark="{{T.c.required}}" mark-tone="req">
         <lead-phone id="phone" what="{{what}}" error="{{errPhone}}" disabled="{{locked}}" bind:change="onPhoneChange" bind:login="onPhoneLogin" />
       </mk-field>
-      <mk-field class="ldf-fld" label="{{T.z.when}}" error="{{errDate}}">
+      <mk-field class="ldf-fld" label="{{T.z.when}}" mark="{{T.c.optionalFill}}" error="{{errDate}}">
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="ldf-input {{errDate ? 'ldf-input--err' : ''}}" bindtap="onOpenDate" aria-role="button"><image class="mk-icon lbz-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow {{date ? '' : 'ldf-ph'}}">{{date || T.c.pickDate}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.z.notes}}" mark="{{T.c.optionalFill}}">
@@ -92,6 +92,7 @@
   </mk-sheet>
   <view wx:if="{{dialog}}" class="lbz-mask mk-fade {{dialogLeave}}" catchtouchmove="noop" bindtap="onDialogClose">
     <view class="lbz-dialog mk-fade-in {{dialogLeave}} mk-leave--zoom" catchtap="noop">
+      <view class="ldf-okic"><image class="mk-icon mk-icon--md" src="/assets/icons/check-brand.svg" /></view>
       <text class="mk-h2 lbz-dt">{{dialog.title}}</text>
       <text class="lbz-dm">{{dialog.ack}}</text>
       <text wx:if="{{dialog.fine}}" class="mk-sub lbz-df">{{dialog.fine}}</text>

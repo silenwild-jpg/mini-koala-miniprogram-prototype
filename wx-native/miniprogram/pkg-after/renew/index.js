@@ -36,11 +36,6 @@ function render(page, o, now) {
       head: { title: R.head[st], tag: R.tag[st], tone: TONE[st], subs: [fill(CT.orderNo, { no: o.no }), fill(CT.curLeaseTo, { d: end }), fill(CT.totalMonths, { m: o.months })] }
     };
     const quoted = r && r.status !== 'submitted';
-    d.steps = st === 'unavailable' ? [] : cm.steps(R.steps, [
-      r ? fill(R.stepMonths, { m: r.months }) : '',
-      quoted ? (st === 'quote_expired' ? R.stepExpired : fill(CT.perMonth, { a: yuan(r.monthly) })) : '',
-      '', '', st === 'completed' ? fill(R.stepDone, { d: end, m: o.months }) : ''
-    ], CUR[st], st === 'payment_failed' ? 4 : 0);
 
     if (st === 'unavailable') {
       d.note = { tone: 'warn', text: v.reason === 'exit' ? R.unavailableExit : v.reason === 'ended' ? R.unavailableEnded : fill(R.unavailableMax, { cap: C.requirement.termMax }) };
@@ -100,9 +95,17 @@ function render(page, o, now) {
       }
       if (v.deadline && st !== 'completed' && st !== 'quote_expired') startTick(page, v.deadline);
     }
-    // IMPL-02 M-29：只有一行费用（没有对照行）且金额与合计相同时，费用行与合计行合并成一行：合计的名称与金额 + 费用行的月数、折扣标签；算式仍在下方。
-    // 有对照行（现行折扣价、常规折扣价、原报价）或没有合计（填写态、沿用原折扣的过期态）时保持原样。
-    if (d.card && d.card.total && !d.card.ref && d.card.main.amt === d.card.total.amt) d.card.one = { k: d.card.total.k, sub: d.card.main.sub, tag: d.card.main.tag || '', amt: d.card.total.amt };
+    // REVIEW-02 C2-03（裁定 RULINGS_PAGES 续租行第 3 点）：下方已有费用小节（d.card）时，进度第 1、2 步不再写「续租 N个月」「¥X/月」（费用小节里有同样的月数与算式）；
+    // 等报价态没有费用小节，第 1 步照写；「报价已过期」「新租期至…」是状态不是费用，保留。
+    const feeShown = !!d.card;
+    d.steps = st === 'unavailable' ? [] : cm.steps(R.steps, [
+      r && !feeShown ? fill(R.stepMonths, { m: r.months }) : '',
+      quoted ? (st === 'quote_expired' ? R.stepExpired : feeShown ? '' : fill(CT.perMonth, { a: yuan(r.monthly) })) : '',
+      '', '', st === 'completed' ? fill(R.stepDone, { d: end, m: o.months }) : ''
+    ], CUR[st], st === 'payment_failed' ? 4 : 0);
+    // IMPL-02 M-29：费用行金额与合计相同时，费用行与合计行合并成一行：合计的名称与金额 + 费用行的月数、折扣标签；算式仍在下方。没有合计（填写态、沿用原折扣的过期态）时保持原样。
+    // REVIEW-02 C2-04：对照行（现行折扣价、常规折扣价、原报价）是参照不是费用，有对照行时同样合并，对照行跟在合并行之后。
+    if (d.card && d.card.total && d.card.main.amt === d.card.total.amt) d.card.one = { k: d.card.total.k, sub: d.card.main.sub, tag: d.card.main.tag || '', amt: d.card.total.amt };
     // IMPL-01 动效：改续租月数后步进数字与底栏金额轻微回弹（首次渲染、占位文字不动）；状态切换时正文淡入
     const prevAmt = page.data.bar && !page.data.bar.muted ? page.data.bar.amt : '', prevM = page.data.form ? page.data.form.months : 0;
     page.setData(d);

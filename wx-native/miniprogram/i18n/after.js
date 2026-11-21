@@ -17,12 +17,12 @@ module.exports = {
     tag: { form: '可申请', submitting: '提交中', quote_pending: '报价确认中', quote_ready: '待确认', quote_expired: '报价已过期', payment_pending: '待支付', payment_failed: '待支付', cancelled: '待支付', completed: '已完成', unavailable: '不可办理' },
     steps: ['提交续租需求', '门店确认报价', '确认续租方案', '支付续租费用', '新租期生效'],
     progress: '续租进度', stepMonths: '续租 {m}个月', stepExpired: '报价已过期', stepDone: '新租期至 {d} · 累计 {m}个月',
-    monthsTitle: '续租月数', monthsLabel: '续租', monthsRule: '可续租 1–{max}个月，累计租期不超过 {cap} 个月',
+    monthsTitle: '续租月数', monthsLabel: '续租', monthsRule: '可续租 1–{max}个月，累计租期不超过 {cap}个月',
     feeTitle: '续租费用', quoteTitle: '续租报价', rent: '续租租金', storeQuote: '门店报价', regular: '常规折扣价', current: '现行折扣价', oldQuote: '原门店报价', expiredSub: '已过期',
     pendingAmount: '提交后由门店报价', barPending: '报价待门店确认', barLabel: '续租 {m}个月', barKeepTag: '沿用 {z}', // IMPL-01：月数是说明、沿用折扣是标签，分开放不用分隔符
     ruleNormal: '续租价格以门店确认的报价为准。', ruleKeep: '金额以门店确认的报价为准。',
-    keepForm: '首次续租沿用您原订单的 {z}，比现在 {m} 个月的 {p}每月少 {less}。',
-    keepQuote: '首次续租沿用您原订单的 {z}，比现在 {m} 个月的 {p}每月少 {less}，本次共少 {total}。',
+    keepForm: '首次续租沿用您原订单的 {z}，比现在 {m}个月的 {p}每月少 {less}。',
+    keepQuote: '首次续租沿用您原订单的 {z}，比现在 {m}个月的 {p}每月少 {less}，本次共少 {total}。',
     payable: '续租应付', paid: '已付',
     validTo: '报价有效至', validLeft: '剩余 {c}', payDeadline: '付款截止', sameAsQuote: '与报价有效期相同', newEnd: '新租期至', joint: '租期衔接', jointText: '自当前租期截止日 {d} 顺延 {m}个月，不中断',
     ttl: '报价 {h} 小时内有效。', ttlCapped: '距当前租期到期不足 {h} 小时，报价有效期截至租期到期。', afterExpire: '过期后按常规折扣价续租。', effect: '付款完成后新租期生效。',
@@ -33,7 +33,7 @@ module.exports = {
     subOk: '已开启微信通知。', subNo: '未开启微信通知。',
     unavailableExit: '退仓处理中的订单不能续租。',
     unavailableEnded: '租赁已结束的订单不能续租。',            // 自写
-    unavailableMax: '累计租期已满 {cap} 个月，不能再续租。',   // 自写
+    unavailableMax: '累计租期已满 {cap}个月，不能再续租。',   // 自写
     failTitle: '续租付款未成功', failFixes: '重新支付 · 更换支付方式',
     submit: '提交续租需求', resubmit: '重新提交续租需求', confirmPay: '确认并支付', renewRegular: '按常规折扣续租', skip: '暂不续租', payLater: '稍后支付', payNow: '立即付款', repay: '重新支付', continuePay: '继续付款', invoice: '申请发票',
     paySheet: '支付流程', payConfirm: '确认付款',
@@ -70,7 +70,7 @@ module.exports = {
     settle: '押金结算', orderDeposit: '订单押金', due: '已扣费用', back: '实际退还', dueNote: '已扣费用明细可向门店查询。', // FIX-01 C-12：结算完成后不再叫「待结费用」
     switchOrder: '切换订单', switchTitle: '选择订单', switchCount: '共 {n} 笔订单', // FIX-01 D-14
     info: '退还说明', time: '退还时限', timeText: '验仓通过后 15 个工作日内', method: '退还方式', methodText: '退至您指定的银行账户或原路退回；信用卡付款原路退回约需 1 个月',
-    deduct: '结算说明', deductText: '验仓时仓位与配件完好、物品已取空的，押金按约定退还；如有待结费用，结算后退还余额', more: '查看退还方式与结算说明 ›',
+    deduct: '结算说明', deductText: '验仓时仓位与配件完好、物品已取空的，押金按约定退还；如有待结费用，结算后退还余额', more: '查看退还方式与结算说明',
     failTitle: '退款未成功', failFixes: '核对收款账户 · 联系门店重新发起',
     viewProgress: '查看处理进度', sheet: '处理进度', sheetSteps: ['验仓通过', '退款处理中', '退还完成'], storeHandling: '门店处理中'
   },
@@ -84,7 +84,7 @@ module.exports = {
     info: '发票信息', kindLabel: '发票类型', title: '抬头', titlePh: { personal: '请输入姓名', enterprise: '请输入企业名称' }, tax: '企业税号', taxPh: '请输入纳税人识别号', email: '邮箱', emailPh: '请输入邮箱', emailErr: '请输入有效的邮箱地址',
     titles: '管理开票抬头', batch: '批量开票', batchSub: '多笔付款合并申请',
     submit: '提交发票申请', retry: '更正资料后重新提交',
-    failTitle: '开票未成功', failFixes: '抬头 · 企业税号 · 邮箱', failKeep: '原申请记录已保留，更正后可重新提交。',
+    failTitle: '开票未成功', failFixes: '更正抬头、企业税号或邮箱后重新提交', failKeep: '原申请记录已保留，更正后可重新提交。',
     file: '发票文件', form: '发票形式', formText: '电子发票', toEmail: '接收邮箱', send: '发送到邮箱', download: '下载发票',
     pickPayment: '选择付款记录',
     sent: '已发送到 {e}',                                   // 自写
@@ -110,6 +110,7 @@ module.exports = {
     emptyTitle: '无法打开该服务', emptySub: '需要已付款订单才能办理此项服务', viewOrders: '查看我的订单'
   },
   access: {
+    title: '入仓指引', // REVIEW-02 C2-02：页顶状态头的标题
     arrival: '到店与进仓', storeGuide: '门店到店指引', path: '进仓路径', navigate: '到店导航',
     address: '门店地址', hours: '存取时间',                 // 自写：门店没有到店资料时只显示这两行
     stepsTitle: '入仓步骤', stepArrive: '到达门店', stepHours: '存取时间 {h}', stepIdentity: '完成实名认证', stepIdentitySub: '下单时未完成的，请在起租前完成',

@@ -8,7 +8,10 @@
 .ltr-sect { margin: 0 var(--mk-space-2) 0 0; }
 .ltr-rt { display: block; font-size: var(--mk-font-size-md); }
 .ltr-rs { display: block; margin-top: 4rpx; }
-.ltr-pickt { display: block; padding: var(--mk-space-3) var(--mk-space-pageGutter); }
+.ltr-pickt { padding: var(--mk-space-3) var(--mk-space-pageGutter); }
+.ltr-pickh { display: block; }
+.ltr-picks { display: block; margin-top: 4rpx; }
+.ltr-lead { margin-right: var(--mk-space-2); }
 .ltr-pick { margin-bottom: var(--mk-space-cardGap); }
 .ltr-rule { display: block; margin-top: var(--mk-space-3); }
 /* IMPL-01：已提交的预约按用途分行（地址、日期、联系电话各一行，同一种图标加文字），不再把日期和手机号串成一行 */

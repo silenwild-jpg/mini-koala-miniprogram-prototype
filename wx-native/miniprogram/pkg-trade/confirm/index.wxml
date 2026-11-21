@@ -6,10 +6,10 @@
   </mk-empty>
   <view wx:else class="mk-gutter cf-body">
     <view wx:if="{{head}}" class="cf-head {{headFx || 'mk-fade'}}">
-      <view class="mk-between"><text class="mk-h2 mk-grow">{{paying ? T.payingHead : head.title}}</text><text class="cf-tag cf-tag--{{head.tone}}">{{head.tag}}</text></view>
+      <view class="mk-between"><text class="mk-h2 mk-grow">{{paying ? T.payingHead : head.title}}</text><text class="mk-tag mk-tag--{{head.tone}} mk-tag--end">{{head.tag}}</text></view>
       <view class="cf-subs">
         <text wx:for="{{headSubs}}" wx:key="*this" class="mk-sub cf-subitem">{{item}}</text>
-        <view wx:if="{{clock}}" class="cf-subitem"><text class="mk-sub">{{T.left}}</text><text class="mk-num cf-clock">{{clock}}</text></view>
+        <text wx:if="{{clock}}" class="cf-subitem mk-num cf-clock">{{T.left}}{{clock}}</text>
       </view>
       <view wx:if="{{head.reason}}" class="cf-why">{{head.reason}}</view>
       <view class="mk-sub">{{head.note}}</view>
@@ -110,8 +110,8 @@
     <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-link cf-later" bindtap="onPayLater" aria-role="button">{{T.payLater}}</view>
   </mk-sheet>
   <mk-sheet visible="{{sheet === 'protect'}}" title="{{T.protectTitle}}" bind:close="onSheetClose">
-    <view class="cf-pi"><view class="mk-row"><text class="cf-entryt">{{T.protectBasic}}</text><text class="cf-tag cf-tag--ok">{{T.protectBasicTag}}</text></view><text class="mk-sub cf-pidesc">{{T.protectBasicDesc}}</text></view>
-    <view class="cf-pi"><view class="mk-row"><text class="cf-entryt">{{T.protectPlus}}</text><text class="cf-tag">{{T.protectPlusTag}}</text></view><text class="mk-sub cf-pidesc">{{T.protectPlusDesc}}</text><text class="mk-sub cf-pidesc">{{T.protectPrice}}</text></view>
+    <view class="cf-pi"><view class="mk-row"><text class="cf-entryt">{{T.protectBasic}}</text><text class="mk-tag mk-tag--ok mk-tag--end">{{T.protectBasicTag}}</text></view><text class="mk-sub cf-pidesc">{{T.protectBasicDesc}}</text></view>
+    <view class="cf-pi"><view class="mk-row"><text class="cf-entryt">{{T.protectPlus}}</text><text class="mk-tag mk-tag--info mk-tag--end">{{T.protectPlusTag}}</text></view><text class="mk-sub cf-pidesc">{{T.protectPlusDesc}}</text><text class="mk-sub cf-pidesc">{{T.protectPrice}}</text></view>
     <text class="mk-mute cf-fine">{{T.protectClaim}}</text>
     <view class="cf-two">
       <button class="mk-btn mk-btn--ghost cf-half" hover-class="mk-btn--ghostHover" bindtap="onService">{{TC.contactService}}</button>

@@ -7,7 +7,8 @@
       <text class="ac-para rf-para">{{T.r.para}}</text>
       <button wx:if="{{!loggedIn}}" class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="mk-btn--ghostHover" bindtap="onLogin">{{T.common.loginRegister}}</button>
       <text class="ac-label rf-label">{{T.r.codeLabel}}</text>
-      <view class="rf-box mk-row"><image class="mk-icon rf-ic" src="/assets/icons/copy-ink.svg" /><text class="mk-grow mk-ellipsis mk-num">{{loggedIn && code ? code : T.r.codeGuest}}</text></view>
+      <view wx:if="{{loggedIn && code}}" class="rf-box mk-row" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onCopy" aria-role="button" aria-label="{{T.r.copy}}"><text class="mk-grow mk-ellipsis mk-num rf-code">{{code}}</text><image class="mk-icon rf-ic" src="/assets/icons/copy-ink.svg" /></view>
+      <view wx:else class="rf-box mk-row"><text class="mk-grow mk-ellipsis">{{T.r.codeGuest}}</text></view>
       <block wx:if="{{loggedIn && code}}">
         <button class="mk-btn mk-btn--md ac-block" hover-class="mk-btn--hover" open-type="share">{{T.r.share}}</button>
         <button class="mk-btn mk-btn--ghost mk-btn--md ac-block" hover-class="mk-btn--ghostHover" bindtap="onCopy">{{T.r.copy}}</button>

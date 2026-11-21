@@ -60,6 +60,8 @@
           <image class="mk-icon sd-nomatch-ic" src="/assets/icons/info-promo.svg" /><text class="mk-grow sd-nomatch-t">{{T.d.noMatchLine}}</text>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="mk-link sd-nomatch-a" bindtap="onOtherStores" aria-role="link">{{T.d.otherStoresLink}}</view>
         </view>
+        <!-- REVIEW-02 A2-03：无匹配时写明本店可租的容量范围，免得读成空店（列不列更小的仓位仍按原规则，待裁） -->
+        <text wx:if="{{situation === 'nomatch' && card.rangeText}}" class="mk-sub sd-gnote sd-nomatch-range">{{T.d.rangeLine}}<text class="mk-num">{{card.rangeText}}</text></text>
         <block wx:for="{{blocks}}" wx:key="key">
           <text wx:if="{{item.type === 'title'}}" class="sd-gtitle">{{item.text}}</text>
           <text wx:elif="{{item.type === 'note'}}" class="mk-sub sd-gnote">{{item.text}}</text>
@@ -78,7 +80,7 @@
                   <text wx:for="{{item.row.codeList}}" wx:for-item="c" wx:key="*this" class="mk-unitno sd-code">{{c}}</text>
                   <text wx:if="{{item.row.tier}}" class="mk-tag sd-tier">{{item.row.tier}}</text>
                   <text wx:if="{{item.row.tag}}" class="mk-tag sd-tier">{{item.row.tag}}</text>
-                  <text wx:if="{{item.row.nearText}}" class="mk-tag mk-tag--promo sd-tier">{{item.row.nearText}}</text>
+                  <text wx:if="{{item.row.nearText}}" class="mk-tag mk-tag--warn sd-tier">{{item.row.nearText}}</text>
                 </view>
                 <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.type === 'unit'}}" class="sd-fav" data-id="{{item.row.favId}}" bindtap="onFavUnit" aria-role="button" aria-label="收藏仓位"><image class="mk-icon" src="/assets/icons/{{item.row.fav ? 'heartfill-brand' : 'heart-sub'}}.svg" /><text wx:if="{{item.row.fav}}" class="mk-link sd-favt">{{T.d.favOn}}</text></view>
               </view>

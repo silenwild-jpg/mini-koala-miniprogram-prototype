@@ -25,7 +25,7 @@ function render(page, o, now) {
   const full = st !== 'held' || page._open;
   const d = {
     empty: false, st, order: o, fail: failed, reason: dp.fail_reason || '', amount: yuan(dp.amount), more: !full,
-    head: { title: D.head, tag: D.tag[st], tone: TONE[st], subs: [fill(CT.orderNo, { no: o.no }), fill(CT.leaseTo, { d: after.ymd(o.lease.end) })] },
+    head: { title: D.head, tag: D.tag[st], tone: TONE[st], subs: [o.store.name, fill(CT.orderNo, { no: o.no }), fill(CT.leaseTo, { d: after.ymd(o.lease.end) })] }, // REVIEW-02 C2-17：副标题带店名（多笔订单时不只靠订单号辨认）
     steps: cm.steps(D.steps, [fill(D.paidWith, { d: after.ymd(o.pay.paid_at || o.created_at) }), '', x && x.status ? D.exitTag[x.status] || '' : ''], CUR[st], failed ? 4 : 0),
     info: [{ k: D.time, v: D.timeText }].concat(full ? [{ k: D.method, v: D.methodText, long: true }, { k: D.deduct, v: D.deductText, long: true }] : []),
     bar: { btns: [moving ? { text: D.viewProgress, act: 'progress', kind: 'ghost' } : { text: CT.backOrder, act: 'back', kind: 'neutral' }].concat(st === 'refunded_partial' ? [{ text: CT.callStore, act: 'call', kind: 'ghost' }] : []) },

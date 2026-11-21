@@ -129,4 +129,4 @@
   </view>
 </view>
 
-<mk-sheet visible="{{advisoryVisible}}" title="{{T.i.advisory.title}}" bind:close="onAdvisoryClose"><text>{{T.i.advisory.body}}</text><button class="mk-bare mk-link" open-type="contact">{{T.i.advisory.contact}}</button><button class="mk-btn" bindtap="onAdvisoryContinue">{{T.i.advisory.go}}</button></mk-sheet>
+<mk-sheet visible="{{advisoryVisible}}" title="{{T.i.advisory.title}}" bind:close="onAdvisoryClose"><text>{{T.i.advisory.body}}</text><button class="mk-bare mk-link" hover-class="mk-bare--hover" open-type="contact">{{T.i.advisory.contact}}</button><button class="mk-btn" hover-class="mk-btn--hover" bindtap="onAdvisoryContinue">{{T.i.advisory.go}}</button></mk-sheet>

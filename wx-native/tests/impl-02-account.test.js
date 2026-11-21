@@ -32,7 +32,7 @@ test('M-34：「我的」常用入口一行 5 格（图标 + 名称），原两�
   fresh(false, false);
   const pg = await page('MINE');
   assert.deepEqual(pg.data.quick.map((i) => i.k), QUICK);
-  assert.deepEqual(pg.data.quick.map((i) => i.t), ['预约用仓', '找仓进度', '我的收藏', '优惠与权益', '消息']);
+  assert.deepEqual(pg.data.quick.map((i) => i.t), ['预约记录', '找仓进度', '我的收藏', '优惠与权益', '消息']);
   pg.data.quick.forEach((i) => { assert.match(i.icon, /^\/assets\/icons\/[a-z]+-ink\.svg$/); assert.ok(fs.existsSync(path.join(root, i.icon)), i.icon); assert.equal(i.badge, 0); });
   assert.deepEqual(pg.data.groups.map((g) => g.key), ['finance', 'more'], '「账务与企业」「更多服务」两组不动');
   assert.deepEqual(pg.data.groups.map((g) => g.items.length), [4, 4]);

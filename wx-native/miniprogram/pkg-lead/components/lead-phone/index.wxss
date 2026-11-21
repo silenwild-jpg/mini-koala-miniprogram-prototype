@@ -2,7 +2,8 @@
 .lph-box--err { border: var(--mk-border-error); }
 .lph-num { font-size: var(--mk-font-size-md); }
 .lph-mod { flex: none; min-height: 64rpx; line-height: 64rpx; padding: 0 var(--mk-space-2); margin-right: calc(-1 * var(--mk-space-2)); margin-left: var(--mk-space-1); border-radius: var(--mk-radius-control); color: var(--mk-color-brand-text); font-size: var(--mk-font-size-md); }
-.lph-wx { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-medium); }
+/* REVIEW-02 E2-21：「使用微信手机号」用公共的中性按钮 mk-btn--plain，这里只保留报错时的红描边（三类名写法，不依赖加载顺序） */
+.mk-btn.mk-btn.lph-wx--err { border: var(--mk-border-error); }
 .lph-hint { display: block; margin-top: var(--mk-space-2); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }
 .lph-err { display: block; margin-top: var(--mk-space-1); }
 .lph-note { display: block; margin-bottom: var(--mk-space-2); }

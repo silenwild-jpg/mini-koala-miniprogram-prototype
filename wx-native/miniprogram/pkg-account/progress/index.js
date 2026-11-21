@@ -15,9 +15,10 @@ const auth = require('../../services/auth');
 const api = require('../../services/api');
 const pd = require('../../services/page-data');
 const G = T.progress;
+const TF = require('../../i18n/find'); // 只读：需求卡的「预计容量」「租期」两个标签与单位，「最近参考」卡用同一套写法（REVIEW-02 D2-07）
 const money = (n) => '¥' + String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 Page(auth.guarded(routes.PROGRESS, {
-  data: { T: G, sys: 'loading', hasNeed: false, reference: null, selected: null, quote: null, empty: false, loginVisible: false },
+  data: { T: G, F: { capLabel: TF.need.capLabel, termLabel: TF.need.termLabel }, sys: 'loading', hasNeed: false, reference: null, selected: null, quote: null, empty: false, loginVisible: false },
   onLoad() {},
   onShow() { this.load(); const c = this.selectComponent && this.selectComponent('#need'); if (c && c.refresh) c.refresh(); },
   load() {
@@ -33,7 +34,7 @@ Page(auth.guarded(routes.PROGRESS, {
       let reference = null;
       if (!hasNeed && last) {
         const cap = Number(last.units.reduce((n, u) => n + Number(u.volume || 0), 0).toFixed(2));
-        if (cap > 0) reference = { cap, months: last.months, title: req.pretty(cap) + 'm³', sub: s.location.city + ' · ' + fmt.termText(last.months) };
+        if (cap > 0) reference = { cap, months: last.months, title: req.pretty(cap) + 'm³', sub: s.location.city + ' · ' + fmt.termText(last.months), /* title / sub 保留给旧用例，界面改绑下面几项 */ capNum: req.pretty(cap), capUnit: TF.unit.m3, termNum: String(last.months), termUnit: TF.unit.month, city: s.location.city || '' };
       }
       let selected = null, quote = null;
       if (sel) {

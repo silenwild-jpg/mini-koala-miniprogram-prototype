@@ -164,8 +164,8 @@ Page(auth.guarded(routes.BOOKING, {
       const code = err && err.code;
       if (code === 'INVALID' && err.field === 'phone') return this.setData({ status: 'editing', locked: false, errPhone: B.errPhone });
       if (code === 'INVALID' && err.field === 'address') return this.setData({ status: 'editing', locked: false, errAddress: B.errAddress });
-      if (code === 'TIMEOUT') return this.setData({ status: 'unknown', locked: true, statusTitle: T.common.unknownTitle, statusMsg: T.common.unknownMsg, statusBtn: T.common.recheck });
-      this.setData({ status: 'failed', locked: false, statusTitle: T.common.failedTitle, statusMsg: T.common.failedMsg, statusBtn: T.common.retry });
+      if (code === 'TIMEOUT') return this.setData({ status: 'unknown', locked: true, statusTitle: T.common.unknownTitle, statusMsg: T.common.unknownHint, statusBtn: T.common.recheck });
+      this.setData({ status: 'failed', locked: false, statusTitle: T.common.failedTitle, statusMsg: T.common.failedHint, statusBtn: T.common.retry });
     });
   },
   resultOf(rec) {

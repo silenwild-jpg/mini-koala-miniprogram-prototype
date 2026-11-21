@@ -64,13 +64,13 @@ function build(o, now, sub) {
   d.storeSvc = paid && p !== 'ended'; d.withUnlock = ['active', 'expiring', 'renewal', 'renewal_pending'].indexOf(p) >= 0;
   d.progress = []; d.services = [];
   if (paid) {
-    d.progress.push({ k: T.totalTerm, v: fmt.termText(o.months) }, { k: T.leaseEnd, v: view.ymd(o.lease.end) });
+    // REVIEW-02 C2-05：卡下只留裁定点名的三行（剩余天数、实名待办、押金状态）。原「累计租期」「租期至」与订单卡里的「租期」「起止日期」同值（续租过的卡内已写「N个月（含续租）」），不再重复。
     if (p === 'expiring' && left !== null && left >= 0) d.progress.push({ k: T.leftTerm, v: left === 0 ? T.leftToday : left + T.leftSuffix });
     if (!idv) d.progress.push({ k: T.identity, v: T.todo, soft: true });
     d.progress.push({ k: T.deposit, v: depositLabel(o, p) || T.depositLabel.holding, warn: key === 'refund_failed' });
     const rows = d.services, row = (a, icon, k, v, on) => rows.push({ a, icon, k, v: v || '', on: !!on });
     row('contract', 'shield-ink', T.econtract, o.contract && o.contract.signed ? T.signed : '');
-    if (lk === 'active' || lk === 'upcoming') { if (idv) row('access', 'door-ink', T.access, ''); else row('identity', 'id-ink', T.identity, T.todo, true); }
+    if (lk === 'active' || lk === 'upcoming') { if (!idv) row('identity', 'id-ink', T.identity, T.todo, true); } // REVIEW-02 C2-07：已实名时不再出「入仓指引」行，入口留门店服务的「到店与进仓指引」一处（同一页面）
     const ren = o.renew && (o.renew.status === 'submitted' || o.renew.status === 'quoted') ? o.renew : null;
     if ((lk === 'active' || lk === 'upcoming') && o.months < C.requirement.termMax) row('renew', 'renew-ink', ren ? T.renewProgress : T.renew, ren ? (ren.status === 'quoted' ? T.renewQuoted : T.renewSubmitted) : T.canApply, !!ren);
     if (lk === 'expired') row('renew', 'renew-ink', ren ? T.renewProgress : T.renew, ren ? (ren.status === 'quoted' ? T.renewQuoted : T.renewSubmitted) : T.canApply, true); // 已到期也按续租申请状态显示（C-17）
@@ -93,10 +93,11 @@ function build(o, now, sub) {
   d.showBar = d.bar.mode !== 'none';
   const inBar = [d.bar.primary && d.bar.primary.a, d.bar.secondary && d.bar.secondary.a];
   d.grid = !d.storeSvc ? [] : GRID.filter((g) => (g[0] !== 'unlock' || d.withUnlock) && (g[0] === 'call' || inBar.indexOf(g[0]) < 0)).map((g) => ({ a: g[0], icon: g[1], t: T[g[2]] }));
+  d.arrivalRow = d.storeSvc && inBar.indexOf('access') < 0; // REVIEW-02 C2-07：底栏已有「入仓指引」时，门店服务里同去向的那一行不出
   return d;
 }
 Page(auth.guarded(routes.ORDER_DETAIL, {
-  data: { T, sys: 'loading', empty: false, paying: false, payingDlg: false, payingDlgLeave: '', headFx: '', paidLine: '', head: null, headNote: '', grid: [], subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
+  data: { T, sys: 'loading', empty: false, paying: false, payingDlg: false, payingDlgLeave: '', headFx: '', paidLine: '', head: null, headNote: '', grid: [], subs: [], clock: '', note: null, subLine: '', order: null, paid: false, phase: '', storeSvc: false, arrivalRow: false, withUnlock: false, progress: [], services: [], cancelable: false, bar: { mode: 'none', amount: '', primary: null, secondary: null }, showBar: false, busy: false, loginVisible: false },
   onLoad(q) { this._id = (q && q.id) || ''; this._sub = (q && q.sub) || ''; this._justPaid = !!(q && q.paid === '1'); if (this._justPaid) { this.setData({ paying: true }); this.dlgSync(); } },
   // IMPL-02：「正在确认支付结果」层的显示跟着 paying 走，收起时先播退场再移除（paying 仍是即时的逻辑状态）
   dlgSync() {

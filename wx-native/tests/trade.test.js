@@ -185,7 +185,7 @@ test('任务卡：未登录或没有订单不渲染；按阶段取主卡，待�
   fresh(true); state.set('requirement', { capacity_m3: 3.5, input_unit: 'm3', input_value: 3.5, term_months: 6 });
   c = env.newComponent('components/mk-task-card/index', {}); await c.refresh();
   assert.equal(c.data.show, true); assert.equal(c.data.main.key, 'expiring'); assert.equal(c.data.main.title, '租期即将到期'); assert.equal(c.data.main.primary.t, '办理续租'); assert.equal(c.data.main.secondary.t, '一键开锁');
-  assert.equal(c.data.main.othersText, '另有 1 间在租仓位，请在订单中查看。');
+  assert.equal(c.data.main.othersText, '另有 2 处在租仓位，请在订单中查看。'); // REVIEW-02 E2-01 / D2-01：与「我的仓位」同一口径（已付款未结束的订单，含待入仓那一笔），量词统一为「处」
   assert.deepEqual(c.data.todos.map((t) => t.k), ['待支付订单', '找仓进度']); assert.equal(c.data.todos[0].t, '芍药居北里店'); assert.match(c.data.todos[0].amt, /^¥[\d,]+$/); assert.match(c.data.todos[0].note, /^剩余 0[23]:\d\d:\d\d$/); // IMPL-01：门店、金额、剩余时间分开，不再拼成一串 assert.equal(c.data.todos[1].t, '3.5m³ · 6个月，查看推荐仓位');
   env.nav.length = 0; c.onAction({ currentTarget: { dataset: { a: 'renew' } } }); assert.equal(env.nav[0].url, routes.RENEW + '?id=' + c.data.main.orderId);
   toasts.length = 0; c.onAction({ currentTarget: { dataset: { a: 'unlock' } } }); assert.deepEqual(toasts, ['一键开锁暂未开通，存取时请联系门店协助开门']); assert.equal(env.nav.length, 1, '一键开锁只提示，不跳转');
@@ -204,7 +204,7 @@ test('确认订单页：实名 → 勾选告知书 → 签署 → 生成电子�
   fresh(true); noSeed();
   const pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '6', date: START }); await tick();
   assert.equal(pg.data.mode, 'compose'); assert.equal(pg.data.cardOrder.quote.payable, 2010); assert.equal(pg.data.feeNote, '租期折扣按预付整期计算，提前退仓时按协议重新核算。报价 3 小时内有效'); // IMPL-01：两句话用句号
-  assert.deepEqual([pg.data.bar.btn, pg.data.bar.hint, pg.data.bar.amount, pg.data.bar.saved], ['实名认证', '签署协议前需完成实名认证', '¥2,010', '已省 ¥720']); // IMPL-01：「已省」是金额旁的独立标签，不带分隔符
+  assert.deepEqual([pg.data.bar.btn, pg.data.bar.hint, pg.data.bar.amount, pg.data.bar.saved], ['实名认证', '', '¥2,010', '已省 ¥720']); // REVIEW-02 B2-09：原因句只在下单人卡里出一次 // IMPL-01：「已省」是金额旁的独立标签，不带分隔符
   pg.onBar(); assert.equal(pg.data.sheet, 'idv');
   pg.onIdvName({ detail: { value: '张明' } }); pg.onIdvNo({ detail: { value: '11010119900101' } }); assert.equal(pg.data.idvReady, false);
   pg.onIdvNo({ detail: { value: ID.id_no } }); assert.equal(pg.data.idvReady, true); pg.onIdvSubmit(); assert.equal(pg.data.idvChecking, true); await tick();
@@ -246,7 +246,8 @@ test('确认订单页：支付失败 → 四项核对 → 继续支付；取消�
   offset = 0;
   pg = env.newPage('pkg-trade/confirm/index', { unit: U3, term: '6', demo: 'price_changed' }); await tick();
   pg.onAgree(); pg.onSign(); pg.onSignConfirm(); await tick(30);
-  assert.equal(pg.data.price.reason, '该仓位月租由 ¥400 调整为 ¥440'); assert.deepEqual(pg.data.price.rows.map((r) => [r.k, r.old, r.cur]), [['整期租金', '¥1,680', '¥1,848'], ['月租', '¥280/月', '¥308/月'], ['押金', '¥280', '¥308'], ['本次应付', '¥2,010', '¥2,206']]);
+  assert.equal(pg.data.price.reason, '该仓位月基价由 ¥400 调整为 ¥440'); // REVIEW-02 B2-01
+  assert.deepEqual(pg.data.price.rows.map((r) => [r.k, r.old, r.cur]), [['整期租金', '¥1,680', '¥1,848'], ['月租', '¥280/月', '¥308/月'], ['押金', '¥280', '¥308'], ['本次应付', '¥2,010', '¥2,206']]);
   assert.deepEqual([pg.data.bar.btn, pg.data.bar.disabled, pg.data.bar.hint, pg.data.bar.saved], ['确认订单', true, '请先确认新报价', '']); assert.equal(db.orders.filter((o) => o.stage === S.PENDING).length, 0);
   pg.onPriceAccept(); await tick(); assert.equal(pg.data.price, null); assert.equal(pg.data.cardOrder.quote.payable, 2206); pg.onHide();
   // 所选仓位已不可租
@@ -299,7 +300,7 @@ test('订单详情：各阶段的标题、底栏与服务行；一键开锁只�
   const act = (pg, a) => pg.onAct({ currentTarget: { dataset: { a } } });
   let pg = await open(os[0]);
   assert.deepEqual([pg.data.head.title, pg.data.head.tag, pg.data.bar.primary.t, pg.data.bar.secondary.t, pg.data.withUnlock], ['仓位租用中', '租用中', '一键开锁', '门店导航', true]);
-  assert.deepEqual(pg.data.services.map((r) => r.k + (r.v ? ' ' + r.v : '')), ['电子合同 已签署', '入仓指引', '续租 可申请', '退仓', '押金进度', '申请发票 可申请']);
+  assert.deepEqual(pg.data.services.map((r) => r.k + (r.v ? ' ' + r.v : '')), ['电子合同 已签署', '续租 可申请', '退仓', '押金进度', '申请发票 可申请']);
   toasts.length = 0; env.nav.length = 0; act(pg, 'unlock'); assert.deepEqual(toasts, ['一键开锁暂未开通，存取时请联系门店协助开门']); assert.equal(env.nav.length, 0);
   for (const [a, r] of [['contract', 'ECONTRACT'], ['renew', 'RENEW'], ['exit', 'EXIT'], ['deposit', 'DEPOSIT'], ['invoice', 'INVOICE'], ['access', 'ACCESS']]) { env.nav.length = 0; act(pg, a); assert.deepEqual(env.nav, [{ kind: 'navigateTo', url: routes[r] + '?id=' + os[0].id }], a); }
   pg.onHide();

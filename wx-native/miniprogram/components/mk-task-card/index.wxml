@@ -9,7 +9,7 @@
         <view wx:else class="mk-sub mk-ellipsis">{{main.sub}}</view>
         <view wx:if="{{main.address}}" class="mk-mute tk-addr mk-ellipsis">{{main.address}}</view>
       </view>
-      <text wx:if="{{main.badge}}" class="tk-badge tk-badge--{{main.badgeTone}} mk-num">{{main.badge}}</text>
+      <text wx:if="{{main.badge}}" class="mk-tag mk-tag--{{main.badgeTone}} mk-tag--end mk-num tk-tag">{{main.badge}}</text>
     </view>
     <view wx:if="{{main.facts.length}}" class="tk-facts">
       <view wx:for="{{main.facts}}" wx:key="l" class="tk-fact"><text class="mk-num tk-fv">{{item.v}}</text><text class="mk-mute">{{item.l}}</text></view>

@@ -4,8 +4,11 @@
     <mk-need-card id="need" />
     <view wx:if="{{reference}}" class="mk-card lpg-card lpg-accent mk-fade-in">
       <text class="lpg-kicker">{{T.kicker}}</text>
-      <view class="mk-between"><text class="mk-h2 mk-num">{{reference.title}}</text><text class="mk-tag mk-tag--end mk-tag--brand">{{T.reference}}</text></view>
-      <text class="mk-sub lpg-sub">{{reference.sub}}</text>
+      <view class="mk-between"><text class="mk-sub mk-grow">{{reference.city}}</text><text class="mk-tag mk-tag--end mk-tag--brand">{{T.reference}}</text></view>
+      <view class="lpg-facts">
+        <view class="lpg-fact"><view><text class="mk-num lpg-num">{{reference.capNum}}</text><text class="lpg-u">{{reference.capUnit}}</text></view><text class="mk-sub">{{F.capLabel}}</text></view>
+        <view class="lpg-fact"><view><text class="mk-num lpg-num">{{reference.termNum}}</text><text class="lpg-u">{{reference.termUnit}}</text></view><text class="mk-sub">{{F.termLabel}}</text></view>
+      </view>
       <button class="mk-btn mk-btn--md lpg-btn" hover-class="mk-btn--hover" bindtap="onRefind">{{T.refind}}</button>
     </view>
     <view wx:if="{{selected}}" class="mk-card lpg-card mk-fade-in mk-fade-in--d1">

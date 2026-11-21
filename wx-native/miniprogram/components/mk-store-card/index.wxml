@@ -1,3 +1,4 @@
+<!-- REVIEW-02 A2-05：容量差额「小 Xm³」是提醒不是优惠，改用警示语义的标签类（与库存提醒同一类）；两类令牌目前取值相同，颜色是否分开待视觉规范裁定。 -->
 <!-- IMPL-02：仓位行的编号用 mk-unitno 标签（组合仓每个编号一个），容量跟在后面，与订单卡同一写法；满额减是价格次行后的优惠标签。 -->
 <!-- IMPL-01 门店卡骨架（四种形态同一套）：图（角标压在图左上）｜店名 → 距离 · 区名 · 商圈 → 标签一行；发丝线下：规格在左、价格独立在右（或价格 + 按钮）。 -->
 <view class="mk-card sc-card mk-press {{variant === 'compact' ? 'sc-card--compact' : ''}} {{enterCls}}" hover-class="mk-press--hover">
@@ -26,10 +27,10 @@
     <view wx:if="{{variant === 'compact' && card.row}}" class="sc-spec">
       <text class="mk-sub sc-lab">{{T.matched}}</text><text class="sc-uname">{{card.row.volText}}</text>
       <text wx:if="{{card.row.combo}}" class="mk-tag sc-tier">{{card.row.comboTag}}</text>
-      <text wx:if="{{card.nearText}}" class="mk-tag mk-tag--promo sc-tier">{{card.nearText}}</text>
+      <text wx:if="{{card.nearText}}" class="mk-tag mk-tag--warn sc-tier">{{card.nearText}}</text>
     </view>
     <text wx:elif="{{card.emptyText}}" class="mk-sub mk-grow">{{card.emptyText}}</text>
-    <view wx:elif="{{variant !== 'plain'}}" class="sc-spec"><text class="mk-sub sc-lab">{{T.range}}</text><text class="sc-uname">{{card.rangeText}}</text></view>
+    <view wx:elif="{{card.rangeText}}" class="sc-spec"><text class="mk-sub sc-lab">{{T.range}}</text><text class="sc-uname">{{card.rangeText}}</text></view>
     <view wx:else class="mk-grow"></view>
     <view class="mk-row sc-fr">
       <view wx:if="{{variant === 'compact' && card.row}}" class="sc-cprice">
@@ -51,7 +52,7 @@
         <block wx:if="{{item.codeList.length}}"><text wx:for="{{item.codeList}}" wx:for-item="c" wx:key="*this" class="mk-unitno sc-no">{{c}}</text><text class="mk-num sc-vol">{{item.volText}}</text></block>
         <text wx:else class="sc-uname">{{item.name}}</text>
         <text wx:if="{{item.bigTag}}" class="mk-tag sc-tier">{{item.bigTag}}</text>
-        <text wx:if="{{item.nearText}}" class="mk-tag mk-tag--promo sc-tier">{{item.nearText}}</text>
+        <text wx:if="{{item.nearText}}" class="mk-tag mk-tag--warn sc-tier">{{item.nearText}}</text>
         <text wx:if="{{item.diffText}}" class="mk-sub sc-diff">{{item.diffText}}</text>
       </view>
       <view class="mk-between sc-buy">

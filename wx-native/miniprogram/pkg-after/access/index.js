@@ -27,25 +27,28 @@ function render(page, o, now) {
     overdue: overdue ? X.overdueNote : '',
     empty: false, st, order: o, steps: cm.steps(titles, subs, cur, 0), showArrival: st !== 'inactive',
     note: st === 'identity_required' ? T.identity.note : '', before: st === 'before_start',
-    lease: st === 'inactive' ? { text: X.lease[v.lease], tone: LEASE_TONE[v.lease] } : null,
+    // REVIEW-02 C2-02：原页面末尾的「当前状态」单行并入页顶状态头（裁定 RULINGS_PAGES 入仓指引行）；各状态都带租用状态标签
+    head: { title: X.title, tag: X.lease[v.lease] || '', tone: LEASE_TONE[v.lease] || 'info', subs: [fill(CT.orderNo, { no: o.no })] },
     bar: st === 'allowed' ? { btns: [{ text: X.viewOpen, act: 'open' }] } : st === 'identity_required' ? { btns: [{ text: X.doIdentity, act: 'identity' }] } : overdue ? { btns: [{ text: X.exit, act: 'exit', kind: 'ghost' }, { text: X.renew, act: 'renew' }] } : null
   });
   if (st !== 'inactive') loadArrival(page, o);
 }
 // 到店资料：与门店详情同一个接口。取不到不影响本页其它内容，只显示地址与存取时间。
 function loadArrival(page, o) {
-  const fallback = () => page.setData({ arr: { rows: [{ k: X.address, v: o.store.address, key: false }].concat(o.store.access_hours ? [{ k: X.hours, v: o.store.access_hours, key: false }] : []), steps: [], path: '', facts: [] } });
+  // REVIEW-02 C2-01：「门店地址」固定是第一行，不论门店有没有到店资料（紧凑摘要不带地址；「到店导航」没有坐标时复制的就是这一行）
+  const addr = o.store.address ? [{ k: X.address, v: o.store.address, key: false }] : [];
+  const fallback = () => page.setData({ arr: { rows: addr.concat(o.store.access_hours ? [{ k: X.hours, v: o.store.access_hours, key: false }] : []), steps: [], path: '', facts: [] } });
   if (page._arrFor === o.store.id && page.data.arr) return;
   api.getStoreArrival({ id: o.store.id }).then((a) => {
     const p = (a && a.profile) || {};
     page._geo = (a && a.geo) || null; page._arrFor = o.store.id;
     if (!(p.entry || []).length && !(p.steps || []).length && !p.path) return fallback();
-    page.setData({ arr: { rows: (p.entry || []).map((r) => ({ k: r[0], v: r[1], key: !!r[2] })), steps: (p.steps || []).map((t, i) => ({ n: i + 1, t })), path: p.path || '', facts: (p.facts || []).map((f) => ({ k: f[0], v: f[1] })) } });
+    page.setData({ arr: { rows: addr.concat((p.entry || []).filter((r) => r[0] !== X.address).map((r) => ({ k: r[0], v: r[1], key: !!r[2] }))), steps: (p.steps || []).map((t, i) => ({ n: i + 1, t })), path: p.path || '', facts: (p.facts || []).map((f) => ({ k: f[0], v: f[1] })) } });
   }, () => fallback());
 }
 
 Page(auth.guarded(routes.ACCESS, {
-  data: { T: { c: CT, x: X }, sys: 'loading', empty: false, st: '', order: null, steps: [], showArrival: false, arr: null, note: '', overdue: '', before: false, lease: null, bar: null, loginVisible: false },
+  data: { T: { c: CT, x: X }, sys: 'loading', empty: false, st: '', order: null, steps: [], showArrival: false, arr: null, note: '', overdue: '', before: false, head: null, bar: null, loginVisible: false },
   onLoad(q) { this._id = (q && q.id) || ''; },
   onShow() { this.refresh(); },
   onPullDownRefresh() { this.refresh().then(() => wx.stopPullDownRefresh()); },

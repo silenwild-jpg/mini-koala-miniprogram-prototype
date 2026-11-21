@@ -32,7 +32,7 @@
       <view class="mk-sec">
         <view class="mk-sec__hd">{{T.d.info}}</view>
         <view class="{{moreFx}}"><mk-after-kv rows="{{info}}" /></view>
-        <text wx:if="{{more}}" class="mk-link dp-more" bindtap="onMore" aria-role="button">{{T.d.more}}</text>
+        <view wx:if="{{more}}" class="dp-more" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onMore" aria-role="button"><text class="mk-link">{{T.d.more}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
       </view>
     </view>
   <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">

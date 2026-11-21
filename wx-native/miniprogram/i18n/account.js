@@ -4,7 +4,7 @@ module.exports = {
   common: {
     loginRegister: '登录 / 注册', loginFirst: '登录后查看', // 自写：loginFirst
     cancel: '取消', gotIt: '知道了', contactAdvisor: '联系顾问', viewOrders: '查看订单', backOrders: '返回订单',
-    optional: '（可选）', submitting: '提交中…', saveFailed: '保存失败，请稍后重试', // 自写：saveFailed
+    optional: '（选填）', /* REVIEW-02 E2-18：可选标记全站统一写「（选填）」（与 i18n/lead.js 同） */ submitting: '提交中…', saveFailed: '保存失败，请稍后重试', // 自写：saveFailed
     callFailed: '暂时无法拨号，请手动拨打 ' // 自写
   },
   mine: {
@@ -15,10 +15,11 @@ module.exports = {
     progressNone: '尚无保存的需求', monthUnit: '个月', leadsSuffix: '条记录',
     certStatus: { reviewing: '审核中', verified: '已认证', failed: '未通过' }, // 自写（FIX-01 D-13）：「企业认证」一行右侧的状态
     // IMPL-02 M-34：原「我的记录」「服务与权益」两组合并成一行 5 格的常用入口（图标 + 名称；只有消息带未读徽标）。s 不再显示，留作无障碍朗读
+    // REVIEW-02 D2-03：合并成五格后没有「我的记录」分组和副文案，入口名改成「预约记录」（点进去是记录列表，不是预约表单）；页面标题同步
     quickLabel: '常用入口', unreadSuffix: '条未读',
-    quick: [{ k: 'NEEDS', icon: 'note-ink', t: '预约用仓', s: '查看已提交的预约' }, { k: 'PROGRESS', icon: 'flag-ink', t: '找仓进度', s: '' }, { k: 'FAVORITES', icon: 'heart-ink', t: '我的收藏', s: '门店和仓位' }, { k: 'COUPONS', icon: 'ticket-ink', t: '优惠与权益', s: '查看可用权益' }, { k: 'MESSAGES', icon: 'msg-ink', t: '消息', s: '查看业务通知', badge: true }],
+    quick: [{ k: 'NEEDS', icon: 'note-ink', t: '预约记录', s: '查看已提交的预约' }, { k: 'PROGRESS', icon: 'flag-ink', t: '找仓进度', s: '' }, { k: 'FAVORITES', icon: 'heart-ink', t: '我的收藏', s: '门店和仓位' }, { k: 'COUPONS', icon: 'ticket-ink', t: '优惠与权益', s: '查看可用权益' }, { k: 'MESSAGES', icon: 'msg-ink', t: '消息', s: '查看业务通知', badge: true }],
     groups: [
-      { key: 'finance', title: '账务与企业', items: [{ k: 'ENT_TITLES', icon: 'order-ink', t: '开票抬头', s: '' }, { k: 'ENT_BATCH', icon: 'ticket-ink', t: '批量开票', s: '' }, { k: 'DEPOSIT', icon: 'shield-ink', t: '押金', s: '' }, { k: 'ENT_CERT', icon: 'building-ink', t: '企业认证', s: '' }] }, // FIX-01 S-07 / D-13：入口名统一为「开票抬头」；加「批量开票」直达
+      { key: 'finance', title: '账务与企业', items: [{ k: 'ENT_TITLES', icon: 'order-ink', t: '开票抬头', s: '' }, { k: 'ENT_BATCH', icon: 'docs-ink', t: '批量开票', s: '' }, { k: 'DEPOSIT', icon: 'shield-ink', t: '押金', s: '' }, { k: 'ENT_CERT', icon: 'building-ink', t: '企业认证', s: '' }] }, // FIX-01 S-07 / D-13：入口名统一为「开票抬头」；加「批量开票」直达
       { key: 'more', title: '更多服务', items: [{ k: 'TRANSPORT', icon: 'truck-ink', t: '运输与搬运', s: '下单前可预约' }, { k: 'REFERRAL', icon: 'gift-ink', t: '推荐有礼', s: '' }, { k: 'SUPPORT', icon: 'headset-ink', t: '联系顾问', s: '' }, { k: 'BRAND', icon: 'info-ink', t: '关于迷你考拉', s: '' }] }
     ]
   },
@@ -100,6 +101,12 @@ module.exports = {
   },
   ent: {
     pending: '请咨询客服',
+    // REVIEW-02 D2-12：企业三页的未登录态改用统一空态（圆底图标 + 标题 + 说明 + 按钮）。自写
+    guest: {
+      cert: { title: '登录后办理企业认证', sub: '认证后可使用企业开票抬头与批量开票。' },
+      titles: { title: '登录后管理开票抬头', sub: '添加后，申请发票和批量开票时可直接选择。' },
+      batch: { title: '登录后申请批量开票', sub: '认证企业可把多笔订单合并申请发票。' }
+    },
     cert: {
       noticeTitle: '认证后可使用', noticeSub: '企业开票抬头、多笔订单批量开票。认证不影响找仓和下单。',
       section: '企业资料', name: '企业名称', namePh: '请输入营业执照上的企业名称', tax: '统一社会信用代码', taxPh: '18 位代码', taxError: '请填写 18 位统一社会信用代码',

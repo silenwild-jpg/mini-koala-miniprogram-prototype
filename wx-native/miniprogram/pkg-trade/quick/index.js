@@ -69,7 +69,7 @@ Page({
       if (r.quote) {
         const q = r.quote, free = pricing.freeTransportFor(km, months, q.special);
         this.setData({
-          est: { label: T.estimate, term: fmt.termText(months), amount: pricing.yuan(q.rent_total), tag: q.special ? TT.fee.special : pricing.factorLabel(Number(q.term_factor) || 1), sub: pricing.yuan(q.monthly_average) + TT.common.perMonth + ' × ' + fmt.termText(months) },
+          est: { label: T.estimate, term: fmt.termText(months), amount: pricing.yuan(q.rent_total), tag: q.special ? TT.fee.special : pricing.factorLabel(Number(q.term_factor) || 1), sub: T.monthly + pricing.yuan(q.monthly_average) + TT.common.perMonth + ' × ' + fmt.termText(months) },
           draft: { months, quote: q, free_transport: free },
           hint: pricing.nudge(months, { km: q.special ? null : km, baseMonth: u.base_month, rentAt: pricing.fullEligible([u]) ? (m) => pricing.quote([u], m).rent_total : null }) // 单个特价仓不参与满额减、免费运输，不出对应引导句
         });

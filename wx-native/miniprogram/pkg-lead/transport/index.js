@@ -21,7 +21,7 @@ const PAID = [S.PAID, S.ACTIVE, S.EXPIRING, S.OVERDUE];
 const key = () => 'LEAD_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
 Page(auth.guarded(routes.TRANSPORT, {
   data: {
-    T: { x: X, c: T.common }, sys: 'loading', view: 'pre', orders: [], order: null, free: false, records: [],
+    T: { x: X, c: T.common, verified: T.phone.verified }, sys: 'loading', view: 'pre', orders: [], order: null, free: false, records: [],
     address: '', addressMax: L.addressMax, date: '', phone: '', phoneMasked: '', today: '', errAddress: '', errDate: '', errPhone: '', busy: false,
     saved: null, inHours: true
   },

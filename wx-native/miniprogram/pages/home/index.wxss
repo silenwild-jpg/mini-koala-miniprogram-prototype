@@ -20,7 +20,7 @@
 /* 首屏主卡：上半轮播（图不带字，标题叠在图上），下半「找附近门店」+ 主按钮 */
 .hm-find { padding: 0; overflow: hidden; }
 .hm-find--after { margin-top: var(--mk-space-cardGap); } /* 上面有需求卡时留卡间距（需求卡是组件，mk-card + mk-card 的相邻规则够不着） */
-.hm-banner { position: relative; height: 300rpx; background: var(--mk-color-canvas-sunken); }
+.hm-banner { position: relative; height: 300rpx; overflow: hidden; background: var(--mk-color-canvas-sunken); }
 .hm-swiper { width: 100%; height: 100%; }
 .hm-slide { position: relative; width: 100%; height: 100%; }
 .hm-slide__img { display: block; width: 100%; height: 100%; }

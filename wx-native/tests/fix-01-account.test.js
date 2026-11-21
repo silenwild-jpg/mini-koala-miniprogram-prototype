@@ -217,7 +217,7 @@ test('D-12 / S-04：推荐有礼 —— 未登录不能复制也不带邀请码�
   const wxml = read('pkg-account/referral/index.wxml');
   assert.match(wxml, /open-type="share">\{\{T\.r\.share\}\}/, '页面里有转发按钮');
   assert.match(wxml, /<block wx:else>\s*<button class="mk-btn mk-btn--md mk-btn--disabled[^>]*disabled="\{\{true\}\}">\{\{T\.r\.share\}\}/, '未登录时按钮是禁用态');
-  assert.match(wxml, /loggedIn && code \? code : T\.r\.codeGuest/, '页面显示邀请码本身');
+  assert.match(wxml, /wx:if="\{\{loggedIn && code\}\}" class="rf-box mk-row"[^>]*bindtap="onCopy"[^>]*>.*\{\{code\}\}/, '页面显示邀请码本身（REVIEW-02 D2-15：有邀请码时整框可点即复制）'); assert.match(wxml, /wx:else class="rf-box mk-row"><text class="mk-grow mk-ellipsis">\{\{T\.r\.codeGuest\}\}/);
   // 落地：带 ref 进入任何页面都记下；格式不对的不记
   fresh(false, false);
   const app = getApp();

@@ -5,7 +5,8 @@
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onOrders">{{T.x.viewOrders}}</button>
   </mk-empty>
   <block wx:else>
-    <view class="af-body af-top ac-top">
+    <mk-after-head title="{{head.title}}" tag="{{head.tag}}" tone="{{head.tone}}" subs="{{head.subs}}" />
+    <view class="af-body af-top">
       <mk-notice wx:if="{{note}}" text="{{note}}" tone="warn" />
       <mk-notice wx:if="{{overdue}}" text="{{overdue}}" tone="warn" link="{{T.c.callStore}}" bind:link="onCall" />
       <mk-order-card order="{{order}}" mode="brief" />
@@ -36,10 +37,6 @@
         <view class="mk-sec__hd">{{T.x.stepsTitle}}</view>
         <mk-after-steps steps="{{steps}}" />
         <mk-notice wx:if="{{before}}" title="{{T.x.beforeTitle}}" text="{{T.x.beforeText}}" />
-      </view>
-      <view wx:if="{{lease}}" class="mk-sec mk-between">
-        <text class="mk-sub">{{T.x.status}}</text>
-        <mk-after-tag text="{{lease.text}}" tone="{{lease.tone}}" />
       </view>
     </view>
     <view wx:if="{{bar}}" class="mk-bottom-bar af-bar">

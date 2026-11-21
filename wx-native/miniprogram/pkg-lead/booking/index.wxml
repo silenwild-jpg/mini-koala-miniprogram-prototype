@@ -2,7 +2,7 @@
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
   <block wx:elif="{{status === 'success'}}">
     <view class="lbk-result mk-fade-in">
-      <view class="lbk-ic"><image class="lbk-tick" src="/assets/icons/check-white.svg" /></view>
+      <view class="ldf-okic"><image class="mk-icon mk-icon--md" src="/assets/icons/check-brand.svg" /></view>
       <text class="lbk-done">{{T.ack.submitted}}</text>
       <text class="lbk-ack">{{result.ack}}</text>
       <text wx:if="{{result.hoursNote}}" class="mk-sub lbk-fine">{{result.hoursNote}}</text>
@@ -45,7 +45,7 @@
       </mk-field>
       <mk-field class="ldf-fld" label="{{T.b.need}}" mark="{{T.c.optional}}" hint="{{salesCap ? T.b.salesNote : ''}}">
         <view class="lbk-rows">
-          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row" bindtap="onOpenItems" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/user-ink.svg" /><text class="mk-grow">{{T.b.items}}</text><text class="{{items ? '' : 'ldf-ph'}}">{{items || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row" bindtap="onOpenItems" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/bag-ink.svg" /><text class="mk-grow">{{T.b.items}}</text><text class="{{items ? '' : 'ldf-ph'}}">{{items || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row" bindtap="onOpenCapacity" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cube-ink.svg" /><text class="mk-grow">{{T.b.capacity}}</text><text class="{{capHint ? '' : 'ldf-ph'}}">{{capHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="lbk-row lbk-row--last" bindtap="onOpenDuration" aria-role="button"><image class="mk-icon lbk-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow">{{T.b.duration}}</text><text class="{{termHint ? '' : 'ldf-ph'}}">{{termHint || T.c.pick}}</text><image class="mk-icon lbk-chev" src="/assets/icons/chev-mute.svg" /></view>
         </view>

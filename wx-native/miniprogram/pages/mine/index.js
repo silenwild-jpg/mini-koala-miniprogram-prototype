@@ -24,7 +24,7 @@ Page({
   onShow() {
     this.sync();
     if (auth.consumePending(this, 'mine')) this.setData({ loginTip: T.login.gateTip });
-    this.refreshTask();
+    this._taskReady = this.refreshTask();
     this.refresh();
   },
   sync() {
@@ -32,7 +32,9 @@ Page({
     this.setData({ loggedIn: logged, headTitle: logged ? M.signedTitle : M.guestTitle, headSub: logged ? (s.phoneMasked || M.signedSub) : M.guestSub });
     this.setGroups();
   },
-  refreshTask() { const c = this.selectComponent ? this.selectComponent('#task') : null; if (c && c.refresh) c.refresh(); },
+  taskCard() { return this.selectComponent ? this.selectComponent('#task') : null; },
+  // 返回任务卡这一轮刷新的 Promise（不抛错）：「我的仓位」要等它定下主卡是哪一笔订单，才知道哪一行不用再列（REVIEW-02 D2-01）
+  refreshTask() { const c = this.taskCard(); return c && c.refresh ? Promise.resolve(c.refresh()).catch(() => null) : Promise.resolve(null); },
   buildGroups(counts) {
     const r = state.get().requirement;
     const progress = r && req.demandText(r) ? req.demandText(r) + (r.term_months ? ' · ' + r.term_months + M.monthUnit : '') : M.progressNone;
@@ -47,19 +49,22 @@ Page({
     // 角标类数据（未读数、预约条数）取不到时按 0 处理，不让整页进失败态；权益与订单取不到才算失败
     // 企业认证状态排在未读数前面取：演示接口在这一步推进审核并写消息，角标同一轮就能算上
     const cert = logged ? api.getEntCert().catch(() => null) : Promise.resolve(null);
-    const jobs = [api.getBenefits(), api.getMessagesUnread().catch(() => ({ unread: 0 })), logged ? api.getOrders() : Promise.resolve([]), api.getLeads().catch(() => []), cert];
+    const jobs = [api.getBenefits(), api.getMessagesUnread().catch(() => ({ unread: 0 })), logged ? api.getOrders() : Promise.resolve([]), api.getLeads().catch(() => []), cert, this._taskReady || Promise.resolve(null)];
     return pd.load(this, Promise.all(jobs), (res) => {
       const orders = res[2] || [], assets = rules.activeAssets(orders);
       this._leads = Array.isArray(res[3]) ? res[3].length : 0;
       this._cert = (res[4] && res[4].status) || '';
       this._counts = { FAVORITES: rules.favCount(state.get().favorites), COUPONS: rules.benefitCount(res[0]), MESSAGES: Number(res[1] && res[1].unread) || 0 };
-      const rows = assets.length > 1 ? assets.slice(0, C.mineAssetRows).map((o) => ({
+      // REVIEW-02 D2-01：任务卡主卡上那一笔不在「我的仓位」里再列一遍；「查看全部 N处」仍是全部在租仓位数（含主卡那一笔），只在还有没列出来的时候出现
+      const tc = this.taskCard(), mainId = (tc && tc.data && tc.data.main && tc.data.main.orderId) || '';
+      const rest = assets.filter((o) => o.id !== mainId);
+      const rows = assets.length > 1 ? rest.slice(0, C.mineAssetRows).map((o) => ({
         id: o.id, store: o.store.name, tag: M.stage[o.stage] || '', tone: TONE[o.stage] || 'info', unit: o.unit_name,
         // IMPL-01：与订单卡同一写法——仓位编号成标签、与容量同一行；租期与日期拆成两段，不再用分隔符串成一行
         codes: (o.units || []).map((u) => u.code).filter(Boolean), vol: (o.units || []).length ? req.pretty(Number((o.units || []).reduce((n, u) => n + Number(u.volume || 0), 0).toFixed(3))) + 'm³' : '',
         term: o.months + M.assets.monthUnit, span: o.stage === 'paid_before_start' ? M.assets.start + rules.dateText(o.lease.start) : M.assets.until + rules.dateText(o.lease.end)
       })) : []; // 只有一处在租时任务卡已经显示，不重复列
-      this.setGroups({ showNew: !orders.length && !state.get().requirement, assets: rows, assetsAll: assets.length > C.mineAssetRows ? M.assets.allPrefix + assets.length + M.assets.allSuffix : '' });
+      this.setGroups({ showNew: !orders.length && !state.get().requirement, assets: rows, assetsAll: assets.length > 1 && rest.length > C.mineAssetRows ? M.assets.allPrefix + assets.length + M.assets.allSuffix : '' });
     });
   },
   onRetry() { this.setData({ sys: 'loading' }); this.refresh(); },
@@ -79,7 +84,7 @@ Page({
   onLoginClose() { this.setData({ loginVisible: false }); if (!auth.isLoggedIn()) this._afterLogin = ''; }, // 没登录就关掉：不记去向
   onLoginSuccess() {
     const url = this._afterLogin; this._afterLogin = '';
-    this.sync(); this.refreshTask(); this.refresh();
+    this.sync(); this._taskReady = this.refreshTask(); this.refresh();
     if (url) auth.navigate(this, url);
   }
 });

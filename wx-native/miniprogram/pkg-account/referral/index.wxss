@@ -6,6 +6,8 @@
 .rf-para { margin-top: var(--mk-space-1); }
 .rf-label { margin-top: var(--mk-space-4); }
 .rf-box { min-height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-secondary); }
-.rf-ic { margin-right: var(--mk-space-2); }
+/* REVIEW-02 D2-15：有邀请码时整框可点即复制，复制图标在行尾；未登录时不出图标 */
+.rf-ic { margin-left: var(--mk-space-2); }
+.rf-code { color: var(--mk-color-ink-primary); }
 .rf-fine { margin-top: var(--mk-space-3); padding: 0 var(--mk-space-1); }
 .rf-card .mk-btn.mk-btn.ac-block { width: 100%; }

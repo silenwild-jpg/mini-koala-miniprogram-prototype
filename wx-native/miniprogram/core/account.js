@@ -82,7 +82,8 @@ function benefitCount(res) {
   if (!res || !res.loggedIn) return 0;
   return (res.coupons || []).filter((c) => c.status === 'AVAILABLE' || c.status === 'SELECTED').length + (res.benefits || []).length;
 }
-const TONE = { ok: ['REDEEMED', 'FULFILLED', 'AVAILABLE', 'ELIGIBLE'], warn: ['LOCKED', 'SELECTED', 'RESERVED', 'ELIGIBILITY_PENDING'] };
+// REVIEW-02 D2-14：ELIGIBILITY_PENDING（「下单时可用」）只是说明什么时候能用，不是要用户处理的事，归到信息色，不用警示橙
+const TONE = { ok: ['REDEEMED', 'FULFILLED', 'AVAILABLE', 'ELIGIBLE'], warn: ['LOCKED', 'SELECTED', 'RESERVED'] };
 const tone = (status) => (TONE.ok.indexOf(status) >= 0 ? 'ok' : TONE.warn.indexOf(status) >= 0 ? 'warn' : 'info');
 const couponOff = (status) => ['REDEEMED', 'EXPIRED', 'INVALID'].indexOf(status) >= 0;
 

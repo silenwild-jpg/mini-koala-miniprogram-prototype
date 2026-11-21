@@ -73,7 +73,7 @@ test('M-29 续租：只有一行费用时与合计合并成一行；有对照行
   // 沿用原折扣：报价带「现行折扣价」对照行 → 多行，保持原样
   const k = endingIn(10, { factor: 0.6 }), kp = await page('RENEW', { id: k.id });
   await kp.onSubmit(); await kp.refresh();
-  assert.equal(kp.data.st, 'quote_ready'); assert.equal(kp.data.card.ref.k, '现行折扣价'); assert.equal(kp.data.card.one, undefined); assert.equal(kp.data.card.total.k, '续租应付'); assert.equal(kp.data.card.main.tag, '6折');
+  assert.equal(kp.data.st, 'quote_ready'); assert.equal(kp.data.card.ref.k, '现行折扣价'); assert.deepEqual([kp.data.card.one.k, kp.data.card.one.tag, kp.data.card.one.amt], ['续租应付', '6折', kp.data.card.total.amt], 'REVIEW-02 C2-04：有对照行也合并'); assert.equal(kp.data.card.total.k, '续租应付'); assert.equal(kp.data.card.main.tag, '6折');
   kp.onUnload();
   const w = read('pkg-after/renew/index.wxml');
   assert.match(w, /<view wx:if="\{\{card\.one\}\}" class="af-total af-total--one">/); assert.match(w, /<view wx:else class="af-fee-row">/); assert.match(w, /wx:if="\{\{card\.total && !card\.one\}\}" class="af-total"/);

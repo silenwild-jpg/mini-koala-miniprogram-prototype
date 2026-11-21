@@ -40,7 +40,7 @@ test('订单卡：仓位编号是标签字段、容量单列、租期与起止�
   assert.equal(parts.length, 2); const list = parts[0], detail = parts[1];
   assert.ok(!/<image[^>]*(storePhoto|unitThumb)/.test(detail), '详情形态没有门店图 / 仓位图');
   for (const part of [list, detail]) assert.match(part, /class="mk-unitno oc-no">\{\{item\}\}<\/text>\s*<text[^>]*>\{\{v\.(comboTag|unitSub)\}\}<\/text><text wx:else class="mk-num oc-vol[^"]*">\{\{v\.unitVol\}\}/, '编号标签与容量同一行');
-  assert.match(list, /class="mk-num oc-amt">\{\{v\.payableText\}\}/); assert.ok(!/lineText/.test(wxml), '不再用「仓位 · 租期」拼串');
+  assert.match(list, /class="mk-num oc-amt[^"]*">\{\{v\.payableText\}\}/); assert.ok(!/lineText/.test(wxml), '不再用「仓位 · 租期」拼串');
   assert.match(read('app.wxss'), /\.mk-unitno \{/);
   // 未付款订单只写起租日；待支付不写止日
   const pend = active({ stage: S.PENDING }); assert.match(view.card(pend, Date.now()).spanText, /^起租日 \d{4}-\d\d-\d\d$/);
@@ -104,7 +104,7 @@ test('快速下单：门店与仓位一张卡、租期与日期一张卡（M-22�
   assert.match(wxml.slice(iBar), /\{\{barAmount\}\}[\s\S]*est\.tag[\s\S]*\{\{T\.fees\}\}/, '底栏：金额、折扣标签、费用明细入口'); assert.ok(!/est\.amount/.test(wxml.slice(0, iBar)), '正文不再有预计费用卡');
   const pg = env.newPage('pkg-trade/quick/index', { store: 'SIM_BJ01', unit: U3 }); await tick(30);
   assert.deepEqual([pg.data.store.kmText, pg.data.store.address, pg.data.unit.code, pg.data.unit.vol], ['1.2km', '北京市朝阳区富仁名苑胜古北里南28号楼', 'A003', '3.5m³']);
-  assert.equal(pg.data.access, '存取时间 09:00-21:00'); assert.deepEqual([pg.data.est.amount, pg.data.est.sub, pg.data.amtBump], ['¥3,120', '¥260/月 × 12个月', '']);
+  assert.equal(pg.data.access, '存取时间 09:00-21:00'); assert.deepEqual([pg.data.est.amount, pg.data.est.sub, pg.data.amtBump], ['¥3,120', '月租 ¥260/月 × 12个月', '']);
   // 快速连点租期：只留最后一次的报价，金额回弹一次；费用明细层开合
   pg.onTerm({ detail: { months: 1 } }); pg.onTerm({ detail: { months: 3 } }); pg.onTerm({ detail: { months: 6 } }); await tick(60);
   assert.deepEqual([pg.data.term, pg.data.est.amount, pg.data.barAmount, pg.data.amtBump], [6, '¥1,680', '¥1,680', 'mk-bump']);
@@ -128,7 +128,7 @@ test('租期分段：选中滑块位置跟着值走，未选时隐藏；弹层�
 
 test('订单列表：前几张卡错峰渐显、整卡按压；订单详情与租后各页去卡片化后用小节，不再每段包一张卡', () => {
   const ol = read('pages/orders/index.wxml');
-  assert.match(ol, /hover-class="mk-press--hover"[^>]*class="mk-press ol-item \{\{index < 6 \? 'mk-fade-in mk-fade-in--d' \+ index : ''\}\}"/);
+  assert.match(ol, /hover-class="mk-press--hover"[^>]*class="mk-press ol-item mk-fade-in mk-fade-in--d\{\{index < 5 \? index : 5\}\}"/);
   const od = read('pkg-trade/order/index.wxml');
   assert.match(od, /class="mk-page mk-page--plain od-page"/); assert.equal((od.match(/class="mk-card/g) || []).length, 0); assert.ok((od.match(/class="mk-sec"/g) || []).length >= 3); // IMPL-02 M-23：租赁进度并入订单卡区域，少一个小节
   for (const p of ['identity', 'access', 'econtract', 'deposit', 'renew', 'exit', 'invoice']) {

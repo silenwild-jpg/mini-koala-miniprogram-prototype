@@ -31,7 +31,7 @@
           <view hover-class="mk-tap--hover mk-press--hover" hover-stop-propagation="{{true}}" wx:for="{{grid}}" wx:key="a" class="od-cell mk-press" data-a="{{item.a}}" bindtap="onAct" aria-role="button"><image class="mk-icon mk-icon--md" src="/assets/icons/{{item.icon}}.svg" /><text class="od-celltext">{{item.t}}</text></view>
         </view>
         <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:elif="{{grid.length === 1}}" class="od-row" data-a="{{grid[0].a}}" bindtap="onAct" aria-role="button"><image class="mk-icon" src="/assets/icons/{{grid[0].icon}}.svg" /><text class="mk-grow od-rowk">{{grid[0].t}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="od-row" data-a="arrival" bindtap="onAct" aria-role="button"><image class="mk-icon" src="/assets/icons/pin-brand.svg" /><text class="mk-grow od-rowk">{{T.arrival}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
+        <view wx:if="{{arrivalRow}}" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="od-row" data-a="arrival" bindtap="onAct" aria-role="button"><image class="mk-icon" src="/assets/icons/pin-brand.svg" /><text class="mk-grow od-rowk">{{T.arrival}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
         <text wx:if="{{withUnlock}}" class="mk-mute od-rule">{{T.unlockRule}}</text>
       </view>
       <view wx:if="{{paid}}" class="mk-sec">

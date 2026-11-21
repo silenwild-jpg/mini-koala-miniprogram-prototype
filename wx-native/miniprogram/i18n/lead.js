@@ -25,11 +25,11 @@ module.exports = {
   advisorCard: { contact: '立即咨询' }, // IMPL-02 PR-244：顾问卡（components/mk-advisor-card）按钮文字，原来写死在模板里，文字未改
   common: {
     viewNeeds: '查看预约记录', viewNeedsLogin: '登录后查看预约记录', viewOrder: '查看订单', goFind: '继续找仓', backMine: '返回我的', cancel: '取消', confirm: '确定', modify: '修改', done: '完成',
-    optional: '（可选）', optionalFill: '（选填）', multi: '（可多选）', required: '*', pick: '请选择', pickDate: '选择日期', unsure: '暂不确定', dash: '—',
+    optional: '（选填）', optionalFill: '（选填）', /* REVIEW-02 E2-18：可选标记全域统一写「（选填）」，两个键保留同值 */ multi: '（可多选）', required: '*', pick: '请选择', pickDate: '选择日期', unsure: '暂不确定', dash: '—',
     m3: 'm³', m2: '㎡', months: '个月', salesLabel: SALES + 'm³ 及以上',
     retry: '重试提交', recheck: '核对提交结果',
-    failedTitle: '暂时无法提交', failedMsg: '暂时无法提交，请重试或返回修改。',
-    unknownTitle: '提交结果暂未确认', unknownMsg: '提交结果暂未确认，请勿重复提交。',
+    failedTitle: '暂时无法提交', failedMsg: '暂时无法提交，请重试或返回修改。', failedHint: '请重试或返回修改。',
+    unknownTitle: '提交结果暂未确认', unknownMsg: '提交结果暂未确认，请勿重复提交。', unknownHint: '请勿重复提交。', // REVIEW-02 E2-19：xxHint 用在带标题的提示条正文（标题已说过前半句）；xxMsg 整句留给轻提示
     checkForm: '请检查已填写的信息', dateSheet: '选择预计用仓日期'
   },
   phone: {
@@ -93,7 +93,7 @@ module.exports = {
     blockedTitle: '这条需求已不存在或已撤回', blockedMsg: '可以重新提交一条需求。', newLead: '新建企业需求',
     editTitle: '正在补充已有企业需求', editMsg: '保存后将更新这条需求。',
     restoredTitle: '已恢复上次填写的信息', restoredMsg: '请核对后继续。',
-    failedTitle: '暂时无法保存',
+    failedTitle: '暂时无法保存', // 只用于「补充已有需求」保存失败；新提交失败用 common.failedTitle（REVIEW-02 E2-04）
     updatedTitle: '企业需求已更新', offPrefix: '非服务时段提交的：',
     err: {
       size: '请输入有效容量', // D-177：范围文字原话照写
@@ -124,7 +124,7 @@ module.exports = {
     noteOrder: '提交后由顾问确认运输 / 搬运方案与费用，费用不含在订单已付金额内。', // 自写（FIX-01 E-15）：已下单后预约时用这句
     errOrder: '未找到这笔订单，请重新选择订单', // 自写（FIX-01 E-16）
     address: '取送地址', addressPh: '请填写取送地址', date: '期望运输日期', datePh: '请选择日期', phone: '联系电话', phonePh: '请填写手机号',
-    submit: '提交运输预约', pickTitle: '选择关联订单', records: '运输记录', preTitle: '运输预约', pending: '待顾问确认', goFind: '去找仓',
+    submit: '提交运输预约', pickTitle: '选择关联订单', pickSub: '选择要安排运输 / 搬运的订单，提交后由顾问确认方案与费用。', /* pickSub 自写（REVIEW-02 E2-22） */ records: '运输记录', preTitle: '运输预约', pending: '待顾问确认', goFind: '去找仓',
     orderNo: '订单号 ',
     toastIn: '已提交，' + ack.inHours, toastOff: '已提交，顾问上班后将优先联系您',
     errAddress: '请填写取送地址', errDate: '请选择有效的运输日期', errPhone: '请填写有效联系电话',
@@ -147,7 +147,7 @@ module.exports = {
     capNone: '容量待补充', termNone: '租期待补充', addrNone: '地址待补充', addrOptional: '未填写用仓位置（选填）', notePrefix: '备注：',
     edit: '修改地址与备注', fill: '补充企业资料', more: '更多', withdraw: '撤回',
     moreTitle: '更多操作', withdrawNeed: '撤回需求', contact: '联系顾问',
-    editTitle: '修改需求', address: '用仓位置', addressPh: '请填写用仓位置', note: '备注', notePh: '补充说明（可选）',
+    editTitle: '修改需求', address: '用仓位置', addressPh: '请填写用仓位置', note: '备注', notePh: '补充说明（选填）',
     editRule: '容量、租期和联系方式保留；企业资料可在「补充企业资料」里修改。', save: '保存修改',
     withdrawTitle: '撤回需求', withdrawMsg: '撤回后不再作为有效需求展示。', withdrawNo: '暂不撤回', withdrawYes: '确认撤回',
     errAddress: '请填写用仓位置（不超过120字）', errWithdrawn: '该需求已撤回',
@@ -164,7 +164,7 @@ module.exports = {
   // 预约看仓弹层（门店详情）。句子沿用 11-20 基线里弹层原有的写法；errPhoneVerified 是已登录时的报错，自写。
   visit: {
     title: '预约看仓', phone: '联系电话', useWechat: '使用微信手机号', phonePh: '也可直接填写手机号', phonePhOptional: '另填联系电话（选填）', verifiedPrefix: '已验证手机号 ', verifiedSuffix: '，可另填联系电话',
-    when: '看仓时间', otherDate: '选择其他日期', slots: ['待电话确认', '上午', '下午', '晚上'], days: ['今天', '明天', '后天'], intent: '意向仓位与容量', optional: '选填', noUnit: '暂不选仓位', capPh: '预计容量', m3: 'm³',
+    when: '看仓时间', otherDate: '选择其他日期', slots: ['待电话确认', '上午', '下午', '晚上'], days: ['今天', '明天', '后天'], intent: '意向仓位与容量', optional: '（选填）', noUnit: '暂不选仓位', capPh: '预计容量', m3: 'm³',
     submit: '提交看仓需求', recheck: '核对提交结果', note: '仅提交销售线索，不锁定仓位；看仓时间以门店电话确认为准。', loginTip: '请登录',
     doneTitle: '看仓需求已提交', doneSub: '门店将电话确认看仓时间', no: '需求编号 ', done: '完成',
     errPhone: '请填写有效手机号，或使用微信手机号', errPhoneVerified: '请填写有效手机号，或留空使用已验证手机号', errCap: '请填写有效容量，或留空', errDate: '请选择今天或之后的日期', errSlot: '今天这个时段已过，请改选其他时段或日期', unknown: '提交结果暂未确认', failed: '暂时无法提交，请重试'

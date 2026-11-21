@@ -13,5 +13,5 @@
 .ag-sec + .ag-sec { padding-top: var(--mk-space-5); }
 .ag-h3 { font-size: var(--mk-font-size-lg); font-weight: var(--mk-font-weight-semibold); line-height: var(--mk-font-lineHeight-tight); margin-bottom: var(--mk-space-3); }
 .ag-h4 { font-weight: var(--mk-font-weight-semibold); margin: var(--mk-space-3) 0 var(--mk-space-1); }
-.ag-p { margin-bottom: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); color: var(--mk-color-ink-primary); word-break: break-all; }
+.ag-p { margin-bottom: var(--mk-space-2); line-height: var(--mk-font-lineHeight-loose); color: var(--mk-color-ink-primary); word-break: normal; overflow-wrap: break-word; word-wrap: break-word; }
 .ag-fine { padding: var(--mk-space-4) 0 0; min-height: 64rpx; }

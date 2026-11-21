@@ -3,7 +3,11 @@
 .lpg-card { margin-top: var(--mk-space-cardGap); }
 .lpg-accent { border-left: 6rpx solid var(--mk-color-brand-fill); }
 .lpg-kicker { display: block; margin-bottom: 4rpx; color: var(--mk-color-brand-text); font-size: var(--mk-font-size-xs); }
-.lpg-sub { display: block; margin-top: 4rpx; }
+/* REVIEW-02 D2-07：「最近参考」卡的容量 + 租期用需求卡同一套双数字写法（数值与 components/mk-need-card 的 nc-facts 一致）；城市是说明行 */
+.lpg-facts { display: flex; margin-top: var(--mk-space-3); }
+.lpg-fact { display: flex; flex-direction: column; margin-right: var(--mk-space-6); }
+.lpg-num { font-size: var(--mk-font-size-2xl); font-weight: var(--mk-font-weight-semibold); }
+.lpg-u { font-size: var(--mk-font-size-sm); margin-left: 4rpx; }
 .lpg-btn { margin-top: var(--mk-space-3); }
 .lpg-sec { display: flex; margin-bottom: var(--mk-space-2); }
 .lpg-store { display: block; font-size: var(--mk-font-size-md); font-weight: var(--mk-font-weight-medium); }

@@ -1,5 +1,8 @@
 @import "../after.wxss";
 /* —— 退仓页 —— */
+/* REVIEW-02 C2-12：退仓类型只有一种可选时是只读的键值行，不用输入框外观 */
+.ex-ro { min-height: 72rpx; margin-bottom: var(--mk-space-2); }
+.ex-ro-v { font-weight: var(--mk-font-weight-medium); }
 .ex-sub { display: flex; align-items: center; margin-top: var(--mk-space-2); }
 .ex-subbtn { flex: none; padding: var(--mk-space-2) 0 var(--mk-space-2) var(--mk-space-3); font-size: var(--mk-font-size-md); }
 .ex-confirm { text-align: center; }

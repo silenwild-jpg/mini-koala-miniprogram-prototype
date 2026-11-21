@@ -38,6 +38,7 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-btn--md { height: var(--mk-size-btnMdHeight); font-size: var(--mk-font-size-md); padding: 0 var(--mk-space-3); }
 .mk-btn--sm { height: var(--mk-size-btnSmHeight); font-size: var(--mk-font-size-sm); padding: 0 var(--mk-space-3); }
 .mk-btn--disabled { background: var(--mk-color-line-hairline); color: var(--mk-color-ink-tertiary); }
+.mk-btn--ghost.mk-btn--disabled, .mk-btn--plain.mk-btn--disabled { border-color: var(--mk-color-line-hairline); } /* 禁用态描边同步置灰（REVIEW-02 D2-13） */
 .mk-icon { width: var(--mk-size-iconSm); height: var(--mk-size-iconSm); flex: none; }
 .mk-icon--md { width: var(--mk-size-iconMd); height: var(--mk-size-iconMd); }
 .mk-hairline { height: 1px; background: var(--mk-color-line-hairline); }
@@ -71,6 +72,9 @@ page { background: var(--mk-color-canvas-sunken); color: var(--mk-color-ink-prim
 .mk-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
 .mk-tag--info { background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
 .mk-tag--end { flex: none; margin-right: 0; margin-left: var(--mk-space-2); }
+/* REVIEW-02 E2-09：状态标签统一写法 = mk-tag mk-tag--ok/warn/err/info（行尾加 mk-tag--end），高 40rpx、字 24rpx；组件与页面不再自定义 xx-tag / xx-badge。
+   mk-tag--lg = 页头状态用的大一号（48rpx / 26rpx，即租后页头 mk-after-tag 现在的尺寸），只用在页面标题行，列表与卡片里一律用标准尺寸。 */
+.mk-tag--lg { height: 48rpx; font-size: var(--mk-font-size-sm); }
 /* v2 中性按钮：白底、深色字、描边，用于「取消」「返回」这类不强调的操作；按压用 mk-btn--plainHover */
 .mk-btn--plain { background: var(--mk-color-canvas-card); color: var(--mk-color-ink-primary); border: var(--mk-border-strong); font-weight: var(--mk-font-weight-regular); }
 /* v2 整页加载、失败、断网的外框：左右留页边距，骨架卡不贴边 */

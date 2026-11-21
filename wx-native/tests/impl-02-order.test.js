@@ -106,11 +106,11 @@ test('M-23：租赁进度紧贴订单卡排成一组，不再是独立小节；�
   const rows = {};
   await each((k, pg) => { rows[k] = pg.data.progress.map((r) => r.k + ' ' + r.v + (r.warn ? '!' : '')); assert.equal(pg.data.paid, rows[k].length > 0, k); });
   assert.deepEqual(rows.pending, []); assert.deepEqual(rows.cancelled, []);
-  assert.deepEqual(rows.active.map((s) => s.split(' ')[0]), ['累计租期', '租期至', '押金']); assert.equal(rows.active[2], '押金 保管中');
-  assert.deepEqual(rows.expiring.map((s) => s.split(' ')[0]), ['累计租期', '租期至', '剩余租期', '押金']);
-  assert.deepEqual(rows.identity.map((s) => s.split(' ')[0]), ['累计租期', '租期至', '实名认证', '押金']); assert.equal(rows.identity[2], '实名认证 待完成');
-  assert.equal(rows.inspection[2], '押金 待验仓'); assert.equal(rows.refund[2], '押金 退款处理中'); assert.equal(rows.refund_failed[2], '押金 退款未成功!'); assert.equal(rows.ended[2], '押金 已退还');
-  assert.equal(rows.exit_clearing.length, 3); assert.equal(rows.expired_lease.length, 3); assert.equal(rows.upcoming.length, 3);
+  assert.deepEqual(rows.active.map((s) => s.split(' ')[0]), ['押金']); assert.equal(rows.active[0], '押金 保管中'); // REVIEW-02 C2-05：卡下只留剩余天数、实名待办、押金状态
+  assert.deepEqual(rows.expiring.map((s) => s.split(' ')[0]), ['剩余租期', '押金']);
+  assert.deepEqual(rows.identity.map((s) => s.split(' ')[0]), ['实名认证', '押金']); assert.equal(rows.identity[0], '实名认证 待完成');
+  assert.equal(rows.inspection[0], '押金 待验仓'); assert.equal(rows.refund[0], '押金 退款处理中'); assert.equal(rows.refund_failed[0], '押金 退款未成功!'); assert.equal(rows.ended[0], '押金 已退还');
+  assert.equal(rows.exit_clearing.length, 1); assert.equal(rows.expired_lease.length, 1); assert.equal(rows.upcoming.length, 1);
 });
 
 test('订单详情「正在确认支付结果」层：收起先播退场再移除；逻辑状态 paying 即时；退场途中卸载不再写数据', async () => {

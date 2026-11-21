@@ -15,7 +15,7 @@
     </view></view>
   </block>
   <block wx:elif="{{view === 'pick'}}">
-    <text class="mk-title ltr-pickt">{{T.x.pickTitle}}</text>
+    <view class="ltr-pickt"><text class="mk-title ltr-pickh">{{T.x.pickTitle}}</text><text class="mk-sub ltr-picks">{{T.x.pickSub}}</text></view>
     <view class="mk-gutter">
       <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{orders}}" wx:key="id" class="ltr-pick" data-i="{{index}}" bindtap="onPick" aria-role="button"><mk-order-card order="{{item}}" variant="list" /></view>
     </view>
@@ -28,16 +28,16 @@
       <text class="mk-tag mk-tag--end mk-tag--ok">{{T.x.freeArrange}}</text>
     </view>
     <view class="ldf-secs ldf-secs--top"><view class="mk-sec">
-      <mk-field class="ldf-fld--first" label="{{T.x.address}}" error="{{errAddress}}">
+      <mk-field class="ldf-fld--first" label="{{T.x.address}}" mark="{{T.c.required}}" mark-tone="req" error="{{errAddress}}">
         <view class="ldf-input {{errAddress ? 'ldf-input--err' : ''}}"><input class="ldf-native" value="{{address}}" maxlength="{{addressMax}}" placeholder="{{T.x.addressPh}}" placeholder-class="ldf-ph" bindinput="onAddress" /></view>
       </mk-field>
-      <mk-field label="{{T.x.date}}" error="{{errDate}}">
+      <mk-field label="{{T.x.date}}" mark="{{T.c.required}}" mark-tone="req" error="{{errDate}}">
         <picker mode="date" value="{{date}}" start="{{today}}" bindchange="onDate">
-          <view class="ldf-input {{errDate ? 'ldf-input--err' : ''}}"><text class="mk-grow mk-num {{date ? '' : 'ldf-ph'}}">{{date || T.x.datePh}}</text><image class="mk-icon" src="/assets/icons/cal-ink.svg" /></view>
+          <view class="ldf-input {{errDate ? 'ldf-input--err' : ''}}"><image class="mk-icon ltr-lead" src="/assets/icons/cal-ink.svg" /><text class="mk-grow mk-num {{date ? '' : 'ldf-ph'}}">{{date || T.x.datePh}}</text><image class="mk-icon" src="/assets/icons/chev-mute.svg" /></view>
         </picker>
       </mk-field>
-      <mk-field wx:if="{{view === 'pre'}}" label="{{T.x.phone}}" error="{{errPhone}}">
-        <view wx:if="{{phoneMasked}}" class="ldf-input"><text class="mk-grow mk-num">{{phoneMasked}}</text><image class="mk-icon" src="/assets/icons/phone-ink.svg" /></view>
+      <mk-field wx:if="{{view === 'pre'}}" label="{{T.x.phone}}" mark="{{T.c.required}}" mark-tone="req" error="{{errPhone}}">
+        <view wx:if="{{phoneMasked}}" class="ldf-input ldf-input--ro"><text class="mk-grow mk-num">{{phoneMasked}}</text><text class="mk-tag mk-tag--end mk-tag--ok">{{T.verified}}</text></view>
         <view wx:else class="ldf-input {{errPhone ? 'ldf-input--err' : ''}}"><input class="ldf-native" type="number" maxlength="11" value="{{phone}}" placeholder="{{T.x.phonePh}}" placeholder-class="ldf-ph" bindinput="onPhone" /><image class="mk-icon" src="/assets/icons/phone-ink.svg" /></view>
       </mk-field>
       <text wx:if="{{view === 'pre'}}" class="mk-sub ltr-rule">{{T.x.freeRule}}</text>

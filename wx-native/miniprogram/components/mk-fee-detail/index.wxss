@@ -8,6 +8,7 @@
 .fd-sub { margin-right: var(--mk-space-2); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-xs); }
 .fd-tag { margin-right: var(--mk-space-2); }
 .fd-link { min-height: 64rpx; margin: -8rpx 0; padding-right: var(--mk-space-2); display: inline-flex; align-items: center; border-radius: var(--mk-radius-control); }
+.fd-chev { margin-left: 4rpx; }
 .fd-amt { margin-left: var(--mk-space-2); text-align: right; flex: none; max-width: 56%; font-weight: var(--mk-font-weight-medium); }
 .fd-muted { color: var(--mk-color-ink-secondary); font-weight: var(--mk-font-weight-regular); font-size: var(--mk-font-size-sm); }
 .fd-good { color: var(--mk-color-brand-text); }

@@ -44,7 +44,7 @@ Page({
     T: { cap: pd.plain(K), m3: T.unit.m3, m2: T.unit.m2, hintSub: T.advisor.capHint(C.matching.advisorCapacityM3), advisorCta: T.cta.advisor },
     sys: 'loading', unit: 'm3', raw: '', quick: ticksOf('m3', null), ai: !!E.aiEnabled, numW: E.numEmptyRpx,
     pos: 0, sliding: false, stage: { on: false, s: E.stageScaleMin, key: '', carton: '', bw: 0, bh: 0, imgs: media.sizeIllusSet().map((x) => ({ key: x.key, src: x.base, front: x.front, carton: x.carton, on: false })) }, boxes: [], capBump: '', sumBump: '', term: R.termDefault, hint: '', error: '', approx: '', cartons: '', sales: false, ok: false, ack: '',
-    advise: false, src: 'manual', srcText: '', canMinus: false, ref: null, sumCap: K.dash, sumTerm: '', needText: '', needErr: false, submitText: K.submit
+    advise: false, src: 'manual', srcText: '', canMinus: false, ref: null, illusNote: '', sumCap: K.dash, sumTerm: '', needText: '', needErr: false, submitText: K.submit
   },
   onLoad() {
     const s = state.get(), r = s.requirement, d = s.draft || {};
@@ -100,7 +100,7 @@ Page({
       stage: { on: v.ok, s: v.ok ? viz.scaleOf(cap) : E.stageScaleMin, key, carton: cur.carton, bw: tier ? tier.boxW : 0, bh: tier ? tier.boxH : 0, imgs: d.stage.imgs.map((x) => Object.assign({}, x, { on: on(x) })) },
       canMinus: v.ok && Number(d.raw) > CF.estimate.capStepM3,
       src, srcText: src === 'items' ? K.fromItems(req.pretty(est.rec), est.kinds, est.count) : src === 'edited' ? K.edited(req.pretty(est.rec)) : '',
-      ref,
+      ref, illusNote: v.ok && tier && cap > Number(tier.volume) ? K.illusNote(req.pretty(tier.volume)) : '',
       sumCap: v.ok ? req.pretty(cap) + 'm³' : K.dash, sumTerm: sales ? K.sumSales : ' · ' + d.term + T.unit.month,
       needText: v.ok ? '' : empty ? K.needFill : d.unit === 'm2' ? K.needFixArea : K.needFixCap, needErr: !v.ok && !empty,
       submitText: sales ? K.toAdvisor : K.submit

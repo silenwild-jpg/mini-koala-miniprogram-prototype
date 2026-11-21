@@ -99,7 +99,8 @@ function card(o, nowMs, opts) {
     noText: o.no ? T.card.orderNo + o.no : '', stageLabel: st.label, stageTone: st.tone,
     dateText: !p ? '' : dueSoon && end ? T.card.leaseTo + end : o.created_at ? T.card.orderedAt + ymd(o.created_at) : '', // 列表卡第三行：临期 / 已到期写到期日，其余写下单日（C-20）
     lineText: lines.name + T.common.sep + term,
-    payableText: o.quote ? yuan(renewed ? after.paidTotal(o) : o.quote.payable) : ''
+    payableText: o.quote ? yuan(renewed ? after.paidTotal(o) : o.quote.payable) : '',
+    amtOff: p === 'cancelled' || p === 'expired' // REVIEW-02 C2-13：已取消 / 已超时的金额是原订单金额、没有付款，列表卡上减淡
   };
 }
 // 费用明细行。opts: { editable（可选券）, showCoupon（始终显示券行）, locked（订单已生成）, noSaved（变价待确认时不显示已省）, totalLabel, couponName }

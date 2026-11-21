@@ -1,11 +1,13 @@
 @import "../acc.wxss";
 /* IMPL-01 去卡片化：选择、确认、结果三态都改成通栏小节。订单行多于两行时保留发丝线，线从文字左缘起（勾选框不压线）；
    订单行按订单卡写法：店名一级，仓位编号标签 + 容量 + 租期同一行，订单号与付款日小字，金额在右单列加粗。 */
-.eb-reason { margin-top: var(--mk-space-3); margin-bottom: calc(-1 * var(--mk-space-3)); }
+/* REVIEW-02 D2-05：未成功原因紧跟页头标题（与企业认证结果页同一位置） */
+.eb-reason { display: block; margin-top: var(--mk-space-3); margin-bottom: calc(-1 * var(--mk-space-3)); }
 .eb-center { text-align: center; padding: 0 var(--mk-space-pageGutter); }
 .eb-no { margin-right: var(--mk-space-2); }
 .eb-vol { font-size: var(--mk-font-size-sm); font-weight: var(--mk-font-weight-medium); margin-right: var(--mk-space-3); }
 .eb-fee { margin-right: var(--mk-space-3); }
+/* REVIEW-02 D2-08：选择订单的行里订单号、付款日固定各占一行（原来靠折行，金额窄的那一行不折，行高不齐） */
 .eb-blk { display: block; }
 .eb-wrap { flex-wrap: wrap; }
 .eb-wrap > text { white-space: nowrap; }

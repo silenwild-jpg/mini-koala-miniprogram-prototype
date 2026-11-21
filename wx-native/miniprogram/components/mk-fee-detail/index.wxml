@@ -6,7 +6,7 @@
       <view class="fd-mid">
         <text wx:if="{{item.mid}}" class="fd-sub mk-num">{{item.mid}}</text>
         <text wx:if="{{item.tag}}" class="mk-tag mk-tag--promo fd-tag">{{item.tag}}</text>
-        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.link}}" class="mk-link fd-link" bindtap="onCoupon" aria-role="button">{{item.link}}</view>
+        <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:if="{{item.link}}" class="mk-link fd-link" bindtap="onCoupon" aria-role="button">{{item.link}}<image class="mk-icon fd-chev" src="/assets/icons/chev-brand.svg" /></view>
       </view>
       <text class="mk-num fd-amt {{item.muted ? 'fd-muted' : ''}} {{item.good ? 'fd-good' : ''}}">{{item.amt}}</text>
     </view>

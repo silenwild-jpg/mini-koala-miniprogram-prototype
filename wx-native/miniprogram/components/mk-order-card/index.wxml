@@ -12,7 +12,7 @@
     <view class="oc-row">
       <image wx:if="{{v.storePhoto}}" class="oc-ph oc-img" src="{{v.storePhoto}}" mode="aspectFill" /><view wx:else class="oc-ph"><image class="mk-icon mk-icon--md" src="/assets/icons/store-brand.svg" /></view>
       <view class="mk-grow oc-main">
-        <view class="oc-namerow"><text class="mk-title mk-ellipsis mk-grow">{{v.storeName}}</text><text wx:if="{{v.stageLabel}}" class="oc-tag oc-tag--{{v.stageTone}}">{{v.stageLabel}}</text></view>
+        <view class="oc-namerow"><text class="mk-title mk-grow oc-name2">{{v.storeName}}</text><text wx:if="{{v.stageLabel}}" class="mk-tag mk-tag--{{v.stageTone}} mk-tag--end oc-tag">{{v.stageLabel}}</text></view>
         <view wx:if="{{v.unitCodes.length}}" class="oc-unitline">
           <text wx:for="{{v.unitCodes}}" wx:key="*this" class="mk-unitno oc-no">{{item}}</text>
           <text wx:if="{{v.comboTag}}" class="mk-sub">{{v.unitSub}}</text><text wx:else class="mk-num oc-vol">{{v.unitVol}}</text>
@@ -26,7 +26,7 @@
         <view class="mk-mute mk-ellipsis">{{v.noText}}</view>
         <view wx:if="{{v.dateText}}" class="mk-mute mk-ellipsis oc-line3">{{v.dateText}}</view>
       </view>
-      <text class="mk-num oc-amt">{{v.payableText}}</text>
+      <text class="mk-num oc-amt {{v.amtOff ? 'oc-amt--off' : ''}}">{{v.payableText}}</text>
     </view>
   </block>
   <block wx:else>

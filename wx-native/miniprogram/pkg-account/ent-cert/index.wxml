@@ -1,21 +1,23 @@
 <view class="mk-page mk-page--plain">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
-  <view wx:elif="{{!loggedIn}}" class="ac-login">
-    <text class="mk-title">{{T.common.loginFirst}}</text>
+  <mk-empty wx:elif="{{!loggedIn}}" icon="/assets/icons/building-ink.svg" title="{{T.guest.title}}" sub="{{T.guest.sub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
-  </view>
+  </mk-empty>
   <view wx:elif="{{view === 'result'}}" class="ac-secs mk-fade {{status === 'failed' ? 'ac-secs--bar' : ''}}">
     <view class="ac-pad ac-head">
       <view class="ac-head-row"><text class="mk-h2">{{head.title}}</text><text class="mk-tag mk-tag--end mk-tag--{{tone}}">{{head.tag}}</text></view>
       <text wx:if="{{head.sub}}" class="mk-sub ac-head-sub">{{head.sub}}</text>
+      <mk-notice wx:if="{{status === 'failed'}}" class="ec-reason" plain="{{true}}" tone="err" title="{{reason}}" text="{{T.c.reasonSub}}" />
     </view>
     <view class="mk-sec">
       <view class="mk-sec__hd">{{T.c.progress}}</view>
       <view wx:for="{{steps}}" wx:key="t" class="ac-step">
         <view class="ac-dot ac-dot--{{item.cls}}"><image wx:if="{{item.cls === 'done'}}" class="ac-dot-ic" src="/assets/icons/check-white.svg" /></view>
-        <view class="mk-grow"><text class="ac-step-t {{item.tcls}}">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-mute">{{item.s}}</text></view>
+        <view class="mk-grow">
+          <text class="ac-step-t {{item.tcls}}">{{item.t}}</text><text wx:if="{{item.s}}" class="mk-mute">{{item.s}}</text>
+          <view wx:if="{{item.s}}" class="ec-adv" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onAdvisor" aria-role="button"><text class="mk-link">{{T.common.contactAdvisor}}</text><image class="mk-icon" src="/assets/icons/chev-brand.svg" /></view>
+        </view>
       </view>
-      <mk-notice wx:if="{{status === 'failed'}}" class="ec-reason" plain="{{true}}" tone="err" title="{{reason}}" text="{{T.c.reasonSub}}" />
     </view>
     <view class="mk-sec">
       <view class="mk-sec__hd">{{T.c.info}}</view>

@@ -37,10 +37,13 @@
 .oc-foot { display: flex; align-items: flex-end; margin-top: var(--mk-space-2); }
 .oc-footl { min-width: 0; }
 .oc-amt { flex: none; font-size: var(--mk-font-size-xl); font-weight: var(--mk-font-weight-bold); line-height: var(--mk-font-lineHeight-tight); margin-left: var(--mk-space-3); white-space: nowrap; }
-.oc-tag { flex: none; display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); white-space: nowrap; margin-left: var(--mk-space-2); background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
-.oc-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
-.oc-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
-.oc-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
+/* REVIEW-02 E2-09：列表卡状态标签改用全站公共类 mk-tag mk-tag--ok/warn/err/info mk-tag--end（app.wxss），这里只保留不换行 */
+.oc-tag { white-space: nowrap; }
+/* REVIEW-02 C2-14：列表卡店名最多两行（标签较长时不再把店名截成看不出是哪家店）；标签贴第一行 */
+.oc-namerow { align-items: flex-start; }
+.oc-name2 { min-width: 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; word-break: break-all; }
+/* REVIEW-02 C2-13：已取消 / 已超时的列表卡金额减淡 */
+.oc-amt--off { color: var(--mk-color-ink-secondary); font-weight: var(--mk-font-weight-regular); }
 .oc-img { display: block; background: var(--mk-color-canvas-sunken); }
 /* IMPL-02 M-28 紧凑摘要（mode="brief"）：浅灰底块不描边，三行：店名、编号标签 + 容量、起止日期 */
 .oc-brief { margin-bottom: var(--mk-space-cardGap); padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }

@@ -1,8 +1,8 @@
 <view class="ntc {{plain ? 'ntc--plain' : ''}} {{tone ? 'ntc--' + tone : ''}}">
   <text wx:if="{{title}}" class="ntc-t">{{title}}</text>
   <view wx:if="{{text}}" class="ntc-s">
-    <text>{{text}}</text>
-    <text wx:if="{{link}}" class="ntc-link" bindtap="onLink" aria-role="link">{{link}}</text>
+    <text class="{{link ? 'ntc-x' : ''}}">{{text}}</text>
+    <view wx:if="{{link}}" class="ntc-link" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onLink" aria-role="link"><text>{{link}}</text><image class="ntc-chev" src="/assets/icons/chev-brand.svg" /></view>
   </view>
   <slot></slot>
 </view>

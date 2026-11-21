@@ -10,6 +10,8 @@
 .ldf-ntc { padding-top: var(--mk-space-3); }
 .ldf-input { display: flex; align-items: center; box-sizing: border-box; width: 100%; min-height: var(--mk-size-inputHeight); padding: 0 var(--mk-space-3); border: var(--mk-border-strong); border-radius: var(--mk-radius-control); background: var(--mk-color-canvas-card); font-size: var(--mk-font-size-md); }
 .ldf-input--err { border: var(--mk-border-error); }
+/* REVIEW-02 E2-06：只读值（如已验证的登录手机号）用浅灰底不描边，和可填的输入框区分开 */
+.ldf-input--ro { border: 0; background: var(--mk-color-canvas-sunken); }
 .ldf-input--tall { align-items: flex-start; flex-direction: column; padding: var(--mk-space-3); }
 .ldf-native { flex: 1; min-width: 0; height: var(--mk-size-inputHeight); font-size: var(--mk-font-size-md); }
 .ldf-area { width: 100%; height: 180rpx; font-size: var(--mk-font-size-md); line-height: var(--mk-font-lineHeight-normal); }
@@ -47,6 +49,8 @@
 .ldf-secs .mk-sec { border-top: 16rpx solid var(--mk-color-canvas-sunken); }
 .ldf-secs .mk-sec__hd { margin-bottom: var(--mk-space-2); }
 .ldf-secs--top { margin-top: var(--mk-space-4); }
+/* REVIEW-02 E2-07：提交成功的图标全域一种样式（112rpx 浅绿圆 + 绿勾），与 lead-ack、看仓弹层相同；预约结果页与企业成功弹窗用这一个 */
+.ldf-okic { display: flex; align-items: center; justify-content: center; flex: none; width: 112rpx; height: 112rpx; border-radius: 50%; background: var(--mk-color-brand-tint); margin-bottom: var(--mk-space-3); }
 .ldf-block { padding: var(--mk-space-3); border-radius: var(--mk-radius-thumb); background: var(--mk-color-canvas-sunken); }
 /* 动效：可选项（标签、分段）选中时底色与文字色过渡，时长与曲线取 tokens（与 styles/motion.wxss 的 mk-ease 同值） */
 .ldf-chip, .ldf-seg-ease { transition: background-color var(--mk-motion-base) var(--mk-motion-easing), color var(--mk-motion-base) var(--mk-motion-easing); }

@@ -12,7 +12,8 @@
 .iv-rec-s { display: block; margin-top: var(--mk-space-1); word-break: break-all; }
 /* IMPL-02 M-33：单条已开具记录里并入的「发票形式」一行 */
 .iv-rec-form { display: flex; }
-.iv-rec-formk { margin-right: var(--mk-space-2); }
+.iv-rec-formk { flex: none; margin-right: var(--mk-space-2); }
+.iv-rec-formv { min-width: 0; word-break: break-all; }
 .iv-pay { padding-bottom: var(--mk-space-2); }
 .iv-pay-row { display: flex; align-items: center; min-height: 80rpx; }
 .iv-pay-k { font-weight: var(--mk-font-weight-medium); }

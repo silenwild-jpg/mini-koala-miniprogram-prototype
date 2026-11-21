@@ -22,7 +22,7 @@ function stepsOf(status) { // 已提交：第 2 步进行中；已开具：全�
 }
 Page(auth.guarded(routes.ENT_BATCH, {
   data: {
-    T: { b: P, common: TA.common }, sys: 'loading', loggedIn: false, view: 'select', // gate | empty | select | confirm | result
+    T: { b: P, common: TA.common, guest: TA.ent.guest.batch }, sys: 'loading', loggedIn: false, view: 'select', // gate | empty | select | confirm | result
     rows: [], allOn: false, allText: '', selText: '', sumText: rules.money(0), hasSel: false,
     title: null, lines: [], contentTitle: '', busy: false, submitText: P.submit,
     result: null, gate: null, loginVisible: false

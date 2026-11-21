@@ -63,7 +63,7 @@ Page({
       this._sig = sig;
       this.setData({
         mode: res.mode, cards: res.cards, total: res.total, advisor: res.advisor, hint, sub: res.sub,
-        title: res.cards.length ? M.recommendN(res.cards.length) : '', noneSub: M.noneSub(req.pretty(r.capacity_m3))
+        title: res.cards.length ? M.recommendN(res.cards.length) : '', noneSub: res.soldOut ? M.noneSoldOut : M.noneSub(req.pretty(r.capacity_m3)) // 全城没有可租仓位时换一句（REVIEW-02 A2-12）
       });
     });
   },

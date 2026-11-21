@@ -14,12 +14,12 @@ const pd = require('../../services/page-data');
 const P = TA.ent.cert;
 const EMPTY = { name: '', tax: '', licenseCount: 0, contact: '', phone: '' };
 const TONE = { reviewing: 'warn', verified: 'ok', failed: 'err' };
-function stepsOf(status) { // 审核中：第 2 步进行中；已认证：全部完成；未通过：第 2 步失败
+function stepsOf(status) { // 审核中：第 2 步进行中；已认证：全部完成；未通过：第 2 步失败。步骤说明（「审核时限请咨询客服」）只在该步进行中时显示（REVIEW-02 D2-04）
   const cur = status === 'verified' ? 4 : 2, failAt = status === 'failed' ? 2 : 0;
-  return P.steps.map((s, i) => { const n = i + 1; const cls = failAt === n ? 'fail' : n < cur ? 'done' : n === cur ? 'cur' : ''; return { t: s.t, s: s.s, cls, tcls: cls === 'fail' ? 'ac-step-t--fail' : cls ? '' : 'ac-step-t--mute' }; });
+  return P.steps.map((s, i) => { const n = i + 1; const cls = failAt === n ? 'fail' : n < cur ? 'done' : n === cur ? 'cur' : ''; return { t: s.t, s: cls === 'cur' ? s.s : '', cls, tcls: cls === 'fail' ? 'ac-step-t--fail' : cls ? '' : 'ac-step-t--mute' }; });
 }
 Page(auth.guarded(routes.ENT_CERT, {
-  data: { T: { c: P, common: TA.common }, sys: 'loading', loggedIn: false, view: 'form', form: EMPTY, taxError: '', uploadText: P.upload, need: '', ready: false, busy: false, submitText: P.submit, status: '', head: null, tone: '', steps: [], reason: '', company: null, contactLine: '', loginVisible: false },
+  data: { T: { c: P, common: TA.common, guest: TA.ent.guest.cert }, sys: 'loading', loggedIn: false, view: 'form', form: EMPTY, taxError: '', uploadText: P.upload, need: '', ready: false, busy: false, submitText: P.submit, status: '', head: null, tone: '', steps: [], reason: '', company: null, contactLine: '', loginVisible: false },
   onShow() { this.refresh(); },
   onPullDownRefresh() { Promise.resolve(this.refresh()).then(() => wx.stopPullDownRefresh()); },
   refresh() {

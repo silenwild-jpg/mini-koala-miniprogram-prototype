@@ -65,7 +65,7 @@
       <text wx:elif="{{resultText}}" class="mk-sub sl-result">{{resultText}}</text>
       <mk-notice wx:if="{{largeNote}}" plain="{{true}}" title="{{T.stores.largeTitle}}" text="{{T.stores.largeSub}}"><button class="mk-bare mk-link sl-consult" hover-class="mk-bare--hover" open-type="contact">{{T.stores.consult}}</button></mk-notice>
       <block wx:if="{{noMatch}}">
-        <mk-empty card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.stores.emptyTitle}}" sub="{{T.stores.emptySub}}">
+        <mk-empty card="{{true}}" icon="/assets/icons/cube-brand.svg" title="{{T.stores.emptyTitle}}" sub="{{emptySub}}">
           <button wx:if="{{filtered}}" class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onClearFilters">{{T.stores.clearFilters}}</button>
           <button wx:else class="mk-btn mk-btn--ghost mk-btn--md mk-empty-btn" hover-class="mk-btn--ghostHover" bindtap="onModify">{{T.stores.modifyNeed}}</button>
           <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" open-type="contact">{{T.stores.consult}}</button>

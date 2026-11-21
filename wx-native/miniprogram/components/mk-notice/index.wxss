@@ -6,4 +6,8 @@
 .ntc-t { display: block; font-weight: var(--mk-font-weight-semibold); margin-bottom: var(--mk-space-1); }
 .ntc--plain .ntc-t { margin-bottom: 0; }
 .ntc-s { color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); line-height: var(--mk-font-lineHeight-loose); }
-.ntc-link { display: inline-block; padding: var(--mk-space-2) 0 var(--mk-space-2) var(--mk-space-2); color: var(--mk-color-ink-primary); }
+/* REVIEW-02 E2-03 / B2-07 / D2-06：提示条里的操作文字用链接色（与 mk-link 同色）、中等字重、带图标箭头，三种色调下同一写法；
+   间距放在前一句的右侧，操作文字折到下一行时从左缘起，不再像正文续行 */
+.ntc-x { margin-right: var(--mk-space-2); }
+.ntc-link { display: inline-flex; align-items: center; vertical-align: middle; padding: var(--mk-space-2) 0; border-radius: var(--mk-radius-control); color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-medium); white-space: nowrap; }
+.ntc-chev { flex: none; width: 28rpx; height: 28rpx; margin-left: 2rpx; }

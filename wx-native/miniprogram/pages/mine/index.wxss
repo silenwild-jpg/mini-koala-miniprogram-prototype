@@ -1,6 +1,7 @@
 .mn-head { padding-top: var(--mk-space-5); padding-bottom: var(--mk-space-5); }
-/* 任务卡组件自带下外边距、需求卡组件自带上外边距：这里抵掉任务卡的下外边距，让各卡之间都是一个卡间距（需真机确认） */
-.mn-task { padding-top: var(--mk-space-cardGap); margin-bottom: calc(0rpx - var(--mk-space-cardGap)); }
+/* 任务卡组件自带下外边距、需求卡组件自带上外边距：这里抵掉其中一个，让各卡之间都是一个卡间距。
+   REVIEW-02 D2-02：flow-root 把任务卡的下外边距留在本容器里——否则它会穿出去，与本容器的负外边距、需求卡的上外边距三者折叠成 0，两张卡贴在一起（需真机确认） */
+.mn-task { display: flow-root; padding-top: var(--mk-space-cardGap); margin-bottom: calc(0rpx - var(--mk-space-cardGap)); }
 .mn-avatar { width: 96rpx; height: 96rpx; border-radius: 50%; background: var(--mk-color-brand-tint); display: flex; align-items: center; justify-content: center; margin-right: var(--mk-space-3); flex: none; }
 .mn-nm { display: block; }
 .mn-lk { min-height: 64rpx; flex: none; }
@@ -30,4 +31,5 @@
 .mn-q { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; padding: var(--mk-space-2) 0; border-radius: var(--mk-radius-control); }
 .mn-qic { position: relative; display: flex; align-items: center; justify-content: center; width: 80rpx; height: 80rpx; border-radius: 50%; background: var(--mk-color-canvas-sunken); }
 .mn-qbadge { position: absolute; top: -8rpx; left: 48rpx; min-width: 36rpx; height: 36rpx; line-height: 36rpx; padding: 0 10rpx; box-sizing: border-box; border-radius: 18rpx; text-align: center; background: var(--mk-color-status-errorStrong); color: var(--mk-color-ink-inverse); font-size: var(--mk-font-size-xs); }
-.mn-qt { margin-top: var(--mk-space-2); font-size: var(--mk-font-size-xs); line-height: var(--mk-font-lineHeight-tight); white-space: nowrap; }
+/* REVIEW-02 D2-16：名称不换行；系统字体放大后放不下时省略，不压到相邻格 */
+.mn-qt { max-width: 100%; padding: 0 4rpx; box-sizing: border-box; margin-top: var(--mk-space-2); font-size: var(--mk-font-size-xs); line-height: var(--mk-font-lineHeight-tight); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

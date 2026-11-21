@@ -3,7 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "mk-order-card": "/components/mk-order-card/index",
-    "mk-after-tag": "/components/mk-after-tag/index",
+    "mk-after-head": "/components/mk-after-head/index",
     "mk-after-steps": "/components/mk-after-steps/index",
     "mk-notice": "/components/mk-notice/index"
   }

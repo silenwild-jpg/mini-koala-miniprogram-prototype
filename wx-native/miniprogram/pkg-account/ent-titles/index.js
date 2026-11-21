@@ -15,7 +15,7 @@ const EMPTY = { id: '', type: 'company', name: '', tax: '', email: '', bank: '',
 const NO_DIALOG = { visible: false, id: '' };
 const NO_LOCK = { on: false, text: '', link: '' };
 Page(auth.guarded(routes.ENT_TITLES, {
-  data: { T: { t: P, common: TA.common }, sys: 'loading', loggedIn: false, mode: 'list', rows: [], form: EMPTY, isEdit: false, taxError: '', emailError: '', ready: false, busy: false, dialog: NO_DIALOG, loginVisible: false, lock: NO_LOCK },
+  data: { T: { t: P, common: TA.common, guest: TA.ent.guest.titles }, sys: 'loading', loggedIn: false, mode: 'list', rows: [], form: EMPTY, isEdit: false, taxError: '', emailError: '', ready: false, busy: false, dialog: NO_DIALOG, loginVisible: false, lock: NO_LOCK },
   onLoad(q) {
     q = q || {};
     this._editId = q.mode === 'add' ? '' : (q.id && /^T\d+$/.test(String(q.id)) ? String(q.id) : '');

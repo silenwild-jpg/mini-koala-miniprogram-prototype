@@ -22,11 +22,11 @@
       </view>
       <view wx:if="{{form}}" class="mk-sec">
         <view class="mk-sec__hd">{{T.x.arrange}}</view>
-        <mk-field label="{{T.x.typeLabel}}">
-          <view wx:if="{{form.canEarly}}" class="af-seg">
+        <view wx:if="{{!form.canEarly}}" class="mk-between ex-ro"><text class="mk-sub">{{T.x.typeLabel}}</text><text class="ex-ro-v">{{form.typeText}}</text></view>
+        <mk-field wx:else label="{{T.x.typeLabel}}">
+          <view class="af-seg">
             <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" wx:for="{{form.types}}" wx:key="v" class="af-seg-item mk-ease {{item.on ? 'af-seg-item--on' : ''}}" data-v="{{item.v}}" bindtap="onType" aria-role="button">{{item.t}}</view>
           </view>
-          <view wx:else class="af-input"><text>{{form.typeText}}</text></view>
         </mk-field>
         <mk-field label="{{T.x.dateLabel}}">
           <picker mode="date" value="{{form.date}}" start="{{form.min}}" end="{{form.max}}" bindchange="onDate">

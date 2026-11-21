@@ -1,5 +1,8 @@
 @import "../acc.wxss";
-.ec-reason { margin-top: var(--mk-space-3); margin-bottom: calc(-1 * var(--mk-space-3)); }
+/* REVIEW-02 D2-05：未通过原因紧跟页头标题（原来排在第 3 步下面，离失败的那一步隔了一步） */
+.ec-reason { display: block; margin-top: var(--mk-space-3); margin-bottom: calc(-1 * var(--mk-space-3)); }
+/* REVIEW-02 D2-20：审核中给一个联系顾问的文字入口（步骤说明写了「审核时限请咨询客服」）；紧跟这句说明 */
+.ec-adv { display: flex; align-items: center; min-height: 64rpx; border-radius: var(--mk-radius-control); }
 .ec-upload { height: 176rpx; border: 1px dashed var(--mk-color-line-strong); border-radius: var(--mk-radius-control); display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .ec-upload--done { border: var(--mk-border-brand); background: var(--mk-color-brand-tint); }
 .ec-upload-t { margin-top: var(--mk-space-1); color: var(--mk-color-ink-secondary); font-size: var(--mk-font-size-sm); }

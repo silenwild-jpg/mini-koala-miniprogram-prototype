@@ -4,11 +4,8 @@
 .cf-head { padding-bottom: var(--mk-space-3); }
 .cf-subs { display: flex; flex-wrap: wrap; align-items: center; margin-top: var(--mk-space-1); }
 .cf-subitem { margin-right: var(--mk-space-3); }
+/* REVIEW-02：状态标签改用全站 mk-tag mk-tag--ok / warn / err / info（E2-09），不再自带 cf-tag */
 .cf-clock { color: var(--mk-color-status-errorText); font-size: var(--mk-font-size-sm); }
-.cf-tag { flex: none; margin-left: var(--mk-space-2); display: inline-flex; align-items: center; height: var(--mk-size-tagHeight); padding: 0 var(--mk-space-2); border-radius: var(--mk-radius-control); font-size: var(--mk-font-size-xs); white-space: nowrap; background: var(--mk-color-status-infoFill); color: var(--mk-color-status-infoText); }
-.cf-tag--warn { background: var(--mk-color-status-warningFill); color: var(--mk-color-status-warningText); }
-.cf-tag--ok { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); }
-.cf-tag--err { background: var(--mk-color-status-errorFill); color: var(--mk-color-status-errorText); }
 .cf-check { min-height: 64rpx; }
 .cf-checkicon { margin-right: var(--mk-space-1); }
 .cf-card { margin-bottom: var(--mk-space-cardGap); margin-top: 0; }

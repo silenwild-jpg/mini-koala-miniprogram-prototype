@@ -310,9 +310,9 @@ test('页面 续租：沿用原折扣的填写 → 提交（先请求订阅）�
   try {
     const pg = await page(routes.RENEW, { id });
     assert.equal(pg.data.st, 'form'); assert.equal(pg.data.head.title, '申请续租'); assert.equal(pg.data.head.tag, '可申请');
-    assert.equal(pg.data.form.months, 12); assert.equal(pg.data.form.rule, '可续租 1–48个月，累计租期不超过 60 个月');
+    assert.equal(pg.data.form.months, 12); assert.equal(pg.data.form.rule, '可续租 1–48个月，累计租期不超过 60个月');
     assert.equal(pg.data.card.main.amt, '约 ¥2,880'); assert.equal(pg.data.card.main.tag, '6折');
-    assert.equal(pg.data.card.keep, '首次续租沿用您原订单的 6 折，比现在 12 个月的 6.5 折每月少 ¥20。');
+    assert.equal(pg.data.card.keep, '首次续租沿用您原订单的 6 折，比现在 12个月的 6.5 折每月少 ¥20。');
     assert.deepEqual([pg.data.bar.lab, pg.data.bar.tag], ['续租 12个月', '沿用 6 折']); assert.equal(pg.data.bar.amt, '约 ¥2,880'); assert.equal(pg.data.bar.btns[0].text, '提交续租需求');
     pg.onChip({ currentTarget: { dataset: { m: 6 } } }); assert.equal(pg.data.form.months, 6); pg.onPlus(); pg.onMinus(); pg.onMinus(); assert.equal(pg.data.form.months, 5);
     pg.onChip({ currentTarget: { dataset: { m: 12 } } });
@@ -321,7 +321,7 @@ test('页面 续租：沿用原折扣的填写 → 提交（先请求订阅）�
     assert.equal(pg.data.st, 'quote_pending'); assert.equal(pg.data.sub.text, '已开启微信通知。'); assert.equal(pg.data.note.text, '门店将在 3 天内确认报价，确认后会通知您。');
     await pg.refresh();
     assert.equal(pg.data.st, 'quote_ready'); assert.equal(pg.data.card.total.amt, '¥2,880'); assert.equal(pg.data.card.ref.k, '现行折扣价'); assert.equal(pg.data.card.ref.amt, '¥3,120');
-    assert.equal(pg.data.card.keep, '首次续租沿用您原订单的 6 折，比现在 12 个月的 6.5 折每月少 ¥20，本次共少 ¥240。');
+    assert.equal(pg.data.card.keep, '首次续租沿用您原订单的 6 折，比现在 12个月的 6.5 折每月少 ¥20，本次共少 ¥240。');
     assert.deepEqual(pg.data.alt.map((a) => a.text), ['暂不续租'], '沿用原折扣时不出「按常规折扣续租」');
     assert.equal(pg.data.card.rule, '报价 24 小时内有效。付款完成后新租期生效。'); assert.match(pg.data.card.kv[0].sub, /^剩余 2[34]:\d\d:\d\d$/); // IMPL-01：剩余时间在截止时间下方单独一行
     await pg.onConfirm(); assert.equal(pg.data.st, 'payment_pending'); assert.equal(pg.data.paySheet, true);
@@ -459,7 +459,7 @@ test('页面 实名兜底与入仓指引：未实名拦截 → 提交资料 → 
   env.nav.length = 0; ok.onStoreGuide(); assert.equal(env.nav[0].url.indexOf(routes.STORE_DETAIL + '?id=' + act.store.id), 0);
   env.mode = 'fail'; ok.onNavigate(); env.mode = 'ok'; ok.onNavigate();
   const ended = db.orders.find((x) => x.stage === S.ENDED);
-  const off = await page(routes.ACCESS, { id: ended.id }); assert.equal(off.data.st, 'inactive'); assert.equal(off.data.lease.text, '已退仓'); assert.equal(off.data.bar, null);
+  const off = await page(routes.ACCESS, { id: ended.id }); assert.equal(off.data.st, 'inactive'); assert.equal(off.data.head.tag, '已退仓'); // REVIEW-02 C2-02：当前状态并入页顶状态头 assert.equal(off.data.bar, null);
 });
 test('页面 电子合同：已签署显示签署信息与三份协议入口；未签署是空态', async () => {
   fresh();

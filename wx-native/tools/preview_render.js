@@ -11,7 +11,8 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const ev = (expr, scope) => { try { return new Function('s', 'with(s){return (' + expr + ')}')(scope); } catch (e) { return undefined; } };
 const interp = (str, scope) => { const m = /^\{\{(.*)\}\}$/s.exec(str); if (m && !/\{\{/.test(m[1])) return ev(m[1], scope); return String(str).replace(/\{\{(.*?)\}\}/gs, (_, e) => { const v = ev(e, scope); return v === undefined || v === null ? '' : v; }); };
 const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-const rpx = (s) => String(s).replace(/(-?\d*\.?\d+)rpx/g, (_, n) => (Number(n) / 2) + 'px');
+const PV_W = Number(process.env.PV_WIDTH) || 375; // 预览宽度，默认 375；PV_WIDTH=390 看大屏换行
+const rpx = (s) => String(s).replace(/(-?\d*\.?\d+)rpx/g, (_, n) => (Math.round(Number(n) * PV_W / 750 * 100) / 100) + 'px');
 const comps = (base) => Object.assign({}, app.usingComponents, JSON.parse(fs.readFileSync(path.join(root, base + '.json'), 'utf8')).usingComponents || {});
 const TAG = { view: 'div', text: 'span', block: null, image: 'img', button: 'div', input: 'input', 'scroll-view': 'div' };
 const used = new Set();
@@ -63,7 +64,7 @@ function render(nodes, scope, base, slot) {
 // 读样式并把 @import 展开（相对路径按引用方目录解析；/ 开头按工程根）
 const inline = (rel) => fs.readFileSync(path.join(root, rel), 'utf8').replace(/@import\s+["']([^"']+)["']\s*;/g, (_, f) => { const r = f[0] === '/' ? f.slice(1) : path.join(path.dirname(rel), f); return fs.existsSync(path.join(root, r)) ? inline(r) : ''; });
 const css = (rel) => fs.existsSync(path.join(root, rel)) ? rpx(inline(rel)).replace(/(^|[},\s])page(\s*[{,])/g, '$1.wx-page$2') : '';
-const BASE = 'html,body{margin:0;background:#888}*{box-sizing:border-box}.wx-page{width:375px;min-height:667px;margin:0 auto;position:relative;overflow:hidden;display:block}.wx-view{display:block}.wx-text{display:inline}.wx-button{border:0}input{border:0;outline:0;background:transparent;font-family:inherit}.navbar{height:44px;display:flex;align-items:center;justify-content:center;background:#fff;font-weight:600;font-size:17px;border-bottom:1px solid #eee}.tabbar{position:absolute;left:0;right:0;bottom:0;height:50px;background:#fff;border-top:1px solid #eee;display:flex}.tabbar div{flex:1;text-align:center;font-size:10px;padding-top:6px;color:#5F6B65}.tabbar img{width:24px;height:24px;display:block;margin:0 auto 2px}.tabbar .on{color:#0B7A48}.note{position:absolute;right:4px;top:2px;font-size:9px;color:#b00;z-index:999;background:#fff8}';
+const BASE = 'html,body{margin:0;background:#888}*{box-sizing:border-box}.wx-page{width:' + PV_W + 'px;min-height:667px;margin:0 auto;position:relative;overflow:hidden;display:block}.wx-view{display:block}.wx-text{display:inline}.wx-button{border:0}input{border:0;outline:0;background:transparent;font-family:inherit}.navbar{height:44px;display:flex;align-items:center;justify-content:center;background:#fff;font-weight:600;font-size:17px;border-bottom:1px solid #eee}.tabbar{position:absolute;left:0;right:0;bottom:0;height:50px;background:#fff;border-top:1px solid #eee;display:flex}.tabbar div{flex:1;text-align:center;font-size:10px;padding-top:6px;color:#5F6B65}.tabbar img{width:24px;height:24px;display:block;margin:0 auto 2px}.tabbar .on{color:#0B7A48}.note{position:absolute;right:4px;top:2px;font-size:9px;color:#b00;z-index:999;background:#fff8}';
 const tabs = app.tabBar.list;
 async function shot(name, base, opts) {
   if (process.env.PV_ONLY && !process.env.PV_ONLY.split(',').some((p) => name.indexOf(p) === 0)) return ''; // 只出指定前缀的图

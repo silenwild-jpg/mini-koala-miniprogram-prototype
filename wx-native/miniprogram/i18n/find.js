@@ -97,6 +97,7 @@ module.exports = {
     largeTitle: '大容量需求建议联系专属配仓顾问', largeSub: '预计 10 分钟内联系您。', consult: '立即咨询', // W37 #22（A-14）
     more: '查看更多门店', allStores: '查看全部门店',
     emptyTitle: '暂无匹配的仓位', emptySub: '当前没有满足容量的可用方案。', // W37 #23：三页同一句（A-14）；「可联系顾问协助」与按钮同义，删（R-21）
+    emptySoldOut: '当前城市暂无可租仓位。', // REVIEW-02 A2-12 自写：全城没有可租仓位时，不说「没有满足容量的方案」
     clearFilters: '清除筛选', nearbyTitle: '附近门店',
     salesTitle: '30m³ 及以上的需求由顾问为您配置方案', salesCta: '提交给顾问',
     salesSub: (inHours) => '顾问会按物品与租期组合仓位并确认费用。提交后' + inHours,
@@ -109,7 +110,8 @@ module.exports = {
     // IMPL-01（2026-11-21）：头图标注、地址组、底栏、分段、无匹配一行提示、仓型分组标题
     heroDemo: '门店示意图', navShort: '导航', fromLabel: '起价',
     bar: { fav: '收藏', faved: '已收藏', share: '分享', visit: '预约看仓', ask: '在线问', call: '打电话' },
-    estimateChip: '估算大小', noMatchLine: '本店暂无匹配仓位', otherStoresLink: '查看其他门店 ›',
+    estimateChip: '估算大小', noMatchLine: '本店暂无匹配仓位', rangeLine: '本店可租容量 ', // rangeLine：REVIEW-02 A2-03 自写
+    otherStoresLink: '查看其他门店 ›',
     catHead: (name, range) => name + ' · ' + range,
     comboNote: '一笔订单，同一门店',
     favOn: '已收藏', favOff: '已取消收藏', // 自写：冻结稿没有画收藏后的提示
@@ -122,7 +124,7 @@ module.exports = {
     catEmpty: '当前仓型暂无可租仓位。', allCats: '查看全部仓型',
     noMatchTitle: '本店暂无匹配仓位', noStockTitle: '本店暂无可租仓位', otherStores: '查看其他门店', // FIX-01 R-21：删「可查看其他门店的仓位」，与按钮同义
     overTitle: '更大的仓位', // 自写（FIX-01 R-11）：超过需求 130% 的可租仓
-    salesTitle: '30m³ 及以上的需求由顾问为您配仓', salesSub: (inHours) => '提交后' + inHours + '。', modifyCap: '修改容量',
+    salesTitle: '30m³ 及以上的需求由顾问为您配仓', salesSub: (inHours) => '提交后' + inHours + '。', modifyCap: '修改需求',
     altTitle: '其他匹配门店和仓位', altCombo: ' · 组合方案', altView: '查看匹配方案', altNone: '当前没有满足容量的可用方案。', // R-21：紧邻「立即咨询」，删「可联系顾问协助」
     svc: {
       access: '存取与安防', hours: '存取时间', daily: '，每日', entry: '进门方式', entryText: '一键开锁（暂未开通），租后在「我的仓位」操作',
@@ -153,7 +155,8 @@ module.exports = {
     fromItemsTiny: (net) => '按物品估算：物品约 ' + net + 'm³，小于最小仓位，按 0.5m³ 为您匹配。', // 由物品页同句改写：冻结稿只在物品页画了这一句
     longNote: (names) => '清单含长件（' + names + '），请对照仓位的长宽高。',
     noneTitle: '暂无匹配的仓位', noneSub: () => '当前没有满足容量的可用方案。', // R-21：下方顾问卡已有「立即咨询」
-    allCity: '查看全城门店', modifyCap: '修改容量',
+    noneSoldOut: '当前城市暂无可租仓位。', // REVIEW-02 A2-12 自写，与附近门店同一句
+    allCity: '查看全城门店', modifyCap: '修改需求', // REVIEW-02 A2-11：与附近门店空态的次按钮同一说法
     goneTitle: '所选仓位已售出', goneSub: '该仓位刚被租出或已下架，请重新选择仓位。', consult: '立即咨询',
     salesTitle: '30m³ 及以上的需求由顾问为您配仓',
     salesSub: '提交后预计 10 分钟内与您联系。非服务时段提交的，顾问上班后将优先联系您。',
@@ -177,6 +180,7 @@ module.exports = {
     hintTitle: '需要顾问帮您确认方案？',
     ref: '空间参考', refFits: ' 大致能放', refWithin: (b) => b + 'm³ 以内', refOver: (a) => a + 'm³ 以上', refRange: (a, b) => a + '–' + b + 'm³',
     refEmpty: '填写容量，参考空间',
+    illusNote: (v) => '图为 ' + v + 'm³ 仓位示意', // REVIEW-02 A2-10 自写：所填容量大于图上代表仓位时注明，免得图上尺寸与右侧容量区间对不上
     byItemsBtn: '按物品估算', large: '大容量用仓，可联系专属配仓顾问', contact: '立即咨询', // IMPL-01：原来写死在 WXML 里的三句，文字未改
     sumSales: ' · 由顾问配仓', needFill: '还需填写容量', needFixCap: '还需修改容量', needFixArea: '还需修改面积', dash: '—',
     submit: '查看仓位报价', toAdvisor: '提交给顾问',

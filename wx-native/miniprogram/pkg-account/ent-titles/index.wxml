@@ -1,9 +1,8 @@
 <view class="mk-page {{mode === 'form' || !loggedIn ? 'mk-page--plain' : ''}}">
   <view wx:if="{{sys}}" class="mk-sys-wrap"><mk-sys-state type="{{sys}}" skeleton="{{3}}" bind:retry="onRetry" /></view>
-  <view wx:elif="{{!loggedIn}}" class="ac-login">
-    <text class="mk-title">{{T.common.loginFirst}}</text>
+  <mk-empty wx:elif="{{!loggedIn}}" icon="/assets/icons/order-ink.svg" title="{{T.guest.title}}" sub="{{T.guest.sub}}">
     <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onLogin">{{T.common.loginRegister}}</button>
-  </view>
+  </mk-empty>
   <view wx:elif="{{mode === 'form'}}" class="ac-secs ac-secs--bar">
     <view class="mk-sec">
       <view class="mk-sec__hd">{{T.t.formSection}}</view>
@@ -46,7 +45,7 @@
     </view>
   </view>
   <view wx:elif="{{rows.length === 0}}" class="ac-wrap">
-    <mk-empty icon="/assets/icons/ticket-ink.svg" title="{{T.t.emptyTitle}}" sub="{{T.t.emptySub}}">
+    <mk-empty icon="/assets/icons/order-ink.svg" title="{{T.t.emptyTitle}}" sub="{{T.t.emptySub}}">
       <button class="mk-btn mk-btn--md mk-empty-btn" hover-class="mk-btn--hover" bindtap="onAdd">{{T.t.add}}</button>
     </mk-empty>
   </view>

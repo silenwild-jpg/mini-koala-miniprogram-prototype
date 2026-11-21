@@ -58,14 +58,15 @@ module.exports = {
   fee: { // mk-fee-detail
     title: '费用明细', rent: '整期租金', special: '特价仓', saved: '已省', savedBase: '较月基价 ',
     full: '满额减', fullMin: '整期满 ', rentAfter: '减后整期租金 ',
-    coupon: '优惠券', couponPick: '选择 ›', couponSwap: '更换 ›', couponNone: '暂无适用优惠', couponSkipped: '不与满额减同享', couponUnused: '未使用',
+    coupon: '优惠券', couponPick: '选择', couponSwap: '更换', // REVIEW-02 B2-08：箭头由组件用图标画，文案不带「›」
+    couponNone: '暂无适用优惠', couponSkipped: '不与满额减同享', couponUnused: '未使用',
     couponSpecial: '特价仓不可用券', couponNeedMonths: ['满 ', ' 个月可用'], couponAvail: ['有 ', ' 张可用'], // FIX-01 B-03 / B-12
     fullSkipped: ['已选优惠更大的一项，满额减（−', '）不同享'], // FIX-01 B-12：券比满额减大时满额减让位
     origin: '原价', specialOff: '特价仓优惠', termOff: '租期折扣', // FIX-01 R-06：原价 − 特价仓优惠 − 租期折扣 = 整期租金
     couponUsed: '已使用 ', couponAfter: '券后整期租金 ',
     benefit: '服务权益', freeTransport: '免费运输 1 次', freeTransportNote: '顾问联系安排', // IMPL-01：权益一项、安排方式是说明，分两行不用分隔符
     deposit: '押金', depositOne: '1个月月租', depositCombo: '各仓月租合计', management: '整单管理费',
-    payable: '本次应付', paid: '已付', originCancelled: '原订单金额（已取消）', originExpired: '原订单金额（已失效）',
+    payable: '本次应付', paid: '已付', originCancelled: '原订单金额（已取消）', originExpired: '原订单金额（已超时）',
     loginToShow: '登录后显示', requote: '待重新报价', refreshToShow: '刷新后显示'
   },
   feeSeg: { // FIX-01 C-01：续租过的订单，费用明细按付款分段（services/order-view.js fees）
@@ -119,14 +120,14 @@ module.exports = {
     payProblemDesc: ['订单与仓位仍为您保留，可在剩余时间内继续支付。如已扣款但订单未更新，请联系客服 ', '。'], // FIX-01 B-15：中间是客服电话
     pendingTitle: '订单待支付', payingHead: '等待支付结果', pendingTag: '待支付', pendingNote: '协议已签署，仓位已为您保留；关闭支付窗口不会取消订单',
     failedTitle: '支付未成功，订单为您保留', failedTag: '支付未成功', failedNote: '可在剩余时间内继续支付', // FIX-01 B-09：标签全站统一「支付未成功」
-    expiredTitle: '订单已超时', expiredTag: '已失效', expiredNote: '超过 ' + PENDING_H + ' 小时付款有效期，仓位已释放',
+    expiredTitle: '订单已超时', expiredTag: '已超时', expiredNote: '超过 ' + PENDING_H + ' 小时付款有效期，仓位已释放',
     cancelledTitle: '订单已取消', cancelledTag: '已取消', cancelledNote: '仓位已释放',
-    orderNo: '订单号 ', left: '剩余 ',
+    orderNo: '订单号 ', left: '支付剩余 ', // REVIEW-02 B2-17：与订单详情同一写法
     recheckOk: '已重新核对，与原订单一致，可以继续支付', recheckChanged: '已重新核对，有变化，请确认后继续',
     recheckStatus: '订单状态', recheckUnit: '仓位 ', recheckPrice: '价格', recheckCoupon: '优惠资格',
     statusOk: '已保留', statusBad: '已超时', unitOk: '可租', unitBad: '已售出', priceOk: '与原订单一致', priceBad: '已变化', couponOk: '无变化', couponBad: '已变化',
     priceTitle: '价格刚刚发生变化', priceDesc: '请核对新的金额后重新确认。已保留您的容量、租期和仓位。', priceReason: '变化原因',
-    priceReasonBase: ['该仓位月租由 ', ' 调整为 '], priceReasonCoupon: '优惠资格发生变化', priceReasonOther: '报价已更新',
+    priceReasonBase: ['该仓位月基价由 ', ' 调整为 '], priceReasonCoupon: '优惠资格发生变化', priceReasonOther: '报价已更新',
     priceRent: '整期租金', priceMonthly: '月租', priceDeposit: '押金', pricePayable: '本次应付', priceOther: '查看其他方案', priceAccept: '确认新报价',
     protectTitle: '物品保障', protectBasic: '基础保障', protectBasicTag: '已含', protectPlus: '增值保障', protectPlusTag: '可选',
     protectBasicDesc: '存放物品价值不超过 ¥5,000 的，附赠累计不超过 ¥5,000 的基础保障',
@@ -144,7 +145,7 @@ module.exports = {
     viewStore: '查看详情', carried: '已带入您在租的门店，可更换。',
     unit: '选择仓位', pickUnit: '请选择仓位', unitHint: '选仓后显示容量与尺寸', unitNeedStore: '请先选择门店', unitGone: '当前不可用', choose: '选择', swap: '更换',
     term: '选择租期', date: '预计用仓时间', pickDate: '请选择用仓日期',
-    estimate: '预计整期租金', access: '存取时间 ', fees: '费用明细',
+    estimate: '预计整期租金', monthly: '月租 ', access: '存取时间 ', fees: '费用明细',
     need: '还需', missStore: '选择门店', missUnit: '选择仓位', missSwap: '更换仓位', missDate: '选择用仓日期',
     next: '下一步：确认订单', quote: '查看报价', loginToQuote: '登录后查看整期报价', loginToShow: '登录后显示', // FIX-01 B-13：未登录且选齐时金额位写「登录后显示」
     dateNote: '预计用仓时间即起租日，租金自当日起计', // FIX-01 R-04
@@ -191,10 +192,10 @@ module.exports = {
     version: '版本', effective: '生效日期'
   },
   task: { // mk-task-card
-    kicker: { pending: '当前订单', payment_failed: '当前订单', expired: '订单状态', cancelled: '订单状态', identity: '入仓服务', upcoming: '入仓服务', active: '我的仓位', expiring: '我的仓位', renewal: '我的仓位', renewal_pending: '我的仓位', returning: '退仓服务', inspection: '退仓服务', expired_lease: '退仓服务', refund: '押金服务' },
+    kicker: { pending: '当前订单', payment_failed: '当前订单', expired: '订单状态', cancelled: '订单状态', identity: '入仓服务', upcoming: '入仓服务', active: '我的仓位', expiring: '我的仓位', renewal: '我的仓位', renewal_pending: '我的仓位', returning: '退仓服务', inspection: '退仓服务', expired_lease: '我的仓位', refund: '押金服务' },
     title: { pending: '订单待支付', payment_failed: '支付未成功，订单为您保留', expired: '订单已超时', cancelled: '订单已取消', identity: '入仓前需完成实名认证', upcoming: '入仓准备', active: '我的在租仓位', expiring: '租期即将到期', renewal: '续租报价待确认', renewal_pending: '续租申请处理中', returning: '退仓处理中', inspection: '等待门店验仓', expired_lease: '租期已到期', refund: '押金处理中',
       // FIX-01 A-02 / A-03 / A-06 / C-09：阶段内单列的几种情况（键同 services/order-view.js variant）
-      refund_failed: '押金处理中', inspect_failed: '验仓未通过', exit_clearing: '退仓已提交', identity_mismatch: '实名认证未通过', renewal_pay: '续租费用待支付', renewal_pay_failed: '续租付款未成功' },
+      refund_failed: '押金退款未成功', inspect_failed: '验仓未通过', exit_clearing: '退仓已提交', identity_mismatch: '实名认证未通过', renewal_pay: '续租费用待支付', renewal_pay_failed: '续租付款未成功' },
     badge: { payment_failed: '支付未成功', identity: '待办理', upcoming: '已支付', active: '租用中', expiring: '需关注', renewal: '待确认', renewal_pending: '报价确认中', returning: '办理中', inspection: '待验仓', expired_lease: '待办理', refund: '退款处理中',
       refund_failed: '退款未成功', inspect_failed: '需重新验仓', exit_clearing: '待清空', identity_mismatch: '需重新提交', renewal_pay: '待支付', renewal_pay_failed: '待支付' },
     left: '剩余 ',
@@ -220,9 +221,9 @@ module.exports = {
       renewal_pay: ['续租办理提醒', '付款完成后新租期生效。'], renewal_pay_failed: ['续租办理提醒', '续租尚未生效，报价有效期内可继续支付。']
     },
     noOrder: { selected: '继续确认用仓', selectedBtn: '查看已选仓位', booking: '已收到您的用仓需求', bookingBtn: '查看预约' }, // 没有订单时的简化卡（原先写死在组件里）
-    viewNotice: '查看须知 ›', others: ['另有 ', ' 间在租仓位，请在订单中查看。'],
+    viewNotice: '查看须知 ›', others: ['另有 ', ' 处在租仓位，请在订单中查看。'],
     todoPending: '待支付订单', todoPayable: '本次应付 ', todoLeft: '，剩余 ', todoFailed: '支付未成功，订单保留中',
-    todoLead: '预约用仓', todoLeadIn: '已提交，预计 10 分钟内与您联系', todoLeadOff: '已收到，顾问上班后将优先联系您',
+    todoLead: '预约用仓', todoLeadIn: '已提交，预计 10 分钟内与您联系', todoLeadOff: '已收到，顾问上班后将优先联系您', todoLeadWait: '已提交，待顾问联系',
     todoFind: '找仓进度', todoFindTail: '，查看推荐仓位', todoMore: ['还有 ', ' 项待办']
   }
 };

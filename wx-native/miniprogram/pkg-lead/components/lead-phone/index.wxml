@@ -4,7 +4,7 @@
   <view class="lph-mod" hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" bindtap="onModify" aria-role="button">{{T.modify}}</view>
 </view>
 <block wx:else>
-  <button class="mk-btn lph-wx {{error ? 'lph-box--err' : ''}}" hover-class="mk-btn--plainHover" bindtap="onUseWechat">{{T.useWechat}}</button>
+  <button class="mk-btn mk-btn--plain lph-wx {{error ? 'lph-wx--err' : ''}}" hover-class="mk-btn--plainHover" bindtap="onUseWechat">{{T.useWechat}}</button>
   <text class="lph-hint">{{T.hint}}</text>
 </block>
 <text wx:if="{{error}}" class="mk-error lph-err">{{error}}</text>
