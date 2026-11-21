@@ -35,6 +35,8 @@ const verifyCert = async () => { await api.submitEntCert({ name: '演示商贸�
 const items = (pg) => pg.data.groups.reduce((a, g) => a.concat(g.items), []);
 const dayStr = (offset) => lead.dateStr(Date.now() + offset * 86400e3);
 
+// 裁定 R-13 后，没通过认证的演示账户起始不带企业抬头；认证通过后先加一条企业抬头再批量开票
+const coTitle = async () => { const has = (await api.getInvoiceTitles()).find((t) => t.type === 'company'); if (has) return has.id; const l = await api.saveInvoiceTitle({ type: 'company', name: '安贞商贸有限公司', tax: '91110105MA01K7XQ3R', email: 'caiwu@163.com' }); return l[l.length - 1].id; };
 test('D-02 / E-04：未登录进预约记录页，显示「登录后查看预约记录」和登录按钮，不显示「暂无预约记录」；登录后列出记录', async () => {
   fresh(false, false);
   await api.submitLead({ type: 'booking', phone: '13800008000', address: '朝阳区安贞西里', capacity_m3: 3, term_months: 6 }); // 访客凭手机号提交
@@ -91,7 +93,7 @@ test('D-18 / S-08：受理说明只在有近 24 小时内提交的未撤回记�
 test('D-03：批量开票结果页 —— 处理中可「再开一批」，原申请照常出结果；未成功可「重新选择订单」', async () => {
   fresh(true, true); await verifyCert();
   const ids = rules.invoiceable(await api.getOrders()).map((o) => o.id);
-  await api.submitBatchInvoice({ order_ids: ids.slice(0, 2), title_id: 'T1' });
+  await api.submitBatchInvoice({ order_ids: ids.slice(0, 2), title_id: await coTitle() });
   let pg = await page('ENT_BATCH');
   assert.equal(pg.data.view, 'result'); assert.equal(pg.data.result.status, 'submitted'); assert.equal(pg.data.result.another, '再开一批');
   assert.match(read('pkg-account/ent-batch/index.wxml'), /<mk-cell title="\{\{result\.another\}\}" bindtap="onAnother" \/>/);
@@ -106,7 +108,7 @@ test('D-03：批量开票结果页 —— 处理中可「再开一批」，原�
   fresh(true, true); await verifyCert();
   scenarios.setEvent('batch_invoice_fail', true);
   const ids2 = rules.invoiceable(await api.getOrders()).map((o) => o.id);
-  await api.submitBatchInvoice({ order_ids: ids2.slice(0, 1), title_id: 'T1' }); pastReview(db.kv.account.batches[0]);
+  await api.submitBatchInvoice({ order_ids: ids2.slice(0, 1), title_id: await coTitle() }); pastReview(db.kv.account.batches[0]);
   pg = await page('ENT_BATCH');
   assert.equal(pg.data.result.status, 'failed'); assert.equal(pg.data.result.another, '重新选择订单');
   await pg.onAnother(); await tick(30);
@@ -119,7 +121,7 @@ test('D-07：企业认证、批量开票出结果时写站内消息；消息页�
   assert.equal(db.messages.filter((m) => m.type === 'ent_cert').length, 0, '审核中还没有结果消息');
   pastReview(db.kv.account.cert); await api.getEntCert(); await api.getEntCert();
   assert.deepEqual(db.messages.filter((m) => m.type === 'ent_cert').map((m) => m.title), [TA.messages.demo.certOk], '只写一条');
-  await api.submitBatchInvoice({ order_ids: rules.invoiceable(await api.getOrders()).slice(0, 1).map((o) => o.id), title_id: 'T1' });
+  await api.submitBatchInvoice({ order_ids: rules.invoiceable(await api.getOrders()).slice(0, 1).map((o) => o.id), title_id: await coTitle() });
   pastReview(db.kv.account.batches[0]); await api.getBatchInvoice(); await api.getBatchInvoice();
   assert.equal(db.messages.filter((m) => m.type === 'ent_batch').length, 1);
   const pg = await page('MESSAGES');
@@ -318,7 +320,7 @@ test('D-16：演示工具页 —— 恢复默认、切场景提示仍开着的�
 
 test('R-02：批量开票处理中写「1 天内开具」，数值取租后配置的开票时限', async () => {
   fresh(true, true); await verifyCert();
-  await api.submitBatchInvoice({ order_ids: rules.invoiceable(await api.getOrders()).slice(0, 1).map((o) => o.id), title_id: 'T1' });
+  await api.submitBatchInvoice({ order_ids: rules.invoiceable(await api.getOrders()).slice(0, 1).map((o) => o.id), title_id: await coTitle() });
   const pg = await page('ENT_BATCH');
   assert.equal(CF.sla.invoiceDays, 1); assert.equal(pg.data.result.steps[1].s, CF.sla.invoiceDays + ' 天内开具');
   assert.ok(!/请咨询客服/.test(JSON.stringify(TA.ent.batch.steps)));

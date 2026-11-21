@@ -11,10 +11,11 @@
       <text class="ac-sec">{{T.t.formSection}}</text>
       <mk-field label="{{T.t.type}}">
         <view class="et-seg">
-          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i {{form.type === 'company' ? 'et-seg-i--on' : ''}}" data-v="company" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'company'}}">{{T.t.typeCompany}}</view>
+          <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i {{form.type === 'company' ? 'et-seg-i--on' : ''}} {{lock.on ? 'et-seg-i--off' : ''}}" data-v="company" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'company'}}" aria-disabled="{{lock.on}}">{{T.t.typeCompany}}</view>
           <view hover-class="mk-tap--hover" hover-stop-propagation="{{true}}" class="et-seg-i {{form.type === 'person' ? 'et-seg-i--on' : ''}}" data-v="person" bindtap="onType" aria-role="radio" aria-checked="{{form.type === 'person'}}">{{T.t.typePerson}}</view>
         </view>
       </mk-field>
+      <mk-notice wx:if="{{lock.on}}" class="et-lock" plain="{{true}}" text="{{lock.text}}" link="{{lock.link}}" bind:link="onCert" />
       <mk-field label="{{form.type === 'person' ? T.t.personName : T.t.name}}">
         <view class="ac-input"><input class="ac-inp" type="text" maxlength="60" placeholder="{{form.type === 'person' ? T.t.personNamePh : T.t.namePh}}" placeholder-class="ac-ph" value="{{form.name}}" data-f="name" bindinput="onField" /></view>
       </mk-field>

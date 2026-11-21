@@ -108,7 +108,7 @@
 "account","D-02","已修","未登录进预约记录页显示「登录后查看预约记录」+「登录 / 注册」按钮（与消息页同一写法），不再发请求、不再显示「暂无预约记录」；登录成功后原地加载记录。E-04 的记录页这一半同此。","pkg-account/needs/index.js;pkg-account/needs/index.wxml;i18n/account.js"
 "account","E-04","部分修","记录页这一半已修（同 D-02）。结果页是否给未登录用户「查看预约记录」、消息看不到，归留资执行者。","pkg-account/needs/*"
 "account","D-03","已修","结果页内容区加一行：处理中 / 已开具是「再开一批」，未成功是「重新选择订单」；点后把这笔申请标为已看过并回到选择订单。演示接口改为每次取数时推进所有处理中的申请（原来只推进最近一笔），点过「再开一批」的那笔照常出结果并写消息。没有做历史申请列表（冻结稿没有），已登记待裁。未碰 D-01 的金额与开票记录逻辑。","pkg-account/ent-batch/index.js;pkg-account/ent-batch/index.wxml;services/mock-ext/account.js（getBatchInvoice）;i18n/account.js"
-"account","D-04","待裁","R-13 原文是问句，没有口径。行为与两句文案都保持现状（未认证用户仍可新增 / 编辑企业抬头）。新写的「企业认证已通过」消息标题没有提抬头。已登记待业务裁定。",""
+"account","D-04","已修","张坤 2026-11-21 补答 R-13「未认证企业不可新增企业抬头」。已落地：未认证时新增表单默认个人、企业置灰并引到企业认证，接口同样拦；认证页两句文案与规则一致，不用改。详见 docs/collab/R13-01/README.md。","core/account.js;services/mock-ext/account.js;pkg-account/ent-titles/*;i18n/account.js"
 "account","D-05","已修","①角标接口 getMessagesUnread 与消息列表接口一样先推进订单，两处未读数一致（services/mock-ext/after.js 加 1 行，清单外）。②「消息较多」场景改用单独的订单组 INBOX：续租报价消息挂到有待确认报价的订单、开票未成功挂到有未成功发票记录的订单、验仓未通过的订单停在未通过；全部是不会自动推进的状态，所以 ③「7 条 3 条未读」不再变。「押金已退还」仍挂在部分退还的订单上：系统对部分退还发的就是这句（mock-ext/after.js finishRefund），文字归租后域，未改。","mock/scenarios.js;services/mock-ext/after.js"
 "account","D-06","已修","「更正资料后重新提交」回到表单时清空营业执照，底栏提示「还需填写：营业执照、联系人」，不重传不能提交。","pkg-account/ent-cert/index.js"
 "account","D-07","已修","演示接口在企业认证通过 / 未通过、批量开票已开具 / 未成功时各写一条站内消息（类型 ent_cert / ent_batch）；消息页给这两类单独的分类标签和去向（企业认证页 / 批量开票页），不经租后分类表，不会被归到「咨询」。企业认证页、批量开票页加下拉刷新。真实后端要用同样的类型值，见报告。","services/mock-ext/account.js;pkg-account/messages/index.js;pkg-account/ent-cert/*;pkg-account/ent-batch/*;i18n/account.js"

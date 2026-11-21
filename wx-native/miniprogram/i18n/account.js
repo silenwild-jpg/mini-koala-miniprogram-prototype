@@ -122,6 +122,9 @@ module.exports = {
       tax: '纳税人识别号', taxPh: '请输入纳税人识别号', taxError: '请填写有效的纳税人识别号', email: '接收邮箱', emailPh: '用于接收电子发票', emailError: '请填写有效的邮箱', // 自写：emailError
       vatSection: '专票信息', bank: '开户银行', bankPh: '请输入开户银行', account: '银行账号', accountPh: '请输入银行账号', addr: '注册地址与电话', addrPh: '请输入注册地址与电话', vatFine: '需要专用发票时请填写本段。',
       asDefault: '设为默认抬头', save: '保存抬头', remove: '删除抬头',
+      // 裁定 R-13（张坤 2026-11-21）：未认证企业不可新增企业抬头。以下文案自写，按企业认证停在哪一步换说法
+      lock: { none: { text: '完成企业认证后可添加企业抬头。', link: '去企业认证' }, reviewing: { text: '企业认证审核中，通过后可添加企业抬头。', link: '查看认证进度' }, failed: { text: '企业认证未通过，重新提交并通过后可添加企业抬头。', link: '查看未通过原因' } },
+      lockToast: '完成企业认证后可添加企业抬头',
       deleteDialog: { title: '删除这个抬头？', desc: '删除后不影响已开具的发票。', cancel: '暂不删除', confirm: '确认删除' }
     },
     batch: {

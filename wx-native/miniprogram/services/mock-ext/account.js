@@ -44,7 +44,14 @@ function fromScenario(a) {
   if (s.cert) a.cert = { status: s.cert, company: Object.assign({}, DEMO_COMPANY), reason: s.cert === 'failed' ? REASON.cert : '', submitted_at: s.cert === 'reviewing' ? Date.now() : Date.now() - 86400e3 };
   return a;
 }
-function A() { if (!db.kv.account) db.kv.account = fromScenario(init()); return db.kv.account; }
+// 裁定 R-13：未认证企业不可新增企业抬头，所以没有通过企业认证的演示账户起始不带企业抬头（只留个人抬头并设为默认）；「企业已认证」场景保留两条。
+function seedTitles(a) {
+  if (rules.canAddCompanyTitle(a.cert.status)) return a;
+  a.titles = a.titles.filter((t) => t.type === 'person');
+  if (a.titles.length && !a.titles.some((t) => t.isDefault)) a.titles[0].isDefault = true;
+  return a;
+}
+function A() { if (!db.kv.account) db.kv.account = seedTitles(fromScenario(init())); return db.kv.account; }
 const reset = () => { db.kv.account = init(); };
 const due = (at) => !scenarios.eventOn('review_hold') && Date.now() - at >= C.demo.reviewSeconds * 1000; // 「审核暂不处理」打开时一直停在处理中
 const paid = (o) => !!(o.pay && o.pay.paid_at > 0);
@@ -169,7 +176,11 @@ const methods = {
     const t = { type: p.type === 'person' ? 'person' : 'company', name: String(p.name || '').trim(), tax: p.type === 'person' ? '' : String(p.tax || '').trim().toUpperCase(), email: String(p.email || '').trim(), bank: String(p.bank || '').trim(), account: String(p.account || '').trim(), addr: String(p.addr || '').trim(), isDefault: !!p.isDefault };
     const errs = rules.titleErrors(t);
     if (Object.keys(errs).length) return fail('INVALID', errs.tax ? '请填写有效的纳税人识别号' : '抬头信息不完整', { fields: Object.keys(errs) });
-    if (p.id) { const i = a.titles.findIndex((x) => x.id === p.id); if (i < 0) return fail('NOT_FOUND', '抬头不存在'); t.id = p.id; a.titles[i] = t; }
+    const prev = p.id ? a.titles.find((x) => x.id === p.id) : null;
+    if (p.id && !prev) return fail('NOT_FOUND', '抬头不存在');
+    // 裁定 R-13：未认证企业不可新增企业抬头。已有的企业抬头仍可编辑（自定）；把个人抬头改成企业类型等同新增，一样拦。
+    if (t.type === 'company' && !rules.canAddCompanyTitle(a.cert.status) && !(prev && prev.type === 'company')) return fail('FORBIDDEN', '完成企业认证后可添加企业抬头', { reason: 'CERT_REQUIRED' });
+    if (p.id) { const i = a.titles.indexOf(prev); t.id = p.id; a.titles[i] = t; }
     else { t.id = 'T' + (++a.titleSeq); a.titles.push(t); }
     if (t.isDefault) a.titles.forEach((x) => { x.isDefault = x.id === t.id; });
     if (!a.titles.some((x) => x.isDefault)) a.titles[0].isDefault = true;

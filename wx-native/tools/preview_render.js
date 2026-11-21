@@ -282,7 +282,12 @@ const ft = {}; // 需要先查到订单号再开页的预览用
     ['fx38_detail_tight_only_over', SD, Object.assign({ need: NEED, stock: 'tight', query: { id: 'SIM_BJ04' } }, IN)],
     ['fx40_home_member_task', 'pages/home/index', { scenario: 'member_active' }],
     ['fx41_home_refund_failed', 'pages/home/index', { scenario: 'member_refund_failed' }],
-    ['fx42_mine_inbox', 'pages/mine/index', { scenario: 'member_inbox' }]
+    ['fx42_mine_inbox', 'pages/mine/index', { scenario: 'member_inbox' }],
+    // R-13（2026-11-21）：未认证企业不可新增企业抬头
+    ['r13a_titles_unverified_list', 'pkg-account/ent-titles/index', { scenario: 'member_active' }],
+    ['r13b_titles_add_unverified', 'pkg-account/ent-titles/index', { scenario: 'member_active', query: { mode: 'add' } }],
+    ['r13c_titles_add_reviewing', 'pkg-account/ent-titles/index', { scenario: 'ent_reviewing', events: { review_hold: true }, query: { mode: 'add' } }],
+    ['r13d_titles_add_verified', 'pkg-account/ent-titles/index', { scenario: 'ent_verified', query: { mode: 'add' } }]
   ]) done.push(await shot(x[0], x[1], x[2]).catch((e) => { console.error('RV FAIL', x[0], e && e.message); return ''; }));
   console.log(done.join(' '));
 })();

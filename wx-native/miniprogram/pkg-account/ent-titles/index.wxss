@@ -2,6 +2,7 @@
 .et-seg { display: flex; border: var(--mk-border-strong); border-radius: var(--mk-radius-control); overflow: hidden; }
 .et-seg-i { flex: 1; height: var(--mk-size-btnMdHeight); line-height: var(--mk-size-btnMdHeight); text-align: center; color: var(--mk-color-ink-secondary); }
 .et-seg-i--on { background: var(--mk-color-brand-tint); color: var(--mk-color-brand-text); font-weight: var(--mk-font-weight-semibold); }
+.et-seg-i--off { color: var(--mk-color-ink-hint); background: var(--mk-color-canvas-sunken); }
 .et-line { display: block; margin-top: var(--mk-space-1); }
 .et-acts { display: flex; margin-top: var(--mk-space-3); }
 .et-neutral { color: var(--mk-color-ink-primary); border: var(--mk-border-strong); }

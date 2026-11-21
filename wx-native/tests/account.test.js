@@ -220,6 +220,7 @@ test('企业认证：还需填写 → 校验 → 提交 → 审核中 → 已认
 
 test('开票抬头：演示列表（个人邮箱掩码）→ 设为默认 → 新增校验 → 编辑 → 删除确认 → 空态', async () => {
   fresh(true, false);
+  await verifyCert(); // 裁定 R-13：企业认证通过后才能新增企业抬头
   let pg = await page('ENT_TITLES');
   assert.equal(pg.data.mode, 'list');
   assert.deepEqual(pg.data.rows.map((r) => [r.name, r.isDefault, r.line, r.email]), [['安贞商贸有限公司', true, '企业 · 税号 91110105MA01K7XQ3R', '接收邮箱 caiwu@163.com'], ['王**', false, '个人', '接收邮箱 w***@163.com']]);
@@ -249,6 +250,38 @@ test('开票抬头：演示列表（个人邮箱掩码）→ 设为默认 → �
 });
 
 const verifyCert = async () => { await api.submitEntCert({ name: '演示商贸有限公司', tax: '91110105MA01K7XQ3R', licenseCount: 1, contact: '王经理', phone: '13800000001' }); pastReview(db.kv.account.cert); await api.getEntCert(); };
+
+test('R-13：未认证企业不可新增企业抬头（新增默认个人、企业置灰并引到企业认证；接口同样拦；已有企业抬头仍可编辑；演示账户起始不带企业抬头）', async () => {
+  assert.deepEqual(['none', 'reviewing', 'failed', 'verified', undefined].map(rules.canAddCompanyTitle), [false, false, false, true, false]);
+  // 演示账户：没通过认证时起始只有个人抬头
+  fresh(true, false); db.kv.account = null;
+  assert.deepEqual((await api.getInvoiceTitles()).map((t) => [t.type, t.isDefault]), [['person', true]]);
+  // 新增表单：默认个人，企业一项锁住
+  let f = await page('ENT_TITLES', { mode: 'add' });
+  assert.equal(f.data.form.type, 'person'); assert.deepEqual(f.data.lock, { on: true, text: '完成企业认证后可添加企业抬头。', link: '去企业认证' });
+  toasts.length = 0; f.onType(tap({ v: 'company' })); assert.equal(f.data.form.type, 'person'); assert.equal(toasts.pop(), '完成企业认证后可添加企业抬头');
+  f.onCert(); assert.deepEqual(env.nav.pop(), { kind: 'navigateTo', url: routes.ENT_CERT });
+  f.onField(input('王**', 'name')); f.onField(input('wang@example.com', 'email')); assert.equal(f.data.ready, true); f.onSave(); await tick();
+  assert.equal((await api.getInvoiceTitles()).length, 2, '个人抬头照常能加');
+  // 接口：新增企业抬头、把个人抬头改成企业，都拦
+  const co = { type: 'company', name: '演示科技有限公司', tax: '91110108MA00000000', email: 'fapiao@example.com' };
+  await assert.rejects(api.saveInvoiceTitle(co), (e) => e.code === 'FORBIDDEN' && e.reason === 'CERT_REQUIRED');
+  await assert.rejects(api.saveInvoiceTitle(Object.assign({ id: 'T2' }, co)), (e) => e.code === 'FORBIDDEN');
+  // 审核中 / 未通过：提示换说法
+  await api.submitEntCert({ name: '演示' + C.demo.certRejectKeyword + '公司', tax: '91110105MA01K7XQ3R', licenseCount: 1, contact: '王经理', phone: '13800000001' });
+  f = await page('ENT_TITLES', { mode: 'add' }); assert.deepEqual([f.data.lock.on, f.data.lock.link], [true, '查看认证进度']);
+  pastReview(db.kv.account.cert);
+  f = await page('ENT_TITLES', { mode: 'add' }); assert.deepEqual([f.data.lock.on, f.data.lock.link], [true, '查看未通过原因']);
+  // 已有的企业抬头（认证前留下的）仍可编辑，不锁
+  fresh(true, false);
+  f = await page('ENT_TITLES', { id: 'T1' }); assert.equal(f.data.form.type, 'company'); assert.equal(f.data.lock.on, false);
+  f.onField(input('caiwu2@163.com', 'email')); f.onSave(); await tick(); assert.equal((await api.getInvoiceTitles())[0].email, 'caiwu2@163.com');
+  f = await page('ENT_TITLES', { id: 'T2' }); assert.equal(f.data.lock.on, true, '个人抬头不能改成企业类型');
+  // 认证通过后放开
+  await verifyCert();
+  f = await page('ENT_TITLES', { mode: 'add' }); assert.equal(f.data.form.type, 'company'); assert.equal(f.data.lock.on, false);
+  await api.saveInvoiceTitle(co); assert.equal((await api.getInvoiceTitles()).length, 3);
+});
 test('批量开票：未认证拦截；暂无可开票订单；选择 → 确认 → 提交 → 已提交 → 已开具', async () => {
   fresh(true, true);
   let pg = await page('ENT_BATCH');

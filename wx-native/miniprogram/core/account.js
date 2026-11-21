@@ -34,6 +34,8 @@ function certMissing(f) {
   if (!String(f.contact || '').trim() || !validLoginPhone(f.phone)) miss.push('contact');
   return miss;
 }
+// 裁定 R-13（张坤 2026-11-21）：未认证企业不可新增企业抬头。只有企业认证已通过（verified）才能新增企业类型的抬头；审核中、未通过、未提交都不行。
+const canAddCompanyTitle = (certStatus) => certStatus === 'verified';
 // 开票抬头表单：企业要名称、税号、邮箱；个人要名称、邮箱。专票信息三项可选。
 function titleErrors(f) {
   f = f || {};
@@ -84,4 +86,4 @@ const TONE = { ok: ['REDEEMED', 'FULFILLED', 'AVAILABLE', 'ELIGIBLE'], warn: ['L
 const tone = (status) => (TONE.ok.indexOf(status) >= 0 ? 'ok' : TONE.warn.indexOf(status) >= 0 ? 'warn' : 'info');
 const couponOff = (status) => ['REDEEMED', 'EXPIRED', 'INVALID'].indexOf(status) >= 0;
 
-module.exports = { money, dateText, maskPhone, maskEmail, normPhone, validContactPhone, validLoginPhone, validSmsCode, validCreditCode, validTaxId, validEmail, certMissing, titleErrors, invoiceable, invoiceLine, sumAmount, activeAssets, deletionBlockers, favIds, favCount, benefitCount, tone, couponOff };
+module.exports = { canAddCompanyTitle, money, dateText, maskPhone, maskEmail, normPhone, validContactPhone, validLoginPhone, validSmsCode, validCreditCode, validTaxId, validEmail, certMissing, titleErrors, invoiceable, invoiceLine, sumAmount, activeAssets, deletionBlockers, favIds, favCount, benefitCount, tone, couponOff };

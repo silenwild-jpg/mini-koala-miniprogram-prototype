@@ -40,6 +40,8 @@ const listCard = (o) => env.newComponent('components/mk-order-card/index', { ord
 async function renewOnce(id, months) { await api.requestRenewal({ id, months }); await api.getAfterOrder({ id }); await api.confirmRenewal({ id }); return api.payRenewal({ id }); }
 
 // ---------- P0 ----------
+// 裁定 R-13 后，没通过认证的演示账户起始不带企业抬头；认证通过后先加一条企业抬头再批量开票
+const coTitle = async () => { const has = (await api.getInvoiceTitles()).find((t) => t.type === 'company'); if (has) return has.id; const l = await api.saveInvoiceTitle({ type: 'company', name: '安贞商贸有限公司', tax: '91110105MA01K7XQ3R', email: 'caiwu@163.com' }); return l[l.length - 1].id; };
 test('C-01：续租后费用明细按付款分段，「已付」是累计、「已省」跟下单那一段走；列表卡的租期与金额同一口径', async () => {
   fresh();
   const o = endingIn(10), id = o.id, end0 = o.lease.end; // 12 个月 6 折：¥240/月 × 12 = ¥2,880，押金 ¥240，管理费 ¥50，下单已付 ¥3,170
@@ -218,7 +220,7 @@ test('D-01 / R-03：批量与单笔共用一份开票记录，开过的不能重
   // 批量开票 → 单笔页看到同一条记录，不能再申请
   await api.submitEntCert({ name: '北京安贞商贸有限公司', tax: '91110105MA01K7XQ3R', licenseCount: 1, contact: '王经理', phone: '13800000001' });
   db.kv.account.cert.submitted_at -= (CA.demo.reviewSeconds + 1) * 1000; await api.getEntCert();
-  const b = await api.submitBatchInvoice({ order_ids: [id], title_id: 'T1' });
+  const b = await api.submitBatchInvoice({ order_ids: [id], title_id: await coTitle() });
   assert.equal(b.amount, amount);
   let rs = raw(id).invoice.records;
   assert.deepEqual(rs.map((r) => [r.payment_id, r.amount, r.status, r.batch_id, r.kind]), [['INITIAL', amount, 'submitted', b.id, 'enterprise']]);
@@ -237,7 +239,7 @@ test('D-01 / R-03：批量与单笔共用一份开票记录，开过的不能重
   assert.equal(raw(o2.id).invoice.records[0].amount, o2.quote.payable - o2.quote.deposit);
   assert.deepEqual(rules.invoiceable(db.orders).map((x) => x.id), [o3.id]);
   scenarios.setEvent('batch_invoice_fail', true);
-  await api.submitBatchInvoice({ order_ids: [o3.id], title_id: 'T1' }); assert.equal(raw(o3.id).invoice.status, 'applying');
+  await api.submitBatchInvoice({ order_ids: [o3.id], title_id: await coTitle() }); assert.equal(raw(o3.id).invoice.status, 'applying');
   db.kv.account.batches[1].submitted_at -= (CA.demo.reviewSeconds + 1) * 1000; await api.getBatchInvoice();
   assert.deepEqual([raw(o3.id).invoice.records.length, raw(o3.id).invoice.status], [0, 'none']); assert.equal(after.invoiceView(raw(o3.id)).state, 'form');
   // 单笔页：押金一行标「不开票」，可开票金额写出具体数
